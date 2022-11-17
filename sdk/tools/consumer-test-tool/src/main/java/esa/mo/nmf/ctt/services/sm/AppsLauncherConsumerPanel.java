@@ -80,10 +80,8 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
             public void mouseReleased(MouseEvent e) {
                 // If there is a concrete row selected...
                 if (appsTable.getSelectedRow() != -1) {
-                    final Long objId = appsTable.getCOMObjects()
-                                                .get(appsTable.getSelectedRow())
-                                                .getArchiveDetails()
-                                                .getInstId();
+                    final Long objId = appsTable.getCOMObjects().get(appsTable.getSelectedRow()).getArchiveDetails()
+                        .getInstId();
                     appVerboseTextArea.setText(outputBuffers.get(objId).toString());
                     appVerboseTextArea.setCaretPosition(appVerboseTextArea.getDocument().getLength());
                 }
@@ -109,8 +107,8 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
         // Subscribe to Apps
         subscription = ConnectionConsumer.subscriptionWildcard();
         try {
-            serviceSMAppsLauncher.getAppsLauncherStub()
-                                 .monitorExecutionRegister(subscription, new AppsLauncherConsumerAdapter());
+            serviceSMAppsLauncher.getAppsLauncherStub().monitorExecutionRegister(subscription,
+                new AppsLauncherConsumerAdapter());
         } catch (MALInteractionException | MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
@@ -127,10 +125,8 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
         }
 
         try {
-            serviceSMAppsLauncher.getCOMServices()
-                                 .getEventService()
-                                 .getEventStub()
-                                 .monitorEventDeregister(launchAppEventListenerIds);
+            serviceSMAppsLauncher.getCOMServices().getEventService().getEventStub().monitorEventDeregister(
+                launchAppEventListenerIds);
             launchAppEventListenerIds.clear();
         } catch (MALInteractionException | MALException ex) {
             LOGGER.log(Level.WARNING, null, ex);
@@ -194,28 +190,18 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
-        layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(parameterTab, javax.swing.GroupLayout.DEFAULT_SIZE, 893,
-                                                      Short.MAX_VALUE)
-                                        .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                      javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jScrollPane1)
-                                        .addComponent(jScrollPane2));
-        layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                      .addGroup(layout.createSequentialGroup()
-                                                      .addContainerGap()
-                                                      .addComponent(jLabel6)
-                                                      .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                      .addComponent(jScrollPane2,
-                                                                    javax.swing.GroupLayout.PREFERRED_SIZE, 199,
-                                                                    javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                      .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                      .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                    216, Short.MAX_VALUE)
-                                                      .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                      .addComponent(parameterTab,
-                                                                    javax.swing.GroupLayout.PREFERRED_SIZE, 42,
-                                                                    javax.swing.GroupLayout.PREFERRED_SIZE)));
+        layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
+            parameterTab, javax.swing.GroupLayout.DEFAULT_SIZE, 893, Short.MAX_VALUE).addComponent(jLabel6,
+                javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jScrollPane1).addComponent(jScrollPane2));
+        layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout
+            .createSequentialGroup().addContainerGap().addComponent(jLabel6).addPreferredGap(
+                javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jScrollPane2,
+                    javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jScrollPane1,
+                javax.swing.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE).addPreferredGap(
+                    javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addComponent(parameterTab,
+                        javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)));
     }// </editor-fold>//GEN-END:initComponents
 
     private void listAppAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listAppAllButtonActionPerformed
@@ -223,37 +209,32 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
         idList.add(new Identifier("*"));
 
         try {
-            this.serviceSMAppsLauncher.getAppsLauncherStub()
-                                      .asyncListApp(idList, new Identifier("*"), new AppsLauncherAdapter() {
-                                          @Override
-                                          public void listAppResponseReceived(MALMessageHeader msgHeader,
-                                                                              LongList appInstIds, BooleanList running,
-                                                                              Map qosProperties) {
-                                              appsTable.refreshTableWithIds(appInstIds, serviceSMAppsLauncher
-                                                                                                             .getConnectionDetails()
-                                                                                                             .getDomain(),
-                                                                            AppsLauncherHelper.APP_OBJECT_TYPE);
+            this.serviceSMAppsLauncher.getAppsLauncherStub().asyncListApp(idList, new Identifier("*"),
+                new AppsLauncherAdapter() {
+                    @Override
+                    public void listAppResponseReceived(MALMessageHeader msgHeader, LongList appInstIds,
+                        BooleanList running, Map qosProperties) {
+                        appsTable.refreshTableWithIds(appInstIds, serviceSMAppsLauncher.getConnectionDetails()
+                            .getDomain(), AppsLauncherHelper.APP_OBJECT_TYPE);
 
-                                              for (int i = 0; i < appInstIds.size(); i++) {
-                                                  Long objId = appInstIds.get(i);
+                        for (int i = 0; i < appInstIds.size(); i++) {
+                            Long objId = appInstIds.get(i);
 
-                                                  outputBuffers.computeIfAbsent(objId, k -> new StringBuffer());
-                                              }
+                            outputBuffers.computeIfAbsent(objId, k -> new StringBuffer());
+                        }
 
-                                              LOGGER.log(Level.INFO,
-                                                         "listApp(\"*\") returned {0} object instance identifiers",
-                                                         appInstIds.size());
-                                          }
+                        LOGGER.log(Level.INFO, "listApp(\"*\") returned {0} object instance identifiers", appInstIds
+                            .size());
+                    }
 
-                                          @Override
-                                          public void listAppErrorReceived(MALMessageHeader msgHeader,
-                                                                           MALStandardError error, Map qosProperties) {
-                                              JOptionPane.showMessageDialog(null,
-                                                                            "There was an error during the listApp operation.",
-                                                                            "Error", JOptionPane.PLAIN_MESSAGE);
-                                              LOGGER.log(Level.SEVERE, null, error);
-                                          }
-                                      });
+                    @Override
+                    public void listAppErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                        Map qosProperties) {
+                        JOptionPane.showMessageDialog(null, "There was an error during the listApp operation.", "Error",
+                            JOptionPane.PLAIN_MESSAGE);
+                        LOGGER.log(Level.SEVERE, null, error);
+                    }
+                });
         } catch (MALInteractionException | MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
@@ -280,7 +261,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
             }
         } catch (MALInteractionException | MALException ex) {
             JOptionPane.showMessageDialog(null, "Error!\nException:\n" + ex + "\n" + ex.getMessage(), "Error!",
-                                          JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.PLAIN_MESSAGE);
             LOGGER.log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_killAppButtonActionPerformed
@@ -305,7 +286,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
 
         } catch (MALInteractionException | MALException ex) {
             JOptionPane.showMessageDialog(null, "Error!\nException:\n" + ex + "\n" + ex.getMessage(), "Error!",
-                                          JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.PLAIN_MESSAGE);
             LOGGER.log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_stopAppButtonActionPerformed
@@ -328,7 +309,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
             appsTable.reportStatus("Starting...", objId.intValue());
         } catch (MALInteractionException | MALException ex) {
             JOptionPane.showMessageDialog(null, "Error!\nException:\n" + ex + "\n" + ex.getMessage(), "Error!",
-                                          JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.PLAIN_MESSAGE);
             LOGGER.log(Level.SEVERE, null, ex);
         }
 
@@ -338,10 +319,8 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
         Identifier id = new Identifier(LAUNCH_APP_SUBSCRIPTION + appId.toString());
         Subscription subscription = ConnectionConsumer.subscriptionWildcard();
         try {
-            serviceSMAppsLauncher.getCOMServices()
-                                 .getEventService()
-                                 .getEventStub()
-                                 .monitorEventRegister(subscription, new AppLaunchEventAdapter(appId));
+            serviceSMAppsLauncher.getCOMServices().getEventService().getEventStub().monitorEventRegister(subscription,
+                new AppLaunchEventAdapter(appId));
             launchAppEventListenerIds.add(id);
         } catch (MALInteractionException | MALException ex) {
             LOGGER.log(Level.WARNING, null, ex);
@@ -366,10 +345,9 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
 
         @Override
         public void monitorExecutionNotifyReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-                                                   org.ccsds.moims.mo.mal.structures.Identifier _Identifier0,
-                                                   org.ccsds.moims.mo.mal.structures.UpdateHeaderList updateHeaderList,
-                                                   org.ccsds.moims.mo.mal.structures.StringList outputStream,
-                                                   java.util.Map qosProperties) {
+            org.ccsds.moims.mo.mal.structures.Identifier _Identifier0,
+            org.ccsds.moims.mo.mal.structures.UpdateHeaderList updateHeaderList,
+            org.ccsds.moims.mo.mal.structures.StringList outputStream, java.util.Map qosProperties) {
 
             for (int i = 0; i < updateHeaderList.size(); i++) {
                 final String out = outputStream.get(i);
@@ -392,7 +370,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
 
         @Override
         public void stopAppAckReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-                                       java.util.Map qosProperties) {
+            java.util.Map qosProperties) {
             for (Long apid : apids) {
                 appsTable.reportStatus("Stop ACK received...", apid.intValue());
             }
@@ -400,14 +378,13 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
 
         @Override
         public void stopAppUpdateReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, Long appClosing,
-                                          java.util.Map qosProperties) {
+            java.util.Map qosProperties) {
             appsTable.reportStatus("Stopped!", appClosing.intValue());
         }
 
         @Override
         public void stopAppAckErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-                                            org.ccsds.moims.mo.mal.MALStandardError error,
-                                            java.util.Map qosProperties) {
+            org.ccsds.moims.mo.mal.MALStandardError error, java.util.Map qosProperties) {
             for (Long apid : apids) {
                 appsTable.reportStatus("Stop App Error..." + error.toString(), apid.intValue());
             }
@@ -415,7 +392,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
 
         @Override
         public void stopAppResponseReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-                                            java.util.Map qosProperties) {
+            java.util.Map qosProperties) {
             for (Long apid : apids) {
                 appsTable.reportStatus("Stop App Completed.", apid.intValue());
             }
@@ -433,9 +410,8 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
 
         @Override
         public synchronized void monitorEventNotifyReceived(MALMessageHeader msgHeader, Identifier _Identifier0,
-                                                            UpdateHeaderList updateHeaderList,
-                                                            ObjectDetailsList objectDetailsList, ElementList objects,
-                                                            Map qosProperties) {
+            UpdateHeaderList updateHeaderList, ObjectDetailsList objectDetailsList, ElementList objects,
+            Map qosProperties) {
             if (objectDetailsList.size() != 1) {
                 return;
             }
@@ -453,24 +429,17 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
         ids.add(appId);
         try {
             int rowId = appsTable.findIndex(appId.intValue());
-            serviceSMAppsLauncher.getCOMServices()
-                                 .getArchiveService()
-                                 .getArchiveStub()
-                                 .retrieve(AppsLauncherHelper.APP_OBJECT_TYPE, serviceSMAppsLauncher
-                                                                                                    .getConnectionDetails()
-                                                                                                    .getDomain(), ids,
-                                           new ArchiveAdapter() {
-                                               @Override
-                                               public void retrieveResponseReceived(MALMessageHeader msgHeader,
-                                                                                    ArchiveDetailsList objDetails,
-                                                                                    ElementList objBodies,
-                                                                                    Map qosProperties) {
-                                                   boolean appIsRunning = ((AppDetails) objBodies.get(0)).getRunning();
-                                                   appsTable.reportStatus((appIsRunning ? runningText : notRunningText),
-                                                                          appId.intValue());
-                                                   appsTable.switchEnabledstatus(appIsRunning, rowId);
-                                               }
-                                           });
+            serviceSMAppsLauncher.getCOMServices().getArchiveService().getArchiveStub().retrieve(
+                AppsLauncherHelper.APP_OBJECT_TYPE, serviceSMAppsLauncher.getConnectionDetails().getDomain(), ids,
+                new ArchiveAdapter() {
+                    @Override
+                    public void retrieveResponseReceived(MALMessageHeader msgHeader, ArchiveDetailsList objDetails,
+                        ElementList objBodies, Map qosProperties) {
+                        boolean appIsRunning = ((AppDetails) objBodies.get(0)).getRunning();
+                        appsTable.reportStatus((appIsRunning ? runningText : notRunningText), appId.intValue());
+                        appsTable.switchEnabledstatus(appIsRunning, rowId);
+                    }
+                });
         } catch (Exception ex) {
             LOGGER.log(Level.WARNING, null, ex);
         }

@@ -56,12 +56,13 @@ public class ArchiveConsumerServiceImpl extends ConsumerServiceImpl {
         return archiveService;
     }
 
-    public ArchiveConsumerServiceImpl(SingleConnectionDetails connectionDetails) throws MALException, MalformedURLException {
+    public ArchiveConsumerServiceImpl(SingleConnectionDetails connectionDetails) throws MALException,
+        MalformedURLException {
         this(connectionDetails, null, null);
     }
 
     public ArchiveConsumerServiceImpl(SingleConnectionDetails connectionDetails, Blob authenticationId,
-                                      String localNamePrefix) throws MALException, MalformedURLException {
+        String localNamePrefix) throws MALException, MalformedURLException {
 
         if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
             MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -71,8 +72,8 @@ public class ArchiveConsumerServiceImpl extends ConsumerServiceImpl {
             COMHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 
-        if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION)
-                             .getServiceByName(ArchiveHelper.ARCHIVE_SERVICE_NAME) == null) {
+        if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION).getServiceByName(
+            ArchiveHelper.ARCHIVE_SERVICE_NAME) == null) {
             ArchiveHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 
@@ -88,9 +89,8 @@ public class ArchiveConsumerServiceImpl extends ConsumerServiceImpl {
         }
 
         tmConsumer = connection.startService(this.connectionDetails.getProviderURI(), this.connectionDetails
-                                                                                                            .getBrokerURI(),
-                                             this.connectionDetails.getDomain(), ArchiveHelper.ARCHIVE_SERVICE,
-                                             authenticationId, localNamePrefix);
+            .getBrokerURI(), this.connectionDetails.getDomain(), ArchiveHelper.ARCHIVE_SERVICE, authenticationId,
+            localNamePrefix);
 
         this.archiveService = new ArchiveStub(tmConsumer);
 

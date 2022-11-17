@@ -66,7 +66,7 @@ public class PlanningRequestConsumerServiceImpl extends ConsumerServiceImpl {
     }
 
     public PlanningRequestConsumerServiceImpl(SingleConnectionDetails connectionDetails,
-                                              COMServicesConsumer comServices) throws MALException, MalformedURLException {
+        COMServicesConsumer comServices) throws MALException, MalformedURLException {
         if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
             MALHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
@@ -98,9 +98,7 @@ public class PlanningRequestConsumerServiceImpl extends ConsumerServiceImpl {
         }
 
         tmConsumer = connection.startService(this.connectionDetails.getProviderURI(), this.connectionDetails
-                                                                                                            .getBrokerURI(),
-                                             this.connectionDetails.getDomain(),
-                                             PlanningRequestHelper.PLANNINGREQUEST_SERVICE);
+            .getBrokerURI(), this.connectionDetails.getDomain(), PlanningRequestHelper.PLANNINGREQUEST_SERVICE);
 
         this.planningRequestService = new PlanningRequestStub(tmConsumer);
     }

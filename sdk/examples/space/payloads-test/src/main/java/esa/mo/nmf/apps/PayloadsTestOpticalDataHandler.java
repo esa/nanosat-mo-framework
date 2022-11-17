@@ -33,15 +33,13 @@ class PayloadsTestOpticalDataHandler extends OpticalDataReceiverAdapter {
 
     @Override
     public void recordSamplesResponseReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-                                              org.ccsds.moims.mo.mal.structures.Blob data,
-                                              java.util.Map qosProperties) {
+        org.ccsds.moims.mo.mal.structures.Blob data, java.util.Map qosProperties) {
         LOGGER.log(Level.INFO, "Received {0} bytes.", data.getLength());
     }
 
     @Override
     public void recordSamplesResponseErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-                                                   org.ccsds.moims.mo.mal.MALStandardError error,
-                                                   java.util.Map qosProperties) {
+        org.ccsds.moims.mo.mal.MALStandardError error, java.util.Map qosProperties) {
         LOGGER.log(Level.SEVERE, "MAL Error: {0}", error.toString());
 
     }

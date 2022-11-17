@@ -36,7 +36,7 @@ public class OpticalDataReceiverSoftSimAdapter implements OpticalDataReceiverAda
     private PowerControlAdapterInterface pcAdapter;
 
     public OpticalDataReceiverSoftSimAdapter(ESASimulator instrumentsSimulator,
-                                             PowerControlAdapterInterface pcAdapter) {
+        PowerControlAdapterInterface pcAdapter) {
         this.instrumentsSimulator = instrumentsSimulator;
         this.pcAdapter = pcAdapter;
     }

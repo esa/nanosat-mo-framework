@@ -72,7 +72,7 @@ public class DemoSetAndCommand {
                 gma.launchAction("Go", values);
             } else {
                 LOGGER.log(Level.SEVERE, "Failed to connect to the provider. No such provider found - " +
-                                         PROVIDER_HELLO_WORLD);
+                    PROVIDER_HELLO_WORLD);
             }
         } catch (MALException | MalformedURLException | MALInteractionException ex) {
             LOGGER.log(Level.SEVERE, null, ex);

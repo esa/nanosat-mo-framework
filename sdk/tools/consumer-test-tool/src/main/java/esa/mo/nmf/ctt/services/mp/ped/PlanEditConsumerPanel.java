@@ -138,25 +138,17 @@ public class PlanEditConsumerPanel extends javax.swing.JPanel {
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
-        layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(parameterTab, javax.swing.GroupLayout.PREFERRED_SIZE, 0,
-                                                      Short.MAX_VALUE)
-                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING,
-                                                      javax.swing.GroupLayout.DEFAULT_SIZE, 882, Short.MAX_VALUE)
-                                        .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                      javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
-        layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                      .addGroup(layout.createSequentialGroup()
-                                                      .addContainerGap()
-                                                      .addComponent(jLabel6)
-                                                      .addGap(18, 18, 18)
-                                                      .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                    253, Short.MAX_VALUE)
-                                                      .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                      .addComponent(parameterTab,
-                                                                    javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                    javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                    javax.swing.GroupLayout.PREFERRED_SIZE)));
+        layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
+            parameterTab, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE).addComponent(jScrollPane2,
+                javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 882, Short.MAX_VALUE)
+            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+                Short.MAX_VALUE));
+        layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout
+            .createSequentialGroup().addContainerGap().addComponent(jLabel6).addGap(18, 18, 18).addComponent(
+                jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE).addPreferredGap(
+                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(parameterTab,
+                        javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+                        javax.swing.GroupLayout.PREFERRED_SIZE)));
     }// </editor-fold>//GEN-END:initComponents
 
     private void insertActivityButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_insertActivityButtonActionPerformed
@@ -179,32 +171,24 @@ public class PlanEditConsumerPanel extends javax.swing.JPanel {
         activityInstance = insert.getActivityInstance();
 
         try {
-            this.planEditService.getPlanEditStub()
-                                .asyncInsertActivity(planIdentityId, activityDefId, activityInstance,
-                                                     new PlanEditAdapter() {
-                                                         @Override
-                                                         public void insertActivityAckReceived(MALMessageHeader msgHeader,
-                                                                                               Map qosProperties) {
-                                                             JOptionPane.showMessageDialog(null,
-                                                                                           "Operation insertActivity was successful",
-                                                                                           "Info",
-                                                                                           JOptionPane.PLAIN_MESSAGE);
-                                                             LOGGER.log(Level.INFO,
-                                                                        "insertActivity operation submitted");
-                                                         }
+            this.planEditService.getPlanEditStub().asyncInsertActivity(planIdentityId, activityDefId, activityInstance,
+                new PlanEditAdapter() {
+                    @Override
+                    public void insertActivityAckReceived(MALMessageHeader msgHeader, Map qosProperties) {
+                        JOptionPane.showMessageDialog(null, "Operation insertActivity was successful", "Info",
+                            JOptionPane.PLAIN_MESSAGE);
+                        LOGGER.log(Level.INFO, "insertActivity operation submitted");
+                    }
 
-                                                         @Override
-                                                         public void insertActivityErrorReceived(MALMessageHeader msgHeader,
-                                                                                                 MALStandardError error,
-                                                                                                 Map qosProperties) {
-                                                             JOptionPane.showMessageDialog(null,
-                                                                                           "There was an error during the insertActivity operation.\n" +
-                                                                                                 error.toString(),
-                                                                                           "Error",
-                                                                                           JOptionPane.PLAIN_MESSAGE);
-                                                             LOGGER.log(Level.SEVERE, null, error);
-                                                         }
-                                                     });
+                    @Override
+                    public void insertActivityErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                        Map qosProperties) {
+                        JOptionPane.showMessageDialog(null,
+                            "There was an error during the insertActivity operation.\n" + error.toString(), "Error",
+                            JOptionPane.PLAIN_MESSAGE);
+                        LOGGER.log(Level.SEVERE, null, error);
+                    }
+                });
         } catch (MALInteractionException | MALException e) {
             LOGGER.log(Level.SEVERE, null, e);
         }
@@ -212,12 +196,12 @@ public class PlanEditConsumerPanel extends javax.swing.JPanel {
 
     private void updateActivityButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_updateActivityButtonActionPerformed
         JOptionPane.showMessageDialog(null, "Operation updateActivity is not currently implemented", "Info",
-                                      JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.PLAIN_MESSAGE);
     }// GEN-LAST:event_updateActivityButtonActionPerformed
 
     private void deleteActivityButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_deleteActivityButtonActionPerformed
         JOptionPane.showMessageDialog(null, "Operation deleteActivity is not currently implemented", "Info",
-                                      JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.PLAIN_MESSAGE);
     }// GEN-LAST:event_deleteActivityButtonActionPerformed
 
     private void insertEventButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_insertEventButtonActionPerformed
@@ -240,25 +224,23 @@ public class PlanEditConsumerPanel extends javax.swing.JPanel {
         eventInstance = insert.getEventInstance();
 
         try {
-            this.planEditService.getPlanEditStub()
-                                .asyncInsertEvent(planIdentityId, eventDefId, eventInstance, new PlanEditAdapter() {
-                                    @Override
-                                    public void insertEventAckReceived(MALMessageHeader msgHeader, Map qosProperties) {
-                                        JOptionPane.showMessageDialog(null, "Operation insertEvent was successful",
-                                                                      "Info", JOptionPane.PLAIN_MESSAGE);
-                                        LOGGER.log(Level.INFO, "insertEvent operation submitted");
-                                    }
+            this.planEditService.getPlanEditStub().asyncInsertEvent(planIdentityId, eventDefId, eventInstance,
+                new PlanEditAdapter() {
+                    @Override
+                    public void insertEventAckReceived(MALMessageHeader msgHeader, Map qosProperties) {
+                        JOptionPane.showMessageDialog(null, "Operation insertEvent was successful", "Info",
+                            JOptionPane.PLAIN_MESSAGE);
+                        LOGGER.log(Level.INFO, "insertEvent operation submitted");
+                    }
 
-                                    @Override
-                                    public void insertEventErrorReceived(MALMessageHeader msgHeader,
-                                                                         MALStandardError error, Map qosProperties) {
-                                        JOptionPane.showMessageDialog(null,
-                                                                      "There was an error during the insertEvent operation.\n" +
-                                                                            error.toString(), "Error",
-                                                                      JOptionPane.PLAIN_MESSAGE);
-                                        LOGGER.log(Level.SEVERE, null, error);
-                                    }
-                                });
+                    @Override
+                    public void insertEventErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                        Map qosProperties) {
+                        JOptionPane.showMessageDialog(null, "There was an error during the insertEvent operation.\n" +
+                            error.toString(), "Error", JOptionPane.PLAIN_MESSAGE);
+                        LOGGER.log(Level.SEVERE, null, error);
+                    }
+                });
         } catch (MALInteractionException | MALException e) {
             LOGGER.log(Level.SEVERE, null, e);
         }
@@ -266,12 +248,12 @@ public class PlanEditConsumerPanel extends javax.swing.JPanel {
 
     private void updateEventButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_updateEventButtonActionPerformed
         JOptionPane.showMessageDialog(null, "Operation updateEvent is not currently implemented", "Info",
-                                      JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.PLAIN_MESSAGE);
     }// GEN-LAST:event_updateEventButtonActionPerformed
 
     private void deleteEventButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_deleteEventButtonActionPerformed
         JOptionPane.showMessageDialog(null, "Operation deleteEvent is not currently implemented", "Info",
-                                      JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.PLAIN_MESSAGE);
     }// GEN-LAST:event_deleteEventButtonActionPerformed
 
     private void updatePlanStatusButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_updatePlanStatusButtonActionPerformed
@@ -292,27 +274,24 @@ public class PlanEditConsumerPanel extends javax.swing.JPanel {
         planStatus = update.getPlanStatus();
 
         try {
-            this.planEditService.getPlanEditStub()
-                                .asyncUpdatePlanStatus(planIdentityId, planStatus, new PlanEditAdapter() {
-                                    @Override
-                                    public void updatePlanStatusAckReceived(MALMessageHeader msgHeader,
-                                                                            Map qosProperties) {
-                                        JOptionPane.showMessageDialog(null, "Operation updatePlanStatus was successful",
-                                                                      "Info", JOptionPane.PLAIN_MESSAGE);
-                                        LOGGER.log(Level.INFO, "updatePlanStatus operation submitted");
-                                    }
+            this.planEditService.getPlanEditStub().asyncUpdatePlanStatus(planIdentityId, planStatus,
+                new PlanEditAdapter() {
+                    @Override
+                    public void updatePlanStatusAckReceived(MALMessageHeader msgHeader, Map qosProperties) {
+                        JOptionPane.showMessageDialog(null, "Operation updatePlanStatus was successful", "Info",
+                            JOptionPane.PLAIN_MESSAGE);
+                        LOGGER.log(Level.INFO, "updatePlanStatus operation submitted");
+                    }
 
-                                    @Override
-                                    public void updatePlanStatusErrorReceived(MALMessageHeader msgHeader,
-                                                                              MALStandardError error,
-                                                                              Map qosProperties) {
-                                        JOptionPane.showMessageDialog(null,
-                                                                      "There was an error during the updatePlanStatus operation.\n" +
-                                                                            error.toString(), "Error",
-                                                                      JOptionPane.PLAIN_MESSAGE);
-                                        LOGGER.log(Level.SEVERE, null, error);
-                                    }
-                                });
+                    @Override
+                    public void updatePlanStatusErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                        Map qosProperties) {
+                        JOptionPane.showMessageDialog(null,
+                            "There was an error during the updatePlanStatus operation.\n" + error.toString(), "Error",
+                            JOptionPane.PLAIN_MESSAGE);
+                        LOGGER.log(Level.SEVERE, null, error);
+                    }
+                });
         } catch (MALInteractionException | MALException e) {
             LOGGER.log(Level.SEVERE, null, e);
         }
@@ -336,9 +315,12 @@ public class PlanEditConsumerPanel extends javax.swing.JPanel {
     static final class InsertActivity implements org.ccsds.moims.mo.mal.structures.Composite {
 
         public static final Integer TYPE_SHORT_FORM = null;
-        public static final org.ccsds.moims.mo.mal.structures.UShort AREA_SHORT_FORM = new org.ccsds.moims.mo.mal.structures.UShort(5);
-        public static final org.ccsds.moims.mo.mal.structures.UOctet AREA_VERSION = new org.ccsds.moims.mo.mal.structures.UOctet((short) 1);
-        public static final org.ccsds.moims.mo.mal.structures.UShort SERVICE_SHORT_FORM = new org.ccsds.moims.mo.mal.structures.UShort(0);
+        public static final org.ccsds.moims.mo.mal.structures.UShort AREA_SHORT_FORM = new org.ccsds.moims.mo.mal.structures.UShort(
+            5);
+        public static final org.ccsds.moims.mo.mal.structures.UOctet AREA_VERSION = new org.ccsds.moims.mo.mal.structures.UOctet(
+            (short) 1);
+        public static final org.ccsds.moims.mo.mal.structures.UShort SERVICE_SHORT_FORM = new org.ccsds.moims.mo.mal.structures.UShort(
+            0);
         public static final Long SHORT_FORM = 0L;
         private static final long serialVersionUID = 0L;
         private Long planIdentityId;
@@ -346,7 +328,7 @@ public class PlanEditConsumerPanel extends javax.swing.JPanel {
         private org.ccsds.moims.mo.mp.structures.ActivityInstanceDetails activityInstance;
 
         public InsertActivity(Long planIdentityId, Long activityDefId,
-                              org.ccsds.moims.mo.mp.structures.ActivityInstanceDetails activityInstance) {
+            org.ccsds.moims.mo.mp.structures.ActivityInstanceDetails activityInstance) {
             this.planIdentityId = planIdentityId;
             this.activityDefId = activityDefId;
             this.activityInstance = activityInstance;
@@ -408,9 +390,12 @@ public class PlanEditConsumerPanel extends javax.swing.JPanel {
     static final class InsertEvent implements org.ccsds.moims.mo.mal.structures.Composite {
 
         public static final Integer TYPE_SHORT_FORM = null;
-        public static final org.ccsds.moims.mo.mal.structures.UShort AREA_SHORT_FORM = new org.ccsds.moims.mo.mal.structures.UShort(5);
-        public static final org.ccsds.moims.mo.mal.structures.UOctet AREA_VERSION = new org.ccsds.moims.mo.mal.structures.UOctet((short) 1);
-        public static final org.ccsds.moims.mo.mal.structures.UShort SERVICE_SHORT_FORM = new org.ccsds.moims.mo.mal.structures.UShort(0);
+        public static final org.ccsds.moims.mo.mal.structures.UShort AREA_SHORT_FORM = new org.ccsds.moims.mo.mal.structures.UShort(
+            5);
+        public static final org.ccsds.moims.mo.mal.structures.UOctet AREA_VERSION = new org.ccsds.moims.mo.mal.structures.UOctet(
+            (short) 1);
+        public static final org.ccsds.moims.mo.mal.structures.UShort SERVICE_SHORT_FORM = new org.ccsds.moims.mo.mal.structures.UShort(
+            0);
         public static final Long SHORT_FORM = 0L;
         private static final long serialVersionUID = 0L;
         private Long planIdentityId;
@@ -418,7 +403,7 @@ public class PlanEditConsumerPanel extends javax.swing.JPanel {
         private org.ccsds.moims.mo.mp.structures.EventInstanceDetails eventInstance;
 
         public InsertEvent(Long planIdentityId, Long eventDefId,
-                           org.ccsds.moims.mo.mp.structures.EventInstanceDetails eventInstance) {
+            org.ccsds.moims.mo.mp.structures.EventInstanceDetails eventInstance) {
             this.planIdentityId = planIdentityId;
             this.eventDefId = eventDefId;
             this.eventInstance = eventInstance;
@@ -480,9 +465,12 @@ public class PlanEditConsumerPanel extends javax.swing.JPanel {
     static final class UpdatePlanStatus implements org.ccsds.moims.mo.mal.structures.Composite {
 
         public static final Integer TYPE_SHORT_FORM = null;
-        public static final org.ccsds.moims.mo.mal.structures.UShort AREA_SHORT_FORM = new org.ccsds.moims.mo.mal.structures.UShort(5);
-        public static final org.ccsds.moims.mo.mal.structures.UOctet AREA_VERSION = new org.ccsds.moims.mo.mal.structures.UOctet((short) 1);
-        public static final org.ccsds.moims.mo.mal.structures.UShort SERVICE_SHORT_FORM = new org.ccsds.moims.mo.mal.structures.UShort(0);
+        public static final org.ccsds.moims.mo.mal.structures.UShort AREA_SHORT_FORM = new org.ccsds.moims.mo.mal.structures.UShort(
+            5);
+        public static final org.ccsds.moims.mo.mal.structures.UOctet AREA_VERSION = new org.ccsds.moims.mo.mal.structures.UOctet(
+            (short) 1);
+        public static final org.ccsds.moims.mo.mal.structures.UShort SERVICE_SHORT_FORM = new org.ccsds.moims.mo.mal.structures.UShort(
+            0);
         public static final Long SHORT_FORM = 0L;
         private static final long serialVersionUID = 0L;
         private Long planIdentityId;

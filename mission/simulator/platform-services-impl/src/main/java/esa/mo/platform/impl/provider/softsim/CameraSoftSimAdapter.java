@@ -86,13 +86,11 @@ public class CameraSoftSimAdapter implements CameraAdapterInterface, SimulatorAd
     @Override
     public synchronized Picture getPicturePreview() {
         final PixelResolution resolution = new PixelResolution(new UInteger(PREVIEW_WIDTH), new UInteger(
-                                                                                                         PREVIEW_HEIGHT));
+            PREVIEW_HEIGHT));
         final Duration exposureTime = new Duration(0.1);
         final Time timestamp = HelperTime.getTimestampMillis();
-        final byte[] data = instrumentsSimulator.getpCamera()
-                                                .takePicture((int) resolution.getWidth().getValue(), (int) resolution
-                                                                                                                     .getHeight()
-                                                                                                                     .getValue());
+        final byte[] data = instrumentsSimulator.getpCamera().takePicture((int) resolution.getWidth().getValue(),
+            (int) resolution.getHeight().getValue());
 
         CameraSettings pictureSettings = new CameraSettings();
         pictureSettings.setResolution(resolution);
@@ -106,9 +104,8 @@ public class CameraSoftSimAdapter implements CameraAdapterInterface, SimulatorAd
     public synchronized Picture takePicture(final CameraSettings settings) throws IOException {
         // Get a picture from the simulator...
         final Time timestamp = HelperTime.getTimestampMillis();
-        byte[] data = instrumentsSimulator.getpCamera()
-                                          .takePicture((int) settings.getResolution().getWidth().getValue(),
-                                                       (int) settings.getResolution().getHeight().getValue());
+        byte[] data = instrumentsSimulator.getpCamera().takePicture((int) settings.getResolution().getWidth()
+            .getValue(), (int) settings.getResolution().getHeight().getValue());
 
         if (settings.getFormat() != PictureFormat.RAW) {
             data = convertImage(data, settings.getFormat());

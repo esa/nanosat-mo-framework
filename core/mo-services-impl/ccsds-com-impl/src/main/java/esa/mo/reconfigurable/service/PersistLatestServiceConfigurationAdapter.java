@@ -57,28 +57,27 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationCh
     private Long configObjectsObjId = null;
 
     public PersistLatestServiceConfigurationAdapter(final ReconfigurableService service, final Long serviceConfigObjId,
-                                                    final ArchiveInheritanceSkeleton archiveService,
-                                                    final ExecutorService executor) {
+        final ArchiveInheritanceSkeleton archiveService, final ExecutorService executor) {
 
         if (MALContextFactory.lookupArea(CommonHelper.COMMON_AREA_NAME, CommonHelper.COMMON_AREA_VERSION) != null &&
             MALContextFactory.lookupArea(CommonHelper.COMMON_AREA_NAME, CommonHelper.COMMON_AREA_VERSION)
-                             .getServiceByName(ConfigurationHelper.CONFIGURATION_SERVICE_NAME) == null) {
+                .getServiceByName(ConfigurationHelper.CONFIGURATION_SERVICE_NAME) == null) {
             try {
                 ConfigurationHelper.init(MALContextFactory.getElementFactoryRegistry());
             } catch (MALException ex) {
-                Logger.getLogger(PersistLatestServiceConfigurationAdapter.class.getName())
-                      .log(Level.SEVERE, "Unexpectedly ConfigurationHelper already initialized!?", ex);
+                Logger.getLogger(PersistLatestServiceConfigurationAdapter.class.getName()).log(Level.SEVERE,
+                    "Unexpectedly ConfigurationHelper already initialized!?", ex);
             }
         }
 
         if (MALContextFactory.lookupArea(CommonHelper.COMMON_AREA_NAME, CommonHelper.COMMON_AREA_VERSION) != null &&
             MALContextFactory.lookupArea(CommonHelper.COMMON_AREA_NAME, CommonHelper.COMMON_AREA_VERSION)
-                             .getServiceByName(DirectoryHelper.DIRECTORY_SERVICE_NAME) == null) {
+                .getServiceByName(DirectoryHelper.DIRECTORY_SERVICE_NAME) == null) {
             try {
                 DirectoryHelper.init(MALContextFactory.getElementFactoryRegistry());
             } catch (MALException ex) {
-                Logger.getLogger(PersistLatestServiceConfigurationAdapter.class.getName())
-                      .log(Level.SEVERE, "Unexpectedly DirectoryHelper already initialized!?", ex);
+                Logger.getLogger(PersistLatestServiceConfigurationAdapter.class.getName()).log(Level.SEVERE,
+                    "Unexpectedly DirectoryHelper already initialized!?", ex);
             }
         }
 
@@ -98,15 +97,14 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationCh
             if (configObjectsObjId == null) {
                 // Retrieve the COM object of the service
                 ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(archiveService,
-                                                                                       ConfigurationHelper.SERVICECONFIGURATION_OBJECT_TYPE,
-                                                                                       ConfigurationProviderSingleton.getDomain(),
-                                                                                       serviceConfigObjId);
+                    ConfigurationHelper.SERVICECONFIGURATION_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(),
+                    serviceConfigObjId);
 
                 if (comObject == null) {
-                    Logger.getLogger(PersistLatestServiceConfigurationAdapter.class.getName())
-                          .log(Level.SEVERE, serviceImpl.getCOMService().getName() +
-                                             " service: The service configuration object could not be found! objectId: " +
-                                             serviceConfigObjId);
+                    Logger.getLogger(PersistLatestServiceConfigurationAdapter.class.getName()).log(Level.SEVERE,
+                        serviceImpl.getCOMService().getName() +
+                            " service: The service configuration object could not be found! objectId: " +
+                            serviceConfigObjId);
 
                     // Todo: Maybe we can use storeDefaultServiceConfiguration() here!? To handle better the error...
                     return;
@@ -117,21 +115,19 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationCh
 
             // Stuff to feed the update operation from the Archive...
             ArchiveDetailsList details = HelperArchive.generateArchiveDetailsList(null, null,
-                                                                                  ConfigurationProviderSingleton.getNetwork(),
-                                                                                  new URI(""), configObjectsObjId);
+                ConfigurationProviderSingleton.getNetwork(), new URI(""), configObjectsObjId);
             ConfigurationObjectDetailsList confObjsList = new ConfigurationObjectDetailsList();
             confObjsList.add(serviceImpl.getCurrentConfiguration());
 
             try {
                 archiveService.update(ConfigurationHelper.CONFIGURATIONOBJECTS_OBJECT_TYPE,
-                                      ConfigurationProviderSingleton.getDomain(), details, confObjsList, null);
+                    ConfigurationProviderSingleton.getDomain(), details, confObjsList, null);
             } catch (MALException ex) {
                 Logger.getLogger(PersistLatestServiceConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);
             } catch (MALInteractionException ex) {
-                Logger.getLogger(PersistLatestServiceConfigurationAdapter.class.getName())
-                      .log(Level.SEVERE, serviceImpl.getCOMService().getName() +
-                                         " service: The configuration could not be updated! objectId: " +
-                                         serviceConfigObjId, ex);
+                Logger.getLogger(PersistLatestServiceConfigurationAdapter.class.getName()).log(Level.SEVERE, serviceImpl
+                    .getCOMService().getName() + " service: The configuration could not be updated! objectId: " +
+                    serviceConfigObjId, ex);
             }
         });
     }
@@ -143,27 +139,18 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationCh
             archObj1.add(service.getCurrentConfiguration());
 
             LongList objIds1 = archiveService.store(true, ConfigurationHelper.CONFIGURATIONOBJECTS_OBJECT_TYPE,
-                                                    ConfigurationProviderSingleton.getDomain(), HelperArchive
-                                                                                                             .generateArchiveDetailsList(null,
-                                                                                                                                         null,
-                                                                                                                                         ConfigurationProviderSingleton.getNetwork(),
-                                                                                                                                         new URI("")),
-                                                    archObj1, null);
+                ConfigurationProviderSingleton.getDomain(), HelperArchive.generateArchiveDetailsList(null, null,
+                    ConfigurationProviderSingleton.getNetwork(), new URI("")), archObj1, null);
 
             // Store the Service Configuration
             ServiceKeyList serviceKeyList = new ServiceKeyList();
             serviceKeyList.add(new ServiceKey(service.getCOMService().getArea().getNumber(), service.getCOMService()
-                                                                                                    .getNumber(),
-                                              service.getCOMService().getArea().getVersion()));
+                .getNumber(), service.getCOMService().getArea().getVersion()));
 
             archiveService.store(false, ConfigurationHelper.SERVICECONFIGURATION_OBJECT_TYPE,
-                                 ConfigurationProviderSingleton.getDomain(), HelperArchive.generateArchiveDetailsList(
-                                                                                                                      objIds1.get(0),
-                                                                                                                      null,
-                                                                                                                      ConfigurationProviderSingleton.getNetwork(),
-                                                                                                                      new URI(""),
-                                                                                                                      defaultObjId),
-                                 serviceKeyList, null);
+                ConfigurationProviderSingleton.getDomain(), HelperArchive.generateArchiveDetailsList(objIds1.get(0),
+                    null, ConfigurationProviderSingleton.getNetwork(), new URI(""), defaultObjId), serviceKeyList,
+                null);
         } catch (MALException | MALInteractionException ex) {
             Logger.getLogger(PersistLatestServiceConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);
         }

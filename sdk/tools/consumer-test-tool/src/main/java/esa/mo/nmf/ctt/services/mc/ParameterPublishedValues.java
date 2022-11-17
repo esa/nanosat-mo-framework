@@ -108,11 +108,10 @@ public class ParameterPublishedValues extends javax.swing.JPanel {
 
         @Override
         public void monitorValueNotifyReceived(final MALMessageHeader msgHeader, final Identifier lIdentifier,
-                                               final UpdateHeaderList lUpdateHeaderList,
-                                               final ObjectIdList lObjectIdList,
-                                               final ParameterValueList lParameterValueList, final Map qosp) {
-            Logger.getLogger(ParameterPublishedValues.class.getName())
-                  .log(Level.FINE, "Received update parameters list of size : {0}", lObjectIdList.size());
+            final UpdateHeaderList lUpdateHeaderList, final ObjectIdList lObjectIdList,
+            final ParameterValueList lParameterValueList, final Map qosp) {
+            Logger.getLogger(ParameterPublishedValues.class.getName()).log(Level.FINE,
+                "Received update parameters list of size : {0}", lObjectIdList.size());
 
             for (int i = 0; i < lObjectIdList.size(); i++) {
                 final UpdateHeader updateHeader = lUpdateHeaderList.get(i);
@@ -122,14 +121,14 @@ public class ParameterPublishedValues extends javax.swing.JPanel {
                 try {
                     final int objId = updateHeader.getKey().getSecondSubKey().intValue();
 
-                    final int index = (int) ((5 * numberOfColumns) * Math.floor(objId / (5.0)) +
-                                             objId % numberOfColumns);
+                    final int index = (int) ((5 * numberOfColumns) * Math.floor(objId / (5.0)) + objId %
+                        numberOfColumns);
 
                     if ((0 <= index) && (index < labels.length)) {
                         String nameId = "(" + objId + ") " + updateHeader.getKey().getFirstSubKey().getValue();
                         UOctet validityState = parameterValue.getValidityState();
                         String validity = ValidityState.fromNumericValue(new UInteger(validityState.getValue()))
-                                                       .toString();
+                            .toString();
                         String rawValue = HelperAttributes.attribute2string(parameterValue.getRawValue());
                         String convertedValue = HelperAttributes.attribute2string(parameterValue.getConvertedValue());
 
@@ -140,8 +139,8 @@ public class ParameterPublishedValues extends javax.swing.JPanel {
                         labels[index + 3 * numberOfColumns].setNewValue(convertedValue, isNotValid);
                     }
                 } catch (NumberFormatException ex) {
-                    Logger.getLogger(ParameterPublishedValues.class.getName())
-                          .log(Level.WARNING, "Error decoding update with name: {0}", name);
+                    Logger.getLogger(ParameterPublishedValues.class.getName()).log(Level.WARNING,
+                        "Error decoding update with name: {0}", name);
                 }
             }
         }
@@ -158,10 +157,10 @@ public class ParameterPublishedValues extends javax.swing.JPanel {
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
-        layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGap(0, 795, Short.MAX_VALUE));
-        layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                      .addGap(0, 496, Short.MAX_VALUE));
+        layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 795,
+            Short.MAX_VALUE));
+        layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 496,
+            Short.MAX_VALUE));
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

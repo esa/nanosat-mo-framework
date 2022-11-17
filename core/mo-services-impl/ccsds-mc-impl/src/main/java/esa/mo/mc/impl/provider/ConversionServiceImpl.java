@@ -84,8 +84,8 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
                 MCHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
-            if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION)
-                                 .getServiceByName(ConversionHelper.CONVERSION_SERVICE_NAME) == null) {
+            if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION).getServiceByName(
+                ConversionHelper.CONVERSION_SERVICE_NAME) == null) {
                 ConversionHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
         }
@@ -127,9 +127,8 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
             return true;  // No test is required
         }
         ParameterValue parameterValue = manager.getParameterValue(expression.getParameterId().getInstId());
-        Attribute param = expression.getUseConverted() ?
-            parameterValue.getConvertedValue() :
-            parameterValue.getRawValue();
+        Attribute param = expression.getUseConverted() ? parameterValue.getConvertedValue() : parameterValue
+            .getRawValue();
 
         return HelperCOM.evaluateExpression(param, expression.getOperator(), expression.getValue());
     }
@@ -144,8 +143,8 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
     }
     */
 
-    private Attribute applyConversion(final Attribute value,
-                                      final ConditionalConversion conditionalRef) throws MALInteractionException {
+    private Attribute applyConversion(final Attribute value, final ConditionalConversion conditionalRef)
+        throws MALInteractionException {
         Boolean eval = this.evaluateParameterExpression(conditionalRef.getCondition());
 
         if (!eval) {  // Is the Parameter Expression Invalid?
@@ -246,14 +245,12 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
      * no object of the given objectType references the given identity.
      */
     private Element getDefinitionDetailsFromIdentityIdFromArchive(ObjectType objType, final IdentifierList domain,
-                                                                  Long identityId) {
+        Long identityId) {
         //retrieve all existing conversion-objects
         LongList defIds = new LongList();
         defIds.add(0L);
-        final ArchiveDetailsList defarchiveDetailsListFromArchive = HelperArchive.getArchiveDetailsListFromArchive(archiveService,
-                                                                                                                   objType,
-                                                                                                                   domain,
-                                                                                                                   defIds);
+        final ArchiveDetailsList defarchiveDetailsListFromArchive = HelperArchive.getArchiveDetailsListFromArchive(
+            archiveService, objType, domain, defIds);
         //look if there are conversionDetails, which reference the identity
         Long defId = null;
         long maxTimeStamp = 0L;
@@ -279,7 +276,7 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
     }
 
     private Attribute applyDiscreteConversion(final DiscreteConversionDetails conversionDetails,
-                                              final Attribute value) {
+        final Attribute value) {
         //requirement: 3.8.3.c => no entry in the points-list returns null
         for (Pair mapping : conversionDetails.getMapping()) {
             if (mapping.getFirst().equals(value)) {
@@ -357,7 +354,7 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
         double convertedValue = 0;
         for (Pair point : points) {
             double midStep = Math.pow(HelperAttributes.attribute2double(value), ((Union) point.getFirst())
-                                                                                                          .getIntegerValue());
+                .getIntegerValue());
             convertedValue += HelperAttributes.attribute2double(point.getSecond()) * midStep;
         }
 

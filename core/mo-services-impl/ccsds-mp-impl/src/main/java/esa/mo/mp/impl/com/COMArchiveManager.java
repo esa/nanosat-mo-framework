@@ -86,7 +86,7 @@ public class COMArchiveManager<IdentityT extends Element, IdentityListT extends 
      * @throws MALInteractionException If input validation exception occurred
      */
     protected ObjectIdPair addCOMObject(Identifier identity, Element object, ObjectId source,
-                                        MALInteraction interaction) throws MALException, MALInteractionException {
+        MALInteraction interaction) throws MALException, MALInteractionException {
         IdentifierList identities = new IdentifierList();
         identities.add(identity);
         ElementList objects = HelperMisc.element2elementList(object);
@@ -108,7 +108,7 @@ public class COMArchiveManager<IdentityT extends Element, IdentityListT extends 
      * @throws MALInteractionException If input validation exception occurred
      */
     protected ObjectIdPairList addCOMObjects(IdentifierList identities, ElementList comObjects, ObjectId source,
-                                             MALInteraction interaction) throws MALException, MALInteractionException {
+        MALInteraction interaction) throws MALException, MALInteractionException {
         checkForInvalidIdentities(identities);
 
         ObjectType objectType = this.configuration.getObjectType((Element) comObjects.get(0));
@@ -119,10 +119,7 @@ public class COMArchiveManager<IdentityT extends Element, IdentityListT extends 
 
         // Store identity
         LongList identityInstanceIds = this.archiveService.store(true, identityType, domain, HelperArchive
-                                                                                                          .generateArchiveDetailsList((Long) null,
-                                                                                                                                      source,
-                                                                                                                                      interaction),
-                                                                 identities, interaction);
+            .generateArchiveDetailsList((Long) null, source, interaction), identities, interaction);
 
         ObjectIdList identityIds = COMObjectIdHelper.getObjectIds(identityInstanceIds, identityType, domain);
 
@@ -141,8 +138,8 @@ public class COMArchiveManager<IdentityT extends Element, IdentityListT extends 
      * @throws MALException
      * @throws MALInteractionException If input validation exception occurred
      */
-    protected ObjectId addCOMObject(ObjectId relatedId, Element comObject, ObjectId source,
-                                    MALInteraction interaction) throws MALException, MALInteractionException {
+    protected ObjectId addCOMObject(ObjectId relatedId, Element comObject, ObjectId source, MALInteraction interaction)
+        throws MALException, MALInteractionException {
         ObjectIdList relatedIds = new ObjectIdList();
         relatedIds.add(relatedId);
         ElementList objects = HelperMisc.element2elementList(comObject);
@@ -164,7 +161,7 @@ public class COMArchiveManager<IdentityT extends Element, IdentityListT extends 
      * @throws MALInteractionException If input validation exception occurred
      */
     protected ObjectIdList addCOMObjects(ObjectIdList relatedIds, ElementList comObjects, ObjectId source,
-                                         MALInteraction interaction) throws MALException, MALInteractionException {
+        MALInteraction interaction) throws MALException, MALInteractionException {
         checkForInvalidIds(relatedIds);
 
         ObjectType objectType = this.configuration.getObjectType((Element) comObjects.get(0));
@@ -174,10 +171,7 @@ public class COMArchiveManager<IdentityT extends Element, IdentityListT extends 
 
         // Store object
         LongList objectInstanceIds = this.archiveService.store(true, objectType, domain, HelperArchive
-                                                                                                      .generateArchiveDetailsList(relatedInstanceIds,
-                                                                                                                                  source,
-                                                                                                                                  interaction),
-                                                               comObjects, interaction);
+            .generateArchiveDetailsList(relatedInstanceIds, source, interaction), comObjects, interaction);
 
         // Store configuration
         this.storeConfiguration(relatedInstanceIds, relatedType, objectInstanceIds, source, interaction);
@@ -195,7 +189,7 @@ public class COMArchiveManager<IdentityT extends Element, IdentityListT extends 
         IdentifierList domain = ConfigurationProviderSingleton.getDomain();
 
         List<ArchivePersistenceObject> configurationList = this.getObjectsFromArchive(configurationType, domain,
-                                                                                      getObjectIdsWildcard());
+            getObjectIdsWildcard());
 
         ObjectIdList objectIds = new ObjectIdList();
         for (ArchivePersistenceObject configObject : configurationList) {
@@ -214,7 +208,7 @@ public class COMArchiveManager<IdentityT extends Element, IdentityListT extends 
         ObjectType configurationType = configuration.getConfigurationType(relatedType);
         IdentifierList domain = ConfigurationProviderSingleton.getDomain();
         List<ArchivePersistenceObject> objects = this.getObjectsFromArchive(configurationType, domain,
-                                                                            getObjectIdsWildcard());
+            getObjectIdsWildcard());
         ObjectIdList objectIds = new ObjectIdList();
         for (ArchivePersistenceObject object : objects) {
             Long objectInstanceId = object.getArchiveDetails().getDetails().getRelated();
@@ -251,7 +245,7 @@ public class COMArchiveManager<IdentityT extends Element, IdentityListT extends 
         LongList identityInstanceIds = COMObjectIdHelper.getInstanceIds(allIdentityIds);
 
         List<ArchivePersistenceObject> configurationList = this.getObjectsFromArchive(identityType, domain,
-                                                                                      identityInstanceIds);
+            identityInstanceIds);
 
         ObjectIdList identityIds = new ObjectIdList();
         for (ArchivePersistenceObject identityObject : configurationList) {
@@ -289,7 +283,7 @@ public class COMArchiveManager<IdentityT extends Element, IdentityListT extends 
         // Query all identities, find matching identity, or match all when wildcard is used
         boolean containsWildcard = identities.contains(wildcardIdentity);
         List<ArchivePersistenceObject> identityObjects = this.getObjectsFromArchive(identityType, identityDomain,
-                                                                                    getObjectIdsWildcard());
+            getObjectIdsWildcard());
         ObjectIdList identityIds = new ObjectIdList();
         for (ArchivePersistenceObject identityObject : identityObjects) {
             for (Identifier identity : identities) {
@@ -332,7 +326,7 @@ public class COMArchiveManager<IdentityT extends Element, IdentityListT extends 
         IdentifierList domain = ConfigurationProviderSingleton.getDomain();
 
         List<ArchivePersistenceObject> configurationList = this.getObjectsFromArchive(configurationType, domain,
-                                                                                      getObjectIdsWildcard());
+            getObjectIdsWildcard());
 
         for (ArchivePersistenceObject configObject : configurationList) {
             for (ObjectId relatedId : relatedIds) {
@@ -341,7 +335,7 @@ public class COMArchiveManager<IdentityT extends Element, IdentityListT extends 
                 ObjectType objectType = this.configuration.getInverseRelatedType(relatedType);
                 Long objectInstanceId = configObject.getArchiveDetails().getDetails().getRelated();
                 ObjectId objectId = COMObjectIdHelper.getObjectId(objectInstanceId, objectType, configObject
-                                                                                                            .getDomain());
+                    .getDomain());
                 objectIds.add(objectId);
             }
         }
@@ -374,12 +368,12 @@ public class COMArchiveManager<IdentityT extends Element, IdentityListT extends 
         LongList inverseRelatedInstanceIds = COMObjectIdHelper.getInstanceIds(inverseRelatedIds);
 
         List<ArchivePersistenceObject> inverseRelatedObjects = this.getObjectsFromArchive(inverseRelatedType, domain,
-                                                                                          inverseRelatedInstanceIds);
+            inverseRelatedInstanceIds);
         ObjectIdList objectIds = new ObjectIdList();
         for (ArchivePersistenceObject inverseRelatedObject : inverseRelatedObjects) {
             Long objectInstanceId = inverseRelatedObject.getArchiveDetails().getDetails().getRelated();
             ObjectId objectId = COMObjectIdHelper.getObjectId(objectInstanceId, relatedType, inverseRelatedObject
-                                                                                                                 .getDomain());
+                .getDomain());
             objectIds.add(objectId);
         }
         return objectIds;
@@ -471,7 +465,7 @@ public class COMArchiveManager<IdentityT extends Element, IdentityListT extends 
      * @throws MALInteractionException If input validation exception occurred
      */
     protected ObjectId updateCOMObject(ObjectId relatedId, Element comObject, ObjectId source,
-                                       MALInteraction interaction) throws MALException, MALInteractionException {
+        MALInteraction interaction) throws MALException, MALInteractionException {
         ObjectIdList relatedIds = new ObjectIdList();
         relatedIds.add(relatedId);
         ElementList objects = HelperMisc.element2elementList(comObject);
@@ -493,7 +487,7 @@ public class COMArchiveManager<IdentityT extends Element, IdentityListT extends 
      * @throws MALInteractionException If input validation exception occurred
      */
     protected ObjectIdList updateCOMObjects(ObjectIdList relatedIds, ElementList comObjects, ObjectId source,
-                                            MALInteraction interaction) throws MALException, MALInteractionException {
+        MALInteraction interaction) throws MALException, MALInteractionException {
         checkForInvalidIds(relatedIds);
 
         ObjectType relatedType = relatedIds.get(0).getType();
@@ -505,10 +499,7 @@ public class COMArchiveManager<IdentityT extends Element, IdentityListT extends 
 
         // Store updated object
         LongList updatedObjectInstanceIds = this.archiveService.store(true, objectType, domain, HelperArchive
-                                                                                                             .generateArchiveDetailsList(relatedInstanceIds,
-                                                                                                                                         source,
-                                                                                                                                         interaction),
-                                                                      comObjects, interaction);
+            .generateArchiveDetailsList(relatedInstanceIds, source, interaction), comObjects, interaction);
 
         // Update configuration
         this.updateConfiguration(relatedInstanceIds, relatedType, updatedObjectInstanceIds, source, interaction);
@@ -523,8 +514,8 @@ public class COMArchiveManager<IdentityT extends Element, IdentityListT extends 
      * @throws MALException
      * @throws MALInteractionException
      */
-    protected void removeObject(ObjectId relatedId,
-                                MALInteraction interaction) throws MALException, MALInteractionException {
+    protected void removeObject(ObjectId relatedId, MALInteraction interaction) throws MALException,
+        MALInteractionException {
         ObjectIdList relatedIds = new ObjectIdList();
         relatedIds.add(relatedId);
         this.removeObjects(relatedIds, interaction);
@@ -537,8 +528,8 @@ public class COMArchiveManager<IdentityT extends Element, IdentityListT extends 
      * @throws MALException
      * @throws MALInteractionException
      */
-    protected void removeObjects(ObjectIdList relatedIds,
-                                 MALInteraction interaction) throws MALException, MALInteractionException {
+    protected void removeObjects(ObjectIdList relatedIds, MALInteraction interaction) throws MALException,
+        MALInteractionException {
         // Update configuration
         if (relatedIds.isEmpty())
             return;
@@ -548,7 +539,7 @@ public class COMArchiveManager<IdentityT extends Element, IdentityListT extends 
     }
 
     private void storeConfiguration(LongList relatedIds, ObjectType relatedType, LongList objectIds, ObjectId source,
-                                    MALInteraction interaction) throws MALException, MALInteractionException {
+        MALInteraction interaction) throws MALException, MALInteractionException {
         ObjectType configurationType = this.configuration.getConfigurationType(relatedType);
         IdentifierList domain = ConfigurationProviderSingleton.getDomain();
         ObjectIdList configurationList = new ObjectIdList();
@@ -559,18 +550,16 @@ public class COMArchiveManager<IdentityT extends Element, IdentityListT extends 
         }
 
         this.archiveService.store(true, configurationType, domain, HelperArchive.generateArchiveDetailsList(objectIds,
-                                                                                                            source,
-                                                                                                            interaction),
-                                  configurationList, interaction);
+            source, interaction), configurationList, interaction);
     }
 
     private void updateConfiguration(LongList relatedIds, ObjectType relatedType, LongList objectIds, ObjectId source,
-                                     MALInteraction interaction) throws MALException, MALInteractionException {
+        MALInteraction interaction) throws MALException, MALInteractionException {
         ObjectType configurationType = this.configuration.getConfigurationType(relatedType);
         IdentifierList domain = ConfigurationProviderSingleton.getDomain();
 
         List<ArchivePersistenceObject> storedConfigurationList = this.getObjectsFromArchive(configurationType, domain,
-                                                                                            getObjectIdsWildcard());
+            getObjectIdsWildcard());
 
         LongList configurationIds = new LongList();
         for (ArchivePersistenceObject configObject : storedConfigurationList) {
@@ -584,7 +573,7 @@ public class COMArchiveManager<IdentityT extends Element, IdentityListT extends 
 
         ObjectIdList configurationList = new ObjectIdList();
         ArchiveDetailsList archiveDetailsList = HelperArchive.generateArchiveDetailsList(objectIds, source,
-                                                                                         interaction);
+            interaction);
 
         for (int index = 0; index < relatedIds.size(); index++) {
             Long relatedId = relatedIds.get(index);
@@ -599,8 +588,8 @@ public class COMArchiveManager<IdentityT extends Element, IdentityListT extends 
         this.archiveService.update(configurationType, domain, archiveDetailsList, configurationList, interaction);
     }
 
-    private void removeConfiguration(LongList relatedIds, ObjectType relatedType,
-                                     MALInteraction interaction) throws MALException, MALInteractionException {
+    private void removeConfiguration(LongList relatedIds, ObjectType relatedType, MALInteraction interaction)
+        throws MALException, MALInteractionException {
         ObjectType configurationType = this.configuration.getConfigurationType(relatedType);
         IdentifierList domain = ConfigurationProviderSingleton.getDomain();
         boolean containsWildcard = relatedIds.contains(WILDCARD_ID);
@@ -612,7 +601,7 @@ public class COMArchiveManager<IdentityT extends Element, IdentityListT extends 
         }
 
         List<ArchivePersistenceObject> configurationList = this.getObjectsFromArchive(configurationType, domain,
-                                                                                      getObjectIdsWildcard());
+            getObjectIdsWildcard());
         LongList removeIds = new LongList();
         for (ArchivePersistenceObject configObject : configurationList) {
             for (ObjectId configurationBody : configurationBodies) {
@@ -641,8 +630,8 @@ public class COMArchiveManager<IdentityT extends Element, IdentityListT extends 
         }
     }
 
-    private void checkForDuplicateIdentities(IdentifierList identities,
-                                             ObjectType identityType) throws MALInteractionException {
+    private void checkForDuplicateIdentities(IdentifierList identities, ObjectType identityType)
+        throws MALInteractionException {
         UIntegerList duplicateIndexList = new UIntegerList();
         for (int index = 0; index < identities.size(); index++) {
             Identifier identity = identities.get(index);
@@ -654,7 +643,7 @@ public class COMArchiveManager<IdentityT extends Element, IdentityListT extends 
 
         if (!duplicateIndexList.isEmpty()) {
             throw new MALInteractionException(new MALStandardError(COMHelper.DUPLICATE_ERROR_NUMBER,
-                                                                   duplicateIndexList));
+                duplicateIndexList));
         }
     }
 
@@ -679,14 +668,14 @@ public class COMArchiveManager<IdentityT extends Element, IdentityListT extends 
         }
     }
 
-    private void checkForUnknownRelatedIds(ObjectIdList relatedIds,
-                                           ObjectType relatedType) throws MALInteractionException {
+    private void checkForUnknownRelatedIds(ObjectIdList relatedIds, ObjectType relatedType)
+        throws MALInteractionException {
         UIntegerList unknownIndexList = new UIntegerList();
         ObjectType configurationType = this.configuration.getConfigurationType(relatedType);
         IdentifierList domain = ConfigurationProviderSingleton.getDomain();
 
         List<ArchivePersistenceObject> configurationList = this.getObjectsFromArchive(configurationType, domain,
-                                                                                      getObjectIdsWildcard());
+            getObjectIdsWildcard());
 
         for (int index = 0; index < relatedIds.size(); index++) {
             ObjectId relatedId = relatedIds.get(index);
@@ -717,9 +706,9 @@ public class COMArchiveManager<IdentityT extends Element, IdentityListT extends 
     }
 
     private List<ArchivePersistenceObject> getObjectsFromArchive(ObjectType objectType, IdentifierList domain,
-                                                                 LongList objectIds) {
+        LongList objectIds) {
         List<ArchivePersistenceObject> result = HelperArchive.getArchiveCOMObjectList(this.archiveService, objectType,
-                                                                                      domain, objectIds);
+            domain, objectIds);
         if (result != null)
             return result;
         return new ArrayList<>();

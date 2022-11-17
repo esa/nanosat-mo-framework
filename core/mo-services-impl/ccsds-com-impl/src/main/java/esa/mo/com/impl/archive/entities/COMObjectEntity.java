@@ -57,8 +57,7 @@ public class COMObjectEntity implements Serializable {
     private Long sourceLinkObjId;
 
     public COMObjectEntity(Integer objectTypeId, Integer domain, Long objId, Long timestampArchiveDetails,
-                           Integer providerURI, Integer network, SourceLinkContainer sourceLink, Long relatedLink,
-                           Object object) {
+        Integer providerURI, Integer network, SourceLinkContainer sourceLink, Long relatedLink, Object object) {
         this.objectTypeId = objectTypeId;
         this.domainId = domain;
         this.objId = objId;
@@ -69,9 +68,8 @@ public class COMObjectEntity implements Serializable {
         this.relatedLink = relatedLink;
 
         this.sourceLinkObjectTypeId = (sourceLink == null) ? null : sourceLink.getObjectTypeId();
-        this.sourceLinkDomainId = (sourceLink == null || sourceLink.getDomainId() == null) ?
-            null :
-            sourceLink.getDomainId();
+        this.sourceLinkDomainId = (sourceLink == null || sourceLink.getDomainId() == null) ? null : sourceLink
+            .getDomainId();
         this.sourceLinkObjId = (sourceLink == null) ? null : sourceLink.getObjId();
 
         this.objBody = null;
@@ -86,16 +84,14 @@ public class COMObjectEntity implements Serializable {
                 this.objBody = bodyBaos.toByteArray();
                 be.close();
             } catch (MALException ex) {
-                Logger.getLogger(COMObjectEntity.class.getName())
-                      .log(Level.SEVERE, "Could not encode COM object with object body class: " +
-                                         ele.getClass().getSimpleName(), ex);
+                Logger.getLogger(COMObjectEntity.class.getName()).log(Level.SEVERE,
+                    "Could not encode COM object with object body class: " + ele.getClass().getSimpleName(), ex);
             }
         }
     }
 
     public COMObjectEntity(Integer objectTypeId, Integer domain, Long objId, Long timestampArchiveDetails,
-                           Integer providerURI, Integer network, SourceLinkContainer sourceLink, Long relatedLink,
-                           byte[] object) {
+        Integer providerURI, Integer network, SourceLinkContainer sourceLink, Long relatedLink, byte[] object) {
         this.objectTypeId = objectTypeId;
         this.domainId = domain;
         this.objId = objId;
@@ -163,24 +159,21 @@ public class COMObjectEntity implements Serializable {
         if (this.objBody != null) {
             try {
                 final BinaryDecoder binDec = new BinaryDecoder(this.objBody);
-                final MALElementFactory eleFact = MALContextFactory.getElementFactoryRegistry()
-                                                                   .lookupElementFactory(binDec.decodeLong());
+                final MALElementFactory eleFact = MALContextFactory.getElementFactoryRegistry().lookupElementFactory(
+                    binDec.decodeLong());
                 elem = binDec.decodeNullableElement((Element) eleFact.createElement());
             } catch (MALException ex) {
-                Logger.getLogger(COMObjectEntity.class.getName())
-                      .log(Level.SEVERE, "The object body could not be decoded! Usually happens when there's " +
-                                         "an update in the APIs. (1) " +
-                                         this.toString(), ex);
+                Logger.getLogger(COMObjectEntity.class.getName()).log(Level.SEVERE,
+                    "The object body could not be decoded! Usually happens when there's " +
+                        "an update in the APIs. (1) " + this.toString(), ex);
             } catch (IllegalArgumentException ex) {
-                Logger.getLogger(COMObjectEntity.class.getName())
-                      .log(Level.SEVERE, "The object body could not be decoded! Usually happens when there's " +
-                                         "an update in the APIs. (2) " +
-                                         this.toString(), ex);
+                Logger.getLogger(COMObjectEntity.class.getName()).log(Level.SEVERE,
+                    "The object body could not be decoded! Usually happens when there's " +
+                        "an update in the APIs. (2) " + this.toString(), ex);
             } catch (Exception ex) {
-                Logger.getLogger(COMObjectEntity.class.getName())
-                      .log(Level.SEVERE, "The object body could not be decoded! Usually happens when there's " +
-                                         "an update in the APIs. (3) " +
-                                         this.toString(), ex);
+                Logger.getLogger(COMObjectEntity.class.getName()).log(Level.SEVERE,
+                    "The object body could not be decoded! Usually happens when there's " +
+                        "an update in the APIs. (3) " + this.toString(), ex);
             }
         }
 
@@ -189,12 +182,8 @@ public class COMObjectEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "----\nFor COM Object:\nobjectTypeId=" +
-               this.objectTypeId +
-               "\ndomainId=" +
-               this.domainId +
-               "\nobjId=" +
-               this.objId;
+        return "----\nFor COM Object:\nobjectTypeId=" + this.objectTypeId + "\ndomainId=" + this.domainId + "\nobjId=" +
+            this.objId;
     }
 
 }

@@ -80,26 +80,19 @@ public class GPS {
             // The next line shouldn't be here, because if I request the Position from the GPS faster than
             // the Samplefrequency of the GPS, then I shall get the same value
             //this.Position = this.orbit.getParameters();
-            double latitude = truncateDecimal(this.Position.getlatitude() +
-                                              this.positionError.getlatitude() +
-                                              this.numericalError.getlatitude(), 6).doubleValue();
-            double longitude = truncateDecimal(this.Position.getlongitude() +
-                                               this.positionError.getlongitude() +
-                                               this.numericalError.getlongitude(), 6).doubleValue();
+            double latitude = truncateDecimal(this.Position.getlatitude() + this.positionError.getlatitude() +
+                this.numericalError.getlatitude(), 6).doubleValue();
+            double longitude = truncateDecimal(this.Position.getlongitude() + this.positionError.getlongitude() +
+                this.numericalError.getlongitude(), 6).doubleValue();
 
             latitude = fixBoundaries(latitude, -90, 90);
             longitude = fixBoundaries(longitude, -180, 180);
 
             // No errors for the velocity vector were included
             PositionWithErrors = new OrbitParameters(latitude, longitude, truncateDecimal(this.Position.geta() +
-                                                                                          this.positionError.geta() +
-                                                                                          this.numericalError.geta(), 1)
-                                                                                                                        .doubleValue(),
-                                                     new Vector(this.Position.getvelocity().x(), this.Position
-                                                                                                              .getvelocity()
-                                                                                                              .y(),
-                                                                this.Position.getvelocity().z()), this.Position
-                                                                                                               .gettime());
+                this.positionError.geta() + this.numericalError.geta(), 1).doubleValue(), new Vector(this.Position
+                    .getvelocity().x(), this.Position.getvelocity().y(), this.Position.getvelocity().z()), this.Position
+                        .gettime());
 
         }
 
@@ -139,7 +132,6 @@ public class GPS {
         // The meters need to be converted to kilometers ("/ 1000")
 
         return new OrbitParameters(factor * k / 3 * randomno.nextGaussian(), factor * k / 3 * randomno.nextGaussian(),
-                                   k / 1000 / 3 * randomno.nextGaussian(), new Vector(0, 0, 0), this.Position
-                                                                                                             .gettime());
+            k / 1000 / 3 * randomno.nextGaussian(), new Vector(0, 0, 0), this.Position.gettime());
     }
 }

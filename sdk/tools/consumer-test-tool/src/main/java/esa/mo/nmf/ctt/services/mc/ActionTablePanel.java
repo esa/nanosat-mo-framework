@@ -41,8 +41,8 @@ public class ActionTablePanel extends SharedTablePanel {
     @Override
     public void addEntry(final Identifier name, final ArchivePersistenceObject comObject) {
         if (comObject == null) {
-            Logger.getLogger(SharedTablePanel.class.getName())
-                  .log(Level.SEVERE, "The table cannot process a null COM Object.");
+            Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE,
+                "The table cannot process a null COM Object.");
             return;
         }
 
@@ -55,12 +55,8 @@ public class ActionTablePanel extends SharedTablePanel {
         ActionDefinitionDetails pDef = (ActionDefinitionDetails) comObject.getObject();
 
         tableData.addRow(new Object[]{comObject.getArchiveDetails().getDetails().getRelated(), comObject
-                                                                                                        .getArchiveDetails()
-                                                                                                        .getInstId(),
-                                      name.toString(), pDef.getDescription(), String.valueOf(pDef.getCategory()
-                                                                                                 .getValue()), pDef
-                                                                                                                   .getProgressStepCount()
-                                                                                                                   .toString()});
+            .getArchiveDetails().getInstId(), name.toString(), pDef.getDescription(), String.valueOf(pDef.getCategory()
+                .getValue()), pDef.getProgressStepCount().toString()});
 
         comObjects.add(comObject);
         semaphore.release();

@@ -70,7 +70,7 @@ public class BlankApp {
 
         @Override
         public UInteger actionArrived(Identifier name, AttributeValueList attributeValues, Long actionInstanceObjId,
-                                      boolean reportProgress, MALInteraction interaction) {
+            boolean reportProgress, MALInteraction interaction) {
             return null;
         }
     }

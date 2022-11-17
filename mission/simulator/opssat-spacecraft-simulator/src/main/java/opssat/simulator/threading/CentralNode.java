@@ -49,7 +49,7 @@ public class CentralNode extends TaskNode {
     boolean celestiaInitDone;
 
     public CentralNode(ConcurrentLinkedQueue<Object> queueIn, ConcurrentLinkedQueue<Object> queueOut, String name,
-                       int delay, Level logLevel, Level consoleLogLevel, ESASimulator sim) {
+        int delay, Level logLevel, Level consoleLogLevel, ESASimulator sim) {
         super(queueIn, queueOut, name, delay, logLevel, consoleLogLevel);
         this.qFromGUI = new ConcurrentLinkedQueue<>();
         this.qToCelestia = new ConcurrentLinkedQueue<>();
@@ -66,14 +66,13 @@ public class CentralNode extends TaskNode {
 
     // Overloaded constructor, operation with TCP server
     public CentralNode(ConcurrentLinkedQueue<Object> queueIn, ConcurrentLinkedQueue<Object> queueOut, String listenURL,
-                       String name, int delay, Level logLevel, Level consoleLogLevel, ESASimulator sim) {
+        String name, int delay, Level logLevel, Level consoleLogLevel, ESASimulator sim) {
         super(queueIn, queueOut, name, delay, logLevel, consoleLogLevel);
         this.qFromGUI = new ConcurrentLinkedQueue<>();
         this.qToCelestia = new ConcurrentLinkedQueue<>();
         super.getLogObject().log(Level.FINE, "Creating listener on URL [" + listenURL + "]..");
         this.multiThreadedSocketServer = new MultiThreadedSocketServer(listenURL, this,
-                                                                       MultiThreadedSocketServer.DEFAULT_SOCKET_PORT,
-                                                                       super.getLogObject());
+            MultiThreadedSocketServer.DEFAULT_SOCKET_PORT, super.getLogObject());
         multiThreadedSocketServer.start();
         this.parent = sim;
     }
@@ -81,7 +80,7 @@ public class CentralNode extends TaskNode {
     private void initCelestia(SimulatorHeader header) {
         super.getLogObject().log(Level.FINE, "Creating Celestia provider");
         this.celestiaInterfaceServer = new CelestiaIf(this.qToCelestia, header.getCelestiaPort(), "OPS-SAT",
-                                                      super.getLogObject());
+            super.getLogObject());
         (new Thread(celestiaInterfaceServer, "sim-" + celestiaInterfaceServer.getClass().getSimpleName())).start();
     }
 
@@ -116,9 +115,8 @@ public class CentralNode extends TaskNode {
                 if (data instanceof Integer) {
                     return null;
                 } else {
-                    super.getLogObject().log(Level.ALL, "Sending something [" +
-                                                        data.getClass().getName() +
-                                                        "] to server ");
+                    super.getLogObject().log(Level.ALL, "Sending something [" + data.getClass().getName() +
+                        "] to server ");
                     return data;
                 }
             } else {

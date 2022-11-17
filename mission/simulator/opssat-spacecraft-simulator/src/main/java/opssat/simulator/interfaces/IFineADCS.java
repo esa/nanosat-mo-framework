@@ -2246,7 +2246,7 @@ public interface IFineADCS {
      * </pre>
      */
     void singleSpinningStartControlLoop(float[] targetBodyAxis, float targetAngularVelocityMagnitude,
-                                        float[] inertialTargetVector);//1149
+        float[] inertialTargetVector);//1149
 
     /**
      * <pre>

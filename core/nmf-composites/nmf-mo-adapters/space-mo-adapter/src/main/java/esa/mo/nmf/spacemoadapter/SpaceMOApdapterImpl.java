@@ -64,7 +64,7 @@ public class SpaceMOApdapterImpl extends CommonMOAdapterImpl {
      * @param localNamePrefix the prefix for the local name of the consumer
      */
     public SpaceMOApdapterImpl(final ConnectionConsumer connection, final Blob authenticationId,
-                               final String localNamePrefix) {
+        final String localNamePrefix) {
         super(connection, authenticationId, localNamePrefix);
         super.init();
     }
@@ -89,7 +89,7 @@ public class SpaceMOApdapterImpl extends CommonMOAdapterImpl {
      * @param localNamePrefix the prefix for the local name of the consumer
      */
     public SpaceMOApdapterImpl(final ProviderSummary providerDetails, final Blob authenticationId,
-                               final String localNamePrefix) {
+        final String localNamePrefix) {
         super(providerDetails, authenticationId, localNamePrefix);
         super.init();
     }
@@ -103,7 +103,7 @@ public class SpaceMOApdapterImpl extends CommonMOAdapterImpl {
      */
     public static SpaceMOApdapterImpl forNMFSupervisor(URI centralDirectoryServiceURI) {
         return new SpaceMOApdapterImpl(getNMFProviderSummary(centralDirectoryServiceURI,
-                                                             Const.NANOSAT_MO_SUPERVISOR_NAME));
+            Const.NANOSAT_MO_SUPERVISOR_NAME));
     }
 
     /**
@@ -115,7 +115,7 @@ public class SpaceMOApdapterImpl extends CommonMOAdapterImpl {
      */
     public static SpaceMOApdapterImpl forNMFApp(URI centralDirectoryServiceURI, String appName) {
         return new SpaceMOApdapterImpl(getNMFProviderSummary(centralDirectoryServiceURI,
-                                                             Const.NANOSAT_MO_APP_IDENTIFIER_PREFIX + appName));
+            Const.NANOSAT_MO_APP_IDENTIFIER_PREFIX + appName));
     }
 
     /**
@@ -129,18 +129,19 @@ public class SpaceMOApdapterImpl extends CommonMOAdapterImpl {
         domain.add(new Identifier("*"));
         ServiceKey sk = new ServiceKey(new UShort(0), new UShort(0), new UOctet((short) 0));
         ServiceFilter sf2 = new ServiceFilter(new Identifier(providerName), domain, new Identifier("*"), null,
-                                              new Identifier("*"), sk, new UShortList());
+            new Identifier("*"), sk, new UShortList());
 
         // Query directory service with filter
         try {
-            DirectoryConsumerServiceImpl centralDirectory = new DirectoryConsumerServiceImpl(centralDirectoryServiceURI);
+            DirectoryConsumerServiceImpl centralDirectory = new DirectoryConsumerServiceImpl(
+                centralDirectoryServiceURI);
             ProviderSummaryList supervisorConnections = centralDirectory.getDirectoryStub().lookupProvider(sf2);
             if (supervisorConnections.size() == 1) {
                 LOGGER.log(Level.INFO, String.format("Found %s provider", Const.NANOSAT_MO_SUPERVISOR_NAME));
                 return HelperCommon.selectBestIPCTransport(supervisorConnections.get(0));
             } else if (supervisorConnections.size() > 1) {
                 LOGGER.log(Level.SEVERE, String.format("Found multiple %s providers",
-                                                       Const.NANOSAT_MO_SUPERVISOR_NAME));
+                    Const.NANOSAT_MO_SUPERVISOR_NAME));
             } else {
                 LOGGER.log(Level.SEVERE, String.format("Couldn't find %s provider", Const.NANOSAT_MO_SUPERVISOR_NAME));
             }

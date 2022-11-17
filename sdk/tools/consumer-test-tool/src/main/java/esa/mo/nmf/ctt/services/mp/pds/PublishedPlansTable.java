@@ -56,7 +56,7 @@ public class PublishedPlansTable extends SharedTablePanel {
     private final PlanDistributionConsumerServiceImpl pdsService;
 
     public PublishedPlansTable(ArchiveConsumerServiceImpl archiveService,
-                               PlanDistributionConsumerServiceImpl pdsService) {
+        PlanDistributionConsumerServiceImpl pdsService) {
         super(archiveService);
         this.archiveService = archiveService;
         this.pdsService = pdsService;
@@ -68,7 +68,7 @@ public class PublishedPlansTable extends SharedTablePanel {
     }
 
     public void addEntry(IdentifierList domain, Time timestamp, Long identityId, Identifier identity, Long instanceId,
-                         PlanVersionDetails planVersion) {
+        PlanVersionDetails planVersion) {
 
         try {
             semaphore.acquire();
@@ -98,9 +98,8 @@ public class PublishedPlansTable extends SharedTablePanel {
         ObjectType instanceObjectType = PlanDistributionHelper.PLANVERSION_OBJECT_TYPE;
         LongList objectIds = new LongList();
         objectIds.add(0L);
-        List<ArchivePersistenceObject> instanceObjects = HelperArchive.getArchiveCOMObjectList(this.archiveService.getArchiveStub(),
-                                                                                               instanceObjectType,
-                                                                                               domain, objectIds);
+        List<ArchivePersistenceObject> instanceObjects = HelperArchive.getArchiveCOMObjectList(this.archiveService
+            .getArchiveStub(), instanceObjectType, domain, objectIds);
 
         ArchivePersistenceObject comObject = null;
         if (instanceObjects != null) {
@@ -153,8 +152,7 @@ public class PublishedPlansTable extends SharedTablePanel {
 
         @Override
         public void monitorPlanNotifyReceived(MALMessageHeader msgHeader, Identifier identifier,
-                                              UpdateHeaderList headerList, PlanVersionDetailsList versionList,
-                                              Map qosProperties) {
+            UpdateHeaderList headerList, PlanVersionDetailsList versionList, Map qosProperties) {
             for (int index = 0; index < versionList.size(); index++) {
                 UpdateHeader updateHeader = headerList.get(index);
                 PlanVersionDetails planVersion = versionList.get(index);

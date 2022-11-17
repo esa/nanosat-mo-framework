@@ -143,9 +143,10 @@ public class DatabaseBackend {
                 isPostgres = true;
             }
             Statement query = serverConnection.createStatement();
-            query.execute("CREATE TABLE IF NOT EXISTS COMObjectEntity (objectTypeId INTEGER NOT NULL, objId BIGINT NOT NULL, domainId INTEGER NOT NULL, network INTEGER, objBody " +
-                          blobType +
-                          ", providerURI INTEGER, relatedLink BIGINT, sourceLinkDomainId INTEGER, sourceLinkObjId BIGINT, sourceLinkObjectTypeId INTEGER, timestampArchiveDetails BIGINT, PRIMARY KEY (objectTypeId, objId, domainId))");
+            query.execute(
+                "CREATE TABLE IF NOT EXISTS COMObjectEntity (objectTypeId INTEGER NOT NULL, objId BIGINT NOT NULL, domainId INTEGER NOT NULL, network INTEGER, objBody " +
+                    blobType +
+                    ", providerURI INTEGER, relatedLink BIGINT, sourceLinkDomainId INTEGER, sourceLinkObjId BIGINT, sourceLinkObjectTypeId INTEGER, timestampArchiveDetails BIGINT, PRIMARY KEY (objectTypeId, objId, domainId))");
             ;
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseBackend.class.getName()).log(Level.SEVERE, null, ex);
@@ -166,8 +167,8 @@ public class DatabaseBackend {
         // The first query will throw exception to the outside
         mig.execute("ALTER TABLE COMObjectEntity RENAME COLUMN OBJ TO objBody");
 
-        Logger.getLogger(TransactionsProcessor.class.getName())
-              .log(Level.INFO, "Migrating the database to new Table schemas...");
+        Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.INFO,
+            "Migrating the database to new Table schemas...");
         try {
             mig.execute("ALTER TABLE DomainHolderEntity RENAME COLUMN domainString TO value");
             mig.execute("ALTER TABLE DomainHolderEntity RENAME TO FastDomain");
@@ -190,7 +191,8 @@ public class DatabaseBackend {
         try {
             Statement statement = serverConnection.createStatement();
             statement.execute("CREATE INDEX IF NOT EXISTS index_related2 ON COMObjectEntity (relatedLink)");
-            statement.execute("CREATE INDEX IF NOT EXISTS index_timestampArchiveDetails2 ON COMObjectEntity (timestampArchiveDetails)");
+            statement.execute(
+                "CREATE INDEX IF NOT EXISTS index_timestampArchiveDetails2 ON COMObjectEntity (timestampArchiveDetails)");
             indexCreated = true;
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseBackend.class.getName()).log(Level.SEVERE, null, ex);
@@ -210,9 +212,8 @@ public class DatabaseBackend {
         } catch (SQLException ex) {
             if (jdbcDriver.equals(DRIVER_CLASS_NAME)) {
                 LOGGER.log(Level.WARNING, "Unexpected exception ! ", ex);
-                LOGGER.log(Level.INFO, "There was an SQLException, maybe the " +
-                                       DATABASE_LOCATION_NAME +
-                                       " folder/file does not exist. Attempting to create it...");
+                LOGGER.log(Level.INFO, "There was an SQLException, maybe the " + DATABASE_LOCATION_NAME +
+                    " folder/file does not exist. Attempting to create it...");
                 try {
                     // Connect to the database but also create the database if it does not exist
                     serverConnection = DriverManager.getConnection(url2 + ";create=true");
@@ -220,8 +221,8 @@ public class DatabaseBackend {
                 } catch (SQLException ex2) {
                     LOGGER.log(Level.SEVERE, "Other connection already exists! Error: " + ex2.getMessage(), ex2);
                     LOGGER.log(Level.SEVERE,
-                               "Most likely there is another instance of the same application already running. " +
-                                             "Two instances of the same application are not allowed. The application will exit.");
+                        "Most likely there is another instance of the same application already running. " +
+                            "Two instances of the same application are not allowed. The application will exit.");
                     System.exit(0);
                 }
             } else {

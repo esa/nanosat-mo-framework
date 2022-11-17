@@ -35,7 +35,7 @@ public class MOelementList extends MOelement {
     private javax.swing.JTextField fieldValue;
 
     public MOelementList(final MOWindow previousWindow, String fieldNameIn, Object obj, boolean editable,
-                         boolean objIsNull) {
+        boolean objIsNull) {
         super(fieldNameIn, obj, true, objIsNull);
 
         this.editable = editable;
@@ -49,8 +49,8 @@ public class MOelementList extends MOelement {
 
             // Fix the indexes
             for (int i = 0; i < previousWindow.getComponentsPanel().getComponentCount() - 1; i++) {
-                ((MOelement) previousWindow.getComponentsPanel().getComponent(i)).getFieldNameLabel()
-                                                                                 .setText(String.valueOf(i));
+                ((MOelement) previousWindow.getComponentsPanel().getComponent(i)).getFieldNameLabel().setText(String
+                    .valueOf(i));
             }
 
             previousWindow.refreshVerticalSize();
@@ -107,9 +107,8 @@ public class MOelementList extends MOelement {
         } else {
             // Is it an Attribute?
             boolean isAttribute = (HelperAttributes.attributeName2typeShortForm(this.object.getClass()
-                                                                                           .getSimpleName()) != null);
-            return (isAttribute) ?
-                HelperAttributes.string2attribute(this.object, this.fieldValue.getText()) :
+                .getSimpleName()) != null);
+            return (isAttribute) ? HelperAttributes.string2attribute(this.object, this.fieldValue.getText()) :
                 HelperAttributes.attribute2JavaType(this.object);
         }
     }

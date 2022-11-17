@@ -90,7 +90,7 @@ public class Space2SupervisorAdapter extends MonitorAndControlNMFAdapter {
 
                 String dataS = data.toString();
                 LOGGER.log(Level.INFO, String.format("Received value %s from supervisor for parameter %s", dataS,
-                                                     parameterName));
+                    parameterName));
             }
         };
 

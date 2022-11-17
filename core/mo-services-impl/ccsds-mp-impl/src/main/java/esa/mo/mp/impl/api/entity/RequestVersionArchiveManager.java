@@ -42,7 +42,8 @@ import esa.mo.mp.impl.com.pattern.COMInstanceVersionArchiveManager;
  *
  * @see COMInstanceVersionArchiveManager
  */
-public class RequestVersionArchiveManager extends COMInstanceVersionArchiveManager<RequestIdentityDetails, RequestIdentityDetailsList, RequestVersionDetails, RequestVersionDetailsList, RequestUpdateDetails, RequestUpdateDetailsList> {
+public class RequestVersionArchiveManager extends
+    COMInstanceVersionArchiveManager<RequestIdentityDetails, RequestIdentityDetailsList, RequestVersionDetails, RequestVersionDetailsList, RequestUpdateDetails, RequestUpdateDetailsList> {
 
     public RequestVersionArchiveManager(COMServicesProvider comServices, COMConfiguration configuration) {
         super(comServices, configuration);

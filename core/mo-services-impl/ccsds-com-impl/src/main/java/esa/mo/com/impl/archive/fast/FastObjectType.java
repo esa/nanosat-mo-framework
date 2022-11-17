@@ -60,9 +60,8 @@ public class FastObjectType extends FastIndex<Long> {
         try {
             Connection c = dbBackend.getConnection();
             Statement query = c.createStatement();
-            query.execute("CREATE TABLE IF NOT EXISTS " +
-                          TABLE_NAME +
-                          " (id INTEGER NOT NULL, value BIGINT, PRIMARY KEY (id))");
+            query.execute("CREATE TABLE IF NOT EXISTS " + TABLE_NAME +
+                " (id INTEGER NOT NULL, value BIGINT, PRIMARY KEY (id))");
             insertStmt = c.prepareStatement(QUERY_INSERT);
             ResultSet rs = query.executeQuery(QUERY_SELECT);
 

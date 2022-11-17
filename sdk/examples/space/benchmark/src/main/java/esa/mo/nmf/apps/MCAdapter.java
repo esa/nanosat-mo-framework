@@ -75,14 +75,12 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
 
         // Creates a periodic parameter
         parDef.add(new ParameterDefinitionDetails("A periodic parameter with a double value.",
-                                                  Union.DOUBLE_TYPE_SHORT_FORM.byteValue(), "unit", false, new Duration(
-                                                                                                                        1),
-                                                  null, null));
+            Union.DOUBLE_TYPE_SHORT_FORM.byteValue(), "unit", false, new Duration(1), null, null));
         paramNames.add(new Identifier(PARAMETER_PERIODIC));
 
         // Creates a periodic parameter
         parDef.add(new ParameterDefinitionDetails("The COM Archive size.", Union.LONG_TYPE_SHORT_FORM.byteValue(),
-                                                  "bytes", false, new Duration(0), null, null));
+            "bytes", false, new Duration(0), null, null));
         paramNames.add(new Identifier(PARAMETER_ARCHIVE_SIZE));
 
         registration.registerParameters(paramNames, parDef);
@@ -100,21 +98,15 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
             String convertedUnit = null;
 
             arguments1.add(new ArgumentDefinitionDetails(new Identifier("1"), "", rawType, rawUnit,
-                                                         conditionalConversions, convertedType, convertedUnit));
+                conditionalConversions, convertedType, convertedUnit));
         }
 
-        actionDefs.add(new ActionDefinitionDetails("Stores " +
-                                                   NUMBER_OF_OBJS +
-                                                   " aggregation definition objects in the COM Archive.", new UOctet(
-                                                                                                                     (short) 0),
-                                                   new UShort(0), arguments1));
+        actionDefs.add(new ActionDefinitionDetails("Stores " + NUMBER_OF_OBJS +
+            " aggregation definition objects in the COM Archive.", new UOctet((short) 0), new UShort(0), arguments1));
         actionNames.add(new Identifier(ACTION_STORE_AGGS));
 
-        actionDefs.add(new ActionDefinitionDetails("Stores " +
-                                                   NUMBER_OF_OBJS +
-                                                   " parameter value objects in the COM Archive.", new UOctet(
-                                                                                                              (short) 0),
-                                                   new UShort(0), arguments1));
+        actionDefs.add(new ActionDefinitionDetails("Stores " + NUMBER_OF_OBJS +
+            " parameter value objects in the COM Archive.", new UOctet((short) 0), new UShort(0), arguments1));
         actionNames.add(new Identifier(ACTION_STORE_PARS));
 
         LongList actionObjIds = registration.registerActions(actionNames, actionDefs);
@@ -142,7 +134,7 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
 
     @Override
     public UInteger actionArrived(Identifier name, AttributeValueList attributeValues, Long actionInstanceObjId,
-                                  boolean reportProgress, MALInteraction interaction) {
+        boolean reportProgress, MALInteraction interaction) {
         if (ACTION_STORE_AGGS.equals(name.getValue())) {
             StoreAggregations.storeAggregations(NUMBER_OF_OBJS, connector);
         }

@@ -127,11 +127,8 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
                                                                                                                       null,
                                                                                                                       null,
                                                                                                                       null}},
-                                                                                new String[]{"Identity", "Obj Inst Id",
-                                                                                             "name", "description",
-                                                                                             "rawType", "rawUnit",
-                                                                                             "generationEnabled",
-                                                                                             "updateInterval"}) {
+            new String[]{"Identity", "Obj Inst Id", "name", "description", "rawType", "rawUnit", "generationEnabled",
+                         "updateInterval"}) {
             Class[] types = new Class[]{java.lang.Object.class, java.lang.Integer.class, java.lang.String.class,
                                         java.lang.String.class, java.lang.Object.class, java.lang.String.class,
                                         java.lang.Boolean.class, java.lang.Float.class};
@@ -191,25 +188,17 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
-        layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(parameterTab, javax.swing.GroupLayout.PREFERRED_SIZE, 0,
-                                                      Short.MAX_VALUE)
-                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING,
-                                                      javax.swing.GroupLayout.DEFAULT_SIZE, 882, Short.MAX_VALUE)
-                                        .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                      javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
-        layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                      .addGroup(layout.createSequentialGroup()
-                                                      .addContainerGap()
-                                                      .addComponent(jLabel6)
-                                                      .addGap(18, 18, 18)
-                                                      .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                    253, Short.MAX_VALUE)
-                                                      .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                      .addComponent(parameterTab,
-                                                                    javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                    javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                    javax.swing.GroupLayout.PREFERRED_SIZE)));
+        layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
+            parameterTab, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE).addComponent(jScrollPane2,
+                javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 882, Short.MAX_VALUE)
+            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+                Short.MAX_VALUE));
+        layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout
+            .createSequentialGroup().addContainerGap().addComponent(jLabel6).addGap(18, 18, 18).addComponent(
+                jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE).addPreferredGap(
+                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(parameterTab,
+                        javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+                        javax.swing.GroupLayout.PREFERRED_SIZE)));
     }// </editor-fold>//GEN-END:initComponents
 
     private void submitActionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitActionActionPerformed
@@ -231,9 +220,8 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
                     continue;
                 }
 
-                String attributeName = HelperAttributes.typeShortForm2attributeName(arguments.get(i)
-                                                                                             .getRawType()
-                                                                                             .intValue());
+                String attributeName = HelperAttributes.typeShortForm2attributeName(arguments.get(i).getRawType()
+                    .intValue());
                 Object aaa = HelperAttributes.attributeName2object(attributeName);
                 Attribute elem = (Attribute) HelperAttributes.javaType2Attribute(aaa);
 
@@ -258,21 +246,21 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
                 public void submitActionAckReceived(MALMessageHeader msgHeader, Map qosProperties) {
                     super.submitActionAckReceived(msgHeader, qosProperties);
                     JOptionPane.showMessageDialog(null, "The action instance was successfully submitted.", "Success",
-                                                  JOptionPane.PLAIN_MESSAGE);
+                        JOptionPane.PLAIN_MESSAGE);
                 }
 
                 @Override
                 public void submitActionErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
-                                                      Map qosProperties) {
+                    Map qosProperties) {
                     super.submitActionErrorReceived(msgHeader, error, qosProperties);
                     JOptionPane.showMessageDialog(null, "The action submittal has failed.", "Error",
-                                                  JOptionPane.PLAIN_MESSAGE);
+                        JOptionPane.PLAIN_MESSAGE);
                 }
             });
 
         } catch (NMFException ex) {
             JOptionPane.showMessageDialog(null, "There was an error with the submitted action.", "Error",
-                                          JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -285,8 +273,8 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
         try {
             ObjectInstancePairList objIds;
             try {
-                objIds = this.serviceMCAction.getActionStub()
-                                             .listDefinition((IdentifierList) actionNamesWindow.getObject());
+                objIds = this.serviceMCAction.getActionStub().listDefinition((IdentifierList) actionNamesWindow
+                    .getObject());
             } catch (InterruptedIOException ex) {
                 return;
             }
@@ -294,16 +282,13 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
             StringBuilder str = new StringBuilder("Object instance identifiers on the provider: \n");
             if (objIds != null) {
                 for (ObjectInstancePair objId : objIds) {
-                    str.append("ObjId Def: ")
-                       .append(objId.getObjDefInstanceId().toString())
-                       .append(" Identity: ")
-                       .append(objId.getObjIdentityInstanceId().toString())
-                       .append("\n");
+                    str.append("ObjId Def: ").append(objId.getObjDefInstanceId().toString()).append(" Identity: ")
+                        .append(objId.getObjIdentityInstanceId().toString()).append("\n");
                 }
             }
 
             JOptionPane.showMessageDialog(null, str.toString(), "Returned List from the Provider",
-                                          JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.PLAIN_MESSAGE);
 
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -350,19 +335,14 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
             Thread.sleep(500);
             // Get the stored Action Definition from the Archive
             ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(this.serviceMCAction.getCOMServices()
-                                                                                                       .getArchiveService()
-                                                                                                       .getArchiveStub(),
-                                                                                   ActionHelper.ACTIONDEFINITION_OBJECT_TYPE,
-                                                                                   serviceMCAction.getConnectionDetails()
-                                                                                                  .getDomain(), objIds
-                                                                                                                      .get(0)
-                                                                                                                      .getObjDefInstanceId());
+                .getArchiveService().getArchiveStub(), ActionHelper.ACTIONDEFINITION_OBJECT_TYPE, serviceMCAction
+                    .getConnectionDetails().getDomain(), objIds.get(0).getObjDefInstanceId());
 
             // Add the Action Definition to the table
             actionTable.addEntry(requestList.get(0).getName(), comObject);
         } catch (MALInteractionException | MALException ex) {
             JOptionPane.showMessageDialog(null, "There was an error with the submitted action instance.", "Error",
-                                          JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InterruptedException ex) {
             Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -438,19 +418,18 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
             this.serviceMCAction.getActionStub().asyncListDefinition(idList, new ActionAdapter() {
                 @Override
                 public void listDefinitionResponseReceived(MALMessageHeader msgHeader,
-                                                           ObjectInstancePairList actionInstIds, Map qosProperties) {
+                    ObjectInstancePairList actionInstIds, Map qosProperties) {
                     actionTable.refreshTableWithIds(actionInstIds, serviceMCAction.getConnectionDetails().getDomain(),
-                                                    ActionHelper.ACTIONDEFINITION_OBJECT_TYPE);
-                    Logger.getLogger(ActionConsumerPanel.class.getName())
-                          .log(Level.INFO, "listDefinition(\"*\") returned {0} object instance identifiers",
-                               actionInstIds.size());
+                        ActionHelper.ACTIONDEFINITION_OBJECT_TYPE);
+                    Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.INFO,
+                        "listDefinition(\"*\") returned {0} object instance identifiers", actionInstIds.size());
                 }
 
                 @Override
                 public void listDefinitionErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
-                                                        Map qosProperties) {
+                    Map qosProperties) {
                     JOptionPane.showMessageDialog(null, "There was an error during the listDefinition operation.",
-                                                  "Error", JOptionPane.PLAIN_MESSAGE);
+                        "Error", JOptionPane.PLAIN_MESSAGE);
                     Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, error);
                 }
             });
@@ -491,12 +470,12 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
             this.serviceMCAction.getActionStub().preCheckAction(actionInstanceDetails);
         } catch (MALInteractionException | MALException ex) {
             JOptionPane.showMessageDialog(null, "There was an error with the submitted action instance.", "Error",
-                                          JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         JOptionPane.showMessageDialog(null, "The action instance pre-check has passed successfully.", "Success",
-                                      JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.PLAIN_MESSAGE);
     }//GEN-LAST:event_preCheckActionButtonActionPerformed
 
     private void actionDefinitionsTableComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_actionDefinitionsTableComponentAdded

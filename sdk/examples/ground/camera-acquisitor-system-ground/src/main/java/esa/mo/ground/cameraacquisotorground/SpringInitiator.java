@@ -38,7 +38,8 @@ public class SpringInitiator {
      */
     public static void main(final String[] args) {
         if (args.length != 2) {
-            System.err.println("Please give directoryURI as first argument and an open port number for Tomcat as second argument!");
+            System.err.println(
+                "Please give directoryURI as first argument and an open port number for Tomcat as second argument!");
             System.err.println("e.g. maltcp://123.123.123.123:1024/nanosat-mo-supervisor-Directory 1050");
             System.exit(1);
         }

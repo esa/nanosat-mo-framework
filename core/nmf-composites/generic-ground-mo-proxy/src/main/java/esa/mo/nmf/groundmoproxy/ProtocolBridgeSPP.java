@@ -53,12 +53,10 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
         transportA = createTransport(PROTOCOL_SPP, properties);
         transportB = createTransport(protocol, properties);
 
-        if (System.getProperty(PROPERTY_APID_RANGE_START) == null ||
-            System.getProperty(PROPERTY_APID_RANGE_END) == null) {
-            throw new MALException("The APID ranges need to be set using the properties: " +
-                                   PROPERTY_APID_RANGE_START +
-                                   " and " +
-                                   PROPERTY_APID_RANGE_END);
+        if (System.getProperty(PROPERTY_APID_RANGE_START) == null || System.getProperty(PROPERTY_APID_RANGE_END) ==
+            null) {
+            throw new MALException("The APID ranges need to be set using the properties: " + PROPERTY_APID_RANGE_START +
+                " and " + PROPERTY_APID_RANGE_END);
         }
 
         // To do: Get the ranges from the properties file
@@ -97,7 +95,7 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
 
         @Override
         public void onTransmitError(MALEndpoint callingEndpoint, MALMessageHeader srcMessageHeader,
-                                    MALStandardError err, Map qosMap) {
+            MALStandardError err, Map qosMap) {
             throw new UnsupportedOperationException("Not supported yet.");
         }
 
@@ -165,7 +163,7 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
     }
 
     protected static MALMessage cloneForwardMessageToSPP(final MALEndpoint destination, final MALMessage srcMessage,
-                                                         final String virtualURI) throws MALException {
+        final String virtualURI) throws MALException {
         MALMessageHeader sourceHdr = srcMessage.getHeader();
         MALMessageBody body = srcMessage.getBody();
         int size = body.getElementCount();
@@ -179,7 +177,7 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
         }
 
         LOGGER.log(Level.FINER, "cloneForwardMessage from: {0} to: {1}", new Object[]{sourceHdr.getURIFrom(), sourceHdr
-                                                                                                                       .getURITo()});
+            .getURITo()});
         String endpointUriPart = sourceHdr.getURITo().getValue();
         final int iSecond = endpointUriPart.indexOf("@");
         endpointUriPart = endpointUriPart.substring(iSecond + 1);
@@ -189,18 +187,11 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
         LOGGER.log(Level.FINER, "cloneForwardMessage from: {0} to: {1}", new Object[]{from, to});
 
         MALMessage destMessage = destination.createMessage(sourceHdr.getAuthenticationId(), to, sourceHdr
-                                                                                                         .getTimestamp(),
-                                                           sourceHdr.getQoSlevel(), sourceHdr.getPriority(), sourceHdr
-                                                                                                                      .getDomain(),
-                                                           sourceHdr.getNetworkZone(), sourceHdr.getSession(), sourceHdr
-                                                                                                                        .getSessionName(),
-                                                           sourceHdr.getInteractionType(), sourceHdr
-                                                                                                    .getInteractionStage(),
-                                                           sourceHdr.getTransactionId(), sourceHdr.getServiceArea(),
-                                                           sourceHdr.getService(), sourceHdr.getOperation(), sourceHdr
-                                                                                                                      .getAreaVersion(),
-                                                           sourceHdr.getIsErrorMessage(), srcMessage.getQoSProperties(),
-                                                           objList);
+            .getTimestamp(), sourceHdr.getQoSlevel(), sourceHdr.getPriority(), sourceHdr.getDomain(), sourceHdr
+                .getNetworkZone(), sourceHdr.getSession(), sourceHdr.getSessionName(), sourceHdr.getInteractionType(),
+            sourceHdr.getInteractionStage(), sourceHdr.getTransactionId(), sourceHdr.getServiceArea(), sourceHdr
+                .getService(), sourceHdr.getOperation(), sourceHdr.getAreaVersion(), sourceHdr.getIsErrorMessage(),
+            srcMessage.getQoSProperties(), objList);
 
         destMessage.getHeader().setURIFrom(from);
 
@@ -208,7 +199,7 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
     }
 
     protected static MALMessage cloneForwardMessageFromSPP(final MALEndpoint destination, final MALMessage srcMessage,
-                                                           final URI reverse) throws MALException {
+        final URI reverse) throws MALException {
         MALMessageHeader sourceHdr = srcMessage.getHeader();
         MALMessageBody body = srcMessage.getBody();
         int size = body.getElementCount();
@@ -222,24 +213,17 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
         }
 
         LOGGER.log(Level.FINER, "cloneForwardMessage from : {0} to: {1}", new Object[]{sourceHdr.getURIFrom(), sourceHdr
-                                                                                                                        .getURITo()});
+            .getURITo()});
         URI from = new URI(destination.getURI().getValue() + "@" + sourceHdr.getURIFrom().getValue());
 
         LOGGER.log(Level.FINER, "cloneForwardMessage from: {0} to: {1}", new Object[]{from, reverse});
 
         MALMessage destMessage = destination.createMessage(sourceHdr.getAuthenticationId(), reverse, sourceHdr
-                                                                                                              .getTimestamp(),
-                                                           sourceHdr.getQoSlevel(), sourceHdr.getPriority(), sourceHdr
-                                                                                                                      .getDomain(),
-                                                           sourceHdr.getNetworkZone(), sourceHdr.getSession(), sourceHdr
-                                                                                                                        .getSessionName(),
-                                                           sourceHdr.getInteractionType(), sourceHdr
-                                                                                                    .getInteractionStage(),
-                                                           sourceHdr.getTransactionId(), sourceHdr.getServiceArea(),
-                                                           sourceHdr.getService(), sourceHdr.getOperation(), sourceHdr
-                                                                                                                      .getAreaVersion(),
-                                                           sourceHdr.getIsErrorMessage(), srcMessage.getQoSProperties(),
-                                                           objList);
+            .getTimestamp(), sourceHdr.getQoSlevel(), sourceHdr.getPriority(), sourceHdr.getDomain(), sourceHdr
+                .getNetworkZone(), sourceHdr.getSession(), sourceHdr.getSessionName(), sourceHdr.getInteractionType(),
+            sourceHdr.getInteractionStage(), sourceHdr.getTransactionId(), sourceHdr.getServiceArea(), sourceHdr
+                .getService(), sourceHdr.getOperation(), sourceHdr.getAreaVersion(), sourceHdr.getIsErrorMessage(),
+            srcMessage.getQoSProperties(), objList);
 
         destMessage.getHeader().setURIFrom(from);
 

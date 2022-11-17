@@ -119,10 +119,10 @@ public class HelperGPS {
         String[] items = gpgga.split(",");
         try {
             pos.setAltitude(Float.parseFloat(items[GPGGA_GEN_COL.ALTITUDE]));
-            pos.setLatitude(degMinutes2Degrees(items[GPGGA_GEN_COL.LAT]) *
-                            ((items[GPGGA_GEN_COL.LAT_DIR]).equals("S") ? -1 : 1));
-            pos.setLongitude(degMinutes2Degrees(items[GPGGA_GEN_COL.LONG]) *
-                             ((items[GPGGA_GEN_COL.LONG_DIR]).equals("W") ? -1 : 1));
+            pos.setLatitude(degMinutes2Degrees(items[GPGGA_GEN_COL.LAT]) * ((items[GPGGA_GEN_COL.LAT_DIR]).equals("S") ?
+                -1 : 1));
+            pos.setLongitude(degMinutes2Degrees(items[GPGGA_GEN_COL.LONG]) * ((items[GPGGA_GEN_COL.LONG_DIR]).equals(
+                "W") ? -1 : 1));
 
             PositionExtraDetails posExtraDetails = new PositionExtraDetails();
             posExtraDetails.setPositionSource(PositionSourceType.GNSS);
@@ -204,29 +204,18 @@ public class HelperGPS {
                 int count = words.length;
                 int sentenceSatCount = (count - 5) / 4;
                 if (sentenceSatCount <= 0 || sentenceSatCount > 4) {
-                    throw new IOException("Sentence [" +
-                                          sentence +
-                                          "] has calculated [" +
-                                          sentenceSatCount +
-                                          "] sat count");
+                    throw new IOException("Sentence [" + sentence + "] has calculated [" + sentenceSatCount +
+                        "] sat count");
                 }
                 int expectedSize = sentenceSatCount * 4 + 5;
                 if (count != expectedSize) {
-                    throw new IOException("Sentence [" +
-                                          sentence +
-                                          "] has wrong GPS sentence size [" +
-                                          count +
-                                          "], expected minimum [" +
-                                          expectedSize +
-                                          "]");
+                    throw new IOException("Sentence [" + sentence + "] has wrong GPS sentence size [" + count +
+                        "], expected minimum [" + expectedSize + "]");
 
                 }
                 if (!"$GPGSV".equals(words[GPGSV_COL.HEADER])) {
-                    throw new IOException("Sentence [" +
-                                          sentence +
-                                          "] has wrong header [" +
-                                          words[GPGSV_COL.HEADER] +
-                                          "], expected [$GPGSV]");
+                    throw new IOException("Sentence [" + sentence + "] has wrong header [" + words[GPGSV_COL.HEADER] +
+                        "], expected [$GPGSV]");
                 }
                 for (int satOffset = 0, i = 0; i < sentenceSatCount; i++, satOffset += 4) {
                     float azimuth = 0, elevation = 0;
@@ -242,7 +231,7 @@ public class HelperGPS {
                     }
                     if (prn > 0) {
                         sats.add(new SatelliteInfo(azimuth, elevation, prn, null, null, null, null, null, snr, null,
-                                                   null));
+                            null));
                     }
                 }
             }
@@ -262,8 +251,8 @@ public class HelperGPS {
             throw new IOException("Did not find decimal in " + in);
         }
         try {
-            return Float.parseFloat(in.substring(0, decimalAt - 2)) +
-                   Float.parseFloat(in.substring(decimalAt - 2, len)) / 60;
+            return Float.parseFloat(in.substring(0, decimalAt - 2)) + Float.parseFloat(in.substring(decimalAt - 2,
+                len)) / 60;
         } catch (NumberFormatException e) {
             throw new IOException("Failed to parse degrees and minutes.", e);
         }

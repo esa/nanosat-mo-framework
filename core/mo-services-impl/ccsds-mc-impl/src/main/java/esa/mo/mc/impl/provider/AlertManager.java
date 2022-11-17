@@ -67,7 +67,7 @@ public final class AlertManager extends MCManager {
     }
 
     public ObjectInstancePair add(Identifier name, AlertDefinitionDetails definition, ObjectId source,
-                                  SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
+        SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
         ObjectInstancePair newIdPair = new ObjectInstancePair();
         if (super.getArchiveService() == null) {
             //add to providers local list
@@ -80,7 +80,7 @@ public final class AlertManager extends MCManager {
                 //requirement: 3.4.10.2.e: if an AlertName ever existed before, use the old AlertIdentity-Object by retrieving it from the archive
                 //check if the name existed before and retrieve id if found
                 Long identityId = retrieveIdentityIdByNameFromArchive(ConfigurationProviderSingleton.getDomain(), name,
-                                                                      AlertHelper.ALERTIDENTITY_OBJECT_TYPE);
+                    AlertHelper.ALERTIDENTITY_OBJECT_TYPE);
 
                 //in case the AlertName never existed before, create a new identity
                 if (identityId == null) {
@@ -88,12 +88,10 @@ public final class AlertManager extends MCManager {
                     names.add(name);
                     //add to the archive; requirement: 3.4.7.a
                     LongList identityIds = super.getArchiveService().store(true, AlertHelper.ALERTIDENTITY_OBJECT_TYPE, //requirement: 3.4.4.a
-                                                                           ConfigurationProviderSingleton.getDomain(),
-                                                                           HelperArchive.generateArchiveDetailsList(null,
-                                                                                                                    source,
-                                                                                                                    connectionDetails), //requirement 3.4.4.g
-                                                                           names, //requirement: 3.4.4.b
-                                                                           null);
+                        ConfigurationProviderSingleton.getDomain(), HelperArchive.generateArchiveDetailsList(null,
+                            source, connectionDetails), //requirement 3.4.4.g
+                        names, //requirement: 3.4.4.b
+                        null);
 
                     //there is only one identity created, so get the id and set it as the related id
                     identityId = identityIds.get(0);
@@ -102,11 +100,9 @@ public final class AlertManager extends MCManager {
                 defs.add(definition);
                 //add to the archive; requirement: 3.4.7.a
                 LongList defIds = super.getArchiveService().store(true, AlertHelper.ALERTDEFINITION_OBJECT_TYPE, //requirement: 3.4.4.c
-                                                                  ConfigurationProviderSingleton.getDomain(),
-                                                                  HelperArchive.generateArchiveDetailsList(identityId,
-                                                                                                           source,
-                                                                                                           connectionDetails), //requirement: 3.4.4.e, 3.4.4.h
-                                                                  defs, null);
+                    ConfigurationProviderSingleton.getDomain(), HelperArchive.generateArchiveDetailsList(identityId,
+                        source, connectionDetails), //requirement: 3.4.4.e, 3.4.4.h
+                    defs, null);
 
                 //add to providers local list
                 newIdPair = new ObjectInstancePair(identityId, defIds.get(0));
@@ -120,7 +116,7 @@ public final class AlertManager extends MCManager {
     }
 
     public Long update(final Long identityId, final AlertDefinitionDetails definition, final ObjectId source,
-                       final SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
+        final SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
         Long newDefId = null;
 
         if (super.getArchiveService() == null) { //only update locally
@@ -133,11 +129,9 @@ public final class AlertManager extends MCManager {
                 defs.add(definition);
                 //create a new AlertDefinition and add to the archive; requirement: 3.4.7.a
                 LongList defIds = super.getArchiveService().store(true, AlertHelper.ALERTDEFINITION_OBJECT_TYPE, //requirement: 3.4.4.c
-                                                                  ConfigurationProviderSingleton.getDomain(),
-                                                                  HelperArchive.generateArchiveDetailsList(identityId,
-                                                                                                           source,
-                                                                                                           connectionDetails), //requirement: 3.4.4.d, 3.4.4.h
-                                                                  defs, null);
+                    ConfigurationProviderSingleton.getDomain(), HelperArchive.generateArchiveDetailsList(identityId,
+                        source, connectionDetails), //requirement: 3.4.4.d, 3.4.4.h
+                    defs, null);
 
                 newDefId = defIds.get(0);
             } catch (MALException | MALInteractionException ex) {
@@ -154,7 +148,7 @@ public final class AlertManager extends MCManager {
     }
 
     public Long setGenerationEnabled(final Long identityId, final Boolean bool, final ObjectId source,
-                                     final SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
+        final SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
         AlertDefinitionDetails def = this.getAlertDefinitionFromIdentityId(identityId);
         if (def == null) {
             return null;
@@ -170,7 +164,7 @@ public final class AlertManager extends MCManager {
     }
 
     public void setGenerationEnabledAll(final Boolean bool, final ObjectId source,
-                                        final SingleConnectionDetails connectionDetails) {
+        final SingleConnectionDetails connectionDetails) {
         LongList identityIds = new LongList();
         identityIds.addAll(this.listAllIdentities());
 

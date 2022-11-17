@@ -53,8 +53,7 @@ public class InstrumentsSimulator {
     public void printRealPosition() {
         Orbit.OrbitParameters param = this.darkDusk.getParameters();
         System.out.printf("\n\nLatitude, Longitude: %f, %f\nAltitude: %f\nTime: %s\n\n\n", param.getlatitude(), param
-                                                                                                                     .getlongitude(),
-                          param.geta(), param.gettime().toString());
+            .getlongitude(), param.geta(), param.gettime().toString());
     }
 
     public double getGPSlatitude() {

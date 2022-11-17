@@ -69,7 +69,7 @@ public class ArchiveCommandsImplementations {
      * @param filename target filename
      */
     public static void backupProvider(String databaseFile, String providerURI, String domainId, String providerName,
-                                      String filename) {
+        String filename) {
         LocalOrRemoteConsumer consumers = createConsumer(providerURI, databaseFile, providerName);
         ArchiveConsumerServiceImpl localConsumer = consumers.getLocalConsumer();
         NMFConsumer remoteConsumer = consumers.getRemoteConsumer();
@@ -81,8 +81,7 @@ public class ArchiveCommandsImplementations {
         archiveQueryList.add(archiveQuery);
 
         ArchiveToBackupAdapter adapter = new ArchiveToBackupAdapter(filename, domainId);
-        queryArchive(objectsTypes, archiveQueryList, adapter, adapter, remoteConsumer == null ?
-            localConsumer :
+        queryArchive(objectsTypes, archiveQueryList, adapter, adapter, remoteConsumer == null ? localConsumer :
             remoteConsumer.getCOMServices().getArchiveService());
 
         boolean success = adapter.saveDataToNewDatabase();
@@ -126,7 +125,7 @@ public class ArchiveCommandsImplementations {
         File temp = new File(databaseFile);
         if (!temp.exists() || temp.isDirectory()) {
             LOGGER.log(Level.SEVERE, String.format("Provided database file %s doesn't exist or is a directory",
-                                                   databaseFile));
+                databaseFile));
             return;
         }
 
@@ -192,7 +191,7 @@ public class ArchiveCommandsImplementations {
      * @param jsonFile target JSON file
      */
     public static void dumpFormattedArchive(String databaseFile, String providerURI, String domainId, String comType,
-                                            String startTime, String endTime, String jsonFile) {
+        String startTime, String endTime, String jsonFile) {
         // prepare comType filter
         int areaNumber = 0;
         int serviceNumber = 0;
@@ -208,13 +207,12 @@ public class ArchiveCommandsImplementations {
                 objectNumber = Integer.parseInt(subTypes[3]);
             } else {
                 LOGGER.log(Level.WARNING, String.format("Error parsing comType \"%s\", filter will be ignored",
-                                                        comType));
+                    comType));
             }
         }
 
         ObjectType objectsTypes = new ObjectType(new UShort(areaNumber), new UShort(serviceNumber), new UOctet(
-                                                                                                               (short) areaVersion),
-                                                 new UShort(objectNumber));
+            (short) areaVersion), new UShort(objectNumber));
 
         // prepare domain and time filters
         ArchiveQueryList archiveQueryList = new ArchiveQueryList();
@@ -230,8 +228,7 @@ public class ArchiveCommandsImplementations {
 
         // execute query
         ArchiveToJsonAdapter adapter = new ArchiveToJsonAdapter(jsonFile);
-        queryArchive(objectsTypes, archiveQueryList, adapter, adapter, remoteConsumer == null ?
-            localConsumer :
+        queryArchive(objectsTypes, archiveQueryList, adapter, adapter, remoteConsumer == null ? localConsumer :
             remoteConsumer.getCOMServices().getArchiveService());
 
         closeConsumer(consumers);
@@ -243,12 +240,13 @@ public class ArchiveCommandsImplementations {
      * @param centralDirectoryServiceURI URI of the central directory to use
      */
     public static void listArchiveProviders(String centralDirectoryServiceURI) {
-        ArrayList<String> archiveProviderURIs = CentralDirectoryHelper.listCOMArchiveProviders(new URI(centralDirectoryServiceURI));
+        ArrayList<String> archiveProviderURIs = CentralDirectoryHelper.listCOMArchiveProviders(new URI(
+            centralDirectoryServiceURI));
 
         // No provider found warning
         if (archiveProviderURIs.size() <= 0) {
             LOGGER.log(Level.WARNING, String.format("No COM archive provider found in central directory at %s",
-                                                    centralDirectoryServiceURI));
+                centralDirectoryServiceURI));
             return;
         }
 

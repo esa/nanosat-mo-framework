@@ -251,13 +251,8 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         }
 
         private void refreshTabCounter() {
-            JLabel label = new JLabel(functionName +
-                                      " (" +
-                                      dateFormat.format(date) +
-                                      ")" +
-                                      " (" +
-                                      n_objs_counter +
-                                      ")");
+            JLabel label = new JLabel(functionName + " (" + dateFormat.format(date) + ")" + " (" + n_objs_counter +
+                ")");
             JLabel closeLabel = new JLabel("x");
             closeLabel.addMouseListener(new CloseMouseHandler(this));
             closeLabel.setFont(closeLabel.getFont().deriveFont(closeLabel.getFont().getStyle() | Font.BOLD));
@@ -319,9 +314,9 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
 
         @Override
         public synchronized void retrieveResponseReceived(MALMessageHeader msgHeader, ArchiveDetailsList objDetails,
-                                                          ElementList objBodies, Map qosProperties) {
+            ElementList objBodies, Map qosProperties) {
             ArchiveCOMObjectsOutput archiveObjectOutput = new ArchiveCOMObjectsOutput(domain, objType, objDetails,
-                                                                                      objBodies);
+                objBodies);
             archiveTablePanel.addEntries(archiveObjectOutput);
             n_objs_counter = n_objs_counter + objDetails.size();
             refreshTabCounter();
@@ -329,16 +324,14 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
 
         @Override
         public synchronized void countResponseReceived(MALMessageHeader msgHeader, LongList _LongList0,
-                                                       Map qosProperties) {
+            Map qosProperties) {
             JOptionPane.showMessageDialog(null, _LongList0.toString(),
-                                          "The count operation returned the following data!",
-                                          JOptionPane.PLAIN_MESSAGE);
+                "The count operation returned the following data!", JOptionPane.PLAIN_MESSAGE);
         }
 
         @Override
         public synchronized void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType,
-                                                       IdentifierList domain, ArchiveDetailsList objDetails,
-                                                       ElementList objBodies, Map qosProperties) {
+            IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
             // If object type is null all objects have the same type
             if (objType == null) {
                 objType = this.objType;
@@ -349,7 +342,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
                 return;
             }
             ArchiveCOMObjectsOutput archiveObjectOutput = new ArchiveCOMObjectsOutput(domain, objType, objDetails,
-                                                                                      objBodies);
+                objBodies);
             archiveTablePanel.addEntries(archiveObjectOutput);
             n_objs_counter = n_objs_counter + objDetails.size();
             refreshTabCounter();
@@ -359,8 +352,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
 
         @Override
         public synchronized void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType,
-                                                     IdentifierList domain, ArchiveDetailsList objDetails,
-                                                     ElementList objBodies, Map qosProperties) {
+            IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
             // If object type is null all objects have the same type
             if (objType == null) {
                 objType = this.objType;
@@ -371,7 +363,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
                 return;
             }
             ArchiveCOMObjectsOutput archiveObjectOutput = new ArchiveCOMObjectsOutput(domain, objType, objDetails,
-                                                                                      objBodies);
+                objBodies);
             archiveTablePanel.addEntries(archiveObjectOutput);
             n_objs_counter = n_objs_counter + objDetails.size();
             refreshTabCounter();
@@ -380,9 +372,9 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
 
         @Override
         public synchronized void queryAckErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
-                                                       Map qosProperties) {
-            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName())
-                  .log(Level.SEVERE, "queryAckErrorReceived", error);
+            Map qosProperties) {
+            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, "queryAckErrorReceived",
+                error);
         }
 
         protected void deleteAllInTable() {
@@ -537,129 +529,71 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
-        layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING,
-                                                      javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                      javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGroup(layout.createSequentialGroup()
-                                                        .addGap(48, 48, 48)
-                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING,
-                                                                                             false)
-                                                                        .addComponent(jButtonGetAll,
-                                                                                      javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                                      javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                                      Short.MAX_VALUE)
-                                                                        .addComponent(jButtonRetrieve))
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                        .addComponent(jButtonDeleteAll,
-                                                                                      javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                                      javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                                      Short.MAX_VALUE)
-                                                                        .addComponent(jButtonUpdate,
-                                                                                      javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                                      javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                                      Short.MAX_VALUE))
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                        .addComponent(jButtonDelete,
-                                                                                      javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                                      javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                                      Short.MAX_VALUE)
-                                                                        .addComponent(jButtonCount,
-                                                                                      javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                                      javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                                      Short.MAX_VALUE))
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING,
-                                                                                             false)
-                                                                        .addComponent(jButtonQuery,
-                                                                                      javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                                      javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                                      Short.MAX_VALUE)
-                                                                        .addComponent(jButtonStoreActions,
-                                                                                      javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                                      149, Short.MAX_VALUE))
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING,
-                                                                                             false)
-                                                                        .addComponent(jButtonStoreConversions,
-                                                                                      javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                                      178, Short.MAX_VALUE)
-                                                                        .addComponent(jButtonStoreGroups,
-                                                                                      javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                                      javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                                      Short.MAX_VALUE))
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                        .addComponent(open_ArchiveSync,
-                                                                                      javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                                      javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                                      Short.MAX_VALUE)
-                                                                        .addComponent(jButtonStoreAggregation,
-                                                                                      javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                                      javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                                      Short.MAX_VALUE))
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addComponent(TBoxStore, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                      28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addGap(48, 48, 48))
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(tabs, javax.swing.GroupLayout.Alignment.TRAILING,
-                                                                      javax.swing.GroupLayout.DEFAULT_SIZE, 957,
-                                                                      Short.MAX_VALUE)));
-        layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                      .addGroup(layout.createSequentialGroup()
-                                                      .addGap(18, 18, 18)
-                                                      .addComponent(jLabel6)
-                                                      .addGap(20, 20, 20)
-                                                      .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                                      .addComponent(jButtonRetrieve)
-                                                                      .addComponent(jButtonStoreAggregation)
-                                                                      .addComponent(jButtonUpdate)
-                                                                      .addComponent(jButtonStoreGroups)
-                                                                      .addComponent(TBoxStore,
-                                                                                    javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                                    javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                                    javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                      .addComponent(jButtonQuery)
-                                                                      .addComponent(jButtonCount))
-                                                      .addGap(18, 18, 18)
-                                                      .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                                      .addComponent(jButtonGetAll)
-                                                                      .addComponent(jButtonDeleteAll)
-                                                                      .addComponent(jButtonDelete)
-                                                                      .addComponent(jButtonStoreActions)
-                                                                      .addComponent(jButtonStoreConversions)
-                                                                      .addComponent(open_ArchiveSync))
-                                                      .addContainerGap(438, Short.MAX_VALUE))
-                                      .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                      .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout
-                                                                                                                  .createSequentialGroup()
-                                                                                                                  .addGap(129,
-                                                                                                                          129,
-                                                                                                                          129)
-                                                                                                                  .addComponent(tabs,
-                                                                                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                                                                                426,
-                                                                                                                                Short.MAX_VALUE))));
+        layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
+            jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE,
+            javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addGroup(layout.createSequentialGroup().addGap(48,
+                48, 48).addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButtonGetAll, javax.swing.GroupLayout.DEFAULT_SIZE,
+                        javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(jButtonRetrieve))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(layout
+                    .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jButtonDeleteAll,
+                        javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonUpdate, javax.swing.GroupLayout.DEFAULT_SIZE,
+                        javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)).addPreferredGap(
+                            javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(layout.createParallelGroup(
+                                javax.swing.GroupLayout.Alignment.LEADING).addComponent(jButtonDelete,
+                                    javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                    Short.MAX_VALUE).addComponent(jButtonCount, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                        javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)).addPreferredGap(
+                                            javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(layout
+                                                .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                .addComponent(jButtonQuery, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                    javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(
+                                                        jButtonStoreActions, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                        149, Short.MAX_VALUE)).addPreferredGap(
+                                                            javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false).addComponent(
+                    jButtonStoreConversions, javax.swing.GroupLayout.PREFERRED_SIZE, 178, Short.MAX_VALUE).addComponent(
+                        jButtonStoreGroups, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+                        Short.MAX_VALUE)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
+                            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
+                                open_ArchiveSync, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(
+                                    jButtonStoreAggregation, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                    javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)).addPreferredGap(
+                                        javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(TBoxStore,
+                                            javax.swing.GroupLayout.PREFERRED_SIZE, 28,
+                                            javax.swing.GroupLayout.PREFERRED_SIZE).addGap(48, 48, 48)).addGroup(layout
+                                                .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(tabs, javax.swing.GroupLayout.Alignment.TRAILING,
+                                                    javax.swing.GroupLayout.DEFAULT_SIZE, 957, Short.MAX_VALUE)));
+        layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout
+            .createSequentialGroup().addGap(18, 18, 18).addComponent(jLabel6).addGap(20, 20, 20).addGroup(layout
+                .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(jButtonRetrieve)
+                .addComponent(jButtonStoreAggregation).addComponent(jButtonUpdate).addComponent(jButtonStoreGroups)
+                .addComponent(TBoxStore, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+                    javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(jButtonQuery).addComponent(jButtonCount))
+            .addGap(18, 18, 18).addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(jButtonGetAll).addComponent(jButtonDeleteAll).addComponent(jButtonDelete).addComponent(
+                    jButtonStoreActions).addComponent(jButtonStoreConversions).addComponent(open_ArchiveSync))
+            .addContainerGap(438, Short.MAX_VALUE)).addGroup(layout.createParallelGroup(
+                javax.swing.GroupLayout.Alignment.LEADING).addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout
+                    .createSequentialGroup().addGap(129, 129, 129).addComponent(tabs,
+                        javax.swing.GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE))));
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonStoreAggregationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStoreAggregationActionPerformed
         //        ArchiveDetailsList archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive.getConnectionDetails());
         ArchiveDetailsList archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive
-                                                                                                                      .getConnectionDetails()
-                                                                                                                      .getProviderURI());
+            .getConnectionDetails().getProviderURI());
 
         AggregationDefinitionDetailsList objList = new AggregationDefinitionDetailsList();
         objList.add(ArchiveConsumerManagerPanel.generateAggregationDefinition("AggregationStore"));
 
         try {
-            LongList outObjId = serviceCOMArchive.getArchiveStub()
-                                                 .store(Boolean.TRUE,
-                                                        AggregationHelper.AGGREGATIONDEFINITION_OBJECT_TYPE,
-                                                        serviceCOMArchive.getConnectionDetails().getDomain(),
-                                                        archiveDetailsList, objList);
+            LongList outObjId = serviceCOMArchive.getArchiveStub().store(Boolean.TRUE,
+                AggregationHelper.AGGREGATIONDEFINITION_OBJECT_TYPE, serviceCOMArchive.getConnectionDetails()
+                    .getDomain(), archiveDetailsList, objList);
             Long received = outObjId.get(0);
             TBoxStore.setText(received.toString());
         } catch (MALInteractionException | MALException ex) {
@@ -735,8 +669,8 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
 
         try {
             adapter.setObjType(objType);
-            serviceCOMArchive.getArchiveStub()
-                             .query(Boolean.TRUE, objType, archiveQueryList, compositeFilters, adapter);
+            serviceCOMArchive.getArchiveStub().query(Boolean.TRUE, objType, archiveQueryList, compositeFilters,
+                adapter);
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -810,9 +744,8 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
             finalObject.add(objBodyWindow.getObject());
 
             try {
-                serviceCOMArchive.getArchiveStub()
-                                 .update(comObject.getObjectType(), comObject.getDomain(), archiveDetailsList,
-                                         finalObject);
+                serviceCOMArchive.getArchiveStub().update(comObject.getObjectType(), comObject.getDomain(),
+                    archiveDetailsList, finalObject);
             } catch (MALInteractionException | MALException ex) {
                 Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -870,7 +803,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
 
         JDialog frame = new JDialog();
         int n = JOptionPane.showConfirmDialog(frame, "Would you like to automatically query and get the objects?",
-                                              "Query?", JOptionPane.YES_NO_OPTION);
+            "Query?", JOptionPane.YES_NO_OPTION);
 
         if (n == JOptionPane.YES_OPTION) {
             try {
@@ -890,16 +823,14 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         //        archiveDetailsList = new ArchiveDetailsList();
         //        archiveDetailsList.add(serviceCOMArchive.generateArchiveDetails(new Long(0)));
         ArchiveDetailsList archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive
-                                                                                                                      .getConnectionDetails());
+            .getConnectionDetails());
         objType = ConversionHelper.DISCRETECONVERSION_OBJECT_TYPE;
         DiscreteConversionDetailsList objList1 = new DiscreteConversionDetailsList();
         objList1.add(this.generateDiscreteConversionDetails());
 
         try {
-            outObjId = serviceCOMArchive.getArchiveStub()
-                                        .store(Boolean.TRUE, objType, serviceCOMArchive.getConnectionDetails()
-                                                                                       .getDomain(), archiveDetailsList,
-                                               objList1);
+            outObjId = serviceCOMArchive.getArchiveStub().store(Boolean.TRUE, objType, serviceCOMArchive
+                .getConnectionDetails().getDomain(), archiveDetailsList, objList1);
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -907,16 +838,14 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         //        archiveDetailsList = new ArchiveDetailsList();
         //        archiveDetailsList.add(serviceCOMArchive.generateArchiveDetails(new Long(0)));
         archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive
-                                                                                                   .getConnectionDetails());
+            .getConnectionDetails());
         objType = ConversionHelper.LINECONVERSION_OBJECT_TYPE;
         LineConversionDetailsList objList2 = new LineConversionDetailsList();
         objList2.add(this.generateLineConversionDetails());
 
         try {
-            outObjId = serviceCOMArchive.getArchiveStub()
-                                        .store(Boolean.TRUE, objType, serviceCOMArchive.getConnectionDetails()
-                                                                                       .getDomain(), archiveDetailsList,
-                                               objList2);
+            outObjId = serviceCOMArchive.getArchiveStub().store(Boolean.TRUE, objType, serviceCOMArchive
+                .getConnectionDetails().getDomain(), archiveDetailsList, objList2);
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -924,16 +853,14 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         //        archiveDetailsList = new ArchiveDetailsList();
         //        archiveDetailsList.add(serviceCOMArchive.generateArchiveDetails(new Long(0)));
         archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive
-                                                                                                   .getConnectionDetails());
+            .getConnectionDetails());
         objType = ConversionHelper.POLYCONVERSION_OBJECT_TYPE;
         PolyConversionDetailsList objList3 = new PolyConversionDetailsList();
         objList3.add(this.generatePolyConversionDetails());
 
         try {
-            outObjId = serviceCOMArchive.getArchiveStub()
-                                        .store(Boolean.TRUE, objType, serviceCOMArchive.getConnectionDetails()
-                                                                                       .getDomain(), archiveDetailsList,
-                                               objList3);
+            outObjId = serviceCOMArchive.getArchiveStub().store(Boolean.TRUE, objType, serviceCOMArchive
+                .getConnectionDetails().getDomain(), archiveDetailsList, objList3);
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -941,16 +868,14 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         //        archiveDetailsList = new ArchiveDetailsList();
         //        archiveDetailsList.add(serviceCOMArchive.generateArchiveDetails(new Long(0)));
         archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive
-                                                                                                   .getConnectionDetails());
+            .getConnectionDetails());
         objType = ConversionHelper.RANGECONVERSION_OBJECT_TYPE;
         RangeConversionDetailsList objList4 = new RangeConversionDetailsList();
         objList4.add(this.generateRangeConversionDetails());
 
         try {
-            outObjId = serviceCOMArchive.getArchiveStub()
-                                        .store(Boolean.TRUE, objType, serviceCOMArchive.getConnectionDetails()
-                                                                                       .getDomain(), archiveDetailsList,
-                                               objList4);
+            outObjId = serviceCOMArchive.getArchiveStub().store(Boolean.TRUE, objType, serviceCOMArchive
+                .getConnectionDetails().getDomain(), archiveDetailsList, objList4);
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1077,7 +1002,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
 
         // Archive details
         ArchiveDetailsList archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive
-                                                                                                                      .getConnectionDetails());
+            .getConnectionDetails());
         MOWindow genArchiveDetailsList = new MOWindow(archiveDetailsList, true);
         try {
             archiveDetailsList = (ArchiveDetailsList) genArchiveDetailsList.getObject();
@@ -1091,7 +1016,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         //        group.setName(new Identifier("Group1"));
         group.setDescription("A group of the 3 first Parameter Definitions.");
         ObjectType objTypeParameterDef = new ObjectType(new UShort(4), new UShort(2), new UOctet((short) 1), new UShort(
-                                                                                                                        1));
+            1));
         group.setObjectType(objTypeParameterDef);
         group.setDomain(domain);
         LongList objIds = new LongList();
@@ -1181,9 +1106,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         if (serviceTabs != null) {
             if (services.getCOMServices().getArchiveSyncService() != null) {
                 ArchiveSyncConsumerManagerPanel panel = new ArchiveSyncConsumerManagerPanel(services.getCOMServices()
-                                                                                                    .getArchiveService(),
-                                                                                            services.getCOMServices()
-                                                                                                    .getArchiveSyncService());
+                    .getArchiveService(), services.getCOMServices().getArchiveSyncService());
                 serviceTabs.insertTab("ArchiveSync service", null, panel, "ArchiveSync Tab", location);
             }
         }

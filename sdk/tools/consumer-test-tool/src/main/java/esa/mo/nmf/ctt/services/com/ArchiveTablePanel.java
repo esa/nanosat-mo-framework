@@ -60,7 +60,7 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
      * @param archiveService
      */
     public ArchiveTablePanel(ArchiveCOMObjectsOutput archiveObjectOutput,
-                             final ArchiveConsumerServiceImpl archiveService) {
+        final ArchiveConsumerServiceImpl archiveService) {
         initComponents();
 
         comObjects = new ArrayList<>();
@@ -93,7 +93,7 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
                     ArchivePersistenceObject comObject = getSelectedCOMObject();
                     try {
                         COMObjectWindow comObjectWindow = new COMObjectWindow(comObject, false, archiveService
-                                                                                                              .getArchiveStub());
+                            .getArchiveStub());
                     } catch (IOException ex) {
                         Logger.getLogger(ArchiveTablePanel.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -128,16 +128,11 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
         }
 
         for (int i = 0; i < archiveObjectOutput.getArchiveDetailsList().size(); i++) {
-            Element objects = (archiveObjectOutput.getObjectBodies() == null) ?
-                null :
-                (Element) HelperAttributes.javaType2Attribute(archiveObjectOutput.getObjectBodies().get(i));
+            Element objects = (archiveObjectOutput.getObjectBodies() == null) ? null : (Element) HelperAttributes
+                .javaType2Attribute(archiveObjectOutput.getObjectBodies().get(i));
             ArchivePersistenceObject comObject = new ArchivePersistenceObject(archiveObjectOutput.getObjectType(),
-                                                                              archiveObjectOutput.getDomain(),
-                                                                              archiveObjectOutput.getArchiveDetailsList()
-                                                                                                 .get(i)
-                                                                                                 .getInstId(),
-                                                                              archiveObjectOutput.getArchiveDetailsList()
-                                                                                                 .get(i), objects);
+                archiveObjectOutput.getDomain(), archiveObjectOutput.getArchiveDetailsList().get(i).getInstId(),
+                archiveObjectOutput.getArchiveDetailsList().get(i), objects);
 
             addEntry(comObject);
         }
@@ -162,9 +157,8 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
 
         if (comObject.getArchiveDetails().getDetails().getSource() != null) {
             source = HelperCOM.objType2string(comObject.getArchiveDetails().getDetails().getSource().getType());
-            source += " (objId: " +
-                      comObject.getArchiveDetails().getDetails().getSource().getKey().getInstId().toString() +
-                      ")";
+            source += " (objId: " + comObject.getArchiveDetails().getDetails().getSource().getKey().getInstId()
+                .toString() + ")";
         }
 
         if (comObject.getArchiveDetails().getDetails().getRelated() != null) {
@@ -218,9 +212,7 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
         archiveTable.setModel(new javax.swing.table.DefaultTableModel(new Object[][]{{null, null, null, null, null,
                                                                                       null}, {null, null, null, null,
                                                                                               null, null}},
-                                                                      new String[]{"Domain", "Object Type",
-                                                                                   "Obj Instance Id", "Timestamp",
-                                                                                   "Related", "Source"}) {
+            new String[]{"Domain", "Object Type", "Obj Instance Id", "Timestamp", "Related", "Source"}) {
             Class[] types = new Class[]{java.lang.String.class, java.lang.String.class, java.lang.String.class,
                                         java.lang.String.class, java.lang.String.class, java.lang.String.class};
 
@@ -242,12 +234,10 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
-        layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 617,
-                                                      Short.MAX_VALUE));
-        layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                      .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 204,
-                                                    Short.MAX_VALUE));
+        layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
+            jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 617, Short.MAX_VALUE));
+        layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
+            jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE));
     }// </editor-fold>//GEN-END:initComponents
 
     private void archiveTableComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_archiveTableComponentAdded

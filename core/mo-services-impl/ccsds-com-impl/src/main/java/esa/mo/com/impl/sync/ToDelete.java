@@ -14,14 +14,9 @@ public enum ToDelete {
     ARCHIVE_OBJECT_UPDATED_EVENT(new UShort(2), new UShort(2), new UOctet((short) 1), new UShort(2)),
     ARCHIVE_OBJECT_DELETED_EVENT(new UShort(2), new UShort(2), new UOctet((short) 1), new UShort(3)),
     PARAMETER_VALUE_INSTANCE(new UShort(4), new UShort(2), new UOctet((short) 1), new UShort(3)), AGGREGATION_VALUE(
-                                                                                                                    new UShort(4),
-                                                                                                                    new UShort(6),
-                                                                                                                    new UOctet((short) 1),
-                                                                                                                    new UShort(3)),
-    STDOUT_VALUE(new UShort(7), new UShort(3), new UOctet((short) 1), new UShort(2)), STDERR_VALUE(new UShort(7),
-                                                                                                   new UShort(3),
-                                                                                                   new UOctet((short) 1),
-                                                                                                   new UShort(3));
+        new UShort(4), new UShort(6), new UOctet((short) 1), new UShort(3)), STDOUT_VALUE(new UShort(7), new UShort(3),
+            new UOctet((short) 1), new UShort(2)), STDERR_VALUE(new UShort(7), new UShort(3), new UOctet((short) 1),
+                new UShort(3));
 
     private ObjectType type;
 

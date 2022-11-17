@@ -20,11 +20,10 @@ public class GetRequestMonitor extends PlanningRequestAdapter {
 
     @Override
     public void getRequestResponseReceived(MALMessageHeader msgHeader, LongList requestIdentityId,
-                                           LongList requestInstanceId, RequestVersionDetailsList requestVersion,
-                                           Map qosProperties) {
+        LongList requestInstanceId, RequestVersionDetailsList requestVersion, Map qosProperties) {
         this.receivedRequestVersions.addAll(requestVersion);
         super.getRequestResponseReceived(msgHeader, requestIdentityId, requestInstanceId, requestVersion,
-                                         qosProperties);
+            qosProperties);
         synchronized (this) {
             this.notifyAll();
         }

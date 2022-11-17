@@ -89,7 +89,7 @@ public class EchoSpace {
 
         @Override
         public UInteger actionArrived(Identifier idntfr, AttributeValueList avl, Long l, boolean bln,
-                                      MALInteraction mali) {
+            MALInteraction mali) {
             throw new UnsupportedOperationException("Not supported.");
         }
 

@@ -118,14 +118,14 @@ public class ArchiveToAppAdapter extends ArchiveAdapter implements QueryStatusPr
 
     @Override
     public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-                                      ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+        ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
         ProcessArchiveObjectsOutput(new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies));
         setIsQueryOver(true);
     }
 
     @Override
     public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-                                    ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+        ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
         ProcessArchiveObjectsOutput(new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies));
     }
 

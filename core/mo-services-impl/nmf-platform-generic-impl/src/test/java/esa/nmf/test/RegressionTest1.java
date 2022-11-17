@@ -16,7 +16,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((-5.0d));
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMTQFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMTQFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -30,7 +31,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray5 = new byte[]{(byte) -1, (byte) -1, (byte) 0, (byte) 100, (byte) 100};
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D6 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromNadirTargetTrackingStatus(byteArray5);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D6 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromNadirTargetTrackingStatus(byteArray5);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -44,7 +46,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray((int) (short) 100);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getPositionFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getPositionFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -59,7 +62,8 @@ public class RegressionTest1 {
         byte[] byteArray3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray((long) 28);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putFloatInByteArray((float) 10, 2, byteArray3);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion5 = esa.mo.platform.impl.util.HelperIADCS100.getTargetQuaternionsFromNadirTargetTrackingStatus(byteArray3);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion5 = esa.mo.platform.impl.util.HelperIADCS100
+                .getTargetQuaternionsFromNadirTargetTrackingStatus(byteArray3);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -73,7 +77,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray((int) 'a');
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getCurrentQuaternionsFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getCurrentQuaternionsFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -87,9 +92,10 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray((long) 6);
         short short3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getInt16FromByteArray(byteArray1,
-                                                                                                    (int) (byte) 1);
+            (int) (byte) 1);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion4 = esa.mo.platform.impl.util.HelperIADCS100.getTargetQuaternionsFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion4 = esa.mo.platform.impl.util.HelperIADCS100
+                .getTargetQuaternionsFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -104,7 +110,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray((float) (byte) 0);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -119,7 +126,8 @@ public class RegressionTest1 {
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 18);
         long long3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getLongFromByteArray(byteArray1, 0);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D4 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D4 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -134,7 +142,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray(281474993487876L);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getAttitudeFromSensorTM(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAttitudeFromSensorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -151,10 +160,12 @@ public class RegressionTest1 {
         java.lang.Integer int3 = floatList1.getTypeShortForm();
         java.lang.Integer int4 = floatList1.getTypeShortForm();
         boolean boolean6 = floatList1.remove((java.lang.Object) 36);
-        byte[] byteArray8 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 281474993487875L);
+        byte[] byteArray8 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            (double) 281474993487875L);
         int int9 = floatList1.lastIndexOf((java.lang.Object) byteArray8);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion10 = esa.mo.platform.impl.util.HelperIADCS100.getQuaternionsFromSpinModeStatus(byteArray8);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion10 = esa.mo.platform.impl.util.HelperIADCS100
+                .getQuaternionsFromSpinModeStatus(byteArray8);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -172,7 +183,8 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test0511");
         }
         try {
-            org.ccsds.moims.mo.platform.gps.structures.Position position1 = esa.mo.platform.impl.util.HelperGPS.gpggalong2Position("[281474993487875]");
+            org.ccsds.moims.mo.platform.gps.structures.Position position1 = esa.mo.platform.impl.util.HelperGPS
+                .gpggalong2Position("[281474993487875]");
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: 9");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -186,7 +198,8 @@ public class RegressionTest1 {
         byte[] byteArray3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray((long) 28);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putFloatInByteArray((float) 10, 2, byteArray3);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion5 = esa.mo.platform.impl.util.HelperIADCS100.getAttitudeFromSensorTM(byteArray3);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion5 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAttitudeFromSensorTM(byteArray3);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -201,7 +214,8 @@ public class RegressionTest1 {
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray((float) (byte) 0);
         short short3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getInt16FromByteArray(byteArray1, 1);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed4 = esa.mo.platform.impl.util.HelperIADCS100.getCurrentWheelSpeedFromActuatorTM(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed4 = esa.mo.platform.impl.util.HelperIADCS100
+                .getCurrentWheelSpeedFromActuatorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -217,7 +231,8 @@ public class RegressionTest1 {
         byte[] byteArray3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray(281474993487880L);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putIntInByteArray((-15), (int) (byte) 0, byteArray3);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D5 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromNadirTargetTrackingStatus(byteArray3);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D5 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromNadirTargetTrackingStatus(byteArray3);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -232,7 +247,8 @@ public class RegressionTest1 {
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray(65535);
         short short3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getInt16FromByteArray(byteArray1, 2);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D4 = esa.mo.platform.impl.util.HelperIADCS100.getPositionFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D4 = esa.mo.platform.impl.util.HelperIADCS100
+                .getPositionFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -247,7 +263,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray((long) 28);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getCurrentQuaternionsFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getCurrentQuaternionsFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -264,10 +281,12 @@ public class RegressionTest1 {
         java.lang.Integer int3 = floatList1.getTypeShortForm();
         java.lang.Integer int4 = floatList1.getTypeShortForm();
         boolean boolean6 = floatList1.remove((java.lang.Object) 36);
-        byte[] byteArray8 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 281474993487875L);
+        byte[] byteArray8 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            (double) 281474993487875L);
         int int9 = floatList1.lastIndexOf((java.lang.Object) byteArray8);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion10 = esa.mo.platform.impl.util.HelperIADCS100.getTargetQuaternionsFromNadirTargetTrackingStatus(byteArray8);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion10 = esa.mo.platform.impl.util.HelperIADCS100
+                .getTargetQuaternionsFromNadirTargetTrackingStatus(byteArray8);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -286,10 +305,12 @@ public class RegressionTest1 {
         }
         org.ccsds.moims.mo.mal.structures.FineTime fineTime1 = new org.ccsds.moims.mo.mal.structures.FineTime((long) 8);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet2 = fineTime1.getAreaVersion();
-        byte[] byteArray4 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(2.81474993487882E14d);
+        byte[] byteArray4 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            2.81474993487882E14d);
         boolean boolean5 = fineTime1.equals((java.lang.Object) byteArray4);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D6 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromNadirTargetTrackingStatus(byteArray4);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D6 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromNadirTargetTrackingStatus(byteArray4);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -305,7 +326,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray((float) (short) 255);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getSunVectorFromSunPointingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getSunVectorFromSunPointingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -319,7 +341,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray((int) (short) 100);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getSunVectorFromSunPointingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getSunVectorFromSunPointingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -331,12 +354,14 @@ public class RegressionTest1 {
         if (debug) {
             System.out.format("%n%s%n", "RegressionTest1.test0522");
         }
-        byte[] byteArray5 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(2.81474993487882E14d);
+        byte[] byteArray5 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            2.81474993487882E14d);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putFloatInByteArray((float) 281474993487882L, 0,
-                                                                                   byteArray5);
+            byteArray5);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putLongInByteArray(10L, (int) (short) 0, byteArray5);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed8 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromFixWGS84TargetTrackingStatus(byteArray5);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed8 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromFixWGS84TargetTrackingStatus(byteArray5);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -351,7 +376,8 @@ public class RegressionTest1 {
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray(65535);
         short short3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getInt16FromByteArray(byteArray1, 2);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion4 = esa.mo.platform.impl.util.HelperIADCS100.getTargetQuaternionsFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion4 = esa.mo.platform.impl.util.HelperIADCS100
+                .getTargetQuaternionsFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -366,7 +392,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray(32);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getAttitudeFromSensorTM(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAttitudeFromSensorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -380,7 +407,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray((float) (byte) 1);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getCurrentQuaternionsFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getCurrentQuaternionsFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -394,7 +422,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray(65535);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getSunVectorFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getSunVectorFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -406,9 +435,11 @@ public class RegressionTest1 {
         if (debug) {
             System.out.format("%n%s%n", "RegressionTest1.test0528");
         }
-        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray((int) (short) 19456);
+        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray(
+            (int) (short) 19456);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -422,7 +453,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray((long) 4);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getCurrentWheelSpeedFromActuatorTM(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getCurrentWheelSpeedFromActuatorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -461,7 +493,8 @@ public class RegressionTest1 {
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray((float) (byte) 0);
         short short3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getInt16FromByteArray(byteArray1, 1);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed4 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed4 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -476,7 +509,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray((-7));
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getTargetQuaternionsFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getTargetQuaternionsFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -490,7 +524,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray((-5));
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getPositionFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getPositionFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -504,7 +539,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray((int) (short) 10);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getCurrentQuaternionsFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getCurrentQuaternionsFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -518,7 +554,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray(100);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromSunPointingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromSunPointingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -532,7 +569,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray(281474993487883L);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromSensorTM(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromSensorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -546,7 +584,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray(281475010265070L);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getAngularMomentumFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularMomentumFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -560,7 +599,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray(0);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getAttitudeFromSensorTM(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAttitudeFromSensorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -574,7 +614,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray((-10));
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getSunVectorFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getSunVectorFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -588,7 +629,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 18);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getCurrentQuaternionsFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getCurrentQuaternionsFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -608,7 +650,8 @@ public class RegressionTest1 {
         byte[] byteArray6 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray(281474993487883L);
         boolean boolean7 = uOctet2.equals((java.lang.Object) byteArray6);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed8 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromNadirTargetTrackingStatus(byteArray6);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed8 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromNadirTargetTrackingStatus(byteArray6);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -627,7 +670,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray(20);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getPositionFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getPositionFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -641,7 +685,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((-5.0d));
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -655,7 +700,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray((float) 1L);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getSunVectorFromSunPointingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getSunVectorFromSunPointingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -669,7 +715,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray((long) (short) 10);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getSunVectorFromSunPointingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getSunVectorFromSunPointingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -683,7 +730,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray(18);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMagneticFieldFromSensorTM(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMagneticFieldFromSensorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -696,7 +744,8 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test0550");
         }
         try {
-            float float1 = esa.mo.platform.impl.util.HelperGPS.degMinutes2Degrees("[17, 15, 0, 6, 0, -1, 12, 14, 60, 4, 9, 14, 17, 5, -1, -10, -9, 17, 15, 17, 19, 2, 44, 65535, 3, 70, 36, 100, 10]");
+            float float1 = esa.mo.platform.impl.util.HelperGPS.degMinutes2Degrees(
+                "[17, 15, 0, 6, 0, -1, 12, 14, 60, 4, 9, 14, 17, 5, -1, -10, -9, 17, 15, 17, 19, 2, 44, 65535, 3, 70, 36, 100, 10]");
             org.junit.Assert.fail("Expected exception of type java.io.IOException; message: null");
         } catch (java.io.IOException e) {
         }
@@ -707,13 +756,15 @@ public class RegressionTest1 {
         if (debug) {
             System.out.format("%n%s%n", "RegressionTest1.test0551");
         }
-        byte[] byteArray3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(2.81474993487882E14d);
+        byte[] byteArray3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            2.81474993487882E14d);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putFloatInByteArray((float) 281474993487882L, 0,
-                                                                                   byteArray3);
+            byteArray3);
         float float6 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getFloatFromByteArray(byteArray3,
-                                                                                                    (int) (byte) 0);
+            (int) (byte) 0);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D7 = esa.mo.platform.impl.util.HelperIADCS100.getMTQFromSpinModeStatus(byteArray3);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D7 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMTQFromSpinModeStatus(byteArray3);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -726,9 +777,11 @@ public class RegressionTest1 {
         if (debug) {
             System.out.format("%n%s%n", "RegressionTest1.test0552");
         }
-        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 281474993487875L);
+        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            (double) 281474993487875L);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromSunPointingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromSunPointingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -742,12 +795,14 @@ public class RegressionTest1 {
         }
         org.ccsds.moims.mo.mal.structures.FineTime fineTime1 = new org.ccsds.moims.mo.mal.structures.FineTime((long) 8);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet2 = fineTime1.getAreaVersion();
-        byte[] byteArray4 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(2.81474993487882E14d);
+        byte[] byteArray4 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            2.81474993487882E14d);
         boolean boolean5 = fineTime1.equals((java.lang.Object) byteArray4);
         long long7 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getLongFromByteArray(byteArray4,
-                                                                                                 (int) (byte) 0);
+            (int) (byte) 0);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed8 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromSunPointingStatus(byteArray4);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed8 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromSunPointingStatus(byteArray4);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -764,7 +819,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray((long) (short) 10);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getTargetQuaternionsFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getTargetQuaternionsFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -778,7 +834,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray(0);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getCurrentQuaternionsFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getCurrentQuaternionsFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -792,9 +849,10 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray(15);
         short short3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getInt16FromByteArray(byteArray1,
-                                                                                                    (int) (short) 0);
+            (int) (short) 0);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion4 = esa.mo.platform.impl.util.HelperIADCS100.getCurrentQuaternionsFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion4 = esa.mo.platform.impl.util.HelperIADCS100
+                .getCurrentQuaternionsFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -809,7 +867,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray((int) (short) 255);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -823,7 +882,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 24);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMagneticFieldFromSensorTM(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMagneticFieldFromSensorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -837,7 +897,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray((-18));
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getSunVectorFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getSunVectorFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -851,7 +912,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray(65535);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getAngularMomentumFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularMomentumFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -865,7 +927,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 18);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -879,7 +942,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray((int) (byte) 10);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getSunVectorFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getSunVectorFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -893,7 +957,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray(15);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getAttitudeFromSensorTM(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAttitudeFromSensorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -907,7 +972,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray((-5));
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMTQFromActuatorTM(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMTQFromActuatorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -921,7 +987,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray((int) (byte) 10);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getTargetQuaternionsFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getTargetQuaternionsFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -935,7 +1002,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray((int) (short) 2);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMagneticFieldFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMagneticFieldFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -947,11 +1015,13 @@ public class RegressionTest1 {
         if (debug) {
             System.out.format("%n%s%n", "RegressionTest1.test0568");
         }
-        byte[] byteArray3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(2.81474993487882E14d);
+        byte[] byteArray3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            2.81474993487882E14d);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putFloatInByteArray((float) 281474993487882L, 0,
-                                                                                   byteArray3);
+            byteArray3);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion5 = esa.mo.platform.impl.util.HelperIADCS100.getTargetQuaternionsFromFixWGS84TargetTrackingStatus(byteArray3);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion5 = esa.mo.platform.impl.util.HelperIADCS100
+                .getTargetQuaternionsFromFixWGS84TargetTrackingStatus(byteArray3);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -965,7 +1035,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray((-13));
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -979,7 +1050,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray((int) (byte) 0);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getCurrentWheelSpeedFromActuatorTM(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getCurrentWheelSpeedFromActuatorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -994,7 +1066,8 @@ public class RegressionTest1 {
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray(281475010265073L);
         int int3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getIntFromByteArray(byteArray1, 0);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D4 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromSensorTM(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D4 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromSensorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -1009,7 +1082,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray((long) 65536);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromSunPointingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromSunPointingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -1022,7 +1096,8 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test0573");
         }
         try {
-            org.ccsds.moims.mo.platform.gps.structures.Position position1 = esa.mo.platform.impl.util.HelperGPS.gpggalong2Position("[false, false]");
+            org.ccsds.moims.mo.platform.gps.structures.Position position1 = esa.mo.platform.impl.util.HelperGPS
+                .gpggalong2Position("[false, false]");
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: 9");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -1035,7 +1110,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray((float) 100L);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getAngularMomentumFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularMomentumFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -1049,7 +1125,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray((float) 6);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getAttitudeFromSensorTM(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAttitudeFromSensorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -1064,7 +1141,8 @@ public class RegressionTest1 {
         byte[] byteArray6 = new byte[]{(byte) 1, (byte) 100, (byte) -1, (byte) -1, (byte) 100, (byte) 1};
         int int8 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getIntFromByteArray(byteArray6, 1);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed9 = esa.mo.platform.impl.util.HelperIADCS100.getTargetWheelSpeedFromActuatorTM(byteArray6);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed9 = esa.mo.platform.impl.util.HelperIADCS100
+                .getTargetWheelSpeedFromActuatorTM(byteArray6);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -1079,7 +1157,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray((-2));
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getSunVectorFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getSunVectorFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -1093,7 +1172,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray(1);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getCurrentWheelSpeedFromActuatorTM(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getCurrentWheelSpeedFromActuatorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -1108,7 +1188,8 @@ public class RegressionTest1 {
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray(281475010265073L);
         int int3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getIntFromByteArray(byteArray1, 0);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion4 = esa.mo.platform.impl.util.HelperIADCS100.getAttitudeFromSensorTM(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion4 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAttitudeFromSensorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -1123,7 +1204,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray((int) (byte) 1);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getCurrentWheelSpeedFromActuatorTM(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getCurrentWheelSpeedFromActuatorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -1143,7 +1225,8 @@ public class RegressionTest1 {
         byte[] byteArray6 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray(281474993487883L);
         boolean boolean7 = uOctet2.equals((java.lang.Object) byteArray6);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D8 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromFixWGS84TargetTrackingStatus(byteArray6);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D8 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromFixWGS84TargetTrackingStatus(byteArray6);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -1160,9 +1243,11 @@ public class RegressionTest1 {
         if (debug) {
             System.out.format("%n%s%n", "RegressionTest1.test0583");
         }
-        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray((float) 281474993487876L);
+        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray(
+            (float) 281474993487876L);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -1180,27 +1265,27 @@ public class RegressionTest1 {
         boolean boolean7 = intList5.isEmpty();
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray8 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList9 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean10 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList9,
-                                                         uRIArray8);
+        boolean boolean10 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList9, uRIArray8);
         java.lang.Double[] doubleArray14 = new java.lang.Double[]{100.0d, 100.0d, 1.0d};
         java.util.ArrayList<java.lang.Double> doubleList15 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList15,
-                                                         doubleArray14);
+            doubleArray14);
         java.lang.Byte[] byteArray21 = new java.lang.Byte[]{(byte) 100, (byte) 1, (byte) -1, (byte) 10};
         java.util.ArrayList<java.lang.Byte> byteList22 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean23 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList22,
-                                                         byteArray21);
+            byteArray21);
         java.lang.String str24 = byteList22.toString();
         boolean boolean25 = doubleList15.retainAll((java.util.Collection<java.lang.Byte>) byteList22);
         boolean boolean26 = uRIList9.containsAll((java.util.Collection<java.lang.Byte>) byteList22);
         java.lang.Integer[] intArray39 = new java.lang.Integer[]{6, 6, 28, 2, 4, 0, 62, 64, 19, 20, 11, 62};
         java.util.ArrayList<java.lang.Integer> intList40 = new java.util.ArrayList<java.lang.Integer>();
         boolean boolean41 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList40,
-                                                         intArray39);
+            intArray39);
         java.lang.Byte[] byteArray45 = new java.lang.Byte[]{(byte) 1, (byte) 100, (byte) 1};
         java.util.ArrayList<java.lang.Byte> byteList46 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean47 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList46,
-                                                         byteArray45);
+            byteArray45);
         boolean boolean49 = byteList46.add((java.lang.Byte) (byte) 0);
         java.util.stream.Stream<java.lang.Byte> byteStream50 = byteList46.parallelStream();
         int int52 = byteList46.indexOf((java.lang.Object) 5);
@@ -1236,7 +1321,7 @@ public class RegressionTest1 {
         org.junit.Assert.assertNotNull(byteArray21);
         org.junit.Assert.assertTrue("'" + boolean23 + "' != '" + true + "'", boolean23);
         org.junit.Assert.assertTrue("'" + str24 + "' != '" + "[100, 1, -1, 10]" + "'", str24.equals(
-                                                                                                    "[100, 1, -1, 10]"));
+            "[100, 1, -1, 10]"));
         org.junit.Assert.assertTrue("'" + boolean25 + "' != '" + true + "'", boolean25);
         org.junit.Assert.assertTrue("'" + boolean26 + "' != '" + false + "'", !boolean26);
         org.junit.Assert.assertNotNull(intArray39);
@@ -1263,7 +1348,8 @@ public class RegressionTest1 {
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putFloatInByteArray((float) 10, 2, byteArray3);
         int int6 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getIntFromByteArray(byteArray3, 0);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D7 = esa.mo.platform.impl.util.HelperIADCS100.getMagneticFieldFromSpinModeStatus(byteArray3);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D7 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMagneticFieldFromSpinModeStatus(byteArray3);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -1278,7 +1364,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray(52);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getAttitudeFromSensorTM(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAttitudeFromSensorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -1292,10 +1379,12 @@ public class RegressionTest1 {
         }
         org.ccsds.moims.mo.mal.structures.FineTime fineTime1 = new org.ccsds.moims.mo.mal.structures.FineTime((long) 8);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet2 = fineTime1.getAreaVersion();
-        byte[] byteArray4 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(2.81474993487882E14d);
+        byte[] byteArray4 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            2.81474993487882E14d);
         boolean boolean5 = fineTime1.equals((java.lang.Object) byteArray4);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D6 = esa.mo.platform.impl.util.HelperIADCS100.getMTQFromSpinModeStatus(byteArray4);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D6 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMTQFromSpinModeStatus(byteArray4);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -1311,7 +1400,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray((float) 19);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getTargetQuaternionsFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getTargetQuaternionsFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -1323,9 +1413,11 @@ public class RegressionTest1 {
         if (debug) {
             System.out.format("%n%s%n", "RegressionTest1.test0589");
         }
-        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 4294967295L);
+        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            (double) 4294967295L);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -1340,7 +1432,8 @@ public class RegressionTest1 {
         byte[] byteArray3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray(281474993487880L);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putIntInByteArray((-15), (int) (byte) 0, byteArray3);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D5 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromFixWGS84TargetTrackingStatus(byteArray3);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D5 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromFixWGS84TargetTrackingStatus(byteArray3);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -1354,7 +1447,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray(281475010265070L);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -1380,7 +1474,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) (-15));
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getAngularMomentumFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularMomentumFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -1394,7 +1489,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray((long) 65536);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromSensorTM(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromSensorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -1408,7 +1504,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray((int) (byte) 1);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getPositionFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getPositionFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -1422,7 +1519,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray(12);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getTargetQuaternionsFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getTargetQuaternionsFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -1436,7 +1534,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray(9);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMagneticFieldFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMagneticFieldFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -1450,7 +1549,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray((float) 31);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getSunVectorFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getSunVectorFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -1462,10 +1562,12 @@ public class RegressionTest1 {
         if (debug) {
             System.out.format("%n%s%n", "RegressionTest1.test0599");
         }
-        byte[] byteArray3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) (short) 100);
+        byte[] byteArray3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            (double) (short) 100);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putIntInByteArray(18, 0, byteArray3);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion5 = esa.mo.platform.impl.util.HelperIADCS100.getAttitudeFromSensorTM(byteArray3);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion5 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAttitudeFromSensorTM(byteArray3);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -1487,11 +1589,13 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort8 = org.ccsds.moims.mo.mal.structures.FloatList.SERVICE_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray9 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort8};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList10 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean11 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList10,
-                                                         uShortArray9);
+        boolean boolean11 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList10, uShortArray9);
         int int12 = uShortList10.size();
-        java.util.Spliterator<org.ccsds.moims.mo.mal.structures.UShort> uShortSpliterator13 = uShortList10.spliterator();
-        java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream14 = uShortList10.parallelStream();
+        java.util.Spliterator<org.ccsds.moims.mo.mal.structures.UShort> uShortSpliterator13 = uShortList10
+            .spliterator();
+        java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream14 = uShortList10
+            .parallelStream();
         boolean boolean15 = uShortList1.equals((java.lang.Object) uShortList10);
         org.ccsds.moims.mo.mal.structures.FloatList floatList17 = new org.ccsds.moims.mo.mal.structures.FloatList(100);
         java.lang.Integer int18 = floatList17.getTypeShortForm();
@@ -1499,14 +1603,15 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort20 = floatList17.getAreaNumber();
         java.util.stream.Stream<java.lang.Float> floatStream21 = floatList17.parallelStream();
         int int22 = uShortList10.indexOf((java.lang.Object) floatList17);
-        org.ccsds.moims.mo.mal.structures.BooleanList booleanList24 = new org.ccsds.moims.mo.mal.structures.BooleanList(100);
+        org.ccsds.moims.mo.mal.structures.BooleanList booleanList24 = new org.ccsds.moims.mo.mal.structures.BooleanList(
+            100);
         int int25 = booleanList24.size();
         org.ccsds.moims.mo.mal.structures.DoubleList doubleList26 = new org.ccsds.moims.mo.mal.structures.DoubleList();
         java.lang.Object obj27 = doubleList26.clone();
         java.lang.String[] strArray32 = new java.lang.String[]{"", "", "[100, 1, -1, 10]", ""};
         java.util.ArrayList<java.lang.String> strList33 = new java.util.ArrayList<java.lang.String>();
         boolean boolean34 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList33,
-                                                         strArray32);
+            strArray32);
         strList33.add((int) (short) 0, "[100, 1, -1, 10]");
         int int38 = doubleList26.lastIndexOf((java.lang.Object) strList33);
         boolean boolean39 = doubleList26.isEmpty();
@@ -1515,17 +1620,17 @@ public class RegressionTest1 {
         java.lang.Double[] doubleArray46 = new java.lang.Double[]{100.0d, 100.0d, 1.0d};
         java.util.ArrayList<java.lang.Double> doubleList47 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean48 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList47,
-                                                         doubleArray46);
+            doubleArray46);
         java.lang.Byte[] byteArray53 = new java.lang.Byte[]{(byte) 100, (byte) 1, (byte) -1, (byte) 10};
         java.util.ArrayList<java.lang.Byte> byteList54 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean55 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList54,
-                                                         byteArray53);
+            byteArray53);
         java.lang.String str56 = byteList54.toString();
         boolean boolean57 = doubleList47.retainAll((java.util.Collection<java.lang.Byte>) byteList54);
         java.lang.Byte[] byteArray62 = new java.lang.Byte[]{(byte) 100, (byte) 1, (byte) -1, (byte) 10};
         java.util.ArrayList<java.lang.Byte> byteList63 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean64 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList63,
-                                                         byteArray62);
+            byteArray62);
         java.lang.String str65 = byteList63.toString();
         java.lang.Byte byte68 = byteList63.set(0, (java.lang.Byte) (byte) 10);
         boolean boolean69 = byteList54.containsAll((java.util.Collection<java.lang.Byte>) byteList63);
@@ -1536,7 +1641,8 @@ public class RegressionTest1 {
         byte[] byteArray75 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray((float) 7);
         int int76 = floatList17.lastIndexOf((java.lang.Object) byteArray75);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed77 = esa.mo.platform.impl.util.HelperIADCS100.getTargetWheelSpeedFromActuatorTM(byteArray75);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed77 = esa.mo.platform.impl.util.HelperIADCS100
+                .getTargetWheelSpeedFromActuatorTM(byteArray75);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -1571,12 +1677,12 @@ public class RegressionTest1 {
         org.junit.Assert.assertNotNull(byteArray53);
         org.junit.Assert.assertTrue("'" + boolean55 + "' != '" + true + "'", boolean55);
         org.junit.Assert.assertTrue("'" + str56 + "' != '" + "[100, 1, -1, 10]" + "'", str56.equals(
-                                                                                                    "[100, 1, -1, 10]"));
+            "[100, 1, -1, 10]"));
         org.junit.Assert.assertTrue("'" + boolean57 + "' != '" + true + "'", boolean57);
         org.junit.Assert.assertNotNull(byteArray62);
         org.junit.Assert.assertTrue("'" + boolean64 + "' != '" + true + "'", boolean64);
         org.junit.Assert.assertTrue("'" + str65 + "' != '" + "[100, 1, -1, 10]" + "'", str65.equals(
-                                                                                                    "[100, 1, -1, 10]"));
+            "[100, 1, -1, 10]"));
         org.junit.Assert.assertTrue("'" + byte68 + "' != '" + (byte) 100 + "'", byte68.equals((byte) 100));
         org.junit.Assert.assertTrue("'" + boolean69 + "' != '" + true + "'", boolean69);
         org.junit.Assert.assertTrue("'" + boolean70 + "' != '" + true + "'", boolean70);
@@ -1593,7 +1699,8 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test0601");
         }
         try {
-            org.ccsds.moims.mo.platform.gps.structures.Position position1 = esa.mo.platform.impl.util.HelperGPS.gpggalong2Position("5");
+            org.ccsds.moims.mo.platform.gps.structures.Position position1 = esa.mo.platform.impl.util.HelperGPS
+                .gpggalong2Position("5");
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: 9");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -1606,7 +1713,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 24);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getAttitudeFromSensorTM(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAttitudeFromSensorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -1618,17 +1726,19 @@ public class RegressionTest1 {
         if (debug) {
             System.out.format("%n%s%n", "RegressionTest1.test0604");
         }
-        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 281475010265078L);
+        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            (double) 281475010265078L);
         double double3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getDoubleFromByteArray(byteArray1,
-                                                                                                       (int) (byte) 0);
+            (int) (byte) 0);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D4 = esa.mo.platform.impl.util.HelperIADCS100.getSunVectorFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D4 = esa.mo.platform.impl.util.HelperIADCS100
+                .getSunVectorFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(byteArray1);
         org.junit.Assert.assertTrue("'" + double3 + "' != '" + 2.81475010265078E14d + "'", double3 ==
-                                                                                           2.81475010265078E14d);
+            2.81475010265078E14d);
     }
 
     @Test
@@ -1636,9 +1746,11 @@ public class RegressionTest1 {
         if (debug) {
             System.out.format("%n%s%n", "RegressionTest1.test0605");
         }
-        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray((float) 281474993487880L);
+        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray(
+            (float) 281474993487880L);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getCurrentWheelSpeedFromActuatorTM(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getCurrentWheelSpeedFromActuatorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -1660,12 +1772,13 @@ public class RegressionTest1 {
                                                             281474993487875L};
         java.util.ArrayList<java.lang.Long> longList27 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean28 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList27,
-                                                         longArray26);
+            longArray26);
         java.lang.Long long30 = longList27.remove(0);
         byte[] byteArray32 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 56);
         boolean boolean33 = longList27.equals((java.lang.Object) byteArray32);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D34 = esa.mo.platform.impl.util.HelperIADCS100.getSunVectorFromSunPointingStatus(byteArray32);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D34 = esa.mo.platform.impl.util.HelperIADCS100
+                .getSunVectorFromSunPointingStatus(byteArray32);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -1683,7 +1796,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray((float) (short) 255);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMagneticFieldFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMagneticFieldFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -1697,7 +1811,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray(15);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getSunVectorFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getSunVectorFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -1711,7 +1826,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray(65535);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -1725,7 +1841,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray(2);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromSensorTM(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromSensorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -1740,10 +1857,11 @@ public class RegressionTest1 {
         byte[] byteArray5 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray((long) 28);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putLongInByteArray((long) 5, (int) (byte) 0, byteArray5);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putDoubleInByteArray((double) 64, (int) (short) 0,
-                                                                                    byteArray5);
+            byteArray5);
         int int9 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getIntFromByteArray(byteArray5, 2);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion10 = esa.mo.platform.impl.util.HelperIADCS100.getQuaternionsFromSpinModeStatus(byteArray5);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion10 = esa.mo.platform.impl.util.HelperIADCS100
+                .getQuaternionsFromSpinModeStatus(byteArray5);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -1758,7 +1876,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray(100.0f);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getPositionFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getPositionFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -1772,27 +1891,27 @@ public class RegressionTest1 {
         }
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray0 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList1 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1,
-                                                        uRIArray0);
+        boolean boolean2 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1, uRIArray0);
         java.lang.Double[] doubleArray6 = new java.lang.Double[]{100.0d, 100.0d, 1.0d};
         java.util.ArrayList<java.lang.Double> doubleList7 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean8 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList7,
-                                                        doubleArray6);
+            doubleArray6);
         java.lang.Byte[] byteArray13 = new java.lang.Byte[]{(byte) 100, (byte) 1, (byte) -1, (byte) 10};
         java.util.ArrayList<java.lang.Byte> byteList14 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean15 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList14,
-                                                         byteArray13);
+            byteArray13);
         java.lang.String str16 = byteList14.toString();
         boolean boolean17 = doubleList7.retainAll((java.util.Collection<java.lang.Byte>) byteList14);
         boolean boolean18 = uRIList1.containsAll((java.util.Collection<java.lang.Byte>) byteList14);
         java.lang.Integer[] intArray31 = new java.lang.Integer[]{6, 6, 28, 2, 4, 0, 62, 64, 19, 20, 11, 62};
         java.util.ArrayList<java.lang.Integer> intList32 = new java.util.ArrayList<java.lang.Integer>();
         boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList32,
-                                                         intArray31);
+            intArray31);
         java.lang.Byte[] byteArray37 = new java.lang.Byte[]{(byte) 1, (byte) 100, (byte) 1};
         java.util.ArrayList<java.lang.Byte> byteList38 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList38,
-                                                         byteArray37);
+            byteArray37);
         boolean boolean41 = byteList38.add((java.lang.Byte) (byte) 0);
         java.util.stream.Stream<java.lang.Byte> byteStream42 = byteList38.parallelStream();
         int int44 = byteList38.indexOf((java.lang.Object) 5);
@@ -1821,7 +1940,7 @@ public class RegressionTest1 {
         org.junit.Assert.assertNotNull(byteArray13);
         org.junit.Assert.assertTrue("'" + boolean15 + "' != '" + true + "'", boolean15);
         org.junit.Assert.assertTrue("'" + str16 + "' != '" + "[100, 1, -1, 10]" + "'", str16.equals(
-                                                                                                    "[100, 1, -1, 10]"));
+            "[100, 1, -1, 10]"));
         org.junit.Assert.assertTrue("'" + boolean17 + "' != '" + true + "'", boolean17);
         org.junit.Assert.assertTrue("'" + boolean18 + "' != '" + false + "'", !boolean18);
         org.junit.Assert.assertNotNull(intArray31);
@@ -1847,7 +1966,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray(65535);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromSunPointingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromSunPointingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -1864,12 +1984,14 @@ public class RegressionTest1 {
         java.lang.Integer int7 = floatList5.getTypeShortForm();
         java.lang.Integer int8 = floatList5.getTypeShortForm();
         boolean boolean10 = floatList5.remove((java.lang.Object) 36);
-        byte[] byteArray12 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 281474993487875L);
+        byte[] byteArray12 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            (double) 281474993487875L);
         int int13 = floatList5.lastIndexOf((java.lang.Object) byteArray12);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putLongInByteArray(100L, (int) (short) 0, byteArray12);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putFloatInByteArray((float) 40, 0, byteArray12);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed16 = esa.mo.platform.impl.util.HelperIADCS100.getCurrentWheelSpeedFromActuatorTM(byteArray12);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed16 = esa.mo.platform.impl.util.HelperIADCS100
+                .getCurrentWheelSpeedFromActuatorTM(byteArray12);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -1888,7 +2010,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray((float) 66);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getQuaternionsFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getQuaternionsFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -1901,7 +2024,8 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test0617");
         }
         try {
-            org.ccsds.moims.mo.platform.gps.structures.Position position1 = esa.mo.platform.impl.util.HelperGPS.gpggalong2Position("[100, 1, 1, -1, 10]");
+            org.ccsds.moims.mo.platform.gps.structures.Position position1 = esa.mo.platform.impl.util.HelperGPS
+                .gpggalong2Position("[100, 1, 1, -1, 10]");
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: 9");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -1914,7 +2038,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray(0);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getTargetQuaternionsFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getTargetQuaternionsFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -1940,7 +2065,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray(4);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getTargetQuaternionsFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getTargetQuaternionsFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -1960,9 +2086,10 @@ public class RegressionTest1 {
         byte[] byteArray6 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray(281474993487883L);
         boolean boolean7 = uOctet2.equals((java.lang.Object) byteArray6);
         short short9 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getInt16FromByteArray(byteArray6,
-                                                                                                    (int) (short) 1);
+            (int) (short) 1);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion10 = esa.mo.platform.impl.util.HelperIADCS100.getQuaternionsFromSpinModeStatus(byteArray6);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion10 = esa.mo.platform.impl.util.HelperIADCS100
+                .getQuaternionsFromSpinModeStatus(byteArray6);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -1980,9 +2107,11 @@ public class RegressionTest1 {
         if (debug) {
             System.out.format("%n%s%n", "RegressionTest1.test0622");
         }
-        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(2.81475010265073E14d);
+        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            2.81475010265073E14d);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getCurrentQuaternionsFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getCurrentQuaternionsFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -1996,7 +2125,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray((float) 13);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getQuaternionsFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getQuaternionsFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -2010,7 +2140,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray((float) 7);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getTargetQuaternionsFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getTargetQuaternionsFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -2024,7 +2155,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray((int) (short) 2);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getAttitudeFromSensorTM(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAttitudeFromSensorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -2039,7 +2171,8 @@ public class RegressionTest1 {
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray(65535);
         short short3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getInt16FromByteArray(byteArray1, 2);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D4 = esa.mo.platform.impl.util.HelperIADCS100.getAngularMomentumFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D4 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularMomentumFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -2054,7 +2187,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray(10);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getTargetWheelSpeedFromActuatorTM(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getTargetWheelSpeedFromActuatorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -2068,7 +2202,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray(100.0f);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getSunVectorFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getSunVectorFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -2082,7 +2217,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray(281474993487880L);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getCurrentQuaternionsFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getCurrentQuaternionsFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -2097,7 +2233,8 @@ public class RegressionTest1 {
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray((long) (short) 1);
         short short3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getInt16FromByteArray(byteArray1, 0);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D4 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D4 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -2112,7 +2249,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 10L);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getQuaternionsFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getQuaternionsFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -2126,7 +2264,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray((int) '4');
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -2147,16 +2286,16 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort7 = uShortList1.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray8 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList9 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean10 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList9,
-                                                         uRIArray8);
+        boolean boolean10 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList9, uRIArray8);
         java.lang.Double[] doubleArray14 = new java.lang.Double[]{100.0d, 100.0d, 1.0d};
         java.util.ArrayList<java.lang.Double> doubleList15 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList15,
-                                                         doubleArray14);
+            doubleArray14);
         java.lang.Byte[] byteArray21 = new java.lang.Byte[]{(byte) 100, (byte) 1, (byte) -1, (byte) 10};
         java.util.ArrayList<java.lang.Byte> byteList22 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean23 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList22,
-                                                         byteArray21);
+            byteArray21);
         java.lang.String str24 = byteList22.toString();
         boolean boolean25 = doubleList15.retainAll((java.util.Collection<java.lang.Byte>) byteList22);
         boolean boolean26 = uRIList9.containsAll((java.util.Collection<java.lang.Byte>) byteList22);
@@ -2166,18 +2305,18 @@ public class RegressionTest1 {
         java.lang.String[] strArray35 = new java.lang.String[]{"", "", "[100, 1, -1, 10]", ""};
         java.util.ArrayList<java.lang.String> strList36 = new java.util.ArrayList<java.lang.String>();
         boolean boolean37 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList36,
-                                                         strArray35);
+            strArray35);
         strList36.add((int) (short) 0, "[100, 1, -1, 10]");
         int int41 = doubleList29.lastIndexOf((java.lang.Object) strList36);
         java.lang.Byte[] byteArray45 = new java.lang.Byte[]{(byte) 1, (byte) 100, (byte) 1};
         java.util.ArrayList<java.lang.Byte> byteList46 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean47 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList46,
-                                                         byteArray45);
+            byteArray45);
         boolean boolean49 = byteList46.add((java.lang.Byte) (byte) 0);
         java.lang.Byte[] byteArray55 = new java.lang.Byte[]{(byte) 10, (byte) 1, (byte) -1, (byte) 10, (byte) 0};
         java.util.ArrayList<java.lang.Byte> byteList56 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean57 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList56,
-                                                         byteArray55);
+            byteArray55);
         boolean boolean58 = byteList46.removeAll((java.util.Collection<java.lang.Byte>) byteList56);
         boolean boolean59 = doubleList29.removeAll((java.util.Collection<java.lang.Byte>) byteList46);
         org.ccsds.moims.mo.mal.structures.OctetList octetList60 = new org.ccsds.moims.mo.mal.structures.OctetList();
@@ -2189,7 +2328,8 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort66 = octetList60.getServiceNumber();
         java.util.stream.Stream<java.lang.Byte> byteStream67 = octetList60.stream();
         boolean boolean68 = uShortList1.retainAll((java.util.Collection<java.lang.Byte>) octetList60);
-        java.util.ListIterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor70 = uShortList1.listIterator((int) (byte) 0);
+        java.util.ListIterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor70 = uShortList1.listIterator(
+            (int) (byte) 0);
         esa.mo.platform.impl.util.PositionsCalculator positionsCalculator71 = new esa.mo.platform.impl.util.PositionsCalculator();
         esa.mo.platform.impl.util.PositionsCalculator positionsCalculator72 = new esa.mo.platform.impl.util.PositionsCalculator();
         esa.mo.platform.impl.util.PositionsCalculator positionsCalculator73 = new esa.mo.platform.impl.util.PositionsCalculator();
@@ -2202,8 +2342,10 @@ public class RegressionTest1 {
                                                                                                                                          positionsCalculator74,
                                                                                                                                          positionsCalculator75,
                                                                                                                                          positionsCalculator76};
-        esa.mo.platform.impl.util.PositionsCalculator[] positionsCalculatorArray78 = uShortList1.toArray(positionsCalculatorArray77);
-        org.ccsds.moims.mo.mal.structures.StringList stringList80 = new org.ccsds.moims.mo.mal.structures.StringList(17);
+        esa.mo.platform.impl.util.PositionsCalculator[] positionsCalculatorArray78 = uShortList1.toArray(
+            positionsCalculatorArray77);
+        org.ccsds.moims.mo.mal.structures.StringList stringList80 = new org.ccsds.moims.mo.mal.structures.StringList(
+            17);
         org.ccsds.moims.mo.mal.structures.UShort uShort81 = stringList80.getServiceNumber();
         boolean boolean82 = uShortList1.add(uShort81);
         org.junit.Assert.assertTrue("'" + long2 + "' != '" + 281475010265078L + "'", long2.equals(281475010265078L));
@@ -2219,7 +2361,7 @@ public class RegressionTest1 {
         org.junit.Assert.assertNotNull(byteArray21);
         org.junit.Assert.assertTrue("'" + boolean23 + "' != '" + true + "'", boolean23);
         org.junit.Assert.assertTrue("'" + str24 + "' != '" + "[100, 1, -1, 10]" + "'", str24.equals(
-                                                                                                    "[100, 1, -1, 10]"));
+            "[100, 1, -1, 10]"));
         org.junit.Assert.assertTrue("'" + boolean25 + "' != '" + true + "'", boolean25);
         org.junit.Assert.assertTrue("'" + boolean26 + "' != '" + false + "'", !boolean26);
         org.junit.Assert.assertNotNull(obj30);
@@ -2253,9 +2395,11 @@ public class RegressionTest1 {
         if (debug) {
             System.out.format("%n%s%n", "RegressionTest1.test0635");
         }
-        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(2.81475010265073E14d);
+        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            2.81475010265073E14d);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getAngularMomentumFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularMomentumFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -2269,10 +2413,12 @@ public class RegressionTest1 {
         }
         org.ccsds.moims.mo.mal.structures.FineTime fineTime1 = new org.ccsds.moims.mo.mal.structures.FineTime((long) 8);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet2 = fineTime1.getAreaVersion();
-        byte[] byteArray4 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(2.81474993487882E14d);
+        byte[] byteArray4 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            2.81474993487882E14d);
         boolean boolean5 = fineTime1.equals((java.lang.Object) byteArray4);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D6 = esa.mo.platform.impl.util.HelperIADCS100.getAngularMomentumFromSpinModeStatus(byteArray4);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D6 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularMomentumFromSpinModeStatus(byteArray4);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -2288,7 +2434,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray(44);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMTQFromActuatorTM(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMTQFromActuatorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -2302,9 +2449,10 @@ public class RegressionTest1 {
         }
         byte[] byteArray3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray(281474993487884L);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putFloatInByteArray((float) 281474993487882L, 1,
-                                                                                   byteArray3);
+            byteArray3);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D5 = esa.mo.platform.impl.util.HelperIADCS100.getMTQFromSunPointingStatus(byteArray3);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D5 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMTQFromSunPointingStatus(byteArray3);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -2318,7 +2466,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) (-15));
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getSunVectorFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getSunVectorFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -2334,7 +2483,8 @@ public class RegressionTest1 {
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putLongInByteArray((long) 5, (int) (byte) 0, byteArray3);
         int int6 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getIntFromByteArray(byteArray3, 2);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion7 = esa.mo.platform.impl.util.HelperIADCS100.getQuaternionsFromSpinModeStatus(byteArray3);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion7 = esa.mo.platform.impl.util.HelperIADCS100
+                .getQuaternionsFromSpinModeStatus(byteArray3);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -2349,7 +2499,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 56);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -2364,10 +2515,11 @@ public class RegressionTest1 {
         byte[] byteArray5 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray((long) 28);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putLongInByteArray((long) 5, (int) (byte) 0, byteArray5);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putDoubleInByteArray((double) 64, (int) (short) 0,
-                                                                                    byteArray5);
+            byteArray5);
         int int9 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getIntFromByteArray(byteArray5, 2);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D10 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromFixWGS84TargetTrackingStatus(byteArray5);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D10 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromFixWGS84TargetTrackingStatus(byteArray5);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -2382,7 +2534,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray((long) (short) 15);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getCurrentQuaternionsFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getCurrentQuaternionsFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -2396,7 +2549,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray((-10));
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMagneticFieldFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMagneticFieldFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -2410,7 +2564,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((-5.0d));
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getTargetQuaternionsFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getTargetQuaternionsFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -2424,7 +2579,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray(58);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getTargetQuaternionsFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getTargetQuaternionsFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -2438,7 +2594,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray((long) 65536);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getCurrentQuaternionsFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getCurrentQuaternionsFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -2450,9 +2607,11 @@ public class RegressionTest1 {
         if (debug) {
             System.out.format("%n%s%n", "RegressionTest1.test0649");
         }
-        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(2.81475010265073E14d);
+        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            2.81475010265073E14d);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromSensorTM(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromSensorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -2466,7 +2625,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray((int) '#');
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getAttitudeFromSensorTM(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAttitudeFromSensorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -2492,7 +2652,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray((int) (short) 2);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMTQFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMTQFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -2506,7 +2667,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray((int) (byte) 1);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMTQFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMTQFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -2520,12 +2682,14 @@ public class RegressionTest1 {
         }
         org.ccsds.moims.mo.mal.structures.FineTime fineTime1 = new org.ccsds.moims.mo.mal.structures.FineTime((long) 8);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet2 = fineTime1.getAreaVersion();
-        byte[] byteArray4 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(2.81474993487882E14d);
+        byte[] byteArray4 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            2.81474993487882E14d);
         boolean boolean5 = fineTime1.equals((java.lang.Object) byteArray4);
         long long7 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getLongFromByteArray(byteArray4,
-                                                                                                 (int) (byte) 0);
+            (int) (byte) 0);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D8 = esa.mo.platform.impl.util.HelperIADCS100.getMTQFromSunPointingStatus(byteArray4);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D8 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMTQFromSunPointingStatus(byteArray4);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -2540,9 +2704,11 @@ public class RegressionTest1 {
         if (debug) {
             System.out.format("%n%s%n", "RegressionTest1.test0655");
         }
-        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 4625759767262920704L);
+        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            (double) 4625759767262920704L);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -2556,9 +2722,10 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray((long) 6);
         short short3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getInt16FromByteArray(byteArray1,
-                                                                                                    (int) (byte) 1);
+            (int) (byte) 1);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D4 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromSensorTM(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D4 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromSensorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -2573,7 +2740,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray(100.0f);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -2599,7 +2767,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray((-4));
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getCurrentQuaternionsFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getCurrentQuaternionsFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -2613,7 +2782,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray((float) 31);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getAngularMomentumFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularMomentumFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -2627,7 +2797,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray(70);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMagneticFieldFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMagneticFieldFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -2641,7 +2812,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray((float) (short) 255);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -2661,7 +2833,8 @@ public class RegressionTest1 {
         byte[] byteArray6 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray(281474993487883L);
         boolean boolean7 = uOctet2.equals((java.lang.Object) byteArray6);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed8 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromSunPointingStatus(byteArray6);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed8 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromSunPointingStatus(byteArray6);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -2680,7 +2853,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((-5.0d));
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getQuaternionsFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getQuaternionsFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -2694,9 +2868,10 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray(15);
         short short3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getInt16FromByteArray(byteArray1,
-                                                                                                    (int) (short) 0);
+            (int) (short) 0);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion4 = esa.mo.platform.impl.util.HelperIADCS100.getTargetQuaternionsFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion4 = esa.mo.platform.impl.util.HelperIADCS100
+                .getTargetQuaternionsFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -2711,7 +2886,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray((long) ' ');
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getQuaternionsFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getQuaternionsFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -2725,9 +2901,10 @@ public class RegressionTest1 {
         }
         byte[] byteArray3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray(281474993487884L);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putFloatInByteArray((float) 281474993487882L, 1,
-                                                                                   byteArray3);
+            byteArray3);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D5 = esa.mo.platform.impl.util.HelperIADCS100.getMagneticFieldFromSpinModeStatus(byteArray3);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D5 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMagneticFieldFromSpinModeStatus(byteArray3);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -2742,7 +2919,8 @@ public class RegressionTest1 {
         byte[] byteArray3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray(281474993487878L);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putIntInByteArray((-2), (int) (byte) 0, byteArray3);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed5 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromFixWGS84TargetTrackingStatus(byteArray3);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed5 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromFixWGS84TargetTrackingStatus(byteArray3);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -2754,13 +2932,15 @@ public class RegressionTest1 {
         if (debug) {
             System.out.format("%n%s%n", "RegressionTest1.test0672");
         }
-        byte[] byteArray3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(2.81474993487882E14d);
+        byte[] byteArray3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            2.81474993487882E14d);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putFloatInByteArray((float) 281474993487882L, 0,
-                                                                                   byteArray3);
+            byteArray3);
         float float6 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getFloatFromByteArray(byteArray3,
-                                                                                                    (int) (byte) 0);
+            (int) (byte) 0);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed7 = esa.mo.platform.impl.util.HelperIADCS100.getTargetWheelSpeedFromActuatorTM(byteArray3);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed7 = esa.mo.platform.impl.util.HelperIADCS100
+                .getTargetWheelSpeedFromActuatorTM(byteArray3);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -2776,10 +2956,11 @@ public class RegressionTest1 {
         byte[] byteArray5 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray((long) 28);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putLongInByteArray((long) 5, (int) (byte) 0, byteArray5);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putDoubleInByteArray((double) 64, (int) (short) 0,
-                                                                                    byteArray5);
+            byteArray5);
         int int9 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getIntFromByteArray(byteArray5, 2);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D10 = esa.mo.platform.impl.util.HelperIADCS100.getMTQFromSpinModeStatus(byteArray5);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D10 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMTQFromSpinModeStatus(byteArray5);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -2794,9 +2975,10 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray(15);
         short short3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getInt16FromByteArray(byteArray1,
-                                                                                                    (int) (short) 0);
+            (int) (short) 0);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D4 = esa.mo.platform.impl.util.HelperIADCS100.getSunVectorFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D4 = esa.mo.platform.impl.util.HelperIADCS100
+                .getSunVectorFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -2810,7 +2992,8 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test0676");
         }
         try {
-            org.ccsds.moims.mo.platform.gps.structures.Position position1 = esa.mo.platform.impl.util.HelperGPS.gpggalong2Position("[true]");
+            org.ccsds.moims.mo.platform.gps.structures.Position position1 = esa.mo.platform.impl.util.HelperGPS
+                .gpggalong2Position("[true]");
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: 9");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -2824,7 +3007,8 @@ public class RegressionTest1 {
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray(15);
         short short3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getInt16FromByteArray(byteArray1, 1);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D4 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D4 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -2840,7 +3024,8 @@ public class RegressionTest1 {
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray(281475010265073L);
         int int3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getIntFromByteArray(byteArray1, 0);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed4 = esa.mo.platform.impl.util.HelperIADCS100.getCurrentWheelSpeedFromActuatorTM(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed4 = esa.mo.platform.impl.util.HelperIADCS100
+                .getCurrentWheelSpeedFromActuatorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -2855,7 +3040,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray(4);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMTQFromActuatorTM(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMTQFromActuatorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -2869,7 +3055,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray(44);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMTQFromSunPointingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMTQFromSunPointingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -2895,9 +3082,10 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray(15);
         short short3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getInt16FromByteArray(byteArray1,
-                                                                                                    (int) (short) 0);
+            (int) (short) 0);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D4 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D4 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -2912,7 +3100,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray((-4));
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMagneticFieldFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMagneticFieldFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -2926,7 +3115,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(6371.0d);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -2940,7 +3130,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray(52);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getAngularMomentumFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularMomentumFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -2974,11 +3165,13 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort8 = org.ccsds.moims.mo.mal.structures.FloatList.SERVICE_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray9 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort8};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList10 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean11 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList10,
-                                                         uShortArray9);
+        boolean boolean11 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList10, uShortArray9);
         int int12 = uShortList10.size();
-        java.util.Spliterator<org.ccsds.moims.mo.mal.structures.UShort> uShortSpliterator13 = uShortList10.spliterator();
-        java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream14 = uShortList10.parallelStream();
+        java.util.Spliterator<org.ccsds.moims.mo.mal.structures.UShort> uShortSpliterator13 = uShortList10
+            .spliterator();
+        java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream14 = uShortList10
+            .parallelStream();
         boolean boolean15 = uShortList1.equals((java.lang.Object) uShortList10);
         org.ccsds.moims.mo.mal.structures.FloatList floatList17 = new org.ccsds.moims.mo.mal.structures.FloatList(100);
         java.lang.Integer int18 = floatList17.getTypeShortForm();
@@ -2986,14 +3179,15 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort20 = floatList17.getAreaNumber();
         java.util.stream.Stream<java.lang.Float> floatStream21 = floatList17.parallelStream();
         int int22 = uShortList10.indexOf((java.lang.Object) floatList17);
-        org.ccsds.moims.mo.mal.structures.BooleanList booleanList24 = new org.ccsds.moims.mo.mal.structures.BooleanList(100);
+        org.ccsds.moims.mo.mal.structures.BooleanList booleanList24 = new org.ccsds.moims.mo.mal.structures.BooleanList(
+            100);
         int int25 = booleanList24.size();
         org.ccsds.moims.mo.mal.structures.DoubleList doubleList26 = new org.ccsds.moims.mo.mal.structures.DoubleList();
         java.lang.Object obj27 = doubleList26.clone();
         java.lang.String[] strArray32 = new java.lang.String[]{"", "", "[100, 1, -1, 10]", ""};
         java.util.ArrayList<java.lang.String> strList33 = new java.util.ArrayList<java.lang.String>();
         boolean boolean34 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList33,
-                                                         strArray32);
+            strArray32);
         strList33.add((int) (short) 0, "[100, 1, -1, 10]");
         int int38 = doubleList26.lastIndexOf((java.lang.Object) strList33);
         boolean boolean39 = doubleList26.isEmpty();
@@ -3002,17 +3196,17 @@ public class RegressionTest1 {
         java.lang.Double[] doubleArray46 = new java.lang.Double[]{100.0d, 100.0d, 1.0d};
         java.util.ArrayList<java.lang.Double> doubleList47 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean48 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList47,
-                                                         doubleArray46);
+            doubleArray46);
         java.lang.Byte[] byteArray53 = new java.lang.Byte[]{(byte) 100, (byte) 1, (byte) -1, (byte) 10};
         java.util.ArrayList<java.lang.Byte> byteList54 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean55 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList54,
-                                                         byteArray53);
+            byteArray53);
         java.lang.String str56 = byteList54.toString();
         boolean boolean57 = doubleList47.retainAll((java.util.Collection<java.lang.Byte>) byteList54);
         java.lang.Byte[] byteArray62 = new java.lang.Byte[]{(byte) 100, (byte) 1, (byte) -1, (byte) 10};
         java.util.ArrayList<java.lang.Byte> byteList63 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean64 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList63,
-                                                         byteArray62);
+            byteArray62);
         java.lang.String str65 = byteList63.toString();
         java.lang.Byte byte68 = byteList63.set(0, (java.lang.Byte) (byte) 10);
         boolean boolean69 = byteList54.containsAll((java.util.Collection<java.lang.Byte>) byteList63);
@@ -3023,7 +3217,8 @@ public class RegressionTest1 {
         byte[] byteArray75 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray((float) 7);
         int int76 = floatList17.lastIndexOf((java.lang.Object) byteArray75);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion77 = esa.mo.platform.impl.util.HelperIADCS100.getQuaternionsFromSpinModeStatus(byteArray75);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion77 = esa.mo.platform.impl.util.HelperIADCS100
+                .getQuaternionsFromSpinModeStatus(byteArray75);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -3058,12 +3253,12 @@ public class RegressionTest1 {
         org.junit.Assert.assertNotNull(byteArray53);
         org.junit.Assert.assertTrue("'" + boolean55 + "' != '" + true + "'", boolean55);
         org.junit.Assert.assertTrue("'" + str56 + "' != '" + "[100, 1, -1, 10]" + "'", str56.equals(
-                                                                                                    "[100, 1, -1, 10]"));
+            "[100, 1, -1, 10]"));
         org.junit.Assert.assertTrue("'" + boolean57 + "' != '" + true + "'", boolean57);
         org.junit.Assert.assertNotNull(byteArray62);
         org.junit.Assert.assertTrue("'" + boolean64 + "' != '" + true + "'", boolean64);
         org.junit.Assert.assertTrue("'" + str65 + "' != '" + "[100, 1, -1, 10]" + "'", str65.equals(
-                                                                                                    "[100, 1, -1, 10]"));
+            "[100, 1, -1, 10]"));
         org.junit.Assert.assertTrue("'" + byte68 + "' != '" + (byte) 100 + "'", byte68.equals((byte) 100));
         org.junit.Assert.assertTrue("'" + boolean69 + "' != '" + true + "'", boolean69);
         org.junit.Assert.assertTrue("'" + boolean70 + "' != '" + true + "'", boolean70);
@@ -3082,7 +3277,8 @@ public class RegressionTest1 {
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray(281475010265073L);
         int int3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getIntFromByteArray(byteArray1, 0);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D4 = esa.mo.platform.impl.util.HelperIADCS100.getSunVectorFromSunPointingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D4 = esa.mo.platform.impl.util.HelperIADCS100
+                .getSunVectorFromSunPointingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -3095,10 +3291,12 @@ public class RegressionTest1 {
         if (debug) {
             System.out.format("%n%s%n", "RegressionTest1.test0691");
         }
-        byte[] byteArray3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 281474993487885L);
+        byte[] byteArray3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            (double) 281474993487885L);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putIntInByteArray((int) (short) 0, 0, byteArray3);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed5 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromFixWGS84TargetTrackingStatus(byteArray3);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed5 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromFixWGS84TargetTrackingStatus(byteArray3);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -3112,7 +3310,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray(18);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMTQFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMTQFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -3126,7 +3325,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray(18);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getTargetWheelSpeedFromActuatorTM(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getTargetWheelSpeedFromActuatorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -3138,9 +3338,11 @@ public class RegressionTest1 {
         if (debug) {
             System.out.format("%n%s%n", "RegressionTest1.test0694");
         }
-        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 281475010265077L);
+        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            (double) 281475010265077L);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMTQFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMTQFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -3154,7 +3356,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray(18);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getPositionFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getPositionFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -3168,7 +3371,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 24);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMagneticFieldFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMagneticFieldFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -3182,7 +3386,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray((int) (byte) 1);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getQuaternionsFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getQuaternionsFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -3196,7 +3401,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 18);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getSunVectorFromSunPointingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getSunVectorFromSunPointingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -3211,7 +3417,8 @@ public class RegressionTest1 {
         byte[] byteArray6 = new byte[]{(byte) 1, (byte) 100, (byte) -1, (byte) -1, (byte) 100, (byte) 1};
         int int8 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getIntFromByteArray(byteArray6, 1);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D9 = esa.mo.platform.impl.util.HelperIADCS100.getSunVectorFromSunPointingStatus(byteArray6);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D9 = esa.mo.platform.impl.util.HelperIADCS100
+                .getSunVectorFromSunPointingStatus(byteArray6);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -3224,9 +3431,11 @@ public class RegressionTest1 {
         if (debug) {
             System.out.format("%n%s%n", "RegressionTest1.test0702");
         }
-        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 4625759767262920704L);
+        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            (double) 4625759767262920704L);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getSunVectorFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getSunVectorFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -3240,7 +3449,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray((-2));
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getQuaternionsFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getQuaternionsFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -3252,9 +3462,11 @@ public class RegressionTest1 {
         if (debug) {
             System.out.format("%n%s%n", "RegressionTest1.test0704");
         }
-        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray((float) 281474993487880L);
+        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray(
+            (float) 281474993487880L);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMagneticFieldFromSensorTM(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMagneticFieldFromSensorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -3274,9 +3486,10 @@ public class RegressionTest1 {
         byte[] byteArray6 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray(281474993487883L);
         boolean boolean7 = uOctet2.equals((java.lang.Object) byteArray6);
         short short9 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getInt16FromByteArray(byteArray6,
-                                                                                                    (int) (short) 1);
+            (int) (short) 1);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D10 = esa.mo.platform.impl.util.HelperIADCS100.getMagneticFieldFromSpinModeStatus(byteArray6);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D10 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMagneticFieldFromSpinModeStatus(byteArray6);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -3296,7 +3509,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray(4);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -3310,7 +3524,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray(70);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getAttitudeFromSensorTM(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAttitudeFromSensorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -3324,7 +3539,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 100.0f);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromSensorTM(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromSensorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -3338,7 +3554,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray((long) 65535);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getCurrentQuaternionsFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getCurrentQuaternionsFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -3352,7 +3569,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 100.0f);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMTQFromActuatorTM(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMTQFromActuatorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -3366,7 +3584,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray(18);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -3380,7 +3599,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray(0);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getAttitudeFromSensorTM(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAttitudeFromSensorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -3394,9 +3614,10 @@ public class RegressionTest1 {
         }
         byte[] byteArray6 = new byte[]{(byte) 10, (byte) 0, (byte) 0, (byte) 1, (byte) -1, (byte) 10};
         float float8 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getFloatFromByteArray(byteArray6,
-                                                                                                    (int) (byte) 0);
+            (int) (byte) 0);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion9 = esa.mo.platform.impl.util.HelperIADCS100.getAttitudeFromSensorTM(byteArray6);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion9 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAttitudeFromSensorTM(byteArray6);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -3420,7 +3641,8 @@ public class RegressionTest1 {
         byte[] byteArray9 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray((long) 58);
         int int10 = shortList0.lastIndexOf((java.lang.Object) byteArray9);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion11 = esa.mo.platform.impl.util.HelperIADCS100.getAttitudeFromSensorTM(byteArray9);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion11 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAttitudeFromSensorTM(byteArray9);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -3440,9 +3662,11 @@ public class RegressionTest1 {
         if (debug) {
             System.out.format("%n%s%n", "RegressionTest1.test0716");
         }
-        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 4294967295L);
+        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            (double) 4294967295L);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -3456,7 +3680,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray((long) 62);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMTQFromActuatorTM(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMTQFromActuatorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -3473,11 +3698,13 @@ public class RegressionTest1 {
         java.lang.Integer int5 = floatList3.getTypeShortForm();
         java.lang.Integer int6 = floatList3.getTypeShortForm();
         boolean boolean8 = floatList3.remove((java.lang.Object) 36);
-        byte[] byteArray10 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 281474993487875L);
+        byte[] byteArray10 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            (double) 281474993487875L);
         int int11 = floatList3.lastIndexOf((java.lang.Object) byteArray10);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putLongInByteArray(100L, (int) (short) 0, byteArray10);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D13 = esa.mo.platform.impl.util.HelperIADCS100.getSunVectorFromSpinModeStatus(byteArray10);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D13 = esa.mo.platform.impl.util.HelperIADCS100
+                .getSunVectorFromSpinModeStatus(byteArray10);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -3496,7 +3723,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray((float) 66);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMTQFromSunPointingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMTQFromSunPointingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -3510,7 +3738,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray(18);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -3533,7 +3762,8 @@ public class RegressionTest1 {
         byte[] byteArray9 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray((long) 58);
         int int10 = shortList0.lastIndexOf((java.lang.Object) byteArray9);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion11 = esa.mo.platform.impl.util.HelperIADCS100.getCurrentQuaternionsFromFixWGS84TargetTrackingStatus(byteArray9);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion11 = esa.mo.platform.impl.util.HelperIADCS100
+                .getCurrentQuaternionsFromFixWGS84TargetTrackingStatus(byteArray9);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -3567,7 +3797,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray((-5));
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getSunVectorFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getSunVectorFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -3581,7 +3812,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray(281474993487884L);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getTargetWheelSpeedFromActuatorTM(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getTargetWheelSpeedFromActuatorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -3595,7 +3827,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray4 = new byte[]{(byte) 100, (byte) 100, (byte) 0, (byte) 10};
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed5 = esa.mo.platform.impl.util.HelperIADCS100.getCurrentWheelSpeedFromActuatorTM(byteArray4);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed5 = esa.mo.platform.impl.util.HelperIADCS100
+                .getCurrentWheelSpeedFromActuatorTM(byteArray4);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -3609,7 +3842,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray((int) (short) 2);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getTargetWheelSpeedFromActuatorTM(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getTargetWheelSpeedFromActuatorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -3621,13 +3855,15 @@ public class RegressionTest1 {
         if (debug) {
             System.out.format("%n%s%n", "RegressionTest1.test0728");
         }
-        byte[] byteArray3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(2.81474993487882E14d);
+        byte[] byteArray3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            2.81474993487882E14d);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putFloatInByteArray((float) 281474993487882L, 0,
-                                                                                   byteArray3);
+            byteArray3);
         float float6 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getFloatFromByteArray(byteArray3,
-                                                                                                    (int) (byte) 0);
+            (int) (byte) 0);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D7 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromSensorTM(byteArray3);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D7 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromSensorTM(byteArray3);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -3642,7 +3878,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray(44);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -3662,9 +3899,10 @@ public class RegressionTest1 {
         byte[] byteArray6 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray(281474993487883L);
         boolean boolean7 = uOctet2.equals((java.lang.Object) byteArray6);
         short short9 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getInt16FromByteArray(byteArray6,
-                                                                                                    (int) (short) 1);
+            (int) (short) 1);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D10 = esa.mo.platform.impl.util.HelperIADCS100.getMTQFromActuatorTM(byteArray6);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D10 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMTQFromActuatorTM(byteArray6);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -3684,7 +3922,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray(60);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -3701,12 +3940,14 @@ public class RegressionTest1 {
         java.lang.Integer int7 = floatList5.getTypeShortForm();
         java.lang.Integer int8 = floatList5.getTypeShortForm();
         boolean boolean10 = floatList5.remove((java.lang.Object) 36);
-        byte[] byteArray12 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 281474993487875L);
+        byte[] byteArray12 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            (double) 281474993487875L);
         int int13 = floatList5.lastIndexOf((java.lang.Object) byteArray12);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putLongInByteArray(100L, (int) (short) 0, byteArray12);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putFloatInByteArray((float) 40, 0, byteArray12);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D16 = esa.mo.platform.impl.util.HelperIADCS100.getMagneticFieldFromSensorTM(byteArray12);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D16 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMagneticFieldFromSensorTM(byteArray12);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -3725,7 +3966,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray((-11));
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getCurrentQuaternionsFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getCurrentQuaternionsFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -3739,7 +3981,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray((float) 19);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -3755,7 +3998,8 @@ public class RegressionTest1 {
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putFloatInByteArray((float) 10, 2, byteArray3);
         int int6 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getIntFromByteArray(byteArray3, 0);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed7 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromFixWGS84TargetTrackingStatus(byteArray3);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed7 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromFixWGS84TargetTrackingStatus(byteArray3);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -3770,7 +4014,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray((int) '4');
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getAttitudeFromSensorTM(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAttitudeFromSensorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -3794,16 +4039,16 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort11 = uShortList5.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray12 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList13 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList13,
-                                                         uRIArray12);
+        boolean boolean14 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList13, uRIArray12);
         java.lang.Double[] doubleArray18 = new java.lang.Double[]{100.0d, 100.0d, 1.0d};
         java.util.ArrayList<java.lang.Double> doubleList19 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean20 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList19,
-                                                         doubleArray18);
+            doubleArray18);
         java.lang.Byte[] byteArray25 = new java.lang.Byte[]{(byte) 100, (byte) 1, (byte) -1, (byte) 10};
         java.util.ArrayList<java.lang.Byte> byteList26 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList26,
-                                                         byteArray25);
+            byteArray25);
         java.lang.String str28 = byteList26.toString();
         boolean boolean29 = doubleList19.retainAll((java.util.Collection<java.lang.Byte>) byteList26);
         boolean boolean30 = uRIList13.containsAll((java.util.Collection<java.lang.Byte>) byteList26);
@@ -3813,18 +4058,18 @@ public class RegressionTest1 {
         java.lang.String[] strArray39 = new java.lang.String[]{"", "", "[100, 1, -1, 10]", ""};
         java.util.ArrayList<java.lang.String> strList40 = new java.util.ArrayList<java.lang.String>();
         boolean boolean41 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList40,
-                                                         strArray39);
+            strArray39);
         strList40.add((int) (short) 0, "[100, 1, -1, 10]");
         int int45 = doubleList33.lastIndexOf((java.lang.Object) strList40);
         java.lang.Byte[] byteArray49 = new java.lang.Byte[]{(byte) 1, (byte) 100, (byte) 1};
         java.util.ArrayList<java.lang.Byte> byteList50 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean51 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList50,
-                                                         byteArray49);
+            byteArray49);
         boolean boolean53 = byteList50.add((java.lang.Byte) (byte) 0);
         java.lang.Byte[] byteArray59 = new java.lang.Byte[]{(byte) 10, (byte) 1, (byte) -1, (byte) 10, (byte) 0};
         java.util.ArrayList<java.lang.Byte> byteList60 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean61 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList60,
-                                                         byteArray59);
+            byteArray59);
         boolean boolean62 = byteList50.removeAll((java.util.Collection<java.lang.Byte>) byteList60);
         boolean boolean63 = doubleList33.removeAll((java.util.Collection<java.lang.Byte>) byteList50);
         org.ccsds.moims.mo.mal.structures.OctetList octetList64 = new org.ccsds.moims.mo.mal.structures.OctetList();
@@ -3836,7 +4081,8 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort70 = octetList64.getServiceNumber();
         java.util.stream.Stream<java.lang.Byte> byteStream71 = octetList64.stream();
         boolean boolean72 = uShortList5.retainAll((java.util.Collection<java.lang.Byte>) octetList64);
-        java.util.ListIterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor74 = uShortList5.listIterator((int) (byte) 0);
+        java.util.ListIterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor74 = uShortList5.listIterator(
+            (int) (byte) 0);
         esa.mo.platform.impl.util.PositionsCalculator positionsCalculator75 = new esa.mo.platform.impl.util.PositionsCalculator();
         esa.mo.platform.impl.util.PositionsCalculator positionsCalculator76 = new esa.mo.platform.impl.util.PositionsCalculator();
         esa.mo.platform.impl.util.PositionsCalculator positionsCalculator77 = new esa.mo.platform.impl.util.PositionsCalculator();
@@ -3849,8 +4095,10 @@ public class RegressionTest1 {
                                                                                                                                          positionsCalculator78,
                                                                                                                                          positionsCalculator79,
                                                                                                                                          positionsCalculator80};
-        esa.mo.platform.impl.util.PositionsCalculator[] positionsCalculatorArray82 = uShortList5.toArray(positionsCalculatorArray81);
-        esa.mo.platform.impl.util.PositionsCalculator[] positionsCalculatorArray83 = longList1.toArray(positionsCalculatorArray82);
+        esa.mo.platform.impl.util.PositionsCalculator[] positionsCalculatorArray82 = uShortList5.toArray(
+            positionsCalculatorArray81);
+        esa.mo.platform.impl.util.PositionsCalculator[] positionsCalculatorArray83 = longList1.toArray(
+            positionsCalculatorArray82);
         org.ccsds.moims.mo.mal.structures.UShort uShort84 = longList1.getAreaNumber();
         org.junit.Assert.assertNotNull(uShort2);
         org.junit.Assert.assertTrue("'" + long6 + "' != '" + 281475010265078L + "'", long6.equals(281475010265078L));
@@ -3866,7 +4114,7 @@ public class RegressionTest1 {
         org.junit.Assert.assertNotNull(byteArray25);
         org.junit.Assert.assertTrue("'" + boolean27 + "' != '" + true + "'", boolean27);
         org.junit.Assert.assertTrue("'" + str28 + "' != '" + "[100, 1, -1, 10]" + "'", str28.equals(
-                                                                                                    "[100, 1, -1, 10]"));
+            "[100, 1, -1, 10]"));
         org.junit.Assert.assertTrue("'" + boolean29 + "' != '" + true + "'", boolean29);
         org.junit.Assert.assertTrue("'" + boolean30 + "' != '" + false + "'", !boolean30);
         org.junit.Assert.assertNotNull(obj34);
@@ -3902,7 +4150,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray(58);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getSunVectorFromSunPointingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getSunVectorFromSunPointingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -3916,7 +4165,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray(65536);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getCurrentQuaternionsFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getCurrentQuaternionsFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -3930,10 +4180,12 @@ public class RegressionTest1 {
         }
         org.ccsds.moims.mo.mal.structures.FineTime fineTime1 = new org.ccsds.moims.mo.mal.structures.FineTime((long) 8);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet2 = fineTime1.getAreaVersion();
-        byte[] byteArray4 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(2.81474993487882E14d);
+        byte[] byteArray4 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            2.81474993487882E14d);
         boolean boolean5 = fineTime1.equals((java.lang.Object) byteArray4);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D6 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromSensorTM(byteArray4);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D6 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromSensorTM(byteArray4);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -3949,7 +4201,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray((-10));
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getCurrentQuaternionsFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getCurrentQuaternionsFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -3964,10 +4217,11 @@ public class RegressionTest1 {
         byte[] byteArray5 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray((long) 28);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putLongInByteArray((long) 5, (int) (byte) 0, byteArray5);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putDoubleInByteArray((double) 64, (int) (short) 0,
-                                                                                    byteArray5);
+            byteArray5);
         int int9 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getIntFromByteArray(byteArray5, 2);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed10 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromNadirTargetTrackingStatus(byteArray5);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed10 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromNadirTargetTrackingStatus(byteArray5);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -3980,10 +4234,12 @@ public class RegressionTest1 {
         if (debug) {
             System.out.format("%n%s%n", "RegressionTest1.test0744");
         }
-        byte[] byteArray3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 281474993487885L);
+        byte[] byteArray3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            (double) 281474993487885L);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putIntInByteArray((int) (short) 0, 0, byteArray3);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D5 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromNadirTargetTrackingStatus(byteArray3);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D5 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromNadirTargetTrackingStatus(byteArray3);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -3995,9 +4251,11 @@ public class RegressionTest1 {
         if (debug) {
             System.out.format("%n%s%n", "RegressionTest1.test0745");
         }
-        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(2.81474993487882E14d);
+        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            2.81474993487882E14d);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getCurrentWheelSpeedFromActuatorTM(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getCurrentWheelSpeedFromActuatorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -4011,7 +4269,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray(4);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getCurrentWheelSpeedFromActuatorTM(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getCurrentWheelSpeedFromActuatorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -4025,7 +4284,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray(100);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getAngularMomentumFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularMomentumFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -4054,7 +4314,7 @@ public class RegressionTest1 {
         org.junit.Assert.assertNotNull(byteArray8);
         org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + true + "'", boolean10);
         org.junit.Assert.assertTrue("'" + str11 + "' != '" + "[100, 1, -1, 10]" + "'", str11.equals(
-                                                                                                    "[100, 1, -1, 10]"));
+            "[100, 1, -1, 10]"));
         org.junit.Assert.assertTrue("'" + boolean15 + "' != '" + false + "'", !boolean15);
         org.junit.Assert.assertNotNull(helperIADCS100Array17);
         org.junit.Assert.assertNotNull(helperIADCS100Array18);
@@ -4068,7 +4328,8 @@ public class RegressionTest1 {
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 56);
         short short3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getInt16FromByteArray(byteArray1, 1);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed4 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed4 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -4091,12 +4352,13 @@ public class RegressionTest1 {
                                                             281474993487875L};
         java.util.ArrayList<java.lang.Long> longList27 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean28 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList27,
-                                                         longArray26);
+            longArray26);
         java.lang.Long long30 = longList27.remove(0);
         byte[] byteArray32 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 56);
         boolean boolean33 = longList27.equals((java.lang.Object) byteArray32);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D34 = esa.mo.platform.impl.util.HelperIADCS100.getMagneticFieldFromSpinModeStatus(byteArray32);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D34 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMagneticFieldFromSpinModeStatus(byteArray32);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -4114,7 +4376,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 28);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMTQFromActuatorTM(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMTQFromActuatorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -4128,7 +4391,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray((long) 64);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -4149,16 +4413,16 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UOctet uOctet6 = octetList4.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray7 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList8 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean9 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList8,
-                                                        uRIArray7);
+        boolean boolean9 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList8, uRIArray7);
         java.lang.Double[] doubleArray13 = new java.lang.Double[]{100.0d, 100.0d, 1.0d};
         java.util.ArrayList<java.lang.Double> doubleList14 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean15 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList14,
-                                                         doubleArray13);
+            doubleArray13);
         java.lang.Byte[] byteArray20 = new java.lang.Byte[]{(byte) 100, (byte) 1, (byte) -1, (byte) 10};
         java.util.ArrayList<java.lang.Byte> byteList21 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean22 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList21,
-                                                         byteArray20);
+            byteArray20);
         java.lang.String str23 = byteList21.toString();
         boolean boolean24 = doubleList14.retainAll((java.util.Collection<java.lang.Byte>) byteList21);
         boolean boolean25 = uRIList8.containsAll((java.util.Collection<java.lang.Byte>) byteList21);
@@ -4168,18 +4432,18 @@ public class RegressionTest1 {
         java.lang.String[] strArray34 = new java.lang.String[]{"", "", "[100, 1, -1, 10]", ""};
         java.util.ArrayList<java.lang.String> strList35 = new java.util.ArrayList<java.lang.String>();
         boolean boolean36 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList35,
-                                                         strArray34);
+            strArray34);
         strList35.add((int) (short) 0, "[100, 1, -1, 10]");
         int int40 = doubleList28.lastIndexOf((java.lang.Object) strList35);
         java.lang.Byte[] byteArray44 = new java.lang.Byte[]{(byte) 1, (byte) 100, (byte) 1};
         java.util.ArrayList<java.lang.Byte> byteList45 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean46 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList45,
-                                                         byteArray44);
+            byteArray44);
         boolean boolean48 = byteList45.add((java.lang.Byte) (byte) 0);
         java.lang.Byte[] byteArray54 = new java.lang.Byte[]{(byte) 10, (byte) 1, (byte) -1, (byte) 10, (byte) 0};
         java.util.ArrayList<java.lang.Byte> byteList55 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean56 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList55,
-                                                         byteArray54);
+            byteArray54);
         boolean boolean57 = byteList45.removeAll((java.util.Collection<java.lang.Byte>) byteList55);
         boolean boolean58 = doubleList28.removeAll((java.util.Collection<java.lang.Byte>) byteList45);
         org.ccsds.moims.mo.mal.structures.OctetList octetList59 = new org.ccsds.moims.mo.mal.structures.OctetList();
@@ -4191,11 +4455,11 @@ public class RegressionTest1 {
         java.lang.Integer[] intArray77 = new java.lang.Integer[]{6, 6, 28, 2, 4, 0, 62, 64, 19, 20, 11, 62};
         java.util.ArrayList<java.lang.Integer> intList78 = new java.util.ArrayList<java.lang.Integer>();
         boolean boolean79 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList78,
-                                                         intArray77);
+            intArray77);
         java.lang.Byte[] byteArray83 = new java.lang.Byte[]{(byte) 1, (byte) 100, (byte) 1};
         java.util.ArrayList<java.lang.Byte> byteList84 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean85 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList84,
-                                                         byteArray83);
+            byteArray83);
         boolean boolean87 = byteList84.add((java.lang.Byte) (byte) 0);
         java.util.stream.Stream<java.lang.Byte> byteStream88 = byteList84.parallelStream();
         int int90 = byteList84.indexOf((java.lang.Object) 5);
@@ -4204,7 +4468,8 @@ public class RegressionTest1 {
         byte[] byteArray94 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray((float) 7);
         int int95 = doubleList0.lastIndexOf((java.lang.Object) byteArray94);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D96 = esa.mo.platform.impl.util.HelperIADCS100.getSunVectorFromSpinModeStatus(byteArray94);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D96 = esa.mo.platform.impl.util.HelperIADCS100
+                .getSunVectorFromSpinModeStatus(byteArray94);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -4220,7 +4485,7 @@ public class RegressionTest1 {
         org.junit.Assert.assertNotNull(byteArray20);
         org.junit.Assert.assertTrue("'" + boolean22 + "' != '" + true + "'", boolean22);
         org.junit.Assert.assertTrue("'" + str23 + "' != '" + "[100, 1, -1, 10]" + "'", str23.equals(
-                                                                                                    "[100, 1, -1, 10]"));
+            "[100, 1, -1, 10]"));
         org.junit.Assert.assertTrue("'" + boolean24 + "' != '" + true + "'", boolean24);
         org.junit.Assert.assertTrue("'" + boolean25 + "' != '" + false + "'", !boolean25);
         org.junit.Assert.assertNotNull(obj29);
@@ -4259,7 +4524,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray((int) 'a');
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getCurrentQuaternionsFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getCurrentQuaternionsFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -4273,7 +4539,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray((int) (short) 2);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMagneticFieldFromSensorTM(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMagneticFieldFromSensorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -4285,9 +4552,11 @@ public class RegressionTest1 {
         if (debug) {
             System.out.format("%n%s%n", "RegressionTest1.test0756");
         }
-        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) (short) 100);
+        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            (double) (short) 100);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMagneticFieldFromSensorTM(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMagneticFieldFromSensorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -4304,11 +4573,13 @@ public class RegressionTest1 {
         java.lang.Integer int5 = floatList3.getTypeShortForm();
         java.lang.Integer int6 = floatList3.getTypeShortForm();
         boolean boolean8 = floatList3.remove((java.lang.Object) 36);
-        byte[] byteArray10 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 281474993487875L);
+        byte[] byteArray10 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            (double) 281474993487875L);
         int int11 = floatList3.lastIndexOf((java.lang.Object) byteArray10);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putLongInByteArray(100L, (int) (short) 0, byteArray10);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed13 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromSunPointingStatus(byteArray10);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed13 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromSunPointingStatus(byteArray10);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -4327,7 +4598,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 24);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getQuaternionsFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getQuaternionsFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -4341,7 +4613,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray((long) 64);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -4355,7 +4628,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 100.0f);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getPositionFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getPositionFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -4376,18 +4650,18 @@ public class RegressionTest1 {
                                                                (short) 10};
         java.util.ArrayList<java.lang.Short> shortList11 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean12 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList11,
-                                                         shortArray10);
+            shortArray10);
         java.util.ListIterator<java.lang.Short> shortItor13 = shortList11.listIterator();
         java.lang.Byte[] byteArray17 = new java.lang.Byte[]{(byte) 1, (byte) 100, (byte) 1};
         java.util.ArrayList<java.lang.Byte> byteList18 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList18,
-                                                         byteArray17);
+            byteArray17);
         boolean boolean21 = byteList18.add((java.lang.Byte) (byte) 0);
         boolean boolean22 = shortList11.containsAll((java.util.Collection<java.lang.Byte>) byteList18);
         java.lang.Byte[] byteArray27 = new java.lang.Byte[]{(byte) 100, (byte) 1, (byte) -1, (byte) 10};
         java.util.ArrayList<java.lang.Byte> byteList28 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean29 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList28,
-                                                         byteArray27);
+            byteArray27);
         java.lang.String str30 = byteList28.toString();
         boolean boolean31 = shortList11.retainAll((java.util.Collection<java.lang.Byte>) byteList28);
         org.ccsds.moims.mo.mal.structures.URI uRI33 = new org.ccsds.moims.mo.mal.structures.URI("hi!");
@@ -4415,17 +4689,17 @@ public class RegressionTest1 {
                                                                                                          uRI46, uRI51,
                                                                                                          uRI55, uRI60};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList63 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean64 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList63,
-                                                         uRIArray62);
+        boolean boolean64 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList63, uRIArray62);
         java.lang.Byte[] byteArray69 = new java.lang.Byte[]{(byte) 100, (byte) 1, (byte) -1, (byte) 10};
         java.util.ArrayList<java.lang.Byte> byteList70 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean71 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList70,
-                                                         byteArray69);
+            byteArray69);
         java.lang.String str72 = byteList70.toString();
         java.lang.Byte[] byteArray76 = new java.lang.Byte[]{(byte) 1, (byte) 100, (byte) 1};
         java.util.ArrayList<java.lang.Byte> byteList77 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean78 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList77,
-                                                         byteArray76);
+            byteArray76);
         boolean boolean80 = byteList77.add((java.lang.Byte) (byte) 0);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet81 = org.ccsds.moims.mo.mal.structures.UShortList.AREA_VERSION;
         org.ccsds.moims.mo.mal.structures.UShort uShort82 = uOctet81.getAreaNumber();
@@ -4434,15 +4708,16 @@ public class RegressionTest1 {
         boolean boolean85 = uRIList63.removeAll((java.util.Collection<java.lang.Byte>) byteList70);
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray86 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList87 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean88 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList87,
-                                                         uRIArray86);
+        boolean boolean88 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList87, uRIArray86);
         uRIList87.trimToSize();
         int int90 = byteList70.indexOf((java.lang.Object) uRIList87);
         int int91 = floatList0.lastIndexOf((java.lang.Object) uRIList87);
         byte[] byteArray93 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray((int) (short) 2);
         boolean boolean94 = floatList0.contains((java.lang.Object) byteArray93);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion95 = esa.mo.platform.impl.util.HelperIADCS100.getTargetQuaternionsFromFixWGS84TargetTrackingStatus(byteArray93);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion95 = esa.mo.platform.impl.util.HelperIADCS100
+                .getTargetQuaternionsFromFixWGS84TargetTrackingStatus(byteArray93);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -4460,7 +4735,7 @@ public class RegressionTest1 {
         org.junit.Assert.assertNotNull(byteArray27);
         org.junit.Assert.assertTrue("'" + boolean29 + "' != '" + true + "'", boolean29);
         org.junit.Assert.assertTrue("'" + str30 + "' != '" + "[100, 1, -1, 10]" + "'", str30.equals(
-                                                                                                    "[100, 1, -1, 10]"));
+            "[100, 1, -1, 10]"));
         org.junit.Assert.assertTrue("'" + boolean31 + "' != '" + true + "'", boolean31);
         org.junit.Assert.assertTrue("'" + long34 + "' != '" + 281474993487890L + "'", long34.equals(281474993487890L));
         org.junit.Assert.assertTrue("'" + int35 + "' != '" + (-1) + "'", int35 == (-1));
@@ -4481,7 +4756,7 @@ public class RegressionTest1 {
         org.junit.Assert.assertNotNull(byteArray69);
         org.junit.Assert.assertTrue("'" + boolean71 + "' != '" + true + "'", boolean71);
         org.junit.Assert.assertTrue("'" + str72 + "' != '" + "[100, 1, -1, 10]" + "'", str72.equals(
-                                                                                                    "[100, 1, -1, 10]"));
+            "[100, 1, -1, 10]"));
         org.junit.Assert.assertNotNull(byteArray76);
         org.junit.Assert.assertTrue("'" + boolean78 + "' != '" + true + "'", boolean78);
         org.junit.Assert.assertTrue("'" + boolean80 + "' != '" + true + "'", boolean80);
@@ -4505,9 +4780,10 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray(0);
         short short3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getInt16FromByteArray(byteArray1,
-                                                                                                    (int) (short) 0);
+            (int) (short) 0);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion4 = esa.mo.platform.impl.util.HelperIADCS100.getTargetQuaternionsFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion4 = esa.mo.platform.impl.util.HelperIADCS100
+                .getTargetQuaternionsFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -4522,7 +4798,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray(44);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMTQFromSunPointingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMTQFromSunPointingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -4536,7 +4813,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray((int) (short) 10);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getTargetWheelSpeedFromActuatorTM(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getTargetWheelSpeedFromActuatorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -4550,7 +4828,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray((float) 40);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -4562,10 +4841,12 @@ public class RegressionTest1 {
         if (debug) {
             System.out.format("%n%s%n", "RegressionTest1.test0767");
         }
-        byte[] byteArray3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) (short) 100);
+        byte[] byteArray3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            (double) (short) 100);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putIntInByteArray(18, 0, byteArray3);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D5 = esa.mo.platform.impl.util.HelperIADCS100.getMTQFromSunPointingStatus(byteArray3);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D5 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMTQFromSunPointingStatus(byteArray3);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -4579,7 +4860,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray(100.0f);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getAttitudeFromSensorTM(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAttitudeFromSensorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -4593,7 +4875,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray(15);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getAngularMomentumFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularMomentumFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -4608,10 +4891,11 @@ public class RegressionTest1 {
         byte[] byteArray5 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray((long) 28);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putLongInByteArray((long) 5, (int) (byte) 0, byteArray5);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putDoubleInByteArray((double) 64, (int) (short) 0,
-                                                                                    byteArray5);
+            byteArray5);
         int int9 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getIntFromByteArray(byteArray5, 2);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion10 = esa.mo.platform.impl.util.HelperIADCS100.getAttitudeFromSensorTM(byteArray5);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion10 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAttitudeFromSensorTM(byteArray5);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -4624,9 +4908,11 @@ public class RegressionTest1 {
         if (debug) {
             System.out.format("%n%s%n", "RegressionTest1.test0772");
         }
-        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray((float) 281474993487880L);
+        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray(
+            (float) 281474993487880L);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -4640,7 +4926,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray((int) (byte) 0);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -4652,12 +4939,14 @@ public class RegressionTest1 {
         if (debug) {
             System.out.format("%n%s%n", "RegressionTest1.test0774");
         }
-        byte[] byteArray5 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(2.81474993487882E14d);
+        byte[] byteArray5 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            2.81474993487882E14d);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putFloatInByteArray((float) 281474993487882L, 0,
-                                                                                   byteArray5);
+            byteArray5);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putLongInByteArray(10L, (int) (short) 0, byteArray5);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D8 = esa.mo.platform.impl.util.HelperIADCS100.getMagneticFieldFromSensorTM(byteArray5);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D8 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMagneticFieldFromSensorTM(byteArray5);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -4671,7 +4960,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray((float) (short) 15);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getPositionFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getPositionFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -4685,7 +4975,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray((-2));
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getCurrentWheelSpeedFromActuatorTM(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getCurrentWheelSpeedFromActuatorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -4699,7 +4990,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray(66);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMTQFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMTQFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -4725,7 +5017,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray(9);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getTargetQuaternionsFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getTargetQuaternionsFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -4739,7 +5032,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray(4);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMagneticFieldFromSensorTM(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMagneticFieldFromSensorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -4753,7 +5047,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray(281474993487885L);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getTargetWheelSpeedFromActuatorTM(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getTargetWheelSpeedFromActuatorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -4767,9 +5062,10 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray(15);
         short short3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getInt16FromByteArray(byteArray1,
-                                                                                                    (int) (short) 0);
+            (int) (short) 0);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D4 = esa.mo.platform.impl.util.HelperIADCS100.getPositionFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D4 = esa.mo.platform.impl.util.HelperIADCS100
+                .getPositionFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -4784,7 +5080,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray((long) ' ');
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMagneticFieldFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMagneticFieldFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -4810,7 +5107,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray((-5));
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMagneticFieldFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMagneticFieldFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -4824,7 +5122,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((-5.0d));
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMTQFromActuatorTM(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMTQFromActuatorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -4838,7 +5137,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray(281474993487880L);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getQuaternionsFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getQuaternionsFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -4852,7 +5152,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray(9);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -4866,7 +5167,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray((int) (byte) 0);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMTQFromActuatorTM(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMTQFromActuatorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -4880,7 +5182,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray(12);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getSunVectorFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getSunVectorFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -4894,7 +5197,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray((-5));
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMagneticFieldFromSensorTM(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMagneticFieldFromSensorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -4908,7 +5212,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray((int) (byte) 1);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getCurrentWheelSpeedFromActuatorTM(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getCurrentWheelSpeedFromActuatorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -4922,7 +5227,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray(65535);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMTQFromSunPointingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMTQFromSunPointingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -4935,7 +5241,8 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test0796");
         }
         try {
-            org.ccsds.moims.mo.platform.gps.structures.Position position1 = esa.mo.platform.impl.util.HelperGPS.gpggalong2Position("[1, 0]");
+            org.ccsds.moims.mo.platform.gps.structures.Position position1 = esa.mo.platform.impl.util.HelperGPS
+                .gpggalong2Position("[1, 0]");
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: 9");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -4948,7 +5255,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray(18);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getAngularMomentumFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularMomentumFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -4962,9 +5270,10 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray((long) 6);
         short short3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getInt16FromByteArray(byteArray1,
-                                                                                                    (int) (byte) 1);
+            (int) (byte) 1);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion4 = esa.mo.platform.impl.util.HelperIADCS100.getCurrentQuaternionsFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion4 = esa.mo.platform.impl.util.HelperIADCS100
+                .getCurrentQuaternionsFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -4979,7 +5288,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray(0L);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getCurrentQuaternionsFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getCurrentQuaternionsFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -4993,7 +5303,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 24);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMTQFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMTQFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5007,7 +5318,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray((float) 1L);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getAttitudeFromSensorTM(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAttitudeFromSensorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5021,7 +5333,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray((int) (short) 2);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getPositionFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getPositionFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5035,7 +5348,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray((long) 64);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMagneticFieldFromSensorTM(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMagneticFieldFromSensorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5049,7 +5363,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray(20);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getPositionFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getPositionFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5063,7 +5378,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray(0);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getCurrentWheelSpeedFromActuatorTM(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getCurrentWheelSpeedFromActuatorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5076,7 +5392,8 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test0807");
         }
         try {
-            org.ccsds.moims.mo.platform.gps.structures.Position position1 = esa.mo.platform.impl.util.HelperGPS.gpggalong2Position("[10, 1, -1, 10]");
+            org.ccsds.moims.mo.platform.gps.structures.Position position1 = esa.mo.platform.impl.util.HelperGPS
+                .gpggalong2Position("[10, 1, -1, 10]");
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: 9");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5089,7 +5406,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray2 = new byte[]{(byte) 100, (byte) -1};
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D3 = esa.mo.platform.impl.util.HelperIADCS100.getPositionFromFixWGS84TargetTrackingStatus(byteArray2);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D3 = esa.mo.platform.impl.util.HelperIADCS100
+                .getPositionFromFixWGS84TargetTrackingStatus(byteArray2);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5103,7 +5421,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 4);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getTargetQuaternionsFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getTargetQuaternionsFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5115,10 +5434,12 @@ public class RegressionTest1 {
         if (debug) {
             System.out.format("%n%s%n", "RegressionTest1.test0810");
         }
-        byte[] byteArray3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 281474993487885L);
+        byte[] byteArray3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            (double) 281474993487885L);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putIntInByteArray((int) (short) 0, 0, byteArray3);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D5 = esa.mo.platform.impl.util.HelperIADCS100.getMTQFromActuatorTM(byteArray3);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D5 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMTQFromActuatorTM(byteArray3);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5130,9 +5451,11 @@ public class RegressionTest1 {
         if (debug) {
             System.out.format("%n%s%n", "RegressionTest1.test0811");
         }
-        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray((float) 281474993487885L);
+        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray(
+            (float) 281474993487885L);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromSensorTM(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromSensorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5146,7 +5469,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 56);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getTargetQuaternionsFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getTargetQuaternionsFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5161,7 +5485,8 @@ public class RegressionTest1 {
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray(65535);
         short short3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getInt16FromByteArray(byteArray1, 2);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D4 = esa.mo.platform.impl.util.HelperIADCS100.getMTQFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D4 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMTQFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5174,10 +5499,12 @@ public class RegressionTest1 {
         if (debug) {
             System.out.format("%n%s%n", "RegressionTest1.test0814");
         }
-        byte[] byteArray3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) (short) 100);
+        byte[] byteArray3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            (double) (short) 100);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putIntInByteArray(18, 0, byteArray3);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D5 = esa.mo.platform.impl.util.HelperIADCS100.getAngularMomentumFromSpinModeStatus(byteArray3);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D5 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularMomentumFromSpinModeStatus(byteArray3);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5194,7 +5521,8 @@ public class RegressionTest1 {
         int int6 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getIntFromByteArray(byteArray3, 0);
         float float8 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getFloatFromByteArray(byteArray3, 0);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed9 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromNadirTargetTrackingStatus(byteArray3);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed9 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromNadirTargetTrackingStatus(byteArray3);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5212,9 +5540,10 @@ public class RegressionTest1 {
         short short3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getInt16FromByteArray(byteArray1, 0);
         double double5 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getDoubleFromByteArray(byteArray1, 0);
         short short7 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getInt16FromByteArray(byteArray1,
-                                                                                                    (int) (short) 2);
+            (int) (short) 2);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D8 = esa.mo.platform.impl.util.HelperIADCS100.getMagneticFieldFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D8 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMagneticFieldFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5234,12 +5563,14 @@ public class RegressionTest1 {
         java.lang.Integer int7 = floatList5.getTypeShortForm();
         java.lang.Integer int8 = floatList5.getTypeShortForm();
         boolean boolean10 = floatList5.remove((java.lang.Object) 36);
-        byte[] byteArray12 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 281474993487875L);
+        byte[] byteArray12 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            (double) 281474993487875L);
         int int13 = floatList5.lastIndexOf((java.lang.Object) byteArray12);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putLongInByteArray(100L, (int) (short) 0, byteArray12);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putFloatInByteArray((float) 40, 0, byteArray12);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed16 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromNadirTargetTrackingStatus(byteArray12);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed16 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromNadirTargetTrackingStatus(byteArray12);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5256,9 +5587,11 @@ public class RegressionTest1 {
         if (debug) {
             System.out.format("%n%s%n", "RegressionTest1.test0818");
         }
-        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(2.81475010265073E14d);
+        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            2.81475010265073E14d);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMagneticFieldFromSensorTM(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMagneticFieldFromSensorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5272,7 +5605,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray(32);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getAngularMomentumFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularMomentumFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5286,7 +5620,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray(2);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5301,7 +5636,8 @@ public class RegressionTest1 {
         byte[] byteArray3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray(281474993487880L);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putIntInByteArray((-15), (int) (byte) 0, byteArray3);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion5 = esa.mo.platform.impl.util.HelperIADCS100.getAttitudeFromSensorTM(byteArray3);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion5 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAttitudeFromSensorTM(byteArray3);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5315,7 +5651,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray((long) 65535);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromSensorTM(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromSensorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5327,10 +5664,12 @@ public class RegressionTest1 {
         if (debug) {
             System.out.format("%n%s%n", "RegressionTest1.test0824");
         }
-        byte[] byteArray3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 281475010265078L);
+        byte[] byteArray3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            (double) 281475010265078L);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putIntInByteArray(70, 0, byteArray3);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed5 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromSunPointingStatus(byteArray3);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed5 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromSunPointingStatus(byteArray3);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5342,9 +5681,11 @@ public class RegressionTest1 {
         if (debug) {
             System.out.format("%n%s%n", "RegressionTest1.test0825");
         }
-        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 281475010265077L);
+        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            (double) 281475010265077L);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMTQFromSunPointingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMTQFromSunPointingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5358,7 +5699,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray((int) (short) 0);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMagneticFieldFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMagneticFieldFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5372,7 +5714,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray((int) (byte) 10);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getPositionFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getPositionFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5386,7 +5729,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray(10);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5400,7 +5744,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 18);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getCurrentWheelSpeedFromActuatorTM(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getCurrentWheelSpeedFromActuatorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5414,7 +5759,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray((long) 66);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMagneticFieldFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMagneticFieldFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5429,10 +5775,11 @@ public class RegressionTest1 {
         byte[] byteArray5 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray((long) 28);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putLongInByteArray((long) 5, (int) (byte) 0, byteArray5);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putDoubleInByteArray((double) 64, (int) (short) 0,
-                                                                                    byteArray5);
+            byteArray5);
         int int9 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getIntFromByteArray(byteArray5, 2);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D10 = esa.mo.platform.impl.util.HelperIADCS100.getSunVectorFromSpinModeStatus(byteArray5);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D10 = esa.mo.platform.impl.util.HelperIADCS100
+                .getSunVectorFromSpinModeStatus(byteArray5);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5448,10 +5795,11 @@ public class RegressionTest1 {
         byte[] byteArray5 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray((long) 28);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putLongInByteArray((long) 5, (int) (byte) 0, byteArray5);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putDoubleInByteArray((double) 64, (int) (short) 0,
-                                                                                    byteArray5);
+            byteArray5);
         int int9 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getIntFromByteArray(byteArray5, 2);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D10 = esa.mo.platform.impl.util.HelperIADCS100.getMagneticFieldFromSensorTM(byteArray5);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D10 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMagneticFieldFromSensorTM(byteArray5);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5464,9 +5812,11 @@ public class RegressionTest1 {
         if (debug) {
             System.out.format("%n%s%n", "RegressionTest1.test0834");
         }
-        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray((float) 281474993487879L);
+        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray(
+            (float) 281474993487879L);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromSensorTM(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromSensorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5492,7 +5842,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray((int) '4');
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getCurrentQuaternionsFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getCurrentQuaternionsFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5504,9 +5855,11 @@ public class RegressionTest1 {
         if (debug) {
             System.out.format("%n%s%n", "RegressionTest1.test0838");
         }
-        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray((float) 281474993487881L);
+        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray(
+            (float) 281474993487881L);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getCurrentWheelSpeedFromActuatorTM(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getCurrentWheelSpeedFromActuatorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5520,7 +5873,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray(44);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMagneticFieldFromSensorTM(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMagneticFieldFromSensorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5546,7 +5900,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray(18);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getSunVectorFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getSunVectorFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5560,7 +5915,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray((int) '4');
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getSunVectorFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getSunVectorFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5574,7 +5930,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray(13);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getAngularMomentumFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularMomentumFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5591,11 +5948,13 @@ public class RegressionTest1 {
         java.lang.Integer int5 = floatList3.getTypeShortForm();
         java.lang.Integer int6 = floatList3.getTypeShortForm();
         boolean boolean8 = floatList3.remove((java.lang.Object) 36);
-        byte[] byteArray10 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 281474993487875L);
+        byte[] byteArray10 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            (double) 281474993487875L);
         int int11 = floatList3.lastIndexOf((java.lang.Object) byteArray10);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putLongInByteArray(100L, (int) (short) 0, byteArray10);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D13 = esa.mo.platform.impl.util.HelperIADCS100.getSunVectorFromSunPointingStatus(byteArray10);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D13 = esa.mo.platform.impl.util.HelperIADCS100
+                .getSunVectorFromSunPointingStatus(byteArray10);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5627,7 +5986,8 @@ public class RegressionTest1 {
         byte[] byteArray6 = new byte[]{(byte) 1, (byte) 100, (byte) -1, (byte) -1, (byte) 100, (byte) 1};
         int int8 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getIntFromByteArray(byteArray6, 1);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D9 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromFixWGS84TargetTrackingStatus(byteArray6);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D9 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromFixWGS84TargetTrackingStatus(byteArray6);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5640,9 +6000,11 @@ public class RegressionTest1 {
         if (debug) {
             System.out.format("%n%s%n", "RegressionTest1.test0847");
         }
-        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 4625759767262920704L);
+        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            (double) 4625759767262920704L);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getTargetQuaternionsFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getTargetQuaternionsFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5656,9 +6018,10 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray(0);
         short short3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getInt16FromByteArray(byteArray1,
-                                                                                                    (int) (short) 0);
+            (int) (short) 0);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D4 = esa.mo.platform.impl.util.HelperIADCS100.getMTQFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D4 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMTQFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5674,7 +6037,8 @@ public class RegressionTest1 {
         byte[] byteArray3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray(52);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putFloatInByteArray(0.0f, (int) (short) 0, byteArray3);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D5 = esa.mo.platform.impl.util.HelperIADCS100.getPositionFromNadirTargetTrackingStatus(byteArray3);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D5 = esa.mo.platform.impl.util.HelperIADCS100
+                .getPositionFromNadirTargetTrackingStatus(byteArray3);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5687,7 +6051,8 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test0850");
         }
         try {
-            org.ccsds.moims.mo.platform.gps.structures.Position position1 = esa.mo.platform.impl.util.HelperGPS.gpggalong2Position("[-1.0]");
+            org.ccsds.moims.mo.platform.gps.structures.Position position1 = esa.mo.platform.impl.util.HelperGPS
+                .gpggalong2Position("[-1.0]");
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: 9");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5698,9 +6063,11 @@ public class RegressionTest1 {
         if (debug) {
             System.out.format("%n%s%n", "RegressionTest1.test0851");
         }
-        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 281474993487875L);
+        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            (double) 281474993487875L);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMTQFromActuatorTM(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMTQFromActuatorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5714,12 +6081,14 @@ public class RegressionTest1 {
         }
         org.ccsds.moims.mo.mal.structures.FineTime fineTime1 = new org.ccsds.moims.mo.mal.structures.FineTime((long) 8);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet2 = fineTime1.getAreaVersion();
-        byte[] byteArray4 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(2.81474993487882E14d);
+        byte[] byteArray4 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            2.81474993487882E14d);
         boolean boolean5 = fineTime1.equals((java.lang.Object) byteArray4);
         long long7 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getLongFromByteArray(byteArray4,
-                                                                                                 (int) (byte) 0);
+            (int) (byte) 0);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D8 = esa.mo.platform.impl.util.HelperIADCS100.getPositionFromFixWGS84TargetTrackingStatus(byteArray4);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D8 = esa.mo.platform.impl.util.HelperIADCS100
+                .getPositionFromFixWGS84TargetTrackingStatus(byteArray4);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5738,7 +6107,8 @@ public class RegressionTest1 {
         int int8 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getIntFromByteArray(byteArray6, 1);
         short short10 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getInt16FromByteArray(byteArray6, 0);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D11 = esa.mo.platform.impl.util.HelperIADCS100.getAngularMomentumFromSpinModeStatus(byteArray6);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D11 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularMomentumFromSpinModeStatus(byteArray6);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5756,18 +6126,18 @@ public class RegressionTest1 {
                                                               (short) 10};
         java.util.ArrayList<java.lang.Short> shortList6 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList6,
-                                                        shortArray5);
+            shortArray5);
         java.util.ListIterator<java.lang.Short> shortItor8 = shortList6.listIterator();
         java.lang.Byte[] byteArray12 = new java.lang.Byte[]{(byte) 1, (byte) 100, (byte) 1};
         java.util.ArrayList<java.lang.Byte> byteList13 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList13,
-                                                         byteArray12);
+            byteArray12);
         boolean boolean16 = byteList13.add((java.lang.Byte) (byte) 0);
         boolean boolean17 = shortList6.containsAll((java.util.Collection<java.lang.Byte>) byteList13);
         java.lang.Byte[] byteArray22 = new java.lang.Byte[]{(byte) 100, (byte) 1, (byte) -1, (byte) 10};
         java.util.ArrayList<java.lang.Byte> byteList23 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean24 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList23,
-                                                         byteArray22);
+            byteArray22);
         java.lang.String str25 = byteList23.toString();
         boolean boolean26 = shortList6.retainAll((java.util.Collection<java.lang.Byte>) byteList23);
         java.util.Spliterator<java.lang.Short> shortSpliterator27 = shortList6.spliterator();
@@ -5779,7 +6149,8 @@ public class RegressionTest1 {
         byte[] byteArray34 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray(15);
         int int35 = octetList28.indexOf((java.lang.Object) byteArray34);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D36 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromNadirTargetTrackingStatus(byteArray34);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D36 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromNadirTargetTrackingStatus(byteArray34);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5793,7 +6164,7 @@ public class RegressionTest1 {
         org.junit.Assert.assertNotNull(byteArray22);
         org.junit.Assert.assertTrue("'" + boolean24 + "' != '" + true + "'", boolean24);
         org.junit.Assert.assertTrue("'" + str25 + "' != '" + "[100, 1, -1, 10]" + "'", str25.equals(
-                                                                                                    "[100, 1, -1, 10]"));
+            "[100, 1, -1, 10]"));
         org.junit.Assert.assertTrue("'" + boolean26 + "' != '" + true + "'", boolean26);
         org.junit.Assert.assertNotNull(shortSpliterator27);
         org.junit.Assert.assertNotNull(uOctet29);
@@ -5811,7 +6182,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray((int) (short) 10);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5825,7 +6197,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray((int) ' ');
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMagneticFieldFromSensorTM(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMagneticFieldFromSensorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5839,7 +6212,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray(66);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getAttitudeFromSensorTM(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAttitudeFromSensorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5853,7 +6227,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray((float) (short) 255);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5868,7 +6243,8 @@ public class RegressionTest1 {
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray((float) (byte) 0);
         short short3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getInt16FromByteArray(byteArray1, 1);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D4 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D4 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5883,7 +6259,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray(66);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5896,7 +6273,8 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test0863");
         }
         try {
-            org.ccsds.moims.mo.platform.gps.structures.Position position1 = esa.mo.platform.impl.util.HelperGPS.gpggalong2Position("1.0");
+            org.ccsds.moims.mo.platform.gps.structures.Position position1 = esa.mo.platform.impl.util.HelperGPS
+                .gpggalong2Position("1.0");
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: 9");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5909,7 +6287,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray((int) (short) 255);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromSensorTM(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromSensorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5923,7 +6302,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray((float) 1L);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getCurrentQuaternionsFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getCurrentQuaternionsFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5940,12 +6320,14 @@ public class RegressionTest1 {
         java.lang.Integer int7 = floatList5.getTypeShortForm();
         java.lang.Integer int8 = floatList5.getTypeShortForm();
         boolean boolean10 = floatList5.remove((java.lang.Object) 36);
-        byte[] byteArray12 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 281474993487875L);
+        byte[] byteArray12 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            (double) 281474993487875L);
         int int13 = floatList5.lastIndexOf((java.lang.Object) byteArray12);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putLongInByteArray(100L, (int) (short) 0, byteArray12);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putFloatInByteArray((float) 40, 0, byteArray12);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed16 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromFixWGS84TargetTrackingStatus(byteArray12);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed16 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromFixWGS84TargetTrackingStatus(byteArray12);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5964,7 +6346,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray((long) 66);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getSunVectorFromSunPointingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getSunVectorFromSunPointingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5978,7 +6361,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray(12);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromSensorTM(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromSensorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -5992,7 +6376,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray(281474993487884L);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getSunVectorFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getSunVectorFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -6006,7 +6391,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray(10);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getCurrentWheelSpeedFromActuatorTM(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getCurrentWheelSpeedFromActuatorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -6019,7 +6405,8 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test0872");
         }
         try {
-            org.ccsds.moims.mo.platform.gps.structures.Position position1 = esa.mo.platform.impl.util.HelperGPS.gpggalong2Position("[0, 0]");
+            org.ccsds.moims.mo.platform.gps.structures.Position position1 = esa.mo.platform.impl.util.HelperGPS
+                .gpggalong2Position("[0, 0]");
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: 9");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -6032,7 +6419,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray((long) 58);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMTQFromActuatorTM(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMTQFromActuatorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -6046,7 +6434,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 100.0f);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromSunPointingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromSunPointingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -6063,12 +6452,14 @@ public class RegressionTest1 {
         java.lang.Integer int7 = floatList5.getTypeShortForm();
         java.lang.Integer int8 = floatList5.getTypeShortForm();
         boolean boolean10 = floatList5.remove((java.lang.Object) 36);
-        byte[] byteArray12 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 281474993487875L);
+        byte[] byteArray12 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            (double) 281474993487875L);
         int int13 = floatList5.lastIndexOf((java.lang.Object) byteArray12);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putLongInByteArray(100L, (int) (short) 0, byteArray12);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putFloatInByteArray((float) 40, 0, byteArray12);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D16 = esa.mo.platform.impl.util.HelperIADCS100.getPositionFromNadirTargetTrackingStatus(byteArray12);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D16 = esa.mo.platform.impl.util.HelperIADCS100
+                .getPositionFromNadirTargetTrackingStatus(byteArray12);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -6087,7 +6478,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray((int) 'a');
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromSunPointingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromSunPointingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -6109,12 +6501,13 @@ public class RegressionTest1 {
                                                             281474993487875L};
         java.util.ArrayList<java.lang.Long> longList27 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean28 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList27,
-                                                         longArray26);
+            longArray26);
         java.lang.Long long30 = longList27.remove(0);
         byte[] byteArray32 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 56);
         boolean boolean33 = longList27.equals((java.lang.Object) byteArray32);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D34 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromFixWGS84TargetTrackingStatus(byteArray32);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D34 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromFixWGS84TargetTrackingStatus(byteArray32);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -6132,9 +6525,10 @@ public class RegressionTest1 {
         }
         byte[] byteArray3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) (-15));
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putFloatInByteArray((float) (byte) -1, (int) (byte) 1,
-                                                                                   byteArray3);
+            byteArray3);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D5 = esa.mo.platform.impl.util.HelperIADCS100.getPositionFromNadirTargetTrackingStatus(byteArray3);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D5 = esa.mo.platform.impl.util.HelperIADCS100
+                .getPositionFromNadirTargetTrackingStatus(byteArray3);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -6146,9 +6540,11 @@ public class RegressionTest1 {
         if (debug) {
             System.out.format("%n%s%n", "RegressionTest1.test0879");
         }
-        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray((float) 281474993487885L);
+        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray(
+            (float) 281474993487885L);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getTargetQuaternionsFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getTargetQuaternionsFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -6162,7 +6558,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray(281474993487878L);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMTQFromSunPointingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMTQFromSunPointingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -6177,7 +6574,8 @@ public class RegressionTest1 {
         byte[] byteArray3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray(281475010265073L);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putIntInByteArray(9, 4, byteArray3);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D5 = esa.mo.platform.impl.util.HelperIADCS100.getPositionFromFixWGS84TargetTrackingStatus(byteArray3);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D5 = esa.mo.platform.impl.util.HelperIADCS100
+                .getPositionFromFixWGS84TargetTrackingStatus(byteArray3);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -6191,7 +6589,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray((-5));
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMTQFromSunPointingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMTQFromSunPointingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -6206,7 +6605,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray2 = new java.lang.Short[]{(short) 0, (short) -1};
         java.util.ArrayList<java.lang.Short> shortList3 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean4 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList3,
-                                                        shortArray2);
+            shortArray2);
         shortList3.clear();
         java.lang.Object obj6 = null;
         boolean boolean7 = shortList3.remove(obj6);
@@ -6222,13 +6621,13 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray20 = new java.lang.Boolean[]{false};
         java.util.ArrayList<java.lang.Boolean> booleanList21 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean22 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList21,
-                                                         booleanArray20);
+            booleanArray20);
         java.util.stream.Stream<java.lang.Boolean> booleanStream23 = booleanList21.parallelStream();
         java.util.stream.Stream<java.lang.Boolean> booleanStream24 = booleanList21.stream();
         java.lang.Byte[] byteArray29 = new java.lang.Byte[]{(byte) 100, (byte) 1, (byte) -1, (byte) 10};
         java.util.ArrayList<java.lang.Byte> byteList30 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean31 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList30,
-                                                         byteArray29);
+            byteArray29);
         java.lang.String str32 = byteList30.toString();
         boolean boolean33 = booleanList21.containsAll((java.util.Collection<java.lang.Byte>) byteList30);
         boolean boolean34 = floatList9.removeAll((java.util.Collection<java.lang.Byte>) byteList30);
@@ -6239,7 +6638,8 @@ public class RegressionTest1 {
         byte[] byteArray41 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray(0);
         boolean boolean42 = shortList3.remove((java.lang.Object) byteArray41);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D43 = esa.mo.platform.impl.util.HelperIADCS100.getMTQFromActuatorTM(byteArray41);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D43 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMTQFromActuatorTM(byteArray41);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -6261,7 +6661,7 @@ public class RegressionTest1 {
         org.junit.Assert.assertNotNull(byteArray29);
         org.junit.Assert.assertTrue("'" + boolean31 + "' != '" + true + "'", boolean31);
         org.junit.Assert.assertTrue("'" + str32 + "' != '" + "[100, 1, -1, 10]" + "'", str32.equals(
-                                                                                                    "[100, 1, -1, 10]"));
+            "[100, 1, -1, 10]"));
         org.junit.Assert.assertTrue("'" + boolean33 + "' != '" + false + "'", !boolean33);
         org.junit.Assert.assertTrue("'" + boolean34 + "' != '" + false + "'", !boolean34);
         org.junit.Assert.assertTrue("'" + int35 + "' != '" + (-1) + "'", int35 == (-1));
@@ -6279,7 +6679,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) (-15));
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMTQFromSunPointingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMTQFromSunPointingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -6291,9 +6692,11 @@ public class RegressionTest1 {
         if (debug) {
             System.out.format("%n%s%n", "RegressionTest1.test0885");
         }
-        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 281474993487885L);
+        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            (double) 281474993487885L);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getSunVectorFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getSunVectorFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -6307,7 +6710,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray((-15));
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMagneticFieldFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMagneticFieldFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -6322,7 +6726,8 @@ public class RegressionTest1 {
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray(281475010265070L);
         short short3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getInt16FromByteArray(byteArray1, 0);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D4 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D4 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -6335,9 +6740,11 @@ public class RegressionTest1 {
         if (debug) {
             System.out.format("%n%s%n", "RegressionTest1.test0888");
         }
-        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray((float) 4823355201182236832L);
+        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray(
+            (float) 4823355201182236832L);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getSunVectorFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getSunVectorFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -6351,7 +6758,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray(18);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getTargetQuaternionsFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getTargetQuaternionsFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -6365,7 +6773,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray(65535);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMagneticFieldFromSensorTM(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMagneticFieldFromSensorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -6380,7 +6789,8 @@ public class RegressionTest1 {
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray((long) (short) 1);
         short short3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getInt16FromByteArray(byteArray1, 0);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed4 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromSunPointingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed4 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromSunPointingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -6396,7 +6806,8 @@ public class RegressionTest1 {
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 18);
         long long3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getLongFromByteArray(byteArray1, 0);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed4 = esa.mo.platform.impl.util.HelperIADCS100.getTargetWheelSpeedFromActuatorTM(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed4 = esa.mo.platform.impl.util.HelperIADCS100
+                .getTargetWheelSpeedFromActuatorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -6411,7 +6822,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray((-7));
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getTargetWheelSpeedFromActuatorTM(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getTargetWheelSpeedFromActuatorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -6437,25 +6849,27 @@ public class RegressionTest1 {
         java.lang.String str14 = booleanList0.toString();
         java.util.ListIterator<java.lang.Boolean> booleanItor15 = booleanList0.listIterator();
         java.lang.Integer int16 = booleanList0.getTypeShortForm();
-        org.ccsds.moims.mo.mal.structures.UShortList uShortList18 = new org.ccsds.moims.mo.mal.structures.UShortList(48);
+        org.ccsds.moims.mo.mal.structures.UShortList uShortList18 = new org.ccsds.moims.mo.mal.structures.UShortList(
+            48);
         java.lang.Long long19 = uShortList18.getShortForm();
         org.ccsds.moims.mo.mal.structures.Element element20 = uShortList18.createElement();
         org.ccsds.moims.mo.mal.structures.Element element21 = uShortList18.createElement();
-        java.util.Spliterator<org.ccsds.moims.mo.mal.structures.UShort> uShortSpliterator22 = uShortList18.spliterator();
+        java.util.Spliterator<org.ccsds.moims.mo.mal.structures.UShort> uShortSpliterator22 = uShortList18
+            .spliterator();
         java.util.Iterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor23 = uShortList18.iterator();
         org.ccsds.moims.mo.mal.structures.UShort uShort24 = uShortList18.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray25 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList26 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean27 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList26,
-                                                         uRIArray25);
+        boolean boolean27 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList26, uRIArray25);
         java.lang.Double[] doubleArray31 = new java.lang.Double[]{100.0d, 100.0d, 1.0d};
         java.util.ArrayList<java.lang.Double> doubleList32 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList32,
-                                                         doubleArray31);
+            doubleArray31);
         java.lang.Byte[] byteArray38 = new java.lang.Byte[]{(byte) 100, (byte) 1, (byte) -1, (byte) 10};
         java.util.ArrayList<java.lang.Byte> byteList39 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean40 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList39,
-                                                         byteArray38);
+            byteArray38);
         java.lang.String str41 = byteList39.toString();
         boolean boolean42 = doubleList32.retainAll((java.util.Collection<java.lang.Byte>) byteList39);
         boolean boolean43 = uRIList26.containsAll((java.util.Collection<java.lang.Byte>) byteList39);
@@ -6465,18 +6879,18 @@ public class RegressionTest1 {
         java.lang.String[] strArray52 = new java.lang.String[]{"", "", "[100, 1, -1, 10]", ""};
         java.util.ArrayList<java.lang.String> strList53 = new java.util.ArrayList<java.lang.String>();
         boolean boolean54 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList53,
-                                                         strArray52);
+            strArray52);
         strList53.add((int) (short) 0, "[100, 1, -1, 10]");
         int int58 = doubleList46.lastIndexOf((java.lang.Object) strList53);
         java.lang.Byte[] byteArray62 = new java.lang.Byte[]{(byte) 1, (byte) 100, (byte) 1};
         java.util.ArrayList<java.lang.Byte> byteList63 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean64 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList63,
-                                                         byteArray62);
+            byteArray62);
         boolean boolean66 = byteList63.add((java.lang.Byte) (byte) 0);
         java.lang.Byte[] byteArray72 = new java.lang.Byte[]{(byte) 10, (byte) 1, (byte) -1, (byte) 10, (byte) 0};
         java.util.ArrayList<java.lang.Byte> byteList73 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean74 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList73,
-                                                         byteArray72);
+            byteArray72);
         boolean boolean75 = byteList63.removeAll((java.util.Collection<java.lang.Byte>) byteList73);
         boolean boolean76 = doubleList46.removeAll((java.util.Collection<java.lang.Byte>) byteList63);
         org.ccsds.moims.mo.mal.structures.OctetList octetList77 = new org.ccsds.moims.mo.mal.structures.OctetList();
@@ -6488,7 +6902,8 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort83 = octetList77.getServiceNumber();
         java.util.stream.Stream<java.lang.Byte> byteStream84 = octetList77.stream();
         boolean boolean85 = uShortList18.retainAll((java.util.Collection<java.lang.Byte>) octetList77);
-        java.util.ListIterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor87 = uShortList18.listIterator((int) (byte) 0);
+        java.util.ListIterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor87 = uShortList18.listIterator(
+            (int) (byte) 0);
         esa.mo.platform.impl.util.PositionsCalculator positionsCalculator88 = new esa.mo.platform.impl.util.PositionsCalculator();
         esa.mo.platform.impl.util.PositionsCalculator positionsCalculator89 = new esa.mo.platform.impl.util.PositionsCalculator();
         esa.mo.platform.impl.util.PositionsCalculator positionsCalculator90 = new esa.mo.platform.impl.util.PositionsCalculator();
@@ -6501,7 +6916,8 @@ public class RegressionTest1 {
                                                                                                                                          positionsCalculator91,
                                                                                                                                          positionsCalculator92,
                                                                                                                                          positionsCalculator93};
-        esa.mo.platform.impl.util.PositionsCalculator[] positionsCalculatorArray95 = uShortList18.toArray(positionsCalculatorArray94);
+        esa.mo.platform.impl.util.PositionsCalculator[] positionsCalculatorArray95 = uShortList18.toArray(
+            positionsCalculatorArray94);
         boolean boolean96 = booleanList0.remove((java.lang.Object) positionsCalculatorArray95);
         boolean boolean98 = booleanList0.add((java.lang.Boolean) false);
         org.junit.Assert.assertNotNull(strArray4);
@@ -6528,7 +6944,7 @@ public class RegressionTest1 {
         org.junit.Assert.assertNotNull(byteArray38);
         org.junit.Assert.assertTrue("'" + boolean40 + "' != '" + true + "'", boolean40);
         org.junit.Assert.assertTrue("'" + str41 + "' != '" + "[100, 1, -1, 10]" + "'", str41.equals(
-                                                                                                    "[100, 1, -1, 10]"));
+            "[100, 1, -1, 10]"));
         org.junit.Assert.assertTrue("'" + boolean42 + "' != '" + true + "'", boolean42);
         org.junit.Assert.assertTrue("'" + boolean43 + "' != '" + false + "'", !boolean43);
         org.junit.Assert.assertNotNull(obj47);
@@ -6563,7 +6979,8 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test0895");
         }
         try {
-            org.ccsds.moims.mo.platform.gps.structures.Position position1 = esa.mo.platform.impl.util.HelperGPS.gpggalong2Position("2");
+            org.ccsds.moims.mo.platform.gps.structures.Position position1 = esa.mo.platform.impl.util.HelperGPS
+                .gpggalong2Position("2");
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: 9");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -6575,7 +6992,8 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test0896");
         }
         try {
-            org.ccsds.moims.mo.platform.gps.structures.Position position1 = esa.mo.platform.impl.util.HelperGPS.gpggalong2Position("29.0");
+            org.ccsds.moims.mo.platform.gps.structures.Position position1 = esa.mo.platform.impl.util.HelperGPS
+                .gpggalong2Position("29.0");
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: 9");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -6586,9 +7004,11 @@ public class RegressionTest1 {
         if (debug) {
             System.out.format("%n%s%n", "RegressionTest1.test0897");
         }
-        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 4625759767262920704L);
+        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            (double) 4625759767262920704L);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -6602,7 +7022,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray((float) 64);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromSensorTM(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromSensorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -6616,7 +7037,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray((int) ' ');
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMagneticFieldFromSensorTM(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMagneticFieldFromSensorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -6630,7 +7052,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray((float) (short) 15);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -6644,7 +7067,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray(281474993487876L);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromSunPointingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromSunPointingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -6658,7 +7082,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray((float) (byte) 1);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getPositionFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getPositionFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -6672,7 +7097,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 29);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getTargetQuaternionsFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getTargetQuaternionsFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -6686,7 +7112,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray((-10));
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getTargetWheelSpeedFromActuatorTM(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getTargetWheelSpeedFromActuatorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -6700,7 +7127,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray((int) (byte) 10);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMTQFromSunPointingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMTQFromSunPointingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -6714,7 +7142,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray(20);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getQuaternionsFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getQuaternionsFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -6726,9 +7155,11 @@ public class RegressionTest1 {
         if (debug) {
             System.out.format("%n%s%n", "RegressionTest1.test0907");
         }
-        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray((float) 281474993487879L);
+        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray(
+            (float) 281474993487879L);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getTargetQuaternionsFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getTargetQuaternionsFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -6742,7 +7173,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray((-13));
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -6756,7 +7188,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray(1);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMagneticFieldFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMagneticFieldFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -6770,7 +7203,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray((long) (short) 15);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -6783,7 +7217,8 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test0911");
         }
         try {
-            org.ccsds.moims.mo.platform.gps.structures.Position position1 = esa.mo.platform.impl.util.HelperGPS.gpggalong2Position("281475010265070");
+            org.ccsds.moims.mo.platform.gps.structures.Position position1 = esa.mo.platform.impl.util.HelperGPS
+                .gpggalong2Position("281475010265070");
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: 9");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -6796,7 +7231,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray(12);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -6808,9 +7244,11 @@ public class RegressionTest1 {
         if (debug) {
             System.out.format("%n%s%n", "RegressionTest1.test0913");
         }
-        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray((float) 281474993487879L);
+        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray(
+            (float) 281474993487879L);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getTargetWheelSpeedFromActuatorTM(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getTargetWheelSpeedFromActuatorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -6827,13 +7265,15 @@ public class RegressionTest1 {
         java.lang.Integer int9 = floatList7.getTypeShortForm();
         java.lang.Integer int10 = floatList7.getTypeShortForm();
         boolean boolean12 = floatList7.remove((java.lang.Object) 36);
-        byte[] byteArray14 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 281474993487875L);
+        byte[] byteArray14 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            (double) 281474993487875L);
         int int15 = floatList7.lastIndexOf((java.lang.Object) byteArray14);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putLongInByteArray(100L, (int) (short) 0, byteArray14);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putFloatInByteArray((float) 40, 0, byteArray14);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putDoubleInByteArray(0.0d, (int) (short) 0, byteArray14);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D19 = esa.mo.platform.impl.util.HelperIADCS100.getPositionFromFixWGS84TargetTrackingStatus(byteArray14);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D19 = esa.mo.platform.impl.util.HelperIADCS100
+                .getPositionFromFixWGS84TargetTrackingStatus(byteArray14);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -6852,7 +7292,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 14L);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -6866,7 +7307,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray((long) (short) 2);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getPositionFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getPositionFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -6881,7 +7323,8 @@ public class RegressionTest1 {
         byte[] byteArray3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray(52);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putFloatInByteArray(0.0f, (int) (short) 0, byteArray3);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D5 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromSensorTM(byteArray3);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D5 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromSensorTM(byteArray3);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -6895,7 +7338,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray(65535);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getCurrentQuaternionsFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getCurrentQuaternionsFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -6910,7 +7354,8 @@ public class RegressionTest1 {
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray(66);
         int int3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getIntFromByteArray(byteArray1, 0);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D4 = esa.mo.platform.impl.util.HelperIADCS100.getMagneticFieldFromSensorTM(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D4 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMagneticFieldFromSensorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -6925,7 +7370,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray((int) (short) 100);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getTargetWheelSpeedFromActuatorTM(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getTargetWheelSpeedFromActuatorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -6937,13 +7383,15 @@ public class RegressionTest1 {
         if (debug) {
             System.out.format("%n%s%n", "RegressionTest1.test0924");
         }
-        byte[] byteArray3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(2.81474993487882E14d);
+        byte[] byteArray3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            2.81474993487882E14d);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putFloatInByteArray((float) 281474993487882L, 0,
-                                                                                   byteArray3);
+            byteArray3);
         float float6 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getFloatFromByteArray(byteArray3,
-                                                                                                    (int) (byte) 0);
+            (int) (byte) 0);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion7 = esa.mo.platform.impl.util.HelperIADCS100.getCurrentQuaternionsFromNadirTargetTrackingStatus(byteArray3);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion7 = esa.mo.platform.impl.util.HelperIADCS100
+                .getCurrentQuaternionsFromNadirTargetTrackingStatus(byteArray3);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -6956,7 +7404,8 @@ public class RegressionTest1 {
         if (debug) {
             System.out.format("%n%s%n", "RegressionTest1.test0925");
         }
-        org.ccsds.moims.mo.mal.structures.Union union1 = new org.ccsds.moims.mo.mal.structures.Union((java.lang.Short) (short) 10);
+        org.ccsds.moims.mo.mal.structures.Union union1 = new org.ccsds.moims.mo.mal.structures.Union(
+            (java.lang.Short) (short) 10);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet2 = union1.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.DoubleList doubleList3 = new org.ccsds.moims.mo.mal.structures.DoubleList();
         java.lang.Object obj4 = doubleList3.clone();
@@ -6977,7 +7426,7 @@ public class RegressionTest1 {
                                                             281474993487875L};
         java.util.ArrayList<java.lang.Long> longList45 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean46 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList45,
-                                                         longArray44);
+            longArray44);
         java.lang.Long long48 = longList45.remove(0);
         longList45.ensureCapacity(8);
         java.util.Iterator<java.lang.Long> longItor51 = longList45.iterator();
@@ -6986,7 +7435,8 @@ public class RegressionTest1 {
         byte[] byteArray55 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray(1);
         boolean boolean56 = doubleList3.equals((java.lang.Object) byteArray55);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed57 = esa.mo.platform.impl.util.HelperIADCS100.getTargetWheelSpeedFromActuatorTM(byteArray55);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed57 = esa.mo.platform.impl.util.HelperIADCS100
+                .getTargetWheelSpeedFromActuatorTM(byteArray55);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -7014,7 +7464,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray((long) 58);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromSunPointingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromSunPointingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -7031,11 +7482,13 @@ public class RegressionTest1 {
         java.lang.Integer int5 = floatList3.getTypeShortForm();
         java.lang.Integer int6 = floatList3.getTypeShortForm();
         boolean boolean8 = floatList3.remove((java.lang.Object) 36);
-        byte[] byteArray10 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 281474993487875L);
+        byte[] byteArray10 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            (double) 281474993487875L);
         int int11 = floatList3.lastIndexOf((java.lang.Object) byteArray10);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putLongInByteArray(100L, (int) (short) 0, byteArray10);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed13 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromNadirTargetTrackingStatus(byteArray10);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed13 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromNadirTargetTrackingStatus(byteArray10);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -7054,7 +7507,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 24);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromSensorTM(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromSensorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -7068,16 +7522,16 @@ public class RegressionTest1 {
         }
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray0 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList1 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1,
-                                                        uRIArray0);
+        boolean boolean2 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1, uRIArray0);
         java.lang.Double[] doubleArray6 = new java.lang.Double[]{100.0d, 100.0d, 1.0d};
         java.util.ArrayList<java.lang.Double> doubleList7 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean8 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList7,
-                                                        doubleArray6);
+            doubleArray6);
         java.lang.Byte[] byteArray13 = new java.lang.Byte[]{(byte) 100, (byte) 1, (byte) -1, (byte) 10};
         java.util.ArrayList<java.lang.Byte> byteList14 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean15 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList14,
-                                                         byteArray13);
+            byteArray13);
         java.lang.String str16 = byteList14.toString();
         boolean boolean17 = doubleList7.retainAll((java.util.Collection<java.lang.Byte>) byteList14);
         boolean boolean18 = uRIList1.containsAll((java.util.Collection<java.lang.Byte>) byteList14);
@@ -7087,18 +7541,18 @@ public class RegressionTest1 {
         java.lang.String[] strArray27 = new java.lang.String[]{"", "", "[100, 1, -1, 10]", ""};
         java.util.ArrayList<java.lang.String> strList28 = new java.util.ArrayList<java.lang.String>();
         boolean boolean29 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList28,
-                                                         strArray27);
+            strArray27);
         strList28.add((int) (short) 0, "[100, 1, -1, 10]");
         int int33 = doubleList21.lastIndexOf((java.lang.Object) strList28);
         java.lang.Byte[] byteArray37 = new java.lang.Byte[]{(byte) 1, (byte) 100, (byte) 1};
         java.util.ArrayList<java.lang.Byte> byteList38 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList38,
-                                                         byteArray37);
+            byteArray37);
         boolean boolean41 = byteList38.add((java.lang.Byte) (byte) 0);
         java.lang.Byte[] byteArray47 = new java.lang.Byte[]{(byte) 10, (byte) 1, (byte) -1, (byte) 10, (byte) 0};
         java.util.ArrayList<java.lang.Byte> byteList48 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean49 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList48,
-                                                         byteArray47);
+            byteArray47);
         boolean boolean50 = byteList38.removeAll((java.util.Collection<java.lang.Byte>) byteList48);
         boolean boolean51 = doubleList21.removeAll((java.util.Collection<java.lang.Byte>) byteList38);
         org.ccsds.moims.mo.mal.structures.OctetList octetList52 = new org.ccsds.moims.mo.mal.structures.OctetList();
@@ -7112,7 +7566,7 @@ public class RegressionTest1 {
         java.lang.String[] strArray64 = new java.lang.String[]{"", "", "[100, 1, -1, 10]", ""};
         java.util.ArrayList<java.lang.String> strList65 = new java.util.ArrayList<java.lang.String>();
         boolean boolean66 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList65,
-                                                         strArray64);
+            strArray64);
         strList65.add((int) (short) 0, "[100, 1, -1, 10]");
         int int70 = doubleList58.lastIndexOf((java.lang.Object) strList65);
         java.util.ListIterator<java.lang.String> strItor71 = strList65.listIterator();
@@ -7120,11 +7574,11 @@ public class RegressionTest1 {
         java.lang.Double[] doubleArray77 = new java.lang.Double[]{100.0d, 100.0d, 1.0d};
         java.util.ArrayList<java.lang.Double> doubleList78 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean79 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList78,
-                                                         doubleArray77);
+            doubleArray77);
         java.lang.Byte[] byteArray84 = new java.lang.Byte[]{(byte) 100, (byte) 1, (byte) -1, (byte) 10};
         java.util.ArrayList<java.lang.Byte> byteList85 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean86 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList85,
-                                                         byteArray84);
+            byteArray84);
         java.lang.String str87 = byteList85.toString();
         boolean boolean88 = doubleList78.retainAll((java.util.Collection<java.lang.Byte>) byteList85);
         boolean boolean89 = strList65.removeAll((java.util.Collection<java.lang.Byte>) byteList85);
@@ -7134,7 +7588,8 @@ public class RegressionTest1 {
         byte[] byteArray94 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray((long) 2);
         boolean boolean95 = uRIList1.equals((java.lang.Object) byteArray94);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D96 = esa.mo.platform.impl.util.HelperIADCS100.getSunVectorFromSpinModeStatus(byteArray94);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D96 = esa.mo.platform.impl.util.HelperIADCS100
+                .getSunVectorFromSpinModeStatus(byteArray94);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -7145,7 +7600,7 @@ public class RegressionTest1 {
         org.junit.Assert.assertNotNull(byteArray13);
         org.junit.Assert.assertTrue("'" + boolean15 + "' != '" + true + "'", boolean15);
         org.junit.Assert.assertTrue("'" + str16 + "' != '" + "[100, 1, -1, 10]" + "'", str16.equals(
-                                                                                                    "[100, 1, -1, 10]"));
+            "[100, 1, -1, 10]"));
         org.junit.Assert.assertTrue("'" + boolean17 + "' != '" + true + "'", boolean17);
         org.junit.Assert.assertTrue("'" + boolean18 + "' != '" + false + "'", !boolean18);
         org.junit.Assert.assertNotNull(obj22);
@@ -7174,7 +7629,7 @@ public class RegressionTest1 {
         org.junit.Assert.assertNotNull(byteArray84);
         org.junit.Assert.assertTrue("'" + boolean86 + "' != '" + true + "'", boolean86);
         org.junit.Assert.assertTrue("'" + str87 + "' != '" + "[100, 1, -1, 10]" + "'", str87.equals(
-                                                                                                    "[100, 1, -1, 10]"));
+            "[100, 1, -1, 10]"));
         org.junit.Assert.assertTrue("'" + boolean88 + "' != '" + true + "'", boolean88);
         org.junit.Assert.assertTrue("'" + boolean89 + "' != '" + false + "'", !boolean89);
         org.junit.Assert.assertTrue("'" + boolean90 + "' != '" + false + "'", !boolean90);
@@ -7192,7 +7647,8 @@ public class RegressionTest1 {
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray((float) (byte) 0);
         short short3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getInt16FromByteArray(byteArray1, 1);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion4 = esa.mo.platform.impl.util.HelperIADCS100.getQuaternionsFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion4 = esa.mo.platform.impl.util.HelperIADCS100
+                .getQuaternionsFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -7207,7 +7663,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray(65536);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromSunPointingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromSunPointingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -7220,7 +7677,9 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test0935");
         }
         try {
-            org.ccsds.moims.mo.platform.gps.structures.Position position1 = esa.mo.platform.impl.util.HelperGPS.gpggalong2Position("[17, 15, 0, 6, 0, -1, 12, 14, 60, 4, 9, 14, 17, 5, -1, -10, -9, 17, 15, 17, 19, 2, 44, 65535, 3, 70, 36, 100, 10]");
+            org.ccsds.moims.mo.platform.gps.structures.Position position1 = esa.mo.platform.impl.util.HelperGPS
+                .gpggalong2Position(
+                    "[17, 15, 0, 6, 0, -1, 12, 14, 60, 4, 9, 14, 17, 5, -1, -10, -9, 17, 15, 17, 19, 2, 44, 65535, 3, 70, 36, 100, 10]");
             org.junit.Assert.fail("Expected exception of type java.io.IOException; message: null");
         } catch (java.io.IOException e) {
         }
@@ -7233,7 +7692,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray((-10));
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMTQFromSunPointingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMTQFromSunPointingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -7247,7 +7707,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray(13);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getSunVectorFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getSunVectorFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -7261,7 +7722,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray((-1));
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromSunPointingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromSunPointingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -7277,7 +7739,8 @@ public class RegressionTest1 {
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putFloatInByteArray((float) 10, 2, byteArray3);
         int int6 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getIntFromByteArray(byteArray3, 0);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D7 = esa.mo.platform.impl.util.HelperIADCS100.getMTQFromSpinModeStatus(byteArray3);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D7 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMTQFromSpinModeStatus(byteArray3);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -7295,12 +7758,14 @@ public class RegressionTest1 {
         java.lang.Integer int7 = floatList5.getTypeShortForm();
         java.lang.Integer int8 = floatList5.getTypeShortForm();
         boolean boolean10 = floatList5.remove((java.lang.Object) 36);
-        byte[] byteArray12 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 281474993487875L);
+        byte[] byteArray12 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            (double) 281474993487875L);
         int int13 = floatList5.lastIndexOf((java.lang.Object) byteArray12);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putLongInByteArray(100L, (int) (short) 0, byteArray12);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putFloatInByteArray((float) 40, 0, byteArray12);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D16 = esa.mo.platform.impl.util.HelperIADCS100.getMTQFromSpinModeStatus(byteArray12);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D16 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMTQFromSpinModeStatus(byteArray12);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -7320,7 +7785,8 @@ public class RegressionTest1 {
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray(15);
         short short3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getInt16FromByteArray(byteArray1, 1);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D4 = esa.mo.platform.impl.util.HelperIADCS100.getMagneticFieldFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D4 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMagneticFieldFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -7334,7 +7800,8 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test0942");
         }
         try {
-            org.ccsds.moims.mo.platform.gps.structures.Position position1 = esa.mo.platform.impl.util.HelperGPS.gpggalong2Position("35.0");
+            org.ccsds.moims.mo.platform.gps.structures.Position position1 = esa.mo.platform.impl.util.HelperGPS
+                .gpggalong2Position("35.0");
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: 9");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -7345,9 +7812,11 @@ public class RegressionTest1 {
         if (debug) {
             System.out.format("%n%s%n", "RegressionTest1.test0943");
         }
-        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray((float) (short) 19456);
+        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray(
+            (float) (short) 19456);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -7362,7 +7831,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray2 = new java.lang.Short[]{(short) 0, (short) -1};
         java.util.ArrayList<java.lang.Short> shortList3 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean4 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList3,
-                                                        shortArray2);
+            shortArray2);
         shortList3.clear();
         java.lang.Object obj6 = null;
         boolean boolean7 = shortList3.remove(obj6);
@@ -7378,13 +7847,13 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray20 = new java.lang.Boolean[]{false};
         java.util.ArrayList<java.lang.Boolean> booleanList21 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean22 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList21,
-                                                         booleanArray20);
+            booleanArray20);
         java.util.stream.Stream<java.lang.Boolean> booleanStream23 = booleanList21.parallelStream();
         java.util.stream.Stream<java.lang.Boolean> booleanStream24 = booleanList21.stream();
         java.lang.Byte[] byteArray29 = new java.lang.Byte[]{(byte) 100, (byte) 1, (byte) -1, (byte) 10};
         java.util.ArrayList<java.lang.Byte> byteList30 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean31 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList30,
-                                                         byteArray29);
+            byteArray29);
         java.lang.String str32 = byteList30.toString();
         boolean boolean33 = booleanList21.containsAll((java.util.Collection<java.lang.Byte>) byteList30);
         boolean boolean34 = floatList9.removeAll((java.util.Collection<java.lang.Byte>) byteList30);
@@ -7395,7 +7864,8 @@ public class RegressionTest1 {
         byte[] byteArray41 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray(0);
         boolean boolean42 = shortList3.remove((java.lang.Object) byteArray41);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed43 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromFixWGS84TargetTrackingStatus(byteArray41);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed43 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromFixWGS84TargetTrackingStatus(byteArray41);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -7417,7 +7887,7 @@ public class RegressionTest1 {
         org.junit.Assert.assertNotNull(byteArray29);
         org.junit.Assert.assertTrue("'" + boolean31 + "' != '" + true + "'", boolean31);
         org.junit.Assert.assertTrue("'" + str32 + "' != '" + "[100, 1, -1, 10]" + "'", str32.equals(
-                                                                                                    "[100, 1, -1, 10]"));
+            "[100, 1, -1, 10]"));
         org.junit.Assert.assertTrue("'" + boolean33 + "' != '" + false + "'", !boolean33);
         org.junit.Assert.assertTrue("'" + boolean34 + "' != '" + false + "'", !boolean34);
         org.junit.Assert.assertTrue("'" + int35 + "' != '" + (-1) + "'", int35 == (-1));
@@ -7435,7 +7905,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray((int) (short) 100);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromSunPointingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromSunPointingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -7449,7 +7920,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray(65535);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getCurrentWheelSpeedFromActuatorTM(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getCurrentWheelSpeedFromActuatorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -7461,11 +7933,13 @@ public class RegressionTest1 {
         if (debug) {
             System.out.format("%n%s%n", "RegressionTest1.test0947");
         }
-        byte[] byteArray3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(2.81474993487882E14d);
+        byte[] byteArray3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            2.81474993487882E14d);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putFloatInByteArray((float) 281474993487882L, 0,
-                                                                                   byteArray3);
+            byteArray3);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D5 = esa.mo.platform.impl.util.HelperIADCS100.getSunVectorFromSpinModeStatus(byteArray3);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D5 = esa.mo.platform.impl.util.HelperIADCS100
+                .getSunVectorFromSpinModeStatus(byteArray3);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -7477,9 +7951,11 @@ public class RegressionTest1 {
         if (debug) {
             System.out.format("%n%s%n", "RegressionTest1.test0948");
         }
-        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) (short) 100);
+        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            (double) (short) 100);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getCurrentWheelSpeedFromActuatorTM(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getCurrentWheelSpeedFromActuatorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -7491,9 +7967,11 @@ public class RegressionTest1 {
         if (debug) {
             System.out.format("%n%s%n", "RegressionTest1.test0949");
         }
-        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray((float) 281474993487881L);
+        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray(
+            (float) 281474993487881L);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getSunVectorFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getSunVectorFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -7507,7 +7985,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray(281475010265073L);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -7521,7 +8000,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray(6);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getAngularMomentumFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularMomentumFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -7537,9 +8017,10 @@ public class RegressionTest1 {
         short short3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getInt16FromByteArray(byteArray1, 0);
         double double5 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getDoubleFromByteArray(byteArray1, 0);
         short short7 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getInt16FromByteArray(byteArray1,
-                                                                                                    (int) (short) 2);
+            (int) (short) 2);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D8 = esa.mo.platform.impl.util.HelperIADCS100.getSunVectorFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D8 = esa.mo.platform.impl.util.HelperIADCS100
+                .getSunVectorFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -7557,7 +8038,8 @@ public class RegressionTest1 {
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray(15);
         short short3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getInt16FromByteArray(byteArray1, 1);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D4 = esa.mo.platform.impl.util.HelperIADCS100.getSunVectorFromSunPointingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D4 = esa.mo.platform.impl.util.HelperIADCS100
+                .getSunVectorFromSunPointingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -7572,7 +8054,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray(65535);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -7586,7 +8069,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray((int) (short) -1);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -7600,10 +8084,12 @@ public class RegressionTest1 {
         }
         org.ccsds.moims.mo.mal.structures.FineTime fineTime1 = new org.ccsds.moims.mo.mal.structures.FineTime((long) 8);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet2 = fineTime1.getAreaVersion();
-        byte[] byteArray4 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(2.81474993487882E14d);
+        byte[] byteArray4 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            2.81474993487882E14d);
         boolean boolean5 = fineTime1.equals((java.lang.Object) byteArray4);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D6 = esa.mo.platform.impl.util.HelperIADCS100.getSunVectorFromSpinModeStatus(byteArray4);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D6 = esa.mo.platform.impl.util.HelperIADCS100
+                .getSunVectorFromSpinModeStatus(byteArray4);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -7619,7 +8105,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray((long) 66);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMTQFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMTQFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -7633,7 +8120,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) (-5));
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getCurrentWheelSpeedFromActuatorTM(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getCurrentWheelSpeedFromActuatorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -7645,9 +8133,11 @@ public class RegressionTest1 {
         if (debug) {
             System.out.format("%n%s%n", "RegressionTest1.test0959");
         }
-        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 281475010265078L);
+        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            (double) 281475010265078L);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getQuaternionsFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getQuaternionsFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -7661,12 +8151,14 @@ public class RegressionTest1 {
         }
         org.ccsds.moims.mo.mal.structures.FineTime fineTime1 = new org.ccsds.moims.mo.mal.structures.FineTime((long) 8);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet2 = fineTime1.getAreaVersion();
-        byte[] byteArray4 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(2.81474993487882E14d);
+        byte[] byteArray4 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            2.81474993487882E14d);
         boolean boolean5 = fineTime1.equals((java.lang.Object) byteArray4);
         long long7 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getLongFromByteArray(byteArray4,
-                                                                                                 (int) (byte) 0);
+            (int) (byte) 0);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D8 = esa.mo.platform.impl.util.HelperIADCS100.getMagneticFieldFromSpinModeStatus(byteArray4);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D8 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMagneticFieldFromSpinModeStatus(byteArray4);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -7681,9 +8173,11 @@ public class RegressionTest1 {
         if (debug) {
             System.out.format("%n%s%n", "RegressionTest1.test0961");
         }
-        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray((float) 281474993487889L);
+        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray(
+            (float) 281474993487889L);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getTargetQuaternionsFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getTargetQuaternionsFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -7697,7 +8191,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray((long) 64);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getTargetQuaternionsFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getTargetQuaternionsFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -7711,7 +8206,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 28);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getAttitudeFromSensorTM(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAttitudeFromSensorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -7728,10 +8224,12 @@ public class RegressionTest1 {
         java.lang.Integer int3 = floatList1.getTypeShortForm();
         java.lang.Integer int4 = floatList1.getTypeShortForm();
         boolean boolean6 = floatList1.remove((java.lang.Object) 36);
-        byte[] byteArray8 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 281474993487875L);
+        byte[] byteArray8 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            (double) 281474993487875L);
         int int9 = floatList1.lastIndexOf((java.lang.Object) byteArray8);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion10 = esa.mo.platform.impl.util.HelperIADCS100.getAttitudeFromSensorTM(byteArray8);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion10 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAttitudeFromSensorTM(byteArray8);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -7750,7 +8248,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray((-4));
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getAngularMomentumFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularMomentumFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -7764,7 +8263,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray((long) (short) 15);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getTargetWheelSpeedFromActuatorTM(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getTargetWheelSpeedFromActuatorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -7778,7 +8278,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray(281474993487884L);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getAngularMomentumFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularMomentumFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -7792,7 +8293,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray(18);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -7819,7 +8321,8 @@ public class RegressionTest1 {
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray((float) (byte) 0);
         short short3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getInt16FromByteArray(byteArray1, 1);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed4 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromSunPointingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed4 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromSunPointingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -7834,7 +8337,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray((float) (byte) 1);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getCurrentQuaternionsFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getCurrentQuaternionsFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -7846,9 +8350,11 @@ public class RegressionTest1 {
         if (debug) {
             System.out.format("%n%s%n", "RegressionTest1.test0974");
         }
-        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 4294967295L);
+        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            (double) 4294967295L);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMagneticFieldFromSensorTM(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMagneticFieldFromSensorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -7860,9 +8366,11 @@ public class RegressionTest1 {
         if (debug) {
             System.out.format("%n%s%n", "RegressionTest1.test0975");
         }
-        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 281474993487875L);
+        byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            (double) 281474993487875L);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getTargetQuaternionsFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getTargetQuaternionsFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -7876,16 +8384,16 @@ public class RegressionTest1 {
         }
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray0 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList1 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1,
-                                                        uRIArray0);
+        boolean boolean2 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1, uRIArray0);
         java.lang.Double[] doubleArray6 = new java.lang.Double[]{100.0d, 100.0d, 1.0d};
         java.util.ArrayList<java.lang.Double> doubleList7 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean8 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList7,
-                                                        doubleArray6);
+            doubleArray6);
         java.lang.Byte[] byteArray13 = new java.lang.Byte[]{(byte) 100, (byte) 1, (byte) -1, (byte) 10};
         java.util.ArrayList<java.lang.Byte> byteList14 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean15 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList14,
-                                                         byteArray13);
+            byteArray13);
         java.lang.String str16 = byteList14.toString();
         boolean boolean17 = doubleList7.retainAll((java.util.Collection<java.lang.Byte>) byteList14);
         boolean boolean18 = uRIList1.containsAll((java.util.Collection<java.lang.Byte>) byteList14);
@@ -7895,18 +8403,18 @@ public class RegressionTest1 {
         java.lang.String[] strArray27 = new java.lang.String[]{"", "", "[100, 1, -1, 10]", ""};
         java.util.ArrayList<java.lang.String> strList28 = new java.util.ArrayList<java.lang.String>();
         boolean boolean29 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList28,
-                                                         strArray27);
+            strArray27);
         strList28.add((int) (short) 0, "[100, 1, -1, 10]");
         int int33 = doubleList21.lastIndexOf((java.lang.Object) strList28);
         java.lang.Byte[] byteArray37 = new java.lang.Byte[]{(byte) 1, (byte) 100, (byte) 1};
         java.util.ArrayList<java.lang.Byte> byteList38 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList38,
-                                                         byteArray37);
+            byteArray37);
         boolean boolean41 = byteList38.add((java.lang.Byte) (byte) 0);
         java.lang.Byte[] byteArray47 = new java.lang.Byte[]{(byte) 10, (byte) 1, (byte) -1, (byte) 10, (byte) 0};
         java.util.ArrayList<java.lang.Byte> byteList48 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean49 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList48,
-                                                         byteArray47);
+            byteArray47);
         boolean boolean50 = byteList38.removeAll((java.util.Collection<java.lang.Byte>) byteList48);
         boolean boolean51 = doubleList21.removeAll((java.util.Collection<java.lang.Byte>) byteList38);
         org.ccsds.moims.mo.mal.structures.OctetList octetList52 = new org.ccsds.moims.mo.mal.structures.OctetList();
@@ -7959,7 +8467,7 @@ public class RegressionTest1 {
         org.junit.Assert.assertNotNull(byteArray13);
         org.junit.Assert.assertTrue("'" + boolean15 + "' != '" + true + "'", boolean15);
         org.junit.Assert.assertTrue("'" + str16 + "' != '" + "[100, 1, -1, 10]" + "'", str16.equals(
-                                                                                                    "[100, 1, -1, 10]"));
+            "[100, 1, -1, 10]"));
         org.junit.Assert.assertTrue("'" + boolean17 + "' != '" + true + "'", boolean17);
         org.junit.Assert.assertTrue("'" + boolean18 + "' != '" + false + "'", !boolean18);
         org.junit.Assert.assertNotNull(obj22);
@@ -7995,7 +8503,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray(0L);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMTQFromSunPointingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMTQFromSunPointingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -8010,7 +8519,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray2 = new java.lang.Short[]{(short) 0, (short) -1};
         java.util.ArrayList<java.lang.Short> shortList3 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean4 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList3,
-                                                        shortArray2);
+            shortArray2);
         shortList3.clear();
         java.lang.Object obj6 = null;
         boolean boolean7 = shortList3.remove(obj6);
@@ -8026,13 +8535,13 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray20 = new java.lang.Boolean[]{false};
         java.util.ArrayList<java.lang.Boolean> booleanList21 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean22 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList21,
-                                                         booleanArray20);
+            booleanArray20);
         java.util.stream.Stream<java.lang.Boolean> booleanStream23 = booleanList21.parallelStream();
         java.util.stream.Stream<java.lang.Boolean> booleanStream24 = booleanList21.stream();
         java.lang.Byte[] byteArray29 = new java.lang.Byte[]{(byte) 100, (byte) 1, (byte) -1, (byte) 10};
         java.util.ArrayList<java.lang.Byte> byteList30 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean31 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList30,
-                                                         byteArray29);
+            byteArray29);
         java.lang.String str32 = byteList30.toString();
         boolean boolean33 = booleanList21.containsAll((java.util.Collection<java.lang.Byte>) byteList30);
         boolean boolean34 = floatList9.removeAll((java.util.Collection<java.lang.Byte>) byteList30);
@@ -8043,7 +8552,8 @@ public class RegressionTest1 {
         byte[] byteArray41 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray(0);
         boolean boolean42 = shortList3.remove((java.lang.Object) byteArray41);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion43 = esa.mo.platform.impl.util.HelperIADCS100.getTargetQuaternionsFromFixWGS84TargetTrackingStatus(byteArray41);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion43 = esa.mo.platform.impl.util.HelperIADCS100
+                .getTargetQuaternionsFromFixWGS84TargetTrackingStatus(byteArray41);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -8065,7 +8575,7 @@ public class RegressionTest1 {
         org.junit.Assert.assertNotNull(byteArray29);
         org.junit.Assert.assertTrue("'" + boolean31 + "' != '" + true + "'", boolean31);
         org.junit.Assert.assertTrue("'" + str32 + "' != '" + "[100, 1, -1, 10]" + "'", str32.equals(
-                                                                                                    "[100, 1, -1, 10]"));
+            "[100, 1, -1, 10]"));
         org.junit.Assert.assertTrue("'" + boolean33 + "' != '" + false + "'", !boolean33);
         org.junit.Assert.assertTrue("'" + boolean34 + "' != '" + false + "'", !boolean34);
         org.junit.Assert.assertTrue("'" + int35 + "' != '" + (-1) + "'", int35 == (-1));
@@ -8084,7 +8594,8 @@ public class RegressionTest1 {
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray(66);
         int int3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getIntFromByteArray(byteArray1, 0);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed4 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromSunPointingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed4 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromSunPointingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -8099,7 +8610,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray((int) (short) 10);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -8113,7 +8625,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 56);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMTQFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMTQFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -8127,7 +8640,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray(4);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromSensorTM(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromSensorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -8141,7 +8655,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 0);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getTargetWheelSpeedFromActuatorTM(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getTargetWheelSpeedFromActuatorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -8155,7 +8670,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray((int) (short) 100);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getSunVectorFromSunPointingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getSunVectorFromSunPointingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -8167,11 +8683,13 @@ public class RegressionTest1 {
         if (debug) {
             System.out.format("%n%s%n", "RegressionTest1.test0985");
         }
-        byte[] byteArray3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(2.81474993487882E14d);
+        byte[] byteArray3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            2.81474993487882E14d);
         esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.putFloatInByteArray((float) 281474993487882L, 0,
-                                                                                   byteArray3);
+            byteArray3);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed5 = esa.mo.platform.impl.util.HelperIADCS100.getCurrentWheelSpeedFromActuatorTM(byteArray3);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed5 = esa.mo.platform.impl.util.HelperIADCS100
+                .getCurrentWheelSpeedFromActuatorTM(byteArray3);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -8185,7 +8703,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray((float) 6);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -8199,7 +8718,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(3.0d);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getCurrentQuaternionsFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getCurrentQuaternionsFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -8213,7 +8733,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray((-15));
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getQuaternionsFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getQuaternionsFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -8235,11 +8756,13 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort8 = org.ccsds.moims.mo.mal.structures.FloatList.SERVICE_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray9 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort8};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList10 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean11 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList10,
-                                                         uShortArray9);
+        boolean boolean11 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList10, uShortArray9);
         int int12 = uShortList10.size();
-        java.util.Spliterator<org.ccsds.moims.mo.mal.structures.UShort> uShortSpliterator13 = uShortList10.spliterator();
-        java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream14 = uShortList10.parallelStream();
+        java.util.Spliterator<org.ccsds.moims.mo.mal.structures.UShort> uShortSpliterator13 = uShortList10
+            .spliterator();
+        java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream14 = uShortList10
+            .parallelStream();
         boolean boolean15 = uShortList1.equals((java.lang.Object) uShortList10);
         org.ccsds.moims.mo.mal.structures.FloatList floatList17 = new org.ccsds.moims.mo.mal.structures.FloatList(100);
         java.lang.Integer int18 = floatList17.getTypeShortForm();
@@ -8247,14 +8770,15 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort20 = floatList17.getAreaNumber();
         java.util.stream.Stream<java.lang.Float> floatStream21 = floatList17.parallelStream();
         int int22 = uShortList10.indexOf((java.lang.Object) floatList17);
-        org.ccsds.moims.mo.mal.structures.BooleanList booleanList24 = new org.ccsds.moims.mo.mal.structures.BooleanList(100);
+        org.ccsds.moims.mo.mal.structures.BooleanList booleanList24 = new org.ccsds.moims.mo.mal.structures.BooleanList(
+            100);
         int int25 = booleanList24.size();
         org.ccsds.moims.mo.mal.structures.DoubleList doubleList26 = new org.ccsds.moims.mo.mal.structures.DoubleList();
         java.lang.Object obj27 = doubleList26.clone();
         java.lang.String[] strArray32 = new java.lang.String[]{"", "", "[100, 1, -1, 10]", ""};
         java.util.ArrayList<java.lang.String> strList33 = new java.util.ArrayList<java.lang.String>();
         boolean boolean34 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList33,
-                                                         strArray32);
+            strArray32);
         strList33.add((int) (short) 0, "[100, 1, -1, 10]");
         int int38 = doubleList26.lastIndexOf((java.lang.Object) strList33);
         boolean boolean39 = doubleList26.isEmpty();
@@ -8263,17 +8787,17 @@ public class RegressionTest1 {
         java.lang.Double[] doubleArray46 = new java.lang.Double[]{100.0d, 100.0d, 1.0d};
         java.util.ArrayList<java.lang.Double> doubleList47 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean48 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList47,
-                                                         doubleArray46);
+            doubleArray46);
         java.lang.Byte[] byteArray53 = new java.lang.Byte[]{(byte) 100, (byte) 1, (byte) -1, (byte) 10};
         java.util.ArrayList<java.lang.Byte> byteList54 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean55 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList54,
-                                                         byteArray53);
+            byteArray53);
         java.lang.String str56 = byteList54.toString();
         boolean boolean57 = doubleList47.retainAll((java.util.Collection<java.lang.Byte>) byteList54);
         java.lang.Byte[] byteArray62 = new java.lang.Byte[]{(byte) 100, (byte) 1, (byte) -1, (byte) 10};
         java.util.ArrayList<java.lang.Byte> byteList63 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean64 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList63,
-                                                         byteArray62);
+            byteArray62);
         java.lang.String str65 = byteList63.toString();
         java.lang.Byte byte68 = byteList63.set(0, (java.lang.Byte) (byte) 10);
         boolean boolean69 = byteList54.containsAll((java.util.Collection<java.lang.Byte>) byteList63);
@@ -8284,7 +8808,8 @@ public class RegressionTest1 {
         byte[] byteArray75 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray((float) 7);
         int int76 = floatList17.lastIndexOf((java.lang.Object) byteArray75);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D77 = esa.mo.platform.impl.util.HelperIADCS100.getMTQFromSpinModeStatus(byteArray75);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D77 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMTQFromSpinModeStatus(byteArray75);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -8319,12 +8844,12 @@ public class RegressionTest1 {
         org.junit.Assert.assertNotNull(byteArray53);
         org.junit.Assert.assertTrue("'" + boolean55 + "' != '" + true + "'", boolean55);
         org.junit.Assert.assertTrue("'" + str56 + "' != '" + "[100, 1, -1, 10]" + "'", str56.equals(
-                                                                                                    "[100, 1, -1, 10]"));
+            "[100, 1, -1, 10]"));
         org.junit.Assert.assertTrue("'" + boolean57 + "' != '" + true + "'", boolean57);
         org.junit.Assert.assertNotNull(byteArray62);
         org.junit.Assert.assertTrue("'" + boolean64 + "' != '" + true + "'", boolean64);
         org.junit.Assert.assertTrue("'" + str65 + "' != '" + "[100, 1, -1, 10]" + "'", str65.equals(
-                                                                                                    "[100, 1, -1, 10]"));
+            "[100, 1, -1, 10]"));
         org.junit.Assert.assertTrue("'" + byte68 + "' != '" + (byte) 100 + "'", byte68.equals((byte) 100));
         org.junit.Assert.assertTrue("'" + boolean69 + "' != '" + true + "'", boolean69);
         org.junit.Assert.assertTrue("'" + boolean70 + "' != '" + true + "'", boolean70);
@@ -8342,7 +8867,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.float2ByteArray((float) 66);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMTQFromActuatorTM(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMTQFromActuatorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -8357,15 +8883,15 @@ public class RegressionTest1 {
         java.lang.Float[] floatArray1 = new java.lang.Float[]{10.0f};
         java.util.ArrayList<java.lang.Float> floatList2 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList2,
-                                                        floatArray1);
+            floatArray1);
         java.lang.Object obj4 = null;
         int int5 = floatList2.lastIndexOf(obj4);
         java.util.ListIterator<java.lang.Float> floatItor6 = floatList2.listIterator();
         org.ccsds.moims.mo.mal.structures.UShort uShort7 = org.ccsds.moims.mo.mal.structures.FloatList.SERVICE_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray8 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort7};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList9 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean10 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList9,
-                                                         uShortArray8);
+        boolean boolean10 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList9, uShortArray8);
         int int11 = uShortList9.size();
         org.ccsds.moims.mo.mal.structures.UShort uShort12 = org.ccsds.moims.mo.mal.structures.UShort.ATTRIBUTE_SERVICE_NUMBER;
         boolean boolean13 = uShortList9.add(uShort12);
@@ -8375,24 +8901,24 @@ public class RegressionTest1 {
         java.lang.String[] strArray21 = new java.lang.String[]{"", "", "[100, 1, -1, 10]", ""};
         java.util.ArrayList<java.lang.String> strList22 = new java.util.ArrayList<java.lang.String>();
         boolean boolean23 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList22,
-                                                         strArray21);
+            strArray21);
         strList22.add((int) (short) 0, "[100, 1, -1, 10]");
         int int27 = doubleList15.lastIndexOf((java.lang.Object) strList22);
         boolean boolean28 = doubleList15.isEmpty();
         java.lang.Object obj29 = doubleList15.clone();
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray30 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList31 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean32 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList31,
-                                                         uRIArray30);
+        boolean boolean32 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList31, uRIArray30);
         java.lang.Object obj33 = uRIList31.clone();
         java.lang.Double[] doubleArray37 = new java.lang.Double[]{100.0d, 100.0d, 1.0d};
         java.util.ArrayList<java.lang.Double> doubleList38 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList38,
-                                                         doubleArray37);
+            doubleArray37);
         java.lang.Byte[] byteArray44 = new java.lang.Byte[]{(byte) 100, (byte) 1, (byte) -1, (byte) 10};
         java.util.ArrayList<java.lang.Byte> byteList45 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean46 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList45,
-                                                         byteArray44);
+            byteArray44);
         java.lang.String str47 = byteList45.toString();
         boolean boolean48 = doubleList38.retainAll((java.util.Collection<java.lang.Byte>) byteList45);
         java.util.ListIterator<java.lang.Byte> byteItor49 = byteList45.listIterator();
@@ -8402,7 +8928,7 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray55 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList56 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean57 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList56,
-                                                         booleanArray55);
+            booleanArray55);
         java.util.stream.Stream<java.lang.Boolean> booleanStream58 = booleanList56.stream();
         java.util.Spliterator<java.lang.Boolean> booleanSpliterator59 = booleanList56.spliterator();
         int int60 = byteList45.indexOf((java.lang.Object) booleanSpliterator59);
@@ -8410,22 +8936,24 @@ public class RegressionTest1 {
         java.lang.Long[] longArray69 = new java.lang.Long[]{4294967295L, (-1L), 4294967295L, 0L, (-1L), 0L, 100L};
         java.util.ArrayList<java.lang.Long> longList70 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean71 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList70,
-                                                         longArray69);
+            longArray69);
         longList70.add((int) (byte) 1, (java.lang.Long) 281475010265070L);
         java.lang.Byte[] byteArray79 = new java.lang.Byte[]{(byte) 100, (byte) 1, (byte) -1, (byte) 10};
         java.util.ArrayList<java.lang.Byte> byteList80 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean81 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList80,
-                                                         byteArray79);
+            byteArray79);
         java.lang.String str82 = byteList80.toString();
         java.lang.Byte byte85 = byteList80.set(0, (java.lang.Byte) (byte) 10);
         boolean boolean86 = longList70.containsAll((java.util.Collection<java.lang.Byte>) byteList80);
         java.lang.Object obj87 = null;
         boolean boolean88 = byteList80.equals(obj87);
         boolean boolean89 = byteList45.removeAll((java.util.Collection<java.lang.Byte>) byteList80);
-        byte[] byteArray91 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 281475010265077L);
+        byte[] byteArray91 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray(
+            (double) 281475010265077L);
         boolean boolean92 = byteList80.equals((java.lang.Object) byteArray91);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D93 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromFixWGS84TargetTrackingStatus(byteArray91);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D93 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromFixWGS84TargetTrackingStatus(byteArray91);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -8454,7 +8982,7 @@ public class RegressionTest1 {
         org.junit.Assert.assertNotNull(byteArray44);
         org.junit.Assert.assertTrue("'" + boolean46 + "' != '" + true + "'", boolean46);
         org.junit.Assert.assertTrue("'" + str47 + "' != '" + "[100, 1, -1, 10]" + "'", str47.equals(
-                                                                                                    "[100, 1, -1, 10]"));
+            "[100, 1, -1, 10]"));
         org.junit.Assert.assertTrue("'" + boolean48 + "' != '" + true + "'", boolean48);
         org.junit.Assert.assertNotNull(byteItor49);
         org.junit.Assert.assertTrue("'" + boolean50 + "' != '" + false + "'", !boolean50);
@@ -8471,7 +8999,7 @@ public class RegressionTest1 {
         org.junit.Assert.assertNotNull(byteArray79);
         org.junit.Assert.assertTrue("'" + boolean81 + "' != '" + true + "'", boolean81);
         org.junit.Assert.assertTrue("'" + str82 + "' != '" + "[100, 1, -1, 10]" + "'", str82.equals(
-                                                                                                    "[100, 1, -1, 10]"));
+            "[100, 1, -1, 10]"));
         org.junit.Assert.assertTrue("'" + byte85 + "' != '" + (byte) 100 + "'", byte85.equals((byte) 100));
         org.junit.Assert.assertTrue("'" + boolean86 + "' != '" + false + "'", !boolean86);
         org.junit.Assert.assertTrue("'" + boolean88 + "' != '" + false + "'", !boolean88);
@@ -8487,7 +9015,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.double2ByteArray((double) 14L);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromSunPointingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromSunPointingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -8501,7 +9030,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray((int) (short) -1);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100.getMTQFromSpinModeStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getMTQFromSpinModeStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -8517,7 +9047,8 @@ public class RegressionTest1 {
         short short3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getInt16FromByteArray(byteArray1, 0);
         double double5 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getDoubleFromByteArray(byteArray1, 0);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D6 = esa.mo.platform.impl.util.HelperIADCS100.getAngularVelocityFromNadirTargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D6 = esa.mo.platform.impl.util.HelperIADCS100
+                .getAngularVelocityFromNadirTargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -8533,7 +9064,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray((int) ' ');
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getCurrentQuaternionsFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getCurrentQuaternionsFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -8547,7 +9079,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray((-1));
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100.getWheelSpeedFromSunPointingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getWheelSpeedFromSunPointingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -8561,7 +9094,8 @@ public class RegressionTest1 {
         }
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray(281475010265073L);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100.getTargetQuaternionsFromFixWGS84TargetTrackingStatus(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion2 = esa.mo.platform.impl.util.HelperIADCS100
+                .getTargetQuaternionsFromFixWGS84TargetTrackingStatus(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -8576,7 +9110,8 @@ public class RegressionTest1 {
         byte[] byteArray1 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray(2);
         short short3 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.getInt16FromByteArray(byteArray1, 0);
         try {
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed4 = esa.mo.platform.impl.util.HelperIADCS100.getTargetWheelSpeedFromActuatorTM(byteArray1);
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed4 = esa.mo.platform.impl.util.HelperIADCS100
+                .getTargetWheelSpeedFromActuatorTM(byteArray1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -8589,7 +9124,8 @@ public class RegressionTest1 {
         if (debug) {
             System.out.format("%n%s%n", "RegressionTest1.test1000");
         }
-        org.ccsds.moims.mo.mal.structures.Union union1 = new org.ccsds.moims.mo.mal.structures.Union((java.lang.Short) (short) 10);
+        org.ccsds.moims.mo.mal.structures.Union union1 = new org.ccsds.moims.mo.mal.structures.Union(
+            (java.lang.Short) (short) 10);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet2 = union1.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.DoubleList doubleList3 = new org.ccsds.moims.mo.mal.structures.DoubleList();
         java.lang.Object obj4 = doubleList3.clone();
@@ -8610,7 +9146,7 @@ public class RegressionTest1 {
                                                             281474993487875L};
         java.util.ArrayList<java.lang.Long> longList45 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean46 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList45,
-                                                         longArray44);
+            longArray44);
         java.lang.Long long48 = longList45.remove(0);
         longList45.ensureCapacity(8);
         java.util.Iterator<java.lang.Long> longItor51 = longList45.iterator();
@@ -8619,7 +9155,8 @@ public class RegressionTest1 {
         byte[] byteArray55 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray(1);
         boolean boolean56 = doubleList3.equals((java.lang.Object) byteArray55);
         try {
-            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D57 = esa.mo.platform.impl.util.HelperIADCS100.getPositionFromNadirTargetTrackingStatus(byteArray55);
+            org.ccsds.moims.mo.platform.structures.VectorF3D vector3D57 = esa.mo.platform.impl.util.HelperIADCS100
+                .getPositionFromNadirTargetTrackingStatus(byteArray55);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }

@@ -108,8 +108,7 @@ public abstract class GroundMOProxy {
 
     private SingleConnectionDetails cdFromService(COMService service) {
         final ServiceKey serviceKey = new ServiceKey(service.getArea().getNumber(), service.getNumber(), service
-                                                                                                                .getArea()
-                                                                                                                .getVersion());
+            .getArea().getVersion());
 
         try {
             ProviderSummaryList list = getRemoteNMSProviderSpecificService(serviceKey);
@@ -125,10 +124,11 @@ public abstract class GroundMOProxy {
 
     public ProviderSummaryList getRemoteNMSProvider() throws MALInteractionException, MALException {
         return getRemoteNMSProviderSpecificService(new ServiceKey(new UShort((short) 0), new UShort((short) 0),
-                                                                  new UOctet((short) 0)));
+            new UOctet((short) 0)));
     }
 
-    public ProviderSummaryList getRemoteNMSProviderSpecificService(ServiceKey key) throws MALInteractionException, MALException {
+    public ProviderSummaryList getRemoteNMSProviderSpecificService(ServiceKey key) throws MALInteractionException,
+        MALException {
         IdentifierList wildcardList = new IdentifierList();
         wildcardList.add(new Identifier("*"));
 
@@ -222,7 +222,7 @@ public abstract class GroundMOProxy {
                     cdRemoteArchive = cdFromService(ArchiveHelper.ARCHIVE_SERVICE);
                 } catch (MALTransmitErrorException e) {
                     LOGGER.log(Level.WARNING,
-                               "Failed to start directory service sync. Check the link to the spacecraft.");
+                        "Failed to start directory service sync. Check the link to the spacecraft.");
                 } catch (MALException | MalformedURLException | MALInteractionException e) {
                     LOGGER.log(Level.SEVERE, "Error when initialising link to the NMS.", e);
                 }
@@ -241,8 +241,7 @@ public abstract class GroundMOProxy {
                         return;
                     }
                     ArchiveQuery archiveQuery = new ArchiveQuery(archiveService.getConnectionDetails().getDomain(),
-                                                                 null, null, 0L, null, lastTime, currentOBT, false,
-                                                                 null);
+                        null, null, 0L, null, lastTime, currentOBT, false, null);
 
                     ArchiveQueryList archiveQueryList = new ArchiveQueryList();
                     archiveQueryList.add(archiveQuery);
@@ -251,26 +250,26 @@ public abstract class GroundMOProxy {
                     ArchiveAdapter adapter = new ArchiveAdapter() {
                         @Override
                         public synchronized void countResponseReceived(MALMessageHeader msgHeader, LongList countList,
-                                                                       Map qosProperties) {
+                            Map qosProperties) {
                             count[0] += countList.get(0);
                         }
                     };
 
                     // Use the count operation from the Archive for Common.Directory.ServiceProvider
-                    archiveService.getArchiveStub()
-                                  .count(DirectoryHelper.SERVICEPROVIDER_OBJECT_TYPE, archiveQueryList, null, adapter);
+                    archiveService.getArchiveStub().count(DirectoryHelper.SERVICEPROVIDER_OBJECT_TYPE, archiveQueryList,
+                        null, adapter);
 
                     // use the count operation from the Archive for SoftwareManagement.AppsLauncher.StopApp
-                    archiveService.getArchiveStub()
-                                  .count(AppsLauncherHelper.STOPAPP_OBJECT_TYPE, archiveQueryList, null, adapter);
+                    archiveService.getArchiveStub().count(AppsLauncherHelper.STOPAPP_OBJECT_TYPE, archiveQueryList,
+                        null, adapter);
 
                     if (count[0] != 0L) {
                         LOGGER.log(Level.INFO, "A change in the Central Directory service was detected." +
-                                               " The list of providers will be synchronized...");
+                            " The list of providers will be synchronized...");
                         try {
                             // If there are new objects, then synchronize!
                             localDirectoryService.syncLocalDirectoryServiceWithCentral(centralDirectoryServiceURI,
-                                                                                       routedURI);
+                                routedURI);
                             additionalHandling();
 
                         } catch (MALException | MALInteractionException | MalformedURLException ex) {
@@ -286,7 +285,8 @@ public abstract class GroundMOProxy {
         }
     }
 
-    protected void createProviderStatusAdapter(HeartbeatConsumerServiceImpl heartbeat) throws MALException, MALInteractionException {
+    protected void createProviderStatusAdapter(HeartbeatConsumerServiceImpl heartbeat) throws MALException,
+        MALInteractionException {
         providerStatusAdapter = new GroundHeartbeatAdapter(heartbeat, esa.mo.nmf.groundmoproxy.GroundMOProxy.this);
     }
 
@@ -323,21 +323,22 @@ public abstract class GroundMOProxy {
                     if (firstTime) {
                         if (cdRemoteArchive == null) {
                             LOGGER.log(Level.WARNING,
-                                       "Failed to find the remote NMS Archive. Might be still initializing...");
+                                "Failed to find the remote NMS Archive. Might be still initializing...");
                             return;
                         } else {
 
                             // If it is first time, then we need to connect to the
                             // heartbeat service and listen to the beat
-                            SingleConnectionDetails connectionDetails = cdFromService(HeartbeatHelper.HEARTBEAT_SERVICE);
+                            SingleConnectionDetails connectionDetails = cdFromService(
+                                HeartbeatHelper.HEARTBEAT_SERVICE);
                             heartbeatService = new HeartbeatConsumerServiceImpl(connectionDetails, null);
                             createProviderStatusAdapter(heartbeatService);
                             heartbeatSubscription = ConnectionConsumer.subscriptionWildcard(new Identifier("HBSUB"));
 
                             try {
                                 firstTime = false;
-                                heartbeatService.getHeartbeatStub()
-                                                .beatRegister(heartbeatSubscription, providerStatusAdapter);
+                                heartbeatService.getHeartbeatStub().beatRegister(heartbeatSubscription,
+                                    providerStatusAdapter);
                             } catch (MALInteractionException | MALException ex) {
                                 LOGGER.log(Level.SEVERE, "Error when subscribing to the NMS heartbeat.", ex);
                             }
@@ -348,7 +349,7 @@ public abstract class GroundMOProxy {
                     }
                 } catch (MALTransmitErrorException ex) {
                     LOGGER.log(Level.WARNING,
-                               "Failed to start directory service sync. Check the link to the spacecraft.");
+                        "Failed to start directory service sync. Check the link to the spacecraft.");
                 } catch (MALException | MalformedURLException | MALInteractionException ex) {
                     LOGGER.log(Level.SEVERE, "Error when initialising link to the NMS.", ex);
                 }

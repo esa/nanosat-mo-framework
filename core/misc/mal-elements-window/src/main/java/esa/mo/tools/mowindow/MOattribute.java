@@ -60,9 +60,8 @@ public class MOattribute extends MOelement {
             }
 
             Long shortForm = Attribute.ABSOLUTE_AREA_SERVICE_NUMBER + index;
-            super.object = MALContextFactory.getElementFactoryRegistry()
-                                            .lookupElementFactory(shortForm)
-                                            .createElement();
+            super.object = MALContextFactory.getElementFactoryRegistry().lookupElementFactory(shortForm)
+                .createElement();
         }
 
         try {
@@ -75,11 +74,9 @@ public class MOattribute extends MOelement {
             return out;
 
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(null, "The field value: '" +
-                                                fieldValue.getText() +
-                                                "' could not be converted into " +
-                                                super.object.getClass().getSimpleName(), "NumberFormatException",
-                                          JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "The field value: '" + fieldValue.getText() +
+                "' could not be converted into " + super.object.getClass().getSimpleName(), "NumberFormatException",
+                JOptionPane.ERROR_MESSAGE);
         }
 
         return null;

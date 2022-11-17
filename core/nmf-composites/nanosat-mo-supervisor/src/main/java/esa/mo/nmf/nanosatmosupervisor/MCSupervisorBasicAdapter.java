@@ -116,8 +116,8 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
 
         /* OBSW PARAMETERS PROXIES */
         try {
-            obswParameterManager = new OBSWParameterManager(getClass().getClassLoader()
-                                                                      .getResourceAsStream("Datapool.xml"));
+            obswParameterManager = new OBSWParameterManager(getClass().getClassLoader().getResourceAsStream(
+                "Datapool.xml"));
             obswParameterManager.registerParametersProxies(registrationObject);
         } catch (IOException | JAXBException | XMLStreamException e) {
             LOGGER.log(Level.SEVERE, "Couldn't register OBSW parameters proxies", e);
@@ -140,9 +140,8 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
     public void startAdcsAttitudeMonitoring() {
         try {
             // Subscribe monitorAttitude
-            nmfSupervisor.getPlatformServices()
-                         .getAutonomousADCSService()
-                         .monitorAttitudeRegister(ConnectionConsumer.subscriptionWildcard(), new ADCSDataHandler());
+            nmfSupervisor.getPlatformServices().getAutonomousADCSService().monitorAttitudeRegister(ConnectionConsumer
+                .subscriptionWildcard(), new ADCSDataHandler());
             configureMonitoring();
         } catch (IOException | MALInteractionException | MALException | NMFException ex) {
             LOGGER.log(Level.SEVERE, "Error when setting up attitude monitoring.", ex);
@@ -152,12 +151,11 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
     public class ADCSDataHandler extends AutonomousADCSAdapter {
         @Override
         public void monitorAttitudeNotifyReceived(final MALMessageHeader msgHeader, final Identifier lIdentifier,
-                                                  final UpdateHeaderList lUpdateHeaderList,
-                                                  org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeTelemetryList attitudeTelemetryList,
-                                                  org.ccsds.moims.mo.platform.autonomousadcs.structures.ActuatorsTelemetryList actuatorsTelemetryList,
-                                                  org.ccsds.moims.mo.mal.structures.DurationList controlDurationList,
-                                                  org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeList attitudeModeList,
-                                                  final Map qosp) {
+            final UpdateHeaderList lUpdateHeaderList,
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeTelemetryList attitudeTelemetryList,
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.ActuatorsTelemetryList actuatorsTelemetryList,
+            org.ccsds.moims.mo.mal.structures.DurationList controlDurationList,
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeList attitudeModeList, final Map qosp) {
             LOGGER.log(Level.FINE, "Received monitorAttitude notify");
             for (AttitudeTelemetry attitudeTm : attitudeTelemetryList) {
                 Quaternion attitude = attitudeTm.getAttitude();
@@ -185,19 +183,17 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
 
     private void configureMonitoring() throws IOException, MALInteractionException, MALException, NMFException {
         if (attitudeMonitoringInterval.getValue() >= 0.1) {
-            nmfSupervisor.getPlatformServices()
-                         .getAutonomousADCSService()
-                         .enableMonitoring(true, attitudeMonitoringInterval);
+            nmfSupervisor.getPlatformServices().getAutonomousADCSService().enableMonitoring(true,
+                attitudeMonitoringInterval);
         } else {
-            nmfSupervisor.getPlatformServices()
-                         .getAutonomousADCSService()
-                         .enableMonitoring(false, attitudeMonitoringInterval);
+            nmfSupervisor.getPlatformServices().getAutonomousADCSService().enableMonitoring(false,
+                attitudeMonitoringInterval);
         }
     }
 
     @Action(name = "ADCS.configureMonitoring")
     public UInteger configureMonitoringAction(Long actionInstanceObjId, boolean reportProgress,
-                                              MALInteraction interaction) {
+        MALInteraction interaction) {
         try {
             configureMonitoring();
         } catch (IOException | MALInteractionException | MALException | NMFException ex) {
@@ -210,7 +206,7 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
     @Action(name = "NMEA_Sentence",
             description = "Adds <CR><LF> to a raw NMEA query and forwards it to the GNSS Provider")
     public UInteger nmeaAction(Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction,
-                               @ActionParameter(name = "arg") String arg) {
+        @ActionParameter(name = "arg") String arg) {
         try {
             arg = arg + "\r\n";
             nmfSupervisor.getPlatformServices().getGPSService().getNMEASentence(arg, new GPSConsumerAdapter());
@@ -224,8 +220,7 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
     @Action(name = "Clock.setTimeUsingDeltaMilliseconds",
             description = "Sets the clock using a diff between the on-board time and the desired time.")
     public UInteger setTimeUsingDeltaMilliseconds(Long actionInstanceObjId, boolean reportProgress,
-                                                  MALInteraction interaction, @ActionParameter(name = "delta",
-                                                                                               rawUnit = "milliseconds") Long delta) {
+        MALInteraction interaction, @ActionParameter(name = "delta", rawUnit = "milliseconds") Long delta) {
         String str = (new SimpleDateFormat(DATE_PATTERN)).format(new Date(System.currentTimeMillis() + delta));
 
         ShellCommander shell = new ShellCommander();
@@ -237,9 +232,8 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
     public UInteger adcsSunPointing(Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
 
         try {
-            nmfSupervisor.getPlatformServices()
-                         .getAutonomousADCSService()
-                         .setDesiredAttitude(null, new AttitudeModeSunPointing());
+            nmfSupervisor.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(null,
+                new AttitudeModeSunPointing());
         } catch (MALInteractionException | MALException | IOException | NMFException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
             return new UInteger(1);
@@ -249,12 +243,11 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
 
     @Action(name = "ADCS.nadirPointing")
     public UInteger adcsNadirPointing(Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction,
-                                      @ActionParameter(name = "duration") Duration duration) {
+        @ActionParameter(name = "duration") Duration duration) {
 
         try {
-            nmfSupervisor.getPlatformServices()
-                         .getAutonomousADCSService()
-                         .setDesiredAttitude(duration, new AttitudeModeSunPointing());
+            nmfSupervisor.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(duration,
+                new AttitudeModeSunPointing());
         } catch (MALInteractionException | MALException | IOException | NMFException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
             return new UInteger(1);
@@ -278,13 +271,13 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
 
         @Override
         public void getNMEASentenceResponseErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
-                                                         Map qosProperties) {
+            Map qosProperties) {
             LOGGER.log(Level.WARNING, "Received response error");
         }
 
         @Override
         public void getNMEASentenceAckErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
-                                                    Map qosProperties) {
+            Map qosProperties) {
             LOGGER.log(Level.WARNING, "Received ACK error");
         }
 

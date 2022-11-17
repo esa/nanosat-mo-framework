@@ -18,7 +18,7 @@ final class RunnableRemove implements Runnable {
     private final LongList objIds;
 
     RunnableRemove(TransactionsProcessor transactionsProcessor, Runnable publishEvents, Integer objTypeId,
-                   Integer domainId, LongList objIds) {
+        Integer domainId, LongList objIds) {
         this.transactionsProcessor = transactionsProcessor;
         this.publishEvents = publishEvents;
         this.objTypeId = objTypeId;
@@ -39,7 +39,7 @@ final class RunnableRemove implements Runnable {
             c.setAutoCommit(false);
 
             PreparedStatement deleteStmt = transactionsProcessor.dbBackend.getPreparedStatements()
-                                                                          .getDeleteCOMObjects();
+                .getDeleteCOMObjects();
 
             // Generate the object Ids if needed and the persistence objects to be removed
             for (int i = 0; i < objIds.size(); i++) {

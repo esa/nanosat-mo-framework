@@ -98,9 +98,8 @@ public class CheckLinkEvaluationManager {
      * the consecutive nominal/violation samples havent been reached yet
      */
     public EvaluationResult evaluateCheckResult(final Long checkLinkId, final ParameterValue parValue,
-                                                boolean triggered, CheckDefinitionDetails checkDefDetails,
-                                                CheckLinkDetails details, ObjectDetails checkLinkLink,
-                                                boolean checkServiceGloballyEnabled) {
+        boolean triggered, CheckDefinitionDetails checkDefDetails, CheckLinkDetails details,
+        ObjectDetails checkLinkLink, boolean checkServiceGloballyEnabled) {
         EvaluationResult evaluationResult = new EvaluationResult();
         evaluationResult.setEvaluationTime(new Time(System.currentTimeMillis()));
         //requirement: 3.5.3.o
@@ -128,8 +127,7 @@ public class CheckLinkEvaluationManager {
         Attribute value = null;
         if (!(checkDefDetails instanceof CompoundCheckDefinition)) {
             ParameterDefinitionDetails entityParDef = parameterManager.getParameterDefinition(checkLinkLink.getSource()
-                                                                                                           .getKey()
-                                                                                                           .getInstId());
+                .getKey().getInstId());
 
             if (!isParameterValueValid(parValue, (entityParDef.getConversion() == null))) {
                 evaluationResult.setEvaluationState(CheckState.INVALID);
@@ -159,11 +157,10 @@ public class CheckLinkEvaluationManager {
      * @return 
      */
     private EvaluationResult getCheckStateOK(boolean triggered, EvaluationResult evaluationResult,
-                                             final Long checkLinkId, CheckDefinitionDetails checkDefDetails) {
+        final Long checkLinkId, CheckDefinitionDetails checkDefDetails) {
         //requirement: 3.5.13.2.h, i: the triggerCheckOperation doesnt need a successiveCheck and wont be saved to any internal lists/variables
         if (triggered) {
-            evaluationResult.setEvaluationState(evaluationResult.getEvaluationResult() == null ?
-                CheckState.OK :
+            evaluationResult.setEvaluationState(evaluationResult.getEvaluationResult() == null ? CheckState.OK :
                 CheckState.NOT_OK);
             return evaluationResult;
         }
@@ -174,8 +171,7 @@ public class CheckLinkEvaluationManager {
         //check if the samples have a successive result, set the state
         boolean calculateCheckResult = calculateCheckResult(checkLinkId, checkDefDetails);
         if (calculateCheckResult) {
-            evaluationResult.setEvaluationState(evaluationResult.getEvaluationResult() == null ?
-                CheckState.OK :
+            evaluationResult.setEvaluationState(evaluationResult.getEvaluationResult() == null ? CheckState.OK :
                 CheckState.NOT_OK);
             checkLinkEvaluations.get(checkLinkId).setLastEvaluationResult(evaluationResult);
         }
@@ -191,8 +187,8 @@ public class CheckLinkEvaluationManager {
         try {
             conditionParVal = parameterManager.getParameterValue(conParamIdentityId);
         } catch (MALInteractionException ex) {
-            Logger.getLogger(CheckLinkEvaluationManager.class.getName())
-                  .log(Level.SEVERE, "Conditional Parameter Value couldnt be retrieved", ex);
+            Logger.getLogger(CheckLinkEvaluationManager.class.getName()).log(Level.SEVERE,
+                "Conditional Parameter Value couldnt be retrieved", ex);
         }
         ParameterDefinitionDetails conditionParDef = parameterManager.getParameterDefinition(conParamIdentityId);
         if (!isParameterValueValid(conditionParVal, (conditionParDef.getConversion() == null))) {
@@ -237,26 +233,25 @@ public class CheckLinkEvaluationManager {
      * @throws MALInteractionException
      */
     private EvaluationResult evaluateCheckResult(Long checkLinkId, CheckDefinitionDetails actCheckDefinition,
-                                                 Attribute value,
-                                                 EvaluationResult evaluationResult) throws MALInteractionException {
+        Attribute value, EvaluationResult evaluationResult) throws MALInteractionException {
         if (actCheckDefinition instanceof ConstantCheckDefinition) {
             return CheckEvaluation.evaluateConstantCheck((ConstantCheckDefinition) actCheckDefinition, value,
-                                                         evaluationResult);
+                evaluationResult);
         }
 
         if (actCheckDefinition instanceof LimitCheckDefinition) {
             return CheckEvaluation.evaluateLimitCheck((LimitCheckDefinition) actCheckDefinition, value,
-                                                      evaluationResult);
+                evaluationResult);
         }
 
         if (actCheckDefinition instanceof ReferenceCheckDefinition) {
             return CheckEvaluation.evaluateReferenceCheck((ReferenceCheckDefinition) actCheckDefinition, value,
-                                                          checkLinkEvaluations.get(checkLinkId), evaluationResult);
+                checkLinkEvaluations.get(checkLinkId), evaluationResult);
         }
 
         if (actCheckDefinition instanceof DeltaCheckDefinition) {
             return CheckEvaluation.evaluateDeltaCheck((DeltaCheckDefinition) actCheckDefinition, value,
-                                                      checkLinkEvaluations.get(checkLinkId), evaluationResult);
+                checkLinkEvaluations.get(checkLinkId), evaluationResult);
         }
         if (actCheckDefinition instanceof CompoundCheckDefinition) {
             //get the last results of the referenced check links
@@ -268,7 +263,7 @@ public class CheckLinkEvaluationManager {
             return CheckEvaluation.evaluateCompoundCheck(compoundCheckDef, currCheckLinkEvaluations, evaluationResult);
         }
         throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER,
-                                                               "There is a problem with the checkDefinition referenced by the checkLink"));
+            "There is a problem with the checkDefinition referenced by the checkLink"));
     }
 
     /**
@@ -325,8 +320,8 @@ public class CheckLinkEvaluationManager {
         }
 
         //check if a new check result shall be calculated
-        return maxNominalCount >= actCheckDef.getNominalCount().getValue() ||
-               maxViolationCount >= actCheckDef.getViolationCount().getValue();
+        return maxNominalCount >= actCheckDef.getNominalCount().getValue() || maxViolationCount >= actCheckDef
+            .getViolationCount().getValue();
 
     }
 

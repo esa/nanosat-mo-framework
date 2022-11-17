@@ -108,7 +108,7 @@ public class ESASimulator extends GenericSimulator {
             }
         } else {
             System.out.println(LoggerFormatter1Line.SIMULATOR_PRE_LOG +
-                               "PRE_INIT: Header was not found, a default header will be created.");
+                "PRE_INIT: Header was not found, a default header will be created.");
         }
 
     }
@@ -128,7 +128,7 @@ public class ESASimulator extends GenericSimulator {
         ConcurrentLinkedQueue<Object> qSimToGUI = new ConcurrentLinkedQueue<>();
         ConcurrentLinkedQueue<Object> qGUIToSim = new ConcurrentLinkedQueue<>();
         simulatorNode = new SimulatorNode(qGUIToSim, qSimToGUI, "Sim", 10, this.simulatorLoggingLevel,
-                                          this.consoleLoggingLevel);
+            this.consoleLoggingLevel);
         initDevices();
 
     }
@@ -142,9 +142,9 @@ public class ESASimulator extends GenericSimulator {
         ConcurrentLinkedQueue<Object> qCentralToSim = new ConcurrentLinkedQueue<>();
 
         simulatorNode = new SimulatorNode(qCentralToSim, qSimToCentral, "Sim", 100, this.simulatorLoggingLevel,
-                                          this.consoleLoggingLevel);
+            this.consoleLoggingLevel);
         centralNode = new CentralNode(qSimToCentral, qCentralToSim, listenURL, "Cen", 10, this.centralLoggingLevel,
-                                      this.consoleLoggingLevel, this);
+            this.consoleLoggingLevel, this);
         this.centralNode = centralNode;
         (new Thread(simulatorNode, "sim-" + simulatorNode.getClass().getSimpleName())).start();
         (new Thread(centralNode, "sim-" + centralNode.getClass().getSimpleName())).start();

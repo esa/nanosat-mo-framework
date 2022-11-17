@@ -14,10 +14,14 @@ public class RegressionTest1 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test501");
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF0 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl1 = mCServicesProviderNMF0.getParameterService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl2 = mCServicesProviderNMF0.getActionService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl3 = mCServicesProviderNMF0.getAlertService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl4 = mCServicesProviderNMF0.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl1 = mCServicesProviderNMF0
+            .getParameterService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl2 = mCServicesProviderNMF0
+            .getActionService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl3 = mCServicesProviderNMF0
+            .getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl4 = mCServicesProviderNMF0
+            .getParameterService();
         org.junit.Assert.assertNotNull(parameterProviderServiceImpl1);
         org.junit.Assert.assertNotNull(actionProviderServiceImpl2);
         org.junit.Assert.assertNotNull(alertProviderServiceImpl3);
@@ -33,7 +37,7 @@ public class RegressionTest1 {
         java.lang.Throwable[] throwableArray5 = nMFException4.getSuppressed();
         java.lang.Throwable[] throwableArray6 = nMFException4.getSuppressed();
         esa.mo.nmf.NMFException nMFException7 = new esa.mo.nmf.NMFException("[hi!, hi!]",
-                                                                            (java.lang.Throwable) nMFException4);
+            (java.lang.Throwable) nMFException4);
         java.lang.String str8 = nMFException4.toString();
         nMFException1.addSuppressed((java.lang.Throwable) nMFException4);
         esa.mo.nmf.NMFException nMFException11 = new esa.mo.nmf.NMFException("0");
@@ -45,13 +49,13 @@ public class RegressionTest1 {
         org.junit.Assert.assertNotNull(throwableArray5);
         org.junit.Assert.assertNotNull(throwableArray6);
         org.junit.Assert.assertTrue("'" + str8 + "' != '" + "esa.mo.nmf.NMFException: 0" + "'", str8.equals(
-                                                                                                            "esa.mo.nmf.NMFException: 0"));
+            "esa.mo.nmf.NMFException: 0"));
         org.junit.Assert.assertNotNull(throwableArray12);
         org.junit.Assert.assertNotNull(throwableArray13);
         org.junit.Assert.assertTrue("'" + str15 + "' != '" + "esa.mo.nmf.NMFException: -1" + "'", str15.equals(
-                                                                                                               "esa.mo.nmf.NMFException: -1"));
+            "esa.mo.nmf.NMFException: -1"));
         org.junit.Assert.assertTrue("'" + str16 + "' != '" + "esa.mo.nmf.NMFException: -1" + "'", str16.equals(
-                                                                                                               "esa.mo.nmf.NMFException: -1"));
+            "esa.mo.nmf.NMFException: -1"));
     }
 
     @Test
@@ -73,7 +77,7 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray15 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList16 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList16,
-                                                         booleanArray15);
+            booleanArray15);
         boolean boolean19 = booleanList16.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream20 = booleanList16.stream();
         boolean boolean21 = strList10.containsAll((java.util.Collection<java.lang.Boolean>) booleanList16);
@@ -86,28 +90,40 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.Time[] timeArray29 = shortList0.toArray(timeArray27);
         esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider30 = null;
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF31 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl32 = mCServicesProviderNMF31.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl33 = mCServicesProviderNMF31.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl34 = mCServicesProviderNMF31.getAggregationService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl35 = mCServicesProviderNMF31.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl32 = mCServicesProviderNMF31
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl33 = mCServicesProviderNMF31
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl34 = mCServicesProviderNMF31
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl35 = mCServicesProviderNMF31
+            .getParameterService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF36 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl37 = mCServicesProviderNMF36.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl38 = mCServicesProviderNMF36.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl39 = mCServicesProviderNMF36.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl40 = mCServicesProviderNMF36.getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl37 = mCServicesProviderNMF36
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl38 = mCServicesProviderNMF36
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl39 = mCServicesProviderNMF36
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl40 = mCServicesProviderNMF36
+            .getAggregationService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF41 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl42 = mCServicesProviderNMF41.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl43 = mCServicesProviderNMF41.getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl42 = mCServicesProviderNMF41
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl43 = mCServicesProviderNMF41
+            .getAlertService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF44 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl45 = mCServicesProviderNMF44.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl46 = mCServicesProviderNMF44.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl47 = mCServicesProviderNMF44.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl48 = mCServicesProviderNMF44.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl45 = mCServicesProviderNMF44
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl46 = mCServicesProviderNMF44
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl47 = mCServicesProviderNMF44
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl48 = mCServicesProviderNMF44
+            .getActionService();
         esa.mo.nmf.MCRegistration mCRegistration49 = new esa.mo.nmf.MCRegistration(cOMServicesProvider30,
-                                                                                   parameterProviderServiceImpl35,
-                                                                                   aggregationProviderServiceImpl40,
-                                                                                   alertProviderServiceImpl43,
-                                                                                   actionProviderServiceImpl48);
+            parameterProviderServiceImpl35, aggregationProviderServiceImpl40, alertProviderServiceImpl43,
+            actionProviderServiceImpl48);
         esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl50 = mCRegistration49.actionService;
         esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl51 = mCRegistration49.parameterService;
         esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl52 = mCRegistration49.parameterService;
@@ -174,7 +190,7 @@ public class RegressionTest1 {
         java.lang.String[] strArray11 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList12 = new java.util.ArrayList<java.lang.String>();
         boolean boolean13 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList12,
-                                                         strArray11);
+            strArray11);
         boolean boolean15 = strList12.add("hi!");
         java.lang.Object obj16 = null;
         boolean boolean17 = strList12.equals(obj16);
@@ -182,7 +198,7 @@ public class RegressionTest1 {
         java.lang.String[] strArray20 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList21 = new java.util.ArrayList<java.lang.String>();
         boolean boolean22 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList21,
-                                                         strArray20);
+            strArray20);
         boolean boolean24 = strList21.add("hi!");
         java.lang.Object obj25 = null;
         boolean boolean26 = strList21.equals(obj25);
@@ -190,7 +206,7 @@ public class RegressionTest1 {
         java.lang.String[] strArray32 = new java.lang.String[]{"1", "hi!", "", "1"};
         java.util.ArrayList<java.lang.String> strList33 = new java.util.ArrayList<java.lang.String>();
         boolean boolean34 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList33,
-                                                         strArray32);
+            strArray32);
         java.util.ListIterator<java.lang.String> strItor35 = strList33.listIterator();
         java.util.ListIterator[] listIteratorArray37 = new java.util.ListIterator[4];
         @SuppressWarnings("unchecked")
@@ -231,11 +247,11 @@ public class RegressionTest1 {
         java.lang.Throwable[] throwableArray86 = nMFException83.getSuppressed();
         java.lang.Throwable[] throwableArray87 = nMFException83.getSuppressed();
         esa.mo.nmf.NMFException nMFException88 = new esa.mo.nmf.NMFException("[]",
-                                                                             (java.lang.Throwable) nMFException83);
+            (java.lang.Throwable) nMFException83);
         int int89 = uShortList71.indexOf((java.lang.Object) nMFException88);
         java.lang.String str90 = nMFException88.toString();
         esa.mo.nmf.NMFException nMFException91 = new esa.mo.nmf.NMFException("[100]",
-                                                                             (java.lang.Throwable) nMFException88);
+            (java.lang.Throwable) nMFException88);
         esa.mo.nmf.NMFException[] nMFExceptionArray92 = new esa.mo.nmf.NMFException[]{nMFException68, nMFException91};
         esa.mo.nmf.NMFException[] nMFExceptionArray93 = shortList0.toArray(nMFExceptionArray92);
         java.lang.Integer int94 = shortList0.getTypeShortForm();
@@ -281,7 +297,7 @@ public class RegressionTest1 {
         org.junit.Assert.assertNotNull(throwableArray87);
         org.junit.Assert.assertTrue("'" + int89 + "' != '" + (-1) + "'", int89 == (-1));
         org.junit.Assert.assertTrue("'" + str90 + "' != '" + "esa.mo.nmf.NMFException: []" + "'", str90.equals(
-                                                                                                               "esa.mo.nmf.NMFException: []"));
+            "esa.mo.nmf.NMFException: []"));
         org.junit.Assert.assertNotNull(nMFExceptionArray92);
         org.junit.Assert.assertNotNull(nMFExceptionArray93);
         org.junit.Assert.assertTrue("'" + int94 + "' != '" + (-9) + "'", int94.equals((-9)));
@@ -292,11 +308,16 @@ public class RegressionTest1 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test505");
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF0 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl1 = mCServicesProviderNMF0.getParameterService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl2 = mCServicesProviderNMF0.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl3 = mCServicesProviderNMF0.getAlertService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl4 = mCServicesProviderNMF0.getAlertService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl5 = mCServicesProviderNMF0.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl1 = mCServicesProviderNMF0
+            .getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl2 = mCServicesProviderNMF0
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl3 = mCServicesProviderNMF0
+            .getAlertService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl4 = mCServicesProviderNMF0
+            .getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl5 = mCServicesProviderNMF0
+            .getParameterService();
         org.junit.Assert.assertNotNull(parameterProviderServiceImpl1);
         org.junit.Assert.assertNotNull(parameterProviderServiceImpl2);
         org.junit.Assert.assertNotNull(alertProviderServiceImpl3);
@@ -314,7 +335,8 @@ public class RegressionTest1 {
         java.lang.Integer int3 = stringList0.getTypeShortForm();
         stringList0.ensureCapacity(13);
         java.util.stream.Stream<java.lang.String> strStream6 = stringList0.parallelStream();
-        org.ccsds.moims.mo.mal.structures.StringList stringList8 = new org.ccsds.moims.mo.mal.structures.StringList(65535);
+        org.ccsds.moims.mo.mal.structures.StringList stringList8 = new org.ccsds.moims.mo.mal.structures.StringList(
+            65535);
         int int9 = stringList0.indexOf((java.lang.Object) stringList8);
         boolean boolean10 = stringList0.isEmpty();
         org.ccsds.moims.mo.mal.structures.DoubleList doubleList11 = new org.ccsds.moims.mo.mal.structures.DoubleList();
@@ -325,12 +347,12 @@ public class RegressionTest1 {
         java.lang.String[] strArray17 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList18 = new java.util.ArrayList<java.lang.String>();
         boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList18,
-                                                         strArray17);
+            strArray17);
         int int20 = strList18.size();
         java.lang.Boolean[] booleanArray23 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList24 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean25 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList24,
-                                                         booleanArray23);
+            booleanArray23);
         boolean boolean27 = booleanList24.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream28 = booleanList24.stream();
         boolean boolean29 = strList18.containsAll((java.util.Collection<java.lang.Boolean>) booleanList24);
@@ -342,12 +364,12 @@ public class RegressionTest1 {
         java.lang.String[] strArray36 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList37 = new java.util.ArrayList<java.lang.String>();
         boolean boolean38 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList37,
-                                                         strArray36);
+            strArray36);
         int int39 = strList37.size();
         java.lang.Boolean[] booleanArray42 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList43 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean44 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList43,
-                                                         booleanArray42);
+            booleanArray42);
         boolean boolean46 = booleanList43.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream47 = booleanList43.stream();
         boolean boolean48 = strList37.containsAll((java.util.Collection<java.lang.Boolean>) booleanList43);
@@ -367,11 +389,12 @@ public class RegressionTest1 {
         java.lang.Long long66 = blob61.getShortForm();
         byte[] byteArray67 = blob61.getValue();
         org.ccsds.moims.mo.mal.structures.Blob blob70 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray67,
-                                                                                                   (int) (short) 0, 3);
+            (int) (short) 0, 3);
         boolean boolean71 = floatList33.remove((java.lang.Object) blob70);
         boolean boolean72 = stringList0.contains((java.lang.Object) blob70);
         org.ccsds.moims.mo.mal.structures.Element element73 = stringList0.createElement();
-        org.ccsds.moims.mo.mal.structures.BooleanList booleanList75 = new org.ccsds.moims.mo.mal.structures.BooleanList(1);
+        org.ccsds.moims.mo.mal.structures.BooleanList booleanList75 = new org.ccsds.moims.mo.mal.structures.BooleanList(
+            1);
         boolean boolean76 = stringList0.equals((java.lang.Object) 1);
         stringList0.ensureCapacity((int) (short) -1);
         org.junit.Assert.assertNotNull(element1);
@@ -435,7 +458,7 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray9 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList10 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList10,
-                                                         booleanArray9);
+            booleanArray9);
         boolean boolean13 = booleanList10.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream14 = booleanList10.stream();
         boolean boolean15 = strList4.containsAll((java.util.Collection<java.lang.Boolean>) booleanList10);
@@ -458,7 +481,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray36 = new java.lang.Short[]{(short) 100, (short) -1};
         java.util.ArrayList<java.lang.Short> shortList37 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean38 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList37,
-                                                         shortArray36);
+            shortArray36);
         java.lang.Object obj39 = null;
         boolean boolean40 = shortList37.equals(obj39);
         shortList37.clear();
@@ -472,16 +495,17 @@ public class RegressionTest1 {
                                                                  12, 0, 100, 14};
         java.util.ArrayList<java.lang.Integer> intList66 = new java.util.ArrayList<java.lang.Integer>();
         boolean boolean67 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList66,
-                                                         intArray65);
+            intArray65);
         java.lang.Boolean[] booleanArray70 = new java.lang.Boolean[]{false, true};
         java.util.ArrayList<java.lang.Boolean> booleanList71 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean72 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList71,
-                                                         booleanArray70);
+            booleanArray70);
         java.util.Iterator<java.lang.Boolean> booleanItor73 = booleanList71.iterator();
         java.util.stream.Stream<java.lang.Boolean> booleanStream74 = booleanList71.stream();
         boolean boolean75 = intList66.retainAll((java.util.Collection<java.lang.Boolean>) booleanList71);
         boolean boolean76 = shortList43.containsAll((java.util.Collection<java.lang.Boolean>) booleanList71);
-        org.ccsds.moims.mo.mal.structures.LongList longList78 = new org.ccsds.moims.mo.mal.structures.LongList((int) (byte) 1);
+        org.ccsds.moims.mo.mal.structures.LongList longList78 = new org.ccsds.moims.mo.mal.structures.LongList(
+            (int) (byte) 1);
         org.ccsds.moims.mo.mal.structures.UShort uShort79 = longList78.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort80 = longList78.getServiceNumber();
         boolean boolean81 = booleanList71.remove((java.lang.Object) uShort80);
@@ -535,12 +559,16 @@ public class RegressionTest1 {
     public void test508() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test508");
-        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList(100);
+        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList(
+            100);
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = stringList1.getServiceNumber();
-        org.ccsds.moims.mo.mal.structures.IntegerList integerList4 = new org.ccsds.moims.mo.mal.structures.IntegerList((int) '4');
+        org.ccsds.moims.mo.mal.structures.IntegerList integerList4 = new org.ccsds.moims.mo.mal.structures.IntegerList(
+            (int) '4');
         java.lang.Long long5 = integerList4.getShortForm();
-        org.ccsds.moims.mo.mal.structures.IntegerList integerList7 = new org.ccsds.moims.mo.mal.structures.IntegerList((int) '4');
-        org.ccsds.moims.mo.mal.structures.IntegerList integerList9 = new org.ccsds.moims.mo.mal.structures.IntegerList((int) '4');
+        org.ccsds.moims.mo.mal.structures.IntegerList integerList7 = new org.ccsds.moims.mo.mal.structures.IntegerList(
+            (int) '4');
+        org.ccsds.moims.mo.mal.structures.IntegerList integerList9 = new org.ccsds.moims.mo.mal.structures.IntegerList(
+            (int) '4');
         java.lang.Long long10 = integerList9.getShortForm();
         org.ccsds.moims.mo.mal.structures.IntegerList[] integerListArray11 = new org.ccsds.moims.mo.mal.structures.IntegerList[]{integerList4,
                                                                                                                                  integerList7,
@@ -549,7 +577,7 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray14 = new java.lang.Boolean[]{true};
         java.util.ArrayList<java.lang.Boolean> booleanList15 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList15,
-                                                         booleanArray14);
+            booleanArray14);
         java.util.ListIterator<java.lang.Boolean> booleanItor18 = booleanList15.listIterator((int) (short) 1);
         java.util.stream.Stream<java.lang.Boolean> booleanStream19 = booleanList15.parallelStream();
         boolean boolean21 = booleanList15.add((java.lang.Boolean) false);
@@ -558,21 +586,22 @@ public class RegressionTest1 {
         java.lang.Byte[] byteArray27 = new java.lang.Byte[]{(byte) 10, (byte) 100};
         java.util.ArrayList<java.lang.Byte> byteList28 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean29 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList28,
-                                                         byteArray27);
+            byteArray27);
         boolean boolean30 = byteList28.isEmpty();
         int int32 = byteList28.indexOf((java.lang.Object) 'a');
         int int34 = byteList28.lastIndexOf((java.lang.Object) "hi!");
         java.lang.Boolean[] booleanArray36 = new java.lang.Boolean[]{true};
         java.util.ArrayList<java.lang.Boolean> booleanList37 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean38 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList37,
-                                                         booleanArray36);
+            booleanArray36);
         java.util.ListIterator<java.lang.Boolean> booleanItor40 = booleanList37.listIterator((int) (short) 1);
         java.util.stream.Stream<java.lang.Boolean> booleanStream41 = booleanList37.parallelStream();
         boolean boolean43 = booleanList37.add((java.lang.Boolean) false);
         boolean boolean44 = byteList28.retainAll((java.util.Collection<java.lang.Boolean>) booleanList37);
         org.ccsds.moims.mo.mal.structures.UShortList uShortList45 = new org.ccsds.moims.mo.mal.structures.UShortList();
         java.lang.Object obj46 = uShortList45.clone();
-        java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream47 = uShortList45.parallelStream();
+        java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream47 = uShortList45
+            .parallelStream();
         java.util.Iterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor48 = uShortList45.iterator();
         boolean boolean49 = byteList28.equals((java.lang.Object) uShortItor48);
         org.ccsds.moims.mo.mal.structures.ShortList shortList50 = new org.ccsds.moims.mo.mal.structures.ShortList();
@@ -592,12 +621,12 @@ public class RegressionTest1 {
         java.lang.String[] strArray66 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList67 = new java.util.ArrayList<java.lang.String>();
         boolean boolean68 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList67,
-                                                         strArray66);
+            strArray66);
         int int69 = strList67.size();
         java.lang.Boolean[] booleanArray72 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList73 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean74 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList73,
-                                                         booleanArray72);
+            booleanArray72);
         boolean boolean76 = booleanList73.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream77 = booleanList73.stream();
         boolean boolean78 = strList67.containsAll((java.util.Collection<java.lang.Boolean>) booleanList73);
@@ -694,11 +723,12 @@ public class RegressionTest1 {
         java.lang.Byte[] byteArray23 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) 1, (byte) 1};
         java.util.ArrayList<java.lang.Byte> byteList24 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean25 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList24,
-                                                         byteArray23);
+            byteArray23);
         boolean boolean27 = byteList24.add((java.lang.Byte) (byte) 10);
         java.lang.Object obj28 = byteList24.clone();
         java.util.stream.Stream<java.lang.Byte> byteStream29 = byteList24.stream();
-        org.ccsds.moims.mo.mal.structures.StringList stringList31 = new org.ccsds.moims.mo.mal.structures.StringList(100);
+        org.ccsds.moims.mo.mal.structures.StringList stringList31 = new org.ccsds.moims.mo.mal.structures.StringList(
+            100);
         int int32 = byteList24.indexOf((java.lang.Object) stringList31);
         byte[] byteArray36 = new byte[]{(byte) 0, (byte) 0, (byte) 0};
         org.ccsds.moims.mo.mal.structures.Blob blob37 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray36);
@@ -712,10 +742,11 @@ public class RegressionTest1 {
         java.lang.Long[] longArray49 = new java.lang.Long[]{10L, (-1L), (-1L), 10L};
         java.util.ArrayList<java.lang.Long> longList50 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean51 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList50,
-                                                         longArray49);
+            longArray49);
         java.lang.Object obj52 = null;
         boolean boolean53 = longList50.contains(obj52);
-        org.ccsds.moims.mo.mal.structures.UInteger uInteger55 = new org.ccsds.moims.mo.mal.structures.UInteger((long) (byte) 100);
+        org.ccsds.moims.mo.mal.structures.UInteger uInteger55 = new org.ccsds.moims.mo.mal.structures.UInteger(
+            (long) (byte) 100);
         boolean boolean56 = longList50.contains((java.lang.Object) (byte) 100);
         java.util.Iterator<java.lang.Long> longItor57 = longList50.iterator();
         org.ccsds.moims.mo.mal.structures.UShort uShort58 = org.ccsds.moims.mo.mal.structures.OctetList.AREA_SHORT_FORM;
@@ -811,7 +842,7 @@ public class RegressionTest1 {
         nMFException3.addSuppressed((java.lang.Throwable) nMFException10);
         java.lang.Throwable[] throwableArray16 = nMFException3.getSuppressed();
         org.junit.Assert.assertTrue("'" + str4 + "' != '" + "esa.mo.nmf.NMFException: hi!" + "'", str4.equals(
-                                                                                                              "esa.mo.nmf.NMFException: hi!"));
+            "esa.mo.nmf.NMFException: hi!"));
         org.junit.Assert.assertNotNull(throwableArray7);
         org.junit.Assert.assertNotNull(throwableArray8);
         org.junit.Assert.assertNotNull(throwableArray11);
@@ -826,28 +857,40 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test512");
         esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider0 = null;
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF1 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl2 = mCServicesProviderNMF1.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl3 = mCServicesProviderNMF1.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl4 = mCServicesProviderNMF1.getAggregationService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl5 = mCServicesProviderNMF1.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl2 = mCServicesProviderNMF1
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl3 = mCServicesProviderNMF1
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl4 = mCServicesProviderNMF1
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl5 = mCServicesProviderNMF1
+            .getParameterService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF6 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl7 = mCServicesProviderNMF6.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl8 = mCServicesProviderNMF6.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl9 = mCServicesProviderNMF6.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl10 = mCServicesProviderNMF6.getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl7 = mCServicesProviderNMF6
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl8 = mCServicesProviderNMF6
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl9 = mCServicesProviderNMF6
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl10 = mCServicesProviderNMF6
+            .getAggregationService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF11 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl12 = mCServicesProviderNMF11.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl13 = mCServicesProviderNMF11.getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl12 = mCServicesProviderNMF11
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl13 = mCServicesProviderNMF11
+            .getAlertService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF14 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl15 = mCServicesProviderNMF14.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl16 = mCServicesProviderNMF14.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl17 = mCServicesProviderNMF14.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl18 = mCServicesProviderNMF14.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl15 = mCServicesProviderNMF14
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl16 = mCServicesProviderNMF14
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl17 = mCServicesProviderNMF14
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl18 = mCServicesProviderNMF14
+            .getActionService();
         esa.mo.nmf.MCRegistration mCRegistration19 = new esa.mo.nmf.MCRegistration(cOMServicesProvider0,
-                                                                                   parameterProviderServiceImpl5,
-                                                                                   aggregationProviderServiceImpl10,
-                                                                                   alertProviderServiceImpl13,
-                                                                                   actionProviderServiceImpl18);
+            parameterProviderServiceImpl5, aggregationProviderServiceImpl10, alertProviderServiceImpl13,
+            actionProviderServiceImpl18);
         esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl20 = mCRegistration19.parameterService;
         esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl21 = mCRegistration19.actionService;
         esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl22 = mCRegistration19.parameterService;
@@ -878,9 +921,9 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test513");
         esa.mo.nmf.NMFException nMFException3 = new esa.mo.nmf.NMFException("[-1.0]");
         esa.mo.nmf.NMFException nMFException4 = new esa.mo.nmf.NMFException("[hi!, [1]]",
-                                                                            (java.lang.Throwable) nMFException3);
+            (java.lang.Throwable) nMFException3);
         esa.mo.nmf.NMFException nMFException5 = new esa.mo.nmf.NMFException("[true, true]",
-                                                                            (java.lang.Throwable) nMFException4);
+            (java.lang.Throwable) nMFException4);
     }
 
     @Test
@@ -889,28 +932,40 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test514");
         esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider0 = null;
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF1 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl2 = mCServicesProviderNMF1.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl3 = mCServicesProviderNMF1.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl4 = mCServicesProviderNMF1.getAggregationService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl5 = mCServicesProviderNMF1.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl2 = mCServicesProviderNMF1
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl3 = mCServicesProviderNMF1
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl4 = mCServicesProviderNMF1
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl5 = mCServicesProviderNMF1
+            .getParameterService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF6 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl7 = mCServicesProviderNMF6.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl8 = mCServicesProviderNMF6.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl9 = mCServicesProviderNMF6.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl10 = mCServicesProviderNMF6.getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl7 = mCServicesProviderNMF6
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl8 = mCServicesProviderNMF6
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl9 = mCServicesProviderNMF6
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl10 = mCServicesProviderNMF6
+            .getAggregationService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF11 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl12 = mCServicesProviderNMF11.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl13 = mCServicesProviderNMF11.getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl12 = mCServicesProviderNMF11
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl13 = mCServicesProviderNMF11
+            .getAlertService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF14 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl15 = mCServicesProviderNMF14.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl16 = mCServicesProviderNMF14.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl17 = mCServicesProviderNMF14.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl18 = mCServicesProviderNMF14.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl15 = mCServicesProviderNMF14
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl16 = mCServicesProviderNMF14
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl17 = mCServicesProviderNMF14
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl18 = mCServicesProviderNMF14
+            .getActionService();
         esa.mo.nmf.MCRegistration mCRegistration19 = new esa.mo.nmf.MCRegistration(cOMServicesProvider0,
-                                                                                   parameterProviderServiceImpl5,
-                                                                                   aggregationProviderServiceImpl10,
-                                                                                   alertProviderServiceImpl13,
-                                                                                   actionProviderServiceImpl18);
+            parameterProviderServiceImpl5, aggregationProviderServiceImpl10, alertProviderServiceImpl13,
+            actionProviderServiceImpl18);
         esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl20 = mCRegistration19.actionService;
         esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl21 = mCRegistration19.parameterService;
         esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl22 = mCRegistration19.parameterService;
@@ -951,7 +1006,8 @@ public class RegressionTest1 {
         boolean boolean8 = byteList5.add((java.lang.Byte) (byte) 10);
         java.lang.Object obj9 = byteList5.clone();
         java.util.stream.Stream<java.lang.Byte> byteStream10 = byteList5.stream();
-        org.ccsds.moims.mo.mal.structures.StringList stringList12 = new org.ccsds.moims.mo.mal.structures.StringList(100);
+        org.ccsds.moims.mo.mal.structures.StringList stringList12 = new org.ccsds.moims.mo.mal.structures.StringList(
+            100);
         int int13 = byteList5.indexOf((java.lang.Object) stringList12);
         byte[] byteArray17 = new byte[]{(byte) 0, (byte) 0, (byte) 0};
         org.ccsds.moims.mo.mal.structures.Blob blob18 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray17);
@@ -969,15 +1025,15 @@ public class RegressionTest1 {
         java.lang.Throwable[] throwableArray34 = nMFException31.getSuppressed();
         java.lang.Throwable[] throwableArray35 = nMFException31.getSuppressed();
         esa.mo.nmf.NMFException nMFException36 = new esa.mo.nmf.NMFException("[]",
-                                                                             (java.lang.Throwable) nMFException31);
+            (java.lang.Throwable) nMFException31);
         esa.mo.nmf.NMFException nMFException39 = new esa.mo.nmf.NMFException("0");
         java.lang.Throwable[] throwableArray40 = nMFException39.getSuppressed();
         java.lang.Throwable[] throwableArray41 = nMFException39.getSuppressed();
         esa.mo.nmf.NMFException nMFException42 = new esa.mo.nmf.NMFException("[hi!, hi!]",
-                                                                             (java.lang.Throwable) nMFException39);
+            (java.lang.Throwable) nMFException39);
         nMFException36.addSuppressed((java.lang.Throwable) nMFException39);
         esa.mo.nmf.NMFException nMFException44 = new esa.mo.nmf.NMFException("esa.mo.nmf.NMFException: 0",
-                                                                             (java.lang.Throwable) nMFException39);
+            (java.lang.Throwable) nMFException39);
         boolean boolean45 = stringList12.remove((java.lang.Object) nMFException39);
         org.junit.Assert.assertNotNull(byteArray4);
         org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + true + "'", boolean6);
@@ -1017,7 +1073,7 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray13 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList14 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean15 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList14,
-                                                         booleanArray13);
+            booleanArray13);
         boolean boolean17 = booleanList14.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream18 = booleanList14.stream();
         boolean boolean19 = strList8.containsAll((java.util.Collection<java.lang.Boolean>) booleanList14);
@@ -1036,21 +1092,22 @@ public class RegressionTest1 {
         java.lang.Byte[] byteArray34 = new java.lang.Byte[]{(byte) 10, (byte) 100};
         java.util.ArrayList<java.lang.Byte> byteList35 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean36 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList35,
-                                                         byteArray34);
+            byteArray34);
         boolean boolean37 = byteList35.isEmpty();
         int int39 = byteList35.indexOf((java.lang.Object) 'a');
         int int41 = byteList35.lastIndexOf((java.lang.Object) "hi!");
         java.lang.Boolean[] booleanArray43 = new java.lang.Boolean[]{true};
         java.util.ArrayList<java.lang.Boolean> booleanList44 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean45 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList44,
-                                                         booleanArray43);
+            booleanArray43);
         java.util.ListIterator<java.lang.Boolean> booleanItor47 = booleanList44.listIterator((int) (short) 1);
         java.util.stream.Stream<java.lang.Boolean> booleanStream48 = booleanList44.parallelStream();
         boolean boolean50 = booleanList44.add((java.lang.Boolean) false);
         boolean boolean51 = byteList35.retainAll((java.util.Collection<java.lang.Boolean>) booleanList44);
         org.ccsds.moims.mo.mal.structures.UShortList uShortList52 = new org.ccsds.moims.mo.mal.structures.UShortList();
         java.lang.Object obj53 = uShortList52.clone();
-        java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream54 = uShortList52.parallelStream();
+        java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream54 = uShortList52
+            .parallelStream();
         java.util.Iterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor55 = uShortList52.iterator();
         boolean boolean56 = byteList35.equals((java.lang.Object) uShortItor55);
         org.ccsds.moims.mo.mal.structures.ShortList shortList57 = new org.ccsds.moims.mo.mal.structures.ShortList();
@@ -1132,11 +1189,11 @@ public class RegressionTest1 {
                                                                  12, 0, 100, 14};
         java.util.ArrayList<java.lang.Integer> intList23 = new java.util.ArrayList<java.lang.Integer>();
         boolean boolean24 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList23,
-                                                         intArray22);
+            intArray22);
         java.lang.Boolean[] booleanArray27 = new java.lang.Boolean[]{false, true};
         java.util.ArrayList<java.lang.Boolean> booleanList28 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean29 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList28,
-                                                         booleanArray27);
+            booleanArray27);
         java.util.Iterator<java.lang.Boolean> booleanItor30 = booleanList28.iterator();
         java.util.stream.Stream<java.lang.Boolean> booleanStream31 = booleanList28.stream();
         boolean boolean32 = intList23.retainAll((java.util.Collection<java.lang.Boolean>) booleanList28);
@@ -1144,15 +1201,23 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UOctet uOctet34 = shortList0.getAreaVersion();
         java.lang.Long long35 = shortList0.getShortForm();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF36 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl37 = mCServicesProviderNMF36.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl38 = mCServicesProviderNMF36.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl39 = mCServicesProviderNMF36.getAlertService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl40 = mCServicesProviderNMF36.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl41 = mCServicesProviderNMF36.getAlertService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl42 = mCServicesProviderNMF36.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl43 = mCServicesProviderNMF36.getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl37 = mCServicesProviderNMF36
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl38 = mCServicesProviderNMF36
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl39 = mCServicesProviderNMF36
+            .getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl40 = mCServicesProviderNMF36
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl41 = mCServicesProviderNMF36
+            .getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl42 = mCServicesProviderNMF36
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl43 = mCServicesProviderNMF36
+            .getAggregationService();
         boolean boolean44 = shortList0.remove((java.lang.Object) mCServicesProviderNMF36);
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl45 = mCServicesProviderNMF36.getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl45 = mCServicesProviderNMF36
+            .getAggregationService();
         org.junit.Assert.assertNotNull(obj1);
         org.junit.Assert.assertNotNull(shortStream2);
         org.junit.Assert.assertNotNull(intArray22);
@@ -1186,7 +1251,8 @@ public class RegressionTest1 {
         boolean boolean8 = byteList5.add((java.lang.Byte) (byte) 10);
         java.lang.Object obj9 = byteList5.clone();
         java.util.stream.Stream<java.lang.Byte> byteStream10 = byteList5.stream();
-        org.ccsds.moims.mo.mal.structures.StringList stringList12 = new org.ccsds.moims.mo.mal.structures.StringList(100);
+        org.ccsds.moims.mo.mal.structures.StringList stringList12 = new org.ccsds.moims.mo.mal.structures.StringList(
+            100);
         int int13 = byteList5.indexOf((java.lang.Object) stringList12);
         byte[] byteArray17 = new byte[]{(byte) 0, (byte) 0, (byte) 0};
         org.ccsds.moims.mo.mal.structures.Blob blob18 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray17);
@@ -1196,9 +1262,12 @@ public class RegressionTest1 {
         boolean boolean22 = stringList12.remove((java.lang.Object) blob20);
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF23 = new esa.mo.nmf.MCServicesProviderNMF();
         boolean boolean24 = stringList12.equals((java.lang.Object) mCServicesProviderNMF23);
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl25 = mCServicesProviderNMF23.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl26 = mCServicesProviderNMF23.getAggregationService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl27 = mCServicesProviderNMF23.getActionService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl25 = mCServicesProviderNMF23
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl26 = mCServicesProviderNMF23
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl27 = mCServicesProviderNMF23
+            .getActionService();
         org.junit.Assert.assertNotNull(byteArray4);
         org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + true + "'", boolean6);
         org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + true + "'", boolean8);
@@ -1219,13 +1288,14 @@ public class RegressionTest1 {
     public void test519() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test519");
-        org.ccsds.moims.mo.mal.structures.IntegerList integerList1 = new org.ccsds.moims.mo.mal.structures.IntegerList((int) '4');
+        org.ccsds.moims.mo.mal.structures.IntegerList integerList1 = new org.ccsds.moims.mo.mal.structures.IntegerList(
+            (int) '4');
         java.lang.String str2 = integerList1.toString();
         boolean boolean4 = integerList1.add((java.lang.Integer) 8);
         integerList1.trimToSize();
         esa.mo.nmf.NMFException nMFException8 = new esa.mo.nmf.NMFException("[100, 0]");
         esa.mo.nmf.NMFException nMFException9 = new esa.mo.nmf.NMFException("[100, -1]",
-                                                                            (java.lang.Throwable) nMFException8);
+            (java.lang.Throwable) nMFException8);
         int int10 = integerList1.lastIndexOf((java.lang.Object) nMFException8);
         org.junit.Assert.assertTrue("'" + str2 + "' != '" + "[]" + "'", str2.equals("[]"));
         org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4);
@@ -1236,7 +1306,8 @@ public class RegressionTest1 {
     public void test520() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test520");
-        org.ccsds.moims.mo.mal.structures.LongList longList1 = new org.ccsds.moims.mo.mal.structures.LongList((int) (byte) 1);
+        org.ccsds.moims.mo.mal.structures.LongList longList1 = new org.ccsds.moims.mo.mal.structures.LongList(
+            (int) (byte) 1);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet2 = longList1.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.UShort uShort3 = longList1.getAreaNumber();
         java.util.Spliterator<java.lang.Long> longSpliterator4 = longList1.spliterator();
@@ -1246,18 +1317,18 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray13 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList14 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean15 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList14,
-                                                         booleanArray13);
+            booleanArray13);
         boolean boolean17 = booleanList14.add((java.lang.Boolean) true);
         boolean boolean18 = strList9.removeAll((java.util.Collection<java.lang.Boolean>) booleanList14);
         java.lang.String[] strArray20 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList21 = new java.util.ArrayList<java.lang.String>();
         boolean boolean22 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList21,
-                                                         strArray20);
+            strArray20);
         int int23 = strList21.size();
         java.lang.Boolean[] booleanArray26 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList27 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean28 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList27,
-                                                         booleanArray26);
+            booleanArray26);
         boolean boolean30 = booleanList27.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream31 = booleanList27.stream();
         boolean boolean32 = strList21.containsAll((java.util.Collection<java.lang.Boolean>) booleanList27);
@@ -1267,24 +1338,37 @@ public class RegressionTest1 {
         strList21.clear();
         java.util.ListIterator<java.lang.String> strItor37 = strList21.listIterator();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF38 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl39 = mCServicesProviderNMF38.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl40 = mCServicesProviderNMF38.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl41 = mCServicesProviderNMF38.getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl39 = mCServicesProviderNMF38
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl40 = mCServicesProviderNMF38
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl41 = mCServicesProviderNMF38
+            .getAggregationService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF42 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl43 = mCServicesProviderNMF42.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl44 = mCServicesProviderNMF42.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl45 = mCServicesProviderNMF42.getAlertService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl46 = mCServicesProviderNMF42.getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl43 = mCServicesProviderNMF42
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl44 = mCServicesProviderNMF42
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl45 = mCServicesProviderNMF42
+            .getAlertService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl46 = mCServicesProviderNMF42
+            .getAggregationService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF47 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl48 = mCServicesProviderNMF47.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl49 = mCServicesProviderNMF47.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl50 = mCServicesProviderNMF47.getAlertService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl51 = mCServicesProviderNMF47.getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl48 = mCServicesProviderNMF47
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl49 = mCServicesProviderNMF47
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl50 = mCServicesProviderNMF47
+            .getAlertService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl51 = mCServicesProviderNMF47
+            .getAggregationService();
         org.ccsds.moims.mo.mc.aggregation.provider.AggregationSkeleton[] aggregationSkeletonArray52 = new org.ccsds.moims.mo.mc.aggregation.provider.AggregationSkeleton[]{aggregationProviderServiceImpl41,
                                                                                                                                                                            aggregationProviderServiceImpl46,
                                                                                                                                                                            aggregationProviderServiceImpl51};
-        org.ccsds.moims.mo.mc.aggregation.provider.AggregationSkeleton[] aggregationSkeletonArray53 = strList21.toArray(aggregationSkeletonArray52);
-        org.ccsds.moims.mo.mc.aggregation.provider.AggregationSkeleton[] aggregationSkeletonArray54 = longList1.toArray(aggregationSkeletonArray52);
+        org.ccsds.moims.mo.mc.aggregation.provider.AggregationSkeleton[] aggregationSkeletonArray53 = strList21.toArray(
+            aggregationSkeletonArray52);
+        org.ccsds.moims.mo.mc.aggregation.provider.AggregationSkeleton[] aggregationSkeletonArray54 = longList1.toArray(
+            aggregationSkeletonArray52);
         org.ccsds.moims.mo.mal.structures.UShort uShort55 = longList1.getServiceNumber();
         longList1.ensureCapacity((-13));
         org.ccsds.moims.mo.mal.structures.UShort uShort58 = longList1.getServiceNumber();
@@ -1338,75 +1422,113 @@ public class RegressionTest1 {
         java.util.ListIterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor4 = uShortList0.listIterator();
         esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider5 = null;
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF6 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl7 = mCServicesProviderNMF6.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl8 = mCServicesProviderNMF6.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl9 = mCServicesProviderNMF6.getAggregationService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl10 = mCServicesProviderNMF6.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl7 = mCServicesProviderNMF6
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl8 = mCServicesProviderNMF6
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl9 = mCServicesProviderNMF6
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl10 = mCServicesProviderNMF6
+            .getParameterService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF11 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl12 = mCServicesProviderNMF11.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl13 = mCServicesProviderNMF11.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl14 = mCServicesProviderNMF11.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl15 = mCServicesProviderNMF11.getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl12 = mCServicesProviderNMF11
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl13 = mCServicesProviderNMF11
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl14 = mCServicesProviderNMF11
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl15 = mCServicesProviderNMF11
+            .getAggregationService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF16 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl17 = mCServicesProviderNMF16.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl18 = mCServicesProviderNMF16.getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl17 = mCServicesProviderNMF16
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl18 = mCServicesProviderNMF16
+            .getAlertService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF19 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl20 = mCServicesProviderNMF19.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl21 = mCServicesProviderNMF19.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl22 = mCServicesProviderNMF19.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl23 = mCServicesProviderNMF19.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl20 = mCServicesProviderNMF19
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl21 = mCServicesProviderNMF19
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl22 = mCServicesProviderNMF19
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl23 = mCServicesProviderNMF19
+            .getActionService();
         esa.mo.nmf.MCRegistration mCRegistration24 = new esa.mo.nmf.MCRegistration(cOMServicesProvider5,
-                                                                                   parameterProviderServiceImpl10,
-                                                                                   aggregationProviderServiceImpl15,
-                                                                                   alertProviderServiceImpl18,
-                                                                                   actionProviderServiceImpl23);
+            parameterProviderServiceImpl10, aggregationProviderServiceImpl15, alertProviderServiceImpl18,
+            actionProviderServiceImpl23);
         esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl25 = mCRegistration24.actionService;
         esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl26 = mCRegistration24.actionService;
         esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider27 = null;
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF28 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl29 = mCServicesProviderNMF28.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl30 = mCServicesProviderNMF28.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl31 = mCServicesProviderNMF28.getAggregationService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl32 = mCServicesProviderNMF28.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl29 = mCServicesProviderNMF28
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl30 = mCServicesProviderNMF28
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl31 = mCServicesProviderNMF28
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl32 = mCServicesProviderNMF28
+            .getParameterService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF33 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl34 = mCServicesProviderNMF33.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl35 = mCServicesProviderNMF33.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl36 = mCServicesProviderNMF33.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl37 = mCServicesProviderNMF33.getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl34 = mCServicesProviderNMF33
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl35 = mCServicesProviderNMF33
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl36 = mCServicesProviderNMF33
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl37 = mCServicesProviderNMF33
+            .getAggregationService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF38 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl39 = mCServicesProviderNMF38.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl40 = mCServicesProviderNMF38.getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl39 = mCServicesProviderNMF38
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl40 = mCServicesProviderNMF38
+            .getAlertService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF41 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl42 = mCServicesProviderNMF41.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl43 = mCServicesProviderNMF41.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl44 = mCServicesProviderNMF41.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl45 = mCServicesProviderNMF41.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl42 = mCServicesProviderNMF41
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl43 = mCServicesProviderNMF41
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl44 = mCServicesProviderNMF41
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl45 = mCServicesProviderNMF41
+            .getActionService();
         esa.mo.nmf.MCRegistration mCRegistration46 = new esa.mo.nmf.MCRegistration(cOMServicesProvider27,
-                                                                                   parameterProviderServiceImpl32,
-                                                                                   aggregationProviderServiceImpl37,
-                                                                                   alertProviderServiceImpl40,
-                                                                                   actionProviderServiceImpl45);
+            parameterProviderServiceImpl32, aggregationProviderServiceImpl37, alertProviderServiceImpl40,
+            actionProviderServiceImpl45);
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF47 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl48 = mCServicesProviderNMF47.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl49 = mCServicesProviderNMF47.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl50 = mCServicesProviderNMF47.getAlertService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl51 = mCServicesProviderNMF47.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl52 = mCServicesProviderNMF47.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl53 = mCServicesProviderNMF47.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl48 = mCServicesProviderNMF47
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl49 = mCServicesProviderNMF47
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl50 = mCServicesProviderNMF47
+            .getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl51 = mCServicesProviderNMF47
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl52 = mCServicesProviderNMF47
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl53 = mCServicesProviderNMF47
+            .getActionService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF54 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl55 = mCServicesProviderNMF54.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl56 = mCServicesProviderNMF54.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl57 = mCServicesProviderNMF54.getAlertService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl58 = mCServicesProviderNMF54.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl59 = mCServicesProviderNMF54.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl60 = mCServicesProviderNMF54.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl55 = mCServicesProviderNMF54
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl56 = mCServicesProviderNMF54
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl57 = mCServicesProviderNMF54
+            .getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl58 = mCServicesProviderNMF54
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl59 = mCServicesProviderNMF54
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl60 = mCServicesProviderNMF54
+            .getActionService();
         org.ccsds.moims.mo.mc.action.provider.ActionInheritanceSkeleton[] actionInheritanceSkeletonArray61 = new org.ccsds.moims.mo.mc.action.provider.ActionInheritanceSkeleton[]{actionProviderServiceImpl26,
                                                                                                                                                                                    actionProviderServiceImpl45,
                                                                                                                                                                                    actionProviderServiceImpl53,
                                                                                                                                                                                    actionProviderServiceImpl60};
-        org.ccsds.moims.mo.mc.action.provider.ActionInheritanceSkeleton[] actionInheritanceSkeletonArray62 = uShortList0.toArray(actionInheritanceSkeletonArray61);
+        org.ccsds.moims.mo.mc.action.provider.ActionInheritanceSkeleton[] actionInheritanceSkeletonArray62 = uShortList0
+            .toArray(actionInheritanceSkeletonArray61);
         uShortList0.ensureCapacity(18);
-        org.ccsds.moims.mo.mal.structures.FineTime fineTime66 = new org.ccsds.moims.mo.mal.structures.FineTime(281474993487884L);
+        org.ccsds.moims.mo.mal.structures.FineTime fineTime66 = new org.ccsds.moims.mo.mal.structures.FineTime(
+            281474993487884L);
         org.ccsds.moims.mo.mal.structures.UShort uShort67 = fineTime66.getAreaNumber();
         boolean boolean68 = uShortList0.equals((java.lang.Object) fineTime66);
         org.ccsds.moims.mo.mal.structures.BooleanList booleanList69 = new org.ccsds.moims.mo.mal.structures.BooleanList();
@@ -1495,11 +1617,11 @@ public class RegressionTest1 {
                                                                  12, 0, 100, 14};
         java.util.ArrayList<java.lang.Integer> intList35 = new java.util.ArrayList<java.lang.Integer>();
         boolean boolean36 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList35,
-                                                         intArray34);
+            intArray34);
         java.lang.Boolean[] booleanArray39 = new java.lang.Boolean[]{false, true};
         java.util.ArrayList<java.lang.Boolean> booleanList40 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean41 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList40,
-                                                         booleanArray39);
+            booleanArray39);
         java.util.Iterator<java.lang.Boolean> booleanItor42 = booleanList40.iterator();
         java.util.stream.Stream<java.lang.Boolean> booleanStream43 = booleanList40.stream();
         boolean boolean44 = intList35.retainAll((java.util.Collection<java.lang.Boolean>) booleanList40);
@@ -1507,7 +1629,7 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray47 = new java.lang.Boolean[]{true};
         java.util.ArrayList<java.lang.Boolean> booleanList48 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean49 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList48,
-                                                         booleanArray47);
+            booleanArray47);
         java.util.ListIterator<java.lang.Boolean> booleanItor51 = booleanList48.listIterator((int) (short) 1);
         boolean boolean52 = shortList12.containsAll((java.util.Collection<java.lang.Boolean>) booleanList48);
         java.util.stream.Stream<java.lang.Boolean> booleanStream53 = booleanList48.stream();
@@ -1517,12 +1639,12 @@ public class RegressionTest1 {
         java.lang.String[] strArray58 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList59 = new java.util.ArrayList<java.lang.String>();
         boolean boolean60 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList59,
-                                                         strArray58);
+            strArray58);
         int int61 = strList59.size();
         java.lang.Boolean[] booleanArray64 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList65 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean66 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList65,
-                                                         booleanArray64);
+            booleanArray64);
         boolean boolean68 = booleanList65.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream69 = booleanList65.stream();
         boolean boolean70 = strList59.containsAll((java.util.Collection<java.lang.Boolean>) booleanList65);
@@ -1587,15 +1709,24 @@ public class RegressionTest1 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test523");
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF0 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl1 = mCServicesProviderNMF0.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl2 = mCServicesProviderNMF0.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl3 = mCServicesProviderNMF0.getAlertService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl4 = mCServicesProviderNMF0.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl5 = mCServicesProviderNMF0.getAlertService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl6 = mCServicesProviderNMF0.getParameterService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl7 = mCServicesProviderNMF0.getActionService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl8 = mCServicesProviderNMF0.getParameterService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl9 = mCServicesProviderNMF0.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl1 = mCServicesProviderNMF0
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl2 = mCServicesProviderNMF0
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl3 = mCServicesProviderNMF0
+            .getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl4 = mCServicesProviderNMF0
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl5 = mCServicesProviderNMF0
+            .getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl6 = mCServicesProviderNMF0
+            .getParameterService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl7 = mCServicesProviderNMF0
+            .getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl8 = mCServicesProviderNMF0
+            .getParameterService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl9 = mCServicesProviderNMF0
+            .getActionService();
         org.junit.Assert.assertNotNull(parameterProviderServiceImpl1);
         org.junit.Assert.assertNotNull(aggregationProviderServiceImpl2);
         org.junit.Assert.assertNotNull(alertProviderServiceImpl3);
@@ -1627,11 +1758,12 @@ public class RegressionTest1 {
         java.lang.Byte[] byteArray18 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) 1, (byte) 1};
         java.util.ArrayList<java.lang.Byte> byteList19 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean20 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList19,
-                                                         byteArray18);
+            byteArray18);
         boolean boolean22 = byteList19.add((java.lang.Byte) (byte) 10);
         java.lang.Object obj23 = byteList19.clone();
         java.util.stream.Stream<java.lang.Byte> byteStream24 = byteList19.stream();
-        org.ccsds.moims.mo.mal.structures.StringList stringList26 = new org.ccsds.moims.mo.mal.structures.StringList(100);
+        org.ccsds.moims.mo.mal.structures.StringList stringList26 = new org.ccsds.moims.mo.mal.structures.StringList(
+            100);
         int int27 = byteList19.indexOf((java.lang.Object) stringList26);
         byte[] byteArray31 = new byte[]{(byte) 0, (byte) 0, (byte) 0};
         org.ccsds.moims.mo.mal.structures.Blob blob32 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray31);
@@ -1641,11 +1773,15 @@ public class RegressionTest1 {
         boolean boolean36 = stringList26.remove((java.lang.Object) blob34);
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF37 = new esa.mo.nmf.MCServicesProviderNMF();
         boolean boolean38 = stringList26.equals((java.lang.Object) mCServicesProviderNMF37);
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl39 = mCServicesProviderNMF37.getAggregationService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl40 = mCServicesProviderNMF37.getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl39 = mCServicesProviderNMF37
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl40 = mCServicesProviderNMF37
+            .getParameterService();
         boolean boolean41 = booleanList5.remove((java.lang.Object) mCServicesProviderNMF37);
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl42 = mCServicesProviderNMF37.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl43 = mCServicesProviderNMF37.getActionService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl42 = mCServicesProviderNMF37
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl43 = mCServicesProviderNMF37
+            .getActionService();
         org.junit.Assert.assertNotNull(uShort1);
         org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + true + "'", boolean3);
         org.junit.Assert.assertNotNull(uOctet4);
@@ -1688,7 +1824,7 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray9 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList10 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList10,
-                                                         booleanArray9);
+            booleanArray9);
         boolean boolean13 = booleanList10.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream14 = booleanList10.stream();
         boolean boolean15 = strList4.containsAll((java.util.Collection<java.lang.Boolean>) booleanList10);
@@ -1727,7 +1863,8 @@ public class RegressionTest1 {
     public void test526() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test526");
-        org.ccsds.moims.mo.mal.structures.LongList longList1 = new org.ccsds.moims.mo.mal.structures.LongList((int) (byte) 1);
+        org.ccsds.moims.mo.mal.structures.LongList longList1 = new org.ccsds.moims.mo.mal.structures.LongList(
+            (int) (byte) 1);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet2 = longList1.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.UShort uShort3 = longList1.getAreaNumber();
         java.util.Spliterator<java.lang.Long> longSpliterator4 = longList1.spliterator();
@@ -1737,18 +1874,18 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray13 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList14 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean15 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList14,
-                                                         booleanArray13);
+            booleanArray13);
         boolean boolean17 = booleanList14.add((java.lang.Boolean) true);
         boolean boolean18 = strList9.removeAll((java.util.Collection<java.lang.Boolean>) booleanList14);
         java.lang.String[] strArray20 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList21 = new java.util.ArrayList<java.lang.String>();
         boolean boolean22 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList21,
-                                                         strArray20);
+            strArray20);
         int int23 = strList21.size();
         java.lang.Boolean[] booleanArray26 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList27 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean28 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList27,
-                                                         booleanArray26);
+            booleanArray26);
         boolean boolean30 = booleanList27.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream31 = booleanList27.stream();
         boolean boolean32 = strList21.containsAll((java.util.Collection<java.lang.Boolean>) booleanList27);
@@ -1758,24 +1895,37 @@ public class RegressionTest1 {
         strList21.clear();
         java.util.ListIterator<java.lang.String> strItor37 = strList21.listIterator();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF38 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl39 = mCServicesProviderNMF38.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl40 = mCServicesProviderNMF38.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl41 = mCServicesProviderNMF38.getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl39 = mCServicesProviderNMF38
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl40 = mCServicesProviderNMF38
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl41 = mCServicesProviderNMF38
+            .getAggregationService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF42 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl43 = mCServicesProviderNMF42.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl44 = mCServicesProviderNMF42.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl45 = mCServicesProviderNMF42.getAlertService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl46 = mCServicesProviderNMF42.getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl43 = mCServicesProviderNMF42
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl44 = mCServicesProviderNMF42
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl45 = mCServicesProviderNMF42
+            .getAlertService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl46 = mCServicesProviderNMF42
+            .getAggregationService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF47 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl48 = mCServicesProviderNMF47.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl49 = mCServicesProviderNMF47.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl50 = mCServicesProviderNMF47.getAlertService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl51 = mCServicesProviderNMF47.getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl48 = mCServicesProviderNMF47
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl49 = mCServicesProviderNMF47
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl50 = mCServicesProviderNMF47
+            .getAlertService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl51 = mCServicesProviderNMF47
+            .getAggregationService();
         org.ccsds.moims.mo.mc.aggregation.provider.AggregationSkeleton[] aggregationSkeletonArray52 = new org.ccsds.moims.mo.mc.aggregation.provider.AggregationSkeleton[]{aggregationProviderServiceImpl41,
                                                                                                                                                                            aggregationProviderServiceImpl46,
                                                                                                                                                                            aggregationProviderServiceImpl51};
-        org.ccsds.moims.mo.mc.aggregation.provider.AggregationSkeleton[] aggregationSkeletonArray53 = strList21.toArray(aggregationSkeletonArray52);
-        org.ccsds.moims.mo.mc.aggregation.provider.AggregationSkeleton[] aggregationSkeletonArray54 = longList1.toArray(aggregationSkeletonArray52);
+        org.ccsds.moims.mo.mc.aggregation.provider.AggregationSkeleton[] aggregationSkeletonArray53 = strList21.toArray(
+            aggregationSkeletonArray52);
+        org.ccsds.moims.mo.mc.aggregation.provider.AggregationSkeleton[] aggregationSkeletonArray54 = longList1.toArray(
+            aggregationSkeletonArray52);
         org.ccsds.moims.mo.mal.structures.UShort uShort55 = longList1.getServiceNumber();
         java.util.Spliterator<java.lang.Long> longSpliterator56 = longList1.spliterator();
         org.junit.Assert.assertNotNull(uOctet2);
@@ -1830,7 +1980,7 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray9 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList10 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList10,
-                                                         booleanArray9);
+            booleanArray9);
         boolean boolean13 = booleanList10.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream14 = booleanList10.stream();
         boolean boolean15 = strList4.containsAll((java.util.Collection<java.lang.Boolean>) booleanList10);
@@ -1928,7 +2078,7 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray8 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList9 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean10 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList9,
-                                                         booleanArray8);
+            booleanArray8);
         boolean boolean12 = booleanList9.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream13 = booleanList9.stream();
         boolean boolean14 = strList3.containsAll((java.util.Collection<java.lang.Boolean>) booleanList9);
@@ -1943,20 +2093,20 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray25 = new java.lang.Boolean[]{true};
         java.util.ArrayList<java.lang.Boolean> booleanList26 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList26,
-                                                         booleanArray25);
+            booleanArray25);
         java.util.ListIterator<java.lang.Boolean> booleanItor29 = booleanList26.listIterator((int) (short) 1);
         boolean boolean30 = doubleList22.containsAll((java.util.Collection<java.lang.Boolean>) booleanList26);
         java.lang.Byte[] byteArray33 = new java.lang.Byte[]{(byte) 10, (byte) 100};
         java.util.ArrayList<java.lang.Byte> byteList34 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean35 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList34,
-                                                         byteArray33);
+            byteArray33);
         boolean boolean36 = byteList34.isEmpty();
         int int37 = byteList34.size();
         int int38 = booleanList26.indexOf((java.lang.Object) byteList34);
         java.lang.Boolean[] booleanArray41 = new java.lang.Boolean[]{false, true};
         java.util.ArrayList<java.lang.Boolean> booleanList42 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean43 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList42,
-                                                         booleanArray41);
+            booleanArray41);
         java.util.Iterator<java.lang.Boolean> booleanItor44 = booleanList42.iterator();
         java.util.stream.Stream<java.lang.Boolean> booleanStream45 = booleanList42.stream();
         java.util.Iterator<java.lang.Boolean> booleanItor46 = booleanList42.iterator();
@@ -1975,7 +2125,8 @@ public class RegressionTest1 {
         boolean boolean59 = shortList0.contains((java.lang.Object) octetList54);
         try {
             java.lang.Short short61 = shortList0.remove((int) (short) 0);
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 0, Size: 0");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 0, Size: 0");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(strArray2);
@@ -2032,7 +2183,7 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray9 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList10 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList10,
-                                                         booleanArray9);
+            booleanArray9);
         boolean boolean13 = booleanList10.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream14 = booleanList10.stream();
         boolean boolean15 = strList4.containsAll((java.util.Collection<java.lang.Boolean>) booleanList10);
@@ -2045,7 +2196,7 @@ public class RegressionTest1 {
         java.lang.Integer[] intArray25 = new java.lang.Integer[]{(-5), (-5)};
         java.util.ArrayList<java.lang.Integer> intList26 = new java.util.ArrayList<java.lang.Integer>();
         boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList26,
-                                                         intArray25);
+            intArray25);
         java.util.Spliterator<java.lang.Integer> intSpliterator28 = intList26.spliterator();
         org.ccsds.moims.mo.mal.structures.UShort uShort29 = org.ccsds.moims.mo.mal.structures.ShortList.SERVICE_SHORT_FORM;
         boolean boolean30 = intList26.remove((java.lang.Object) uShort29);
@@ -2055,7 +2206,8 @@ public class RegressionTest1 {
         java.util.Spliterator<java.lang.Integer> intSpliterator34 = intList26.spliterator();
         try {
             java.lang.Integer int36 = intList26.get((int) 'a');
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 97, Size: 2");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 97, Size: 2");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertTrue("'" + long1 + "' != '" + 281475010265084L + "'", long1.equals(281475010265084L));
@@ -2099,14 +2251,15 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray14 = new java.lang.Boolean[]{true};
         java.util.ArrayList<java.lang.Boolean> booleanList15 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList15,
-                                                         booleanArray14);
+            booleanArray14);
         java.util.ListIterator<java.lang.Boolean> booleanItor18 = booleanList15.listIterator((int) (short) 1);
         java.util.stream.Stream<java.lang.Boolean> booleanStream19 = booleanList15.parallelStream();
         boolean boolean21 = booleanList15.add((java.lang.Boolean) false);
         boolean boolean22 = byteList6.retainAll((java.util.Collection<java.lang.Boolean>) booleanList15);
         org.ccsds.moims.mo.mal.structures.UShortList uShortList23 = new org.ccsds.moims.mo.mal.structures.UShortList();
         java.lang.Object obj24 = uShortList23.clone();
-        java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream25 = uShortList23.parallelStream();
+        java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream25 = uShortList23
+            .parallelStream();
         java.util.Iterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor26 = uShortList23.iterator();
         boolean boolean27 = byteList6.equals((java.lang.Object) uShortItor26);
         org.ccsds.moims.mo.mal.structures.ShortList shortList28 = new org.ccsds.moims.mo.mal.structures.ShortList();
@@ -2119,7 +2272,8 @@ public class RegressionTest1 {
         java.util.Spliterator<java.lang.Double> doubleSpliterator36 = doubleList0.spliterator();
         try {
             java.util.ListIterator<java.lang.Double> doubleItor38 = doubleList0.listIterator(65535);
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 65535");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 65535");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertTrue("'" + int1 + "' != '" + (-5) + "'", int1.equals((-5)));
@@ -2153,7 +2307,7 @@ public class RegressionTest1 {
         esa.mo.nmf.NMFException nMFException2 = new esa.mo.nmf.NMFException("false");
         java.lang.Throwable[] throwableArray3 = nMFException2.getSuppressed();
         esa.mo.nmf.NMFException nMFException4 = new esa.mo.nmf.NMFException("[0.0, 100.0]",
-                                                                            (java.lang.Throwable) nMFException2);
+            (java.lang.Throwable) nMFException2);
         org.junit.Assert.assertNotNull(throwableArray3);
     }
 
@@ -2170,7 +2324,7 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray9 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList10 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList10,
-                                                         booleanArray9);
+            booleanArray9);
         boolean boolean13 = booleanList10.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream14 = booleanList10.stream();
         boolean boolean15 = strList4.containsAll((java.util.Collection<java.lang.Boolean>) booleanList10);
@@ -2192,7 +2346,8 @@ public class RegressionTest1 {
         longList22.ensureCapacity((-5));
         try {
             longList22.add(10, (java.lang.Long) 281474993487880L);
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 10, Size: 0");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 10, Size: 0");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertTrue("'" + long1 + "' != '" + 281475010265084L + "'", long1.equals(281475010265084L));
@@ -2223,28 +2378,40 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test535");
         esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider0 = null;
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF1 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl2 = mCServicesProviderNMF1.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl3 = mCServicesProviderNMF1.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl4 = mCServicesProviderNMF1.getAggregationService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl5 = mCServicesProviderNMF1.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl2 = mCServicesProviderNMF1
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl3 = mCServicesProviderNMF1
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl4 = mCServicesProviderNMF1
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl5 = mCServicesProviderNMF1
+            .getParameterService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF6 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl7 = mCServicesProviderNMF6.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl8 = mCServicesProviderNMF6.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl9 = mCServicesProviderNMF6.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl10 = mCServicesProviderNMF6.getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl7 = mCServicesProviderNMF6
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl8 = mCServicesProviderNMF6
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl9 = mCServicesProviderNMF6
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl10 = mCServicesProviderNMF6
+            .getAggregationService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF11 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl12 = mCServicesProviderNMF11.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl13 = mCServicesProviderNMF11.getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl12 = mCServicesProviderNMF11
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl13 = mCServicesProviderNMF11
+            .getAlertService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF14 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl15 = mCServicesProviderNMF14.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl16 = mCServicesProviderNMF14.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl17 = mCServicesProviderNMF14.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl18 = mCServicesProviderNMF14.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl15 = mCServicesProviderNMF14
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl16 = mCServicesProviderNMF14
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl17 = mCServicesProviderNMF14
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl18 = mCServicesProviderNMF14
+            .getActionService();
         esa.mo.nmf.MCRegistration mCRegistration19 = new esa.mo.nmf.MCRegistration(cOMServicesProvider0,
-                                                                                   parameterProviderServiceImpl5,
-                                                                                   aggregationProviderServiceImpl10,
-                                                                                   alertProviderServiceImpl13,
-                                                                                   actionProviderServiceImpl18);
+            parameterProviderServiceImpl5, aggregationProviderServiceImpl10, alertProviderServiceImpl13,
+            actionProviderServiceImpl18);
         esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl20 = mCRegistration19.actionService;
         esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl21 = mCRegistration19.parameterService;
         esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl22 = mCRegistration19.parameterService;
@@ -2295,21 +2462,22 @@ public class RegressionTest1 {
         java.lang.Byte[] byteArray11 = new java.lang.Byte[]{(byte) 10, (byte) 100};
         java.util.ArrayList<java.lang.Byte> byteList12 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean13 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList12,
-                                                         byteArray11);
+            byteArray11);
         boolean boolean14 = byteList12.isEmpty();
         int int16 = byteList12.indexOf((java.lang.Object) 'a');
         int int18 = byteList12.lastIndexOf((java.lang.Object) "hi!");
         java.lang.Boolean[] booleanArray20 = new java.lang.Boolean[]{true};
         java.util.ArrayList<java.lang.Boolean> booleanList21 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean22 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList21,
-                                                         booleanArray20);
+            booleanArray20);
         java.util.ListIterator<java.lang.Boolean> booleanItor24 = booleanList21.listIterator((int) (short) 1);
         java.util.stream.Stream<java.lang.Boolean> booleanStream25 = booleanList21.parallelStream();
         boolean boolean27 = booleanList21.add((java.lang.Boolean) false);
         boolean boolean28 = byteList12.retainAll((java.util.Collection<java.lang.Boolean>) booleanList21);
         org.ccsds.moims.mo.mal.structures.UShortList uShortList29 = new org.ccsds.moims.mo.mal.structures.UShortList();
         java.lang.Object obj30 = uShortList29.clone();
-        java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream31 = uShortList29.parallelStream();
+        java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream31 = uShortList29
+            .parallelStream();
         java.util.Iterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor32 = uShortList29.iterator();
         boolean boolean33 = byteList12.equals((java.lang.Object) uShortItor32);
         org.ccsds.moims.mo.mal.structures.ShortList shortList34 = new org.ccsds.moims.mo.mal.structures.ShortList();
@@ -2382,7 +2550,7 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray13 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList14 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean15 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList14,
-                                                         booleanArray13);
+            booleanArray13);
         boolean boolean17 = booleanList14.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream18 = booleanList14.stream();
         boolean boolean19 = strList8.containsAll((java.util.Collection<java.lang.Boolean>) booleanList14);
@@ -2399,12 +2567,12 @@ public class RegressionTest1 {
         java.lang.String[] strArray31 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList32 = new java.util.ArrayList<java.lang.String>();
         boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList32,
-                                                         strArray31);
+            strArray31);
         int int34 = strList32.size();
         java.lang.Boolean[] booleanArray37 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList38 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList38,
-                                                         booleanArray37);
+            booleanArray37);
         boolean boolean41 = booleanList38.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream42 = booleanList38.stream();
         boolean boolean43 = strList32.containsAll((java.util.Collection<java.lang.Boolean>) booleanList38);
@@ -2470,18 +2638,18 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UOctet uOctet1 = identifier0.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray2 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList3 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean4 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList3,
-                                                        uRIArray2);
+        boolean boolean4 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList3, uRIArray2);
         java.lang.Boolean[] booleanArray7 = new java.lang.Boolean[]{false, true};
         java.util.ArrayList<java.lang.Boolean> booleanList8 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean9 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList8,
-                                                        booleanArray7);
+            booleanArray7);
         java.util.Iterator<java.lang.Boolean> booleanItor10 = booleanList8.iterator();
         boolean boolean11 = uRIList3.retainAll((java.util.Collection<java.lang.Boolean>) booleanList8);
         java.lang.Boolean[] booleanArray14 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList15 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList15,
-                                                         booleanArray14);
+            booleanArray14);
         boolean boolean18 = booleanList15.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream19 = booleanList15.stream();
         boolean boolean20 = uRIList3.retainAll((java.util.Collection<java.lang.Boolean>) booleanList15);
@@ -2489,34 +2657,47 @@ public class RegressionTest1 {
         boolean boolean23 = identifier0.equals((java.lang.Object) uRIList3);
         java.util.ListIterator<org.ccsds.moims.mo.mal.structures.URI> uRIItor24 = uRIList3.listIterator();
         java.lang.String str25 = uRIList3.toString();
-        org.ccsds.moims.mo.mal.structures.Union union27 = new org.ccsds.moims.mo.mal.structures.Union((java.lang.Double) 100.0d);
+        org.ccsds.moims.mo.mal.structures.Union union27 = new org.ccsds.moims.mo.mal.structures.Union(
+            (java.lang.Double) 100.0d);
         org.ccsds.moims.mo.mal.structures.UShort uShort28 = union27.getAreaNumber();
         boolean boolean29 = uRIList3.equals((java.lang.Object) union27);
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.URI> uRIStream30 = uRIList3.parallelStream();
         esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider31 = null;
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF32 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl33 = mCServicesProviderNMF32.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl34 = mCServicesProviderNMF32.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl35 = mCServicesProviderNMF32.getAggregationService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl36 = mCServicesProviderNMF32.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl33 = mCServicesProviderNMF32
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl34 = mCServicesProviderNMF32
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl35 = mCServicesProviderNMF32
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl36 = mCServicesProviderNMF32
+            .getParameterService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF37 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl38 = mCServicesProviderNMF37.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl39 = mCServicesProviderNMF37.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl40 = mCServicesProviderNMF37.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl41 = mCServicesProviderNMF37.getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl38 = mCServicesProviderNMF37
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl39 = mCServicesProviderNMF37
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl40 = mCServicesProviderNMF37
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl41 = mCServicesProviderNMF37
+            .getAggregationService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF42 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl43 = mCServicesProviderNMF42.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl44 = mCServicesProviderNMF42.getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl43 = mCServicesProviderNMF42
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl44 = mCServicesProviderNMF42
+            .getAlertService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF45 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl46 = mCServicesProviderNMF45.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl47 = mCServicesProviderNMF45.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl48 = mCServicesProviderNMF45.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl49 = mCServicesProviderNMF45.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl46 = mCServicesProviderNMF45
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl47 = mCServicesProviderNMF45
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl48 = mCServicesProviderNMF45
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl49 = mCServicesProviderNMF45
+            .getActionService();
         esa.mo.nmf.MCRegistration mCRegistration50 = new esa.mo.nmf.MCRegistration(cOMServicesProvider31,
-                                                                                   parameterProviderServiceImpl36,
-                                                                                   aggregationProviderServiceImpl41,
-                                                                                   alertProviderServiceImpl44,
-                                                                                   actionProviderServiceImpl49);
+            parameterProviderServiceImpl36, aggregationProviderServiceImpl41, alertProviderServiceImpl44,
+            actionProviderServiceImpl49);
         esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl51 = mCRegistration50.actionService;
         esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl52 = mCRegistration50.aggregationService;
         esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl53 = mCRegistration50.actionService;
@@ -2573,7 +2754,7 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray8 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList9 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean10 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList9,
-                                                         booleanArray8);
+            booleanArray8);
         boolean boolean12 = booleanList9.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream13 = booleanList9.stream();
         boolean boolean14 = strList3.containsAll((java.util.Collection<java.lang.Boolean>) booleanList9);
@@ -2588,20 +2769,20 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray25 = new java.lang.Boolean[]{true};
         java.util.ArrayList<java.lang.Boolean> booleanList26 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList26,
-                                                         booleanArray25);
+            booleanArray25);
         java.util.ListIterator<java.lang.Boolean> booleanItor29 = booleanList26.listIterator((int) (short) 1);
         boolean boolean30 = doubleList22.containsAll((java.util.Collection<java.lang.Boolean>) booleanList26);
         java.lang.Byte[] byteArray33 = new java.lang.Byte[]{(byte) 10, (byte) 100};
         java.util.ArrayList<java.lang.Byte> byteList34 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean35 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList34,
-                                                         byteArray33);
+            byteArray33);
         boolean boolean36 = byteList34.isEmpty();
         int int37 = byteList34.size();
         int int38 = booleanList26.indexOf((java.lang.Object) byteList34);
         java.lang.Boolean[] booleanArray41 = new java.lang.Boolean[]{false, true};
         java.util.ArrayList<java.lang.Boolean> booleanList42 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean43 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList42,
-                                                         booleanArray41);
+            booleanArray41);
         java.util.Iterator<java.lang.Boolean> booleanItor44 = booleanList42.iterator();
         java.util.stream.Stream<java.lang.Boolean> booleanStream45 = booleanList42.stream();
         java.util.Iterator<java.lang.Boolean> booleanItor46 = booleanList42.iterator();
@@ -2678,7 +2859,8 @@ public class RegressionTest1 {
         boolean boolean8 = byteList5.add((java.lang.Byte) (byte) 10);
         java.lang.Object obj9 = byteList5.clone();
         java.util.stream.Stream<java.lang.Byte> byteStream10 = byteList5.stream();
-        org.ccsds.moims.mo.mal.structures.StringList stringList12 = new org.ccsds.moims.mo.mal.structures.StringList(100);
+        org.ccsds.moims.mo.mal.structures.StringList stringList12 = new org.ccsds.moims.mo.mal.structures.StringList(
+            100);
         int int13 = byteList5.indexOf((java.lang.Object) stringList12);
         byte[] byteArray17 = new byte[]{(byte) 0, (byte) 0, (byte) 0};
         org.ccsds.moims.mo.mal.structures.Blob blob18 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray17);
@@ -2688,9 +2870,12 @@ public class RegressionTest1 {
         boolean boolean22 = stringList12.remove((java.lang.Object) blob20);
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF23 = new esa.mo.nmf.MCServicesProviderNMF();
         boolean boolean24 = stringList12.equals((java.lang.Object) mCServicesProviderNMF23);
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl25 = mCServicesProviderNMF23.getAggregationService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl26 = mCServicesProviderNMF23.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl27 = mCServicesProviderNMF23.getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl25 = mCServicesProviderNMF23
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl26 = mCServicesProviderNMF23
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl27 = mCServicesProviderNMF23
+            .getAggregationService();
         org.junit.Assert.assertNotNull(byteArray4);
         org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + true + "'", boolean6);
         org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + true + "'", boolean8);
@@ -2711,12 +2896,16 @@ public class RegressionTest1 {
     public void test541() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test541");
-        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList(100);
+        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList(
+            100);
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = stringList1.getServiceNumber();
-        org.ccsds.moims.mo.mal.structures.IntegerList integerList4 = new org.ccsds.moims.mo.mal.structures.IntegerList((int) '4');
+        org.ccsds.moims.mo.mal.structures.IntegerList integerList4 = new org.ccsds.moims.mo.mal.structures.IntegerList(
+            (int) '4');
         java.lang.Long long5 = integerList4.getShortForm();
-        org.ccsds.moims.mo.mal.structures.IntegerList integerList7 = new org.ccsds.moims.mo.mal.structures.IntegerList((int) '4');
-        org.ccsds.moims.mo.mal.structures.IntegerList integerList9 = new org.ccsds.moims.mo.mal.structures.IntegerList((int) '4');
+        org.ccsds.moims.mo.mal.structures.IntegerList integerList7 = new org.ccsds.moims.mo.mal.structures.IntegerList(
+            (int) '4');
+        org.ccsds.moims.mo.mal.structures.IntegerList integerList9 = new org.ccsds.moims.mo.mal.structures.IntegerList(
+            (int) '4');
         java.lang.Long long10 = integerList9.getShortForm();
         org.ccsds.moims.mo.mal.structures.IntegerList[] integerListArray11 = new org.ccsds.moims.mo.mal.structures.IntegerList[]{integerList4,
                                                                                                                                  integerList7,
@@ -2725,7 +2914,7 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray14 = new java.lang.Boolean[]{true};
         java.util.ArrayList<java.lang.Boolean> booleanList15 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList15,
-                                                         booleanArray14);
+            booleanArray14);
         java.util.ListIterator<java.lang.Boolean> booleanItor18 = booleanList15.listIterator((int) (short) 1);
         java.util.stream.Stream<java.lang.Boolean> booleanStream19 = booleanList15.parallelStream();
         boolean boolean21 = booleanList15.add((java.lang.Boolean) false);
@@ -2733,79 +2922,118 @@ public class RegressionTest1 {
         boolean boolean24 = stringList1.containsAll((java.util.Collection<java.lang.Boolean>) booleanList15);
         org.ccsds.moims.mo.mal.structures.UShortList uShortList25 = new org.ccsds.moims.mo.mal.structures.UShortList();
         java.lang.Object obj26 = uShortList25.clone();
-        java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream27 = uShortList25.parallelStream();
+        java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream27 = uShortList25
+            .parallelStream();
         java.util.Iterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor28 = uShortList25.iterator();
         java.util.ListIterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor29 = uShortList25.listIterator();
         esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider30 = null;
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF31 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl32 = mCServicesProviderNMF31.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl33 = mCServicesProviderNMF31.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl34 = mCServicesProviderNMF31.getAggregationService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl35 = mCServicesProviderNMF31.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl32 = mCServicesProviderNMF31
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl33 = mCServicesProviderNMF31
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl34 = mCServicesProviderNMF31
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl35 = mCServicesProviderNMF31
+            .getParameterService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF36 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl37 = mCServicesProviderNMF36.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl38 = mCServicesProviderNMF36.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl39 = mCServicesProviderNMF36.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl40 = mCServicesProviderNMF36.getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl37 = mCServicesProviderNMF36
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl38 = mCServicesProviderNMF36
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl39 = mCServicesProviderNMF36
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl40 = mCServicesProviderNMF36
+            .getAggregationService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF41 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl42 = mCServicesProviderNMF41.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl43 = mCServicesProviderNMF41.getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl42 = mCServicesProviderNMF41
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl43 = mCServicesProviderNMF41
+            .getAlertService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF44 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl45 = mCServicesProviderNMF44.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl46 = mCServicesProviderNMF44.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl47 = mCServicesProviderNMF44.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl48 = mCServicesProviderNMF44.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl45 = mCServicesProviderNMF44
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl46 = mCServicesProviderNMF44
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl47 = mCServicesProviderNMF44
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl48 = mCServicesProviderNMF44
+            .getActionService();
         esa.mo.nmf.MCRegistration mCRegistration49 = new esa.mo.nmf.MCRegistration(cOMServicesProvider30,
-                                                                                   parameterProviderServiceImpl35,
-                                                                                   aggregationProviderServiceImpl40,
-                                                                                   alertProviderServiceImpl43,
-                                                                                   actionProviderServiceImpl48);
+            parameterProviderServiceImpl35, aggregationProviderServiceImpl40, alertProviderServiceImpl43,
+            actionProviderServiceImpl48);
         esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl50 = mCRegistration49.actionService;
         esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl51 = mCRegistration49.actionService;
         esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider52 = null;
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF53 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl54 = mCServicesProviderNMF53.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl55 = mCServicesProviderNMF53.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl56 = mCServicesProviderNMF53.getAggregationService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl57 = mCServicesProviderNMF53.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl54 = mCServicesProviderNMF53
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl55 = mCServicesProviderNMF53
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl56 = mCServicesProviderNMF53
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl57 = mCServicesProviderNMF53
+            .getParameterService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF58 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl59 = mCServicesProviderNMF58.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl60 = mCServicesProviderNMF58.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl61 = mCServicesProviderNMF58.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl62 = mCServicesProviderNMF58.getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl59 = mCServicesProviderNMF58
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl60 = mCServicesProviderNMF58
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl61 = mCServicesProviderNMF58
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl62 = mCServicesProviderNMF58
+            .getAggregationService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF63 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl64 = mCServicesProviderNMF63.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl65 = mCServicesProviderNMF63.getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl64 = mCServicesProviderNMF63
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl65 = mCServicesProviderNMF63
+            .getAlertService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF66 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl67 = mCServicesProviderNMF66.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl68 = mCServicesProviderNMF66.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl69 = mCServicesProviderNMF66.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl70 = mCServicesProviderNMF66.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl67 = mCServicesProviderNMF66
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl68 = mCServicesProviderNMF66
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl69 = mCServicesProviderNMF66
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl70 = mCServicesProviderNMF66
+            .getActionService();
         esa.mo.nmf.MCRegistration mCRegistration71 = new esa.mo.nmf.MCRegistration(cOMServicesProvider52,
-                                                                                   parameterProviderServiceImpl57,
-                                                                                   aggregationProviderServiceImpl62,
-                                                                                   alertProviderServiceImpl65,
-                                                                                   actionProviderServiceImpl70);
+            parameterProviderServiceImpl57, aggregationProviderServiceImpl62, alertProviderServiceImpl65,
+            actionProviderServiceImpl70);
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF72 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl73 = mCServicesProviderNMF72.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl74 = mCServicesProviderNMF72.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl75 = mCServicesProviderNMF72.getAlertService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl76 = mCServicesProviderNMF72.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl77 = mCServicesProviderNMF72.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl78 = mCServicesProviderNMF72.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl73 = mCServicesProviderNMF72
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl74 = mCServicesProviderNMF72
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl75 = mCServicesProviderNMF72
+            .getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl76 = mCServicesProviderNMF72
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl77 = mCServicesProviderNMF72
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl78 = mCServicesProviderNMF72
+            .getActionService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF79 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl80 = mCServicesProviderNMF79.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl81 = mCServicesProviderNMF79.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl82 = mCServicesProviderNMF79.getAlertService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl83 = mCServicesProviderNMF79.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl84 = mCServicesProviderNMF79.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl85 = mCServicesProviderNMF79.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl80 = mCServicesProviderNMF79
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl81 = mCServicesProviderNMF79
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl82 = mCServicesProviderNMF79
+            .getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl83 = mCServicesProviderNMF79
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl84 = mCServicesProviderNMF79
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl85 = mCServicesProviderNMF79
+            .getActionService();
         org.ccsds.moims.mo.mc.action.provider.ActionInheritanceSkeleton[] actionInheritanceSkeletonArray86 = new org.ccsds.moims.mo.mc.action.provider.ActionInheritanceSkeleton[]{actionProviderServiceImpl51,
                                                                                                                                                                                    actionProviderServiceImpl70,
                                                                                                                                                                                    actionProviderServiceImpl78,
                                                                                                                                                                                    actionProviderServiceImpl85};
-        org.ccsds.moims.mo.mc.action.provider.ActionInheritanceSkeleton[] actionInheritanceSkeletonArray87 = uShortList25.toArray(actionInheritanceSkeletonArray86);
-        org.ccsds.moims.mo.mc.action.provider.ActionHandler[] actionHandlerArray88 = stringList1.toArray((org.ccsds.moims.mo.mc.action.provider.ActionHandler[]) actionInheritanceSkeletonArray86);
+        org.ccsds.moims.mo.mc.action.provider.ActionInheritanceSkeleton[] actionInheritanceSkeletonArray87 = uShortList25
+            .toArray(actionInheritanceSkeletonArray86);
+        org.ccsds.moims.mo.mc.action.provider.ActionHandler[] actionHandlerArray88 = stringList1.toArray(
+            (org.ccsds.moims.mo.mc.action.provider.ActionHandler[]) actionInheritanceSkeletonArray86);
         java.util.Iterator<java.lang.String> strItor89 = stringList1.iterator();
         org.junit.Assert.assertNotNull(uShort2);
         org.junit.Assert.assertTrue("'" + long5 + "' != '" + 281475010265077L + "'", long5.equals(281475010265077L));
@@ -2884,7 +3112,7 @@ public class RegressionTest1 {
         java.lang.Throwable[] throwableArray10 = nMFException9.getSuppressed();
         nMFException5.addSuppressed((java.lang.Throwable) nMFException9);
         esa.mo.nmf.NMFException nMFException12 = new esa.mo.nmf.NMFException("[true]",
-                                                                             (java.lang.Throwable) nMFException9);
+            (java.lang.Throwable) nMFException9);
         nMFException1.addSuppressed((java.lang.Throwable) nMFException9);
         org.junit.Assert.assertNotNull(throwableArray2);
         org.junit.Assert.assertNotNull(throwableArray6);
@@ -2905,7 +3133,7 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray9 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList10 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList10,
-                                                         booleanArray9);
+            booleanArray9);
         boolean boolean13 = booleanList10.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream14 = booleanList10.stream();
         boolean boolean15 = strList4.containsAll((java.util.Collection<java.lang.Boolean>) booleanList10);
@@ -2960,9 +3188,10 @@ public class RegressionTest1 {
         java.lang.Byte[] byteArray16 = new java.lang.Byte[]{(byte) 0, (byte) 0, (byte) -1, (byte) 0};
         java.util.ArrayList<java.lang.Byte> byteList17 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList17,
-                                                         byteArray16);
+            byteArray16);
         java.util.Iterator<java.lang.Byte> byteItor19 = byteList17.iterator();
-        org.ccsds.moims.mo.mal.structures.Duration duration21 = new org.ccsds.moims.mo.mal.structures.Duration((double) 14);
+        org.ccsds.moims.mo.mal.structures.Duration duration21 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) 14);
         java.lang.Long long22 = duration21.getShortForm();
         int int23 = byteList17.indexOf((java.lang.Object) long22);
         int int24 = uShortList6.lastIndexOf((java.lang.Object) byteList17);
@@ -2971,28 +3200,40 @@ public class RegressionTest1 {
         java.lang.Object obj27 = byteList17.clone();
         esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider28 = null;
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF29 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl30 = mCServicesProviderNMF29.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl31 = mCServicesProviderNMF29.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl32 = mCServicesProviderNMF29.getAggregationService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl33 = mCServicesProviderNMF29.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl30 = mCServicesProviderNMF29
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl31 = mCServicesProviderNMF29
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl32 = mCServicesProviderNMF29
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl33 = mCServicesProviderNMF29
+            .getParameterService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF34 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl35 = mCServicesProviderNMF34.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl36 = mCServicesProviderNMF34.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl37 = mCServicesProviderNMF34.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl38 = mCServicesProviderNMF34.getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl35 = mCServicesProviderNMF34
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl36 = mCServicesProviderNMF34
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl37 = mCServicesProviderNMF34
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl38 = mCServicesProviderNMF34
+            .getAggregationService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF39 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl40 = mCServicesProviderNMF39.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl41 = mCServicesProviderNMF39.getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl40 = mCServicesProviderNMF39
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl41 = mCServicesProviderNMF39
+            .getAlertService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF42 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl43 = mCServicesProviderNMF42.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl44 = mCServicesProviderNMF42.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl45 = mCServicesProviderNMF42.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl46 = mCServicesProviderNMF42.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl43 = mCServicesProviderNMF42
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl44 = mCServicesProviderNMF42
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl45 = mCServicesProviderNMF42
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl46 = mCServicesProviderNMF42
+            .getActionService();
         esa.mo.nmf.MCRegistration mCRegistration47 = new esa.mo.nmf.MCRegistration(cOMServicesProvider28,
-                                                                                   parameterProviderServiceImpl33,
-                                                                                   aggregationProviderServiceImpl38,
-                                                                                   alertProviderServiceImpl41,
-                                                                                   actionProviderServiceImpl46);
+            parameterProviderServiceImpl33, aggregationProviderServiceImpl38, alertProviderServiceImpl41,
+            actionProviderServiceImpl46);
         esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl48 = mCRegistration47.parameterService;
         esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl49 = mCRegistration47.actionService;
         int int50 = byteList17.indexOf((java.lang.Object) actionProviderServiceImpl49);
@@ -3049,7 +3290,7 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray9 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList10 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList10,
-                                                         booleanArray9);
+            booleanArray9);
         boolean boolean13 = booleanList10.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream14 = booleanList10.stream();
         boolean boolean15 = strList4.containsAll((java.util.Collection<java.lang.Boolean>) booleanList10);
@@ -3115,13 +3356,20 @@ public class RegressionTest1 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test547");
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF0 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl1 = mCServicesProviderNMF0.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl2 = mCServicesProviderNMF0.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl3 = mCServicesProviderNMF0.getAlertService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl4 = mCServicesProviderNMF0.getAggregationService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl5 = mCServicesProviderNMF0.getParameterService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl6 = mCServicesProviderNMF0.getParameterService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl7 = mCServicesProviderNMF0.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl1 = mCServicesProviderNMF0
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl2 = mCServicesProviderNMF0
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl3 = mCServicesProviderNMF0
+            .getAlertService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl4 = mCServicesProviderNMF0
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl5 = mCServicesProviderNMF0
+            .getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl6 = mCServicesProviderNMF0
+            .getParameterService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl7 = mCServicesProviderNMF0
+            .getActionService();
         org.junit.Assert.assertNotNull(parameterProviderServiceImpl1);
         org.junit.Assert.assertNotNull(aggregationProviderServiceImpl2);
         org.junit.Assert.assertNotNull(alertProviderServiceImpl3);
@@ -3137,55 +3385,79 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test548");
         esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider0 = null;
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF1 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl2 = mCServicesProviderNMF1.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl3 = mCServicesProviderNMF1.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl4 = mCServicesProviderNMF1.getAggregationService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl5 = mCServicesProviderNMF1.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl2 = mCServicesProviderNMF1
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl3 = mCServicesProviderNMF1
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl4 = mCServicesProviderNMF1
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl5 = mCServicesProviderNMF1
+            .getParameterService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF6 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl7 = mCServicesProviderNMF6.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl8 = mCServicesProviderNMF6.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl9 = mCServicesProviderNMF6.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl10 = mCServicesProviderNMF6.getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl7 = mCServicesProviderNMF6
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl8 = mCServicesProviderNMF6
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl9 = mCServicesProviderNMF6
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl10 = mCServicesProviderNMF6
+            .getAggregationService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF11 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl12 = mCServicesProviderNMF11.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl13 = mCServicesProviderNMF11.getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl12 = mCServicesProviderNMF11
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl13 = mCServicesProviderNMF11
+            .getAlertService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF14 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl15 = mCServicesProviderNMF14.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl16 = mCServicesProviderNMF14.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl17 = mCServicesProviderNMF14.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl18 = mCServicesProviderNMF14.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl15 = mCServicesProviderNMF14
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl16 = mCServicesProviderNMF14
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl17 = mCServicesProviderNMF14
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl18 = mCServicesProviderNMF14
+            .getActionService();
         esa.mo.nmf.MCRegistration mCRegistration19 = new esa.mo.nmf.MCRegistration(cOMServicesProvider0,
-                                                                                   parameterProviderServiceImpl5,
-                                                                                   aggregationProviderServiceImpl10,
-                                                                                   alertProviderServiceImpl13,
-                                                                                   actionProviderServiceImpl18);
+            parameterProviderServiceImpl5, aggregationProviderServiceImpl10, alertProviderServiceImpl13,
+            actionProviderServiceImpl18);
         esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl20 = mCRegistration19.parameterService;
         esa.mo.nmf.MCRegistration.RegistrationMode registrationMode21 = esa.mo.nmf.MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS;
         mCRegistration19.setMode(registrationMode21);
         esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider23 = null;
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF24 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl25 = mCServicesProviderNMF24.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl26 = mCServicesProviderNMF24.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl27 = mCServicesProviderNMF24.getAggregationService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl28 = mCServicesProviderNMF24.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl25 = mCServicesProviderNMF24
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl26 = mCServicesProviderNMF24
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl27 = mCServicesProviderNMF24
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl28 = mCServicesProviderNMF24
+            .getParameterService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF29 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl30 = mCServicesProviderNMF29.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl31 = mCServicesProviderNMF29.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl32 = mCServicesProviderNMF29.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl33 = mCServicesProviderNMF29.getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl30 = mCServicesProviderNMF29
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl31 = mCServicesProviderNMF29
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl32 = mCServicesProviderNMF29
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl33 = mCServicesProviderNMF29
+            .getAggregationService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF34 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl35 = mCServicesProviderNMF34.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl36 = mCServicesProviderNMF34.getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl35 = mCServicesProviderNMF34
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl36 = mCServicesProviderNMF34
+            .getAlertService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF37 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl38 = mCServicesProviderNMF37.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl39 = mCServicesProviderNMF37.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl40 = mCServicesProviderNMF37.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl41 = mCServicesProviderNMF37.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl38 = mCServicesProviderNMF37
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl39 = mCServicesProviderNMF37
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl40 = mCServicesProviderNMF37
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl41 = mCServicesProviderNMF37
+            .getActionService();
         esa.mo.nmf.MCRegistration mCRegistration42 = new esa.mo.nmf.MCRegistration(cOMServicesProvider23,
-                                                                                   parameterProviderServiceImpl28,
-                                                                                   aggregationProviderServiceImpl33,
-                                                                                   alertProviderServiceImpl36,
-                                                                                   actionProviderServiceImpl41);
+            parameterProviderServiceImpl28, aggregationProviderServiceImpl33, alertProviderServiceImpl36,
+            actionProviderServiceImpl41);
         esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl43 = mCRegistration42.parameterService;
         esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl44 = mCRegistration42.actionService;
         esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl45 = mCRegistration42.parameterService;
@@ -3210,12 +3482,9 @@ public class RegressionTest1 {
         org.junit.Assert.assertNotNull(alertProviderServiceImpl17);
         org.junit.Assert.assertNotNull(actionProviderServiceImpl18);
         org.junit.Assert.assertNotNull(parameterProviderServiceImpl20);
-        org.junit.Assert.assertTrue("'" +
-                                    registrationMode21 +
-                                    "' != '" +
-                                    esa.mo.nmf.MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS +
-                                    "'", registrationMode21.equals(
-                                                                   esa.mo.nmf.MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS));
+        org.junit.Assert.assertTrue("'" + registrationMode21 + "' != '" +
+            esa.mo.nmf.MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS + "'", registrationMode21.equals(
+                esa.mo.nmf.MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS));
         org.junit.Assert.assertNotNull(parameterProviderServiceImpl25);
         org.junit.Assert.assertNotNull(aggregationProviderServiceImpl26);
         org.junit.Assert.assertNotNull(aggregationProviderServiceImpl27);
@@ -3235,12 +3504,9 @@ public class RegressionTest1 {
         org.junit.Assert.assertNotNull(parameterProviderServiceImpl45);
         org.junit.Assert.assertNotNull(actionProviderServiceImpl46);
         org.junit.Assert.assertNotNull(actionProviderServiceImpl47);
-        org.junit.Assert.assertTrue("'" +
-                                    registrationMode48 +
-                                    "' != '" +
-                                    esa.mo.nmf.MCRegistration.RegistrationMode.UPDATE_IF_EXISTS +
-                                    "'", registrationMode48.equals(
-                                                                   esa.mo.nmf.MCRegistration.RegistrationMode.UPDATE_IF_EXISTS));
+        org.junit.Assert.assertTrue("'" + registrationMode48 + "' != '" +
+            esa.mo.nmf.MCRegistration.RegistrationMode.UPDATE_IF_EXISTS + "'", registrationMode48.equals(
+                esa.mo.nmf.MCRegistration.RegistrationMode.UPDATE_IF_EXISTS));
         org.junit.Assert.assertNotNull(aggregationProviderServiceImpl51);
     }
 
@@ -3268,7 +3534,7 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray6 = new java.lang.Boolean[]{true};
         java.util.ArrayList<java.lang.Boolean> booleanList7 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean8 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList7,
-                                                        booleanArray6);
+            booleanArray6);
         java.util.ListIterator<java.lang.Boolean> booleanItor10 = booleanList7.listIterator((int) (short) 1);
         java.util.stream.Stream<java.lang.Boolean> booleanStream11 = booleanList7.parallelStream();
         boolean boolean13 = booleanList7.add((java.lang.Boolean) false);
@@ -3281,13 +3547,13 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray25 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList26 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList26,
-                                                         booleanArray25);
+            booleanArray25);
         boolean boolean29 = booleanList26.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream30 = booleanList26.stream();
         java.lang.Double[] doubleArray32 = new java.lang.Double[]{0.0d};
         java.util.ArrayList<java.lang.Double> doubleList33 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean34 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList33,
-                                                         doubleArray32);
+            doubleArray32);
         java.util.Spliterator<java.lang.Double> doubleSpliterator35 = doubleList33.spliterator();
         java.util.Iterator<java.lang.Double> doubleItor36 = doubleList33.iterator();
         boolean boolean37 = booleanList26.contains((java.lang.Object) doubleItor36);
@@ -3297,22 +3563,22 @@ public class RegressionTest1 {
         java.lang.Integer[] intArray43 = new java.lang.Integer[]{(-5), (-5)};
         java.util.ArrayList<java.lang.Integer> intList44 = new java.util.ArrayList<java.lang.Integer>();
         boolean boolean45 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList44,
-                                                         intArray43);
+            intArray43);
         java.util.Spliterator<java.lang.Integer> intSpliterator46 = intList44.spliterator();
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray47 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList48 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean49 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList48,
-                                                         uRIArray47);
+        boolean boolean49 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList48, uRIArray47);
         java.lang.Boolean[] booleanArray52 = new java.lang.Boolean[]{false, true};
         java.util.ArrayList<java.lang.Boolean> booleanList53 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean54 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList53,
-                                                         booleanArray52);
+            booleanArray52);
         java.util.Iterator<java.lang.Boolean> booleanItor55 = booleanList53.iterator();
         boolean boolean56 = uRIList48.retainAll((java.util.Collection<java.lang.Boolean>) booleanList53);
         java.lang.Boolean[] booleanArray59 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList60 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean61 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList60,
-                                                         booleanArray59);
+            booleanArray59);
         boolean boolean63 = booleanList60.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream64 = booleanList60.stream();
         boolean boolean65 = uRIList48.retainAll((java.util.Collection<java.lang.Boolean>) booleanList60);
@@ -3388,28 +3654,40 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test551");
         esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider0 = null;
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF1 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl2 = mCServicesProviderNMF1.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl3 = mCServicesProviderNMF1.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl4 = mCServicesProviderNMF1.getAggregationService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl5 = mCServicesProviderNMF1.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl2 = mCServicesProviderNMF1
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl3 = mCServicesProviderNMF1
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl4 = mCServicesProviderNMF1
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl5 = mCServicesProviderNMF1
+            .getParameterService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF6 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl7 = mCServicesProviderNMF6.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl8 = mCServicesProviderNMF6.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl9 = mCServicesProviderNMF6.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl10 = mCServicesProviderNMF6.getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl7 = mCServicesProviderNMF6
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl8 = mCServicesProviderNMF6
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl9 = mCServicesProviderNMF6
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl10 = mCServicesProviderNMF6
+            .getAggregationService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF11 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl12 = mCServicesProviderNMF11.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl13 = mCServicesProviderNMF11.getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl12 = mCServicesProviderNMF11
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl13 = mCServicesProviderNMF11
+            .getAlertService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF14 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl15 = mCServicesProviderNMF14.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl16 = mCServicesProviderNMF14.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl17 = mCServicesProviderNMF14.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl18 = mCServicesProviderNMF14.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl15 = mCServicesProviderNMF14
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl16 = mCServicesProviderNMF14
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl17 = mCServicesProviderNMF14
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl18 = mCServicesProviderNMF14
+            .getActionService();
         esa.mo.nmf.MCRegistration mCRegistration19 = new esa.mo.nmf.MCRegistration(cOMServicesProvider0,
-                                                                                   parameterProviderServiceImpl5,
-                                                                                   aggregationProviderServiceImpl10,
-                                                                                   alertProviderServiceImpl13,
-                                                                                   actionProviderServiceImpl18);
+            parameterProviderServiceImpl5, aggregationProviderServiceImpl10, alertProviderServiceImpl13,
+            actionProviderServiceImpl18);
         esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl20 = mCRegistration19.actionService;
         esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl21 = mCRegistration19.parameterService;
         esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl22 = mCRegistration19.parameterService;
@@ -3446,7 +3724,7 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray8 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList9 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean10 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList9,
-                                                         booleanArray8);
+            booleanArray8);
         boolean boolean12 = booleanList9.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream13 = booleanList9.stream();
         boolean boolean14 = strList3.containsAll((java.util.Collection<java.lang.Boolean>) booleanList9);
@@ -3455,16 +3733,23 @@ public class RegressionTest1 {
         java.lang.Integer int17 = shortList0.getTypeShortForm();
         java.lang.Object obj18 = shortList0.clone();
         org.ccsds.moims.mo.mal.structures.UShort uShort19 = shortList0.getAreaNumber();
-        org.ccsds.moims.mo.mal.structures.LongList longList21 = new org.ccsds.moims.mo.mal.structures.LongList((int) (byte) 1);
+        org.ccsds.moims.mo.mal.structures.LongList longList21 = new org.ccsds.moims.mo.mal.structures.LongList(
+            (int) (byte) 1);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet22 = longList21.getAreaVersion();
         java.util.Iterator<java.lang.Long> longItor23 = longList21.iterator();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF24 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl25 = mCServicesProviderNMF24.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl26 = mCServicesProviderNMF24.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl27 = mCServicesProviderNMF24.getAlertService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl28 = mCServicesProviderNMF24.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl29 = mCServicesProviderNMF24.getAlertService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl30 = mCServicesProviderNMF24.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl25 = mCServicesProviderNMF24
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl26 = mCServicesProviderNMF24
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl27 = mCServicesProviderNMF24
+            .getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl28 = mCServicesProviderNMF24
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl29 = mCServicesProviderNMF24
+            .getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl30 = mCServicesProviderNMF24
+            .getParameterService();
         int int31 = longList21.indexOf((java.lang.Object) mCServicesProviderNMF24);
         longList21.trimToSize();
         java.lang.String str33 = longList21.toString();
@@ -3509,7 +3794,7 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray9 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList10 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList10,
-                                                         booleanArray9);
+            booleanArray9);
         boolean boolean13 = booleanList10.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream14 = booleanList10.stream();
         boolean boolean15 = strList4.containsAll((java.util.Collection<java.lang.Boolean>) booleanList10);
@@ -3520,7 +3805,8 @@ public class RegressionTest1 {
         int int21 = floatList0.lastIndexOf((java.lang.Object) throwableArray20);
         org.ccsds.moims.mo.mal.structures.LongList longList22 = new org.ccsds.moims.mo.mal.structures.LongList();
         int int23 = floatList0.lastIndexOf((java.lang.Object) longList22);
-        org.ccsds.moims.mo.mal.structures.LongList longList25 = new org.ccsds.moims.mo.mal.structures.LongList((int) (byte) 1);
+        org.ccsds.moims.mo.mal.structures.LongList longList25 = new org.ccsds.moims.mo.mal.structures.LongList(
+            (int) (byte) 1);
         java.util.stream.Stream<java.lang.Long> longStream26 = longList25.parallelStream();
         org.ccsds.moims.mo.mal.structures.UShort uShort27 = longList25.getServiceNumber();
         int int28 = floatList0.indexOf((java.lang.Object) longList25);
@@ -3558,7 +3844,7 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray9 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList10 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList10,
-                                                         booleanArray9);
+            booleanArray9);
         boolean boolean13 = booleanList10.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream14 = booleanList10.stream();
         boolean boolean15 = strList4.containsAll((java.util.Collection<java.lang.Boolean>) booleanList10);
@@ -3595,7 +3881,8 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.Time time1 = new org.ccsds.moims.mo.mal.structures.Time((long) (byte) -1);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet2 = time1.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.UShort uShort3 = time1.getServiceNumber();
-        org.ccsds.moims.mo.mal.structures.Duration duration5 = new org.ccsds.moims.mo.mal.structures.Duration((double) 14);
+        org.ccsds.moims.mo.mal.structures.Duration duration5 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) 14);
         boolean boolean6 = time1.equals((java.lang.Object) duration5);
         java.lang.Integer int7 = duration5.getTypeShortForm();
         java.lang.Integer int8 = duration5.getTypeShortForm();
@@ -3608,28 +3895,40 @@ public class RegressionTest1 {
         java.lang.Integer int16 = shortList9.getTypeShortForm();
         esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider17 = null;
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF18 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl19 = mCServicesProviderNMF18.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl20 = mCServicesProviderNMF18.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl21 = mCServicesProviderNMF18.getAggregationService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl22 = mCServicesProviderNMF18.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl19 = mCServicesProviderNMF18
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl20 = mCServicesProviderNMF18
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl21 = mCServicesProviderNMF18
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl22 = mCServicesProviderNMF18
+            .getParameterService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF23 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl24 = mCServicesProviderNMF23.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl25 = mCServicesProviderNMF23.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl26 = mCServicesProviderNMF23.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl27 = mCServicesProviderNMF23.getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl24 = mCServicesProviderNMF23
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl25 = mCServicesProviderNMF23
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl26 = mCServicesProviderNMF23
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl27 = mCServicesProviderNMF23
+            .getAggregationService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF28 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl29 = mCServicesProviderNMF28.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl30 = mCServicesProviderNMF28.getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl29 = mCServicesProviderNMF28
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl30 = mCServicesProviderNMF28
+            .getAlertService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF31 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl32 = mCServicesProviderNMF31.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl33 = mCServicesProviderNMF31.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl34 = mCServicesProviderNMF31.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl35 = mCServicesProviderNMF31.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl32 = mCServicesProviderNMF31
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl33 = mCServicesProviderNMF31
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl34 = mCServicesProviderNMF31
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl35 = mCServicesProviderNMF31
+            .getActionService();
         esa.mo.nmf.MCRegistration mCRegistration36 = new esa.mo.nmf.MCRegistration(cOMServicesProvider17,
-                                                                                   parameterProviderServiceImpl22,
-                                                                                   aggregationProviderServiceImpl27,
-                                                                                   alertProviderServiceImpl30,
-                                                                                   actionProviderServiceImpl35);
+            parameterProviderServiceImpl22, aggregationProviderServiceImpl27, alertProviderServiceImpl30,
+            actionProviderServiceImpl35);
         esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl37 = mCRegistration36.parameterService;
         esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl38 = mCRegistration36.actionService;
         esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl39 = mCRegistration36.parameterService;
@@ -3687,28 +3986,40 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test556");
         esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider0 = null;
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF1 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl2 = mCServicesProviderNMF1.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl3 = mCServicesProviderNMF1.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl4 = mCServicesProviderNMF1.getAggregationService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl5 = mCServicesProviderNMF1.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl2 = mCServicesProviderNMF1
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl3 = mCServicesProviderNMF1
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl4 = mCServicesProviderNMF1
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl5 = mCServicesProviderNMF1
+            .getParameterService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF6 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl7 = mCServicesProviderNMF6.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl8 = mCServicesProviderNMF6.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl9 = mCServicesProviderNMF6.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl10 = mCServicesProviderNMF6.getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl7 = mCServicesProviderNMF6
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl8 = mCServicesProviderNMF6
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl9 = mCServicesProviderNMF6
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl10 = mCServicesProviderNMF6
+            .getAggregationService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF11 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl12 = mCServicesProviderNMF11.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl13 = mCServicesProviderNMF11.getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl12 = mCServicesProviderNMF11
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl13 = mCServicesProviderNMF11
+            .getAlertService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF14 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl15 = mCServicesProviderNMF14.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl16 = mCServicesProviderNMF14.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl17 = mCServicesProviderNMF14.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl18 = mCServicesProviderNMF14.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl15 = mCServicesProviderNMF14
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl16 = mCServicesProviderNMF14
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl17 = mCServicesProviderNMF14
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl18 = mCServicesProviderNMF14
+            .getActionService();
         esa.mo.nmf.MCRegistration mCRegistration19 = new esa.mo.nmf.MCRegistration(cOMServicesProvider0,
-                                                                                   parameterProviderServiceImpl5,
-                                                                                   aggregationProviderServiceImpl10,
-                                                                                   alertProviderServiceImpl13,
-                                                                                   actionProviderServiceImpl18);
+            parameterProviderServiceImpl5, aggregationProviderServiceImpl10, alertProviderServiceImpl13,
+            actionProviderServiceImpl18);
         esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl20 = mCRegistration19.actionService;
         esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl21 = mCRegistration19.actionService;
         esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl22 = mCRegistration19.aggregationService;
@@ -3751,7 +4062,7 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray9 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList10 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList10,
-                                                         booleanArray9);
+            booleanArray9);
         boolean boolean13 = booleanList10.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream14 = booleanList10.stream();
         boolean boolean15 = strList4.containsAll((java.util.Collection<java.lang.Boolean>) booleanList10);
@@ -3792,28 +4103,29 @@ public class RegressionTest1 {
         java.lang.Byte[] byteArray10 = new java.lang.Byte[]{(byte) 0, (byte) 0, (byte) -1, (byte) 0};
         java.util.ArrayList<java.lang.Byte> byteList11 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean12 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList11,
-                                                         byteArray10);
+            byteArray10);
         java.util.Iterator<java.lang.Byte> byteItor13 = byteList11.iterator();
-        org.ccsds.moims.mo.mal.structures.Duration duration15 = new org.ccsds.moims.mo.mal.structures.Duration((double) 14);
+        org.ccsds.moims.mo.mal.structures.Duration duration15 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) 14);
         java.lang.Long long16 = duration15.getShortForm();
         int int17 = byteList11.indexOf((java.lang.Object) long16);
         int int18 = uShortList0.lastIndexOf((java.lang.Object) byteList11);
         java.lang.Byte[] byteArray23 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) 1, (byte) 1};
         java.util.ArrayList<java.lang.Byte> byteList24 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean25 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList24,
-                                                         byteArray23);
+            byteArray23);
         boolean boolean27 = byteList24.add((java.lang.Byte) (byte) 10);
         java.lang.String str28 = byteList24.toString();
         java.util.stream.Stream<java.lang.Byte> byteStream29 = byteList24.parallelStream();
         int int30 = byteList24.size();
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray31 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList32 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean33 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList32,
-                                                         uRIArray31);
+        boolean boolean33 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList32, uRIArray31);
         java.lang.Boolean[] booleanArray36 = new java.lang.Boolean[]{false, true};
         java.util.ArrayList<java.lang.Boolean> booleanList37 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean38 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList37,
-                                                         booleanArray36);
+            booleanArray36);
         java.util.Iterator<java.lang.Boolean> booleanItor39 = booleanList37.iterator();
         boolean boolean40 = uRIList32.retainAll((java.util.Collection<java.lang.Boolean>) booleanList37);
         booleanList37.clear();
@@ -3821,7 +4133,8 @@ public class RegressionTest1 {
         java.util.stream.Stream<java.lang.Boolean> booleanStream43 = booleanList37.stream();
         int int44 = uShortList0.lastIndexOf((java.lang.Object) booleanList37);
         java.util.ListIterator<java.lang.Boolean> booleanItor45 = booleanList37.listIterator();
-        org.ccsds.moims.mo.mal.structures.LongList longList47 = new org.ccsds.moims.mo.mal.structures.LongList((int) (byte) 1);
+        org.ccsds.moims.mo.mal.structures.LongList longList47 = new org.ccsds.moims.mo.mal.structures.LongList(
+            (int) (byte) 1);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet48 = longList47.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.UShort uShort49 = longList47.getAreaNumber();
         java.util.Spliterator<java.lang.Long> longSpliterator50 = longList47.spliterator();
@@ -3836,12 +4149,12 @@ public class RegressionTest1 {
         java.lang.String[] strArray61 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList62 = new java.util.ArrayList<java.lang.String>();
         boolean boolean63 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList62,
-                                                         strArray61);
+            strArray61);
         int int64 = strList62.size();
         java.lang.Boolean[] booleanArray67 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList68 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean69 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList68,
-                                                         booleanArray67);
+            booleanArray67);
         boolean boolean71 = booleanList68.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream72 = booleanList68.stream();
         boolean boolean73 = strList62.containsAll((java.util.Collection<java.lang.Boolean>) booleanList68);
@@ -3856,7 +4169,8 @@ public class RegressionTest1 {
         boolean boolean83 = uRIList53.remove((java.lang.Object) uShort82);
         java.lang.Long long84 = uRIList53.getShortForm();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet85 = uRIList53.getAreaVersion();
-        org.ccsds.moims.mo.mal.structures.Identifier identifier87 = new org.ccsds.moims.mo.mal.structures.Identifier("[100, -1]");
+        org.ccsds.moims.mo.mal.structures.Identifier identifier87 = new org.ccsds.moims.mo.mal.structures.Identifier(
+            "[100, -1]");
         boolean boolean88 = uRIList53.contains((java.lang.Object) identifier87);
         org.junit.Assert.assertTrue("'" + int1 + "' != '" + (-10) + "'", int1.equals((-10)));
         org.junit.Assert.assertNotNull(uShortItor2);
@@ -3872,7 +4186,7 @@ public class RegressionTest1 {
         org.junit.Assert.assertTrue("'" + boolean25 + "' != '" + true + "'", boolean25);
         org.junit.Assert.assertTrue("'" + boolean27 + "' != '" + true + "'", boolean27);
         org.junit.Assert.assertTrue("'" + str28 + "' != '" + "[-1, -1, 1, 1, 10]" + "'", str28.equals(
-                                                                                                      "[-1, -1, 1, 1, 10]"));
+            "[-1, -1, 1, 1, 10]"));
         org.junit.Assert.assertNotNull(byteStream29);
         org.junit.Assert.assertTrue("'" + int30 + "' != '" + 5 + "'", int30 == 5);
         org.junit.Assert.assertNotNull(uRIArray31);
@@ -3927,99 +4241,151 @@ public class RegressionTest1 {
         java.lang.Object[] objArray6 = octetList0.toArray();
         boolean boolean8 = octetList0.add((java.lang.Byte) (byte) 10);
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF9 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl10 = mCServicesProviderNMF9.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl11 = mCServicesProviderNMF9.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl12 = mCServicesProviderNMF9.getAlertService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl13 = mCServicesProviderNMF9.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl14 = mCServicesProviderNMF9.getAlertService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl15 = mCServicesProviderNMF9.getParameterService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl16 = mCServicesProviderNMF9.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl10 = mCServicesProviderNMF9
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl11 = mCServicesProviderNMF9
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl12 = mCServicesProviderNMF9
+            .getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl13 = mCServicesProviderNMF9
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl14 = mCServicesProviderNMF9
+            .getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl15 = mCServicesProviderNMF9
+            .getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl16 = mCServicesProviderNMF9
+            .getParameterService();
         esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider17 = null;
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF18 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl19 = mCServicesProviderNMF18.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl20 = mCServicesProviderNMF18.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl21 = mCServicesProviderNMF18.getAggregationService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl22 = mCServicesProviderNMF18.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl19 = mCServicesProviderNMF18
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl20 = mCServicesProviderNMF18
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl21 = mCServicesProviderNMF18
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl22 = mCServicesProviderNMF18
+            .getParameterService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF23 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl24 = mCServicesProviderNMF23.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl25 = mCServicesProviderNMF23.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl26 = mCServicesProviderNMF23.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl27 = mCServicesProviderNMF23.getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl24 = mCServicesProviderNMF23
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl25 = mCServicesProviderNMF23
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl26 = mCServicesProviderNMF23
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl27 = mCServicesProviderNMF23
+            .getAggregationService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF28 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl29 = mCServicesProviderNMF28.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl30 = mCServicesProviderNMF28.getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl29 = mCServicesProviderNMF28
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl30 = mCServicesProviderNMF28
+            .getAlertService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF31 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl32 = mCServicesProviderNMF31.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl33 = mCServicesProviderNMF31.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl34 = mCServicesProviderNMF31.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl35 = mCServicesProviderNMF31.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl32 = mCServicesProviderNMF31
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl33 = mCServicesProviderNMF31
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl34 = mCServicesProviderNMF31
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl35 = mCServicesProviderNMF31
+            .getActionService();
         esa.mo.nmf.MCRegistration mCRegistration36 = new esa.mo.nmf.MCRegistration(cOMServicesProvider17,
-                                                                                   parameterProviderServiceImpl22,
-                                                                                   aggregationProviderServiceImpl27,
-                                                                                   alertProviderServiceImpl30,
-                                                                                   actionProviderServiceImpl35);
+            parameterProviderServiceImpl22, aggregationProviderServiceImpl27, alertProviderServiceImpl30,
+            actionProviderServiceImpl35);
         esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl37 = mCRegistration36.parameterService;
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF38 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl39 = mCServicesProviderNMF38.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl40 = mCServicesProviderNMF38.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl41 = mCServicesProviderNMF38.getAlertService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl42 = mCServicesProviderNMF38.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl43 = mCServicesProviderNMF38.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl44 = mCServicesProviderNMF38.getActionService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl45 = mCServicesProviderNMF38.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl46 = mCServicesProviderNMF38.getAlertService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl47 = mCServicesProviderNMF38.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl39 = mCServicesProviderNMF38
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl40 = mCServicesProviderNMF38
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl41 = mCServicesProviderNMF38
+            .getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl42 = mCServicesProviderNMF38
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl43 = mCServicesProviderNMF38
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl44 = mCServicesProviderNMF38
+            .getActionService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl45 = mCServicesProviderNMF38
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl46 = mCServicesProviderNMF38
+            .getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl47 = mCServicesProviderNMF38
+            .getParameterService();
         esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider48 = null;
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF49 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl50 = mCServicesProviderNMF49.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl51 = mCServicesProviderNMF49.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl52 = mCServicesProviderNMF49.getAggregationService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl53 = mCServicesProviderNMF49.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl50 = mCServicesProviderNMF49
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl51 = mCServicesProviderNMF49
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl52 = mCServicesProviderNMF49
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl53 = mCServicesProviderNMF49
+            .getParameterService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF54 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl55 = mCServicesProviderNMF54.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl56 = mCServicesProviderNMF54.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl57 = mCServicesProviderNMF54.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl58 = mCServicesProviderNMF54.getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl55 = mCServicesProviderNMF54
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl56 = mCServicesProviderNMF54
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl57 = mCServicesProviderNMF54
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl58 = mCServicesProviderNMF54
+            .getAggregationService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF59 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl60 = mCServicesProviderNMF59.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl61 = mCServicesProviderNMF59.getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl60 = mCServicesProviderNMF59
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl61 = mCServicesProviderNMF59
+            .getAlertService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF62 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl63 = mCServicesProviderNMF62.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl64 = mCServicesProviderNMF62.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl65 = mCServicesProviderNMF62.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl66 = mCServicesProviderNMF62.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl63 = mCServicesProviderNMF62
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl64 = mCServicesProviderNMF62
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl65 = mCServicesProviderNMF62
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl66 = mCServicesProviderNMF62
+            .getActionService();
         esa.mo.nmf.MCRegistration mCRegistration67 = new esa.mo.nmf.MCRegistration(cOMServicesProvider48,
-                                                                                   parameterProviderServiceImpl53,
-                                                                                   aggregationProviderServiceImpl58,
-                                                                                   alertProviderServiceImpl61,
-                                                                                   actionProviderServiceImpl66);
+            parameterProviderServiceImpl53, aggregationProviderServiceImpl58, alertProviderServiceImpl61,
+            actionProviderServiceImpl66);
         esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl68 = mCRegistration67.parameterService;
         esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl69 = mCRegistration67.actionService;
         esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl70 = mCRegistration67.parameterService;
         esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider71 = null;
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF72 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl73 = mCServicesProviderNMF72.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl74 = mCServicesProviderNMF72.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl75 = mCServicesProviderNMF72.getAggregationService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl76 = mCServicesProviderNMF72.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl73 = mCServicesProviderNMF72
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl74 = mCServicesProviderNMF72
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl75 = mCServicesProviderNMF72
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl76 = mCServicesProviderNMF72
+            .getParameterService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF77 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl78 = mCServicesProviderNMF77.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl79 = mCServicesProviderNMF77.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl80 = mCServicesProviderNMF77.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl81 = mCServicesProviderNMF77.getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl78 = mCServicesProviderNMF77
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl79 = mCServicesProviderNMF77
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl80 = mCServicesProviderNMF77
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl81 = mCServicesProviderNMF77
+            .getAggregationService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF82 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl83 = mCServicesProviderNMF82.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl84 = mCServicesProviderNMF82.getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl83 = mCServicesProviderNMF82
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl84 = mCServicesProviderNMF82
+            .getAlertService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF85 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl86 = mCServicesProviderNMF85.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl87 = mCServicesProviderNMF85.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl88 = mCServicesProviderNMF85.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl89 = mCServicesProviderNMF85.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl86 = mCServicesProviderNMF85
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl87 = mCServicesProviderNMF85
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl88 = mCServicesProviderNMF85
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl89 = mCServicesProviderNMF85
+            .getActionService();
         esa.mo.nmf.MCRegistration mCRegistration90 = new esa.mo.nmf.MCRegistration(cOMServicesProvider71,
-                                                                                   parameterProviderServiceImpl76,
-                                                                                   aggregationProviderServiceImpl81,
-                                                                                   alertProviderServiceImpl84,
-                                                                                   actionProviderServiceImpl89);
+            parameterProviderServiceImpl76, aggregationProviderServiceImpl81, alertProviderServiceImpl84,
+            actionProviderServiceImpl89);
         esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl91 = mCRegistration90.actionService;
         esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl92 = mCRegistration90.aggregationService;
         esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl93 = mCRegistration90.parameterService;
@@ -4029,7 +4395,8 @@ public class RegressionTest1 {
                                                                                                                                                                 parameterProviderServiceImpl70,
                                                                                                                                                                 parameterProviderServiceImpl93};
         try {
-            esa.mo.mc.impl.provider.ParameterProviderServiceImpl[] parameterProviderServiceImplArray95 = octetList0.toArray(parameterProviderServiceImplArray94);
+            esa.mo.mc.impl.provider.ParameterProviderServiceImpl[] parameterProviderServiceImplArray95 = octetList0
+                .toArray(parameterProviderServiceImplArray94);
             org.junit.Assert.fail("Expected exception of type java.lang.ArrayStoreException; message: null");
         } catch (java.lang.ArrayStoreException e) {
         }
@@ -4121,7 +4488,7 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray9 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList10 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList10,
-                                                         booleanArray9);
+            booleanArray9);
         boolean boolean13 = booleanList10.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream14 = booleanList10.stream();
         boolean boolean15 = strList4.containsAll((java.util.Collection<java.lang.Boolean>) booleanList10);
@@ -4136,12 +4503,12 @@ public class RegressionTest1 {
         java.lang.String[] strArray25 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList26 = new java.util.ArrayList<java.lang.String>();
         boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList26,
-                                                         strArray25);
+            strArray25);
         int int28 = strList26.size();
         java.lang.Boolean[] booleanArray31 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList32 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList32,
-                                                         booleanArray31);
+            booleanArray31);
         boolean boolean35 = booleanList32.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream36 = booleanList32.stream();
         boolean boolean37 = strList26.containsAll((java.util.Collection<java.lang.Boolean>) booleanList32);
@@ -4154,11 +4521,12 @@ public class RegressionTest1 {
         java.lang.Byte[] byteArray48 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) 1, (byte) 1};
         java.util.ArrayList<java.lang.Byte> byteList49 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean50 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList49,
-                                                         byteArray48);
+            byteArray48);
         boolean boolean52 = byteList49.add((java.lang.Byte) (byte) 10);
         java.lang.Object obj53 = byteList49.clone();
         java.util.stream.Stream<java.lang.Byte> byteStream54 = byteList49.stream();
-        org.ccsds.moims.mo.mal.structures.StringList stringList56 = new org.ccsds.moims.mo.mal.structures.StringList(100);
+        org.ccsds.moims.mo.mal.structures.StringList stringList56 = new org.ccsds.moims.mo.mal.structures.StringList(
+            100);
         int int57 = byteList49.indexOf((java.lang.Object) stringList56);
         byte[] byteArray61 = new byte[]{(byte) 0, (byte) 0, (byte) 0};
         org.ccsds.moims.mo.mal.structures.Blob blob62 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray61);
@@ -4225,13 +4593,20 @@ public class RegressionTest1 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test562");
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF0 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl1 = mCServicesProviderNMF0.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl2 = mCServicesProviderNMF0.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl3 = mCServicesProviderNMF0.getAlertService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl4 = mCServicesProviderNMF0.getAggregationService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl5 = mCServicesProviderNMF0.getParameterService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl6 = mCServicesProviderNMF0.getActionService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl7 = mCServicesProviderNMF0.getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl1 = mCServicesProviderNMF0
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl2 = mCServicesProviderNMF0
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl3 = mCServicesProviderNMF0
+            .getAlertService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl4 = mCServicesProviderNMF0
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl5 = mCServicesProviderNMF0
+            .getParameterService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl6 = mCServicesProviderNMF0
+            .getActionService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl7 = mCServicesProviderNMF0
+            .getAggregationService();
         org.junit.Assert.assertNotNull(parameterProviderServiceImpl1);
         org.junit.Assert.assertNotNull(aggregationProviderServiceImpl2);
         org.junit.Assert.assertNotNull(alertProviderServiceImpl3);
@@ -4254,7 +4629,7 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray9 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList10 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList10,
-                                                         booleanArray9);
+            booleanArray9);
         boolean boolean13 = booleanList10.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream14 = booleanList10.stream();
         boolean boolean15 = strList4.containsAll((java.util.Collection<java.lang.Boolean>) booleanList10);
@@ -4272,19 +4647,19 @@ public class RegressionTest1 {
         java.lang.String[] strArray28 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList29 = new java.util.ArrayList<java.lang.String>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList29,
-                                                         strArray28);
+            strArray28);
         boolean boolean32 = strList29.add("hi!");
         org.ccsds.moims.mo.mal.structures.FloatList floatList33 = new org.ccsds.moims.mo.mal.structures.FloatList();
         java.lang.Long long34 = floatList33.getShortForm();
         java.lang.String[] strArray36 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList37 = new java.util.ArrayList<java.lang.String>();
         boolean boolean38 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList37,
-                                                         strArray36);
+            strArray36);
         int int39 = strList37.size();
         java.lang.Boolean[] booleanArray42 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList43 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean44 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList43,
-                                                         booleanArray42);
+            booleanArray42);
         boolean boolean46 = booleanList43.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream47 = booleanList43.stream();
         boolean boolean48 = strList37.containsAll((java.util.Collection<java.lang.Boolean>) booleanList43);
@@ -4300,21 +4675,22 @@ public class RegressionTest1 {
         java.lang.Byte[] byteArray61 = new java.lang.Byte[]{(byte) 10, (byte) 100};
         java.util.ArrayList<java.lang.Byte> byteList62 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean63 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList62,
-                                                         byteArray61);
+            byteArray61);
         boolean boolean64 = byteList62.isEmpty();
         int int66 = byteList62.indexOf((java.lang.Object) 'a');
         int int68 = byteList62.lastIndexOf((java.lang.Object) "hi!");
         java.lang.Boolean[] booleanArray70 = new java.lang.Boolean[]{true};
         java.util.ArrayList<java.lang.Boolean> booleanList71 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean72 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList71,
-                                                         booleanArray70);
+            booleanArray70);
         java.util.ListIterator<java.lang.Boolean> booleanItor74 = booleanList71.listIterator((int) (short) 1);
         java.util.stream.Stream<java.lang.Boolean> booleanStream75 = booleanList71.parallelStream();
         boolean boolean77 = booleanList71.add((java.lang.Boolean) false);
         boolean boolean78 = byteList62.retainAll((java.util.Collection<java.lang.Boolean>) booleanList71);
         org.ccsds.moims.mo.mal.structures.UShortList uShortList79 = new org.ccsds.moims.mo.mal.structures.UShortList();
         java.lang.Object obj80 = uShortList79.clone();
-        java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream81 = uShortList79.parallelStream();
+        java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream81 = uShortList79
+            .parallelStream();
         java.util.Iterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor82 = uShortList79.iterator();
         boolean boolean83 = byteList62.equals((java.lang.Object) uShortItor82);
         org.ccsds.moims.mo.mal.structures.ShortList shortList84 = new org.ccsds.moims.mo.mal.structures.ShortList();
@@ -4393,7 +4769,8 @@ public class RegressionTest1 {
         boolean boolean8 = byteList5.add((java.lang.Byte) (byte) 10);
         java.lang.Object obj9 = byteList5.clone();
         java.util.stream.Stream<java.lang.Byte> byteStream10 = byteList5.stream();
-        org.ccsds.moims.mo.mal.structures.StringList stringList12 = new org.ccsds.moims.mo.mal.structures.StringList(100);
+        org.ccsds.moims.mo.mal.structures.StringList stringList12 = new org.ccsds.moims.mo.mal.structures.StringList(
+            100);
         int int13 = byteList5.indexOf((java.lang.Object) stringList12);
         byte[] byteArray17 = new byte[]{(byte) 0, (byte) 0, (byte) 0};
         org.ccsds.moims.mo.mal.structures.Blob blob18 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray17);
@@ -4407,10 +4784,11 @@ public class RegressionTest1 {
         java.lang.Long[] longArray30 = new java.lang.Long[]{10L, (-1L), (-1L), 10L};
         java.util.ArrayList<java.lang.Long> longList31 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean32 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList31,
-                                                         longArray30);
+            longArray30);
         java.lang.Object obj33 = null;
         boolean boolean34 = longList31.contains(obj33);
-        org.ccsds.moims.mo.mal.structures.UInteger uInteger36 = new org.ccsds.moims.mo.mal.structures.UInteger((long) (byte) 100);
+        org.ccsds.moims.mo.mal.structures.UInteger uInteger36 = new org.ccsds.moims.mo.mal.structures.UInteger(
+            (long) (byte) 100);
         boolean boolean37 = longList31.contains((java.lang.Object) (byte) 100);
         java.util.Iterator<java.lang.Long> longItor38 = longList31.iterator();
         org.ccsds.moims.mo.mal.structures.UShort uShort39 = org.ccsds.moims.mo.mal.structures.OctetList.AREA_SHORT_FORM;
@@ -4480,7 +4858,8 @@ public class RegressionTest1 {
         boolean boolean8 = byteList5.add((java.lang.Byte) (byte) 10);
         java.lang.Object obj9 = byteList5.clone();
         java.util.stream.Stream<java.lang.Byte> byteStream10 = byteList5.stream();
-        org.ccsds.moims.mo.mal.structures.StringList stringList12 = new org.ccsds.moims.mo.mal.structures.StringList(100);
+        org.ccsds.moims.mo.mal.structures.StringList stringList12 = new org.ccsds.moims.mo.mal.structures.StringList(
+            100);
         int int13 = byteList5.indexOf((java.lang.Object) stringList12);
         byte[] byteArray17 = new byte[]{(byte) 0, (byte) 0, (byte) 0};
         org.ccsds.moims.mo.mal.structures.Blob blob18 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray17);
@@ -4515,28 +4894,40 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test566");
         esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider0 = null;
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF1 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl2 = mCServicesProviderNMF1.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl3 = mCServicesProviderNMF1.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl4 = mCServicesProviderNMF1.getAggregationService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl5 = mCServicesProviderNMF1.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl2 = mCServicesProviderNMF1
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl3 = mCServicesProviderNMF1
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl4 = mCServicesProviderNMF1
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl5 = mCServicesProviderNMF1
+            .getParameterService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF6 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl7 = mCServicesProviderNMF6.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl8 = mCServicesProviderNMF6.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl9 = mCServicesProviderNMF6.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl10 = mCServicesProviderNMF6.getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl7 = mCServicesProviderNMF6
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl8 = mCServicesProviderNMF6
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl9 = mCServicesProviderNMF6
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl10 = mCServicesProviderNMF6
+            .getAggregationService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF11 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl12 = mCServicesProviderNMF11.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl13 = mCServicesProviderNMF11.getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl12 = mCServicesProviderNMF11
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl13 = mCServicesProviderNMF11
+            .getAlertService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF14 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl15 = mCServicesProviderNMF14.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl16 = mCServicesProviderNMF14.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl17 = mCServicesProviderNMF14.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl18 = mCServicesProviderNMF14.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl15 = mCServicesProviderNMF14
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl16 = mCServicesProviderNMF14
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl17 = mCServicesProviderNMF14
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl18 = mCServicesProviderNMF14
+            .getActionService();
         esa.mo.nmf.MCRegistration mCRegistration19 = new esa.mo.nmf.MCRegistration(cOMServicesProvider0,
-                                                                                   parameterProviderServiceImpl5,
-                                                                                   aggregationProviderServiceImpl10,
-                                                                                   alertProviderServiceImpl13,
-                                                                                   actionProviderServiceImpl18);
+            parameterProviderServiceImpl5, aggregationProviderServiceImpl10, alertProviderServiceImpl13,
+            actionProviderServiceImpl18);
         esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl20 = mCRegistration19.parameterService;
         esa.mo.nmf.MCRegistration.RegistrationMode registrationMode21 = esa.mo.nmf.MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS;
         mCRegistration19.setMode(registrationMode21);
@@ -4558,12 +4949,9 @@ public class RegressionTest1 {
         org.junit.Assert.assertNotNull(alertProviderServiceImpl17);
         org.junit.Assert.assertNotNull(actionProviderServiceImpl18);
         org.junit.Assert.assertNotNull(parameterProviderServiceImpl20);
-        org.junit.Assert.assertTrue("'" +
-                                    registrationMode21 +
-                                    "' != '" +
-                                    esa.mo.nmf.MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS +
-                                    "'", registrationMode21.equals(
-                                                                   esa.mo.nmf.MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS));
+        org.junit.Assert.assertTrue("'" + registrationMode21 + "' != '" +
+            esa.mo.nmf.MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS + "'", registrationMode21.equals(
+                esa.mo.nmf.MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS));
         org.junit.Assert.assertNull(cOMServicesProvider23);
         org.junit.Assert.assertNotNull(alertProviderServiceImpl24);
         org.junit.Assert.assertNotNull(aggregationProviderServiceImpl25);
@@ -4580,73 +4968,110 @@ public class RegressionTest1 {
         java.util.ListIterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor4 = uShortList0.listIterator();
         esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider5 = null;
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF6 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl7 = mCServicesProviderNMF6.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl8 = mCServicesProviderNMF6.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl9 = mCServicesProviderNMF6.getAggregationService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl10 = mCServicesProviderNMF6.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl7 = mCServicesProviderNMF6
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl8 = mCServicesProviderNMF6
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl9 = mCServicesProviderNMF6
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl10 = mCServicesProviderNMF6
+            .getParameterService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF11 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl12 = mCServicesProviderNMF11.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl13 = mCServicesProviderNMF11.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl14 = mCServicesProviderNMF11.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl15 = mCServicesProviderNMF11.getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl12 = mCServicesProviderNMF11
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl13 = mCServicesProviderNMF11
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl14 = mCServicesProviderNMF11
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl15 = mCServicesProviderNMF11
+            .getAggregationService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF16 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl17 = mCServicesProviderNMF16.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl18 = mCServicesProviderNMF16.getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl17 = mCServicesProviderNMF16
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl18 = mCServicesProviderNMF16
+            .getAlertService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF19 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl20 = mCServicesProviderNMF19.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl21 = mCServicesProviderNMF19.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl22 = mCServicesProviderNMF19.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl23 = mCServicesProviderNMF19.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl20 = mCServicesProviderNMF19
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl21 = mCServicesProviderNMF19
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl22 = mCServicesProviderNMF19
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl23 = mCServicesProviderNMF19
+            .getActionService();
         esa.mo.nmf.MCRegistration mCRegistration24 = new esa.mo.nmf.MCRegistration(cOMServicesProvider5,
-                                                                                   parameterProviderServiceImpl10,
-                                                                                   aggregationProviderServiceImpl15,
-                                                                                   alertProviderServiceImpl18,
-                                                                                   actionProviderServiceImpl23);
+            parameterProviderServiceImpl10, aggregationProviderServiceImpl15, alertProviderServiceImpl18,
+            actionProviderServiceImpl23);
         esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl25 = mCRegistration24.actionService;
         esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl26 = mCRegistration24.actionService;
         esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider27 = null;
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF28 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl29 = mCServicesProviderNMF28.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl30 = mCServicesProviderNMF28.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl31 = mCServicesProviderNMF28.getAggregationService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl32 = mCServicesProviderNMF28.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl29 = mCServicesProviderNMF28
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl30 = mCServicesProviderNMF28
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl31 = mCServicesProviderNMF28
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl32 = mCServicesProviderNMF28
+            .getParameterService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF33 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl34 = mCServicesProviderNMF33.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl35 = mCServicesProviderNMF33.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl36 = mCServicesProviderNMF33.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl37 = mCServicesProviderNMF33.getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl34 = mCServicesProviderNMF33
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl35 = mCServicesProviderNMF33
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl36 = mCServicesProviderNMF33
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl37 = mCServicesProviderNMF33
+            .getAggregationService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF38 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl39 = mCServicesProviderNMF38.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl40 = mCServicesProviderNMF38.getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl39 = mCServicesProviderNMF38
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl40 = mCServicesProviderNMF38
+            .getAlertService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF41 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl42 = mCServicesProviderNMF41.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl43 = mCServicesProviderNMF41.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl44 = mCServicesProviderNMF41.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl45 = mCServicesProviderNMF41.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl42 = mCServicesProviderNMF41
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl43 = mCServicesProviderNMF41
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl44 = mCServicesProviderNMF41
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl45 = mCServicesProviderNMF41
+            .getActionService();
         esa.mo.nmf.MCRegistration mCRegistration46 = new esa.mo.nmf.MCRegistration(cOMServicesProvider27,
-                                                                                   parameterProviderServiceImpl32,
-                                                                                   aggregationProviderServiceImpl37,
-                                                                                   alertProviderServiceImpl40,
-                                                                                   actionProviderServiceImpl45);
+            parameterProviderServiceImpl32, aggregationProviderServiceImpl37, alertProviderServiceImpl40,
+            actionProviderServiceImpl45);
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF47 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl48 = mCServicesProviderNMF47.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl49 = mCServicesProviderNMF47.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl50 = mCServicesProviderNMF47.getAlertService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl51 = mCServicesProviderNMF47.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl52 = mCServicesProviderNMF47.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl53 = mCServicesProviderNMF47.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl48 = mCServicesProviderNMF47
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl49 = mCServicesProviderNMF47
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl50 = mCServicesProviderNMF47
+            .getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl51 = mCServicesProviderNMF47
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl52 = mCServicesProviderNMF47
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl53 = mCServicesProviderNMF47
+            .getActionService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF54 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl55 = mCServicesProviderNMF54.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl56 = mCServicesProviderNMF54.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl57 = mCServicesProviderNMF54.getAlertService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl58 = mCServicesProviderNMF54.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl59 = mCServicesProviderNMF54.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl60 = mCServicesProviderNMF54.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl55 = mCServicesProviderNMF54
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl56 = mCServicesProviderNMF54
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl57 = mCServicesProviderNMF54
+            .getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl58 = mCServicesProviderNMF54
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl59 = mCServicesProviderNMF54
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl60 = mCServicesProviderNMF54
+            .getActionService();
         org.ccsds.moims.mo.mc.action.provider.ActionInheritanceSkeleton[] actionInheritanceSkeletonArray61 = new org.ccsds.moims.mo.mc.action.provider.ActionInheritanceSkeleton[]{actionProviderServiceImpl26,
                                                                                                                                                                                    actionProviderServiceImpl45,
                                                                                                                                                                                    actionProviderServiceImpl53,
                                                                                                                                                                                    actionProviderServiceImpl60};
-        org.ccsds.moims.mo.mc.action.provider.ActionInheritanceSkeleton[] actionInheritanceSkeletonArray62 = uShortList0.toArray(actionInheritanceSkeletonArray61);
+        org.ccsds.moims.mo.mc.action.provider.ActionInheritanceSkeleton[] actionInheritanceSkeletonArray62 = uShortList0
+            .toArray(actionInheritanceSkeletonArray61);
         uShortList0.ensureCapacity(18);
         java.util.Spliterator<org.ccsds.moims.mo.mal.structures.UShort> uShortSpliterator65 = uShortList0.spliterator();
         org.ccsds.moims.mo.mal.structures.UShort uShort66 = uShortList0.getAreaNumber();
@@ -4709,11 +5134,16 @@ public class RegressionTest1 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test568");
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF0 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl1 = mCServicesProviderNMF0.getParameterService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl2 = mCServicesProviderNMF0.getParameterService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl3 = mCServicesProviderNMF0.getActionService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl4 = mCServicesProviderNMF0.getParameterService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl5 = mCServicesProviderNMF0.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl1 = mCServicesProviderNMF0
+            .getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl2 = mCServicesProviderNMF0
+            .getParameterService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl3 = mCServicesProviderNMF0
+            .getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl4 = mCServicesProviderNMF0
+            .getParameterService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl5 = mCServicesProviderNMF0
+            .getActionService();
         org.junit.Assert.assertNotNull(parameterProviderServiceImpl1);
         org.junit.Assert.assertNotNull(parameterProviderServiceImpl2);
         org.junit.Assert.assertNotNull(actionProviderServiceImpl3);
@@ -4725,7 +5155,8 @@ public class RegressionTest1 {
     public void test569() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test569");
-        org.ccsds.moims.mo.mal.structures.IntegerList integerList1 = new org.ccsds.moims.mo.mal.structures.IntegerList((int) '4');
+        org.ccsds.moims.mo.mal.structures.IntegerList integerList1 = new org.ccsds.moims.mo.mal.structures.IntegerList(
+            (int) '4');
         integerList1.add(0, (java.lang.Integer) 4);
         org.ccsds.moims.mo.mal.structures.UShort uShort5 = integerList1.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet6 = integerList1.getAreaVersion();
@@ -4738,21 +5169,22 @@ public class RegressionTest1 {
         java.lang.Byte[] byteArray15 = new java.lang.Byte[]{(byte) 10, (byte) 100};
         java.util.ArrayList<java.lang.Byte> byteList16 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList16,
-                                                         byteArray15);
+            byteArray15);
         boolean boolean18 = byteList16.isEmpty();
         int int20 = byteList16.indexOf((java.lang.Object) 'a');
         int int22 = byteList16.lastIndexOf((java.lang.Object) "hi!");
         java.lang.Boolean[] booleanArray24 = new java.lang.Boolean[]{true};
         java.util.ArrayList<java.lang.Boolean> booleanList25 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean26 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList25,
-                                                         booleanArray24);
+            booleanArray24);
         java.util.ListIterator<java.lang.Boolean> booleanItor28 = booleanList25.listIterator((int) (short) 1);
         java.util.stream.Stream<java.lang.Boolean> booleanStream29 = booleanList25.parallelStream();
         boolean boolean31 = booleanList25.add((java.lang.Boolean) false);
         boolean boolean32 = byteList16.retainAll((java.util.Collection<java.lang.Boolean>) booleanList25);
         org.ccsds.moims.mo.mal.structures.UShortList uShortList33 = new org.ccsds.moims.mo.mal.structures.UShortList();
         java.lang.Object obj34 = uShortList33.clone();
-        java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream35 = uShortList33.parallelStream();
+        java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream35 = uShortList33
+            .parallelStream();
         java.util.Iterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor36 = uShortList33.iterator();
         boolean boolean37 = byteList16.equals((java.lang.Object) uShortItor36);
         org.ccsds.moims.mo.mal.structures.ShortList shortList38 = new org.ccsds.moims.mo.mal.structures.ShortList();
@@ -4768,7 +5200,8 @@ public class RegressionTest1 {
         java.lang.Integer int49 = booleanList45.getTypeShortForm();
         org.ccsds.moims.mo.mal.structures.BooleanList[] booleanListArray50 = new org.ccsds.moims.mo.mal.structures.BooleanList[]{booleanList45};
         org.ccsds.moims.mo.mal.structures.BooleanList[] booleanListArray51 = byteList16.toArray(booleanListArray50);
-        java.util.AbstractList<java.lang.Boolean>[] booleanListArray52 = uShortList7.toArray((java.util.AbstractList<java.lang.Boolean>[]) booleanListArray50);
+        java.util.AbstractList<java.lang.Boolean>[] booleanListArray52 = uShortList7.toArray(
+            (java.util.AbstractList<java.lang.Boolean>[]) booleanListArray50);
         java.lang.Long long53 = uShortList7.getShortForm();
         java.util.Spliterator<org.ccsds.moims.mo.mal.structures.UShort> uShortSpliterator54 = uShortList7.spliterator();
         org.junit.Assert.assertNotNull(uShort5);
@@ -4813,7 +5246,7 @@ public class RegressionTest1 {
         esa.mo.nmf.NMFException nMFException3 = new esa.mo.nmf.NMFException("0");
         esa.mo.nmf.NMFException nMFException4 = new esa.mo.nmf.NMFException("hi!", (java.lang.Throwable) nMFException3);
         esa.mo.nmf.NMFException nMFException5 = new esa.mo.nmf.NMFException("[1.0, 0.0, 10.0]",
-                                                                            (java.lang.Throwable) nMFException4);
+            (java.lang.Throwable) nMFException4);
     }
 
     @Test
@@ -4824,18 +5257,18 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UOctet uOctet1 = identifier0.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray2 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList3 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean4 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList3,
-                                                        uRIArray2);
+        boolean boolean4 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList3, uRIArray2);
         java.lang.Boolean[] booleanArray7 = new java.lang.Boolean[]{false, true};
         java.util.ArrayList<java.lang.Boolean> booleanList8 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean9 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList8,
-                                                        booleanArray7);
+            booleanArray7);
         java.util.Iterator<java.lang.Boolean> booleanItor10 = booleanList8.iterator();
         boolean boolean11 = uRIList3.retainAll((java.util.Collection<java.lang.Boolean>) booleanList8);
         java.lang.Boolean[] booleanArray14 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList15 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList15,
-                                                         booleanArray14);
+            booleanArray14);
         boolean boolean18 = booleanList15.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream19 = booleanList15.stream();
         boolean boolean20 = uRIList3.retainAll((java.util.Collection<java.lang.Boolean>) booleanList15);
@@ -4843,34 +5276,47 @@ public class RegressionTest1 {
         boolean boolean23 = identifier0.equals((java.lang.Object) uRIList3);
         java.util.ListIterator<org.ccsds.moims.mo.mal.structures.URI> uRIItor24 = uRIList3.listIterator();
         java.lang.String str25 = uRIList3.toString();
-        org.ccsds.moims.mo.mal.structures.Union union27 = new org.ccsds.moims.mo.mal.structures.Union((java.lang.Double) 100.0d);
+        org.ccsds.moims.mo.mal.structures.Union union27 = new org.ccsds.moims.mo.mal.structures.Union(
+            (java.lang.Double) 100.0d);
         org.ccsds.moims.mo.mal.structures.UShort uShort28 = union27.getAreaNumber();
         boolean boolean29 = uRIList3.equals((java.lang.Object) union27);
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.URI> uRIStream30 = uRIList3.parallelStream();
         esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider31 = null;
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF32 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl33 = mCServicesProviderNMF32.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl34 = mCServicesProviderNMF32.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl35 = mCServicesProviderNMF32.getAggregationService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl36 = mCServicesProviderNMF32.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl33 = mCServicesProviderNMF32
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl34 = mCServicesProviderNMF32
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl35 = mCServicesProviderNMF32
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl36 = mCServicesProviderNMF32
+            .getParameterService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF37 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl38 = mCServicesProviderNMF37.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl39 = mCServicesProviderNMF37.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl40 = mCServicesProviderNMF37.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl41 = mCServicesProviderNMF37.getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl38 = mCServicesProviderNMF37
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl39 = mCServicesProviderNMF37
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl40 = mCServicesProviderNMF37
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl41 = mCServicesProviderNMF37
+            .getAggregationService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF42 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl43 = mCServicesProviderNMF42.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl44 = mCServicesProviderNMF42.getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl43 = mCServicesProviderNMF42
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl44 = mCServicesProviderNMF42
+            .getAlertService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF45 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl46 = mCServicesProviderNMF45.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl47 = mCServicesProviderNMF45.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl48 = mCServicesProviderNMF45.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl49 = mCServicesProviderNMF45.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl46 = mCServicesProviderNMF45
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl47 = mCServicesProviderNMF45
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl48 = mCServicesProviderNMF45
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl49 = mCServicesProviderNMF45
+            .getActionService();
         esa.mo.nmf.MCRegistration mCRegistration50 = new esa.mo.nmf.MCRegistration(cOMServicesProvider31,
-                                                                                   parameterProviderServiceImpl36,
-                                                                                   aggregationProviderServiceImpl41,
-                                                                                   alertProviderServiceImpl44,
-                                                                                   actionProviderServiceImpl49);
+            parameterProviderServiceImpl36, aggregationProviderServiceImpl41, alertProviderServiceImpl44,
+            actionProviderServiceImpl49);
         esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl51 = mCRegistration50.actionService;
         esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl52 = mCRegistration50.aggregationService;
         esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl53 = mCRegistration50.actionService;
@@ -4940,9 +5386,10 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray17 = new java.lang.Boolean[]{false, false};
         java.util.ArrayList<java.lang.Boolean> booleanList18 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList18,
-                                                         booleanArray17);
+            booleanArray17);
         boolean boolean20 = strList2.removeAll((java.util.Collection<java.lang.Boolean>) booleanList18);
-        org.ccsds.moims.mo.mal.structures.IntegerList integerList22 = new org.ccsds.moims.mo.mal.structures.IntegerList((int) '4');
+        org.ccsds.moims.mo.mal.structures.IntegerList integerList22 = new org.ccsds.moims.mo.mal.structures.IntegerList(
+            (int) '4');
         integerList22.add(0, (java.lang.Integer) 4);
         org.ccsds.moims.mo.mal.structures.UShort uShort26 = integerList22.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet27 = integerList22.getAreaVersion();
@@ -4955,21 +5402,22 @@ public class RegressionTest1 {
         java.lang.Byte[] byteArray36 = new java.lang.Byte[]{(byte) 10, (byte) 100};
         java.util.ArrayList<java.lang.Byte> byteList37 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean38 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList37,
-                                                         byteArray36);
+            byteArray36);
         boolean boolean39 = byteList37.isEmpty();
         int int41 = byteList37.indexOf((java.lang.Object) 'a');
         int int43 = byteList37.lastIndexOf((java.lang.Object) "hi!");
         java.lang.Boolean[] booleanArray45 = new java.lang.Boolean[]{true};
         java.util.ArrayList<java.lang.Boolean> booleanList46 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean47 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList46,
-                                                         booleanArray45);
+            booleanArray45);
         java.util.ListIterator<java.lang.Boolean> booleanItor49 = booleanList46.listIterator((int) (short) 1);
         java.util.stream.Stream<java.lang.Boolean> booleanStream50 = booleanList46.parallelStream();
         boolean boolean52 = booleanList46.add((java.lang.Boolean) false);
         boolean boolean53 = byteList37.retainAll((java.util.Collection<java.lang.Boolean>) booleanList46);
         org.ccsds.moims.mo.mal.structures.UShortList uShortList54 = new org.ccsds.moims.mo.mal.structures.UShortList();
         java.lang.Object obj55 = uShortList54.clone();
-        java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream56 = uShortList54.parallelStream();
+        java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream56 = uShortList54
+            .parallelStream();
         java.util.Iterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor57 = uShortList54.iterator();
         boolean boolean58 = byteList37.equals((java.lang.Object) uShortItor57);
         org.ccsds.moims.mo.mal.structures.ShortList shortList59 = new org.ccsds.moims.mo.mal.structures.ShortList();
@@ -4985,9 +5433,11 @@ public class RegressionTest1 {
         java.lang.Integer int70 = booleanList66.getTypeShortForm();
         org.ccsds.moims.mo.mal.structures.BooleanList[] booleanListArray71 = new org.ccsds.moims.mo.mal.structures.BooleanList[]{booleanList66};
         org.ccsds.moims.mo.mal.structures.BooleanList[] booleanListArray72 = byteList37.toArray(booleanListArray71);
-        java.util.AbstractList<java.lang.Boolean>[] booleanListArray73 = uShortList28.toArray((java.util.AbstractList<java.lang.Boolean>[]) booleanListArray71);
+        java.util.AbstractList<java.lang.Boolean>[] booleanListArray73 = uShortList28.toArray(
+            (java.util.AbstractList<java.lang.Boolean>[]) booleanListArray71);
         try {
-            java.util.Collection<java.lang.Boolean>[] booleanCollectionArray74 = strList2.toArray((java.util.Collection<java.lang.Boolean>[]) booleanListArray73);
+            java.util.Collection<java.lang.Boolean>[] booleanCollectionArray74 = strList2.toArray(
+                (java.util.Collection<java.lang.Boolean>[]) booleanListArray73);
             org.junit.Assert.fail("Expected exception of type java.lang.ArrayStoreException; message: null");
         } catch (java.lang.ArrayStoreException e) {
         }
@@ -5046,18 +5496,20 @@ public class RegressionTest1 {
         boolean boolean6 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList5, longArray4);
         java.lang.Object obj7 = null;
         boolean boolean8 = longList5.contains(obj7);
-        org.ccsds.moims.mo.mal.structures.UInteger uInteger10 = new org.ccsds.moims.mo.mal.structures.UInteger((long) (byte) 100);
+        org.ccsds.moims.mo.mal.structures.UInteger uInteger10 = new org.ccsds.moims.mo.mal.structures.UInteger(
+            (long) (byte) 100);
         boolean boolean11 = longList5.contains((java.lang.Object) (byte) 100);
         java.lang.Boolean[] booleanArray14 = new java.lang.Boolean[]{false, false};
         java.util.ArrayList<java.lang.Boolean> booleanList15 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList15,
-                                                         booleanArray14);
+            booleanArray14);
         boolean boolean17 = longList5.containsAll((java.util.Collection<java.lang.Boolean>) booleanList15);
         java.lang.Long long19 = longList5.get(1);
         java.util.stream.Stream<java.lang.Long> longStream20 = longList5.stream();
         java.lang.Long long22 = longList5.remove(0);
         java.lang.Object obj23 = longList5.clone();
-        org.ccsds.moims.mo.mal.structures.LongList longList25 = new org.ccsds.moims.mo.mal.structures.LongList((int) (byte) 1);
+        org.ccsds.moims.mo.mal.structures.LongList longList25 = new org.ccsds.moims.mo.mal.structures.LongList(
+            (int) (byte) 1);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet26 = longList25.getAreaVersion();
         java.util.Iterator<java.lang.Long> longItor27 = longList25.iterator();
         longList25.ensureCapacity((-15));
@@ -5078,7 +5530,8 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort48 = shortList47.getServiceNumber();
         java.util.stream.Stream<java.lang.Short> shortStream49 = shortList47.stream();
         int int50 = shortList47.size();
-        org.ccsds.moims.mo.mal.structures.IntegerList integerList52 = new org.ccsds.moims.mo.mal.structures.IntegerList((int) '4');
+        org.ccsds.moims.mo.mal.structures.IntegerList integerList52 = new org.ccsds.moims.mo.mal.structures.IntegerList(
+            (int) '4');
         java.lang.Long long53 = integerList52.getShortForm();
         java.util.stream.Stream<java.lang.Integer> intStream54 = integerList52.parallelStream();
         int int55 = integerList52.size();
@@ -5134,28 +5587,40 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test574");
         esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider0 = null;
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF1 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl2 = mCServicesProviderNMF1.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl3 = mCServicesProviderNMF1.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl4 = mCServicesProviderNMF1.getAggregationService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl5 = mCServicesProviderNMF1.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl2 = mCServicesProviderNMF1
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl3 = mCServicesProviderNMF1
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl4 = mCServicesProviderNMF1
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl5 = mCServicesProviderNMF1
+            .getParameterService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF6 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl7 = mCServicesProviderNMF6.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl8 = mCServicesProviderNMF6.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl9 = mCServicesProviderNMF6.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl10 = mCServicesProviderNMF6.getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl7 = mCServicesProviderNMF6
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl8 = mCServicesProviderNMF6
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl9 = mCServicesProviderNMF6
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl10 = mCServicesProviderNMF6
+            .getAggregationService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF11 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl12 = mCServicesProviderNMF11.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl13 = mCServicesProviderNMF11.getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl12 = mCServicesProviderNMF11
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl13 = mCServicesProviderNMF11
+            .getAlertService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF14 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl15 = mCServicesProviderNMF14.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl16 = mCServicesProviderNMF14.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl17 = mCServicesProviderNMF14.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl18 = mCServicesProviderNMF14.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl15 = mCServicesProviderNMF14
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl16 = mCServicesProviderNMF14
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl17 = mCServicesProviderNMF14
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl18 = mCServicesProviderNMF14
+            .getActionService();
         esa.mo.nmf.MCRegistration mCRegistration19 = new esa.mo.nmf.MCRegistration(cOMServicesProvider0,
-                                                                                   parameterProviderServiceImpl5,
-                                                                                   aggregationProviderServiceImpl10,
-                                                                                   alertProviderServiceImpl13,
-                                                                                   actionProviderServiceImpl18);
+            parameterProviderServiceImpl5, aggregationProviderServiceImpl10, alertProviderServiceImpl13,
+            actionProviderServiceImpl18);
         esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl20 = mCRegistration19.actionService;
         esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl21 = mCRegistration19.parameterService;
         esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl22 = mCRegistration19.actionService;
@@ -5189,7 +5654,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray2 = new java.lang.Short[]{(short) 100, (short) -1};
         java.util.ArrayList<java.lang.Short> shortList3 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean4 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList3,
-                                                        shortArray2);
+            shortArray2);
         java.lang.Object obj5 = null;
         boolean boolean6 = shortList3.equals(obj5);
         java.util.Iterator<java.lang.Short> shortItor7 = shortList3.iterator();
@@ -5197,22 +5662,22 @@ public class RegressionTest1 {
         java.lang.String[] strArray12 = new java.lang.String[]{"[-1, -1, 1, 1, 10]", "100", "100"};
         java.util.ArrayList<java.lang.String> strList13 = new java.util.ArrayList<java.lang.String>();
         boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList13,
-                                                         strArray12);
+            strArray12);
         java.lang.Boolean[] booleanArray17 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList18 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList18,
-                                                         booleanArray17);
+            booleanArray17);
         boolean boolean21 = booleanList18.add((java.lang.Boolean) true);
         boolean boolean22 = strList13.removeAll((java.util.Collection<java.lang.Boolean>) booleanList18);
         java.lang.String[] strArray24 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList25 = new java.util.ArrayList<java.lang.String>();
         boolean boolean26 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList25,
-                                                         strArray24);
+            strArray24);
         int int27 = strList25.size();
         java.lang.Boolean[] booleanArray30 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList31 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean32 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList31,
-                                                         booleanArray30);
+            booleanArray30);
         boolean boolean34 = booleanList31.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream35 = booleanList31.stream();
         boolean boolean36 = strList25.containsAll((java.util.Collection<java.lang.Boolean>) booleanList31);
@@ -5223,11 +5688,16 @@ public class RegressionTest1 {
         java.util.Iterator<java.lang.Short> shortItor42 = shortList3.iterator();
         java.util.stream.Stream<java.lang.Short> shortStream43 = shortList3.stream();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF44 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl45 = mCServicesProviderNMF44.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl46 = mCServicesProviderNMF44.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl47 = mCServicesProviderNMF44.getAlertService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl48 = mCServicesProviderNMF44.getAggregationService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl49 = mCServicesProviderNMF44.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl45 = mCServicesProviderNMF44
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl46 = mCServicesProviderNMF44
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl47 = mCServicesProviderNMF44
+            .getAlertService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl48 = mCServicesProviderNMF44
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl49 = mCServicesProviderNMF44
+            .getParameterService();
         int int50 = shortList3.lastIndexOf((java.lang.Object) parameterProviderServiceImpl49);
         org.junit.Assert.assertNotNull(shortArray2);
         org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4);
@@ -5274,7 +5744,7 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray9 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList10 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList10,
-                                                         booleanArray9);
+            booleanArray9);
         boolean boolean13 = booleanList10.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream14 = booleanList10.stream();
         boolean boolean15 = strList4.containsAll((java.util.Collection<java.lang.Boolean>) booleanList10);
@@ -5289,10 +5759,11 @@ public class RegressionTest1 {
         java.lang.Long[] longArray29 = new java.lang.Long[]{10L, (-1L), (-1L), 10L};
         java.util.ArrayList<java.lang.Long> longList30 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean31 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList30,
-                                                         longArray29);
+            longArray29);
         java.lang.Object obj32 = null;
         boolean boolean33 = longList30.contains(obj32);
-        org.ccsds.moims.mo.mal.structures.UInteger uInteger35 = new org.ccsds.moims.mo.mal.structures.UInteger((long) (byte) 100);
+        org.ccsds.moims.mo.mal.structures.UInteger uInteger35 = new org.ccsds.moims.mo.mal.structures.UInteger(
+            (long) (byte) 100);
         boolean boolean36 = longList30.contains((java.lang.Object) (byte) 100);
         java.util.Iterator<java.lang.Long> longItor37 = longList30.iterator();
         org.ccsds.moims.mo.mal.structures.UShort uShort38 = org.ccsds.moims.mo.mal.structures.OctetList.AREA_SHORT_FORM;
@@ -5353,13 +5824,20 @@ public class RegressionTest1 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test577");
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF0 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl1 = mCServicesProviderNMF0.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl2 = mCServicesProviderNMF0.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl3 = mCServicesProviderNMF0.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl4 = mCServicesProviderNMF0.getActionService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl5 = mCServicesProviderNMF0.getAggregationService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl6 = mCServicesProviderNMF0.getActionService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl7 = mCServicesProviderNMF0.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl1 = mCServicesProviderNMF0
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl2 = mCServicesProviderNMF0
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl3 = mCServicesProviderNMF0
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl4 = mCServicesProviderNMF0
+            .getActionService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl5 = mCServicesProviderNMF0
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl6 = mCServicesProviderNMF0
+            .getActionService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl7 = mCServicesProviderNMF0
+            .getActionService();
         org.junit.Assert.assertNotNull(parameterProviderServiceImpl1);
         org.junit.Assert.assertNotNull(aggregationProviderServiceImpl2);
         org.junit.Assert.assertNotNull(alertProviderServiceImpl3);
@@ -5399,28 +5877,40 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test579");
         esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider0 = null;
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF1 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl2 = mCServicesProviderNMF1.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl3 = mCServicesProviderNMF1.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl4 = mCServicesProviderNMF1.getAggregationService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl5 = mCServicesProviderNMF1.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl2 = mCServicesProviderNMF1
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl3 = mCServicesProviderNMF1
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl4 = mCServicesProviderNMF1
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl5 = mCServicesProviderNMF1
+            .getParameterService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF6 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl7 = mCServicesProviderNMF6.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl8 = mCServicesProviderNMF6.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl9 = mCServicesProviderNMF6.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl10 = mCServicesProviderNMF6.getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl7 = mCServicesProviderNMF6
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl8 = mCServicesProviderNMF6
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl9 = mCServicesProviderNMF6
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl10 = mCServicesProviderNMF6
+            .getAggregationService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF11 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl12 = mCServicesProviderNMF11.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl13 = mCServicesProviderNMF11.getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl12 = mCServicesProviderNMF11
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl13 = mCServicesProviderNMF11
+            .getAlertService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF14 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl15 = mCServicesProviderNMF14.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl16 = mCServicesProviderNMF14.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl17 = mCServicesProviderNMF14.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl18 = mCServicesProviderNMF14.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl15 = mCServicesProviderNMF14
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl16 = mCServicesProviderNMF14
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl17 = mCServicesProviderNMF14
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl18 = mCServicesProviderNMF14
+            .getActionService();
         esa.mo.nmf.MCRegistration mCRegistration19 = new esa.mo.nmf.MCRegistration(cOMServicesProvider0,
-                                                                                   parameterProviderServiceImpl5,
-                                                                                   aggregationProviderServiceImpl10,
-                                                                                   alertProviderServiceImpl13,
-                                                                                   actionProviderServiceImpl18);
+            parameterProviderServiceImpl5, aggregationProviderServiceImpl10, alertProviderServiceImpl13,
+            actionProviderServiceImpl18);
         esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl20 = mCRegistration19.actionService;
         esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl21 = mCRegistration19.parameterService;
         esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl22 = mCRegistration19.parameterService;
@@ -5444,7 +5934,7 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray42 = new java.lang.Boolean[]{true};
         java.util.ArrayList<java.lang.Boolean> booleanList43 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean44 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList43,
-                                                         booleanArray42);
+            booleanArray42);
         java.util.ListIterator<java.lang.Boolean> booleanItor46 = booleanList43.listIterator((int) (short) 1);
         java.util.stream.Stream<java.lang.Boolean> booleanStream47 = booleanList43.parallelStream();
         boolean boolean49 = booleanList43.add((java.lang.Boolean) false);
@@ -5453,8 +5943,10 @@ public class RegressionTest1 {
         boolean boolean52 = octetList37.removeAll((java.util.Collection<java.lang.Boolean>) booleanList43);
         boolean boolean53 = doubleList26.containsAll((java.util.Collection<java.lang.Boolean>) booleanList43);
         try {
-            org.ccsds.moims.mo.com.structures.ObjectIdList objectIdList54 = mCRegistration19.registerConversions((org.ccsds.moims.mo.mal.structures.ElementList) doubleList26);
-            org.junit.Assert.fail("Expected exception of type esa.mo.nmf.NMFException; message: The conversion object didn't match any type of Conversion.");
+            org.ccsds.moims.mo.com.structures.ObjectIdList objectIdList54 = mCRegistration19.registerConversions(
+                (org.ccsds.moims.mo.mal.structures.ElementList) doubleList26);
+            org.junit.Assert.fail(
+                "Expected exception of type esa.mo.nmf.NMFException; message: The conversion object didn't match any type of Conversion.");
         } catch (esa.mo.nmf.NMFException e) {
         }
         org.junit.Assert.assertNotNull(parameterProviderServiceImpl2);
@@ -5502,15 +5994,24 @@ public class RegressionTest1 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test580");
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF0 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl1 = mCServicesProviderNMF0.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl2 = mCServicesProviderNMF0.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl3 = mCServicesProviderNMF0.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl4 = mCServicesProviderNMF0.getAggregationService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl5 = mCServicesProviderNMF0.getActionService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl6 = mCServicesProviderNMF0.getActionService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl7 = mCServicesProviderNMF0.getAlertService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl8 = mCServicesProviderNMF0.getAlertService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl9 = mCServicesProviderNMF0.getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl1 = mCServicesProviderNMF0
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl2 = mCServicesProviderNMF0
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl3 = mCServicesProviderNMF0
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl4 = mCServicesProviderNMF0
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl5 = mCServicesProviderNMF0
+            .getActionService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl6 = mCServicesProviderNMF0
+            .getActionService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl7 = mCServicesProviderNMF0
+            .getAlertService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl8 = mCServicesProviderNMF0
+            .getAlertService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl9 = mCServicesProviderNMF0
+            .getAlertService();
         org.junit.Assert.assertNotNull(parameterProviderServiceImpl1);
         org.junit.Assert.assertNotNull(aggregationProviderServiceImpl2);
         org.junit.Assert.assertNotNull(aggregationProviderServiceImpl3);
@@ -5528,15 +6029,16 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test581");
         esa.mo.nmf.NMFException nMFException2 = new esa.mo.nmf.NMFException("[-1.0]");
         esa.mo.nmf.NMFException nMFException3 = new esa.mo.nmf.NMFException("[hi!, [1]]",
-                                                                            (java.lang.Throwable) nMFException2);
+            (java.lang.Throwable) nMFException2);
         esa.mo.nmf.NMFException nMFException6 = new esa.mo.nmf.NMFException("0");
         java.lang.Throwable[] throwableArray7 = nMFException6.getSuppressed();
         java.lang.Throwable[] throwableArray8 = nMFException6.getSuppressed();
         esa.mo.nmf.NMFException nMFException10 = new esa.mo.nmf.NMFException("0");
         java.lang.Throwable[] throwableArray11 = nMFException10.getSuppressed();
         nMFException6.addSuppressed((java.lang.Throwable) nMFException10);
-        esa.mo.nmf.NMFException nMFException13 = new esa.mo.nmf.NMFException("[281475010265077, 281474993487884, 281475010265073, 281475010265083, 281475010265084, -1, 281474993487884, 281474993487874, 281475010265070, 281474993487888, 281474993487887, 281474993487886, 100, 281474993487885]",
-                                                                             (java.lang.Throwable) nMFException6);
+        esa.mo.nmf.NMFException nMFException13 = new esa.mo.nmf.NMFException(
+            "[281475010265077, 281474993487884, 281475010265073, 281475010265083, 281475010265084, -1, 281474993487884, 281474993487874, 281475010265070, 281474993487888, 281474993487887, 281474993487886, 100, 281474993487885]",
+            (java.lang.Throwable) nMFException6);
         nMFException3.addSuppressed((java.lang.Throwable) nMFException6);
         org.junit.Assert.assertNotNull(throwableArray7);
         org.junit.Assert.assertNotNull(throwableArray8);
@@ -5554,73 +6056,110 @@ public class RegressionTest1 {
         java.util.ListIterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor4 = uShortList0.listIterator();
         esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider5 = null;
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF6 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl7 = mCServicesProviderNMF6.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl8 = mCServicesProviderNMF6.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl9 = mCServicesProviderNMF6.getAggregationService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl10 = mCServicesProviderNMF6.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl7 = mCServicesProviderNMF6
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl8 = mCServicesProviderNMF6
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl9 = mCServicesProviderNMF6
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl10 = mCServicesProviderNMF6
+            .getParameterService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF11 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl12 = mCServicesProviderNMF11.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl13 = mCServicesProviderNMF11.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl14 = mCServicesProviderNMF11.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl15 = mCServicesProviderNMF11.getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl12 = mCServicesProviderNMF11
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl13 = mCServicesProviderNMF11
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl14 = mCServicesProviderNMF11
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl15 = mCServicesProviderNMF11
+            .getAggregationService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF16 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl17 = mCServicesProviderNMF16.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl18 = mCServicesProviderNMF16.getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl17 = mCServicesProviderNMF16
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl18 = mCServicesProviderNMF16
+            .getAlertService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF19 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl20 = mCServicesProviderNMF19.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl21 = mCServicesProviderNMF19.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl22 = mCServicesProviderNMF19.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl23 = mCServicesProviderNMF19.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl20 = mCServicesProviderNMF19
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl21 = mCServicesProviderNMF19
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl22 = mCServicesProviderNMF19
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl23 = mCServicesProviderNMF19
+            .getActionService();
         esa.mo.nmf.MCRegistration mCRegistration24 = new esa.mo.nmf.MCRegistration(cOMServicesProvider5,
-                                                                                   parameterProviderServiceImpl10,
-                                                                                   aggregationProviderServiceImpl15,
-                                                                                   alertProviderServiceImpl18,
-                                                                                   actionProviderServiceImpl23);
+            parameterProviderServiceImpl10, aggregationProviderServiceImpl15, alertProviderServiceImpl18,
+            actionProviderServiceImpl23);
         esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl25 = mCRegistration24.actionService;
         esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl26 = mCRegistration24.actionService;
         esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider27 = null;
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF28 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl29 = mCServicesProviderNMF28.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl30 = mCServicesProviderNMF28.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl31 = mCServicesProviderNMF28.getAggregationService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl32 = mCServicesProviderNMF28.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl29 = mCServicesProviderNMF28
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl30 = mCServicesProviderNMF28
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl31 = mCServicesProviderNMF28
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl32 = mCServicesProviderNMF28
+            .getParameterService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF33 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl34 = mCServicesProviderNMF33.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl35 = mCServicesProviderNMF33.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl36 = mCServicesProviderNMF33.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl37 = mCServicesProviderNMF33.getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl34 = mCServicesProviderNMF33
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl35 = mCServicesProviderNMF33
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl36 = mCServicesProviderNMF33
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl37 = mCServicesProviderNMF33
+            .getAggregationService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF38 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl39 = mCServicesProviderNMF38.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl40 = mCServicesProviderNMF38.getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl39 = mCServicesProviderNMF38
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl40 = mCServicesProviderNMF38
+            .getAlertService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF41 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl42 = mCServicesProviderNMF41.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl43 = mCServicesProviderNMF41.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl44 = mCServicesProviderNMF41.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl45 = mCServicesProviderNMF41.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl42 = mCServicesProviderNMF41
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl43 = mCServicesProviderNMF41
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl44 = mCServicesProviderNMF41
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl45 = mCServicesProviderNMF41
+            .getActionService();
         esa.mo.nmf.MCRegistration mCRegistration46 = new esa.mo.nmf.MCRegistration(cOMServicesProvider27,
-                                                                                   parameterProviderServiceImpl32,
-                                                                                   aggregationProviderServiceImpl37,
-                                                                                   alertProviderServiceImpl40,
-                                                                                   actionProviderServiceImpl45);
+            parameterProviderServiceImpl32, aggregationProviderServiceImpl37, alertProviderServiceImpl40,
+            actionProviderServiceImpl45);
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF47 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl48 = mCServicesProviderNMF47.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl49 = mCServicesProviderNMF47.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl50 = mCServicesProviderNMF47.getAlertService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl51 = mCServicesProviderNMF47.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl52 = mCServicesProviderNMF47.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl53 = mCServicesProviderNMF47.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl48 = mCServicesProviderNMF47
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl49 = mCServicesProviderNMF47
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl50 = mCServicesProviderNMF47
+            .getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl51 = mCServicesProviderNMF47
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl52 = mCServicesProviderNMF47
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl53 = mCServicesProviderNMF47
+            .getActionService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF54 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl55 = mCServicesProviderNMF54.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl56 = mCServicesProviderNMF54.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl57 = mCServicesProviderNMF54.getAlertService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl58 = mCServicesProviderNMF54.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl59 = mCServicesProviderNMF54.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl60 = mCServicesProviderNMF54.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl55 = mCServicesProviderNMF54
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl56 = mCServicesProviderNMF54
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl57 = mCServicesProviderNMF54
+            .getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl58 = mCServicesProviderNMF54
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl59 = mCServicesProviderNMF54
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl60 = mCServicesProviderNMF54
+            .getActionService();
         org.ccsds.moims.mo.mc.action.provider.ActionInheritanceSkeleton[] actionInheritanceSkeletonArray61 = new org.ccsds.moims.mo.mc.action.provider.ActionInheritanceSkeleton[]{actionProviderServiceImpl26,
                                                                                                                                                                                    actionProviderServiceImpl45,
                                                                                                                                                                                    actionProviderServiceImpl53,
                                                                                                                                                                                    actionProviderServiceImpl60};
-        org.ccsds.moims.mo.mc.action.provider.ActionInheritanceSkeleton[] actionInheritanceSkeletonArray62 = uShortList0.toArray(actionInheritanceSkeletonArray61);
+        org.ccsds.moims.mo.mc.action.provider.ActionInheritanceSkeleton[] actionInheritanceSkeletonArray62 = uShortList0
+            .toArray(actionInheritanceSkeletonArray61);
         uShortList0.ensureCapacity(18);
         org.ccsds.moims.mo.mal.structures.URIList uRIList66 = new org.ccsds.moims.mo.mal.structures.URIList(17);
         org.ccsds.moims.mo.mal.structures.UShort uShort67 = uRIList66.getAreaNumber();
@@ -5696,7 +6235,7 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray9 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList10 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList10,
-                                                         booleanArray9);
+            booleanArray9);
         boolean boolean13 = booleanList10.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream14 = booleanList10.stream();
         boolean boolean15 = strList4.containsAll((java.util.Collection<java.lang.Boolean>) booleanList10);
@@ -5706,7 +6245,7 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray20 = new java.lang.Boolean[]{true};
         java.util.ArrayList<java.lang.Boolean> booleanList21 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean22 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList21,
-                                                         booleanArray20);
+            booleanArray20);
         java.util.ListIterator<java.lang.Boolean> booleanItor24 = booleanList21.listIterator((int) (short) 1);
         java.util.stream.Stream<java.lang.Boolean> booleanStream25 = booleanList21.parallelStream();
         boolean boolean27 = booleanList21.add((java.lang.Boolean) false);
@@ -5719,13 +6258,13 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray39 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList40 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean41 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList40,
-                                                         booleanArray39);
+            booleanArray39);
         boolean boolean43 = booleanList40.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream44 = booleanList40.stream();
         java.lang.Double[] doubleArray46 = new java.lang.Double[]{0.0d};
         java.util.ArrayList<java.lang.Double> doubleList47 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean48 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList47,
-                                                         doubleArray46);
+            doubleArray46);
         java.util.Spliterator<java.lang.Double> doubleSpliterator49 = doubleList47.spliterator();
         java.util.Iterator<java.lang.Double> doubleItor50 = doubleList47.iterator();
         boolean boolean51 = booleanList40.contains((java.lang.Object) doubleItor50);
@@ -5808,7 +6347,7 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray9 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList10 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList10,
-                                                         booleanArray9);
+            booleanArray9);
         boolean boolean13 = booleanList10.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream14 = booleanList10.stream();
         boolean boolean15 = strList4.containsAll((java.util.Collection<java.lang.Boolean>) booleanList10);
@@ -5823,18 +6362,18 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UOctet uOctet25 = identifier24.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray26 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList27 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean28 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList27,
-                                                         uRIArray26);
+        boolean boolean28 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList27, uRIArray26);
         java.lang.Boolean[] booleanArray31 = new java.lang.Boolean[]{false, true};
         java.util.ArrayList<java.lang.Boolean> booleanList32 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList32,
-                                                         booleanArray31);
+            booleanArray31);
         java.util.Iterator<java.lang.Boolean> booleanItor34 = booleanList32.iterator();
         boolean boolean35 = uRIList27.retainAll((java.util.Collection<java.lang.Boolean>) booleanList32);
         java.lang.Boolean[] booleanArray38 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList39 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean40 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList39,
-                                                         booleanArray38);
+            booleanArray38);
         boolean boolean42 = booleanList39.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream43 = booleanList39.stream();
         boolean boolean44 = uRIList27.retainAll((java.util.Collection<java.lang.Boolean>) booleanList39);
@@ -5842,7 +6381,8 @@ public class RegressionTest1 {
         boolean boolean47 = identifier24.equals((java.lang.Object) uRIList27);
         java.util.ListIterator<org.ccsds.moims.mo.mal.structures.URI> uRIItor48 = uRIList27.listIterator();
         java.lang.String str49 = uRIList27.toString();
-        org.ccsds.moims.mo.mal.structures.Union union51 = new org.ccsds.moims.mo.mal.structures.Union((java.lang.Double) 100.0d);
+        org.ccsds.moims.mo.mal.structures.Union union51 = new org.ccsds.moims.mo.mal.structures.Union(
+            (java.lang.Double) 100.0d);
         org.ccsds.moims.mo.mal.structures.UShort uShort52 = union51.getAreaNumber();
         boolean boolean53 = uRIList27.equals((java.lang.Object) union51);
         int int54 = floatList0.lastIndexOf((java.lang.Object) union51);
@@ -5887,28 +6427,40 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test585");
         esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider0 = null;
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF1 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl2 = mCServicesProviderNMF1.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl3 = mCServicesProviderNMF1.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl4 = mCServicesProviderNMF1.getAggregationService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl5 = mCServicesProviderNMF1.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl2 = mCServicesProviderNMF1
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl3 = mCServicesProviderNMF1
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl4 = mCServicesProviderNMF1
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl5 = mCServicesProviderNMF1
+            .getParameterService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF6 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl7 = mCServicesProviderNMF6.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl8 = mCServicesProviderNMF6.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl9 = mCServicesProviderNMF6.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl10 = mCServicesProviderNMF6.getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl7 = mCServicesProviderNMF6
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl8 = mCServicesProviderNMF6
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl9 = mCServicesProviderNMF6
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl10 = mCServicesProviderNMF6
+            .getAggregationService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF11 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl12 = mCServicesProviderNMF11.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl13 = mCServicesProviderNMF11.getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl12 = mCServicesProviderNMF11
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl13 = mCServicesProviderNMF11
+            .getAlertService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF14 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl15 = mCServicesProviderNMF14.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl16 = mCServicesProviderNMF14.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl17 = mCServicesProviderNMF14.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl18 = mCServicesProviderNMF14.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl15 = mCServicesProviderNMF14
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl16 = mCServicesProviderNMF14
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl17 = mCServicesProviderNMF14
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl18 = mCServicesProviderNMF14
+            .getActionService();
         esa.mo.nmf.MCRegistration mCRegistration19 = new esa.mo.nmf.MCRegistration(cOMServicesProvider0,
-                                                                                   parameterProviderServiceImpl5,
-                                                                                   aggregationProviderServiceImpl10,
-                                                                                   alertProviderServiceImpl13,
-                                                                                   actionProviderServiceImpl18);
+            parameterProviderServiceImpl5, aggregationProviderServiceImpl10, alertProviderServiceImpl13,
+            actionProviderServiceImpl18);
         esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl20 = mCRegistration19.actionService;
         esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl21 = mCRegistration19.parameterService;
         esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl22 = mCRegistration19.parameterService;
@@ -5916,28 +6468,40 @@ public class RegressionTest1 {
         esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl24 = mCRegistration19.aggregationService;
         esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider25 = null;
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF26 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl27 = mCServicesProviderNMF26.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl28 = mCServicesProviderNMF26.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl29 = mCServicesProviderNMF26.getAggregationService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl30 = mCServicesProviderNMF26.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl27 = mCServicesProviderNMF26
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl28 = mCServicesProviderNMF26
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl29 = mCServicesProviderNMF26
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl30 = mCServicesProviderNMF26
+            .getParameterService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF31 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl32 = mCServicesProviderNMF31.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl33 = mCServicesProviderNMF31.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl34 = mCServicesProviderNMF31.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl35 = mCServicesProviderNMF31.getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl32 = mCServicesProviderNMF31
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl33 = mCServicesProviderNMF31
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl34 = mCServicesProviderNMF31
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl35 = mCServicesProviderNMF31
+            .getAggregationService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF36 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl37 = mCServicesProviderNMF36.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl38 = mCServicesProviderNMF36.getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl37 = mCServicesProviderNMF36
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl38 = mCServicesProviderNMF36
+            .getAlertService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF39 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl40 = mCServicesProviderNMF39.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl41 = mCServicesProviderNMF39.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl42 = mCServicesProviderNMF39.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl43 = mCServicesProviderNMF39.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl40 = mCServicesProviderNMF39
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl41 = mCServicesProviderNMF39
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl42 = mCServicesProviderNMF39
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl43 = mCServicesProviderNMF39
+            .getActionService();
         esa.mo.nmf.MCRegistration mCRegistration44 = new esa.mo.nmf.MCRegistration(cOMServicesProvider25,
-                                                                                   parameterProviderServiceImpl30,
-                                                                                   aggregationProviderServiceImpl35,
-                                                                                   alertProviderServiceImpl38,
-                                                                                   actionProviderServiceImpl43);
+            parameterProviderServiceImpl30, aggregationProviderServiceImpl35, alertProviderServiceImpl38,
+            actionProviderServiceImpl43);
         esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl45 = mCRegistration44.actionService;
         esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl46 = mCRegistration44.aggregationService;
         esa.mo.nmf.MCRegistration.RegistrationMode registrationMode47 = esa.mo.nmf.MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS;
@@ -5978,12 +6542,9 @@ public class RegressionTest1 {
         org.junit.Assert.assertNotNull(actionProviderServiceImpl43);
         org.junit.Assert.assertNotNull(actionProviderServiceImpl45);
         org.junit.Assert.assertNotNull(aggregationProviderServiceImpl46);
-        org.junit.Assert.assertTrue("'" +
-                                    registrationMode47 +
-                                    "' != '" +
-                                    esa.mo.nmf.MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS +
-                                    "'", registrationMode47.equals(
-                                                                   esa.mo.nmf.MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS));
+        org.junit.Assert.assertTrue("'" + registrationMode47 + "' != '" +
+            esa.mo.nmf.MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS + "'", registrationMode47.equals(
+                esa.mo.nmf.MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS));
     }
 
     @Test
@@ -5999,7 +6560,7 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray9 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList10 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList10,
-                                                         booleanArray9);
+            booleanArray9);
         boolean boolean13 = booleanList10.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream14 = booleanList10.stream();
         boolean boolean15 = strList4.containsAll((java.util.Collection<java.lang.Boolean>) booleanList10);
@@ -6016,7 +6577,7 @@ public class RegressionTest1 {
         java.lang.String[] strArray28 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList29 = new java.util.ArrayList<java.lang.String>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList29,
-                                                         strArray28);
+            strArray28);
         boolean boolean32 = strList29.add("hi!");
         java.lang.Object obj33 = null;
         boolean boolean34 = strList29.equals(obj33);
@@ -6071,11 +6632,11 @@ public class RegressionTest1 {
                                                                  12, 0, 100, 14};
         java.util.ArrayList<java.lang.Integer> intList34 = new java.util.ArrayList<java.lang.Integer>();
         boolean boolean35 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList34,
-                                                         intArray33);
+            intArray33);
         java.lang.Boolean[] booleanArray38 = new java.lang.Boolean[]{false, true};
         java.util.ArrayList<java.lang.Boolean> booleanList39 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean40 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList39,
-                                                         booleanArray38);
+            booleanArray38);
         java.util.Iterator<java.lang.Boolean> booleanItor41 = booleanList39.iterator();
         java.util.stream.Stream<java.lang.Boolean> booleanStream42 = booleanList39.stream();
         boolean boolean43 = intList34.retainAll((java.util.Collection<java.lang.Boolean>) booleanList39);
@@ -6083,7 +6644,7 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray46 = new java.lang.Boolean[]{true};
         java.util.ArrayList<java.lang.Boolean> booleanList47 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean48 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList47,
-                                                         booleanArray46);
+            booleanArray46);
         java.util.ListIterator<java.lang.Boolean> booleanItor50 = booleanList47.listIterator((int) (short) 1);
         boolean boolean51 = shortList11.containsAll((java.util.Collection<java.lang.Boolean>) booleanList47);
         java.util.stream.Stream<java.lang.Boolean> booleanStream52 = booleanList47.stream();
@@ -6093,12 +6654,12 @@ public class RegressionTest1 {
         java.lang.String[] strArray57 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList58 = new java.util.ArrayList<java.lang.String>();
         boolean boolean59 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList58,
-                                                         strArray57);
+            strArray57);
         int int60 = strList58.size();
         java.lang.Boolean[] booleanArray63 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList64 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean65 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList64,
-                                                         booleanArray63);
+            booleanArray63);
         boolean boolean67 = booleanList64.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream68 = booleanList64.stream();
         boolean boolean69 = strList58.containsAll((java.util.Collection<java.lang.Boolean>) booleanList64);
@@ -6173,7 +6734,7 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray13 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList14 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean15 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList14,
-                                                         booleanArray13);
+            booleanArray13);
         boolean boolean17 = booleanList14.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream18 = booleanList14.stream();
         boolean boolean19 = strList8.containsAll((java.util.Collection<java.lang.Boolean>) booleanList14);
@@ -6188,20 +6749,20 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray30 = new java.lang.Boolean[]{true};
         java.util.ArrayList<java.lang.Boolean> booleanList31 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean32 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList31,
-                                                         booleanArray30);
+            booleanArray30);
         java.util.ListIterator<java.lang.Boolean> booleanItor34 = booleanList31.listIterator((int) (short) 1);
         boolean boolean35 = doubleList27.containsAll((java.util.Collection<java.lang.Boolean>) booleanList31);
         java.lang.Byte[] byteArray38 = new java.lang.Byte[]{(byte) 10, (byte) 100};
         java.util.ArrayList<java.lang.Byte> byteList39 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean40 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList39,
-                                                         byteArray38);
+            byteArray38);
         boolean boolean41 = byteList39.isEmpty();
         int int42 = byteList39.size();
         int int43 = booleanList31.indexOf((java.lang.Object) byteList39);
         java.lang.Boolean[] booleanArray46 = new java.lang.Boolean[]{false, true};
         java.util.ArrayList<java.lang.Boolean> booleanList47 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean48 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList47,
-                                                         booleanArray46);
+            booleanArray46);
         java.util.Iterator<java.lang.Boolean> booleanItor49 = booleanList47.iterator();
         java.util.stream.Stream<java.lang.Boolean> booleanStream50 = booleanList47.stream();
         java.util.Iterator<java.lang.Boolean> booleanItor51 = booleanList47.iterator();
@@ -6260,28 +6821,40 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test589");
         esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider0 = null;
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF1 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl2 = mCServicesProviderNMF1.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl3 = mCServicesProviderNMF1.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl4 = mCServicesProviderNMF1.getAggregationService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl5 = mCServicesProviderNMF1.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl2 = mCServicesProviderNMF1
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl3 = mCServicesProviderNMF1
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl4 = mCServicesProviderNMF1
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl5 = mCServicesProviderNMF1
+            .getParameterService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF6 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl7 = mCServicesProviderNMF6.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl8 = mCServicesProviderNMF6.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl9 = mCServicesProviderNMF6.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl10 = mCServicesProviderNMF6.getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl7 = mCServicesProviderNMF6
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl8 = mCServicesProviderNMF6
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl9 = mCServicesProviderNMF6
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl10 = mCServicesProviderNMF6
+            .getAggregationService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF11 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl12 = mCServicesProviderNMF11.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl13 = mCServicesProviderNMF11.getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl12 = mCServicesProviderNMF11
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl13 = mCServicesProviderNMF11
+            .getAlertService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF14 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl15 = mCServicesProviderNMF14.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl16 = mCServicesProviderNMF14.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl17 = mCServicesProviderNMF14.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl18 = mCServicesProviderNMF14.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl15 = mCServicesProviderNMF14
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl16 = mCServicesProviderNMF14
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl17 = mCServicesProviderNMF14
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl18 = mCServicesProviderNMF14
+            .getActionService();
         esa.mo.nmf.MCRegistration mCRegistration19 = new esa.mo.nmf.MCRegistration(cOMServicesProvider0,
-                                                                                   parameterProviderServiceImpl5,
-                                                                                   aggregationProviderServiceImpl10,
-                                                                                   alertProviderServiceImpl13,
-                                                                                   actionProviderServiceImpl18);
+            parameterProviderServiceImpl5, aggregationProviderServiceImpl10, alertProviderServiceImpl13,
+            actionProviderServiceImpl18);
         esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl20 = mCRegistration19.actionService;
         esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl21 = mCRegistration19.actionService;
         esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider22 = mCRegistration19.comServices;
@@ -6322,7 +6895,8 @@ public class RegressionTest1 {
         boolean boolean8 = byteList5.add((java.lang.Byte) (byte) 10);
         java.lang.Object obj9 = byteList5.clone();
         java.util.stream.Stream<java.lang.Byte> byteStream10 = byteList5.stream();
-        org.ccsds.moims.mo.mal.structures.StringList stringList12 = new org.ccsds.moims.mo.mal.structures.StringList(100);
+        org.ccsds.moims.mo.mal.structures.StringList stringList12 = new org.ccsds.moims.mo.mal.structures.StringList(
+            100);
         int int13 = byteList5.indexOf((java.lang.Object) stringList12);
         byte[] byteArray17 = new byte[]{(byte) 0, (byte) 0, (byte) 0};
         org.ccsds.moims.mo.mal.structures.Blob blob18 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray17);
@@ -6336,10 +6910,11 @@ public class RegressionTest1 {
         java.lang.Long[] longArray30 = new java.lang.Long[]{10L, (-1L), (-1L), 10L};
         java.util.ArrayList<java.lang.Long> longList31 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean32 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList31,
-                                                         longArray30);
+            longArray30);
         java.lang.Object obj33 = null;
         boolean boolean34 = longList31.contains(obj33);
-        org.ccsds.moims.mo.mal.structures.UInteger uInteger36 = new org.ccsds.moims.mo.mal.structures.UInteger((long) (byte) 100);
+        org.ccsds.moims.mo.mal.structures.UInteger uInteger36 = new org.ccsds.moims.mo.mal.structures.UInteger(
+            (long) (byte) 100);
         boolean boolean37 = longList31.contains((java.lang.Object) (byte) 100);
         java.util.Iterator<java.lang.Long> longItor38 = longList31.iterator();
         org.ccsds.moims.mo.mal.structures.UShort uShort39 = org.ccsds.moims.mo.mal.structures.OctetList.AREA_SHORT_FORM;
@@ -6400,9 +6975,12 @@ public class RegressionTest1 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test591");
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF0 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl1 = mCServicesProviderNMF0.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl2 = mCServicesProviderNMF0.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl3 = mCServicesProviderNMF0.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl1 = mCServicesProviderNMF0
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl2 = mCServicesProviderNMF0
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl3 = mCServicesProviderNMF0
+            .getActionService();
         org.junit.Assert.assertNotNull(parameterProviderServiceImpl1);
         org.junit.Assert.assertNotNull(alertProviderServiceImpl2);
         org.junit.Assert.assertNotNull(actionProviderServiceImpl3);
@@ -6420,7 +6998,7 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray8 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList9 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean10 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList9,
-                                                         booleanArray8);
+            booleanArray8);
         boolean boolean12 = booleanList9.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream13 = booleanList9.stream();
         boolean boolean14 = strList3.containsAll((java.util.Collection<java.lang.Boolean>) booleanList9);
@@ -6435,20 +7013,20 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray25 = new java.lang.Boolean[]{true};
         java.util.ArrayList<java.lang.Boolean> booleanList26 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList26,
-                                                         booleanArray25);
+            booleanArray25);
         java.util.ListIterator<java.lang.Boolean> booleanItor29 = booleanList26.listIterator((int) (short) 1);
         boolean boolean30 = doubleList22.containsAll((java.util.Collection<java.lang.Boolean>) booleanList26);
         java.lang.Byte[] byteArray33 = new java.lang.Byte[]{(byte) 10, (byte) 100};
         java.util.ArrayList<java.lang.Byte> byteList34 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean35 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList34,
-                                                         byteArray33);
+            byteArray33);
         boolean boolean36 = byteList34.isEmpty();
         int int37 = byteList34.size();
         int int38 = booleanList26.indexOf((java.lang.Object) byteList34);
         java.lang.Boolean[] booleanArray41 = new java.lang.Boolean[]{false, true};
         java.util.ArrayList<java.lang.Boolean> booleanList42 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean43 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList42,
-                                                         booleanArray41);
+            booleanArray41);
         java.util.Iterator<java.lang.Boolean> booleanItor44 = booleanList42.iterator();
         java.util.stream.Stream<java.lang.Boolean> booleanStream45 = booleanList42.stream();
         java.util.Iterator<java.lang.Boolean> booleanItor46 = booleanList42.iterator();
@@ -6510,7 +7088,7 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray9 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList10 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList10,
-                                                         booleanArray9);
+            booleanArray9);
         boolean boolean13 = booleanList10.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream14 = booleanList10.stream();
         boolean boolean15 = strList4.containsAll((java.util.Collection<java.lang.Boolean>) booleanList10);
@@ -6535,7 +7113,7 @@ public class RegressionTest1 {
         esa.mo.nmf.NMFException nMFException40 = new esa.mo.nmf.NMFException("", (java.lang.Throwable) nMFException37);
         nMFException28.addSuppressed((java.lang.Throwable) nMFException40);
         esa.mo.nmf.NMFException nMFException42 = new esa.mo.nmf.NMFException("[10, -1, -1, 10]",
-                                                                             (java.lang.Throwable) nMFException40);
+            (java.lang.Throwable) nMFException40);
         int int43 = floatList0.lastIndexOf((java.lang.Object) nMFException42);
         java.lang.Integer int44 = floatList0.getTypeShortForm();
         org.junit.Assert.assertTrue("'" + long1 + "' != '" + 281475010265084L + "'", long1.equals(281475010265084L));
@@ -6577,7 +7155,7 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray8 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList9 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean10 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList9,
-                                                         booleanArray8);
+            booleanArray8);
         boolean boolean12 = booleanList9.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream13 = booleanList9.stream();
         boolean boolean14 = strList3.containsAll((java.util.Collection<java.lang.Boolean>) booleanList9);
@@ -6592,20 +7170,20 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray25 = new java.lang.Boolean[]{true};
         java.util.ArrayList<java.lang.Boolean> booleanList26 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList26,
-                                                         booleanArray25);
+            booleanArray25);
         java.util.ListIterator<java.lang.Boolean> booleanItor29 = booleanList26.listIterator((int) (short) 1);
         boolean boolean30 = doubleList22.containsAll((java.util.Collection<java.lang.Boolean>) booleanList26);
         java.lang.Byte[] byteArray33 = new java.lang.Byte[]{(byte) 10, (byte) 100};
         java.util.ArrayList<java.lang.Byte> byteList34 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean35 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList34,
-                                                         byteArray33);
+            byteArray33);
         boolean boolean36 = byteList34.isEmpty();
         int int37 = byteList34.size();
         int int38 = booleanList26.indexOf((java.lang.Object) byteList34);
         java.lang.Boolean[] booleanArray41 = new java.lang.Boolean[]{false, true};
         java.util.ArrayList<java.lang.Boolean> booleanList42 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean43 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList42,
-                                                         booleanArray41);
+            booleanArray41);
         java.util.Iterator<java.lang.Boolean> booleanItor44 = booleanList42.iterator();
         java.util.stream.Stream<java.lang.Boolean> booleanStream45 = booleanList42.stream();
         java.util.Iterator<java.lang.Boolean> booleanItor46 = booleanList42.iterator();
@@ -6664,23 +7242,24 @@ public class RegressionTest1 {
         java.util.ArrayList<java.lang.Byte> byteList3 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean4 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList3, byteArray2);
         boolean boolean5 = byteList3.isEmpty();
-        org.ccsds.moims.mo.mal.structures.IntegerList integerList7 = new org.ccsds.moims.mo.mal.structures.IntegerList((int) '4');
+        org.ccsds.moims.mo.mal.structures.IntegerList integerList7 = new org.ccsds.moims.mo.mal.structures.IntegerList(
+            (int) '4');
         java.util.stream.Stream<java.lang.Integer> intStream8 = integerList7.parallelStream();
         java.util.stream.Stream<java.lang.Integer> intStream9 = integerList7.stream();
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray10 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList11 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean12 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList11,
-                                                         uRIArray10);
+        boolean boolean12 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList11, uRIArray10);
         java.lang.Boolean[] booleanArray15 = new java.lang.Boolean[]{false, true};
         java.util.ArrayList<java.lang.Boolean> booleanList16 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList16,
-                                                         booleanArray15);
+            booleanArray15);
         java.util.Iterator<java.lang.Boolean> booleanItor18 = booleanList16.iterator();
         boolean boolean19 = uRIList11.retainAll((java.util.Collection<java.lang.Boolean>) booleanList16);
         java.lang.Boolean[] booleanArray22 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList23 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean24 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList23,
-                                                         booleanArray22);
+            booleanArray22);
         boolean boolean26 = booleanList23.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream27 = booleanList23.stream();
         boolean boolean28 = uRIList11.retainAll((java.util.Collection<java.lang.Boolean>) booleanList23);
@@ -6692,12 +7271,12 @@ public class RegressionTest1 {
         java.lang.String[] strArray35 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList36 = new java.util.ArrayList<java.lang.String>();
         boolean boolean37 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList36,
-                                                         strArray35);
+            strArray35);
         int int38 = strList36.size();
         java.lang.Boolean[] booleanArray41 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList42 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean43 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList42,
-                                                         booleanArray41);
+            booleanArray41);
         boolean boolean45 = booleanList42.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream46 = booleanList42.stream();
         boolean boolean47 = strList36.containsAll((java.util.Collection<java.lang.Boolean>) booleanList42);
@@ -6710,7 +7289,8 @@ public class RegressionTest1 {
         int int55 = floatList32.lastIndexOf((java.lang.Object) longList54);
         java.util.Iterator<java.lang.Long> longItor56 = longList54.iterator();
         boolean boolean57 = byteList3.equals((java.lang.Object) longList54);
-        org.ccsds.moims.mo.mal.structures.Union union59 = new org.ccsds.moims.mo.mal.structures.Union((java.lang.Float) 100.0f);
+        org.ccsds.moims.mo.mal.structures.Union union59 = new org.ccsds.moims.mo.mal.structures.Union(
+            (java.lang.Float) 100.0f);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet60 = union59.getAreaVersion();
         java.lang.Integer int61 = union59.getTypeShortForm();
         org.ccsds.moims.mo.mal.structures.FloatList floatList62 = new org.ccsds.moims.mo.mal.structures.FloatList();
@@ -6718,12 +7298,12 @@ public class RegressionTest1 {
         java.lang.String[] strArray65 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList66 = new java.util.ArrayList<java.lang.String>();
         boolean boolean67 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList66,
-                                                         strArray65);
+            strArray65);
         int int68 = strList66.size();
         java.lang.Boolean[] booleanArray71 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList72 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean73 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList72,
-                                                         booleanArray71);
+            booleanArray71);
         boolean boolean75 = booleanList72.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream76 = booleanList72.stream();
         boolean boolean77 = strList66.containsAll((java.util.Collection<java.lang.Boolean>) booleanList72);
@@ -6801,25 +7381,25 @@ public class RegressionTest1 {
         uShortList0.add(0, uShort5);
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray8 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList9 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean10 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList9,
-                                                         uRIArray8);
+        boolean boolean10 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList9, uRIArray8);
         java.lang.Boolean[] booleanArray13 = new java.lang.Boolean[]{false, true};
         java.util.ArrayList<java.lang.Boolean> booleanList14 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean15 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList14,
-                                                         booleanArray13);
+            booleanArray13);
         java.util.Iterator<java.lang.Boolean> booleanItor16 = booleanList14.iterator();
         boolean boolean17 = uRIList9.retainAll((java.util.Collection<java.lang.Boolean>) booleanList14);
         java.lang.Boolean[] booleanArray20 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList21 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean22 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList21,
-                                                         booleanArray20);
+            booleanArray20);
         boolean boolean24 = booleanList21.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream25 = booleanList21.stream();
         boolean boolean26 = uRIList9.retainAll((java.util.Collection<java.lang.Boolean>) booleanList21);
         java.lang.Boolean[] booleanArray29 = new java.lang.Boolean[]{false, true};
         java.util.ArrayList<java.lang.Boolean> booleanList30 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean31 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList30,
-                                                         booleanArray29);
+            booleanArray29);
         java.util.Iterator<java.lang.Boolean> booleanItor32 = booleanList30.iterator();
         java.util.stream.Stream<java.lang.Boolean> booleanStream33 = booleanList30.stream();
         boolean boolean34 = uRIList9.containsAll((java.util.Collection<java.lang.Boolean>) booleanList30);
@@ -6828,15 +7408,24 @@ public class RegressionTest1 {
         uShortList0.trimToSize();
         java.lang.Integer int38 = uShortList0.getTypeShortForm();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF39 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl40 = mCServicesProviderNMF39.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl41 = mCServicesProviderNMF39.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl42 = mCServicesProviderNMF39.getAlertService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl43 = mCServicesProviderNMF39.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl44 = mCServicesProviderNMF39.getAlertService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl45 = mCServicesProviderNMF39.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl46 = mCServicesProviderNMF39.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl47 = mCServicesProviderNMF39.getActionService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl48 = mCServicesProviderNMF39.getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl40 = mCServicesProviderNMF39
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl41 = mCServicesProviderNMF39
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl42 = mCServicesProviderNMF39
+            .getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl43 = mCServicesProviderNMF39
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl44 = mCServicesProviderNMF39
+            .getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl45 = mCServicesProviderNMF39
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl46 = mCServicesProviderNMF39
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl47 = mCServicesProviderNMF39
+            .getActionService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl48 = mCServicesProviderNMF39
+            .getAggregationService();
         boolean boolean49 = uShortList0.remove((java.lang.Object) aggregationProviderServiceImpl48);
         java.lang.Integer int50 = uShortList0.getTypeShortForm();
         org.junit.Assert.assertTrue("'" + int1 + "' != '" + (-10) + "'", int1.equals((-10)));
@@ -6884,8 +7473,9 @@ public class RegressionTest1 {
         java.lang.Throwable[] throwableArray4 = nMFException2.getSuppressed();
         java.lang.Throwable[] throwableArray5 = nMFException2.getSuppressed();
         esa.mo.nmf.NMFException nMFException6 = new esa.mo.nmf.NMFException("[100, 0]",
-                                                                            (java.lang.Throwable) nMFException2);
-        org.ccsds.moims.mo.mal.structures.Duration duration8 = new org.ccsds.moims.mo.mal.structures.Duration((double) 10.0f);
+            (java.lang.Throwable) nMFException2);
+        org.ccsds.moims.mo.mal.structures.Duration duration8 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) 10.0f);
         esa.mo.nmf.NMFException nMFException10 = new esa.mo.nmf.NMFException("0");
         java.lang.Throwable[] throwableArray11 = nMFException10.getSuppressed();
         java.lang.Throwable[] throwableArray12 = nMFException10.getSuppressed();
@@ -6904,13 +7494,20 @@ public class RegressionTest1 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test598");
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF0 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl1 = mCServicesProviderNMF0.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl2 = mCServicesProviderNMF0.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl3 = mCServicesProviderNMF0.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl4 = mCServicesProviderNMF0.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl5 = mCServicesProviderNMF0.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl6 = mCServicesProviderNMF0.getAggregationService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl7 = mCServicesProviderNMF0.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl1 = mCServicesProviderNMF0
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl2 = mCServicesProviderNMF0
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl3 = mCServicesProviderNMF0
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl4 = mCServicesProviderNMF0
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl5 = mCServicesProviderNMF0
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl6 = mCServicesProviderNMF0
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl7 = mCServicesProviderNMF0
+            .getParameterService();
         org.junit.Assert.assertNotNull(parameterProviderServiceImpl1);
         org.junit.Assert.assertNotNull(aggregationProviderServiceImpl2);
         org.junit.Assert.assertNotNull(aggregationProviderServiceImpl3);
@@ -6926,28 +7523,40 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test599");
         esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider0 = null;
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF1 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl2 = mCServicesProviderNMF1.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl3 = mCServicesProviderNMF1.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl4 = mCServicesProviderNMF1.getAggregationService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl5 = mCServicesProviderNMF1.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl2 = mCServicesProviderNMF1
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl3 = mCServicesProviderNMF1
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl4 = mCServicesProviderNMF1
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl5 = mCServicesProviderNMF1
+            .getParameterService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF6 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl7 = mCServicesProviderNMF6.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl8 = mCServicesProviderNMF6.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl9 = mCServicesProviderNMF6.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl10 = mCServicesProviderNMF6.getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl7 = mCServicesProviderNMF6
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl8 = mCServicesProviderNMF6
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl9 = mCServicesProviderNMF6
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl10 = mCServicesProviderNMF6
+            .getAggregationService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF11 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl12 = mCServicesProviderNMF11.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl13 = mCServicesProviderNMF11.getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl12 = mCServicesProviderNMF11
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl13 = mCServicesProviderNMF11
+            .getAlertService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF14 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl15 = mCServicesProviderNMF14.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl16 = mCServicesProviderNMF14.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl17 = mCServicesProviderNMF14.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl18 = mCServicesProviderNMF14.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl15 = mCServicesProviderNMF14
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl16 = mCServicesProviderNMF14
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl17 = mCServicesProviderNMF14
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl18 = mCServicesProviderNMF14
+            .getActionService();
         esa.mo.nmf.MCRegistration mCRegistration19 = new esa.mo.nmf.MCRegistration(cOMServicesProvider0,
-                                                                                   parameterProviderServiceImpl5,
-                                                                                   aggregationProviderServiceImpl10,
-                                                                                   alertProviderServiceImpl13,
-                                                                                   actionProviderServiceImpl18);
+            parameterProviderServiceImpl5, aggregationProviderServiceImpl10, alertProviderServiceImpl13,
+            actionProviderServiceImpl18);
         esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl20 = mCRegistration19.actionService;
         esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl21 = mCRegistration19.aggregationService;
         esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider22 = mCRegistration19.comServices;
@@ -6977,12 +7586,18 @@ public class RegressionTest1 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test600");
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF0 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl1 = mCServicesProviderNMF0.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl2 = mCServicesProviderNMF0.getAlertService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl3 = mCServicesProviderNMF0.getParameterService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl4 = mCServicesProviderNMF0.getActionService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl5 = mCServicesProviderNMF0.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl6 = mCServicesProviderNMF0.getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl1 = mCServicesProviderNMF0
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl2 = mCServicesProviderNMF0
+            .getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl3 = mCServicesProviderNMF0
+            .getParameterService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl4 = mCServicesProviderNMF0
+            .getActionService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl5 = mCServicesProviderNMF0
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl6 = mCServicesProviderNMF0
+            .getAlertService();
         org.junit.Assert.assertNotNull(parameterProviderServiceImpl1);
         org.junit.Assert.assertNotNull(alertProviderServiceImpl2);
         org.junit.Assert.assertNotNull(parameterProviderServiceImpl3);
@@ -6997,28 +7612,40 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test601");
         esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider0 = null;
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF1 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl2 = mCServicesProviderNMF1.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl3 = mCServicesProviderNMF1.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl4 = mCServicesProviderNMF1.getAggregationService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl5 = mCServicesProviderNMF1.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl2 = mCServicesProviderNMF1
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl3 = mCServicesProviderNMF1
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl4 = mCServicesProviderNMF1
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl5 = mCServicesProviderNMF1
+            .getParameterService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF6 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl7 = mCServicesProviderNMF6.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl8 = mCServicesProviderNMF6.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl9 = mCServicesProviderNMF6.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl10 = mCServicesProviderNMF6.getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl7 = mCServicesProviderNMF6
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl8 = mCServicesProviderNMF6
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl9 = mCServicesProviderNMF6
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl10 = mCServicesProviderNMF6
+            .getAggregationService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF11 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl12 = mCServicesProviderNMF11.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl13 = mCServicesProviderNMF11.getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl12 = mCServicesProviderNMF11
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl13 = mCServicesProviderNMF11
+            .getAlertService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF14 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl15 = mCServicesProviderNMF14.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl16 = mCServicesProviderNMF14.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl17 = mCServicesProviderNMF14.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl18 = mCServicesProviderNMF14.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl15 = mCServicesProviderNMF14
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl16 = mCServicesProviderNMF14
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl17 = mCServicesProviderNMF14
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl18 = mCServicesProviderNMF14
+            .getActionService();
         esa.mo.nmf.MCRegistration mCRegistration19 = new esa.mo.nmf.MCRegistration(cOMServicesProvider0,
-                                                                                   parameterProviderServiceImpl5,
-                                                                                   aggregationProviderServiceImpl10,
-                                                                                   alertProviderServiceImpl13,
-                                                                                   actionProviderServiceImpl18);
+            parameterProviderServiceImpl5, aggregationProviderServiceImpl10, alertProviderServiceImpl13,
+            actionProviderServiceImpl18);
         esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl20 = mCRegistration19.parameterService;
         esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl21 = mCRegistration19.actionService;
         esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl22 = mCRegistration19.parameterService;
@@ -7060,7 +7687,7 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray9 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList10 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList10,
-                                                         booleanArray9);
+            booleanArray9);
         boolean boolean13 = booleanList10.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream14 = booleanList10.stream();
         boolean boolean15 = strList4.containsAll((java.util.Collection<java.lang.Boolean>) booleanList10);
@@ -7106,7 +7733,7 @@ public class RegressionTest1 {
         java.lang.String str1 = nMFException0.toString();
         java.lang.Throwable[] throwableArray2 = nMFException0.getSuppressed();
         org.junit.Assert.assertTrue("'" + str1 + "' != '" + "esa.mo.nmf.NMFException" + "'", str1.equals(
-                                                                                                         "esa.mo.nmf.NMFException"));
+            "esa.mo.nmf.NMFException"));
         org.junit.Assert.assertNotNull(throwableArray2);
     }
 
@@ -7116,28 +7743,40 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test604");
         esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider0 = null;
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF1 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl2 = mCServicesProviderNMF1.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl3 = mCServicesProviderNMF1.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl4 = mCServicesProviderNMF1.getAggregationService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl5 = mCServicesProviderNMF1.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl2 = mCServicesProviderNMF1
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl3 = mCServicesProviderNMF1
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl4 = mCServicesProviderNMF1
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl5 = mCServicesProviderNMF1
+            .getParameterService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF6 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl7 = mCServicesProviderNMF6.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl8 = mCServicesProviderNMF6.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl9 = mCServicesProviderNMF6.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl10 = mCServicesProviderNMF6.getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl7 = mCServicesProviderNMF6
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl8 = mCServicesProviderNMF6
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl9 = mCServicesProviderNMF6
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl10 = mCServicesProviderNMF6
+            .getAggregationService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF11 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl12 = mCServicesProviderNMF11.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl13 = mCServicesProviderNMF11.getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl12 = mCServicesProviderNMF11
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl13 = mCServicesProviderNMF11
+            .getAlertService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF14 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl15 = mCServicesProviderNMF14.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl16 = mCServicesProviderNMF14.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl17 = mCServicesProviderNMF14.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl18 = mCServicesProviderNMF14.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl15 = mCServicesProviderNMF14
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl16 = mCServicesProviderNMF14
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl17 = mCServicesProviderNMF14
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl18 = mCServicesProviderNMF14
+            .getActionService();
         esa.mo.nmf.MCRegistration mCRegistration19 = new esa.mo.nmf.MCRegistration(cOMServicesProvider0,
-                                                                                   parameterProviderServiceImpl5,
-                                                                                   aggregationProviderServiceImpl10,
-                                                                                   alertProviderServiceImpl13,
-                                                                                   actionProviderServiceImpl18);
+            parameterProviderServiceImpl5, aggregationProviderServiceImpl10, alertProviderServiceImpl13,
+            actionProviderServiceImpl18);
         esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl20 = mCRegistration19.parameterService;
         esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl21 = mCRegistration19.parameterService;
         esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl22 = mCRegistration19.alertService;
@@ -7173,23 +7812,24 @@ public class RegressionTest1 {
         java.util.stream.Stream<java.lang.Boolean> booleanStream4 = booleanList0.parallelStream();
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray5 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList6 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean7 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList6,
-                                                        uRIArray5);
+        boolean boolean7 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList6, uRIArray5);
         java.lang.Boolean[] booleanArray10 = new java.lang.Boolean[]{false, true};
         java.util.ArrayList<java.lang.Boolean> booleanList11 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean12 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList11,
-                                                         booleanArray10);
+            booleanArray10);
         java.util.Iterator<java.lang.Boolean> booleanItor13 = booleanList11.iterator();
         boolean boolean14 = uRIList6.retainAll((java.util.Collection<java.lang.Boolean>) booleanList11);
         booleanList11.clear();
         java.lang.Byte[] byteArray20 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) 1, (byte) 1};
         java.util.ArrayList<java.lang.Byte> byteList21 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean22 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList21,
-                                                         byteArray20);
+            byteArray20);
         boolean boolean24 = byteList21.add((java.lang.Byte) (byte) 10);
         java.lang.Object obj25 = byteList21.clone();
         java.util.stream.Stream<java.lang.Byte> byteStream26 = byteList21.stream();
-        org.ccsds.moims.mo.mal.structures.StringList stringList28 = new org.ccsds.moims.mo.mal.structures.StringList(100);
+        org.ccsds.moims.mo.mal.structures.StringList stringList28 = new org.ccsds.moims.mo.mal.structures.StringList(
+            100);
         int int29 = byteList21.indexOf((java.lang.Object) stringList28);
         byte[] byteArray33 = new byte[]{(byte) 0, (byte) 0, (byte) 0};
         org.ccsds.moims.mo.mal.structures.Blob blob34 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray33);
@@ -7203,10 +7843,11 @@ public class RegressionTest1 {
         java.lang.Long[] longArray46 = new java.lang.Long[]{10L, (-1L), (-1L), 10L};
         java.util.ArrayList<java.lang.Long> longList47 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean48 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList47,
-                                                         longArray46);
+            longArray46);
         java.lang.Object obj49 = null;
         boolean boolean50 = longList47.contains(obj49);
-        org.ccsds.moims.mo.mal.structures.UInteger uInteger52 = new org.ccsds.moims.mo.mal.structures.UInteger((long) (byte) 100);
+        org.ccsds.moims.mo.mal.structures.UInteger uInteger52 = new org.ccsds.moims.mo.mal.structures.UInteger(
+            (long) (byte) 100);
         boolean boolean53 = longList47.contains((java.lang.Object) (byte) 100);
         java.util.Iterator<java.lang.Long> longItor54 = longList47.iterator();
         org.ccsds.moims.mo.mal.structures.UShort uShort55 = org.ccsds.moims.mo.mal.structures.OctetList.AREA_SHORT_FORM;
@@ -7297,14 +7938,15 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray18 = new java.lang.Boolean[]{true};
         java.util.ArrayList<java.lang.Boolean> booleanList19 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean20 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList19,
-                                                         booleanArray18);
+            booleanArray18);
         java.util.ListIterator<java.lang.Boolean> booleanItor22 = booleanList19.listIterator((int) (short) 1);
         java.util.stream.Stream<java.lang.Boolean> booleanStream23 = booleanList19.parallelStream();
         boolean boolean25 = booleanList19.add((java.lang.Boolean) false);
         boolean boolean26 = byteList10.retainAll((java.util.Collection<java.lang.Boolean>) booleanList19);
         org.ccsds.moims.mo.mal.structures.UShortList uShortList27 = new org.ccsds.moims.mo.mal.structures.UShortList();
         java.lang.Object obj28 = uShortList27.clone();
-        java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream29 = uShortList27.parallelStream();
+        java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream29 = uShortList27
+            .parallelStream();
         java.util.Iterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor30 = uShortList27.iterator();
         boolean boolean31 = byteList10.equals((java.lang.Object) uShortItor30);
         org.ccsds.moims.mo.mal.structures.ShortList shortList32 = new org.ccsds.moims.mo.mal.structures.ShortList();
@@ -7350,7 +7992,7 @@ public class RegressionTest1 {
         org.junit.Assert.assertNotNull(throwableArray41);
         org.junit.Assert.assertNotNull(throwableArray44);
         org.junit.Assert.assertTrue("'" + str46 + "' != '" + "esa.mo.nmf.NMFException: 0" + "'", str46.equals(
-                                                                                                              "esa.mo.nmf.NMFException: 0"));
+            "esa.mo.nmf.NMFException: 0"));
         org.junit.Assert.assertNotNull(nMFExceptionArray49);
         org.junit.Assert.assertNotNull(nMFExceptionArray50);
         org.junit.Assert.assertNotNull(uShortSpliterator51);
@@ -7363,11 +8005,12 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShortList uShortList0 = new org.ccsds.moims.mo.mal.structures.UShortList();
         java.lang.Object obj1 = uShortList0.clone();
         boolean boolean2 = uShortList0.isEmpty();
-        org.ccsds.moims.mo.mal.structures.StringList stringList4 = new org.ccsds.moims.mo.mal.structures.StringList(100);
+        org.ccsds.moims.mo.mal.structures.StringList stringList4 = new org.ccsds.moims.mo.mal.structures.StringList(
+            100);
         java.lang.Double[] doubleArray6 = new java.lang.Double[]{0.0d};
         java.util.ArrayList<java.lang.Double> doubleList7 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean8 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList7,
-                                                        doubleArray6);
+            doubleArray6);
         java.util.Spliterator<java.lang.Double> doubleSpliterator9 = doubleList7.spliterator();
         java.util.Iterator<java.lang.Double> doubleItor10 = doubleList7.iterator();
         boolean boolean11 = stringList4.equals((java.lang.Object) doubleItor10);
@@ -7375,31 +8018,32 @@ public class RegressionTest1 {
         java.lang.Long[] longArray17 = new java.lang.Long[]{10L, (-1L), (-1L), 10L};
         java.util.ArrayList<java.lang.Long> longList18 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList18,
-                                                         longArray17);
+            longArray17);
         java.lang.Object obj20 = null;
         boolean boolean21 = longList18.contains(obj20);
-        org.ccsds.moims.mo.mal.structures.UInteger uInteger23 = new org.ccsds.moims.mo.mal.structures.UInteger((long) (byte) 100);
+        org.ccsds.moims.mo.mal.structures.UInteger uInteger23 = new org.ccsds.moims.mo.mal.structures.UInteger(
+            (long) (byte) 100);
         boolean boolean24 = longList18.contains((java.lang.Object) (byte) 100);
         java.lang.Boolean[] booleanArray27 = new java.lang.Boolean[]{false, false};
         java.util.ArrayList<java.lang.Boolean> booleanList28 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean29 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList28,
-                                                         booleanArray27);
+            booleanArray27);
         boolean boolean30 = longList18.containsAll((java.util.Collection<java.lang.Boolean>) booleanList28);
         java.lang.Boolean[] booleanArray33 = new java.lang.Boolean[]{false, true};
         java.util.ArrayList<java.lang.Boolean> booleanList34 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean35 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList34,
-                                                         booleanArray33);
+            booleanArray33);
         java.util.Iterator<java.lang.Boolean> booleanItor36 = booleanList34.iterator();
         int int37 = longList18.indexOf((java.lang.Object) booleanList34);
         longList18.trimToSize();
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray39 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList40 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean41 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList40,
-                                                         uRIArray39);
+        boolean boolean41 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList40, uRIArray39);
         java.lang.Boolean[] booleanArray44 = new java.lang.Boolean[]{false, true};
         java.util.ArrayList<java.lang.Boolean> booleanList45 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean46 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList45,
-                                                         booleanArray44);
+            booleanArray44);
         java.util.Iterator<java.lang.Boolean> booleanItor47 = booleanList45.iterator();
         boolean boolean48 = uRIList40.retainAll((java.util.Collection<java.lang.Boolean>) booleanList45);
         booleanList45.clear();
@@ -7410,9 +8054,9 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.Blob blob57 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray56);
         byte[] byteArray58 = blob57.getValue();
         org.ccsds.moims.mo.mal.structures.Blob blob61 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray58, 6,
-                                                                                                   (-2));
+            (-2));
         org.ccsds.moims.mo.mal.structures.Blob blob64 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray58, 65535,
-                                                                                                   (int) '#');
+            (int) '#');
         boolean boolean65 = uShortList0.equals((java.lang.Object) 65535);
         int int66 = uShortList0.size();
         uShortList0.trimToSize();
@@ -7420,7 +8064,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UOctet uOctet69 = uShortList0.getAreaVersion();
         esa.mo.nmf.NMFException nMFException72 = new esa.mo.nmf.NMFException("false");
         esa.mo.nmf.NMFException nMFException73 = new esa.mo.nmf.NMFException("esa.mo.nmf.NMFException: -1",
-                                                                             (java.lang.Throwable) nMFException72);
+            (java.lang.Throwable) nMFException72);
         boolean boolean74 = uOctet69.equals((java.lang.Object) "esa.mo.nmf.NMFException: -1");
         org.junit.Assert.assertNotNull(obj1);
         org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2);
@@ -7472,9 +8116,12 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort7 = doubleList0.getServiceNumber();
         java.util.Spliterator<java.lang.Double> doubleSpliterator8 = doubleList0.spliterator();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF9 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl10 = mCServicesProviderNMF9.getParameterService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl11 = mCServicesProviderNMF9.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl12 = mCServicesProviderNMF9.getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl10 = mCServicesProviderNMF9
+            .getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl11 = mCServicesProviderNMF9
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl12 = mCServicesProviderNMF9
+            .getAlertService();
         boolean boolean13 = doubleList0.remove((java.lang.Object) alertProviderServiceImpl12);
         org.junit.Assert.assertNotNull(element1);
         org.junit.Assert.assertNotNull(uShort2);
@@ -7495,23 +8142,24 @@ public class RegressionTest1 {
         java.util.ArrayList<java.lang.Byte> byteList3 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean4 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList3, byteArray2);
         boolean boolean5 = byteList3.isEmpty();
-        org.ccsds.moims.mo.mal.structures.IntegerList integerList7 = new org.ccsds.moims.mo.mal.structures.IntegerList((int) '4');
+        org.ccsds.moims.mo.mal.structures.IntegerList integerList7 = new org.ccsds.moims.mo.mal.structures.IntegerList(
+            (int) '4');
         java.util.stream.Stream<java.lang.Integer> intStream8 = integerList7.parallelStream();
         java.util.stream.Stream<java.lang.Integer> intStream9 = integerList7.stream();
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray10 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList11 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean12 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList11,
-                                                         uRIArray10);
+        boolean boolean12 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList11, uRIArray10);
         java.lang.Boolean[] booleanArray15 = new java.lang.Boolean[]{false, true};
         java.util.ArrayList<java.lang.Boolean> booleanList16 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList16,
-                                                         booleanArray15);
+            booleanArray15);
         java.util.Iterator<java.lang.Boolean> booleanItor18 = booleanList16.iterator();
         boolean boolean19 = uRIList11.retainAll((java.util.Collection<java.lang.Boolean>) booleanList16);
         java.lang.Boolean[] booleanArray22 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList23 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean24 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList23,
-                                                         booleanArray22);
+            booleanArray22);
         boolean boolean26 = booleanList23.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream27 = booleanList23.stream();
         boolean boolean28 = uRIList11.retainAll((java.util.Collection<java.lang.Boolean>) booleanList23);
@@ -7534,21 +8182,22 @@ public class RegressionTest1 {
         java.lang.Byte[] byteArray47 = new java.lang.Byte[]{(byte) 10, (byte) 100};
         java.util.ArrayList<java.lang.Byte> byteList48 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean49 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList48,
-                                                         byteArray47);
+            byteArray47);
         boolean boolean50 = byteList48.isEmpty();
         int int52 = byteList48.indexOf((java.lang.Object) 'a');
         int int54 = byteList48.lastIndexOf((java.lang.Object) "hi!");
         java.lang.Boolean[] booleanArray56 = new java.lang.Boolean[]{true};
         java.util.ArrayList<java.lang.Boolean> booleanList57 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean58 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList57,
-                                                         booleanArray56);
+            booleanArray56);
         java.util.ListIterator<java.lang.Boolean> booleanItor60 = booleanList57.listIterator((int) (short) 1);
         java.util.stream.Stream<java.lang.Boolean> booleanStream61 = booleanList57.parallelStream();
         boolean boolean63 = booleanList57.add((java.lang.Boolean) false);
         boolean boolean64 = byteList48.retainAll((java.util.Collection<java.lang.Boolean>) booleanList57);
         org.ccsds.moims.mo.mal.structures.UShortList uShortList65 = new org.ccsds.moims.mo.mal.structures.UShortList();
         java.lang.Object obj66 = uShortList65.clone();
-        java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream67 = uShortList65.parallelStream();
+        java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream67 = uShortList65
+            .parallelStream();
         java.util.Iterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor68 = uShortList65.iterator();
         boolean boolean69 = byteList48.equals((java.lang.Object) uShortItor68);
         org.ccsds.moims.mo.mal.structures.ShortList shortList70 = new org.ccsds.moims.mo.mal.structures.ShortList();
@@ -7565,8 +8214,10 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.BooleanList[] booleanListArray82 = new org.ccsds.moims.mo.mal.structures.BooleanList[]{booleanList77};
         org.ccsds.moims.mo.mal.structures.BooleanList[] booleanListArray83 = byteList48.toArray(booleanListArray82);
         boolean boolean84 = floatList40.remove((java.lang.Object) booleanListArray82);
-        java.util.ArrayList<java.lang.Boolean>[] booleanListArray85 = uShortList33.toArray((java.util.ArrayList<java.lang.Boolean>[]) booleanListArray82);
-        java.lang.Iterable<java.lang.Boolean>[] booleanIterableArray86 = byteList3.toArray((java.lang.Iterable<java.lang.Boolean>[]) booleanListArray82);
+        java.util.ArrayList<java.lang.Boolean>[] booleanListArray85 = uShortList33.toArray(
+            (java.util.ArrayList<java.lang.Boolean>[]) booleanListArray82);
+        java.lang.Iterable<java.lang.Boolean>[] booleanIterableArray86 = byteList3.toArray(
+            (java.lang.Iterable<java.lang.Boolean>[]) booleanListArray82);
         org.junit.Assert.assertNotNull(byteArray2);
         org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4);
         org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", !boolean5);
@@ -7633,14 +8284,14 @@ public class RegressionTest1 {
         java.lang.Throwable[] throwableArray6 = nMFException5.getSuppressed();
         java.lang.Throwable[] throwableArray7 = nMFException5.getSuppressed();
         esa.mo.nmf.NMFException nMFException8 = new esa.mo.nmf.NMFException("[hi!, hi!]",
-                                                                            (java.lang.Throwable) nMFException5);
+            (java.lang.Throwable) nMFException5);
         java.lang.String str9 = nMFException5.toString();
         nMFException2.addSuppressed((java.lang.Throwable) nMFException5);
         esa.mo.nmf.NMFException nMFException11 = new esa.mo.nmf.NMFException("", (java.lang.Throwable) nMFException2);
         org.junit.Assert.assertNotNull(throwableArray6);
         org.junit.Assert.assertNotNull(throwableArray7);
         org.junit.Assert.assertTrue("'" + str9 + "' != '" + "esa.mo.nmf.NMFException: 0" + "'", str9.equals(
-                                                                                                            "esa.mo.nmf.NMFException: 0"));
+            "esa.mo.nmf.NMFException: 0"));
     }
 
     @Test
@@ -7656,7 +8307,7 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray9 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList10 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList10,
-                                                         booleanArray9);
+            booleanArray9);
         boolean boolean13 = booleanList10.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream14 = booleanList10.stream();
         boolean boolean15 = strList4.containsAll((java.util.Collection<java.lang.Boolean>) booleanList10);
@@ -7697,7 +8348,7 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray9 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList10 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList10,
-                                                         booleanArray9);
+            booleanArray9);
         boolean boolean13 = booleanList10.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream14 = booleanList10.stream();
         boolean boolean15 = strList4.containsAll((java.util.Collection<java.lang.Boolean>) booleanList10);
@@ -7742,12 +8393,12 @@ public class RegressionTest1 {
         java.lang.String[] strArray10 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList11 = new java.util.ArrayList<java.lang.String>();
         boolean boolean12 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList11,
-                                                         strArray10);
+            strArray10);
         int int13 = strList11.size();
         java.lang.Boolean[] booleanArray16 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList17 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList17,
-                                                         booleanArray16);
+            booleanArray16);
         boolean boolean20 = booleanList17.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream21 = booleanList17.stream();
         boolean boolean22 = strList11.containsAll((java.util.Collection<java.lang.Boolean>) booleanList17);
@@ -7791,28 +8442,40 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test614");
         esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider0 = null;
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF1 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl2 = mCServicesProviderNMF1.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl3 = mCServicesProviderNMF1.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl4 = mCServicesProviderNMF1.getAggregationService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl5 = mCServicesProviderNMF1.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl2 = mCServicesProviderNMF1
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl3 = mCServicesProviderNMF1
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl4 = mCServicesProviderNMF1
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl5 = mCServicesProviderNMF1
+            .getParameterService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF6 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl7 = mCServicesProviderNMF6.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl8 = mCServicesProviderNMF6.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl9 = mCServicesProviderNMF6.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl10 = mCServicesProviderNMF6.getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl7 = mCServicesProviderNMF6
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl8 = mCServicesProviderNMF6
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl9 = mCServicesProviderNMF6
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl10 = mCServicesProviderNMF6
+            .getAggregationService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF11 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl12 = mCServicesProviderNMF11.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl13 = mCServicesProviderNMF11.getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl12 = mCServicesProviderNMF11
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl13 = mCServicesProviderNMF11
+            .getAlertService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF14 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl15 = mCServicesProviderNMF14.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl16 = mCServicesProviderNMF14.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl17 = mCServicesProviderNMF14.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl18 = mCServicesProviderNMF14.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl15 = mCServicesProviderNMF14
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl16 = mCServicesProviderNMF14
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl17 = mCServicesProviderNMF14
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl18 = mCServicesProviderNMF14
+            .getActionService();
         esa.mo.nmf.MCRegistration mCRegistration19 = new esa.mo.nmf.MCRegistration(cOMServicesProvider0,
-                                                                                   parameterProviderServiceImpl5,
-                                                                                   aggregationProviderServiceImpl10,
-                                                                                   alertProviderServiceImpl13,
-                                                                                   actionProviderServiceImpl18);
+            parameterProviderServiceImpl5, aggregationProviderServiceImpl10, alertProviderServiceImpl13,
+            actionProviderServiceImpl18);
         esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl20 = mCRegistration19.actionService;
         esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl21 = mCRegistration19.aggregationService;
         esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl22 = mCRegistration19.alertService;
@@ -7842,8 +8505,10 @@ public class RegressionTest1 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test615");
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF0 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl1 = mCServicesProviderNMF0.getAggregationService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl2 = mCServicesProviderNMF0.getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl1 = mCServicesProviderNMF0
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl2 = mCServicesProviderNMF0
+            .getParameterService();
         org.junit.Assert.assertNotNull(aggregationProviderServiceImpl1);
         org.junit.Assert.assertNotNull(parameterProviderServiceImpl2);
     }
@@ -7861,7 +8526,7 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray9 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList10 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList10,
-                                                         booleanArray9);
+            booleanArray9);
         boolean boolean13 = booleanList10.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream14 = booleanList10.stream();
         boolean boolean15 = strList4.containsAll((java.util.Collection<java.lang.Boolean>) booleanList10);
@@ -7903,7 +8568,7 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray9 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList10 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList10,
-                                                         booleanArray9);
+            booleanArray9);
         boolean boolean13 = booleanList10.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream14 = booleanList10.stream();
         boolean boolean15 = strList4.containsAll((java.util.Collection<java.lang.Boolean>) booleanList10);
@@ -7947,13 +8612,20 @@ public class RegressionTest1 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test618");
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF0 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl1 = mCServicesProviderNMF0.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl2 = mCServicesProviderNMF0.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl3 = mCServicesProviderNMF0.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl4 = mCServicesProviderNMF0.getAggregationService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl5 = mCServicesProviderNMF0.getActionService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl6 = mCServicesProviderNMF0.getActionService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl7 = mCServicesProviderNMF0.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl1 = mCServicesProviderNMF0
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl2 = mCServicesProviderNMF0
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl3 = mCServicesProviderNMF0
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl4 = mCServicesProviderNMF0
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl5 = mCServicesProviderNMF0
+            .getActionService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl6 = mCServicesProviderNMF0
+            .getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl7 = mCServicesProviderNMF0
+            .getParameterService();
         org.junit.Assert.assertNotNull(parameterProviderServiceImpl1);
         org.junit.Assert.assertNotNull(aggregationProviderServiceImpl2);
         org.junit.Assert.assertNotNull(aggregationProviderServiceImpl3);
@@ -7969,28 +8641,40 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test619");
         esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider0 = null;
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF1 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl2 = mCServicesProviderNMF1.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl3 = mCServicesProviderNMF1.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl4 = mCServicesProviderNMF1.getAggregationService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl5 = mCServicesProviderNMF1.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl2 = mCServicesProviderNMF1
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl3 = mCServicesProviderNMF1
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl4 = mCServicesProviderNMF1
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl5 = mCServicesProviderNMF1
+            .getParameterService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF6 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl7 = mCServicesProviderNMF6.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl8 = mCServicesProviderNMF6.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl9 = mCServicesProviderNMF6.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl10 = mCServicesProviderNMF6.getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl7 = mCServicesProviderNMF6
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl8 = mCServicesProviderNMF6
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl9 = mCServicesProviderNMF6
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl10 = mCServicesProviderNMF6
+            .getAggregationService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF11 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl12 = mCServicesProviderNMF11.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl13 = mCServicesProviderNMF11.getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl12 = mCServicesProviderNMF11
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl13 = mCServicesProviderNMF11
+            .getAlertService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF14 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl15 = mCServicesProviderNMF14.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl16 = mCServicesProviderNMF14.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl17 = mCServicesProviderNMF14.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl18 = mCServicesProviderNMF14.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl15 = mCServicesProviderNMF14
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl16 = mCServicesProviderNMF14
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl17 = mCServicesProviderNMF14
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl18 = mCServicesProviderNMF14
+            .getActionService();
         esa.mo.nmf.MCRegistration mCRegistration19 = new esa.mo.nmf.MCRegistration(cOMServicesProvider0,
-                                                                                   parameterProviderServiceImpl5,
-                                                                                   aggregationProviderServiceImpl10,
-                                                                                   alertProviderServiceImpl13,
-                                                                                   actionProviderServiceImpl18);
+            parameterProviderServiceImpl5, aggregationProviderServiceImpl10, alertProviderServiceImpl13,
+            actionProviderServiceImpl18);
         esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl20 = mCRegistration19.actionService;
         esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl21 = mCRegistration19.parameterService;
         esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl22 = mCRegistration19.parameterService;
@@ -8030,12 +8714,13 @@ public class RegressionTest1 {
         boolean boolean6 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList5, longArray4);
         java.lang.Object obj7 = null;
         boolean boolean8 = longList5.contains(obj7);
-        org.ccsds.moims.mo.mal.structures.UInteger uInteger10 = new org.ccsds.moims.mo.mal.structures.UInteger((long) (byte) 100);
+        org.ccsds.moims.mo.mal.structures.UInteger uInteger10 = new org.ccsds.moims.mo.mal.structures.UInteger(
+            (long) (byte) 100);
         boolean boolean11 = longList5.contains((java.lang.Object) (byte) 100);
         java.lang.Boolean[] booleanArray14 = new java.lang.Boolean[]{false, false};
         java.util.ArrayList<java.lang.Boolean> booleanList15 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList15,
-                                                         booleanArray14);
+            booleanArray14);
         boolean boolean17 = longList5.containsAll((java.util.Collection<java.lang.Boolean>) booleanList15);
         java.lang.Long long19 = longList5.get(1);
         java.util.stream.Stream<java.lang.Long> longStream20 = longList5.stream();
@@ -8044,12 +8729,12 @@ public class RegressionTest1 {
         java.lang.String[] strArray24 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList25 = new java.util.ArrayList<java.lang.String>();
         boolean boolean26 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList25,
-                                                         strArray24);
+            strArray24);
         int int27 = strList25.size();
         java.lang.Boolean[] booleanArray30 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList31 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean32 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList31,
-                                                         booleanArray30);
+            booleanArray30);
         boolean boolean34 = booleanList31.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream35 = booleanList31.stream();
         boolean boolean36 = strList25.containsAll((java.util.Collection<java.lang.Boolean>) booleanList31);
@@ -8101,7 +8786,8 @@ public class RegressionTest1 {
         boolean boolean8 = byteList5.add((java.lang.Byte) (byte) 10);
         java.lang.Object obj9 = byteList5.clone();
         java.util.stream.Stream<java.lang.Byte> byteStream10 = byteList5.stream();
-        org.ccsds.moims.mo.mal.structures.StringList stringList12 = new org.ccsds.moims.mo.mal.structures.StringList(100);
+        org.ccsds.moims.mo.mal.structures.StringList stringList12 = new org.ccsds.moims.mo.mal.structures.StringList(
+            100);
         int int13 = byteList5.indexOf((java.lang.Object) stringList12);
         byte[] byteArray17 = new byte[]{(byte) 0, (byte) 0, (byte) 0};
         org.ccsds.moims.mo.mal.structures.Blob blob18 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray17);
@@ -8116,7 +8802,7 @@ public class RegressionTest1 {
         java.lang.Integer[] intArray41 = new java.lang.Integer[]{4, 12, 1, 4, 10, 65535, 5, 0, 5, 0, 14, 13, (-1)};
         java.util.ArrayList<java.lang.Integer> intList42 = new java.util.ArrayList<java.lang.Integer>();
         boolean boolean43 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList42,
-                                                         intArray41);
+            intArray41);
         org.ccsds.moims.mo.mal.structures.Identifier identifier44 = new org.ccsds.moims.mo.mal.structures.Identifier();
         boolean boolean45 = intList42.contains((java.lang.Object) identifier44);
         boolean boolean47 = intList42.remove((java.lang.Object) 281475010265075L);
@@ -8125,11 +8811,11 @@ public class RegressionTest1 {
         java.lang.Double[] doubleArray54 = new java.lang.Double[]{1.0d, 0.0d, 10.0d};
         java.util.ArrayList<java.lang.Double> doubleList55 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean56 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList55,
-                                                         doubleArray54);
+            doubleArray54);
         java.lang.Boolean[] booleanArray59 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList60 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean61 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList60,
-                                                         booleanArray59);
+            booleanArray59);
         boolean boolean63 = booleanList60.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream64 = booleanList60.stream();
         int int65 = doubleList55.lastIndexOf((java.lang.Object) booleanStream64);
@@ -8141,7 +8827,8 @@ public class RegressionTest1 {
         java.util.stream.Stream<java.lang.Short> shortStream72 = shortList70.parallelStream();
         java.lang.String str73 = shortList70.toString();
         java.util.stream.Stream<java.lang.Short> shortStream74 = shortList70.parallelStream();
-        org.ccsds.moims.mo.mal.structures.IntegerList integerList76 = new org.ccsds.moims.mo.mal.structures.IntegerList((int) '4');
+        org.ccsds.moims.mo.mal.structures.IntegerList integerList76 = new org.ccsds.moims.mo.mal.structures.IntegerList(
+            (int) '4');
         org.ccsds.moims.mo.mal.structures.UShort uShort77 = integerList76.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.URIList uRIList79 = new org.ccsds.moims.mo.mal.structures.URIList(17);
         org.ccsds.moims.mo.mal.structures.UShort uShort80 = uRIList79.getAreaNumber();
@@ -8185,7 +8872,7 @@ public class RegressionTest1 {
         org.junit.Assert.assertTrue("'" + int65 + "' != '" + (-1) + "'", int65 == (-1));
         org.junit.Assert.assertTrue("'" + int67 + "' != '" + 2 + "'", int67 == 2);
         org.junit.Assert.assertTrue("'" + str68 + "' != '" + "[1.0, 0.0, 10.0]" + "'", str68.equals(
-                                                                                                    "[1.0, 0.0, 10.0]"));
+            "[1.0, 0.0, 10.0]"));
         org.junit.Assert.assertTrue("'" + boolean69 + "' != '" + false + "'", !boolean69);
         org.junit.Assert.assertNotNull(obj71);
         org.junit.Assert.assertNotNull(shortStream72);
@@ -8217,18 +8904,19 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = doubleList0.getServiceNumber();
         java.lang.Integer int3 = doubleList0.getTypeShortForm();
         org.ccsds.moims.mo.mal.structures.UShort uShort4 = doubleList0.getAreaNumber();
-        org.ccsds.moims.mo.mal.structures.Union union6 = new org.ccsds.moims.mo.mal.structures.Union((java.lang.Float) 100.0f);
+        org.ccsds.moims.mo.mal.structures.Union union6 = new org.ccsds.moims.mo.mal.structures.Union(
+            (java.lang.Float) 100.0f);
         int int7 = doubleList0.indexOf((java.lang.Object) 100.0f);
         org.ccsds.moims.mo.mal.structures.ShortList shortList8 = new org.ccsds.moims.mo.mal.structures.ShortList();
         java.lang.String[] strArray10 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList11 = new java.util.ArrayList<java.lang.String>();
         boolean boolean12 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList11,
-                                                         strArray10);
+            strArray10);
         int int13 = strList11.size();
         java.lang.Boolean[] booleanArray16 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList17 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList17,
-                                                         booleanArray16);
+            booleanArray16);
         boolean boolean20 = booleanList17.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream21 = booleanList17.stream();
         boolean boolean22 = strList11.containsAll((java.util.Collection<java.lang.Boolean>) booleanList17);
@@ -8243,20 +8931,20 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray33 = new java.lang.Boolean[]{true};
         java.util.ArrayList<java.lang.Boolean> booleanList34 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean35 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList34,
-                                                         booleanArray33);
+            booleanArray33);
         java.util.ListIterator<java.lang.Boolean> booleanItor37 = booleanList34.listIterator((int) (short) 1);
         boolean boolean38 = doubleList30.containsAll((java.util.Collection<java.lang.Boolean>) booleanList34);
         java.lang.Byte[] byteArray41 = new java.lang.Byte[]{(byte) 10, (byte) 100};
         java.util.ArrayList<java.lang.Byte> byteList42 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean43 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList42,
-                                                         byteArray41);
+            byteArray41);
         boolean boolean44 = byteList42.isEmpty();
         int int45 = byteList42.size();
         int int46 = booleanList34.indexOf((java.lang.Object) byteList42);
         java.lang.Boolean[] booleanArray49 = new java.lang.Boolean[]{false, true};
         java.util.ArrayList<java.lang.Boolean> booleanList50 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean51 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList50,
-                                                         booleanArray49);
+            booleanArray49);
         java.util.Iterator<java.lang.Boolean> booleanItor52 = booleanList50.iterator();
         java.util.stream.Stream<java.lang.Boolean> booleanStream53 = booleanList50.stream();
         java.util.Iterator<java.lang.Boolean> booleanItor54 = booleanList50.iterator();
@@ -8334,7 +9022,7 @@ public class RegressionTest1 {
         java.lang.Throwable[] throwableArray35 = nMFException32.getSuppressed();
         java.lang.Throwable[] throwableArray36 = nMFException32.getSuppressed();
         esa.mo.nmf.NMFException nMFException37 = new esa.mo.nmf.NMFException("[]",
-                                                                             (java.lang.Throwable) nMFException32);
+            (java.lang.Throwable) nMFException32);
         int int38 = uShortList20.indexOf((java.lang.Object) nMFException37);
         org.ccsds.moims.mo.mal.structures.Element element39 = uShortList20.createElement();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet40 = uShortList20.getAreaVersion();
@@ -8374,73 +9062,110 @@ public class RegressionTest1 {
         java.util.ListIterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor4 = uShortList0.listIterator();
         esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider5 = null;
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF6 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl7 = mCServicesProviderNMF6.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl8 = mCServicesProviderNMF6.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl9 = mCServicesProviderNMF6.getAggregationService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl10 = mCServicesProviderNMF6.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl7 = mCServicesProviderNMF6
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl8 = mCServicesProviderNMF6
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl9 = mCServicesProviderNMF6
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl10 = mCServicesProviderNMF6
+            .getParameterService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF11 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl12 = mCServicesProviderNMF11.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl13 = mCServicesProviderNMF11.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl14 = mCServicesProviderNMF11.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl15 = mCServicesProviderNMF11.getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl12 = mCServicesProviderNMF11
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl13 = mCServicesProviderNMF11
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl14 = mCServicesProviderNMF11
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl15 = mCServicesProviderNMF11
+            .getAggregationService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF16 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl17 = mCServicesProviderNMF16.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl18 = mCServicesProviderNMF16.getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl17 = mCServicesProviderNMF16
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl18 = mCServicesProviderNMF16
+            .getAlertService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF19 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl20 = mCServicesProviderNMF19.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl21 = mCServicesProviderNMF19.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl22 = mCServicesProviderNMF19.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl23 = mCServicesProviderNMF19.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl20 = mCServicesProviderNMF19
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl21 = mCServicesProviderNMF19
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl22 = mCServicesProviderNMF19
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl23 = mCServicesProviderNMF19
+            .getActionService();
         esa.mo.nmf.MCRegistration mCRegistration24 = new esa.mo.nmf.MCRegistration(cOMServicesProvider5,
-                                                                                   parameterProviderServiceImpl10,
-                                                                                   aggregationProviderServiceImpl15,
-                                                                                   alertProviderServiceImpl18,
-                                                                                   actionProviderServiceImpl23);
+            parameterProviderServiceImpl10, aggregationProviderServiceImpl15, alertProviderServiceImpl18,
+            actionProviderServiceImpl23);
         esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl25 = mCRegistration24.actionService;
         esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl26 = mCRegistration24.actionService;
         esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider27 = null;
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF28 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl29 = mCServicesProviderNMF28.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl30 = mCServicesProviderNMF28.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl31 = mCServicesProviderNMF28.getAggregationService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl32 = mCServicesProviderNMF28.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl29 = mCServicesProviderNMF28
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl30 = mCServicesProviderNMF28
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl31 = mCServicesProviderNMF28
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl32 = mCServicesProviderNMF28
+            .getParameterService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF33 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl34 = mCServicesProviderNMF33.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl35 = mCServicesProviderNMF33.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl36 = mCServicesProviderNMF33.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl37 = mCServicesProviderNMF33.getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl34 = mCServicesProviderNMF33
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl35 = mCServicesProviderNMF33
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl36 = mCServicesProviderNMF33
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl37 = mCServicesProviderNMF33
+            .getAggregationService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF38 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl39 = mCServicesProviderNMF38.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl40 = mCServicesProviderNMF38.getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl39 = mCServicesProviderNMF38
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl40 = mCServicesProviderNMF38
+            .getAlertService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF41 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl42 = mCServicesProviderNMF41.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl43 = mCServicesProviderNMF41.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl44 = mCServicesProviderNMF41.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl45 = mCServicesProviderNMF41.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl42 = mCServicesProviderNMF41
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl43 = mCServicesProviderNMF41
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl44 = mCServicesProviderNMF41
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl45 = mCServicesProviderNMF41
+            .getActionService();
         esa.mo.nmf.MCRegistration mCRegistration46 = new esa.mo.nmf.MCRegistration(cOMServicesProvider27,
-                                                                                   parameterProviderServiceImpl32,
-                                                                                   aggregationProviderServiceImpl37,
-                                                                                   alertProviderServiceImpl40,
-                                                                                   actionProviderServiceImpl45);
+            parameterProviderServiceImpl32, aggregationProviderServiceImpl37, alertProviderServiceImpl40,
+            actionProviderServiceImpl45);
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF47 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl48 = mCServicesProviderNMF47.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl49 = mCServicesProviderNMF47.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl50 = mCServicesProviderNMF47.getAlertService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl51 = mCServicesProviderNMF47.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl52 = mCServicesProviderNMF47.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl53 = mCServicesProviderNMF47.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl48 = mCServicesProviderNMF47
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl49 = mCServicesProviderNMF47
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl50 = mCServicesProviderNMF47
+            .getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl51 = mCServicesProviderNMF47
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl52 = mCServicesProviderNMF47
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl53 = mCServicesProviderNMF47
+            .getActionService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF54 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl55 = mCServicesProviderNMF54.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl56 = mCServicesProviderNMF54.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl57 = mCServicesProviderNMF54.getAlertService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl58 = mCServicesProviderNMF54.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl59 = mCServicesProviderNMF54.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl60 = mCServicesProviderNMF54.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl55 = mCServicesProviderNMF54
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl56 = mCServicesProviderNMF54
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl57 = mCServicesProviderNMF54
+            .getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl58 = mCServicesProviderNMF54
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl59 = mCServicesProviderNMF54
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl60 = mCServicesProviderNMF54
+            .getActionService();
         org.ccsds.moims.mo.mc.action.provider.ActionInheritanceSkeleton[] actionInheritanceSkeletonArray61 = new org.ccsds.moims.mo.mc.action.provider.ActionInheritanceSkeleton[]{actionProviderServiceImpl26,
                                                                                                                                                                                    actionProviderServiceImpl45,
                                                                                                                                                                                    actionProviderServiceImpl53,
                                                                                                                                                                                    actionProviderServiceImpl60};
-        org.ccsds.moims.mo.mc.action.provider.ActionInheritanceSkeleton[] actionInheritanceSkeletonArray62 = uShortList0.toArray(actionInheritanceSkeletonArray61);
+        org.ccsds.moims.mo.mc.action.provider.ActionInheritanceSkeleton[] actionInheritanceSkeletonArray62 = uShortList0
+            .toArray(actionInheritanceSkeletonArray61);
         uShortList0.ensureCapacity(18);
         org.ccsds.moims.mo.mal.structures.URIList uRIList66 = new org.ccsds.moims.mo.mal.structures.URIList(17);
         org.ccsds.moims.mo.mal.structures.UShort uShort67 = uRIList66.getAreaNumber();
@@ -8523,12 +9248,12 @@ public class RegressionTest1 {
         java.lang.String[] strArray20 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList21 = new java.util.ArrayList<java.lang.String>();
         boolean boolean22 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList21,
-                                                         strArray20);
+            strArray20);
         int int23 = strList21.size();
         java.lang.Boolean[] booleanArray26 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList27 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean28 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList27,
-                                                         booleanArray26);
+            booleanArray26);
         boolean boolean30 = booleanList27.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream31 = booleanList27.stream();
         boolean boolean32 = strList21.containsAll((java.util.Collection<java.lang.Boolean>) booleanList27);
@@ -8550,7 +9275,7 @@ public class RegressionTest1 {
         org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + true + "'", boolean10);
         org.junit.Assert.assertTrue("'" + boolean12 + "' != '" + true + "'", boolean12);
         org.junit.Assert.assertTrue("'" + str13 + "' != '" + "[-1, -1, 1, 1, 10]" + "'", str13.equals(
-                                                                                                      "[-1, -1, 1, 1, 10]"));
+            "[-1, -1, 1, 1, 10]"));
         org.junit.Assert.assertTrue("'" + int14 + "' != '" + (-1) + "'", int14 == (-1));
         org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + true + "'", boolean16);
         org.junit.Assert.assertTrue("'" + long18 + "' != '" + 281475010265084L + "'", long18.equals(281475010265084L));
@@ -8576,29 +9301,31 @@ public class RegressionTest1 {
     public void test626() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test626");
-        org.ccsds.moims.mo.mal.structures.IntegerList integerList1 = new org.ccsds.moims.mo.mal.structures.IntegerList((int) '4');
+        org.ccsds.moims.mo.mal.structures.IntegerList integerList1 = new org.ccsds.moims.mo.mal.structures.IntegerList(
+            (int) '4');
         int int2 = integerList1.size();
         java.lang.Integer int3 = integerList1.getTypeShortForm();
         java.util.stream.Stream<java.lang.Integer> intStream4 = integerList1.stream();
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray5 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList6 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean7 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList6,
-                                                        uRIArray5);
+        boolean boolean7 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList6, uRIArray5);
         java.lang.Boolean[] booleanArray10 = new java.lang.Boolean[]{false, true};
         java.util.ArrayList<java.lang.Boolean> booleanList11 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean12 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList11,
-                                                         booleanArray10);
+            booleanArray10);
         java.util.Iterator<java.lang.Boolean> booleanItor13 = booleanList11.iterator();
         boolean boolean14 = uRIList6.retainAll((java.util.Collection<java.lang.Boolean>) booleanList11);
         booleanList11.clear();
         java.lang.Byte[] byteArray20 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) 1, (byte) 1};
         java.util.ArrayList<java.lang.Byte> byteList21 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean22 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList21,
-                                                         byteArray20);
+            byteArray20);
         boolean boolean24 = byteList21.add((java.lang.Byte) (byte) 10);
         java.lang.Object obj25 = byteList21.clone();
         java.util.stream.Stream<java.lang.Byte> byteStream26 = byteList21.stream();
-        org.ccsds.moims.mo.mal.structures.StringList stringList28 = new org.ccsds.moims.mo.mal.structures.StringList(100);
+        org.ccsds.moims.mo.mal.structures.StringList stringList28 = new org.ccsds.moims.mo.mal.structures.StringList(
+            100);
         int int29 = byteList21.indexOf((java.lang.Object) stringList28);
         byte[] byteArray33 = new byte[]{(byte) 0, (byte) 0, (byte) 0};
         org.ccsds.moims.mo.mal.structures.Blob blob34 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray33);
@@ -8612,10 +9339,11 @@ public class RegressionTest1 {
         java.lang.Long[] longArray46 = new java.lang.Long[]{10L, (-1L), (-1L), 10L};
         java.util.ArrayList<java.lang.Long> longList47 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean48 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList47,
-                                                         longArray46);
+            longArray46);
         java.lang.Object obj49 = null;
         boolean boolean50 = longList47.contains(obj49);
-        org.ccsds.moims.mo.mal.structures.UInteger uInteger52 = new org.ccsds.moims.mo.mal.structures.UInteger((long) (byte) 100);
+        org.ccsds.moims.mo.mal.structures.UInteger uInteger52 = new org.ccsds.moims.mo.mal.structures.UInteger(
+            (long) (byte) 100);
         boolean boolean53 = longList47.contains((java.lang.Object) (byte) 100);
         java.util.Iterator<java.lang.Long> longItor54 = longList47.iterator();
         org.ccsds.moims.mo.mal.structures.UShort uShort55 = org.ccsds.moims.mo.mal.structures.OctetList.AREA_SHORT_FORM;
@@ -8688,13 +9416,14 @@ public class RegressionTest1 {
     public void test627() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test627");
-        org.ccsds.moims.mo.mal.structures.Union union1 = new org.ccsds.moims.mo.mal.structures.Union((java.lang.Integer) 15);
+        org.ccsds.moims.mo.mal.structures.Union union1 = new org.ccsds.moims.mo.mal.structures.Union(
+            (java.lang.Integer) 15);
         esa.mo.nmf.NMFException nMFException3 = new esa.mo.nmf.NMFException("-1");
         esa.mo.nmf.NMFException nMFException6 = new esa.mo.nmf.NMFException("0");
         java.lang.Throwable[] throwableArray7 = nMFException6.getSuppressed();
         java.lang.Throwable[] throwableArray8 = nMFException6.getSuppressed();
         esa.mo.nmf.NMFException nMFException9 = new esa.mo.nmf.NMFException("[hi!, hi!]",
-                                                                            (java.lang.Throwable) nMFException6);
+            (java.lang.Throwable) nMFException6);
         java.lang.String str10 = nMFException6.toString();
         nMFException3.addSuppressed((java.lang.Throwable) nMFException6);
         esa.mo.nmf.NMFException nMFException13 = new esa.mo.nmf.NMFException("0");
@@ -8705,7 +9434,7 @@ public class RegressionTest1 {
         org.junit.Assert.assertNotNull(throwableArray7);
         org.junit.Assert.assertNotNull(throwableArray8);
         org.junit.Assert.assertTrue("'" + str10 + "' != '" + "esa.mo.nmf.NMFException: 0" + "'", str10.equals(
-                                                                                                              "esa.mo.nmf.NMFException: 0"));
+            "esa.mo.nmf.NMFException: 0"));
         org.junit.Assert.assertNotNull(throwableArray14);
         org.junit.Assert.assertNotNull(throwableArray15);
         org.junit.Assert.assertTrue("'" + boolean17 + "' != '" + false + "'", !boolean17);
@@ -8721,7 +9450,8 @@ public class RegressionTest1 {
         boolean boolean8 = byteList5.add((java.lang.Byte) (byte) 10);
         java.lang.Object obj9 = byteList5.clone();
         java.util.stream.Stream<java.lang.Byte> byteStream10 = byteList5.stream();
-        org.ccsds.moims.mo.mal.structures.StringList stringList12 = new org.ccsds.moims.mo.mal.structures.StringList(100);
+        org.ccsds.moims.mo.mal.structures.StringList stringList12 = new org.ccsds.moims.mo.mal.structures.StringList(
+            100);
         int int13 = byteList5.indexOf((java.lang.Object) stringList12);
         byte[] byteArray17 = new byte[]{(byte) 0, (byte) 0, (byte) 0};
         org.ccsds.moims.mo.mal.structures.Blob blob18 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray17);
@@ -8759,7 +9489,7 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray9 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList10 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList10,
-                                                         booleanArray9);
+            booleanArray9);
         boolean boolean13 = booleanList10.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream14 = booleanList10.stream();
         boolean boolean15 = strList4.containsAll((java.util.Collection<java.lang.Boolean>) booleanList10);
@@ -8774,18 +9504,18 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UOctet uOctet25 = identifier24.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray26 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList27 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean28 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList27,
-                                                         uRIArray26);
+        boolean boolean28 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList27, uRIArray26);
         java.lang.Boolean[] booleanArray31 = new java.lang.Boolean[]{false, true};
         java.util.ArrayList<java.lang.Boolean> booleanList32 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList32,
-                                                         booleanArray31);
+            booleanArray31);
         java.util.Iterator<java.lang.Boolean> booleanItor34 = booleanList32.iterator();
         boolean boolean35 = uRIList27.retainAll((java.util.Collection<java.lang.Boolean>) booleanList32);
         java.lang.Boolean[] booleanArray38 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList39 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean40 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList39,
-                                                         booleanArray38);
+            booleanArray38);
         boolean boolean42 = booleanList39.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream43 = booleanList39.stream();
         boolean boolean44 = uRIList27.retainAll((java.util.Collection<java.lang.Boolean>) booleanList39);
@@ -8795,7 +9525,7 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray51 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList52 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean53 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList52,
-                                                         booleanArray51);
+            booleanArray51);
         boolean boolean55 = booleanList52.add((java.lang.Boolean) true);
         boolean boolean56 = uRIList27.equals((java.lang.Object) booleanList52);
         boolean boolean57 = floatList0.removeAll((java.util.Collection<java.lang.Boolean>) booleanList52);
@@ -8805,7 +9535,8 @@ public class RegressionTest1 {
         java.util.stream.Stream<java.lang.Short> shortStream61 = shortList59.parallelStream();
         java.lang.String str62 = shortList59.toString();
         java.util.stream.Stream<java.lang.Short> shortStream63 = shortList59.parallelStream();
-        org.ccsds.moims.mo.mal.structures.IntegerList integerList65 = new org.ccsds.moims.mo.mal.structures.IntegerList((int) '4');
+        org.ccsds.moims.mo.mal.structures.IntegerList integerList65 = new org.ccsds.moims.mo.mal.structures.IntegerList(
+            (int) '4');
         org.ccsds.moims.mo.mal.structures.UShort uShort66 = integerList65.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.URIList uRIList68 = new org.ccsds.moims.mo.mal.structures.URIList(17);
         org.ccsds.moims.mo.mal.structures.UShort uShort69 = uRIList68.getAreaNumber();
@@ -8822,7 +9553,8 @@ public class RegressionTest1 {
         boolean boolean80 = floatList0.retainAll((java.util.Collection<java.lang.Boolean>) booleanList74);
         try {
             floatList0.add(17, (java.lang.Float) 0.0f);
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 17, Size: 0");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 17, Size: 0");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertTrue("'" + long1 + "' != '" + 281475010265084L + "'", long1.equals(281475010265084L));
@@ -8884,55 +9616,79 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test630");
         esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider0 = null;
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF1 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl2 = mCServicesProviderNMF1.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl3 = mCServicesProviderNMF1.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl4 = mCServicesProviderNMF1.getAggregationService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl5 = mCServicesProviderNMF1.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl2 = mCServicesProviderNMF1
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl3 = mCServicesProviderNMF1
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl4 = mCServicesProviderNMF1
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl5 = mCServicesProviderNMF1
+            .getParameterService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF6 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl7 = mCServicesProviderNMF6.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl8 = mCServicesProviderNMF6.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl9 = mCServicesProviderNMF6.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl10 = mCServicesProviderNMF6.getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl7 = mCServicesProviderNMF6
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl8 = mCServicesProviderNMF6
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl9 = mCServicesProviderNMF6
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl10 = mCServicesProviderNMF6
+            .getAggregationService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF11 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl12 = mCServicesProviderNMF11.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl13 = mCServicesProviderNMF11.getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl12 = mCServicesProviderNMF11
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl13 = mCServicesProviderNMF11
+            .getAlertService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF14 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl15 = mCServicesProviderNMF14.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl16 = mCServicesProviderNMF14.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl17 = mCServicesProviderNMF14.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl18 = mCServicesProviderNMF14.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl15 = mCServicesProviderNMF14
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl16 = mCServicesProviderNMF14
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl17 = mCServicesProviderNMF14
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl18 = mCServicesProviderNMF14
+            .getActionService();
         esa.mo.nmf.MCRegistration mCRegistration19 = new esa.mo.nmf.MCRegistration(cOMServicesProvider0,
-                                                                                   parameterProviderServiceImpl5,
-                                                                                   aggregationProviderServiceImpl10,
-                                                                                   alertProviderServiceImpl13,
-                                                                                   actionProviderServiceImpl18);
+            parameterProviderServiceImpl5, aggregationProviderServiceImpl10, alertProviderServiceImpl13,
+            actionProviderServiceImpl18);
         esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl20 = mCRegistration19.actionService;
         esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl21 = mCRegistration19.parameterService;
         esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider22 = mCRegistration19.comServices;
         esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider23 = null;
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF24 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl25 = mCServicesProviderNMF24.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl26 = mCServicesProviderNMF24.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl27 = mCServicesProviderNMF24.getAggregationService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl28 = mCServicesProviderNMF24.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl25 = mCServicesProviderNMF24
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl26 = mCServicesProviderNMF24
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl27 = mCServicesProviderNMF24
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl28 = mCServicesProviderNMF24
+            .getParameterService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF29 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl30 = mCServicesProviderNMF29.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl31 = mCServicesProviderNMF29.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl32 = mCServicesProviderNMF29.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl33 = mCServicesProviderNMF29.getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl30 = mCServicesProviderNMF29
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl31 = mCServicesProviderNMF29
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl32 = mCServicesProviderNMF29
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl33 = mCServicesProviderNMF29
+            .getAggregationService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF34 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl35 = mCServicesProviderNMF34.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl36 = mCServicesProviderNMF34.getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl35 = mCServicesProviderNMF34
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl36 = mCServicesProviderNMF34
+            .getAlertService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF37 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl38 = mCServicesProviderNMF37.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl39 = mCServicesProviderNMF37.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl40 = mCServicesProviderNMF37.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl41 = mCServicesProviderNMF37.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl38 = mCServicesProviderNMF37
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl39 = mCServicesProviderNMF37
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl40 = mCServicesProviderNMF37
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl41 = mCServicesProviderNMF37
+            .getActionService();
         esa.mo.nmf.MCRegistration mCRegistration42 = new esa.mo.nmf.MCRegistration(cOMServicesProvider23,
-                                                                                   parameterProviderServiceImpl28,
-                                                                                   aggregationProviderServiceImpl33,
-                                                                                   alertProviderServiceImpl36,
-                                                                                   actionProviderServiceImpl41);
+            parameterProviderServiceImpl28, aggregationProviderServiceImpl33, alertProviderServiceImpl36,
+            actionProviderServiceImpl41);
         esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl43 = mCRegistration42.parameterService;
         esa.mo.nmf.MCRegistration.RegistrationMode registrationMode44 = esa.mo.nmf.MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS;
         mCRegistration42.setMode(registrationMode44);
@@ -8971,12 +9727,9 @@ public class RegressionTest1 {
         org.junit.Assert.assertNotNull(alertProviderServiceImpl40);
         org.junit.Assert.assertNotNull(actionProviderServiceImpl41);
         org.junit.Assert.assertNotNull(parameterProviderServiceImpl43);
-        org.junit.Assert.assertTrue("'" +
-                                    registrationMode44 +
-                                    "' != '" +
-                                    esa.mo.nmf.MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS +
-                                    "'", registrationMode44.equals(
-                                                                   esa.mo.nmf.MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS));
+        org.junit.Assert.assertTrue("'" + registrationMode44 + "' != '" +
+            esa.mo.nmf.MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS + "'", registrationMode44.equals(
+                esa.mo.nmf.MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS));
         org.junit.Assert.assertNull(cOMServicesProvider47);
         org.junit.Assert.assertNotNull(aggregationProviderServiceImpl48);
     }
@@ -8991,7 +9744,8 @@ public class RegressionTest1 {
         boolean boolean8 = byteList5.add((java.lang.Byte) (byte) 10);
         java.lang.Object obj9 = byteList5.clone();
         java.util.stream.Stream<java.lang.Byte> byteStream10 = byteList5.stream();
-        org.ccsds.moims.mo.mal.structures.StringList stringList12 = new org.ccsds.moims.mo.mal.structures.StringList(100);
+        org.ccsds.moims.mo.mal.structures.StringList stringList12 = new org.ccsds.moims.mo.mal.structures.StringList(
+            100);
         int int13 = byteList5.indexOf((java.lang.Object) stringList12);
         byte[] byteArray17 = new byte[]{(byte) 0, (byte) 0, (byte) 0};
         org.ccsds.moims.mo.mal.structures.Blob blob18 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray17);
@@ -9040,11 +9794,11 @@ public class RegressionTest1 {
                                                                  12, 0, 100, 14};
         java.util.ArrayList<java.lang.Integer> intList23 = new java.util.ArrayList<java.lang.Integer>();
         boolean boolean24 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList23,
-                                                         intArray22);
+            intArray22);
         java.lang.Boolean[] booleanArray27 = new java.lang.Boolean[]{false, true};
         java.util.ArrayList<java.lang.Boolean> booleanList28 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean29 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList28,
-                                                         booleanArray27);
+            booleanArray27);
         java.util.Iterator<java.lang.Boolean> booleanItor30 = booleanList28.iterator();
         java.util.stream.Stream<java.lang.Boolean> booleanStream31 = booleanList28.stream();
         boolean boolean32 = intList23.retainAll((java.util.Collection<java.lang.Boolean>) booleanList28);
@@ -9052,7 +9806,7 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray35 = new java.lang.Boolean[]{true};
         java.util.ArrayList<java.lang.Boolean> booleanList36 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean37 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList36,
-                                                         booleanArray35);
+            booleanArray35);
         java.util.ListIterator<java.lang.Boolean> booleanItor39 = booleanList36.listIterator((int) (short) 1);
         boolean boolean40 = shortList0.containsAll((java.util.Collection<java.lang.Boolean>) booleanList36);
         org.ccsds.moims.mo.mal.structures.FloatList floatList41 = new org.ccsds.moims.mo.mal.structures.FloatList();
@@ -9060,12 +9814,12 @@ public class RegressionTest1 {
         java.lang.String[] strArray44 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList45 = new java.util.ArrayList<java.lang.String>();
         boolean boolean46 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList45,
-                                                         strArray44);
+            strArray44);
         int int47 = strList45.size();
         java.lang.Boolean[] booleanArray50 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList51 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean52 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList51,
-                                                         booleanArray50);
+            booleanArray50);
         boolean boolean54 = booleanList51.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream55 = booleanList51.stream();
         boolean boolean56 = strList45.containsAll((java.util.Collection<java.lang.Boolean>) booleanList51);
@@ -9119,7 +9873,8 @@ public class RegressionTest1 {
     public void test633() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test633");
-        org.ccsds.moims.mo.mal.structures.IntegerList integerList1 = new org.ccsds.moims.mo.mal.structures.IntegerList((int) '4');
+        org.ccsds.moims.mo.mal.structures.IntegerList integerList1 = new org.ccsds.moims.mo.mal.structures.IntegerList(
+            (int) '4');
         java.lang.String str2 = integerList1.toString();
         boolean boolean4 = integerList1.add((java.lang.Integer) 8);
         boolean boolean5 = integerList1.isEmpty();
@@ -9128,7 +9883,8 @@ public class RegressionTest1 {
         integerList1.clear();
         java.lang.Long long9 = integerList1.getShortForm();
         integerList1.ensureCapacity((-10));
-        org.ccsds.moims.mo.mal.structures.UInteger uInteger13 = new org.ccsds.moims.mo.mal.structures.UInteger((long) (byte) 100);
+        org.ccsds.moims.mo.mal.structures.UInteger uInteger13 = new org.ccsds.moims.mo.mal.structures.UInteger(
+            (long) (byte) 100);
         java.lang.String str14 = uInteger13.toString();
         java.lang.Long long15 = uInteger13.getShortForm();
         org.ccsds.moims.mo.mal.structures.UShort uShort16 = uInteger13.getServiceNumber();
@@ -9150,7 +9906,7 @@ public class RegressionTest1 {
         boolean boolean33 = integerList1.containsAll((java.util.Collection<java.lang.Boolean>) booleanList18);
         byte[] byteArray35 = new byte[]{(byte) 10};
         org.ccsds.moims.mo.mal.structures.Blob blob38 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray35, 2,
-                                                                                                   (int) ' ');
+            (int) ' ');
         org.ccsds.moims.mo.mal.structures.Blob blob39 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray35);
         org.ccsds.moims.mo.mal.structures.Blob blob40 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray35);
         byte[] byteArray41 = blob40.getValue();
@@ -9193,23 +9949,24 @@ public class RegressionTest1 {
         java.util.ArrayList<java.lang.Byte> byteList3 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean4 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList3, byteArray2);
         boolean boolean5 = byteList3.isEmpty();
-        org.ccsds.moims.mo.mal.structures.IntegerList integerList7 = new org.ccsds.moims.mo.mal.structures.IntegerList((int) '4');
+        org.ccsds.moims.mo.mal.structures.IntegerList integerList7 = new org.ccsds.moims.mo.mal.structures.IntegerList(
+            (int) '4');
         java.util.stream.Stream<java.lang.Integer> intStream8 = integerList7.parallelStream();
         java.util.stream.Stream<java.lang.Integer> intStream9 = integerList7.stream();
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray10 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList11 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean12 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList11,
-                                                         uRIArray10);
+        boolean boolean12 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList11, uRIArray10);
         java.lang.Boolean[] booleanArray15 = new java.lang.Boolean[]{false, true};
         java.util.ArrayList<java.lang.Boolean> booleanList16 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList16,
-                                                         booleanArray15);
+            booleanArray15);
         java.util.Iterator<java.lang.Boolean> booleanItor18 = booleanList16.iterator();
         boolean boolean19 = uRIList11.retainAll((java.util.Collection<java.lang.Boolean>) booleanList16);
         java.lang.Boolean[] booleanArray22 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList23 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean24 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList23,
-                                                         booleanArray22);
+            booleanArray22);
         boolean boolean26 = booleanList23.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream27 = booleanList23.stream();
         boolean boolean28 = uRIList11.retainAll((java.util.Collection<java.lang.Boolean>) booleanList23);
@@ -9221,12 +9978,12 @@ public class RegressionTest1 {
         java.lang.String[] strArray35 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList36 = new java.util.ArrayList<java.lang.String>();
         boolean boolean37 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList36,
-                                                         strArray35);
+            strArray35);
         int int38 = strList36.size();
         java.lang.Boolean[] booleanArray41 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList42 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean43 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList42,
-                                                         booleanArray41);
+            booleanArray41);
         boolean boolean45 = booleanList42.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream46 = booleanList42.stream();
         boolean boolean47 = strList36.containsAll((java.util.Collection<java.lang.Boolean>) booleanList42);
@@ -9286,18 +10043,19 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = doubleList0.getServiceNumber();
         java.lang.Integer int3 = doubleList0.getTypeShortForm();
         org.ccsds.moims.mo.mal.structures.UShort uShort4 = doubleList0.getAreaNumber();
-        org.ccsds.moims.mo.mal.structures.Union union6 = new org.ccsds.moims.mo.mal.structures.Union((java.lang.Float) 100.0f);
+        org.ccsds.moims.mo.mal.structures.Union union6 = new org.ccsds.moims.mo.mal.structures.Union(
+            (java.lang.Float) 100.0f);
         int int7 = doubleList0.indexOf((java.lang.Object) 100.0f);
         org.ccsds.moims.mo.mal.structures.ShortList shortList8 = new org.ccsds.moims.mo.mal.structures.ShortList();
         java.lang.String[] strArray10 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList11 = new java.util.ArrayList<java.lang.String>();
         boolean boolean12 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList11,
-                                                         strArray10);
+            strArray10);
         int int13 = strList11.size();
         java.lang.Boolean[] booleanArray16 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList17 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList17,
-                                                         booleanArray16);
+            booleanArray16);
         boolean boolean20 = booleanList17.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream21 = booleanList17.stream();
         boolean boolean22 = strList11.containsAll((java.util.Collection<java.lang.Boolean>) booleanList17);
@@ -9312,20 +10070,20 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray33 = new java.lang.Boolean[]{true};
         java.util.ArrayList<java.lang.Boolean> booleanList34 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean35 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList34,
-                                                         booleanArray33);
+            booleanArray33);
         java.util.ListIterator<java.lang.Boolean> booleanItor37 = booleanList34.listIterator((int) (short) 1);
         boolean boolean38 = doubleList30.containsAll((java.util.Collection<java.lang.Boolean>) booleanList34);
         java.lang.Byte[] byteArray41 = new java.lang.Byte[]{(byte) 10, (byte) 100};
         java.util.ArrayList<java.lang.Byte> byteList42 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean43 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList42,
-                                                         byteArray41);
+            byteArray41);
         boolean boolean44 = byteList42.isEmpty();
         int int45 = byteList42.size();
         int int46 = booleanList34.indexOf((java.lang.Object) byteList42);
         java.lang.Boolean[] booleanArray49 = new java.lang.Boolean[]{false, true};
         java.util.ArrayList<java.lang.Boolean> booleanList50 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean51 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList50,
-                                                         booleanArray49);
+            booleanArray49);
         java.util.Iterator<java.lang.Boolean> booleanItor52 = booleanList50.iterator();
         java.util.stream.Stream<java.lang.Boolean> booleanStream53 = booleanList50.stream();
         java.util.Iterator<java.lang.Boolean> booleanItor54 = booleanList50.iterator();
@@ -9380,15 +10138,24 @@ public class RegressionTest1 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test636");
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF0 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl1 = mCServicesProviderNMF0.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl2 = mCServicesProviderNMF0.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl3 = mCServicesProviderNMF0.getAlertService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl4 = mCServicesProviderNMF0.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl5 = mCServicesProviderNMF0.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl6 = mCServicesProviderNMF0.getActionService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl7 = mCServicesProviderNMF0.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl8 = mCServicesProviderNMF0.getAlertService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl9 = mCServicesProviderNMF0.getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl1 = mCServicesProviderNMF0
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl2 = mCServicesProviderNMF0
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl3 = mCServicesProviderNMF0
+            .getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl4 = mCServicesProviderNMF0
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl5 = mCServicesProviderNMF0
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl6 = mCServicesProviderNMF0
+            .getActionService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl7 = mCServicesProviderNMF0
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl8 = mCServicesProviderNMF0
+            .getAlertService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl9 = mCServicesProviderNMF0
+            .getAlertService();
         org.junit.Assert.assertNotNull(parameterProviderServiceImpl1);
         org.junit.Assert.assertNotNull(aggregationProviderServiceImpl2);
         org.junit.Assert.assertNotNull(alertProviderServiceImpl3);
@@ -9405,12 +10172,18 @@ public class RegressionTest1 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test637");
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF0 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl1 = mCServicesProviderNMF0.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl2 = mCServicesProviderNMF0.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl3 = mCServicesProviderNMF0.getAlertService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl4 = mCServicesProviderNMF0.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl5 = mCServicesProviderNMF0.getAggregationService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl6 = mCServicesProviderNMF0.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl1 = mCServicesProviderNMF0
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl2 = mCServicesProviderNMF0
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl3 = mCServicesProviderNMF0
+            .getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl4 = mCServicesProviderNMF0
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl5 = mCServicesProviderNMF0
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl6 = mCServicesProviderNMF0
+            .getParameterService();
         org.junit.Assert.assertNotNull(parameterProviderServiceImpl1);
         org.junit.Assert.assertNotNull(aggregationProviderServiceImpl2);
         org.junit.Assert.assertNotNull(alertProviderServiceImpl3);
@@ -9423,21 +10196,32 @@ public class RegressionTest1 {
     public void test638() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test638");
-        org.ccsds.moims.mo.mal.structures.LongList longList1 = new org.ccsds.moims.mo.mal.structures.LongList((int) (byte) 1);
+        org.ccsds.moims.mo.mal.structures.LongList longList1 = new org.ccsds.moims.mo.mal.structures.LongList(
+            (int) (byte) 1);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet2 = longList1.getAreaVersion();
         java.util.Iterator<java.lang.Long> longItor3 = longList1.iterator();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF4 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl5 = mCServicesProviderNMF4.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl6 = mCServicesProviderNMF4.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl7 = mCServicesProviderNMF4.getAlertService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl8 = mCServicesProviderNMF4.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl9 = mCServicesProviderNMF4.getAlertService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl10 = mCServicesProviderNMF4.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl5 = mCServicesProviderNMF4
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl6 = mCServicesProviderNMF4
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl7 = mCServicesProviderNMF4
+            .getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl8 = mCServicesProviderNMF4
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl9 = mCServicesProviderNMF4
+            .getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl10 = mCServicesProviderNMF4
+            .getParameterService();
         int int11 = longList1.indexOf((java.lang.Object) mCServicesProviderNMF4);
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl12 = mCServicesProviderNMF4.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl13 = mCServicesProviderNMF4.getActionService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl14 = mCServicesProviderNMF4.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl15 = mCServicesProviderNMF4.getAlertService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl12 = mCServicesProviderNMF4
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl13 = mCServicesProviderNMF4
+            .getActionService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl14 = mCServicesProviderNMF4
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl15 = mCServicesProviderNMF4
+            .getAlertService();
         org.junit.Assert.assertNotNull(uOctet2);
         org.junit.Assert.assertNotNull(longItor3);
         org.junit.Assert.assertNotNull(parameterProviderServiceImpl5);
@@ -9478,7 +10262,7 @@ public class RegressionTest1 {
         java.lang.Throwable[] throwableArray27 = nMFException24.getSuppressed();
         java.lang.Throwable[] throwableArray28 = nMFException24.getSuppressed();
         esa.mo.nmf.NMFException nMFException29 = new esa.mo.nmf.NMFException("[]",
-                                                                             (java.lang.Throwable) nMFException24);
+            (java.lang.Throwable) nMFException24);
         int int30 = uShortList12.indexOf((java.lang.Object) nMFException29);
         java.lang.String str31 = nMFException29.toString();
         int int32 = longList5.lastIndexOf((java.lang.Object) str31);
@@ -9498,7 +10282,7 @@ public class RegressionTest1 {
         org.junit.Assert.assertNotNull(throwableArray28);
         org.junit.Assert.assertTrue("'" + int30 + "' != '" + (-1) + "'", int30 == (-1));
         org.junit.Assert.assertTrue("'" + str31 + "' != '" + "esa.mo.nmf.NMFException: []" + "'", str31.equals(
-                                                                                                               "esa.mo.nmf.NMFException: []"));
+            "esa.mo.nmf.NMFException: []"));
         org.junit.Assert.assertTrue("'" + int32 + "' != '" + (-1) + "'", int32 == (-1));
     }
 
@@ -9515,7 +10299,7 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray9 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList10 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList10,
-                                                         booleanArray9);
+            booleanArray9);
         boolean boolean13 = booleanList10.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream14 = booleanList10.stream();
         boolean boolean15 = strList4.containsAll((java.util.Collection<java.lang.Boolean>) booleanList10);
@@ -9585,21 +10369,22 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray11 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList12 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean13 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList12,
-                                                         booleanArray11);
+            booleanArray11);
         boolean boolean15 = booleanList12.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream16 = booleanList12.stream();
         boolean boolean17 = byteList6.removeAll((java.util.Collection<java.lang.Boolean>) booleanList12);
-        org.ccsds.moims.mo.mal.structures.Union union19 = new org.ccsds.moims.mo.mal.structures.Union((java.lang.Long) 0L);
+        org.ccsds.moims.mo.mal.structures.Union union19 = new org.ccsds.moims.mo.mal.structures.Union(
+            (java.lang.Long) 0L);
         boolean boolean20 = byteList6.equals((java.lang.Object) 0L);
         java.lang.Byte[] byteArray23 = new java.lang.Byte[]{(byte) 10, (byte) 100};
         java.util.ArrayList<java.lang.Byte> byteList24 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean25 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList24,
-                                                         byteArray23);
+            byteArray23);
         boolean boolean26 = byteList24.isEmpty();
         java.lang.Boolean[] booleanArray29 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList30 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean31 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList30,
-                                                         booleanArray29);
+            booleanArray29);
         boolean boolean33 = booleanList30.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream34 = booleanList30.stream();
         boolean boolean35 = byteList24.removeAll((java.util.Collection<java.lang.Boolean>) booleanList30);
@@ -9613,21 +10398,22 @@ public class RegressionTest1 {
         java.lang.Byte[] byteArray45 = new java.lang.Byte[]{(byte) 10, (byte) 100};
         java.util.ArrayList<java.lang.Byte> byteList46 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean47 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList46,
-                                                         byteArray45);
+            byteArray45);
         boolean boolean48 = byteList46.isEmpty();
         int int50 = byteList46.indexOf((java.lang.Object) 'a');
         int int52 = byteList46.lastIndexOf((java.lang.Object) "hi!");
         java.lang.Boolean[] booleanArray54 = new java.lang.Boolean[]{true};
         java.util.ArrayList<java.lang.Boolean> booleanList55 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean56 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList55,
-                                                         booleanArray54);
+            booleanArray54);
         java.util.ListIterator<java.lang.Boolean> booleanItor58 = booleanList55.listIterator((int) (short) 1);
         java.util.stream.Stream<java.lang.Boolean> booleanStream59 = booleanList55.parallelStream();
         boolean boolean61 = booleanList55.add((java.lang.Boolean) false);
         boolean boolean62 = byteList46.retainAll((java.util.Collection<java.lang.Boolean>) booleanList55);
         org.ccsds.moims.mo.mal.structures.UShortList uShortList63 = new org.ccsds.moims.mo.mal.structures.UShortList();
         java.lang.Object obj64 = uShortList63.clone();
-        java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream65 = uShortList63.parallelStream();
+        java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream65 = uShortList63
+            .parallelStream();
         java.util.Iterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor66 = uShortList63.iterator();
         boolean boolean67 = byteList46.equals((java.lang.Object) uShortItor66);
         org.ccsds.moims.mo.mal.structures.ShortList shortList68 = new org.ccsds.moims.mo.mal.structures.ShortList();
@@ -9643,8 +10429,10 @@ public class RegressionTest1 {
         java.lang.Integer int79 = booleanList75.getTypeShortForm();
         org.ccsds.moims.mo.mal.structures.BooleanList[] booleanListArray80 = new org.ccsds.moims.mo.mal.structures.BooleanList[]{booleanList75};
         org.ccsds.moims.mo.mal.structures.BooleanList[] booleanListArray81 = byteList46.toArray(booleanListArray80);
-        java.lang.Iterable<java.lang.Boolean>[] booleanIterableArray82 = shortList39.toArray((java.lang.Iterable<java.lang.Boolean>[]) booleanListArray81);
-        java.util.AbstractCollection<java.lang.Boolean>[] booleanCollectionArray83 = octetList1.toArray((java.util.AbstractCollection<java.lang.Boolean>[]) booleanListArray81);
+        java.lang.Iterable<java.lang.Boolean>[] booleanIterableArray82 = shortList39.toArray(
+            (java.lang.Iterable<java.lang.Boolean>[]) booleanListArray81);
+        java.util.AbstractCollection<java.lang.Boolean>[] booleanCollectionArray83 = octetList1.toArray(
+            (java.util.AbstractCollection<java.lang.Boolean>[]) booleanListArray81);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet84 = octetList1.getAreaVersion();
         org.junit.Assert.assertTrue("'" + str2 + "' != '" + "[]" + "'", str2.equals("[]"));
         org.junit.Assert.assertNotNull(byteArray5);
@@ -9709,41 +10497,65 @@ public class RegressionTest1 {
         java.util.ListIterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor4 = uShortList0.listIterator();
         java.lang.String str5 = uShortList0.toString();
         java.lang.Object[] objArray6 = uShortList0.toArray();
-        org.ccsds.moims.mo.mal.structures.LongList longList8 = new org.ccsds.moims.mo.mal.structures.LongList((int) (byte) 1);
+        org.ccsds.moims.mo.mal.structures.LongList longList8 = new org.ccsds.moims.mo.mal.structures.LongList(
+            (int) (byte) 1);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet9 = longList8.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.UShort uShort10 = longList8.getAreaNumber();
         longList8.clear();
         java.util.Iterator<java.lang.Long> longItor12 = longList8.iterator();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet13 = longList8.getAreaVersion();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF14 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl15 = mCServicesProviderNMF14.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl16 = mCServicesProviderNMF14.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl17 = mCServicesProviderNMF14.getAlertService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl18 = mCServicesProviderNMF14.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl19 = mCServicesProviderNMF14.getAlertService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl20 = mCServicesProviderNMF14.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl21 = mCServicesProviderNMF14.getAlertService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl22 = mCServicesProviderNMF14.getAlertService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl23 = mCServicesProviderNMF14.getParameterService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl24 = mCServicesProviderNMF14.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl15 = mCServicesProviderNMF14
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl16 = mCServicesProviderNMF14
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl17 = mCServicesProviderNMF14
+            .getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl18 = mCServicesProviderNMF14
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl19 = mCServicesProviderNMF14
+            .getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl20 = mCServicesProviderNMF14
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl21 = mCServicesProviderNMF14
+            .getAlertService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl22 = mCServicesProviderNMF14
+            .getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl23 = mCServicesProviderNMF14
+            .getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl24 = mCServicesProviderNMF14
+            .getParameterService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF25 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl26 = mCServicesProviderNMF25.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl27 = mCServicesProviderNMF25.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl28 = mCServicesProviderNMF25.getAlertService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl29 = mCServicesProviderNMF25.getAggregationService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl30 = mCServicesProviderNMF25.getParameterService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl31 = mCServicesProviderNMF25.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl26 = mCServicesProviderNMF25
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl27 = mCServicesProviderNMF25
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl28 = mCServicesProviderNMF25
+            .getAlertService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl29 = mCServicesProviderNMF25
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl30 = mCServicesProviderNMF25
+            .getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl31 = mCServicesProviderNMF25
+            .getParameterService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF32 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl33 = mCServicesProviderNMF32.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl34 = mCServicesProviderNMF32.getAlertService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl35 = mCServicesProviderNMF32.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl36 = mCServicesProviderNMF32.getAlertService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl37 = mCServicesProviderNMF32.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl33 = mCServicesProviderNMF32
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl34 = mCServicesProviderNMF32
+            .getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl35 = mCServicesProviderNMF32
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl36 = mCServicesProviderNMF32
+            .getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl37 = mCServicesProviderNMF32
+            .getParameterService();
         org.ccsds.moims.mo.mc.parameter.provider.ParameterInheritanceSkeleton[] parameterInheritanceSkeletonArray38 = new org.ccsds.moims.mo.mc.parameter.provider.ParameterInheritanceSkeleton[]{parameterProviderServiceImpl24,
                                                                                                                                                                                                   parameterProviderServiceImpl31,
                                                                                                                                                                                                   parameterProviderServiceImpl37};
-        org.ccsds.moims.mo.mc.parameter.provider.ParameterInheritanceSkeleton[] parameterInheritanceSkeletonArray39 = longList8.toArray(parameterInheritanceSkeletonArray38);
-        org.ccsds.moims.mo.mal.provider.MALInteractionHandler[] mALInteractionHandlerArray40 = uShortList0.toArray((org.ccsds.moims.mo.mal.provider.MALInteractionHandler[]) parameterInheritanceSkeletonArray39);
+        org.ccsds.moims.mo.mc.parameter.provider.ParameterInheritanceSkeleton[] parameterInheritanceSkeletonArray39 = longList8
+            .toArray(parameterInheritanceSkeletonArray38);
+        org.ccsds.moims.mo.mal.provider.MALInteractionHandler[] mALInteractionHandlerArray40 = uShortList0.toArray(
+            (org.ccsds.moims.mo.mal.provider.MALInteractionHandler[]) parameterInheritanceSkeletonArray39);
         org.junit.Assert.assertNotNull(obj1);
         org.junit.Assert.assertNotNull(uShortStream2);
         org.junit.Assert.assertNotNull(uShortItor3);
@@ -9784,20 +10596,30 @@ public class RegressionTest1 {
     public void test643() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test643");
-        org.ccsds.moims.mo.mal.structures.LongList longList1 = new org.ccsds.moims.mo.mal.structures.LongList((int) (byte) 1);
+        org.ccsds.moims.mo.mal.structures.LongList longList1 = new org.ccsds.moims.mo.mal.structures.LongList(
+            (int) (byte) 1);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet2 = longList1.getAreaVersion();
         java.util.Iterator<java.lang.Long> longItor3 = longList1.iterator();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF4 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl5 = mCServicesProviderNMF4.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl6 = mCServicesProviderNMF4.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl7 = mCServicesProviderNMF4.getAlertService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl8 = mCServicesProviderNMF4.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl9 = mCServicesProviderNMF4.getAlertService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl10 = mCServicesProviderNMF4.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl5 = mCServicesProviderNMF4
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl6 = mCServicesProviderNMF4
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl7 = mCServicesProviderNMF4
+            .getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl8 = mCServicesProviderNMF4
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl9 = mCServicesProviderNMF4
+            .getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl10 = mCServicesProviderNMF4
+            .getParameterService();
         int int11 = longList1.indexOf((java.lang.Object) mCServicesProviderNMF4);
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl12 = mCServicesProviderNMF4.getParameterService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl13 = mCServicesProviderNMF4.getActionService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl14 = mCServicesProviderNMF4.getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl12 = mCServicesProviderNMF4
+            .getParameterService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl13 = mCServicesProviderNMF4
+            .getActionService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl14 = mCServicesProviderNMF4
+            .getAggregationService();
         org.junit.Assert.assertNotNull(uOctet2);
         org.junit.Assert.assertNotNull(longItor3);
         org.junit.Assert.assertNotNull(parameterProviderServiceImpl5);
@@ -9825,7 +10647,7 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray9 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList10 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList10,
-                                                         booleanArray9);
+            booleanArray9);
         boolean boolean13 = booleanList10.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream14 = booleanList10.stream();
         boolean boolean15 = strList4.containsAll((java.util.Collection<java.lang.Boolean>) booleanList10);
@@ -9883,73 +10705,110 @@ public class RegressionTest1 {
         java.util.ListIterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor4 = uShortList0.listIterator();
         esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider5 = null;
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF6 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl7 = mCServicesProviderNMF6.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl8 = mCServicesProviderNMF6.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl9 = mCServicesProviderNMF6.getAggregationService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl10 = mCServicesProviderNMF6.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl7 = mCServicesProviderNMF6
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl8 = mCServicesProviderNMF6
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl9 = mCServicesProviderNMF6
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl10 = mCServicesProviderNMF6
+            .getParameterService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF11 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl12 = mCServicesProviderNMF11.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl13 = mCServicesProviderNMF11.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl14 = mCServicesProviderNMF11.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl15 = mCServicesProviderNMF11.getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl12 = mCServicesProviderNMF11
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl13 = mCServicesProviderNMF11
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl14 = mCServicesProviderNMF11
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl15 = mCServicesProviderNMF11
+            .getAggregationService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF16 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl17 = mCServicesProviderNMF16.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl18 = mCServicesProviderNMF16.getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl17 = mCServicesProviderNMF16
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl18 = mCServicesProviderNMF16
+            .getAlertService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF19 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl20 = mCServicesProviderNMF19.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl21 = mCServicesProviderNMF19.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl22 = mCServicesProviderNMF19.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl23 = mCServicesProviderNMF19.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl20 = mCServicesProviderNMF19
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl21 = mCServicesProviderNMF19
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl22 = mCServicesProviderNMF19
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl23 = mCServicesProviderNMF19
+            .getActionService();
         esa.mo.nmf.MCRegistration mCRegistration24 = new esa.mo.nmf.MCRegistration(cOMServicesProvider5,
-                                                                                   parameterProviderServiceImpl10,
-                                                                                   aggregationProviderServiceImpl15,
-                                                                                   alertProviderServiceImpl18,
-                                                                                   actionProviderServiceImpl23);
+            parameterProviderServiceImpl10, aggregationProviderServiceImpl15, alertProviderServiceImpl18,
+            actionProviderServiceImpl23);
         esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl25 = mCRegistration24.actionService;
         esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl26 = mCRegistration24.actionService;
         esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider27 = null;
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF28 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl29 = mCServicesProviderNMF28.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl30 = mCServicesProviderNMF28.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl31 = mCServicesProviderNMF28.getAggregationService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl32 = mCServicesProviderNMF28.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl29 = mCServicesProviderNMF28
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl30 = mCServicesProviderNMF28
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl31 = mCServicesProviderNMF28
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl32 = mCServicesProviderNMF28
+            .getParameterService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF33 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl34 = mCServicesProviderNMF33.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl35 = mCServicesProviderNMF33.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl36 = mCServicesProviderNMF33.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl37 = mCServicesProviderNMF33.getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl34 = mCServicesProviderNMF33
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl35 = mCServicesProviderNMF33
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl36 = mCServicesProviderNMF33
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl37 = mCServicesProviderNMF33
+            .getAggregationService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF38 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl39 = mCServicesProviderNMF38.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl40 = mCServicesProviderNMF38.getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl39 = mCServicesProviderNMF38
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl40 = mCServicesProviderNMF38
+            .getAlertService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF41 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl42 = mCServicesProviderNMF41.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl43 = mCServicesProviderNMF41.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl44 = mCServicesProviderNMF41.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl45 = mCServicesProviderNMF41.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl42 = mCServicesProviderNMF41
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl43 = mCServicesProviderNMF41
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl44 = mCServicesProviderNMF41
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl45 = mCServicesProviderNMF41
+            .getActionService();
         esa.mo.nmf.MCRegistration mCRegistration46 = new esa.mo.nmf.MCRegistration(cOMServicesProvider27,
-                                                                                   parameterProviderServiceImpl32,
-                                                                                   aggregationProviderServiceImpl37,
-                                                                                   alertProviderServiceImpl40,
-                                                                                   actionProviderServiceImpl45);
+            parameterProviderServiceImpl32, aggregationProviderServiceImpl37, alertProviderServiceImpl40,
+            actionProviderServiceImpl45);
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF47 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl48 = mCServicesProviderNMF47.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl49 = mCServicesProviderNMF47.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl50 = mCServicesProviderNMF47.getAlertService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl51 = mCServicesProviderNMF47.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl52 = mCServicesProviderNMF47.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl53 = mCServicesProviderNMF47.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl48 = mCServicesProviderNMF47
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl49 = mCServicesProviderNMF47
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl50 = mCServicesProviderNMF47
+            .getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl51 = mCServicesProviderNMF47
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl52 = mCServicesProviderNMF47
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl53 = mCServicesProviderNMF47
+            .getActionService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF54 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl55 = mCServicesProviderNMF54.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl56 = mCServicesProviderNMF54.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl57 = mCServicesProviderNMF54.getAlertService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl58 = mCServicesProviderNMF54.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl59 = mCServicesProviderNMF54.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl60 = mCServicesProviderNMF54.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl55 = mCServicesProviderNMF54
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl56 = mCServicesProviderNMF54
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl57 = mCServicesProviderNMF54
+            .getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl58 = mCServicesProviderNMF54
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl59 = mCServicesProviderNMF54
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl60 = mCServicesProviderNMF54
+            .getActionService();
         org.ccsds.moims.mo.mc.action.provider.ActionInheritanceSkeleton[] actionInheritanceSkeletonArray61 = new org.ccsds.moims.mo.mc.action.provider.ActionInheritanceSkeleton[]{actionProviderServiceImpl26,
                                                                                                                                                                                    actionProviderServiceImpl45,
                                                                                                                                                                                    actionProviderServiceImpl53,
                                                                                                                                                                                    actionProviderServiceImpl60};
-        org.ccsds.moims.mo.mc.action.provider.ActionInheritanceSkeleton[] actionInheritanceSkeletonArray62 = uShortList0.toArray(actionInheritanceSkeletonArray61);
+        org.ccsds.moims.mo.mc.action.provider.ActionInheritanceSkeleton[] actionInheritanceSkeletonArray62 = uShortList0
+            .toArray(actionInheritanceSkeletonArray61);
         uShortList0.ensureCapacity(18);
         java.util.Spliterator<org.ccsds.moims.mo.mal.structures.UShort> uShortSpliterator65 = uShortList0.spliterator();
         org.ccsds.moims.mo.mal.structures.BooleanList booleanList66 = new org.ccsds.moims.mo.mal.structures.BooleanList();
@@ -9958,7 +10817,8 @@ public class RegressionTest1 {
         int int69 = uShortList0.lastIndexOf((java.lang.Object) booleanList66);
         try {
             java.util.List<org.ccsds.moims.mo.mal.structures.UShort> uShortList72 = uShortList0.subList(5, 14);
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: toIndex = 14");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IndexOutOfBoundsException; message: toIndex = 14");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(obj1);
@@ -10019,18 +10879,26 @@ public class RegressionTest1 {
     public void test646() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test646");
-        org.ccsds.moims.mo.mal.structures.LongList longList1 = new org.ccsds.moims.mo.mal.structures.LongList((int) (byte) 1);
+        org.ccsds.moims.mo.mal.structures.LongList longList1 = new org.ccsds.moims.mo.mal.structures.LongList(
+            (int) (byte) 1);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet2 = longList1.getAreaVersion();
         java.util.Iterator<java.lang.Long> longItor3 = longList1.iterator();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF4 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl5 = mCServicesProviderNMF4.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl6 = mCServicesProviderNMF4.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl7 = mCServicesProviderNMF4.getAlertService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl8 = mCServicesProviderNMF4.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl9 = mCServicesProviderNMF4.getAlertService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl10 = mCServicesProviderNMF4.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl5 = mCServicesProviderNMF4
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl6 = mCServicesProviderNMF4
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl7 = mCServicesProviderNMF4
+            .getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl8 = mCServicesProviderNMF4
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl9 = mCServicesProviderNMF4
+            .getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl10 = mCServicesProviderNMF4
+            .getParameterService();
         int int11 = longList1.indexOf((java.lang.Object) mCServicesProviderNMF4);
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl12 = mCServicesProviderNMF4.getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl12 = mCServicesProviderNMF4
+            .getAggregationService();
         org.junit.Assert.assertNotNull(uOctet2);
         org.junit.Assert.assertNotNull(longItor3);
         org.junit.Assert.assertNotNull(parameterProviderServiceImpl5);
@@ -10049,28 +10917,40 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test647");
         esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider0 = null;
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF1 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl2 = mCServicesProviderNMF1.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl3 = mCServicesProviderNMF1.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl4 = mCServicesProviderNMF1.getAggregationService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl5 = mCServicesProviderNMF1.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl2 = mCServicesProviderNMF1
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl3 = mCServicesProviderNMF1
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl4 = mCServicesProviderNMF1
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl5 = mCServicesProviderNMF1
+            .getParameterService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF6 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl7 = mCServicesProviderNMF6.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl8 = mCServicesProviderNMF6.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl9 = mCServicesProviderNMF6.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl10 = mCServicesProviderNMF6.getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl7 = mCServicesProviderNMF6
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl8 = mCServicesProviderNMF6
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl9 = mCServicesProviderNMF6
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl10 = mCServicesProviderNMF6
+            .getAggregationService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF11 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl12 = mCServicesProviderNMF11.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl13 = mCServicesProviderNMF11.getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl12 = mCServicesProviderNMF11
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl13 = mCServicesProviderNMF11
+            .getAlertService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF14 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl15 = mCServicesProviderNMF14.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl16 = mCServicesProviderNMF14.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl17 = mCServicesProviderNMF14.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl18 = mCServicesProviderNMF14.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl15 = mCServicesProviderNMF14
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl16 = mCServicesProviderNMF14
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl17 = mCServicesProviderNMF14
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl18 = mCServicesProviderNMF14
+            .getActionService();
         esa.mo.nmf.MCRegistration mCRegistration19 = new esa.mo.nmf.MCRegistration(cOMServicesProvider0,
-                                                                                   parameterProviderServiceImpl5,
-                                                                                   aggregationProviderServiceImpl10,
-                                                                                   alertProviderServiceImpl13,
-                                                                                   actionProviderServiceImpl18);
+            parameterProviderServiceImpl5, aggregationProviderServiceImpl10, alertProviderServiceImpl13,
+            actionProviderServiceImpl18);
         esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl20 = mCRegistration19.actionService;
         esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl21 = mCRegistration19.parameterService;
         esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl22 = mCRegistration19.actionService;
@@ -10107,7 +10987,8 @@ public class RegressionTest1 {
         boolean boolean8 = byteList5.add((java.lang.Byte) (byte) 10);
         java.lang.Object obj9 = byteList5.clone();
         java.util.stream.Stream<java.lang.Byte> byteStream10 = byteList5.stream();
-        org.ccsds.moims.mo.mal.structures.StringList stringList12 = new org.ccsds.moims.mo.mal.structures.StringList(100);
+        org.ccsds.moims.mo.mal.structures.StringList stringList12 = new org.ccsds.moims.mo.mal.structures.StringList(
+            100);
         int int13 = byteList5.indexOf((java.lang.Object) stringList12);
         byte[] byteArray17 = new byte[]{(byte) 0, (byte) 0, (byte) 0};
         org.ccsds.moims.mo.mal.structures.Blob blob18 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray17);
@@ -10142,55 +11023,79 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test649");
         esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider0 = null;
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF1 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl2 = mCServicesProviderNMF1.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl3 = mCServicesProviderNMF1.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl4 = mCServicesProviderNMF1.getAggregationService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl5 = mCServicesProviderNMF1.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl2 = mCServicesProviderNMF1
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl3 = mCServicesProviderNMF1
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl4 = mCServicesProviderNMF1
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl5 = mCServicesProviderNMF1
+            .getParameterService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF6 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl7 = mCServicesProviderNMF6.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl8 = mCServicesProviderNMF6.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl9 = mCServicesProviderNMF6.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl10 = mCServicesProviderNMF6.getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl7 = mCServicesProviderNMF6
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl8 = mCServicesProviderNMF6
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl9 = mCServicesProviderNMF6
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl10 = mCServicesProviderNMF6
+            .getAggregationService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF11 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl12 = mCServicesProviderNMF11.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl13 = mCServicesProviderNMF11.getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl12 = mCServicesProviderNMF11
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl13 = mCServicesProviderNMF11
+            .getAlertService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF14 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl15 = mCServicesProviderNMF14.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl16 = mCServicesProviderNMF14.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl17 = mCServicesProviderNMF14.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl18 = mCServicesProviderNMF14.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl15 = mCServicesProviderNMF14
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl16 = mCServicesProviderNMF14
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl17 = mCServicesProviderNMF14
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl18 = mCServicesProviderNMF14
+            .getActionService();
         esa.mo.nmf.MCRegistration mCRegistration19 = new esa.mo.nmf.MCRegistration(cOMServicesProvider0,
-                                                                                   parameterProviderServiceImpl5,
-                                                                                   aggregationProviderServiceImpl10,
-                                                                                   alertProviderServiceImpl13,
-                                                                                   actionProviderServiceImpl18);
+            parameterProviderServiceImpl5, aggregationProviderServiceImpl10, alertProviderServiceImpl13,
+            actionProviderServiceImpl18);
         esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl20 = mCRegistration19.parameterService;
         esa.mo.nmf.MCRegistration.RegistrationMode registrationMode21 = esa.mo.nmf.MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS;
         mCRegistration19.setMode(registrationMode21);
         esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider23 = null;
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF24 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl25 = mCServicesProviderNMF24.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl26 = mCServicesProviderNMF24.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl27 = mCServicesProviderNMF24.getAggregationService();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl28 = mCServicesProviderNMF24.getParameterService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl25 = mCServicesProviderNMF24
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl26 = mCServicesProviderNMF24
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl27 = mCServicesProviderNMF24
+            .getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl28 = mCServicesProviderNMF24
+            .getParameterService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF29 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl30 = mCServicesProviderNMF29.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl31 = mCServicesProviderNMF29.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl32 = mCServicesProviderNMF29.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl33 = mCServicesProviderNMF29.getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl30 = mCServicesProviderNMF29
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl31 = mCServicesProviderNMF29
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl32 = mCServicesProviderNMF29
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl33 = mCServicesProviderNMF29
+            .getAggregationService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF34 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl35 = mCServicesProviderNMF34.getParameterService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl36 = mCServicesProviderNMF34.getAlertService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl35 = mCServicesProviderNMF34
+            .getParameterService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl36 = mCServicesProviderNMF34
+            .getAlertService();
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF37 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl38 = mCServicesProviderNMF37.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl39 = mCServicesProviderNMF37.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl40 = mCServicesProviderNMF37.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl41 = mCServicesProviderNMF37.getActionService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl38 = mCServicesProviderNMF37
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl39 = mCServicesProviderNMF37
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl40 = mCServicesProviderNMF37
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl41 = mCServicesProviderNMF37
+            .getActionService();
         esa.mo.nmf.MCRegistration mCRegistration42 = new esa.mo.nmf.MCRegistration(cOMServicesProvider23,
-                                                                                   parameterProviderServiceImpl28,
-                                                                                   aggregationProviderServiceImpl33,
-                                                                                   alertProviderServiceImpl36,
-                                                                                   actionProviderServiceImpl41);
+            parameterProviderServiceImpl28, aggregationProviderServiceImpl33, alertProviderServiceImpl36,
+            actionProviderServiceImpl41);
         esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl43 = mCRegistration42.actionService;
         esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl44 = mCRegistration42.aggregationService;
         esa.mo.nmf.MCRegistration.RegistrationMode registrationMode45 = esa.mo.nmf.MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS;
@@ -10213,12 +11118,9 @@ public class RegressionTest1 {
         org.junit.Assert.assertNotNull(alertProviderServiceImpl17);
         org.junit.Assert.assertNotNull(actionProviderServiceImpl18);
         org.junit.Assert.assertNotNull(parameterProviderServiceImpl20);
-        org.junit.Assert.assertTrue("'" +
-                                    registrationMode21 +
-                                    "' != '" +
-                                    esa.mo.nmf.MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS +
-                                    "'", registrationMode21.equals(
-                                                                   esa.mo.nmf.MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS));
+        org.junit.Assert.assertTrue("'" + registrationMode21 + "' != '" +
+            esa.mo.nmf.MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS + "'", registrationMode21.equals(
+                esa.mo.nmf.MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS));
         org.junit.Assert.assertNotNull(parameterProviderServiceImpl25);
         org.junit.Assert.assertNotNull(aggregationProviderServiceImpl26);
         org.junit.Assert.assertNotNull(aggregationProviderServiceImpl27);
@@ -10235,12 +11137,9 @@ public class RegressionTest1 {
         org.junit.Assert.assertNotNull(actionProviderServiceImpl41);
         org.junit.Assert.assertNotNull(actionProviderServiceImpl43);
         org.junit.Assert.assertNotNull(aggregationProviderServiceImpl44);
-        org.junit.Assert.assertTrue("'" +
-                                    registrationMode45 +
-                                    "' != '" +
-                                    esa.mo.nmf.MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS +
-                                    "'", registrationMode45.equals(
-                                                                   esa.mo.nmf.MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS));
+        org.junit.Assert.assertTrue("'" + registrationMode45 + "' != '" +
+            esa.mo.nmf.MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS + "'", registrationMode45.equals(
+                esa.mo.nmf.MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS));
         org.junit.Assert.assertNotNull(aggregationProviderServiceImpl48);
         org.junit.Assert.assertNotNull(parameterProviderServiceImpl49);
     }
@@ -10266,7 +11165,7 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray9 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList10 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList10,
-                                                         booleanArray9);
+            booleanArray9);
         boolean boolean13 = booleanList10.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream14 = booleanList10.stream();
         boolean boolean15 = strList4.containsAll((java.util.Collection<java.lang.Boolean>) booleanList10);
@@ -10280,18 +11179,18 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UOctet uOctet24 = identifier23.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray25 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList26 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean27 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList26,
-                                                         uRIArray25);
+        boolean boolean27 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList26, uRIArray25);
         java.lang.Boolean[] booleanArray30 = new java.lang.Boolean[]{false, true};
         java.util.ArrayList<java.lang.Boolean> booleanList31 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean32 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList31,
-                                                         booleanArray30);
+            booleanArray30);
         java.util.Iterator<java.lang.Boolean> booleanItor33 = booleanList31.iterator();
         boolean boolean34 = uRIList26.retainAll((java.util.Collection<java.lang.Boolean>) booleanList31);
         java.lang.Boolean[] booleanArray37 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList38 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList38,
-                                                         booleanArray37);
+            booleanArray37);
         boolean boolean41 = booleanList38.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream42 = booleanList38.stream();
         boolean boolean43 = uRIList26.retainAll((java.util.Collection<java.lang.Boolean>) booleanList38);
@@ -10318,12 +11217,12 @@ public class RegressionTest1 {
         java.lang.String[] strArray69 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList70 = new java.util.ArrayList<java.lang.String>();
         boolean boolean71 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList70,
-                                                         strArray69);
+            strArray69);
         int int72 = strList70.size();
         java.lang.Boolean[] booleanArray75 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList76 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean77 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList76,
-                                                         booleanArray75);
+            booleanArray75);
         boolean boolean79 = booleanList76.add((java.lang.Boolean) true);
         java.util.stream.Stream<java.lang.Boolean> booleanStream80 = booleanList76.stream();
         boolean boolean81 = strList70.containsAll((java.util.Collection<java.lang.Boolean>) booleanList76);
@@ -10398,13 +11297,20 @@ public class RegressionTest1 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test652");
         esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF0 = new esa.mo.nmf.MCServicesProviderNMF();
-        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl1 = mCServicesProviderNMF0.getParameterService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl2 = mCServicesProviderNMF0.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl3 = mCServicesProviderNMF0.getAggregationService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl4 = mCServicesProviderNMF0.getAggregationService();
-        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl5 = mCServicesProviderNMF0.getAlertService();
-        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl6 = mCServicesProviderNMF0.getActionService();
-        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl7 = mCServicesProviderNMF0.getAggregationService();
+        esa.mo.mc.impl.provider.ParameterProviderServiceImpl parameterProviderServiceImpl1 = mCServicesProviderNMF0
+            .getParameterService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl2 = mCServicesProviderNMF0
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl3 = mCServicesProviderNMF0
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl4 = mCServicesProviderNMF0
+            .getAggregationService();
+        esa.mo.mc.impl.provider.AlertProviderServiceImpl alertProviderServiceImpl5 = mCServicesProviderNMF0
+            .getAlertService();
+        esa.mo.mc.impl.provider.ActionProviderServiceImpl actionProviderServiceImpl6 = mCServicesProviderNMF0
+            .getActionService();
+        esa.mo.mc.impl.provider.AggregationProviderServiceImpl aggregationProviderServiceImpl7 = mCServicesProviderNMF0
+            .getAggregationService();
         org.junit.Assert.assertNotNull(parameterProviderServiceImpl1);
         org.junit.Assert.assertNotNull(aggregationProviderServiceImpl2);
         org.junit.Assert.assertNotNull(aggregationProviderServiceImpl3);
@@ -10430,21 +11336,22 @@ public class RegressionTest1 {
         java.lang.Byte[] byteArray11 = new java.lang.Byte[]{(byte) 10, (byte) 100};
         java.util.ArrayList<java.lang.Byte> byteList12 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean13 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList12,
-                                                         byteArray11);
+            byteArray11);
         boolean boolean14 = byteList12.isEmpty();
         int int16 = byteList12.indexOf((java.lang.Object) 'a');
         int int18 = byteList12.lastIndexOf((java.lang.Object) "hi!");
         java.lang.Boolean[] booleanArray20 = new java.lang.Boolean[]{true};
         java.util.ArrayList<java.lang.Boolean> booleanList21 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean22 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList21,
-                                                         booleanArray20);
+            booleanArray20);
         java.util.ListIterator<java.lang.Boolean> booleanItor24 = booleanList21.listIterator((int) (short) 1);
         java.util.stream.Stream<java.lang.Boolean> booleanStream25 = booleanList21.parallelStream();
         boolean boolean27 = booleanList21.add((java.lang.Boolean) false);
         boolean boolean28 = byteList12.retainAll((java.util.Collection<java.lang.Boolean>) booleanList21);
         org.ccsds.moims.mo.mal.structures.UShortList uShortList29 = new org.ccsds.moims.mo.mal.structures.UShortList();
         java.lang.Object obj30 = uShortList29.clone();
-        java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream31 = uShortList29.parallelStream();
+        java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream31 = uShortList29
+            .parallelStream();
         java.util.Iterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor32 = uShortList29.iterator();
         boolean boolean33 = byteList12.equals((java.lang.Object) uShortItor32);
         org.ccsds.moims.mo.mal.structures.ShortList shortList34 = new org.ccsds.moims.mo.mal.structures.ShortList();
@@ -10543,7 +11450,7 @@ public class RegressionTest1 {
         org.junit.Assert.assertNotNull(uShortStream9);
         org.junit.Assert.assertNotNull(uShortStream10);
         org.junit.Assert.assertTrue("'" + str14 + "' != '" + "esa.mo.nmf.NMFException" + "'", str14.equals(
-                                                                                                           "esa.mo.nmf.NMFException"));
+            "esa.mo.nmf.NMFException"));
         org.junit.Assert.assertTrue("'" + int15 + "' != '" + (-1) + "'", int15 == (-1));
     }
 }

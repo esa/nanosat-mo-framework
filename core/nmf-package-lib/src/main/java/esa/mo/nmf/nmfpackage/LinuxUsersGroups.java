@@ -54,8 +54,8 @@ public class LinuxUsersGroups {
      * with no intervening whitespace.
      * @throws IOException if the user could not be created.
      */
-    public static void createUser(String username, String password, boolean withGroup,
-                                  String extraGroups) throws IOException {
+    public static void createUser(String username, String password, boolean withGroup, String extraGroups)
+        throws IOException {
         ShellCommander shell = new ShellCommander();
         final String defaultShell = "/bin/bash";
 
@@ -73,14 +73,8 @@ public class LinuxUsersGroups {
         // Second, we need to check if we have permissions to run the commands
         StringBuilder useradd = new StringBuilder();
         useradd.append("sudo ");
-        useradd.append("useradd ")
-               .append(username)
-               .append(" --create-home")
-               .append(" --shell ")
-               .append(defaultShell)
-               .append(withGroup ? " --user-group" : "")
-               .append(" --groups ")
-               .append(extraGroups);
+        useradd.append("useradd ").append(username).append(" --create-home").append(" --shell ").append(defaultShell)
+            .append(withGroup ? " --user-group" : "").append(" --groups ").append(extraGroups);
         //String cmd = "useradd $user_nmf_admin -m -s /bin/bash --user-group";
         //String cmd = "useradd $user_nmf_admin --create-home --shell /bin/bash --user-group";
 

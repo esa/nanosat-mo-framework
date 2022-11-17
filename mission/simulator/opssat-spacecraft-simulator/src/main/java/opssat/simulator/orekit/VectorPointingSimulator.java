@@ -93,12 +93,12 @@ public class VectorPointingSimulator implements AttitudeProvider {
             return angleStep(date, frame);
         }
         return new Attitude(date, frame, this.lastState.withReferenceFrame(frame).getOrientation().getRotation(),
-                            Vector3D.MINUS_I, Vector3D.ZERO);
+            Vector3D.MINUS_I, Vector3D.ZERO);
     }
 
     @Override
     public <T extends RealFieldElement<T>> FieldAttitude<T> getAttitude(FieldPVCoordinatesProvider<T> pvProv,
-                                                                        FieldAbsoluteDate<T> date, Frame frame) {
+        FieldAbsoluteDate<T> date, Frame frame) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -112,18 +112,17 @@ public class VectorPointingSimulator implements AttitudeProvider {
         Attitude result;
 
         Vector3D diff = new Vector3D(new Rotation(new Vector3D(0, 0, -1), currentRotation.applyInverseTo(targetVec))
-                                                                                                                    .getAngles(RotationOrder.XYZ,
-                                                                                                                               RotationConvention.VECTOR_OPERATOR));
+            .getAngles(RotationOrder.XYZ, RotationConvention.VECTOR_OPERATOR));
 
         if (isX) {
             result = new Attitude(date, frame, angleStepAxis(currentRotation, diff.getX() * 0.001, AXIS.X),
-                                  Vector3D.ZERO, Vector3D.ZERO);
+                Vector3D.ZERO, Vector3D.ZERO);
         } else if (isY) {
             result = new Attitude(date, frame, angleStepAxis(currentRotation, diff.getY() * 0.001, AXIS.Y),
-                                  Vector3D.ZERO, Vector3D.ZERO);
+                Vector3D.ZERO, Vector3D.ZERO);
         } else if (isZ) {
             result = new Attitude(date, frame, angleStepAxis(currentRotation, diff.getZ() * 0.001, AXIS.Z),
-                                  Vector3D.ZERO, Vector3D.ZERO);
+                Vector3D.ZERO, Vector3D.ZERO);
         } else {
             result = new Attitude(date, frame, currentRotation, Vector3D.ZERO, Vector3D.ZERO);
         }
@@ -161,13 +160,13 @@ public class VectorPointingSimulator implements AttitudeProvider {
         switch (axis) {
             case X:
                 return new Rotation(currentRot.applyTo(Vector3D.PLUS_I), angle, RotationConvention.VECTOR_OPERATOR)
-                                                                                                                   .applyTo(currentRot);
+                    .applyTo(currentRot);
             case Y:
                 return new Rotation(currentRot.applyTo(Vector3D.PLUS_J), angle, RotationConvention.VECTOR_OPERATOR)
-                                                                                                                   .applyTo(currentRot);
+                    .applyTo(currentRot);
             case Z:
                 return new Rotation(currentRot.applyTo(Vector3D.PLUS_K), angle, RotationConvention.VECTOR_OPERATOR)
-                                                                                                                   .applyTo(currentRot);
+                    .applyTo(currentRot);
         }
         return null;
     }

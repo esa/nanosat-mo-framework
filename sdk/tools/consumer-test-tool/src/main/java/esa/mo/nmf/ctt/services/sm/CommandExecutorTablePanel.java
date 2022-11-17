@@ -46,8 +46,8 @@ public class CommandExecutorTablePanel extends SharedTablePanel {
     @Override
     public void addEntry(final Identifier name, final ArchivePersistenceObject comObject) {
         if (comObject == null) {
-            Logger.getLogger(SharedTablePanel.class.getName())
-                  .log(Level.SEVERE, "The table cannot process a null COM Object.");
+            Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE,
+                "The table cannot process a null COM Object.");
             return;
         }
 
@@ -60,9 +60,8 @@ public class CommandExecutorTablePanel extends SharedTablePanel {
         CommandDetails commandDetails = (CommandDetails) comObject.getObject();
 
         String pid = commandDetails.getPid() == null ? "not started yet" : commandDetails.getPid().toString();
-        String exitCode = commandDetails.getExitCode() == null ?
-            "not completed yet" :
-            commandDetails.getExitCode().toString();
+        String exitCode = commandDetails.getExitCode() == null ? "not completed yet" : commandDetails.getExitCode()
+            .toString();
         tableData.addRow(new Object[]{comObject.getArchiveDetails().getInstId(), commandDetails.getCommand(), pid,
                                       exitCode});
 
@@ -83,7 +82,7 @@ public class CommandExecutorTablePanel extends SharedTablePanel {
         } catch (NoSuchElementException ex) {
             // It is typical to get the exit code before archive retrieval of the Command can complete
             LOGGER.log(Level.WARNING,
-                       "Received exitCode update for objId {0}, but the object has not yet been received.", objInstId);
+                "Received exitCode update for objId {0}, but the object has not yet been received.", objInstId);
         }
 
         semaphore.release();

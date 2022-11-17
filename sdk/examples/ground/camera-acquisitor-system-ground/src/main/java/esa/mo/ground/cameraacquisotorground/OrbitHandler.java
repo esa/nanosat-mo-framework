@@ -74,7 +74,7 @@ public class OrbitHandler {
     public OrbitHandler(TLE tle) {
         earthFrame = FramesFactory.getITRF(IERSConventions.IERS_2010, true);
         earth = new OneAxisEllipsoid(Constants.WGS84_EARTH_EQUATORIAL_RADIUS, Constants.WGS84_EARTH_FLATTENING,
-                                     earthFrame);
+            earthFrame);
 
         initialTLE = tle;
         propagator = TLEPropagator.selectExtrapolator(tle);
@@ -115,7 +115,7 @@ public class OrbitHandler {
 
             SpacecraftState currentState = this.propagator.propagate(startDate, currentDate);
             GeodeticPoint currentLocation = earth.transform(currentState.getPVCoordinates(earthFrame).getPosition(),
-                                                            earthFrame, currentDate);
+                earthFrame, currentDate);
             positionSeries.add(new PositionAndTime(currentDate, currentLocation));
         }
         return positionSeries.toArray(new PositionAndTime[0]);
@@ -141,25 +141,25 @@ public class OrbitHandler {
      * @return the earliest pass that fits the given parameters
      */
     public Pass getPassTime(double latitude, double longitude, double maxAngle, TimeModeEnum timeMode,
-                            AbsoluteDate notBeforeDate, long worstCaseRotationTimeSeconds, long simulationRange) {
+        AbsoluteDate notBeforeDate, long worstCaseRotationTimeSeconds, long simulationRange) {
 
         GeodeticPoint targetLocation = new GeodeticPoint(FastMath.toRadians(latitude), FastMath.toRadians(longitude),
-                                                         0);
+            0);
         TopocentricFrame groundFrame = new TopocentricFrame(earth, targetLocation, "cameraTarget");
 
         // ------------------ create Detectors ------------------
         /**
          to Radians??????
          */
-        EventDetector overpassDetector = new ElevationDetector(groundFrame).withConstantElevation(FastMath.toRadians(90.0 -
-                                                                                                                     maxAngle));
+        EventDetector overpassDetector = new ElevationDetector(groundFrame).withConstantElevation(FastMath.toRadians(
+            90.0 - maxAngle));
 
         Pass pass = new Pass(notBeforeDate, worstCaseRotationTimeSeconds);
         if (timeMode != TimeModeEnum.ANY) {
             PVCoordinatesProvider sun = CelestialBodyFactory.getSun(); //create detector for nighttime
 
             EventDetector timeModeDetector = new GroundAtNightDetector(groundFrame, sun, FastMath.toRadians(-18.0),
-                                                                       new EarthITU453AtmosphereRefraction(0));
+                new EarthITU453AtmosphereRefraction(0));
 
             //invert nightTime detector if photograph should be taken at daytime
             if (timeMode == TimeModeEnum.DAYTIME) {

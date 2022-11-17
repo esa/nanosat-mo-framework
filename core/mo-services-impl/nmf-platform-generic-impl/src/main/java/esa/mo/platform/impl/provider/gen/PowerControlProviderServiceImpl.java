@@ -78,7 +78,7 @@ public class PowerControlProviderServiceImpl extends PowerControlInheritanceSkel
             }
 
             if (MALContextFactory.lookupArea(PlatformHelper.PLATFORM_AREA_NAME, PlatformHelper.PLATFORM_AREA_VERSION)
-                                 .getServiceByName(PowerControlHelper.POWERCONTROL_SERVICE_NAME) == null) {
+                .getServiceByName(PowerControlHelper.POWERCONTROL_SERVICE_NAME) == null) {
                 PowerControlHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
         }
@@ -90,7 +90,7 @@ public class PowerControlProviderServiceImpl extends PowerControlInheritanceSkel
 
         this.adapter = adapter;
         powerControlServiceProvider = connection.startService(PowerControlHelper.POWERCONTROL_SERVICE_NAME.toString(),
-                                                              PowerControlHelper.POWERCONTROL_SERVICE, this);
+            PowerControlHelper.POWERCONTROL_SERVICE, this);
 
         running = true;
         initialiased = true;
@@ -114,8 +114,8 @@ public class PowerControlProviderServiceImpl extends PowerControlInheritanceSkel
     }
 
     @Override
-    public DeviceList listDevices(IdentifierList names,
-                                  MALInteraction interaction) throws MALInteractionException, MALException {
+    public DeviceList listDevices(IdentifierList names, MALInteraction interaction) throws MALInteractionException,
+        MALException {
         if (names == null) {
             throw new MALException("IdentifierList cannot be empty.");
         }
@@ -142,14 +142,14 @@ public class PowerControlProviderServiceImpl extends PowerControlInheritanceSkel
     }
 
     @Override
-    public void enableDevices(DeviceList devices,
-                              MALInteraction interaction) throws MALInteractionException, MALException {
+    public void enableDevices(DeviceList devices, MALInteraction interaction) throws MALInteractionException,
+        MALException {
         try {
             adapter.enableDevices(devices);
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, "adapter.enableDevices failed", ex);
             throw new MALInteractionException(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER,
-                                                                   null));
+                null));
         }
     }
 

@@ -56,15 +56,14 @@ public class ParametersCommandsDefinitions {
 
         @Option(names = {"-d", "--domain"}, paramLabel = "<domainId>",
                 description = "Restricts the dump to objects in a specific domain\n" +
-                              "  - format: key1.key2.[...].keyN.\n" +
-                              "  - example: esa.NMF_SDK.nanosat-mo-supervisor")
+                    "  - format: key1.key2.[...].keyN.\n" + "  - example: esa.NMF_SDK.nanosat-mo-supervisor")
         String domain;
 
         /** {@inheritDoc} */
         @Override
         public void run() {
             ParametersCommandsImplementations.listParameters(localOrRemote.databaseFile, localOrRemote.providerURI,
-                                                             domain, appName);
+                domain, appName);
         }
     }
 
@@ -90,21 +89,18 @@ public class ParametersCommandsDefinitions {
 
         @Option(names = {"-d", "--domain"}, paramLabel = "<domainId>",
                 description = "Restricts the dump to parameters in a specific domain\n" +
-                              "  - format: key1.key2.[...].keyN.\n" +
-                              "  - example: esa.NMF_SDK.nanosat-mo-supervisor")
+                    "  - format: key1.key2.[...].keyN.\n" + "  - example: esa.NMF_SDK.nanosat-mo-supervisor")
         String domain;
 
         @Option(names = {"-s", "--start"}, paramLabel = "<startTime>",
                 description = "Restricts the dump to parameters generated after the given time\n" +
-                              "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n" +
-                              "  - example: \"2021-03-04 08:37:58.482\"")
+                    "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n" + "  - example: \"2021-03-04 08:37:58.482\"")
         String startTime;
 
         @Option(names = {"-e", "--end"}, paramLabel = "<endTime>",
                 description = "Restricts the dump to parameters generated before the given time. " +
-                              "If this option is provided without the -s option, returns the single object that has the closest timestamp to, but not greater than <endTime>\n" +
-                              "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n" +
-                              "  - example: \"2021-03-05 12:05:45.271\"")
+                    "If this option is provided without the -s option, returns the single object that has the closest timestamp to, but not greater than <endTime>\n" +
+                    "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n" + "  - example: \"2021-03-05 12:05:45.271\"")
         String endTime;
 
         @Option(names = {"-j", "--json"}, paramLabel = "<json>",
@@ -114,8 +110,7 @@ public class ParametersCommandsDefinitions {
         @Override
         public void run() {
             ParametersCommandsImplementations.getParameters(localOrRemote.databaseFile, localOrRemote.providerURI,
-                                                            domain, startTime, endTime, parametersFile, appName,
-                                                            parameterNames, json);
+                domain, startTime, endTime, parametersFile, appName, parameterNames, json);
         }
     }
 

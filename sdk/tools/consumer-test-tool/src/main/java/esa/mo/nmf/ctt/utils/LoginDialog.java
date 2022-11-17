@@ -70,7 +70,7 @@ public class LoginDialog extends JDialog {
     private JButton rolesButton;
 
     public LoginDialog(ServiceCapability loginCapability, ServiceCapability archiveCapability,
-                       IdentifierList providerDomain, IdentifierList domainForArchive, String localNamePrefix) {
+        IdentifierList providerDomain, IdentifierList domainForArchive, String localNamePrefix) {
         createLoginDialog();
 
         loginConnection = new SingleConnectionDetails();
@@ -154,9 +154,8 @@ public class LoginDialog extends JDialog {
             try {
                 LoginConsumerServiceImpl loginConsumer = getLoginConsumer();
                 Long role = roleNameToId.get(rolesComboBox.getSelectedItem());
-                LoginResponse response = loginConsumer.getLoginStub()
-                                                      .login(new Profile(new Identifier(userTextField.getText()), role),
-                                                             new String(passwordTextField.getPassword()));
+                LoginResponse response = loginConsumer.getLoginStub().login(new Profile(new Identifier(userTextField
+                    .getText()), role), new String(passwordTextField.getPassword()));
                 authenticationId = response.getBodyElement0();
                 loginConsumer.close();
                 loginSuccessful = true;
@@ -173,15 +172,14 @@ public class LoginDialog extends JDialog {
         rolesButton.addActionListener(event -> {
             try {
                 LoginConsumerServiceImpl loginConsumer = getLoginConsumer();
-                LongList roles = loginConsumer.getLoginStub()
-                                              .listRoles(new Identifier(userTextField.getText()), new String(
-                                                                                                             passwordTextField.getPassword()));
+                LongList roles = loginConsumer.getLoginStub().listRoles(new Identifier(userTextField.getText()),
+                    new String(passwordTextField.getPassword()));
 
                 ArchiveConsumerServiceImpl archiveConsumer = new ArchiveConsumerServiceImpl(archiveConnection, null,
-                                                                                            localNamePrefix);
+                    localNamePrefix);
                 RolesArchiveAdapter archiveAdapter = new RolesArchiveAdapter();
-                archiveConsumer.getArchiveStub()
-                               .retrieve(LoginHelper.LOGINROLE_OBJECT_TYPE, domainForArchive, roles, archiveAdapter);
+                archiveConsumer.getArchiveStub().retrieve(LoginHelper.LOGINROLE_OBJECT_TYPE, domainForArchive, roles,
+                    archiveAdapter);
                 while (!archiveAdapter.isFinished()) {
                     try {
                         Thread.sleep(100);
@@ -192,8 +190,8 @@ public class LoginDialog extends JDialog {
                 archiveConsumer.close();
                 rolesComboBox.setModel(new DefaultComboBoxModel<>(roleNameToId.keySet().toArray(new String[0])));
             } catch (MALException | MALInteractionException | MalformedURLException e) {
-                Logger.getLogger(LoginDialog.class.getName())
-                      .log(Level.SEVERE, "Unexpected exception during listRoles", e);
+                Logger.getLogger(LoginDialog.class.getName()).log(Level.SEVERE, "Unexpected exception during listRoles",
+                    e);
             }
         });
         JPanel buttonPanel = new JPanel();
@@ -214,7 +212,8 @@ public class LoginDialog extends JDialog {
         setLocationRelativeTo(null);
     }
 
-    private LoginConsumerServiceImpl getLoginConsumer() throws MALException, MALInteractionException, MalformedURLException {
+    private LoginConsumerServiceImpl getLoginConsumer() throws MALException, MALInteractionException,
+        MalformedURLException {
         if (loginConsumer == null) {
             loginConsumer = new LoginConsumerServiceImpl(loginConnection, null, null, localNamePrefix);
         }
@@ -238,7 +237,7 @@ public class LoginDialog extends JDialog {
 
         @Override
         public void retrieveResponseReceived(MALMessageHeader msgHeader, ArchiveDetailsList objDetails,
-                                             ElementList objBodies, Map qosProperties) {
+            ElementList objBodies, Map qosProperties) {
             for (int i = 0; i < objDetails.size(); ++i) {
                 roleNameToId.put(((Identifier) objBodies.get(i)).getValue(), objDetails.get(i).getInstId());
             }
@@ -247,9 +246,9 @@ public class LoginDialog extends JDialog {
 
         @Override
         public void retrieveResponseErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
-                                                  Map qosProperties) {
-            Logger.getLogger(LoginDialog.class.getName())
-                  .log(Level.SEVERE, "Unexpected error during roles retrieval: " + error.getErrorName());
+            Map qosProperties) {
+            Logger.getLogger(LoginDialog.class.getName()).log(Level.SEVERE,
+                "Unexpected error during roles retrieval: " + error.getErrorName());
             finished = true;
         }
 

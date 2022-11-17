@@ -94,14 +94,14 @@ public class TestMPServices {
         connector.getCOMServices().getArchiveService().wipe();
 
         PlanInformationManagementProviderServiceImpl pimServiceProvider = connector.getMPServices()
-                                                                                   .getPlanInformationManagementService();
+            .getPlanInformationManagementService();
         PlanningRequestProviderServiceImpl planningRequestServiceProvider = connector.getMPServices()
-                                                                                     .getPlanningRequestService();
+            .getPlanningRequestService();
         PlanDistributionProviderServiceImpl planDistributionServiceProvider = connector.getMPServices()
-                                                                                       .getPlanDistributionService();
+            .getPlanDistributionService();
         PlanEditProviderServiceImpl planEditServiceProvider = connector.getMPServices().getPlanEditService();
         PlanExecutionControlProviderServiceImpl planExecutionControlServiceProvider = connector.getMPServices()
-                                                                                               .getPlanExecutionControlService();
+            .getPlanExecutionControlService();
 
         // Consumer setup
         COMServicesConsumer comServicesConsumer = new COMServicesConsumer();
@@ -111,12 +111,12 @@ public class TestMPServices {
         comServicesConsumer.init(pimServiceConsumer.getConnectionConsumer());
 
         SingleConnectionDetails prsConnection = planningRequestServiceProvider.getConnectionProvider()
-                                                                              .getConnectionDetails();
+            .getConnectionDetails();
         planningRequestServiceConsumer = new PlanningRequestConsumerServiceImpl(prsConnection, comServicesConsumer);
         comServicesConsumer.init(planningRequestServiceConsumer.getConnectionConsumer());
 
         SingleConnectionDetails pdsConnection = planDistributionServiceProvider.getConnectionProvider()
-                                                                               .getConnectionDetails();
+            .getConnectionDetails();
         planDistributionServiceConsumer = new PlanDistributionConsumerServiceImpl(pdsConnection, comServicesConsumer);
         comServicesConsumer.init(planDistributionServiceConsumer.getConnectionConsumer());
 
@@ -125,9 +125,9 @@ public class TestMPServices {
         comServicesConsumer.init(planEditServiceConsumer.getConnectionConsumer());
 
         SingleConnectionDetails pecConnection = planExecutionControlServiceProvider.getConnectionProvider()
-                                                                                   .getConnectionDetails();
+            .getConnectionDetails();
         planExecutionControlServiceConsumer = new PlanExecutionControlConsumerServiceImpl(pecConnection,
-                                                                                          comServicesConsumer);
+            comServicesConsumer);
         comServicesConsumer.init(planExecutionControlServiceConsumer.getConnectionConsumer());
 
         try {
@@ -201,8 +201,8 @@ public class TestMPServices {
         RequestTemplateDetailsList updatedRequestDefList = new RequestTemplateDetailsList();
         updatedRequestDefList.add(updatedRequestDef);
 
-        LongList updateResponse = pimServiceConsumer.getPlanInformationManagementStub()
-                                                    .updateRequestDef(identityIdList, updatedRequestDefList);
+        LongList updateResponse = pimServiceConsumer.getPlanInformationManagementStub().updateRequestDef(identityIdList,
+            updatedRequestDefList);
 
         // Assert
         assertNotNull(updateResponse);
@@ -223,8 +223,8 @@ public class TestMPServices {
 
             RequestTemplateDetailsList updatedRequestDefList = new RequestTemplateDetailsList();
             updatedRequestDefList.add(updatedRequestDef);
-            pimServiceConsumer.getPlanInformationManagementStub()
-                              .updateRequestDef(identityIdList, updatedRequestDefList);
+            pimServiceConsumer.getPlanInformationManagementStub().updateRequestDef(identityIdList,
+                updatedRequestDefList);
 
             fail("No exception thrown");
         } catch (MALInteractionException e) {
@@ -244,8 +244,8 @@ public class TestMPServices {
 
             RequestTemplateDetailsList updatedRequestDefList = new RequestTemplateDetailsList();
             updatedRequestDefList.add(updatedRequestDef);
-            pimServiceConsumer.getPlanInformationManagementStub()
-                              .updateRequestDef(identityIdList, updatedRequestDefList);
+            pimServiceConsumer.getPlanInformationManagementStub().updateRequestDef(identityIdList,
+                updatedRequestDefList);
 
             fail("No exception thrown");
         } catch (MALInteractionException e) {
@@ -262,8 +262,8 @@ public class TestMPServices {
 
         IdentifierList identityList = new IdentifierList();
         identityList.add(new Identifier(identity));
-        ObjectInstancePairList listResponse = pimServiceConsumer.getPlanInformationManagementStub()
-                                                                .listRequestDefs(identityList);
+        ObjectInstancePairList listResponse = pimServiceConsumer.getPlanInformationManagementStub().listRequestDefs(
+            identityList);
 
         // Assert
         assertNotNull(listResponse);
@@ -283,8 +283,8 @@ public class TestMPServices {
 
         LongList identityIdList = new LongList();
         identityIdList.add(addResponse.get(0).getObjectIdentityInstanceId());
-        RequestTemplateDetailsList getResponse = pimServiceConsumer.getPlanInformationManagementStub()
-                                                                   .getRequestDef(identityIdList);
+        RequestTemplateDetailsList getResponse = pimServiceConsumer.getPlanInformationManagementStub().getRequestDef(
+            identityIdList);
 
         // Assert
         assertNotNull(getResponse);
@@ -323,7 +323,7 @@ public class TestMPServices {
             Identifier requestIdentity = new Identifier("Test Request " + new Random().nextInt());
             RequestVersionDetails requestVersion = new RequestVersionDetails();
             ObjectId invalidTemplate = COMObjectIdHelper.getObjectId(0L,
-                                                                     PlanInformationManagementHelper.REQUESTTEMPLATE_OBJECT_TYPE);
+                PlanInformationManagementHelper.REQUESTTEMPLATE_OBJECT_TYPE);
             requestVersion.setTemplate(invalidTemplate);
             planningRequestServiceConsumer.getPlanningRequestStub().submitRequest(requestIdentity, requestVersion);
             fail("No exception thrown");
@@ -342,8 +342,8 @@ public class TestMPServices {
         RequestVersionDetails requestVersion = new RequestVersionDetails();
 
         Long requestIdentityId = response.getBodyElement0();
-        Long updatedRequestVersionId = planningRequestServiceConsumer.getPlanningRequestStub()
-                                                                     .updateRequest(requestIdentityId, requestVersion);
+        Long updatedRequestVersionId = planningRequestServiceConsumer.getPlanningRequestStub().updateRequest(
+            requestIdentityId, requestVersion);
 
         assertNotNull(updatedRequestVersionId);
         LOGGER.info("Received updated Request Version Id: " + updatedRequestVersionId);
@@ -369,8 +369,8 @@ public class TestMPServices {
         ids.add(submitResponse.getBodyElement0());
         requestFilter.setRequestIdentityId(ids);
 
-        GetRequestStatusResponse response = planningRequestServiceConsumer.getPlanningRequestStub()
-                                                                          .getRequestStatus(requestFilter);
+        GetRequestStatusResponse response = planningRequestServiceConsumer.getPlanningRequestStub().getRequestStatus(
+            requestFilter);
         assertNotNull(response);
         assertEquals(1, response.getBodyElement0().size());
         assertNotNull(response.getBodyElement0().get(0));
@@ -392,8 +392,8 @@ public class TestMPServices {
         requestFilter.setRequestIdentityId(ids);
 
         GetRequestMonitor monitor = new GetRequestMonitor();
-        Short numberOfUpdates = planningRequestServiceConsumer.getPlanningRequestStub()
-                                                              .getRequest(requestFilter, monitor);
+        Short numberOfUpdates = planningRequestServiceConsumer.getPlanningRequestStub().getRequest(requestFilter,
+            monitor);
 
         // Wait for updates
         synchronized (monitor) {
@@ -484,8 +484,8 @@ public class TestMPServices {
         PlanFilter planFilter = new PlanFilter();
         planFilter.setReturnAll(true);
 
-        Short numberOfUpdates = planDistributionServiceConsumer.getPlanDistributionStub()
-                                                               .queryPlan(planFilter, monitor);
+        Short numberOfUpdates = planDistributionServiceConsumer.getPlanDistributionStub().queryPlan(planFilter,
+            monitor);
 
         // Wait for updates
         synchronized (monitor) {
@@ -613,9 +613,8 @@ public class TestMPServices {
         } catch (MALInteractionException e) {
             // Assert
             assertEquals(COMHelper.DUPLICATE_ERROR_NUMBER, e.getStandardError().getErrorNumber());
-            assertEquals("Given Activity already exists in the plan", e.getStandardError()
-                                                                       .getExtraInformation()
-                                                                       .toString());
+            assertEquals("Given Activity already exists in the plan", e.getStandardError().getExtraInformation()
+                .toString());
         }
     }
 
@@ -643,16 +642,15 @@ public class TestMPServices {
             Long invalidActivityInstanceId = -1L; // TODO
             ActivityInstanceDetails updatedActivity = MPFactory.createActivityInstance();
 
-            planEditServiceConsumer.getPlanEditStub()
-                                   .updateActivity(planIdentityId, invalidActivityInstanceId, updatedActivity);
+            planEditServiceConsumer.getPlanEditStub().updateActivity(planIdentityId, invalidActivityInstanceId,
+                updatedActivity);
 
             fail("No exception thrown");
         } catch (MALInteractionException e) {
             // Assert
             assertEquals(COMHelper.INVALID_ERROR_NUMBER, e.getStandardError().getErrorNumber());
-            assertEquals("Given Activity does not exist in the plan", e.getStandardError()
-                                                                       .getExtraInformation()
-                                                                       .toString());
+            assertEquals("Given Activity does not exist in the plan", e.getStandardError().getExtraInformation()
+                .toString());
         }
     }
 
@@ -695,9 +693,8 @@ public class TestMPServices {
         } catch (MALInteractionException e) {
             // Assert
             assertEquals(COMHelper.DUPLICATE_ERROR_NUMBER, e.getStandardError().getErrorNumber());
-            assertEquals("Given Event already exists in the plan", e.getStandardError()
-                                                                    .getExtraInformation()
-                                                                    .toString());
+            assertEquals("Given Event already exists in the plan", e.getStandardError().getExtraInformation()
+                .toString());
         }
     }
 
@@ -769,8 +766,8 @@ public class TestMPServices {
         identities.add(new Identifier(identity));
         ActivityDefinitionDetailsList definitions = new ActivityDefinitionDetailsList();
         definitions.add(new ActivityDefinitionDetails());
-        ObjectInstancePairList pairs = pimServiceConsumer.getPlanInformationManagementStub()
-                                                         .addActivityDef(identities, definitions);
+        ObjectInstancePairList pairs = pimServiceConsumer.getPlanInformationManagementStub().addActivityDef(identities,
+            definitions);
         return pairs.get(0).getObjectInstanceId();
     }
 
@@ -779,8 +776,8 @@ public class TestMPServices {
         identities.add(new Identifier(identity));
         EventDefinitionDetailsList definitions = new EventDefinitionDetailsList();
         definitions.add(new EventDefinitionDetails());
-        ObjectInstancePairList pairs = pimServiceConsumer.getPlanInformationManagementStub()
-                                                         .addEventDef(identities, definitions);
+        ObjectInstancePairList pairs = pimServiceConsumer.getPlanInformationManagementStub().addEventDef(identities,
+            definitions);
         return pairs.get(0).getObjectInstanceId();
     }
 }

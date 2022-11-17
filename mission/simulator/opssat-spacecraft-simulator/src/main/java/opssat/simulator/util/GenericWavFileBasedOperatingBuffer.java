@@ -163,11 +163,8 @@ public abstract class GenericWavFileBasedOperatingBuffer implements SimulatorOpe
                     result.append(",");
                 }
                 if (k > 10) {
-                    result.append(" and [" +
-                                  (tempCast.length - k) +
-                                  "] more , total [" +
-                                  tempCast.length +
-                                  "] doubles.");
+                    result.append(" and [" + (tempCast.length - k) + "] more , total [" + tempCast.length +
+                        "] doubles.");
                     break;
                 }
             }

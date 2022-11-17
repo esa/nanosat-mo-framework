@@ -71,9 +71,8 @@ public class HelperArchive {
      */
     public static Boolean archiveDetailsContainsNull(ArchiveDetails archiveDetails) {
         // Check if null
-        return archiveDetails.getNetwork().getValue() == null ||
-               archiveDetails.getTimestamp() == null ||
-               archiveDetails.getProvider().getValue() == null;
+        return archiveDetails.getNetwork().getValue() == null || archiveDetails.getTimestamp() == null || archiveDetails
+            .getProvider().getValue() == null;
     }
 
     /**
@@ -91,9 +90,8 @@ public class HelperArchive {
         }
 
         // Check for nulls
-        if (archiveDetails.getNetwork() == null ||
-            archiveDetails.getTimestamp() == null ||
-            archiveDetails.getProvider() == null) {
+        if (archiveDetails.getNetwork() == null || archiveDetails.getTimestamp() == null || archiveDetails
+            .getProvider() == null) {
             return true;
         }
 
@@ -127,10 +125,9 @@ public class HelperArchive {
      * @return The ArchiveDetailsList object
      */
     public static ArchiveDetailsList generateArchiveDetailsList(final Long related, final ObjectId source,
-                                                                final MALInteraction interaction) {
+        final MALInteraction interaction) {
         return generateArchiveDetailsList(related, source, interaction.getMessageHeader().getNetworkZone(), interaction
-                                                                                                                       .getMessageHeader()
-                                                                                                                       .getURIFrom());
+            .getMessageHeader().getURIFrom());
     }
 
     /**
@@ -148,7 +145,7 @@ public class HelperArchive {
      * @return The ArchiveDetailsList object
      */
     public static ArchiveDetailsList generateArchiveDetailsList(LongList relatedIds, ObjectId source,
-                                                                MALInteraction interaction) {
+        MALInteraction interaction) {
         final ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
 
         FineTime timestamp = HelperTime.getTimestamp();
@@ -179,7 +176,7 @@ public class HelperArchive {
      */
     @Deprecated
     public static ArchiveDetailsList generateArchiveDetailsList(final Long related, final ObjectId source,
-                                                                final SingleConnectionDetails connectionDetails) {
+        final SingleConnectionDetails connectionDetails) {
         return generateArchiveDetailsList(related, source, connectionDetails.getProviderURI());
     }
 
@@ -198,7 +195,7 @@ public class HelperArchive {
      * @return The ArchiveDetailsList object
      */
     public static ArchiveDetailsList generateArchiveDetailsList(final Long related, final ObjectId source,
-                                                                final URI uri) {
+        final URI uri) {
         return generateArchiveDetailsList(related, source, ConfigurationProviderSingleton.getNetwork(), uri);
     }
 
@@ -219,9 +216,9 @@ public class HelperArchive {
      * @return The ArchiveDetailsList object
      */
     public static ArchiveDetailsList generateArchiveDetailsList(final Long related, final ObjectId source,
-                                                                final Identifier network, final URI provider) {
+        final Identifier network, final URI provider) {
         return generateArchiveDetailsList(related, source, ConfigurationProviderSingleton.getNetwork(), provider,
-                                          HelperTime.getTimestamp());
+            HelperTime.getTimestamp());
     }
 
     /**
@@ -243,8 +240,7 @@ public class HelperArchive {
      * @return The ArchiveDetailsList object
      */
     public static ArchiveDetailsList generateArchiveDetailsList(final Long related, final ObjectId source,
-                                                                final Identifier network, final URI provider,
-                                                                final FineTime timestamp) {
+        final Identifier network, final URI provider, final FineTime timestamp) {
         final ArchiveDetails archiveDetails = new ArchiveDetails();
         archiveDetails.setInstId(0L);
         archiveDetails.setDetails(new ObjectDetails(related, source));
@@ -276,10 +272,9 @@ public class HelperArchive {
      * @return The ArchiveDetailsList object
      */
     public static ArchiveDetailsList generateArchiveDetailsList(final Long related, final ObjectId source,
-                                                                final Identifier network, final URI provider,
-                                                                final Long objId) {
+        final Identifier network, final URI provider, final Long objId) {
         final ArchiveDetailsList archiveDetailsList = HelperArchive.generateArchiveDetailsList(related, source, network,
-                                                                                               provider);
+            provider);
 
         archiveDetailsList.get(0).setInstId(objId);
 
@@ -301,11 +296,11 @@ public class HelperArchive {
      *         returned
      */
     public static Element getObjectBodyFromArchive(final Object archiveService, final ObjectType objType,
-                                                   final IdentifierList domain, final Long objId) {
+        final IdentifierList domain, final Long objId) {
         final LongList objIds = new LongList();
         objIds.add(objId);
         final ElementList objs = (ElementList) getFromArchive(archiveService, objType, domain, objIds,
-                                                              ToBeReturned.OBJECT_BODY, true);
+            ToBeReturned.OBJECT_BODY, true);
 
         return (objs != null) ? (Element) objs.get(0) : null;
     }
@@ -332,7 +327,7 @@ public class HelperArchive {
      */
     @Deprecated
     public static ElementList getObjectBodyListFromArchive(Object archiveService, final ObjectType objType,
-                                                           final IdentifierList domain, final LongList objIds) {
+        final IdentifierList domain, final LongList objIds) {
         return (ElementList) getFromArchive(archiveService, objType, domain, objIds, ToBeReturned.OBJECT_BODY, true);
     }
 
@@ -351,13 +346,11 @@ public class HelperArchive {
      *         object was returned
      */
     public static ArchiveDetails getArchiveDetailsFromArchive(Object archiveService, final ObjectType objType,
-                                                              final IdentifierList domain, final Long objId) {
+        final IdentifierList domain, final Long objId) {
         final LongList objIds = new LongList();
         objIds.add(objId);
         final ArchiveDetailsList archiveDetailsList = (ArchiveDetailsList) getFromArchive(archiveService, objType,
-                                                                                          domain, objIds,
-                                                                                          ToBeReturned.ARCHIVE_DETAILS,
-                                                                                          false);
+            domain, objIds, ToBeReturned.ARCHIVE_DETAILS, false);
         if (archiveDetailsList == null || archiveDetailsList.size() < 1) {
             return null;
         }
@@ -380,11 +373,9 @@ public class HelperArchive {
      *         null if no object was returned
      */
     public static ArchiveDetailsList getUnorderedArchiveDetailsListFromArchive(Object archiveService,
-                                                                               final ObjectType objType,
-                                                                               final IdentifierList domain,
-                                                                               final LongList objIds) {
+        final ObjectType objType, final IdentifierList domain, final LongList objIds) {
         return (ArchiveDetailsList) getFromArchive(archiveService, objType, domain, objIds,
-                                                   ToBeReturned.ARCHIVE_DETAILS, false);
+            ToBeReturned.ARCHIVE_DETAILS, false);
     }
 
     /**
@@ -408,10 +399,9 @@ public class HelperArchive {
      */
     @Deprecated
     public static ArchiveDetailsList getArchiveDetailsListFromArchive(Object archiveService, final ObjectType objType,
-                                                                      final IdentifierList domain,
-                                                                      final LongList objIds) {
+        final IdentifierList domain, final LongList objIds) {
         return (ArchiveDetailsList) getFromArchive(archiveService, objType, domain, objIds,
-                                                   ToBeReturned.ARCHIVE_DETAILS, true);
+            ToBeReturned.ARCHIVE_DETAILS, true);
     }
 
     /**
@@ -428,16 +418,12 @@ public class HelperArchive {
      * @return The COM object or null if no object was returned
      */
     public static ArchivePersistenceObject getArchiveCOMObject(Object archiveService, final ObjectType objType,
-                                                               final IdentifierList domain, final Long objId) {
+        final IdentifierList domain, final Long objId) {
         LongList objIds = new LongList();
         objIds.add(objId);
 
-        List<ArchivePersistenceObject> archiveCOMobjectList = (List<ArchivePersistenceObject>) getFromArchive(archiveService,
-                                                                                                              objType,
-                                                                                                              domain,
-                                                                                                              objIds,
-                                                                                                              ToBeReturned.COM_OBJECT,
-                                                                                                              false);
+        List<ArchivePersistenceObject> archiveCOMobjectList = (List<ArchivePersistenceObject>) getFromArchive(
+            archiveService, objType, domain, objIds, ToBeReturned.COM_OBJECT, false);
 
         if (archiveCOMobjectList == null || archiveCOMobjectList.size() < 1) {
             return null;
@@ -466,11 +452,9 @@ public class HelperArchive {
      */
     @Deprecated
     public static List<ArchivePersistenceObject> getArchiveCOMObjectList(Object archiveService,
-                                                                         final ObjectType objType,
-                                                                         final IdentifierList domain,
-                                                                         final LongList objIds) {
+        final ObjectType objType, final IdentifierList domain, final LongList objIds) {
         return (List<ArchivePersistenceObject>) getFromArchive(archiveService, objType, domain, objIds,
-                                                               ToBeReturned.COM_OBJECT, true);
+            ToBeReturned.COM_OBJECT, true);
     }
 
     /**
@@ -489,11 +473,9 @@ public class HelperArchive {
      * @return The list of COM objects or null if no object was returned
      */
     public static List<ArchivePersistenceObject> getUnorderedArchiveCOMObjectList(Object archiveService,
-                                                                                  final ObjectType objType,
-                                                                                  final IdentifierList domain,
-                                                                                  final LongList objIds) {
+        final ObjectType objType, final IdentifierList domain, final LongList objIds) {
         return (List<ArchivePersistenceObject>) getFromArchive(archiveService, objType, domain, objIds,
-                                                               ToBeReturned.COM_OBJECT, false);
+            ToBeReturned.COM_OBJECT, false);
     }
 
     /**
@@ -501,8 +483,8 @@ public class HelperArchive {
      * via local or remote adapter.
      */
     private static Object getFromArchive(final Object archiveService, final ObjectType objType,
-                                         final IdentifierList domain, final LongList objIds,
-                                         final ToBeReturned toBeReturned, final boolean sortReturnList) {
+        final IdentifierList domain, final LongList objIds, final ToBeReturned toBeReturned,
+        final boolean sortReturnList) {
         if (archiveService == null) { // If there's no archive...
             LOGGER.log(Level.INFO, "The Archive service provided contains a null pointer!");
             return null;
@@ -514,27 +496,25 @@ public class HelperArchive {
             if (archiveService instanceof ArchiveHandler) {
                 adapter = new HelperLocalArchiveRetrieveAdapter(null, objType, domain);
                 ((ArchiveHandler) archiveService).retrieve(objType, domain, objIds,
-                                                           (HelperLocalArchiveRetrieveAdapter) adapter);
+                    (HelperLocalArchiveRetrieveAdapter) adapter);
             } else if (archiveService instanceof ArchiveStub) {
                 adapter = new HelperRemoteArchiveRetrieveAdapter(objType, domain);
                 ((ArchiveStub) archiveService).retrieve(objType, domain, objIds,
-                                                        (HelperRemoteArchiveRetrieveAdapter) adapter);
+                    (HelperRemoteArchiveRetrieveAdapter) adapter);
             } else {
                 LOGGER.log(Level.SEVERE, "The Archive service provided ({0}) is not a supported class!", archiveService
-                                                                                                                       .getClass()
-                                                                                                                       .toString());
+                    .getClass().toString());
                 return null;
             }
         } catch (MALInteractionException ex) {
             LOGGER.log(Level.INFO,
-                       "(MALInteractionException) The object {0}, domain = {1}, objIds = {2} could not be retrieved from the Archive ({3})! A null will be returned!",
-                       new Object[]{objType.toString(), HelperMisc.domain2domainId(domain), objIds.toString(),
-                                    archiveService.getClass().getSimpleName()});
+                "(MALInteractionException) The object {0}, domain = {1}, objIds = {2} could not be retrieved from the Archive ({3})! A null will be returned!",
+                new Object[]{objType.toString(), HelperMisc.domain2domainId(domain), objIds.toString(), archiveService
+                    .getClass().getSimpleName()});
             return null;
         } catch (MALException ex) {
             LOGGER.log(Level.INFO,
-                       "(MALException) The object could not be retrieved from the Archive! A null will be returned! {0}",
-                       ex);
+                "(MALException) The object could not be retrieved from the Archive! A null will be returned! {0}", ex);
             return null;
         }
 
@@ -561,7 +541,7 @@ public class HelperArchive {
     // Suppress warnings of casting Object to List and ArrayList
     @SuppressWarnings("unchecked")
     private static Object returnListSort(final LongList objIds, Object ret,
-                                         HelperArchiveRetrieveAdapterInterface adapter) {
+        HelperArchiveRetrieveAdapterInterface adapter) {
         try {
             ArrayList<Object> sortedList = (ArrayList<Object>) ret.getClass().getConstructor().newInstance();
             ArchiveDetailsList detailsList = adapter.getArchiveDetailsList();

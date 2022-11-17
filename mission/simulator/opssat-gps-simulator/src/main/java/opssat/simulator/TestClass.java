@@ -46,8 +46,7 @@ public class TestClass {
             @Override
             public void run() {
                 System.out.printf("\nLatitude, Longitude: %f, %f\nAltitude: %f\nTime: %s\n", app.getGPSlatitude(), app
-                                                                                                                      .getGPSlongitude(),
-                                  app.getGPSaltitude(), app.getGPStime().toString());
+                    .getGPSlongitude(), app.getGPSaltitude(), app.getGPStime().toString());
 
             }
         }, 0, 3000);

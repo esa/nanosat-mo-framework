@@ -60,14 +60,14 @@ public class GPSConsumerServiceImpl extends ConsumerServiceImpl {
         return new GPSStub(tmConsumer);
     }
 
-    public GPSConsumerServiceImpl(SingleConnectionDetails connectionDetails,
-                                  COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
+    public GPSConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices)
+        throws MALException, MalformedURLException, MALInteractionException {
         this(connectionDetails, comServices, null, null);
     }
 
     public GPSConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices,
-                                  Blob authenticationId,
-                                  String localNamePrefix) throws MALException, MalformedURLException, MALInteractionException {
+        Blob authenticationId, String localNamePrefix) throws MALException, MalformedURLException,
+        MALInteractionException {
         this.connectionDetails = connectionDetails;
         this.comServices = comServices;
 
@@ -81,9 +81,8 @@ public class GPSConsumerServiceImpl extends ConsumerServiceImpl {
         }
 
         tmConsumer = connection.startService(this.connectionDetails.getProviderURI(), this.connectionDetails
-                                                                                                            .getBrokerURI(),
-                                             this.connectionDetails.getDomain(), GPSHelper.GPS_SERVICE,
-                                             authenticationId, localNamePrefix);
+            .getBrokerURI(), this.connectionDetails.getDomain(), GPSHelper.GPS_SERVICE, authenticationId,
+            localNamePrefix);
 
         this.gpsService = new GPSStub(tmConsumer);
     }

@@ -37,7 +37,7 @@ import org.ccsds.moims.mo.mal.structures.UIntegerList;
 public class GroupRetrieval {
 
     public GroupRetrieval(UIntegerList unkIndexList, UIntegerList invIndexList, LongList objIdToBeEnabled,
-                          BooleanList valueToBeEnabled) {
+        BooleanList valueToBeEnabled) {
         this.unkIndexList = unkIndexList;
         this.invIndexList = invIndexList;
         this.objIdToBeEnabled = objIdToBeEnabled;

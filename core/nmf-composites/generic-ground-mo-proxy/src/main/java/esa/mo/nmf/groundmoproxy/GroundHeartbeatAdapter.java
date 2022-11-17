@@ -44,8 +44,8 @@ public class GroundHeartbeatAdapter extends HeartbeatAdapter {
     protected final GroundMOProxy moProxy;
     protected final HeartbeatConsumerServiceImpl heartbeat;
 
-    public GroundHeartbeatAdapter(final HeartbeatConsumerServiceImpl heartbeat,
-                                  final GroundMOProxy moProxy) throws MALInteractionException, MALException {
+    public GroundHeartbeatAdapter(final HeartbeatConsumerServiceImpl heartbeat, final GroundMOProxy moProxy)
+        throws MALInteractionException, MALException {
         this.moProxy = moProxy;
         this.heartbeat = heartbeat;
         long timestamp = System.currentTimeMillis();
@@ -69,15 +69,14 @@ public class GroundHeartbeatAdapter extends HeartbeatAdapter {
 
     @Override
     public synchronized void beatNotifyReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-                                                org.ccsds.moims.mo.mal.structures.Identifier _Identifier0,
-                                                org.ccsds.moims.mo.mal.structures.UpdateHeaderList _UpdateHeaderList1,
-                                                java.util.Map qosProperties) {
+        org.ccsds.moims.mo.mal.structures.Identifier _Identifier0,
+        org.ccsds.moims.mo.mal.structures.UpdateHeaderList _UpdateHeaderList1, java.util.Map qosProperties) {
         synchronized (timer) {
             lastBeatAt = HelperTime.getTimestampMillis();
             lastBeatOBT = msgHeader.getTimestamp();
             final long iDiff = lastBeatAt.getValue() - lastBeatOBT.getValue();
             LOGGER.log(Level.INFO, "(Clocks diff: {0} ms | Round-Trip Delay time: {1} ms | Last beat received at: {2})",
-                       new Object[]{iDiff, lag, HelperTime.time2readableString(lastBeatAt)});
+                new Object[]{iDiff, lag, HelperTime.time2readableString(lastBeatAt)});
             moProxy.setNmsAliveStatus(true);
         }
     }
@@ -116,7 +115,7 @@ public class GroundHeartbeatAdapter extends HeartbeatAdapter {
                     LOGGER.log(Level.FINE, "The heartbeat message from the provider was not received.");
                     if (!lostHeartbeat) {
                         LOGGER.log(Level.INFO, "Lost heartbeat from remote provider. Remote URI: {}, Routed URI: {}.",
-                                   new Object[]{moProxy.getRemoteCentralDirectoryServiceURI(), moProxy.getRoutedURI()});
+                            new Object[]{moProxy.getRemoteCentralDirectoryServiceURI(), moProxy.getRoutedURI()});
                         lostHeartbeat = true;
                     }
                     // Next time the heartbeat comes, trigger the lag measurement
@@ -124,7 +123,7 @@ public class GroundHeartbeatAdapter extends HeartbeatAdapter {
                 } else {
                     if (lostHeartbeat) {
                         LOGGER.log(Level.INFO, "The heartbeat has recovered. Remote URI: {}, Routed URI: {}.",
-                                   new Object[]{moProxy.getRemoteCentralDirectoryServiceURI(), moProxy.getRoutedURI()});
+                            new Object[]{moProxy.getRemoteCentralDirectoryServiceURI(), moProxy.getRoutedURI()});
                         lostHeartbeat = false;
                     }
                     if (attemptCounter >= LAG_MEASUREMENT_INTERVAL) {

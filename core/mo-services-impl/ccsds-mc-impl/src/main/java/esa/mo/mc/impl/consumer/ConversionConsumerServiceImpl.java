@@ -50,8 +50,8 @@ public class ConversionConsumerServiceImpl {
                 MCHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
-            if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION)
-                                 .getServiceByName(ConversionHelper.CONVERSION_SERVICE_NAME) == null) {
+            if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION).getServiceByName(
+                ConversionHelper.CONVERSION_SERVICE_NAME) == null) {
                 ConversionHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
         } catch (MALException ex) {

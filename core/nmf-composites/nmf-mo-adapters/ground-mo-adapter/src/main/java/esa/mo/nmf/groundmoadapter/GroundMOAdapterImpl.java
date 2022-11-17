@@ -49,7 +49,7 @@ public class GroundMOAdapterImpl extends CommonMOAdapterImpl {
      * @param localNamePrefix the prefix for the local name of the consumer
      */
     public GroundMOAdapterImpl(final ConnectionConsumer connection, final Blob authenticationId,
-                               final String localNamePrefix) {
+        final String localNamePrefix) {
         super(connection, authenticationId, localNamePrefix);
     }
 
@@ -72,7 +72,7 @@ public class GroundMOAdapterImpl extends CommonMOAdapterImpl {
      * @param localNamePrefix the prefix for the local name of the consumer
      */
     public GroundMOAdapterImpl(final ProviderSummary providerDetails, final Blob authenticationId,
-                               final String localNamePrefix) {
+        final String localNamePrefix) {
         super(providerDetails, authenticationId, localNamePrefix);
     }
 }

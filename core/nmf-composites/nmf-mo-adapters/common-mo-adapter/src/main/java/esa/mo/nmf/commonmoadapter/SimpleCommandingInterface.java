@@ -105,7 +105,7 @@ public interface SimpleCommandingInterface {
      *         action via the Activity Tracking service.
      * @throws NMFException in case something goes wrong
      */
-    Long launchAction(Long defInstId, AttributeValueList argumentValues,
-                      ActionAdapter actionAdapter) throws NMFException;
+    Long launchAction(Long defInstId, AttributeValueList argumentValues, ActionAdapter actionAdapter)
+        throws NMFException;
 
 }

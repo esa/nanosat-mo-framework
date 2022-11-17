@@ -65,13 +65,13 @@ public class CommandExecutorConsumerServiceImpl extends ConsumerServiceImpl {
     }
 
     public CommandExecutorConsumerServiceImpl(final SingleConnectionDetails connectionDetails,
-                                              final COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
+        final COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
         this(connectionDetails, comServices, null, null);
     }
 
     public CommandExecutorConsumerServiceImpl(final SingleConnectionDetails connectionDetails,
-                                              final COMServicesConsumer comServices, final Blob authenticationId,
-                                              final String localNamePrefix) throws MALException, MalformedURLException, MALInteractionException {
+        final COMServicesConsumer comServices, final Blob authenticationId, final String localNamePrefix)
+        throws MALException, MalformedURLException, MALInteractionException {
 
         if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
             MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -82,13 +82,13 @@ public class CommandExecutorConsumerServiceImpl extends ConsumerServiceImpl {
         }
 
         if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME,
-                                         SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) == null) {
+            SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) == null) {
             SoftwareManagementHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 
         if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME,
-                                         SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION)
-                             .getServiceByName(CommandExecutorHelper.COMMANDEXECUTOR_SERVICE_NAME) == null) {
+            SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION).getServiceByName(
+                CommandExecutorHelper.COMMANDEXECUTOR_SERVICE_NAME) == null) {
             CommandExecutorHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 
@@ -105,10 +105,8 @@ public class CommandExecutorConsumerServiceImpl extends ConsumerServiceImpl {
         }
 
         tmConsumer = connection.startService(this.connectionDetails.getProviderURI(), this.connectionDetails
-                                                                                                            .getBrokerURI(),
-                                             this.connectionDetails.getDomain(),
-                                             CommandExecutorHelper.COMMANDEXECUTOR_SERVICE, authenticationId,
-                                             localNamePrefix);
+            .getBrokerURI(), this.connectionDetails.getDomain(), CommandExecutorHelper.COMMANDEXECUTOR_SERVICE,
+            authenticationId, localNamePrefix);
 
         this.commandExecutorService = new CommandExecutorStub(tmConsumer);
     }

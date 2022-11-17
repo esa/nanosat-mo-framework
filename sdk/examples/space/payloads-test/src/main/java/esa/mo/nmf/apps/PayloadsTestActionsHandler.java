@@ -66,7 +66,7 @@ public class PayloadsTestActionsHandler {
     }
 
     public UInteger executeAdcsModeAction(Duration duration, AttitudeMode attitudeMode,
-                                          PayloadsTestMCAdapter payloadsTestMCAdapter) {
+        PayloadsTestMCAdapter payloadsTestMCAdapter) {
         if (duration != null) {
             // Negative Durations are not allowed!
             if (duration.getValue() < 0) {
@@ -78,9 +78,8 @@ public class PayloadsTestActionsHandler {
             }
         }
         try {
-            payloadsTestMCAdapter.nmf.getPlatformServices()
-                                     .getAutonomousADCSService()
-                                     .setDesiredAttitude(duration, attitudeMode);
+            payloadsTestMCAdapter.nmf.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(duration,
+                attitudeMode);
         } catch (MALInteractionException | MALException | NMFException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
             return new UInteger(3);
@@ -92,7 +91,7 @@ public class PayloadsTestActionsHandler {
     }
 
     public UInteger scheduleTakePicture(Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction,
-                                        Duration scheduleDelay, PictureFormat format, boolean autoExposed) {
+        Duration scheduleDelay, PictureFormat format, boolean autoExposed) {
         Timer timer = new Timer();
         long delay = (long) (scheduleDelay.getValue() * 1000L);
         if (delay < 0) {
@@ -132,18 +131,13 @@ public class PayloadsTestActionsHandler {
     }
 
     public UInteger takePicture(Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction,
-                                PictureFormat format) {
+        PictureFormat format) {
         try {
-            payloadsTestMCAdapter.nmf.getPlatformServices()
-                                     .getCameraService()
-                                     .takePicture(new CameraSettings(payloadsTestMCAdapter.defaultCameraResolution,
-                                                                     format, new Duration(
-                                                                                          payloadsTestMCAdapter.cameraExposureTime),
-                                                                     payloadsTestMCAdapter.cameraGainR,
-                                                                     payloadsTestMCAdapter.cameraGainG,
-                                                                     payloadsTestMCAdapter.cameraGainB),
-                                                  new PayloadsTestCameraDataHandler(actionInstanceObjId,
-                                                                                    payloadsTestMCAdapter));
+            payloadsTestMCAdapter.nmf.getPlatformServices().getCameraService().takePicture(new CameraSettings(
+                payloadsTestMCAdapter.defaultCameraResolution, format, new Duration(
+                    payloadsTestMCAdapter.cameraExposureTime), payloadsTestMCAdapter.cameraGainR,
+                payloadsTestMCAdapter.cameraGainG, payloadsTestMCAdapter.cameraGainB),
+                new PayloadsTestCameraDataHandler(actionInstanceObjId, payloadsTestMCAdapter));
             return null; // Success!
         } catch (MALInteractionException | MALException | IOException | NMFException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
@@ -152,18 +146,13 @@ public class PayloadsTestActionsHandler {
     }
 
     public UInteger takeAutoExposedPicture(Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction,
-                                           PictureFormat format) {
+        PictureFormat format) {
         try {
-            payloadsTestMCAdapter.nmf.getPlatformServices()
-                                     .getCameraService()
-                                     .takeAutoExposedPicture(new CameraSettings(payloadsTestMCAdapter.defaultCameraResolution,
-                                                                                format, new Duration(
-                                                                                                     payloadsTestMCAdapter.cameraExposureTime),
-                                                                                payloadsTestMCAdapter.cameraGainR,
-                                                                                payloadsTestMCAdapter.cameraGainG,
-                                                                                payloadsTestMCAdapter.cameraGainB),
-                                                             new PayloadsTestCameraDataHandler(actionInstanceObjId,
-                                                                                               payloadsTestMCAdapter));
+            payloadsTestMCAdapter.nmf.getPlatformServices().getCameraService().takeAutoExposedPicture(
+                new CameraSettings(payloadsTestMCAdapter.defaultCameraResolution, format, new Duration(
+                    payloadsTestMCAdapter.cameraExposureTime), payloadsTestMCAdapter.cameraGainR,
+                    payloadsTestMCAdapter.cameraGainG, payloadsTestMCAdapter.cameraGainB),
+                new PayloadsTestCameraDataHandler(actionInstanceObjId, payloadsTestMCAdapter));
             return null; // Success!
         } catch (MALInteractionException | MALException | IOException | NMFException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
@@ -172,7 +161,7 @@ public class PayloadsTestActionsHandler {
     }
 
     public UInteger setDeviceState(Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction,
-                                   UInteger deviceType, boolean setOn) {
+        UInteger deviceType, boolean setOn) {
         try {
             DeviceList deviceList = new DeviceList();
             deviceList.add(new Device(setOn, null, null, DeviceType.fromNumericValue(deviceType)));
@@ -187,25 +176,21 @@ public class PayloadsTestActionsHandler {
     public UInteger recordSDRData(Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
         try {
             if (!sdrRegistered) {
-                payloadsTestMCAdapter.nmf.getPlatformServices()
-                                         .getSoftwareDefinedRadioService()
-                                         .streamRadioRegister(ConnectionConsumer.subscriptionWildcardRandom(),
-                                                              new PayloadsTestSDRDataHandler());
+                payloadsTestMCAdapter.nmf.getPlatformServices().getSoftwareDefinedRadioService().streamRadioRegister(
+                    ConnectionConsumer.subscriptionWildcardRandom(), new PayloadsTestSDRDataHandler());
                 sdrRegistered = true;
             }
             SDRConfiguration config = new SDRConfiguration(SDR_CENTER_FREQUENCY, SDR_RX_GAIN, SDR_LPF_BW,
-                                                           SDR_SAMPLING_FREQUENCY);
-            payloadsTestMCAdapter.nmf.getPlatformServices()
-                                     .getSoftwareDefinedRadioService()
-                                     .enableSDR(true, config, SDR_REPORTING_INTERVAL);
+                SDR_SAMPLING_FREQUENCY);
+            payloadsTestMCAdapter.nmf.getPlatformServices().getSoftwareDefinedRadioService().enableSDR(true, config,
+                SDR_REPORTING_INTERVAL);
             Timer timer = new Timer();
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
                     try {
-                        payloadsTestMCAdapter.nmf.getPlatformServices()
-                                                 .getSoftwareDefinedRadioService()
-                                                 .enableSDR(false, config, SDR_REPORTING_INTERVAL);
+                        payloadsTestMCAdapter.nmf.getPlatformServices().getSoftwareDefinedRadioService().enableSDR(
+                            false, config, SDR_REPORTING_INTERVAL);
                     } catch (MALInteractionException | MALException | IOException | NMFException ex) {
                         LOGGER.log(Level.SEVERE, "Failed to stop the SDR", ex);
                     }

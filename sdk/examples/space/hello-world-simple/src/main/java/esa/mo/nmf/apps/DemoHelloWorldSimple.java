@@ -74,7 +74,7 @@ public class DemoHelloWorldSimple {
             final IdentifierList names = new IdentifierList();
 
             defs.add(new ParameterDefinitionDetails(PARAMETER_DESCRIPTION, Union.STRING_SHORT_FORM.byteValue(), "",
-                                                    false, new Duration(3), null, null));
+                false, new Duration(3), null, null));
             names.add(new Identifier(PARAMETER_NAME));
             registrationObject.registerParameters(names, defs);
 
@@ -91,11 +91,11 @@ public class DemoHelloWorldSimple {
                 String convertedUnit = null;
 
                 arguments1.add(new ArgumentDefinitionDetails(new Identifier("1"), null, rawType, rawUnit,
-                                                             conditionalConversions, convertedType, convertedUnit));
+                    conditionalConversions, convertedType, convertedUnit));
             }
 
             actionDefs.add(new ActionDefinitionDetails("Simple Go action with double value.", new UOctet((short) 0),
-                                                       new UShort(3), arguments1));
+                new UShort(3), arguments1));
             actionNames.add(new Identifier(ACTION_GO));
 
             registrationObject.registerActions(actionNames, actionDefs);
@@ -123,8 +123,8 @@ public class DemoHelloWorldSimple {
         @Override
         public boolean actionArrivedSimple(String name, Serializable[] values, Long actionInstanceObjId) {
             if (ACTION_GO.equals(name)) {
-                Logger.getLogger(DemoHelloWorldSimple.class.getName())
-                      .log(Level.INFO, "Action 'Go' activated. Success!");
+                Logger.getLogger(DemoHelloWorldSimple.class.getName()).log(Level.INFO,
+                    "Action 'Go' activated. Success!");
                 return true; // Success!
             }
             return false;

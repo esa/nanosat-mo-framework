@@ -41,8 +41,8 @@ public class CheckLinksTablePanel extends SharedTablePanel {
     @Override
     public void addEntry(final Identifier name, final ArchivePersistenceObject comObject) {
         if (comObject == null) {
-            Logger.getLogger(SharedTablePanel.class.getName())
-                  .log(Level.SEVERE, "The table cannot process a null COM Object.");
+            Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE,
+                "The table cannot process a null COM Object.");
             return;
         }
 
@@ -55,8 +55,7 @@ public class CheckLinksTablePanel extends SharedTablePanel {
         CheckLinkDetails checkLink = (CheckLinkDetails) comObject.getObject();
 
         tableData.addRow(new Object[]{comObject.getArchiveDetails().getInstId(), checkLink.getCheckEnabled(), checkLink
-                                                                                                                       .getCheckOnChange(),
-                                      checkLink.getUseConverted(), checkLink.getCheckInterval().toString()});
+            .getCheckOnChange(), checkLink.getUseConverted(), checkLink.getCheckInterval().toString()});
 
         comObjects.add(comObject);
 

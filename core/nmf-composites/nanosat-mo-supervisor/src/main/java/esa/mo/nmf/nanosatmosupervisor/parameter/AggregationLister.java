@@ -118,8 +118,8 @@ public class AggregationLister {
      * @throws SAXException
      * @throws ParserConfigurationException
      */
-    public AggregationLister(InputStream aggregations,
-                             ParameterLister parameterLister) throws IOException, SAXException, ParserConfigurationException {
+    public AggregationLister(InputStream aggregations, ParameterLister parameterLister) throws IOException,
+        SAXException, ParserConfigurationException {
         LOGGER.log(Level.INFO, "Loading OBSW aggregations");
         aggregationMap = readAggregations(aggregations, parameterLister);
     }
@@ -144,8 +144,8 @@ public class AggregationLister {
      * @throws IOException
      * @throws SAXException
      */
-    private Map<Long, OBSWAggregation> readAggregations(InputStream aggregations,
-                                                        ParameterLister parameterLister) throws ParserConfigurationException, IOException, SAXException {
+    private Map<Long, OBSWAggregation> readAggregations(InputStream aggregations, ParameterLister parameterLister)
+        throws ParserConfigurationException, IOException, SAXException {
         Map<Long, OBSWAggregation> map = new HashMap<>();
 
         DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
@@ -198,7 +198,7 @@ public class AggregationLister {
      * @return The list of parameters that are referenced by aggregationElement.
      */
     private List<OBSWParameter> getParameterList(Map<Identifier, OBSWParameter> parameterMap,
-                                                 Element aggregationElement) {
+        Element aggregationElement) {
         List<OBSWParameter> parameterList = new ArrayList<>();
 
         NodeList OBSWParameterNodeList = aggregationElement.getElementsByTagName(TAG_PARAMETER);

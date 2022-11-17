@@ -43,8 +43,8 @@ public class StatisticLinkTablePanel extends SharedTablePanel {
     @Override
     public void addEntry(final Identifier name, final ArchivePersistenceObject comObject) {
         if (comObject == null) {
-            Logger.getLogger(SharedTablePanel.class.getName())
-                  .log(Level.SEVERE, "The table cannot process a null COM Object.");
+            Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE,
+                "The table cannot process a null COM Object.");
             return;
         }
 
@@ -57,32 +57,15 @@ public class StatisticLinkTablePanel extends SharedTablePanel {
         StatisticLinkDetails statLink = (StatisticLinkDetails) comObject.getObject();
 
         // Get the parameter definition from the source link
-        ParameterDefinitionDetails pDef = (ParameterDefinitionDetails) HelperArchive.getObjectBodyFromArchive(this.getArchiveService()
-                                                                                                                  .getArchiveStub(),
-                                                                                                              comObject.getArchiveDetails()
-                                                                                                                       .getDetails()
-                                                                                                                       .getSource()
-                                                                                                                       .getType(),
-                                                                                                              comObject.getArchiveDetails()
-                                                                                                                       .getDetails()
-                                                                                                                       .getSource()
-                                                                                                                       .getKey()
-                                                                                                                       .getDomain(),
-                                                                                                              comObject.getArchiveDetails()
-                                                                                                                       .getDetails()
-                                                                                                                       .getSource()
-                                                                                                                       .getKey()
-                                                                                                                       .getInstId());
+        ParameterDefinitionDetails pDef = (ParameterDefinitionDetails) HelperArchive.getObjectBodyFromArchive(this
+            .getArchiveService().getArchiveStub(), comObject.getArchiveDetails().getDetails().getSource().getType(),
+            comObject.getArchiveDetails().getDetails().getSource().getKey().getDomain(), comObject.getArchiveDetails()
+                .getDetails().getSource().getKey().getInstId());
 
         tableData.addRow(new Object[]{comObject.getArchiveDetails().getInstId(), comObject.getArchiveDetails()
-                                                                                          .getDetails()
-                                                                                          .getRelated()
-                                                                                          .toString(), name.toString(),
-                                      statLink.getCollectionInterval().toString(), statLink.getReportingInterval()
-                                                                                           .toString(), statLink
-                                                                                                                .getSamplingInterval()
-                                                                                                                .toString(),
-                                      statLink.getReportingEnabled()});
+            .getDetails().getRelated().toString(), name.toString(), statLink.getCollectionInterval().toString(),
+                                      statLink.getReportingInterval().toString(), statLink.getSamplingInterval()
+                                          .toString(), statLink.getReportingEnabled()});
 
         comObjects.add(comObject);
 

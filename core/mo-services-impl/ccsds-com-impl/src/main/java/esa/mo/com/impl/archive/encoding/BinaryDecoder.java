@@ -390,9 +390,9 @@ public class BinaryDecoder extends GENDecoder {
                     try {
                         // read into the empty space of the buffer
                         LOGGER.log(Level.FINER, "Reading from input stream: {0}", (existingBufferLength -
-                                                                                   this.contentLength));
+                            this.contentLength));
                         final int read = inputStream.read(this.buf, this.contentLength, existingBufferLength -
-                                                                                        this.contentLength);
+                            this.contentLength);
                         LOGGER.log(Level.FINER, "Read from input stream: {0}", read);
                         if (read < 0) {
                             throw new MALException("Unable to read required amount from source stream: end of file.");

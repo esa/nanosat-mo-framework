@@ -60,14 +60,14 @@ public class AutonomousADCSConsumerServiceImpl extends ConsumerServiceImpl {
         return new AutonomousADCSStub(tmConsumer);
     }
 
-    public AutonomousADCSConsumerServiceImpl(SingleConnectionDetails connectionDetails,
-                                             COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
+    public AutonomousADCSConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices)
+        throws MALException, MalformedURLException, MALInteractionException {
         this(connectionDetails, comServices, null, null);
     }
 
     public AutonomousADCSConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices,
-                                             Blob authenticationID,
-                                             String localNamePrefix) throws MALException, MalformedURLException, MALInteractionException {
+        Blob authenticationID, String localNamePrefix) throws MALException, MalformedURLException,
+        MALInteractionException {
         this.connectionDetails = connectionDetails;
         this.comServices = comServices;
 
@@ -81,10 +81,8 @@ public class AutonomousADCSConsumerServiceImpl extends ConsumerServiceImpl {
         }
 
         tmConsumer = connection.startService(this.connectionDetails.getProviderURI(), this.connectionDetails
-                                                                                                            .getBrokerURI(),
-                                             this.connectionDetails.getDomain(),
-                                             AutonomousADCSHelper.AUTONOMOUSADCS_SERVICE, authenticationID,
-                                             localNamePrefix);
+            .getBrokerURI(), this.connectionDetails.getDomain(), AutonomousADCSHelper.AUTONOMOUSADCS_SERVICE,
+            authenticationID, localNamePrefix);
 
         this.autonomousADCSService = new AutonomousADCSStub(tmConsumer);
     }

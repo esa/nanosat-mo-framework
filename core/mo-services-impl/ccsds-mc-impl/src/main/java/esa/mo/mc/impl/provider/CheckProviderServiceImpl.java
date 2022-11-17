@@ -109,7 +109,7 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
      * @throws MALException On initialisation error.
      */
     public synchronized void init(COMServicesProvider comServices, MCServicesConsumer mcServicesConsumer,
-                                  ParameterManager parameterManager) throws MALException {
+        ParameterManager parameterManager) throws MALException {
 
         if (!initialiased) {
 
@@ -125,8 +125,8 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
                 COMHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
-            if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION)
-                                 .getServiceByName(CheckHelper.CHECK_SERVICE_NAME) == null) {
+            if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION).getServiceByName(
+                CheckHelper.CHECK_SERVICE_NAME) == null) {
                 CheckHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
         }
@@ -137,7 +137,7 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
         }
 
         checkServiceProvider = connection.startService(CheckHelper.CHECK_SERVICE_NAME.toString(),
-                                                       CheckHelper.CHECK_SERVICE, this);
+            CheckHelper.CHECK_SERVICE, this);
 
         running = true;
         this.parameterManager = parameterManager;
@@ -146,9 +146,8 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
 
         try {  // Consumer of Events for the CompoundChecks
             if (manager.getEventService() != null) { // Do we have the Event service?
-                eventServiceConsumer = new EventConsumerServiceImpl(manager.getEventService()
-                                                                           .getConnectionProvider()
-                                                                           .getConnectionDetails());
+                eventServiceConsumer = new EventConsumerServiceImpl(manager.getEventService().getConnectionProvider()
+                    .getConnectionDetails());
                 checkLinkMonitorManager = new CheckLinkMonitorManager(eventServiceConsumer.getEventStub(), manager);
             }
 
@@ -177,8 +176,8 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
             connection.closeAll();
             running = false;
         } catch (MALException ex) {
-            Logger.getLogger(CheckProviderServiceImpl.class.getName())
-                  .log(Level.WARNING, "Exception during close down of the provider {0}", ex);
+            Logger.getLogger(CheckProviderServiceImpl.class.getName()).log(Level.WARNING,
+                "Exception during close down of the provider {0}", ex);
         }
     }
 
@@ -187,8 +186,8 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
     }
 
     @Override
-    public void getCurrentTransitionList(CheckResultFilter filter,
-                                         GetCurrentTransitionListInteraction interaction) throws MALInteractionException, MALException {
+    public void getCurrentTransitionList(CheckResultFilter filter, GetCurrentTransitionListInteraction interaction)
+        throws MALInteractionException, MALException {
         // extract all Checks and Parameters to filter on
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
@@ -230,14 +229,12 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
             } else { //the ids are group-identity-ids, req: 3.5.8.2.b, 3.9.4.g,h
                 GroupRetrieval groupRetrievalInformation;
                 groupRetrievalInformation = new GroupRetrieval(unkIndexList, invIndexList, checksToFilterFor,
-                                                               new BooleanList());
+                    new BooleanList());
                 //get the group instances
                 // requirement: 3.5.8.2.j, k, l
                 groupRetrievalInformation = manager.getGroupInstancesForServiceOperation(filter.getCheckFilter(),
-                                                                                         groupRetrievalInformation,
-                                                                                         CheckHelper.CHECKIDENTITY_OBJECT_TYPE,
-                                                                                         ConfigurationProviderSingleton.getDomain(),
-                                                                                         manager.listAllIdentities());
+                    groupRetrievalInformation, CheckHelper.CHECKIDENTITY_OBJECT_TYPE, ConfigurationProviderSingleton
+                        .getDomain(), manager.listAllIdentities());
 
                 //fill the existing lists with the generated lists
                 unkIndexList = groupRetrievalInformation.getUnkIndexList();
@@ -260,14 +257,12 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
             } else { //the ids are group-identity-ids, req: 3.5.8.2.f, 3.9.4.g,h
                 GroupRetrieval groupRetrievalInformation;
                 groupRetrievalInformation = new GroupRetrieval(unkIndexList, invIndexList, parametersToFilterFor,
-                                                               new BooleanList()); //the boolean values can be ignored here, as we only want to have all referenced identityids
+                    new BooleanList()); //the boolean values can be ignored here, as we only want to have all referenced identityids
                 //get the group instances
                 // requirement: 3.5.8.2.j, k, m
                 groupRetrievalInformation = manager.getGroupInstancesForServiceOperation(filter.getParameterFilter(),
-                                                                                         groupRetrievalInformation,
-                                                                                         ParameterHelper.PARAMETERIDENTITY_OBJECT_TYPE,
-                                                                                         ConfigurationProviderSingleton.getDomain(),
-                                                                                         parameterManager.listAllIdentities());
+                    groupRetrievalInformation, ParameterHelper.PARAMETERIDENTITY_OBJECT_TYPE,
+                    ConfigurationProviderSingleton.getDomain(), parameterManager.listAllIdentities());
 
                 //fill the existing lists with the generated lists
                 unkIndexList = groupRetrievalInformation.getUnkIndexList();
@@ -293,22 +288,16 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
         //requirement: 3.5.8.2.t size of updates is implementation specific
         //cut into slices for the single update-messages
         final int summaryPartSize = 10;
-        final int checkSummaryParts = (checkSummaries.size() % summaryPartSize == 0 ?
-            checkSummaries.size() / summaryPartSize :
-            checkSummaries.size() / summaryPartSize + 1);
+        final int checkSummaryParts = (checkSummaries.size() % summaryPartSize == 0 ? checkSummaries.size() /
+            summaryPartSize : checkSummaries.size() / summaryPartSize + 1);
 
         //apply filter and send the single parts of the summary-report as update-messages and a response-message
         for (int i = 0; i < checkSummaryParts; i++) {
             //requirement: 3.5.8.2.a, n, o, p, r
             final List<CheckResultSummary> oneUpdateSlice = checkSummaries.subList(i * summaryPartSize, ((i + 1) *
-                                                                                                         summaryPartSize <
-                                                                                                         checkSummaries.size() ?
-                                                                                                             (i + 1) *
-                                                                                                                                 summaryPartSize :
-                                                                                                             checkSummaries.size()));
+                summaryPartSize < checkSummaries.size() ? (i + 1) * summaryPartSize : checkSummaries.size()));
             CheckResultSummaryList sendCheckSummaries = manager.applyFilter(oneUpdateSlice, checksToFilterFor,
-                                                                            parametersToFilterFor, filter
-                                                                                                         .getStateFilter());
+                parametersToFilterFor, filter.getStateFilter());
 
             if (i < checkSummaryParts - 1) {
                 interaction.sendUpdate(sendCheckSummaries);
@@ -319,8 +308,8 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
     }
 
     @Override
-    public void getSummaryReport(LongList checkIdentityIds,
-                                 GetSummaryReportInteraction interaction) throws MALInteractionException, MALException {
+    public void getSummaryReport(LongList checkIdentityIds, GetSummaryReportInteraction interaction)
+        throws MALInteractionException, MALException {
 
         UIntegerList unkIndexList = new UIntegerList();
 
@@ -363,8 +352,8 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
     }
 
     @Override
-    public void enableService(Boolean enableService,
-                              MALInteraction interaction) throws MALInteractionException, MALException {
+    public void enableService(Boolean enableService, MALInteraction interaction) throws MALInteractionException,
+        MALException {
         //requirement: 3.5.3.a, 3.5.10.2.c
         if (manager.getCheckServiceEnabled() == enableService) {
             return;
@@ -392,8 +381,8 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
     }
 
     @Override
-    public void enableCheck(Boolean isGroupIds, InstanceBooleanPairList enableInstances,
-                            MALInteraction interaction) throws MALInteractionException, MALException {
+    public void enableCheck(Boolean isGroupIds, InstanceBooleanPairList enableInstances, MALInteraction interaction)
+        throws MALInteractionException, MALException {
 
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
@@ -438,13 +427,11 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
             } else { //the ids are group-identity-ids, req: 3.5.12.2.a, 3.9.4.g,h
                 GroupRetrieval groupRetrievalInformation;
                 groupRetrievalInformation = new GroupRetrieval(unkIndexList, invIndexList, objIdToBeEnabled,
-                                                               valueToBeEnabled);
+                    valueToBeEnabled);
                 //get the group instances
                 groupRetrievalInformation = manager.getGroupInstancesForServiceOperation(enableInstances,
-                                                                                         groupRetrievalInformation,
-                                                                                         CheckHelper.CHECKLINK_OBJECT_TYPE,
-                                                                                         ConfigurationProviderSingleton.getDomain(),
-                                                                                         manager.listAllCheckLinkIds());
+                    groupRetrievalInformation, CheckHelper.CHECKLINK_OBJECT_TYPE, ConfigurationProviderSingleton
+                        .getDomain(), manager.listAllCheckLinkIds());
 
                 //fill the existing lists with the generated lists
                 unkIndexList = groupRetrievalInformation.getUnkIndexList();
@@ -466,7 +453,7 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
         for (int index = 0; index < objIdToBeEnabled.size(); index++) {
             // requirement: 3.5.12.2.e and 3.5.12.2.f and 3.5.12.2.j and 3.5.3.g
             manager.setCheckEnabled(objIdToBeEnabled.get(index), valueToBeEnabled.get(index), connection
-                                                                                                        .getConnectionDetails());
+                .getConnectionDetails());
             periodicReportingMaxManager.refresh(objIdToBeEnabled.get(index));
             periodicCheckingManager.refresh(objIdToBeEnabled.get(index));
             if (valueToBeEnabled.get(index)) {
@@ -480,8 +467,8 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
     }
 
     @Override
-    public void triggerCheck(LongList checkIdentityIds, LongList checkLinkIds,
-                             MALInteraction interaction) throws MALInteractionException, MALException {
+    public void triggerCheck(LongList checkIdentityIds, LongList checkLinkIds, MALInteraction interaction)
+        throws MALInteractionException, MALException {
         //requirement: 3.5.10.2.b
         if (!manager.getCheckServiceEnabled()) {
             return;
@@ -553,18 +540,16 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
             ObjectId source = manager.storeCOMOperationActivity(interaction);
             for (Long checkLinkId : linksToBeTriggered) {
                 //requirement: 3.5.13.2.h, i
-                final ParameterValue currParameterValue = parameterManager.getParameterValue(manager.getCheckLinkLinks(checkLinkId)
-                                                                                                    .getSource()
-                                                                                                    .getKey()
-                                                                                                    .getInstId());
+                final ParameterValue currParameterValue = parameterManager.getParameterValue(manager.getCheckLinkLinks(
+                    checkLinkId).getSource().getKey().getInstId());
                 manager.executeCheck(checkLinkId, currParameterValue, true, false, source);
             }
         }
     }
 
     @Override
-    public CheckTypedInstanceList listDefinition(IdentifierList names,
-                                                 MALInteraction interaction) throws MALInteractionException, MALException {
+    public CheckTypedInstanceList listDefinition(IdentifierList names, MALInteraction interaction)
+        throws MALInteractionException, MALException {
         LongList identityIds = new LongList();
         UIntegerList unkIndexList = new UIntegerList();
         CheckTypedInstanceList checkIdTypes = new CheckTypedInstanceList();
@@ -600,9 +585,10 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
 
         for (Long identityId : identityIds) {
             //requirement: 3.5.14.2.e
-            final ObjectType checkDefObjectType = CheckManager.generateCheckObjectType(manager.getActualCheckDefinition(identityId));
+            final ObjectType checkDefObjectType = CheckManager.generateCheckObjectType(manager.getActualCheckDefinition(
+                identityId));
             checkIdTypes.add(new CheckTypedInstance(checkDefObjectType, new ObjectInstancePair(identityId, manager
-                                                                                                                  .getDefinitionId(identityId))));
+                .getDefinitionId(identityId))));
         }
 
         return checkIdTypes;
@@ -610,7 +596,7 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
 
     @Override
     public ObjectInstancePairList addCheck(StringList names, CheckDefinitionDetailsList newDefinitions,
-                                           MALInteraction interaction) throws MALInteractionException, MALException {
+        MALInteraction interaction) throws MALInteractionException, MALException {
 
         UIntegerList invIndexList = new UIntegerList();
         UIntegerList dupIndexList = new UIntegerList();
@@ -664,7 +650,7 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
             ObjectId source = manager.storeCOMOperationActivity(interaction);
             for (int i = 0; i < newDefinitions.size(); i++) {
                 idPairs.add(manager.add(names.get(i), (CheckDefinitionDetails) newDefinitions.get(i), source, connection
-                                                                                                                        .getConnectionDetails())); //  requirement: 3.5.15.2.a, d, h
+                    .getConnectionDetails())); //  requirement: 3.5.15.2.a, d, h
             }
         }
 
@@ -674,7 +660,7 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
 
     @Override
     public LongList updateDefinition(LongList identityIds, CheckDefinitionDetailsList newDetails,
-                                     MALInteraction interaction) throws MALInteractionException, MALException {
+        MALInteraction interaction) throws MALInteractionException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
         UIntegerList refErrorIndexList = new UIntegerList();
@@ -723,7 +709,7 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
         }
         if (!refErrorIndexList.isEmpty()) { // requirement: 3.5.17.3.3
             throw new MALInteractionException(new MALStandardError(MCHelper.REFERENCED_ERROR_NUMBER,
-                                                                   refErrorIndexList));
+                refErrorIndexList));
         }
 
         LongList newDefIds = new LongList();
@@ -731,7 +717,7 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
         for (int index = 0; index < newDetails.size(); index++) {
             // requirement: 3.5.17.2.e, k, l
             newDefIds.add(manager.update(identityIds.get(index), (CheckDefinitionDetails) newDetails.get(index),
-                                         connection.getConnectionDetails()));  // requirement: 3.4.11.2.d, g
+                connection.getConnectionDetails()));  // requirement: 3.4.11.2.d, g
         }
         return newDefIds; // requirement: 3.5.17.2.m
     }
@@ -757,8 +743,8 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
     }
 
     @Override
-    public void removeCheck(LongList identityIds,
-                            MALInteraction interaction) throws MALInteractionException, MALException {
+    public void removeCheck(LongList identityIds, MALInteraction interaction) throws MALInteractionException,
+        MALException {
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList refErrorIndexList = new UIntegerList();
 
@@ -798,7 +784,7 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
         }
         if (!refErrorIndexList.isEmpty()) { // requirement: 3.5.18.3.2
             throw new MALInteractionException(new MALStandardError(MCHelper.REFERENCED_ERROR_NUMBER,
-                                                                   refErrorIndexList));
+                refErrorIndexList));
         }
 
         // requirement: 3.5.18.2.g (Inserting the errors before this line guarantees that the requirement is met)
@@ -810,7 +796,7 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
 
     @Override
     public ObjectInstancePairList addParameterCheck(CheckLinkDetailsList linkDetails, ObjectDetailsList linkRefs,
-                                                    MALInteraction interaction) throws MALInteractionException, MALException {
+        MALInteraction interaction) throws MALInteractionException, MALException {
         UIntegerList invIndexList = new UIntegerList();
         UIntegerList unkIndexList = new UIntegerList();
 
@@ -836,9 +822,8 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
                     continue;
                 }
                 //requirement 3.5.19.2.f 
-                if (!manager.existsIdentity(linkRefs.get(i).getRelated()) ||
-                    (linkRefs.get(i).getSource() != null &&
-                     !parameterManager.existsIdentity(linkRefs.get(i).getSource().getKey().getInstId()))) {
+                if (!manager.existsIdentity(linkRefs.get(i).getRelated()) || (linkRefs.get(i).getSource() != null &&
+                    !parameterManager.existsIdentity(linkRefs.get(i).getSource().getKey().getInstId()))) {
                     unkIndexList.add(new UInteger(i));
                     continue;
                 }
@@ -860,7 +845,7 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
             ObjectDetails linkRef = linkRefs.get(i);
             //requirement: 3.5.3.d
             final ObjectInstancePair checkLinkIds = manager.addCheckLink(linkDetail, linkRef, connection
-                                                                                                        .getConnectionDetails());
+                .getConnectionDetails());
             outIdPairLst.add(checkLinkIds); // requirement: 3.5.18.2.f
             final Long checkLinkId = checkLinkIds.getObjIdentityInstanceId();
 
@@ -880,8 +865,8 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
     }
 
     @Override
-    public void removeParameterCheck(LongList checkLinkIds,
-                                     MALInteraction interaction) throws MALInteractionException, MALException {
+    public void removeParameterCheck(LongList checkLinkIds, MALInteraction interaction) throws MALInteractionException,
+        MALException {
         UIntegerList unkIndexList = new UIntegerList();
 
         LongList tempCheckLinkIds = new LongList();
@@ -929,8 +914,8 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
     }
 
     @Override
-    public CheckLinkSummaryList listCheckLinks(LongList checkIdentityIds,
-                                               MALInteraction interaction) throws MALInteractionException, MALException {
+    public CheckLinkSummaryList listCheckLinks(LongList checkIdentityIds, MALInteraction interaction)
+        throws MALInteractionException, MALException {
         LongList checkLinkIds = new LongList();
         UIntegerList unkIndexList = new UIntegerList();
 
@@ -970,7 +955,7 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
             final boolean checkLinkEnabled = manager.getCheckLinkDetails(linkDefinitionId).getCheckEnabled();
             final ObjectKey ParamKey = manager.getCheckLinkLinks(checkLinkId).getSource().getKey();
             checkLinkSummaries.add(new CheckLinkSummary(checkId, checkLinkId, linkDefinitionId, checkLinkEnabled,
-                                                        ParamKey));
+                ParamKey));
         }
 
         return checkLinkSummaries;
@@ -1031,9 +1016,8 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
             try {
                 final ObjectId paramId = manager.getCheckLinkLinks(checkLinkId).getSource();
                 //todo: the source link should be the ObjectId-of the parameterValue somehow
-                manager.executeCheck(checkLinkId, paramId == null ?
-                    null :
-                    parameterManager.getParameterValue(paramId.getKey().getInstId()), false, false, null);
+                manager.executeCheck(checkLinkId, paramId == null ? null : parameterManager.getParameterValue(paramId
+                    .getKey().getInstId()), false, false, null);
             } catch (MALInteractionException ex) {
                 Logger.getLogger(CheckProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -1057,12 +1041,9 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
                     try {
                         final ObjectId paramId = manager.getCheckLinkLinks(checkLinkId).getSource();
                         //todo: the source link should be the ObjectId-of the parameterValue
-                        manager.executeCheck(checkLinkId, paramId == null ?
-                            null :
-                            parameterManager.getParameterValue(manager.getCheckLinkLinks(checkLinkId)
-                                                                      .getSource()
-                                                                      .getKey()
-                                                                      .getInstId()), false, false, null);
+                        manager.executeCheck(checkLinkId, paramId == null ? null : parameterManager.getParameterValue(
+                            manager.getCheckLinkLinks(checkLinkId).getSource().getKey().getInstId()), false, false,
+                            null);
                     } catch (MALInteractionException ex) {
                         Logger.getLogger(CheckProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -1150,9 +1131,8 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
                     //paramId is null for compound check
                     final ObjectId paramSource = manager.getCheckLinkLinks(checkLinkId).getSource();
                     //requirement: 3.5.4.m -> Source Object = null
-                    manager.executeCheck(checkLinkId, paramSource == null ?
-                        null :
-                        parameterManager.getParameterValue(paramSource.getKey().getInstId()), false, true, null);
+                    manager.executeCheck(checkLinkId, paramSource == null ? null : parameterManager.getParameterValue(
+                        paramSource.getKey().getInstId()), false, true, null);
                 } catch (MALInteractionException ex) {
                     Logger.getLogger(CheckProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                 }

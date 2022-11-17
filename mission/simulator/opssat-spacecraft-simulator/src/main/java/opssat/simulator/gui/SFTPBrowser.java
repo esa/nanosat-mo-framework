@@ -81,7 +81,7 @@ public class SFTPBrowser extends JFrame implements Comparator<ChannelSftp.LsEntr
                 int rendererWidth = component.getPreferredSize().width;
                 TableColumn tableColumn = getColumnModel().getColumn(column);
                 tableColumn.setPreferredWidth(Math.max(rendererWidth + getIntercellSpacing().width + 20, tableColumn
-                                                                                                                    .getPreferredWidth()));
+                    .getPreferredWidth()));
                 return component;
             }
         };
@@ -126,8 +126,8 @@ public class SFTPBrowser extends JFrame implements Comparator<ChannelSftp.LsEntr
                 if (mouseEvent.getClickCount() == 2 && table.getSelectedRow() != -1 && row != -1) {
                     doubleClick = true;
                 } else {
-                    Integer timerinterval = (Integer) Toolkit.getDefaultToolkit()
-                                                             .getDesktopProperty("awt.multiClickInterval");
+                    Integer timerinterval = (Integer) Toolkit.getDefaultToolkit().getDesktopProperty(
+                        "awt.multiClickInterval");
                     String folder = (String) table.getValueAt(row, 0);
                     sb.append("/").append(folder);
                     tfName.setText(sb.toString());
@@ -189,10 +189,8 @@ public class SFTPBrowser extends JFrame implements Comparator<ChannelSftp.LsEntr
             } else {
                 predicate = x -> x.getAttrs().isDir();
             }
-            List<ChannelSftp.LsEntry> filteredFiles = files.stream()
-                                                           .filter(predicate)
-                                                           .sorted(this)
-                                                           .collect(Collectors.toList());
+            List<ChannelSftp.LsEntry> filteredFiles = files.stream().filter(predicate).sorted(this).collect(Collectors
+                .toList());
             for (ChannelSftp.LsEntry e : filteredFiles) {
                 String key = e.getFilename();
                 dtm.addRow(new String[]{key});

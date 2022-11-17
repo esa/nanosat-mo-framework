@@ -51,7 +51,7 @@ public class CommonServicesConsumer {
     }
 
     public void init(ConnectionConsumer connectionConsumer, COMServicesConsumer comServices, Blob authenticationId,
-                     String localNamePrefix) {
+        String localNamePrefix) {
 
         SingleConnectionDetails details;
 
@@ -60,14 +60,14 @@ public class CommonServicesConsumer {
             details = connectionConsumer.getServicesDetails().get(DirectoryHelper.DIRECTORY_SERVICE_NAME);
             if (details != null) {
                 directoryService = new DirectoryConsumerServiceImpl(details.getProviderURI(), authenticationId,
-                                                                    localNamePrefix);
+                    localNamePrefix);
             }
 
             // Initialize the Configuration service
             details = connectionConsumer.getServicesDetails().get(ConfigurationHelper.CONFIGURATION_SERVICE_NAME);
             if (details != null) {
                 configurationService = new ConfigurationConsumerServiceImpl(details, comServices, authenticationId,
-                                                                            localNamePrefix);
+                    localNamePrefix);
             }
 
             // Initialize the Login service
@@ -94,8 +94,7 @@ public class CommonServicesConsumer {
     }
 
     public void setServices(DirectoryConsumerServiceImpl directoryService,
-                            ConfigurationConsumerServiceImpl configurationService,
-                            LoginConsumerServiceImpl loginService) {
+        ConfigurationConsumerServiceImpl configurationService, LoginConsumerServiceImpl loginService) {
         this.directoryService = directoryService;
         this.configurationService = configurationService;
         this.loginService = loginService;

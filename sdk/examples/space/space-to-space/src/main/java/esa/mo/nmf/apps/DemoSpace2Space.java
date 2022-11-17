@@ -35,7 +35,7 @@ public class DemoSpace2Space {
 
         // Initialize application's NMF consumer (consuming the supervisor)
         SpaceMOApdapterImpl spaceAppSMA = SpaceMOApdapterImpl.forNMFApp(connector.readCentralDirectoryServiceURI(),
-                                                                        "gps");
+            "gps");
 
         adapter.setConnector(connector);
         adapter.setSpaceAppSMA(spaceAppSMA);

@@ -100,9 +100,8 @@ public class ArchiveToLogAdapter extends ArchiveAdapter implements QueryStatusPr
             return;
         }
 
-        queryResults.sort(Comparator.comparingLong(com -> com.getArchiveDetailsList() != null ?
-            com.getArchiveDetailsList().get(0).getTimestamp().getValue() :
-            0));
+        queryResults.sort(Comparator.comparingLong(com -> com.getArchiveDetailsList() != null ? com
+            .getArchiveDetailsList().get(0).getTimestamp().getValue() : 0));
 
         for (ArchiveCOMObjectsOutput archiveObjectOutput : queryResults) {
             // empty comType means query returned nothing
@@ -117,8 +116,8 @@ public class ArchiveToLogAdapter extends ArchiveAdapter implements QueryStatusPr
             }
 
             // if somehow we have no object bodies, stop
-            if (comType.getService().equals(CommandExecutorHelper.COMMANDEXECUTOR_SERVICE_NUMBER) &&
-                archiveObjectOutput.getObjectBodies() == null) {
+            if (comType.getService().equals(CommandExecutorHelper.COMMANDEXECUTOR_SERVICE_NUMBER) && archiveObjectOutput
+                .getObjectBodies() == null) {
                 return;
             }
 
@@ -191,14 +190,14 @@ public class ArchiveToLogAdapter extends ArchiveAdapter implements QueryStatusPr
 
     @Override
     public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-                                      ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+        ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
         queryResults.add(new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies));
         setIsQueryOver(true);
     }
 
     @Override
     public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-                                    ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+        ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
         queryResults.add(new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies));
     }
 

@@ -179,14 +179,13 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
             stepCount = CameraAcquisitorSystemCameraTargetHandler.PHOTOGRAPH_LOCATION_STAGES,
             name = CameraAcquisitorSystemCameraTargetHandler.ACTION_PHOTOGRAPH_LOCATION)
     public UInteger photographLocation(Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction,
-                                       @ActionParameter(name = "targetLatitude",
-                                                        rawUnit = "degree") Double targetLatitude, @ActionParameter(
-                                                                                                                    name = "targetLongitude",
-                                                                                                                    rawUnit = "degree") Double targetLongitude,
-                                       @ActionParameter(name = "timeStamp") String timeStamp) {
+        @ActionParameter(name = "targetLatitude", rawUnit = "degree") Double targetLatitude, @ActionParameter(
+                                                                                                              name = "targetLongitude",
+                                                                                                              rawUnit = "degree") Double targetLongitude,
+        @ActionParameter(name = "timeStamp") String timeStamp) {
         LOGGER.log(Level.SEVERE, "" + targetLatitude + " " + targetLongitude + " " + timeStamp);
         return this.cameraTargetHandler.photographLocation(targetLatitude, targetLongitude, timeStamp,
-                                                           actionInstanceObjId, reportProgress, interaction);
+            actionInstanceObjId, reportProgress, interaction);
     }
 
     @Action(description = "takes a photograph immediately",
@@ -206,8 +205,7 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
         LocalDateTime time = LocalDateTime.ofInstant(instant, ZoneId.of("UTC"));
 
         return new AbsoluteDate(time.getYear(), time.getMonthValue(), time.getDayOfMonth(), time.getHour(), time
-                                                                                                                .getMinute(),
-                                time.getSecond(), utc);
+            .getMinute(), time.getSecond(), utc);
     }
 
     double getAttitudeSaftyMarginSeconds() {

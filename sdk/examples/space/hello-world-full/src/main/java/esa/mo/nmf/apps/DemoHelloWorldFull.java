@@ -73,7 +73,7 @@ public class DemoHelloWorldFull {
             final IdentifierList names = new IdentifierList();
 
             defs.add(new ParameterDefinitionDetails(PARAMETER_DESCRIPTION, Union.STRING_SHORT_FORM.byteValue(), "",
-                                                    false, new Duration(3), null, null));
+                false, new Duration(3), null, null));
             names.add(new Identifier(PARAMETER_NAME));
             registrationObject.registerParameters(names, defs);
         }
@@ -99,7 +99,7 @@ public class DemoHelloWorldFull {
 
         @Override
         public UInteger actionArrived(Identifier name, AttributeValueList attributeValues, Long actionInstanceObjId,
-                                      boolean reportProgress, MALInteraction interaction) {
+            boolean reportProgress, MALInteraction interaction) {
             return null;  // Action service not integrated
         }
     }

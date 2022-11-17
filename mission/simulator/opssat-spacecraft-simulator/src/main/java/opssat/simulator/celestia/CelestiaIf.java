@@ -124,8 +124,7 @@ public class CelestiaIf implements Runnable {
                                 retries = retries + 1;
                                 if (retries <= 1) {
                                     logger.log(Level.WARNING, "CelestiaIf: No response within [" +
-                                                              DURATION_ACK_RECOVER +
-                                                              "] ms, resending data message!");
+                                        DURATION_ACK_RECOVER + "] ms, resending data message!");
                                 } else {
                                     break;
                                 }
@@ -190,10 +189,8 @@ public class CelestiaIf implements Runnable {
             logger.log(Level.FINE, "Waiting for connection...");
             connection = this.socket.accept();
             connection.setTcpNoDelay(true);
-            logger.log(Level.INFO, "Connection received from " +
-                                   connection.getInetAddress().getHostName() +
-                                   " on port " +
-                                   connection.getLocalPort());
+            logger.log(Level.INFO, "Connection received from " + connection.getInetAddress().getHostName() +
+                " on port " + connection.getLocalPort());
 
             //3. get Input and Output streams
             //output stream: MO Consumer -> Celestia
@@ -300,58 +297,23 @@ public class CelestiaIf implements Runnable {
                     + dateTime.getMinute() + ":"
                     + dateTime.getSecond();
             */
-            dataStringValue.append(" ")
-                           .append(data.getYears())
-                           .append("/")
-                           .append(data.getMonths())
-                           .append("/")
-                           .append(data.getDays())
-                           .append("-")
-                           .append(data.getHours())
-                           .append(":")
-                           .append(data.getMinutes())
-                           .append(":")
-                           .append(data.getSeconds());
+            dataStringValue.append(" ").append(data.getYears()).append("/").append(data.getMonths()).append("/").append(
+                data.getDays()).append("-").append(data.getHours()).append(":").append(data.getMinutes()).append(":")
+                .append(data.getSeconds());
 
             dataStringUnit.append(" ").append("UTC");
 
             // ICF position and velocity        
-            dataStringSc.append(" ")
-                        .append(scId)
-                        .append(" ")
-                        .append(scId)
-                        .append(" ")
-                        .append(scId)
-                        .append(" ")
-                        .append(scId)
-                        .append(" ")
-                        .append(scId)
-                        .append(" ")
-                        .append(scId);
+            dataStringSc.append(" ").append(scId).append(" ").append(scId).append(" ").append(scId).append(" ").append(
+                scId).append(" ").append(scId).append(" ").append(scId);
             dataStringParam.append(" ").append("X_ICF Y_ICF Z_ICF VX_ICF VY_ICF VZ_ICF");
-            dataStringValue.append(" ")
-                           .append(rv[0])
-                           .append(" ")
-                           .append(rv[1])
-                           .append(" ")
-                           .append(rv[2])
-                           .append(" ")
-                           .append(rv[3])
-                           .append(" ")
-                           .append(rv[4])
-                           .append(" ")
-                           .append(rv[5]);
+            dataStringValue.append(" ").append(rv[0]).append(" ").append(rv[1]).append(" ").append(rv[2]).append(" ")
+                .append(rv[3]).append(" ").append(rv[4]).append(" ").append(rv[5]);
             dataStringUnit.append(" ").append("km km km km/s km/s km/s");
 
             // attitude        
-            dataStringSc.append(" ")
-                        .append(scId)
-                        .append(" ")
-                        .append(scId)
-                        .append(" ")
-                        .append(scId)
-                        .append(" ")
-                        .append(scId);
+            dataStringSc.append(" ").append(scId).append(" ").append(scId).append(" ").append(scId).append(" ").append(
+                scId);
             dataStringParam.append(" ").append("QS_ICF QX_ICF QY_ICF QZ_ICF");
             dataStringValue.append(" ").append(q[0]).append(" " // scalar part  --> order to be checked with MO message
             ).append(q[1]).append(" ").append(q[2]).append(" ").append(q[3]);
@@ -392,17 +354,8 @@ public class CelestiaIf implements Runnable {
         }
 
         // put together the message to be transmitted                                   
-        outMsg = "$DATA_START$ $PROTOCOL_VERSION_" +
-                 this.PROTOCOL_VERSION +
-                 "$" +
-                 dataStringSc +
-                 " //" +
-                 dataStringParam +
-                 " //" +
-                 dataStringValue +
-                 " //" +
-                 dataStringUnit +
-                 " $DATA_END$";
+        outMsg = "$DATA_START$ $PROTOCOL_VERSION_" + this.PROTOCOL_VERSION + "$" + dataStringSc + " //" +
+            dataStringParam + " //" + dataStringValue + " //" + dataStringUnit + " $DATA_END$";
 
         return outMsg;
     }

@@ -111,9 +111,8 @@ public class OBSWParameterManager {
 
         for (OBSWParameter param : parameters) {
             paramDefs.add(new ParameterDefinitionDetails(param.getDescription(), HelperAttributes
-                                                                                                 .attributeName2typeShortForm(param.getType())
-                                                                                                 .byteValue(), "",
-                                                         false, new Duration(DEFAULT_REPORT_INTERVAL), null, null));
+                .attributeName2typeShortForm(param.getType()).byteValue(), "", false, new Duration(
+                    DEFAULT_REPORT_INTERVAL), null, null));
             paramIdentifiers.add(new Identifier(param.getName()));
         }
 
@@ -121,7 +120,7 @@ public class OBSWParameterManager {
         LongList proxyIds = registrationObject.registerParameters(paramIdentifiers, paramDefs);
         if (proxyIds == null || proxyIds.size() != parameters.size()) {
             LOGGER.log(Level.SEVERE,
-                       "Error while registering OBSW parameters proxies: returned IDs are null or some are missing");
+                "Error while registering OBSW parameters proxies: returned IDs are null or some are missing");
             return;
         }
         for (int i = 0; i < proxyIds.size(); i++) {
@@ -148,7 +147,7 @@ public class OBSWParameterManager {
      */
     public Boolean setValue(ParameterRawValue newRawValue) {
         Identifier obswParamIdentifier = new Identifier(proxyIdsToOBSWParams.get(newRawValue.getParamInstId())
-                                                                            .getName());
+            .getName());
         return setValue(newRawValue.getRawValue(), obswParamIdentifier);
     }
 

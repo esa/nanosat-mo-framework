@@ -101,7 +101,7 @@ public class EventConsumerPanel extends javax.swing.JPanel {
                     ArchivePersistenceObject comObject = comObjects.get(eventTable.getSelectedRow());
                     try {
                         COMObjectWindow comObjectWindow = new COMObjectWindow(comObject, false, archiveService
-                                                                                                              .getArchiveStub());
+                            .getArchiveStub());
                     } catch (IOException ex) {
                         Logger.getLogger(EventConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -131,20 +131,16 @@ public class EventConsumerPanel extends javax.swing.JPanel {
             }
 
             ObjectType objType2 = new ObjectType(eventCOMObject.getObjType().getArea(), eventCOMObject.getObjType()
-                                                                                                      .getService(),
-                                                 eventCOMObject.getObjType().getVersion(), new UShort(0));
+                .getService(), eventCOMObject.getObjType().getVersion(), new UShort(0));
             String eKey2 = HelperCOM.objType2string(objType2);
-            String eKey4 = (eventCOMObject.getSource() != null) ?
-                HelperCOM.objType2string(eventCOMObject.getSource().getType()) :
-                "";
+            String eKey4 = (eventCOMObject.getSource() != null) ? HelperCOM.objType2string(eventCOMObject.getSource()
+                .getType()) : "";
             ObjectDetails objectDetails = new ObjectDetails(eventCOMObject.getRelated(), eventCOMObject.getSource());
 
-            String objDetailsRelated = (eventCOMObject.getRelated() != null) ?
-                eventCOMObject.getRelated().toString() :
+            String objDetailsRelated = (eventCOMObject.getRelated() != null) ? eventCOMObject.getRelated().toString() :
                 "null";
-            String objDetailsSource = (eventCOMObject.getSource() != null) ?
-                eventCOMObject.getSource().getKey().getInstId().toString() :
-                "null";
+            String objDetailsSource = (eventCOMObject.getSource() != null) ? eventCOMObject.getSource().getKey()
+                .getInstId().toString() : "null";
 
             String time = HelperTime.time2readableString(eventCOMObject.getTimestamp());
             String domainName = HelperMisc.domain2domainId(eventCOMObject.getDomain());
@@ -155,14 +151,11 @@ public class EventConsumerPanel extends javax.swing.JPanel {
                                                objDetailsSource, n_events});
 
             ArchiveDetails archiveDetails = new ArchiveDetails(eventCOMObject.getObjId(), objectDetails, eventCOMObject
-                                                                                                                       .getNetworkZone(),
-                                                               HelperTime.timeToFineTime(eventCOMObject.getTimestamp()),
-                                                               eventCOMObject.getSourceURI());
+                .getNetworkZone(), HelperTime.timeToFineTime(eventCOMObject.getTimestamp()), eventCOMObject
+                    .getSourceURI());
 
             ArchivePersistenceObject comObject = new ArchivePersistenceObject(eventCOMObject.getObjType(),
-                                                                              eventCOMObject.getDomain(), eventCOMObject
-                                                                                                                        .getObjId(),
-                                                                              archiveDetails, object);
+                eventCOMObject.getDomain(), eventCOMObject.getObjId(), archiveDetails, object);
 
             // Add to the table
             comObjects.add(comObject);
@@ -199,13 +192,9 @@ public class EventConsumerPanel extends javax.swing.JPanel {
                                                                                                         null, null,
                                                                                                         null, null,
                                                                                                         null}},
-                                                                    new String[]{"HDR - Timestamp", "HDR - uriTo",
-                                                                                 "eKey1 - Event ojb number",
-                                                                                 "eKey2 - Service", "eKey3 - ObjId",
-                                                                                 "eKey4 - Source ObjType",
-                                                                                 "Related (ObjDetails)",
-                                                                                 "Source (ObjDetails)",
-                                                                                 "N of event objs"}) {
+            new String[]{"HDR - Timestamp", "HDR - uriTo", "eKey1 - Event ojb number", "eKey2 - Service",
+                         "eKey3 - ObjId", "eKey4 - Source ObjType", "Related (ObjDetails)", "Source (ObjDetails)",
+                         "N of event objs"}) {
             Class[] types = new Class[]{java.lang.String.class, java.lang.String.class, java.lang.String.class,
                                         java.lang.String.class, java.lang.Long.class, java.lang.String.class,
                                         java.lang.String.class, java.lang.String.class, java.lang.Integer.class};
@@ -228,28 +217,16 @@ public class EventConsumerPanel extends javax.swing.JPanel {
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
-        layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING,
-                                                      javax.swing.GroupLayout.DEFAULT_SIZE, 824, Short.MAX_VALUE)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(jScrollPane2,
-                                                                      javax.swing.GroupLayout.DEFAULT_SIZE, 824,
-                                                                      Short.MAX_VALUE)));
-        layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                      .addGroup(layout.createSequentialGroup()
-                                                      .addContainerGap()
-                                                      .addComponent(jLabel6)
-                                                      .addContainerGap(397, Short.MAX_VALUE))
-                                      .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                      .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout
-                                                                                                                  .createSequentialGroup()
-                                                                                                                  .addGap(50,
-                                                                                                                          50,
-                                                                                                                          50)
-                                                                                                                  .addComponent(jScrollPane2,
-                                                                                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                                                                                Short.MAX_VALUE))));
+        layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
+            jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 824,
+            Short.MAX_VALUE).addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 824, Short.MAX_VALUE)));
+        layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout
+            .createSequentialGroup().addContainerGap().addComponent(jLabel6).addContainerGap(397, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
+                javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup().addGap(50, 50, 50)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE,
+                        javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))));
     }// </editor-fold>//GEN-END:initComponents
 
     private void eventTableComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_eventTableComponentAdded

@@ -42,7 +42,8 @@ import esa.mo.mp.impl.com.pattern.COMInstanceVersionArchiveManager;
  *
  * @see COMInstanceVersionArchiveManager
  */
-public class PlanVersionArchiveManager extends COMInstanceVersionArchiveManager<PlanIdentityDetails, PlanIdentityDetailsList, PlanVersionDetails, PlanVersionDetailsList, PlanUpdateDetails, PlanUpdateDetailsList> {
+public class PlanVersionArchiveManager extends
+    COMInstanceVersionArchiveManager<PlanIdentityDetails, PlanIdentityDetailsList, PlanVersionDetails, PlanVersionDetailsList, PlanUpdateDetails, PlanUpdateDetailsList> {
 
     public PlanVersionArchiveManager(COMServicesProvider comServices, COMConfiguration configuration) {
         super(comServices, configuration);

@@ -154,9 +154,8 @@ public class TestHelperMisc {
     @Test
     public void testLoadConsumerProperties1() {
         Properties systemProps = System.getProperties();
-        systemProps.put("consumer.properties", getClass().getClassLoader()
-                                                         .getResource("testProp3.properties")
-                                                         .getPath());
+        systemProps.put("consumer.properties", getClass().getClassLoader().getResource("testProp3.properties")
+            .getPath());
         System.setProperties(systemProps);
         try {
             HelperMisc.loadConsumerProperties();
@@ -605,9 +604,8 @@ public class TestHelperMisc {
 
     @Test
     public void testLoadPropertiesFile() {
-        System.setProperty("provider.properties", getClass().getClassLoader()
-                                                            .getResource("testProp7.properties")
-                                                            .getPath());
+        System.setProperty("provider.properties", getClass().getClassLoader().getResource("testProp7.properties")
+            .getPath());
         HelperMisc.loadPropertiesFile();
         Properties props = System.getProperties();
         assertEquals("nanosat-mo-test", props.get("helpertools.configurations.MOappName"));

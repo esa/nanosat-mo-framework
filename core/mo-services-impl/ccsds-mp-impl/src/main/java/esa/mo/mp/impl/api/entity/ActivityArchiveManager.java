@@ -45,7 +45,8 @@ import esa.mo.mp.impl.com.pattern.COMInstanceArchiveManager;
  *
  * @see COMInstanceArchiveManager
  */
-public class ActivityArchiveManager extends COMInstanceArchiveManager<ActivityIdentityDetails, ActivityIdentityDetailsList, ActivityDefinitionDetails, ActivityDefinitionDetailsList, ActivityInstanceDetails, ActivityInstanceDetailsList, ActivityUpdateDetails, ActivityUpdateDetailsList> {
+public class ActivityArchiveManager extends
+    COMInstanceArchiveManager<ActivityIdentityDetails, ActivityIdentityDetailsList, ActivityDefinitionDetails, ActivityDefinitionDetailsList, ActivityInstanceDetails, ActivityInstanceDetailsList, ActivityUpdateDetails, ActivityUpdateDetailsList> {
 
     public ActivityArchiveManager(COMServicesProvider comServices, COMConfiguration configuration) {
         super(comServices, configuration);

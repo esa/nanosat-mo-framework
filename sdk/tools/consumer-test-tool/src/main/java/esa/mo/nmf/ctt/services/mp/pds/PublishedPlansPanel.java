@@ -56,7 +56,7 @@ public class PublishedPlansPanel extends PublishedUpdatesPanel {
     private final PublishedPlansTable publishedPlansTable;
 
     public PublishedPlansPanel(ArchiveConsumerServiceImpl archiveService,
-                               PlanDistributionConsumerServiceImpl pdsService) {
+        PlanDistributionConsumerServiceImpl pdsService) {
         super();
 
         this.archiveService = archiveService;
@@ -84,7 +84,7 @@ public class PublishedPlansPanel extends PublishedUpdatesPanel {
 
         if (startTime == null) {
             JOptionPane.showMessageDialog(null, "Please insert date using format: yyyy-MM-dd HH:mm:ss UTC",
-                                          "Unparseable date", JOptionPane.PLAIN_MESSAGE);
+                "Unparseable date", JOptionPane.PLAIN_MESSAGE);
         }
 
         ArchiveQueryList archiveQueryList = new ArchiveQueryList();
@@ -102,22 +102,22 @@ public class PublishedPlansPanel extends PublishedUpdatesPanel {
 
         archiveQueryList.add(archiveQuery);
         try {
-            archiveService.getArchiveStub()
-                          .query(true, instanceObjectType, archiveQueryList, null, new ArchiveAdapter() {
-                              @Override
-                              public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType,
-                                                              IdentifierList domain, ArchiveDetailsList objDetails,
-                                                              ElementList objBodies, Map qosProperties) {
-                                  addEntries(domain, objDetails, objBodies);
-                              }
+            archiveService.getArchiveStub().query(true, instanceObjectType, archiveQueryList, null,
+                new ArchiveAdapter() {
+                    @Override
+                    public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType,
+                        IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies,
+                        Map qosProperties) {
+                        addEntries(domain, objDetails, objBodies);
+                    }
 
-                              @Override
-                              public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType,
-                                                                IdentifierList domain, ArchiveDetailsList objDetails,
-                                                                ElementList objBodies, Map qosProperties) {
-                                  addEntries(domain, objDetails, objBodies);
-                              }
-                          });
+                    @Override
+                    public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType,
+                        IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies,
+                        Map qosProperties) {
+                        addEntries(domain, objDetails, objBodies);
+                    }
+                });
         } catch (MALInteractionException | MALException e) {
             LOGGER.log(Level.SEVERE, null, e);
         }
@@ -144,9 +144,8 @@ public class PublishedPlansPanel extends PublishedUpdatesPanel {
 
         ObjectType instanceObjectType = PlanDistributionHelper.PLANVERSION_OBJECT_TYPE;
 
-        ArchivePersistenceObject instanceObject = HelperArchive.getArchiveCOMObject(this.archiveService.getArchiveStub(),
-                                                                                    instanceObjectType, domain,
-                                                                                    instanceId);
+        ArchivePersistenceObject instanceObject = HelperArchive.getArchiveCOMObject(this.archiveService
+            .getArchiveStub(), instanceObjectType, domain, instanceId);
 
         if (instanceObject == null) {
             return identityId;
@@ -164,9 +163,8 @@ public class PublishedPlansPanel extends PublishedUpdatesPanel {
 
         ObjectType identityObjectType = PlanDistributionHelper.PLANIDENTITY_OBJECT_TYPE;
 
-        ArchivePersistenceObject identityObject = HelperArchive.getArchiveCOMObject(this.archiveService.getArchiveStub(),
-                                                                                    identityObjectType, domain,
-                                                                                    identityId);
+        ArchivePersistenceObject identityObject = HelperArchive.getArchiveCOMObject(this.archiveService
+            .getArchiveStub(), identityObjectType, domain, identityId);
 
         if (identityObject == null) {
             return identity;

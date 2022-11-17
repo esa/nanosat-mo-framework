@@ -102,7 +102,7 @@ public class PlanningRequestProviderServiceImpl extends PlanningRequestInheritan
      * @throws MALException            On initialisation error.
      */
     public synchronized void init(COMServicesProvider comServices, MPArchiveManager archiveManager,
-                                  MPServiceOperationManager registration) throws MALException {
+        MPServiceOperationManager registration) throws MALException {
         if (!this.initialised) {
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
                 MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -129,12 +129,11 @@ public class PlanningRequestProviderServiceImpl extends PlanningRequestInheritan
         }
 
         this.provider = this.connection.startService(PlanningRequestHelper.PLANNINGREQUEST_SERVICE_NAME.toString(),
-                                                     PlanningRequestHelper.PLANNINGREQUEST_SERVICE, true, this);
+            PlanningRequestHelper.PLANNINGREQUEST_SERVICE, true, this);
 
         requestPublisher = createMonitorRequestsPublisher(ConfigurationProviderSingleton.getDomain(),
-                                                          ConfigurationProviderSingleton.getNetwork(), SessionType.LIVE,
-                                                          ConfigurationProviderSingleton.getSourceSessionName(),
-                                                          QoSLevel.BESTEFFORT, null, new UInteger(0));
+            ConfigurationProviderSingleton.getNetwork(), SessionType.LIVE, ConfigurationProviderSingleton
+                .getSourceSessionName(), QoSLevel.BESTEFFORT, null, new UInteger(0));
 
         this.archiveManager = archiveManager;
         this.operationCallbackManager = registration;
@@ -142,16 +141,16 @@ public class PlanningRequestProviderServiceImpl extends PlanningRequestInheritan
         // Listen Event Service for Request Version updates in COM Archive
         try {
             EventConsumerServiceImpl consumer = new EventConsumerServiceImpl(comServices.getEventService()
-                                                                                        .getConnectionProvider()
-                                                                                        .getConnectionDetails());
+                .getConnectionProvider().getConnectionDetails());
             Subscription subcription = HelperCOM.generateCOMEventSubscriptionBySourceType("RequestStatusUpdates",
-                                                                                          PlanningRequestHelper.REQUESTSTATUSUPDATE_OBJECT_TYPE);
+                PlanningRequestHelper.REQUESTSTATUSUPDATE_OBJECT_TYPE);
             consumer.addEventReceivedListener(subcription, new EventReceivedListener() {
                 @Override
                 public void onDataReceived(EventCOMObject eventCOMObject) {
                     ObjectId statusId = eventCOMObject.getSource();
                     ObjectId requestVersionId = archiveManager.REQUEST_VERSION.getInstanceIdByStatusId(statusId);
-                    ObjectId requestIdentityId = archiveManager.REQUEST_VERSION.getIdentityIdByInstanceId(requestVersionId);
+                    ObjectId requestIdentityId = archiveManager.REQUEST_VERSION.getIdentityIdByInstanceId(
+                        requestVersionId);
                     Identifier requestIdentity = archiveManager.REQUEST_VERSION.getIdentity(requestIdentityId);
                     RequestUpdateDetails status = archiveManager.REQUEST_VERSION.getStatus(statusId);
                     try {
@@ -191,7 +190,7 @@ public class PlanningRequestProviderServiceImpl extends PlanningRequestInheritan
 
     @Override
     public SubmitRequestResponse submitRequest(Identifier identity, RequestVersionDetails requestVersion,
-                                               MALInteraction interaction) throws MALInteractionException, MALException {
+        MALInteraction interaction) throws MALInteractionException, MALException {
         // Validate request template
         validateRequestTemplate(requestVersion);
 
@@ -200,7 +199,7 @@ public class PlanningRequestProviderServiceImpl extends PlanningRequestInheritan
 
         // Store Request Identity and Request Version to COM Archive
         ObjectIdPair pair = this.archiveManager.REQUEST_VERSION.addInstance(identity, requestVersion, null,
-                                                                            interaction);
+            interaction);
         ObjectId requestIdentityId = pair.getIdentityId();
         ObjectId requestVersionId = pair.getObjectId();
 
@@ -213,12 +212,11 @@ public class PlanningRequestProviderServiceImpl extends PlanningRequestInheritan
 
         // Operation callback
         operationCallbackManager.notify(MPServiceOperation.SUBMIT_REQUEST, MPServiceOperationHelper.asArgumentsList(pair
-                                                                                                                        .getIdentityId(), // Identity
-                                                                                                                    null,                 // Definition
-                                                                                                                    pair.getObjectId(),   // Instance
-                                                                                                                    statusId,             // Status
-                                                                                                                    interaction,
-                                                                                                                    null                  // Source
+            .getIdentityId(), // Identity
+            null,                 // Definition
+            pair.getObjectId(),   // Instance
+            statusId,             // Status
+            interaction, null                  // Source
         ));
 
         // Send response to consumer
@@ -233,8 +231,8 @@ public class PlanningRequestProviderServiceImpl extends PlanningRequestInheritan
     }
 
     @Override
-    public Long updateRequest(Long requestIdentityId, RequestVersionDetails requestVersion,
-                              MALInteraction interaction) throws MALInteractionException, MALException {
+    public Long updateRequest(Long requestIdentityId, RequestVersionDetails requestVersion, MALInteraction interaction)
+        throws MALInteractionException, MALException {
         // Validate request template
         validateRequestTemplate(requestVersion);
 
@@ -243,9 +241,9 @@ public class PlanningRequestProviderServiceImpl extends PlanningRequestInheritan
 
         // Store updated request version to COM Archive
         ObjectId identityId = COMObjectIdHelper.getObjectId(requestIdentityId,
-                                                            PlanningRequestHelper.REQUESTIDENTITY_OBJECT_TYPE);
+            PlanningRequestHelper.REQUESTIDENTITY_OBJECT_TYPE);
         ObjectId requestVersionId = this.archiveManager.REQUEST_VERSION.updateInstance(identityId, requestVersion, null,
-                                                                                       interaction);
+            interaction);
 
         // Store updated request version update to COM Archive
         RequestUpdateDetails status = new RequestUpdateDetails();
@@ -256,12 +254,11 @@ public class PlanningRequestProviderServiceImpl extends PlanningRequestInheritan
 
         // Operation callback
         operationCallbackManager.notify(MPServiceOperation.UPDATE_REQUEST, MPServiceOperationHelper.asArgumentsList(
-                                                                                                                    identityId,       // Identity
-                                                                                                                    null,             // Definition
-                                                                                                                    requestVersionId, // Instance
-                                                                                                                    statusId,         // Status
-                                                                                                                    interaction,
-                                                                                                                    null              // Source
+            identityId,       // Identity
+            null,             // Definition
+            requestVersionId, // Instance
+            statusId,         // Status
+            interaction, null              // Source
         ));
 
         // Send response to consumer
@@ -270,11 +267,11 @@ public class PlanningRequestProviderServiceImpl extends PlanningRequestInheritan
     }
 
     @Override
-    public void cancelRequest(Long requestIdentityId,
-                              MALInteraction interaction) throws MALInteractionException, MALException {
+    public void cancelRequest(Long requestIdentityId, MALInteraction interaction) throws MALInteractionException,
+        MALException {
         // Find request version
         ObjectId identityId = COMObjectIdHelper.getObjectId(requestIdentityId,
-                                                            PlanningRequestHelper.REQUESTIDENTITY_OBJECT_TYPE);
+            PlanningRequestHelper.REQUESTIDENTITY_OBJECT_TYPE);
         ObjectId requestVersionId = archiveManager.REQUEST_VERSION.getInstanceIdByIdentityId(identityId);
 
         // Store updated request version update to COM Archive
@@ -283,22 +280,21 @@ public class PlanningRequestProviderServiceImpl extends PlanningRequestInheritan
         status.setStatus(RequestStatus.CANCELLED);
         status.setTimestamp(HelperTime.getTimestampMillis());
         ObjectId statusId = this.archiveManager.REQUEST_VERSION.updateStatus(requestVersionId, status, null,
-                                                                             interaction);
+            interaction);
 
         // Operation callback
         operationCallbackManager.notify(MPServiceOperation.CANCEL_REQUEST, MPServiceOperationHelper.asArgumentsList(
-                                                                                                                    identityId,       // Identity
-                                                                                                                    null,             // Definition
-                                                                                                                    requestVersionId, // Instance
-                                                                                                                    statusId,         // Status
-                                                                                                                    interaction,
-                                                                                                                    null              // Source
+            identityId,       // Identity
+            null,             // Definition
+            requestVersionId, // Instance
+            statusId,         // Status
+            interaction, null              // Source
         ));
     }
 
     @Override
-    public GetRequestStatusResponse getRequestStatus(RequestFilter requestFilter,
-                                                     MALInteraction interaction) throws MALInteractionException, MALException {
+    public GetRequestStatusResponse getRequestStatus(RequestFilter requestFilter, MALInteraction interaction)
+        throws MALInteractionException, MALException {
         LongList identityIdList = new LongList();
         LongList instanceIdList = new LongList();
         RequestUpdateDetailsList statusList = new RequestUpdateDetailsList();
@@ -334,8 +330,8 @@ public class PlanningRequestProviderServiceImpl extends PlanningRequestInheritan
     }
 
     @Override
-    public void getRequest(RequestFilter requestFilter,
-                           GetRequestInteraction interaction) throws MALInteractionException, MALException {
+    public void getRequest(RequestFilter requestFilter, GetRequestInteraction interaction)
+        throws MALInteractionException, MALException {
         LongList identityIdList = new LongList();
         LongList versionIdList = new LongList();
         RequestVersionDetailsList instanceList = new RequestVersionDetailsList();
@@ -374,12 +370,12 @@ public class PlanningRequestProviderServiceImpl extends PlanningRequestInheritan
         RequestTemplateDetails requestTemplate = archiveManager.REQUEST_TEMPLATE.getDefinition(requestTemplateId);
         if (requestTemplateInstanceId == 0L || requestTemplate == null) {
             throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, new Union(
-                                                                                                             "Invalid Request Template Id")));
+                "Invalid Request Template Id")));
         }
     }
 
     private void publishRequestUpdate(Identifier identity, ObjectId identityId, ObjectId versionId,
-                                      RequestUpdateDetails update) throws IllegalArgumentException, MALInteractionException, MALException {
+        RequestUpdateDetails update) throws IllegalArgumentException, MALInteractionException, MALException {
         if (!this.isPublisherRegistered) {
             final EntityKeyList entityKeys = new EntityKeyList();
             entityKeys.add(new EntityKey(new Identifier("*"), 0L, 0L, 0L));
@@ -396,7 +392,7 @@ public class PlanningRequestProviderServiceImpl extends PlanningRequestInheritan
 
         EntityKey entityKey = new EntityKey(firstSubKey, secondSubKey, thirdSubKey, fourthSubKey);
         headerList.add(new UpdateHeader(update.getTimestamp(), connection.getConnectionDetails().getProviderURI(),
-                                        UpdateType.CREATION, entityKey));
+            UpdateType.CREATION, entityKey));
         RequestUpdateDetailsList requestStatusList = new RequestUpdateDetailsList();
         requestStatusList.add(update);
 
@@ -412,8 +408,8 @@ public class PlanningRequestProviderServiceImpl extends PlanningRequestInheritan
         // TODO: Check source
         // Check identities
         Long identityInstanceId = COMObjectIdHelper.getInstanceId(identityId);
-        if (requestFilter.getRequestIdentityId() != null &&
-            requestFilter.getRequestIdentityId().contains(identityInstanceId)) {
+        if (requestFilter.getRequestIdentityId() != null && requestFilter.getRequestIdentityId().contains(
+            identityInstanceId)) {
             match = true;
         }
         return match;
@@ -421,26 +417,26 @@ public class PlanningRequestProviderServiceImpl extends PlanningRequestInheritan
 
     private static final class PublishInteractionListener implements MALPublishInteractionListener {
         @Override
-        public void publishDeregisterAckReceived(final MALMessageHeader header,
-                                                 final Map qosProperties) throws MALException {
+        public void publishDeregisterAckReceived(final MALMessageHeader header, final Map qosProperties)
+            throws MALException {
             LOGGER.fine("PublishInteractionListener::publishDeregisterAckReceived");
         }
 
         @Override
         public void publishErrorReceived(final MALMessageHeader header, final MALErrorBody body,
-                                         final Map qosProperties) throws MALException {
+            final Map qosProperties) throws MALException {
             LOGGER.warning("PublishInteractionListener::publishErrorReceived");
         }
 
         @Override
-        public void publishRegisterAckReceived(final MALMessageHeader header,
-                                               final Map qosProperties) throws MALException {
+        public void publishRegisterAckReceived(final MALMessageHeader header, final Map qosProperties)
+            throws MALException {
             LOGGER.fine("PublishInteractionListener::publishRegisterAckReceived");
         }
 
         @Override
         public void publishRegisterErrorReceived(final MALMessageHeader header, final MALErrorBody body,
-                                                 final Map qosProperties) throws MALException {
+            final Map qosProperties) throws MALException {
             LOGGER.warning("PublishInteractionListener::publishRegisterErrorReceived");
         }
     }

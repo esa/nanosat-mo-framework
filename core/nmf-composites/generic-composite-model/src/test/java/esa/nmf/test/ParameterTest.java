@@ -88,7 +88,7 @@ public class ParameterTest {
 
         @Override
         public LongList registerParameters(final IdentifierList names,
-                                           final ParameterDefinitionDetailsList definitions) {
+            final ParameterDefinitionDetailsList definitions) {
             LongList ids = new LongList(names.size());
             ids.add(ID1);
             ids.add(ID2);

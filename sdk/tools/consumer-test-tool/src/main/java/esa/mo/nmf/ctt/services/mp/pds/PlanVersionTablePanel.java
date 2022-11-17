@@ -78,8 +78,7 @@ public class PlanVersionTablePanel extends SharedTablePanel {
 
         tableData.addRow(new Object[]{identity.toString(), comObject.getArchiveDetails().getInstId(),
                                       plannedActivitiesCount, plannedEventsCount, HelperTime.time2readableString(
-                                                                                                                 planProductionDate),
-                                      planDescription, planComments});
+                                          planProductionDate), planDescription, planComments});
 
         comObjects.add(comObject);
         semaphore.release();

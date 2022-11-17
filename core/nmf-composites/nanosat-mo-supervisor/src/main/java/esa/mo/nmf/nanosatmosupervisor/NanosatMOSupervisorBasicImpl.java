@@ -50,10 +50,10 @@ public class NanosatMOSupervisorBasicImpl extends NanoSatMOSupervisor {
     public void initPlatformServices(COMServicesProvider comServices) {
         try {
             String platformProviderClass = System.getProperty("nmf.platform.impl",
-                                                              "esa.mo.platform.impl.util.PlatformServicesProviderSoftSim");
+                "esa.mo.platform.impl.util.PlatformServicesProviderSoftSim");
             try {
                 platformServicesProvider = (PlatformServicesProviderInterface) Class.forName(platformProviderClass)
-                                                                                    .newInstance();
+                    .newInstance();
                 platformServicesProvider.init(comServices);
             } catch (NullPointerException |
                      ClassNotFoundException |

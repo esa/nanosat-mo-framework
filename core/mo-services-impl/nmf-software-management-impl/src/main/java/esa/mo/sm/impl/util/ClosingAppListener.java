@@ -46,7 +46,7 @@ public class ClosingAppListener extends EventReceivedListener {
     private final Object semaphore;
 
     public ClosingAppListener(final StopAppInteraction interaction, final EventConsumerServiceImpl eventService,
-                              final Long objId) {
+        final Long objId) {
         this.interaction = interaction;
         this.eventService = eventService;
         this.objId = objId;

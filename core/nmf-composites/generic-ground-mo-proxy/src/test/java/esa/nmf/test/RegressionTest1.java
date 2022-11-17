@@ -17,7 +17,8 @@ public class RegressionTest1 {
         java.util.Map map2 = null;
         try {
             protocolBridgeSPP0.init("10", map2);
-            org.junit.Assert.fail("Expected exception of type org.ccsds.moims.mo.mal.MALException; message: Unknown transport factory for protocol: malspp");
+            org.junit.Assert.fail(
+                "Expected exception of type org.ccsds.moims.mo.mal.MALException; message: Unknown transport factory for protocol: malspp");
         } catch (org.ccsds.moims.mo.mal.MALException e) {
         }
     }
@@ -26,7 +27,8 @@ public class RegressionTest1 {
     public void test502() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test502");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -34,7 +36,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -42,12 +44,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -71,7 +73,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray65 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList66 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean67 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList66,
-                                                         shortArray65);
+            shortArray65);
         java.util.ListIterator<java.lang.Short> shortItor69 = shortList66.listIterator((int) (byte) 1);
         boolean boolean70 = uRIList1.containsAll((java.util.Collection<java.lang.Short>) shortList66);
         java.lang.Integer int71 = uRIList1.getTypeShortForm();
@@ -122,15 +124,16 @@ public class RegressionTest1 {
     public void test503() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test503");
-        esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager virtualSPPURIsManager2 = new esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager(10,
-                                                                                                                                   (int) '4');
+        esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager virtualSPPURIsManager2 = new esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager(
+            10, (int) '4');
     }
 
     @Test
     public void test504() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test504");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -138,7 +141,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -146,12 +149,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -174,7 +177,8 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort60 = uRIList1.getServiceNumber();
         int int61 = uRIList1.size();
         java.lang.Object[] objArray62 = uRIList1.toArray();
-        org.ccsds.moims.mo.mal.structures.IntegerList integerList64 = new org.ccsds.moims.mo.mal.structures.IntegerList(11);
+        org.ccsds.moims.mo.mal.structures.IntegerList integerList64 = new org.ccsds.moims.mo.mal.structures.IntegerList(
+            11);
         java.lang.Integer int65 = integerList64.getTypeShortForm();
         org.ccsds.moims.mo.mal.structures.UShort uShort66 = integerList64.getAreaNumber();
         java.lang.Integer int67 = integerList64.getTypeShortForm();
@@ -225,7 +229,8 @@ public class RegressionTest1 {
     public void test505() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test505");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -233,7 +238,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -241,12 +246,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -308,7 +313,8 @@ public class RegressionTest1 {
     public void test506() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test506");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -316,7 +322,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -324,12 +330,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -401,27 +407,30 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UOctet uOctet10 = uOctet9.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.UShort uShort11 = uOctet9.getAreaNumber();
         boolean boolean12 = intList4.remove((java.lang.Object) uOctet9);
-        org.ccsds.moims.mo.mal.structures.StringList stringList14 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.StringList stringList14 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (byte) 10);
         stringList14.ensureCapacity((-2));
         esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP protocolBridgeSPP17 = new esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP();
         boolean boolean18 = stringList14.remove((java.lang.Object) protocolBridgeSPP17);
         int int19 = intList4.indexOf((java.lang.Object) stringList14);
-        org.ccsds.moims.mo.mal.structures.UShortList uShortList21 = new org.ccsds.moims.mo.mal.structures.UShortList(15);
+        org.ccsds.moims.mo.mal.structures.UShortList uShortList21 = new org.ccsds.moims.mo.mal.structures.UShortList(
+            15);
         org.ccsds.moims.mo.mal.structures.UShort uShort22 = uShortList21.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.ShortList shortList23 = new org.ccsds.moims.mo.mal.structures.ShortList();
         org.ccsds.moims.mo.mal.structures.DoubleList doubleList25 = new org.ccsds.moims.mo.mal.structures.DoubleList(0);
         java.lang.Integer int26 = doubleList25.getTypeShortForm();
         int int27 = doubleList25.size();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList29 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList29 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray33 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList34 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean35 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList34,
-                                                         longArray33);
+            longArray33);
         int int37 = longList34.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray42 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList43 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean44 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList43,
-                                                         shortArray42);
+            shortArray42);
         java.util.ListIterator<java.lang.Short> shortItor46 = shortList43.listIterator((int) (byte) 1);
         boolean boolean48 = shortList43.contains((java.lang.Object) true);
         java.lang.Short short51 = shortList43.set(1, (java.lang.Short) (short) 0);
@@ -429,12 +438,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray56 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList57 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean58 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList57,
-                                                         longArray56);
+            longArray56);
         int int60 = longList57.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray65 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList66 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean67 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList66,
-                                                         shortArray65);
+            shortArray65);
         java.util.ListIterator<java.lang.Short> shortItor69 = shortList66.listIterator((int) (byte) 1);
         boolean boolean71 = shortList66.contains((java.lang.Object) true);
         java.lang.Short short74 = shortList66.set(1, (java.lang.Short) (short) 0);
@@ -448,7 +457,8 @@ public class RegressionTest1 {
         boolean boolean84 = shortList23.containsAll((java.util.Collection<java.lang.Short>) shortList43);
         boolean boolean85 = uShortList21.containsAll((java.util.Collection<java.lang.Short>) shortList43);
         java.lang.Long long86 = uShortList21.getShortForm();
-        java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream87 = uShortList21.parallelStream();
+        java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream87 = uShortList21
+            .parallelStream();
         boolean boolean88 = stringList14.equals((java.lang.Object) uShortList21);
         uShortList21.clear();
         org.junit.Assert.assertNotNull(intArray3);
@@ -498,7 +508,8 @@ public class RegressionTest1 {
     public void test508() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test508");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -506,7 +517,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -514,12 +525,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -590,7 +601,8 @@ public class RegressionTest1 {
     public void test509() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test509");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -598,7 +610,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -606,12 +618,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -680,7 +692,8 @@ public class RegressionTest1 {
     public void test510() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test510");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -688,7 +701,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -696,12 +709,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -736,7 +749,8 @@ public class RegressionTest1 {
         java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[][] floatBaseStreamArray72 = (java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[][]) baseStreamArray71;
         floatBaseStreamArray72[0] = baseStreamArray65;
         floatBaseStreamArray72[1] = floatBaseStreamArray69;
-        java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[][] floatBaseStreamArray77 = uRIList1.toArray(floatBaseStreamArray72);
+        java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[][] floatBaseStreamArray77 = uRIList1
+            .toArray(floatBaseStreamArray72);
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI79 = uRIList1.get((int) (short) -1);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: -1");
@@ -781,7 +795,8 @@ public class RegressionTest1 {
     public void test511() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test511");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -789,7 +804,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -797,12 +812,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -826,7 +841,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray65 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList66 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean67 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList66,
-                                                         shortArray65);
+            shortArray65);
         java.util.ListIterator<java.lang.Short> shortItor69 = shortList66.listIterator((int) (byte) 1);
         boolean boolean70 = uRIList1.containsAll((java.util.Collection<java.lang.Short>) shortList66);
         java.lang.Integer int71 = uRIList1.getTypeShortForm();
@@ -840,7 +855,7 @@ public class RegressionTest1 {
         java.lang.Long[] longArray86 = new java.lang.Long[]{100L, 281474993487876L, (-1L), 281474993487876L, 10L, 100L};
         java.util.ArrayList<java.lang.Long> longList87 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean88 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList87,
-                                                         longArray86);
+            longArray86);
         java.lang.Object obj89 = longList87.clone();
         java.lang.String str90 = longList87.toString();
         java.util.Spliterator<java.lang.Long> longSpliterator91 = longList87.spliterator();
@@ -886,11 +901,8 @@ public class RegressionTest1 {
         org.junit.Assert.assertNotNull(longArray86);
         org.junit.Assert.assertTrue("'" + boolean88 + "' != '" + true + "'", boolean88);
         org.junit.Assert.assertNotNull(obj89);
-        org.junit.Assert.assertTrue("'" +
-                                    str90 +
-                                    "' != '" +
-                                    "[100, 281474993487876, -1, 281474993487876, 10, 100]" +
-                                    "'", str90.equals("[100, 281474993487876, -1, 281474993487876, 10, 100]"));
+        org.junit.Assert.assertTrue("'" + str90 + "' != '" + "[100, 281474993487876, -1, 281474993487876, 10, 100]" +
+            "'", str90.equals("[100, 281474993487876, -1, 281474993487876, 10, 100]"));
         org.junit.Assert.assertNotNull(longSpliterator91);
         org.junit.Assert.assertTrue("'" + boolean92 + "' != '" + false + "'", !boolean92);
         org.junit.Assert.assertTrue("'" + long93 + "' != '" + 281474993487890L + "'", long93.equals(281474993487890L));
@@ -911,18 +923,19 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort6 = org.ccsds.moims.mo.mal.structures.IntegerList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray7 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort6};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList8 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean9 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList8,
-                                                        uShortArray7);
+        boolean boolean9 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList8, uShortArray7);
         org.ccsds.moims.mo.mal.structures.UShort uShort11 = org.ccsds.moims.mo.mal.structures.IntegerList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort uShort12 = uShortList8.set(0, uShort11);
         int int13 = uShort12.getValue();
         boolean boolean14 = doubleList4.contains((java.lang.Object) uShort12);
-        org.ccsds.moims.mo.mal.structures.Duration duration16 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 100);
+        org.ccsds.moims.mo.mal.structures.Duration duration16 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 100);
         boolean boolean17 = doubleList4.remove((java.lang.Object) duration16);
         java.lang.Short[] shortArray22 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList23 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean24 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList23,
-                                                         shortArray22);
+            shortArray22);
         java.util.ListIterator<java.lang.Short> shortItor26 = shortList23.listIterator((int) (byte) 1);
         boolean boolean28 = shortList23.contains((java.lang.Object) true);
         java.lang.Short short31 = shortList23.set(1, (java.lang.Short) (short) 0);
@@ -932,7 +945,7 @@ public class RegressionTest1 {
         java.lang.Float[] floatArray37 = new java.lang.Float[]{(-1.0f), 0.0f};
         java.util.ArrayList<java.lang.Float> floatList38 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList38,
-                                                         floatArray37);
+            floatArray37);
         java.util.stream.Stream<java.lang.Float> floatStream40 = floatList38.parallelStream();
         java.util.ListIterator<java.lang.Float> floatItor41 = floatList38.listIterator();
         java.lang.Object[] objArray42 = floatList38.toArray();
@@ -940,7 +953,8 @@ public class RegressionTest1 {
         floatList38.clear();
         boolean boolean45 = uShortList0.remove((java.lang.Object) floatList38);
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream46 = uShortList0.parallelStream();
-        org.ccsds.moims.mo.mal.structures.StringList stringList48 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.StringList stringList48 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (byte) 10);
         stringList48.ensureCapacity((-2));
         esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP protocolBridgeSPP51 = new esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP();
         boolean boolean52 = stringList48.remove((java.lang.Object) protocolBridgeSPP51);
@@ -948,7 +962,8 @@ public class RegressionTest1 {
         java.util.Map map55 = null;
         try {
             protocolBridgeSPP51.init("malspp:247/12/23", map55);
-            org.junit.Assert.fail("Expected exception of type org.ccsds.moims.mo.mal.MALException; message: Unknown transport factory for protocol: malspp");
+            org.junit.Assert.fail(
+                "Expected exception of type org.ccsds.moims.mo.mal.MALException; message: Unknown transport factory for protocol: malspp");
         } catch (org.ccsds.moims.mo.mal.MALException e) {
         }
         org.junit.Assert.assertNotNull(element1);
@@ -989,7 +1004,8 @@ public class RegressionTest1 {
         java.util.Map map3 = null;
         try {
             protocolBridge0.init("2", "", map3);
-            org.junit.Assert.fail("Expected exception of type org.ccsds.moims.mo.mal.MALException; message: Unknown transport factory for protocol: 2");
+            org.junit.Assert.fail(
+                "Expected exception of type org.ccsds.moims.mo.mal.MALException; message: Unknown transport factory for protocol: 2");
         } catch (org.ccsds.moims.mo.mal.MALException e) {
         }
     }
@@ -998,8 +1014,8 @@ public class RegressionTest1 {
     public void test514() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test514");
-        esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager virtualSPPURIsManager2 = new esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager((int) (short) 10,
-                                                                                                                                   12);
+        esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager virtualSPPURIsManager2 = new esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager(
+            (int) (short) 10, 12);
         java.lang.String str4 = virtualSPPURIsManager2.getURI("[1]");
         java.lang.String str6 = virtualSPPURIsManager2.getVirtualSPPURI("[-1.0, 0.0]");
         java.lang.String str8 = virtualSPPURIsManager2.getURI("281474993487881");
@@ -1012,9 +1028,11 @@ public class RegressionTest1 {
     public void test515() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test515");
-        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 100);
+        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 100);
         double double2 = duration1.getValue();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray8 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList9 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean10 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList9, longArray8);
@@ -1022,7 +1040,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray17 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList18 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList18,
-                                                         shortArray17);
+            shortArray17);
         java.util.ListIterator<java.lang.Short> shortItor21 = shortList18.listIterator((int) (byte) 1);
         boolean boolean23 = shortList18.contains((java.lang.Object) true);
         java.lang.Short short26 = shortList18.set(1, (java.lang.Short) (short) 0);
@@ -1030,12 +1048,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray31 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList32 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList32,
-                                                         longArray31);
+            longArray31);
         int int35 = longList32.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray40 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList41 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList41,
-                                                         shortArray40);
+            shortArray40);
         java.util.ListIterator<java.lang.Short> shortItor44 = shortList41.listIterator((int) (byte) 1);
         boolean boolean46 = shortList41.contains((java.lang.Object) true);
         java.lang.Short short49 = shortList41.set(1, (java.lang.Short) (short) 0);
@@ -1064,7 +1082,8 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort70 = uRIList4.getServiceNumber();
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI72 = uRIList4.get(6);
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 6, Size: 0");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 6, Size: 0");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertTrue("'" + double2 + "' != '" + 100.0d + "'", double2 == 100.0d);
@@ -1103,7 +1122,8 @@ public class RegressionTest1 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test516");
         org.ccsds.moims.mo.mal.structures.UOctet uOctet0 = org.ccsds.moims.mo.mal.structures.UOctet.AREA_VERSION;
-        org.ccsds.moims.mo.mal.structures.URIList uRIList2 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList2 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray6 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList7 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean8 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList7, longArray6);
@@ -1111,7 +1131,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray15 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList16 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList16,
-                                                         shortArray15);
+            shortArray15);
         java.util.ListIterator<java.lang.Short> shortItor19 = shortList16.listIterator((int) (byte) 1);
         boolean boolean21 = shortList16.contains((java.lang.Object) true);
         java.lang.Short short24 = shortList16.set(1, (java.lang.Short) (short) 0);
@@ -1119,12 +1139,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray29 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList30 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean31 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList30,
-                                                         longArray29);
+            longArray29);
         int int33 = longList30.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray38 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList39 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean40 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList39,
-                                                         shortArray38);
+            shortArray38);
         java.util.ListIterator<java.lang.Short> shortItor42 = shortList39.listIterator((int) (byte) 1);
         boolean boolean44 = shortList39.contains((java.lang.Object) true);
         java.lang.Short short47 = shortList39.set(1, (java.lang.Short) (short) 0);
@@ -1146,15 +1166,17 @@ public class RegressionTest1 {
         esa.mo.nmf.groundmoproxy.ProtocolBridge[] protocolBridgeArray60 = uRIList2.toArray(protocolBridgeArray59);
         org.ccsds.moims.mo.mal.structures.UShort uShort61 = uRIList2.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort62 = org.ccsds.moims.mo.mal.structures.DoubleList.SERVICE_SHORT_FORM;
-        org.ccsds.moims.mo.mal.structures.FineTime fineTime64 = new org.ccsds.moims.mo.mal.structures.FineTime((long) (byte) 1);
+        org.ccsds.moims.mo.mal.structures.FineTime fineTime64 = new org.ccsds.moims.mo.mal.structures.FineTime(
+            (long) (byte) 1);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet65 = fineTime64.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.UShort uShort66 = fineTime64.getServiceNumber();
-        org.ccsds.moims.mo.mal.structures.BooleanList booleanList68 = new org.ccsds.moims.mo.mal.structures.BooleanList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.BooleanList booleanList68 = new org.ccsds.moims.mo.mal.structures.BooleanList(
+            (int) (byte) 10);
         org.ccsds.moims.mo.mal.structures.UShort uShort69 = org.ccsds.moims.mo.mal.structures.IntegerList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray70 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort69};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList71 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean72 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList71,
-                                                         uShortArray70);
+        boolean boolean72 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList71, uShortArray70);
         org.ccsds.moims.mo.mal.structures.UShort uShort74 = org.ccsds.moims.mo.mal.structures.IntegerList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort uShort75 = uShortList71.set(0, uShort74);
         boolean boolean76 = booleanList68.remove((java.lang.Object) uShort74);
@@ -1163,15 +1185,16 @@ public class RegressionTest1 {
                                                                                                                   uShort66,
                                                                                                                   uShort74};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList78 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean79 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList78,
-                                                         uShortArray77);
+        boolean boolean79 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList78, uShortArray77);
         int int80 = uShortList78.size();
         boolean boolean81 = uOctet0.equals((java.lang.Object) uShortList78);
         java.util.Iterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor82 = uShortList78.iterator();
         boolean boolean83 = uShortList78.isEmpty();
         java.lang.Object obj84 = uShortList78.clone();
         int int85 = uShortList78.size();
-        java.util.Spliterator<org.ccsds.moims.mo.mal.structures.UShort> uShortSpliterator86 = uShortList78.spliterator();
+        java.util.Spliterator<org.ccsds.moims.mo.mal.structures.UShort> uShortSpliterator86 = uShortList78
+            .spliterator();
         org.junit.Assert.assertNotNull(uOctet0);
         org.junit.Assert.assertNotNull(longArray6);
         org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + true + "'", boolean8);
@@ -1221,7 +1244,8 @@ public class RegressionTest1 {
     public void test517() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test517");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -1229,7 +1253,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -1237,12 +1261,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -1311,7 +1335,8 @@ public class RegressionTest1 {
     public void test518() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test518");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -1319,7 +1344,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -1327,12 +1352,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -1356,7 +1381,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray65 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList66 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean67 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList66,
-                                                         shortArray65);
+            shortArray65);
         java.util.ListIterator<java.lang.Short> shortItor69 = shortList66.listIterator((int) (byte) 1);
         boolean boolean70 = uRIList1.containsAll((java.util.Collection<java.lang.Short>) shortList66);
         org.ccsds.moims.mo.mal.structures.URI uRI72 = new org.ccsds.moims.mo.mal.structures.URI("100.0");
@@ -1415,10 +1440,12 @@ public class RegressionTest1 {
     public void test519() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test519");
-        org.ccsds.moims.mo.mal.structures.BooleanList booleanList1 = new org.ccsds.moims.mo.mal.structures.BooleanList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.BooleanList booleanList1 = new org.ccsds.moims.mo.mal.structures.BooleanList(
+            (int) (byte) 10);
         java.lang.String str2 = booleanList1.toString();
         booleanList1.trimToSize();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList5 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList5 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray9 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList10 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList10, longArray9);
@@ -1426,7 +1453,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray18 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList19 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean20 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList19,
-                                                         shortArray18);
+            shortArray18);
         java.util.ListIterator<java.lang.Short> shortItor22 = shortList19.listIterator((int) (byte) 1);
         boolean boolean24 = shortList19.contains((java.lang.Object) true);
         java.lang.Short short27 = shortList19.set(1, (java.lang.Short) (short) 0);
@@ -1434,12 +1461,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray32 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList33 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean34 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList33,
-                                                         longArray32);
+            longArray32);
         int int36 = longList33.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray41 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList42 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean43 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList42,
-                                                         shortArray41);
+            shortArray41);
         java.util.ListIterator<java.lang.Short> shortItor45 = shortList42.listIterator((int) (byte) 1);
         boolean boolean47 = shortList42.contains((java.lang.Object) true);
         java.lang.Short short50 = shortList42.set(1, (java.lang.Short) (short) 0);
@@ -1503,7 +1530,8 @@ public class RegressionTest1 {
     public void test520() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test520");
-        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (byte) 10);
         stringList1.ensureCapacity((-2));
         esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP protocolBridgeSPP4 = new esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP();
         boolean boolean5 = stringList1.remove((java.lang.Object) protocolBridgeSPP4);
@@ -1511,7 +1539,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray11 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList12 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean13 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList12,
-                                                         shortArray11);
+            shortArray11);
         java.util.ListIterator<java.lang.Short> shortItor15 = shortList12.listIterator((int) (byte) 1);
         boolean boolean17 = shortList12.contains((java.lang.Object) true);
         java.lang.Short short20 = shortList12.set(1, (java.lang.Short) (short) 0);
@@ -1520,7 +1548,7 @@ public class RegressionTest1 {
         java.lang.Integer[] intArray26 = new java.lang.Integer[]{(-1), 9, 9};
         java.util.ArrayList<java.lang.Integer> intList27 = new java.util.ArrayList<java.lang.Integer>();
         boolean boolean28 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList27,
-                                                         intArray26);
+            intArray26);
         intList27.trimToSize();
         java.lang.Object obj30 = intList27.clone();
         boolean boolean31 = stringList1.remove(obj30);
@@ -1555,7 +1583,8 @@ public class RegressionTest1 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test521");
         org.ccsds.moims.mo.mal.structures.FloatList floatList1 = new org.ccsds.moims.mo.mal.structures.FloatList(65535);
-        org.ccsds.moims.mo.mal.structures.URIList uRIList3 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList3 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray7 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList8 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean9 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList8, longArray7);
@@ -1563,7 +1592,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray16 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList17 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList17,
-                                                         shortArray16);
+            shortArray16);
         java.util.ListIterator<java.lang.Short> shortItor20 = shortList17.listIterator((int) (byte) 1);
         boolean boolean22 = shortList17.contains((java.lang.Object) true);
         java.lang.Short short25 = shortList17.set(1, (java.lang.Short) (short) 0);
@@ -1571,12 +1600,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray30 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList31 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean32 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList31,
-                                                         longArray30);
+            longArray30);
         int int34 = longList31.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray39 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList40 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean41 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList40,
-                                                         shortArray39);
+            shortArray39);
         java.util.ListIterator<java.lang.Short> shortItor43 = shortList40.listIterator((int) (byte) 1);
         boolean boolean45 = shortList40.contains((java.lang.Object) true);
         java.lang.Short short48 = shortList40.set(1, (java.lang.Short) (short) 0);
@@ -1645,7 +1674,8 @@ public class RegressionTest1 {
     public void test522() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test522");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -1653,7 +1683,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -1661,12 +1691,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -1699,7 +1729,8 @@ public class RegressionTest1 {
                                                                "[esa.mo.nmf.groundmoproxy.protocolbrige.spp.apid.start, [-1.0, 0.0], [-1, -1, 100], [], hi!, hi!, , esa.mo.nmf.groundmoproxy.protocolbrige.spp.apid.start, , [-1.0, 0.0], 1]",
                                                                "[100, 0, -1, 10, 100, 0, -1, 10]",
                                                                "[, esa.mo.nmf.groundmoproxy.protocolbrige.spp.apid.start, ]"};
-        java.lang.Comparable<java.lang.String>[] strComparableArray76 = uRIList1.toArray((java.lang.Comparable<java.lang.String>[]) strArray75);
+        java.lang.Comparable<java.lang.String>[] strComparableArray76 = uRIList1.toArray(
+            (java.lang.Comparable<java.lang.String>[]) strArray75);
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.URI> uRIStream77 = uRIList1.parallelStream();
         boolean boolean78 = uRIList1.isEmpty();
         java.lang.Object[] objArray79 = uRIList1.toArray();
@@ -1744,7 +1775,8 @@ public class RegressionTest1 {
     public void test523() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test523");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -1752,7 +1784,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -1760,12 +1792,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -1829,12 +1861,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray14 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList15 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList15,
-                                                         longArray14);
+            longArray14);
         int int18 = longList15.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray23 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList24 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean25 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList24,
-                                                         shortArray23);
+            shortArray23);
         java.util.ListIterator<java.lang.Short> shortItor27 = shortList24.listIterator((int) (byte) 1);
         boolean boolean29 = shortList24.contains((java.lang.Object) true);
         java.lang.Short short32 = shortList24.set(1, (java.lang.Short) (short) 0);
@@ -1842,12 +1874,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray37 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList38 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList38,
-                                                         longArray37);
+            longArray37);
         int int41 = longList38.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray46 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList47 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean48 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList47,
-                                                         shortArray46);
+            shortArray46);
         java.util.ListIterator<java.lang.Short> shortItor50 = shortList47.listIterator((int) (byte) 1);
         boolean boolean52 = shortList47.contains((java.lang.Object) true);
         java.lang.Short short55 = shortList47.set(1, (java.lang.Short) (short) 0);
@@ -1859,7 +1891,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray66 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList67 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean68 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList67,
-                                                         shortArray66);
+            shortArray66);
         java.util.ListIterator<java.lang.Short> shortItor70 = shortList67.listIterator((int) (byte) 1);
         boolean boolean72 = shortList67.contains((java.lang.Object) true);
         boolean boolean73 = longList7.containsAll((java.util.Collection<java.lang.Short>) shortList67);
@@ -1868,7 +1900,8 @@ public class RegressionTest1 {
         java.lang.String str76 = longList7.toString();
         java.util.Spliterator<java.lang.Long> longSpliterator77 = longList7.spliterator();
         boolean boolean79 = longList7.add((java.lang.Long) 0L);
-        org.ccsds.moims.mo.mal.structures.StringList stringList81 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.StringList stringList81 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (byte) 10);
         stringList81.ensureCapacity((-2));
         esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP protocolBridgeSPP84 = new esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP();
         boolean boolean85 = stringList81.remove((java.lang.Object) protocolBridgeSPP84);
@@ -1905,12 +1938,9 @@ public class RegressionTest1 {
         org.junit.Assert.assertTrue("'" + boolean73 + "' != '" + false + "'", !boolean73);
         org.junit.Assert.assertTrue("'" + int74 + "' != '" + 7 + "'", int74 == 7);
         org.junit.Assert.assertNotNull(obj75);
-        org.junit.Assert.assertTrue("'" +
-                                    str76 +
-                                    "' != '" +
-                                    "[281474993487876, 281474993487876, 281474993487878, 100, 100, 281475010265081, 0]" +
-                                    "'", str76.equals(
-                                                      "[281474993487876, 281474993487876, 281474993487878, 100, 100, 281475010265081, 0]"));
+        org.junit.Assert.assertTrue("'" + str76 + "' != '" +
+            "[281474993487876, 281474993487876, 281474993487878, 100, 100, 281475010265081, 0]" + "'", str76.equals(
+                "[281474993487876, 281474993487876, 281474993487878, 100, 100, 281475010265081, 0]"));
         org.junit.Assert.assertNotNull(longSpliterator77);
         org.junit.Assert.assertTrue("'" + boolean79 + "' != '" + true + "'", boolean79);
         org.junit.Assert.assertTrue("'" + boolean85 + "' != '" + false + "'", !boolean85);
@@ -1922,7 +1952,8 @@ public class RegressionTest1 {
     public void test525() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test525");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -1930,7 +1961,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -1938,12 +1969,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -1970,7 +2001,8 @@ public class RegressionTest1 {
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.URI> uRIStream64 = uRIList1.stream();
         try {
             java.util.List<org.ccsds.moims.mo.mal.structures.URI> uRIList67 = uRIList1.subList(8, 10);
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: toIndex = 10");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IndexOutOfBoundsException; message: toIndex = 10");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(longArray5);
@@ -2007,7 +2039,8 @@ public class RegressionTest1 {
     public void test526() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test526");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -2015,7 +2048,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -2023,12 +2056,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -2051,7 +2084,8 @@ public class RegressionTest1 {
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.URI> uRIStream60 = uRIList1.parallelStream();
         java.lang.String str61 = uRIList1.toString();
         org.ccsds.moims.mo.mal.structures.Element element62 = uRIList1.createElement();
-        org.ccsds.moims.mo.mal.structures.UInteger uInteger64 = new org.ccsds.moims.mo.mal.structures.UInteger((long) (short) 1);
+        org.ccsds.moims.mo.mal.structures.UInteger uInteger64 = new org.ccsds.moims.mo.mal.structures.UInteger(
+            (long) (short) 1);
         java.lang.Long long65 = uInteger64.getShortForm();
         java.lang.String str66 = uInteger64.toString();
         java.lang.Integer int67 = uInteger64.getTypeShortForm();
@@ -2099,16 +2133,17 @@ public class RegressionTest1 {
         boolean boolean5 = union1.equals((java.lang.Object) 14);
         org.ccsds.moims.mo.mal.structures.UShort uShort6 = union1.getAreaNumber();
         java.lang.Long long7 = union1.getShortForm();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList9 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList9 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray13 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList14 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean15 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList14,
-                                                         longArray13);
+            longArray13);
         int int17 = longList14.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray22 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList23 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean24 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList23,
-                                                         shortArray22);
+            shortArray22);
         java.util.ListIterator<java.lang.Short> shortItor26 = shortList23.listIterator((int) (byte) 1);
         boolean boolean28 = shortList23.contains((java.lang.Object) true);
         java.lang.Short short31 = shortList23.set(1, (java.lang.Short) (short) 0);
@@ -2116,12 +2151,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray36 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList37 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean38 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList37,
-                                                         longArray36);
+            longArray36);
         int int40 = longList37.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray45 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList46 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean47 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList46,
-                                                         shortArray45);
+            shortArray45);
         java.util.ListIterator<java.lang.Short> shortItor49 = shortList46.listIterator((int) (byte) 1);
         boolean boolean51 = shortList46.contains((java.lang.Object) true);
         java.lang.Short short54 = shortList46.set(1, (java.lang.Short) (short) 0);
@@ -2143,7 +2178,8 @@ public class RegressionTest1 {
         esa.mo.nmf.groundmoproxy.ProtocolBridge[] protocolBridgeArray67 = uRIList9.toArray(protocolBridgeArray66);
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.URI> uRIStream68 = uRIList9.parallelStream();
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.URI> uRIStream69 = uRIList9.stream();
-        org.ccsds.moims.mo.mal.structures.FineTime fineTime71 = new org.ccsds.moims.mo.mal.structures.FineTime((long) (byte) 1);
+        org.ccsds.moims.mo.mal.structures.FineTime fineTime71 = new org.ccsds.moims.mo.mal.structures.FineTime(
+            (long) (byte) 1);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet72 = fineTime71.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet73 = fineTime71.getAreaVersion();
         java.lang.Integer int74 = uOctet73.getTypeShortForm();
@@ -2193,7 +2229,8 @@ public class RegressionTest1 {
     public void test528() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test528");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -2201,7 +2238,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -2209,12 +2246,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -2238,7 +2275,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray65 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList66 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean67 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList66,
-                                                         shortArray65);
+            shortArray65);
         java.util.ListIterator<java.lang.Short> shortItor69 = shortList66.listIterator((int) (byte) 1);
         boolean boolean70 = uRIList1.containsAll((java.util.Collection<java.lang.Short>) shortList66);
         java.lang.Integer int71 = uRIList1.getTypeShortForm();
@@ -2297,7 +2334,8 @@ public class RegressionTest1 {
     public void test529() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test529");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -2305,7 +2343,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -2313,12 +2351,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -2342,7 +2380,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray65 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList66 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean67 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList66,
-                                                         shortArray65);
+            shortArray65);
         java.util.ListIterator<java.lang.Short> shortItor69 = shortList66.listIterator((int) (byte) 1);
         boolean boolean70 = uRIList1.containsAll((java.util.Collection<java.lang.Short>) shortList66);
         java.lang.Integer int71 = uRIList1.getTypeShortForm();
@@ -2393,7 +2431,8 @@ public class RegressionTest1 {
     public void test530() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test530");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -2401,7 +2440,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -2409,12 +2448,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -2436,12 +2475,13 @@ public class RegressionTest1 {
         esa.mo.nmf.groundmoproxy.ProtocolBridge[] protocolBridgeArray59 = uRIList1.toArray(protocolBridgeArray58);
         java.util.Spliterator<org.ccsds.moims.mo.mal.structures.URI> uRISpliterator60 = uRIList1.spliterator();
         uRIList1.ensureCapacity(10);
-        org.ccsds.moims.mo.mal.structures.Duration duration64 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 100);
+        org.ccsds.moims.mo.mal.structures.Duration duration64 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 100);
         org.ccsds.moims.mo.mal.structures.UShort uShort65 = duration64.getServiceNumber();
         java.lang.Byte[] byteArray69 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) 100};
         java.util.ArrayList<java.lang.Byte> byteList70 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean71 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList70,
-                                                         byteArray69);
+            byteArray69);
         java.util.Iterator<java.lang.Byte> byteItor72 = byteList70.iterator();
         boolean boolean73 = duration64.equals((java.lang.Object) byteList70);
         java.lang.String str74 = byteList70.toString();
@@ -2450,8 +2490,10 @@ public class RegressionTest1 {
         int int77 = uRIList1.size();
         org.ccsds.moims.mo.mal.structures.Element element78 = uRIList1.createElement();
         java.lang.Object[] objArray79 = uRIList1.toArray();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList81 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
-        org.ccsds.moims.mo.mal.structures.FineTime fineTime83 = new org.ccsds.moims.mo.mal.structures.FineTime((long) (byte) 1);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList81 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.FineTime fineTime83 = new org.ccsds.moims.mo.mal.structures.FineTime(
+            (long) (byte) 1);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet84 = fineTime83.getAreaVersion();
         int int85 = uRIList81.lastIndexOf((java.lang.Object) uOctet84);
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.URI> uRIStream86 = uRIList81.parallelStream();
@@ -2517,7 +2559,8 @@ public class RegressionTest1 {
     public void test531() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test531");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -2525,7 +2568,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -2533,12 +2576,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -2560,14 +2603,16 @@ public class RegressionTest1 {
         esa.mo.nmf.groundmoproxy.ProtocolBridge[] protocolBridgeArray59 = uRIList1.toArray(protocolBridgeArray58);
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.URI> uRIStream60 = uRIList1.parallelStream();
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.URI> uRIStream61 = uRIList1.stream();
-        org.ccsds.moims.mo.mal.structures.FineTime fineTime63 = new org.ccsds.moims.mo.mal.structures.FineTime((long) (byte) 1);
+        org.ccsds.moims.mo.mal.structures.FineTime fineTime63 = new org.ccsds.moims.mo.mal.structures.FineTime(
+            (long) (byte) 1);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet64 = fineTime63.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet65 = fineTime63.getAreaVersion();
         java.lang.Integer int66 = uOctet65.getTypeShortForm();
         int int67 = uRIList1.lastIndexOf((java.lang.Object) int66);
         java.lang.String str68 = uRIList1.toString();
         org.ccsds.moims.mo.mal.structures.Element element69 = uRIList1.createElement();
-        org.ccsds.moims.mo.mal.structures.ShortList shortList71 = new org.ccsds.moims.mo.mal.structures.ShortList((int) 'a');
+        org.ccsds.moims.mo.mal.structures.ShortList shortList71 = new org.ccsds.moims.mo.mal.structures.ShortList(
+            (int) 'a');
         java.lang.Long long72 = shortList71.getShortForm();
         org.ccsds.moims.mo.mal.structures.ShortList shortList73 = new org.ccsds.moims.mo.mal.structures.ShortList();
         boolean boolean74 = shortList71.retainAll((java.util.Collection<java.lang.Short>) shortList73);
@@ -2612,22 +2657,24 @@ public class RegressionTest1 {
     public void test532() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test532");
-        esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager virtualSPPURIsManager2 = new esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager(3,
-                                                                                                                                   (int) (byte) 10);
+        esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager virtualSPPURIsManager2 = new esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager(
+            3, (int) (byte) 10);
     }
 
     @Test
     public void test533() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test533");
-        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (byte) 10);
         stringList1.ensureCapacity((-2));
         esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP protocolBridgeSPP4 = new esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP();
         boolean boolean5 = stringList1.remove((java.lang.Object) protocolBridgeSPP4);
         java.util.Map map8 = null;
         try {
             protocolBridgeSPP4.init("[0.0]", "malspp:247/10/145", map8);
-            org.junit.Assert.fail("Expected exception of type org.ccsds.moims.mo.mal.MALException; message: Unknown transport factory for protocol: [0.0]");
+            org.junit.Assert.fail(
+                "Expected exception of type org.ccsds.moims.mo.mal.MALException; message: Unknown transport factory for protocol: [0.0]");
         } catch (org.ccsds.moims.mo.mal.MALException e) {
         }
         org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", !boolean5);
@@ -2637,7 +2684,8 @@ public class RegressionTest1 {
     public void test534() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test534");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -2645,7 +2693,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -2653,12 +2701,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -2682,7 +2730,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray65 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList66 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean67 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList66,
-                                                         shortArray65);
+            shortArray65);
         java.util.ListIterator<java.lang.Short> shortItor69 = shortList66.listIterator((int) (byte) 1);
         boolean boolean70 = uRIList1.containsAll((java.util.Collection<java.lang.Short>) shortList66);
         org.ccsds.moims.mo.mal.structures.URI uRI72 = new org.ccsds.moims.mo.mal.structures.URI("100.0");
@@ -2735,7 +2783,8 @@ public class RegressionTest1 {
     public void test536() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test536");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -2743,7 +2792,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -2751,12 +2800,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -2822,9 +2871,11 @@ public class RegressionTest1 {
     public void test537() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test537");
-        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 100);
+        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 100);
         double double2 = duration1.getValue();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray8 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList9 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean10 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList9, longArray8);
@@ -2832,7 +2883,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray17 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList18 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList18,
-                                                         shortArray17);
+            shortArray17);
         java.util.ListIterator<java.lang.Short> shortItor21 = shortList18.listIterator((int) (byte) 1);
         boolean boolean23 = shortList18.contains((java.lang.Object) true);
         java.lang.Short short26 = shortList18.set(1, (java.lang.Short) (short) 0);
@@ -2840,12 +2891,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray31 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList32 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList32,
-                                                         longArray31);
+            longArray31);
         int int35 = longList32.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray40 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList41 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList41,
-                                                         shortArray40);
+            shortArray40);
         java.util.ListIterator<java.lang.Short> shortItor44 = shortList41.listIterator((int) (byte) 1);
         boolean boolean46 = shortList41.contains((java.lang.Object) true);
         java.lang.Short short49 = shortList41.set(1, (java.lang.Short) (short) 0);
@@ -2909,8 +2960,8 @@ public class RegressionTest1 {
     public void test538() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test538");
-        esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager virtualSPPURIsManager2 = new esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager((int) (short) 10,
-                                                                                                                                   12);
+        esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager virtualSPPURIsManager2 = new esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager(
+            (int) (short) 10, 12);
         java.lang.String str4 = virtualSPPURIsManager2.getVirtualSPPURI("[-1, -1, 100]");
         java.lang.String str6 = virtualSPPURIsManager2.getURI("malspp:247/10/240");
         java.lang.String str8 = virtualSPPURIsManager2.getURI("esa.mo.nmf.groundmoproxy.protocolbrige.spp.apid.end");
@@ -2930,7 +2981,8 @@ public class RegressionTest1 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test539");
         org.ccsds.moims.mo.mal.structures.FloatList floatList1 = new org.ccsds.moims.mo.mal.structures.FloatList(65535);
-        org.ccsds.moims.mo.mal.structures.URIList uRIList3 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList3 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray7 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList8 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean9 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList8, longArray7);
@@ -2938,7 +2990,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray16 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList17 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList17,
-                                                         shortArray16);
+            shortArray16);
         java.util.ListIterator<java.lang.Short> shortItor20 = shortList17.listIterator((int) (byte) 1);
         boolean boolean22 = shortList17.contains((java.lang.Object) true);
         java.lang.Short short25 = shortList17.set(1, (java.lang.Short) (short) 0);
@@ -2946,12 +2998,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray30 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList31 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean32 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList31,
-                                                         longArray30);
+            longArray30);
         int int34 = longList31.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray39 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList40 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean41 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList40,
-                                                         shortArray39);
+            shortArray39);
         java.util.ListIterator<java.lang.Short> shortItor43 = shortList40.listIterator((int) (byte) 1);
         boolean boolean45 = shortList40.contains((java.lang.Object) true);
         java.lang.Short short48 = shortList40.set(1, (java.lang.Short) (short) 0);
@@ -2981,7 +3033,8 @@ public class RegressionTest1 {
         int int70 = uRIList3.lastIndexOf((java.lang.Object) stringList67);
         java.util.Iterator<org.ccsds.moims.mo.mal.structures.URI> uRIItor71 = uRIList3.iterator();
         int int72 = floatList1.lastIndexOf((java.lang.Object) uRIList3);
-        org.ccsds.moims.mo.mal.structures.Duration duration74 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 100);
+        org.ccsds.moims.mo.mal.structures.Duration duration74 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 100);
         org.ccsds.moims.mo.mal.structures.UShort uShort75 = duration74.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort76 = duration74.getServiceNumber();
         java.lang.Long long77 = duration74.getShortForm();
@@ -3032,7 +3085,8 @@ public class RegressionTest1 {
     public void test540() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test540");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -3040,7 +3094,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -3048,12 +3102,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -3121,7 +3175,8 @@ public class RegressionTest1 {
     public void test541() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test541");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -3129,7 +3184,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -3137,12 +3192,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -3166,7 +3221,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray65 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList66 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean67 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList66,
-                                                         shortArray65);
+            shortArray65);
         java.util.ListIterator<java.lang.Short> shortItor69 = shortList66.listIterator((int) (byte) 1);
         boolean boolean70 = uRIList1.containsAll((java.util.Collection<java.lang.Short>) shortList66);
         java.lang.Integer int71 = uRIList1.getTypeShortForm();
@@ -3225,18 +3280,19 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort6 = org.ccsds.moims.mo.mal.structures.IntegerList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray7 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort6};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList8 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean9 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList8,
-                                                        uShortArray7);
+        boolean boolean9 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList8, uShortArray7);
         org.ccsds.moims.mo.mal.structures.UShort uShort11 = org.ccsds.moims.mo.mal.structures.IntegerList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort uShort12 = uShortList8.set(0, uShort11);
         int int13 = uShort12.getValue();
         boolean boolean14 = doubleList4.contains((java.lang.Object) uShort12);
-        org.ccsds.moims.mo.mal.structures.Duration duration16 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 100);
+        org.ccsds.moims.mo.mal.structures.Duration duration16 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 100);
         boolean boolean17 = doubleList4.remove((java.lang.Object) duration16);
         java.lang.Short[] shortArray22 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList23 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean24 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList23,
-                                                         shortArray22);
+            shortArray22);
         java.util.ListIterator<java.lang.Short> shortItor26 = shortList23.listIterator((int) (byte) 1);
         boolean boolean28 = shortList23.contains((java.lang.Object) true);
         java.lang.Short short31 = shortList23.set(1, (java.lang.Short) (short) 0);
@@ -3246,7 +3302,7 @@ public class RegressionTest1 {
         java.lang.Float[] floatArray37 = new java.lang.Float[]{(-1.0f), 0.0f};
         java.util.ArrayList<java.lang.Float> floatList38 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList38,
-                                                         floatArray37);
+            floatArray37);
         java.util.stream.Stream<java.lang.Float> floatStream40 = floatList38.parallelStream();
         java.util.ListIterator<java.lang.Float> floatItor41 = floatList38.listIterator();
         java.lang.Object[] objArray42 = floatList38.toArray();
@@ -3254,7 +3310,8 @@ public class RegressionTest1 {
         floatList38.clear();
         boolean boolean45 = uShortList0.remove((java.lang.Object) floatList38);
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream46 = uShortList0.parallelStream();
-        org.ccsds.moims.mo.mal.structures.StringList stringList48 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.StringList stringList48 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (byte) 10);
         stringList48.ensureCapacity((-2));
         esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP protocolBridgeSPP51 = new esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP();
         boolean boolean52 = stringList48.remove((java.lang.Object) protocolBridgeSPP51);
@@ -3262,7 +3319,8 @@ public class RegressionTest1 {
         java.util.Map map55 = null;
         try {
             protocolBridgeSPP51.init("false", map55);
-            org.junit.Assert.fail("Expected exception of type org.ccsds.moims.mo.mal.MALException; message: Unknown transport factory for protocol: malspp");
+            org.junit.Assert.fail(
+                "Expected exception of type org.ccsds.moims.mo.mal.MALException; message: Unknown transport factory for protocol: malspp");
         } catch (org.ccsds.moims.mo.mal.MALException e) {
         }
         org.junit.Assert.assertNotNull(element1);
@@ -3301,18 +3359,20 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test543");
         org.ccsds.moims.mo.mal.structures.FineTime fineTime1 = new org.ccsds.moims.mo.mal.structures.FineTime((long) 2);
         java.lang.Long long2 = fineTime1.getShortForm();
-        org.ccsds.moims.mo.mal.structures.Duration duration4 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 100);
+        org.ccsds.moims.mo.mal.structures.Duration duration4 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 100);
         double double5 = duration4.getValue();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList7 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList7 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray11 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList12 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean13 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList12,
-                                                         longArray11);
+            longArray11);
         int int15 = longList12.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray20 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList21 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean22 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList21,
-                                                         shortArray20);
+            shortArray20);
         java.util.ListIterator<java.lang.Short> shortItor24 = shortList21.listIterator((int) (byte) 1);
         boolean boolean26 = shortList21.contains((java.lang.Object) true);
         java.lang.Short short29 = shortList21.set(1, (java.lang.Short) (short) 0);
@@ -3320,12 +3380,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray34 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList35 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean36 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList35,
-                                                         longArray34);
+            longArray34);
         int int38 = longList35.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray43 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList44 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean45 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList44,
-                                                         shortArray43);
+            shortArray43);
         java.util.ListIterator<java.lang.Short> shortItor47 = shortList44.listIterator((int) (byte) 1);
         boolean boolean49 = shortList44.contains((java.lang.Object) true);
         java.lang.Short short52 = shortList44.set(1, (java.lang.Short) (short) 0);
@@ -3390,7 +3450,8 @@ public class RegressionTest1 {
     public void test544() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test544");
-        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (byte) 10);
         stringList1.ensureCapacity((-2));
         esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP protocolBridgeSPP4 = new esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP();
         boolean boolean5 = stringList1.remove((java.lang.Object) protocolBridgeSPP4);
@@ -3398,7 +3459,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray11 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList12 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean13 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList12,
-                                                         shortArray11);
+            shortArray11);
         java.util.ListIterator<java.lang.Short> shortItor15 = shortList12.listIterator((int) (byte) 1);
         boolean boolean17 = shortList12.contains((java.lang.Object) true);
         java.lang.Short short20 = shortList12.set(1, (java.lang.Short) (short) 0);
@@ -3427,16 +3488,17 @@ public class RegressionTest1 {
         byteList6.trimToSize();
         java.util.Iterator<java.lang.Byte> byteItor9 = byteList6.iterator();
         byteList6.trimToSize();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList12 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList12 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray16 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList17 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList17,
-                                                         longArray16);
+            longArray16);
         int int20 = longList17.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray25 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList26 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList26,
-                                                         shortArray25);
+            shortArray25);
         java.util.ListIterator<java.lang.Short> shortItor29 = shortList26.listIterator((int) (byte) 1);
         boolean boolean31 = shortList26.contains((java.lang.Object) true);
         java.lang.Short short34 = shortList26.set(1, (java.lang.Short) (short) 0);
@@ -3444,12 +3506,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray39 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList40 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean41 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList40,
-                                                         longArray39);
+            longArray39);
         int int43 = longList40.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray48 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList49 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean50 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList49,
-                                                         shortArray48);
+            shortArray48);
         java.util.ListIterator<java.lang.Short> shortItor52 = shortList49.listIterator((int) (byte) 1);
         boolean boolean54 = shortList49.contains((java.lang.Object) true);
         java.lang.Short short57 = shortList49.set(1, (java.lang.Short) (short) 0);
@@ -3473,7 +3535,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray76 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList77 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean78 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList77,
-                                                         shortArray76);
+            shortArray76);
         java.util.ListIterator<java.lang.Short> shortItor80 = shortList77.listIterator((int) (byte) 1);
         boolean boolean81 = uRIList12.containsAll((java.util.Collection<java.lang.Short>) shortList77);
         java.lang.Integer int82 = uRIList12.getTypeShortForm();
@@ -3491,7 +3553,8 @@ public class RegressionTest1 {
         boolean boolean95 = byteList6.remove((java.lang.Object) uShort94);
         try {
             java.util.List<java.lang.Byte> byteList98 = byteList6.subList((int) ' ', (int) (byte) -1);
-            org.junit.Assert.fail("Expected exception of type java.lang.IllegalArgumentException; message: fromIndex(32) > toIndex(-1)");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IllegalArgumentException; message: fromIndex(32) > toIndex(-1)");
         } catch (java.lang.IllegalArgumentException e) {
         }
         org.junit.Assert.assertNotNull(byteArray5);
@@ -3542,7 +3605,8 @@ public class RegressionTest1 {
     public void test546() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test546");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -3550,7 +3614,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -3558,12 +3622,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -3587,7 +3651,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray65 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList66 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean67 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList66,
-                                                         shortArray65);
+            shortArray65);
         java.util.ListIterator<java.lang.Short> shortItor69 = shortList66.listIterator((int) (byte) 1);
         boolean boolean70 = uRIList1.containsAll((java.util.Collection<java.lang.Short>) shortList66);
         java.lang.Integer int71 = uRIList1.getTypeShortForm();
@@ -3638,7 +3702,8 @@ public class RegressionTest1 {
     public void test547() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test547");
-        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (byte) 10);
         stringList1.ensureCapacity((-2));
         esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP protocolBridgeSPP4 = new esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP();
         boolean boolean5 = stringList1.remove((java.lang.Object) protocolBridgeSPP4);
@@ -3646,7 +3711,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray11 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList12 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean13 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList12,
-                                                         shortArray11);
+            shortArray11);
         java.util.ListIterator<java.lang.Short> shortItor15 = shortList12.listIterator((int) (byte) 1);
         boolean boolean17 = shortList12.contains((java.lang.Object) true);
         java.lang.Short short20 = shortList12.set(1, (java.lang.Short) (short) 0);
@@ -3655,7 +3720,7 @@ public class RegressionTest1 {
         java.lang.Integer[] intArray26 = new java.lang.Integer[]{(-1), 9, 9};
         java.util.ArrayList<java.lang.Integer> intList27 = new java.util.ArrayList<java.lang.Integer>();
         boolean boolean28 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList27,
-                                                         intArray26);
+            intArray26);
         intList27.trimToSize();
         java.lang.Object obj30 = intList27.clone();
         boolean boolean31 = stringList1.remove(obj30);
@@ -3663,7 +3728,8 @@ public class RegressionTest1 {
         boolean boolean33 = stringList1.isEmpty();
         try {
             java.lang.String str35 = stringList1.remove((int) (short) 255);
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 255, Size: 0");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 255, Size: 0");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", !boolean5);
@@ -3687,7 +3753,8 @@ public class RegressionTest1 {
     public void test548() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test548");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -3695,7 +3762,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -3703,12 +3770,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -3768,9 +3835,11 @@ public class RegressionTest1 {
     public void test549() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test549");
-        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 100);
+        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 100);
         double double2 = duration1.getValue();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray8 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList9 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean10 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList9, longArray8);
@@ -3778,7 +3847,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray17 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList18 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList18,
-                                                         shortArray17);
+            shortArray17);
         java.util.ListIterator<java.lang.Short> shortItor21 = shortList18.listIterator((int) (byte) 1);
         boolean boolean23 = shortList18.contains((java.lang.Object) true);
         java.lang.Short short26 = shortList18.set(1, (java.lang.Short) (short) 0);
@@ -3786,12 +3855,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray31 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList32 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList32,
-                                                         longArray31);
+            longArray31);
         int int35 = longList32.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray40 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList41 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList41,
-                                                         shortArray40);
+            shortArray40);
         java.util.ListIterator<java.lang.Short> shortItor44 = shortList41.listIterator((int) (byte) 1);
         boolean boolean46 = shortList41.contains((java.lang.Object) true);
         java.lang.Short short49 = shortList41.set(1, (java.lang.Short) (short) 0);
@@ -3858,21 +3927,24 @@ public class RegressionTest1 {
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream1 = uShortList0.parallelStream();
         org.ccsds.moims.mo.mal.structures.Element element2 = uShortList0.createElement();
         org.ccsds.moims.mo.mal.structures.Element element3 = uShortList0.createElement();
-        org.ccsds.moims.mo.mal.structures.BooleanList booleanList5 = new org.ccsds.moims.mo.mal.structures.BooleanList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.BooleanList booleanList5 = new org.ccsds.moims.mo.mal.structures.BooleanList(
+            (int) (byte) 10);
         org.ccsds.moims.mo.mal.structures.LongList longList6 = new org.ccsds.moims.mo.mal.structures.LongList();
         java.lang.Short[] shortArray11 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList12 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean13 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList12,
-                                                         shortArray11);
+            shortArray11);
         java.util.ListIterator<java.lang.Short> shortItor15 = shortList12.listIterator((int) (byte) 1);
         int int16 = shortList12.size();
         boolean boolean17 = longList6.removeAll((java.util.Collection<java.lang.Short>) shortList12);
         boolean boolean18 = booleanList5.removeAll((java.util.Collection<java.lang.Short>) shortList12);
-        org.ccsds.moims.mo.mal.structures.Identifier identifier20 = new org.ccsds.moims.mo.mal.structures.Identifier("hi!");
+        org.ccsds.moims.mo.mal.structures.Identifier identifier20 = new org.ccsds.moims.mo.mal.structures.Identifier(
+            "hi!");
         org.ccsds.moims.mo.mal.structures.UShort uShort21 = identifier20.getServiceNumber();
         boolean boolean22 = shortList12.equals((java.lang.Object) identifier20);
         boolean boolean23 = uShortList0.retainAll((java.util.Collection<java.lang.Short>) shortList12);
-        org.ccsds.moims.mo.mal.structures.StringList stringList25 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.StringList stringList25 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (byte) 10);
         stringList25.ensureCapacity((-2));
         esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP protocolBridgeSPP28 = new esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP();
         boolean boolean29 = stringList25.remove((java.lang.Object) protocolBridgeSPP28);
@@ -3880,13 +3952,14 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray35 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList36 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean37 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList36,
-                                                         shortArray35);
+            shortArray35);
         java.util.ListIterator<java.lang.Short> shortItor39 = shortList36.listIterator((int) (byte) 1);
         boolean boolean41 = shortList36.contains((java.lang.Object) true);
         java.lang.Short short44 = shortList36.set(1, (java.lang.Short) (short) 0);
         java.util.stream.Stream<java.lang.Short> shortStream45 = shortList36.parallelStream();
         boolean boolean46 = stringList25.contains((java.lang.Object) shortStream45);
-        org.ccsds.moims.mo.mal.structures.Union union48 = new org.ccsds.moims.mo.mal.structures.Union((java.lang.Integer) 3);
+        org.ccsds.moims.mo.mal.structures.Union union48 = new org.ccsds.moims.mo.mal.structures.Union(
+            (java.lang.Integer) 3);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet49 = union48.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.UShort uShort50 = union48.getAreaNumber();
         boolean boolean51 = stringList25.remove((java.lang.Object) uShort50);
@@ -3922,21 +3995,23 @@ public class RegressionTest1 {
     public void test551() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test551");
-        org.ccsds.moims.mo.mal.structures.BooleanList booleanList1 = new org.ccsds.moims.mo.mal.structures.BooleanList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.BooleanList booleanList1 = new org.ccsds.moims.mo.mal.structures.BooleanList(
+            (int) (byte) 10);
         java.lang.Object[] objArray2 = booleanList1.toArray();
         java.lang.String str3 = booleanList1.toString();
         java.util.Spliterator<java.lang.Boolean> booleanSpliterator4 = booleanList1.spliterator();
         java.lang.String str5 = booleanList1.toString();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList7 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList7 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray11 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList12 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean13 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList12,
-                                                         longArray11);
+            longArray11);
         int int15 = longList12.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray20 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList21 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean22 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList21,
-                                                         shortArray20);
+            shortArray20);
         java.util.ListIterator<java.lang.Short> shortItor24 = shortList21.listIterator((int) (byte) 1);
         boolean boolean26 = shortList21.contains((java.lang.Object) true);
         java.lang.Short short29 = shortList21.set(1, (java.lang.Short) (short) 0);
@@ -3944,12 +4019,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray34 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList35 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean36 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList35,
-                                                         longArray34);
+            longArray34);
         int int38 = longList35.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray43 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList44 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean45 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList44,
-                                                         shortArray43);
+            shortArray43);
         java.util.ListIterator<java.lang.Short> shortItor47 = shortList44.listIterator((int) (byte) 1);
         boolean boolean49 = shortList44.contains((java.lang.Object) true);
         java.lang.Short short52 = shortList44.set(1, (java.lang.Short) (short) 0);
@@ -4017,7 +4092,8 @@ public class RegressionTest1 {
     public void test552() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test552");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -4025,7 +4101,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -4033,12 +4109,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -4062,7 +4138,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray65 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList66 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean67 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList66,
-                                                         shortArray65);
+            shortArray65);
         java.util.ListIterator<java.lang.Short> shortItor69 = shortList66.listIterator((int) (byte) 1);
         boolean boolean70 = uRIList1.containsAll((java.util.Collection<java.lang.Short>) shortList66);
         java.lang.Integer int71 = uRIList1.getTypeShortForm();
@@ -4113,7 +4189,8 @@ public class RegressionTest1 {
     public void test553() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test553");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -4121,7 +4198,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -4129,12 +4206,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -4200,14 +4277,16 @@ public class RegressionTest1 {
     public void test554() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test554");
-        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (byte) 10);
         stringList1.ensureCapacity((-2));
         esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP protocolBridgeSPP4 = new esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP();
         boolean boolean5 = stringList1.remove((java.lang.Object) protocolBridgeSPP4);
         java.util.Map map7 = null;
         try {
             protocolBridgeSPP4.init("malspp:247/10/126", map7);
-            org.junit.Assert.fail("Expected exception of type org.ccsds.moims.mo.mal.MALException; message: Unknown transport factory for protocol: malspp");
+            org.junit.Assert.fail(
+                "Expected exception of type org.ccsds.moims.mo.mal.MALException; message: Unknown transport factory for protocol: malspp");
         } catch (org.ccsds.moims.mo.mal.MALException e) {
         }
         org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", !boolean5);
@@ -4217,7 +4296,8 @@ public class RegressionTest1 {
     public void test555() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test555");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -4225,7 +4305,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -4233,12 +4313,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -4305,9 +4385,11 @@ public class RegressionTest1 {
     public void test556() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test556");
-        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 100);
+        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 100);
         double double2 = duration1.getValue();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray8 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList9 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean10 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList9, longArray8);
@@ -4315,7 +4397,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray17 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList18 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList18,
-                                                         shortArray17);
+            shortArray17);
         java.util.ListIterator<java.lang.Short> shortItor21 = shortList18.listIterator((int) (byte) 1);
         boolean boolean23 = shortList18.contains((java.lang.Object) true);
         java.lang.Short short26 = shortList18.set(1, (java.lang.Short) (short) 0);
@@ -4323,12 +4405,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray31 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList32 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList32,
-                                                         longArray31);
+            longArray31);
         int int35 = longList32.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray40 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList41 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList41,
-                                                         shortArray40);
+            shortArray40);
         java.util.ListIterator<java.lang.Short> shortItor44 = shortList41.listIterator((int) (byte) 1);
         boolean boolean46 = shortList41.contains((java.lang.Object) true);
         java.lang.Short short49 = shortList41.set(1, (java.lang.Short) (short) 0);
@@ -4386,9 +4468,11 @@ public class RegressionTest1 {
     public void test557() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test557");
-        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 100);
+        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 100);
         double double2 = duration1.getValue();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray8 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList9 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean10 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList9, longArray8);
@@ -4396,7 +4480,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray17 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList18 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList18,
-                                                         shortArray17);
+            shortArray17);
         java.util.ListIterator<java.lang.Short> shortItor21 = shortList18.listIterator((int) (byte) 1);
         boolean boolean23 = shortList18.contains((java.lang.Object) true);
         java.lang.Short short26 = shortList18.set(1, (java.lang.Short) (short) 0);
@@ -4404,12 +4488,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray31 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList32 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList32,
-                                                         longArray31);
+            longArray31);
         int int35 = longList32.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray40 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList41 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList41,
-                                                         shortArray40);
+            shortArray40);
         java.util.ListIterator<java.lang.Short> shortItor44 = shortList41.listIterator((int) (byte) 1);
         boolean boolean46 = shortList41.contains((java.lang.Object) true);
         java.lang.Short short49 = shortList41.set(1, (java.lang.Short) (short) 0);
@@ -4484,7 +4568,8 @@ public class RegressionTest1 {
     public void test558() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test558");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -4492,7 +4577,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -4500,12 +4585,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -4527,12 +4612,13 @@ public class RegressionTest1 {
         esa.mo.nmf.groundmoproxy.ProtocolBridge[] protocolBridgeArray59 = uRIList1.toArray(protocolBridgeArray58);
         java.util.Spliterator<org.ccsds.moims.mo.mal.structures.URI> uRISpliterator60 = uRIList1.spliterator();
         uRIList1.ensureCapacity(10);
-        org.ccsds.moims.mo.mal.structures.Duration duration64 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 100);
+        org.ccsds.moims.mo.mal.structures.Duration duration64 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 100);
         org.ccsds.moims.mo.mal.structures.UShort uShort65 = duration64.getServiceNumber();
         java.lang.Byte[] byteArray69 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) 100};
         java.util.ArrayList<java.lang.Byte> byteList70 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean71 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList70,
-                                                         byteArray69);
+            byteArray69);
         java.util.Iterator<java.lang.Byte> byteItor72 = byteList70.iterator();
         boolean boolean73 = duration64.equals((java.lang.Object) byteList70);
         java.lang.String str74 = byteList70.toString();
@@ -4581,24 +4667,27 @@ public class RegressionTest1 {
     public void test559() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test559");
-        org.ccsds.moims.mo.mal.structures.Union union1 = new org.ccsds.moims.mo.mal.structures.Union((java.lang.Double) 0.0d);
+        org.ccsds.moims.mo.mal.structures.Union union1 = new org.ccsds.moims.mo.mal.structures.Union(
+            (java.lang.Double) 0.0d);
         org.ccsds.moims.mo.mal.structures.DoubleList doubleList3 = new org.ccsds.moims.mo.mal.structures.DoubleList(0);
         java.lang.Integer int4 = doubleList3.getTypeShortForm();
         java.lang.Object obj5 = null;
         boolean boolean6 = doubleList3.contains(obj5);
         boolean boolean7 = union1.equals((java.lang.Object) doubleList3);
-        org.ccsds.moims.mo.mal.structures.Duration duration9 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 100);
+        org.ccsds.moims.mo.mal.structures.Duration duration9 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 100);
         double double10 = duration9.getValue();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList12 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList12 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray16 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList17 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList17,
-                                                         longArray16);
+            longArray16);
         int int20 = longList17.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray25 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList26 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList26,
-                                                         shortArray25);
+            shortArray25);
         java.util.ListIterator<java.lang.Short> shortItor29 = shortList26.listIterator((int) (byte) 1);
         boolean boolean31 = shortList26.contains((java.lang.Object) true);
         java.lang.Short short34 = shortList26.set(1, (java.lang.Short) (short) 0);
@@ -4606,12 +4695,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray39 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList40 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean41 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList40,
-                                                         longArray39);
+            longArray39);
         int int43 = longList40.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray48 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList49 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean50 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList49,
-                                                         shortArray48);
+            shortArray48);
         java.util.ListIterator<java.lang.Short> shortItor52 = shortList49.listIterator((int) (byte) 1);
         boolean boolean54 = shortList49.contains((java.lang.Object) true);
         java.lang.Short short57 = shortList49.set(1, (java.lang.Short) (short) 0);
@@ -4640,7 +4729,8 @@ public class RegressionTest1 {
         java.lang.Double double77 = union1.getDoubleValue();
         try {
             java.lang.Short short78 = union1.getShortValue();
-            org.junit.Assert.fail("Expected exception of type java.lang.ClassCastException; message: java.lang.Double cannot be cast to java.lang.Short");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.ClassCastException; message: java.lang.Double cannot be cast to java.lang.Short");
         } catch (java.lang.ClassCastException e) {
         }
         org.junit.Assert.assertTrue("'" + int4 + "' != '" + (-5) + "'", int4.equals((-5)));
@@ -4683,7 +4773,8 @@ public class RegressionTest1 {
     public void test560() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test560");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -4691,7 +4782,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -4699,12 +4790,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -4727,7 +4818,8 @@ public class RegressionTest1 {
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.URI> uRIStream60 = uRIList1.parallelStream();
         java.lang.String str61 = uRIList1.toString();
         org.ccsds.moims.mo.mal.structures.Element element62 = uRIList1.createElement();
-        org.ccsds.moims.mo.mal.structures.BooleanList booleanList64 = new org.ccsds.moims.mo.mal.structures.BooleanList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.BooleanList booleanList64 = new org.ccsds.moims.mo.mal.structures.BooleanList(
+            (int) (byte) 10);
         org.ccsds.moims.mo.mal.structures.UShort uShort65 = booleanList64.getAreaNumber();
         booleanList64.ensureCapacity(4);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet68 = booleanList64.getAreaVersion();
@@ -4736,7 +4828,8 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort71 = uRIList1.getServiceNumber();
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI73 = uRIList1.remove(18);
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 18, Size: 0");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 18, Size: 0");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(longArray5);
@@ -4778,18 +4871,20 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test561");
         org.ccsds.moims.mo.mal.structures.FineTime fineTime1 = new org.ccsds.moims.mo.mal.structures.FineTime((long) 2);
         java.lang.Long long2 = fineTime1.getShortForm();
-        org.ccsds.moims.mo.mal.structures.Duration duration4 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 100);
+        org.ccsds.moims.mo.mal.structures.Duration duration4 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 100);
         double double5 = duration4.getValue();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList7 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList7 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray11 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList12 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean13 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList12,
-                                                         longArray11);
+            longArray11);
         int int15 = longList12.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray20 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList21 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean22 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList21,
-                                                         shortArray20);
+            shortArray20);
         java.util.ListIterator<java.lang.Short> shortItor24 = shortList21.listIterator((int) (byte) 1);
         boolean boolean26 = shortList21.contains((java.lang.Object) true);
         java.lang.Short short29 = shortList21.set(1, (java.lang.Short) (short) 0);
@@ -4797,12 +4892,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray34 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList35 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean36 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList35,
-                                                         longArray34);
+            longArray34);
         int int38 = longList35.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray43 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList44 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean45 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList44,
-                                                         shortArray43);
+            shortArray43);
         java.util.ListIterator<java.lang.Short> shortItor47 = shortList44.listIterator((int) (byte) 1);
         boolean boolean49 = shortList44.contains((java.lang.Object) true);
         java.lang.Short short52 = shortList44.set(1, (java.lang.Short) (short) 0);
@@ -4867,7 +4962,8 @@ public class RegressionTest1 {
     public void test562() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test562");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -4875,7 +4971,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -4883,12 +4979,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -4954,7 +5050,8 @@ public class RegressionTest1 {
     public void test563() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test563");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -4962,7 +5059,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -4970,12 +5067,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -4999,7 +5096,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray65 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList66 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean67 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList66,
-                                                         shortArray65);
+            shortArray65);
         java.util.ListIterator<java.lang.Short> shortItor69 = shortList66.listIterator((int) (byte) 1);
         boolean boolean70 = uRIList1.containsAll((java.util.Collection<java.lang.Short>) shortList66);
         org.ccsds.moims.mo.mal.structures.URI uRI72 = new org.ccsds.moims.mo.mal.structures.URI("100.0");
@@ -5015,7 +5112,8 @@ public class RegressionTest1 {
         boolean boolean83 = uRIList1.remove((java.lang.Object) octetList75);
         org.ccsds.moims.mo.mal.structures.UShort uShort84 = octetList75.getAreaNumber();
         octetList75.clear();
-        org.ccsds.moims.mo.mal.structures.IntegerList integerList87 = new org.ccsds.moims.mo.mal.structures.IntegerList(11);
+        org.ccsds.moims.mo.mal.structures.IntegerList integerList87 = new org.ccsds.moims.mo.mal.structures.IntegerList(
+            11);
         java.lang.Integer int88 = integerList87.getTypeShortForm();
         org.ccsds.moims.mo.mal.structures.UShort uShort89 = integerList87.getAreaNumber();
         java.lang.Integer int90 = integerList87.getTypeShortForm();
@@ -5077,7 +5175,8 @@ public class RegressionTest1 {
     public void test564() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test564");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -5085,7 +5184,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -5093,12 +5192,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -5127,7 +5226,8 @@ public class RegressionTest1 {
         int int66 = uRIList1.size();
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI68 = uRIList1.get(12);
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 12, Size: 0");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 12, Size: 0");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(longArray5);
@@ -5165,7 +5265,8 @@ public class RegressionTest1 {
     public void test565() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test565");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -5173,7 +5274,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -5181,12 +5282,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -5265,27 +5366,30 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UOctet uOctet10 = uOctet9.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.UShort uShort11 = uOctet9.getAreaNumber();
         boolean boolean12 = intList4.remove((java.lang.Object) uOctet9);
-        org.ccsds.moims.mo.mal.structures.StringList stringList14 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.StringList stringList14 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (byte) 10);
         stringList14.ensureCapacity((-2));
         esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP protocolBridgeSPP17 = new esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP();
         boolean boolean18 = stringList14.remove((java.lang.Object) protocolBridgeSPP17);
         int int19 = intList4.indexOf((java.lang.Object) stringList14);
-        org.ccsds.moims.mo.mal.structures.UShortList uShortList21 = new org.ccsds.moims.mo.mal.structures.UShortList(15);
+        org.ccsds.moims.mo.mal.structures.UShortList uShortList21 = new org.ccsds.moims.mo.mal.structures.UShortList(
+            15);
         org.ccsds.moims.mo.mal.structures.UShort uShort22 = uShortList21.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.ShortList shortList23 = new org.ccsds.moims.mo.mal.structures.ShortList();
         org.ccsds.moims.mo.mal.structures.DoubleList doubleList25 = new org.ccsds.moims.mo.mal.structures.DoubleList(0);
         java.lang.Integer int26 = doubleList25.getTypeShortForm();
         int int27 = doubleList25.size();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList29 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList29 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray33 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList34 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean35 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList34,
-                                                         longArray33);
+            longArray33);
         int int37 = longList34.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray42 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList43 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean44 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList43,
-                                                         shortArray42);
+            shortArray42);
         java.util.ListIterator<java.lang.Short> shortItor46 = shortList43.listIterator((int) (byte) 1);
         boolean boolean48 = shortList43.contains((java.lang.Object) true);
         java.lang.Short short51 = shortList43.set(1, (java.lang.Short) (short) 0);
@@ -5293,12 +5397,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray56 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList57 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean58 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList57,
-                                                         longArray56);
+            longArray56);
         int int60 = longList57.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray65 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList66 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean67 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList66,
-                                                         shortArray65);
+            shortArray65);
         java.util.ListIterator<java.lang.Short> shortItor69 = shortList66.listIterator((int) (byte) 1);
         boolean boolean71 = shortList66.contains((java.lang.Object) true);
         java.lang.Short short74 = shortList66.set(1, (java.lang.Short) (short) 0);
@@ -5312,7 +5416,8 @@ public class RegressionTest1 {
         boolean boolean84 = shortList23.containsAll((java.util.Collection<java.lang.Short>) shortList43);
         boolean boolean85 = uShortList21.containsAll((java.util.Collection<java.lang.Short>) shortList43);
         java.lang.Long long86 = uShortList21.getShortForm();
-        java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream87 = uShortList21.parallelStream();
+        java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream87 = uShortList21
+            .parallelStream();
         boolean boolean88 = stringList14.equals((java.lang.Object) uShortList21);
         java.util.ListIterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor89 = uShortList21.listIterator();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet90 = uShortList21.getAreaVersion();
@@ -5365,9 +5470,11 @@ public class RegressionTest1 {
     public void test567() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test567");
-        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 100);
+        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 100);
         double double2 = duration1.getValue();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray8 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList9 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean10 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList9, longArray8);
@@ -5375,7 +5482,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray17 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList18 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList18,
-                                                         shortArray17);
+            shortArray17);
         java.util.ListIterator<java.lang.Short> shortItor21 = shortList18.listIterator((int) (byte) 1);
         boolean boolean23 = shortList18.contains((java.lang.Object) true);
         java.lang.Short short26 = shortList18.set(1, (java.lang.Short) (short) 0);
@@ -5383,12 +5490,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray31 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList32 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList32,
-                                                         longArray31);
+            longArray31);
         int int35 = longList32.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray40 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList41 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList41,
-                                                         shortArray40);
+            shortArray40);
         java.util.ListIterator<java.lang.Short> shortItor44 = shortList41.listIterator((int) (byte) 1);
         boolean boolean46 = shortList41.contains((java.lang.Object) true);
         java.lang.Short short49 = shortList41.set(1, (java.lang.Short) (short) 0);
@@ -5447,7 +5554,8 @@ public class RegressionTest1 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test568");
         org.ccsds.moims.mo.mal.structures.UOctet uOctet0 = org.ccsds.moims.mo.mal.structures.UOctet.AREA_VERSION;
-        org.ccsds.moims.mo.mal.structures.URIList uRIList2 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList2 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray6 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList7 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean8 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList7, longArray6);
@@ -5455,7 +5563,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray15 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList16 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList16,
-                                                         shortArray15);
+            shortArray15);
         java.util.ListIterator<java.lang.Short> shortItor19 = shortList16.listIterator((int) (byte) 1);
         boolean boolean21 = shortList16.contains((java.lang.Object) true);
         java.lang.Short short24 = shortList16.set(1, (java.lang.Short) (short) 0);
@@ -5463,12 +5571,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray29 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList30 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean31 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList30,
-                                                         longArray29);
+            longArray29);
         int int33 = longList30.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray38 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList39 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean40 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList39,
-                                                         shortArray38);
+            shortArray38);
         java.util.ListIterator<java.lang.Short> shortItor42 = shortList39.listIterator((int) (byte) 1);
         boolean boolean44 = shortList39.contains((java.lang.Object) true);
         java.lang.Short short47 = shortList39.set(1, (java.lang.Short) (short) 0);
@@ -5490,15 +5598,17 @@ public class RegressionTest1 {
         esa.mo.nmf.groundmoproxy.ProtocolBridge[] protocolBridgeArray60 = uRIList2.toArray(protocolBridgeArray59);
         org.ccsds.moims.mo.mal.structures.UShort uShort61 = uRIList2.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort62 = org.ccsds.moims.mo.mal.structures.DoubleList.SERVICE_SHORT_FORM;
-        org.ccsds.moims.mo.mal.structures.FineTime fineTime64 = new org.ccsds.moims.mo.mal.structures.FineTime((long) (byte) 1);
+        org.ccsds.moims.mo.mal.structures.FineTime fineTime64 = new org.ccsds.moims.mo.mal.structures.FineTime(
+            (long) (byte) 1);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet65 = fineTime64.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.UShort uShort66 = fineTime64.getServiceNumber();
-        org.ccsds.moims.mo.mal.structures.BooleanList booleanList68 = new org.ccsds.moims.mo.mal.structures.BooleanList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.BooleanList booleanList68 = new org.ccsds.moims.mo.mal.structures.BooleanList(
+            (int) (byte) 10);
         org.ccsds.moims.mo.mal.structures.UShort uShort69 = org.ccsds.moims.mo.mal.structures.IntegerList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray70 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort69};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList71 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean72 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList71,
-                                                         uShortArray70);
+        boolean boolean72 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList71, uShortArray70);
         org.ccsds.moims.mo.mal.structures.UShort uShort74 = org.ccsds.moims.mo.mal.structures.IntegerList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort uShort75 = uShortList71.set(0, uShort74);
         boolean boolean76 = booleanList68.remove((java.lang.Object) uShort74);
@@ -5507,20 +5617,22 @@ public class RegressionTest1 {
                                                                                                                   uShort66,
                                                                                                                   uShort74};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList78 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean79 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList78,
-                                                         uShortArray77);
+        boolean boolean79 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList78, uShortArray77);
         int int80 = uShortList78.size();
         boolean boolean81 = uOctet0.equals((java.lang.Object) uShortList78);
         java.util.Iterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor82 = uShortList78.iterator();
         java.lang.String str83 = uShortList78.toString();
-        org.ccsds.moims.mo.mal.structures.Duration duration85 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 100);
+        org.ccsds.moims.mo.mal.structures.Duration duration85 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 100);
         org.ccsds.moims.mo.mal.structures.UShort uShort86 = duration85.getServiceNumber();
         java.lang.Long long87 = duration85.getShortForm();
         int int88 = uShortList78.lastIndexOf((java.lang.Object) long87);
         uShortList78.clear();
         try {
             org.ccsds.moims.mo.mal.structures.UShort uShort91 = uShortList78.get(2);
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 2, Size: 0");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 2, Size: 0");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(uOctet0);
@@ -5572,9 +5684,11 @@ public class RegressionTest1 {
     public void test569() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test569");
-        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 100);
+        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 100);
         double double2 = duration1.getValue();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray8 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList9 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean10 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList9, longArray8);
@@ -5582,7 +5696,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray17 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList18 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList18,
-                                                         shortArray17);
+            shortArray17);
         java.util.ListIterator<java.lang.Short> shortItor21 = shortList18.listIterator((int) (byte) 1);
         boolean boolean23 = shortList18.contains((java.lang.Object) true);
         java.lang.Short short26 = shortList18.set(1, (java.lang.Short) (short) 0);
@@ -5590,12 +5704,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray31 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList32 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList32,
-                                                         longArray31);
+            longArray31);
         int int35 = longList32.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray40 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList41 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList41,
-                                                         shortArray40);
+            shortArray40);
         java.util.ListIterator<java.lang.Short> shortItor44 = shortList41.listIterator((int) (byte) 1);
         boolean boolean46 = shortList41.contains((java.lang.Object) true);
         java.lang.Short short49 = shortList41.set(1, (java.lang.Short) (short) 0);
@@ -5621,10 +5735,12 @@ public class RegressionTest1 {
         uRIList4.trimToSize();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet67 = uRIList4.getAreaVersion();
         boolean boolean68 = uRIList4.isEmpty();
-        org.ccsds.moims.mo.mal.structures.IntegerList integerList70 = new org.ccsds.moims.mo.mal.structures.IntegerList(11);
+        org.ccsds.moims.mo.mal.structures.IntegerList integerList70 = new org.ccsds.moims.mo.mal.structures.IntegerList(
+            11);
         java.lang.Integer int71 = integerList70.getTypeShortForm();
         org.ccsds.moims.mo.mal.structures.UShort uShort72 = integerList70.getAreaNumber();
-        org.ccsds.moims.mo.mal.structures.Identifier identifier74 = new org.ccsds.moims.mo.mal.structures.Identifier("hi!");
+        org.ccsds.moims.mo.mal.structures.Identifier identifier74 = new org.ccsds.moims.mo.mal.structures.Identifier(
+            "hi!");
         java.lang.String str75 = identifier74.toString();
         org.ccsds.moims.mo.mal.structures.UShort uShort76 = identifier74.getAreaNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort77 = identifier74.getAreaNumber();
@@ -5635,7 +5751,8 @@ public class RegressionTest1 {
         java.lang.Object[] objArray82 = uRIList4.toArray();
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI84 = uRIList4.get(0);
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 0, Size: 0");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 0, Size: 0");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertTrue("'" + double2 + "' != '" + 100.0d + "'", double2 == 100.0d);
@@ -5686,19 +5803,20 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray2 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList3 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean4 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList3,
-                                                        booleanArray2);
+            booleanArray2);
         boolean boolean6 = booleanList3.equals((java.lang.Object) 'a');
         boolean boolean7 = booleanList3.isEmpty();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList9 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList9 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray13 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList14 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean15 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList14,
-                                                         longArray13);
+            longArray13);
         int int17 = longList14.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray22 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList23 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean24 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList23,
-                                                         shortArray22);
+            shortArray22);
         java.util.ListIterator<java.lang.Short> shortItor26 = shortList23.listIterator((int) (byte) 1);
         boolean boolean28 = shortList23.contains((java.lang.Object) true);
         java.lang.Short short31 = shortList23.set(1, (java.lang.Short) (short) 0);
@@ -5706,12 +5824,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray36 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList37 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean38 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList37,
-                                                         longArray36);
+            longArray36);
         int int40 = longList37.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray45 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList46 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean47 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList46,
-                                                         shortArray45);
+            shortArray45);
         java.util.ListIterator<java.lang.Short> shortItor49 = shortList46.listIterator((int) (byte) 1);
         boolean boolean51 = shortList46.contains((java.lang.Object) true);
         java.lang.Short short54 = shortList46.set(1, (java.lang.Short) (short) 0);
@@ -5734,12 +5852,13 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort68 = uRIList9.getServiceNumber();
         java.lang.Integer int69 = uRIList9.getTypeShortForm();
         org.ccsds.moims.mo.mal.structures.Element element70 = uRIList9.createElement();
-        org.ccsds.moims.mo.mal.structures.Duration duration72 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 100);
+        org.ccsds.moims.mo.mal.structures.Duration duration72 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 100);
         org.ccsds.moims.mo.mal.structures.UShort uShort73 = duration72.getServiceNumber();
         java.lang.Byte[] byteArray77 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) 100};
         java.util.ArrayList<java.lang.Byte> byteList78 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean79 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList78,
-                                                         byteArray77);
+            byteArray77);
         java.util.Iterator<java.lang.Byte> byteItor80 = byteList78.iterator();
         boolean boolean81 = duration72.equals((java.lang.Object) byteList78);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet82 = duration72.getAreaVersion();
@@ -5748,7 +5867,8 @@ public class RegressionTest1 {
         boolean boolean85 = booleanList3.remove((java.lang.Object) uRIList9);
         try {
             java.util.List<org.ccsds.moims.mo.mal.structures.URI> uRIList88 = uRIList9.subList((int) (short) 1, (-18));
-            org.junit.Assert.fail("Expected exception of type java.lang.IllegalArgumentException; message: fromIndex(1) > toIndex(-18)");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IllegalArgumentException; message: fromIndex(1) > toIndex(-18)");
         } catch (java.lang.IllegalArgumentException e) {
         }
         org.junit.Assert.assertNotNull(booleanArray2);
@@ -5809,18 +5929,20 @@ public class RegressionTest1 {
                                                                  18, (-13)};
         java.util.ArrayList<java.lang.Integer> intList34 = new java.util.ArrayList<java.lang.Integer>();
         boolean boolean35 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList34,
-                                                         intArray33);
-        org.ccsds.moims.mo.mal.structures.ShortList shortList37 = new org.ccsds.moims.mo.mal.structures.ShortList((int) 'a');
+            intArray33);
+        org.ccsds.moims.mo.mal.structures.ShortList shortList37 = new org.ccsds.moims.mo.mal.structures.ShortList(
+            (int) 'a');
         java.lang.Float[] floatArray40 = new java.lang.Float[]{(-1.0f), 0.0f};
         java.util.ArrayList<java.lang.Float> floatList41 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList41,
-                                                         floatArray40);
+            floatArray40);
         java.util.stream.Stream<java.lang.Float> floatStream43 = floatList41.parallelStream();
         java.util.stream.BaseStream[] baseStreamArray45 = new java.util.stream.BaseStream[1];
         @SuppressWarnings("unchecked")
         java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[] floatBaseStreamArray46 = (java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[]) baseStreamArray45;
         floatBaseStreamArray46[0] = floatStream43;
-        java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[] floatBaseStreamArray49 = shortList37.toArray(floatBaseStreamArray46);
+        java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[] floatBaseStreamArray49 = shortList37
+            .toArray(floatBaseStreamArray46);
         boolean boolean50 = intList34.equals((java.lang.Object) shortList37);
         boolean boolean52 = shortList37.add((java.lang.Short) (short) 1);
         java.lang.Object obj53 = shortList37.clone();
@@ -5828,7 +5950,7 @@ public class RegressionTest1 {
         java.lang.Integer[] intArray58 = new java.lang.Integer[]{(-1), 9, 9};
         java.util.ArrayList<java.lang.Integer> intList59 = new java.util.ArrayList<java.lang.Integer>();
         boolean boolean60 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList59,
-                                                         intArray58);
+            intArray58);
         intList59.trimToSize();
         java.util.stream.Stream<java.lang.Integer> intStream62 = intList59.parallelStream();
         java.util.Iterator<java.lang.Integer> intItor63 = intList59.iterator();
@@ -5836,7 +5958,8 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UOctet uOctet65 = uOctet64.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.UShort uShort66 = uOctet64.getAreaNumber();
         boolean boolean67 = intList59.remove((java.lang.Object) uOctet64);
-        org.ccsds.moims.mo.mal.structures.StringList stringList69 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.StringList stringList69 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (byte) 10);
         stringList69.ensureCapacity((-2));
         esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP protocolBridgeSPP72 = new esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP();
         boolean boolean73 = stringList69.remove((java.lang.Object) protocolBridgeSPP72);
@@ -5879,21 +6002,24 @@ public class RegressionTest1 {
     public void test572() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test572");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
-        org.ccsds.moims.mo.mal.structures.FineTime fineTime3 = new org.ccsds.moims.mo.mal.structures.FineTime((long) (byte) 1);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.FineTime fineTime3 = new org.ccsds.moims.mo.mal.structures.FineTime(
+            (long) (byte) 1);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet4 = fineTime3.getAreaVersion();
         int int5 = uRIList1.lastIndexOf((java.lang.Object) uOctet4);
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.URI> uRIStream6 = uRIList1.parallelStream();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList8 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList8 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray12 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList13 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList13,
-                                                         longArray12);
+            longArray12);
         int int16 = longList13.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray21 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList22 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean23 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList22,
-                                                         shortArray21);
+            shortArray21);
         java.util.ListIterator<java.lang.Short> shortItor25 = shortList22.listIterator((int) (byte) 1);
         boolean boolean27 = shortList22.contains((java.lang.Object) true);
         java.lang.Short short30 = shortList22.set(1, (java.lang.Short) (short) 0);
@@ -5901,12 +6027,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray35 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList36 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean37 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList36,
-                                                         longArray35);
+            longArray35);
         int int39 = longList36.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray44 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList45 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean46 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList45,
-                                                         shortArray44);
+            shortArray44);
         java.util.ListIterator<java.lang.Short> shortItor48 = shortList45.listIterator((int) (byte) 1);
         boolean boolean50 = shortList45.contains((java.lang.Object) true);
         java.lang.Short short53 = shortList45.set(1, (java.lang.Short) (short) 0);
@@ -5936,7 +6062,8 @@ public class RegressionTest1 {
         boolean boolean75 = uRIList1.add(uRI70);
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI77 = uRIList1.remove((int) (byte) 1);
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 1, Size: 1");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 1, Size: 1");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(uOctet4);
@@ -5978,10 +6105,12 @@ public class RegressionTest1 {
     public void test573() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test573");
-        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList((int) (short) 255);
+        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (short) 255);
         java.util.stream.Stream<java.lang.String> strStream2 = stringList1.parallelStream();
         org.ccsds.moims.mo.mal.structures.UShort uShort3 = stringList1.getAreaNumber();
-        org.ccsds.moims.mo.mal.structures.StringList stringList5 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.StringList stringList5 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (byte) 10);
         stringList5.ensureCapacity((-2));
         esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP protocolBridgeSPP8 = new esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP();
         boolean boolean9 = stringList5.remove((java.lang.Object) protocolBridgeSPP8);
@@ -5989,7 +6118,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray15 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList16 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList16,
-                                                         shortArray15);
+            shortArray15);
         java.util.ListIterator<java.lang.Short> shortItor19 = shortList16.listIterator((int) (byte) 1);
         boolean boolean21 = shortList16.contains((java.lang.Object) true);
         java.lang.Short short24 = shortList16.set(1, (java.lang.Short) (short) 0);
@@ -5998,7 +6127,7 @@ public class RegressionTest1 {
         java.lang.Byte[] byteArray30 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) 100};
         java.util.ArrayList<java.lang.Byte> byteList31 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean32 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList31,
-                                                         byteArray30);
+            byteArray30);
         java.util.Iterator<java.lang.Byte> byteItor33 = byteList31.iterator();
         java.lang.Object obj34 = byteList31.clone();
         java.lang.Class<?> wildcardClass35 = byteList31.getClass();
@@ -6008,7 +6137,7 @@ public class RegressionTest1 {
         java.lang.Byte[] byteArray43 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) 100};
         java.util.ArrayList<java.lang.Byte> byteList44 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean45 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList44,
-                                                         byteArray43);
+            byteArray43);
         java.util.Iterator<java.lang.Byte> byteItor46 = byteList44.iterator();
         java.lang.Object obj47 = byteList44.clone();
         java.lang.Class<?> wildcardClass48 = byteList44.getClass();
@@ -6018,7 +6147,7 @@ public class RegressionTest1 {
         java.lang.Byte[] byteArray56 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) 100};
         java.util.ArrayList<java.lang.Byte> byteList57 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean58 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList57,
-                                                         byteArray56);
+            byteArray56);
         java.util.Iterator<java.lang.Byte> byteItor59 = byteList57.iterator();
         java.lang.Object obj60 = byteList57.clone();
         java.lang.Class<?> wildcardClass61 = byteList57.getClass();
@@ -6069,7 +6198,8 @@ public class RegressionTest1 {
     public void test574() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test574");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -6077,7 +6207,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -6085,12 +6215,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -6148,9 +6278,11 @@ public class RegressionTest1 {
     public void test575() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test575");
-        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 100);
+        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 100);
         double double2 = duration1.getValue();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray8 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList9 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean10 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList9, longArray8);
@@ -6158,7 +6290,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray17 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList18 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList18,
-                                                         shortArray17);
+            shortArray17);
         java.util.ListIterator<java.lang.Short> shortItor21 = shortList18.listIterator((int) (byte) 1);
         boolean boolean23 = shortList18.contains((java.lang.Object) true);
         java.lang.Short short26 = shortList18.set(1, (java.lang.Short) (short) 0);
@@ -6166,12 +6298,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray31 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList32 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList32,
-                                                         longArray31);
+            longArray31);
         int int35 = longList32.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray40 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList41 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList41,
-                                                         shortArray40);
+            shortArray40);
         java.util.ListIterator<java.lang.Short> shortItor44 = shortList41.listIterator((int) (byte) 1);
         boolean boolean46 = shortList41.contains((java.lang.Object) true);
         java.lang.Short short49 = shortList41.set(1, (java.lang.Short) (short) 0);
@@ -6240,7 +6372,8 @@ public class RegressionTest1 {
     public void test576() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test576");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -6248,7 +6381,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -6256,12 +6389,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -6285,7 +6418,8 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort61 = uRIList1.getServiceNumber();
         java.lang.Integer int62 = uRIList1.getTypeShortForm();
         uRIList1.trimToSize();
-        org.ccsds.moims.mo.mal.structures.LongList longList65 = new org.ccsds.moims.mo.mal.structures.LongList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.LongList longList65 = new org.ccsds.moims.mo.mal.structures.LongList(
+            (int) (short) 0);
         java.util.Iterator<java.lang.Long> longItor66 = longList65.iterator();
         org.ccsds.moims.mo.mal.structures.UShort uShort67 = longList65.getServiceNumber();
         boolean boolean68 = uRIList1.equals((java.lang.Object) longList65);
@@ -6327,7 +6461,8 @@ public class RegressionTest1 {
     public void test577() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test577");
-        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (byte) 10);
         stringList1.ensureCapacity((-2));
         esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP protocolBridgeSPP4 = new esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP();
         boolean boolean5 = stringList1.remove((java.lang.Object) protocolBridgeSPP4);
@@ -6342,7 +6477,8 @@ public class RegressionTest1 {
     public void test578() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test578");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -6350,7 +6486,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -6358,12 +6494,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -6392,15 +6528,15 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort67 = org.ccsds.moims.mo.mal.structures.IntegerList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray68 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort67};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList69 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean70 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList69,
-                                                         uShortArray68);
+        boolean boolean70 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList69, uShortArray68);
         org.ccsds.moims.mo.mal.structures.UShort uShort72 = org.ccsds.moims.mo.mal.structures.IntegerList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort uShort73 = uShortList69.set(0, uShort72);
         int int74 = uShortList69.size();
         java.lang.String[] strArray77 = new java.lang.String[]{"", "hi!"};
         java.util.ArrayList<java.lang.String> strList78 = new java.util.ArrayList<java.lang.String>();
         boolean boolean79 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList78,
-                                                         strArray77);
+            strArray77);
         strList78.ensureCapacity((int) (byte) -1);
         boolean boolean82 = uShortList69.remove((java.lang.Object) strList78);
         java.lang.String str85 = strList78.set(1, "[false, false]");
@@ -6457,7 +6593,8 @@ public class RegressionTest1 {
     public void test579() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test579");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -6465,7 +6602,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -6473,12 +6610,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -6545,7 +6682,8 @@ public class RegressionTest1 {
     public void test580() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test580");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -6553,7 +6691,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -6561,12 +6699,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -6589,7 +6727,8 @@ public class RegressionTest1 {
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.URI> uRIStream60 = uRIList1.parallelStream();
         java.lang.String str61 = uRIList1.toString();
         org.ccsds.moims.mo.mal.structures.Element element62 = uRIList1.createElement();
-        org.ccsds.moims.mo.mal.structures.BooleanList booleanList64 = new org.ccsds.moims.mo.mal.structures.BooleanList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.BooleanList booleanList64 = new org.ccsds.moims.mo.mal.structures.BooleanList(
+            (int) (byte) 10);
         org.ccsds.moims.mo.mal.structures.UShort uShort65 = booleanList64.getAreaNumber();
         booleanList64.ensureCapacity(4);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet68 = booleanList64.getAreaVersion();
@@ -6657,7 +6796,8 @@ public class RegressionTest1 {
     public void test581() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test581");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -6665,7 +6805,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -6673,12 +6813,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -6738,7 +6878,8 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.URI uRI84 = null;
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI85 = uRIList1.set(0, uRI84);
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 0, Size: 0");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 0, Size: 0");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(longArray5);
@@ -6779,7 +6920,8 @@ public class RegressionTest1 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test582");
         org.ccsds.moims.mo.mal.structures.UOctet uOctet0 = org.ccsds.moims.mo.mal.structures.UOctet.AREA_VERSION;
-        org.ccsds.moims.mo.mal.structures.URIList uRIList2 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList2 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray6 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList7 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean8 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList7, longArray6);
@@ -6787,7 +6929,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray15 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList16 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList16,
-                                                         shortArray15);
+            shortArray15);
         java.util.ListIterator<java.lang.Short> shortItor19 = shortList16.listIterator((int) (byte) 1);
         boolean boolean21 = shortList16.contains((java.lang.Object) true);
         java.lang.Short short24 = shortList16.set(1, (java.lang.Short) (short) 0);
@@ -6795,12 +6937,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray29 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList30 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean31 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList30,
-                                                         longArray29);
+            longArray29);
         int int33 = longList30.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray38 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList39 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean40 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList39,
-                                                         shortArray38);
+            shortArray38);
         java.util.ListIterator<java.lang.Short> shortItor42 = shortList39.listIterator((int) (byte) 1);
         boolean boolean44 = shortList39.contains((java.lang.Object) true);
         java.lang.Short short47 = shortList39.set(1, (java.lang.Short) (short) 0);
@@ -6822,15 +6964,17 @@ public class RegressionTest1 {
         esa.mo.nmf.groundmoproxy.ProtocolBridge[] protocolBridgeArray60 = uRIList2.toArray(protocolBridgeArray59);
         org.ccsds.moims.mo.mal.structures.UShort uShort61 = uRIList2.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort62 = org.ccsds.moims.mo.mal.structures.DoubleList.SERVICE_SHORT_FORM;
-        org.ccsds.moims.mo.mal.structures.FineTime fineTime64 = new org.ccsds.moims.mo.mal.structures.FineTime((long) (byte) 1);
+        org.ccsds.moims.mo.mal.structures.FineTime fineTime64 = new org.ccsds.moims.mo.mal.structures.FineTime(
+            (long) (byte) 1);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet65 = fineTime64.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.UShort uShort66 = fineTime64.getServiceNumber();
-        org.ccsds.moims.mo.mal.structures.BooleanList booleanList68 = new org.ccsds.moims.mo.mal.structures.BooleanList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.BooleanList booleanList68 = new org.ccsds.moims.mo.mal.structures.BooleanList(
+            (int) (byte) 10);
         org.ccsds.moims.mo.mal.structures.UShort uShort69 = org.ccsds.moims.mo.mal.structures.IntegerList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray70 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort69};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList71 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean72 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList71,
-                                                         uShortArray70);
+        boolean boolean72 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList71, uShortArray70);
         org.ccsds.moims.mo.mal.structures.UShort uShort74 = org.ccsds.moims.mo.mal.structures.IntegerList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort uShort75 = uShortList71.set(0, uShort74);
         boolean boolean76 = booleanList68.remove((java.lang.Object) uShort74);
@@ -6839,22 +6983,25 @@ public class RegressionTest1 {
                                                                                                                   uShort66,
                                                                                                                   uShort74};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList78 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean79 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList78,
-                                                         uShortArray77);
+        boolean boolean79 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList78, uShortArray77);
         int int80 = uShortList78.size();
         boolean boolean81 = uOctet0.equals((java.lang.Object) uShortList78);
         java.util.Iterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor82 = uShortList78.iterator();
         java.lang.String str83 = uShortList78.toString();
-        org.ccsds.moims.mo.mal.structures.Duration duration85 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 100);
+        org.ccsds.moims.mo.mal.structures.Duration duration85 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 100);
         org.ccsds.moims.mo.mal.structures.UShort uShort86 = duration85.getServiceNumber();
         java.lang.Long long87 = duration85.getShortForm();
         int int88 = uShortList78.lastIndexOf((java.lang.Object) long87);
-        org.ccsds.moims.mo.mal.structures.Union union91 = new org.ccsds.moims.mo.mal.structures.Union((java.lang.Byte) (byte) 100);
+        org.ccsds.moims.mo.mal.structures.Union union91 = new org.ccsds.moims.mo.mal.structures.Union(
+            (java.lang.Byte) (byte) 100);
         org.ccsds.moims.mo.mal.structures.UShort uShort92 = union91.getAreaNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort93 = uShort92.getServiceNumber();
         try {
             org.ccsds.moims.mo.mal.structures.UShort uShort94 = uShortList78.set(6, uShort92);
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 6, Size: 4");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 6, Size: 4");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(uOctet0);
@@ -6908,7 +7055,8 @@ public class RegressionTest1 {
     public void test583() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test583");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -6916,7 +7064,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -6924,12 +7072,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -6960,7 +7108,7 @@ public class RegressionTest1 {
         java.lang.String[] strArray71 = new java.lang.String[]{"", "hi!"};
         java.util.ArrayList<java.lang.String> strList72 = new java.util.ArrayList<java.lang.String>();
         boolean boolean73 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList72,
-                                                         strArray71);
+            strArray71);
         strList72.ensureCapacity((int) (byte) -1);
         org.ccsds.moims.mo.mal.structures.FloatList floatList77 = new org.ccsds.moims.mo.mal.structures.FloatList(3);
         java.lang.Long long78 = floatList77.getShortForm();
@@ -7009,9 +7157,11 @@ public class RegressionTest1 {
     public void test584() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test584");
-        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 100);
+        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 100);
         double double2 = duration1.getValue();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray8 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList9 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean10 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList9, longArray8);
@@ -7019,7 +7169,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray17 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList18 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList18,
-                                                         shortArray17);
+            shortArray17);
         java.util.ListIterator<java.lang.Short> shortItor21 = shortList18.listIterator((int) (byte) 1);
         boolean boolean23 = shortList18.contains((java.lang.Object) true);
         java.lang.Short short26 = shortList18.set(1, (java.lang.Short) (short) 0);
@@ -7027,12 +7177,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray31 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList32 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList32,
-                                                         longArray31);
+            longArray31);
         int int35 = longList32.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray40 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList41 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList41,
-                                                         shortArray40);
+            shortArray40);
         java.util.ListIterator<java.lang.Short> shortItor44 = shortList41.listIterator((int) (byte) 1);
         boolean boolean46 = shortList41.contains((java.lang.Object) true);
         java.lang.Short short49 = shortList41.set(1, (java.lang.Short) (short) 0);
@@ -7094,7 +7244,8 @@ public class RegressionTest1 {
     public void test585() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test585");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -7102,7 +7253,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -7110,12 +7261,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -7174,7 +7325,8 @@ public class RegressionTest1 {
     public void test586() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test586");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -7182,7 +7334,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -7190,12 +7342,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -7218,7 +7370,8 @@ public class RegressionTest1 {
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.URI> uRIStream60 = uRIList1.parallelStream();
         java.lang.String str61 = uRIList1.toString();
         org.ccsds.moims.mo.mal.structures.Element element62 = uRIList1.createElement();
-        org.ccsds.moims.mo.mal.structures.BooleanList booleanList64 = new org.ccsds.moims.mo.mal.structures.BooleanList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.BooleanList booleanList64 = new org.ccsds.moims.mo.mal.structures.BooleanList(
+            (int) (byte) 10);
         org.ccsds.moims.mo.mal.structures.UShort uShort65 = booleanList64.getAreaNumber();
         booleanList64.ensureCapacity(4);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet68 = booleanList64.getAreaVersion();
@@ -7228,7 +7381,8 @@ public class RegressionTest1 {
         java.util.Iterator<org.ccsds.moims.mo.mal.structures.URI> uRIItor72 = uRIList1.iterator();
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI74 = uRIList1.remove(6);
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 6, Size: 0");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 6, Size: 0");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(longArray5);
@@ -7269,7 +7423,8 @@ public class RegressionTest1 {
     public void test587() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test587");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -7277,7 +7432,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -7285,12 +7440,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -7367,7 +7522,8 @@ public class RegressionTest1 {
     public void test589() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test589");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -7375,7 +7531,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -7383,12 +7539,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -7415,15 +7571,15 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort65 = org.ccsds.moims.mo.mal.structures.IntegerList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray66 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort65};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList67 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean68 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList67,
-                                                         uShortArray66);
+        boolean boolean68 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList67, uShortArray66);
         org.ccsds.moims.mo.mal.structures.UShort uShort70 = org.ccsds.moims.mo.mal.structures.IntegerList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort uShort71 = uShortList67.set(0, uShort70);
         int int72 = uShortList67.size();
         java.lang.String[] strArray75 = new java.lang.String[]{"", "hi!"};
         java.util.ArrayList<java.lang.String> strList76 = new java.util.ArrayList<java.lang.String>();
         boolean boolean77 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList76,
-                                                         strArray75);
+            strArray75);
         strList76.ensureCapacity((int) (byte) -1);
         boolean boolean80 = uShortList67.remove((java.lang.Object) strList76);
         java.lang.String str83 = strList76.set(1, "[false, false]");
@@ -7481,14 +7637,16 @@ public class RegressionTest1 {
     public void test590() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test590");
-        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (byte) 10);
         stringList1.ensureCapacity((-2));
         esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP protocolBridgeSPP4 = new esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP();
         boolean boolean5 = stringList1.remove((java.lang.Object) protocolBridgeSPP4);
         java.util.Map map7 = null;
         try {
             protocolBridgeSPP4.init("malspp:247/11/108", map7);
-            org.junit.Assert.fail("Expected exception of type org.ccsds.moims.mo.mal.MALException; message: Unknown transport factory for protocol: malspp");
+            org.junit.Assert.fail(
+                "Expected exception of type org.ccsds.moims.mo.mal.MALException; message: Unknown transport factory for protocol: malspp");
         } catch (org.ccsds.moims.mo.mal.MALException e) {
         }
         org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", !boolean5);
@@ -7498,8 +7656,8 @@ public class RegressionTest1 {
     public void test591() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test591");
-        esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager virtualSPPURIsManager2 = new esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager(8,
-                                                                                                                                   18);
+        esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager virtualSPPURIsManager2 = new esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager(
+            8, 18);
         java.lang.String str4 = virtualSPPURIsManager2.getVirtualSPPURI("100.0");
         // flaky:         org.junit.Assert.assertTrue("'" + str4 + "' != '" + "malspp:247/13/217" + "'", str4.equals("malspp:247/13/217"));
     }
@@ -7509,7 +7667,8 @@ public class RegressionTest1 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test592");
         org.ccsds.moims.mo.mal.structures.UOctet uOctet0 = org.ccsds.moims.mo.mal.structures.UOctet.AREA_VERSION;
-        org.ccsds.moims.mo.mal.structures.URIList uRIList2 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList2 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray6 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList7 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean8 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList7, longArray6);
@@ -7517,7 +7676,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray15 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList16 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList16,
-                                                         shortArray15);
+            shortArray15);
         java.util.ListIterator<java.lang.Short> shortItor19 = shortList16.listIterator((int) (byte) 1);
         boolean boolean21 = shortList16.contains((java.lang.Object) true);
         java.lang.Short short24 = shortList16.set(1, (java.lang.Short) (short) 0);
@@ -7525,12 +7684,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray29 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList30 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean31 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList30,
-                                                         longArray29);
+            longArray29);
         int int33 = longList30.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray38 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList39 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean40 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList39,
-                                                         shortArray38);
+            shortArray38);
         java.util.ListIterator<java.lang.Short> shortItor42 = shortList39.listIterator((int) (byte) 1);
         boolean boolean44 = shortList39.contains((java.lang.Object) true);
         java.lang.Short short47 = shortList39.set(1, (java.lang.Short) (short) 0);
@@ -7552,15 +7711,17 @@ public class RegressionTest1 {
         esa.mo.nmf.groundmoproxy.ProtocolBridge[] protocolBridgeArray60 = uRIList2.toArray(protocolBridgeArray59);
         org.ccsds.moims.mo.mal.structures.UShort uShort61 = uRIList2.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort62 = org.ccsds.moims.mo.mal.structures.DoubleList.SERVICE_SHORT_FORM;
-        org.ccsds.moims.mo.mal.structures.FineTime fineTime64 = new org.ccsds.moims.mo.mal.structures.FineTime((long) (byte) 1);
+        org.ccsds.moims.mo.mal.structures.FineTime fineTime64 = new org.ccsds.moims.mo.mal.structures.FineTime(
+            (long) (byte) 1);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet65 = fineTime64.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.UShort uShort66 = fineTime64.getServiceNumber();
-        org.ccsds.moims.mo.mal.structures.BooleanList booleanList68 = new org.ccsds.moims.mo.mal.structures.BooleanList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.BooleanList booleanList68 = new org.ccsds.moims.mo.mal.structures.BooleanList(
+            (int) (byte) 10);
         org.ccsds.moims.mo.mal.structures.UShort uShort69 = org.ccsds.moims.mo.mal.structures.IntegerList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray70 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort69};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList71 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean72 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList71,
-                                                         uShortArray70);
+        boolean boolean72 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList71, uShortArray70);
         org.ccsds.moims.mo.mal.structures.UShort uShort74 = org.ccsds.moims.mo.mal.structures.IntegerList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort uShort75 = uShortList71.set(0, uShort74);
         boolean boolean76 = booleanList68.remove((java.lang.Object) uShort74);
@@ -7569,21 +7730,26 @@ public class RegressionTest1 {
                                                                                                                   uShort66,
                                                                                                                   uShort74};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList78 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean79 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList78,
-                                                         uShortArray77);
+        boolean boolean79 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList78, uShortArray77);
         int int80 = uShortList78.size();
         boolean boolean81 = uOctet0.equals((java.lang.Object) uShortList78);
         java.util.Iterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor82 = uShortList78.iterator();
         java.lang.String str83 = uShortList78.toString();
-        org.ccsds.moims.mo.mal.structures.Duration duration85 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 100);
+        org.ccsds.moims.mo.mal.structures.Duration duration85 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 100);
         org.ccsds.moims.mo.mal.structures.UShort uShort86 = duration85.getServiceNumber();
         java.lang.Long long87 = duration85.getShortForm();
         int int88 = uShortList78.lastIndexOf((java.lang.Object) long87);
-        java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream89 = uShortList78.parallelStream();
-        java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream90 = uShortList78.parallelStream();
+        java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream89 = uShortList78
+            .parallelStream();
+        java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream90 = uShortList78
+            .parallelStream();
         try {
-            java.util.ListIterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor92 = uShortList78.listIterator((-10));
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: -10");
+            java.util.ListIterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor92 = uShortList78.listIterator(
+                (-10));
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: -10");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(uOctet0);
@@ -7637,7 +7803,8 @@ public class RegressionTest1 {
     public void test593() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test593");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -7645,7 +7812,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -7653,12 +7820,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -7725,17 +7892,18 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UOctet uOctet4 = doubleList1.getAreaVersion();
         esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP protocolBridgeSPP5 = new esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP();
         esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP[] protocolBridgeSPPArray6 = new esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP[]{protocolBridgeSPP5};
-        esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP[] protocolBridgeSPPArray7 = doubleList1.toArray(protocolBridgeSPPArray6);
+        esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP[] protocolBridgeSPPArray7 = doubleList1.toArray(
+            protocolBridgeSPPArray6);
         boolean boolean9 = doubleList1.add((java.lang.Double) (-1.0d));
         java.lang.Long[] longArray13 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList14 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean15 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList14,
-                                                         longArray13);
+            longArray13);
         int int17 = longList14.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray22 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList23 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean24 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList23,
-                                                         shortArray22);
+            shortArray22);
         java.util.ListIterator<java.lang.Short> shortItor26 = shortList23.listIterator((int) (byte) 1);
         boolean boolean28 = shortList23.contains((java.lang.Object) true);
         java.lang.Short short31 = shortList23.set(1, (java.lang.Short) (short) 0);
@@ -7748,18 +7916,20 @@ public class RegressionTest1 {
                                                                  18, (-13)};
         java.util.ArrayList<java.lang.Integer> intList61 = new java.util.ArrayList<java.lang.Integer>();
         boolean boolean62 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList61,
-                                                         intArray60);
-        org.ccsds.moims.mo.mal.structures.ShortList shortList64 = new org.ccsds.moims.mo.mal.structures.ShortList((int) 'a');
+            intArray60);
+        org.ccsds.moims.mo.mal.structures.ShortList shortList64 = new org.ccsds.moims.mo.mal.structures.ShortList(
+            (int) 'a');
         java.lang.Float[] floatArray67 = new java.lang.Float[]{(-1.0f), 0.0f};
         java.util.ArrayList<java.lang.Float> floatList68 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean69 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList68,
-                                                         floatArray67);
+            floatArray67);
         java.util.stream.Stream<java.lang.Float> floatStream70 = floatList68.parallelStream();
         java.util.stream.BaseStream[] baseStreamArray72 = new java.util.stream.BaseStream[1];
         @SuppressWarnings("unchecked")
         java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[] floatBaseStreamArray73 = (java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[]) baseStreamArray72;
         floatBaseStreamArray73[0] = floatStream70;
-        java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[] floatBaseStreamArray76 = shortList64.toArray(floatBaseStreamArray73);
+        java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[] floatBaseStreamArray76 = shortList64
+            .toArray(floatBaseStreamArray73);
         boolean boolean77 = intList61.equals((java.lang.Object) shortList64);
         boolean boolean79 = shortList64.add((java.lang.Short) (short) 1);
         java.util.Spliterator<java.lang.Short> shortSpliterator80 = shortList64.spliterator();
@@ -7813,9 +7983,11 @@ public class RegressionTest1 {
     public void test595() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test595");
-        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 100);
+        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 100);
         double double2 = duration1.getValue();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray8 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList9 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean10 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList9, longArray8);
@@ -7823,7 +7995,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray17 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList18 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList18,
-                                                         shortArray17);
+            shortArray17);
         java.util.ListIterator<java.lang.Short> shortItor21 = shortList18.listIterator((int) (byte) 1);
         boolean boolean23 = shortList18.contains((java.lang.Object) true);
         java.lang.Short short26 = shortList18.set(1, (java.lang.Short) (short) 0);
@@ -7831,12 +8003,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray31 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList32 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList32,
-                                                         longArray31);
+            longArray31);
         int int35 = longList32.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray40 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList41 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList41,
-                                                         shortArray40);
+            shortArray40);
         java.util.ListIterator<java.lang.Short> shortItor44 = shortList41.listIterator((int) (byte) 1);
         boolean boolean46 = shortList41.contains((java.lang.Object) true);
         java.lang.Short short49 = shortList41.set(1, (java.lang.Short) (short) 0);
@@ -7894,7 +8066,8 @@ public class RegressionTest1 {
     public void test596() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test596");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -7902,7 +8075,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -7910,12 +8083,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -7942,15 +8115,15 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort65 = org.ccsds.moims.mo.mal.structures.IntegerList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray66 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort65};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList67 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean68 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList67,
-                                                         uShortArray66);
+        boolean boolean68 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList67, uShortArray66);
         org.ccsds.moims.mo.mal.structures.UShort uShort70 = org.ccsds.moims.mo.mal.structures.IntegerList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort uShort71 = uShortList67.set(0, uShort70);
         int int72 = uShortList67.size();
         java.lang.String[] strArray75 = new java.lang.String[]{"", "hi!"};
         java.util.ArrayList<java.lang.String> strList76 = new java.util.ArrayList<java.lang.String>();
         boolean boolean77 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList76,
-                                                         strArray75);
+            strArray75);
         strList76.ensureCapacity((int) (byte) -1);
         boolean boolean80 = uShortList67.remove((java.lang.Object) strList76);
         java.lang.String str83 = strList76.set(1, "[false, false]");
@@ -8017,7 +8190,7 @@ public class RegressionTest1 {
         java.lang.Float[] floatArray5 = new java.lang.Float[]{1.0f, 1.0f, (-1.0f), (-1.0f), 10.0f};
         java.util.ArrayList<java.lang.Float> floatList6 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList6,
-                                                        floatArray5);
+            floatArray5);
         java.util.stream.Stream<java.lang.Float> floatStream8 = floatList6.parallelStream();
         java.util.stream.Stream<java.lang.Float> floatStream9 = floatList6.stream();
         java.lang.Object[] objArray10 = floatList6.toArray();
@@ -8028,7 +8201,7 @@ public class RegressionTest1 {
         java.lang.Float[] floatArray21 = new java.lang.Float[]{0.0f, 10.0f, 10.0f, 10.0f, 1.0f};
         java.util.ArrayList<java.lang.Float> floatList22 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean23 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList22,
-                                                         floatArray21);
+            floatArray21);
         java.util.stream.Stream<java.lang.Float> floatStream24 = floatList22.stream();
         org.ccsds.moims.mo.mal.structures.UShort uShort26 = new org.ccsds.moims.mo.mal.structures.UShort((int) '#');
         boolean boolean27 = floatList22.contains((java.lang.Object) uShort26);
@@ -8036,7 +8209,8 @@ public class RegressionTest1 {
         java.lang.String str29 = floatList22.toString();
         boolean boolean30 = doubleList12.remove((java.lang.Object) floatList22);
         int int31 = floatList6.indexOf((java.lang.Object) boolean30);
-        org.ccsds.moims.mo.mal.structures.StringList stringList33 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.StringList stringList33 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (byte) 10);
         stringList33.ensureCapacity((-2));
         esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP protocolBridgeSPP36 = new esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP();
         boolean boolean37 = stringList33.remove((java.lang.Object) protocolBridgeSPP36);
@@ -8045,11 +8219,11 @@ public class RegressionTest1 {
         java.lang.Integer[] intArray43 = new java.lang.Integer[]{1, (-1), 2};
         java.util.ArrayList<java.lang.Integer> intList44 = new java.util.ArrayList<java.lang.Integer>();
         boolean boolean45 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList44,
-                                                         intArray43);
+            intArray43);
         java.lang.Short[] shortArray50 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList51 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean52 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList51,
-                                                         shortArray50);
+            shortArray50);
         java.util.ListIterator<java.lang.Short> shortItor54 = shortList51.listIterator((int) (byte) 1);
         boolean boolean56 = shortList51.contains((java.lang.Object) true);
         boolean boolean57 = intList44.retainAll((java.util.Collection<java.lang.Short>) shortList51);
@@ -8079,7 +8253,7 @@ public class RegressionTest1 {
         org.junit.Assert.assertTrue("'" + boolean27 + "' != '" + false + "'", !boolean27);
         org.junit.Assert.assertTrue("'" + int28 + "' != '" + 5 + "'", int28 == 5);
         org.junit.Assert.assertTrue("'" + str29 + "' != '" + "[0.0, 10.0, 10.0, 10.0, 1.0]" + "'", str29.equals(
-                                                                                                                "[0.0, 10.0, 10.0, 10.0, 1.0]"));
+            "[0.0, 10.0, 10.0, 10.0, 1.0]"));
         org.junit.Assert.assertTrue("'" + boolean30 + "' != '" + false + "'", !boolean30);
         org.junit.Assert.assertTrue("'" + int31 + "' != '" + (-1) + "'", int31 == (-1));
         org.junit.Assert.assertTrue("'" + boolean37 + "' != '" + false + "'", !boolean37);
@@ -8095,7 +8269,7 @@ public class RegressionTest1 {
         org.junit.Assert.assertTrue("'" + boolean59 + "' != '" + false + "'", !boolean59);
         org.junit.Assert.assertTrue("'" + boolean60 + "' != '" + false + "'", !boolean60);
         org.junit.Assert.assertTrue("'" + str61 + "' != '" + "[1.0, 1.0, -1.0, -1.0, 10.0]" + "'", str61.equals(
-                                                                                                                "[1.0, 1.0, -1.0, -1.0, 10.0]"));
+            "[1.0, 1.0, -1.0, -1.0, 10.0]"));
         org.junit.Assert.assertTrue("'" + int65 + "' != '" + (-5) + "'", int65.equals((-5)));
         org.junit.Assert.assertTrue("'" + int66 + "' != '" + 0 + "'", int66 == 0);
         org.junit.Assert.assertNotNull(uOctet67);
@@ -8109,7 +8283,8 @@ public class RegressionTest1 {
     public void test598() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test598");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -8117,7 +8292,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -8125,12 +8300,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -8158,7 +8333,8 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort66 = uRI63.getAreaNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort67 = uRI63.getAreaNumber();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet68 = uRI63.getAreaVersion();
-        org.ccsds.moims.mo.mal.structures.LongList longList70 = new org.ccsds.moims.mo.mal.structures.LongList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.LongList longList70 = new org.ccsds.moims.mo.mal.structures.LongList(
+            (int) (short) 0);
         java.lang.Object[] objArray71 = longList70.toArray();
         java.lang.Integer int72 = longList70.getTypeShortForm();
         java.lang.Long long73 = longList70.getShortForm();
@@ -8205,8 +8381,8 @@ public class RegressionTest1 {
     public void test599() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test599");
-        esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager virtualSPPURIsManager2 = new esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager((int) (short) 10,
-                                                                                                                                   12);
+        esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager virtualSPPURIsManager2 = new esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager(
+            (int) (short) 10, 12);
         java.lang.String str4 = virtualSPPURIsManager2.getURI("[1]");
         java.lang.String str6 = virtualSPPURIsManager2.getVirtualSPPURI("[-1.0, 0.0]");
         java.lang.String str8 = virtualSPPURIsManager2.getVirtualSPPURI("malspp:247/12/169");
@@ -8223,7 +8399,8 @@ public class RegressionTest1 {
     public void test600() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test600");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -8231,7 +8408,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -8239,12 +8416,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -8271,15 +8448,15 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort65 = org.ccsds.moims.mo.mal.structures.IntegerList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray66 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort65};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList67 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean68 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList67,
-                                                         uShortArray66);
+        boolean boolean68 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList67, uShortArray66);
         org.ccsds.moims.mo.mal.structures.UShort uShort70 = org.ccsds.moims.mo.mal.structures.IntegerList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort uShort71 = uShortList67.set(0, uShort70);
         int int72 = uShortList67.size();
         java.lang.String[] strArray75 = new java.lang.String[]{"", "hi!"};
         java.util.ArrayList<java.lang.String> strList76 = new java.util.ArrayList<java.lang.String>();
         boolean boolean77 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList76,
-                                                         strArray75);
+            strArray75);
         strList76.ensureCapacity((int) (byte) -1);
         boolean boolean80 = uShortList67.remove((java.lang.Object) strList76);
         java.lang.String str83 = strList76.set(1, "[false, false]");
@@ -8337,7 +8514,8 @@ public class RegressionTest1 {
     public void test601() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test601");
-        org.ccsds.moims.mo.mal.structures.IntegerList integerList1 = new org.ccsds.moims.mo.mal.structures.IntegerList(11);
+        org.ccsds.moims.mo.mal.structures.IntegerList integerList1 = new org.ccsds.moims.mo.mal.structures.IntegerList(
+            11);
         java.lang.Integer int2 = integerList1.getTypeShortForm();
         org.ccsds.moims.mo.mal.structures.UShort uShort3 = integerList1.getAreaNumber();
         java.lang.Integer int4 = integerList1.getTypeShortForm();
@@ -8349,25 +8527,27 @@ public class RegressionTest1 {
         java.lang.Byte[] byteArray14 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) 100};
         java.util.ArrayList<java.lang.Byte> byteList15 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList15,
-                                                         byteArray14);
+            byteArray14);
         java.util.Iterator<java.lang.Byte> byteItor17 = byteList15.iterator();
         java.lang.Object obj18 = byteList15.clone();
         java.lang.Class<?> wildcardClass19 = byteList15.getClass();
         int int21 = byteList15.indexOf((java.lang.Object) 281474993487890L);
         java.util.ListIterator<java.lang.Byte> byteItor22 = byteList15.listIterator();
         int int23 = floatList8.lastIndexOf((java.lang.Object) byteList15);
-        org.ccsds.moims.mo.mal.structures.Duration duration25 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 100);
+        org.ccsds.moims.mo.mal.structures.Duration duration25 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 100);
         double double26 = duration25.getValue();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList28 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList28 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray32 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList33 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean34 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList33,
-                                                         longArray32);
+            longArray32);
         int int36 = longList33.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray41 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList42 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean43 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList42,
-                                                         shortArray41);
+            shortArray41);
         java.util.ListIterator<java.lang.Short> shortItor45 = shortList42.listIterator((int) (byte) 1);
         boolean boolean47 = shortList42.contains((java.lang.Object) true);
         java.lang.Short short50 = shortList42.set(1, (java.lang.Short) (short) 0);
@@ -8375,12 +8555,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray55 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList56 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean57 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList56,
-                                                         longArray55);
+            longArray55);
         int int59 = longList56.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray64 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList65 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean66 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList65,
-                                                         shortArray64);
+            shortArray64);
         java.util.ListIterator<java.lang.Short> shortItor68 = shortList65.listIterator((int) (byte) 1);
         boolean boolean70 = shortList65.contains((java.lang.Object) true);
         java.lang.Short short73 = shortList65.set(1, (java.lang.Short) (short) 0);
@@ -8460,11 +8640,13 @@ public class RegressionTest1 {
         java.lang.Integer int2 = doubleList1.getTypeShortForm();
         java.lang.Object obj3 = doubleList1.clone();
         int int4 = doubleList1.size();
-        org.ccsds.moims.mo.mal.structures.StringList stringList6 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.StringList stringList6 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (byte) 10);
         stringList6.ensureCapacity((-2));
         esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP protocolBridgeSPP9 = new esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP();
         boolean boolean10 = stringList6.remove((java.lang.Object) protocolBridgeSPP9);
-        org.ccsds.moims.mo.mal.structures.StringList stringList12 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.StringList stringList12 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (byte) 10);
         stringList12.ensureCapacity((-2));
         esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP protocolBridgeSPP15 = new esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP();
         boolean boolean16 = stringList12.remove((java.lang.Object) protocolBridgeSPP15);
@@ -8472,7 +8654,8 @@ public class RegressionTest1 {
         esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP[] protocolBridgeSPPArray18 = new esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP[]{protocolBridgeSPP9,
                                                                                                                                  protocolBridgeSPP15,
                                                                                                                                  protocolBridgeSPP17};
-        esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP[] protocolBridgeSPPArray19 = doubleList1.toArray(protocolBridgeSPPArray18);
+        esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP[] protocolBridgeSPPArray19 = doubleList1.toArray(
+            protocolBridgeSPPArray18);
         java.lang.Object obj20 = doubleList1.clone();
         java.util.stream.Stream<java.lang.Double> doubleStream21 = doubleList1.parallelStream();
         java.lang.String str22 = doubleList1.toString();
@@ -8492,7 +8675,8 @@ public class RegressionTest1 {
     public void test603() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test603");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -8500,7 +8684,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -8508,12 +8692,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -8580,25 +8764,26 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UOctet uOctet4 = doubleList1.getAreaVersion();
         esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP protocolBridgeSPP5 = new esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP();
         esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP[] protocolBridgeSPPArray6 = new esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP[]{protocolBridgeSPP5};
-        esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP[] protocolBridgeSPPArray7 = doubleList1.toArray(protocolBridgeSPPArray6);
+        esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP[] protocolBridgeSPPArray7 = doubleList1.toArray(
+            protocolBridgeSPPArray6);
         org.ccsds.moims.mo.mal.structures.OctetList octetList9 = new org.ccsds.moims.mo.mal.structures.OctetList(18);
         java.lang.Long long10 = octetList9.getShortForm();
         octetList9.trimToSize();
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray12 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList13 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList13,
-                                                         uRIArray12);
+        boolean boolean14 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList13, uRIArray12);
         uRIList13.clear();
         uRIList13.clear();
         java.lang.Long[] longArray20 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList21 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean22 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList21,
-                                                         longArray20);
+            longArray20);
         int int24 = longList21.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray29 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList30 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean31 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList30,
-                                                         shortArray29);
+            shortArray29);
         java.util.ListIterator<java.lang.Short> shortItor33 = shortList30.listIterator((int) (byte) 1);
         boolean boolean35 = shortList30.contains((java.lang.Object) true);
         java.lang.Short short38 = shortList30.set(1, (java.lang.Short) (short) 0);
@@ -8606,12 +8791,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray43 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList44 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean45 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList44,
-                                                         longArray43);
+            longArray43);
         int int47 = longList44.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray52 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList53 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean54 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList53,
-                                                         shortArray52);
+            shortArray52);
         java.util.ListIterator<java.lang.Short> shortItor56 = shortList53.listIterator((int) (byte) 1);
         boolean boolean58 = shortList53.contains((java.lang.Object) true);
         java.lang.Short short61 = shortList53.set(1, (java.lang.Short) (short) 0);
@@ -8622,7 +8807,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray71 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList72 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean73 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList72,
-                                                         shortArray71);
+            shortArray71);
         java.util.ListIterator<java.lang.Short> shortItor75 = shortList72.listIterator((int) (byte) 1);
         boolean boolean77 = shortList72.contains((java.lang.Object) true);
         java.lang.Short short80 = shortList72.set(1, (java.lang.Short) (short) 0);
@@ -8674,7 +8859,8 @@ public class RegressionTest1 {
     public void test605() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test605");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -8682,7 +8868,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -8690,12 +8876,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -8722,7 +8908,8 @@ public class RegressionTest1 {
         boolean boolean64 = uRIList1.contains(obj63);
         try {
             java.util.List<org.ccsds.moims.mo.mal.structures.URI> uRIList67 = uRIList1.subList(8, (-5));
-            org.junit.Assert.fail("Expected exception of type java.lang.IllegalArgumentException; message: fromIndex(8) > toIndex(-5)");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IllegalArgumentException; message: fromIndex(8) > toIndex(-5)");
         } catch (java.lang.IllegalArgumentException e) {
         }
         org.junit.Assert.assertNotNull(longArray5);
@@ -8758,7 +8945,8 @@ public class RegressionTest1 {
     public void test606() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test606");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -8766,7 +8954,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -8774,12 +8962,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -8803,7 +8991,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray65 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList66 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean67 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList66,
-                                                         shortArray65);
+            shortArray65);
         java.util.ListIterator<java.lang.Short> shortItor69 = shortList66.listIterator((int) (byte) 1);
         boolean boolean70 = uRIList1.containsAll((java.util.Collection<java.lang.Short>) shortList66);
         java.lang.Integer int71 = uRIList1.getTypeShortForm();
@@ -8872,16 +9060,17 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UOctet uOctet4 = doubleList1.getAreaVersion();
         esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP protocolBridgeSPP5 = new esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP();
         esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP[] protocolBridgeSPPArray6 = new esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP[]{protocolBridgeSPP5};
-        esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP[] protocolBridgeSPPArray7 = doubleList1.toArray(protocolBridgeSPPArray6);
+        esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP[] protocolBridgeSPPArray7 = doubleList1.toArray(
+            protocolBridgeSPPArray6);
         java.lang.Long[] longArray11 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList12 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean13 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList12,
-                                                         longArray11);
+            longArray11);
         int int15 = longList12.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray20 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList21 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean22 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList21,
-                                                         shortArray20);
+            shortArray20);
         java.util.ListIterator<java.lang.Short> shortItor24 = shortList21.listIterator((int) (byte) 1);
         boolean boolean26 = shortList21.contains((java.lang.Object) true);
         java.lang.Short short29 = shortList21.set(1, (java.lang.Short) (short) 0);
@@ -8893,7 +9082,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray41 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList42 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean43 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList42,
-                                                         shortArray41);
+            shortArray41);
         java.util.ListIterator<java.lang.Short> shortItor45 = shortList42.listIterator((int) (byte) 1);
         boolean boolean47 = shortList42.contains((java.lang.Object) true);
         java.lang.Short short50 = shortList42.set(1, (java.lang.Short) (short) 0);
@@ -8901,16 +9090,16 @@ public class RegressionTest1 {
         java.lang.Float[] floatArray57 = new java.lang.Float[]{10.0f, 100.0f, 10.0f, 100.0f, 1.0f};
         java.util.ArrayList<java.lang.Float> floatList58 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean59 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList58,
-                                                         floatArray57);
+            floatArray57);
         java.lang.Long[] longArray63 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList64 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean65 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList64,
-                                                         longArray63);
+            longArray63);
         int int67 = longList64.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray72 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList73 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean74 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList73,
-                                                         shortArray72);
+            shortArray72);
         java.util.ListIterator<java.lang.Short> shortItor76 = shortList73.listIterator((int) (byte) 1);
         boolean boolean78 = shortList73.contains((java.lang.Object) true);
         java.lang.Short short81 = shortList73.set(1, (java.lang.Short) (short) 0);
@@ -8926,7 +9115,8 @@ public class RegressionTest1 {
         java.util.stream.Stream<java.lang.Double> doubleStream92 = doubleList1.stream();
         try {
             java.util.List<java.lang.Double> doubleList95 = doubleList1.subList((-2), (-11));
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: fromIndex = -2");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IndexOutOfBoundsException; message: fromIndex = -2");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertTrue("'" + int2 + "' != '" + (-5) + "'", int2.equals((-5)));
@@ -8969,7 +9159,7 @@ public class RegressionTest1 {
         org.junit.Assert.assertTrue("'" + boolean88 + "' != '" + false + "'", !boolean88);
         org.junit.Assert.assertNotNull(shortItor89);
         org.junit.Assert.assertTrue("'" + str90 + "' != '" + "[100, 0, -1, 10]" + "'", str90.equals(
-                                                                                                    "[100, 0, -1, 10]"));
+            "[100, 0, -1, 10]"));
         org.junit.Assert.assertTrue("'" + boolean91 + "' != '" + false + "'", !boolean91);
         org.junit.Assert.assertNotNull(doubleStream92);
     }
@@ -8988,16 +9178,17 @@ public class RegressionTest1 {
         int int8 = doubleList6.size();
         org.ccsds.moims.mo.mal.structures.Element element9 = doubleList6.createElement();
         boolean boolean10 = stringList0.remove((java.lang.Object) doubleList6);
-        org.ccsds.moims.mo.mal.structures.URIList uRIList12 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList12 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray16 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList17 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList17,
-                                                         longArray16);
+            longArray16);
         int int20 = longList17.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray25 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList26 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList26,
-                                                         shortArray25);
+            shortArray25);
         java.util.ListIterator<java.lang.Short> shortItor29 = shortList26.listIterator((int) (byte) 1);
         boolean boolean31 = shortList26.contains((java.lang.Object) true);
         java.lang.Short short34 = shortList26.set(1, (java.lang.Short) (short) 0);
@@ -9005,12 +9196,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray39 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList40 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean41 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList40,
-                                                         longArray39);
+            longArray39);
         int int43 = longList40.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray48 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList49 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean50 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList49,
-                                                         shortArray48);
+            shortArray48);
         java.util.ListIterator<java.lang.Short> shortItor52 = shortList49.listIterator((int) (byte) 1);
         boolean boolean54 = shortList49.contains((java.lang.Object) true);
         java.lang.Short short57 = shortList49.set(1, (java.lang.Short) (short) 0);
@@ -9034,7 +9225,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray76 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList77 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean78 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList77,
-                                                         shortArray76);
+            shortArray76);
         java.util.ListIterator<java.lang.Short> shortItor80 = shortList77.listIterator((int) (byte) 1);
         boolean boolean81 = uRIList12.containsAll((java.util.Collection<java.lang.Short>) shortList77);
         boolean boolean82 = doubleList6.removeAll((java.util.Collection<java.lang.Short>) shortList77);
@@ -9081,14 +9272,16 @@ public class RegressionTest1 {
     public void test609() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test609");
-        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (byte) 10);
         stringList1.ensureCapacity((-2));
         esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP protocolBridgeSPP4 = new esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP();
         boolean boolean5 = stringList1.remove((java.lang.Object) protocolBridgeSPP4);
         java.util.Map map7 = null;
         try {
             protocolBridgeSPP4.init("malspp:247/12/221", map7);
-            org.junit.Assert.fail("Expected exception of type org.ccsds.moims.mo.mal.MALException; message: Unknown transport factory for protocol: malspp");
+            org.junit.Assert.fail(
+                "Expected exception of type org.ccsds.moims.mo.mal.MALException; message: Unknown transport factory for protocol: malspp");
         } catch (org.ccsds.moims.mo.mal.MALException e) {
         }
         org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", !boolean5);
@@ -9101,22 +9294,23 @@ public class RegressionTest1 {
         java.lang.Float[] floatArray2 = new java.lang.Float[]{(-1.0f), 0.0f};
         java.util.ArrayList<java.lang.Float> floatList3 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean4 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList3,
-                                                        floatArray2);
+            floatArray2);
         java.util.stream.Stream<java.lang.Float> floatStream5 = floatList3.parallelStream();
         java.util.ListIterator<java.lang.Float> floatItor6 = floatList3.listIterator();
         java.lang.Object[] objArray7 = floatList3.toArray();
         floatList3.clear();
         boolean boolean10 = floatList3.add((java.lang.Float) 0.0f);
-        org.ccsds.moims.mo.mal.structures.URIList uRIList12 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList12 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray16 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList17 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList17,
-                                                         longArray16);
+            longArray16);
         int int20 = longList17.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray25 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList26 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList26,
-                                                         shortArray25);
+            shortArray25);
         java.util.ListIterator<java.lang.Short> shortItor29 = shortList26.listIterator((int) (byte) 1);
         boolean boolean31 = shortList26.contains((java.lang.Object) true);
         java.lang.Short short34 = shortList26.set(1, (java.lang.Short) (short) 0);
@@ -9124,12 +9318,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray39 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList40 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean41 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList40,
-                                                         longArray39);
+            longArray39);
         int int43 = longList40.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray48 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList49 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean50 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList49,
-                                                         shortArray48);
+            shortArray48);
         java.util.ListIterator<java.lang.Short> shortItor52 = shortList49.listIterator((int) (byte) 1);
         boolean boolean54 = shortList49.contains((java.lang.Object) true);
         java.lang.Short short57 = shortList49.set(1, (java.lang.Short) (short) 0);
@@ -9199,8 +9393,8 @@ public class RegressionTest1 {
     public void test611() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test611");
-        esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager virtualSPPURIsManager2 = new esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager((int) (short) 10,
-                                                                                                                                   12);
+        esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager virtualSPPURIsManager2 = new esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager(
+            (int) (short) 10, 12);
         java.lang.String str4 = virtualSPPURIsManager2.getURI("[1]");
         java.lang.String str6 = virtualSPPURIsManager2.getVirtualSPPURI("[-1.0, 0.0]");
         java.lang.String str8 = virtualSPPURIsManager2.getURI("[-1, 9, 9, 10]");
@@ -9223,24 +9417,26 @@ public class RegressionTest1 {
         longList7.ensureCapacity(4);
         boolean boolean13 = longList7.add((java.lang.Long) 281475010265079L);
         org.ccsds.moims.mo.mal.structures.UShortList uShortList14 = new org.ccsds.moims.mo.mal.structures.UShortList();
-        java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream15 = uShortList14.parallelStream();
+        java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream15 = uShortList14
+            .parallelStream();
         java.lang.Integer[] intArray19 = new java.lang.Integer[]{(-1), 9, 9};
         java.util.ArrayList<java.lang.Integer> intList20 = new java.util.ArrayList<java.lang.Integer>();
         boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList20,
-                                                         intArray19);
+            intArray19);
         intList20.trimToSize();
         java.util.stream.Stream<java.lang.Integer> intStream23 = intList20.parallelStream();
         boolean boolean24 = uShortList14.remove((java.lang.Object) intList20);
-        org.ccsds.moims.mo.mal.structures.URIList uRIList26 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList26 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray30 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList31 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean32 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList31,
-                                                         longArray30);
+            longArray30);
         int int34 = longList31.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray39 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList40 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean41 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList40,
-                                                         shortArray39);
+            shortArray39);
         java.util.ListIterator<java.lang.Short> shortItor43 = shortList40.listIterator((int) (byte) 1);
         boolean boolean45 = shortList40.contains((java.lang.Object) true);
         java.lang.Short short48 = shortList40.set(1, (java.lang.Short) (short) 0);
@@ -9248,12 +9444,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray53 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList54 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean55 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList54,
-                                                         longArray53);
+            longArray53);
         int int57 = longList54.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray62 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList63 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean64 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList63,
-                                                         shortArray62);
+            shortArray62);
         java.util.ListIterator<java.lang.Short> shortItor66 = shortList63.listIterator((int) (byte) 1);
         boolean boolean68 = shortList63.contains((java.lang.Object) true);
         java.lang.Short short71 = shortList63.set(1, (java.lang.Short) (short) 0);
@@ -9277,7 +9473,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray90 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList91 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean92 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList91,
-                                                         shortArray90);
+            shortArray90);
         java.util.ListIterator<java.lang.Short> shortItor94 = shortList91.listIterator((int) (byte) 1);
         boolean boolean95 = uRIList26.containsAll((java.util.Collection<java.lang.Short>) shortList91);
         boolean boolean96 = intList20.containsAll((java.util.Collection<java.lang.Short>) shortList91);
@@ -9329,7 +9525,8 @@ public class RegressionTest1 {
     public void test613() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test613");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -9337,7 +9534,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -9345,12 +9542,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -9374,7 +9571,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray65 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList66 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean67 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList66,
-                                                         shortArray65);
+            shortArray65);
         java.util.ListIterator<java.lang.Short> shortItor69 = shortList66.listIterator((int) (byte) 1);
         boolean boolean70 = uRIList1.containsAll((java.util.Collection<java.lang.Short>) shortList66);
         org.ccsds.moims.mo.mal.structures.URI uRI72 = new org.ccsds.moims.mo.mal.structures.URI("100.0");
@@ -9433,7 +9630,8 @@ public class RegressionTest1 {
     public void test614() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test614");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -9441,7 +9639,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -9449,12 +9647,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -9487,7 +9685,8 @@ public class RegressionTest1 {
                                                                "[esa.mo.nmf.groundmoproxy.protocolbrige.spp.apid.start, [-1.0, 0.0], [-1, -1, 100], [], hi!, hi!, , esa.mo.nmf.groundmoproxy.protocolbrige.spp.apid.start, , [-1.0, 0.0], 1]",
                                                                "[100, 0, -1, 10, 100, 0, -1, 10]",
                                                                "[, esa.mo.nmf.groundmoproxy.protocolbrige.spp.apid.start, ]"};
-        java.lang.Comparable<java.lang.String>[] strComparableArray76 = uRIList1.toArray((java.lang.Comparable<java.lang.String>[]) strArray75);
+        java.lang.Comparable<java.lang.String>[] strComparableArray76 = uRIList1.toArray(
+            (java.lang.Comparable<java.lang.String>[]) strArray75);
         org.ccsds.moims.mo.mal.structures.UShort uShort77 = uRIList1.getServiceNumber();
         org.junit.Assert.assertNotNull(longArray5);
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7);
@@ -9528,9 +9727,11 @@ public class RegressionTest1 {
     public void test615() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test615");
-        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 100);
+        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 100);
         double double2 = duration1.getValue();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray8 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList9 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean10 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList9, longArray8);
@@ -9538,7 +9739,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray17 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList18 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList18,
-                                                         shortArray17);
+            shortArray17);
         java.util.ListIterator<java.lang.Short> shortItor21 = shortList18.listIterator((int) (byte) 1);
         boolean boolean23 = shortList18.contains((java.lang.Object) true);
         java.lang.Short short26 = shortList18.set(1, (java.lang.Short) (short) 0);
@@ -9546,12 +9747,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray31 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList32 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList32,
-                                                         longArray31);
+            longArray31);
         int int35 = longList32.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray40 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList41 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList41,
-                                                         shortArray40);
+            shortArray40);
         java.util.ListIterator<java.lang.Short> shortItor44 = shortList41.listIterator((int) (byte) 1);
         boolean boolean46 = shortList41.contains((java.lang.Object) true);
         java.lang.Short short49 = shortList41.set(1, (java.lang.Short) (short) 0);
@@ -9613,7 +9814,8 @@ public class RegressionTest1 {
     public void test616() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test616");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -9621,7 +9823,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -9629,12 +9831,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -9662,7 +9864,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray69 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList70 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean71 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList70,
-                                                         shortArray69);
+            shortArray69);
         java.util.ListIterator<java.lang.Short> shortItor73 = shortList70.listIterator((int) (byte) 1);
         java.lang.Object obj74 = shortList70.clone();
         boolean boolean75 = doubleList64.containsAll((java.util.Collection<java.lang.Short>) shortList70);
@@ -9712,14 +9914,16 @@ public class RegressionTest1 {
     public void test617() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test617");
-        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (byte) 10);
         stringList1.ensureCapacity((-2));
         esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP protocolBridgeSPP4 = new esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP();
         boolean boolean5 = stringList1.remove((java.lang.Object) protocolBridgeSPP4);
         java.util.Map map7 = null;
         try {
             protocolBridgeSPP4.init("[1, 1]", map7);
-            org.junit.Assert.fail("Expected exception of type org.ccsds.moims.mo.mal.MALException; message: Unknown transport factory for protocol: malspp");
+            org.junit.Assert.fail(
+                "Expected exception of type org.ccsds.moims.mo.mal.MALException; message: Unknown transport factory for protocol: malspp");
         } catch (org.ccsds.moims.mo.mal.MALException e) {
         }
         org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", !boolean5);
@@ -9729,7 +9933,8 @@ public class RegressionTest1 {
     public void test618() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test618");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -9737,7 +9942,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -9745,12 +9950,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -9781,7 +9986,8 @@ public class RegressionTest1 {
         java.lang.Long long70 = uRIList1.getShortForm();
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI72 = uRIList1.get(10);
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 10, Size: 0");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 10, Size: 0");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(longArray5);
@@ -9820,7 +10026,8 @@ public class RegressionTest1 {
     public void test619() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test619");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -9828,7 +10035,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -9836,12 +10043,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -9899,9 +10106,11 @@ public class RegressionTest1 {
     public void test620() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test620");
-        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 100);
+        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 100);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet2 = org.ccsds.moims.mo.mal.structures.UOctet.AREA_VERSION;
-        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray8 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList9 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean10 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList9, longArray8);
@@ -9909,7 +10118,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray17 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList18 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList18,
-                                                         shortArray17);
+            shortArray17);
         java.util.ListIterator<java.lang.Short> shortItor21 = shortList18.listIterator((int) (byte) 1);
         boolean boolean23 = shortList18.contains((java.lang.Object) true);
         java.lang.Short short26 = shortList18.set(1, (java.lang.Short) (short) 0);
@@ -9917,12 +10126,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray31 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList32 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList32,
-                                                         longArray31);
+            longArray31);
         int int35 = longList32.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray40 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList41 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList41,
-                                                         shortArray40);
+            shortArray40);
         java.util.ListIterator<java.lang.Short> shortItor44 = shortList41.listIterator((int) (byte) 1);
         boolean boolean46 = shortList41.contains((java.lang.Object) true);
         java.lang.Short short49 = shortList41.set(1, (java.lang.Short) (short) 0);
@@ -9944,15 +10153,17 @@ public class RegressionTest1 {
         esa.mo.nmf.groundmoproxy.ProtocolBridge[] protocolBridgeArray62 = uRIList4.toArray(protocolBridgeArray61);
         org.ccsds.moims.mo.mal.structures.UShort uShort63 = uRIList4.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort64 = org.ccsds.moims.mo.mal.structures.DoubleList.SERVICE_SHORT_FORM;
-        org.ccsds.moims.mo.mal.structures.FineTime fineTime66 = new org.ccsds.moims.mo.mal.structures.FineTime((long) (byte) 1);
+        org.ccsds.moims.mo.mal.structures.FineTime fineTime66 = new org.ccsds.moims.mo.mal.structures.FineTime(
+            (long) (byte) 1);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet67 = fineTime66.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.UShort uShort68 = fineTime66.getServiceNumber();
-        org.ccsds.moims.mo.mal.structures.BooleanList booleanList70 = new org.ccsds.moims.mo.mal.structures.BooleanList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.BooleanList booleanList70 = new org.ccsds.moims.mo.mal.structures.BooleanList(
+            (int) (byte) 10);
         org.ccsds.moims.mo.mal.structures.UShort uShort71 = org.ccsds.moims.mo.mal.structures.IntegerList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray72 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort71};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList73 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean74 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList73,
-                                                         uShortArray72);
+        boolean boolean74 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList73, uShortArray72);
         org.ccsds.moims.mo.mal.structures.UShort uShort76 = org.ccsds.moims.mo.mal.structures.IntegerList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort uShort77 = uShortList73.set(0, uShort76);
         boolean boolean78 = booleanList70.remove((java.lang.Object) uShort76);
@@ -9961,8 +10172,8 @@ public class RegressionTest1 {
                                                                                                                   uShort68,
                                                                                                                   uShort76};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList80 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean81 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList80,
-                                                         uShortArray79);
+        boolean boolean81 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList80, uShortArray79);
         int int82 = uShortList80.size();
         boolean boolean83 = uOctet2.equals((java.lang.Object) uShortList80);
         java.util.Iterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor84 = uShortList80.iterator();
@@ -10019,11 +10230,12 @@ public class RegressionTest1 {
     public void test621() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test621");
-        esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager virtualSPPURIsManager2 = new esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager((int) (short) 10,
-                                                                                                                                   12);
+        esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager virtualSPPURIsManager2 = new esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager(
+            (int) (short) 10, 12);
         java.lang.String str4 = virtualSPPURIsManager2.getVirtualSPPURI("[-1, -1, 100]");
         java.lang.String str6 = virtualSPPURIsManager2.getURI("[100, 0, -1, 10, 100, 0, -1, 10]");
-        java.lang.String str8 = virtualSPPURIsManager2.getURI("[esa.mo.nmf.groundmoproxy.protocolbrige.spp.apid.start, [-1.0, 0.0], [-1, -1, 100], [], hi!, hi!, , esa.mo.nmf.groundmoproxy.protocolbrige.spp.apid.start, , [-1.0, 0.0], 1]");
+        java.lang.String str8 = virtualSPPURIsManager2.getURI(
+            "[esa.mo.nmf.groundmoproxy.protocolbrige.spp.apid.start, [-1.0, 0.0], [-1, -1, 100], [], hi!, hi!, , esa.mo.nmf.groundmoproxy.protocolbrige.spp.apid.start, , [-1.0, 0.0], 1]");
         java.lang.String str10 = virtualSPPURIsManager2.getURI("281474993487887");
         // flaky:         org.junit.Assert.assertTrue("'" + str4 + "' != '" + "malspp:247/10/165" + "'", str4.equals("malspp:247/10/165"));
         org.junit.Assert.assertNull(str6);
@@ -10046,9 +10258,11 @@ public class RegressionTest1 {
     public void test623() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test623");
-        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 100);
+        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 100);
         double double2 = duration1.getValue();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray8 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList9 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean10 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList9, longArray8);
@@ -10056,7 +10270,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray17 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList18 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList18,
-                                                         shortArray17);
+            shortArray17);
         java.util.ListIterator<java.lang.Short> shortItor21 = shortList18.listIterator((int) (byte) 1);
         boolean boolean23 = shortList18.contains((java.lang.Object) true);
         java.lang.Short short26 = shortList18.set(1, (java.lang.Short) (short) 0);
@@ -10064,12 +10278,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray31 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList32 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList32,
-                                                         longArray31);
+            longArray31);
         int int35 = longList32.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray40 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList41 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList41,
-                                                         shortArray40);
+            shortArray40);
         java.util.ListIterator<java.lang.Short> shortItor44 = shortList41.listIterator((int) (byte) 1);
         boolean boolean46 = shortList41.contains((java.lang.Object) true);
         java.lang.Short short49 = shortList41.set(1, (java.lang.Short) (short) 0);
@@ -10129,8 +10343,8 @@ public class RegressionTest1 {
     public void test624() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test624");
-        esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager virtualSPPURIsManager2 = new esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager((-13),
-                                                                                                                                   1);
+        esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager virtualSPPURIsManager2 = new esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager(
+            (-13), 1);
         java.lang.String str4 = virtualSPPURIsManager2.getVirtualSPPURI("malspp:247/10/165");
         // flaky:         org.junit.Assert.assertTrue("'" + str4 + "' != '" + "malspp:247/-5/193" + "'", str4.equals("malspp:247/-5/193"));
     }
@@ -10139,14 +10353,16 @@ public class RegressionTest1 {
     public void test625() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test625");
-        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (byte) 10);
         stringList1.ensureCapacity((-2));
         esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP protocolBridgeSPP4 = new esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP();
         boolean boolean5 = stringList1.remove((java.lang.Object) protocolBridgeSPP4);
         java.util.Map map8 = null;
         try {
             protocolBridgeSPP4.init("malspp:247/11/101", "malspp:247/10/249", map8);
-            org.junit.Assert.fail("Expected exception of type org.ccsds.moims.mo.mal.MALException; message: Unknown transport factory for protocol: malspp:247/11/101");
+            org.junit.Assert.fail(
+                "Expected exception of type org.ccsds.moims.mo.mal.MALException; message: Unknown transport factory for protocol: malspp:247/11/101");
         } catch (org.ccsds.moims.mo.mal.MALException e) {
         }
         org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", !boolean5);
@@ -10158,18 +10374,20 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test626");
         org.ccsds.moims.mo.mal.structures.LongList longList1 = new org.ccsds.moims.mo.mal.structures.LongList(5);
         org.ccsds.moims.mo.mal.structures.Element element2 = longList1.createElement();
-        org.ccsds.moims.mo.mal.structures.Duration duration4 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 100);
+        org.ccsds.moims.mo.mal.structures.Duration duration4 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 100);
         double double5 = duration4.getValue();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList7 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList7 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray11 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList12 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean13 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList12,
-                                                         longArray11);
+            longArray11);
         int int15 = longList12.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray20 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList21 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean22 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList21,
-                                                         shortArray20);
+            shortArray20);
         java.util.ListIterator<java.lang.Short> shortItor24 = shortList21.listIterator((int) (byte) 1);
         boolean boolean26 = shortList21.contains((java.lang.Object) true);
         java.lang.Short short29 = shortList21.set(1, (java.lang.Short) (short) 0);
@@ -10177,12 +10395,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray34 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList35 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean36 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList35,
-                                                         longArray34);
+            longArray34);
         int int38 = longList35.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray43 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList44 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean45 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList44,
-                                                         shortArray43);
+            shortArray43);
         java.util.ListIterator<java.lang.Short> shortItor47 = shortList44.listIterator((int) (byte) 1);
         boolean boolean49 = shortList44.contains((java.lang.Object) true);
         java.lang.Short short52 = shortList44.set(1, (java.lang.Short) (short) 0);
@@ -10245,9 +10463,11 @@ public class RegressionTest1 {
     public void test627() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test627");
-        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 100);
+        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 100);
         double double2 = duration1.getValue();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray8 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList9 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean10 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList9, longArray8);
@@ -10255,7 +10475,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray17 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList18 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList18,
-                                                         shortArray17);
+            shortArray17);
         java.util.ListIterator<java.lang.Short> shortItor21 = shortList18.listIterator((int) (byte) 1);
         boolean boolean23 = shortList18.contains((java.lang.Object) true);
         java.lang.Short short26 = shortList18.set(1, (java.lang.Short) (short) 0);
@@ -10263,12 +10483,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray31 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList32 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList32,
-                                                         longArray31);
+            longArray31);
         int int35 = longList32.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray40 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList41 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList41,
-                                                         shortArray40);
+            shortArray40);
         java.util.ListIterator<java.lang.Short> shortItor44 = shortList41.listIterator((int) (byte) 1);
         boolean boolean46 = shortList41.contains((java.lang.Object) true);
         java.lang.Short short49 = shortList41.set(1, (java.lang.Short) (short) 0);
@@ -10296,7 +10516,8 @@ public class RegressionTest1 {
         java.lang.Long long68 = uRIList4.getShortForm();
         try {
             java.util.List<org.ccsds.moims.mo.mal.structures.URI> uRIList71 = uRIList4.subList((-4), 12);
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: fromIndex = -4");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IndexOutOfBoundsException; message: fromIndex = -4");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertTrue("'" + double2 + "' != '" + 100.0d + "'", double2 == 100.0d);
@@ -10338,29 +10559,30 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort0 = org.ccsds.moims.mo.mal.structures.IntegerList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray1 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort0};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList2 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList2,
-                                                        uShortArray1);
+        boolean boolean3 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList2, uShortArray1);
         org.ccsds.moims.mo.mal.structures.UShort uShort5 = org.ccsds.moims.mo.mal.structures.IntegerList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort uShort6 = uShortList2.set(0, uShort5);
         java.lang.Integer[] intArray10 = new java.lang.Integer[]{(-1), 9, 9};
         java.util.ArrayList<java.lang.Integer> intList11 = new java.util.ArrayList<java.lang.Integer>();
         boolean boolean12 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList11,
-                                                         intArray10);
+            intArray10);
         intList11.trimToSize();
         java.lang.Object obj14 = intList11.clone();
         boolean boolean15 = uShortList2.contains((java.lang.Object) intList11);
         java.util.Iterator<java.lang.Integer> intItor16 = intList11.iterator();
         intList11.trimToSize();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList19 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList19 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray23 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList24 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean25 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList24,
-                                                         longArray23);
+            longArray23);
         int int27 = longList24.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray32 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList33 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean34 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList33,
-                                                         shortArray32);
+            shortArray32);
         java.util.ListIterator<java.lang.Short> shortItor36 = shortList33.listIterator((int) (byte) 1);
         boolean boolean38 = shortList33.contains((java.lang.Object) true);
         java.lang.Short short41 = shortList33.set(1, (java.lang.Short) (short) 0);
@@ -10368,12 +10590,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray46 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList47 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean48 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList47,
-                                                         longArray46);
+            longArray46);
         int int50 = longList47.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray55 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList56 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean57 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList56,
-                                                         shortArray55);
+            shortArray55);
         java.util.ListIterator<java.lang.Short> shortItor59 = shortList56.listIterator((int) (byte) 1);
         boolean boolean61 = shortList56.contains((java.lang.Object) true);
         java.lang.Short short64 = shortList56.set(1, (java.lang.Short) (short) 0);
@@ -10399,7 +10621,8 @@ public class RegressionTest1 {
         int int81 = intList11.indexOf((java.lang.Object) uRIList19);
         try {
             java.lang.Integer int84 = intList11.set((int) 'a', (java.lang.Integer) 15);
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 97, Size: 3");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 97, Size: 3");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(uShort0);
@@ -10445,9 +10668,11 @@ public class RegressionTest1 {
     public void test629() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test629");
-        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 100);
+        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 100);
         double double2 = duration1.getValue();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray8 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList9 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean10 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList9, longArray8);
@@ -10455,7 +10680,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray17 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList18 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList18,
-                                                         shortArray17);
+            shortArray17);
         java.util.ListIterator<java.lang.Short> shortItor21 = shortList18.listIterator((int) (byte) 1);
         boolean boolean23 = shortList18.contains((java.lang.Object) true);
         java.lang.Short short26 = shortList18.set(1, (java.lang.Short) (short) 0);
@@ -10463,12 +10688,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray31 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList32 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList32,
-                                                         longArray31);
+            longArray31);
         int int35 = longList32.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray40 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList41 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList41,
-                                                         shortArray40);
+            shortArray40);
         java.util.ListIterator<java.lang.Short> shortItor44 = shortList41.listIterator((int) (byte) 1);
         boolean boolean46 = shortList41.contains((java.lang.Object) true);
         java.lang.Short short49 = shortList41.set(1, (java.lang.Short) (short) 0);
@@ -10534,9 +10759,11 @@ public class RegressionTest1 {
     public void test630() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test630");
-        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 100);
+        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 100);
         double double2 = duration1.getValue();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray8 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList9 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean10 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList9, longArray8);
@@ -10544,7 +10771,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray17 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList18 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList18,
-                                                         shortArray17);
+            shortArray17);
         java.util.ListIterator<java.lang.Short> shortItor21 = shortList18.listIterator((int) (byte) 1);
         boolean boolean23 = shortList18.contains((java.lang.Object) true);
         java.lang.Short short26 = shortList18.set(1, (java.lang.Short) (short) 0);
@@ -10552,12 +10779,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray31 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList32 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList32,
-                                                         longArray31);
+            longArray31);
         int int35 = longList32.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray40 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList41 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList41,
-                                                         shortArray40);
+            shortArray40);
         java.util.ListIterator<java.lang.Short> shortItor44 = shortList41.listIterator((int) (byte) 1);
         boolean boolean46 = shortList41.contains((java.lang.Object) true);
         java.lang.Short short49 = shortList41.set(1, (java.lang.Short) (short) 0);
@@ -10588,7 +10815,8 @@ public class RegressionTest1 {
         java.lang.String str74 = uRI73.toString();
         try {
             uRIList4.add(11, uRI73);
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 11, Size: 0");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 11, Size: 0");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertTrue("'" + double2 + "' != '" + 100.0d + "'", double2 == 100.0d);
@@ -10627,7 +10855,8 @@ public class RegressionTest1 {
     public void test631() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test631");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -10635,7 +10864,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -10643,12 +10872,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -10675,12 +10904,13 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort64 = stringList61.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.Element element65 = stringList61.createElement();
         boolean boolean66 = uRIList1.contains((java.lang.Object) stringList61);
-        org.ccsds.moims.mo.mal.structures.Duration duration68 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 100);
+        org.ccsds.moims.mo.mal.structures.Duration duration68 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 100);
         org.ccsds.moims.mo.mal.structures.UShort uShort69 = duration68.getServiceNumber();
         java.lang.Byte[] byteArray73 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) 100};
         java.util.ArrayList<java.lang.Byte> byteList74 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean75 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList74,
-                                                         byteArray73);
+            byteArray73);
         java.util.Iterator<java.lang.Byte> byteItor76 = byteList74.iterator();
         boolean boolean77 = duration68.equals((java.lang.Object) byteList74);
         java.lang.String str78 = byteList74.toString();
@@ -10743,7 +10973,8 @@ public class RegressionTest1 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test632");
         try {
-            int int1 = esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager.getAPIDFromVirtualSPPURI("[100, 0, -1, 10, 100, 0, -1, 10]");
+            int int1 = esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager.getAPIDFromVirtualSPPURI(
+                "[100, 0, -1, 10, 100, 0, -1, 10]");
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: 1");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -10753,14 +10984,16 @@ public class RegressionTest1 {
     public void test633() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test633");
-        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (byte) 10);
         stringList1.ensureCapacity((-2));
         esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP protocolBridgeSPP4 = new esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP();
         boolean boolean5 = stringList1.remove((java.lang.Object) protocolBridgeSPP4);
         java.util.Map map8 = null;
         try {
             protocolBridgeSPP4.init("malspp:247/11/41", "hi!", map8);
-            org.junit.Assert.fail("Expected exception of type org.ccsds.moims.mo.mal.MALException; message: Unknown transport factory for protocol: malspp:247/11/41");
+            org.junit.Assert.fail(
+                "Expected exception of type org.ccsds.moims.mo.mal.MALException; message: Unknown transport factory for protocol: malspp:247/11/41");
         } catch (org.ccsds.moims.mo.mal.MALException e) {
         }
         org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", !boolean5);
@@ -10770,21 +11003,24 @@ public class RegressionTest1 {
     public void test634() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test634");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
-        org.ccsds.moims.mo.mal.structures.FineTime fineTime3 = new org.ccsds.moims.mo.mal.structures.FineTime((long) (byte) 1);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.FineTime fineTime3 = new org.ccsds.moims.mo.mal.structures.FineTime(
+            (long) (byte) 1);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet4 = fineTime3.getAreaVersion();
         int int5 = uRIList1.lastIndexOf((java.lang.Object) uOctet4);
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.URI> uRIStream6 = uRIList1.parallelStream();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList8 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList8 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray12 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList13 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList13,
-                                                         longArray12);
+            longArray12);
         int int16 = longList13.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray21 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList22 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean23 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList22,
-                                                         shortArray21);
+            shortArray21);
         java.util.ListIterator<java.lang.Short> shortItor25 = shortList22.listIterator((int) (byte) 1);
         boolean boolean27 = shortList22.contains((java.lang.Object) true);
         java.lang.Short short30 = shortList22.set(1, (java.lang.Short) (short) 0);
@@ -10792,12 +11028,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray35 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList36 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean37 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList36,
-                                                         longArray35);
+            longArray35);
         int int39 = longList36.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray44 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList45 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean46 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList45,
-                                                         shortArray44);
+            shortArray44);
         java.util.ListIterator<java.lang.Short> shortItor48 = shortList45.listIterator((int) (byte) 1);
         boolean boolean50 = shortList45.contains((java.lang.Object) true);
         java.lang.Short short53 = shortList45.set(1, (java.lang.Short) (short) 0);
@@ -10825,11 +11061,13 @@ public class RegressionTest1 {
         java.lang.String str73 = uRI70.getValue();
         java.lang.String str74 = uRI70.toString();
         boolean boolean75 = uRIList1.add(uRI70);
-        org.ccsds.moims.mo.mal.structures.URI uRI78 = new org.ccsds.moims.mo.mal.structures.URI("[1.0, 100.0, 10.0, 100.0]");
+        org.ccsds.moims.mo.mal.structures.URI uRI78 = new org.ccsds.moims.mo.mal.structures.URI(
+            "[1.0, 100.0, 10.0, 100.0]");
         org.ccsds.moims.mo.mal.structures.UShort uShort79 = uRI78.getAreaNumber();
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI80 = uRIList1.set(16, uRI78);
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 16, Size: 1");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 16, Size: 1");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(uOctet4);
@@ -10872,7 +11110,8 @@ public class RegressionTest1 {
     public void test635() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test635");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -10880,7 +11119,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -10888,12 +11127,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -10917,7 +11156,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray65 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList66 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean67 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList66,
-                                                         shortArray65);
+            shortArray65);
         java.util.ListIterator<java.lang.Short> shortItor69 = shortList66.listIterator((int) (byte) 1);
         boolean boolean70 = uRIList1.containsAll((java.util.Collection<java.lang.Short>) shortList66);
         java.lang.Integer int71 = uRIList1.getTypeShortForm();
@@ -10973,9 +11212,11 @@ public class RegressionTest1 {
     public void test636() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test636");
-        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 100);
+        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 100);
         double double2 = duration1.getValue();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray8 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList9 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean10 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList9, longArray8);
@@ -10983,7 +11224,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray17 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList18 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList18,
-                                                         shortArray17);
+            shortArray17);
         java.util.ListIterator<java.lang.Short> shortItor21 = shortList18.listIterator((int) (byte) 1);
         boolean boolean23 = shortList18.contains((java.lang.Object) true);
         java.lang.Short short26 = shortList18.set(1, (java.lang.Short) (short) 0);
@@ -10991,12 +11232,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray31 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList32 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList32,
-                                                         longArray31);
+            longArray31);
         int int35 = longList32.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray40 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList41 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList41,
-                                                         shortArray40);
+            shortArray40);
         java.util.ListIterator<java.lang.Short> shortItor44 = shortList41.listIterator((int) (byte) 1);
         boolean boolean46 = shortList41.contains((java.lang.Object) true);
         java.lang.Short short49 = shortList41.set(1, (java.lang.Short) (short) 0);
@@ -11022,10 +11263,12 @@ public class RegressionTest1 {
         uRIList4.trimToSize();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet67 = uRIList4.getAreaVersion();
         boolean boolean68 = uRIList4.isEmpty();
-        org.ccsds.moims.mo.mal.structures.IntegerList integerList70 = new org.ccsds.moims.mo.mal.structures.IntegerList(11);
+        org.ccsds.moims.mo.mal.structures.IntegerList integerList70 = new org.ccsds.moims.mo.mal.structures.IntegerList(
+            11);
         java.lang.Integer int71 = integerList70.getTypeShortForm();
         org.ccsds.moims.mo.mal.structures.UShort uShort72 = integerList70.getAreaNumber();
-        org.ccsds.moims.mo.mal.structures.Identifier identifier74 = new org.ccsds.moims.mo.mal.structures.Identifier("hi!");
+        org.ccsds.moims.mo.mal.structures.Identifier identifier74 = new org.ccsds.moims.mo.mal.structures.Identifier(
+            "hi!");
         java.lang.String str75 = identifier74.toString();
         org.ccsds.moims.mo.mal.structures.UShort uShort76 = identifier74.getAreaNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort77 = identifier74.getAreaNumber();
@@ -11091,12 +11334,14 @@ public class RegressionTest1 {
         java.util.Iterator<java.lang.Byte> byteItor4 = byteList2.iterator();
         byteList2.clear();
         esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP protocolBridgeSPP6 = new esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP();
-        org.ccsds.moims.mo.mal.structures.StringList stringList8 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.StringList stringList8 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (byte) 10);
         stringList8.ensureCapacity((-2));
         esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP protocolBridgeSPP11 = new esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP();
         boolean boolean12 = stringList8.remove((java.lang.Object) protocolBridgeSPP11);
         esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP protocolBridgeSPP13 = new esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP();
-        org.ccsds.moims.mo.mal.structures.StringList stringList15 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.StringList stringList15 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (byte) 10);
         stringList15.ensureCapacity((-2));
         esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP protocolBridgeSPP18 = new esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP();
         boolean boolean19 = stringList15.remove((java.lang.Object) protocolBridgeSPP18);
@@ -11108,18 +11353,19 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort26 = org.ccsds.moims.mo.mal.structures.IntegerList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray27 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort26};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList28 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean29 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList28,
-                                                         uShortArray27);
+        boolean boolean29 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList28, uShortArray27);
         org.ccsds.moims.mo.mal.structures.UShort uShort31 = org.ccsds.moims.mo.mal.structures.IntegerList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort uShort32 = uShortList28.set(0, uShort31);
         int int33 = uShort32.getValue();
         boolean boolean34 = doubleList24.contains((java.lang.Object) uShort32);
-        org.ccsds.moims.mo.mal.structures.Duration duration36 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 100);
+        org.ccsds.moims.mo.mal.structures.Duration duration36 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 100);
         boolean boolean37 = doubleList24.remove((java.lang.Object) duration36);
         java.lang.Short[] shortArray42 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList43 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean44 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList43,
-                                                         shortArray42);
+            shortArray42);
         java.util.ListIterator<java.lang.Short> shortItor46 = shortList43.listIterator((int) (byte) 1);
         boolean boolean48 = shortList43.contains((java.lang.Object) true);
         java.lang.Short short51 = shortList43.set(1, (java.lang.Short) (short) 0);
@@ -11129,15 +11375,17 @@ public class RegressionTest1 {
         java.lang.Float[] floatArray57 = new java.lang.Float[]{(-1.0f), 0.0f};
         java.util.ArrayList<java.lang.Float> floatList58 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean59 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList58,
-                                                         floatArray57);
+            floatArray57);
         java.util.stream.Stream<java.lang.Float> floatStream60 = floatList58.parallelStream();
         java.util.ListIterator<java.lang.Float> floatItor61 = floatList58.listIterator();
         java.lang.Object[] objArray62 = floatList58.toArray();
         floatList58.clear();
         floatList58.clear();
         boolean boolean65 = uShortList20.remove((java.lang.Object) floatList58);
-        java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream66 = uShortList20.parallelStream();
-        org.ccsds.moims.mo.mal.structures.StringList stringList68 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 10);
+        java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream66 = uShortList20
+            .parallelStream();
+        org.ccsds.moims.mo.mal.structures.StringList stringList68 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (byte) 10);
         stringList68.ensureCapacity((-2));
         esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP protocolBridgeSPP71 = new esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP();
         boolean boolean72 = stringList68.remove((java.lang.Object) protocolBridgeSPP71);
@@ -11148,10 +11396,12 @@ public class RegressionTest1 {
                                                                                                                                  protocolBridgeSPP18,
                                                                                                                                  protocolBridgeSPP71};
         esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP[][] protocolBridgeSPPArray75 = new esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP[][]{protocolBridgeSPPArray74};
-        esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP[][] protocolBridgeSPPArray76 = byteList2.toArray(protocolBridgeSPPArray75);
+        esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP[][] protocolBridgeSPPArray76 = byteList2.toArray(
+            protocolBridgeSPPArray75);
         try {
             java.lang.Byte byte79 = byteList2.set(11, (java.lang.Byte) (byte) 100);
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 11, Size: 0");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 11, Size: 0");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(byteArray1);
@@ -11196,14 +11446,15 @@ public class RegressionTest1 {
     public void test638() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test638");
-        esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager virtualSPPURIsManager2 = new esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager((int) (short) 10,
-                                                                                                                                   12);
+        esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager virtualSPPURIsManager2 = new esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager(
+            (int) (short) 10, 12);
         java.lang.String str4 = virtualSPPURIsManager2.getURI("[1]");
         java.lang.String str6 = virtualSPPURIsManager2.getVirtualSPPURI("[-1.0, 0.0]");
         java.lang.String str8 = virtualSPPURIsManager2.getURI("");
         java.lang.String str10 = virtualSPPURIsManager2.getURI("[false, false]");
         java.lang.String str12 = virtualSPPURIsManager2.getURI("esa.mo.nmf.groundmoproxy.protocolbrige.spp.apid.start");
-        java.lang.String str14 = virtualSPPURIsManager2.getURI("[281474993487876, 281474993487876, 281474993487878, 100, 100, 281475010265081, 0]");
+        java.lang.String str14 = virtualSPPURIsManager2.getURI(
+            "[281474993487876, 281474993487876, 281474993487878, 100, 100, 281475010265081, 0]");
         java.lang.String str16 = virtualSPPURIsManager2.getURI("malspp:247/9/43");
         java.lang.String str18 = virtualSPPURIsManager2.getVirtualSPPURI("[0, 0]");
         org.junit.Assert.assertNull(str4);
@@ -11220,7 +11471,8 @@ public class RegressionTest1 {
     public void test639() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test639");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -11228,7 +11480,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -11236,12 +11488,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -11297,7 +11549,8 @@ public class RegressionTest1 {
     public void test640() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test640");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -11305,7 +11558,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -11313,12 +11566,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -11340,7 +11593,8 @@ public class RegressionTest1 {
         esa.mo.nmf.groundmoproxy.ProtocolBridge[] protocolBridgeArray59 = uRIList1.toArray(protocolBridgeArray58);
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.URI> uRIStream60 = uRIList1.parallelStream();
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.URI> uRIStream61 = uRIList1.stream();
-        org.ccsds.moims.mo.mal.structures.FineTime fineTime63 = new org.ccsds.moims.mo.mal.structures.FineTime((long) (byte) 1);
+        org.ccsds.moims.mo.mal.structures.FineTime fineTime63 = new org.ccsds.moims.mo.mal.structures.FineTime(
+            (long) (byte) 1);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet64 = fineTime63.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet65 = fineTime63.getAreaVersion();
         java.lang.Integer int66 = uOctet65.getTypeShortForm();
@@ -11348,7 +11602,8 @@ public class RegressionTest1 {
         java.lang.Long long68 = uRIList1.getShortForm();
         try {
             java.util.List<org.ccsds.moims.mo.mal.structures.URI> uRIList71 = uRIList1.subList(7, (-2));
-            org.junit.Assert.fail("Expected exception of type java.lang.IllegalArgumentException; message: fromIndex(7) > toIndex(-2)");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IllegalArgumentException; message: fromIndex(7) > toIndex(-2)");
         } catch (java.lang.IllegalArgumentException e) {
         }
         org.junit.Assert.assertNotNull(longArray5);
@@ -11387,7 +11642,8 @@ public class RegressionTest1 {
     public void test641() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test641");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -11395,7 +11651,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -11403,12 +11659,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -11472,7 +11728,8 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test642");
         org.ccsds.moims.mo.mal.structures.OctetList octetList1 = new org.ccsds.moims.mo.mal.structures.OctetList(0);
         java.util.stream.Stream<java.lang.Byte> byteStream2 = octetList1.parallelStream();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray8 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList9 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean10 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList9, longArray8);
@@ -11480,7 +11737,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray17 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList18 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList18,
-                                                         shortArray17);
+            shortArray17);
         java.util.ListIterator<java.lang.Short> shortItor21 = shortList18.listIterator((int) (byte) 1);
         boolean boolean23 = shortList18.contains((java.lang.Object) true);
         java.lang.Short short26 = shortList18.set(1, (java.lang.Short) (short) 0);
@@ -11488,12 +11745,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray31 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList32 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList32,
-                                                         longArray31);
+            longArray31);
         int int35 = longList32.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray40 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList41 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList41,
-                                                         shortArray40);
+            shortArray40);
         java.util.ListIterator<java.lang.Short> shortItor44 = shortList41.listIterator((int) (byte) 1);
         boolean boolean46 = shortList41.contains((java.lang.Object) true);
         java.lang.Short short49 = shortList41.set(1, (java.lang.Short) (short) 0);
@@ -11517,7 +11774,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray68 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList69 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean70 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList69,
-                                                         shortArray68);
+            shortArray68);
         java.util.ListIterator<java.lang.Short> shortItor72 = shortList69.listIterator((int) (byte) 1);
         boolean boolean73 = uRIList4.containsAll((java.util.Collection<java.lang.Short>) shortList69);
         java.lang.Integer int74 = uRIList4.getTypeShortForm();
@@ -11580,21 +11837,22 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test643");
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray0 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList1 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1,
-                                                        uRIArray0);
+        boolean boolean2 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1, uRIArray0);
         uRIList1.clear();
         uRIList1.clear();
         java.lang.Object[] objArray5 = uRIList1.toArray();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList7 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList7 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray11 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList12 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean13 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList12,
-                                                         longArray11);
+            longArray11);
         int int15 = longList12.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray20 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList21 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean22 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList21,
-                                                         shortArray20);
+            shortArray20);
         java.util.ListIterator<java.lang.Short> shortItor24 = shortList21.listIterator((int) (byte) 1);
         boolean boolean26 = shortList21.contains((java.lang.Object) true);
         java.lang.Short short29 = shortList21.set(1, (java.lang.Short) (short) 0);
@@ -11602,12 +11860,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray34 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList35 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean36 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList35,
-                                                         longArray34);
+            longArray34);
         int int38 = longList35.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray43 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList44 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean45 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList44,
-                                                         shortArray43);
+            shortArray43);
         java.util.ListIterator<java.lang.Short> shortItor47 = shortList44.listIterator((int) (byte) 1);
         boolean boolean49 = shortList44.contains((java.lang.Object) true);
         java.lang.Short short52 = shortList44.set(1, (java.lang.Short) (short) 0);
@@ -11631,7 +11889,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray71 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList72 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean73 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList72,
-                                                         shortArray71);
+            shortArray71);
         java.util.ListIterator<java.lang.Short> shortItor75 = shortList72.listIterator((int) (byte) 1);
         boolean boolean76 = uRIList7.containsAll((java.util.Collection<java.lang.Short>) shortList72);
         org.ccsds.moims.mo.mal.structures.URI uRI78 = new org.ccsds.moims.mo.mal.structures.URI("100.0");
@@ -11678,7 +11936,8 @@ public class RegressionTest1 {
     public void test644() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test644");
-        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (byte) 10);
         stringList1.ensureCapacity((-2));
         esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP protocolBridgeSPP4 = new esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP();
         boolean boolean5 = stringList1.remove((java.lang.Object) protocolBridgeSPP4);
@@ -11711,7 +11970,8 @@ public class RegressionTest1 {
     public void test646() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test646");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -11719,7 +11979,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -11727,12 +11987,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -11795,7 +12055,8 @@ public class RegressionTest1 {
     public void test647() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test647");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -11803,7 +12064,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -11811,12 +12072,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -11848,7 +12109,8 @@ public class RegressionTest1 {
         java.lang.Integer int71 = uRIList1.getTypeShortForm();
         try {
             java.util.ListIterator<org.ccsds.moims.mo.mal.structures.URI> uRIItor73 = uRIList1.listIterator(65535);
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 65535");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 65535");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(longArray5);
@@ -11888,7 +12150,8 @@ public class RegressionTest1 {
     public void test648() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test648");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -11896,7 +12159,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -11904,12 +12167,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -11936,15 +12199,15 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort65 = org.ccsds.moims.mo.mal.structures.IntegerList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray66 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort65};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList67 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean68 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList67,
-                                                         uShortArray66);
+        boolean boolean68 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList67, uShortArray66);
         org.ccsds.moims.mo.mal.structures.UShort uShort70 = org.ccsds.moims.mo.mal.structures.IntegerList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort uShort71 = uShortList67.set(0, uShort70);
         int int72 = uShortList67.size();
         java.lang.String[] strArray75 = new java.lang.String[]{"", "hi!"};
         java.util.ArrayList<java.lang.String> strList76 = new java.util.ArrayList<java.lang.String>();
         boolean boolean77 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList76,
-                                                         strArray75);
+            strArray75);
         strList76.ensureCapacity((int) (byte) -1);
         boolean boolean80 = uShortList67.remove((java.lang.Object) strList76);
         java.lang.String str83 = strList76.set(1, "[false, false]");
@@ -12002,7 +12265,8 @@ public class RegressionTest1 {
     public void test649() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test649");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -12010,7 +12274,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -12018,12 +12282,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -12048,7 +12312,7 @@ public class RegressionTest1 {
         java.lang.Double[] doubleArray66 = new java.lang.Double[]{10.0d, 0.0d, 100.0d};
         java.util.ArrayList<java.lang.Double> doubleList67 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean68 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList67,
-                                                         doubleArray66);
+            doubleArray66);
         java.lang.Object[] objArray69 = doubleList67.toArray();
         java.util.stream.Stream<java.lang.Double> doubleStream70 = doubleList67.stream();
         boolean boolean71 = uRIList1.remove((java.lang.Object) doubleStream70);
@@ -12088,8 +12352,8 @@ public class RegressionTest1 {
     public void test650() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test650");
-        esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager virtualSPPURIsManager2 = new esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager(0,
-                                                                                                                                   (int) (short) 10);
+        esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager virtualSPPURIsManager2 = new esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager(
+            0, (int) (short) 10);
         java.lang.String str4 = virtualSPPURIsManager2.getURI("[-1, -1, 100]");
         java.lang.String str6 = virtualSPPURIsManager2.getVirtualSPPURI("malspp:247/12/23");
         org.junit.Assert.assertNull(str4);
@@ -12100,14 +12364,16 @@ public class RegressionTest1 {
     public void test651() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test651");
-        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (byte) 10);
         stringList1.ensureCapacity((-2));
         esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP protocolBridgeSPP4 = new esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP();
         boolean boolean5 = stringList1.remove((java.lang.Object) protocolBridgeSPP4);
         java.util.Map map8 = null;
         try {
             protocolBridgeSPP4.init("281474993487887", "malspp:247/12/35", map8);
-            org.junit.Assert.fail("Expected exception of type org.ccsds.moims.mo.mal.MALException; message: Unknown transport factory for protocol: 281474993487887");
+            org.junit.Assert.fail(
+                "Expected exception of type org.ccsds.moims.mo.mal.MALException; message: Unknown transport factory for protocol: 281474993487887");
         } catch (org.ccsds.moims.mo.mal.MALException e) {
         }
         org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", !boolean5);
@@ -12120,22 +12386,23 @@ public class RegressionTest1 {
         java.lang.Float[] floatArray2 = new java.lang.Float[]{(-1.0f), 0.0f};
         java.util.ArrayList<java.lang.Float> floatList3 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean4 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList3,
-                                                        floatArray2);
+            floatArray2);
         java.util.stream.Stream<java.lang.Float> floatStream5 = floatList3.parallelStream();
         java.util.ListIterator<java.lang.Float> floatItor6 = floatList3.listIterator();
         java.lang.Object[] objArray7 = floatList3.toArray();
         floatList3.clear();
         boolean boolean10 = floatList3.add((java.lang.Float) 0.0f);
-        org.ccsds.moims.mo.mal.structures.URIList uRIList12 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList12 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray16 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList17 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList17,
-                                                         longArray16);
+            longArray16);
         int int20 = longList17.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray25 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList26 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList26,
-                                                         shortArray25);
+            shortArray25);
         java.util.ListIterator<java.lang.Short> shortItor29 = shortList26.listIterator((int) (byte) 1);
         boolean boolean31 = shortList26.contains((java.lang.Object) true);
         java.lang.Short short34 = shortList26.set(1, (java.lang.Short) (short) 0);
@@ -12143,12 +12410,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray39 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList40 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean41 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList40,
-                                                         longArray39);
+            longArray39);
         int int43 = longList40.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray48 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList49 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean50 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList49,
-                                                         shortArray48);
+            shortArray48);
         java.util.ListIterator<java.lang.Short> shortItor52 = shortList49.listIterator((int) (byte) 1);
         boolean boolean54 = shortList49.contains((java.lang.Object) true);
         java.lang.Short short57 = shortList49.set(1, (java.lang.Short) (short) 0);
@@ -12173,7 +12440,8 @@ public class RegressionTest1 {
         java.lang.String str73 = floatList3.toString();
         try {
             java.lang.Float float76 = floatList3.set(8, (java.lang.Float) 10.0f);
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 8, Size: 1");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 8, Size: 1");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(floatArray2);
@@ -12214,7 +12482,8 @@ public class RegressionTest1 {
     public void test653() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test653");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -12222,7 +12491,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -12230,12 +12499,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -12261,7 +12530,8 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort63 = uRIList1.getAreaNumber();
         java.util.Spliterator<org.ccsds.moims.mo.mal.structures.URI> uRISpliterator64 = uRIList1.spliterator();
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.URI> uRIStream65 = uRIList1.parallelStream();
-        org.ccsds.moims.mo.mal.structures.OctetList octetList67 = new org.ccsds.moims.mo.mal.structures.OctetList((int) (short) 100);
+        org.ccsds.moims.mo.mal.structures.OctetList octetList67 = new org.ccsds.moims.mo.mal.structures.OctetList(
+            (int) (short) 100);
         boolean boolean68 = octetList67.isEmpty();
         boolean boolean69 = uRIList1.equals((java.lang.Object) boolean68);
         org.ccsds.moims.mo.mal.structures.UShort uShort70 = uRIList1.getAreaNumber();
@@ -12313,7 +12583,8 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UOctet uOctet10 = uOctet9.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.UShort uShort11 = uOctet9.getAreaNumber();
         boolean boolean12 = intList4.remove((java.lang.Object) uOctet9);
-        org.ccsds.moims.mo.mal.structures.StringList stringList14 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.StringList stringList14 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (byte) 10);
         stringList14.ensureCapacity((-2));
         esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP protocolBridgeSPP17 = new esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP();
         boolean boolean18 = stringList14.remove((java.lang.Object) protocolBridgeSPP17);
@@ -12336,7 +12607,8 @@ public class RegressionTest1 {
     public void test655() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test655");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -12344,7 +12616,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -12352,12 +12624,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -12381,7 +12653,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray65 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList66 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean67 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList66,
-                                                         shortArray65);
+            shortArray65);
         java.util.ListIterator<java.lang.Short> shortItor69 = shortList66.listIterator((int) (byte) 1);
         boolean boolean70 = uRIList1.containsAll((java.util.Collection<java.lang.Short>) shortList66);
         org.ccsds.moims.mo.mal.structures.URI uRI72 = new org.ccsds.moims.mo.mal.structures.URI("100.0");
@@ -12443,7 +12715,8 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test656");
         org.ccsds.moims.mo.mal.structures.DoubleList doubleList0 = new org.ccsds.moims.mo.mal.structures.DoubleList();
         org.ccsds.moims.mo.mal.structures.Element element1 = doubleList0.createElement();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList3 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList3 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray7 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList8 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean9 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList8, longArray7);
@@ -12451,7 +12724,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray16 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList17 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList17,
-                                                         shortArray16);
+            shortArray16);
         java.util.ListIterator<java.lang.Short> shortItor20 = shortList17.listIterator((int) (byte) 1);
         boolean boolean22 = shortList17.contains((java.lang.Object) true);
         java.lang.Short short25 = shortList17.set(1, (java.lang.Short) (short) 0);
@@ -12459,12 +12732,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray30 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList31 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean32 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList31,
-                                                         longArray30);
+            longArray30);
         int int34 = longList31.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray39 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList40 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean41 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList40,
-                                                         shortArray39);
+            shortArray39);
         java.util.ListIterator<java.lang.Short> shortItor43 = shortList40.listIterator((int) (byte) 1);
         boolean boolean45 = shortList40.contains((java.lang.Object) true);
         java.lang.Short short48 = shortList40.set(1, (java.lang.Short) (short) 0);
@@ -12482,11 +12755,11 @@ public class RegressionTest1 {
                                                                "", "[-1.0, 0.0]"};
         java.util.ArrayList<java.lang.String> strList70 = new java.util.ArrayList<java.lang.String>();
         boolean boolean71 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList70,
-                                                         strArray69);
+            strArray69);
         java.util.Iterator<java.lang.String> strItor72 = strList70.iterator();
         int int73 = doubleList0.lastIndexOf((java.lang.Object) strList70);
-        esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager virtualSPPURIsManager76 = new esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager((int) (short) 10,
-                                                                                                                                    12);
+        esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager virtualSPPURIsManager76 = new esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager(
+            (int) (short) 10, 12);
         java.lang.String str78 = virtualSPPURIsManager76.getVirtualSPPURI("[-1, -1, 100]");
         java.lang.String str80 = virtualSPPURIsManager76.getURI("malspp:247/10/240");
         int int81 = strList70.lastIndexOf((java.lang.Object) str80);
@@ -12538,7 +12811,8 @@ public class RegressionTest1 {
     public void test657() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test657");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -12546,7 +12820,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -12554,12 +12828,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -12587,7 +12861,7 @@ public class RegressionTest1 {
         java.lang.Float[] floatArray67 = new java.lang.Float[]{(-1.0f), 0.0f};
         java.util.ArrayList<java.lang.Float> floatList68 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean69 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList68,
-                                                         floatArray67);
+            floatArray67);
         java.util.stream.Stream<java.lang.Float> floatStream70 = floatList68.parallelStream();
         floatList68.trimToSize();
         java.util.Iterator<java.lang.Float> floatItor72 = floatList68.iterator();
@@ -12631,7 +12905,8 @@ public class RegressionTest1 {
     public void test658() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test658");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -12639,7 +12914,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -12647,12 +12922,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -12712,21 +12987,24 @@ public class RegressionTest1 {
     public void test659() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test659");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
-        org.ccsds.moims.mo.mal.structures.FineTime fineTime3 = new org.ccsds.moims.mo.mal.structures.FineTime((long) (byte) 1);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.FineTime fineTime3 = new org.ccsds.moims.mo.mal.structures.FineTime(
+            (long) (byte) 1);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet4 = fineTime3.getAreaVersion();
         int int5 = uRIList1.lastIndexOf((java.lang.Object) uOctet4);
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.URI> uRIStream6 = uRIList1.parallelStream();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList8 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList8 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray12 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList13 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList13,
-                                                         longArray12);
+            longArray12);
         int int16 = longList13.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray21 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList22 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean23 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList22,
-                                                         shortArray21);
+            shortArray21);
         java.util.ListIterator<java.lang.Short> shortItor25 = shortList22.listIterator((int) (byte) 1);
         boolean boolean27 = shortList22.contains((java.lang.Object) true);
         java.lang.Short short30 = shortList22.set(1, (java.lang.Short) (short) 0);
@@ -12734,12 +13012,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray35 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList36 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean37 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList36,
-                                                         longArray35);
+            longArray35);
         int int39 = longList36.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray44 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList45 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean46 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList45,
-                                                         shortArray44);
+            shortArray44);
         java.util.ListIterator<java.lang.Short> shortItor48 = shortList45.listIterator((int) (byte) 1);
         boolean boolean50 = shortList45.contains((java.lang.Object) true);
         java.lang.Short short53 = shortList45.set(1, (java.lang.Short) (short) 0);
@@ -12810,7 +13088,8 @@ public class RegressionTest1 {
     public void test660() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test660");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -12818,7 +13097,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -12826,12 +13105,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -12906,18 +13185,20 @@ public class RegressionTest1 {
         java.lang.String str6 = union1.toString();
         java.lang.Long long7 = union1.getShortForm();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet8 = union1.getAreaVersion();
-        org.ccsds.moims.mo.mal.structures.Duration duration10 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 100);
+        org.ccsds.moims.mo.mal.structures.Duration duration10 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 100);
         double double11 = duration10.getValue();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList13 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList13 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray17 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList18 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList18,
-                                                         longArray17);
+            longArray17);
         int int21 = longList18.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray26 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList27 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean28 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList27,
-                                                         shortArray26);
+            shortArray26);
         java.util.ListIterator<java.lang.Short> shortItor30 = shortList27.listIterator((int) (byte) 1);
         boolean boolean32 = shortList27.contains((java.lang.Object) true);
         java.lang.Short short35 = shortList27.set(1, (java.lang.Short) (short) 0);
@@ -12925,12 +13206,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray40 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList41 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList41,
-                                                         longArray40);
+            longArray40);
         int int44 = longList41.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray49 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList50 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean51 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList50,
-                                                         shortArray49);
+            shortArray49);
         java.util.ListIterator<java.lang.Short> shortItor53 = shortList50.listIterator((int) (byte) 1);
         boolean boolean55 = shortList50.contains((java.lang.Object) true);
         java.lang.Short short58 = shortList50.set(1, (java.lang.Short) (short) 0);
@@ -13003,7 +13284,8 @@ public class RegressionTest1 {
     public void test662() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test662");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -13011,7 +13293,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -13019,12 +13301,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -13089,18 +13371,20 @@ public class RegressionTest1 {
                                                                  18, (-13)};
         java.util.ArrayList<java.lang.Integer> intList26 = new java.util.ArrayList<java.lang.Integer>();
         boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList26,
-                                                         intArray25);
-        org.ccsds.moims.mo.mal.structures.ShortList shortList29 = new org.ccsds.moims.mo.mal.structures.ShortList((int) 'a');
+            intArray25);
+        org.ccsds.moims.mo.mal.structures.ShortList shortList29 = new org.ccsds.moims.mo.mal.structures.ShortList(
+            (int) 'a');
         java.lang.Float[] floatArray32 = new java.lang.Float[]{(-1.0f), 0.0f};
         java.util.ArrayList<java.lang.Float> floatList33 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean34 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList33,
-                                                         floatArray32);
+            floatArray32);
         java.util.stream.Stream<java.lang.Float> floatStream35 = floatList33.parallelStream();
         java.util.stream.BaseStream[] baseStreamArray37 = new java.util.stream.BaseStream[1];
         @SuppressWarnings("unchecked")
         java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[] floatBaseStreamArray38 = (java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[]) baseStreamArray37;
         floatBaseStreamArray38[0] = floatStream35;
-        java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[] floatBaseStreamArray41 = shortList29.toArray(floatBaseStreamArray38);
+        java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[] floatBaseStreamArray41 = shortList29
+            .toArray(floatBaseStreamArray38);
         boolean boolean42 = intList26.equals((java.lang.Object) shortList29);
         boolean boolean44 = shortList29.add((java.lang.Short) (short) 1);
         java.lang.Object obj45 = shortList29.clone();
@@ -13108,7 +13392,7 @@ public class RegressionTest1 {
         java.lang.Integer[] intArray50 = new java.lang.Integer[]{(-1), 9, 9};
         java.util.ArrayList<java.lang.Integer> intList51 = new java.util.ArrayList<java.lang.Integer>();
         boolean boolean52 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList51,
-                                                         intArray50);
+            intArray50);
         intList51.trimToSize();
         java.util.stream.Stream<java.lang.Integer> intStream54 = intList51.parallelStream();
         java.util.Iterator<java.lang.Integer> intItor55 = intList51.iterator();
@@ -13116,13 +13400,15 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UOctet uOctet57 = uOctet56.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.UShort uShort58 = uOctet56.getAreaNumber();
         boolean boolean59 = intList51.remove((java.lang.Object) uOctet56);
-        org.ccsds.moims.mo.mal.structures.StringList stringList61 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.StringList stringList61 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (byte) 10);
         stringList61.ensureCapacity((-2));
         esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP protocolBridgeSPP64 = new esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP();
         boolean boolean65 = stringList61.remove((java.lang.Object) protocolBridgeSPP64);
         int int66 = intList51.indexOf((java.lang.Object) stringList61);
         boolean boolean67 = longList1.contains((java.lang.Object) stringList61);
-        org.ccsds.moims.mo.mal.structures.Duration duration69 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 1);
+        org.ccsds.moims.mo.mal.structures.Duration duration69 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 1);
         boolean boolean70 = stringList61.remove((java.lang.Object) duration69);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet71 = stringList61.getAreaVersion();
         java.util.stream.Stream<java.lang.String> strStream72 = stringList61.parallelStream();
@@ -13158,7 +13444,8 @@ public class RegressionTest1 {
     public void test664() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test664");
-        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (byte) 10);
         stringList1.ensureCapacity((-2));
         esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP protocolBridgeSPP4 = new esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP();
         boolean boolean5 = stringList1.remove((java.lang.Object) protocolBridgeSPP4);
@@ -13166,7 +13453,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray11 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList12 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean13 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList12,
-                                                         shortArray11);
+            shortArray11);
         java.util.ListIterator<java.lang.Short> shortItor15 = shortList12.listIterator((int) (byte) 1);
         boolean boolean17 = shortList12.contains((java.lang.Object) true);
         java.lang.Short short20 = shortList12.set(1, (java.lang.Short) (short) 0);
@@ -13175,7 +13462,7 @@ public class RegressionTest1 {
         java.lang.Integer[] intArray26 = new java.lang.Integer[]{(-1), 9, 9};
         java.util.ArrayList<java.lang.Integer> intList27 = new java.util.ArrayList<java.lang.Integer>();
         boolean boolean28 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList27,
-                                                         intArray26);
+            intArray26);
         intList27.trimToSize();
         java.lang.Object obj30 = intList27.clone();
         boolean boolean31 = stringList1.remove(obj30);
@@ -13183,7 +13470,8 @@ public class RegressionTest1 {
         boolean boolean33 = stringList1.isEmpty();
         try {
             java.util.ListIterator<java.lang.String> strItor35 = stringList1.listIterator((-15));
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: -15");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: -15");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", !boolean5);
@@ -13212,18 +13500,20 @@ public class RegressionTest1 {
         octetList0.ensureCapacity((int) (byte) 10);
         java.lang.Long long4 = octetList0.getShortForm();
         java.lang.Integer int5 = octetList0.getTypeShortForm();
-        org.ccsds.moims.mo.mal.structures.Duration duration7 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 100);
+        org.ccsds.moims.mo.mal.structures.Duration duration7 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 100);
         double double8 = duration7.getValue();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList10 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList10 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray14 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList15 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList15,
-                                                         longArray14);
+            longArray14);
         int int18 = longList15.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray23 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList24 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean25 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList24,
-                                                         shortArray23);
+            shortArray23);
         java.util.ListIterator<java.lang.Short> shortItor27 = shortList24.listIterator((int) (byte) 1);
         boolean boolean29 = shortList24.contains((java.lang.Object) true);
         java.lang.Short short32 = shortList24.set(1, (java.lang.Short) (short) 0);
@@ -13231,12 +13521,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray37 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList38 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList38,
-                                                         longArray37);
+            longArray37);
         int int41 = longList38.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray46 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList47 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean48 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList47,
-                                                         shortArray46);
+            shortArray46);
         java.util.ListIterator<java.lang.Short> shortItor50 = shortList47.listIterator((int) (byte) 1);
         boolean boolean52 = shortList47.contains((java.lang.Object) true);
         java.lang.Short short55 = shortList47.set(1, (java.lang.Short) (short) 0);
@@ -13310,7 +13600,8 @@ public class RegressionTest1 {
     public void test666() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test666");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -13318,7 +13609,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -13326,12 +13617,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -13388,8 +13679,8 @@ public class RegressionTest1 {
     public void test667() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test667");
-        esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager virtualSPPURIsManager2 = new esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager(1,
-                                                                                                                                   17);
+        esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager virtualSPPURIsManager2 = new esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager(
+            1, 17);
         java.lang.String str4 = virtualSPPURIsManager2.getVirtualSPPURI("malspp:247/11/40");
         // flaky:         org.junit.Assert.assertTrue("'" + str4 + "' != '" + "malspp:247/11/108" + "'", str4.equals("malspp:247/11/108"));
     }
@@ -13402,7 +13693,8 @@ public class RegressionTest1 {
         java.util.Map map3 = null;
         try {
             protocolBridge0.init("32", "malspp:247/12/159", map3);
-            org.junit.Assert.fail("Expected exception of type org.ccsds.moims.mo.mal.MALException; message: Unknown transport factory for protocol: 32");
+            org.junit.Assert.fail(
+                "Expected exception of type org.ccsds.moims.mo.mal.MALException; message: Unknown transport factory for protocol: 32");
         } catch (org.ccsds.moims.mo.mal.MALException e) {
         }
     }
@@ -13411,7 +13703,8 @@ public class RegressionTest1 {
     public void test669() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test669");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -13419,7 +13712,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -13427,12 +13720,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -13489,7 +13782,8 @@ public class RegressionTest1 {
     public void test670() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test670");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -13497,7 +13791,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -13505,12 +13799,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -13536,20 +13830,23 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort63 = org.ccsds.moims.mo.mal.structures.IntegerList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray64 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort63};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList65 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean66 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList65,
-                                                         uShortArray64);
+        boolean boolean66 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList65, uShortArray64);
         org.ccsds.moims.mo.mal.structures.UShort uShort68 = org.ccsds.moims.mo.mal.structures.IntegerList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort uShort69 = uShortList65.set(0, uShort68);
         int int70 = uShortList65.size();
-        java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream71 = uShortList65.parallelStream();
-        org.ccsds.moims.mo.mal.structures.FineTime fineTime73 = new org.ccsds.moims.mo.mal.structures.FineTime((long) 2);
+        java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream71 = uShortList65
+            .parallelStream();
+        org.ccsds.moims.mo.mal.structures.FineTime fineTime73 = new org.ccsds.moims.mo.mal.structures.FineTime(
+            (long) 2);
         java.lang.Long long74 = fineTime73.getShortForm();
         int int75 = uShortList65.lastIndexOf((java.lang.Object) fineTime73);
         java.lang.Object obj76 = uShortList65.clone();
         boolean boolean77 = uRIList1.equals(obj76);
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI79 = uRIList1.get((int) '4');
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 52, Size: 0");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 52, Size: 0");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(longArray5);
@@ -13600,16 +13897,17 @@ public class RegressionTest1 {
         java.lang.Integer int3 = uShortList1.getTypeShortForm();
         uShortList1.trimToSize();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet5 = uShortList1.getAreaVersion();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList7 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList7 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray11 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList12 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean13 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList12,
-                                                         longArray11);
+            longArray11);
         int int15 = longList12.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray20 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList21 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean22 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList21,
-                                                         shortArray20);
+            shortArray20);
         java.util.ListIterator<java.lang.Short> shortItor24 = shortList21.listIterator((int) (byte) 1);
         boolean boolean26 = shortList21.contains((java.lang.Object) true);
         java.lang.Short short29 = shortList21.set(1, (java.lang.Short) (short) 0);
@@ -13617,12 +13915,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray34 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList35 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean36 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList35,
-                                                         longArray34);
+            longArray34);
         int int38 = longList35.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray43 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList44 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean45 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList44,
-                                                         shortArray43);
+            shortArray43);
         java.util.ListIterator<java.lang.Short> shortItor47 = shortList44.listIterator((int) (byte) 1);
         boolean boolean49 = shortList44.contains((java.lang.Object) true);
         java.lang.Short short52 = shortList44.set(1, (java.lang.Short) (short) 0);
@@ -13724,23 +14022,24 @@ public class RegressionTest1 {
         java.lang.Float[] floatArray2 = new java.lang.Float[]{(-1.0f), 0.0f};
         java.util.ArrayList<java.lang.Float> floatList3 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean4 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList3,
-                                                        floatArray2);
+            floatArray2);
         java.util.stream.Stream<java.lang.Float> floatStream5 = floatList3.parallelStream();
         floatList3.clear();
         org.ccsds.moims.mo.mal.structures.Time time8 = new org.ccsds.moims.mo.mal.structures.Time((long) (-7));
         java.lang.Integer int9 = time8.getTypeShortForm();
         java.lang.Long long10 = time8.getShortForm();
         int int11 = floatList3.indexOf((java.lang.Object) time8);
-        org.ccsds.moims.mo.mal.structures.URIList uRIList13 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList13 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray17 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList18 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList18,
-                                                         longArray17);
+            longArray17);
         int int21 = longList18.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray26 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList27 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean28 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList27,
-                                                         shortArray26);
+            shortArray26);
         java.util.ListIterator<java.lang.Short> shortItor30 = shortList27.listIterator((int) (byte) 1);
         boolean boolean32 = shortList27.contains((java.lang.Object) true);
         java.lang.Short short35 = shortList27.set(1, (java.lang.Short) (short) 0);
@@ -13748,12 +14047,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray40 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList41 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList41,
-                                                         longArray40);
+            longArray40);
         int int44 = longList41.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray49 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList50 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean51 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList50,
-                                                         shortArray49);
+            shortArray49);
         java.util.ListIterator<java.lang.Short> shortItor53 = shortList50.listIterator((int) (byte) 1);
         boolean boolean55 = shortList50.contains((java.lang.Object) true);
         java.lang.Short short58 = shortList50.set(1, (java.lang.Short) (short) 0);
@@ -13777,7 +14076,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray77 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList78 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean79 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList78,
-                                                         shortArray77);
+            shortArray77);
         java.util.ListIterator<java.lang.Short> shortItor81 = shortList78.listIterator((int) (byte) 1);
         boolean boolean82 = uRIList13.containsAll((java.util.Collection<java.lang.Short>) shortList78);
         java.lang.Integer int83 = uRIList13.getTypeShortForm();
@@ -13844,7 +14143,8 @@ public class RegressionTest1 {
     public void test673() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test673");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -13852,7 +14152,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -13860,12 +14160,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -13935,16 +14235,17 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UOctet uOctet4 = uShortList1.getAreaVersion();
         java.lang.Object obj5 = uShortList1.clone();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet6 = org.ccsds.moims.mo.mal.structures.UOctet.AREA_VERSION;
-        org.ccsds.moims.mo.mal.structures.URIList uRIList8 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList8 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray12 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList13 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList13,
-                                                         longArray12);
+            longArray12);
         int int16 = longList13.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray21 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList22 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean23 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList22,
-                                                         shortArray21);
+            shortArray21);
         java.util.ListIterator<java.lang.Short> shortItor25 = shortList22.listIterator((int) (byte) 1);
         boolean boolean27 = shortList22.contains((java.lang.Object) true);
         java.lang.Short short30 = shortList22.set(1, (java.lang.Short) (short) 0);
@@ -13952,12 +14253,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray35 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList36 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean37 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList36,
-                                                         longArray35);
+            longArray35);
         int int39 = longList36.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray44 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList45 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean46 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList45,
-                                                         shortArray44);
+            shortArray44);
         java.util.ListIterator<java.lang.Short> shortItor48 = shortList45.listIterator((int) (byte) 1);
         boolean boolean50 = shortList45.contains((java.lang.Object) true);
         java.lang.Short short53 = shortList45.set(1, (java.lang.Short) (short) 0);
@@ -13979,15 +14280,17 @@ public class RegressionTest1 {
         esa.mo.nmf.groundmoproxy.ProtocolBridge[] protocolBridgeArray66 = uRIList8.toArray(protocolBridgeArray65);
         org.ccsds.moims.mo.mal.structures.UShort uShort67 = uRIList8.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort68 = org.ccsds.moims.mo.mal.structures.DoubleList.SERVICE_SHORT_FORM;
-        org.ccsds.moims.mo.mal.structures.FineTime fineTime70 = new org.ccsds.moims.mo.mal.structures.FineTime((long) (byte) 1);
+        org.ccsds.moims.mo.mal.structures.FineTime fineTime70 = new org.ccsds.moims.mo.mal.structures.FineTime(
+            (long) (byte) 1);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet71 = fineTime70.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.UShort uShort72 = fineTime70.getServiceNumber();
-        org.ccsds.moims.mo.mal.structures.BooleanList booleanList74 = new org.ccsds.moims.mo.mal.structures.BooleanList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.BooleanList booleanList74 = new org.ccsds.moims.mo.mal.structures.BooleanList(
+            (int) (byte) 10);
         org.ccsds.moims.mo.mal.structures.UShort uShort75 = org.ccsds.moims.mo.mal.structures.IntegerList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray76 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort75};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList77 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean78 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList77,
-                                                         uShortArray76);
+        boolean boolean78 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList77, uShortArray76);
         org.ccsds.moims.mo.mal.structures.UShort uShort80 = org.ccsds.moims.mo.mal.structures.IntegerList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort uShort81 = uShortList77.set(0, uShort80);
         boolean boolean82 = booleanList74.remove((java.lang.Object) uShort80);
@@ -13996,13 +14299,14 @@ public class RegressionTest1 {
                                                                                                                   uShort72,
                                                                                                                   uShort80};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList84 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean85 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList84,
-                                                         uShortArray83);
+        boolean boolean85 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList84, uShortArray83);
         int int86 = uShortList84.size();
         boolean boolean87 = uOctet6.equals((java.lang.Object) uShortList84);
         java.util.Iterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor88 = uShortList84.iterator();
         java.lang.String str89 = uShortList84.toString();
-        org.ccsds.moims.mo.mal.structures.Duration duration91 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 100);
+        org.ccsds.moims.mo.mal.structures.Duration duration91 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 100);
         org.ccsds.moims.mo.mal.structures.UShort uShort92 = duration91.getServiceNumber();
         java.lang.Long long93 = duration91.getShortForm();
         int int94 = uShortList84.lastIndexOf((java.lang.Object) long93);
@@ -14064,7 +14368,8 @@ public class RegressionTest1 {
     public void test675() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test675");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -14072,7 +14377,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -14080,12 +14385,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -14111,7 +14416,8 @@ public class RegressionTest1 {
         uRIList1.clear();
         try {
             java.util.List<org.ccsds.moims.mo.mal.structures.URI> uRIList66 = uRIList1.subList((-2), (-10));
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: fromIndex = -2");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IndexOutOfBoundsException; message: fromIndex = -2");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(longArray5);
@@ -14146,7 +14452,8 @@ public class RegressionTest1 {
     public void test676() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test676");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -14154,7 +14461,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -14162,12 +14469,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -14234,9 +14541,10 @@ public class RegressionTest1 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test677");
         try {
-            esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager virtualSPPURIsManager2 = new esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager(15,
-                                                                                                                                       12);
-            org.junit.Assert.fail("Expected exception of type java.lang.IllegalArgumentException; message: bound must be positive");
+            esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager virtualSPPURIsManager2 = new esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager(
+                15, 12);
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IllegalArgumentException; message: bound must be positive");
         } catch (java.lang.IllegalArgumentException e) {
         }
     }
@@ -14245,7 +14553,8 @@ public class RegressionTest1 {
     public void test678() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test678");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -14253,7 +14562,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -14261,12 +14570,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -14291,18 +14600,21 @@ public class RegressionTest1 {
         java.util.Spliterator<org.ccsds.moims.mo.mal.structures.URI> uRISpliterator62 = uRIList1.spliterator();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet63 = uRIList1.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.UShortList uShortList64 = new org.ccsds.moims.mo.mal.structures.UShortList();
-        java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream65 = uShortList64.parallelStream();
+        java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream65 = uShortList64
+            .parallelStream();
         org.ccsds.moims.mo.mal.structures.Element element66 = uShortList64.createElement();
         org.ccsds.moims.mo.mal.structures.Element element67 = uShortList64.createElement();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet68 = uShortList64.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet69 = uShortList64.getAreaVersion();
         uShortList64.trimToSize();
         boolean boolean71 = uRIList1.equals((java.lang.Object) uShortList64);
-        org.ccsds.moims.mo.mal.structures.FineTime fineTime73 = new org.ccsds.moims.mo.mal.structures.FineTime((long) 2);
+        org.ccsds.moims.mo.mal.structures.FineTime fineTime73 = new org.ccsds.moims.mo.mal.structures.FineTime(
+            (long) 2);
         java.lang.Long long74 = fineTime73.getShortForm();
         java.lang.String str75 = fineTime73.toString();
         boolean boolean76 = uShortList64.equals((java.lang.Object) str75);
-        java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream77 = uShortList64.parallelStream();
+        java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream77 = uShortList64
+            .parallelStream();
         org.junit.Assert.assertNotNull(longArray5);
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7);
         org.junit.Assert.assertTrue("'" + int9 + "' != '" + (-1) + "'", int9 == (-1));
@@ -14346,7 +14658,8 @@ public class RegressionTest1 {
     public void test679() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test679");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -14354,7 +14667,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -14362,12 +14675,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -14389,12 +14702,13 @@ public class RegressionTest1 {
         esa.mo.nmf.groundmoproxy.ProtocolBridge[] protocolBridgeArray59 = uRIList1.toArray(protocolBridgeArray58);
         java.util.Spliterator<org.ccsds.moims.mo.mal.structures.URI> uRISpliterator60 = uRIList1.spliterator();
         uRIList1.ensureCapacity(10);
-        org.ccsds.moims.mo.mal.structures.Duration duration64 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 100);
+        org.ccsds.moims.mo.mal.structures.Duration duration64 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 100);
         org.ccsds.moims.mo.mal.structures.UShort uShort65 = duration64.getServiceNumber();
         java.lang.Byte[] byteArray69 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) 100};
         java.util.ArrayList<java.lang.Byte> byteList70 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean71 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList70,
-                                                         byteArray69);
+            byteArray69);
         java.util.Iterator<java.lang.Byte> byteItor72 = byteList70.iterator();
         boolean boolean73 = duration64.equals((java.lang.Object) byteList70);
         java.lang.String str74 = byteList70.toString();
@@ -14442,7 +14756,8 @@ public class RegressionTest1 {
     public void test680() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test680");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -14450,7 +14765,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -14458,12 +14773,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -14491,7 +14806,7 @@ public class RegressionTest1 {
         java.lang.Boolean[] booleanArray67 = new java.lang.Boolean[]{false, false};
         java.util.ArrayList<java.lang.Boolean> booleanList68 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean69 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList68,
-                                                         booleanArray67);
+            booleanArray67);
         java.lang.String str70 = booleanList68.toString();
         java.util.stream.Stream<java.lang.Boolean> booleanStream71 = booleanList68.parallelStream();
         booleanList68.trimToSize();
@@ -14543,14 +14858,16 @@ public class RegressionTest1 {
     public void test681() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test681");
-        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (byte) 10);
         stringList1.ensureCapacity((-2));
         esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP protocolBridgeSPP4 = new esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP();
         boolean boolean5 = stringList1.remove((java.lang.Object) protocolBridgeSPP4);
         java.util.Map map8 = null;
         try {
             protocolBridgeSPP4.init("malspp:247/11/200", "malspp:247/12/1", map8);
-            org.junit.Assert.fail("Expected exception of type org.ccsds.moims.mo.mal.MALException; message: Unknown transport factory for protocol: malspp:247/11/200");
+            org.junit.Assert.fail(
+                "Expected exception of type org.ccsds.moims.mo.mal.MALException; message: Unknown transport factory for protocol: malspp:247/11/200");
         } catch (org.ccsds.moims.mo.mal.MALException e) {
         }
         org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", !boolean5);
@@ -14572,18 +14889,20 @@ public class RegressionTest1 {
         int int14 = byteList8.indexOf((java.lang.Object) 281474993487890L);
         java.util.ListIterator<java.lang.Byte> byteItor15 = byteList8.listIterator();
         int int16 = floatList1.lastIndexOf((java.lang.Object) byteList8);
-        org.ccsds.moims.mo.mal.structures.Duration duration18 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 100);
+        org.ccsds.moims.mo.mal.structures.Duration duration18 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 100);
         double double19 = duration18.getValue();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList21 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList21 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray25 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList26 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList26,
-                                                         longArray25);
+            longArray25);
         int int29 = longList26.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray34 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList35 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean36 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList35,
-                                                         shortArray34);
+            shortArray34);
         java.util.ListIterator<java.lang.Short> shortItor38 = shortList35.listIterator((int) (byte) 1);
         boolean boolean40 = shortList35.contains((java.lang.Object) true);
         java.lang.Short short43 = shortList35.set(1, (java.lang.Short) (short) 0);
@@ -14591,12 +14910,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray48 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList49 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean50 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList49,
-                                                         longArray48);
+            longArray48);
         int int52 = longList49.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray57 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList58 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean59 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList58,
-                                                         shortArray57);
+            shortArray57);
         java.util.ListIterator<java.lang.Short> shortItor61 = shortList58.listIterator((int) (byte) 1);
         boolean boolean63 = shortList58.contains((java.lang.Object) true);
         java.lang.Short short66 = shortList58.set(1, (java.lang.Short) (short) 0);
@@ -14683,7 +15002,8 @@ public class RegressionTest1 {
     public void test683() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test683");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -14691,7 +15011,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -14699,12 +15019,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -14780,9 +15100,10 @@ public class RegressionTest1 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test684");
         try {
-            esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager virtualSPPURIsManager2 = new esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager(100,
-                                                                                                                                       7);
-            org.junit.Assert.fail("Expected exception of type java.lang.IllegalArgumentException; message: bound must be positive");
+            esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager virtualSPPURIsManager2 = new esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager(
+                100, 7);
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IllegalArgumentException; message: bound must be positive");
         } catch (java.lang.IllegalArgumentException e) {
         }
     }
@@ -14799,24 +15120,26 @@ public class RegressionTest1 {
         longList7.ensureCapacity(4);
         boolean boolean13 = longList7.add((java.lang.Long) 281475010265079L);
         org.ccsds.moims.mo.mal.structures.UShortList uShortList14 = new org.ccsds.moims.mo.mal.structures.UShortList();
-        java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream15 = uShortList14.parallelStream();
+        java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream15 = uShortList14
+            .parallelStream();
         java.lang.Integer[] intArray19 = new java.lang.Integer[]{(-1), 9, 9};
         java.util.ArrayList<java.lang.Integer> intList20 = new java.util.ArrayList<java.lang.Integer>();
         boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList20,
-                                                         intArray19);
+            intArray19);
         intList20.trimToSize();
         java.util.stream.Stream<java.lang.Integer> intStream23 = intList20.parallelStream();
         boolean boolean24 = uShortList14.remove((java.lang.Object) intList20);
-        org.ccsds.moims.mo.mal.structures.URIList uRIList26 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList26 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray30 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList31 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean32 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList31,
-                                                         longArray30);
+            longArray30);
         int int34 = longList31.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray39 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList40 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean41 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList40,
-                                                         shortArray39);
+            shortArray39);
         java.util.ListIterator<java.lang.Short> shortItor43 = shortList40.listIterator((int) (byte) 1);
         boolean boolean45 = shortList40.contains((java.lang.Object) true);
         java.lang.Short short48 = shortList40.set(1, (java.lang.Short) (short) 0);
@@ -14824,12 +15147,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray53 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList54 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean55 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList54,
-                                                         longArray53);
+            longArray53);
         int int57 = longList54.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray62 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList63 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean64 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList63,
-                                                         shortArray62);
+            shortArray62);
         java.util.ListIterator<java.lang.Short> shortItor66 = shortList63.listIterator((int) (byte) 1);
         boolean boolean68 = shortList63.contains((java.lang.Object) true);
         java.lang.Short short71 = shortList63.set(1, (java.lang.Short) (short) 0);
@@ -14853,7 +15176,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray90 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList91 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean92 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList91,
-                                                         shortArray90);
+            shortArray90);
         java.util.ListIterator<java.lang.Short> shortItor94 = shortList91.listIterator((int) (byte) 1);
         boolean boolean95 = uRIList26.containsAll((java.util.Collection<java.lang.Short>) shortList91);
         boolean boolean96 = intList20.containsAll((java.util.Collection<java.lang.Short>) shortList91);
@@ -14905,15 +15228,16 @@ public class RegressionTest1 {
     public void test686() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test686");
-        esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager virtualSPPURIsManager2 = new esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager((int) (byte) -1,
-                                                                                                                                   8);
+        esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager virtualSPPURIsManager2 = new esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager(
+            (int) (byte) -1, 8);
     }
 
     @Test
     public void test687() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test687");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -14921,7 +15245,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -14929,12 +15253,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -14960,7 +15284,7 @@ public class RegressionTest1 {
         java.lang.Float[] floatArray65 = new java.lang.Float[]{(-1.0f), 0.0f};
         java.util.ArrayList<java.lang.Float> floatList66 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean67 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList66,
-                                                         floatArray65);
+            floatArray65);
         java.util.stream.Stream<java.lang.Float> floatStream68 = floatList66.parallelStream();
         floatList66.trimToSize();
         java.util.Spliterator<java.lang.Float> floatSpliterator70 = floatList66.spliterator();
@@ -15004,7 +15328,8 @@ public class RegressionTest1 {
     public void test688() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test688");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -15012,7 +15337,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -15020,12 +15345,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -15080,7 +15405,8 @@ public class RegressionTest1 {
     public void test689() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test689");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -15088,7 +15414,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -15096,12 +15422,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -15132,7 +15458,7 @@ public class RegressionTest1 {
         java.lang.Double[] doubleArray73 = new java.lang.Double[]{10.0d, 0.0d, 100.0d};
         java.util.ArrayList<java.lang.Double> doubleList74 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean75 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList74,
-                                                         doubleArray73);
+            doubleArray73);
         java.lang.Object[] objArray76 = doubleList74.toArray();
         java.util.stream.Stream<java.lang.Double> doubleStream77 = doubleList74.stream();
         boolean boolean78 = uRIList1.equals((java.lang.Object) doubleList74);
@@ -15178,7 +15504,8 @@ public class RegressionTest1 {
     public void test690() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test690");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -15186,7 +15513,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -15194,12 +15521,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -15264,9 +15591,11 @@ public class RegressionTest1 {
     public void test691() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test691");
-        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 100);
+        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 100);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet2 = org.ccsds.moims.mo.mal.structures.UOctet.AREA_VERSION;
-        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray8 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList9 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean10 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList9, longArray8);
@@ -15274,7 +15603,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray17 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList18 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList18,
-                                                         shortArray17);
+            shortArray17);
         java.util.ListIterator<java.lang.Short> shortItor21 = shortList18.listIterator((int) (byte) 1);
         boolean boolean23 = shortList18.contains((java.lang.Object) true);
         java.lang.Short short26 = shortList18.set(1, (java.lang.Short) (short) 0);
@@ -15282,12 +15611,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray31 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList32 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList32,
-                                                         longArray31);
+            longArray31);
         int int35 = longList32.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray40 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList41 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList41,
-                                                         shortArray40);
+            shortArray40);
         java.util.ListIterator<java.lang.Short> shortItor44 = shortList41.listIterator((int) (byte) 1);
         boolean boolean46 = shortList41.contains((java.lang.Object) true);
         java.lang.Short short49 = shortList41.set(1, (java.lang.Short) (short) 0);
@@ -15309,15 +15638,17 @@ public class RegressionTest1 {
         esa.mo.nmf.groundmoproxy.ProtocolBridge[] protocolBridgeArray62 = uRIList4.toArray(protocolBridgeArray61);
         org.ccsds.moims.mo.mal.structures.UShort uShort63 = uRIList4.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort64 = org.ccsds.moims.mo.mal.structures.DoubleList.SERVICE_SHORT_FORM;
-        org.ccsds.moims.mo.mal.structures.FineTime fineTime66 = new org.ccsds.moims.mo.mal.structures.FineTime((long) (byte) 1);
+        org.ccsds.moims.mo.mal.structures.FineTime fineTime66 = new org.ccsds.moims.mo.mal.structures.FineTime(
+            (long) (byte) 1);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet67 = fineTime66.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.UShort uShort68 = fineTime66.getServiceNumber();
-        org.ccsds.moims.mo.mal.structures.BooleanList booleanList70 = new org.ccsds.moims.mo.mal.structures.BooleanList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.BooleanList booleanList70 = new org.ccsds.moims.mo.mal.structures.BooleanList(
+            (int) (byte) 10);
         org.ccsds.moims.mo.mal.structures.UShort uShort71 = org.ccsds.moims.mo.mal.structures.IntegerList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray72 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort71};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList73 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean74 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList73,
-                                                         uShortArray72);
+        boolean boolean74 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList73, uShortArray72);
         org.ccsds.moims.mo.mal.structures.UShort uShort76 = org.ccsds.moims.mo.mal.structures.IntegerList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort uShort77 = uShortList73.set(0, uShort76);
         boolean boolean78 = booleanList70.remove((java.lang.Object) uShort76);
@@ -15326,8 +15657,8 @@ public class RegressionTest1 {
                                                                                                                   uShort68,
                                                                                                                   uShort76};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList80 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean81 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList80,
-                                                         uShortArray79);
+        boolean boolean81 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList80, uShortArray79);
         int int82 = uShortList80.size();
         boolean boolean83 = uOctet2.equals((java.lang.Object) uShortList80);
         java.util.Iterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor84 = uShortList80.iterator();
@@ -15386,7 +15717,8 @@ public class RegressionTest1 {
     public void test692() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test692");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -15394,7 +15726,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -15402,12 +15734,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -15438,7 +15770,8 @@ public class RegressionTest1 {
         java.lang.Long long70 = uRI66.getShortForm();
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI71 = uRIList1.set(6, uRI66);
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 6, Size: 0");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 6, Size: 0");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(longArray5);
@@ -15479,22 +15812,24 @@ public class RegressionTest1 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test693");
         org.ccsds.moims.mo.mal.structures.FloatList floatList1 = new org.ccsds.moims.mo.mal.structures.FloatList(3);
-        org.ccsds.moims.mo.mal.structures.Duration duration3 = new org.ccsds.moims.mo.mal.structures.Duration((double) (-2));
+        org.ccsds.moims.mo.mal.structures.Duration duration3 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (-2));
         java.lang.String str4 = duration3.toString();
         java.lang.String str5 = duration3.toString();
         int int6 = floatList1.lastIndexOf((java.lang.Object) duration3);
         java.util.stream.Stream<java.lang.Float> floatStream7 = floatList1.stream();
         java.util.Spliterator<java.lang.Float> floatSpliterator8 = floatList1.spliterator();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList10 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList10 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray14 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList15 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList15,
-                                                         longArray14);
+            longArray14);
         int int18 = longList15.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray23 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList24 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean25 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList24,
-                                                         shortArray23);
+            shortArray23);
         java.util.ListIterator<java.lang.Short> shortItor27 = shortList24.listIterator((int) (byte) 1);
         boolean boolean29 = shortList24.contains((java.lang.Object) true);
         java.lang.Short short32 = shortList24.set(1, (java.lang.Short) (short) 0);
@@ -15502,12 +15837,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray37 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList38 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList38,
-                                                         longArray37);
+            longArray37);
         int int41 = longList38.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray46 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList47 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean48 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList47,
-                                                         shortArray46);
+            shortArray46);
         java.util.ListIterator<java.lang.Short> shortItor50 = shortList47.listIterator((int) (byte) 1);
         boolean boolean52 = shortList47.contains((java.lang.Object) true);
         java.lang.Short short55 = shortList47.set(1, (java.lang.Short) (short) 0);
@@ -15531,7 +15866,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray74 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList75 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean76 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList75,
-                                                         shortArray74);
+            shortArray74);
         java.util.ListIterator<java.lang.Short> shortItor78 = shortList75.listIterator((int) (byte) 1);
         boolean boolean79 = uRIList10.containsAll((java.util.Collection<java.lang.Short>) shortList75);
         java.lang.Integer int80 = uRIList10.getTypeShortForm();
@@ -15548,7 +15883,8 @@ public class RegressionTest1 {
         int int92 = floatList1.indexOf((java.lang.Object) uShort91);
         try {
             java.lang.Float float94 = floatList1.remove(15);
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 15, Size: 0");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 15, Size: 0");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertTrue("'" + str4 + "' != '" + "-2.0" + "'", str4.equals("-2.0"));
@@ -15600,9 +15936,11 @@ public class RegressionTest1 {
     public void test694() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test694");
-        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 100);
+        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 100);
         double double2 = duration1.getValue();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray8 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList9 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean10 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList9, longArray8);
@@ -15610,7 +15948,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray17 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList18 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList18,
-                                                         shortArray17);
+            shortArray17);
         java.util.ListIterator<java.lang.Short> shortItor21 = shortList18.listIterator((int) (byte) 1);
         boolean boolean23 = shortList18.contains((java.lang.Object) true);
         java.lang.Short short26 = shortList18.set(1, (java.lang.Short) (short) 0);
@@ -15618,12 +15956,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray31 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList32 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList32,
-                                                         longArray31);
+            longArray31);
         int int35 = longList32.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray40 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList41 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList41,
-                                                         shortArray40);
+            shortArray40);
         java.util.ListIterator<java.lang.Short> shortItor44 = shortList41.listIterator((int) (byte) 1);
         boolean boolean46 = shortList41.contains((java.lang.Object) true);
         java.lang.Short short49 = shortList41.set(1, (java.lang.Short) (short) 0);
@@ -15649,10 +15987,12 @@ public class RegressionTest1 {
         uRIList4.trimToSize();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet67 = uRIList4.getAreaVersion();
         boolean boolean68 = uRIList4.isEmpty();
-        org.ccsds.moims.mo.mal.structures.IntegerList integerList70 = new org.ccsds.moims.mo.mal.structures.IntegerList(11);
+        org.ccsds.moims.mo.mal.structures.IntegerList integerList70 = new org.ccsds.moims.mo.mal.structures.IntegerList(
+            11);
         java.lang.Integer int71 = integerList70.getTypeShortForm();
         org.ccsds.moims.mo.mal.structures.UShort uShort72 = integerList70.getAreaNumber();
-        org.ccsds.moims.mo.mal.structures.Identifier identifier74 = new org.ccsds.moims.mo.mal.structures.Identifier("hi!");
+        org.ccsds.moims.mo.mal.structures.Identifier identifier74 = new org.ccsds.moims.mo.mal.structures.Identifier(
+            "hi!");
         java.lang.String str75 = identifier74.toString();
         org.ccsds.moims.mo.mal.structures.UShort uShort76 = identifier74.getAreaNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort77 = identifier74.getAreaNumber();
@@ -15708,7 +16048,8 @@ public class RegressionTest1 {
     public void test695() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test695");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -15716,7 +16057,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -15724,12 +16065,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -15787,7 +16128,8 @@ public class RegressionTest1 {
     public void test696() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test696");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -15795,7 +16137,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -15803,12 +16145,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -15834,17 +16176,18 @@ public class RegressionTest1 {
         java.lang.Float[] floatArray65 = new java.lang.Float[]{(-1.0f), 0.0f};
         java.util.ArrayList<java.lang.Float> floatList66 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean67 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList66,
-                                                         floatArray65);
+            floatArray65);
         java.util.stream.Stream<java.lang.Float> floatStream68 = floatList66.parallelStream();
         floatList66.trimToSize();
         java.util.Spliterator<java.lang.Float> floatSpliterator70 = floatList66.spliterator();
         boolean boolean71 = uRIList1.equals((java.lang.Object) floatSpliterator70);
-        org.ccsds.moims.mo.mal.structures.BooleanList booleanList73 = new org.ccsds.moims.mo.mal.structures.BooleanList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.BooleanList booleanList73 = new org.ccsds.moims.mo.mal.structures.BooleanList(
+            (int) (byte) 10);
         org.ccsds.moims.mo.mal.structures.LongList longList74 = new org.ccsds.moims.mo.mal.structures.LongList();
         java.lang.Short[] shortArray79 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList80 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean81 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList80,
-                                                         shortArray79);
+            shortArray79);
         java.util.ListIterator<java.lang.Short> shortItor83 = shortList80.listIterator((int) (byte) 1);
         int int84 = shortList80.size();
         boolean boolean85 = longList74.removeAll((java.util.Collection<java.lang.Short>) shortList80);
@@ -15914,18 +16257,20 @@ public class RegressionTest1 {
         int int14 = byteList8.indexOf((java.lang.Object) 281474993487890L);
         java.util.ListIterator<java.lang.Byte> byteItor15 = byteList8.listIterator();
         int int16 = floatList1.lastIndexOf((java.lang.Object) byteList8);
-        org.ccsds.moims.mo.mal.structures.Duration duration18 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 100);
+        org.ccsds.moims.mo.mal.structures.Duration duration18 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 100);
         double double19 = duration18.getValue();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList21 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList21 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray25 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList26 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList26,
-                                                         longArray25);
+            longArray25);
         int int29 = longList26.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray34 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList35 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean36 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList35,
-                                                         shortArray34);
+            shortArray34);
         java.util.ListIterator<java.lang.Short> shortItor38 = shortList35.listIterator((int) (byte) 1);
         boolean boolean40 = shortList35.contains((java.lang.Object) true);
         java.lang.Short short43 = shortList35.set(1, (java.lang.Short) (short) 0);
@@ -15933,12 +16278,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray48 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList49 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean50 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList49,
-                                                         longArray48);
+            longArray48);
         int int52 = longList49.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray57 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList58 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean59 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList58,
-                                                         shortArray57);
+            shortArray57);
         java.util.ListIterator<java.lang.Short> shortItor61 = shortList58.listIterator((int) (byte) 1);
         boolean boolean63 = shortList58.contains((java.lang.Object) true);
         java.lang.Short short66 = shortList58.set(1, (java.lang.Short) (short) 0);
@@ -16009,9 +16354,11 @@ public class RegressionTest1 {
     public void test698() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test698");
-        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 100);
+        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 100);
         double double2 = duration1.getValue();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray8 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList9 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean10 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList9, longArray8);
@@ -16019,7 +16366,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray17 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList18 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList18,
-                                                         shortArray17);
+            shortArray17);
         java.util.ListIterator<java.lang.Short> shortItor21 = shortList18.listIterator((int) (byte) 1);
         boolean boolean23 = shortList18.contains((java.lang.Object) true);
         java.lang.Short short26 = shortList18.set(1, (java.lang.Short) (short) 0);
@@ -16027,12 +16374,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray31 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList32 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList32,
-                                                         longArray31);
+            longArray31);
         int int35 = longList32.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray40 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList41 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList41,
-                                                         shortArray40);
+            shortArray40);
         java.util.ListIterator<java.lang.Short> shortItor44 = shortList41.listIterator((int) (byte) 1);
         boolean boolean46 = shortList41.contains((java.lang.Object) true);
         java.lang.Short short49 = shortList41.set(1, (java.lang.Short) (short) 0);
@@ -16104,18 +16451,20 @@ public class RegressionTest1 {
                                                                  18, (-13)};
         java.util.ArrayList<java.lang.Integer> intList26 = new java.util.ArrayList<java.lang.Integer>();
         boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList26,
-                                                         intArray25);
-        org.ccsds.moims.mo.mal.structures.ShortList shortList29 = new org.ccsds.moims.mo.mal.structures.ShortList((int) 'a');
+            intArray25);
+        org.ccsds.moims.mo.mal.structures.ShortList shortList29 = new org.ccsds.moims.mo.mal.structures.ShortList(
+            (int) 'a');
         java.lang.Float[] floatArray32 = new java.lang.Float[]{(-1.0f), 0.0f};
         java.util.ArrayList<java.lang.Float> floatList33 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean34 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList33,
-                                                         floatArray32);
+            floatArray32);
         java.util.stream.Stream<java.lang.Float> floatStream35 = floatList33.parallelStream();
         java.util.stream.BaseStream[] baseStreamArray37 = new java.util.stream.BaseStream[1];
         @SuppressWarnings("unchecked")
         java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[] floatBaseStreamArray38 = (java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[]) baseStreamArray37;
         floatBaseStreamArray38[0] = floatStream35;
-        java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[] floatBaseStreamArray41 = shortList29.toArray(floatBaseStreamArray38);
+        java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[] floatBaseStreamArray41 = shortList29
+            .toArray(floatBaseStreamArray38);
         boolean boolean42 = intList26.equals((java.lang.Object) shortList29);
         boolean boolean44 = shortList29.add((java.lang.Short) (short) 1);
         java.lang.Object obj45 = shortList29.clone();
@@ -16123,7 +16472,7 @@ public class RegressionTest1 {
         java.lang.Integer[] intArray50 = new java.lang.Integer[]{(-1), 9, 9};
         java.util.ArrayList<java.lang.Integer> intList51 = new java.util.ArrayList<java.lang.Integer>();
         boolean boolean52 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList51,
-                                                         intArray50);
+            intArray50);
         intList51.trimToSize();
         java.util.stream.Stream<java.lang.Integer> intStream54 = intList51.parallelStream();
         java.util.Iterator<java.lang.Integer> intItor55 = intList51.iterator();
@@ -16131,13 +16480,15 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UOctet uOctet57 = uOctet56.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.UShort uShort58 = uOctet56.getAreaNumber();
         boolean boolean59 = intList51.remove((java.lang.Object) uOctet56);
-        org.ccsds.moims.mo.mal.structures.StringList stringList61 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.StringList stringList61 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (byte) 10);
         stringList61.ensureCapacity((-2));
         esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP protocolBridgeSPP64 = new esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP();
         boolean boolean65 = stringList61.remove((java.lang.Object) protocolBridgeSPP64);
         int int66 = intList51.indexOf((java.lang.Object) stringList61);
         boolean boolean67 = longList1.contains((java.lang.Object) stringList61);
-        org.ccsds.moims.mo.mal.structures.Duration duration69 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 1);
+        org.ccsds.moims.mo.mal.structures.Duration duration69 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 1);
         boolean boolean70 = stringList61.remove((java.lang.Object) duration69);
         stringList61.ensureCapacity((int) (byte) -1);
         org.junit.Assert.assertNotNull(intArray25);
@@ -16170,7 +16521,8 @@ public class RegressionTest1 {
     public void test700() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test700");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -16178,7 +16530,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -16186,12 +16538,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -16213,22 +16565,24 @@ public class RegressionTest1 {
         esa.mo.nmf.groundmoproxy.ProtocolBridge[] protocolBridgeArray59 = uRIList1.toArray(protocolBridgeArray58);
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.URI> uRIStream60 = uRIList1.parallelStream();
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.URI> uRIStream61 = uRIList1.stream();
-        org.ccsds.moims.mo.mal.structures.BooleanList booleanList63 = new org.ccsds.moims.mo.mal.structures.BooleanList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.BooleanList booleanList63 = new org.ccsds.moims.mo.mal.structures.BooleanList(
+            (int) (byte) 10);
         org.ccsds.moims.mo.mal.structures.UShort uShort64 = booleanList63.getServiceNumber();
         java.lang.Short[] shortArray69 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList70 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean71 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList70,
-                                                         shortArray69);
+            shortArray69);
         java.util.ListIterator<java.lang.Short> shortItor73 = shortList70.listIterator((int) (byte) 1);
         java.lang.Object obj74 = shortList70.clone();
         java.util.ListIterator<java.lang.Short> shortItor75 = shortList70.listIterator();
         boolean boolean76 = booleanList63.containsAll((java.util.Collection<java.lang.Short>) shortList70);
-        org.ccsds.moims.mo.mal.structures.BooleanList booleanList78 = new org.ccsds.moims.mo.mal.structures.BooleanList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.BooleanList booleanList78 = new org.ccsds.moims.mo.mal.structures.BooleanList(
+            (int) (byte) 10);
         org.ccsds.moims.mo.mal.structures.UShort uShort79 = booleanList78.getServiceNumber();
         java.lang.Short[] shortArray84 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList85 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean86 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList85,
-                                                         shortArray84);
+            shortArray84);
         java.util.ListIterator<java.lang.Short> shortItor88 = shortList85.listIterator((int) (byte) 1);
         java.lang.Object obj89 = shortList85.clone();
         java.util.ListIterator<java.lang.Short> shortItor90 = shortList85.listIterator();
@@ -16290,11 +16644,12 @@ public class RegressionTest1 {
     public void test701() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test701");
-        esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager virtualSPPURIsManager2 = new esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager((int) (short) 10,
-                                                                                                                                   12);
+        esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager virtualSPPURIsManager2 = new esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager(
+            (int) (short) 10, 12);
         java.lang.String str4 = virtualSPPURIsManager2.getVirtualSPPURI("[-1, -1, 100]");
         java.lang.String str6 = virtualSPPURIsManager2.getURI("[100, 0, -1, 10, 100, 0, -1, 10]");
-        java.lang.String str8 = virtualSPPURIsManager2.getURI("[esa.mo.nmf.groundmoproxy.protocolbrige.spp.apid.start, [-1.0, 0.0], [-1, -1, 100], [], hi!, hi!, , esa.mo.nmf.groundmoproxy.protocolbrige.spp.apid.start, , [-1.0, 0.0], 1]");
+        java.lang.String str8 = virtualSPPURIsManager2.getURI(
+            "[esa.mo.nmf.groundmoproxy.protocolbrige.spp.apid.start, [-1.0, 0.0], [-1, -1, 100], [], hi!, hi!, , esa.mo.nmf.groundmoproxy.protocolbrige.spp.apid.start, , [-1.0, 0.0], 1]");
         java.lang.String str10 = virtualSPPURIsManager2.getURI("malspp:247/10/11");
         java.lang.String str12 = virtualSPPURIsManager2.getVirtualSPPURI("malspp:247/11/216");
         // flaky:         org.junit.Assert.assertTrue("'" + str4 + "' != '" + "malspp:247/10/221" + "'", str4.equals("malspp:247/10/221"));
@@ -16308,7 +16663,8 @@ public class RegressionTest1 {
     public void test702() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test702");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -16316,7 +16672,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -16324,12 +16680,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -16392,7 +16748,8 @@ public class RegressionTest1 {
     public void test703() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test703");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -16400,7 +16757,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -16408,12 +16765,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -16437,7 +16794,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray65 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList66 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean67 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList66,
-                                                         shortArray65);
+            shortArray65);
         java.util.ListIterator<java.lang.Short> shortItor69 = shortList66.listIterator((int) (byte) 1);
         boolean boolean70 = uRIList1.containsAll((java.util.Collection<java.lang.Short>) shortList66);
         org.ccsds.moims.mo.mal.structures.URI uRI72 = new org.ccsds.moims.mo.mal.structures.URI("100.0");
@@ -16496,7 +16853,8 @@ public class RegressionTest1 {
     public void test704() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test704");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -16504,7 +16862,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -16512,12 +16870,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -16544,15 +16902,15 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort65 = org.ccsds.moims.mo.mal.structures.IntegerList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray66 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort65};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList67 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean68 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList67,
-                                                         uShortArray66);
+        boolean boolean68 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList67, uShortArray66);
         org.ccsds.moims.mo.mal.structures.UShort uShort70 = org.ccsds.moims.mo.mal.structures.IntegerList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort uShort71 = uShortList67.set(0, uShort70);
         int int72 = uShortList67.size();
         java.lang.String[] strArray75 = new java.lang.String[]{"", "hi!"};
         java.util.ArrayList<java.lang.String> strList76 = new java.util.ArrayList<java.lang.String>();
         boolean boolean77 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList76,
-                                                         strArray75);
+            strArray75);
         strList76.ensureCapacity((int) (byte) -1);
         boolean boolean80 = uShortList67.remove((java.lang.Object) strList76);
         java.lang.String str83 = strList76.set(1, "[false, false]");
@@ -16608,7 +16966,8 @@ public class RegressionTest1 {
     public void test705() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test705");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -16616,7 +16975,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -16624,12 +16983,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -16653,7 +17012,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray65 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList66 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean67 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList66,
-                                                         shortArray65);
+            shortArray65);
         java.util.ListIterator<java.lang.Short> shortItor69 = shortList66.listIterator((int) (byte) 1);
         boolean boolean70 = uRIList1.containsAll((java.util.Collection<java.lang.Short>) shortList66);
         org.ccsds.moims.mo.mal.structures.URI uRI72 = new org.ccsds.moims.mo.mal.structures.URI("100.0");
@@ -16667,7 +17026,8 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort81 = octetList75.getAreaNumber();
         java.lang.Object obj82 = octetList75.clone();
         boolean boolean83 = uRIList1.remove((java.lang.Object) octetList75);
-        org.ccsds.moims.mo.mal.structures.LongList longList85 = new org.ccsds.moims.mo.mal.structures.LongList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.LongList longList85 = new org.ccsds.moims.mo.mal.structures.LongList(
+            (int) (short) 0);
         org.ccsds.moims.mo.mal.structures.Element element86 = longList85.createElement();
         java.lang.Integer int87 = longList85.getTypeShortForm();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet88 = longList85.getAreaVersion();
@@ -16720,7 +17080,8 @@ public class RegressionTest1 {
     public void test706() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test706");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -16728,7 +17089,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -16736,12 +17097,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -16801,7 +17162,8 @@ public class RegressionTest1 {
     public void test707() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test707");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -16809,7 +17171,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -16817,12 +17179,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -16887,7 +17249,8 @@ public class RegressionTest1 {
     public void test708() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test708");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -16895,7 +17258,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -16903,12 +17266,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -16937,11 +17300,13 @@ public class RegressionTest1 {
         java.lang.Integer int67 = doubleList66.getTypeShortForm();
         java.lang.Object obj68 = doubleList66.clone();
         int int69 = doubleList66.size();
-        org.ccsds.moims.mo.mal.structures.StringList stringList71 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.StringList stringList71 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (byte) 10);
         stringList71.ensureCapacity((-2));
         esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP protocolBridgeSPP74 = new esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP();
         boolean boolean75 = stringList71.remove((java.lang.Object) protocolBridgeSPP74);
-        org.ccsds.moims.mo.mal.structures.StringList stringList77 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.StringList stringList77 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (byte) 10);
         stringList77.ensureCapacity((-2));
         esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP protocolBridgeSPP80 = new esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP();
         boolean boolean81 = stringList77.remove((java.lang.Object) protocolBridgeSPP80);
@@ -16949,8 +17314,10 @@ public class RegressionTest1 {
         esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP[] protocolBridgeSPPArray83 = new esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP[]{protocolBridgeSPP74,
                                                                                                                                  protocolBridgeSPP80,
                                                                                                                                  protocolBridgeSPP82};
-        esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP[] protocolBridgeSPPArray84 = doubleList66.toArray(protocolBridgeSPPArray83);
-        esa.mo.nmf.groundmoproxy.ProtocolBridge[] protocolBridgeArray85 = uRIList1.toArray((esa.mo.nmf.groundmoproxy.ProtocolBridge[]) protocolBridgeSPPArray84);
+        esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP[] protocolBridgeSPPArray84 = doubleList66.toArray(
+            protocolBridgeSPPArray83);
+        esa.mo.nmf.groundmoproxy.ProtocolBridge[] protocolBridgeArray85 = uRIList1.toArray(
+            (esa.mo.nmf.groundmoproxy.ProtocolBridge[]) protocolBridgeSPPArray84);
         org.ccsds.moims.mo.mal.structures.UShort uShort86 = uRIList1.getServiceNumber();
         org.junit.Assert.assertNotNull(longArray5);
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7);
@@ -16995,7 +17362,8 @@ public class RegressionTest1 {
     public void test709() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test709");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -17003,7 +17371,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -17011,12 +17379,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -17077,7 +17445,8 @@ public class RegressionTest1 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test710");
         org.ccsds.moims.mo.mal.structures.UOctet uOctet0 = org.ccsds.moims.mo.mal.structures.UOctet.AREA_VERSION;
-        org.ccsds.moims.mo.mal.structures.URIList uRIList2 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList2 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray6 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList7 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean8 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList7, longArray6);
@@ -17085,7 +17454,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray15 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList16 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList16,
-                                                         shortArray15);
+            shortArray15);
         java.util.ListIterator<java.lang.Short> shortItor19 = shortList16.listIterator((int) (byte) 1);
         boolean boolean21 = shortList16.contains((java.lang.Object) true);
         java.lang.Short short24 = shortList16.set(1, (java.lang.Short) (short) 0);
@@ -17093,12 +17462,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray29 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList30 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean31 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList30,
-                                                         longArray29);
+            longArray29);
         int int33 = longList30.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray38 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList39 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean40 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList39,
-                                                         shortArray38);
+            shortArray38);
         java.util.ListIterator<java.lang.Short> shortItor42 = shortList39.listIterator((int) (byte) 1);
         boolean boolean44 = shortList39.contains((java.lang.Object) true);
         java.lang.Short short47 = shortList39.set(1, (java.lang.Short) (short) 0);
@@ -17120,15 +17489,17 @@ public class RegressionTest1 {
         esa.mo.nmf.groundmoproxy.ProtocolBridge[] protocolBridgeArray60 = uRIList2.toArray(protocolBridgeArray59);
         org.ccsds.moims.mo.mal.structures.UShort uShort61 = uRIList2.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort62 = org.ccsds.moims.mo.mal.structures.DoubleList.SERVICE_SHORT_FORM;
-        org.ccsds.moims.mo.mal.structures.FineTime fineTime64 = new org.ccsds.moims.mo.mal.structures.FineTime((long) (byte) 1);
+        org.ccsds.moims.mo.mal.structures.FineTime fineTime64 = new org.ccsds.moims.mo.mal.structures.FineTime(
+            (long) (byte) 1);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet65 = fineTime64.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.UShort uShort66 = fineTime64.getServiceNumber();
-        org.ccsds.moims.mo.mal.structures.BooleanList booleanList68 = new org.ccsds.moims.mo.mal.structures.BooleanList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.BooleanList booleanList68 = new org.ccsds.moims.mo.mal.structures.BooleanList(
+            (int) (byte) 10);
         org.ccsds.moims.mo.mal.structures.UShort uShort69 = org.ccsds.moims.mo.mal.structures.IntegerList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray70 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort69};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList71 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean72 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList71,
-                                                         uShortArray70);
+        boolean boolean72 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList71, uShortArray70);
         org.ccsds.moims.mo.mal.structures.UShort uShort74 = org.ccsds.moims.mo.mal.structures.IntegerList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort uShort75 = uShortList71.set(0, uShort74);
         boolean boolean76 = booleanList68.remove((java.lang.Object) uShort74);
@@ -17137,17 +17508,19 @@ public class RegressionTest1 {
                                                                                                                   uShort66,
                                                                                                                   uShort74};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList78 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean79 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList78,
-                                                         uShortArray77);
+        boolean boolean79 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList78, uShortArray77);
         int int80 = uShortList78.size();
         boolean boolean81 = uOctet0.equals((java.lang.Object) uShortList78);
         java.util.Iterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor82 = uShortList78.iterator();
         java.lang.String str83 = uShortList78.toString();
-        org.ccsds.moims.mo.mal.structures.Duration duration85 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 100);
+        org.ccsds.moims.mo.mal.structures.Duration duration85 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 100);
         org.ccsds.moims.mo.mal.structures.UShort uShort86 = duration85.getServiceNumber();
         java.lang.Long long87 = duration85.getShortForm();
         int int88 = uShortList78.lastIndexOf((java.lang.Object) long87);
-        java.util.Spliterator<org.ccsds.moims.mo.mal.structures.UShort> uShortSpliterator89 = uShortList78.spliterator();
+        java.util.Spliterator<org.ccsds.moims.mo.mal.structures.UShort> uShortSpliterator89 = uShortList78
+            .spliterator();
         org.junit.Assert.assertNotNull(uOctet0);
         org.junit.Assert.assertNotNull(longArray6);
         org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + true + "'", boolean8);
@@ -17198,7 +17571,8 @@ public class RegressionTest1 {
     public void test711() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test711");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -17206,7 +17580,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -17214,12 +17588,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -17280,9 +17654,11 @@ public class RegressionTest1 {
     public void test712() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test712");
-        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 100);
+        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 100);
         double double2 = duration1.getValue();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray8 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList9 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean10 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList9, longArray8);
@@ -17290,7 +17666,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray17 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList18 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList18,
-                                                         shortArray17);
+            shortArray17);
         java.util.ListIterator<java.lang.Short> shortItor21 = shortList18.listIterator((int) (byte) 1);
         boolean boolean23 = shortList18.contains((java.lang.Object) true);
         java.lang.Short short26 = shortList18.set(1, (java.lang.Short) (short) 0);
@@ -17298,12 +17674,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray31 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList32 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList32,
-                                                         longArray31);
+            longArray31);
         int int35 = longList32.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray40 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList41 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList41,
-                                                         shortArray40);
+            shortArray40);
         java.util.ListIterator<java.lang.Short> shortItor44 = shortList41.listIterator((int) (byte) 1);
         boolean boolean46 = shortList41.contains((java.lang.Object) true);
         java.lang.Short short49 = shortList41.set(1, (java.lang.Short) (short) 0);
@@ -17372,7 +17748,8 @@ public class RegressionTest1 {
     public void test713() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test713");
-        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (byte) 10);
         stringList1.ensureCapacity((-2));
         esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP protocolBridgeSPP4 = new esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP();
         boolean boolean5 = stringList1.remove((java.lang.Object) protocolBridgeSPP4);
@@ -17387,7 +17764,8 @@ public class RegressionTest1 {
     public void test714() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test714");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -17395,7 +17773,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -17403,12 +17781,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -17471,7 +17849,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray5 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList6 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList6,
-                                                        shortArray5);
+            shortArray5);
         java.util.ListIterator<java.lang.Short> shortItor9 = shortList6.listIterator((int) (byte) 1);
         java.lang.Object obj10 = shortList6.clone();
         boolean boolean11 = doubleList0.containsAll((java.util.Collection<java.lang.Short>) shortList6);
@@ -17479,16 +17857,17 @@ public class RegressionTest1 {
         java.util.stream.Stream<java.lang.Double> doubleStream13 = doubleList0.stream();
         java.util.stream.Stream<java.lang.Double> doubleStream14 = doubleList0.parallelStream();
         java.lang.String str15 = doubleList0.toString();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList17 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList17 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray21 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList22 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean23 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList22,
-                                                         longArray21);
+            longArray21);
         int int25 = longList22.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray30 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList31 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean32 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList31,
-                                                         shortArray30);
+            shortArray30);
         java.util.ListIterator<java.lang.Short> shortItor34 = shortList31.listIterator((int) (byte) 1);
         boolean boolean36 = shortList31.contains((java.lang.Object) true);
         java.lang.Short short39 = shortList31.set(1, (java.lang.Short) (short) 0);
@@ -17496,12 +17875,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray44 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList45 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean46 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList45,
-                                                         longArray44);
+            longArray44);
         int int48 = longList45.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray53 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList54 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean55 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList54,
-                                                         shortArray53);
+            shortArray53);
         java.util.ListIterator<java.lang.Short> shortItor57 = shortList54.listIterator((int) (byte) 1);
         boolean boolean59 = shortList54.contains((java.lang.Object) true);
         java.lang.Short short62 = shortList54.set(1, (java.lang.Short) (short) 0);
@@ -17575,8 +17954,8 @@ public class RegressionTest1 {
     public void test717() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test717");
-        esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager virtualSPPURIsManager2 = new esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager(0,
-                                                                                                                                   14);
+        esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager virtualSPPURIsManager2 = new esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager(
+            0, 14);
         java.lang.String str4 = virtualSPPURIsManager2.getURI("malspp:247/12/162");
         java.lang.String str6 = virtualSPPURIsManager2.getURI("[100, 1, -1, 10]");
         org.junit.Assert.assertNull(str4);
@@ -17587,7 +17966,8 @@ public class RegressionTest1 {
     public void test718() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test718");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -17595,7 +17975,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -17603,12 +17983,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -17636,11 +18016,11 @@ public class RegressionTest1 {
         java.lang.Integer[] intArray68 = new java.lang.Integer[]{1, (-1), 2};
         java.util.ArrayList<java.lang.Integer> intList69 = new java.util.ArrayList<java.lang.Integer>();
         boolean boolean70 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList69,
-                                                         intArray68);
+            intArray68);
         java.lang.Short[] shortArray75 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList76 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean77 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList76,
-                                                         shortArray75);
+            shortArray75);
         java.util.ListIterator<java.lang.Short> shortItor79 = shortList76.listIterator((int) (byte) 1);
         boolean boolean81 = shortList76.contains((java.lang.Object) true);
         boolean boolean82 = intList69.retainAll((java.util.Collection<java.lang.Short>) shortList76);
@@ -17690,15 +18070,16 @@ public class RegressionTest1 {
     public void test719() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test719");
-        org.ccsds.moims.mo.mal.structures.IntegerList integerList1 = new org.ccsds.moims.mo.mal.structures.IntegerList(11);
+        org.ccsds.moims.mo.mal.structures.IntegerList integerList1 = new org.ccsds.moims.mo.mal.structures.IntegerList(
+            11);
         java.lang.Integer int2 = integerList1.getTypeShortForm();
         java.lang.Long long3 = integerList1.getShortForm();
         org.ccsds.moims.mo.mal.structures.UShort uShort4 = integerList1.getAreaNumber();
         integerList1.clear();
         java.util.stream.Stream<java.lang.Integer> intStream6 = integerList1.stream();
         java.lang.Long long7 = integerList1.getShortForm();
-        esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager virtualSPPURIsManager10 = new esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager((-4),
-                                                                                                                                    18);
+        esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager virtualSPPURIsManager10 = new esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager(
+            (-4), 18);
         boolean boolean11 = integerList1.remove((java.lang.Object) virtualSPPURIsManager10);
         integerList1.clear();
         org.junit.Assert.assertTrue("'" + int2 + "' != '" + (-11) + "'", int2.equals((-11)));
@@ -17720,18 +18101,20 @@ public class RegressionTest1 {
         java.lang.String str6 = union1.toString();
         java.lang.Long long7 = union1.getShortForm();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet8 = union1.getAreaVersion();
-        org.ccsds.moims.mo.mal.structures.Duration duration10 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 100);
+        org.ccsds.moims.mo.mal.structures.Duration duration10 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 100);
         double double11 = duration10.getValue();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList13 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList13 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray17 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList18 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList18,
-                                                         longArray17);
+            longArray17);
         int int21 = longList18.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray26 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList27 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean28 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList27,
-                                                         shortArray26);
+            shortArray26);
         java.util.ListIterator<java.lang.Short> shortItor30 = shortList27.listIterator((int) (byte) 1);
         boolean boolean32 = shortList27.contains((java.lang.Object) true);
         java.lang.Short short35 = shortList27.set(1, (java.lang.Short) (short) 0);
@@ -17739,12 +18122,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray40 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList41 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList41,
-                                                         longArray40);
+            longArray40);
         int int44 = longList41.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray49 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList50 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean51 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList50,
-                                                         shortArray49);
+            shortArray49);
         java.util.ListIterator<java.lang.Short> shortItor53 = shortList50.listIterator((int) (byte) 1);
         boolean boolean55 = shortList50.contains((java.lang.Object) true);
         java.lang.Short short58 = shortList50.set(1, (java.lang.Short) (short) 0);
@@ -17778,7 +18161,8 @@ public class RegressionTest1 {
         uRIList81.add(0, uRI86);
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI88 = uRIList13.set((int) (byte) 1, uRI86);
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 1, Size: 0");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 1, Size: 0");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertTrue("'" + int4 + "' != '" + (-5) + "'", int4.equals((-5)));
@@ -17824,9 +18208,11 @@ public class RegressionTest1 {
     public void test721() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test721");
-        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 100);
+        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 100);
         double double2 = duration1.getValue();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray8 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList9 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean10 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList9, longArray8);
@@ -17834,7 +18220,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray17 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList18 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList18,
-                                                         shortArray17);
+            shortArray17);
         java.util.ListIterator<java.lang.Short> shortItor21 = shortList18.listIterator((int) (byte) 1);
         boolean boolean23 = shortList18.contains((java.lang.Object) true);
         java.lang.Short short26 = shortList18.set(1, (java.lang.Short) (short) 0);
@@ -17842,12 +18228,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray31 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList32 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList32,
-                                                         longArray31);
+            longArray31);
         int int35 = longList32.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray40 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList41 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList41,
-                                                         shortArray40);
+            shortArray40);
         java.util.ListIterator<java.lang.Short> shortItor44 = shortList41.listIterator((int) (byte) 1);
         boolean boolean46 = shortList41.contains((java.lang.Object) true);
         java.lang.Short short49 = shortList41.set(1, (java.lang.Short) (short) 0);
@@ -17909,7 +18295,8 @@ public class RegressionTest1 {
     public void test722() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test722");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -17917,7 +18304,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -17925,12 +18312,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -17951,8 +18338,10 @@ public class RegressionTest1 {
                                                                                                                         protocolBridgeSPP57};
         esa.mo.nmf.groundmoproxy.ProtocolBridge[] protocolBridgeArray59 = uRIList1.toArray(protocolBridgeArray58);
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.URI> uRIStream60 = uRIList1.parallelStream();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList62 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
-        org.ccsds.moims.mo.mal.structures.FineTime fineTime64 = new org.ccsds.moims.mo.mal.structures.FineTime((long) (byte) 1);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList62 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.FineTime fineTime64 = new org.ccsds.moims.mo.mal.structures.FineTime(
+            (long) (byte) 1);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet65 = fineTime64.getAreaVersion();
         int int66 = uRIList62.lastIndexOf((java.lang.Object) uOctet65);
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.URI> uRIStream67 = uRIList62.parallelStream();
@@ -18028,7 +18417,8 @@ public class RegressionTest1 {
     public void test723() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test723");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -18036,7 +18426,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -18044,12 +18434,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -18072,18 +18462,21 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort60 = uRIList1.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet61 = uRIList1.getAreaVersion();
         java.util.Iterator<org.ccsds.moims.mo.mal.structures.URI> uRIItor62 = uRIList1.iterator();
-        org.ccsds.moims.mo.mal.structures.ShortList shortList64 = new org.ccsds.moims.mo.mal.structures.ShortList((int) 'a');
+        org.ccsds.moims.mo.mal.structures.ShortList shortList64 = new org.ccsds.moims.mo.mal.structures.ShortList(
+            (int) 'a');
         java.lang.Float[] floatArray67 = new java.lang.Float[]{(-1.0f), 0.0f};
         java.util.ArrayList<java.lang.Float> floatList68 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean69 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList68,
-                                                         floatArray67);
+            floatArray67);
         java.util.stream.Stream<java.lang.Float> floatStream70 = floatList68.parallelStream();
         java.util.stream.BaseStream[] baseStreamArray72 = new java.util.stream.BaseStream[1];
         @SuppressWarnings("unchecked")
         java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[] floatBaseStreamArray73 = (java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[]) baseStreamArray72;
         floatBaseStreamArray73[0] = floatStream70;
-        java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[] floatBaseStreamArray76 = shortList64.toArray(floatBaseStreamArray73);
-        org.ccsds.moims.mo.mal.structures.ShortList shortList78 = new org.ccsds.moims.mo.mal.structures.ShortList((int) (short) 1);
+        java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[] floatBaseStreamArray76 = shortList64
+            .toArray(floatBaseStreamArray73);
+        org.ccsds.moims.mo.mal.structures.ShortList shortList78 = new org.ccsds.moims.mo.mal.structures.ShortList(
+            (int) (short) 1);
         boolean boolean79 = shortList64.retainAll((java.util.Collection<java.lang.Short>) shortList78);
         int int80 = uRIList1.lastIndexOf((java.lang.Object) shortList64);
         org.ccsds.moims.mo.mal.structures.Element element81 = uRIList1.createElement();
@@ -18128,27 +18521,31 @@ public class RegressionTest1 {
     public void test724() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test724");
-        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (byte) 10);
         stringList1.ensureCapacity((-2));
         esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP protocolBridgeSPP4 = new esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP();
         boolean boolean5 = stringList1.remove((java.lang.Object) protocolBridgeSPP4);
         stringList1.ensureCapacity((-11));
         org.ccsds.moims.mo.mal.structures.Union union9 = new org.ccsds.moims.mo.mal.structures.Union("32");
         int int10 = stringList1.indexOf((java.lang.Object) union9);
-        org.ccsds.moims.mo.mal.structures.BooleanList booleanList12 = new org.ccsds.moims.mo.mal.structures.BooleanList((int) (byte) 10);
-        org.ccsds.moims.mo.mal.structures.URIList uRIList14 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
-        org.ccsds.moims.mo.mal.structures.FineTime fineTime16 = new org.ccsds.moims.mo.mal.structures.FineTime((long) (byte) 1);
+        org.ccsds.moims.mo.mal.structures.BooleanList booleanList12 = new org.ccsds.moims.mo.mal.structures.BooleanList(
+            (int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList14 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.FineTime fineTime16 = new org.ccsds.moims.mo.mal.structures.FineTime(
+            (long) (byte) 1);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet17 = fineTime16.getAreaVersion();
         int int18 = uRIList14.lastIndexOf((java.lang.Object) uOctet17);
         java.lang.Long[] longArray22 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList23 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean24 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList23,
-                                                         longArray22);
+            longArray22);
         int int26 = longList23.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray31 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList32 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList32,
-                                                         shortArray31);
+            shortArray31);
         java.util.ListIterator<java.lang.Short> shortItor35 = shortList32.listIterator((int) (byte) 1);
         boolean boolean37 = shortList32.contains((java.lang.Object) true);
         java.lang.Short short40 = shortList32.set(1, (java.lang.Short) (short) 0);
@@ -18156,12 +18553,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray45 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList46 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean47 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList46,
-                                                         longArray45);
+            longArray45);
         int int49 = longList46.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray54 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList55 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean56 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList55,
-                                                         shortArray54);
+            shortArray54);
         java.util.ListIterator<java.lang.Short> shortItor58 = shortList55.listIterator((int) (byte) 1);
         boolean boolean60 = shortList55.contains((java.lang.Object) true);
         java.lang.Short short63 = shortList55.set(1, (java.lang.Short) (short) 0);
@@ -18174,12 +18571,13 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort71 = org.ccsds.moims.mo.mal.structures.IntegerList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray72 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort71};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList73 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean74 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList73,
-                                                         uShortArray72);
+        boolean boolean74 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList73, uShortArray72);
         org.ccsds.moims.mo.mal.structures.UShort uShort76 = org.ccsds.moims.mo.mal.structures.IntegerList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort uShort77 = uShortList73.set(0, uShort76);
         java.lang.String str78 = uShortList73.toString();
-        java.util.Spliterator<org.ccsds.moims.mo.mal.structures.UShort> uShortSpliterator79 = uShortList73.spliterator();
+        java.util.Spliterator<org.ccsds.moims.mo.mal.structures.UShort> uShortSpliterator79 = uShortList73
+            .spliterator();
         int int80 = booleanList12.indexOf((java.lang.Object) uShortList73);
         java.util.stream.Stream<java.lang.Boolean> booleanStream81 = booleanList12.stream();
         org.ccsds.moims.mo.mal.structures.UShort uShort82 = booleanList12.getAreaNumber();
@@ -18228,14 +18626,16 @@ public class RegressionTest1 {
     public void test725() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test725");
-        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (byte) 10);
         stringList1.ensureCapacity((-2));
         esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP protocolBridgeSPP4 = new esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP();
         boolean boolean5 = stringList1.remove((java.lang.Object) protocolBridgeSPP4);
         java.util.Map map7 = null;
         try {
             protocolBridgeSPP4.init("malspp:247/10/226", map7);
-            org.junit.Assert.fail("Expected exception of type org.ccsds.moims.mo.mal.MALException; message: Unknown transport factory for protocol: malspp");
+            org.junit.Assert.fail(
+                "Expected exception of type org.ccsds.moims.mo.mal.MALException; message: Unknown transport factory for protocol: malspp");
         } catch (org.ccsds.moims.mo.mal.MALException e) {
         }
         org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", !boolean5);
@@ -18256,22 +18656,23 @@ public class RegressionTest1 {
         java.lang.Float[] floatArray2 = new java.lang.Float[]{(-1.0f), 0.0f};
         java.util.ArrayList<java.lang.Float> floatList3 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean4 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList3,
-                                                        floatArray2);
+            floatArray2);
         java.util.stream.Stream<java.lang.Float> floatStream5 = floatList3.parallelStream();
         java.util.ListIterator<java.lang.Float> floatItor6 = floatList3.listIterator();
         java.lang.Object[] objArray7 = floatList3.toArray();
         floatList3.clear();
         boolean boolean10 = floatList3.add((java.lang.Float) 0.0f);
-        org.ccsds.moims.mo.mal.structures.URIList uRIList12 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList12 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray16 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList17 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList17,
-                                                         longArray16);
+            longArray16);
         int int20 = longList17.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray25 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList26 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList26,
-                                                         shortArray25);
+            shortArray25);
         java.util.ListIterator<java.lang.Short> shortItor29 = shortList26.listIterator((int) (byte) 1);
         boolean boolean31 = shortList26.contains((java.lang.Object) true);
         java.lang.Short short34 = shortList26.set(1, (java.lang.Short) (short) 0);
@@ -18279,12 +18680,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray39 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList40 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean41 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList40,
-                                                         longArray39);
+            longArray39);
         int int43 = longList40.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray48 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList49 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean50 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList49,
-                                                         shortArray48);
+            shortArray48);
         java.util.ListIterator<java.lang.Short> shortItor52 = shortList49.listIterator((int) (byte) 1);
         boolean boolean54 = shortList49.contains((java.lang.Object) true);
         java.lang.Short short57 = shortList49.set(1, (java.lang.Short) (short) 0);
@@ -18351,8 +18752,8 @@ public class RegressionTest1 {
     public void test728() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test728");
-        esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager virtualSPPURIsManager2 = new esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager((int) (short) 10,
-                                                                                                                                   12);
+        esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager virtualSPPURIsManager2 = new esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager(
+            (int) (short) 10, 12);
         java.lang.String str4 = virtualSPPURIsManager2.getURI("[1]");
         java.lang.String str6 = virtualSPPURIsManager2.getVirtualSPPURI("[, [false, false]]");
         java.lang.String str8 = virtualSPPURIsManager2.getURI("hi!");
@@ -18365,20 +18766,22 @@ public class RegressionTest1 {
     public void test729() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test729");
-        org.ccsds.moims.mo.mal.structures.LongList longList1 = new org.ccsds.moims.mo.mal.structures.LongList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.LongList longList1 = new org.ccsds.moims.mo.mal.structures.LongList(
+            (int) (short) 0);
         java.util.Spliterator<java.lang.Long> longSpliterator2 = longList1.spliterator();
         java.util.ListIterator<java.lang.Long> longItor3 = longList1.listIterator();
         org.ccsds.moims.mo.mal.structures.UShort uShort4 = longList1.getAreaNumber();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList6 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList6 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray10 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList11 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean12 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList11,
-                                                         longArray10);
+            longArray10);
         int int14 = longList11.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray19 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList20 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList20,
-                                                         shortArray19);
+            shortArray19);
         java.util.ListIterator<java.lang.Short> shortItor23 = shortList20.listIterator((int) (byte) 1);
         boolean boolean25 = shortList20.contains((java.lang.Object) true);
         java.lang.Short short28 = shortList20.set(1, (java.lang.Short) (short) 0);
@@ -18386,12 +18789,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray33 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList34 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean35 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList34,
-                                                         longArray33);
+            longArray33);
         int int37 = longList34.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray42 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList43 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean44 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList43,
-                                                         shortArray42);
+            shortArray42);
         java.util.ListIterator<java.lang.Short> shortItor46 = shortList43.listIterator((int) (byte) 1);
         boolean boolean48 = shortList43.contains((java.lang.Object) true);
         java.lang.Short short51 = shortList43.set(1, (java.lang.Short) (short) 0);
@@ -18459,7 +18862,8 @@ public class RegressionTest1 {
     public void test730() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test730");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -18467,7 +18871,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -18475,12 +18879,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -18505,8 +18909,10 @@ public class RegressionTest1 {
         int int62 = uRIList1.indexOf(obj61);
         java.lang.String str63 = uRIList1.toString();
         java.lang.String str64 = uRIList1.toString();
-        org.ccsds.moims.mo.mal.structures.UShortList uShortList66 = new org.ccsds.moims.mo.mal.structures.UShortList(15);
-        java.util.Spliterator<org.ccsds.moims.mo.mal.structures.UShort> uShortSpliterator67 = uShortList66.spliterator();
+        org.ccsds.moims.mo.mal.structures.UShortList uShortList66 = new org.ccsds.moims.mo.mal.structures.UShortList(
+            15);
+        java.util.Spliterator<org.ccsds.moims.mo.mal.structures.UShort> uShortSpliterator67 = uShortList66
+            .spliterator();
         int int68 = uRIList1.indexOf((java.lang.Object) uShortSpliterator67);
         org.ccsds.moims.mo.mal.structures.URI uRI71 = new org.ccsds.moims.mo.mal.structures.URI("1");
         org.ccsds.moims.mo.mal.structures.UShort uShort72 = uRI71.getServiceNumber();
@@ -18515,7 +18921,8 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort76 = uRI71.getServiceNumber();
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI77 = uRIList1.set(18, uRI71);
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 18, Size: 0");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 18, Size: 0");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(longArray5);
@@ -18557,32 +18964,35 @@ public class RegressionTest1 {
     public void test731() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test731");
-        esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager virtualSPPURIsManager2 = new esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager(7,
-                                                                                                                                   9);
+        esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager virtualSPPURIsManager2 = new esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager(
+            7, 9);
     }
 
     @Test
     public void test732() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test732");
-        org.ccsds.moims.mo.mal.structures.Union union1 = new org.ccsds.moims.mo.mal.structures.Union((java.lang.Double) 0.0d);
+        org.ccsds.moims.mo.mal.structures.Union union1 = new org.ccsds.moims.mo.mal.structures.Union(
+            (java.lang.Double) 0.0d);
         org.ccsds.moims.mo.mal.structures.DoubleList doubleList3 = new org.ccsds.moims.mo.mal.structures.DoubleList(0);
         java.lang.Integer int4 = doubleList3.getTypeShortForm();
         java.lang.Object obj5 = null;
         boolean boolean6 = doubleList3.contains(obj5);
         boolean boolean7 = union1.equals((java.lang.Object) doubleList3);
-        org.ccsds.moims.mo.mal.structures.Duration duration9 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 100);
+        org.ccsds.moims.mo.mal.structures.Duration duration9 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 100);
         double double10 = duration9.getValue();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList12 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList12 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray16 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList17 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList17,
-                                                         longArray16);
+            longArray16);
         int int20 = longList17.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray25 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList26 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList26,
-                                                         shortArray25);
+            shortArray25);
         java.util.ListIterator<java.lang.Short> shortItor29 = shortList26.listIterator((int) (byte) 1);
         boolean boolean31 = shortList26.contains((java.lang.Object) true);
         java.lang.Short short34 = shortList26.set(1, (java.lang.Short) (short) 0);
@@ -18590,12 +19000,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray39 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList40 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean41 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList40,
-                                                         longArray39);
+            longArray39);
         int int43 = longList40.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray48 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList49 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean50 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList49,
-                                                         shortArray48);
+            shortArray48);
         java.util.ListIterator<java.lang.Short> shortItor52 = shortList49.listIterator((int) (byte) 1);
         boolean boolean54 = shortList49.contains((java.lang.Object) true);
         java.lang.Short short57 = shortList49.set(1, (java.lang.Short) (short) 0);
@@ -18625,7 +19035,8 @@ public class RegressionTest1 {
         java.lang.Integer int78 = union1.getTypeShortForm();
         try {
             java.lang.Short short79 = union1.getShortValue();
-            org.junit.Assert.fail("Expected exception of type java.lang.ClassCastException; message: java.lang.Double cannot be cast to java.lang.Short");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.ClassCastException; message: java.lang.Double cannot be cast to java.lang.Short");
         } catch (java.lang.ClassCastException e) {
         }
         org.junit.Assert.assertTrue("'" + int4 + "' != '" + (-5) + "'", int4.equals((-5)));
@@ -18679,16 +19090,17 @@ public class RegressionTest1 {
         strList3.clear();
         strList3.ensureCapacity((int) (byte) 10);
         strList3.trimToSize();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList16 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList16 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray20 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList21 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean22 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList21,
-                                                         longArray20);
+            longArray20);
         int int24 = longList21.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray29 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList30 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean31 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList30,
-                                                         shortArray29);
+            shortArray29);
         java.util.ListIterator<java.lang.Short> shortItor33 = shortList30.listIterator((int) (byte) 1);
         boolean boolean35 = shortList30.contains((java.lang.Object) true);
         java.lang.Short short38 = shortList30.set(1, (java.lang.Short) (short) 0);
@@ -18696,12 +19108,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray43 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList44 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean45 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList44,
-                                                         longArray43);
+            longArray43);
         int int47 = longList44.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray52 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList53 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean54 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList53,
-                                                         shortArray52);
+            shortArray52);
         java.util.ListIterator<java.lang.Short> shortItor56 = shortList53.listIterator((int) (byte) 1);
         boolean boolean58 = shortList53.contains((java.lang.Object) true);
         java.lang.Short short61 = shortList53.set(1, (java.lang.Short) (short) 0);
@@ -18723,7 +19135,8 @@ public class RegressionTest1 {
         esa.mo.nmf.groundmoproxy.ProtocolBridge[] protocolBridgeArray74 = uRIList16.toArray(protocolBridgeArray73);
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.URI> uRIStream75 = uRIList16.parallelStream();
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.URI> uRIStream76 = uRIList16.stream();
-        org.ccsds.moims.mo.mal.structures.FineTime fineTime78 = new org.ccsds.moims.mo.mal.structures.FineTime((long) (byte) 1);
+        org.ccsds.moims.mo.mal.structures.FineTime fineTime78 = new org.ccsds.moims.mo.mal.structures.FineTime(
+            (long) (byte) 1);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet79 = fineTime78.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet80 = fineTime78.getAreaVersion();
         java.lang.Integer int81 = uOctet80.getTypeShortForm();
@@ -18770,21 +19183,24 @@ public class RegressionTest1 {
     public void test734() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test734");
-        org.ccsds.moims.mo.mal.structures.BooleanList booleanList1 = new org.ccsds.moims.mo.mal.structures.BooleanList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.BooleanList booleanList1 = new org.ccsds.moims.mo.mal.structures.BooleanList(
+            (int) (byte) 10);
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = booleanList1.getAreaNumber();
         booleanList1.ensureCapacity(4);
-        org.ccsds.moims.mo.mal.structures.Duration duration6 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 100);
+        org.ccsds.moims.mo.mal.structures.Duration duration6 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 100);
         double double7 = duration6.getValue();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList9 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList9 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray13 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList14 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean15 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList14,
-                                                         longArray13);
+            longArray13);
         int int17 = longList14.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray22 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList23 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean24 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList23,
-                                                         shortArray22);
+            shortArray22);
         java.util.ListIterator<java.lang.Short> shortItor26 = shortList23.listIterator((int) (byte) 1);
         boolean boolean28 = shortList23.contains((java.lang.Object) true);
         java.lang.Short short31 = shortList23.set(1, (java.lang.Short) (short) 0);
@@ -18792,12 +19208,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray36 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList37 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean38 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList37,
-                                                         longArray36);
+            longArray36);
         int int40 = longList37.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray45 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList46 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean47 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList46,
-                                                         shortArray45);
+            shortArray45);
         java.util.ListIterator<java.lang.Short> shortItor49 = shortList46.listIterator((int) (byte) 1);
         boolean boolean51 = shortList46.contains((java.lang.Object) true);
         java.lang.Short short54 = shortList46.set(1, (java.lang.Short) (short) 0);
@@ -18858,7 +19274,8 @@ public class RegressionTest1 {
     public void test735() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test735");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -18866,7 +19283,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -18874,12 +19291,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -18902,7 +19319,8 @@ public class RegressionTest1 {
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.URI> uRIStream60 = uRIList1.parallelStream();
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI62 = uRIList1.get((int) 'a');
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 97, Size: 0");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 97, Size: 0");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(longArray5);
@@ -18935,7 +19353,8 @@ public class RegressionTest1 {
     public void test736() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test736");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -18943,7 +19362,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -18951,12 +19370,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -19022,23 +19441,26 @@ public class RegressionTest1 {
     public void test737() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test737");
-        org.ccsds.moims.mo.mal.structures.IntegerList integerList1 = new org.ccsds.moims.mo.mal.structures.IntegerList(11);
+        org.ccsds.moims.mo.mal.structures.IntegerList integerList1 = new org.ccsds.moims.mo.mal.structures.IntegerList(
+            11);
         java.lang.Integer int2 = integerList1.getTypeShortForm();
         java.lang.Long long3 = integerList1.getShortForm();
         org.ccsds.moims.mo.mal.structures.UShort uShort4 = integerList1.getServiceNumber();
         java.lang.Integer int5 = integerList1.getTypeShortForm();
-        org.ccsds.moims.mo.mal.structures.IntegerList integerList7 = new org.ccsds.moims.mo.mal.structures.IntegerList((int) (short) 100);
+        org.ccsds.moims.mo.mal.structures.IntegerList integerList7 = new org.ccsds.moims.mo.mal.structures.IntegerList(
+            (int) (short) 100);
         java.util.stream.Stream<java.lang.Integer> intStream8 = integerList7.parallelStream();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList10 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList10 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray14 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList15 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList15,
-                                                         longArray14);
+            longArray14);
         int int18 = longList15.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray23 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList24 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean25 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList24,
-                                                         shortArray23);
+            shortArray23);
         java.util.ListIterator<java.lang.Short> shortItor27 = shortList24.listIterator((int) (byte) 1);
         boolean boolean29 = shortList24.contains((java.lang.Object) true);
         java.lang.Short short32 = shortList24.set(1, (java.lang.Short) (short) 0);
@@ -19046,12 +19468,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray37 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList38 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList38,
-                                                         longArray37);
+            longArray37);
         int int41 = longList38.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray46 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList47 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean48 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList47,
-                                                         shortArray46);
+            shortArray46);
         java.util.ListIterator<java.lang.Short> shortItor50 = shortList47.listIterator((int) (byte) 1);
         boolean boolean52 = shortList47.contains((java.lang.Object) true);
         java.lang.Short short55 = shortList47.set(1, (java.lang.Short) (short) 0);
@@ -19073,20 +19495,22 @@ public class RegressionTest1 {
         esa.mo.nmf.groundmoproxy.ProtocolBridge[] protocolBridgeArray68 = uRIList10.toArray(protocolBridgeArray67);
         org.ccsds.moims.mo.mal.structures.UShort uShort69 = uRIList10.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet70 = uRIList10.getAreaVersion();
-        org.ccsds.moims.mo.mal.structures.StringList stringList72 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 100);
+        org.ccsds.moims.mo.mal.structures.StringList stringList72 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (byte) 100);
         boolean boolean74 = stringList72.remove((java.lang.Object) (byte) 1);
         java.lang.String[] strArray77 = new java.lang.String[]{"", "hi!"};
         java.util.ArrayList<java.lang.String> strList78 = new java.util.ArrayList<java.lang.String>();
         boolean boolean79 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList78,
-                                                         strArray77);
+            strArray77);
         strList78.ensureCapacity((int) (byte) -1);
         java.lang.Boolean[] booleanArray84 = new java.lang.Boolean[]{true, true};
         java.util.ArrayList<java.lang.Boolean> booleanList85 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean86 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList85,
-                                                         booleanArray84);
+            booleanArray84);
         java.util.Spliterator<java.lang.Boolean> booleanSpliterator87 = booleanList85.spliterator();
         boolean boolean88 = strList78.remove((java.lang.Object) booleanSpliterator87);
-        org.ccsds.moims.mo.mal.structures.ShortList shortList90 = new org.ccsds.moims.mo.mal.structures.ShortList((int) 'a');
+        org.ccsds.moims.mo.mal.structures.ShortList shortList90 = new org.ccsds.moims.mo.mal.structures.ShortList(
+            (int) 'a');
         boolean boolean91 = strList78.containsAll((java.util.Collection<java.lang.Short>) shortList90);
         java.util.Iterator<java.lang.Short> shortItor92 = shortList90.iterator();
         boolean boolean93 = stringList72.retainAll((java.util.Collection<java.lang.Short>) shortList90);
@@ -19142,7 +19566,8 @@ public class RegressionTest1 {
     public void test738() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test738");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -19150,7 +19575,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -19158,12 +19583,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -19221,7 +19646,8 @@ public class RegressionTest1 {
     public void test739() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test739");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -19229,7 +19655,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -19237,12 +19663,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -19304,14 +19730,14 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort0 = org.ccsds.moims.mo.mal.structures.IntegerList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray1 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort0};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList2 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList2,
-                                                        uShortArray1);
+        boolean boolean3 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList2, uShortArray1);
         org.ccsds.moims.mo.mal.structures.UShort uShort5 = org.ccsds.moims.mo.mal.structures.IntegerList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort uShort6 = uShortList2.set(0, uShort5);
         java.lang.Integer[] intArray10 = new java.lang.Integer[]{(-1), 9, 9};
         java.util.ArrayList<java.lang.Integer> intList11 = new java.util.ArrayList<java.lang.Integer>();
         boolean boolean12 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList11,
-                                                         intArray10);
+            intArray10);
         intList11.trimToSize();
         java.lang.Object obj14 = intList11.clone();
         boolean boolean15 = uShortList2.contains((java.lang.Object) intList11);
@@ -19324,12 +19750,13 @@ public class RegressionTest1 {
         java.lang.String str26 = union21.toString();
         org.ccsds.moims.mo.mal.structures.UShort uShort27 = union21.getServiceNumber();
         boolean boolean28 = intList11.equals((java.lang.Object) union21);
-        org.ccsds.moims.mo.mal.structures.LongList longList30 = new org.ccsds.moims.mo.mal.structures.LongList((int) (short) 100);
+        org.ccsds.moims.mo.mal.structures.LongList longList30 = new org.ccsds.moims.mo.mal.structures.LongList(
+            (int) (short) 100);
         int int31 = intList11.lastIndexOf((java.lang.Object) longList30);
         java.util.ListIterator<java.lang.Long> longItor32 = longList30.listIterator();
         java.util.ListIterator<java.lang.Long> longItor34 = longList30.listIterator((int) (byte) 0);
-        esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager virtualSPPURIsManager37 = new esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager((int) (short) 10,
-                                                                                                                                    12);
+        esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager virtualSPPURIsManager37 = new esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager(
+            (int) (short) 10, 12);
         java.lang.String str39 = virtualSPPURIsManager37.getVirtualSPPURI("[-1, -1, 100]");
         java.lang.String str41 = virtualSPPURIsManager37.getVirtualSPPURI("[1]");
         boolean boolean42 = longList30.contains((java.lang.Object) "[1]");
@@ -19360,7 +19787,8 @@ public class RegressionTest1 {
     public void test741() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test741");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -19368,7 +19796,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -19376,12 +19804,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -19442,7 +19870,8 @@ public class RegressionTest1 {
     public void test742() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test742");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -19450,7 +19879,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -19458,12 +19887,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -19487,7 +19916,8 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UOctet uOctet61 = uRIList1.getAreaVersion();
         java.util.Spliterator<org.ccsds.moims.mo.mal.structures.URI> uRISpliterator62 = uRIList1.spliterator();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet63 = uRIList1.getAreaVersion();
-        org.ccsds.moims.mo.mal.structures.IntegerList integerList65 = new org.ccsds.moims.mo.mal.structures.IntegerList(11);
+        org.ccsds.moims.mo.mal.structures.IntegerList integerList65 = new org.ccsds.moims.mo.mal.structures.IntegerList(
+            11);
         java.lang.Integer int66 = integerList65.getTypeShortForm();
         org.ccsds.moims.mo.mal.structures.UShort uShort67 = integerList65.getAreaNumber();
         java.lang.Integer int68 = integerList65.getTypeShortForm();
@@ -19533,9 +19963,11 @@ public class RegressionTest1 {
     public void test743() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test743");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = uRIList1.getAreaNumber();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList5 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList5 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray9 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList10 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList10, longArray9);
@@ -19543,7 +19975,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray18 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList19 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean20 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList19,
-                                                         shortArray18);
+            shortArray18);
         java.util.ListIterator<java.lang.Short> shortItor22 = shortList19.listIterator((int) (byte) 1);
         boolean boolean24 = shortList19.contains((java.lang.Object) true);
         java.lang.Short short27 = shortList19.set(1, (java.lang.Short) (short) 0);
@@ -19551,12 +19983,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray32 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList33 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean34 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList33,
-                                                         longArray32);
+            longArray32);
         int int36 = longList33.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray41 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList42 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean43 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList42,
-                                                         shortArray41);
+            shortArray41);
         java.util.ListIterator<java.lang.Short> shortItor45 = shortList42.listIterator((int) (byte) 1);
         boolean boolean47 = shortList42.contains((java.lang.Object) true);
         java.lang.Short short50 = shortList42.set(1, (java.lang.Short) (short) 0);
@@ -19586,11 +20018,12 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort72 = org.ccsds.moims.mo.mal.structures.IntegerList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray73 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort72};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList74 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean75 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList74,
-                                                         uShortArray73);
+        boolean boolean75 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList74, uShortArray73);
         org.ccsds.moims.mo.mal.structures.UShort uShort77 = org.ccsds.moims.mo.mal.structures.IntegerList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort uShort78 = uShortList74.set(0, uShort77);
-        java.util.Spliterator<org.ccsds.moims.mo.mal.structures.UShort> uShortSpliterator79 = uShortList74.spliterator();
+        java.util.Spliterator<org.ccsds.moims.mo.mal.structures.UShort> uShortSpliterator79 = uShortList74
+            .spliterator();
         boolean boolean80 = uRI67.equals((java.lang.Object) uShortSpliterator79);
         org.ccsds.moims.mo.mal.structures.UShort uShort81 = uRI67.getServiceNumber();
         java.lang.String str82 = uRI67.getValue();
@@ -19646,7 +20079,8 @@ public class RegressionTest1 {
     public void test744() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test744");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -19654,7 +20088,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -19662,12 +20096,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -19697,19 +20131,20 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort67 = org.ccsds.moims.mo.mal.structures.IntegerList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray68 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort67};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList69 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean70 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList69,
-                                                         uShortArray68);
+        boolean boolean70 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList69, uShortArray68);
         org.ccsds.moims.mo.mal.structures.UShort uShort72 = org.ccsds.moims.mo.mal.structures.IntegerList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort uShort73 = uShortList69.set(0, uShort72);
         int int74 = uShortList69.size();
         java.lang.String[] strArray77 = new java.lang.String[]{"", "hi!"};
         java.util.ArrayList<java.lang.String> strList78 = new java.util.ArrayList<java.lang.String>();
         boolean boolean79 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList78,
-                                                         strArray77);
+            strArray77);
         strList78.ensureCapacity((int) (byte) -1);
         boolean boolean82 = uShortList69.remove((java.lang.Object) strList78);
         uShortList69.ensureCapacity(4);
-        org.ccsds.moims.mo.mal.structures.IntegerList integerList86 = new org.ccsds.moims.mo.mal.structures.IntegerList(11);
+        org.ccsds.moims.mo.mal.structures.IntegerList integerList86 = new org.ccsds.moims.mo.mal.structures.IntegerList(
+            11);
         java.lang.Integer int87 = integerList86.getTypeShortForm();
         java.lang.Integer int88 = integerList86.getTypeShortForm();
         org.ccsds.moims.mo.mal.structures.ShortList shortList89 = new org.ccsds.moims.mo.mal.structures.ShortList();
@@ -19769,15 +20204,16 @@ public class RegressionTest1 {
     public void test745() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test745");
-        esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager virtualSPPURIsManager2 = new esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager(7,
-                                                                                                                                   8);
+        esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager virtualSPPURIsManager2 = new esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager(
+            7, 8);
     }
 
     @Test
     public void test746() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test746");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -19785,7 +20221,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -19793,12 +20229,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -19857,7 +20293,8 @@ public class RegressionTest1 {
     public void test747() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test747");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -19865,7 +20302,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -19873,12 +20310,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -19900,7 +20337,8 @@ public class RegressionTest1 {
         esa.mo.nmf.groundmoproxy.ProtocolBridge[] protocolBridgeArray59 = uRIList1.toArray(protocolBridgeArray58);
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.URI> uRIStream60 = uRIList1.parallelStream();
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.URI> uRIStream61 = uRIList1.stream();
-        org.ccsds.moims.mo.mal.structures.FineTime fineTime63 = new org.ccsds.moims.mo.mal.structures.FineTime((long) (byte) 1);
+        org.ccsds.moims.mo.mal.structures.FineTime fineTime63 = new org.ccsds.moims.mo.mal.structures.FineTime(
+            (long) (byte) 1);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet64 = fineTime63.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet65 = fineTime63.getAreaVersion();
         java.lang.Integer int66 = uOctet65.getTypeShortForm();
@@ -19949,7 +20387,8 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test748");
         org.ccsds.moims.mo.mal.structures.DoubleList doubleList0 = new org.ccsds.moims.mo.mal.structures.DoubleList();
         org.ccsds.moims.mo.mal.structures.Element element1 = doubleList0.createElement();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList3 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList3 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray7 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList8 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean9 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList8, longArray7);
@@ -19957,7 +20396,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray16 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList17 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList17,
-                                                         shortArray16);
+            shortArray16);
         java.util.ListIterator<java.lang.Short> shortItor20 = shortList17.listIterator((int) (byte) 1);
         boolean boolean22 = shortList17.contains((java.lang.Object) true);
         java.lang.Short short25 = shortList17.set(1, (java.lang.Short) (short) 0);
@@ -19965,12 +20404,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray30 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList31 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean32 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList31,
-                                                         longArray30);
+            longArray30);
         int int34 = longList31.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray39 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList40 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean41 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList40,
-                                                         shortArray39);
+            shortArray39);
         java.util.ListIterator<java.lang.Short> shortItor43 = shortList40.listIterator((int) (byte) 1);
         boolean boolean45 = shortList40.contains((java.lang.Object) true);
         java.lang.Short short48 = shortList40.set(1, (java.lang.Short) (short) 0);
@@ -19988,11 +20427,11 @@ public class RegressionTest1 {
                                                                "", "[-1.0, 0.0]"};
         java.util.ArrayList<java.lang.String> strList70 = new java.util.ArrayList<java.lang.String>();
         boolean boolean71 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList70,
-                                                         strArray69);
+            strArray69);
         java.util.Iterator<java.lang.String> strItor72 = strList70.iterator();
         int int73 = doubleList0.lastIndexOf((java.lang.Object) strList70);
-        esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager virtualSPPURIsManager76 = new esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager((int) (short) 10,
-                                                                                                                                    12);
+        esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager virtualSPPURIsManager76 = new esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager(
+            (int) (short) 10, 12);
         java.lang.String str78 = virtualSPPURIsManager76.getVirtualSPPURI("[-1, -1, 100]");
         java.lang.String str80 = virtualSPPURIsManager76.getURI("malspp:247/10/240");
         int int81 = strList70.lastIndexOf((java.lang.Object) str80);
@@ -20037,18 +20476,16 @@ public class RegressionTest1 {
         org.junit.Assert.assertTrue("'" + long84 + "' != '" + 281475010265084L + "'", long84.equals(281475010265084L));
         org.junit.Assert.assertTrue("'" + int86 + "' != '" + (-4) + "'", int86.equals((-4)));
         org.junit.Assert.assertTrue("'" + int87 + "' != '" + (-1) + "'", int87 == (-1));
-        org.junit.Assert.assertTrue("'" +
-                                    str89 +
-                                    "' != '" +
-                                    "esa.mo.nmf.groundmoproxy.protocolbrige.spp.apid.start" +
-                                    "'", str89.equals("esa.mo.nmf.groundmoproxy.protocolbrige.spp.apid.start"));
+        org.junit.Assert.assertTrue("'" + str89 + "' != '" + "esa.mo.nmf.groundmoproxy.protocolbrige.spp.apid.start" +
+            "'", str89.equals("esa.mo.nmf.groundmoproxy.protocolbrige.spp.apid.start"));
     }
 
     @Test
     public void test749() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test749");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -20056,7 +20493,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -20064,12 +20501,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -20099,10 +20536,12 @@ public class RegressionTest1 {
         java.lang.Integer int67 = uRIList1.getTypeShortForm();
         java.util.ListIterator<org.ccsds.moims.mo.mal.structures.URI> uRIItor69 = uRIList1.listIterator(0);
         java.lang.Object obj70 = uRIList1.clone();
-        org.ccsds.moims.mo.mal.structures.IntegerList integerList72 = new org.ccsds.moims.mo.mal.structures.IntegerList((int) (short) 100);
+        org.ccsds.moims.mo.mal.structures.IntegerList integerList72 = new org.ccsds.moims.mo.mal.structures.IntegerList(
+            (int) (short) 100);
         org.ccsds.moims.mo.mal.structures.StringList stringList73 = new org.ccsds.moims.mo.mal.structures.StringList();
         java.lang.Long long74 = stringList73.getShortForm();
-        org.ccsds.moims.mo.mal.structures.UInteger uInteger76 = new org.ccsds.moims.mo.mal.structures.UInteger((long) (short) 1);
+        org.ccsds.moims.mo.mal.structures.UInteger uInteger76 = new org.ccsds.moims.mo.mal.structures.UInteger(
+            (long) (short) 1);
         long long77 = uInteger76.getValue();
         org.ccsds.moims.mo.mal.structures.Element element78 = uInteger76.createElement();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet79 = uInteger76.getAreaVersion();
@@ -20116,7 +20555,8 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.StringList[] stringListArray87 = new org.ccsds.moims.mo.mal.structures.StringList[]{stringList73,
                                                                                                                               stringList83};
         org.ccsds.moims.mo.mal.structures.StringList[] stringListArray88 = integerList72.toArray(stringListArray87);
-        org.ccsds.moims.mo.mal.structures.Composite[] compositeArray89 = uRIList1.toArray((org.ccsds.moims.mo.mal.structures.Composite[]) stringListArray87);
+        org.ccsds.moims.mo.mal.structures.Composite[] compositeArray89 = uRIList1.toArray(
+            (org.ccsds.moims.mo.mal.structures.Composite[]) stringListArray87);
         org.junit.Assert.assertNotNull(longArray5);
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7);
         org.junit.Assert.assertTrue("'" + int9 + "' != '" + (-1) + "'", int9 == (-1));
@@ -20168,7 +20608,8 @@ public class RegressionTest1 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test750");
         org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(100);
-        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray8 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList9 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean10 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList9, longArray8);
@@ -20176,7 +20617,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray17 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList18 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList18,
-                                                         shortArray17);
+            shortArray17);
         java.util.ListIterator<java.lang.Short> shortItor21 = shortList18.listIterator((int) (byte) 1);
         boolean boolean23 = shortList18.contains((java.lang.Object) true);
         java.lang.Short short26 = shortList18.set(1, (java.lang.Short) (short) 0);
@@ -20184,12 +20625,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray31 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList32 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList32,
-                                                         longArray31);
+            longArray31);
         int int35 = longList32.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray40 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList41 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList41,
-                                                         shortArray40);
+            shortArray40);
         java.util.ListIterator<java.lang.Short> shortItor44 = shortList41.listIterator((int) (byte) 1);
         boolean boolean46 = shortList41.contains((java.lang.Object) true);
         java.lang.Short short49 = shortList41.set(1, (java.lang.Short) (short) 0);
@@ -20213,7 +20654,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray68 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList69 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean70 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList69,
-                                                         shortArray68);
+            shortArray68);
         java.util.ListIterator<java.lang.Short> shortItor72 = shortList69.listIterator((int) (byte) 1);
         boolean boolean73 = uRIList4.containsAll((java.util.Collection<java.lang.Short>) shortList69);
         java.lang.Integer int74 = uRIList4.getTypeShortForm();
@@ -20275,18 +20716,20 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test751");
         org.ccsds.moims.mo.mal.structures.UShortList uShortList1 = new org.ccsds.moims.mo.mal.structures.UShortList(4);
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = uShortList1.getServiceNumber();
-        org.ccsds.moims.mo.mal.structures.Duration duration4 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 100);
+        org.ccsds.moims.mo.mal.structures.Duration duration4 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 100);
         double double5 = duration4.getValue();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList7 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList7 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray11 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList12 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean13 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList12,
-                                                         longArray11);
+            longArray11);
         int int15 = longList12.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray20 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList21 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean22 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList21,
-                                                         shortArray20);
+            shortArray20);
         java.util.ListIterator<java.lang.Short> shortItor24 = shortList21.listIterator((int) (byte) 1);
         boolean boolean26 = shortList21.contains((java.lang.Object) true);
         java.lang.Short short29 = shortList21.set(1, (java.lang.Short) (short) 0);
@@ -20294,12 +20737,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray34 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList35 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean36 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList35,
-                                                         longArray34);
+            longArray34);
         int int38 = longList35.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray43 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList44 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean45 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList44,
-                                                         shortArray43);
+            shortArray43);
         java.util.ListIterator<java.lang.Short> shortItor47 = shortList44.listIterator((int) (byte) 1);
         boolean boolean49 = shortList44.contains((java.lang.Object) true);
         java.lang.Short short52 = shortList44.set(1, (java.lang.Short) (short) 0);
@@ -20364,7 +20807,8 @@ public class RegressionTest1 {
     public void test752() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test752");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -20372,7 +20816,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -20380,12 +20824,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -20451,8 +20895,8 @@ public class RegressionTest1 {
     public void test753() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test753");
-        esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager virtualSPPURIsManager2 = new esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager(8,
-                                                                                                                                   18);
+        esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager virtualSPPURIsManager2 = new esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager(
+            8, 18);
         java.lang.String str4 = virtualSPPURIsManager2.getURI("[malspp:247/11/168]");
         java.lang.String str6 = virtualSPPURIsManager2.getURI("[-1, 9, 9, 10, 1]");
         org.junit.Assert.assertNull(str4);
@@ -20463,9 +20907,11 @@ public class RegressionTest1 {
     public void test754() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test754");
-        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 100);
+        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 100);
         double double2 = duration1.getValue();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray8 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList9 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean10 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList9, longArray8);
@@ -20473,7 +20919,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray17 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList18 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList18,
-                                                         shortArray17);
+            shortArray17);
         java.util.ListIterator<java.lang.Short> shortItor21 = shortList18.listIterator((int) (byte) 1);
         boolean boolean23 = shortList18.contains((java.lang.Object) true);
         java.lang.Short short26 = shortList18.set(1, (java.lang.Short) (short) 0);
@@ -20481,12 +20927,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray31 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList32 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList32,
-                                                         longArray31);
+            longArray31);
         int int35 = longList32.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray40 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList41 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList41,
-                                                         shortArray40);
+            shortArray40);
         java.util.ListIterator<java.lang.Short> shortItor44 = shortList41.listIterator((int) (byte) 1);
         boolean boolean46 = shortList41.contains((java.lang.Object) true);
         java.lang.Short short49 = shortList41.set(1, (java.lang.Short) (short) 0);
@@ -20556,16 +21002,17 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UOctet uOctet4 = doubleList1.getAreaVersion();
         esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP protocolBridgeSPP5 = new esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP();
         esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP[] protocolBridgeSPPArray6 = new esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP[]{protocolBridgeSPP5};
-        esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP[] protocolBridgeSPPArray7 = doubleList1.toArray(protocolBridgeSPPArray6);
+        esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP[] protocolBridgeSPPArray7 = doubleList1.toArray(
+            protocolBridgeSPPArray6);
         java.lang.Long[] longArray11 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList12 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean13 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList12,
-                                                         longArray11);
+            longArray11);
         int int15 = longList12.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray20 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList21 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean22 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList21,
-                                                         shortArray20);
+            shortArray20);
         java.util.ListIterator<java.lang.Short> shortItor24 = shortList21.listIterator((int) (byte) 1);
         boolean boolean26 = shortList21.contains((java.lang.Object) true);
         java.lang.Short short29 = shortList21.set(1, (java.lang.Short) (short) 0);
@@ -20577,7 +21024,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray41 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList42 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean43 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList42,
-                                                         shortArray41);
+            shortArray41);
         java.util.ListIterator<java.lang.Short> shortItor45 = shortList42.listIterator((int) (byte) 1);
         boolean boolean47 = shortList42.contains((java.lang.Object) true);
         java.lang.Short short50 = shortList42.set(1, (java.lang.Short) (short) 0);
@@ -20585,16 +21032,16 @@ public class RegressionTest1 {
         java.lang.Float[] floatArray57 = new java.lang.Float[]{10.0f, 100.0f, 10.0f, 100.0f, 1.0f};
         java.util.ArrayList<java.lang.Float> floatList58 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean59 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList58,
-                                                         floatArray57);
+            floatArray57);
         java.lang.Long[] longArray63 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList64 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean65 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList64,
-                                                         longArray63);
+            longArray63);
         int int67 = longList64.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray72 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList73 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean74 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList73,
-                                                         shortArray72);
+            shortArray72);
         java.util.ListIterator<java.lang.Short> shortItor76 = shortList73.listIterator((int) (byte) 1);
         boolean boolean78 = shortList73.contains((java.lang.Object) true);
         java.lang.Short short81 = shortList73.set(1, (java.lang.Short) (short) 0);
@@ -20649,7 +21096,7 @@ public class RegressionTest1 {
         org.junit.Assert.assertTrue("'" + boolean88 + "' != '" + false + "'", !boolean88);
         org.junit.Assert.assertNotNull(shortItor89);
         org.junit.Assert.assertTrue("'" + str90 + "' != '" + "[100, 0, -1, 10]" + "'", str90.equals(
-                                                                                                    "[100, 0, -1, 10]"));
+            "[100, 0, -1, 10]"));
         org.junit.Assert.assertTrue("'" + boolean91 + "' != '" + false + "'", !boolean91);
         org.junit.Assert.assertNotNull(doubleStream92);
         org.junit.Assert.assertNotNull(doubleStream93);
@@ -20659,7 +21106,8 @@ public class RegressionTest1 {
     public void test756() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test756");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -20667,7 +21115,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -20675,12 +21123,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -20702,13 +21150,15 @@ public class RegressionTest1 {
         esa.mo.nmf.groundmoproxy.ProtocolBridge[] protocolBridgeArray59 = uRIList1.toArray(protocolBridgeArray58);
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.URI> uRIStream60 = uRIList1.parallelStream();
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.URI> uRIStream61 = uRIList1.stream();
-        org.ccsds.moims.mo.mal.structures.FineTime fineTime63 = new org.ccsds.moims.mo.mal.structures.FineTime((long) (byte) 1);
+        org.ccsds.moims.mo.mal.structures.FineTime fineTime63 = new org.ccsds.moims.mo.mal.structures.FineTime(
+            (long) (byte) 1);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet64 = fineTime63.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet65 = fineTime63.getAreaVersion();
         java.lang.Integer int66 = uOctet65.getTypeShortForm();
         int int67 = uRIList1.lastIndexOf((java.lang.Object) int66);
         java.lang.String str68 = uRIList1.toString();
-        org.ccsds.moims.mo.mal.structures.FineTime fineTime70 = new org.ccsds.moims.mo.mal.structures.FineTime((long) (byte) 1);
+        org.ccsds.moims.mo.mal.structures.FineTime fineTime70 = new org.ccsds.moims.mo.mal.structures.FineTime(
+            (long) (byte) 1);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet71 = org.ccsds.moims.mo.mal.structures.OctetList.AREA_VERSION;
         boolean boolean72 = fineTime70.equals((java.lang.Object) uOctet71);
         org.ccsds.moims.mo.mal.structures.UShort uShort73 = fineTime70.getAreaNumber();
@@ -20753,8 +21203,8 @@ public class RegressionTest1 {
     public void test757() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test757");
-        esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager virtualSPPURIsManager2 = new esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager((-4),
-                                                                                                                                   18);
+        esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager virtualSPPURIsManager2 = new esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager(
+            (-4), 18);
         java.lang.String str4 = virtualSPPURIsManager2.getVirtualSPPURI("-15.0");
         java.lang.String str6 = virtualSPPURIsManager2.getURI("[1, null]");
         // flaky:         org.junit.Assert.assertTrue("'" + str4 + "' != '" + "malspp:247/13/252" + "'", str4.equals("malspp:247/13/252"));
@@ -20765,7 +21215,8 @@ public class RegressionTest1 {
     public void test758() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test758");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -20773,7 +21224,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -20781,12 +21232,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -20845,9 +21296,11 @@ public class RegressionTest1 {
     public void test759() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test759");
-        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 100);
+        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 100);
         double double2 = duration1.getValue();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray8 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList9 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean10 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList9, longArray8);
@@ -20855,7 +21308,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray17 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList18 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList18,
-                                                         shortArray17);
+            shortArray17);
         java.util.ListIterator<java.lang.Short> shortItor21 = shortList18.listIterator((int) (byte) 1);
         boolean boolean23 = shortList18.contains((java.lang.Object) true);
         java.lang.Short short26 = shortList18.set(1, (java.lang.Short) (short) 0);
@@ -20863,12 +21316,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray31 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList32 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList32,
-                                                         longArray31);
+            longArray31);
         int int35 = longList32.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray40 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList41 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList41,
-                                                         shortArray40);
+            shortArray40);
         java.util.ListIterator<java.lang.Short> shortItor44 = shortList41.listIterator((int) (byte) 1);
         boolean boolean46 = shortList41.contains((java.lang.Object) true);
         java.lang.Short short49 = shortList41.set(1, (java.lang.Short) (short) 0);
@@ -20926,24 +21379,27 @@ public class RegressionTest1 {
     public void test760() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test760");
-        org.ccsds.moims.mo.mal.structures.Union union1 = new org.ccsds.moims.mo.mal.structures.Union((java.lang.Double) 0.0d);
+        org.ccsds.moims.mo.mal.structures.Union union1 = new org.ccsds.moims.mo.mal.structures.Union(
+            (java.lang.Double) 0.0d);
         org.ccsds.moims.mo.mal.structures.DoubleList doubleList3 = new org.ccsds.moims.mo.mal.structures.DoubleList(0);
         java.lang.Integer int4 = doubleList3.getTypeShortForm();
         java.lang.Object obj5 = null;
         boolean boolean6 = doubleList3.contains(obj5);
         boolean boolean7 = union1.equals((java.lang.Object) doubleList3);
-        org.ccsds.moims.mo.mal.structures.Duration duration9 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 100);
+        org.ccsds.moims.mo.mal.structures.Duration duration9 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 100);
         double double10 = duration9.getValue();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList12 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList12 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray16 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList17 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList17,
-                                                         longArray16);
+            longArray16);
         int int20 = longList17.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray25 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList26 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList26,
-                                                         shortArray25);
+            shortArray25);
         java.util.ListIterator<java.lang.Short> shortItor29 = shortList26.listIterator((int) (byte) 1);
         boolean boolean31 = shortList26.contains((java.lang.Object) true);
         java.lang.Short short34 = shortList26.set(1, (java.lang.Short) (short) 0);
@@ -20951,12 +21407,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray39 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList40 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean41 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList40,
-                                                         longArray39);
+            longArray39);
         int int43 = longList40.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray48 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList49 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean50 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList49,
-                                                         shortArray48);
+            shortArray48);
         java.util.ListIterator<java.lang.Short> shortItor52 = shortList49.listIterator((int) (byte) 1);
         boolean boolean54 = shortList49.contains((java.lang.Object) true);
         java.lang.Short short57 = shortList49.set(1, (java.lang.Short) (short) 0);
@@ -21021,11 +21477,13 @@ public class RegressionTest1 {
     public void test761() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test761");
-        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (byte) 10);
         stringList1.ensureCapacity((-2));
         esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP protocolBridgeSPP4 = new esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP();
         boolean boolean5 = stringList1.remove((java.lang.Object) protocolBridgeSPP4);
-        org.ccsds.moims.mo.mal.structures.UInteger uInteger7 = new org.ccsds.moims.mo.mal.structures.UInteger((long) (short) 1);
+        org.ccsds.moims.mo.mal.structures.UInteger uInteger7 = new org.ccsds.moims.mo.mal.structures.UInteger(
+            (long) (short) 1);
         long long8 = uInteger7.getValue();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet9 = uInteger7.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.UShort uShort10 = uInteger7.getServiceNumber();
@@ -21049,7 +21507,8 @@ public class RegressionTest1 {
     public void test762() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test762");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -21057,7 +21516,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -21065,12 +21524,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -21143,16 +21602,17 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = uShortList1.getServiceNumber();
         java.lang.Integer int3 = uShortList1.getTypeShortForm();
         java.lang.Long long4 = uShortList1.getShortForm();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList7 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList7 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray11 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList12 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean13 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList12,
-                                                         longArray11);
+            longArray11);
         int int15 = longList12.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray20 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList21 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean22 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList21,
-                                                         shortArray20);
+            shortArray20);
         java.util.ListIterator<java.lang.Short> shortItor24 = shortList21.listIterator((int) (byte) 1);
         boolean boolean26 = shortList21.contains((java.lang.Object) true);
         java.lang.Short short29 = shortList21.set(1, (java.lang.Short) (short) 0);
@@ -21160,12 +21620,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray34 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList35 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean36 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList35,
-                                                         longArray34);
+            longArray34);
         int int38 = longList35.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray43 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList44 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean45 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList44,
-                                                         shortArray43);
+            shortArray43);
         java.util.ListIterator<java.lang.Short> shortItor47 = shortList44.listIterator((int) (byte) 1);
         boolean boolean49 = shortList44.contains((java.lang.Object) true);
         java.lang.Short short52 = shortList44.set(1, (java.lang.Short) (short) 0);
@@ -21192,7 +21652,8 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort71 = uRI69.getAreaNumber();
         try {
             uShortList1.add(6, uShort71);
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 6, Size: 0");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 6, Size: 0");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(uShort2);
@@ -21233,7 +21694,8 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test764");
         org.ccsds.moims.mo.mal.structures.ULong uLong0 = new org.ccsds.moims.mo.mal.structures.ULong();
         org.ccsds.moims.mo.mal.structures.UShort uShort1 = uLong0.getAreaNumber();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList3 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList3 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray7 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList8 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean9 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList8, longArray7);
@@ -21241,7 +21703,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray16 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList17 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList17,
-                                                         shortArray16);
+            shortArray16);
         java.util.ListIterator<java.lang.Short> shortItor20 = shortList17.listIterator((int) (byte) 1);
         boolean boolean22 = shortList17.contains((java.lang.Object) true);
         java.lang.Short short25 = shortList17.set(1, (java.lang.Short) (short) 0);
@@ -21249,12 +21711,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray30 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList31 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean32 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList31,
-                                                         longArray30);
+            longArray30);
         int int34 = longList31.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray39 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList40 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean41 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList40,
-                                                         shortArray39);
+            shortArray39);
         java.util.ListIterator<java.lang.Short> shortItor43 = shortList40.listIterator((int) (byte) 1);
         boolean boolean45 = shortList40.contains((java.lang.Object) true);
         java.lang.Short short48 = shortList40.set(1, (java.lang.Short) (short) 0);
@@ -21327,18 +21789,20 @@ public class RegressionTest1 {
                                                                  18, (-13)};
         java.util.ArrayList<java.lang.Integer> intList26 = new java.util.ArrayList<java.lang.Integer>();
         boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList26,
-                                                         intArray25);
-        org.ccsds.moims.mo.mal.structures.ShortList shortList29 = new org.ccsds.moims.mo.mal.structures.ShortList((int) 'a');
+            intArray25);
+        org.ccsds.moims.mo.mal.structures.ShortList shortList29 = new org.ccsds.moims.mo.mal.structures.ShortList(
+            (int) 'a');
         java.lang.Float[] floatArray32 = new java.lang.Float[]{(-1.0f), 0.0f};
         java.util.ArrayList<java.lang.Float> floatList33 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean34 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList33,
-                                                         floatArray32);
+            floatArray32);
         java.util.stream.Stream<java.lang.Float> floatStream35 = floatList33.parallelStream();
         java.util.stream.BaseStream[] baseStreamArray37 = new java.util.stream.BaseStream[1];
         @SuppressWarnings("unchecked")
         java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[] floatBaseStreamArray38 = (java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[]) baseStreamArray37;
         floatBaseStreamArray38[0] = floatStream35;
-        java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[] floatBaseStreamArray41 = shortList29.toArray(floatBaseStreamArray38);
+        java.util.stream.BaseStream<java.lang.Float, java.util.stream.Stream<java.lang.Float>>[] floatBaseStreamArray41 = shortList29
+            .toArray(floatBaseStreamArray38);
         boolean boolean42 = intList26.equals((java.lang.Object) shortList29);
         boolean boolean44 = shortList29.add((java.lang.Short) (short) 1);
         java.lang.Object obj45 = shortList29.clone();
@@ -21346,7 +21810,7 @@ public class RegressionTest1 {
         java.lang.Integer[] intArray50 = new java.lang.Integer[]{(-1), 9, 9};
         java.util.ArrayList<java.lang.Integer> intList51 = new java.util.ArrayList<java.lang.Integer>();
         boolean boolean52 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList51,
-                                                         intArray50);
+            intArray50);
         intList51.trimToSize();
         java.util.stream.Stream<java.lang.Integer> intStream54 = intList51.parallelStream();
         java.util.Iterator<java.lang.Integer> intItor55 = intList51.iterator();
@@ -21354,20 +21818,22 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UOctet uOctet57 = uOctet56.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.UShort uShort58 = uOctet56.getAreaNumber();
         boolean boolean59 = intList51.remove((java.lang.Object) uOctet56);
-        org.ccsds.moims.mo.mal.structures.StringList stringList61 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.StringList stringList61 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (byte) 10);
         stringList61.ensureCapacity((-2));
         esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP protocolBridgeSPP64 = new esa.mo.nmf.groundmoproxy.ProtocolBridgeSPP();
         boolean boolean65 = stringList61.remove((java.lang.Object) protocolBridgeSPP64);
         int int66 = intList51.indexOf((java.lang.Object) stringList61);
         boolean boolean67 = longList1.contains((java.lang.Object) stringList61);
-        org.ccsds.moims.mo.mal.structures.Duration duration69 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 1);
+        org.ccsds.moims.mo.mal.structures.Duration duration69 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 1);
         boolean boolean70 = stringList61.remove((java.lang.Object) duration69);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet71 = stringList61.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.UShort uShort72 = org.ccsds.moims.mo.mal.structures.IntegerList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray73 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort72};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList74 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean75 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList74,
-                                                         uShortArray73);
+        boolean boolean75 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList74, uShortArray73);
         org.ccsds.moims.mo.mal.structures.UShort uShort77 = org.ccsds.moims.mo.mal.structures.IntegerList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort uShort78 = uShortList74.set(0, uShort77);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet79 = uShort78.getAreaVersion();
@@ -21410,7 +21876,8 @@ public class RegressionTest1 {
     public void test766() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test766");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -21418,7 +21885,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -21426,12 +21893,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -21456,20 +21923,23 @@ public class RegressionTest1 {
         java.lang.Byte[] byteArray65 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) 100};
         java.util.ArrayList<java.lang.Byte> byteList66 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean67 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList66,
-                                                         byteArray65);
+            byteArray65);
         java.util.Iterator<java.lang.Byte> byteItor68 = byteList66.iterator();
-        org.ccsds.moims.mo.mal.structures.FineTime fineTime70 = new org.ccsds.moims.mo.mal.structures.FineTime(281475010265075L);
+        org.ccsds.moims.mo.mal.structures.FineTime fineTime70 = new org.ccsds.moims.mo.mal.structures.FineTime(
+            281475010265075L);
         int int71 = byteList66.indexOf((java.lang.Object) fineTime70);
-        org.ccsds.moims.mo.mal.structures.BooleanList booleanList73 = new org.ccsds.moims.mo.mal.structures.BooleanList(11);
+        org.ccsds.moims.mo.mal.structures.BooleanList booleanList73 = new org.ccsds.moims.mo.mal.structures.BooleanList(
+            11);
         org.ccsds.moims.mo.mal.structures.UShort uShort74 = booleanList73.getAreaNumber();
         booleanList73.clear();
         boolean boolean76 = byteList66.contains((java.lang.Object) booleanList73);
-        org.ccsds.moims.mo.mal.structures.BooleanList booleanList78 = new org.ccsds.moims.mo.mal.structures.BooleanList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.BooleanList booleanList78 = new org.ccsds.moims.mo.mal.structures.BooleanList(
+            (int) (byte) 10);
         org.ccsds.moims.mo.mal.structures.UShort uShort79 = org.ccsds.moims.mo.mal.structures.IntegerList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray80 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort79};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList81 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean82 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList81,
-                                                         uShortArray80);
+        boolean boolean82 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList81, uShortArray80);
         org.ccsds.moims.mo.mal.structures.UShort uShort84 = org.ccsds.moims.mo.mal.structures.IntegerList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort uShort85 = uShortList81.set(0, uShort84);
         boolean boolean86 = booleanList78.remove((java.lang.Object) uShort84);
@@ -21529,9 +21999,11 @@ public class RegressionTest1 {
     public void test767() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test767");
-        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 100);
+        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 100);
         double double2 = duration1.getValue();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray8 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList9 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean10 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList9, longArray8);
@@ -21539,7 +22011,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray17 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList18 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList18,
-                                                         shortArray17);
+            shortArray17);
         java.util.ListIterator<java.lang.Short> shortItor21 = shortList18.listIterator((int) (byte) 1);
         boolean boolean23 = shortList18.contains((java.lang.Object) true);
         java.lang.Short short26 = shortList18.set(1, (java.lang.Short) (short) 0);
@@ -21547,12 +22019,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray31 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList32 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList32,
-                                                         longArray31);
+            longArray31);
         int int35 = longList32.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray40 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList41 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList41,
-                                                         shortArray40);
+            shortArray40);
         java.util.ListIterator<java.lang.Short> shortItor44 = shortList41.listIterator((int) (byte) 1);
         boolean boolean46 = shortList41.contains((java.lang.Object) true);
         java.lang.Short short49 = shortList41.set(1, (java.lang.Short) (short) 0);
@@ -21579,7 +22051,8 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort67 = uRIList4.getServiceNumber();
         try {
             java.util.List<org.ccsds.moims.mo.mal.structures.URI> uRIList70 = uRIList4.subList((int) (byte) 1, (-4));
-            org.junit.Assert.fail("Expected exception of type java.lang.IllegalArgumentException; message: fromIndex(1) > toIndex(-4)");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IllegalArgumentException; message: fromIndex(1) > toIndex(-4)");
         } catch (java.lang.IllegalArgumentException e) {
         }
         org.junit.Assert.assertTrue("'" + double2 + "' != '" + 100.0d + "'", double2 == 100.0d);
@@ -21618,7 +22091,8 @@ public class RegressionTest1 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test768");
         org.ccsds.moims.mo.mal.structures.UOctet uOctet0 = org.ccsds.moims.mo.mal.structures.UOctet.AREA_VERSION;
-        org.ccsds.moims.mo.mal.structures.URIList uRIList2 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList2 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray6 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList7 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean8 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList7, longArray6);
@@ -21626,7 +22100,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray15 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList16 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList16,
-                                                         shortArray15);
+            shortArray15);
         java.util.ListIterator<java.lang.Short> shortItor19 = shortList16.listIterator((int) (byte) 1);
         boolean boolean21 = shortList16.contains((java.lang.Object) true);
         java.lang.Short short24 = shortList16.set(1, (java.lang.Short) (short) 0);
@@ -21634,12 +22108,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray29 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList30 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean31 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList30,
-                                                         longArray29);
+            longArray29);
         int int33 = longList30.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray38 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList39 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean40 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList39,
-                                                         shortArray38);
+            shortArray38);
         java.util.ListIterator<java.lang.Short> shortItor42 = shortList39.listIterator((int) (byte) 1);
         boolean boolean44 = shortList39.contains((java.lang.Object) true);
         java.lang.Short short47 = shortList39.set(1, (java.lang.Short) (short) 0);
@@ -21661,15 +22135,17 @@ public class RegressionTest1 {
         esa.mo.nmf.groundmoproxy.ProtocolBridge[] protocolBridgeArray60 = uRIList2.toArray(protocolBridgeArray59);
         org.ccsds.moims.mo.mal.structures.UShort uShort61 = uRIList2.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort62 = org.ccsds.moims.mo.mal.structures.DoubleList.SERVICE_SHORT_FORM;
-        org.ccsds.moims.mo.mal.structures.FineTime fineTime64 = new org.ccsds.moims.mo.mal.structures.FineTime((long) (byte) 1);
+        org.ccsds.moims.mo.mal.structures.FineTime fineTime64 = new org.ccsds.moims.mo.mal.structures.FineTime(
+            (long) (byte) 1);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet65 = fineTime64.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.UShort uShort66 = fineTime64.getServiceNumber();
-        org.ccsds.moims.mo.mal.structures.BooleanList booleanList68 = new org.ccsds.moims.mo.mal.structures.BooleanList((int) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.BooleanList booleanList68 = new org.ccsds.moims.mo.mal.structures.BooleanList(
+            (int) (byte) 10);
         org.ccsds.moims.mo.mal.structures.UShort uShort69 = org.ccsds.moims.mo.mal.structures.IntegerList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray70 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort69};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList71 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean72 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList71,
-                                                         uShortArray70);
+        boolean boolean72 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList71, uShortArray70);
         org.ccsds.moims.mo.mal.structures.UShort uShort74 = org.ccsds.moims.mo.mal.structures.IntegerList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort uShort75 = uShortList71.set(0, uShort74);
         boolean boolean76 = booleanList68.remove((java.lang.Object) uShort74);
@@ -21678,8 +22154,8 @@ public class RegressionTest1 {
                                                                                                                   uShort66,
                                                                                                                   uShort74};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList78 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean79 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList78,
-                                                         uShortArray77);
+        boolean boolean79 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList78, uShortArray77);
         int int80 = uShortList78.size();
         boolean boolean81 = uOctet0.equals((java.lang.Object) uShortList78);
         java.util.Iterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor82 = uShortList78.iterator();
@@ -21733,7 +22209,8 @@ public class RegressionTest1 {
     public void test769() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test769");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -21741,7 +22218,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -21749,12 +22226,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -21809,7 +22286,8 @@ public class RegressionTest1 {
     public void test770() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test770");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -21817,7 +22295,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -21825,12 +22303,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -21888,7 +22366,8 @@ public class RegressionTest1 {
     public void test771() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test771");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -21896,7 +22375,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -21904,12 +22383,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -21933,17 +22412,19 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray65 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList66 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean67 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList66,
-                                                         shortArray65);
+            shortArray65);
         java.util.ListIterator<java.lang.Short> shortItor69 = shortList66.listIterator((int) (byte) 1);
         boolean boolean70 = uRIList1.containsAll((java.util.Collection<java.lang.Short>) shortList66);
         java.lang.Integer int71 = uRIList1.getTypeShortForm();
         uRIList1.trimToSize();
-        org.ccsds.moims.mo.mal.structures.ShortList shortList74 = new org.ccsds.moims.mo.mal.structures.ShortList((int) 'a');
+        org.ccsds.moims.mo.mal.structures.ShortList shortList74 = new org.ccsds.moims.mo.mal.structures.ShortList(
+            (int) 'a');
         boolean boolean75 = uRIList1.containsAll((java.util.Collection<java.lang.Short>) shortList74);
         uRIList1.clear();
         try {
             java.util.List<org.ccsds.moims.mo.mal.structures.URI> uRIList79 = uRIList1.subList((-2), (int) (short) 0);
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: fromIndex = -2");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IndexOutOfBoundsException; message: fromIndex = -2");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(longArray5);
@@ -21982,7 +22463,8 @@ public class RegressionTest1 {
     public void test772() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test772");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray5 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
@@ -21990,7 +22472,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
-                                                         shortArray14);
+            shortArray14);
         java.util.ListIterator<java.lang.Short> shortItor18 = shortList15.listIterator((int) (byte) 1);
         boolean boolean20 = shortList15.contains((java.lang.Object) true);
         java.lang.Short short23 = shortList15.set(1, (java.lang.Short) (short) 0);
@@ -21998,12 +22480,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray28 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
-                                                         longArray28);
+            longArray28);
         int int32 = longList29.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
-                                                         shortArray37);
+            shortArray37);
         java.util.ListIterator<java.lang.Short> shortItor41 = shortList38.listIterator((int) (byte) 1);
         boolean boolean43 = shortList38.contains((java.lang.Object) true);
         java.lang.Short short46 = shortList38.set(1, (java.lang.Short) (short) 0);
@@ -22068,9 +22550,11 @@ public class RegressionTest1 {
     public void test773() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test773");
-        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 100);
+        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 100);
         double double2 = duration1.getValue();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 0);
         java.lang.Long[] longArray8 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList9 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean10 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList9, longArray8);
@@ -22078,7 +22562,7 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray17 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList18 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList18,
-                                                         shortArray17);
+            shortArray17);
         java.util.ListIterator<java.lang.Short> shortItor21 = shortList18.listIterator((int) (byte) 1);
         boolean boolean23 = shortList18.contains((java.lang.Object) true);
         java.lang.Short short26 = shortList18.set(1, (java.lang.Short) (short) 0);
@@ -22086,12 +22570,12 @@ public class RegressionTest1 {
         java.lang.Long[] longArray31 = new java.lang.Long[]{1L, 0L, 1L};
         java.util.ArrayList<java.lang.Long> longList32 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList32,
-                                                         longArray31);
+            longArray31);
         int int35 = longList32.lastIndexOf((java.lang.Object) (short) 100);
         java.lang.Short[] shortArray40 = new java.lang.Short[]{(short) 100, (short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList41 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList41,
-                                                         shortArray40);
+            shortArray40);
         java.util.ListIterator<java.lang.Short> shortItor44 = shortList41.listIterator((int) (byte) 1);
         boolean boolean46 = shortList41.contains((java.lang.Object) true);
         java.lang.Short short49 = shortList41.set(1, (java.lang.Short) (short) 0);

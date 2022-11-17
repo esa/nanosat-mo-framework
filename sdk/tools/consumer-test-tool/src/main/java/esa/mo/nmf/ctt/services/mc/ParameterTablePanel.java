@@ -43,8 +43,8 @@ public class ParameterTablePanel extends SharedTablePanel {
     public void addEntry(final Identifier name, final ArchivePersistenceObject comObject) {
 
         if (comObject == null) {
-            Logger.getLogger(SharedTablePanel.class.getName())
-                  .log(Level.SEVERE, "The table cannot process a null COM Object.");
+            Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE,
+                "The table cannot process a null COM Object.");
             return;
         }
 
@@ -57,10 +57,8 @@ public class ParameterTablePanel extends SharedTablePanel {
         ParameterDefinitionDetails pDef = (ParameterDefinitionDetails) comObject.getObject();
 
         tableData.addRow(new Object[]{comObject.getArchiveDetails().getDetails().getRelated(), name.toString(), pDef
-                                                                                                                    .getDescription(),
-                                      HelperAttributes.typeShortForm2attributeName(pDef.getRawType().intValue()), pDef
-                                                                                                                      .getRawUnit(),
-                                      pDef.getGenerationEnabled(), pDef.getReportInterval().getValue()});
+            .getDescription(), HelperAttributes.typeShortForm2attributeName(pDef.getRawType().intValue()), pDef
+                .getRawUnit(), pDef.getGenerationEnabled(), pDef.getReportInterval().getValue()});
 
         comObjects.add(comObject);
         semaphore.release();

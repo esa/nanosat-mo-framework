@@ -57,7 +57,7 @@ public class HelperCOM {
      * @return The boolean value of the evaluation. Null if not evaluated.
      */
     public static Boolean evaluateExpression(Element leftHandSide, ExpressionOperator operator,
-                                             Attribute rightHandSide) {
+        Attribute rightHandSide) {
 
         if (operator == null) {
             return null; // Operator cannot be null
@@ -95,8 +95,8 @@ public class HelperCOM {
         }
 
         // if one of the sides is string, then we shall do a comparison between strings:
-        boolean stringComparison = HelperMisc.isStringAttribute(rightHandSide) ||
-                                   HelperMisc.isStringAttribute(rightHandSide);
+        boolean stringComparison = HelperMisc.isStringAttribute(rightHandSide) || HelperMisc.isStringAttribute(
+            rightHandSide);
 
         String rightHandSideString = null;
         String leftHandSideString = null;
@@ -192,7 +192,7 @@ public class HelperCOM {
         }
 
         COMService service = (COMService) MALContextFactory.lookupArea(objType.getArea(), objType.getAreaVersion())
-                                                           .getServiceByNumber(objType.getService());
+            .getServiceByNumber(objType.getService());
 
         if (service == null || objType.getNumber().getValue() == 0) {  // Special case for the event service...
             return null;
@@ -224,11 +224,8 @@ public class HelperCOM {
 
         String string = MALContextFactory.lookupArea(objType.getArea(), objType.getAreaVersion()).getName().toString();
 
-        string += " - " +
-                  MALContextFactory.lookupArea(objType.getArea(), objType.getAreaVersion())
-                                   .getServiceByNumber(objType.getService())
-                                   .getName()
-                                   .toString();
+        string += " - " + MALContextFactory.lookupArea(objType.getArea(), objType.getAreaVersion()).getServiceByNumber(
+            objType.getService()).getName().toString();
 
         if (comObject != null) {
             string += ": " + comObject.getObjectName().getValue();
@@ -303,7 +300,7 @@ public class HelperCOM {
         }
 
         return new ObjectType(service.getArea().getNumber(), service.getNumber(), service.getArea().getVersion(),
-                              objNumber);
+            objNumber);
     }
 
     /**
@@ -355,9 +352,7 @@ public class HelperCOM {
         final long unwrap = subkey;
 
         return new ObjectType(new UShort((short) (unwrap >> 48)), new UShort((short) (unwrap >> 32)), new UOctet(
-                                                                                                                 (byte) (unwrap >>
-                                                                                                                         24)),
-                              new UShort((short) (unwrap)));
+            (byte) (unwrap >> 24)), new UShort((short) (unwrap)));
     }
 
     /*
@@ -398,8 +393,8 @@ public class HelperCOM {
         return obj;
     }
 
-    private static Object getObjectInsideObject(final String fieldName,
-                                                final Object obj) throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+    private static Object getObjectInsideObject(final String fieldName, final Object obj) throws NoSuchFieldException,
+        IllegalArgumentException, IllegalAccessException {
         if (obj == null) {
             throw new NoSuchFieldException();
         }
@@ -426,7 +421,7 @@ public class HelperCOM {
         final Long secondEntityKey = 0xFFFFFFFFFF000000L & HelperCOM.generateSubKey(objType);
         final Random random = new Random();
         return ConnectionConsumer.subscriptionKeys(new Identifier(identifier + random.nextInt()), new Identifier("*"),
-                                                   secondEntityKey, 0L, 0L);
+            secondEntityKey, 0L, 0L);
     }
 
     /**
@@ -442,6 +437,6 @@ public class HelperCOM {
         final Long fourthEntityKey = 0xFFFFFFFFFFFFFFFFL & HelperCOM.generateSubKey(sourceType);
         final Random random = new Random();
         return ConnectionConsumer.subscriptionKeys(new Identifier(identifier + random.nextInt()), new Identifier("*"),
-                                                   Long.valueOf(0), Long.valueOf(0), fourthEntityKey);
+            Long.valueOf(0), Long.valueOf(0), fourthEntityKey);
     }
 }

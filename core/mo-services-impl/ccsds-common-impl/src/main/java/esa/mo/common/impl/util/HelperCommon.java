@@ -71,8 +71,8 @@ public class HelperCommon {
                 addressDetails = serviceInfo.getServiceAddresses().get(0);
 
                 if (serviceInfo.getServiceAddresses().size() != 1) {
-                    Logger.getLogger(HelperCommon.class.getName())
-                          .log(Level.WARNING, "There are more than just one service address in the ServiceCapability.");
+                    Logger.getLogger(HelperCommon.class.getName()).log(Level.WARNING,
+                        "There are more than just one service address in the ServiceCapability.");
                 }
             } else {
                 continue;
@@ -86,22 +86,20 @@ public class HelperCommon {
             final MALArea malArea = MALContextFactory.lookupArea(key.getKeyArea(), key.getKeyAreaVersion());
 
             if (malArea == null) {
-                Logger.getLogger(HelperCommon.class.getName())
-                      .log(Level.WARNING, "The service could not be found in the MAL factory. " +
-                                          "Maybe the Helper for that service was not initialized. " +
-                                          "The service key is: " +
-                                          key.toString());
+                Logger.getLogger(HelperCommon.class.getName()).log(Level.WARNING,
+                    "The service could not be found in the MAL factory. " +
+                        "Maybe the Helper for that service was not initialized. " + "The service key is: " + key
+                            .toString());
                 continue;
             }
 
             final MALService malService = malArea.getServiceByNumber(key.getKeyService());
 
             if (malService == null) {
-                Logger.getLogger(HelperCommon.class.getName())
-                      .log(Level.WARNING, "The service could not be found in the MAL factory. " +
-                                          "Maybe the Helper for that service was not initialized. " +
-                                          "The service key is: " +
-                                          key.toString());
+                Logger.getLogger(HelperCommon.class.getName()).log(Level.WARNING,
+                    "The service could not be found in the MAL factory. " +
+                        "Maybe the Helper for that service was not initialized. " + "The service key is: " + key
+                            .toString());
                 continue;
             }
 

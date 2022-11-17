@@ -76,12 +76,12 @@ public class NMFPackageCreator {
     }
 
     public static String nmfPackageCreator(NMFPackageDetails details, ArrayList<String> filesInput,
-                                           ArrayList<String> newLocationsInput) {
+        ArrayList<String> newLocationsInput) {
         return NMFPackageCreator.nmfPackageCreator(details, filesInput, newLocationsInput, null);
     }
 
     public static String nmfPackageCreator(NMFPackageDetails details, ArrayList<String> filesInput,
-                                           ArrayList<String> newLocationsInput, String destinationFolder) {
+        ArrayList<String> newLocationsInput, String destinationFolder) {
         NMFPackageDescriptor descriptor = new NMFPackageDescriptor(details);
         final ArrayList<String> files = new ArrayList<>(filesInput);
 
@@ -90,10 +90,10 @@ public class NMFPackageCreator {
         for (int i = 0; i < newLocations.size(); i++) {
             try {
                 descriptor.addFile(new NMFPackageFile(newLocations.get(i), HelperNMFPackage.calculateCRCFromFile(files
-                                                                                                                      .get(i))));
+                    .get(i))));
             } catch (IOException ex) {
-                Logger.getLogger(NMFPackageCreator.class.getName())
-                      .log(Level.SEVERE, "There was a problem during the CRC calculation.", ex);
+                Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.SEVERE,
+                    "There was a problem during the CRC calculation.", ex);
             }
         }
 

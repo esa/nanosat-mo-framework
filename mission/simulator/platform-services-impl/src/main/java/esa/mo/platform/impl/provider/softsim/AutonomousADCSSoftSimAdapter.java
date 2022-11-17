@@ -106,22 +106,20 @@ public class AutonomousADCSSoftSimAdapter implements AutonomousADCSAdapterInterf
             latitudeLongitude[0] = targetTrackingAtt.getLatitude();
             latitudeLongitude[1] = targetTrackingAtt.getLongitude();
 
-            instrumentsSimulator.getpFineADCS()
-                                .opModeSetFixWGS84TargetTracking(MODE_START, BEGIN_END_TIMES, latitudeLongitude);
+            instrumentsSimulator.getpFineADCS().opModeSetFixWGS84TargetTracking(MODE_START, BEGIN_END_TIMES,
+                latitudeLongitude);
         } else if (att instanceof AttitudeModeNadirPointing) {
             instrumentsSimulator.getpFineADCS().opModeSetNadirTargetTracking(MODE_START, BEGIN_END_TIMES);
         } else if (att instanceof AttitudeModeVectorPointing) {
             AttitudeModeVectorPointing a = (AttitudeModeVectorPointing) att;
             VectorF3D vec = a.getTarget();
-            instrumentsSimulator.getpFineADCS()
-                                .getSimulatorNode()
-                                .runVectorTargetTracking(vec.getX(), vec.getY(), vec.getZ(), a.getMargin());
+            instrumentsSimulator.getpFineADCS().getSimulatorNode().runVectorTargetTracking(vec.getX(), vec.getY(), vec
+                .getZ(), a.getMargin());
         } else if (att instanceof AttitudeModeInertialPointing) {
             AttitudeModeInertialPointing a = (AttitudeModeInertialPointing) att;
             VectorF3D vec = a.getTargetVector();
-            instrumentsSimulator.getpFineADCS()
-                                .getSimulatorNode()
-                                .runVectorTargetTracking(vec.getX(), vec.getY(), vec.getZ(), 10.f);
+            instrumentsSimulator.getpFineADCS().getSimulatorNode().runVectorTargetTracking(vec.getX(), vec.getY(), vec
+                .getZ(), 10.f);
         }
     }
 
@@ -163,8 +161,8 @@ public class AutonomousADCSSoftSimAdapter implements AutonomousADCSAdapterInterf
     @Override
     public ReactionWheelParameters getAllReactionWheelParameters() {
 
-        Logger.getLogger(this.getClass().getName())
-              .log(Level.SEVERE, "Reaction wheel parameters are not implemented in the Simulator yet!");
+        Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,
+            "Reaction wheel parameters are not implemented in the Simulator yet!");
         return null;
     }
 
@@ -181,26 +179,26 @@ public class AutonomousADCSSoftSimAdapter implements AutonomousADCSAdapterInterf
 
     @Override
     public void setAllReactionWheelSpeeds(float wheelX, float wheelY, float wheelZ, float wheelU, float wheelV,
-                                          float wheelW) {
-        Logger.getLogger(this.getClass().getName())
-              .log(Level.SEVERE, "Setting of Reaction wheels is not implemented in the Simulator yet!");
+        float wheelW) {
+        Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,
+            "Setting of Reaction wheels is not implemented in the Simulator yet!");
     }
 
     @Override
     public void setReactionWheelSpeed(ReactionWheelIdentifier wheel, float Speed) {
-        Logger.getLogger(this.getClass().getName())
-              .log(Level.SEVERE, "Setting of Reaction wheels is not implemented in the Simulator yet!");
+        Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,
+            "Setting of Reaction wheels is not implemented in the Simulator yet!");
     }
 
     @Override
     public void setAllReactionWheelParameters(ReactionWheelParameters parameters) {
-        Logger.getLogger(this.getClass().getName())
-              .log(Level.SEVERE, "Setting of Reaction wheels is not implemented in the Simulator yet!");
+        Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,
+            "Setting of Reaction wheels is not implemented in the Simulator yet!");
     }
 
     @Override
     public void setAllMagnetorquersDipoleMoments(Float dipoleX, Float dipoleY, Float dipoleZ) {
-        Logger.getLogger(this.getClass().getName())
-              .log(Level.SEVERE, "Setting of Magnetorquer dipole moments is not implemented in the Simulator yet!");
+        Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,
+            "Setting of Magnetorquer dipole moments is not implemented in the Simulator yet!");
     }
 }

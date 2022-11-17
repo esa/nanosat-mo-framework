@@ -101,17 +101,15 @@ public abstract class ConsumerServiceImpl implements AutoCloseable {
      * @throws org.ccsds.moims.mo.mal.MALException
      * @throws java.net.MalformedURLException
      */
-    public Object createConsumer(String subsystem, MALService service, Blob authenticationId,
-                                 String localNamePrefix) throws MALException, MalformedURLException {
+    public Object createConsumer(String subsystem, MALService service, Blob authenticationId, String localNamePrefix)
+        throws MALException, MalformedURLException {
 
-        Logger.getLogger(ConsumerServiceImpl.class.getName())
-              .log(Level.INFO, "URI" + this.connectionDetails.getProviderURI().toString() + "@" + subsystem);
+        Logger.getLogger(ConsumerServiceImpl.class.getName()).log(Level.INFO, "URI" + this.connectionDetails
+            .getProviderURI().toString() + "@" + subsystem);
 
         MALConsumer consumer = connection.startService(new URI(this.connectionDetails.getProviderURI().toString() +
-                                                               "@" +
-                                                               subsystem), this.connectionDetails.getBrokerURI(),
-                                                       this.connectionDetails.getDomain(), service, authenticationId,
-                                                       localNamePrefix);
+            "@" + subsystem), this.connectionDetails.getBrokerURI(), this.connectionDetails.getDomain(), service,
+            authenticationId, localNamePrefix);
 
         Object stub = generateServiceStub(consumer);
         servicesMap.put(new Identifier(subsystem), stub);

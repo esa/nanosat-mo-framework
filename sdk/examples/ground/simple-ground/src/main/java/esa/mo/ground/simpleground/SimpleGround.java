@@ -75,7 +75,7 @@ public class SimpleGround {
     public static void main(final String[] args) throws Exception {
         if (args.length != 2) {
             System.err.println("Please give supervisor directory URI as a first argument and a provider name," +
-                               " which to connect as the second argument!");
+                " which to connect as the second argument!");
             System.err.println("e.g. maltcp://123.123.123.123:1024/nanosat-mo-supervisor-Directory publish-clock");
             System.exit(1);
         }

@@ -45,7 +45,7 @@ public class MCServicesProviderNMF {
     private final AggregationProviderServiceImpl aggregationService = new AggregationProviderServiceImpl();
 
     public void init(COMServicesProvider comServices, ActionInvocationListener actions,
-                     ParameterStatusListener monitoringParameters) throws MALException {
+        ParameterStatusListener monitoringParameters) throws MALException {
         parameterManager = new ParameterManager(comServices, monitoringParameters);
         parameterService.init(parameterManager);
         actionService.init(comServices, actions);
@@ -53,8 +53,8 @@ public class MCServicesProviderNMF {
         aggregationService.init(comServices, parameterManager);
     }
 
-    public void init(final COMServicesProvider comServices,
-                     final MonitorAndControlNMFAdapter adapter) throws MALException {
+    public void init(final COMServicesProvider comServices, final MonitorAndControlNMFAdapter adapter)
+        throws MALException {
         parameterManager = new ParameterManager(comServices, adapter);
         parameterService.init(parameterManager);
         actionService.init(comServices, adapter);

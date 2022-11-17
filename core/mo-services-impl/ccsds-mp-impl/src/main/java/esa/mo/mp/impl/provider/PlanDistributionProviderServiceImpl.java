@@ -100,7 +100,7 @@ public class PlanDistributionProviderServiceImpl extends PlanDistributionInherit
      * @throws MALException On initialisation error.
      */
     public synchronized void init(COMServicesProvider comServices, MPArchiveManager archiveManager,
-                                  MPServiceOperationManager registration) throws MALException {
+        MPServiceOperationManager registration) throws MALException {
         if (!this.initialised) {
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
                 MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -127,29 +127,25 @@ public class PlanDistributionProviderServiceImpl extends PlanDistributionInherit
         }
 
         this.provider = this.connection.startService(PlanDistributionHelper.PLANDISTRIBUTION_SERVICE_NAME.toString(),
-                                                     PlanDistributionHelper.PLANDISTRIBUTION_SERVICE, true, this);
+            PlanDistributionHelper.PLANDISTRIBUTION_SERVICE, true, this);
 
         planPublisher = createMonitorPlanPublisher(ConfigurationProviderSingleton.getDomain(),
-                                                   ConfigurationProviderSingleton.getNetwork(), SessionType.LIVE,
-                                                   ConfigurationProviderSingleton.getSourceSessionName(),
-                                                   QoSLevel.BESTEFFORT, null, new UInteger(0));
+            ConfigurationProviderSingleton.getNetwork(), SessionType.LIVE, ConfigurationProviderSingleton
+                .getSourceSessionName(), QoSLevel.BESTEFFORT, null, new UInteger(0));
 
         // Currently not used
         planStatusPublisher = createMonitorPlanStatusPublisher(ConfigurationProviderSingleton.getDomain(),
-                                                               ConfigurationProviderSingleton.getNetwork(),
-                                                               SessionType.LIVE, ConfigurationProviderSingleton
-                                                                                                               .getSourceSessionName(),
-                                                               QoSLevel.BESTEFFORT, null, new UInteger(0));
+            ConfigurationProviderSingleton.getNetwork(), SessionType.LIVE, ConfigurationProviderSingleton
+                .getSourceSessionName(), QoSLevel.BESTEFFORT, null, new UInteger(0));
 
         this.archiveManager = archiveManager;
 
         // Listen Event Service for Plan Version updates in COM Archive
         try {
             EventConsumerServiceImpl consumer = new EventConsumerServiceImpl(comServices.getEventService()
-                                                                                        .getConnectionProvider()
-                                                                                        .getConnectionDetails());
+                .getConnectionProvider().getConnectionDetails());
             Subscription subcription = HelperCOM.generateCOMEventSubscriptionBySourceType("PlanUpdates",
-                                                                                          PlanDistributionHelper.PLANVERSION_OBJECT_TYPE);
+                PlanDistributionHelper.PLANVERSION_OBJECT_TYPE);
             consumer.addEventReceivedListener(subcription, new EventReceivedListener() {
                 @Override
                 public void onDataReceived(EventCOMObject eventCOMObject) {
@@ -172,10 +168,9 @@ public class PlanDistributionProviderServiceImpl extends PlanDistributionInherit
         // Listen Event Service for Plan Version status updates in COM Archive
         try {
             EventConsumerServiceImpl consumer = new EventConsumerServiceImpl(comServices.getEventService()
-                                                                                        .getConnectionProvider()
-                                                                                        .getConnectionDetails());
+                .getConnectionProvider().getConnectionDetails());
             Subscription subcription = HelperCOM.generateCOMEventSubscriptionBySourceType("PlanStatusUpdates",
-                                                                                          PlanDistributionHelper.PLANUPDATE_OBJECT_TYPE);
+                PlanDistributionHelper.PLANUPDATE_OBJECT_TYPE);
             consumer.addEventReceivedListener(subcription, new EventReceivedListener() {
                 @Override
                 public void onDataReceived(EventCOMObject eventCOMObject) {
@@ -220,8 +215,8 @@ public class PlanDistributionProviderServiceImpl extends PlanDistributionInherit
     }
 
     @Override
-    public ListPlansResponse listPlans(PlanFilter planFilter,
-                                       MALInteraction interaction) throws MALInteractionException, MALException {
+    public ListPlansResponse listPlans(PlanFilter planFilter, MALInteraction interaction)
+        throws MALInteractionException, MALException {
         LongList identityIdList = new LongList();
         LongList versionIdList = new LongList();
         PlanInformationList informationList = new PlanInformationList();
@@ -254,13 +249,13 @@ public class PlanDistributionProviderServiceImpl extends PlanDistributionInherit
     }
 
     @Override
-    public GetPlanResponse getPlan(LongList planIdentityIds,
-                                   MALInteraction interaction) throws MALInteractionException, MALException {
+    public GetPlanResponse getPlan(LongList planIdentityIds, MALInteraction interaction) throws MALInteractionException,
+        MALException {
         LongList versionIdList = new LongList();
         PlanVersionDetailsList versionList = new PlanVersionDetailsList();
 
         ObjectIdList identityIds = COMObjectIdHelper.getObjectIds(planIdentityIds,
-                                                                  PlanDistributionHelper.PLANIDENTITY_OBJECT_TYPE);
+            PlanDistributionHelper.PLANIDENTITY_OBJECT_TYPE);
         ObjectIdList versionIds = archiveManager.PLAN.getInstanceIdsByIdentityIds(identityIds);
 
         for (ObjectId versionId : versionIds) {
@@ -277,13 +272,13 @@ public class PlanDistributionProviderServiceImpl extends PlanDistributionInherit
     }
 
     @Override
-    public GetPlanStatusResponse getPlanStatus(LongList planIdentityIds,
-                                               MALInteraction interaction) throws MALInteractionException, MALException {
+    public GetPlanStatusResponse getPlanStatus(LongList planIdentityIds, MALInteraction interaction)
+        throws MALInteractionException, MALException {
         LongList versionIdList = new LongList();
         PlanStatusList statusList = new PlanStatusList();
 
         ObjectIdList identityIds = COMObjectIdHelper.getObjectIds(planIdentityIds,
-                                                                  PlanDistributionHelper.PLANIDENTITY_OBJECT_TYPE);
+            PlanDistributionHelper.PLANIDENTITY_OBJECT_TYPE);
         ObjectIdList versionIds = archiveManager.PLAN.getInstanceIdsByIdentityIds(identityIds);
 
         for (ObjectId versionId : versionIds) {
@@ -300,8 +295,8 @@ public class PlanDistributionProviderServiceImpl extends PlanDistributionInherit
     }
 
     @Override
-    public void queryPlan(PlanFilter planFilter,
-                          QueryPlanInteraction interaction) throws MALInteractionException, MALException {
+    public void queryPlan(PlanFilter planFilter, QueryPlanInteraction interaction) throws MALInteractionException,
+        MALException {
         LongList versionIdList = new LongList();
         PlanVersionDetailsList instanceList = new PlanVersionDetailsList();
 
@@ -329,7 +324,7 @@ public class PlanDistributionProviderServiceImpl extends PlanDistributionInherit
     }
 
     private boolean checkPlanFilter(PlanFilter planFilter, PlanVersionDetails planVersion,
-                                    PlanUpdateDetails planUpdate) {
+        PlanUpdateDetails planUpdate) {
         if (planFilter.getReturnAll() != null && planFilter.getReturnAll()) {
             return true;
         }
@@ -344,8 +339,7 @@ public class PlanDistributionProviderServiceImpl extends PlanDistributionInherit
     }
 
     private void publishPlan(Identifier planIdentity, ObjectId planIdentityId, ObjectId planVersionId,
-                             PlanVersionDetails planVersion,
-                             PlanUpdateDetails planUpdate) throws MALInteractionException, MALException {
+        PlanVersionDetails planVersion, PlanUpdateDetails planUpdate) throws MALInteractionException, MALException {
         if (!this.isPlanPublisherRegistered) {
             final EntityKeyList entityKeys = new EntityKeyList();
             entityKeys.add(new EntityKey(new Identifier("*"), 0L, 0L, 0L));
@@ -362,8 +356,7 @@ public class PlanDistributionProviderServiceImpl extends PlanDistributionInherit
 
         EntityKey entityKey = new EntityKey(firstSubKey, secondSubKey, thirdSubKey, fourthSubKey);
         headerList.add(new UpdateHeader(HelperTime.getTimestampMillis(), connection.getConnectionDetails()
-                                                                                   .getProviderURI(),
-                                        UpdateType.CREATION, entityKey));
+            .getProviderURI(), UpdateType.CREATION, entityKey));
         PlanVersionDetailsList planVersionList = new PlanVersionDetailsList();
         planVersionList.add(planVersion);
 
@@ -371,7 +364,7 @@ public class PlanDistributionProviderServiceImpl extends PlanDistributionInherit
     }
 
     private void publishPlanStatus(Identifier planIdentity, ObjectId planIdentityId, ObjectId planVersionId,
-                                   PlanUpdateDetails planUpdate) throws MALInteractionException, MALException {
+        PlanUpdateDetails planUpdate) throws MALInteractionException, MALException {
         if (!this.isPlanStatusPublisherRegistered) {
             final EntityKeyList entityKeys = new EntityKeyList();
             entityKeys.add(new EntityKey(new Identifier("*"), 0L, 0L, 0L));
@@ -388,8 +381,7 @@ public class PlanDistributionProviderServiceImpl extends PlanDistributionInherit
 
         EntityKey entityKey = new EntityKey(firstSubKey, secondSubKey, thirdSubKey, fourthSubKey);
         headerList.add(new UpdateHeader(HelperTime.getTimestampMillis(), connection.getConnectionDetails()
-                                                                                   .getProviderURI(),
-                                        UpdateType.CREATION, entityKey));
+            .getProviderURI(), UpdateType.CREATION, entityKey));
 
         ObjectIdList planVersionIdList = new ObjectIdList();
         planVersionIdList.add(planVersionId);
@@ -403,26 +395,26 @@ public class PlanDistributionProviderServiceImpl extends PlanDistributionInherit
     private static final class PublishInteractionListener implements MALPublishInteractionListener {
 
         @Override
-        public void publishDeregisterAckReceived(final MALMessageHeader header,
-                                                 final Map qosProperties) throws MALException {
+        public void publishDeregisterAckReceived(final MALMessageHeader header, final Map qosProperties)
+            throws MALException {
             LOGGER.fine("PublishInteractionListener::publishDeregisterAckReceived");
         }
 
         @Override
         public void publishErrorReceived(final MALMessageHeader header, final MALErrorBody body,
-                                         final Map qosProperties) throws MALException {
+            final Map qosProperties) throws MALException {
             LOGGER.warning("PublishInteractionListener::publishErrorReceived");
         }
 
         @Override
-        public void publishRegisterAckReceived(final MALMessageHeader header,
-                                               final Map qosProperties) throws MALException {
+        public void publishRegisterAckReceived(final MALMessageHeader header, final Map qosProperties)
+            throws MALException {
             LOGGER.fine("PublishInteractionListener::publishRegisterAckReceived");
         }
 
         @Override
         public void publishRegisterErrorReceived(final MALMessageHeader header, final MALErrorBody body,
-                                                 final Map qosProperties) throws MALException {
+            final Map qosProperties) throws MALException {
             LOGGER.warning("PublishInteractionListener::publishRegisterErrorReceived");
         }
     }

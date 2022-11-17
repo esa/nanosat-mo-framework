@@ -112,7 +112,8 @@ public class MPSpaceDemoAdapter extends MissionPlanningNMFAdapter {
         }
 
         @Override
-        public void onCallback(List<MPServiceOperationArguments> arguments) throws MALException, MALInteractionException {
+        public void onCallback(List<MPServiceOperationArguments> arguments) throws MALException,
+            MALInteractionException {
             // Arguments contains Request Identity Id, Request Version Id and Request Status Update Id
             MPServiceOperationArguments requestArgument = arguments.get(0);
 
@@ -129,8 +130,7 @@ public class MPSpaceDemoAdapter extends MissionPlanningNMFAdapter {
             // Save modified Plan Version
             PlanVersionDetails updatedPlan = currentPlan;
             ObjectId planVersionId = getArchiveManager().PLAN.updateInstanceByIdentityId(getPlanIdentityId(),
-                                                                                         updatedPlan, null,
-                                                                                         requestArgument.getInteraction());
+                updatedPlan, null, requestArgument.getInteraction());
             PlanUpdateDetails planUpdate = MPFactory.createPlanUpdate(PlanStatus.DRAFT);
             getArchiveManager().PLAN.addStatus(planVersionId, planUpdate, null, requestArgument.getInteraction());
 
@@ -141,8 +141,7 @@ public class MPSpaceDemoAdapter extends MissionPlanningNMFAdapter {
             newStatus.setTimestamp(HelperTime.getTimestampMillis());
             newStatus.setPlanRef(planVersionId);
             ObjectId statusId = getArchiveManager().REQUEST_VERSION.updateStatus(requestArgument.getInstanceId(),
-                                                                                 newStatus, null, requestArgument
-                                                                                                                 .getInteraction());
+                newStatus, null, requestArgument.getInteraction());
         }
     }
 
@@ -154,7 +153,8 @@ public class MPSpaceDemoAdapter extends MissionPlanningNMFAdapter {
         }
 
         @Override
-        public void onCallback(List<MPServiceOperationArguments> arguments) throws MALException, MALInteractionException {
+        public void onCallback(List<MPServiceOperationArguments> arguments) throws MALException,
+            MALInteractionException {
             LOGGER.info("Received UPDATE_REQUEST operation");
             // Override here
         }
@@ -162,7 +162,8 @@ public class MPSpaceDemoAdapter extends MissionPlanningNMFAdapter {
 
     static class CancelRequestVersionCallback extends MPServiceOperationCallback {
         @Override
-        public void onCallback(List<MPServiceOperationArguments> arguments) throws MALException, MALInteractionException {
+        public void onCallback(List<MPServiceOperationArguments> arguments) throws MALException,
+            MALInteractionException {
             LOGGER.info("Received CANCEL_REQUEST operation");
             // Override here
         }
@@ -176,7 +177,8 @@ public class MPSpaceDemoAdapter extends MissionPlanningNMFAdapter {
         }
 
         @Override
-        public void onCallback(List<MPServiceOperationArguments> arguments) throws MALException, MALInteractionException {
+        public void onCallback(List<MPServiceOperationArguments> arguments) throws MALException,
+            MALInteractionException {
             LOGGER.info("Received INSERT_ACTIVITY operation");
             MPServiceOperationArguments planArgument = arguments.get(0);
             MPServiceOperationArguments activityArgument = arguments.get(1);
@@ -197,7 +199,7 @@ public class MPSpaceDemoAdapter extends MissionPlanningNMFAdapter {
             // Save modified Plan Version
             ObjectId planIdentityId = getArchiveManager().PLAN.getIdentityIdByInstanceId(planVersionId);
             getArchiveManager().PLAN.updateInstanceByIdentityId(planIdentityId, planVersion, null, planArgument
-                                                                                                               .getInteraction());
+                .getInteraction());
         }
     }
 
@@ -209,7 +211,8 @@ public class MPSpaceDemoAdapter extends MissionPlanningNMFAdapter {
         }
 
         @Override
-        public void onCallback(List<MPServiceOperationArguments> arguments) throws MALException, MALInteractionException {
+        public void onCallback(List<MPServiceOperationArguments> arguments) throws MALException,
+            MALInteractionException {
             LOGGER.info("Received INSERT_EVENT operation");
             MPServiceOperationArguments planArgument = arguments.get(0);
             MPServiceOperationArguments eventArgument = arguments.get(1);
@@ -230,7 +233,7 @@ public class MPSpaceDemoAdapter extends MissionPlanningNMFAdapter {
             // Save modified Plan Version
             ObjectId planIdentityId = getArchiveManager().PLAN.getIdentityIdByInstanceId(planVersionId);
             getArchiveManager().PLAN.updateInstanceByIdentityId(planIdentityId, planVersion, null, planArgument
-                                                                                                               .getInteraction());
+                .getInteraction());
         }
     }
 }

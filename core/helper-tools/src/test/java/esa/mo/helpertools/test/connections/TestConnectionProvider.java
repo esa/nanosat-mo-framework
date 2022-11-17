@@ -36,7 +36,8 @@ public class TestConnectionProvider {
         File f = new File("providerURIs.properties");
         try {
             FileOutputStream fos = new FileOutputStream(f);
-            fos.write("I am a provider properties file and my content is meaningless because I get deleted anyways.".getBytes());
+            fos.write("I am a provider properties file and my content is meaningless because I get deleted anyways."
+                .getBytes());
             fos.close();
             ConnectionProvider.resetURILinks();
             assertEquals(0, f.length());

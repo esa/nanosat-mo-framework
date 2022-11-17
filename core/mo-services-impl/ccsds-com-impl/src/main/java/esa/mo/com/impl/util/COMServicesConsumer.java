@@ -63,7 +63,7 @@ public class COMServicesConsumer {
      * @param authenticationId authenticationId of the logged in user
      */
     public void init(final ConnectionConsumer connectionConsumer, final Blob authenticationId,
-                     final String localNamePrefix) {
+        final String localNamePrefix) {
         SingleConnectionDetails details;
 
         try {

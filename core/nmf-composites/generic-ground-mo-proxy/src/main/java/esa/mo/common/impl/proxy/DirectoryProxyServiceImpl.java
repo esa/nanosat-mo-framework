@@ -62,7 +62,7 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
      * @throws MALInteractionException
      */
     public ProviderSummaryList syncLocalDirectoryServiceWithCentral(final URI centralDirectoryServiceURI,
-                                                                    final URI routedURI) throws MALException, MalformedURLException, MALInteractionException {
+        final URI routedURI) throws MALException, MalformedURLException, MALInteractionException {
         ProviderSummaryList providers = NMFConsumer.retrieveProvidersFromDirectory(true, centralDirectoryServiceURI);
         addProxyPrefix(providers, routedURI.getValue());
 
@@ -95,8 +95,8 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
      * @param proxyURI The URI of the protocol bridge
      * @throws IllegalArgumentException if the providers object is null
      */
-    public static void addProxyPrefix(final ProviderSummaryList providers,
-                                      final String proxyURI) throws IllegalArgumentException {
+    public static void addProxyPrefix(final ProviderSummaryList providers, final String proxyURI)
+        throws IllegalArgumentException {
         if (providers == null) {
             throw new IllegalArgumentException("The provider object cannot be null.");
         }

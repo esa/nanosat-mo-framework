@@ -120,7 +120,7 @@ public class ConnectionConsumer {
      * initialized correctly
      */
     public MALConsumer startService(final URI uriP, final URI uriB, final IdentifierList domain,
-                                    final MALService malService) throws MALException, MalformedURLException {
+        final MALService malService) throws MALException, MalformedURLException {
         this.startMAL();
         return this.createMALconsumer(uriP, uriB, domain, malService);
     }
@@ -141,8 +141,8 @@ public class ConnectionConsumer {
      * initialized correctly
      */
     public MALConsumer startService(final URI uriP, final URI uriB, final IdentifierList domain,
-                                    final MALService malService, final Blob authenticationId,
-                                    final String localNamePrefix) throws MALException, MalformedURLException {
+        final MALService malService, final Blob authenticationId, final String localNamePrefix) throws MALException,
+        MalformedURLException {
         this.startMAL();
         return this.createMALconsumer(uriP, uriB, domain, malService, authenticationId, localNamePrefix);
     }
@@ -161,7 +161,7 @@ public class ConnectionConsumer {
      * initialized correctly
      */
     public MALConsumer createMALconsumer(final URI uriP, final URI uriB, final IdentifierList domain,
-                                         final MALService malService) throws MALException, MalformedURLException {
+        final MALService malService) throws MALException, MalformedURLException {
 
         return createMALconsumer(uriP, uriB, domain, malService, null, null);
     }
@@ -182,14 +182,12 @@ public class ConnectionConsumer {
      * initialized correctly
      */
     public MALConsumer createMALconsumer(final URI uriP, final URI uriB, final IdentifierList domain,
-                                         final MALService malService, final Blob authenticationId,
-                                         final String localNamePrefix) throws MALException, MalformedURLException {
+        final MALService malService, final Blob authenticationId, final String localNamePrefix) throws MALException,
+        MalformedURLException {
 
         tmConsumer = consumerMgr.createConsumer(getLocalName(localNamePrefix), uriP, uriB, malService,
-                                                getAuthenticationId(authenticationId), domain, configuration
-                                                                                                            .getNetwork(),
-                                                configuration.getSession(), configuration.getSessionName(),
-                                                QoSLevel.ASSURED, props, new UInteger(0));
+            getAuthenticationId(authenticationId), domain, configuration.getNetwork(), configuration.getSession(),
+            configuration.getSessionName(), QoSLevel.ASSURED, props, new UInteger(0));
 
         return tmConsumer;
     }
@@ -210,8 +208,8 @@ public class ConnectionConsumer {
      * initialized correctly
      */
     public MALConsumer startService(final URI uriP, final URI uriB, final IdentifierList domain,
-                                    final QoSLevelList qosLevels, final UInteger priorityLevels,
-                                    final MALService malService) throws MALException, MalformedURLException {
+        final QoSLevelList qosLevels, final UInteger priorityLevels, final MALService malService) throws MALException,
+        MalformedURLException {
 
         return startService(uriP, uriB, domain, qosLevels, priorityLevels, malService, null, null);
     }
@@ -234,9 +232,8 @@ public class ConnectionConsumer {
      * initialized correctly
      */
     public MALConsumer startService(final URI uriP, final URI uriB, final IdentifierList domain,
-                                    final QoSLevelList qosLevels, final UInteger priorityLevels,
-                                    final MALService malService, final Blob authenticationId,
-                                    final String localNamePrefix) throws MALException, MalformedURLException {
+        final QoSLevelList qosLevels, final UInteger priorityLevels, final MALService malService,
+        final Blob authenticationId, final String localNamePrefix) throws MALException, MalformedURLException {
 
         this.startMAL();
         QoSLevel qosLevel = QoSLevel.BESTEFFORT;  // Worst case scenario
@@ -248,10 +245,8 @@ public class ConnectionConsumer {
         }
 
         tmConsumer = consumerMgr.createConsumer(getLocalName(localNamePrefix), uriP, uriB, malService,
-                                                getAuthenticationId(authenticationId), domain, configuration
-                                                                                                            .getNetwork(),
-                                                configuration.getSession(), configuration.getSessionName(), qosLevel,
-                                                props, priorityLevels);
+            getAuthenticationId(authenticationId), domain, configuration.getNetwork(), configuration.getSession(),
+            configuration.getSessionName(), qosLevel, props, priorityLevels);
 
         return tmConsumer;
     }
@@ -327,7 +322,7 @@ public class ConnectionConsumer {
      * @return The subscription object
      */
     public static Subscription subscriptionKeys(final Identifier key1, final Long key2, final Long key3,
-                                                final Long key4) {
+        final Long key4) {
         final Identifier subscriptionId = new Identifier("SUB");
         return ConnectionConsumer.subscriptionKeys(subscriptionId, key1, key2, key3, key4);
     }
@@ -363,7 +358,7 @@ public class ConnectionConsumer {
      * @return The subscription object
      */
     public static Subscription subscriptionKeys(final Identifier subscriptionId, final Identifier key1, final Long key2,
-                                                final Long key3, final Long key4) {
+        final Long key3, final Long key4) {
         final EntityKeyList entityKeys = new EntityKeyList();
         final EntityKey entitykey = new EntityKey(key1, key2, key3, key4);
         entityKeys.add(entitykey);

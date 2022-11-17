@@ -42,8 +42,8 @@ public class CheckDefinitionsTablePanel extends SharedTablePanel {
     @Override
     public void addEntry(final Identifier name, final ArchivePersistenceObject comObject) {
         if (comObject == null) {
-            Logger.getLogger(SharedTablePanel.class.getName())
-                  .log(Level.SEVERE, "The table cannot process a null COM Object.");
+            Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE,
+                "The table cannot process a null COM Object.");
             return;
         }
 
@@ -56,32 +56,17 @@ public class CheckDefinitionsTablePanel extends SharedTablePanel {
         // We are actually receiving a Check Definition that points to the right definition via the source field
 
         // So, let's get the source Object with the details of the definition
-        ArchivePersistenceObject sourceCOMObject = HelperArchive.getArchiveCOMObject(super.getArchiveService().getArchiveStub(),
-                                                                                     comObject.getArchiveDetails()
-                                                                                              .getDetails()
-                                                                                              .getSource()
-                                                                                              .getType(), comObject
-                                                                                                                   .getArchiveDetails()
-                                                                                                                   .getDetails()
-                                                                                                                   .getSource()
-                                                                                                                   .getKey()
-                                                                                                                   .getDomain(),
-                                                                                     comObject.getArchiveDetails()
-                                                                                              .getDetails()
-                                                                                              .getSource()
-                                                                                              .getKey()
-                                                                                              .getInstId());
+        ArchivePersistenceObject sourceCOMObject = HelperArchive.getArchiveCOMObject(super.getArchiveService()
+            .getArchiveStub(), comObject.getArchiveDetails().getDetails().getSource().getType(), comObject
+                .getArchiveDetails().getDetails().getSource().getKey().getDomain(), comObject.getArchiveDetails()
+                    .getDetails().getSource().getKey().getInstId());
 
         CheckDefinitionDetails checkDef = (CheckDefinitionDetails) sourceCOMObject.getObject();
 
         tableData.addRow(new Object[]{comObject.getArchiveDetails().getInstId(), name.toString(), checkDef
-                                                                                                          .getDescription(),
-                                      checkDef.getCheckSeverity().toString(), checkDef.getMaxReportingInterval()
-                                                                                      .toString(), checkDef
-                                                                                                           .getNominalCount()
-                                                                                                           .getValue(),
-                                      checkDef.getNominalTime().toString(), checkDef.getViolationCount().getValue(),
-                                      checkDef.getViolationTime()});
+            .getDescription(), checkDef.getCheckSeverity().toString(), checkDef.getMaxReportingInterval().toString(),
+                                      checkDef.getNominalCount().getValue(), checkDef.getNominalTime().toString(),
+                                      checkDef.getViolationCount().getValue(), checkDef.getViolationTime()});
 
         comObjects.add(comObject);
         semaphore.release();

@@ -141,14 +141,14 @@ public class ArchiveToAppListAdapter extends ArchiveAdapter implements QueryStat
 
     @Override
     public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-                                      ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+        ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
         dumpArchiveObjectsOutput(new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies));
         setIsQueryOver(true);
     }
 
     @Override
     public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-                                    ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+        ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
         dumpArchiveObjectsOutput(new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies));
     }
 

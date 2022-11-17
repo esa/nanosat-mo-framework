@@ -73,8 +73,7 @@ public class OpticalDataReceiverProviderServiceImpl extends OpticalDataReceiverI
             }
 
             if (MALContextFactory.lookupArea(PlatformHelper.PLATFORM_AREA_NAME, PlatformHelper.PLATFORM_AREA_VERSION)
-                                 .getServiceByName(OpticalDataReceiverHelper.OPTICALDATARECEIVER_SERVICE_NAME) ==
-                null) {
+                .getServiceByName(OpticalDataReceiverHelper.OPTICALDATARECEIVER_SERVICE_NAME) == null) {
                 OpticalDataReceiverHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
         }
@@ -85,13 +84,13 @@ public class OpticalDataReceiverProviderServiceImpl extends OpticalDataReceiverI
         }
 
         this.adapter = adapter;
-        opticalDataReceiverServiceProvider = connection.startService(OpticalDataReceiverHelper.OPTICALDATARECEIVER_SERVICE_NAME.toString(),
-                                                                     OpticalDataReceiverHelper.OPTICALDATARECEIVER_SERVICE,
-                                                                     this);
+        opticalDataReceiverServiceProvider = connection.startService(
+            OpticalDataReceiverHelper.OPTICALDATARECEIVER_SERVICE_NAME.toString(),
+            OpticalDataReceiverHelper.OPTICALDATARECEIVER_SERVICE, this);
 
         initialiased = true;
-        Logger.getLogger(OpticalDataReceiverProviderServiceImpl.class.getName())
-              .info("Optical Data Receiver service READY");
+        Logger.getLogger(OpticalDataReceiverProviderServiceImpl.class.getName()).info(
+            "Optical Data Receiver service READY");
     }
 
     /**
@@ -104,18 +103,18 @@ public class OpticalDataReceiverProviderServiceImpl extends OpticalDataReceiverI
             }
             connection.closeAll();
         } catch (MALException ex) {
-            Logger.getLogger(OpticalDataReceiverProviderServiceImpl.class.getName())
-                  .log(Level.WARNING, "Exception during close down of the provider {0}", ex);
+            Logger.getLogger(OpticalDataReceiverProviderServiceImpl.class.getName()).log(Level.WARNING,
+                "Exception during close down of the provider {0}", ex);
         }
     }
 
     @Override
-    public void recordSamples(Duration recordingDuration,
-                              RecordSamplesInteraction interaction) throws MALInteractionException, MALException {
+    public void recordSamples(Duration recordingDuration, RecordSamplesInteraction interaction)
+        throws MALInteractionException, MALException {
         if (!adapter.isUnitAvailable()) {
             // TODO Add error code to the service spec
             throw new MALInteractionException(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER,
-                                                                   null));
+                null));
         }
         if (recordingDuration == null || recordingDuration.getValue() == 0.0) {
             // TODO Add error code to the service spec
@@ -124,7 +123,7 @@ public class OpticalDataReceiverProviderServiceImpl extends OpticalDataReceiverI
         }
         if (recordingDuration.getValue() > MAX_RECORDING_DURATION) {
             interaction.sendError(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, new Duration(
-                                                                                                    MAX_RECORDING_DURATION)));
+                MAX_RECORDING_DURATION)));
             return;
         }
         interaction.sendAcknowledgement();

@@ -14,7 +14,8 @@ import esa.mo.com.impl.util.COMServicesProvider;
 /**
  * COMTestArchiveManager is used by tests to interact with COMArchiveManager
  */
-public class COMTestArchiveManager extends COMArchiveManager<ActivityIdentityDetails, ActivityIdentityDetailsList, ActivityDefinitionDetails, ActivityDefinitionDetailsList, ActivityInstanceDetails, ActivityInstanceDetailsList, ActivityUpdateDetails, ActivityUpdateDetailsList> {
+public class COMTestArchiveManager extends
+    COMArchiveManager<ActivityIdentityDetails, ActivityIdentityDetailsList, ActivityDefinitionDetails, ActivityDefinitionDetailsList, ActivityInstanceDetails, ActivityInstanceDetailsList, ActivityUpdateDetails, ActivityUpdateDetailsList> {
 
     public COMTestArchiveManager(COMServicesProvider comServices, COMConfiguration configuration) {
         super(comServices, configuration);

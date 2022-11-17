@@ -46,14 +46,14 @@ public class ConfigurationConsumerServiceImpl extends ConsumerServiceImpl {
 
     private COMServicesConsumer comServices;
 
-    public ConfigurationConsumerServiceImpl(SingleConnectionDetails connectionDetails,
-                                            COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
+    public ConfigurationConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices)
+        throws MALException, MalformedURLException, MALInteractionException {
         this(connectionDetails, comServices, null, null);
     }
 
     public ConfigurationConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices,
-                                            Blob authenticationId,
-                                            String localNamePrefix) throws MALException, MalformedURLException, MALInteractionException {
+        Blob authenticationId, String localNamePrefix) throws MALException, MalformedURLException,
+        MALInteractionException {
 
         if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
             MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -68,7 +68,7 @@ public class ConfigurationConsumerServiceImpl extends ConsumerServiceImpl {
         }
 
         if (MALContextFactory.lookupArea(CommonHelper.COMMON_AREA_NAME, CommonHelper.COMMON_AREA_VERSION)
-                             .getServiceByName(ConfigurationHelper.CONFIGURATION_SERVICE_NAME) == null) {
+            .getServiceByName(ConfigurationHelper.CONFIGURATION_SERVICE_NAME) == null) {
             ConfigurationHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 
@@ -85,10 +85,8 @@ public class ConfigurationConsumerServiceImpl extends ConsumerServiceImpl {
         }
 
         tmConsumer = connection.startService(this.connectionDetails.getProviderURI(), this.connectionDetails
-                                                                                                            .getBrokerURI(),
-                                             this.connectionDetails.getDomain(),
-                                             ConfigurationHelper.CONFIGURATION_SERVICE, authenticationId,
-                                             localNamePrefix);
+            .getBrokerURI(), this.connectionDetails.getDomain(), ConfigurationHelper.CONFIGURATION_SERVICE,
+            authenticationId, localNamePrefix);
 
         this.configurationService = new ConfigurationStub(tmConsumer);
     }

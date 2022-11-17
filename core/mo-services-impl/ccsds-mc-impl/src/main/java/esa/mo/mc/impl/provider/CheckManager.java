@@ -131,9 +131,8 @@ public final class CheckManager extends CheckLinksManager {
                 paramKey = paramObjId.getKey();
             }
             checkSummaries.add(new CheckResultSummary(checkLinkId, super.getCheckLinkDetails(super.getCheckLinkDefId(
-                                                                                                                     checkLinkId)).getCheckEnabled(),
-                                                      paramKey, checkLinkEvaluation.getLastCheckResultTime(),
-                                                      checkLinkEvaluation.getLastCheckResult()));
+                checkLinkId)).getCheckEnabled(), paramKey, checkLinkEvaluation.getLastCheckResultTime(),
+                checkLinkEvaluation.getLastCheckResult()));
         }
         return checkSummaries;
     }
@@ -161,9 +160,8 @@ public final class CheckManager extends CheckLinksManager {
                 paramKey = paramObjId.getKey();
             }
             checkSummeries.add(new CheckResultSummary(checkLinkId, super.getCheckLinkDetails(super.getCheckLinkDefId(
-                                                                                                                     checkLinkId)).getCheckEnabled(),
-                                                      paramKey, checkLinkEval.getLastCheckResultTime(), checkLinkEval
-                                                                                                                     .getLastCheckResult()));
+                checkLinkId)).getCheckEnabled(), paramKey, checkLinkEval.getLastCheckResultTime(), checkLinkEval
+                    .getLastCheckResult()));
         }
         return checkSummeries;
     }
@@ -226,7 +224,7 @@ public final class CheckManager extends CheckLinksManager {
     }
 
     public ObjectInstancePair add(String name, CheckDefinitionDetails checkDef, ObjectId incomeSource,
-                                  SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
+        SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
 
         ObjectInstancePair newIdPair;
 
@@ -241,8 +239,7 @@ public final class CheckManager extends CheckLinksManager {
                 //requirement: 3.5.16.2.j: if a ParameterName ever existed before, use the old ParameterIdentity-Object by retrieving it from the archive
                 //check if the name existed before and retrieve id if found
                 Long identityId = retrieveIdentityIdByNameFromArchive(ConfigurationProviderSingleton.getDomain(),
-                                                                      new Identifier(name),
-                                                                      CheckHelper.CHECKIDENTITY_OBJECT_TYPE);
+                    new Identifier(name), CheckHelper.CHECKIDENTITY_OBJECT_TYPE);
                 //in case the ParameterName never existed before, create a new identity
                 if (identityId == null) {
                     //  requirement: 3.5.16.2.k
@@ -250,13 +247,10 @@ public final class CheckManager extends CheckLinksManager {
                     IdentifierList names = new IdentifierList();
                     names.add(new Identifier(name));
                     LongList identityIds = super.getArchiveService().store( //requirement: 3.5.7.a
-                                                                           true, CheckHelper.CHECKIDENTITY_OBJECT_TYPE, //requirement: 3.5.4.a
-                                                                           ConfigurationProviderSingleton.getDomain(),
-                                                                           HelperArchive.generateArchiveDetailsList(null,
-                                                                                                                    incomeSource,
-                                                                                                                    connectionDetails),
-                                                                           names, //requirement 3.5.4.b
-                                                                           null);
+                        true, CheckHelper.CHECKIDENTITY_OBJECT_TYPE, //requirement: 3.5.4.a
+                        ConfigurationProviderSingleton.getDomain(), HelperArchive.generateArchiveDetailsList(null,
+                            incomeSource, connectionDetails), names, //requirement 3.5.4.b
+                        null);
                     identityId = identityIds.get(0);
                 }
                 //requirement: 3.5.4.c
@@ -265,12 +259,9 @@ public final class CheckManager extends CheckLinksManager {
                 defs.add(checkDef);
                 ObjectType objType = CheckManager.generateCheckObjectType(checkDef); //requirement 3.5.4.c
                 LongList actDefIds = super.getArchiveService().store( //requirement: 3.5.7.b
-                                                                     true, objType, ConfigurationProviderSingleton
-                                                                                                                  .getDomain(),
-                                                                     HelperArchive.generateArchiveDetailsList(identityId,
-                                                                                                              null,
-                                                                                                              connectionDetails), //requirement 3.5.4.d
-                                                                     defs, null);
+                    true, objType, ConfigurationProviderSingleton.getDomain(), HelperArchive.generateArchiveDetailsList(
+                        identityId, null, connectionDetails), //requirement 3.5.4.d
+                    defs, null);
                 newIdPair = new ObjectInstancePair(identityId, actDefIds.get(0));
 
             } catch (Exception ex) {
@@ -287,7 +278,7 @@ public final class CheckManager extends CheckLinksManager {
     }
 
     public Long update(final Long identityId, final CheckDefinitionDetails checkDef,
-                       SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
+        SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
         // requirement: 3.5.16.2.g
         Long actDefId = 0L;
 
@@ -300,11 +291,8 @@ public final class CheckManager extends CheckLinksManager {
                 defs.add(checkDef);
                 ObjectType objType = CheckManager.generateCheckObjectType(checkDef); //requirement 3.5.4.c
                 LongList actDefIds = super.getArchiveService().store(true, objType, ConfigurationProviderSingleton
-                                                                                                                  .getDomain(),
-                                                                     HelperArchive.generateArchiveDetailsList(identityId,
-                                                                                                              null,
-                                                                                                              connectionDetails), //requirement 3.5.4.d
-                                                                     defs, null);
+                    .getDomain(), HelperArchive.generateArchiveDetailsList(identityId, null, connectionDetails), //requirement 3.5.4.d
+                    defs, null);
                 actDefId = actDefIds.get(0);
             } catch (Exception ex) {
                 Logger.getLogger(CheckManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -322,7 +310,7 @@ public final class CheckManager extends CheckLinksManager {
     }
 
     private Long updateCheckLinkObject(Long checkLinkId, CheckLinkDetails checkLinkDetails,
-                                       SingleConnectionDetails connectionDetails) {
+        SingleConnectionDetails connectionDetails) {
         final Long oldCheckLinkDefId = this.getCheckLinkDefId(checkLinkId);
         super.updateCheckLinkDetails(oldCheckLinkDefId, checkLinkDetails);
         Long newCheckLinkDefId = 0L;
@@ -335,14 +323,11 @@ public final class CheckManager extends CheckLinksManager {
             CheckLinkDetailsList linkDetails = new CheckLinkDetailsList();
             linkDetails.add(checkLinkDetails);
             LongList checkLinkDefIds = super.getArchiveService().store( //requirement: 3.5.7.d
-                                                                       true,
-                                                                       CheckHelper.CHECKLINKDEFINITION_OBJECT_TYPE, //requirement: 3.5.4.h
-                                                                       ConfigurationProviderSingleton.getDomain(),
-                                                                       HelperArchive.generateArchiveDetailsList(checkLinkId,
-                                                                                                                null,
-                                                                                                                connectionDetails), //requirement: 3.5.18.2.b, 3.5.4.i
-                                                                       linkDetails, //requirement: 3.5.18.2.a
-                                                                       null);
+                true, CheckHelper.CHECKLINKDEFINITION_OBJECT_TYPE, //requirement: 3.5.4.h
+                ConfigurationProviderSingleton.getDomain(), HelperArchive.generateArchiveDetailsList(checkLinkId, null,
+                    connectionDetails), //requirement: 3.5.18.2.b, 3.5.4.i
+                linkDetails, //requirement: 3.5.18.2.a
+                null);
             newCheckLinkDefId = checkLinkDefIds.get(0);
 
         } catch (MALException | MALInteractionException ex) {
@@ -353,7 +338,7 @@ public final class CheckManager extends CheckLinksManager {
     }
 
     protected ObjectInstancePair addCheckLink(CheckLinkDetails linkDetail, ObjectDetails linkRef,
-                                              SingleConnectionDetails connectionDetails) {
+        SingleConnectionDetails connectionDetails) {
         //id of the new checklink
         Long checkLinkId = 0L;
         Long checkLinkDefId = 0L;
@@ -365,27 +350,22 @@ public final class CheckManager extends CheckLinksManager {
 
                 // Store the CheckLink-Object
                 LongList checkLinkIds = super.getArchiveService().store( //requirement: 3.5.7.c
-                                                                        true, CheckHelper.CHECKLINK_OBJECT_TYPE,//requirement: 3.5.4.e
-                                                                        ConfigurationProviderSingleton.getDomain(),
-                                                                        HelperArchive.generateArchiveDetailsList(linkRef.getRelated(),
-                                                                                                                 linkRef.getSource(),
-                                                                                                                 connectionDetails), //requirement: 3.5.18.2.b, 3.5.4.f, 3.5.4.g
-                                                                        null, //requirement: 3.5.18.2.a
-                                                                        null);
+                    true, CheckHelper.CHECKLINK_OBJECT_TYPE,//requirement: 3.5.4.e
+                    ConfigurationProviderSingleton.getDomain(), HelperArchive.generateArchiveDetailsList(linkRef
+                        .getRelated(), linkRef.getSource(), connectionDetails), //requirement: 3.5.18.2.b, 3.5.4.f, 3.5.4.g
+                    null, //requirement: 3.5.18.2.a
+                    null);
                 checkLinkId = checkLinkIds.get(0);
 
                 //Store the CheckLinkDefinition-Object
                 CheckLinkDetailsList linkDetails = new CheckLinkDetailsList();
                 linkDetails.add(linkDetail);
                 LongList checkLinkDefIds = super.getArchiveService().store( //requirement: 3.5.7.d
-                                                                           true,
-                                                                           CheckHelper.CHECKLINKDEFINITION_OBJECT_TYPE,//requirement: 3.5.4.h
-                                                                           ConfigurationProviderSingleton.getDomain(),
-                                                                           HelperArchive.generateArchiveDetailsList(checkLinkId,
-                                                                                                                    null,
-                                                                                                                    connectionDetails), //requirement: 3.5.18.2.b, 3.5.4.i
-                                                                           linkDetails, //requirement: 3.5.18.2.a
-                                                                           null);
+                    true, CheckHelper.CHECKLINKDEFINITION_OBJECT_TYPE,//requirement: 3.5.4.h
+                    ConfigurationProviderSingleton.getDomain(), HelperArchive.generateArchiveDetailsList(checkLinkId,
+                        null, connectionDetails), //requirement: 3.5.18.2.b, 3.5.4.i
+                    linkDetails, //requirement: 3.5.18.2.a
+                    null);
                 checkLinkDefId = checkLinkDefIds.get(0);
 
             } catch (MALException | MALInteractionException ex) {
@@ -426,7 +406,7 @@ public final class CheckManager extends CheckLinksManager {
     }
 
     protected Boolean reconfigureDefinitions(LongList identityIds, IdentifierList names, LongList defIds,
-                                             LongList actDefIds, ArrayList<CheckDefinitionDetails> defs) {
+        LongList actDefIds, ArrayList<CheckDefinitionDetails> defs) {
         //        if (identityIds == null || defIds == null) {
         //            return false;
         //        }
@@ -535,9 +515,8 @@ public final class CheckManager extends CheckLinksManager {
         checkLinkEvaluation.setLastCheckResultTime(new Time(System.currentTimeMillis()));
         //get the current parameter-definition-id if available and set the object
         final ObjectId sourceParam = super.getCheckLinkLinks(checkLinkId).getSource();
-        checkResult.setParamDefInstId(sourceParam == null ?
-            null :
-            parameterManager.getDefinitionId(sourceParam.getKey().getInstId()));
+        checkResult.setParamDefInstId(sourceParam == null ? null : parameterManager.getDefinitionId(sourceParam.getKey()
+            .getInstId()));
 
         checkLinkEvaluation.setLastCheckResult(checkResult);
     }
@@ -570,21 +549,20 @@ public final class CheckManager extends CheckLinksManager {
      * @return the checkSummaries that matched the filter.
      */
     protected CheckResultSummaryList applyFilter(List<CheckResultSummary> checkSummaries, LongList checksToFilterFor,
-                                                 LongList paramsToFilterFor, CheckStateList statesToFilterFor) {
+        LongList paramsToFilterFor, CheckStateList statesToFilterFor) {
 
         CheckResultSummaryList sendCheckSummaries = new CheckResultSummaryList();
         for (CheckResultSummary checkSummary : checkSummaries) {
             //requirement: 3.5.8.2.a, 3.5.8.2.b
             final Long resultsCheckId = getCheckLinkLinks(checkSummary.getLinkId()).getRelated();
-            final Long resultsParamId = checkSummary.getParameterId() == null ?
-                null :
-                checkSummary.getParameterId().getInstId();
+            final Long resultsParamId = checkSummary.getParameterId() == null ? null : checkSummary.getParameterId()
+                .getInstId();
             final CheckState resultsCheckState = checkSummary.getResult().getCurrentCheckState();
             //requirement: 3.5.8.2.o: the filters must be AND´d in order to return the result
             //requirement: 3.5.8.2.q: wildcard values (empty statesToFilterFor list means match all)
             if (statesToFilterFor.isEmpty() || statesToFilterFor.contains(resultsCheckState)) {
-                if (checksToFilterFor.contains(resultsCheckId) &&
-                    (resultsParamId == null || paramsToFilterFor.contains(resultsParamId))) {
+                if (checksToFilterFor.contains(resultsCheckId) && (resultsParamId == null || paramsToFilterFor.contains(
+                    resultsParamId))) {
                     //requirement: 3.5.8.2.c, 3.5.8.2.e
                     sendCheckSummaries.add(checkSummary);
                 }
@@ -610,13 +588,11 @@ public final class CheckManager extends CheckLinksManager {
     }
 
     protected Long publishCheckTransitionEvent(final CheckResult checkResult, final Long related,
-                                               final ObjectId source) {
+        final ObjectId source) {
         // Store the event in the Archive
         Long eventObjId = getEventService().generateAndStoreEvent( //requirement: 3.5.7.e
-                                                                  CheckHelper.CHECKTRANSITION_OBJECT_TYPE,
-                                                                  ConfigurationProviderSingleton.getDomain(),
-                                                                  checkResult, related, source, null,
-                                                                  ConfigurationProviderSingleton.getNetwork());
+            CheckHelper.CHECKTRANSITION_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(), checkResult, related,
+            source, null, ConfigurationProviderSingleton.getNetwork());
 
         CheckResultList checkResults = new CheckResultList(1);
         checkResults.add(checkResult);
@@ -624,7 +600,7 @@ public final class CheckManager extends CheckLinksManager {
         try {
             // Publish the Event
             getEventService().publishEvent(connection.getPrimaryConnectionDetails().getProviderURI(), eventObjId,
-                                           CheckHelper.CHECKTRANSITION_OBJECT_TYPE, related, source, checkResults);
+                CheckHelper.CHECKTRANSITION_OBJECT_TYPE, related, source, checkResults);
         } catch (IOException ex) {
             Logger.getLogger(CheckManager.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -647,29 +623,20 @@ public final class CheckManager extends CheckLinksManager {
      * the ParameterValueInstance-Object
      */
     public void executeCheck(Long checkLinkId, final ParameterValue newParamValue, boolean triggered,
-                             boolean maxReportingIntervalExpired, ObjectId source) {
-        Logger.getLogger(CheckManager.class.getName())
-              .log(Level.INFO, "Executing check for CheckLink with Id {0} that references to: " +
-                               "Check-Identity with id: {1} and Parameter-Identity with id: {2}. " +
-                               "The ParamValue is: {3}", new Object[]{checkLinkId, getCheckLinkLinks(checkLinkId)
-                                                                                                                 .getRelated(),
-                                                                      getCheckLinkLinks(checkLinkId).getSource() ==
-                                                                                                                                null ?
-                                                                                                                                    "null" :
-                                                                                                                                    getCheckLinkLinks(checkLinkId).getSource()
-                                                                                                                                                                  .getKey()
-                                                                                                                                                                  .getInstId(),
-                                                                      newParamValue});
+        boolean maxReportingIntervalExpired, ObjectId source) {
+        Logger.getLogger(CheckManager.class.getName()).log(Level.INFO,
+            "Executing check for CheckLink with Id {0} that references to: " +
+                "Check-Identity with id: {1} and Parameter-Identity with id: {2}. " + "The ParamValue is: {3}",
+            new Object[]{checkLinkId, getCheckLinkLinks(checkLinkId).getRelated(), getCheckLinkLinks(checkLinkId)
+                .getSource() == null ? "null" : getCheckLinkLinks(checkLinkId).getSource().getKey().getInstId(),
+                         newParamValue});
         if (!super.getCheckLinkDetails(super.getCheckLinkDefId(checkLinkId)).getCheckEnabled()) {
             return;
         }
         //evalutate new result
         final EvaluationResult evalResult = checkLinkEvalManager.evaluateCheckResult(checkLinkId, newParamValue,
-                                                                                     triggered,
-                                                                                     getActualCheckDefinitionFromCheckLinks(checkLinkId),
-                                                                                     super.getCheckLinkDetails(super.getCheckLinkDefId(checkLinkId)),
-                                                                                     getCheckLinkLinks(checkLinkId),
-                                                                                     checkServiceEnabled);
+            triggered, getActualCheckDefinitionFromCheckLinks(checkLinkId), super.getCheckLinkDetails(
+                super.getCheckLinkDefId(checkLinkId)), getCheckLinkLinks(checkLinkId), checkServiceEnabled);
         //publish if necessary
         if (!maxReportingIntervalExpired) {
             //3.5.3.p
@@ -686,11 +653,11 @@ public final class CheckManager extends CheckLinksManager {
         }
         //create new CheckResult-Object, but its not saved yet
         CheckResult newCheckResult = createNewCheckResultObject(checkLinkEvalManager.get(checkLinkId)
-                                                                                    .getLastCheckResult(), evalResult);
+            .getLastCheckResult(), evalResult);
         if (!triggered) {
             //requriement: requirement: 3.5.4.j, 3.5.5.a, 3.5.5.b 3.5.3.hh - dont publish if it didnt change (only if the maximum reporting interval expired (3.5.3.ff)
-            if (!maxReportingIntervalExpired &&
-                newCheckResult.getPreviousCheckState() == newCheckResult.getCurrentCheckState()) {
+            if (!maxReportingIntervalExpired && newCheckResult.getPreviousCheckState() == newCheckResult
+                .getCurrentCheckState()) {
                 return;
             }
             //now it can be saved

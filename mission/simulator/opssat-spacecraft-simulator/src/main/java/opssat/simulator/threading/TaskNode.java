@@ -94,8 +94,7 @@ public abstract class TaskNode implements Runnable {
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd_HHmmss");
         try {
             fh = new FileHandler(LogPath + name + "_" + format.format(Calendar.getInstance().getTime()) + ".log", 1024 *
-                                                                                                                  1024,
-                                 1, false);
+                1024, 1, false);
             fh_static = new FileHandler(LogPath + name + ".log", 1024 * 1024, 1, false);
         } catch (Exception e) {
             e.printStackTrace();
@@ -115,15 +114,12 @@ public abstract class TaskNode implements Runnable {
         consoleHandler.setFormatter(new LoggerFormatter1Line(name));
 
         logObject.addHandler(consoleHandler);
-        logObject.log(Level.INFO, "File logging level is [" +
-                                  logLevel +
-                                  "], Console logging level is [" +
-                                  consoleLogLevel +
-                                  "]");
+        logObject.log(Level.INFO, "File logging level is [" + logLevel + "], Console logging level is [" +
+            consoleLogLevel + "]");
     }
 
     public TaskNode(ConcurrentLinkedQueue<Object> queueIn, ConcurrentLinkedQueue<Object> queueOut, String name,
-                    int delay, Level logLevel, Level consoleLogLevel) {
+        int delay, Level logLevel, Level consoleLogLevel) {
         this.name = name;
         initLogging(logLevel, consoleLogLevel);
 

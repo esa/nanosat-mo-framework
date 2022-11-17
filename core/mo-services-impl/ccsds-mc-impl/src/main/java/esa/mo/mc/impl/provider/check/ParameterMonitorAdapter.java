@@ -54,54 +54,49 @@ public class ParameterMonitorAdapter extends ParameterAdapter {
     @Override
     public void monitorValueRegisterAckReceived(MALMessageHeader msgHeader, Map qosProperties) {
         //save the value of the register-time to test the periodic update later on
-        Logger.getLogger(CheckProviderServiceImpl.class.getName())
-              .log(Level.INFO, "successfully registered for monitorvalue");
+        Logger.getLogger(CheckProviderServiceImpl.class.getName()).log(Level.INFO,
+            "successfully registered for monitorvalue");
         super.monitorValueRegisterAckReceived(msgHeader, qosProperties);
     }
 
     @Override
     public void monitorValueRegisterErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
-                                                  Map qosProperties) {
-        Logger.getLogger(CheckProviderServiceImpl.class.getName())
-              .log(Level.SEVERE, "registration for monitorvalue failed with error {0}", new Object[]{error
-                                                                                                          .getErrorName()});
+        Map qosProperties) {
+        Logger.getLogger(CheckProviderServiceImpl.class.getName()).log(Level.SEVERE,
+            "registration for monitorvalue failed with error {0}", new Object[]{error.getErrorName()});
         super.monitorValueRegisterErrorReceived(msgHeader, error, qosProperties);
     }
 
     @Override
     public void monitorValueNotifyReceived(MALMessageHeader msgHeader, Identifier _Identifier0,
-                                           UpdateHeaderList _UpdateHeaderList1, ObjectIdList paramValueObjectIds,
-                                           ParameterValueList parameterValueList, Map qosProperties) {
+        UpdateHeaderList _UpdateHeaderList1, ObjectIdList paramValueObjectIds, ParameterValueList parameterValueList,
+        Map qosProperties) {
 
         final Long paramIdentityId = _UpdateHeaderList1.get(0).getKey().getSecondSubKey();
-        Logger.getLogger(CheckProviderServiceImpl.class.getName())
-              .log(Level.INFO, "monitorvalue-update for parameter with identity id: {0} received", new Object[]{
-                                                                                                                paramIdentityId});
+        Logger.getLogger(CheckProviderServiceImpl.class.getName()).log(Level.INFO,
+            "monitorvalue-update for parameter with identity id: {0} received", new Object[]{paramIdentityId});
         final ParameterValue newParamValue = parameterValueList.get(0);
         final ObjectId paramValObjId = new ObjectId(ParameterHelper.PARAMETERVALUEINSTANCE_OBJECT_TYPE, new ObjectKey(
-                                                                                                                      msgHeader.getDomain(),
-                                                                                                                      _UpdateHeaderList1.get(0)
-                                                                                                                                        .getKey()
-                                                                                                                                        .getFourthSubKey()));
+            msgHeader.getDomain(), _UpdateHeaderList1.get(0).getKey().getFourthSubKey()));
 
         //set as the current parameterValue
         paramMonitorManager.setParameterValue(paramIdentityId, newParamValue, paramValObjId);
 
         super.monitorValueNotifyReceived(msgHeader, _Identifier0, _UpdateHeaderList1, paramValueObjectIds,
-                                         parameterValueList, qosProperties);
+            parameterValueList, qosProperties);
     }
 
     @Override
     public void monitorValueNotifyErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
-        Logger.getLogger(CheckProviderServiceImpl.class.getName())
-              .log(Level.SEVERE, "monitorvalue notification failed with error {0}", new Object[]{error.getErrorName()});
+        Logger.getLogger(CheckProviderServiceImpl.class.getName()).log(Level.SEVERE,
+            "monitorvalue notification failed with error {0}", new Object[]{error.getErrorName()});
         super.monitorValueNotifyErrorReceived(msgHeader, error, qosProperties);
     }
 
     @Override
     public void monitorValueDeregisterAckReceived(MALMessageHeader msgHeader, Map qosProperties) {
-        Logger.getLogger(CheckProviderServiceImpl.class.getName())
-              .log(Level.INFO, "successfully deregistered monitorvalue");
+        Logger.getLogger(CheckProviderServiceImpl.class.getName()).log(Level.INFO,
+            "successfully deregistered monitorvalue");
         super.monitorValueDeregisterAckReceived(msgHeader, qosProperties); //To change body of generated methods, choose Tools | Templates.
     }
 }
