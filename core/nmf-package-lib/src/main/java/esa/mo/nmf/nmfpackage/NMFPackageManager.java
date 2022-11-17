@@ -200,7 +200,13 @@ public class NMFPackageManager {
             if (OS.isUnix()) {
                 if (!keepUserData) {
                     String username = generateUsername(packageName);
-                    LinuxUsersGroups.deluser(username, true);
+                    try {
+                        LinuxUsersGroups.deluser(username, true);
+                    } catch (IOException ex) {
+                        Logger.getLogger(NMFPackageManager.class.getName()).log(
+                                Level.WARNING, "The User could not be deleted: "
+                                + username, ex);
+                    }
                 }
             }
         }
