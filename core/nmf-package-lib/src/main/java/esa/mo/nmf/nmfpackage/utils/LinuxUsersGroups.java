@@ -144,6 +144,8 @@ public class LinuxUsersGroups {
     }
 
     public static void addUserToGroup(String username, String extraGroup) throws IOException {
+        // Note: usermod does not exist in some trimmed Linux versions
+        // Therefore we will be using the adduser equivalent functionality
         String[] cmd = {"sudo", "adduser", username, extraGroup};
         String out = runCommand(cmd);
         checkIfPermissionDenied(cmd, out);

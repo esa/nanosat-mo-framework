@@ -85,7 +85,7 @@ public class NMFPackageManager {
             final File nmfDir) throws FileNotFoundException, IOException {
         System.out.printf(SEPARATOR);
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
-                "Reading the package file to be installed...");
+                "Openning an verifying the package file to be installed...");
 
         // Get the File to be installed
         NMFPackage nmfPackage = new NMFPackage(packageLocation);
@@ -97,9 +97,6 @@ public class NMFPackageManager {
         }
 
         // Verify integrity of the file: Are all the declared files matching their CRCs?
-        Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
-                "Verifying the integrity of the files to be installed...");
-
         // Do the files actually match the descriptor?
         nmfPackage.verifyPackageIntegrity();
 
@@ -129,28 +126,44 @@ public class NMFPackageManager {
                     // Create the User for this App
                     boolean withGroup = true;
                     LinuxUsersGroups.adduser(username, password, withGroup);
-                    LinuxUsersGroups.addUserToGroup(username, GROUP_NMF_APPS);
+
+                    try { // Handle it seperately!
+                        LinuxUsersGroups.addUserToGroup(username, GROUP_NMF_APPS);
+                    } catch (IOException ex) {
+                        Logger.getLogger(NMFPackageManager.class.getName()).log(
+                                Level.INFO, "The User " + username
+                                + " could not be added to the Group: "
+                                + GROUP_NMF_APPS, ex);
+                    }
 
                     // Set the right Group and Permissions to the Home Directory
                     // The owner remains with the app, the group is nmf-admin
-                    String appHomeDir = LinuxUsersGroups.findHomeDir(username);
-                    LinuxUsersGroups.chgrp(true, USER_NMF_ADMIN, appHomeDir);
-                    LinuxUsersGroups.chmod(true, true, "770", appHomeDir);
+                    try {
+                        String appHomeDir = LinuxUsersGroups.findHomeDir(username);
+                        LinuxUsersGroups.chgrp(true, USER_NMF_ADMIN, appHomeDir);
+                        LinuxUsersGroups.chmod(true, true, "770", appHomeDir);
+                    } catch (IOException ex) {
+                        Logger.getLogger(NMFPackageManager.class.getName()).log(
+                                Level.INFO, "The permissions of the User Home "
+                                + "directory could not be set for username: "
+                                + username, ex);
+                    }
+                    
+                    // There is a group with the same name as the username:
+                    String toGroup = username;
+                    // Change Group owner of the appDir...
+                    // Usually something like: /nanosat-mo-framework/apps/my-app
+                    changeGroupAndSetPermissions(appDir, toGroup, "750");
+
+                    try {
+                        changeGroupAndSetPermissions(logDir, toGroup, "770");
+                    } catch (IOException ex) {
+                        // The previous log files were created with a user that 
+                        // might no longer exist, so just ignore the exception!
+                    }
                 } catch (IOException ex) {
                     Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
                             "The User could not be created: " + username, ex);
-                    username = null;
-                }
-            }
-
-            if (OS.isUnix()) { // Change Group owner of the appDir
-                changeGroupAndSetPermissions(appDir, username, "750");
-
-                try {
-                    changeGroupAndSetPermissions(logDir, username, "770");
-                } catch (IOException ex) {
-                    // The previous log files were created with a user that 
-                    // might no longer exist, so just ignore the exception!
                 }
             }
         }
@@ -174,7 +187,7 @@ public class NMFPackageManager {
     /**
      * Uninstalls an NMF Package using the respective package descriptor.
      *
-     * @param descriptor The descriptor
+     * @param packageMetadata The metadata
      * @param keepUserData A flag that sets if the user data is kept
      * @throws IOException if there was a problem during the uninstallation
      */
