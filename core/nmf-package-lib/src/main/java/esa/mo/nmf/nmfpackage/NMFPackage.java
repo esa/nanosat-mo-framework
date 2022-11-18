@@ -40,10 +40,23 @@ public class NMFPackage {
     private final ZipFile zipFile;
     private Metadata metadata;
 
+    /**
+     * Constructor.
+     *
+     * @param filepath The path to the NMF Package file.
+     * @throws IOException If there is a problem with the file.
+     */
     public NMFPackage(String filepath) throws IOException {
         this.zipFile = new ZipFile(filepath);
     }
 
+    /**
+     * Returns the metadata of the NMF Package.
+     *
+     * @return The metadata of the NMF Package.
+     * @throws IOException If the metadata from the NMF Package could not be
+     * parsed.
+     */
     public synchronized Metadata getMetadata() throws IOException {
         if (metadata != null) {
             return metadata;
@@ -53,6 +66,12 @@ public class NMFPackage {
         return metadata;
     }
 
+    /**
+     * Returns the CRC of the NMF Package metadata.
+     *
+     * @return The CRC of the NMF Package metadata.
+     * @throws IOException If the CRC could not be calculated.
+     */
     public long calculateMetadataCRC() throws IOException {
         ZipEntry entry = zipFile.getEntry(Metadata.FILENAME);
 
@@ -68,6 +87,12 @@ public class NMFPackage {
         return crc;
     }
 
+    /**
+     * Returns the zip entry for the selected path.
+     *
+     * @param path The path to the zip entry.
+     * @return The ZipEntry for the selected path.
+     */
     public ZipEntry getZipFileEntry(String path) {
         ZipEntry entry = zipFile.getEntry(path);
 
@@ -78,6 +103,12 @@ public class NMFPackage {
         return entry;
     }
 
+    /**
+     * Verifies the package integrity. Checks if the CRCs of the files match.
+     * This prevents package tainting.
+     *
+     * @throws IOException
+     */
     public void verifyPackageIntegrity() throws IOException {
         ArrayList<NMFPackageFile> files = this.getMetadata().getFiles();
 
@@ -98,13 +129,20 @@ public class NMFPackage {
                         + "\nAvailable entries:\n" + allEntries.toString());
             }
 
+            // Are all the declared files matching their CRCs?
             if (filepack.getCRC() != entry.getCrc()) {
                 throw new IOException("The CRC does not match!");
             }
         }
     }
 
-    public void extractFiles(File to) throws IOException {
+    /**
+     * Extracts the files in this package to the selected folder.
+     *
+     * @param toFolder The folder where the files will be extracted to.
+     * @throws IOException If the files could not be extracted.
+     */
+    public void extractFiles(File toFolder) throws IOException {
         File newFile;
         byte[] buffer = new byte[1024];
 
@@ -116,7 +154,7 @@ public class NMFPackage {
             ZipEntry entry = this.getZipFileEntry(file.getPath());
 
             String path = HelperNMFPackage.generateFilePathForSystem(entry.getName());
-            newFile = new File(to.getCanonicalPath() + File.separator + path);
+            newFile = new File(toFolder.getCanonicalPath() + File.separator + path);
             File parent = newFile.getParentFile();
 
             if (!parent.exists()) {
