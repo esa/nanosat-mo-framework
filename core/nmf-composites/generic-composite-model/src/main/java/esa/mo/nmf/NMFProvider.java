@@ -208,6 +208,19 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
         }
     }
 
+    /**
+     * Sets the transport dispatcher executor threads configurations.
+     */
+    public void configureTransportThreads() {
+        System.setProperty("org.ccsds.moims.mo.mal.transport.gen.inputprocessors", "5");
+
+        // Clean up idle threads after 2 seconds:  (does not seem to work)
+        // System.setProperty("org.ccsds.moims.mo.mal.transport.gen.idleinputprocessors", "2");
+        
+        // let's have a minimum of 2 threads:  (does not seem to work)
+        // System.setProperty("org.ccsds.moims.mo.mal.transport.gen.mininputprocessors", "2");
+    }
+
     @Override
     public void setOnConfigurationChangeListener(ConfigurationChangeListener configurationAdapter) {
         this.providerConfigurationAdapter = configurationAdapter;
@@ -311,7 +324,7 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
 
     /**
      * Generates a starting Banner that can be used for NMF Providers.
-     * 
+     *
      * @return The banner.
      */
     protected String generateStartBanner() {
