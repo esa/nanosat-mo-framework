@@ -139,11 +139,6 @@ public abstract class NanoSatMOMonolithic extends NMFProvider {
                 "URI: {0}\n", uri);
     }
 
-    @Override
-    public void init(MissionPlanningNMFAdapter mpAdapter) {
-      // Not implemented. MP services are accessible only from connector.
-    }
-
     /**
      * It closes the App gracefully.
      *
