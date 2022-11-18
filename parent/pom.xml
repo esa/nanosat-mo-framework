@@ -344,14 +344,14 @@
             <goals>
               <goal>apply</goal>
             </goals>
-            <phase>process-classes</phase>
+            <phase>process-sources</phase>
           </execution>
           <execution>
             <id>spotless-check</id>
             <goals>
               <goal>check</goal>
             </goals>
-            <phase>process-classes</phase>
+            <phase>process-sources</phase>
           </execution>
         </executions>
       </plugin>
