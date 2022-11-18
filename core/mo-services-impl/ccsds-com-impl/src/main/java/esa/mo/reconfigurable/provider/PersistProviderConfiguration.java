@@ -106,9 +106,16 @@ public class PersistProviderConfiguration
                                                                                               comObjectProvider.getArchiveDetails()
                                                                                                       .getDetails()
                                                                                                       .getRelated());
-            objIds =
-                    ((ConfigurationObjectDetails) comObjectConfs.getObject()).getConfigObjects().get(0).getObjInstIds();
-            return;
+            
+            if(comObjectConfs != null) {
+                ConfigurationObjectDetails conf = (ConfigurationObjectDetails) comObjectConfs.getObject();
+                ConfigurationObjectSetList sets = conf.getConfigObjects();
+                objIds = sets.get(0).getObjInstIds();
+                return;
+            } else {
+                Logger.getLogger(PersistProviderConfiguration.class.getName()).log(
+                    Level.WARNING, "The Configuration objects could not be retrieved!");
+            }
         }
 
         // It doesn't exist... create all the necessary objects...
