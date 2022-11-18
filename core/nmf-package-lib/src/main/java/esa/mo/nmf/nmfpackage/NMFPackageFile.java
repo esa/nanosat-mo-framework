@@ -1,5 +1,5 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2021      European Space Agency
+ * Copyright (C) 2022      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
@@ -21,6 +21,7 @@
 package esa.mo.nmf.nmfpackage;
 
 /**
+ * Holds an entry to a file in the NMF Package.
  *
  * @author Cesar Coelho
  */
@@ -29,17 +30,32 @@ public class NMFPackageFile {
     private final String path;
     private final long crc;
 
+    /**
+     * Constructor for the NMFPackageFile object.
+     *
+     * @param path The path to the file in the package.
+     * @param crc The CRC to the file in the package.
+     */
     public NMFPackageFile(final String path, final long crc) {
         this.path = path;
         this.crc = crc;
     }
 
+    /**
+     * Returns the path to the file in the package.
+     *
+     * @return The path to the file in the package.
+     */
     public String getPath() {
         return path;
     }
 
+    /**
+     * Returns the CRC of the file in the package.
+     *
+     * @return The CRC of the file in the package.
+     */
     public long getCRC() {
         return crc;
     }
-
 }

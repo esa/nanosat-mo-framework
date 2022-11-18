@@ -85,7 +85,7 @@ public class NMFPackageManager {
             final File nmfDir) throws FileNotFoundException, IOException {
         System.out.printf(SEPARATOR);
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
-                "Openning an verifying the package file to be installed...");
+                "Reading the package on: " + packageLocation);
 
         // Get the File to be installed
         NMFPackage nmfPackage = new NMFPackage(packageLocation);
@@ -96,8 +96,6 @@ public class NMFPackageManager {
                     + "Version: " + metadata.getMetadataVersion());
         }
 
-        // Verify integrity of the file: Are all the declared files matching their CRCs?
-        // Do the files actually match the descriptor?
         nmfPackage.verifyPackageIntegrity();
 
         if (metadata.isApp()) {
@@ -148,7 +146,7 @@ public class NMFPackageManager {
                                 + "directory could not be set for username: "
                                 + username, ex);
                     }
-                    
+
                     // There is a group with the same name as the username:
                     String toGroup = username;
                     // Change Group owner of the appDir...
@@ -396,13 +394,13 @@ public class NMFPackageManager {
 
         // We need to check if the metadatas are the same!
         if (!metadata.sameAs(installedMetadata)) {
-            Logger.getLogger(NMFPackageManager.class.getName()).log(Level.SEVERE,
+            Logger.getLogger(NMFPackageManager.class.getName()).log(Level.FINE,
                     "The NMF Package is not the same as the installed one!");
             return false;
         }
 
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.FINE,
-                "The package " + metadata.getPackageName() + " installation folder was found!");
+                "The package " + packageName + " installation folder was found!");
 
         return true;
     }
@@ -416,18 +414,32 @@ public class NMFPackageManager {
         ArrayList<String> dependencies = metadata.getAppDependencies();
         String parent = (new File(packageLocation)).getParent();
 
-        Logger.getLogger(NMFPackageManager.class.getName()).log(
-                Level.INFO, "Dependencies are: " + dependencies.toString());
+        Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
+                "The dependencies are: " + dependencies.toString());
 
-        for (String file : dependencies) {
-            file = file.replace(".jar", "." + Const.NMF_PACKAGE_SUFFIX);
+        ArrayList<String> toBeInstalled = new ArrayList<>();
+
+        for (String dependency : dependencies) {
+            String file = dependency.replace(".jar", "." + Const.NMF_PACKAGE_SUFFIX);
             String path = parent + File.separator + file;
-            // NMFPackage pack = new NMFPackage(path);
-            // pack.extractFiles(installationDir);
 
-            // TBD: We need to check if it has been installed 
-            // already, otherwise no need to do it again
+            if (isPackageInstalled(path)) {
+                Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
+                        "The dependency is already installed: " + dependency);
+            } else {
+                if ((new File(path)).exists()) {
+                    toBeInstalled.add(path);
+                } else {
+                    throw new IOException("The package was not found for "
+                            + "dependency: " + dependency);
+                }
+            }
+        }
+
+        for (String path : toBeInstalled) {
             this.install(path, nmfDir);
+            // NMFPackage pack = new NMFPackage(path);
+            // pack.extractFiles(nmfDir);
         }
     }
 
@@ -522,7 +534,8 @@ public class NMFPackageManager {
 
         try {
             Logger.getLogger(NMFPackageManager.class.getName()).log(
-                    Level.INFO, "Checking if " + name + " App is running...");
+                    Level.INFO, "Checking if " + name + " App is running... "
+                    + " The App will be stopped if running!");
 
             IdentifierList myApp = new IdentifierList();
             myApp.add(new Identifier(name));
