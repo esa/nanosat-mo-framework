@@ -124,11 +124,6 @@ public abstract class NanoSatMOMonolithic extends NMFProvider {
         Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.INFO, "URI: {0}\n", uri);
     }
 
-    @Override
-    public void init(MissionPlanningNMFAdapter mpAdapter) {
-        // Not implemented. MP services are accessible only from connector.
-    }
-
     /**
      * It closes the App gracefully.
      *

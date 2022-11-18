@@ -88,14 +88,6 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
      */
     public abstract void init(final MonitorAndControlNMFAdapter mcAdapter);
 
-    /**
-     * Initializes the NMF provider using a mission planning adapter that
-     * connects to the Mission Planning services.
-     *
-     * @param mpAdapter The Mission Planning Adapter.
-     */
-    public abstract void init(final MissionPlanningNMFAdapter mpAdapter);
-
     @Override
     public COMServicesProvider getCOMServices() throws NMFException {
         if (this.comServices == null) {

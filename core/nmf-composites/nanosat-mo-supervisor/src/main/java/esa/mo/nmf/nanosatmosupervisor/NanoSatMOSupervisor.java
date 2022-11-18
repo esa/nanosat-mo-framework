@@ -204,11 +204,6 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
   }
 
   @Override
-  public void init(MissionPlanningNMFAdapter mpAdapter) {
-    // Not implemented. MP services are accessible only from connector.
-  }
-
-  @Override
   public void setCloseAppListener(final CloseAppListener closeAppAdapter) {
     this.closeAppAdapter = closeAppAdapter;
   }

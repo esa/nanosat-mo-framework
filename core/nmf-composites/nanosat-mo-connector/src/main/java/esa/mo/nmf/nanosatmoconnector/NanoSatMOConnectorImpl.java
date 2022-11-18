@@ -75,8 +75,6 @@ import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
  */
 public class NanoSatMOConnectorImpl extends NMFProvider {
 
-    private static final String SEPARATOR = "------------";
-
     private static final Logger LOGGER = Logger.getLogger(NanoSatMOConnectorImpl.class.getName());
 
     private final boolean fastMode = false;
@@ -99,12 +97,12 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
         super.startTime = System.currentTimeMillis();
         LOGGER.log(Level.INFO, this.generateStartBanner());
 
-        HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
-        ConnectionProvider.resetURILinks(); // Resets the providerURIs.properties file
+        // Loads: provider.properties; settings.properties; transport.properties
+        HelperMisc.loadPropertiesFile();
+        ConnectionProvider.resetURILinks(); // Resets the URIs file
 
         // Create provider name to be registerd on the Directory service...
-        String appName = this.determineAppName();
-        this.providerName = AppsLauncherProviderServiceImpl.PROVIDER_PREFIX_NAME + appName;
+        this.providerName = this.determineAppName();
 
         // Check if the new Home dir mode property is enabled:
         int mode = Integer.parseInt(System.getProperty(HelperMisc.PROP_WORK_DIR_STORAGE_MODE, "0"));
@@ -216,10 +214,10 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                     }
 
                     // Select the best transport for IPC and convert to a ConnectionConsumer object
-                    final ProviderSummary filteredConnections = HelperCommon.selectBestIPCTransport(
-                        supervisorConnections.get(0));
-                    final ConnectionConsumer supervisorCCPlat = HelperCommon.providerSummaryToConnectionConsumer(
-                        filteredConnections);
+                    final ProviderSummary filteredConnections
+                            = HelperCommon.selectBestIPCTransport(supervisorConnections.get(0));
+                    final ConnectionConsumer supervisorCCPlat
+                            = HelperCommon.providerSummaryToConnectionConsumer(filteredConnections);
 
                     // Connect to them...
                     platformServices = new PlatformServicesConsumer();
@@ -234,8 +232,10 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                         "The NanoSat MO Connector was expecting a single NMF Platform services provider!" +
                             " Instead it found {0}.", supervisorConnections.size());
                 }
-            } catch (MALException | MalformedURLException ex) {
-                LOGGER.log(Level.SEVERE, null, ex);
+            } catch (MALException ex) {
+                LOGGER.log(Level.SEVERE, "MALException in NanoSat MO Connector!", ex);
+            } catch (MalformedURLException ex) {
+                LOGGER.log(Level.SEVERE, "MalformedURLException in NanoSat MO Connector!", ex);
             } catch (MALInteractionException ex) {
                 LOGGER.log(Level.SEVERE, "Could not connect to the Central Directory service! Maybe it is down...");
             }
@@ -302,8 +302,8 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
 
         if (mcAdapter != null) {
             LOGGER.log(Level.INFO, "Performing initial M&C registrations...");
-            MCRegistration registration = new MCRegistration(comServices, 
-                    mcServices.getParameterService(), mcServices.getAggregationService(), 
+            MCRegistration registration = new MCRegistration(comServices,
+                    mcServices.getParameterService(), mcServices.getAggregationService(),
                     mcServices.getAlertService(), mcServices.getActionService());
             mcAdapter.initialRegistrations(registration);
             mcAdapter.restoreParameterValuesFromArchive();
@@ -317,15 +317,20 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
         LOGGER.log(Level.INFO, "URI: {0}\n", uri);
     }
 
-    @Override
+    /**
+     * Initializes the NanoSat MO Connector. The MissionPlanningNMFAdapter
+     * adapter class can be extended for planning and scheduling with the
+     * CCSDS Planning and Scheduling services.
+     *
+     * @param mpAdapter The adapter to connect the mission planning adapter.
+     */
     public void init(final MissionPlanningNMFAdapter mpAdapter) {
         super.startTime = System.currentTimeMillis();
         HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
         ConnectionProvider.resetURILinks();
 
         // Create provider name to be registerd on the Directory service...
-        String appName = this.determineAppName();
-        this.providerName = AppsLauncherProviderServiceImpl.PROVIDER_PREFIX_NAME + appName;
+        this.providerName = this.determineAppName();
 
         try {
             comServices.init();
@@ -668,8 +673,9 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
             this.getCOMServices().closeAll();
 
             // Exit the Java application
-            LOGGER.log(Level.INFO, "Success! The currently running Java Virtual Machine will now terminate. " +
-                "(App closed in: {0} ms)\n", System.currentTimeMillis() - time);
+            LOGGER.log(Level.INFO, "Success! The currently running Java Virtual"
+                    + " Machine will now terminate. (App closed in: {0} ms)\n",
+                    System.currentTimeMillis() - time);
         } catch (NMFException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
@@ -719,7 +725,6 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
             LOGGER.log(Level.SEVERE, "The NMF App name could not be established.");
         }
 
-        return appName;
+        return AppsLauncherProviderServiceImpl.PROVIDER_PREFIX_NAME + appName;
     }
-
 }
