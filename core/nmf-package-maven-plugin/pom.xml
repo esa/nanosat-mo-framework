@@ -73,6 +73,12 @@
             <artifactId>maven-plugin-annotations</artifactId>
             <version>3.6.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-compress</artifactId>
+            <version>1.19</version>
+            <type>jar</type>
+        </dependency>
     </dependencies>
 
     <build>

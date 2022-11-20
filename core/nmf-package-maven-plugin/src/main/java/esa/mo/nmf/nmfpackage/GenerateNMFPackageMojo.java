@@ -111,29 +111,26 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
     @Parameter(property = "generate-nmf-package.privilege", defaultValue = "normal")
     private Privilege privilege;
 
-    private final static String TARGET_FOLDER = "target";
-    final ArrayList<String> inputFiles = new ArrayList<>();
-    final ArrayList<String> locations = new ArrayList<>();
-    String appPath = "no-path";
+    private final static File TARGET_FOLDER = new File("target");
 
     @Override
     public void execute() throws MojoExecutionException {
         getLog().info("Generating NMF Package...");
-        appPath = Deployment.DIR_APPS + File.separator + name + File.separator;
+        
+        String path = Deployment.DIR_APPS + File.separator + name;
+        NMFPackageBuilder builder = new NMFPackageBuilder(path);
         String mainJar = "";
 
         try {
-            File target = new File(TARGET_FOLDER);
-            File myAppFilename = HelperNMFPackage.findAppJarInFolder(target);
+            File myAppFilename = HelperNMFPackage.findAppJarInFolder(TARGET_FOLDER);
             mainJar = myAppFilename.getName();
-            inputFiles.add(myAppFilename.getAbsolutePath());
-            locations.add(appPath + myAppFilename.getName());
+            builder.addFileOrDirectory(myAppFilename);
 
             // Add the external libs or files
             if (libs != null) {
                 for (String lib : libs) {
                     getLog().info(">> lib: " + lib);
-                    addFileOrDirectory(lib, "");
+                    builder.addFileOrDirectory(lib, "");
                 }
             }
         } catch (IOException ex) {
@@ -207,11 +204,12 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
         // Package
         MetadataApp metadata = new MetadataApp(name, version,
                 mainClass, mainJar, maxHeap, minHeap, dependencies);
-        NMFPackageCreator.create(metadata, inputFiles, locations, TARGET_FOLDER);
+        builder.createPackage(metadata, TARGET_FOLDER);
     }
 
     private String packageJarDependency(Artifact artifact) {
         File file = artifact.getFile();
+        /*
         ArrayList<String> files = new ArrayList<>();
         files.add(file.toPath().toString());
 
@@ -220,22 +218,17 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
         ArrayList<String> newLocations = new ArrayList<>();
         newLocations.add(Deployment.DIR_JARS_SHARED + File.separator + file.getName());
         NMFPackageCreator.create(metadata, files, newLocations, TARGET_FOLDER);
+        */
+
+        String artifactId = artifact.getArtifactId();
+        String ver = artifact.getVersion();
+        MetadataDependency metadata = new MetadataDependency(artifactId, ver);
+        
+        NMFPackageBuilder builder = new NMFPackageBuilder(Deployment.DIR_JARS_SHARED);
+        builder.addFileOrDirectory(file);
+        builder.createPackage(metadata, TARGET_FOLDER);
+        
         return file.getName();
-    }
-
-    private void addFileOrDirectory(String path, String nest) {
-        File f = new File(path);
-
-        if (f.isDirectory()) {
-            nest += f.getName() + File.separator;
-
-            for (File n : f.listFiles()) {
-                addFileOrDirectory(n.getAbsolutePath(), nest);
-            }
-        } else {
-            inputFiles.add(f.getAbsolutePath());
-            locations.add(appPath + nest + f.getName());
-        }
     }
 
 }

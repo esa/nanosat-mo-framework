@@ -21,9 +21,13 @@
 package esa.mo.nmf.nmfpackage.tests;
 
 import esa.mo.helpertools.helpers.HelperTime;
+import esa.mo.nmf.nmfpackage.Deployment;
 import esa.mo.nmf.nmfpackage.NMFPackageCreator;
+import esa.mo.nmf.nmfpackage.NMFPackageBuilder;
 import esa.mo.nmf.nmfpackage.receipt.DetailsApp;
 import esa.mo.nmf.nmfpackage.metadata.Metadata;
+import esa.mo.nmf.nmfpackage.metadata.MetadataApp;
+import esa.mo.nmf.nmfpackage.metadata.MetadataDependency;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,7 +41,7 @@ import org.ccsds.moims.mo.mal.structures.Time;
  *
  * @author Cesar Coelho
  */
-public class SimpleDemoPackageCreation {
+public class SimpleDemoPackageAppCreation {
 
     /**
      * Main command line entry point.
@@ -45,45 +49,24 @@ public class SimpleDemoPackageCreation {
      * @param args the command line arguments
      */
     public static void main(final String[] args) {
-        SimpleDemoPackageCreation.createPackage();
+        SimpleDemoPackageAppCreation.createPackage();
     }
 
     public static void createPackage() {
-        ArrayList<String> files = new ArrayList<>();
-        ArrayList<String> newLocations = new ArrayList<>();
-
-        String myAppFilename = "myApp.filetype";
-        String dummyFolder = "myInstalledApp";
-        files.add(myAppFilename);
-        newLocations.add("apps" + File.separator + dummyFolder + File.separator + myAppFilename);
-
-        final Time time = new Time(System.currentTimeMillis());
-        final String timestamp = HelperTime.time2readableString(time);
-
         Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.INFO,
                 "\n------------- Package 1 Generation -------------\n");
 
         // Package 1
-        DetailsApp details = new DetailsApp("TestPackage", "1.0",
-                timestamp, "noclass", "", "96m", null);
+        String myAppFilename = "myApp.filetype";
+        String appName = "my-test-app";
+        String path = Deployment.DIR_APPS + File.separator + appName;
 
-        NMFPackageCreator.nmfPackageCreator(details, files, newLocations);
+        MetadataApp metadata = new MetadataApp(appName, "1.0.0",
+                "noclass", "myJarFile.jar", "128m", "16m", null);
 
-        Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.INFO,
-                "\n------------- Package 2 Generation -------------\n");
-
-        // Package 2
-        DetailsApp details2 = new DetailsApp("TestPackage", "2.0",
-                timestamp, "noclass", "", "96m", null);
-        NMFPackageCreator.nmfPackageCreator(details2, files, newLocations);
-
-        Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.INFO,
-                "\n------------- Package 3 Generation -------------\n");
-
-        // Package 3
-        DetailsApp details3 = new DetailsApp("TestPackage", "3.0",
-                timestamp, "noclass", "", "96m", null);
-        String location = NMFPackageCreator.nmfPackageCreator(details3, files, newLocations);
+        NMFPackageBuilder builder = new NMFPackageBuilder(path);
+        builder.addFileOrDirectory(myAppFilename);
+        File location = builder.createPackage(metadata, new File("target"));
 
         try {
             // Test if the created file can be parsed
@@ -91,10 +74,10 @@ public class SimpleDemoPackageCreation {
 
             // Try to open the the metadata file inside the Zip file
             // and parse it into a Metadata object
-            Metadata metadata = Metadata.parseZipFile(writtenFile);
-            metadata = null;
+            Metadata metadataInFile = Metadata.parseZipFile(writtenFile);
+            metadataInFile = null;
         } catch (IOException ex) {
-            Logger.getLogger(SimpleDemoPackageCreation.class.getName()).log(
+            Logger.getLogger(SimpleDemoPackageAppCreation.class.getName()).log(
                     Level.SEVERE, "The file could not be processed!", ex);
         }
     }
