@@ -27,6 +27,7 @@ import esa.mo.helpertools.misc.Const;
 import esa.mo.helpertools.misc.OSValidator;
 import esa.mo.nmf.nmfpackage.metadata.Metadata;
 import esa.mo.nmf.nmfpackage.metadata.MetadataApp;
+import esa.mo.nmf.nmfpackage.utils.AuxFilesGenerator;
 import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl;
 import java.io.File;
 import java.io.FileInputStream;
@@ -114,7 +115,7 @@ public class NMFPackageManager {
             String password = null;
 
             File appDir = new File(Deployment.getAppsDir(), packageName);
-            HelperNMFPackage.generateStartScript(metadata.castToApp(), appDir, nmfDir);
+            AuxFilesGenerator.generateStartScript(metadata.castToApp(), appDir, nmfDir);
             createAuxiliaryFiles(appDir, username);
             File logDir = Deployment.getLogsDirForApp(packageName);
             logDir.mkdirs();
@@ -308,17 +309,17 @@ public class NMFPackageManager {
         newPack.extractFiles(nmfDir);
 
         if (isApp) {
-            File installationDir = new File(Deployment.getAppsDir(), packageName);
+            File appDir = new File(Deployment.getAppsDir(), packageName);
             String username = generateUsername(packageName);
 
             MetadataApp appMetadata = newPackMetadata.castToApp();
-            HelperNMFPackage.generateStartScript(appMetadata, installationDir, nmfDir);
-            createAuxiliaryFiles(installationDir, username);
+            AuxFilesGenerator.generateStartScript(appMetadata, appDir, nmfDir);
+            createAuxiliaryFiles(appDir, username);
             File logDir = Deployment.getLogsDirForApp(packageName);
             logDir.mkdirs();
 
             if (OS.isUnix()) { // Change Group owner of the appDir
-                changeGroupAndSetPermissions(installationDir, username, "750");
+                changeGroupAndSetPermissions(appDir, username, "750");
 
                 try {
                     changeGroupAndSetPermissions(logDir, username, "770");
@@ -457,16 +458,27 @@ public class NMFPackageManager {
         NMFPackageManager.removeFile(windows.exists() ? windows : linux);
     }
 
-    private static void createAuxiliaryFiles(File installationDir, String username) throws IOException {
-        // Generate provider.properties
-        File providerFile = new File(installationDir, HelperMisc.PROVIDER_PROPERTIES_FILE);
-        String providerContent = HelperNMFPackage.generateProviderProperties(username);
-        HelperNMFPackage.writeFile(providerFile, providerContent);
+    private static void createAuxiliaryFiles(File appDir, String username) throws IOException {
+        File globalTransport = Deployment.getTransportFile();
+        String transport;
 
-        // Generate transport.properties
-        File transportFile = new File(installationDir, HelperMisc.TRANSPORT_PROPERTIES_FILE);
-        String transportContent = HelperNMFPackage.generateTransportProperties();
-        HelperNMFPackage.writeFile(transportFile, transportContent);
+        // Generate a dedicated transport.properties for
+        // the App if the Global transport file does not exist
+        if (globalTransport.exists()) {
+            transport = globalTransport.getAbsolutePath();
+        } else {
+            // Generates the transport file in the folder of the App!
+            File file = new File(appDir, HelperMisc.TRANSPORT_PROPERTIES_FILE);
+            String transportContent = AuxFilesGenerator.generateTransportProperties();
+            AuxFilesGenerator.writeFile(file, transportContent);
+            transport = HelperMisc.TRANSPORT_PROPERTIES_FILE;
+        }
+
+        // Generate provider.properties
+        File providerFile = new File(appDir, HelperMisc.PROVIDER_PROPERTIES_FILE);
+        String providerContent = AuxFilesGenerator.generateProviderProperties(username, transport);
+        AuxFilesGenerator.writeFile(providerFile, providerContent);
+
     }
 
     private static void removeFiles(Metadata metadata) throws IOException {

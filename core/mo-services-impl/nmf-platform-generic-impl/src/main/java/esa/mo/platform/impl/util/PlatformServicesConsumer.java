@@ -98,14 +98,14 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
             // Initialize the Camera service
             details = connectionConsumer.getServicesDetails().get(CameraHelper.CAMERA_SERVICE_NAME);
             if (details != null) {
-                cameraService = new CameraConsumerServiceImpl(details, 
+                cameraService = new CameraConsumerServiceImpl(details,
                         comServices, authenticationID, localNamePrefix);
             }
 
             // Initialize the GPS service
             details = connectionConsumer.getServicesDetails().get(GPSHelper.GPS_SERVICE_NAME);
             if (details != null) {
-                gpsService = new GPSConsumerServiceImpl(details, 
+                gpsService = new GPSConsumerServiceImpl(details,
                         comServices, authenticationID, localNamePrefix);
             }
 
@@ -129,7 +129,7 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
             details = connectionConsumer.getServicesDetails().get(
                     PowerControlHelper.POWERCONTROL_SERVICE_NAME);
             if (details != null) {
-                powerControlService = new PowerControlConsumerServiceImpl(details, 
+                powerControlService = new PowerControlConsumerServiceImpl(details,
                         comServices, authenticationID, localNamePrefix);
             }
 
@@ -151,7 +151,7 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
 
         return this.aiService.getArtificialIntelligenceStub();
     }
-    
+
     @Override
     public AutonomousADCSStub getAutonomousADCSService() throws IOException {
         if (this.autonomousADCSService == null) {
