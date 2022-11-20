@@ -173,14 +173,14 @@ public class AuxFilesGenerator {
         str.append("org.ccsds.moims.mo.mal.encoding.protocol.maltcp=esa.mo.mal.encoder.binary.fixed.FixedBinaryStreamFactory\n");
 
         // Bind to localhost
+        str.append("org.ccsds.moims.mo.mal.transport.tcpip.autohost=true\n");
+        str.append("#org.ccsds.moims.mo.mal.transport.tcpip.host=xxx.xxx.xxx.xxx\n");
+        str.append("#org.ccsds.moims.mo.mal.transport.tcpip.port=1024\n");
         /*
-        str.append("org.ccsds.moims.mo.mal.transport.tcpip.autohost=false\n");
-        str.append("org.ccsds.moims.mo.mal.transport.tcpip.host=localhost\n");
-        str.append("org.ccsds.moims.mo.mal.transport.tcpip.port=1025\n");
-         */
         str.append("org.ccsds.moims.mo.mal.transport.tcpip.autohost=false\n");
         str.append("org.ccsds.moims.mo.mal.transport.tcpip.host=127.0.0.1\n");
         str.append("#org.ccsds.moims.mo.mal.transport.tcpip.port=54321\n");
+         */
 
         return str.toString();
     }

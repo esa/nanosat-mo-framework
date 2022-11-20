@@ -91,13 +91,14 @@ public class Deployment {
     }
 
     public static File getJarsNMFDir() {
-        File deprecatedFolder = new File(getNMFRootDir(), DIR_JARS_NMF_OLD);
+        File newFolder = new File(getNMFRootDir(), DIR_JARS_NMF);
 
-        if (deprecatedFolder.exists()) {
-            return deprecatedFolder;
+        if (newFolder.exists()) {
+            return newFolder;
         }
 
-        return new File(getNMFRootDir(), DIR_JARS_NMF);
+        // Otherwise return the old folder:
+        return new File(getNMFRootDir(), DIR_JARS_NMF_OLD);
     }
 
     public static File getJarsSharedDir() {
