@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.nmfpackage;
 
+import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.nmf.nmfpackage.utils.HelperNMFPackage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -117,6 +118,10 @@ public class Deployment {
 
     public static File getLogsDirForApp(String appName) {
         return new File(getLogsDir(), "app_" + appName);
+    }
+
+    public static File getTransportFile() {
+        return new File(getEtcDir(), HelperMisc.TRANSPORT_PROPERTIES_FILE);
     }
 
     public static File getInstallationsTrackerDir() {
