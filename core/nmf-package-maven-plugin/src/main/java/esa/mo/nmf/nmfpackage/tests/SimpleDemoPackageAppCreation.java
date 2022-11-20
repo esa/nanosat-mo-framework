@@ -20,21 +20,15 @@
  */
 package esa.mo.nmf.nmfpackage.tests;
 
-import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.nmf.nmfpackage.Deployment;
-import esa.mo.nmf.nmfpackage.NMFPackageCreator;
 import esa.mo.nmf.nmfpackage.NMFPackageBuilder;
-import esa.mo.nmf.nmfpackage.receipt.DetailsApp;
 import esa.mo.nmf.nmfpackage.metadata.Metadata;
 import esa.mo.nmf.nmfpackage.metadata.MetadataApp;
-import esa.mo.nmf.nmfpackage.metadata.MetadataDependency;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.ZipFile;
-import org.ccsds.moims.mo.mal.structures.Time;
 
 /**
  * A simple demo code to test the generation of NMF Packages.
@@ -53,8 +47,8 @@ public class SimpleDemoPackageAppCreation {
     }
 
     public static void createPackage() {
-        Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.INFO,
-            "\n------------- Package 1 Generation -------------\n");
+        Logger.getLogger(SimpleDemoPackageAppCreation.class.getName()).log(
+                Level.INFO, "\n----------- Package 1 Generation -----------\n");
 
         // Package 1
         String myAppFilename = "myApp.filetype";
