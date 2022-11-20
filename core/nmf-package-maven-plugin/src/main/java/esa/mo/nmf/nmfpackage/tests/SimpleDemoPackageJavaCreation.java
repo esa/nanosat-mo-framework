@@ -21,7 +21,6 @@
 package esa.mo.nmf.nmfpackage.tests;
 
 import esa.mo.nmf.nmfpackage.Deployment;
-import esa.mo.nmf.nmfpackage.NMFPackageCreator;
 import esa.mo.nmf.nmfpackage.NMFPackageBuilder;
 import esa.mo.nmf.nmfpackage.metadata.MetadataJava;
 import java.io.BufferedOutputStream;
@@ -60,14 +59,14 @@ public class SimpleDemoPackageJavaCreation {
         String filename = new File(url.getPath()).getName();
         FileOutputStream fileOutputStream = new FileOutputStream(filename);
 
-        Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.INFO,
-                "Downloading file: " + url.toString());
+        Logger.getLogger(SimpleDemoPackageJavaCreation.class.getName()).log(
+                Level.INFO, "Downloading file: " + url.toString());
 
         long timestamp = System.currentTimeMillis();
         fileOutputStream.getChannel().transferFrom(readableByteChannel, 0, Long.MAX_VALUE);
         timestamp = System.currentTimeMillis() - timestamp;
-        Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.INFO,
-                "Downloaded in " + timestamp + " ms!");
+        Logger.getLogger(SimpleDemoPackageJavaCreation.class.getName()).log(
+                Level.INFO, "Downloaded in " + timestamp + " ms!");
 
         return new File(filename);
     }
@@ -105,17 +104,17 @@ public class SimpleDemoPackageJavaCreation {
             // Download files
             URL url = new URL(link);
             File downloadedFile = downloadFile(url);
-            Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.INFO,
+            Logger.getLogger(SimpleDemoPackageJavaCreation.class.getName()).log(Level.INFO,
                     "The file was downloaded in path: " + downloadedFile.getAbsolutePath());
 
             // Extract them
             File extractionTarget = new File("temp_extracted_files");
-            Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.INFO,
+            Logger.getLogger(SimpleDemoPackageJavaCreation.class.getName()).log(Level.INFO,
                     "Extracting files: " + extractionTarget.getAbsolutePath());
             extractFileTo(downloadedFile, extractionTarget);
 
             for (File javaDir : extractionTarget.listFiles()) {
-                Logger.getLogger(NMFPackageCreator.class.getName()).log(
+                Logger.getLogger(SimpleDemoPackageJavaCreation.class.getName()).log(
                         Level.INFO, "Generating NMF Package...");
 
                 // Package them
@@ -123,11 +122,11 @@ public class SimpleDemoPackageJavaCreation {
                 NMFPackageBuilder builder = new NMFPackageBuilder(Deployment.DIR_JAVA);
                 builder.addFileOrDirectory(javaDir);
                 File location = builder.createPackage(metadata, new File("target"));
-                Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.INFO,
-                        "NMF Package in: " + location.getAbsolutePath());
+                Logger.getLogger(SimpleDemoPackageJavaCreation.class.getName()).log(
+                        Level.INFO, "NMF Package in: " + location.getAbsolutePath());
             }
 
-            Logger.getLogger(NMFPackageCreator.class.getName()).log(
+            Logger.getLogger(SimpleDemoPackageJavaCreation.class.getName()).log(
                     Level.INFO, "Deleting files...");
 
             // Delete the downloaded file
@@ -136,8 +135,8 @@ public class SimpleDemoPackageJavaCreation {
             // Delete the extracted folder:
             FileUtils.forceDelete(extractionTarget);
         } catch (IOException ex) {
-            Logger.getLogger(SimpleDemoPackageJavaCreation.class
-                    .getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SimpleDemoPackageJavaCreation.class.getName()).log(
+                    Level.SEVERE, "Something went wrong...", ex);
         }
     }
 

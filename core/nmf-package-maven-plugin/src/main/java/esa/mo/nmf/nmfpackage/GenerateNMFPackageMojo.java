@@ -209,17 +209,6 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
 
     private String packageJarDependency(Artifact artifact) {
         File file = artifact.getFile();
-        /*
-        ArrayList<String> files = new ArrayList<>();
-        files.add(file.toPath().toString());
-
-        String id = artifact.getArtifactId();
-        MetadataDependency metadata = new MetadataDependency(id, artifact.getVersion());
-        ArrayList<String> newLocations = new ArrayList<>();
-        newLocations.add(Deployment.DIR_JARS_SHARED + File.separator + file.getName());
-        NMFPackageCreator.create(metadata, files, newLocations, TARGET_FOLDER);
-        */
-
         String artifactId = artifact.getArtifactId();
         String ver = artifact.getVersion();
         MetadataDependency metadata = new MetadataDependency(artifactId, ver);
