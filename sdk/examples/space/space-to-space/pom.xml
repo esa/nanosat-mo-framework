@@ -79,14 +79,6 @@
             <groupId>int.esa.nmf.core</groupId>
             <artifactId>space-mo-adapter</artifactId>
         </dependency>
-        <dependency>
-            <groupId>int.esa.nmf.core</groupId>
-            <artifactId>space-mo-adapter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>int.esa.nmf.core</groupId>
-            <artifactId>space-mo-adapter</artifactId>
-        </dependency>
     </dependencies>
 
     <build>
