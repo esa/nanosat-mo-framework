@@ -116,39 +116,16 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
     @Override
     public void execute() throws MojoExecutionException {
         getLog().info("Generating NMF Package...");
-        
-        String path = Deployment.DIR_APPS + File.separator + name;
-        NMFPackageBuilder builder = new NMFPackageBuilder(path);
-        String mainJar = "";
-
-        try {
-            File myAppFilename = HelperNMFPackage.findAppJarInFolder(TARGET_FOLDER);
-            mainJar = myAppFilename.getName();
-            builder.addFileOrDirectory(myAppFilename);
-
-            // Add the external libs or files
-            if (libs != null) {
-                for (String lib : libs) {
-                    getLog().info(">> lib: " + lib);
-                    builder.addFileOrDirectory(lib, "");
-                }
-            }
-        } catch (IOException ex) {
-            String error = "A problem occurred while trying to find the Jar file!";
-            Logger.getLogger(GenerateNMFPackageMojo.class.getName()).log(
-                    Level.SEVERE, error, ex);
-            throw new MojoExecutionException(error, ex);
-        }
 
         getLog().info("\n---------- NMF Package - Generator ----------\n");
         getLog().info("Input values:");
         getLog().info(">> name = " + name);
         getLog().info(">> version = " + version);
         getLog().info(">> mainClass = " + mainClass);
-        getLog().info(">> mainJar = " + mainJar);
         getLog().info(">> privilege = " + privilege);
         getLog().info(">> nmfVersion = " + nmfVersion);
         getLog().info(">> maxHeap = " + maxHeap);
+        getLog().info(">> minHeap = " + minHeap);
 
         if (mainClass == null) {
             throw new MojoExecutionException("The mainClass tag is not defined!"
@@ -168,7 +145,21 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
                     + "<configuration> tag!\n");
         }
 
-        // Now let's take care of the project dependencies
+        File myAppFilename;
+        String mainJar;
+
+        try {
+            myAppFilename = HelperNMFPackage.findAppJarInFolder(TARGET_FOLDER);
+            mainJar = myAppFilename.getName();
+            getLog().info(">> mainJar = " + mainJar);
+        } catch (IOException ex) {
+            String error = "A problem occurred while trying to find the Jar file!";
+            Logger.getLogger(GenerateNMFPackageMojo.class.getName()).log(
+                    Level.SEVERE, error, ex);
+            throw new MojoExecutionException(error, ex);
+        }
+
+        // Let's start by taking care of the project dependencies
         // They must also be packaged as NMF Packages that will be shared libraries
         getLog().info("------\nGenerating shared libraries...\n");
         ArrayList<String> dependencies = new ArrayList<>();
@@ -198,13 +189,23 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
                 dependencies.add(packageJarDependency(artifact));
             }
         }
-        
-        getLog().info("------\nGenerating project NMF Package...\n");
-        
-        // Package
+
         MetadataApp metadata = new MetadataApp(name, version,
                 mainClass, mainJar, maxHeap, minHeap, dependencies);
-        builder.createPackage(metadata, TARGET_FOLDER);
+
+        NMFPackageBuilder builder = new NMFPackageBuilder(metadata);
+        builder.addFileOrDirectory(myAppFilename);
+
+        // Add the external libs or files
+        if (libs != null) {
+            for (String lib : libs) {
+                getLog().info(">> lib: " + lib);
+                builder.addFileOrDirectory(lib, "");
+            }
+        }
+
+        getLog().info("------\nGenerating project NMF Package...\n");
+        builder.createPackage(TARGET_FOLDER);
     }
 
     private String packageJarDependency(Artifact artifact) {
@@ -212,12 +213,9 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
         String artifactId = artifact.getArtifactId();
         String ver = artifact.getVersion();
         MetadataDependency metadata = new MetadataDependency(artifactId, ver);
-        
-        NMFPackageBuilder builder = new NMFPackageBuilder(Deployment.DIR_JARS_SHARED);
+        NMFPackageBuilder builder = new NMFPackageBuilder(metadata);
         builder.addFileOrDirectory(file);
-        builder.createPackage(metadata, TARGET_FOLDER);
-        
+        builder.createPackage(TARGET_FOLDER);
         return file.getName();
     }
-
 }

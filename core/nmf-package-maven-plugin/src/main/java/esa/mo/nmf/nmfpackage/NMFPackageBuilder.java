@@ -43,17 +43,31 @@ import java.util.zip.ZipOutputStream;
 public class NMFPackageBuilder {
 
     private static final int BUFFER = 2048;
-    final ArrayList<String> inputFiles = new ArrayList<>();
-    final ArrayList<String> locations = new ArrayList<>();
-    final String appPath;
+    private final ArrayList<String> inputFiles = new ArrayList<>();
+    private final ArrayList<String> locations = new ArrayList<>();
+    private final Metadata metadata;
+    private final String rootPath;
 
     /**
      * The Constructor for the PackageBuilder class.
      *
-     * @param folderType The type of folder that the file should be.
+     * @param metadata The metadata of the package.
      */
-    public NMFPackageBuilder(String folderType) {
-        this.appPath = folderType + File.separator;
+    public NMFPackageBuilder(Metadata metadata) {
+        this.metadata = metadata;
+        String path = "";
+        
+        if(metadata.isApp()) {
+            path = Deployment.DIR_APPS + File.separator + metadata.getPackageName();
+        }
+        if(metadata.isJava()) {
+            path = Deployment.DIR_JAVA;
+        }
+        if(metadata.isDependency()) {
+            path = Deployment.DIR_JARS_SHARED;
+        }
+
+        this.rootPath = path + File.separator;
     }
 
     /**
@@ -73,14 +87,10 @@ public class NMFPackageBuilder {
             }
         } else {
             inputFiles.add(f.getAbsolutePath());
-            locations.add(appPath + nest + f.getName());
+            locations.add(rootPath + nest + f.getName());
         }
     }
 
-    public void addFileOrDirectory(String path) {
-        addFileOrDirectory(new File(path));
-    }
-    
     public void addFileOrDirectory(File file) {
         addFileOrDirectory(file.getAbsolutePath(), "");
     }
@@ -89,12 +99,11 @@ public class NMFPackageBuilder {
      * Creates an NMF Package with the selected metadata in the selected
      * destination folder.
      *
-     * @param metadata The metadata of the NMF Package.
      * @param destinationFolder The destination folder where to store the NMF
      * Package.
      * @return The created NMF Package File.
      */
-    public File createPackage(Metadata metadata, File destinationFolder) {
+    public File createPackage(File destinationFolder) {
         String path = destinationFolder.getAbsolutePath();
         String out = create(metadata, inputFiles, locations, path);
         return new File(out);
@@ -110,9 +119,9 @@ public class NMFPackageBuilder {
             try {
                 String path = newLocations.get(i);
                 long crc = HelperNMFPackage.calculateCRCFromFile(files.get(i));
-                //descriptor.addFile(new NMFPackageFile(path, crc));
-                metadata.addProperty(Metadata.FILE_PATH + "." + i, path);
-                metadata.addProperty(Metadata.FILE_CRC + "." + i, String.valueOf(crc));
+                String index = "." + i;
+                metadata.addProperty(Metadata.FILE_PATH + index, path);
+                metadata.addProperty(Metadata.FILE_CRC + index, String.valueOf(crc));
             } catch (IOException ex) {
                 Logger.getLogger(NMFPackageBuilder.class.getName()).log(Level.SEVERE,
                         "There was a problem during the CRC calculation.", ex);

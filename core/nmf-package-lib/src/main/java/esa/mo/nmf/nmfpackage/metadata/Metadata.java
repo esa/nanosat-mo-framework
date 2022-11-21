@@ -79,6 +79,11 @@ public class Metadata {
     protected final Properties properties;
     private ArrayList<NMFPackageFile> files;
 
+    /**
+     * Constructor of the Metadata class.
+     *
+     * @param properties The properties to be part of the metadata.
+     */
     public Metadata(final Properties properties) {
         this(properties, null);
     }
@@ -98,8 +103,10 @@ public class Metadata {
 
             for (int i = 0; i < files.size(); i++) {
                 NMFPackageFile file = files.get(i);
-                this.properties.put(FILE_PATH + "." + i, file.getPath());
-                this.properties.put(FILE_CRC + "." + i, String.valueOf(file.getCRC()));
+                String index = "." + i;
+                String crc = String.valueOf(file.getCRC());
+                this.properties.put(FILE_PATH + index, file.getPath());
+                this.properties.put(FILE_CRC + index, crc);
             }
         }
     }
@@ -145,8 +152,9 @@ public class Metadata {
         int count = Integer.parseInt(properties.getProperty(FILE_COUNT, "0"));
 
         for (int i = 0; i < count; i++) {
-            String path = properties.getProperty(FILE_PATH + "." + i);
-            long crc = Long.parseLong(properties.getProperty(FILE_CRC + "." + i));
+            String index = "." + i;
+            String path = properties.getProperty(FILE_PATH + index);
+            long crc = Long.parseLong(properties.getProperty(FILE_CRC + index));
             files.add(new NMFPackageFile(path, crc));
         }
 
@@ -240,8 +248,15 @@ public class Metadata {
             return true;
         }
 
-        String type = this.getPackageType();
-        return TYPE_APP.equals(type);
+        return TYPE_APP.equals(this.getPackageType());
+    }
+
+    public boolean isJava() {
+        return TYPE_UPDATE_JAVA.equals(this.getPackageType());
+    }
+
+    public boolean isDependency() {
+        return TYPE_DEPENDENCY.equals(this.getPackageType());
     }
 
     public boolean sameAs(Metadata other) {
