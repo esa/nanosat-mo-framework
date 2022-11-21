@@ -20,7 +20,6 @@
  */
 package esa.mo.nmf.nmfpackage.tests;
 
-import esa.mo.nmf.nmfpackage.Deployment;
 import esa.mo.nmf.nmfpackage.NMFPackageBuilder;
 import esa.mo.nmf.nmfpackage.metadata.Metadata;
 import esa.mo.nmf.nmfpackage.metadata.MetadataApp;
@@ -51,16 +50,14 @@ public class SimpleDemoPackageAppCreation {
                 Level.INFO, "\n----------- Package 1 Generation -----------\n");
 
         // Package 1
-        String myAppFilename = "myApp.filetype";
-        String appName = "my-test-app";
-        String path = Deployment.DIR_APPS + File.separator + appName;
+        File myAppFile = new File("myApp.filetype");
 
-        MetadataApp metadata = new MetadataApp(appName, "1.0.0",
+        MetadataApp metadata = new MetadataApp("my-test-app", "1.0.0",
                 "noclass", "myJarFile.jar", "128m", "16m", null);
 
-        NMFPackageBuilder builder = new NMFPackageBuilder(path);
-        builder.addFileOrDirectory(myAppFilename);
-        File location = builder.createPackage(metadata, new File("target"));
+        NMFPackageBuilder builder = new NMFPackageBuilder(metadata);
+        builder.addFileOrDirectory(myAppFile);
+        File location = builder.createPackage(new File("target"));
 
         try {
             // Test if the created file can be parsed
@@ -75,5 +72,4 @@ public class SimpleDemoPackageAppCreation {
                     Level.SEVERE, "The file could not be processed!", ex);
         }
     }
-
 }
