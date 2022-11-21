@@ -20,7 +20,6 @@
  */
 package esa.mo.nmf.nmfpackage.tests;
 
-import esa.mo.nmf.nmfpackage.Deployment;
 import esa.mo.nmf.nmfpackage.NMFPackageBuilder;
 import esa.mo.nmf.nmfpackage.metadata.MetadataJava;
 import java.io.BufferedOutputStream;
@@ -119,9 +118,9 @@ public class SimpleDemoPackageJavaCreation {
 
                 // Package them
                 MetadataJava metadata = new MetadataJava(downloadedFile.getName(), "1.0");
-                NMFPackageBuilder builder = new NMFPackageBuilder(Deployment.DIR_JAVA);
+                NMFPackageBuilder builder = new NMFPackageBuilder(metadata);
                 builder.addFileOrDirectory(javaDir);
-                File location = builder.createPackage(metadata, new File("target"));
+                File location = builder.createPackage(new File("target"));
                 Logger.getLogger(SimpleDemoPackageJavaCreation.class.getName()).log(
                         Level.INFO, "NMF Package in: " + location.getAbsolutePath());
             }
@@ -146,14 +145,14 @@ public class SimpleDemoPackageJavaCreation {
 
         // url = new URL("https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/download/jdk8u292-b10/OpenJDK8U-jdk_arm_linux_hotspot_8u292b10.tar.gz");
         String jdk8 = "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u352-b08/OpenJDK8U-jdk_arm_linux_hotspot_8u352b08.tar.gz";
-        //createJavaPackage(jdk8);
+        createJavaPackage(jdk8);
 
         // Repo here: https://github.com/AdoptOpenJDK/openjdk11-binaries
         String jdk11 = "https://github.com/AdoptOpenJDK/openjdk11-binaries/releases/download/jdk-11.0.9.1%2B1/OpenJDK11U-jdk_arm_linux_hotspot_11.0.9.1_1.tar.gz";
-        createJavaPackage(jdk11);
+        //createJavaPackage(jdk11);
 
         // Repo here: https://github.com/AdoptOpenJDK/openjdk17-binaries
         String jdk17 = "https://github.com/AdoptOpenJDK/openjdk17-binaries/releases/download/jdk-2021-05-07-13-31/OpenJDK-debugimage_aarch64_linux_hotspot_2021-05-06-23-30.tar.gz";
-
+        //createJavaPackage(jdk17);
     }
 }
