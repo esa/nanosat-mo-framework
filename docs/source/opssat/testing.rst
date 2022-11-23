@@ -51,6 +51,8 @@ We have two choices concerning the start of the supervisor:
 * If you want to test your app with the platform services, you can start the OPS-SAT hybrid supervisor with simulator.
   The supervisor with simulator takes significantly more time to startup since it has to initialize the Orekit library which is used for orbit and attitude propagation.
   The OPS-SAT supervisor with simulator path is ``opssat-package/target/nmf-ops-sat-VERSION/home/nmf/supervisor-sim/``
+* In order to configure the hybrid simulator, you can modify the ``platformsim.properties`` file in the supervisor-sim workdir.
+  Each of the adapters can be configured to either use a real or a simulated payload implementation. Look into the file for more configuration options.
 
 Starting and connecting to your app
 """""""""""""""""""""""""""""""""""
