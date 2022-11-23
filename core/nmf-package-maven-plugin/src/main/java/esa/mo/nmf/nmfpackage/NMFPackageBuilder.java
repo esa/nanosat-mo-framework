@@ -56,14 +56,14 @@ public class NMFPackageBuilder {
     public NMFPackageBuilder(Metadata metadata) {
         this.metadata = metadata;
         String path = "";
-        
-        if(metadata.isApp()) {
+
+        if (metadata.isApp()) {
             path = Deployment.DIR_APPS + File.separator + metadata.getPackageName();
         }
-        if(metadata.isJava()) {
+        if (metadata.isJava()) {
             path = Deployment.DIR_JAVA;
         }
-        if(metadata.isDependency()) {
+        if (metadata.isDependency()) {
             path = Deployment.DIR_JARS_SHARED;
         }
 
@@ -105,11 +105,10 @@ public class NMFPackageBuilder {
      */
     public File createPackage(File destinationFolder) {
         String path = destinationFolder.getAbsolutePath();
-        String out = create(metadata, inputFiles, locations, path);
-        return new File(out);
+        return create(metadata, inputFiles, locations, path);
     }
 
-    private static String create(Metadata metadata, ArrayList<String> filesInput, 
+    private static File create(Metadata metadata, ArrayList<String> filesInput,
             ArrayList<String> newLocationsInput, String destinationFolder) {
         final ArrayList<String> files = new ArrayList<>(filesInput);
         final ArrayList<String> newLocations = new ArrayList<>(newLocationsInput);
@@ -127,7 +126,7 @@ public class NMFPackageBuilder {
                         "There was a problem during the CRC calculation.", ex);
             }
         }
-        
+
         metadata.addProperty(Metadata.FILE_COUNT, String.valueOf(size));
 
         // Generate metadata.properties
@@ -135,7 +134,7 @@ public class NMFPackageBuilder {
                 Level.INFO, "Generating metadata file...");
 
         File metadataFile = new File(Metadata.FILENAME);
-        
+
         try {
             metadata.store(metadataFile); // Store the metadata file
         } catch (IOException ex) {
@@ -210,7 +209,7 @@ public class NMFPackageBuilder {
         metadataFile.delete();
         //digitalSignature.delete();
 
-        return destinationPath;
+        return new File(destinationPath);
     }
 
     private static void zipFiles(String outputPath, ArrayList<String> from,
@@ -242,5 +241,5 @@ public class NMFPackageBuilder {
             Logger.getLogger(NMFPackageBuilder.class.getName()).log(
                     Level.SEVERE, "The Files could not be zipped!", ex);
         }
-    }    
+    }
 }
