@@ -153,7 +153,7 @@ public class NMFPackage {
             NMFPackageFile file = files.get(i);
             ZipEntry entry = this.getZipFileEntry(file.getPath());
 
-            String path = HelperNMFPackage.generateFilePathForSystem(entry.getName());
+            String path = HelperNMFPackage.sanitizePath(entry.getName());
             newFile = new File(toFolder.getCanonicalPath() + File.separator + path);
             File parent = newFile.getParentFile();
 

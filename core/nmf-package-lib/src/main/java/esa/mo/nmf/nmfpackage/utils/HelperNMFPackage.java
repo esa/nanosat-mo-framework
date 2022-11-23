@@ -98,7 +98,7 @@ public class HelperNMFPackage {
         throw new IOException("There are too many jars inside the target folder!");
     }
 
-    public static String generateFilePathForSystem(final String path) throws IOException {
+    public static String sanitizePath(final String path) throws IOException {
         // Sanitize the path to prevent a ZipSlip attack:
         if (path.contains("..")) {
             throw new IOException("Warning! A ZipSlip attack was detected!");

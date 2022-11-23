@@ -505,7 +505,7 @@ public class NMFPackageManager {
         // Do the files actually match the descriptor?
         for (int i = 0; i < metadata.getFiles().size(); i++) {
             NMFPackageFile entry = metadata.getFiles().get(i);
-            String path = HelperNMFPackage.generateFilePathForSystem(entry.getPath());
+            String path = HelperNMFPackage.sanitizePath(entry.getPath());
             file = new File(folder.getCanonicalPath() + File.separator + path);
             NMFPackageManager.removeFile(file);
             File parent = file.getParentFile();
