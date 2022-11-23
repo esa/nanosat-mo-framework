@@ -498,6 +498,12 @@ public class NMFPackageManager {
             String path = HelperNMFPackage.generateFilePathForSystem(packageFile.getPath());
             file = new File(folder.getCanonicalPath() + File.separator + path);
             NMFPackageManager.removeFile(file);
+            File parent = file.getParentFile();
+
+            // Delete the parent folder if it is empty after removing the file:
+            if (parent.isDirectory() && parent.list().length == 0) {
+                folder.delete();
+            }
         }
     }
 
