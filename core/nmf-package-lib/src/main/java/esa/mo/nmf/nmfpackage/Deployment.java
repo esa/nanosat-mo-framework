@@ -214,11 +214,16 @@ public class Deployment {
                 String jre = dir.getAbsolutePath() + File.separator
                         + "bin" + File.separator + "java";
 
-                if (!(new File(jre)).exists()) {
+                File jreExec = new File(jre);
+
+                if (!jreExec.exists()) {
                     Logger.getLogger(HelperNMFPackage.class.getName()).log(
                             Level.WARNING,
                             "The JRE could not be found in directory: " + path);
                     continue;
+                } else {
+                    // The file exists, make sure it is executable:
+                    jreExec.setExecutable(true);
                 }
 
                 if (java_version == recommended) {
