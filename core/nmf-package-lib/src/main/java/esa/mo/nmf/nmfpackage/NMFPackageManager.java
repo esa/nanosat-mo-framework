@@ -56,6 +56,11 @@ public class NMFPackageManager {
     // This must match the group_nmf_apps value in the fresh_install.sh file
     private static final String GROUP_NMF_APPS = "nmf-apps";
 
+    // The groups will be disbled in the current state of the NMF because there 
+    // is no need for it at the moment and it is not supported by the Phi-Sat-2
+    // mission on-board computer. This might have to be revised in the future...
+    private static final boolean GROUP_FLAG = false;
+
     private static final String USER_NMF_ADMIN = "nmf-admin";
 
     private static final String USER_NMF_APP_PREFIX = "app-";
@@ -126,13 +131,15 @@ public class NMFPackageManager {
                     boolean withGroup = true;
                     LinuxUsersGroups.adduser(username, password, withGroup);
 
-                    try { // Handle it seperately!
-                        LinuxUsersGroups.addUserToGroup(username, GROUP_NMF_APPS);
-                    } catch (IOException ex) {
-                        Logger.getLogger(NMFPackageManager.class.getName()).log(
-                                Level.INFO, "The User " + username
-                                + " could not be added to the Group: "
-                                + GROUP_NMF_APPS, ex);
+                    if (GROUP_FLAG) {
+                        try {
+                            LinuxUsersGroups.addUserToGroup(username, GROUP_NMF_APPS);
+                        } catch (IOException ex) {
+                            Logger.getLogger(NMFPackageManager.class.getName()).log(
+                                    Level.INFO, "The User " + username
+                                    + " could not be added to the Group: "
+                                    + GROUP_NMF_APPS, ex);
+                        }
                     }
 
                     // Set the right Group and Permissions to the Home Directory
