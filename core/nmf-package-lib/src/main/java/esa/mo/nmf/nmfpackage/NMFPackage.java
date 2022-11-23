@@ -144,7 +144,7 @@ public class NMFPackage {
      */
     public void extractFiles(File toFolder) throws IOException {
         File newFile;
-        byte[] buffer = new byte[1024];
+        byte[] buffer = new byte[8192];
 
         // Iterate through the files, unpack them into the right folders
         ArrayList<NMFPackageFile> files = this.getMetadata().getFiles();
