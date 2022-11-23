@@ -89,6 +89,7 @@ public class NMFPackageManager {
      */
     public void install(final String packageLocation,
             final File nmfDir) throws FileNotFoundException, IOException {
+        long timestamp = System.currentTimeMillis();
         System.out.printf(SEPARATOR);
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
                 "Reading the package on: " + packageLocation);
@@ -184,8 +185,10 @@ public class NMFPackageManager {
             appsLauncher.refresh();
         }
 
+        timestamp = System.currentTimeMillis() - timestamp;
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
-                "Package successfully installed from: {0}", packageLocation);
+                "Package successfully installed in " + timestamp
+                + " ms!\nFrom: " + packageLocation);
 
         System.out.printf(SEPARATOR);
     }
@@ -199,6 +202,7 @@ public class NMFPackageManager {
      */
     public void uninstall(final Metadata packageMetadata,
             final boolean keepUserData) throws IOException {
+        long timestamp = System.currentTimeMillis();
         System.out.printf(SEPARATOR);
         String packageName = packageMetadata.getPackageName();
 
@@ -242,8 +246,10 @@ public class NMFPackageManager {
             appsLauncher.refresh();
         }
 
+        timestamp = System.currentTimeMillis() - timestamp;
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
-                "Package successfully uninstalled: " + packageName);
+                "Package successfully uninstalled in " + timestamp
+                + " ms!\nPackage name: " + packageName);
 
         System.out.printf(SEPARATOR);
     }
@@ -256,8 +262,8 @@ public class NMFPackageManager {
      * @throws IOException if the package could not be upgraded
      */
     public void upgrade(final String packageLocation, final File nmfDir) throws IOException {
+        long timestamp = System.currentTimeMillis();
         System.out.printf(SEPARATOR);
-
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
                 "Reading the receipt file that includes the list of files to be upgraded...");
 
@@ -344,8 +350,10 @@ public class NMFPackageManager {
             appsLauncher.refresh();
         }
 
+        timestamp = System.currentTimeMillis() - timestamp;
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
-                "Package successfully upgraded from location: " + packageLocation);
+                "Package successfully upgraded in " + timestamp
+                + " ms!\nFrom: " + packageLocation);
 
         System.out.printf(SEPARATOR);
     }
@@ -461,8 +469,10 @@ public class NMFPackageManager {
         // Remove the transport.properties
         // Remove the start_myAppName.sh or start_myAppName.bat
         NMFPackageManager.removeFile(provider);
-        NMFPackageManager.removeFile(transport);
         NMFPackageManager.removeFile(windows.exists() ? windows : linux);
+        if (transport.exists()) {
+            NMFPackageManager.removeFile(transport);
+        }
     }
 
     private static void createAuxiliaryFiles(File appDir, String username) throws IOException {
@@ -494,15 +504,15 @@ public class NMFPackageManager {
 
         // Do the files actually match the descriptor?
         for (int i = 0; i < metadata.getFiles().size(); i++) {
-            NMFPackageFile packageFile = metadata.getFiles().get(i);
-            String path = HelperNMFPackage.generateFilePathForSystem(packageFile.getPath());
+            NMFPackageFile entry = metadata.getFiles().get(i);
+            String path = HelperNMFPackage.generateFilePathForSystem(entry.getPath());
             file = new File(folder.getCanonicalPath() + File.separator + path);
             NMFPackageManager.removeFile(file);
             File parent = file.getParentFile();
 
             // Delete the parent folder if it is empty after removing the file:
             if (parent.isDirectory() && parent.list().length == 0) {
-                folder.delete();
+                NMFPackageManager.removeFile(parent);
             }
         }
     }
