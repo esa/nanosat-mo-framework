@@ -137,6 +137,16 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
         return super.onGetValue(parameterID);
     }
 
+    @Override
+    public Boolean onSetValue(ParameterRawValue newRawValue) {
+        boolean result = super.onSetValue(newRawValue);
+        if (!result) {
+            result = obswParameterManager.setValue(newRawValue);
+        }
+
+        return result;
+    }
+
     public void startAdcsAttitudeMonitoring() {
         try {
             // Subscribe monitorAttitude

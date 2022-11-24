@@ -467,6 +467,11 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
             return false;
         }
         Field param = parameterMapping.get(newRawValue.getParamInstId());
+
+        if (param == null) {
+            return false;
+        }
+
         if (param.getType() == double.class) {
             value = HelperAttributes.attribute2double(newRawValue.getRawValue());
         } else if (param.getType() == String.class) {
