@@ -36,6 +36,7 @@ import org.ccsds.moims.mo.mal.MALStandardError;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValue;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSAdapter;
 
 import esa.mo.nmf.MCRegistration;

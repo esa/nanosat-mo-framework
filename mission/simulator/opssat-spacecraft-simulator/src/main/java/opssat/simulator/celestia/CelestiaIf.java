@@ -123,6 +123,7 @@ public class CelestiaIf implements Runnable {
                                 //No reply
                                 retries = retries + 1;
                                 if (retries <= 1) {
+                                    sendQueue.clear();
                                     logger.log(Level.WARNING, "CelestiaIf: No response within [" +
                                         DURATION_ACK_RECOVER + "] ms, resending data message!");
                                 } else {

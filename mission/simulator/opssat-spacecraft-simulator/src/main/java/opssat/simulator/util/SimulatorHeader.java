@@ -197,7 +197,7 @@ public class SimulatorHeader implements Serializable {
         this.endDate = new Date();
         this.useOrekitPropagator = true;
         this.celestiaPort = 5909;
-        this.useCelestia = true;
+        this.useCelestia = false;
     }
 
     public SimulatorHeader(boolean autoStart, Date startDate, Date endDate) {
