@@ -72,7 +72,7 @@
     <esa.nmf.maximum-version>2.1.100</esa.nmf.maximum-version>
     <!-- Automatically use the latest patch of each component for the current major.minor version -->
     <esa.nmf.version-qualifier>[${esa.nmf.version},${esa.nmf.maximum-version}]</esa.nmf.version-qualifier>
-    <spotless.version>2.25.0</spotless.version>
+    <spotless.version>2.28.0</spotless.version>
     <spotbugs.version>4.7.1.1</spotbugs.version>
   </properties>
   <dependencyManagement>
@@ -322,61 +322,71 @@
         </plugin>
       </plugins>
     </pluginManagement>
-    <plugins>
-      <plugin>
-        <groupId>com.diffplug.spotless</groupId>
-        <artifactId>spotless-maven-plugin</artifactId>
-        <version>${spotless.version}</version>
-        <configuration>
-          <java>
-            <excludes>
-              <exclude>**/generated-sources/**/*.java</exclude>
-            </excludes>
-            <removeUnusedImports/>
-            <eclipse>
-              <file>${session.executionRootDirectory}/formatter_eclipse.xml</file>
-            </eclipse>
-          </java>
-        </configuration>
-        <executions>
-          <execution>
-            <id>spotless-apply</id>
-            <goals>
-              <goal>apply</goal>
-            </goals>
-            <phase>process-sources</phase>
-          </execution>
-          <execution>
-            <id>spotless-check</id>
-            <goals>
-              <goal>check</goal>
-            </goals>
-            <phase>process-sources</phase>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>com.github.spotbugs</groupId>
-        <artifactId>spotbugs-maven-plugin</artifactId>
-        <version>${spotbugs.version}</version>
-        <configuration>
-          <failOnError>true</failOnError>
-          <fork>false</fork>
-          <excludeFilterFile>${session.executionRootDirectory}/spotbugs_exclude.xml</excludeFilterFile>
-        </configuration>
-        <executions>
-          <execution>
-            <inherited>true</inherited>
-            <goals>
-              <goal>check</goal>
-            </goals>
-            <phase>process-classes</phase>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
   </build>
   <profiles>
+    <profile>
+      <id>formatting-and-linting</id>
+      <activation>
+        <property>
+          <name>formatAndLint</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>com.diffplug.spotless</groupId>
+            <artifactId>spotless-maven-plugin</artifactId>
+            <version>${spotless.version}</version>
+            <configuration>
+              <java>
+                <excludes>
+                  <exclude>**/generated-sources/**/*.java</exclude>
+                </excludes>
+                <removeUnusedImports/>
+                <eclipse>
+                  <file>${session.executionRootDirectory}/formatter_eclipse.xml</file>
+                </eclipse>
+              </java>
+            </configuration>
+            <executions>
+              <execution>
+                <id>spotless-apply</id>
+                <goals>
+                  <goal>apply</goal>
+                </goals>
+                <phase>process-sources</phase>
+              </execution>
+              <execution>
+                <id>spotless-check</id>
+                <goals>
+                  <goal>check</goal>
+                </goals>
+                <phase>process-sources</phase>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>com.github.spotbugs</groupId>
+            <artifactId>spotbugs-maven-plugin</artifactId>
+            <version>${spotbugs.version}</version>
+            <configuration>
+              <failOnError>true</failOnError>
+              <fork>false</fork>
+              <excludeFilterFile>${session.executionRootDirectory}/spotbugs_exclude.xml</excludeFilterFile>
+            </configuration>
+            <executions>
+              <execution>
+                <inherited>true</inherited>
+                <goals>
+                  <goal>check</goal>
+                </goals>
+                <phase>process-classes</phase>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
     <profile>
       <id>assembly-with-dependencies</id>
       <build>
