@@ -20,24 +20,28 @@
  *
  * Author: N Wiegand (https://github.com/Klabau)
  */
-package esa.mo.nmf.cmt;
+package esa.mo.nmf.cmt.utils;
 
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
+import esa.mo.mc.impl.provider.ParameterInstance;
+import esa.mo.nmf.cmt.ConstellationManagementTool;
+import esa.mo.nmf.cmt.services.mc.ParameterGround;
 import esa.mo.nmf.cmt.services.sm.AppManagerGround;
 import esa.mo.nmf.cmt.services.sm.PackageManagerGround;
-import esa.mo.mc.impl.provider.ParameterInstance;
 import esa.mo.nmf.commonmoadapter.CompleteDataReceivedListener;
 import esa.mo.nmf.commonmoadapter.SimpleDataReceivedListener;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.structures.URI;
+import org.ccsds.moims.mo.mal.structures.*;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValue;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.structures.AppDetails;
 import org.ccsds.moims.mo.softwaremanagement.packagemanagement.body.FindPackageResponse;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
@@ -74,7 +78,22 @@ public class NanoSat {
         this.active = true;
     }
 
-    ;
+    /**
+     * Creates an NMF App geofence
+     *
+     * @param coordinates  List with GPS coordinates
+     * @param appName      name of the app to apply the geofence
+     * @param startOnEnter true: start App when entering geofence,
+     *                     false: start App when leaving geofence
+     */
+    public void createGeofence(ArrayList<String[]> coordinates, String appName, boolean startOnEnter) {
+        UInteger rawValue = new UInteger(4711);
+
+        ParameterRawValue value = new ParameterRawValue();
+        value.setParamInstId(10L);
+        value.setRawValue(rawValue);
+        ParameterGround.addParameter(this.groundAdapter, value);
+    }
 
     /**
      * @return Container name
@@ -84,10 +103,17 @@ public class NanoSat {
     }
 
     /**
+     * @return message - no container logs available
+     */
+    public String getLogs() throws IOException {
+        return "Logs are available for simulated NanoSat Segments only.";
+    }
+
+    /**
      * @return NanoSat segment IP address
      * @throws IOException
      */
-    public String getIPAddress() throws IOException{
+    public String getIPAddress() throws IOException {
         if (this.ipAddress == null) {
             throw new IOException("IP Address is undefined");
         }

@@ -23,6 +23,8 @@
 package esa.mo.nmf.cmt;
 
 import esa.mo.nmf.cmt.gui.ConstellationManagerGui;
+import esa.mo.nmf.cmt.utils.NanoSat;
+import esa.mo.nmf.cmt.utils.NanoSatSimulator;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -122,7 +124,7 @@ public class ConstellationManagementTool {
         try {
             for (int i = 1; i <= size; i++) {
                 int nodeNumber = this.constellation.size() + 1;
-                NanoSatSimulator nanoSat = new NanoSatSimulator(name + "-sim-" + nodeNumber);
+                NanoSatSimulator nanoSat = new NanoSatSimulator("nmfsim-" + name + "-" + nodeNumber);
                 nanoSat.run();
                 this.constellation.add(nanoSat);
             }

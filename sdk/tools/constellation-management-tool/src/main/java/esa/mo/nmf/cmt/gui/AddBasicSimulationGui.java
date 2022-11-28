@@ -53,8 +53,7 @@ public class AddBasicSimulationGui extends JFrame {
         this.ncm = ncm;
 
         this.setContentPane(addBasicConstellationPanel);
-        this.setTitle("Add new NanoSat Simulations");
-        this.setSize(400, 140);
+        this.setTitle("Create basic Simulation"); this.setSize(400, 140);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         this.setVisible(true);
@@ -88,9 +87,9 @@ public class AddBasicSimulationGui extends JFrame {
             JOptionPane.showMessageDialog(null, "Simulation started! " + size + " Docker Container were created and have been added to the constellation.", "Info", JOptionPane.INFORMATION_MESSAGE);
 
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(null, "Please enter a valid size.", "Error", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Please enter a valid number of NanoSat segments.", "Error", JOptionPane.INFORMATION_MESSAGE);
         } catch (IllegalArgumentException ex) {
-            JOptionPane.showMessageDialog(null, "Please enter a valid name.", "Error", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Please enter a valid name for the NanoSat segments.", "Error", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex, "Error", JOptionPane.INFORMATION_MESSAGE);
         }
@@ -115,7 +114,7 @@ public class AddBasicSimulationGui extends JFrame {
         addBasicConstellationPanel = new JPanel();
         addBasicConstellationPanel.setLayout(new GridLayoutManager(5, 2, new Insets(5, 5, 5, 5), -1, -1));
         final JLabel label1 = new JLabel();
-        label1.setText("Create new NanoSat Simulations");
+        label1.setText("Create new basic NanoSat Simulation");
         addBasicConstellationPanel.add(label1, new GridConstraints(0, 0, 1, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label2 = new JLabel();
         label2.setText("Number:");

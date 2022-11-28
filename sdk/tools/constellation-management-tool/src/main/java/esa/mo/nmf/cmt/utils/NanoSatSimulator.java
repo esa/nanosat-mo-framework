@@ -20,7 +20,12 @@
  *
  * Author: N Wiegand (https://github.com/Klabau)
  */
-package esa.mo.nmf.cmt;
+package esa.mo.nmf.cmt.utils;
+
+import esa.mo.nmf.cmt.ConstellationManagementTool;
+import esa.mo.nmf.cmt.utils.DockerApi;
+import esa.mo.nmf.cmt.utils.NanoSat;
+import esa.mo.nmf.cmt.utils.SimulatorApi;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -32,7 +37,7 @@ import java.util.logging.Logger;
  * managing the Docker Container in which the NanoSat Segment is executed.
  */
 public class NanoSatSimulator extends NanoSat {
-    private final String image = "nmf-rpi/nanosat-segment:1.0"; // TODO: get image name from config
+    private SimulatorApi simulatorApi;
     private String[] keplerElements = null;
 
     /**
@@ -44,6 +49,10 @@ public class NanoSatSimulator extends NanoSat {
      */
     public NanoSatSimulator(String name) {
         this.name = name;
+
+        // TODO: make API type closable when creating the NanoSat, maybe use factory pattern
+        this.simulatorApi = new DockerApi();
+        // this.simulatorApi = new KubernetesApi();
     }
 
     /**
@@ -57,6 +66,10 @@ public class NanoSatSimulator extends NanoSat {
     public NanoSatSimulator(String name, String[] keplerElements) {
         this.name = name;
         this.keplerElements = keplerElements;
+
+        // TODO: make API type closable when creating the NanoSat, maybe use factory pattern
+        this.simulatorApi = new DockerApi();
+        // this.simulatorApi = new KubernetesApi();
     }
 
     /**
@@ -66,7 +79,15 @@ public class NanoSatSimulator extends NanoSat {
      */
     @Override
     public void run() throws IOException {
-        DockerApi.run(this.name, this.image, this.keplerElements);
+        this.simulatorApi.run(this.name, this.keplerElements);
+    }
+
+    /**
+     * @return Container Logs
+     */
+    @Override
+    public String getLogs() throws IOException {
+        return this.simulatorApi.getLogs(this.name);
     }
 
     /**
@@ -75,7 +96,7 @@ public class NanoSatSimulator extends NanoSat {
      * @throws IOException
      */
     public void start() throws IOException {
-        DockerApi.start(this.name);
+        this.simulatorApi.start(this.name);
     }
 
     /**
@@ -84,7 +105,7 @@ public class NanoSatSimulator extends NanoSat {
      * @throws IOException
      */
     public void stop() throws IOException {
-        DockerApi.stop(this.name);
+        this.simulatorApi.stop(this.name);
     }
 
     /**
@@ -94,7 +115,7 @@ public class NanoSatSimulator extends NanoSat {
     @Override
     public String getIPAddress() throws IOException {
         if (this.ipAddress == null) {
-            this.ipAddress = DockerApi.getContainerIPAddress(this.name);
+            this.ipAddress = this.simulatorApi.getIPAddress(this.name);
         }
         return this.ipAddress;
     }
@@ -116,7 +137,7 @@ public class NanoSatSimulator extends NanoSat {
         this.providers = null;
         this.groundAdapter = null;
         try {
-            DockerApi.removeContainer(this.name);
+            this.simulatorApi.remove(this.name);
         } catch (IOException ex) {
             Logger.getLogger(ConstellationManagementTool.class.getName()).log(Level.SEVERE, "{0}: could not be removed!: {1}", new Object[]{this.name, ex});
         }

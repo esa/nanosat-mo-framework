@@ -32,6 +32,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -55,7 +56,7 @@ public class ConnectNanoSatGui extends JFrame {
         this.cmt = cmt;
 
         this.setContentPane(connectNanoSatPanel);
-        this.setTitle("Connect to NanoSats");
+        this.setTitle("Connect to NanoSat Segments");
         this.setSize(400, 123);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -77,12 +78,17 @@ public class ConnectNanoSatGui extends JFrame {
         btnConnect.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                readNanoSatSegmentsFromFile(tfFilePath.getText());
+                connectToNanoSatSegments(tfFilePath.getText());
             }
         });
     }
 
-    private void readNanoSatSegmentsFromFile(String path) {
+    /**
+     * Connect to the NanoSat segments that have been provided by the .csv file.
+     *
+     * @param path .csv file path with NanoSat segments connection information
+     */
+    private void connectToNanoSatSegments(String path) {
         HashMap<String, String> nanoSatSegments = new HashMap<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
@@ -108,6 +114,8 @@ public class ConnectNanoSatGui extends JFrame {
         } catch (IllegalArgumentException ex) {
             Logger.getLogger(ConstellationManagementTool.class.getName()).log(Level.SEVERE, "Failed to add NanoSat Segments to constellation: ", ex.getMessage());
             JOptionPane.showMessageDialog(null, "Failed to add NanoSat Segments to constellation: Names must be unique!", "Error", JOptionPane.INFORMATION_MESSAGE);
+        } catch (FileNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, "File not found! Please select a valid .csv file.", "Error", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception ex) {
             Logger.getLogger(ConstellationManagementTool.class.getName()).log(Level.SEVERE, "Failed to add NanoSat Segments to constellation: ", ex);
         }
@@ -133,7 +141,7 @@ public class ConnectNanoSatGui extends JFrame {
         tfFilePath = new JTextField();
         connectNanoSatPanel.add(tfFilePath, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         btnChooseFile = new JButton();
-        btnChooseFile.setText("File");
+        btnChooseFile.setText("Open");
         connectNanoSatPanel.add(btnChooseFile, new GridConstraints(1, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label1 = new JLabel();
         label1.setText("Connections .csv:");
