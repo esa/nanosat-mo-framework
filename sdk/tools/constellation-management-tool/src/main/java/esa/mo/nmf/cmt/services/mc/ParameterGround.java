@@ -40,7 +40,7 @@ public class ParameterGround {
 
         ParameterRawValue rawValue = new ParameterRawValue();
 
-        Union attribute = (Union) javaType2Attribute("thisIsAnAttribute");
+        Union attribute = (Union) javaType2Attribute("thisIsSomeAttribute");
 
         rawValue.setParamInstId(4l);
         rawValue.setRawValue(attribute);
