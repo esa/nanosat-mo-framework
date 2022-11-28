@@ -34,7 +34,7 @@ public class DockerApi extends SimulatorApi{
     private String image;
 
     public DockerApi() {
-        this.image = "nmf-rpi/nanosat-segment:1.1"; // TODO: get image name from config
+        this.image = "nmf-rpi/nmf-supervisor:2.0"; // TODO: get image name from config
     }
 
     /**
