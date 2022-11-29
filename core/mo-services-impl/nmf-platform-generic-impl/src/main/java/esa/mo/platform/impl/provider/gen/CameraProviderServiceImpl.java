@@ -173,18 +173,22 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
                 }
             }
 
-            LOGGER.log(Level.FINER, "Generating streaming Picture update with objId: {0}", objId);
+            if (picture == null) {
+                LOGGER.log(Level.FINE, "Could not retrieve a picture. Skipping publishing.");
+            } else {
+                LOGGER.log(Level.FINER, "Generating streaming Picture update with objId: {0}", objId);
 
-            final EntityKey ekey = new EntityKey(firstEntityKey, objId, settings.getResolution().getWidth().getValue(),
-                settings.getResolution().getHeight().getValue());
+                final EntityKey ekey = new EntityKey(firstEntityKey, objId, settings.getResolution().getWidth().getValue(),
+                    settings.getResolution().getHeight().getValue());
 
-            final UpdateHeaderList hdrlst = new UpdateHeaderList();
-            hdrlst.add(new UpdateHeader(HelperTime.getTimestampMillis(), connection.getConnectionDetails()
-                .getProviderURI(), UpdateType.UPDATE, ekey));
+                final UpdateHeaderList hdrlst = new UpdateHeaderList();
+                hdrlst.add(new UpdateHeader(HelperTime.getTimestampMillis(), connection.getConnectionDetails()
+                    .getProviderURI(), UpdateType.UPDATE, ekey));
 
-            PictureList picList = new PictureList();
-            picList.add(picture);
-            publisher.publish(hdrlst, picList);
+                PictureList picList = new PictureList();
+                picList.add(picture);
+                publisher.publish(hdrlst, picList);
+            }
         } catch (IllegalArgumentException | MALException | MALInteractionException ex) {
             LOGGER.log(Level.WARNING, "Exception during publishing process on the provider {0}", ex);
         }
