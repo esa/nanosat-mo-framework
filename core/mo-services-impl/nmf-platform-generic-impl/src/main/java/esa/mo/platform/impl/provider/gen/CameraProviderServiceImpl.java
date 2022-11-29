@@ -178,8 +178,8 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
             } else {
                 LOGGER.log(Level.FINER, "Generating streaming Picture update with objId: {0}", objId);
 
-                final EntityKey ekey = new EntityKey(firstEntityKey, objId, settings.getResolution().getWidth().getValue(),
-                    settings.getResolution().getHeight().getValue());
+                final EntityKey ekey = new EntityKey(firstEntityKey, objId, settings.getResolution().getWidth()
+                    .getValue(), settings.getResolution().getHeight().getValue());
 
                 final UpdateHeaderList hdrlst = new UpdateHeaderList();
                 hdrlst.add(new UpdateHeader(HelperTime.getTimestampMillis(), connection.getConnectionDetails()
