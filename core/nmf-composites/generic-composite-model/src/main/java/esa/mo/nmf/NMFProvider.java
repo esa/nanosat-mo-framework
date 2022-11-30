@@ -258,7 +258,7 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
      * Hints the GC to do Garbage Collection and also hints it to go through the
      * finalization method of the pending finalization objects.
      */
-    public static void hintGC() {
+    public void hintGC() {
         System.gc();
         System.runFinalization();
     }
