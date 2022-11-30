@@ -32,7 +32,6 @@ import esa.mo.helpertools.misc.Const;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.CloseAppListener;
 import esa.mo.nmf.MCRegistration;
-import esa.mo.nmf.MissionPlanningNMFAdapter;
 import esa.mo.nmf.NMFException;
 import esa.mo.nmf.OneInstanceLock;
 import esa.mo.nmf.nmfpackage.Deployment;
