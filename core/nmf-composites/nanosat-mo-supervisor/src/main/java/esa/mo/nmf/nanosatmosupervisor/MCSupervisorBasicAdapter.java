@@ -36,6 +36,7 @@ import org.ccsds.moims.mo.mal.MALStandardError;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValue;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSAdapter;
 
 import esa.mo.nmf.MCRegistration;
@@ -135,6 +136,16 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
 
         // otherwise it's one of the annotated internal parameters
         return super.onGetValue(parameterID);
+    }
+
+    @Override
+    public Boolean onSetValue(ParameterRawValue newRawValue) {
+        boolean result = super.onSetValue(newRawValue);
+        if (!result) {
+            result = obswParameterManager.setValue(newRawValue);
+        }
+
+        return result;
     }
 
     public void startAdcsAttitudeMonitoring() {
