@@ -230,8 +230,12 @@ public class LinuxUsersGroups {
         String[] lines = out.split("\\R");
 
         for (String line : lines) {
-            if (line.contains(username)) {
-                return line.split(":")[5];
+            String[] entries = line.split(":");
+
+            if (entries.length >= 5) {
+                if (entries[0].equals(username)) {
+                    return line.split(":")[5];
+                }
             }
         }
 
