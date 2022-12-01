@@ -2258,8 +2258,11 @@
             </mal:response>
           </mal:messages>
           <mal:errors>
-            <mal:errorRef comment="The provided jsonPath file does not exist.">
+            <mal:errorRef comment="The execution could not be completed successfully.">
               <mal:type area="COM" list="false" name="INVALID" />
+              <mal:extraInformation comment="The extra information field shall hold the error description.">
+                <mal:type area="MAL" list="false" name="String" />
+              </mal:extraInformation>
             </mal:errorRef>
             <mal:errorRef comment="The AI device is not available.">
               <mal:type area="Platform" list="false" name="DEVICE_NOT_AVAILABLE" />
