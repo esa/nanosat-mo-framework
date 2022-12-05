@@ -20,9 +20,13 @@
  */
 package esa.mo.nmf;
 
+import esa.mo.com.impl.provider.ArchivePersistenceObject;
+import esa.mo.com.impl.provider.ArchiveProviderServiceImpl;
 import esa.mo.helpertools.helpers.HelperAttributes;
+import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.mc.impl.interfaces.ActionInvocationListener;
 import esa.mo.mc.impl.interfaces.ParameterStatusListener;
+import esa.mo.mc.impl.provider.ParameterProviderServiceImpl;
 import esa.mo.nmf.annotations.Action;
 import esa.mo.nmf.annotations.ActionParameter;
 import esa.mo.nmf.annotations.Aggregation;
@@ -33,11 +37,13 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
+import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Duration;
@@ -56,18 +62,14 @@ import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetails
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSet;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSetList;
 import org.ccsds.moims.mo.mc.aggregation.structures.ThresholdFilter;
+import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterConversion;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValue;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
-import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetails;
-import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetailsList;
-import org.ccsds.moims.mo.mc.structures.AttributeValue;
-import org.ccsds.moims.mo.mc.structures.AttributeValueList;
-import org.ccsds.moims.mo.mc.structures.ConditionalConversionList;
-import org.ccsds.moims.mo.mc.structures.ParameterExpression;
+import org.ccsds.moims.mo.mc.structures.*;
 
 /**
  * The MonitorAndControlAdapter implements the Monitor and Control interfaces composed by the
@@ -75,15 +77,22 @@ import org.ccsds.moims.mo.mc.structures.ParameterExpression;
  *
  */
 public abstract class MonitorAndControlNMFAdapter implements ActionInvocationListener, ParameterStatusListener {
+
+    private static final Logger LOGGER = Logger.getLogger(MonitorAndControlNMFAdapter.class.getName());
     private final HashMap<Long, Field> parameterMapping = new HashMap<>();
     private final HashMap<Long, Method> actionMapping = new HashMap<>();
     private final HashMap<String, Long> actionNameMapping = new HashMap<>();
+
+    private ArchiveProviderServiceImpl archiveService;
+    private ParameterProviderServiceImpl parameterService;
 
     public void initialRegistrations(MCRegistration registration) {
         // Prevent definition updates on consecutive application runs
         registration.setMode(MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS);
         registerParameters(registration);
         registerActions(registration);
+        archiveService = registration.comServices.getArchiveService();
+        parameterService = registration.parameterService;
     }
 
     /**
@@ -93,7 +102,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
      */
     private void registerParameters(MCRegistration registration) {
 
-        Logger.getLogger(MonitorAndControlNMFAdapter.class.getName()).log(Level.INFO, "Registering Parameters:");
+        LOGGER.log(Level.INFO, "Registering Parameters:");
         IdentifierList parameterNames = new IdentifierList();
         ParameterDefinitionDetailsList definitions = new ParameterDefinitionDetailsList();
         LinkedList<Field> parameters = new LinkedList<>();
@@ -111,12 +120,10 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
                 if (annotation.name().equals("")) {
                     // if name is not set, use variable name
                     parameterNames.add(new Identifier(field.getName()));
-                    Logger.getLogger(MonitorAndControlNMFAdapter.class.getName()).log(Level.INFO,
-                        "Parameter registered: {0}", field.getName());
+                    LOGGER.log(Level.INFO, "Parameter registered: {0}", field.getName());
                 } else {
                     parameterNames.add(new Identifier(annotation.name()));
-                    Logger.getLogger(MonitorAndControlNMFAdapter.class.getName()).log(Level.INFO,
-                        "Parameter registered: {0}", annotation.name());
+                    LOGGER.log(Level.INFO, "Parameter registered: {0}", annotation.name());
                 }
 
                 //-------------------------collect ParameterDefinitionDetails-------------------------------
@@ -129,7 +136,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
 
                     } catch (IllegalArgumentException | IllegalAccessException ex) {
 
-                        Logger.getLogger(MonitorAndControlNMFAdapter.class.getName()).log(Level.SEVERE,
+                        LOGGER.log(Level.SEVERE,
                             "Unable to register parameter! Please try setting malType in @Parameter. {0}", ex);
                         continue;
                     }
@@ -151,8 +158,8 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
                              SecurityException |
                              IllegalArgumentException |
                              IllegalAccessException ex) {
-                        Logger.getLogger(MonitorAndControlNMFAdapter.class.getName()).log(Level.SEVERE,
-                            "Unable to parse validityExpression Field! (fallback to null) {0}", ex);
+                        LOGGER.log(Level.SEVERE, "Unable to parse validityExpression Field! (fallback to null) {0}",
+                            ex);
                     }
                 }
                 ParameterConversion conversion = null;
@@ -165,8 +172,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
                              SecurityException |
                              IllegalArgumentException |
                              IllegalAccessException ex) {
-                        Logger.getLogger(MonitorAndControlNMFAdapter.class.getName()).log(Level.SEVERE,
-                            "Unable to parse conversion Field! (fallback to null) {0}", ex);
+                        LOGGER.log(Level.SEVERE, "Unable to parse conversion Field! (fallback to null) {0}", ex);
                     }
                 }
                 //------------------------------------------------------------------------------------------
@@ -194,7 +200,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
             }
 
             //------------------------------- register Aggregations ------------------------------------
-            Logger.getLogger(MonitorAndControlNMFAdapter.class.getName()).log(Level.INFO, "Registering Aggregations:");
+            LOGGER.log(Level.INFO, "Registering Aggregations:");
 
             Aggregations[] aggregationList = this.getClass().getAnnotationsByType(Aggregations.class);
             if (aggregationList != null && aggregationList.length > 0) {
@@ -215,12 +221,10 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
                                 Field filterField = this.getClass().getField(aggregation.thresholdFilterFieldName());
                                 filter = (ThresholdFilter) filterField.get(this);
                             } catch (NoSuchFieldException ex) {
-                                Logger.getLogger(MonitorAndControlNMFAdapter.class.getName()).log(Level.SEVERE,
-                                    "Could not find Field \"{0}\". No filter has been added!", aggregation
-                                        .thresholdFilterFieldName());
+                                LOGGER.log(Level.SEVERE, "Could not find Field \"{0}\". No filter has been added!",
+                                    aggregation.thresholdFilterFieldName());
                             } catch (IllegalArgumentException | IllegalAccessException ex) {
-                                Logger.getLogger(MonitorAndControlNMFAdapter.class.getName()).log(Level.SEVERE, ex
-                                    .getMessage());
+                                LOGGER.log(Level.SEVERE, ex.getMessage());
                             }
                         }
 
@@ -235,14 +239,13 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
                             aggregation.filterEnabled(), new Duration(aggregation.filterTimeout()), aggregation
                                 .generationEnabled(), parameterSet);
 
-                        Logger.getLogger(MonitorAndControlNMFAdapter.class.getName()).log(Level.INFO,
-                            "Aggregation registered: {0}", aggregation.id());
+                        LOGGER.log(Level.INFO, "Aggregation registered: {0}", aggregation.id());
 
                         aggregationNames.add(new Identifier(aggregation.id()));
                         aggregationDetails.add(aggregationDetail);
 
                     } else {
-                        Logger.getLogger(MonitorAndControlNMFAdapter.class.getName()).log(Level.SEVERE,
+                        LOGGER.log(Level.SEVERE,
                             "There are no Parameters assigned to Aggregation {0}! The Aggregation therefore will not be created!",
                             aggregation.id());
                     }
@@ -251,6 +254,53 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
                 registration.registerAggregations(aggregationNames, aggregationDetails);
             }
             //------------------------------------------------------------------------------------------
+        }
+    }
+
+    public void setParameterValuesFromArchive() {
+        if (archiveService != null) {
+            for (Map.Entry<Long, Field> entry : parameterMapping.entrySet()) {
+                Field field = entry.getValue();
+                String parameterName = null;
+                Parameter annotation = field.getAnnotation(Parameter.class);
+                if (annotation != null) {
+                    field.setAccessible(true);
+                    if (annotation.name().equals("")) {
+                        parameterName = field.getName();
+                    } else {
+                        parameterName = annotation.name();
+                    }
+                }
+
+                if (parameterName != null) {
+                    IdentifierList names = new IdentifierList();
+                    names.add(new Identifier(parameterName));
+                    try {
+                        ObjectInstancePairList ids = parameterService.listDefinition(names, null);
+                        ObjectInstancePair id = ids.get(0);
+                        ArchiveQuery query = new ArchiveQuery(archiveService.getConnection().getConnectionDetails()
+                            .getDomain(), null, null, id.getObjDefInstanceId(), null, null, HelperTime.getTimestamp(),
+                            false, null);
+                        List<ArchivePersistenceObject> result = archiveService.getArchiveManager().query(
+                            ParameterHelper.PARAMETERVALUEINSTANCE_OBJECT_TYPE, query, null);
+                        if (!result.isEmpty()) {
+                            ArchivePersistenceObject newestParameter = result.get(0); // assume the first one is the newest because of the query sort order
+                            Attribute rawValue = ((ParameterValue) newestParameter.getObject()).getRawValue();
+                            Object value;
+                            if (field.getType() == double.class) {
+                                value = HelperAttributes.attribute2double(rawValue);
+                            } else if (field.getType() == String.class) {
+                                value = HelperAttributes.attribute2string(rawValue);
+                            } else {
+                                value = HelperAttributes.attribute2JavaType(rawValue);
+                            }
+                            field.set(this, value);
+                        }
+                    } catch (MALException | MALInteractionException | IllegalAccessException e) {
+                        LOGGER.log(Level.SEVERE, "Error during restoring parameter value!", e);
+                    }
+                }
+            }
         }
     }
 
@@ -266,7 +316,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
 
         // get all methods
         Method[] methods = this.getClass().getDeclaredMethods();
-        Logger.getLogger(MonitorAndControlNMFAdapter.class.getName()).log(Level.INFO, "Registering Actions");
+        LOGGER.log(Level.INFO, "Registering Actions");
         for (Method method : methods) {
             Action annotation = method.getAnnotation(Action.class);
             // if field has Parameter anotation
@@ -278,17 +328,17 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
                 java.lang.reflect.Parameter reportProgress = method.getParameters()[1];
                 java.lang.reflect.Parameter interaction = method.getParameters()[2];
                 if (!actionInstanceObjId.getType().equals(Long.class)) {
-                    Logger.getLogger(MonitorAndControlNMFAdapter.class.getName()).log(Level.SEVERE,
+                    LOGGER.log(Level.SEVERE,
                         "Unable to parse action! First argument of action has to be Long actionInstanceObjId!");
                     continue;
                 }
                 if (!reportProgress.getType().equals(boolean.class)) {
-                    Logger.getLogger(MonitorAndControlNMFAdapter.class.getName()).log(Level.SEVERE,
+                    LOGGER.log(Level.SEVERE,
                         "Unable to parse action! Second argument of action has to be boolean reportProgress!");
                     continue;
                 }
                 if (!interaction.getType().equals(MALInteraction.class)) {
-                    Logger.getLogger(MonitorAndControlNMFAdapter.class.getName()).log(Level.SEVERE,
+                    LOGGER.log(Level.SEVERE,
                         "Unable to parse action! Third argument of action has to be MALInteraction interaction!");
                     continue;
                 }
@@ -305,7 +355,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
                     String description = null;
                     Byte rawType = getTypeShortForm(param.getType());
                     if (rawType == null) {
-                        Logger.getLogger(MonitorAndControlNMFAdapter.class.getName()).log(Level.SEVERE,
+                        LOGGER.log(Level.SEVERE,
                             "Unable to register action Parameter of type {0}. Only MAL Types are allowed!", param
                                 .getType().getSimpleName());
                         continue;
@@ -336,8 +386,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
                                      SecurityException |
                                      IllegalArgumentException |
                                      IllegalAccessException ex) {
-                                Logger.getLogger(MonitorAndControlNMFAdapter.class.getName()).log(Level.SEVERE, ex
-                                    .getMessage());
+                                LOGGER.log(Level.SEVERE, ex.getMessage());
                             }
                         }
                     }
@@ -352,8 +401,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
                     actionId = new Identifier(annotation.name());
                 }
 
-                Logger.getLogger(MonitorAndControlNMFAdapter.class.getName()).log(Level.INFO, "Action registered: {0}",
-                    actionId);
+                LOGGER.log(Level.INFO, "Action registered: {0}", actionId);
                 actionNames.add(actionId);
                 actionDefs.add(new ActionDefinitionDetails(annotation.description(), new UOctet(annotation.category()),
                     new UShort(annotation.stepCount()), arguments));
@@ -403,15 +451,12 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
                 return (UInteger) result;
             }
         } catch (IllegalAccessException ex) {
-            Logger.getLogger(MonitorAndControlNMFAdapter.class.getName()).log(Level.SEVERE, "Cannot access Method! {0}",
-                ex.getMessage());
+            LOGGER.log(Level.SEVERE, "Cannot access Method! {0}", ex.getMessage());
         } catch (IllegalArgumentException ex) {
-            Logger.getLogger(MonitorAndControlNMFAdapter.class.getName()).log(Level.SEVERE,
-                "Arguments for action are incorrect! {0}", ex.getMessage());
+            LOGGER.log(Level.SEVERE, "Arguments for action are incorrect! {0}", ex.getMessage());
         } catch (InvocationTargetException ex) {
-            Logger.getLogger(MonitorAndControlNMFAdapter.class.getName()).log(Level.SEVERE,
-                "The action Method threw an invocation exception! {0}", (ex.getMessage() != null ? ex.getMessage() : ex
-                    .getTargetException().getMessage()));
+            LOGGER.log(Level.SEVERE, "The action Method threw an invocation exception! {0}", (ex.getMessage() != null ?
+                ex.getMessage() : ex.getTargetException().getMessage()));
         }
         return new UInteger(0);
     }
@@ -421,14 +466,14 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
 
         Field field = parameterMapping.get(parameterID);
         if (field == null) {
-            Logger.getLogger(MonitorAndControlNMFAdapter.class.getName()).log(Level.SEVERE,
-                "no parameter with ID {0} exists!", parameterID);
+            LOGGER.log(Level.SEVERE, "no parameter with ID {0} exists!", parameterID);
             return null;
         }
         Parameter param = field.getAnnotation(Parameter.class);
         if (param == null) {
-            Logger.getLogger(MonitorAndControlNMFAdapter.class.getName()).log(Level.SEVERE,
-                "Parameter with ID {0} and name {1} is not Annotated!", new Object[]{parameterID, field.getName()});
+            LOGGER.log(Level.SEVERE, "Parameter with ID {0} and name {1} is not Annotated!", new Object[]{parameterID,
+                                                                                                          field
+                                                                                                              .getName()});
             return null;
         } else {
             try {
@@ -440,13 +485,13 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
                 }
                 return (Attribute) HelperAttributes.javaType2Attribute(field.get(this));
             } catch (IllegalArgumentException | IllegalAccessException ex) {
-                Logger.getLogger(MonitorAndControlNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                LOGGER.log(Level.SEVERE, null, ex);
                 throw new IOException("Unable to get Parameter Mapping");
             } catch (NoSuchMethodException | SecurityException ex) {
-                Logger.getLogger(MonitorAndControlNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                LOGGER.log(Level.SEVERE, null, ex);
                 throw new IOException("Unable to call onGet Method");
             } catch (InvocationTargetException ex) {
-                Logger.getLogger(MonitorAndControlNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                LOGGER.log(Level.SEVERE, null, ex);
             }
         }
         return null;
@@ -482,7 +527,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
         try {
             param.set(this, value);
         } catch (IllegalArgumentException | IllegalAccessException ex) {
-            Logger.getLogger(MonitorAndControlNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
             return false;
         }
         return true;

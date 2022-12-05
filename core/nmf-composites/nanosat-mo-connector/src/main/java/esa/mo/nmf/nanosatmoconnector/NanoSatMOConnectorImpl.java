@@ -279,6 +279,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
             MCRegistration registration = new MCRegistration(comServices, mcServices.getParameterService(), mcServices
                 .getAggregationService(), mcServices.getAlertService(), mcServices.getActionService());
             mcAdapter.initialRegistrations(registration);
+            mcAdapter.setParameterValuesFromArchive();
         }
 
         LOGGER.log(Level.INFO, "NanoSat MO Connector initialized in " + (((float) (System.currentTimeMillis() -
@@ -551,6 +552,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
             MCRegistration registration = new MCRegistration(comServices, mcServices.getParameterService(), mcServices
                 .getAggregationService(), mcServices.getAlertService(), mcServices.getActionService());
             mcAdapter.initialRegistrations(registration);
+            mcAdapter.setParameterValuesFromArchive();
         }
 
         if (mpAdapter != null) {
