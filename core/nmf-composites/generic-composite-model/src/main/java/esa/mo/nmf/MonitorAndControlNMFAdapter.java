@@ -91,8 +91,10 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
         registration.setMode(MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS);
         registerParameters(registration);
         registerActions(registration);
-        archiveService = registration.comServices.getArchiveService();
-        parameterService = registration.parameterService;
+        if (registration.comServices != null) {
+            archiveService = registration.comServices.getArchiveService();
+            parameterService = registration.parameterService;
+        }
     }
 
     /**
@@ -258,7 +260,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
     }
 
     public void setParameterValuesFromArchive() {
-        if (archiveService != null) {
+        if (archiveService != null && parameterService != null) {
             for (Map.Entry<Long, Field> entry : parameterMapping.entrySet()) {
                 Field field = entry.getValue();
                 String parameterName = null;
