@@ -84,7 +84,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
     private final HashMap<String, Long> actionNameMapping = new HashMap<>();
 
     private ArchiveProviderServiceImpl archiveService;
-    private ParameterProviderServiceImpl parameterService;
+    protected ParameterProviderServiceImpl parameterService;
 
     public void initialRegistrations(MCRegistration registration) {
         // Prevent definition updates on consecutive application runs
