@@ -76,6 +76,6 @@ In short, you will need to: clone a repository, change some configuration files,
 
 9. Invoke ``mvn clean package`` in the ``opssat-package/experiment`` directory.
 
-10. Go to the folder ``target/experimenter-package/`` and you will find the directory structure to package your app as an IPK for OPS-SAT.
+10. Go to the folder ``target/experiment-package/`` and you will find the directory structure to package your app as an IPK for OPS-SAT.
 
 11. Zip the generated directory structure and send it to OPS-SAT's Flight Control Team (FCT) by following the guide instructions in: https://opssat1.esoc.esa.int/projects/experimenter-information/wiki/Building_and_submitting_your_application_to_ESOC

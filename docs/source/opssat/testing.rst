@@ -18,14 +18,14 @@ The easy way to imagine it is: It takes your requests to the apps, forwards them
 
 If you followed the previous chapter and already packaged your app for deployment on OPS-SAT, you already are in possession of the code for the Ground MO Proxy for OPS-SAT.
 You just need to enter the root directory of the ``nmf-mission-opssat`` repository (make sure you checked out the branch ``dev``) and run ``mvn install -Pground``.
-This will add two more things to your ``home/nmf/`` folder in ``opssat-package/target/nmf-ops-sat-VERSION/``.
+This will add two more things to your ``home/nmf/`` folder in ``opssat-package/nmf/target/nmf-ops-sat-VERSION/``.
 The supervisor with simulator with which you are already familiar from the SDK and the Ground MO Proxy for OPS-SAT.
 
 Preparing the folders for tests
 -------------------------------
 By default your app and the NMF are packaged separately. The reason for this is that your app and the NMF will never be installed together, so it makes no sense to make the packages unnecessarily large.
-To make the OPS-SAT NMF supervisor find your app, you should put it into ``opssat-package/target/home/expXYZ/`` where you replace XYZ with your experimenter ID.
-You can copy this folder from ``opssat-package/target/experimenter-package/home/``.
+To make the OPS-SAT NMF supervisor find your app, you should put it into ``opssat-package/nmf/target/home/expXYZ/`` where you replace XYZ with your experimenter ID.
+You can copy this folder from ``opssat-package/experiment/target/experiment-package/home/``.
 
 Note that by default the application's ``provider.properties`` will contain property ``helpertools.configurations.provider.app.user``.
 For stand-alone tests it is recommended to remove it, unless necessary users are created in the testing system.
@@ -37,7 +37,7 @@ Now that we are set up, it is time to start testing. This section covers the gen
 Starting the NMF
 """"""""""""""""
 The first thing you should do is start the Ground MO Proxy.
-For this, open a shell in the folder ``opssat-package/target/nmf-ops-sat-VERSION/home/nmf/ground-mo-proxy`` and execute the ``ground-mo-proxy.sh`` script.
+For this, open a shell in the folder ``opssat-package/nmf/target/nmf-ops-sat-VERSION/home/nmf/ground-mo-proxy`` and execute the ``ground-mo-proxy.sh`` script.
 The warning stating that we should check the link to the spacecraft is completely natural at this point, since we did not start the supervisor yet. Therefore, there is no one the Ground MO Proxy could synchronize with.
 The next thing to do is to start the supervisor. You should wait with this step until the Ground MO Proxy started its directory service.
 This is important, as we will not be able to connect to the Ground MO Proxy through the CTT/EUD4MO as long as the directory service is not initialized properly.
@@ -47,10 +47,10 @@ Note that the CTT built together with the SDK is universal and does not have to 
 
 We have two choices concerning the start of the supervisor:
 
-* If you want to check if your app starts up and you can set some parameters, the OPS-SAT supervisor is fine and will save you a lot of time. Although note that it will fail to initialise payload interfaces and thus platform services will not be functional. The OPS-SAT supervisor path is ``opssat-package/target/nmf-ops-sat-VERSION/home/nmf/supervisor/``
+* If you want to check if your app starts up and you can set some parameters, the OPS-SAT supervisor is fine and will save you a lot of time. Although note that it will fail to initialise payload interfaces and thus platform services will not be functional. The OPS-SAT supervisor path is ``opssat-package/nmf/target/nmf-ops-sat-VERSION/home/nmf/supervisor/``
 * If you want to test your app with the platform services, you can start the OPS-SAT hybrid supervisor with simulator.
   The supervisor with simulator takes significantly more time to startup since it has to initialize the Orekit library which is used for orbit and attitude propagation.
-  The OPS-SAT supervisor with simulator path is ``opssat-package/target/nmf-ops-sat-VERSION/home/nmf/supervisor-sim/``
+  The OPS-SAT supervisor with simulator path is ``opssat-package/nmf/target/nmf-ops-sat-VERSION/home/nmf/supervisor-sim/``
 * In order to configure the hybrid simulator, you can modify the ``platformsim.properties`` file in the supervisor-sim workdir.
   Each of the adapters can be configured to either use a real or a simulated payload implementation. Look into the file for more configuration options.
 
