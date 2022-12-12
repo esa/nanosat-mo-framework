@@ -41,6 +41,8 @@ public class PayloadsTestApp {
         ConnectionConsumer connectionConsumer = new ConnectionConsumer();
         connectionConsumer.loadURIs();
         adapter.setSimpleCommandingInterface(new CommonMOAdapterImpl(connectionConsumer));
+
+        adapter.subscribeToSupervisorParameters(connector.readCentralDirectoryServiceURI());
     }
 
 }

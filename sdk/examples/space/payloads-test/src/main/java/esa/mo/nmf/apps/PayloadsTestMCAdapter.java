@@ -20,7 +20,13 @@
  */
 package esa.mo.nmf.apps;
 
+import esa.mo.common.impl.consumer.DirectoryConsumerServiceImpl;
 import esa.mo.helpertools.connections.ConnectionConsumer;
+import esa.mo.helpertools.connections.SingleConnectionDetails;
+import esa.mo.helpertools.helpers.HelperMisc;
+import esa.mo.helpertools.helpers.HelperTime;
+import esa.mo.helpertools.misc.Const;
+import esa.mo.mc.impl.consumer.ParameterConsumerServiceImpl;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
@@ -32,35 +38,34 @@ import esa.mo.nmf.annotations.Parameter;
 import esa.mo.nmf.commonmoadapter.SimpleCommandingInterface;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import esa.mo.sm.impl.provider.AppsLauncherManager;
+import org.ccsds.moims.mo.com.COMService;
+import org.ccsds.moims.mo.com.structures.InstanceBooleanPair;
+import org.ccsds.moims.mo.com.structures.InstanceBooleanPairList;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectIdList;
+import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
+import org.ccsds.moims.mo.common.directory.structures.ServiceFilter;
+import org.ccsds.moims.mo.common.structures.ServiceKey;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
-import org.ccsds.moims.mo.mal.structures.Attribute;
-import org.ccsds.moims.mo.mal.structures.Duration;
-import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.structures.Pair;
-import org.ccsds.moims.mo.mal.structures.PairList;
-import org.ccsds.moims.mo.mal.structures.UInteger;
-import org.ccsds.moims.mo.mal.structures.UOctet;
-import org.ccsds.moims.mo.mal.structures.Union;
-import org.ccsds.moims.mo.mal.structures.UpdateHeaderList;
+import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.conversion.structures.DiscreteConversionDetails;
 import org.ccsds.moims.mo.mc.conversion.structures.DiscreteConversionDetailsList;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterConversion;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetailsList;
-import org.ccsds.moims.mo.mc.structures.ConditionalConversion;
-import org.ccsds.moims.mo.mc.structures.ConditionalConversionList;
-import org.ccsds.moims.mo.mc.structures.ParameterExpression;
+import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
+import org.ccsds.moims.mo.mc.parameter.consumer.ParameterAdapter;
+import org.ccsds.moims.mo.mc.parameter.structures.*;
+import org.ccsds.moims.mo.mc.structures.*;
 import org.ccsds.moims.mo.platform.autonomousadcs.consumer.AutonomousADCSAdapter;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.*;
 import org.ccsds.moims.mo.platform.camera.structures.PictureFormat;
@@ -80,9 +85,16 @@ import org.ccsds.moims.mo.platform.structures.VectorF3D;
 @Aggregation(id = PayloadsTestMCAdapter.AGGREGATION_GPS,
              description = "Aggregates: GPS Latitude, GPS Longitude, GPS Altitude.", reportInterval = 10,
              sendUnchanged = true, sampleInterval = 3)
+@Aggregation(id = PayloadsTestMCAdapter.AGGREGATION_ECLIPSED,
+             description = "Aggregates: CADC0884, CADC0886, CADC0888, CADC0890, CADC0892, CADC0894",
+             reportInterval = 10, sendUnchanged = true, sampleInterval = 3, generationEnabled = true)
+@Aggregation(id = PayloadsTestMCAdapter.AGGREGATION_IADCS_TELEMETRY, description = "iADCS telemetry data",
+             reportInterval = 5, sendUnchanged = true, sampleInterval = 3, generationEnabled = true)
 public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
     public static final String AGGREGATION_MAG = "Magnetometer_Aggregation";
     public static final String AGGREGATION_GPS = "GPS_Aggregation";
+    public static final String AGGREGATION_ECLIPSED = "Eclipsed_Aggregation";
+    public static final String AGGREGATION_IADCS_TELEMETRY = "iADCS_Telemetry_Aggregation";
     private static final String PARAMETER_ADCS_MODE = "ADCS_ModeOperation";
     private static final String PARAMETER_ADCS_DURATION = "ADCS_RemainingControlDuration";
     private static final String PARAMETER_ANGULAR_VELOCITY_X = "AngularVelocity_X";
@@ -161,22 +173,133 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
 
     //-----------------------------------------------------------------------------------------------
     //------------------------------------ Magnetic Field Parameters---------------------------------
-    @Parameter(description = "The Magnetometer X component", rawUnit = "microTesla", generationEnabled = false,
-               onGetFunction = "onGetMagneticField_X", readOnly = true, reportIntervalSeconds = 2, aggregations = {
-                                                                                                                   AGGREGATION_MAG})
+    @Parameter(name = PARAMETER_MAG_X, description = "The Magnetometer X component", rawUnit = "microTesla",
+               generationEnabled = false, onGetFunction = "onGetMagneticField_X", readOnly = true,
+               reportIntervalSeconds = 2, aggregations = {AGGREGATION_MAG, AGGREGATION_IADCS_TELEMETRY})
     Float MagneticField_X = 0.0f;
 
-    @Parameter(description = "The Magnetometer Y component", rawUnit = "microTesla", generationEnabled = false,
-               onGetFunction = "onGetMagneticField_Y", readOnly = true, reportIntervalSeconds = 2, aggregations = {
-                                                                                                                   AGGREGATION_MAG})
+    @Parameter(name = PARAMETER_MAG_Y, description = "The Magnetometer Y component", rawUnit = "microTesla",
+               generationEnabled = false, onGetFunction = "onGetMagneticField_Y", readOnly = true,
+               reportIntervalSeconds = 2, aggregations = {AGGREGATION_MAG, AGGREGATION_IADCS_TELEMETRY})
     Float MagneticField_Y = 0.0f;
 
-    @Parameter(description = "The Magnetometer Z component", rawUnit = "microTesla", generationEnabled = false,
-               onGetFunction = "onGetMagneticField_Z", readOnly = true, reportIntervalSeconds = 2, aggregations = {
-                                                                                                                   AGGREGATION_MAG})
+    @Parameter(name = PARAMETER_MAG_Z, description = "The Magnetometer Z component", rawUnit = "microTesla",
+               generationEnabled = false, onGetFunction = "onGetMagneticField_Z", readOnly = true,
+               reportIntervalSeconds = 2, aggregations = {AGGREGATION_MAG, AGGREGATION_IADCS_TELEMETRY})
     Float MagneticField_Z = 0.0f;
 
+    //-------------------------------------- Supervisor Parameters ----------------------------------
+    @Parameter(name = "CADC0884", description = "I_PD1_THETA", generationEnabled = false, readOnly = true,
+               reportIntervalSeconds = 10, aggregations = {AGGREGATION_ECLIPSED})
+    Float IPD1Theta = 0.0f;
+
+    @Parameter(name = "CADC0886", description = "I_PD2_THETA", generationEnabled = false, readOnly = true,
+               reportIntervalSeconds = 10, aggregations = {AGGREGATION_ECLIPSED})
+    Float IPD2Theta = 0.0f;
+
+    @Parameter(name = "CADC0888", description = "I_PD3_THETA", generationEnabled = false, readOnly = true,
+               reportIntervalSeconds = 10, aggregations = {AGGREGATION_ECLIPSED})
+    Float IPD3Theta = 0.0f;
+
+    @Parameter(name = "CADC0890", description = "I_PD4_THETA", generationEnabled = false, readOnly = true,
+               reportIntervalSeconds = 10, aggregations = {AGGREGATION_ECLIPSED})
+    Float IPD4Theta = 0.0f;
+
+    @Parameter(name = "CADC0892", description = "I_PD5_THETA", generationEnabled = false, readOnly = true,
+               reportIntervalSeconds = 10, aggregations = {AGGREGATION_ECLIPSED})
+    Float IPD5Theta = 0.0f;
+
+    @Parameter(name = "CADC0894", description = "I_PD6_THETA", generationEnabled = false, readOnly = true,
+               reportIntervalSeconds = 10, aggregations = {AGGREGATION_ECLIPSED})
+    Float IPD6Theta = 0.0f;
+
+    @Parameter(generationEnabled = false, readOnly = true, reportIntervalSeconds = 1, onGetFunction = "onGetEclipsed")
+    Boolean eclipsed = false;
+    final static Float ECLIPSED_EPSILON = 0.001f;
+
+    @Parameter(name = "Supervisor TM Polling Enabled",
+               description = "Enables pooling telemetry data from the supervisor", generationEnabled = false)
+    Boolean supervisorTMPollingEnabled = false;
+
+    //-------------------------------------- ADCS Attitude Telemetry Parameters ----------------------------------------
+
+    @Parameter(name = PARAMETER_ATTITUDE_Q_A, description = "The Attitude quaternion A component",
+               generationEnabled = false, onGetFunction = "onGetAttitudeQuatA", readOnly = true,
+               reportIntervalSeconds = 5, aggregations = {AGGREGATION_IADCS_TELEMETRY})
+    Float attitudeQuatA = 0.0f;
+
+    @Parameter(name = PARAMETER_ATTITUDE_Q_B, description = "The Attitude quaternion B component",
+               generationEnabled = false, onGetFunction = "onGetAttitudeQuatB", readOnly = true,
+               reportIntervalSeconds = 5, aggregations = {AGGREGATION_IADCS_TELEMETRY})
+    Float attitudeQuatB = 0.0f;
+
+    @Parameter(name = PARAMETER_ATTITUDE_Q_C, description = "The Attitude quaternion C component",
+               generationEnabled = false, onGetFunction = "onGetAttitudeQuatC", readOnly = true,
+               reportIntervalSeconds = 5, aggregations = {AGGREGATION_IADCS_TELEMETRY})
+    Float attitudeQuatC = 0.0f;
+
+    @Parameter(name = PARAMETER_ATTITUDE_Q_D, description = "The Attitude quaternion D component",
+               generationEnabled = false, onGetFunction = "onGetAttitudeQuatD", readOnly = true,
+               reportIntervalSeconds = 5, aggregations = {AGGREGATION_IADCS_TELEMETRY})
+    Float attitudeQuatD = 0.0f;
+
+    @Parameter(name = PARAMETER_ANGULAR_VELOCITY_X, description = "The angular velocity X component",
+               generationEnabled = false, onGetFunction = "onGetAngularVelocityX", readOnly = true,
+               reportIntervalSeconds = 5, aggregations = {AGGREGATION_IADCS_TELEMETRY})
+    Float angularVelocityX = 0.0f;
+
+    @Parameter(name = PARAMETER_ANGULAR_VELOCITY_Y, description = "The angular velocity Y component",
+               generationEnabled = false, onGetFunction = "onGetAngularVelocityY", readOnly = true,
+               reportIntervalSeconds = 5, aggregations = {AGGREGATION_IADCS_TELEMETRY})
+    Float angularVelocityY = 0.0f;
+
+    @Parameter(name = PARAMETER_ANGULAR_VELOCITY_Z, description = "The angular velocity Z component",
+               generationEnabled = false, onGetFunction = "onGetAngularVelocityZ", readOnly = true,
+               reportIntervalSeconds = 5, aggregations = {AGGREGATION_IADCS_TELEMETRY})
+    Float angularVelocityZ = 0.0f;
+
+    @Parameter(name = PARAMETER_SUN_VECTOR_X, description = "The sun vector X component", generationEnabled = false,
+               onGetFunction = "onGetSunVectorX", readOnly = true, reportIntervalSeconds = 5, aggregations = {
+                                                                                                              AGGREGATION_IADCS_TELEMETRY})
+    Float sunVectorX = 0.0f;
+
+    @Parameter(name = PARAMETER_SUN_VECTOR_Y, description = "The sun vector Y component", generationEnabled = false,
+               onGetFunction = "onGetSunVectorY", readOnly = true, reportIntervalSeconds = 5, aggregations = {
+                                                                                                              AGGREGATION_IADCS_TELEMETRY})
+    Float sunVectorY = 0.0f;
+
+    @Parameter(name = PARAMETER_SUN_VECTOR_Z, description = "The sun vector Z component", generationEnabled = false,
+               onGetFunction = "onGetSunVectorZ", readOnly = true, reportIntervalSeconds = 5, aggregations = {
+                                                                                                              AGGREGATION_IADCS_TELEMETRY})
+    Float sunVectorZ = 0.0f;
+
+    @Parameter(description = "True when achieved desired pointing mode, false otherwise", generationEnabled = false,
+               onGetFunction = "onGetStateTarget", readOnly = true, reportIntervalSeconds = 5, aggregations = {
+                                                                                                               AGGREGATION_IADCS_TELEMETRY})
+    Boolean stateTarget = false;
+
+    //-------------------------------------- ADCS Actuators Telemetry Parameters ----------------------------------------
+    @Parameter(name = PARAMETER_MTQ_X, description = "The magnetorquers dipole moment X component",
+               generationEnabled = false, onGetFunction = "onGetMtqDipoleMomentX", readOnly = true,
+               reportIntervalSeconds = 5, aggregations = {AGGREGATION_IADCS_TELEMETRY})
+    Float mtqDipoleMomentX = 0.0f;
+
+    @Parameter(name = PARAMETER_MTQ_Y, description = "The magnetorquers dipole moment Y component",
+               generationEnabled = false, onGetFunction = "onGetMtqDipoleMomentY", readOnly = true,
+               reportIntervalSeconds = 5, aggregations = {AGGREGATION_IADCS_TELEMETRY})
+    Float mtqDipoleMomentY = 0.0f;
+
+    @Parameter(name = PARAMETER_MTQ_Z, description = "The magnetorquers dipole moment Z component",
+               generationEnabled = false, onGetFunction = "onGetMtqDipoleMomentZ", readOnly = true,
+               reportIntervalSeconds = 5, aggregations = {AGGREGATION_IADCS_TELEMETRY})
+    Float mtqDipoleMomentZ = 0.0f;
+
+    @Parameter(description = "Current state of the magnetorquers", generationEnabled = false,
+               onGetFunction = "onGetMtqState", readOnly = true, reportIntervalSeconds = 5, aggregations = {
+                                                                                                            AGGREGATION_IADCS_TELEMETRY})
+    UInteger mtqState = new UInteger(0);
     //-----------------------------------------------------------------------------------------------
+
     public PayloadsTestMCAdapter(final NMFInterface nmfProvider) {
         this.defaultCameraResolution = new PixelResolution(new UInteger(defaultPictureWidth), new UInteger(
             defaultPictureHeight));
@@ -272,7 +395,132 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
         return paramConversion;
     }
 
+    public void subscribeToSupervisorParameters(URI supervisorURI) {
+        if (supervisorURI != null && supervisorURI.getValue().startsWith("malspp")) {
+            LOGGER.log(Level.INFO,
+                "The Central Directory service URI read is selecting 'malspp' as transport. The URI will be discarded." +
+                    " To enable a better IPC communication, please enable the secondary transport protocol flag: " +
+                    HelperMisc.SECONDARY_PROTOCOL);
+
+            supervisorURI = null;
+        }
+
+        DirectoryConsumerServiceImpl centralDirectory = null;
+
+        // Connect to the Central Directory service
+        if (supervisorURI != null) {
+            try {
+                centralDirectory = new DirectoryConsumerServiceImpl(supervisorURI);
+
+                IdentifierList domain = new IdentifierList();
+                domain.add(new Identifier("*"));
+                COMService parameterCOM = ParameterHelper.PARAMETER_SERVICE;
+                final ServiceKey serviceKey = new ServiceKey(parameterCOM.getArea().getNumber(), parameterCOM
+                    .getNumber(), parameterCOM.getArea().getVersion());
+                final ServiceFilter sf = new ServiceFilter(new Identifier(Const.NANOSAT_MO_SUPERVISOR_NAME), domain,
+                    new Identifier("*"), null, new Identifier("*"), serviceKey, new UShortList());
+                final ProviderSummaryList supervisorParameterServiceConnectionDetails = centralDirectory
+                    .getDirectoryStub().lookupProvider(sf);
+
+                try {
+                    final SingleConnectionDetails connectionDetails = AppsLauncherManager
+                        .getSingleConnectionDetailsFromProviderSummaryList(supervisorParameterServiceConnectionDetails);
+                    ParameterConsumerServiceImpl supervisorParameterService = new ParameterConsumerServiceImpl(
+                        connectionDetails, null);
+
+                    IdentifierList eclipsedParameters = new IdentifierList();
+                    eclipsedParameters.add(new Identifier("CADC0884"));
+                    eclipsedParameters.add(new Identifier("CADC0886"));
+                    eclipsedParameters.add(new Identifier("CADC0888"));
+                    eclipsedParameters.add(new Identifier("CADC0890"));
+                    eclipsedParameters.add(new Identifier("CADC0892"));
+                    eclipsedParameters.add(new Identifier("CADC0894"));
+                    ObjectInstancePairList payloadsTestIds = this.parameterService.listDefinition(eclipsedParameters,
+                        null);
+
+                    Map<String, Long> nameToId = new HashMap<>();
+                    for (int i = 0; i < eclipsedParameters.size(); ++i) {
+                        nameToId.put(eclipsedParameters.get(i).getValue(), payloadsTestIds.get(i)
+                            .getObjIdentityInstanceId());
+                    }
+
+                    IdentifierList supervisorParameters = new IdentifierList();
+                    supervisorParameters.add(new Identifier("SBD6682p"));
+                    supervisorParameters.add(new Identifier("SBD6692p"));
+                    supervisorParameters.add(new Identifier("SBD6702p"));
+                    supervisorParameters.add(new Identifier("SBD6712p"));
+                    supervisorParameters.add(new Identifier("SBD6722p"));
+                    supervisorParameters.add(new Identifier("SBD6732p"));
+                    supervisorParameters.add(new Identifier("SBD6742p"));
+                    supervisorParameters.add(new Identifier("SBD6752p"));
+                    supervisorParameters.add(new Identifier("SBD6762p"));
+                    supervisorParameters.add(new Identifier("SBD6772p"));
+                    supervisorParameters.add(new Identifier("SBD6862p"));
+                    supervisorParameters.add(new Identifier("SBD6872p"));
+
+                    IdentifierList parameterNames = new IdentifierList();
+                    parameterNames.addAll(supervisorParameters);
+                    parameterNames.addAll(eclipsedParameters);
+                    ObjectInstancePairList supervisorIds = supervisorParameterService.getParameterStub().listDefinition(
+                        parameterNames);
+                    InstanceBooleanPairList enable = new InstanceBooleanPairList();
+                    for (ObjectInstancePair id : supervisorIds) {
+                        enable.add(new InstanceBooleanPair(id.getObjIdentityInstanceId(), true));
+                    }
+                    supervisorParameterService.getParameterStub().enableGeneration(false, enable);
+
+                    Identifier subscriptionId = new Identifier("PayloadsTestSupervisorSubscription");
+                    EntityKeyList entityKeys = new EntityKeyList();
+                    for (Identifier parameter : parameterNames) {
+                        EntityKey entitykey = new EntityKey(parameter, 0L, 0L, 0L);
+                        entityKeys.add(entitykey);
+                    }
+                    EntityRequest entity = new EntityRequest(null, false, false, false, false, entityKeys);
+                    EntityRequestList entities = new EntityRequestList();
+                    entities.add(entity);
+                    Subscription subscription = new Subscription(subscriptionId, entities);
+
+                    ParameterAdapter adapter = new ParameterAdapter() {
+                        @Override
+                        public void monitorValueNotifyReceived(MALMessageHeader msgHeader, Identifier identifier,
+                            UpdateHeaderList updateHeaderList, ObjectIdList objectIdList,
+                            ParameterValueList parameterValueList, Map qosProperties) {
+
+                            for (int i = 0; i < updateHeaderList.size(); ++i) {
+                                String parameterName = updateHeaderList.get(i).getKey().getFirstSubKey().getValue();
+                                Attribute value = parameterValueList.get(i).getRawValue();
+                                Time timestamp = updateHeaderList.get(i).getTimestamp();
+                                Long id = nameToId.get(parameterName);
+                                if (id != null) {
+                                    PayloadsTestMCAdapter.this.onSetValue(new ParameterRawValue(id, value));
+                                } else if (supervisorTMPollingEnabled) {
+                                    System.out.println(HelperTime.time2readableString(timestamp) + " - " +
+                                        parameterName + " - " + value.toString());
+                                }
+                            }
+                        }
+                    };
+                    supervisorParameterService.getParameterStub().monitorValueRegister(subscription, adapter);
+                } catch (IOException | MALException | MALInteractionException ex) {
+                    LOGGER.log(Level.SEVERE,
+                        "Could not retrieve supervisor COM Parameter service details from the Central Directory.", ex);
+                }
+                centralDirectory.close();
+            } catch (MALException | MalformedURLException ex) {
+                LOGGER.log(Level.SEVERE, null, ex);
+            } catch (MALInteractionException ex) {
+                LOGGER.log(Level.SEVERE, "Could not connect to the Central Directory service! Maybe it is down...");
+            }
+        }
+
+    }
+
     //-------------------------------------- onGet Functions----------------------------------------
+    public void onGetEclipsed() {
+        eclipsed = IPD1Theta < ECLIPSED_EPSILON && IPD2Theta < ECLIPSED_EPSILON && IPD3Theta < ECLIPSED_EPSILON &&
+            IPD4Theta < ECLIPSED_EPSILON && IPD5Theta < ECLIPSED_EPSILON && IPD6Theta < ECLIPSED_EPSILON;
+    }
+
     public void onGPSSatsInView() {
         final Semaphore sem = new Semaphore(0);
         class GPSAdapterImpl extends GPSAdapter {
@@ -300,7 +548,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
         try {
             nmf.getPlatformServices().getGPSService().getSatellitesInfo(new GPSAdapterImpl());
         } catch (IOException | MALInteractionException | MALException | NMFException ex) {
-            LOGGER.log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, "GPS error: " + ex.getMessage());
             GPS_NumberOfSatellitesInView = null;
         }
 
@@ -316,7 +564,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
             GPS_Latitude = nmf.getPlatformServices().getGPSService().getLastKnownPosition().getBodyElement0()
                 .getLatitude();
         } catch (NMFException | IOException | MALInteractionException | MALException ex) {
-            LOGGER.log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, "GPS error: " + ex.getMessage());
             GPS_Latitude = null;
         }
     }
@@ -326,7 +574,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
             GPS_Longitude = nmf.getPlatformServices().getGPSService().getLastKnownPosition().getBodyElement0()
                 .getLongitude();
         } catch (NMFException | IOException | MALInteractionException | MALException ex) {
-            LOGGER.log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, "GPS error: " + ex.getMessage());
             GPS_Longitude = null;
         }
     }
@@ -349,7 +597,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
             sem.acquire();
             GPS_Altitude = pos.get(0).getAltitude();
         } catch (NMFException | IOException | MALInteractionException | MALException | InterruptedException ex) {
-            LOGGER.log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, "GPS error: " + ex.getMessage());
             GPS_Altitude = null;
         }
     }
@@ -358,7 +606,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
         try {
             GPS_ElapsedTime = nmf.getPlatformServices().getGPSService().getLastKnownPosition().getBodyElement1();
         } catch (NMFException | IOException | MALInteractionException | MALException ex) {
-            LOGGER.log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, "GPS error: " + ex.getMessage());
             GPS_ElapsedTime = null;
         }
     }
@@ -395,6 +643,156 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
 
     public void onGetPicturesTaken() {
         NumberOfPicturesTaken = picturesTaken.get();
+    }
+
+    public void onGetAttitudeQuatA() {
+        try {
+            attitudeQuatA = nmf.getPlatformServices().getAutonomousADCSService().getStatus().getBodyElement0()
+                .getAttitude().getA();
+        } catch (MALInteractionException | MALException | IOException | NMFException e) {
+            LOGGER.log(Level.SEVERE, null, e);
+            attitudeQuatA = null;
+        }
+    }
+
+    public void onGetAttitudeQuatB() {
+        try {
+            attitudeQuatB = nmf.getPlatformServices().getAutonomousADCSService().getStatus().getBodyElement0()
+                .getAttitude().getB();
+        } catch (MALInteractionException | MALException | IOException | NMFException e) {
+            LOGGER.log(Level.SEVERE, null, e);
+            attitudeQuatB = null;
+        }
+    }
+
+    public void onGetAttitudeQuatC() {
+        try {
+            attitudeQuatC = nmf.getPlatformServices().getAutonomousADCSService().getStatus().getBodyElement0()
+                .getAttitude().getC();
+        } catch (MALInteractionException | MALException | IOException | NMFException e) {
+            LOGGER.log(Level.SEVERE, null, e);
+            attitudeQuatC = null;
+        }
+    }
+
+    public void onGetAttitudeQuatD() {
+        try {
+            attitudeQuatD = nmf.getPlatformServices().getAutonomousADCSService().getStatus().getBodyElement0()
+                .getAttitude().getD();
+        } catch (MALInteractionException | MALException | IOException | NMFException e) {
+            LOGGER.log(Level.SEVERE, null, e);
+            attitudeQuatD = null;
+        }
+    }
+
+    public void onGetAngularVelocityX() {
+        try {
+            angularVelocityX = nmf.getPlatformServices().getAutonomousADCSService().getStatus().getBodyElement0()
+                .getAngularVelocity().getX();
+        } catch (MALInteractionException | MALException | IOException | NMFException e) {
+            LOGGER.log(Level.SEVERE, null, e);
+            angularVelocityX = null;
+        }
+    }
+
+    public void onGetAngularVelocityY() {
+        try {
+            angularVelocityY = nmf.getPlatformServices().getAutonomousADCSService().getStatus().getBodyElement0()
+                .getAngularVelocity().getY();
+        } catch (MALInteractionException | MALException | IOException | NMFException e) {
+            LOGGER.log(Level.SEVERE, null, e);
+            angularVelocityY = null;
+        }
+    }
+
+    public void onGetAngularVelocityZ() {
+        try {
+            angularVelocityZ = nmf.getPlatformServices().getAutonomousADCSService().getStatus().getBodyElement0()
+                .getAngularVelocity().getZ();
+        } catch (MALInteractionException | MALException | IOException | NMFException e) {
+            LOGGER.log(Level.SEVERE, null, e);
+            angularVelocityZ = null;
+        }
+    }
+
+    public void onGetSunVectorX() {
+        try {
+            sunVectorX = nmf.getPlatformServices().getAutonomousADCSService().getStatus().getBodyElement0()
+                .getSunVector().getX();
+        } catch (MALInteractionException | MALException | IOException | NMFException e) {
+            LOGGER.log(Level.SEVERE, null, e);
+            sunVectorX = null;
+        }
+    }
+
+    public void onGetSunVectorY() {
+        try {
+            sunVectorY = nmf.getPlatformServices().getAutonomousADCSService().getStatus().getBodyElement0()
+                .getSunVector().getY();
+        } catch (MALInteractionException | MALException | IOException | NMFException e) {
+            LOGGER.log(Level.SEVERE, null, e);
+            sunVectorY = null;
+        }
+    }
+
+    public void onGetSunVectorZ() {
+        try {
+            sunVectorZ = nmf.getPlatformServices().getAutonomousADCSService().getStatus().getBodyElement0()
+                .getSunVector().getZ();
+        } catch (MALInteractionException | MALException | IOException | NMFException e) {
+            LOGGER.log(Level.SEVERE, null, e);
+            sunVectorZ = null;
+        }
+    }
+
+    public void onGetStateTarget() {
+        try {
+            stateTarget = nmf.getPlatformServices().getAutonomousADCSService().getStatus().getBodyElement0()
+                .getStateTarget();
+        } catch (MALInteractionException | MALException | IOException | NMFException e) {
+            LOGGER.log(Level.SEVERE, null, e);
+            stateTarget = null;
+        }
+    }
+
+    public void onGetMtqDipoleMomentX() {
+        try {
+            mtqDipoleMomentX = nmf.getPlatformServices().getAutonomousADCSService().getStatus().getBodyElement1()
+                .getMtqDipoleMoment().getX();
+        } catch (MALInteractionException | MALException | IOException | NMFException e) {
+            LOGGER.log(Level.SEVERE, null, e);
+            mtqDipoleMomentX = null;
+        }
+    }
+
+    public void onGetMtqDipoleMomentY() {
+        try {
+            mtqDipoleMomentY = nmf.getPlatformServices().getAutonomousADCSService().getStatus().getBodyElement1()
+                .getMtqDipoleMoment().getY();
+        } catch (MALInteractionException | MALException | IOException | NMFException e) {
+            LOGGER.log(Level.SEVERE, null, e);
+            mtqDipoleMomentY = null;
+        }
+    }
+
+    public void onGetMtqDipoleMomentZ() {
+        try {
+            mtqDipoleMomentZ = nmf.getPlatformServices().getAutonomousADCSService().getStatus().getBodyElement1()
+                .getMtqDipoleMoment().getZ();
+        } catch (MALInteractionException | MALException | IOException | NMFException e) {
+            LOGGER.log(Level.SEVERE, null, e);
+            mtqDipoleMomentZ = null;
+        }
+    }
+
+    public void onGetMtqState() {
+        try {
+            mtqState = nmf.getPlatformServices().getAutonomousADCSService().getStatus().getBodyElement1().getMtqState()
+                .getNumericValue();
+        } catch (MALInteractionException | MALException | IOException | NMFException | NullPointerException e) {
+            LOGGER.log(Level.SEVERE, null, e);
+            mtqState = null;
+        }
     }
 
     //-----------------------------------------------------------------------------------------------
@@ -438,6 +836,31 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
                                                                                      rawUnit = "") float quatD) {
         return actionsHandler.executeAdcsModeAction(holdDuration, new AttitudeModeInertialPointing(new VectorF3D(losx,
             losy, losz), new VectorF3D(flightx, flighty, flightz), new Quaternion(quatA, quatB, quatC, quatD)), this);
+    }
+
+    @Action(description = "Changes the spacecraft's attitude to BDot mode")
+    public UInteger adcs_BDotMode(Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction,
+        @ActionParameter(name = "Hold Duration", rawUnit = "seconds") Duration holdDuration) {
+        return actionsHandler.executeAdcsModeAction(holdDuration, new AttitudeModeBDot(), this);
+    }
+
+    @Action(description = "Changes the spacecraft's attitude to target tracking mode")
+    public UInteger adcs_TargetTrackingMode(Long actionInstanceObjId, boolean reportProgress,
+        MALInteraction interaction, @ActionParameter(name = "Hold Duration", rawUnit = "seconds") Duration holdDuration,
+        @ActionParameter(name = "Latitude", rawUnit = "degree") Float latitude, @ActionParameter(name = "Longitude",
+                                                                                                 rawUnit = "degree") Float longitude) {
+        return actionsHandler.executeAdcsModeAction(holdDuration, new AttitudeModeTargetTracking(latitude, longitude),
+            this);
+    }
+
+    @Action(description = "Changes the spacecraft's attitude to single spinning mode")
+    public UInteger adcs_SingleSpinningMode(Long actionInstanceObjId, boolean reportProgress,
+        MALInteraction interaction, @ActionParameter(name = "Hold Duration", rawUnit = "seconds") Duration holdDuration,
+        @ActionParameter(name = "Body Axis X") Float bodyAxisX, @ActionParameter(name = "Body Axis Y") Float bodyAxisY,
+        @ActionParameter(name = "Body Axis Z") Float bodyAxisZ, @ActionParameter(
+                                                                                 name = "Angular Velocity") Float angularVelocity) {
+        return actionsHandler.executeAdcsModeAction(holdDuration, new AttitudeModeSingleSpinning(new VectorF3D(
+            bodyAxisX, bodyAxisY, bodyAxisZ), angularVelocity), this);
     }
 
     @Action(description = "Unsets the spacecraft's attitude.")
