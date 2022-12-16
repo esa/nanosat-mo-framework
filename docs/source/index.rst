@@ -26,6 +26,7 @@ You can also just click through the different pages to see what we can offer.
    opssat/opssat
    javadoc/packages
    mpservices/mp
+   cli-tool
 
 Indices and tables
 ==================

@@ -108,6 +108,7 @@ public abstract class BaseCommand {
         if (!initLocalArchiveProvider(databaseFile)) {
             return false;
         }
+        NMFConsumer.initHelpers();
         String providerURI = localArchiveProvider.getConnection().getConnectionDetails().getProviderURI().getValue();
         SingleConnectionDetails connectionDetails = new SingleConnectionDetails();
         connectionDetails.setProviderURI(providerURI);

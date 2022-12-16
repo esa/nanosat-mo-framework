@@ -127,6 +127,13 @@ public @interface Parameter {
     boolean readOnly() default false;
 
     /**
+     * If this parameter should have its value restored from archive on startup.
+     *
+     * default: true
+     */
+    boolean restored() default true;
+
+    /**
      * The name of the function that will be called, every time the Parameter is get (before its value
      * is read).
      *

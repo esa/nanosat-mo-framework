@@ -41,6 +41,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
@@ -56,6 +57,7 @@ import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
 import org.ccsds.moims.mo.common.directory.structures.ServiceFilter;
 import org.ccsds.moims.mo.common.structures.ServiceKey;
 import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.*;
@@ -91,6 +93,8 @@ import org.ccsds.moims.mo.platform.structures.VectorF3D;
 @Aggregation(id = PayloadsTestMCAdapter.AGGREGATION_IADCS_TELEMETRY, description = "iADCS telemetry data",
              reportInterval = 5, sendUnchanged = true, sampleInterval = 3, generationEnabled = true)
 public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
+    // comma separated list of supervisor parameters to proxy
+    public static final String SUPERVISOR_PARAMETER_PROXY_PROP = "esa.mo.nanosatmoframework.proxy.supervisor.parameters";
     public static final String AGGREGATION_MAG = "Magnetometer_Aggregation";
     public static final String AGGREGATION_GPS = "GPS_Aggregation";
     public static final String AGGREGATION_ECLIPSED = "Eclipsed_Aggregation";
@@ -189,31 +193,31 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
     Float MagneticField_Z = 0.0f;
 
     //-------------------------------------- Supervisor Parameters ----------------------------------
-    @Parameter(name = "CADC0884", description = "I_PD1_THETA", generationEnabled = false, readOnly = true,
-               reportIntervalSeconds = 10, aggregations = {AGGREGATION_ECLIPSED})
+    @Parameter(name = "CADC0884", description = "I_PD1_THETA", generationEnabled = false, reportIntervalSeconds = 5,
+               aggregations = {AGGREGATION_ECLIPSED})
     Float IPD1Theta = 0.0f;
 
-    @Parameter(name = "CADC0886", description = "I_PD2_THETA", generationEnabled = false, readOnly = true,
-               reportIntervalSeconds = 10, aggregations = {AGGREGATION_ECLIPSED})
+    @Parameter(name = "CADC0886", description = "I_PD2_THETA", generationEnabled = false, reportIntervalSeconds = 5,
+               aggregations = {AGGREGATION_ECLIPSED})
     Float IPD2Theta = 0.0f;
 
-    @Parameter(name = "CADC0888", description = "I_PD3_THETA", generationEnabled = false, readOnly = true,
-               reportIntervalSeconds = 10, aggregations = {AGGREGATION_ECLIPSED})
+    @Parameter(name = "CADC0888", description = "I_PD3_THETA", generationEnabled = false, reportIntervalSeconds = 5,
+               aggregations = {AGGREGATION_ECLIPSED})
     Float IPD3Theta = 0.0f;
 
-    @Parameter(name = "CADC0890", description = "I_PD4_THETA", generationEnabled = false, readOnly = true,
-               reportIntervalSeconds = 10, aggregations = {AGGREGATION_ECLIPSED})
+    @Parameter(name = "CADC0890", description = "I_PD4_THETA", generationEnabled = false, reportIntervalSeconds = 5,
+               aggregations = {AGGREGATION_ECLIPSED})
     Float IPD4Theta = 0.0f;
 
-    @Parameter(name = "CADC0892", description = "I_PD5_THETA", generationEnabled = false, readOnly = true,
-               reportIntervalSeconds = 10, aggregations = {AGGREGATION_ECLIPSED})
+    @Parameter(name = "CADC0892", description = "I_PD5_THETA", generationEnabled = false, reportIntervalSeconds = 5,
+               aggregations = {AGGREGATION_ECLIPSED})
     Float IPD5Theta = 0.0f;
 
-    @Parameter(name = "CADC0894", description = "I_PD6_THETA", generationEnabled = false, readOnly = true,
-               reportIntervalSeconds = 10, aggregations = {AGGREGATION_ECLIPSED})
+    @Parameter(name = "CADC0894", description = "I_PD6_THETA", generationEnabled = false, reportIntervalSeconds = 5,
+               aggregations = {AGGREGATION_ECLIPSED})
     Float IPD6Theta = 0.0f;
 
-    @Parameter(generationEnabled = false, readOnly = true, reportIntervalSeconds = 1, onGetFunction = "onGetEclipsed")
+    @Parameter(generationEnabled = false, readOnly = true, reportIntervalSeconds = 5, onGetFunction = "onGetEclipsed")
     Boolean eclipsed = false;
     final static Float ECLIPSED_EPSILON = 0.001f;
 
@@ -444,25 +448,51 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
                             .getObjIdentityInstanceId());
                     }
 
+                    String parametersProp = System.getProperty(SUPERVISOR_PARAMETER_PROXY_PROP, null);
+
                     IdentifierList supervisorParameters = new IdentifierList();
-                    supervisorParameters.add(new Identifier("SBD6682p"));
-                    supervisorParameters.add(new Identifier("SBD6692p"));
-                    supervisorParameters.add(new Identifier("SBD6702p"));
-                    supervisorParameters.add(new Identifier("SBD6712p"));
-                    supervisorParameters.add(new Identifier("SBD6722p"));
-                    supervisorParameters.add(new Identifier("SBD6732p"));
-                    supervisorParameters.add(new Identifier("SBD6742p"));
-                    supervisorParameters.add(new Identifier("SBD6752p"));
-                    supervisorParameters.add(new Identifier("SBD6762p"));
-                    supervisorParameters.add(new Identifier("SBD6772p"));
-                    supervisorParameters.add(new Identifier("SBD6862p"));
-                    supervisorParameters.add(new Identifier("SBD6872p"));
+                    if (parametersProp == null) {
+                        supervisorParameters.add(new Identifier("SBD6682p"));
+                        supervisorParameters.add(new Identifier("SBD6692p"));
+                        supervisorParameters.add(new Identifier("SBD6702p"));
+                        supervisorParameters.add(new Identifier("SBD6712p"));
+                        supervisorParameters.add(new Identifier("SBD6722p"));
+                        supervisorParameters.add(new Identifier("SBD6732p"));
+                        supervisorParameters.add(new Identifier("SBD6742p"));
+                        supervisorParameters.add(new Identifier("SBD6752p"));
+                        supervisorParameters.add(new Identifier("SBD6762p"));
+                        supervisorParameters.add(new Identifier("SBD6772p"));
+                        supervisorParameters.add(new Identifier("SBD6862p"));
+                        supervisorParameters.add(new Identifier("SBD6872p"));
+                    } else {
+                        parametersProp = parametersProp.replace("\"", "");
+                        String[] parameters = parametersProp.split(",");
+                        for (String parameter : parameters) {
+                            supervisorParameters.add(new Identifier(parameter.trim()));
+                        }
+                    }
 
                     IdentifierList parameterNames = new IdentifierList();
                     parameterNames.addAll(supervisorParameters);
                     parameterNames.addAll(eclipsedParameters);
-                    ObjectInstancePairList supervisorIds = supervisorParameterService.getParameterStub().listDefinition(
-                        parameterNames);
+                    ObjectInstancePairList supervisorIds = new ObjectInstancePairList();
+                    try {
+                        supervisorIds = supervisorParameterService.getParameterStub().listDefinition(parameterNames);
+                    } catch (MALInteractionException e) {
+                        if (e.getStandardError().getErrorNumber().equals(MALHelper.UNKNOWN_ERROR_NUMBER)) {
+                            UIntegerList unknownParams = (UIntegerList) e.getStandardError().getExtraInformation();
+                            for (UInteger index : unknownParams) {
+                                parameterNames.set((int) index.getValue(), null);
+                            }
+                            parameterNames.removeIf(Objects::isNull);
+
+                            if (!parameterNames.isEmpty()) {
+                                supervisorIds = supervisorParameterService.getParameterStub().listDefinition(
+                                    parameterNames);
+                            }
+                        }
+                    }
+
                     InstanceBooleanPairList enable = new InstanceBooleanPairList();
                     for (ObjectInstancePair id : supervisorIds) {
                         enable.add(new InstanceBooleanPair(id.getObjIdentityInstanceId(), true));
