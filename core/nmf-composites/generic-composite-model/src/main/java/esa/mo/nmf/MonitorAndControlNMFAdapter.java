@@ -42,6 +42,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
+import org.ccsds.moims.mo.com.archive.structures.PaginationFilter;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
@@ -259,13 +260,24 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
         }
     }
 
-    public void setParameterValuesFromArchive() {
+    /**
+     *  Restores parameters to their latest value stored in the archive.
+     *  This method is called by default on startup after parameters are registered.
+     *  To prevent parameters from being restored either override this method in your MC Adapter
+     *  or set the 'restored' flag to false in the @Parameter annotation.
+     *
+     *  For the parameter to be restored it has to be registered with the @Parameter annotation.
+     */
+    public void restoreParameterValuesFromArchive() {
         if (archiveService != null && parameterService != null) {
             for (Map.Entry<Long, Field> entry : parameterMapping.entrySet()) {
                 Field field = entry.getValue();
                 String parameterName = null;
                 Parameter annotation = field.getAnnotation(Parameter.class);
                 if (annotation != null) {
+                    if (!annotation.restored()) {
+                        continue;
+                    }
                     field.setAccessible(true);
                     if (annotation.name().equals("")) {
                         parameterName = field.getName();
@@ -283,8 +295,9 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
                         ArchiveQuery query = new ArchiveQuery(archiveService.getConnection().getConnectionDetails()
                             .getDomain(), null, null, id.getObjDefInstanceId(), null, null, HelperTime.getTimestamp(),
                             false, null);
+                        PaginationFilter filter = new PaginationFilter(new UInteger(1), new UInteger(0));
                         List<ArchivePersistenceObject> result = archiveService.getArchiveManager().query(
-                            ParameterHelper.PARAMETERVALUEINSTANCE_OBJECT_TYPE, query, null);
+                            ParameterHelper.PARAMETERVALUEINSTANCE_OBJECT_TYPE, query, filter);
                         if (!result.isEmpty()) {
                             ArchivePersistenceObject newestParameter = result.get(0); // assume the first one is the newest because of the query sort order
                             Attribute rawValue = ((ParameterValue) newestParameter.getObject()).getRawValue();
