@@ -5,7 +5,8 @@ Configuring the simulator
 .. contents:: Table of contents
     :local:
 
-Configuring the simulator is pretty easy and can greatly improve your experience. The simulator is already built into the Supervisor Sim, so the first time you start the NMF Supervisor Sim, the simulator will generate a set of configuration files with their default values in your User's home directory.
+Configuring the simulator is pretty easy and can greatly improve your experience.
+The simulator is already built into the Supervisor Sim, so the first time you start the NMF Supervisor Sim, the simulator will generate a set of configuration files with their default values in its working directory.
 
 General configuration options
 -----------------------------
@@ -33,7 +34,8 @@ You have several options to configure the simulator's platform services.
 
 Configuring the simulator through files
 ---------------------------------------
-If you run the supervisor with simulator for the first time, it will generate a set of configuration files in a directory named `.ops-sat-simulator` in your user's home directory.
+If you run the supervisor with simulator for the first time, it will generate a set of configuration files in its working directory.
+In addition, it will unpack resources and start logging to a directory named `.ops-sat-simulator` in your user's home directory.
 The ones which are most interesting to you are ``_OPS-SAT-SIMULATOR-header.txt`` and ``platformsim.properties``.
 The first file manages the general configuration options above while the second one manages the platform configuration options.
 Both of them follow Java properties syntax, so to change an option you just need to change the value on the right hand side of the assignment.
