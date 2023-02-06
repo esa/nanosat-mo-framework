@@ -1,14 +1,11 @@
 =================================
-Generate your NMF Package
+Generate your NMF Package (only on phi-sat-2 branch)
 =================================
-
-.. contents:: Table of contents
-    :local:
 
 Now that you finished implementing your NMF app, you want to generate an NMF Package to distribute your App.
 In order to do that, you will need to add the nmf-package-maven-plugin to your project and compile it!
 
-Step 1
+Step 1: Add the plugin to the project
 --------------------------
 Add the following profile to your project (you can copy-paste directly from here):
 
@@ -44,13 +41,13 @@ Add the following profile to your project (you can copy-paste directly from here
         </profile>
     </profiles>
 
-Step 2
+Step 2: Configure the plugin
 --------------------------
 Modify the ``<mainClass>entry-point</mainClass>`` configuration to the entry point of your App (example: esa.mo.nmf.apps.EdgeAIApp).
 Also, add or remove any additional files/folders that you want to be bundled with your NMF Package by changing the ``<libs>`` section of the plugin as presented above.
 
-Step 3
+Step 3: Generate the NMF Package
 --------------------------
-Compile your project with: ``mvn clean install –Pgenerate-nmf-package``
+Build your project with: ``mvn clean install –Pgenerate-nmf-package``
 
 Your NMF Package will be in the target folder, please check if it is there!
