@@ -7,7 +7,7 @@ Developing and debugging the NMF under Netbeans
 
 Getting started
 ---------------
-Netbeans 8.2 is the recommended IDE to use with the NMF as it definitely works out of the box.
+Netbeans is a recommended IDE to use with the NMF as it definitely works out of the box.
 To import your NMF distribution into the IDE, select `File -> Open Project` and select the NMF
 root directory that you cloned from GitHub. Netbeans will now import all Maven subprojects into the Netbeans workspace.
 
