@@ -12,5 +12,4 @@ Developing your first NMF App
    parameters
    actions
    packaging
-   generate_nmf_package
 

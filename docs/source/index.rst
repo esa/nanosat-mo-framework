@@ -24,6 +24,7 @@ You can also just click through the different pages to see what we can offer.
    apps/apps
    simulator/simulator
    opssat/opssat
+   phi-sat-2/phi-sat-2
    javadoc/packages
    mpservices/mp
    cli-tool

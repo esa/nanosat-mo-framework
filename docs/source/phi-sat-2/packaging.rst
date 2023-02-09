@@ -1,6 +1,9 @@
 =================================
-Generate your NMF Package (only on phi-sat-2 branch)
+Generate your NMF Package for ɸ-Sat-2
 =================================
+
+.. contents:: Table of contents
+    :local:
 
 Now that you finished implementing your NMF app, you want to generate an NMF Package to distribute your App.
 In order to do that, you will need to add the nmf-package-maven-plugin to your project and compile it!
