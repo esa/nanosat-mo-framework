@@ -50,62 +50,66 @@ import esa.mo.nmf.MCRegistration;
  * @author Tanguy Soto
  */
 public class OBSWParameterManager {
-  /**
-   * The logger
-   */
-  private static final Logger LOGGER = Logger.getLogger(OBSWParameterManager.class.getName());
 
-  /**
-   * Default OBSW parameter report interval (seconds)
-   */
-  private static final int DEFAULT_REPORT_INTERVAL = 5;
+    /**
+     * The logger
+     */
+    private static final Logger LOGGER = Logger.getLogger(OBSWParameterManager.class.getName());
 
-  /**
-   * Helper to read the OBSW parameter from datapool.
-   */
-  private final ParameterLister parameterLister;
+    /**
+     * Default OBSW parameter report interval (seconds)
+     */
+    private static final int DEFAULT_REPORT_INTERVAL = 5;
 
-  /**
-   * Maps each parameter proxy (object instance id of the ParameterIdentity in the supervisor) to
-   * the OBSW parameter it represents.
-   */
-  private Map<Long, OBSWParameter> proxyIdsToOBSWParams;
+    /**
+     * Helper to read the OBSW parameter from datapool.
+     */
+    private final ParameterLister parameterLister;
 
-  /**
-   * Provides the OBSW parameter values
-   */
-  private OBSWParameterValuesProvider valuesProvider;
+    /**
+     * Maps each parameter proxy (object instance id of the ParameterIdentity in
+     * the supervisor) to the OBSW parameter it represents.
+     */
+    private Map<Long, OBSWParameter> proxyIdsToOBSWParams;
 
-  public OBSWParameterManager(InputStream datapool)
-      throws IOException, JAXBException, XMLStreamException {
-    // Read from provided inputstreams
-    parameterLister = new ParameterLister(datapool);
+    /**
+     * Provides the OBSW parameter values
+     */
+    private OBSWParameterValuesProvider valuesProvider;
 
-    // Initialize the parameters proxies to OBSW parameter maps
-    proxyIdsToOBSWParams = new HashMap<>();
+    public OBSWParameterManager(InputStream datapool)
+            throws IOException, JAXBException, XMLStreamException {
+        // Read from provided inputstreams
+        parameterLister = new ParameterLister(datapool);
 
-    // Instantiate the value provider
-    HashMap<Identifier, OBSWParameter> parameterMap = parameterLister.getParameters();
-    String defaultClass = "esa.mo.nmf.nanosatmosupervisor.parameter.DummyValuesProvider";
-    String valuesProviderClass = System.getProperty("nmf.supervisor.parameter.valuesprovider.impl", defaultClass);
+        // Initialize the parameters proxies to OBSW parameter maps
+        proxyIdsToOBSWParams = new HashMap<>();
 
-    try {
-      Constructor<?> c = Class.forName(valuesProviderClass).getConstructor(parameterMap.getClass());
-      valuesProvider = (OBSWParameterValuesProvider) c.newInstance(new Object[] {parameterMap});
-    } catch (Exception e) {
-      LOGGER.log(Level.SEVERE,
-          "Error initializing the values provider. Using dummy values provider.", e);
-      valuesProvider = new DummyValuesProvider(parameterMap);
+        // Instantiate the value provider
+        HashMap<Identifier, OBSWParameter> parameterMap = parameterLister.getParameters();
+        String defaultClass = "esa.mo.nmf.nanosatmosupervisor.parameter.DummyValuesProvider";
+        String valuesProviderClass = System.getProperty("nmf.supervisor.parameter.valuesprovider.impl", defaultClass);
+
+        try {
+            Constructor<?> c = Class.forName(valuesProviderClass).getConstructor(parameterMap.getClass());
+            valuesProvider = (OBSWParameterValuesProvider) c.newInstance(new Object[]{parameterMap});
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE,
+                    "Error initializing the values provider. Using dummy values provider.", e);
+            valuesProvider = new DummyValuesProvider(parameterMap);
+        }
     }
 
     /**
-     * Registers proxies for the OBSW parameters using the provided registration object.
+     * Registers proxies for the OBSW parameters using the provided registration
+     * object.
      *
      * @param registrationObject The registration object
      */
     public void registerParametersProxies(MCRegistration registrationObject) {
         // Sort parameters by id
-        List<OBSWParameter> parameters = new ArrayList<>(parameterLister.getParameters().values());
+        List<OBSWParameter> parameters
+                = new ArrayList<>(parameterLister.getParameters().values());
         parameters.sort(Comparator.comparing(OBSWParameter::getId));
 
         // Create the parameter proxies definitions
@@ -113,9 +117,9 @@ public class OBSWParameterManager {
         IdentifierList paramIdentifiers = new IdentifierList();
 
         for (OBSWParameter param : parameters) {
-            paramDefs.add(new ParameterDefinitionDetails(param.getDescription(), HelperAttributes
-                .attributeName2typeShortForm(param.getType()).byteValue(), "", false, new Duration(
-                    DEFAULT_REPORT_INTERVAL), null, null));
+            paramDefs.add(new ParameterDefinitionDetails(param.getDescription(),
+                    HelperAttributes.attributeName2typeShortForm(param.getType()).byteValue(), "", false,
+                    new Duration(DEFAULT_REPORT_INTERVAL), null, null));
             paramIdentifiers.add(new Identifier(param.getName()));
         }
 
@@ -123,7 +127,7 @@ public class OBSWParameterManager {
         LongList proxyIds = registrationObject.registerParameters(paramIdentifiers, paramDefs);
         if (proxyIds == null || proxyIds.size() != parameters.size()) {
             LOGGER.log(Level.SEVERE,
-                "Error while registering OBSW parameters proxies: returned IDs are null or some are missing");
+                    "Error while registering OBSW parameters proxies: returned IDs are null or some are missing");
             return;
         }
         for (int i = 0; i < proxyIds.size(); i++) {
@@ -133,30 +137,32 @@ public class OBSWParameterManager {
 
     /**
      * Returns a value for a given OBSW parameter proxy.
-     * 
+     *
      * @param parameterID ID of the parameter proxy
      * @return The value
      */
     public Attribute getValue(Long parameterID) {
-        Identifier obswParamIdentifier = new Identifier(proxyIdsToOBSWParams.get(parameterID).getName());
+        Identifier obswParamIdentifier
+                = new Identifier(proxyIdsToOBSWParams.get(parameterID).getName());
         return getValue(obswParamIdentifier);
     }
 
     /**
      * Sets a new value to a given OBSW parameter.
-     * 
+     *
      * @param newRawValue the new value
      * @return true if parameter is set, false otherwise.
      */
     public Boolean setValue(ParameterRawValue newRawValue) {
-        Identifier obswParamIdentifier = new Identifier(proxyIdsToOBSWParams.get(newRawValue.getParamInstId())
-            .getName());
+        Identifier obswParamIdentifier
+                = new Identifier(proxyIdsToOBSWParams.get(newRawValue.getParamInstId()).getName());
         return setValue(newRawValue.getRawValue(), obswParamIdentifier);
     }
 
     /**
      * @param parameterID The parameter ID to test
-     * @return true if the ID corresponds to one of the parameter proxies registered by this class
+     * @return true if the ID corresponds to one of the parameter proxies
+     * registered by this class
      */
     public boolean isOBSWParameterProxy(Long parameterID) {
         return proxyIdsToOBSWParams.containsKey(parameterID);
@@ -174,7 +180,7 @@ public class OBSWParameterManager {
 
     /**
      * Sets a new value for the given OBSW parameter name.
-     * 
+     *
      * @param rawValue The new value of the parameter
      * @param identifier Name of the parameter
      * @return True if parameter is set, false otherwise.
