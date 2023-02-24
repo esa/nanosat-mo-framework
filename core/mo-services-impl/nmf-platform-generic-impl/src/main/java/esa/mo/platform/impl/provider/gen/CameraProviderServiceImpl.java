@@ -57,6 +57,7 @@ import org.ccsds.moims.mo.platform.camera.CameraHelper;
 import org.ccsds.moims.mo.platform.camera.body.GetPropertiesResponse;
 import org.ccsds.moims.mo.platform.camera.provider.CameraInheritanceSkeleton;
 import org.ccsds.moims.mo.platform.camera.provider.PicturesStreamPublisher;
+import org.ccsds.moims.mo.platform.camera.provider.PreprocessPictureInteraction;
 import org.ccsds.moims.mo.platform.camera.provider.TakeAutoExposedPictureInteraction;
 import org.ccsds.moims.mo.platform.camera.provider.TakePictureInteraction;
 import org.ccsds.moims.mo.platform.camera.structures.CameraSettings;
@@ -89,20 +90,24 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
     private PictureFormatList availableFormats;
 
     /**
-     * creates the MAL objects, the publisher used to create updates and starts the publishing thread
+     * creates the MAL objects, the publisher used to create updates and starts
+     * the publishing thread
      *
      * @param comServices
-     * @param adapter     The Camera adapter
+     * @param adapter The Camera adapter
      * @throws MALException On initialisation error.
      */
-    public synchronized void init(COMServicesProvider comServices, CameraAdapterInterface adapter) throws MALException {
+    public synchronized void init(COMServicesProvider comServices,
+            CameraAdapterInterface adapter) throws MALException {
+        long timestamp = System.currentTimeMillis();
+
         if (!initialiased) {
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
                 MALHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
-            if (MALContextFactory.lookupArea(PlatformHelper.PLATFORM_AREA_NAME, PlatformHelper.PLATFORM_AREA_VERSION) ==
-                null) {
+            if (MALContextFactory.lookupArea(PlatformHelper.PLATFORM_AREA_NAME,
+                    PlatformHelper.PLATFORM_AREA_VERSION) == null) {
                 PlatformHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
@@ -110,15 +115,20 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
                 COMHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
-            if (MALContextFactory.lookupArea(PlatformHelper.PLATFORM_AREA_NAME, PlatformHelper.PLATFORM_AREA_VERSION)
-                .getServiceByName(CameraHelper.CAMERA_SERVICE_NAME) == null) {
+            if (MALContextFactory.lookupArea(PlatformHelper.PLATFORM_AREA_NAME,
+                    PlatformHelper.PLATFORM_AREA_VERSION)
+                    .getServiceByName(CameraHelper.CAMERA_SERVICE_NAME) == null) {
                 CameraHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
         }
 
         publisher = createPicturesStreamPublisher(ConfigurationProviderSingleton.getDomain(),
-            ConfigurationProviderSingleton.getNetwork(), SessionType.LIVE, ConfigurationProviderSingleton
-                .getSourceSessionName(), QoSLevel.BESTEFFORT, null, new UInteger(0));
+                ConfigurationProviderSingleton.getNetwork(),
+                SessionType.LIVE,
+                ConfigurationProviderSingleton.getSourceSessionName(),
+                QoSLevel.BESTEFFORT,
+                null,
+                new UInteger(0));
 
         // Shut down old service transport
         if (null != cameraServiceProvider) {
@@ -127,13 +137,15 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
 
         this.adapter = adapter;
         minimumPeriod = this.adapter.getMinimumPeriod();
-        cameraServiceProvider = connection.startService(CameraHelper.CAMERA_SERVICE_NAME.toString(),
-            CameraHelper.CAMERA_SERVICE, this);
+        cameraServiceProvider = connection.startService(
+                CameraHelper.CAMERA_SERVICE_NAME.toString(),
+                CameraHelper.CAMERA_SERVICE, this);
 
         availableFormats = adapter.getAvailableFormats();
         running = true;
         initialiased = true;
-        LOGGER.info("Camera service READY");
+        timestamp = System.currentTimeMillis() - timestamp;
+        LOGGER.info("Camera service: READY! (" + timestamp + " ms)");
     }
 
     /**
@@ -148,11 +160,13 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
             connection.closeAll();
             running = false;
         } catch (MALException ex) {
-            LOGGER.log(Level.WARNING, "Exception during close down of the provider {0}", ex);
+            LOGGER.log(Level.WARNING,
+                    "Exception during close down of the provider {0}", ex);
         }
     }
 
-    private void streamPicturesUpdate(final Identifier firstEntityKey, final CameraSettings settings) {
+    private void streamPicturesUpdate(final Identifier firstEntityKey,
+            final CameraSettings settings) {
         try {
             final Long objId;
             Picture picture = null;
@@ -178,45 +192,51 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
             } else {
                 LOGGER.log(Level.FINER, "Generating streaming Picture update with objId: {0}", objId);
 
-                final EntityKey ekey = new EntityKey(firstEntityKey, objId, settings.getResolution().getWidth()
-                    .getValue(), settings.getResolution().getHeight().getValue());
+                final EntityKey ekey = new EntityKey(firstEntityKey, objId,
+                        settings.getResolution().getWidth().getValue(),
+                        settings.getResolution().getHeight().getValue());
 
                 final UpdateHeaderList hdrlst = new UpdateHeaderList();
-                hdrlst.add(new UpdateHeader(HelperTime.getTimestampMillis(), connection.getConnectionDetails()
-                    .getProviderURI(), UpdateType.UPDATE, ekey));
+                hdrlst.add(new UpdateHeader(HelperTime.getTimestampMillis(),
+                        connection.getConnectionDetails().getProviderURI(), UpdateType.UPDATE, ekey));
 
                 PictureList picList = new PictureList();
                 picList.add(picture);
                 publisher.publish(hdrlst, picList);
             }
         } catch (IllegalArgumentException | MALException | MALInteractionException ex) {
-            LOGGER.log(Level.WARNING, "Exception during publishing process on the provider {0}", ex);
+            LOGGER.log(Level.WARNING,
+                    "Exception during publishing process on the provider {0}", ex);
         }
     }
 
     private void isCapturePossible(final CameraSettings settings) throws MALInteractionException {
         if (!adapter.isUnitAvailable()) {
-            throw new MALInteractionException(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER,
-                null));
+            throw new MALInteractionException(new MALStandardError(
+                    PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
         }
         if (cameraInUse) { // Is the Camera unit in use?
-            throw new MALInteractionException(new MALStandardError(PlatformHelper.DEVICE_IN_USE_ERROR_NUMBER, null));
+            throw new MALInteractionException(new MALStandardError(
+                    PlatformHelper.DEVICE_IN_USE_ERROR_NUMBER, null));
         }
         final PixelResolutionList availableResolutions = adapter.getAvailableResolutions();
-        boolean isResolutionAvailable = false;
 
-        // Do we have the resolution requested?
-        for (PixelResolution availableResolution : availableResolutions) {
-            if (settings.getResolution().equals(availableResolution)) {
-                isResolutionAvailable = true;
-                break;
+        if (adapter.hasFixedResolutions()) {
+            boolean isResolutionAvailable = false;
+
+            // Do we have the resolution requested?
+            for (PixelResolution availableResolution : availableResolutions) {
+                if (settings.getResolution().equals(availableResolution)) {
+                    isResolutionAvailable = true;
+                    break;
+                }
             }
-        }
 
-        // If not, then send the available resolutions to the consumer so they can pick...
-        if (!isResolutionAvailable) {
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER,
-                availableResolutions));
+            // If not, then send the available resolutions to the consumer so they can pick...
+            if (!isResolutionAvailable) {
+                throw new MALInteractionException(new MALStandardError(
+                        COMHelper.INVALID_ERROR_NUMBER, availableResolutions));
+            }
         }
 
         boolean isFormatsAvailable = false;
@@ -229,13 +249,15 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
 
         // If not, then send the available formats to the consumer so they can pick...
         if (!isFormatsAvailable) {
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, availableFormats));
+            throw new MALInteractionException(new MALStandardError(
+                    COMHelper.INVALID_ERROR_NUMBER, availableFormats));
         }
     }
 
     @Override
-    public void enableStream(Boolean enable, final Duration streamingRate, final Identifier firstEntityKey,
-        final CameraSettings settings, MALInteraction interaction) throws MALInteractionException, MALException {
+    public void enableStream(Boolean enable, final Duration streamingRate,
+            final Identifier firstEntityKey, final CameraSettings settings,
+            MALInteraction interaction) throws MALInteractionException, MALException {
         if (!enable) {
             cameraInUse = false;
             publishTimer.stopLast();
@@ -246,20 +268,22 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
 
             // Is the requested streaming rate less than the minimum period?
             if (streamingRate.getValue() < minimumPeriod.getValue()) {
-                throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, minimumPeriod));
+                throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER,
+                        minimumPeriod));
             }
 
             // Is the requested streaming rate less than the service lowest minimum period?
             if (streamingRate.getValue() < serviceLowestMinimumPeriod.getValue()) {
                 // This is a protection to avoid having crazy implementations with super low streaming rates!
                 throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER,
-                    serviceLowestMinimumPeriod));
+                        serviceLowestMinimumPeriod));
             }
 
             isCapturePossible(settings);
 
-            if (firstEntityKey.getValue() == null || "*".equals(firstEntityKey.getValue()) || "".equals(firstEntityKey
-                .getValue())) {
+            if (firstEntityKey.getValue() == null
+                    || "*".equals(firstEntityKey.getValue())
+                    || "".equals(firstEntityKey.getValue())) {
                 throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
             }
 
@@ -279,95 +303,98 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
     }
 
     @Override
-    public Picture previewPicture(MALInteraction interaction) throws MALInteractionException, MALException {
+    public Picture previewPicture(MALInteraction interaction)
+            throws MALInteractionException, MALException {
         if (!adapter.isUnitAvailable()) {
-            throw new MALInteractionException(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER,
-                null));
+            throw new MALInteractionException(new MALStandardError(
+                    PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
         }
         // Get some preview Picture from the camera...
         synchronized (lock) {
             try {
                 return adapter.getPicturePreview();
             } catch (IOException ex) {
-                throw new MALInteractionException(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER,
-                    null));
+                throw new MALInteractionException(new MALStandardError(
+                        PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
             }
         }
     }
 
     @Override
     public void takePicture(final CameraSettings settings, TakePictureInteraction interaction)
-        throws MALInteractionException, MALException {
+            throws MALInteractionException, MALException {
         isCapturePossible(settings);
         interaction.sendAcknowledgement();
 
         synchronized (lock) {
             try {
                 Picture picture = adapter.takePicture(settings);
-
                 LOGGER.log(Level.INFO, "The picture has been taken!");
-
                 interaction.sendResponse(picture);
                 LOGGER.log(Level.INFO, "The picture has been sent!");
-
             } catch (IOException ex) {
-                interaction.sendError(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
+                interaction.sendError(new MALStandardError(
+                        PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
             }
         }
     }
 
     @Override
-    public void takeAutoExposedPicture(CameraSettings settings, TakeAutoExposedPictureInteraction interaction)
-        throws MALInteractionException, MALException {
+    public void takeAutoExposedPicture(CameraSettings settings,
+            TakeAutoExposedPictureInteraction interaction) throws MALInteractionException, MALException {
         isCapturePossible(settings);
         interaction.sendAcknowledgement();
         synchronized (lock) {
             try {
                 Picture picture = adapter.takeAutoExposedPicture(settings);
-
                 LOGGER.log(Level.INFO, "The picture has been taken!");
-
                 interaction.sendResponse(picture);
                 LOGGER.log(Level.INFO, "The picture has been sent!");
-
             } catch (IOException ex) {
-                interaction.sendError(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
+                interaction.sendError(new MALStandardError(
+                        PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
             }
         }
     }
 
     @Override
-    public GetPropertiesResponse getProperties(MALInteraction interaction) throws MALInteractionException,
-        MALException {
+    public GetPropertiesResponse getProperties(MALInteraction interaction) throws
+            MALInteractionException, MALException {
         final PixelResolutionList availableResolutions = adapter.getAvailableResolutions();
         String extraInfo = adapter.getExtraInfo();
 
         return new GetPropertiesResponse(availableResolutions, availableFormats, extraInfo);
     }
 
+    @Override
+    public void preprocessPicture(Picture inputPicture, CameraSettings settings,
+            PreprocessPictureInteraction interaction) throws MALInteractionException, MALException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
     public static final class PublishInteractionListener implements MALPublishInteractionListener {
 
         @Override
-        public void publishDeregisterAckReceived(final MALMessageHeader header, final Map qosProperties)
-            throws MALException {
+        public void publishDeregisterAckReceived(final MALMessageHeader header,
+                final Map qosProperties) throws MALException {
             LOGGER.fine("PublishInteractionListener::publishDeregisterAckReceived");
         }
 
         @Override
-        public void publishErrorReceived(final MALMessageHeader header, final MALErrorBody body,
-            final Map qosProperties) throws MALException {
+        public void publishErrorReceived(final MALMessageHeader header,
+                final MALErrorBody body, final Map qosProperties) throws MALException {
             LOGGER.warning("PublishInteractionListener::publishErrorReceived");
         }
 
         @Override
-        public void publishRegisterAckReceived(final MALMessageHeader header, final Map qosProperties)
-            throws MALException {
+        public void publishRegisterAckReceived(final MALMessageHeader header,
+                final Map qosProperties) throws MALException {
             LOGGER.log(Level.INFO, "Registration Ack: {0}", header.toString());
         }
 
         @Override
-        public void publishRegisterErrorReceived(final MALMessageHeader header, final MALErrorBody body,
-            final Map qosProperties) throws MALException {
+        public void publishRegisterErrorReceived(final MALMessageHeader header,
+                final MALErrorBody body, final Map qosProperties) throws MALException {
             LOGGER.warning("PublishInteractionListener::publishRegisterErrorReceived");
         }
     }

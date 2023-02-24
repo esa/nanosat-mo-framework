@@ -1,0 +1,8 @@
+#Simulator scheduler data file
+#The commands below will be executed when simulator time has exceeded the defined time
+#There are two possible ways to define the command, either as a DDDDD:HH:MM:SS:mmm format or directly in milliseconds value
+#The simulator shall check the agreement between the two fields, if not equal, the DDDDD:HH:MM:SS:mmm will be used
+#If the DDDDD:HH:MM:SS:mmm is zero, the milliseconds value will be used
+#The simulator shall also sort the data file chronologically ascending
+#days:hours:minutes:seconds:milliseconds|milliseconds|internalID|argument_template_name
+#00000:00:00:00:000|0000000000000000000|1001|CUSTOM

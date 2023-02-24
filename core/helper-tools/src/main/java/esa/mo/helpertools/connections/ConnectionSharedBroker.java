@@ -25,7 +25,7 @@ import esa.mo.helpertools.helpers.HelperMisc;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALContext;
@@ -72,9 +72,14 @@ public class ConnectionSharedBroker {
         brokerMgr = mal.createBrokerManager();
 
         MALBroker sharedBroker = brokerMgr.createBroker();
-        MALBrokerBinding brokerBinding = brokerMgr.createBrokerBinding(sharedBroker, brokerName, System.getProperties()
-            .getProperty("org.ccsds.moims.mo.mal.transport.default.protocol"), null == authenticationId ? new Blob(""
-                .getBytes()) : authenticationId, new QoSLevel[]{QoSLevel.ASSURED}, new UInteger(1), new Hashtable());
+        MALBrokerBinding brokerBinding = brokerMgr.createBrokerBinding(
+                sharedBroker,
+                brokerName,
+                System.getProperties().getProperty("org.ccsds.moims.mo.mal.transport.default.protocol"),
+                null == authenticationId ? new Blob("".getBytes()) : authenticationId,
+                new QoSLevel[]{QoSLevel.ASSURED},
+                new UInteger(1),
+                new HashMap());
 
         Logger.getLogger(ConnectionSharedBroker.class.getName()).log(Level.INFO, "Shared Broker URI: {0}", brokerBinding
             .getURI());

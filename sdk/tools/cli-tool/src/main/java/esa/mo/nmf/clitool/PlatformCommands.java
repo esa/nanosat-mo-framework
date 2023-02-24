@@ -50,6 +50,7 @@ import java.util.logging.Logger;
  * @author marcel.mikolajko
  */
 public class PlatformCommands {
+
     static Logger LOGGER = Logger.getLogger(PlatformCommands.class.getName());
 
     @Command(name = "gps", subcommands = {GetNMEASentence.class})
@@ -66,6 +67,7 @@ public class PlatformCommands {
 
     @Command(name = "take-picture", description = "Take a picture from the camera")
     public static class TakePicture extends BaseCommand implements Runnable {
+
         @Option(names = {"-res", "--resolution"}, paramLabel = "<resolution>", required = true,
                 description = "Resolution of the image in format widthxheigh. For example 1920x1080")
         String resolution;
@@ -109,17 +111,20 @@ public class PlatformCommands {
             }
 
             String[] res = resolution.split("x");
-            CameraSettings settings = new CameraSettings(new PixelResolution(new UInteger(Integer.parseInt(res[0])),
-                new UInteger(Integer.parseInt(res[1]))), PictureFormat.fromString(format.toUpperCase()), new Duration(
-                    Double.parseDouble(exposure)), Float.parseFloat(gainRed), Float.parseFloat(gainGreen), Float
-                        .parseFloat(gainBlue));
+            CameraSettings settings = new CameraSettings(
+                    new PixelResolution(new UInteger(Integer.parseInt(res[0])), new UInteger(Integer.parseInt(res[1]))),
+                    PictureFormat.fromString(format.toUpperCase()),
+                    new Duration(Double.parseDouble(exposure)),
+                    Float.parseFloat(gainRed), Float.parseFloat(gainGreen), Float.parseFloat(gainBlue),
+                    null
+            );
 
             final Object lock = new Object();
             try {
                 camera.takePicture(settings, new CameraAdapter() {
                     @Override
                     public void takePictureResponseReceived(MALMessageHeader msgHeader, Picture picture,
-                        Map qosProperties) {
+                            Map qosProperties) {
                         System.out.println("Picture received: " + picture);
                         try {
                             filename = filename + "." + format.toLowerCase();
@@ -136,7 +141,7 @@ public class PlatformCommands {
 
                     @Override
                     public void takePictureResponseErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
-                        Map qosProperties) {
+                            Map qosProperties) {
                         LOGGER.log(Level.SEVERE, "Error during takePicture!", error);
                         synchronized (lock) {
                             lock.notifyAll();
@@ -172,6 +177,7 @@ public class PlatformCommands {
 
     @Command(name = "get-status", description = "Gets the provider status")
     public static class GetStatus extends BaseCommand implements Runnable {
+
         @Override
         public void run() {
             if (!super.initRemoteConsumer()) {
@@ -215,8 +221,9 @@ public class PlatformCommands {
 
     @Command(name = "get-nmea-sentence", description = "Gets the NMEA sentence")
     public static class GetNMEASentence extends BaseCommand implements Runnable {
+
         @Parameters(arity = "1", paramLabel = "<sentenceIdentifier>", index = "0",
-                    description = "Identifier of the sentence")
+                description = "Identifier of the sentence")
         String sentenceId;
 
         @Override
@@ -239,7 +246,7 @@ public class PlatformCommands {
                 gps.getNMEASentence(sentenceId, new GPSAdapter() {
                     @Override
                     public void getNMEASentenceResponseReceived(MALMessageHeader msgHeader, String sentence,
-                        Map qosProperties) {
+                            Map qosProperties) {
                         System.out.println("Sentence received: " + sentence);
 
                         synchronized (lock) {
@@ -249,7 +256,7 @@ public class PlatformCommands {
 
                     @Override
                     public void getNMEASentenceResponseErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
-                        Map qosProperties) {
+                            Map qosProperties) {
                         LOGGER.log(Level.SEVERE, "Error during getNMEASentence!", error);
                         synchronized (lock) {
                             lock.notifyAll();
@@ -266,4 +273,3 @@ public class PlatformCommands {
         }
     }
 }
-//------------------------------------------------------------------------------

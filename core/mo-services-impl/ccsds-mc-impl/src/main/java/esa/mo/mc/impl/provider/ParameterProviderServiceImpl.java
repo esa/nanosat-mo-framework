@@ -27,11 +27,8 @@ import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.helpertools.misc.TaskScheduler;
 import esa.mo.mc.impl.util.GroupRetrieval;
-import esa.mo.mc.impl.util.MCServicesHelper;
 import esa.mo.reconfigurable.service.ConfigurationChangeListener;
 import esa.mo.reconfigurable.service.ReconfigurableService;
-
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -125,6 +122,8 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
      * @throws MALException On initialisation error.
      */
     public synchronized void init(ParameterManager parameterManager) throws MALException {
+        long timestamp = System.currentTimeMillis();
+        
         if (!initialiased) {
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
                 MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -138,8 +137,8 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
                 MCHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
-            if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION).getServiceByName(
-                ParameterHelper.PARAMETER_SERVICE_NAME) == null) {
+            if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION)
+                    .getServiceByName(ParameterHelper.PARAMETER_SERVICE_NAME) == null) {
                 ParameterHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
@@ -164,14 +163,16 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
         groupService.init(manager.getArchiveService());
 
-        storeParametersInCOMArchive = Boolean.parseBoolean(System.getProperty(
-            MCServicesHelper.STORE_IN_ARCHIVE_PROPERTY, "true"));
-        String msg = MessageFormat.format("{0} = {1}", MCServicesHelper.STORE_IN_ARCHIVE_PROPERTY,
-            storeParametersInCOMArchive);
-        Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.INFO, msg);
+        /*
+        storeParametersInCOMArchive = Boolean.parseBoolean(System.getProperty(MCServicesHelper.STORE_IN_ARCHIVE_PROPERTY, "true"));
+        String msg = MessageFormat.format("{0} = {1}", MCServicesHelper.STORE_IN_ARCHIVE_PROPERTY, storeParametersInCOMArchive);
+        Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.FINE, msg);
+        */
 
         initialiased = true;
-        Logger.getLogger(ParameterProviderServiceImpl.class.getName()).info("Parameter service READY");
+        timestamp = System.currentTimeMillis() - timestamp;
+        Logger.getLogger(ParameterProviderServiceImpl.class.getName()).info(
+                "Parameter service READY! (" + timestamp + " ms)");
     }
 
     /**
@@ -361,7 +362,8 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             }
 
             // requirement: 3.3.9.2.f the new rawValues type and its definitions rawType must be the same
-            if (!newValue.getRawValue().getTypeShortForm().equals(Integer.valueOf(pDef.getRawType()))) {
+            if (newValue.getRawValue() != null
+                    && !newValue.getRawValue().getTypeShortForm().equals(new Integer(pDef.getRawType()))) {
                 invIndexList.add(new UInteger(index));
                 continue;
             }
@@ -517,8 +519,10 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             details.add(tempParameterCreationRequest.getParamDefDetails());
         }
 
-        ObjectInstancePairList objectInstancePairs = manager.addMultiple(names, details, source, connection
-            .getConnectionDetails());
+        ObjectInstancePairList objectInstancePairs = manager.addMultiple(names,
+                details,
+                source,
+                connection.getConnectionDetails());
         //store the objects
         outPairLst.addAll(objectInstancePairs); //  requirement: 3.3.12.2.g
         // Refresh the Periodic Reporting Manager for the added Definitions
@@ -715,7 +719,8 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
         periodicReportingManager.pause();
 
-        manager.reconfigureDefinitions(confSetIdents.getObjInstIds(), idents, confSetDefs.getObjInstIds(), pDefs);   // Reconfigures the Manager
+        manager.reconfigureDefinitions(confSetIdents.getObjInstIds(), idents,
+                confSetDefs.getObjInstIds(), pDefs);   // Reconfigures the Manager
 
         periodicReportingManager.refreshAll();  // Refresh the reporting
         periodicReportingManager.start();
@@ -1016,8 +1021,8 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
                     // If the conversion value was not provided, we can try to generate it
                     if (parameters.get(i).getParameterValue().getConvertedValue() == null) {
-                        ParameterValue newPVal = manager.generateNewParameterValue(parameters.get(i).getParameterValue()
-                            .getRawValue(), pDef2, false);
+                        ParameterValue newPVal = manager.generateNewParameterValue(
+                                parameters.get(i).getParameterValue().getRawValue(), pDef2, false);
                         parameters.get(i).getParameterValue().setConvertedValue(newPVal.getConvertedValue());
                         parameters.get(i).getParameterValue().setValidityState(newPVal.getValidityState());
                     }
@@ -1042,8 +1047,9 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             for (int i = 0; i < outIds.size(); i++) {
                 relatedIds.add(outIds.get(i).getObjDefInstanceId());
                 sourceIds.add(parameters.get(i).getSource());
-                final FineTime timestamp = (parameters.get(i).getTimestamp() != null) ? HelperTime.timeToFineTime(
-                    parameters.get(i).getTimestamp()) : defaultTimestamp;
+                final FineTime timestamp = (parameters.get(i).getTimestamp() != null)
+                        ? HelperTime.timeToFineTime(parameters.get(i).getTimestamp())
+                        : defaultTimestamp;
                 timestamps.add(timestamp);
             }
 
@@ -1103,7 +1109,8 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
      * publishes a periodic parameter update for the given parameter
      *
      * @param identityId the id of the parameter identity
-     * @param storeInCOMArchive flag indicating whether or not the parameter should be stored in the archive
+     * @param storeInCOMArchive flag indicating whether or not the parameter
+     * should be stored in the archive
      */
     private void publishPeriodicParameterUpdate(final Long identityId, boolean storeInCOMArchive) {
         try {

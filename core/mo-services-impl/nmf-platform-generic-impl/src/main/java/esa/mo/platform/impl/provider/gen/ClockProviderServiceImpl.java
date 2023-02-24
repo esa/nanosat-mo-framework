@@ -44,19 +44,22 @@ public class ClockProviderServiceImpl extends ClockInheritanceSkeleton {
     private ClockAdapterInterface adapter;
 
     /**
-     * creates the MAL objects, the publisher used to create updates and starts the publishing thread
+     * creates the MAL objects, the publisher used to create updates and starts
+     * the publishing thread
      *
-     * @param adapter     The Clock adapter
+     * @param adapter The Clock adapter
      * @throws MALException On initialisation error.
      */
     public synchronized void init(ClockAdapterInterface adapter) throws MALException {
+        long timestamp = System.currentTimeMillis();
+        
         if (!initialiased) {
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
                 MALHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
-            if (MALContextFactory.lookupArea(PlatformHelper.PLATFORM_AREA_NAME, PlatformHelper.PLATFORM_AREA_VERSION) ==
-                null) {
+            if (MALContextFactory.lookupArea(PlatformHelper.PLATFORM_AREA_NAME,
+                    PlatformHelper.PLATFORM_AREA_VERSION) == null) {
                 PlatformHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
@@ -77,16 +80,17 @@ public class ClockProviderServiceImpl extends ClockInheritanceSkeleton {
         }
 
         this.adapter = adapter;
-        clockServiceProvider = connection.startService(ClockHelper.CLOCK_SERVICE_NAME.toString(),
-            ClockHelper.CLOCK_SERVICE, this);
+        clockServiceProvider = connection.startService(
+                ClockHelper.CLOCK_SERVICE_NAME.toString(), ClockHelper.CLOCK_SERVICE, this);
 
         initialiased = true;
-        LOGGER.info("Clock service READY");
+        timestamp = System.currentTimeMillis() - timestamp;
+        LOGGER.info("Clock service: READY! (" + timestamp + " ms)");
     }
 
     /**
-    * Closes all running threads and releases the MAL resources.
-    */
+     * Closes all running threads and releases the MAL resources.
+     */
     public void close() {
         try {
             if (null != clockServiceProvider) {

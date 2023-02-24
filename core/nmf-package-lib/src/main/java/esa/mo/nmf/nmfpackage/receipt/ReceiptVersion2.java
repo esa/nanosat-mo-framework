@@ -20,9 +20,7 @@
  */
 package esa.mo.nmf.nmfpackage.receipt;
 
-import esa.mo.nmf.nmfpackage.descriptor.NMFPackageDescriptor;
-import esa.mo.nmf.nmfpackage.descriptor.NMFPackageDetails;
-import esa.mo.nmf.nmfpackage.descriptor.NMFPackageFile;
+import esa.mo.nmf.nmfpackage.NMFPackageFile;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -31,6 +29,7 @@ import java.io.IOException;
  *
  * @author Cesar Coelho
  */
+@Deprecated
 public class ReceiptVersion2 {
 
     private static final String PACKAGE_NAME = "PackageName=";
@@ -79,7 +78,9 @@ public class ReceiptVersion2 {
             throw new IOException("Could not read the package mainclass!");
         }
 
-        final NMFPackageDetails details = new NMFPackageDetails(name, version, timestamp, mainclass, "96m");
+        final DetailsApp details = new DetailsApp(name, 
+                version, timestamp, mainclass, "", "96m", null);
+
         final NMFPackageDescriptor descriptor = new NMFPackageDescriptor(details);
         String path;
         long crc;

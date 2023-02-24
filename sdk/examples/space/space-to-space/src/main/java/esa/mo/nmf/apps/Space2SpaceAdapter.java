@@ -53,7 +53,7 @@ public class Space2SpaceAdapter extends MonitorAndControlNMFAdapter {
         this.connector.setCloseAppListener(new CloseAppListener() {
             @Override
             public Boolean onClose() {
-                return Space2SpaceAdapter.this.onClose();
+                return closeApp();
             }
         });
     }
@@ -94,7 +94,7 @@ public class Space2SpaceAdapter extends MonitorAndControlNMFAdapter {
         LOGGER.log(Level.INFO, "Started fetching parameters");
     }
 
-    public Boolean onClose() {
+    public Boolean closeApp() {
         boolean success = true;
         // Stop fetching data in supervisor
         try {

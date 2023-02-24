@@ -53,7 +53,8 @@ public class PowerControlProviderServiceImpl extends PowerControlInheritanceSkel
     private boolean running = false;
     private final ConnectionProvider connection = new ConnectionProvider();
     private PowerControlAdapterInterface adapter;
-    private static final Logger LOGGER = Logger.getLogger(PowerControlProviderServiceImpl.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(
+            PowerControlProviderServiceImpl.class.getName());
 
     /**
      * Initializes the Power Control service.
@@ -62,14 +63,15 @@ public class PowerControlProviderServiceImpl extends PowerControlInheritanceSkel
      * @throws MALException On initialisation error.
      */
     public synchronized void init(PowerControlAdapterInterface adapter) throws MALException {
+        long timestamp = System.currentTimeMillis();
+        
         if (!initialiased) {
-
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
                 MALHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
-            if (MALContextFactory.lookupArea(PlatformHelper.PLATFORM_AREA_NAME, PlatformHelper.PLATFORM_AREA_VERSION) ==
-                null) {
+            if (MALContextFactory.lookupArea(PlatformHelper.PLATFORM_AREA_NAME,
+                    PlatformHelper.PLATFORM_AREA_VERSION) == null) {
                 PlatformHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
@@ -77,8 +79,9 @@ public class PowerControlProviderServiceImpl extends PowerControlInheritanceSkel
                 COMHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
-            if (MALContextFactory.lookupArea(PlatformHelper.PLATFORM_AREA_NAME, PlatformHelper.PLATFORM_AREA_VERSION)
-                .getServiceByName(PowerControlHelper.POWERCONTROL_SERVICE_NAME) == null) {
+            if (MALContextFactory.lookupArea(PlatformHelper.PLATFORM_AREA_NAME,
+                    PlatformHelper.PLATFORM_AREA_VERSION)
+                    .getServiceByName(PowerControlHelper.POWERCONTROL_SERVICE_NAME) == null) {
                 PowerControlHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
         }
@@ -89,12 +92,14 @@ public class PowerControlProviderServiceImpl extends PowerControlInheritanceSkel
         }
 
         this.adapter = adapter;
-        powerControlServiceProvider = connection.startService(PowerControlHelper.POWERCONTROL_SERVICE_NAME.toString(),
-            PowerControlHelper.POWERCONTROL_SERVICE, this);
+        powerControlServiceProvider = connection.startService(
+                PowerControlHelper.POWERCONTROL_SERVICE_NAME.toString(),
+                PowerControlHelper.POWERCONTROL_SERVICE, this);
 
         running = true;
         initialiased = true;
-        LOGGER.info("Power Control service READY");
+        timestamp = System.currentTimeMillis() - timestamp;
+        LOGGER.info("Power Control service: READY! (" + timestamp + " ms)");
     }
 
     /**
@@ -114,8 +119,8 @@ public class PowerControlProviderServiceImpl extends PowerControlInheritanceSkel
     }
 
     @Override
-    public DeviceList listDevices(IdentifierList names, MALInteraction interaction) throws MALInteractionException,
-        MALException {
+    public DeviceList listDevices(IdentifierList names, MALInteraction interaction) 
+            throws MALInteractionException, MALException {
         if (names == null) {
             throw new MALException("IdentifierList cannot be empty.");
         }
@@ -136,20 +141,21 @@ public class PowerControlProviderServiceImpl extends PowerControlInheritanceSkel
             }
         }
         if (!unkIndexList.isEmpty()) {
-            throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+            throw new MALInteractionException(new MALStandardError(
+                    MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
         }
         return ret;
     }
 
     @Override
-    public void enableDevices(DeviceList devices, MALInteraction interaction) throws MALInteractionException,
-        MALException {
+    public void enableDevices(DeviceList devices, MALInteraction interaction)
+            throws MALInteractionException, MALException {
         try {
             adapter.enableDevices(devices);
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, "adapter.enableDevices failed", ex);
-            throw new MALInteractionException(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER,
-                null));
+            throw new MALInteractionException(new MALStandardError(
+                    PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
         }
     }
 

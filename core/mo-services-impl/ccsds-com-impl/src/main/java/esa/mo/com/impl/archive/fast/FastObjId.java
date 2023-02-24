@@ -34,6 +34,7 @@ import java.util.logging.Logger;
  * database when it is necessary.
  */
 public class FastObjId {
+
     private final DatabaseBackend dbBackend;
     private HashMap<Key, Long> fastID;
 

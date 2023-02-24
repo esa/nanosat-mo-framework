@@ -20,6 +20,8 @@
  */
 package esa.mo.com.impl.archive.db;
 
+import esa.mo.com.impl.archive.entities.COMObjectEntity;
+import esa.mo.com.impl.provider.ArchiveManager;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -36,14 +38,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
 import org.ccsds.moims.mo.com.archive.structures.QueryFilter;
 import org.ccsds.moims.mo.mal.structures.IntegerList;
 import org.ccsds.moims.mo.mal.structures.LongList;
-
-import esa.mo.com.impl.archive.entities.COMObjectEntity;
-import esa.mo.com.impl.provider.ArchiveManager;
 
 /**
  * The Transactions Processor is responsible for executing the transactions with
@@ -54,8 +52,9 @@ import esa.mo.com.impl.provider.ArchiveManager;
  * consolidated and executed in one single transaction.
  */
 public class TransactionsProcessor {
-    public static final Logger LOGGER = Logger.getLogger(TransactionsProcessor.class.getName());
-    final DatabaseBackend dbBackend;
+
+    public static Logger LOGGER = Logger.getLogger(TransactionsProcessor.class.getName());
+    public final DatabaseBackend dbBackend;
 
     // This executor is responsible for the interactions with the db
     // Guarantees sequential order
@@ -76,22 +75,14 @@ public class TransactionsProcessor {
         this.sequencialStoring = new AtomicBoolean(false);
     }
 
-    public Future<?> submitExternalGeneralExecutorTask(final Runnable task) {
+    public void submitExternalTaskGeneral(final Runnable task) {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
-
-        return generalExecutor.submit(task);
+        generalExecutor.execute(task);
     }
 
-    public Future<?> submitExternalTransactionExecutorTask(final Runnable task) {
+    public void submitExternalTaskDBTransactions(final Runnable task) {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
-
-        return dbTransactionsExecutor.submit(task);
-    }
-
-    public <T> Future<T> submitExternalTransactionExecutorTask(final Callable<T> task) {
-        this.sequencialStoring.set(false);
-
-        return dbTransactionsExecutor.submit(task);
+        dbTransactionsExecutor.execute(task);
     }
 
     /**
@@ -108,7 +99,8 @@ public class TransactionsProcessor {
         }
     }
 
-    public COMObjectEntity getCOMObject(final Integer objTypeId, final Integer domainId, final Long objId) {
+    public COMObjectEntity getCOMObject(final Integer objTypeId, final Integer domainId,
+            final Long objId) {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
 
         LongList ids = new LongList();
@@ -212,12 +204,13 @@ public class TransactionsProcessor {
         dbTransactionsExecutor.execute(new RunnableUpdate(this, publishEvents, newObjs));
     }
 
-    public ArrayList<COMObjectEntity> query(final IntegerList objTypeIds, final ArchiveQuery archiveQuery,
-        final IntegerList domainIds, final Integer providerURIId, final Integer networkId,
-        final SourceLinkContainer sourceLink, final QueryFilter filter) {
+    public ArrayList<COMObjectEntity> query(final IntegerList objTypeIds,
+            final ArchiveQuery archiveQuery, final IntegerList domainIds,
+            final Integer providerURIId, final Integer networkId,
+            final SourceLinkContainer sourceLink, final QueryFilter filter) {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
-        final CallableSelectQuery task = new CallableSelectQuery(this, objTypeIds, archiveQuery, domainIds,
-            providerURIId, networkId, sourceLink, filter);
+        final CallableSelectQuery task = new CallableSelectQuery(this, objTypeIds, archiveQuery,
+                domainIds, providerURIId, networkId, sourceLink, filter);
 
         Future<ArrayList<COMObjectEntity>> future = dbTransactionsExecutor.submit(task);
 
@@ -230,12 +223,13 @@ public class TransactionsProcessor {
         return null;
     }
 
-    public int delete(final IntegerList objTypeIds, final ArchiveQuery archiveQuery, final IntegerList domainIds,
-        final Integer providerURIId, final Integer networkId, final SourceLinkContainer sourceLink,
-        final QueryFilter filter) {
+    public int delete(final IntegerList objTypeIds,
+            final ArchiveQuery archiveQuery, final IntegerList domainIds,
+            final Integer providerURIId, final Integer networkId,
+            final SourceLinkContainer sourceLink, final QueryFilter filter) {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
-        final CallableDeleteQuery task = new CallableDeleteQuery(this, objTypeIds, archiveQuery, domainIds,
-            providerURIId, networkId, sourceLink, filter);
+        final CallableDeleteQuery task = new CallableDeleteQuery(this, objTypeIds, archiveQuery,
+                domainIds, providerURIId, networkId, sourceLink, filter);
 
         Future<Integer> future = dbTransactionsExecutor.submit(task);
 
@@ -283,13 +277,16 @@ public class TransactionsProcessor {
 
         DBThreadFactory(String prefix) {
             SecurityManager s = System.getSecurityManager();
-            group = (s != null) ? s.getThreadGroup() : Thread.currentThread().getThreadGroup();
+            group = (s != null) ? s.getThreadGroup()
+                    : Thread.currentThread().getThreadGroup();
             namePrefix = prefix + "-thread-";
         }
 
         @Override
         public Thread newThread(Runnable r) {
-            Thread t = new Thread(group, r, namePrefix + threadNumber.getAndIncrement(), 0);
+            Thread t = new Thread(group, r,
+                    namePrefix + threadNumber.getAndIncrement(),
+                    0);
             if (t.isDaemon()) {
                 t.setDaemon(false);
             }

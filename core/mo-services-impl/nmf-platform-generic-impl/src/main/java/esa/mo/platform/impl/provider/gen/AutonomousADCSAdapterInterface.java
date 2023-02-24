@@ -41,13 +41,13 @@ public interface AutonomousADCSAdapterInterface {
     boolean isUnitAvailable();
 
     /**
-     * The setDesiredAttitude operation shall set a certain attitude based on the AttitudeMode
-     * descriptor
+     * The setDesiredAttitude operation shall set a certain attitude based on
+     * the AttitudeMode descriptor
      *
      * @param attitude
      * @throws IOException in case of failure on the interface
-     * @throws UnsupportedOperationException if the implementation does not support the requested ADCS
-     * mode
+     * @throws UnsupportedOperationException if the implementation does not
+     * support the requested ADCS mode
      */
     void setDesiredAttitude(AttitudeMode attitude) throws IOException, UnsupportedOperationException;
 
@@ -59,8 +59,8 @@ public interface AutonomousADCSAdapterInterface {
     void unset() throws IOException;
 
     /**
-     * The getAttitudeTelemetry returns an object representing the attitude information provided by an
-     * ADCS unit
+     * The getAttitudeTelemetry returns an object representing the attitude
+     * information provided by an ADCS unit
      *
      * @return The Attitude Telemetry from the ADCS
      * @throws IOException
@@ -68,8 +68,8 @@ public interface AutonomousADCSAdapterInterface {
     AttitudeTelemetry getAttitudeTelemetry() throws IOException;
 
     /**
-     * The getActuatorsTelemetry returns an object representing the actuators information provided by
-     * an ADCS unit
+     * The getActuatorsTelemetry returns an object representing the actuators
+     * information provided by an ADCS unit
      *
      * @return The Attitude Telemetry from the ADCS
      * @throws IOException
@@ -80,15 +80,16 @@ public interface AutonomousADCSAdapterInterface {
      * Validate Attitude Descriptor
      *
      * @param attitude requested attitude mode descriptor to be validated
-     * @return null if attitude descriptor is valid. Human readable string with error message if
-     * validation fails.
+     * @return null if attitude descriptor is valid. Human readable string with
+     * error message if validation fails.
      */
     String validateAttitudeDescriptor(AttitudeMode attitude);
 
     /**
      * Get active attitude mode.
      *
-     * @return Descriptor of the attitude currently set in the ADCS or NULL if none (IDLE)
+     * @return Descriptor of the attitude currently set in the ADCS or NULL if
+     * none (IDLE)
      */
     AttitudeMode getActiveAttitudeMode();
 
@@ -102,7 +103,8 @@ public interface AutonomousADCSAdapterInterface {
      * @param wheelV speed for wheel v
      * @param wheelW speed for wheel w
      */
-    void setAllReactionWheelSpeeds(float wheelX, float wheelY, float wheelZ, float wheelU, float wheelV, float wheelW);
+    void setAllReactionWheelSpeeds(float wheelX, float wheelY, float wheelZ, float wheelU,
+            float wheelV, float wheelW);
 
     /**
      * Sets the speed of one Reaction wheel

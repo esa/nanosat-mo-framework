@@ -46,15 +46,16 @@ import org.ccsds.moims.mo.mal.structures.URI;
  */
 public class ConnectionProvider {
 
+    private final static ServicesConnectionDetails GLOBAL_PROVIDERS_DETAILS_PRIMARY = new ServicesConnectionDetails();
+    private final static ServicesConnectionDetails GLOBAL_PROVIDERS_DETAILS_SECONDARY = new ServicesConnectionDetails();
+
+    private final SingleConnectionDetails primaryConnectionDetails = new SingleConnectionDetails();
     private MALContextFactory malFactory;
     private MALContext mal;
     private MALProviderManager providerMgr;
     private MALProvider primaryMALServiceProvider = null;
     private MALProvider secondaryMALServiceProvider = null;
-    private final SingleConnectionDetails primaryConnectionDetails = new SingleConnectionDetails();
     private SingleConnectionDetails secondaryConnectionDetails = null;
-    private static ServicesConnectionDetails globalProvidersDetailsPrimary = new ServicesConnectionDetails();
-    private static ServicesConnectionDetails globalProvidersDetailsSecondary = new ServicesConnectionDetails();
 
     /**
      * Getter for the primaryConnectionDetails object.
@@ -120,8 +121,8 @@ public class ConnectionProvider {
      * @return MALProvider
      * @throws MALException On error.
      */
-    public MALProvider startService(String serviceName, MALService malService, boolean isPublisher,
-        MALInteractionHandler handler) throws MALException {
+    public MALProvider startService(String serviceName, MALService malService,
+            boolean isPublisher, MALInteractionHandler handler) throws MALException {
         return startService(serviceName, malService, isPublisher, handler, null);
     }
 
@@ -188,9 +189,14 @@ public class ConnectionProvider {
                                                                                                          serviceKey});
 
         if (shouldInitUriFiles()) {
-            this.writeURIsOnFile(primaryConnectionDetails, serviceName, HelperMisc.PROVIDER_URIS_PROPERTIES_FILENAME);
+            String path = System.getProperty(HelperMisc.PROP_PROVIDERURIS_PATH,
+                    HelperMisc.PROVIDER_URIS_PROPERTIES_FILENAME);
+
+            this.writeURIsOnFile(primaryConnectionDetails,
+                    serviceName,
+                    path);
         }
-        globalProvidersDetailsPrimary.add(serviceName, primaryConnectionDetails);
+        GLOBAL_PROVIDERS_DETAILS_PRIMARY.add(serviceName, primaryConnectionDetails);
 
         primaryMALServiceProvider = serviceProvider;
 
@@ -222,11 +228,14 @@ public class ConnectionProvider {
                                                                                                              serviceKey});
 
             if (shouldInitUriFiles()) {
-                this.writeURIsOnFile(secondaryConnectionDetails, serviceName,
-                    HelperMisc.PROVIDER_URIS_SECONDARY_PROPERTIES_FILENAME);
-            }
-            globalProvidersDetailsSecondary.add(serviceName, secondaryConnectionDetails);
+                String pathSec = System.getProperty(HelperMisc.PROP_PROVIDERURIS_SEC_PATH,
+                        HelperMisc.PROVIDER_URIS_SECONDARY_PROPERTIES_FILENAME);
 
+                this.writeURIsOnFile(secondaryConnectionDetails,
+                        serviceName,
+                        pathSec);
+            }
+            GLOBAL_PROVIDERS_DETAILS_SECONDARY.add(serviceName, secondaryConnectionDetails);
             secondaryMALServiceProvider = serviceProvider2;
         }
 
@@ -286,8 +295,7 @@ public class ConnectionProvider {
     }
 
     /**
-     * Indicates whether the URI Files should be initialised.
-     * Defaults to false.
+     * Indicates whether the URI Files should be initialised. Defaults to false.
      *
      * @return true if URI Files should be initialised
      */
@@ -299,20 +307,24 @@ public class ConnectionProvider {
      * Clears the URI links file if its generation is enabled
      */
     public static void resetURILinks() {
-        globalProvidersDetailsPrimary.reset();
-        globalProvidersDetailsSecondary.reset();
+        GLOBAL_PROVIDERS_DETAILS_PRIMARY.reset();
+        GLOBAL_PROVIDERS_DETAILS_SECONDARY.reset();
 
         if (shouldInitUriFiles()) {
-            try (BufferedWriter wrt = new BufferedWriter(new FileWriter(HelperMisc.PROVIDER_URIS_PROPERTIES_FILENAME,
-                false))) {
+            String path = System.getProperty(HelperMisc.PROP_PROVIDERURIS_PATH,
+                    HelperMisc.PROVIDER_URIS_PROPERTIES_FILENAME);
+
+            try (BufferedWriter wrt = new BufferedWriter(new FileWriter(path, false))) {
             } catch (IOException ex) {
                 Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING,
                     "Unable to reset URI information from properties file {0}", ex);
             }
 
             if (System.getProperty(HelperMisc.SECONDARY_PROTOCOL) != null) {
-                try (BufferedWriter wrt2 = new BufferedWriter(new FileWriter(
-                    HelperMisc.PROVIDER_URIS_SECONDARY_PROPERTIES_FILENAME, false))) {
+                String pathSec = System.getProperty(HelperMisc.PROP_PROVIDERURIS_SEC_PATH,
+                        HelperMisc.PROVIDER_URIS_SECONDARY_PROPERTIES_FILENAME);
+
+                try (BufferedWriter wrt2 = new BufferedWriter(new FileWriter(pathSec, false))) {
                 } catch (IOException ex) {
                     Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING,
                         "Unable to reset URI information from properties file {0}", ex);
@@ -322,28 +334,38 @@ public class ConnectionProvider {
     }
 
     /**
-     * Get primary connection interface details of all providers in the application.
-     * 
+     * Get primary connection interface details of all providers in the
+     * application.
+     *
      * @return Primary connection details of all providers in the application.
      */
     public static ServicesConnectionDetails getGlobalProvidersDetailsPrimary() {
-        return globalProvidersDetailsPrimary;
+        return GLOBAL_PROVIDERS_DETAILS_PRIMARY;
     }
 
     /**
-     * Get secondary connection interface details of all providers in the application.
-     * 
+     * Get secondary connection interface details of all providers in the
+     * application.
+     *
      * @return Secondary connection details of all providers in the application.
      */
     public static ServicesConnectionDetails getGlobalProvidersDetailsSecondary() {
-        return globalProvidersDetailsSecondary;
+        return GLOBAL_PROVIDERS_DETAILS_SECONDARY;
     }
 
     /**
      * Writes the URIs on a text file
      */
     private void writeURIsOnFile(SingleConnectionDetails connectionDetails, String serviceName, String filename) {
+        StringBuilder str = new StringBuilder();
+        str.append(serviceName).append(HelperConnections.SUFFIX_URI).append("=").append(connectionDetails.getProviderURI()).append("\n");
+        str.append(serviceName).append(HelperConnections.SUFFIX_BROKER).append("=").append(connectionDetails.getBrokerURI()).append("\n");
+        str.append(serviceName).append(HelperConnections.SUFFIX_DOMAIN).append("=").append(HelperMisc.domain2domainId(connectionDetails.getDomain())).append("\n");
+        str.append(serviceName).append(HelperConnections.SUFFIX_SERVICE_KEY).append("=").append(connectionDetails.getServiceKey()).append("\n");
+        
         try (BufferedWriter wrt = new BufferedWriter(new FileWriter(filename, true))) {
+            wrt.append(str.toString());
+            /*
             wrt.append(serviceName + HelperConnections.SUFFIX_URI + "=" + connectionDetails.getProviderURI());
             wrt.newLine();
             wrt.append(serviceName + HelperConnections.SUFFIX_BROKER + "=" + connectionDetails.getBrokerURI());
@@ -353,6 +375,7 @@ public class ConnectionProvider {
             wrt.newLine();
             wrt.append(serviceName + HelperConnections.SUFFIX_SERVICE_KEY + "=" + connectionDetails.getServiceKey());
             wrt.newLine();
+            */
         } catch (IOException ex) {
             Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING,
                 "Unable to write URI information to properties file {0}", ex);

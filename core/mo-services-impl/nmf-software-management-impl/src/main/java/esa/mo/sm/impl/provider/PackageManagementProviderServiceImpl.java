@@ -67,7 +67,10 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
      * @param backend
      * @throws MALException On initialization error.
      */
-    public synchronized void init(final COMServicesProvider comServices, final PMBackend backend) throws MALException {
+    public synchronized void init(final COMServicesProvider comServices,
+            final PMBackend backend) throws MALException {
+        long timestamp = System.currentTimeMillis();
+        
         if (backend == null) {
             Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).severe(
                 "Package Management service could not be initialized! " + "The backend object cannot be null.");
@@ -84,13 +87,13 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
             }
 
             if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME,
-                SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) == null) {
+                    SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) == null) {
                 SoftwareManagementHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
             if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME,
-                SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION).getServiceByName(
-                    PackageManagementHelper.PACKAGEMANAGEMENT_SERVICE_NAME) == null) {
+                    SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION)
+                    .getServiceByName(PackageManagementHelper.PACKAGEMANAGEMENT_SERVICE_NAME) == null) {
                 PackageManagementHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
@@ -108,7 +111,9 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
             PackageManagementHelper.PACKAGEMANAGEMENT_SERVICE, false, this);
         running = true;
         initialiased = true;
-        Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).info("Package Management service READY");
+        timestamp = System.currentTimeMillis() - timestamp;
+        Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).info(
+                "Package Management service: READY! (" + timestamp + " ms)");
     }
 
     /**
@@ -275,8 +280,8 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
                 if (!backend.isPackageInstalled(names.get(i).getValue())) {
                     invIndexList.add(new UInteger(i));
-                    Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(Level.SEVERE,
-                        "The package is not installed!");
+                    Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(
+                            Level.SEVERE, "The package is not installed!");
                     continue;
                 }
 
@@ -286,8 +291,8 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
                 if (!integrity) {
                     invIndexList.add(new UInteger(i));
-                    Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(Level.SEVERE,
-                        "The integrity of the package is bad!");
+                    Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(
+                            Level.SEVERE, "The integrity of the package is bad!");
                 }
             }
         } catch (IOException ex) {
@@ -308,19 +313,21 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
             throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
         }
 
-        for (Identifier packageName : names) {
-            Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(Level.INFO, "Uninstalling: {0}",
-                packageName.getValue());
+        for (int i = 0; i < names.size(); i++) {
+            Identifier packageName = names.get(i);
+            Boolean keepConfiguration = keepConfigurations.get(i);
+            Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(
+                    Level.INFO, "Uninstalling: {0}", packageName.getValue());
 
-            backend.uninstall(packageName.getValue(), true);
+            backend.uninstall(packageName.getValue(), keepConfiguration);
         }
 
         interaction.sendResponse();
     }
 
     @Override
-    public void upgrade(final IdentifierList names, final UpgradeInteraction interaction)
-        throws MALInteractionException, MALException {
+    public void upgrade(final IdentifierList names, 
+            final UpgradeInteraction interaction) throws MALInteractionException, MALException {
         interaction.sendAcknowledgement();
 
         UIntegerList unkIndexList = new UIntegerList();
@@ -342,13 +349,11 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
                     unkIndexList.add(new UInteger(i));
                 }
 
-                if (backend.isPackageInstalled(names.get(i).getValue())) {
-                    invIndexList.add(new UInteger(i));
-                }
-
-                // Throw error if already installed!
                 // Before installing, we need to check the package integrity!
                 boolean integrity = backend.checkPackageIntegrity(availablePackages.get(i));
+                if (!integrity) {
+                    invIndexList.add(new UInteger(i));
+                }
 
                 // The installation cannot go forward here if the integrity is false!
             }

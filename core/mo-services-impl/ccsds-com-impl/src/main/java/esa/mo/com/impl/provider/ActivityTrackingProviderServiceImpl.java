@@ -71,8 +71,9 @@ public class ActivityTrackingProviderServiceImpl {
      * @param eventService Event service provider
      * @throws MALException On initialization error.
      */
-    public synchronized void init(ArchiveProviderServiceImpl archiveService, EventProviderServiceImpl eventService)
-        throws MALException {
+    public synchronized void init(ArchiveProviderServiceImpl archiveService,
+            EventProviderServiceImpl eventService) throws MALException {
+        long timestamp = System.currentTimeMillis();
 
         if (!initialiased) {
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
@@ -83,8 +84,8 @@ public class ActivityTrackingProviderServiceImpl {
                 COMHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
-            if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION).getServiceByName(
-                ActivityTrackingHelper.ACTIVITYTRACKING_SERVICE_NAME) == null) {
+            if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION)
+                    .getServiceByName(ActivityTrackingHelper.ACTIVITYTRACKING_SERVICE_NAME) == null) {
                 ActivityTrackingHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
         }
@@ -94,8 +95,9 @@ public class ActivityTrackingProviderServiceImpl {
 
         running = true;
         initialiased = true;
-        Logger.getLogger(ActivityTrackingProviderServiceImpl.class.getName()).info("Activity Tracking service READY");
-
+        timestamp = System.currentTimeMillis() - timestamp;
+        Logger.getLogger(ActivityTrackingProviderServiceImpl.class.getName()).info(
+                "Activity Tracking service: READY! (" + timestamp + " ms)");
     }
 
     //------------------------------------------------------------------------------

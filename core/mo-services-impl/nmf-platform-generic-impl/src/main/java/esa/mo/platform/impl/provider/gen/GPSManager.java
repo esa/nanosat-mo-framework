@@ -118,7 +118,8 @@ public final class GPSManager extends DefinitionsManager {
         return this.deleteDef(objId);
     }
 
-    protected Long storeAndGenerateNearbyPositionAlertId(final Boolean inside, final Long objId, final URI uri) {
+    protected Long storeAndGenerateNearbyPositionAlertId(final Boolean inside,
+            final Long objId, final URI uri) {
         if (super.getArchiveService() != null) {
             BooleanList isEnteringList = new BooleanList();
             isEnteringList.add(inside);

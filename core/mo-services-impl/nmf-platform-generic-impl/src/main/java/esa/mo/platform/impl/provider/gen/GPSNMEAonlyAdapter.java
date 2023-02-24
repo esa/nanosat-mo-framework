@@ -33,6 +33,7 @@ import org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList;
  * @author Cesar Coelho
  */
 public abstract class GPSNMEAonlyAdapter implements GPSAdapterInterface {
+
     private static final Logger LOGGER = Logger.getLogger(GPSNMEAonlyAdapter.class.getName());
     private final int resultCacheValidityMs;
 
@@ -47,8 +48,9 @@ public abstract class GPSNMEAonlyAdapter implements GPSAdapterInterface {
 
     @Override
     public synchronized Position getCurrentPosition() {
-        if (System.currentTimeMillis() - lastPositionTime < resultCacheValidityMs)
+        if (System.currentTimeMillis() - lastPositionTime < resultCacheValidityMs) {
             return lastPosition;
+        }
         String nmeaLog = "";
         try {
             lastPosition = null;
@@ -60,9 +62,8 @@ public abstract class GPSNMEAonlyAdapter implements GPSAdapterInterface {
                 lastPosition = HelperGPS.gpggalong2Position(nmeaLog);
             }
         } catch (IOException ex) {
-            LOGGER.log(Level.FINE,
-                "The current position could not be retrieved! The receiver is likely offline or not returning proper position.",
-                ex);
+            LOGGER.log(Level.FINE, "The current position could not be retrieved! "
+                    + "The receiver is likely offline or not returning proper position.", ex);
         }
         lastPositionTime = System.currentTimeMillis();
         return lastPosition;
@@ -70,8 +71,9 @@ public abstract class GPSNMEAonlyAdapter implements GPSAdapterInterface {
 
     @Override
     public SatelliteInfoList getSatelliteInfoList() {
-        if (System.currentTimeMillis() - lastSatInfoTime < resultCacheValidityMs)
+        if (System.currentTimeMillis() - lastSatInfoTime < resultCacheValidityMs) {
             return lastSatInfo;
+        }
         try {
             lastSatInfo = null;
             String nmeaLog = HelperGPS.sanitizeNMEALog(this.getNMEASentence("LOG GPGSV\r\n").trim());

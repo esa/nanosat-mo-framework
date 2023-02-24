@@ -59,10 +59,8 @@ public class TestCOMArchiveManager {
 
         COMServicesProvider comServices = new COMServicesProvider();
         comServices.init();
-        ArchiveProviderServiceImpl archiveService = new ArchiveProviderServiceImpl();
-        archiveService.init(null);
+        ArchiveProviderServiceImpl archiveService = comServices.getArchiveService();
         archiveService.wipe();
-        comServices.setArchiveService(archiveService);
 
         MPConfiguration configuration = new MPConfiguration();
         archiveManager = new COMTestArchiveManager(comServices, configuration);

@@ -75,6 +75,8 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
      * @throws MALException On initialization error.
      */
     public synchronized void init(EventProviderServiceImpl eventService) throws MALException {
+        long timestamp = System.currentTimeMillis();
+
         if (!initialiased) {
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
                 MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -84,8 +86,8 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                 COMHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
-            if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION).getServiceByName(
-                ArchiveHelper.ARCHIVE_SERVICE_NAME) == null) {
+            if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION)
+                    .getServiceByName(ArchiveHelper.ARCHIVE_SERVICE_NAME) == null) {
                 ArchiveHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
         }
@@ -102,7 +104,9 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             ArchiveHelper.ARCHIVE_SERVICE, false, this);
         running = true;
         initialiased = true;
-        Logger.getLogger(ArchiveProviderServiceImpl.class.getName()).info("Archive service READY");
+        timestamp = System.currentTimeMillis() - timestamp;
+        Logger.getLogger(ArchiveProviderServiceImpl.class.getName()).info(
+                "Archive service: READY! (" + timestamp + " ms)");
     }
 
     /**
@@ -120,7 +124,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             running = false;
         } catch (MALException ex) {
             Logger.getLogger(ArchiveProviderServiceImpl.class.getName()).log(Level.WARNING,
-                "Exception during close down of the provider {0}", ex);
+                    "Exception during close down of the provider {0}", ex);
         }
     }
 

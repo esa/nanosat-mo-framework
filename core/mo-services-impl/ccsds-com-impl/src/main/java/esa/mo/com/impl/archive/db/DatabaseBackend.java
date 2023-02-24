@@ -1,5 +1,5 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2021      European Space Agency
+ * Copyright (C) 2022      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
@@ -13,15 +13,14 @@
  * You on an "as is" basis and without warranties of any kind, including without
  * limitation merchantability, fitness for a particular purpose, absence of
  * defects or errors, accuracy or non-infringement of intellectual property rights.
- *
+ * 
  * See the License for the specific language governing permissions and
- * limitations under the License.
+ * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
 package esa.mo.com.impl.archive.db;
 
 import esa.mo.com.impl.provider.ArchiveManager;
-
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
@@ -38,6 +37,7 @@ import java.util.logging.Logger;
  * @author Cesar Coelho
  */
 public class DatabaseBackend {
+
     public static final Logger LOGGER = Logger.getLogger(ArchiveManager.class.getName());
 
     private static final String DRIVER_CLASS_NAME = "org.sqlite.JDBC"; // SQLite JDBC Driver
@@ -69,10 +69,10 @@ public class DatabaseBackend {
     private PreparedStatements preparedStatements;
 
     public DatabaseBackend() {
-        String url = System.getProperty("esa.nmf.archive.persistence.jdbc.url");
+        String urlP = System.getProperty("esa.nmf.archive.persistence.jdbc.url");
 
-        if (null != url && !"".equals(url)) {
-            this.url = url;
+        if (null != urlP && !"".equals(urlP)) {
+            this.url = urlP;
         } else {
             File dbFile = new File(DATABASE_LOCATION_NAME);
             boolean writableFs = true;
@@ -99,10 +99,8 @@ public class DatabaseBackend {
 
         String driver = System.getProperty("esa.nmf.archive.persistence.jdbc.driver");
         this.jdbcDriver = (null != driver && !"".equals(driver)) ? driver : DRIVER_CLASS_NAME;
-
-        String user = System.getProperty("esa.nmf.archive.persistence.jdbc.user");
-        this.user = (null != user && !"".equals(user)) ? user : null;
-
+        String userP = System.getProperty("esa.nmf.archive.persistence.jdbc.user");
+        this.user = (null != userP && !"".equals(userP)) ? userP : null;
         String pass = System.getProperty("esa.nmf.archive.persistence.jdbc.password");
         this.password = (null != pass && !"".equals(pass)) ? pass : null;
     }
@@ -143,11 +141,7 @@ public class DatabaseBackend {
                 isPostgres = true;
             }
             Statement query = serverConnection.createStatement();
-            query.execute(
-                "CREATE TABLE IF NOT EXISTS COMObjectEntity (objectTypeId INTEGER NOT NULL, objId BIGINT NOT NULL, domainId INTEGER NOT NULL, network INTEGER, objBody " +
-                    blobType +
-                    ", providerURI INTEGER, relatedLink BIGINT, sourceLinkDomainId INTEGER, sourceLinkObjId BIGINT, sourceLinkObjectTypeId INTEGER, timestampArchiveDetails BIGINT, PRIMARY KEY (objectTypeId, objId, domainId))");
-            ;
+            query.execute("CREATE TABLE IF NOT EXISTS COMObjectEntity (objectTypeId INTEGER NOT NULL, objId BIGINT NOT NULL, domainId INTEGER NOT NULL, network INTEGER, objBody " + blobType + ", providerURI INTEGER, relatedLink BIGINT, sourceLinkDomainId INTEGER, sourceLinkObjId BIGINT, sourceLinkObjectTypeId INTEGER, timestampArchiveDetails BIGINT, PRIMARY KEY (objectTypeId, objId, domainId))");
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseBackend.class.getName()).log(Level.SEVERE, null, ex);
         }

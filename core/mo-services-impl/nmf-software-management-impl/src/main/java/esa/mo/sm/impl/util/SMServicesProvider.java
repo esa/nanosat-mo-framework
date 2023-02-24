@@ -29,9 +29,10 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 
 /**
- * Deprecated because it is just an example class on how to start some of the 
- * Platform services. Although functional, this class should not be used out of 
- * the box. It's deliberately here just to demonstrate how to initialize services.
+ * Deprecated because it is just an example class on how to start some of the
+ * Platform services. Although functional, this class should not be used out of
+ * the box. It's deliberately here just to demonstrate how to initialize
+ * services.
  */
 @Deprecated
 public class SMServicesProvider {

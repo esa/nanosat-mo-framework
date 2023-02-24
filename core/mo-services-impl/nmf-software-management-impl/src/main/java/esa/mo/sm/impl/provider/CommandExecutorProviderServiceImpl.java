@@ -26,7 +26,7 @@ import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
-import esa.mo.sm.impl.util.OSValidator;
+import esa.mo.helpertools.misc.OSValidator;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -62,11 +62,12 @@ import org.ccsds.moims.mo.softwaremanagement.commandexecutor.structures.CommandD
 import org.ccsds.moims.mo.softwaremanagement.commandexecutor.structures.CommandDetailsList;
 
 /**
- * Apps Launcher service Provider.
+ * Command Executor service Provider.
  */
 public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritanceSkeleton {
 
-    private static final Logger LOGGER = Logger.getLogger(CommandExecutorProviderServiceImpl.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(
+            CommandExecutorProviderServiceImpl.class.getName());
     private final ConnectionProvider connection = new ConnectionProvider();
     private MALProvider commandExecutorServiceProvider;
     private boolean initialiased = false;
@@ -82,6 +83,8 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
      * @throws MALException On initialization error.
      */
     public synchronized void init(final COMServicesProvider comServices) throws MALException {
+        long timestamp = System.currentTimeMillis();
+        
         if (!initialiased) {
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
                 MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -92,13 +95,13 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
             }
 
             if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME,
-                SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) == null) {
+                    SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) == null) {
                 SoftwareManagementHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
             if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME,
-                SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION).getServiceByName(
-                    CommandExecutorHelper.COMMANDEXECUTOR_SERVICE_NAME) == null) {
+                    SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION)
+                    .getServiceByName(CommandExecutorHelper.COMMANDEXECUTOR_SERVICE_NAME) == null) {
                 CommandExecutorHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
         }
@@ -115,11 +118,12 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
             connection.closeAll();
         }
 
-        commandExecutorServiceProvider = connection.startService(CommandExecutorHelper.COMMANDEXECUTOR_SERVICE_NAME
-            .toString(), CommandExecutorHelper.COMMANDEXECUTOR_SERVICE, this);
+        commandExecutorServiceProvider = connection.startService(
+                CommandExecutorHelper.COMMANDEXECUTOR_SERVICE_NAME.toString(),
+                CommandExecutorHelper.COMMANDEXECUTOR_SERVICE, this);
         initialiased = true;
-
-        LOGGER.log(Level.INFO, "READY");
+        timestamp = System.currentTimeMillis() - timestamp;
+        LOGGER.info("Command Executor service: READY! (" + timestamp + " ms)");
     }
 
     protected String[] assembleCommand(final String command) {
@@ -137,8 +141,8 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
     }
 
     @Override
-    public Long runCommand(CommandDetails command, MALInteraction interaction) throws MALInteractionException,
-        MALException {
+    public Long runCommand(CommandDetails command, MALInteraction interaction)
+            throws MALInteractionException, MALException {
         Long storedCommandObject;
         if (command == null) {
             throw new MALException("Received null CommandDetails.");
@@ -146,12 +150,17 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
 
         // Source could be mapped to an OperationActivity associated with this transaction, but for now
         // we don't need such fine tracking...
-        final ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(null, null, connection
-            .getPrimaryConnectionDetails().getProviderURI());
+        final ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(
+                null, null, connection.getPrimaryConnectionDetails().getProviderURI());
         final CommandDetailsList objBodies = new CommandDetailsList(1);
         objBodies.add(command);
-        LongList objIds = archiveService.store(true, CommandExecutorHelper.COMMAND_OBJECT_TYPE, connection
-            .getPrimaryConnectionDetails().getDomain(), archDetails, objBodies, null);
+        LongList objIds = archiveService.store(
+                true,
+                CommandExecutorHelper.COMMAND_OBJECT_TYPE,
+                connection.getPrimaryConnectionDetails().getDomain(),
+                archDetails,
+                objBodies,
+                null);
 
         if (objIds.size() == 1) {
             storedCommandObject = objIds.get(0);
@@ -168,15 +177,14 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
         if (workingDir == null) {
             workingDir = Paths.get("").toFile();
         }
-        LOGGER.log(Level.INFO, "Running ''{0}'' in dir: {1}, and env: {2}", new Object[]{Arrays.toString(shellCommand),
-                                                                                         workingDir.getAbsolutePath(),
-                                                                                         Arrays.toString(
-                                                                                             EnvironmentUtils.toStrings(
-                                                                                                 env))});
+        LOGGER.log(Level.INFO, "Running ''{0}'' in dir: {1}, and env: {2}", new Object[]{
+            Arrays.toString(shellCommand), workingDir.getAbsolutePath(),
+            Arrays.toString(EnvironmentUtils.toStrings(env))});
         final Process proc;
         try {
             proc = pb.start();
-            ProcessExecutionHandler handler = new ProcessExecutionHandler(new CallbacksImpl(), storedCommandObject);
+            ProcessExecutionHandler handler = new ProcessExecutionHandler(new CallbacksImpl(),
+                    storedCommandObject);
             handler.monitorProcess(proc);
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
@@ -193,15 +201,17 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
         return storedCommandObject;
     }
 
-    private void commandOutputEvent(final Long objId, final String outputText, final ObjectType objType) {
+    private void commandOutputEvent(final Long objId, final String outputText,
+            final ObjectType objType) {
         IdentifierList domain = connection.getPrimaryConnectionDetails().getDomain();
         URI sourceURI = connection.getPrimaryConnectionDetails().getProviderURI();
-        ObjectId source = new ObjectId(CommandExecutorHelper.COMMAND_OBJECT_TYPE, new ObjectKey(domain, objId));
+        ObjectId source = new ObjectId(CommandExecutorHelper.COMMAND_OBJECT_TYPE, new ObjectKey(domain,
+                objId));
         Element eventBody = new Union(outputText);
         StringList eventBodyList = new StringList(1);
         eventBodyList.add(outputText);
-        final Long eventObjId = eventService.generateAndStoreEvent(objType, domain, eventBody, null, source, connection
-            .getPrimaryConnectionDetails().getProviderURI(), null);
+        final Long eventObjId = eventService.generateAndStoreEvent(objType, domain, eventBody, null,
+                source, connection.getPrimaryConnectionDetails().getProviderURI(), null);
         if (eventObjId != null) {
             try {
                 eventService.publishEvent(sourceURI, eventObjId, objType, null, source, eventBodyList);
@@ -216,16 +226,18 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
     private void commandExitEvent(final Long objId, final int exitCode) {
         IdentifierList domain = connection.getPrimaryConnectionDetails().getDomain();
         URI sourceURI = connection.getPrimaryConnectionDetails().getProviderURI();
-        ObjectId source = new ObjectId(CommandExecutorHelper.COMMAND_OBJECT_TYPE, new ObjectKey(domain, objId));
+        ObjectId source = new ObjectId(CommandExecutorHelper.COMMAND_OBJECT_TYPE, new ObjectKey(domain,
+                objId));
         Element eventBody = new Union(exitCode);
         IntegerList eventBodyList = new IntegerList(1);
         eventBodyList.add(exitCode);
-        final Long eventObjId = eventService.generateAndStoreEvent(CommandExecutorHelper.EXECUTIONFINISHED_OBJECT_TYPE,
-            domain, eventBody, null, source, connection.getPrimaryConnectionDetails().getProviderURI(), null);
+        final Long eventObjId = eventService.generateAndStoreEvent(
+                CommandExecutorHelper.EXECUTIONFINISHED_OBJECT_TYPE, domain, eventBody, null,
+                source, connection.getPrimaryConnectionDetails().getProviderURI(), null);
         if (eventObjId != null) {
             try {
-                eventService.publishEvent(sourceURI, eventObjId, CommandExecutorHelper.EXECUTIONFINISHED_OBJECT_TYPE,
-                    null, source, eventBodyList);
+                eventService.publishEvent(sourceURI, eventObjId,
+                        CommandExecutorHelper.EXECUTIONFINISHED_OBJECT_TYPE, null, source, eventBodyList);
             } catch (IOException ex) {
                 LOGGER.log(Level.SEVERE, "Could not publish command exit event", ex);
             }
@@ -245,8 +257,9 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
         if (cachedCommandDetails.containsKey(objId)) {
             return cachedCommandDetails.get(objId);
         } else {
-            Element retrievedObject = HelperArchive.getObjectBodyFromArchive(archiveService,
-                CommandExecutorHelper.COMMAND_OBJECT_TYPE, connection.getPrimaryConnectionDetails().getDomain(), objId);
+            Element retrievedObject = HelperArchive.getObjectBodyFromArchive(
+                    archiveService, CommandExecutorHelper.COMMAND_OBJECT_TYPE,
+                    connection.getPrimaryConnectionDetails().getDomain(), objId);
             if (retrievedObject == null) {
                 throw new IOException("Could not retrieve Command object for objId: " + objId);
             }
@@ -259,16 +272,17 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
     private void updateCommandDetails(Long objId, CommandDetails command) {
         cachedCommandDetails.put(objId, command);
         final ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(null, null,
-            ConfigurationProviderSingleton.getNetwork(), connection.getPrimaryConnectionDetails().getProviderURI(),
-            objId);
+                ConfigurationProviderSingleton.getNetwork(),
+                connection.getPrimaryConnectionDetails().getProviderURI(), objId);
         final CommandDetailsList objBodies = new CommandDetailsList(1);
         objBodies.add(command);
         try {
-            archiveService.update(CommandExecutorHelper.COMMAND_OBJECT_TYPE, connection.getPrimaryConnectionDetails()
-                .getDomain(), archDetails, objBodies, null);
+            archiveService.update(
+                    CommandExecutorHelper.COMMAND_OBJECT_TYPE,
+                    connection.getPrimaryConnectionDetails().getDomain(), archDetails, objBodies, null);
         } catch (MALException | MALInteractionException ex) {
             Logger.getLogger(CommandExecutorProviderServiceImpl.class.getName()).log(Level.SEVERE,
-                "Could not update COM Command object", ex);
+                    "Could not update COM Command object", ex);
         }
     }
 
@@ -287,7 +301,6 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
         @Override
         public void processStopped(Long objId, int exitCode) {
             commandExitEvent(objId, exitCode);
-
         }
     }
 }

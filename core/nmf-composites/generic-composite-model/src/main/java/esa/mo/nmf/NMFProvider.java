@@ -52,6 +52,7 @@ import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import esa.mo.reconfigurable.service.ReconfigurableService;
 import esa.mo.reconfigurable.service.ConfigurationChangeListener;
 import esa.mo.reconfigurable.provider.ReconfigurableProvider;
+import java.util.Properties;
 
 /**
  * The generic NMF Provider. Includes a Heartbeat service and a Directory
@@ -86,14 +87,6 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
      * @param mcAdapter The Monitor and Control Adapter.
      */
     public abstract void init(final MonitorAndControlNMFAdapter mcAdapter);
-
-    /**
-     * Initializes the NMF provider using a mission planning adapter that
-     * connects to the Mission Planning services.
-     *
-     * @param mpAdapter The Mission Planning Adapter.
-     */
-    public abstract void init(final MissionPlanningNMFAdapter mpAdapter);
 
     @Override
     public COMServicesProvider getCOMServices() throws NMFException {
@@ -214,6 +207,19 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
         }
     }
 
+    /**
+     * Sets the transport dispatcher executor threads configurations.
+     */
+    public void configureTransportThreads() {
+        System.setProperty("org.ccsds.moims.mo.mal.transport.gen.inputprocessors", "5");
+
+        // Clean up idle threads after 2 seconds:  (does not seem to work)
+        // System.setProperty("org.ccsds.moims.mo.mal.transport.gen.idleinputprocessors", "2");
+        
+        // let's have a minimum of 2 threads:  (does not seem to work)
+        // System.setProperty("org.ccsds.moims.mo.mal.transport.gen.mininputprocessors", "2");
+    }
+
     @Override
     public void setOnConfigurationChangeListener(ConfigurationChangeListener configurationAdapter) {
         this.providerConfigurationAdapter = configurationAdapter;
@@ -252,7 +258,7 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
      * Hints the GC to do Garbage Collection and also hints it to go through the
      * finalization method of the pending finalization objects.
      */
-    public static void hintGC() {
+    public void hintGC() {
         System.gc();
         System.runFinalization();
     }
@@ -267,12 +273,15 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
         if (System.getProperty(Const.CENTRAL_DIRECTORY_URI_PROPERTY) != null) {
             return new URI(System.getProperty(Const.CENTRAL_DIRECTORY_URI_PROPERTY));
         } else {
-            String path = ".." + File.separator + ".." + File.separator + Const.NANOSAT_MO_SUPERVISOR_NAME +
-                File.separator + Const.FILENAME_CENTRAL_DIRECTORY_SERVICE;
+            String path = ".."
+                    + File.separator + ".."
+                    + File.separator
+                    + Const.NANOSAT_MO_SUPERVISOR_NAME
+                    + File.separator
+                    + Const.FILENAME_CENTRAL_DIRECTORY_SERVICE;
             Logger.getLogger(NMFProvider.class.getName()).log(Level.INFO,
-                "Property {0} not set. Falling back to reading from {1}.", new Object[]{
-                                                                                        Const.CENTRAL_DIRECTORY_URI_PROPERTY,
-                                                                                        path});
+                    "Property {0} not set. Falling back to reading from {1}.", new Object[]{
+                        Const.CENTRAL_DIRECTORY_URI_PROPERTY, path});
 
             File file = new File(path); // Select the file that we want to read from
 
@@ -309,6 +318,43 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
             Logger.getLogger(NMFProvider.class.getName()).log(Level.WARNING,
                 "Unable to reset URI information from properties file {0}", ex);
         }
+    }
+
+    /**
+     * Generates a starting Banner that can be used for NMF Providers.
+     *
+     * @return The banner.
+     */
+    protected String generateStartBanner() {
+        Properties p = System.getProperties();
+        final String SEPARATOR = "------------\n";
+
+        StringBuilder banner = new StringBuilder(256);
+        banner.append("\n");
+        banner.append(SEPARATOR);
+        banner.append("NanoSat MO Framework\n");
+
+        // OS version
+        banner.append("OS: ");
+        banner.append(p.getProperty("os.name", "?"));
+        banner.append(" (version: ");
+        banner.append(p.getProperty("os.version", "?"));
+        banner.append(")\n");
+
+        // User
+        banner.append("Running as User: ");
+        banner.append(p.getProperty("user.name", "?"));
+        banner.append("\n");
+
+        // Java version
+        banner.append("Java: ");
+        banner.append(p.getProperty("java.runtime.name", "?"));
+        banner.append(" (version: ");
+        banner.append(p.getProperty("java.runtime.version", "?"));
+        banner.append(")\n");
+
+        banner.append(SEPARATOR);
+        return banner.toString();
     }
 
 }

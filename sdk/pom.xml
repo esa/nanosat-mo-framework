@@ -67,6 +67,5 @@
     <module>examples</module>
     <module>tools</module>
     <module>sdk-package</module>
-    <module>orekit-resources</module>
   </modules>
 </project>

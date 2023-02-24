@@ -53,8 +53,8 @@
       <artifactId>nmf-software-management</artifactId>
       <exclusions>
         <exclusion>
-          <groupId>int.esa.nmf.core.moservices.impl</groupId>
-          <artifactId>ccsds-com</artifactId>
+          <groupId>org.xerial</groupId>
+          <artifactId>sqlite-jdbc</artifactId>
         </exclusion>
       </exclusions>
     </dependency>

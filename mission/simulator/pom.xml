@@ -50,6 +50,7 @@
     <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
   </properties>
   <modules>
+    <module>orekit-resources</module>
     <module>platform-services-impl</module>
     <module>nanosat-monolithic</module>
     <module>opssat-gps-simulator</module>

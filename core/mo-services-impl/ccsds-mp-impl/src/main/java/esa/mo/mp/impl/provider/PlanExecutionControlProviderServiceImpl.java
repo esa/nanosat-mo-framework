@@ -104,8 +104,9 @@ public class PlanExecutionControlProviderServiceImpl extends PlanExecutionContro
      * @param comServices
      * @throws MALException            On initialisation error.
      */
-    public synchronized void init(COMServicesProvider comServices, MPArchiveManager archiveManager,
-        MPServiceOperationManager registration, ActivityExecutionEngine activityExecutionEngine) throws MALException {
+    public synchronized void init(COMServicesProvider comServices, MPArchiveManager archiveManager, MPServiceOperationManager registration, ActivityExecutionEngine activityExecutionEngine) throws MALException {
+        long timestamp = System.currentTimeMillis();
+        
         if (!this.initialised) {
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
                 MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -174,7 +175,8 @@ public class PlanExecutionControlProviderServiceImpl extends PlanExecutionContro
         executor.setTickInterval(1000);
 
         this.initialised = true;
-        LOGGER.info("Plan Execution Control service READY");
+        timestamp = System.currentTimeMillis() - timestamp;
+        LOGGER.info("Plan Execution Control service: READY! (" + timestamp + " ms)");
     }
 
     /**

@@ -84,8 +84,10 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
      * @param actions
      * @throws MALException On initialisation error.
      */
-    public synchronized void init(COMServicesProvider comServices, ActionInvocationListener actions)
-        throws MALException {
+    public synchronized void init(COMServicesProvider comServices,
+            ActionInvocationListener actions) throws MALException {
+        long timestamp = System.currentTimeMillis();
+        
         if (!initialiased) {
 
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
@@ -128,7 +130,9 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         manager = new ActionManager(comServices, actions);
 
         initialiased = true;
-        Logger.getLogger(ActionProviderServiceImpl.class.getName()).info("Action service READY");
+        timestamp = System.currentTimeMillis() - timestamp;
+        Logger.getLogger(ActionProviderServiceImpl.class.getName()).info(
+                "Action service READY! (" + timestamp + " ms)");
     }
 
     /**

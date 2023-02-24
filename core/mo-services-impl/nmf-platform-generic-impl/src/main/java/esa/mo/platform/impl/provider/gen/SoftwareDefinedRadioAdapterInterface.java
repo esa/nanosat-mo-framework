@@ -54,6 +54,7 @@ public interface SoftwareDefinedRadioAdapterInterface {
 
     /**
      * Gets SDR I/Q buffer
+     *
      * @return Buffer of I/Q data
      */
     IQComponents getIQComponents();

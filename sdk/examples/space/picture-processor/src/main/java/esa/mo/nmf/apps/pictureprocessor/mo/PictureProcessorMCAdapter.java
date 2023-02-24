@@ -1,11 +1,10 @@
-/*
+/* ----------------------------------------------------------------------------
+ * Copyright (C) 2021      European Space Agency
+ *                         European Space Operations Centre
+ *                         Darmstadt
+ *                         Germany
  * ----------------------------------------------------------------------------
- * Copyright (C) 2021 European Space Agency
- * European Space Operations Centre
- * Darmstadt
- * Germany
- * ----------------------------------------------------------------------------
- * System : ESA NanoSat MO Framework
+ * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
  * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
@@ -14,14 +13,15 @@
  * You on an "as is" basis and without warranties of any kind, including without
  * limitation merchantability, fitness for a particular purpose, absence of
  * defects or errors, accuracy or non-infringement of intellectual property rights.
- *
+ * 
  * See the License for the specific language governing permissions and
- * limitations under the License.
+ * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
 package esa.mo.nmf.apps.pictureprocessor.mo;
 
 import static esa.mo.helpertools.helpers.HelperAttributes.attribute2JavaType;
+import esa.mo.nmf.AppStorage;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -56,6 +56,9 @@ import esa.mo.nmf.NMFException;
 import esa.mo.nmf.NMFInterface;
 import esa.mo.nmf.NMFProvider;
 import esa.mo.nmf.apps.pictureprocessor.process.ProcessEventListener;
+import static esa.mo.nmf.apps.pictureprocessor.utils.FileUtils.createDirectoriesIfNotExist;
+import java.io.File;
+import java.nio.file.Paths;
 
 /**
  * The adapter for the NMF App
@@ -70,11 +73,9 @@ public class PictureProcessorMCAdapter extends MonitorAndControlNMFAdapter imple
 
     private final Map<Long, PictureReceivedAdapter> processMap = new ConcurrentHashMap<>();
     private final NMFInterface connector;
-    private final Path outputFolder;
 
-    public PictureProcessorMCAdapter(NMFProvider connector, Path outputFolder) {
+    public PictureProcessorMCAdapter(NMFProvider connector) {
         this.connector = connector;
-        this.outputFolder = outputFolder;
     }
 
     @Override
@@ -87,7 +88,6 @@ public class PictureProcessorMCAdapter extends MonitorAndControlNMFAdapter imple
 
         regiserActionTakeAndProcessPicture(actionDefs, actionNames);
         regiserActionDestroyProcess(actionDefs, actionNames);
-
         // ----
 
         registration.registerActions(actionNames, actionDefs);
@@ -120,13 +120,17 @@ public class PictureProcessorMCAdapter extends MonitorAndControlNMFAdapter imple
         ArgumentDefinitionDetailsList arguments = new ArgumentDefinitionDetailsList();
         {
             Byte rawType = Attribute._INTEGER_TYPE_SHORT_FORM;
-            arguments.add(new ArgumentDefinitionDetails(new Identifier("min process duration"),
-                "minimum picture processing duration", rawType, "seconds", null, null, null));
+            arguments.add(new ArgumentDefinitionDetails(
+                    new Identifier("min process duration"),
+                    "minimum picture processing duration",
+                    rawType, "seconds", null, null, null));
         }
         {
             Byte rawType = Attribute._INTEGER_TYPE_SHORT_FORM;
-            arguments.add(new ArgumentDefinitionDetails(new Identifier("max process duration"),
-                "max picture processing duration", rawType, "seconds", null, null, null));
+            arguments.add(new ArgumentDefinitionDetails(
+                    new Identifier("max process duration"),
+                    "max picture processing duration",
+                    rawType, "seconds", null, null, null));
         }
 
         actionDefs.add(new ActionDefinitionDetails(
@@ -139,17 +143,21 @@ public class PictureProcessorMCAdapter extends MonitorAndControlNMFAdapter imple
         ArgumentDefinitionDetailsList arguments = new ArgumentDefinitionDetailsList();
         {
             Byte rawType = Attribute._LONG_TYPE_SHORT_FORM;
-            arguments.add(new ArgumentDefinitionDetails(new Identifier("process id"), "process id", rawType, "", null,
-                null, null));
+            arguments.add(new ArgumentDefinitionDetails(
+                    new Identifier("process id"),
+                    "process id",
+                    rawType, "", null, null, null));
         }
 
-        actionDefs.add(new ActionDefinitionDetails("Destryo a process", new UOctet((short) 0), new UShort(1),
-            arguments));
+        actionDefs.add(new ActionDefinitionDetails(
+                "Destroy a process",
+                new UOctet((short) 0),
+                new UShort(1),
+                arguments));
         actionNames.add(new Identifier(ACTION_DESTROY_PROCESS));
     }
 
     private void takeAndProcessPicture(Long actionInstanceObjId, AttributeValueList attributeValues) {
-
         int minProcessingDurationSeconds = getAs(attributeValues.get(0));
         int maxProcessingDurationSeconds = getAs(attributeValues.get(1));
 
@@ -158,12 +166,19 @@ public class PictureProcessorMCAdapter extends MonitorAndControlNMFAdapter imple
         LOG.info("Process Max duration " + maxProcessingDurationSeconds);
         LOG.info("Process Request Id " + actionInstanceObjId);
 
-        PictureReceivedAdapter adapter = new PictureReceivedAdapter(this, actionInstanceObjId, outputFolder,
-            minProcessingDurationSeconds, maxProcessingDurationSeconds);
+        File userdata = AppStorage.getAppUserdataDir();
+        String path = userdata + File.separator + "pictures";
+        Path outputFolder = createDirectoriesIfNotExist(Paths.get(path));
+        
+        PictureReceivedAdapter adapter = new PictureReceivedAdapter(
+                this,
+                actionInstanceObjId,
+                outputFolder,
+                minProcessingDurationSeconds,
+                maxProcessingDurationSeconds);
         try {
             connector.getPlatformServices().getCameraService().takePicture(defaultCameraSettings(), adapter);
             processMap.put(actionInstanceObjId, adapter);
-
         } catch (MALInteractionException | MALException | IOException | NMFException ex) {
             LOG.log(Level.SEVERE, null, ex);
         }
@@ -184,7 +199,8 @@ public class PictureProcessorMCAdapter extends MonitorAndControlNMFAdapter imple
 
     private void publishParameter(String id, int exitCode) {
         try {
-            connector.pushParameterValue("Process Request ID: " + id + " exitCode: " + exitCode, exitCode);
+            connector.pushParameterValue("Process Request ID: " + id
+                    + " exitCode: " + exitCode, exitCode);
         } catch (NMFException e) {
             LOG.log(Level.SEVERE, "Failed to publish parameter", e);
         }
@@ -197,7 +213,8 @@ public class PictureProcessorMCAdapter extends MonitorAndControlNMFAdapter imple
         final PixelResolution resolution = new PixelResolution(new UInteger(2048), new UInteger(1944));
         final Duration exposureTime = new Duration(0.200);
 
-        return new CameraSettings(resolution, PictureFormat.JPG, exposureTime, gainR, gainG, gainB);
+        return new CameraSettings(resolution, PictureFormat.JPG, 
+                exposureTime, gainR, gainG, gainB, null);
     }
 
     private static <T> T getAs(AttributeValue attributeValue) {

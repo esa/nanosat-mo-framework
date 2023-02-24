@@ -36,7 +36,8 @@ public interface OpticalDataReceiverAdapterInterface {
     boolean isUnitAvailable();
 
     /**
-     * Synchronous method to records data by the optical receiver and return the recorded buffer.
+     * Synchronous method to records data by the optical receiver and return the
+     * recorded buffer.
      *
      * @param recordingLength The duration of the recording.
      * @return Raw buffer of the data received from the optical receiver.

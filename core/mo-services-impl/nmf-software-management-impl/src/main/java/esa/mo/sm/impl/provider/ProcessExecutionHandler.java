@@ -38,7 +38,7 @@ public class ProcessExecutionHandler {
          * Called to transmit chunk of stdout data.
          *
          * @param objId Associated object ID (meaningful in the callee context)
-         * @param data  Chunk of stdout data.
+         * @param data Chunk of stdout data.
          */
         void flushStdout(Long objId, String data);
 
@@ -46,14 +46,14 @@ public class ProcessExecutionHandler {
          * Called to transmit chunk of stderr data.
          *
          * @param objId Associated object ID (meaningful in the callee context)
-         * @param data  Chunk of stderr data.
+         * @param data Chunk of stderr data.
          */
         void flushStderr(Long objId, String data);
 
         /**
          * Called when application exits.
          *
-         * @param objId    Associated object ID (meaningful in the callee context)
+         * @param objId Associated object ID (meaningful in the callee context)
          * @param exitCode Application exit code
          */
         void processStopped(Long objId, int exitCode);
@@ -115,7 +115,8 @@ public class ProcessExecutionHandler {
             } else {
                 throw new IOException("Trying to resolve PID on an unsupported platform");
             }
-        } catch (IllegalAccessException | IllegalArgumentException | NoSuchFieldException | SecurityException ex) {
+        } catch (IllegalAccessException | IllegalArgumentException | NoSuchFieldException
+                | SecurityException ex) {
             throw new IOException("Exception when trying to resolve PID", ex);
         }
         return pid;
@@ -134,10 +135,10 @@ public class ProcessExecutionHandler {
         } catch (IOException ex) {
             pid = -1;
         }
-        stdoutReader = createReaderThread(stdoutBuf, new BufferedReader(new InputStreamReader(process
-            .getInputStream())), "STDOUT_" + pid);
-        stderrReader = createReaderThread(stderrBuf, new BufferedReader(new InputStreamReader(process
-            .getErrorStream())), "STDERR_" + pid);
+        stdoutReader = createReaderThread(stdoutBuf, new BufferedReader(
+                new InputStreamReader(process.getInputStream())), "STDOUT_" + pid);
+        stderrReader = createReaderThread(stderrBuf, new BufferedReader(
+                new InputStreamReader(process.getErrorStream())), "STDERR_" + pid);
         stdoutReader.start();
         stderrReader.start();
         new Thread(() -> {
@@ -167,8 +168,9 @@ public class ProcessExecutionHandler {
                         buf.append("\n");
                     }
                 } catch (IOException ex) {
-                    LOGGER.log(Level.INFO, "The stream of the process (objId: {0}) has been closed.", new Object[]{
-                                                                                                                   objId});
+                    LOGGER.log(Level.INFO,
+                            "The stream of the process (objId: {0}) has been closed.", 
+                            new Object[]{objId});
                     close();
                 }
             }

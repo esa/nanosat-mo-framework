@@ -24,9 +24,9 @@ import java.io.IOException;
 
 import org.ccsds.moims.mo.platform.gps.structures.Position;
 import org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList;
-import org.orekit.propagation.analytical.tle.TLE;
 
 /**
+ * The GPS interface for adapters.
  *
  * @author Cesar Coelho
  */
@@ -61,14 +61,6 @@ public interface GPSAdapterInterface {
      * @return The list of Satellites Information or null in case of error
      */
     SatelliteInfoList getSatelliteInfoList();
-
-    /**
-     * Requests the current two line element set
-     *
-     * @return The current two line element set
-     * @throws IOException if TLE can't be read
-     */
-    TLE getTLE();
 
     /**
      * Requests the BESTXYZ NMEA sentence

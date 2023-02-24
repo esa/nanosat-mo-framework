@@ -109,7 +109,8 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
      * @throws MALException On initialisation error.
      */
     public synchronized void init(COMServicesProvider comServices, MCServicesConsumer mcServicesConsumer,
-        ParameterManager parameterManager) throws MALException {
+            ParameterManager parameterManager) throws MALException {
+        long timestamp = System.currentTimeMillis();
 
         if (!initialiased) {
 
@@ -161,7 +162,9 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
         periodicCheckingManager.init(); // Initialize the Periodic Sampling Manager
 
         initialiased = true;
-        Logger.getLogger(CheckProviderServiceImpl.class.getName()).info("Check service READY");
+        timestamp = System.currentTimeMillis() - timestamp;
+        Logger.getLogger(CheckProviderServiceImpl.class.getName()).info(
+                "Check service READY! (" + timestamp + " ms)");
     }
 
     /**

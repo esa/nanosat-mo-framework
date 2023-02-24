@@ -1,3 +1,23 @@
+/* ----------------------------------------------------------------------------
+ * Copyright (C) 2022      European Space Agency
+ *                         European Space Operations Centre
+ *                         Darmstadt
+ *                         Germany
+ * ----------------------------------------------------------------------------
+ * System                : ESA NanoSat MO Framework
+ * ----------------------------------------------------------------------------
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
+ * You may not use this file except in compliance with the License.
+ *
+ * Except as expressly set forth in this License, the Software is provided to
+ * You on an "as is" basis and without warranties of any kind, including without
+ * limitation merchantability, fitness for a particular purpose, absence of
+ * defects or errors, accuracy or non-infringement of intellectual property rights.
+ * 
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ * ----------------------------------------------------------------------------
+ */
 package esa.mo.com.impl.archive.db;
 
 import java.util.concurrent.Callable;
@@ -9,7 +29,8 @@ import org.ccsds.moims.mo.com.archive.structures.PaginationFilter;
 import org.ccsds.moims.mo.com.archive.structures.QueryFilter;
 import org.ccsds.moims.mo.mal.structures.IntegerList;
 
-abstract class CallableGenericQuery<T> implements Callable<T> {
+public abstract class CallableGenericQuery<T> implements Callable<T> {
+
     public static Logger LOGGER = Logger.getLogger(CallableDeleteQuery.class.getName());
 
     protected final TransactionsProcessor transactionsProcessor;

@@ -34,8 +34,8 @@ import org.orekit.propagation.analytical.tle.TLE;
  */
 public class GPSSoftSimAdapter extends GPSNMEAonlyAdapter implements SimulatorAdapter {
 
-    private final ESASimulator instrumentsSimulator;
-    private PowerControlAdapterInterface pcAdapter;
+  private final ESASimulator instrumentsSimulator;
+  private final PowerControlAdapterInterface pcAdapter;
 
     public GPSSoftSimAdapter(ESASimulator instrumentsSimulator, PowerControlAdapterInterface pcAdapter) {
         this.instrumentsSimulator = instrumentsSimulator;
@@ -80,9 +80,9 @@ public class GPSSoftSimAdapter extends GPSNMEAonlyAdapter implements SimulatorAd
         return pcAdapter.isDeviceEnabled(DeviceType.GNSS);
     }
 
-    @Override
-    public TLE getTLE() {
-        TLE tle = this.instrumentsSimulator.getSimulatorNode().getTLE();
+  public TLE getTLE()
+  {
+    TLE tle = this.instrumentsSimulator.getSimulatorNode().getTLE();
 
         return tle;
     }

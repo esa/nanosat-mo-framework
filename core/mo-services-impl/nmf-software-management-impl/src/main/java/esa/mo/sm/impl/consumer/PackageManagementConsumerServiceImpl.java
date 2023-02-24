@@ -64,15 +64,14 @@ public class PackageManagementConsumerServiceImpl extends ConsumerServiceImpl {
         return new PackageManagementStub(tmConsumer);
     }
 
-    public PackageManagementConsumerServiceImpl(SingleConnectionDetails connectionDetails,
-        COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
+    public PackageManagementConsumerServiceImpl(SingleConnectionDetails connectionDetails, 
+            COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
         this(connectionDetails, comServices, null, null);
     }
 
-    public PackageManagementConsumerServiceImpl(SingleConnectionDetails connectionDetails,
-        COMServicesConsumer comServices, Blob authenticationId, String localNamePrefix) throws MALException,
-        MalformedURLException, MALInteractionException {
-
+    public PackageManagementConsumerServiceImpl(SingleConnectionDetails connectionDetails, 
+            COMServicesConsumer comServices, Blob authenticationId, String localNamePrefix) 
+            throws MALException, MalformedURLException, MALInteractionException {
         if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
             MALHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
@@ -81,14 +80,14 @@ public class PackageManagementConsumerServiceImpl extends ConsumerServiceImpl {
             COMHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 
-        if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME,
-            SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) == null) {
+        if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME, 
+                SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) == null) {
             SoftwareManagementHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 
         if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME,
-            SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION).getServiceByName(
-                PackageManagementHelper.PACKAGEMANAGEMENT_SERVICE_NAME) == null) {
+                SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION)
+                .getServiceByName(PackageManagementHelper.PACKAGEMANAGEMENT_SERVICE_NAME) == null) {
             PackageManagementHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 
@@ -100,7 +99,8 @@ public class PackageManagementConsumerServiceImpl extends ConsumerServiceImpl {
             try {
                 tmConsumer.close();
             } catch (MALException ex) {
-                Logger.getLogger(PackageManagementConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(PackageManagementConsumerServiceImpl.class.getName()).log(
+                        Level.SEVERE, null, ex);
             }
         }
 

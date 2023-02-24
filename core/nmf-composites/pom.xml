@@ -50,8 +50,8 @@
     <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
   </properties>
   <modules>
-    <module>generic-ground-mo-proxy</module>
     <module>generic-composite-model</module>
+    <module>generic-ground-mo-proxy</module>
     <module>generic-nanosat-monolithic</module>
     <module>nanosat-mo-connector</module>
     <module>nanosat-mo-supervisor</module>

@@ -78,8 +78,9 @@ public class PlanEditProviderServiceImpl extends PlanEditInheritanceSkeleton {
      * @param comServices
      * @throws MALException On initialisation error.
      */
-    public synchronized void init(COMServicesProvider comServices, MPArchiveManager archiveManager,
-        MPServiceOperationManager registration) throws MALException {
+    public synchronized void init(COMServicesProvider comServices, MPArchiveManager archiveManager, MPServiceOperationManager registration) throws MALException {
+        long timestamp = System.currentTimeMillis();
+        
         if (!this.initialised) {
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
                 MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -112,7 +113,8 @@ public class PlanEditProviderServiceImpl extends PlanEditInheritanceSkeleton {
         this.operationCallbackManager = registration;
 
         this.initialised = true;
-        LOGGER.info("Plan Edit service READY");
+        timestamp = System.currentTimeMillis() - timestamp;
+        LOGGER.info("Plan Edit service: READY! (" + timestamp + " ms)");
     }
 
     /**

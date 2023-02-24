@@ -277,6 +277,43 @@
           </mal:messages>
         </mal:requestIP>
       </mal:capabilitySet>
+      <mal:capabilitySet comment="" number="5">
+        <mal:invokeIP
+          comment="The preprocessPicture operation allows a consumer to preprocess a picture."
+          name="preprocessPicture" number="7" supportInReplay="false">
+          <mal:messages>
+            <mal:invoke comment="">
+              <mal:field canBeNull="true"
+                         comment="The inputPicture field shall hold the picture."
+                         name="inputPicture">
+                <mal:type area="Platform" list="false" name="Picture" service="Camera" />
+              </mal:field>
+              <mal:field canBeNull="true"
+                         comment="Picture acquisition settings." name="settings">
+                <mal:type area="Platform" list="false" name="CameraSettings" service="Camera" />
+              </mal:field>
+            </mal:invoke>
+            <mal:acknowledgement comment="" />
+            <mal:response comment="">
+              <mal:field canBeNull="true"
+                         comment="The outputPicture field shall hold the preprocessed picture."
+                         name="outputPicture">
+                <mal:type area="Platform" list="false" name="Picture" service="Camera" />
+              </mal:field>
+            </mal:response>
+          </mal:messages>
+          <mal:errors>
+            <mal:errorRef
+              comment="The requested Picture or the CameraSettings are invalid.">
+              <mal:type area="COM" list="false" name="INVALID" />
+              <mal:extraInformation
+                comment="The extra information shall hold the invalid field name.">
+                <mal:type area="Platform" list="true" name="String" service="MAL" />
+              </mal:extraInformation>
+            </mal:errorRef>
+          </mal:errors>
+        </mal:invokeIP>
+      </mal:capabilitySet>
       <mal:dataTypes>
         <mal:composite
           comment="The Picture structure holds the details of the picture."
@@ -360,6 +397,10 @@
           <mal:field canBeNull="false"
                      comment="Red channel gain." name="gainBlue">
             <mal:type area="MAL" list="false" name="Float" />
+          </mal:field>
+          <mal:field canBeNull="true"
+                     comment="Extra optional configurations. Shall be empty if no extra configurations are provided." name="extra">
+            <mal:type area="MAL" list="true" name="NamedValue" />
           </mal:field>
         </mal:composite>
       </mal:dataTypes>
@@ -2148,6 +2189,89 @@
             </mal:publishNotify>
           </mal:messages>
         </mal:pubsubIP>
+      </mal:capabilitySet>
+      <com:features />
+    </mal:service>
+    <mal:service
+      comment="The Artificial Intelligence service provides a generic mechanism to control a AI device including setting the models and control the inference of images."
+      name="ArtificialIntelligence" number="9" xsi:type="com:ExtendedServiceType">
+      <mal:capabilitySet comment="" number="1">
+        <mal:requestIP
+          comment="The setModel operation allows a consumer to set the Model to be used by the AI device."
+          name="setModel" number="1" supportInReplay="false">
+          <mal:messages>
+            <mal:request comment="">
+              <mal:field canBeNull="false"
+                comment="The modelPath field holds the absolute path to the file of the model. If there is also an associated weights file, then its path and filename shall be the same as the model with the only difference being the file extension (from .xml to .bin)." name="modelPath">
+                <mal:type area="MAL" list="false" name="String" />
+              </mal:field>
+            </mal:request>
+            <mal:response comment="">
+              <mal:field canBeNull="false"
+                comment="The outputTiles field holds the path to a folder with the infered tiles." name="modelId">
+                <mal:type area="MAL" list="false" name="Long" />
+              </mal:field>
+            </mal:response>
+          </mal:messages>
+        </mal:requestIP>
+      </mal:capabilitySet>
+      <mal:capabilitySet comment="" number="2">
+        <mal:requestIP
+          comment="The doInference operation allows a consumer to perform inference on the AI device."
+          name="doInference" number="2" supportInReplay="false">
+          <mal:messages>
+            <mal:request comment="">
+              <mal:field canBeNull="false"
+                comment="The modelId field holds the id of the model to be used for inference." name="modelId">
+                <mal:type area="MAL" list="false" name="Long" />
+              </mal:field>
+              <mal:field canBeNull="false" comment="The inputTiles field holds the absolute path to a folder with the tiles to be processed." name="inputTilesPath">
+                <mal:type area="MAL" list="false" name="String" />
+              </mal:field>
+            </mal:request>
+            <mal:response comment="">
+              <mal:field canBeNull="false" comment="The outputTiles field holds the absolute path to a folder with the infered tiles." name="outputTilesPath">
+                <mal:type area="MAL" list="false" name="String" />
+              </mal:field>
+            </mal:response>
+          </mal:messages>
+          <mal:errors>
+            <mal:errorRef comment="The provided inputTilesPath does not exist.">
+              <mal:type area="COM" list="false" name="INVALID" />
+            </mal:errorRef>
+          </mal:errors>
+        </mal:requestIP>
+      </mal:capabilitySet>
+      <mal:capabilitySet comment="" number="3">
+        <mal:invokeIP number="3" name="doComputerVision" comment="The doComputerVision operation allows a consumer to invoke the execution of inference with an AI unit." supportInReplay="false">
+          <mal:messages>
+            <mal:invoke comment="">
+              <mal:field name="jsonPath" canBeNull="false" comment="The jsonPath field holds the absolute path to a json file with information to be processed.">
+                <mal:type area="MAL" list="false" name="String" />
+              </mal:field>
+            </mal:invoke>
+            <mal:acknowledgement comment="" />
+            <mal:response comment="">
+              <mal:field name="success" canBeNull="false" comment="The success field states if the execution of the computer vision was successful.">
+                <mal:type area="MAL" list="false" name="Boolean" />
+              </mal:field>
+            </mal:response>
+          </mal:messages>
+          <mal:errors>
+            <mal:errorRef comment="The execution could not be completed successfully.">
+              <mal:type area="COM" list="false" name="INVALID" />
+              <mal:extraInformation comment="The extra information field shall hold the error description.">
+                <mal:type area="MAL" list="false" name="String" />
+              </mal:extraInformation>
+            </mal:errorRef>
+            <mal:errorRef comment="The AI device is not available.">
+              <mal:type area="Platform" list="false" name="DEVICE_NOT_AVAILABLE" />
+            </mal:errorRef>
+            <mal:errorRef comment="The AI device is currently being used.">
+              <mal:type area="Platform" list="false" name="DEVICE_IN_USE" />
+            </mal:errorRef>
+          </mal:errors>
+        </mal:invokeIP>
       </mal:capabilitySet>
       <com:features />
     </mal:service>

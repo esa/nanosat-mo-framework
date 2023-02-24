@@ -73,8 +73,8 @@ public class CameraAcquisitorSystemCameraTargetHandler {
         this.casMCAdapter = casMCAdapter;
     }
 
-    UInteger photographLocation(AttributeValueList attributeValues, Long actionInstanceObjId, boolean reportProgress,
-        MALInteraction interaction) {
+    UInteger photographLocation(AttributeValueList attributeValues,
+            Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
         // get parameters
         Double latitude = HelperAttributes.attribute2double(attributeValues.get(0).getValue());
         Double longitude = HelperAttributes.attribute2double(attributeValues.get(1).getValue());
@@ -83,8 +83,8 @@ public class CameraAcquisitorSystemCameraTargetHandler {
         return photographLocation(latitude, longitude, timeStamp, actionInstanceObjId, reportProgress, interaction);
     }
 
-    UInteger photographLocation(double latitude, double longitude, String timeStamp, Long actionInstanceObjId,
-        boolean reportProgress, MALInteraction interaction) {
+    UInteger photographLocation(double latitude, double longitude, String timeStamp,
+            Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
         AbsoluteDate targetDate = new AbsoluteDate(timeStamp, TimeScalesFactory.getUTC());
 
         double seconds = targetDate.durationFrom(CameraAcquisitorSystemMCAdapter.getNow());
@@ -94,25 +94,28 @@ public class CameraAcquisitorSystemCameraTargetHandler {
             @Override
             public void run() {
                 try {
-                    casMCAdapter.getConnector().reportActionExecutionProgress(true, 0, STAGE_WAIT_FOR_PASS,
-                        PHOTOGRAPH_LOCATION_STAGES, actionInstanceObjId);
+                    casMCAdapter.getConnector().reportActionExecutionProgress(
+                            true,
+                            0,
+                            STAGE_WAIT_FOR_PASS,
+                            PHOTOGRAPH_LOCATION_STAGES,
+                            actionInstanceObjId);
                 } catch (NMFException ex) {
                     LOGGER.log(Level.SEVERE, null, ex);
                 }
 
-                Duration timeTillPhotograph = new Duration(targetDate.durationFrom(CameraAcquisitorSystemMCAdapter
-                    .getNow()));
+                Duration timeTillPhotograph = new Duration(targetDate.durationFrom(CameraAcquisitorSystemMCAdapter.getNow()));
 
                 // set desired attitude using target latitude and longitude
                 AttitudeMode desiredAttitude = new AttitudeModeTargetTracking((float) latitude, (float) longitude);
 
                 try {
                     casMCAdapter.getConnector().getPlatformServices().getAutonomousADCSService().setDesiredAttitude(
-                        new Duration(timeTillPhotograph.getValue() + casMCAdapter.getAttitudeSaftyMarginSeconds()),
-                        desiredAttitude);
+                            new Duration(timeTillPhotograph.getValue() + casMCAdapter.getAttitudeSaftyMarginSeconds()),
+                            desiredAttitude);
 
-                    casMCAdapter.getConnector().reportActionExecutionProgress(true, 0, STAGE_ATTITUDE_CORECTION,
-                        PHOTOGRAPH_LOCATION_STAGES, actionInstanceObjId);
+                    casMCAdapter.getConnector().reportActionExecutionProgress(true, 0,
+                            STAGE_ATTITUDE_CORECTION, PHOTOGRAPH_LOCATION_STAGES, actionInstanceObjId);
                     LOGGER.log(Level.INFO, "Attitude Correction Running");
                 } catch (NMFException | IOException | MALInteractionException | MALException ex) {
                     LOGGER.log(Level.SEVERE, null, ex);
@@ -131,22 +134,22 @@ public class CameraAcquisitorSystemCameraTargetHandler {
                 }
 
                 try {
-                    casMCAdapter.getConnector().reportActionExecutionProgress(true, 0, STAGE_WAIT_FOR_OPTIMAL_PASS,
-                        PHOTOGRAPH_LOCATION_STAGES, actionInstanceObjId);
+                    casMCAdapter.getConnector().reportActionExecutionProgress(true, 0,
+                            STAGE_WAIT_FOR_OPTIMAL_PASS, PHOTOGRAPH_LOCATION_STAGES, actionInstanceObjId);
                     LOGGER.log(Level.INFO, "Finished waiting for Pass");
 
                     // trigger photograph
                     LOGGER.log(Level.INFO, "Taking Photograph now");
-                    casMCAdapter.getCameraHandler().takePhotograph(actionInstanceObjId, STAGE_WAIT_FOR_OPTIMAL_PASS,
-                        PHOTOGRAPH_LOCATION_STAGES, "");
-
+                    casMCAdapter.getCameraHandler().takePhotograph(actionInstanceObjId,
+                            STAGE_WAIT_FOR_OPTIMAL_PASS, PHOTOGRAPH_LOCATION_STAGES, "");
                 } catch (NMFException | IOException | MALInteractionException | MALException ex) {
                     LOGGER.log(Level.SEVERE, ex.getMessage());
                 }
             }
         };
 
-        this.timer.schedule(task, ((long) seconds) * 1000 - this.casMCAdapter.getWorstCaseRotationTimeMS() //conversion to milliseconds
+        this.timer.schedule(task,
+                ((long) seconds) * 1000 - this.casMCAdapter.getWorstCaseRotationTimeMS() //conversion to milliseconds
         );
         LOGGER.log(Level.INFO, "Starting Timer for Photograph, Number of Seconds: {0}", seconds);
 
@@ -154,7 +157,8 @@ public class CameraAcquisitorSystemCameraTargetHandler {
     }
 
     /**
-     * recovers all scheduled photographs in case of a crash or a reboot of the system.
+     * recovers all scheduled photographs in case of a crash or a reboot of the
+     * system.
      */
     void recoverLastState() {
         // get previous requests
@@ -179,13 +183,13 @@ public class CameraAcquisitorSystemCameraTargetHandler {
             if (casMCAdapter.getConnector().getCOMServices().getArchiveService() != null) {
                 LOGGER.log(Level.INFO, "Archive Service found.");
 
-                casMCAdapter.getConnector().getCOMServices().getArchiveService().query(true, new ObjectType(
-                    //  new UShort(4), new UShort(1), new UOctet((short) 1), new UShort(3)),
-                    new UShort(0), new UShort(0), new UOctet((short) 0), new UShort(0)), archiveQueryList, null,
-                    archiveAdapter);
+                casMCAdapter.getConnector().getCOMServices().getArchiveService().query(
+                        true, new ObjectType(
+                                //  new UShort(4), new UShort(1), new UOctet((short) 1), new UShort(3)),
+                                new UShort(0), new UShort(0), new UOctet((short) 0), new UShort(0)),
+                        archiveQueryList, null, archiveAdapter);
             } else {
                 LOGGER.log(Level.INFO, "NO Archive Service found!");
-
             }
         } catch (NMFException | MALException | MALInteractionException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
@@ -202,8 +206,9 @@ public class CameraAcquisitorSystemCameraTargetHandler {
         }
 
         @Override
-        public MALMessage sendResponse(ObjectType objType, IdentifierList domain, ArchiveDetailsList objDetails,
-            ElementList objBodies) throws MALInteractionException, MALException {
+        public MALMessage sendResponse(ObjectType objType, IdentifierList domain,
+                ArchiveDetailsList objDetails, ElementList objBodies)
+                throws MALInteractionException, MALException {
             if (objBodies != null) {
                 int i = 0;
                 for (Object objBody : objBodies) {
@@ -215,11 +220,14 @@ public class CameraAcquisitorSystemCameraTargetHandler {
                                 AbsoluteDate targetDate = new AbsoluteDate(timeStamp, TimeScalesFactory.getUTC());
 
                                 if (targetDate.compareTo(CameraAcquisitorSystemMCAdapter.getNow()) > 0) {
-                                    photographLocation(instance.getArgumentValues(), objDetails.get(i).getInstId(),
-                                        true, null);
+                                    photographLocation(instance.getArgumentValues(), objDetails.get(
+                                            i).getInstId(), true,
+                                            null);
                                     LOGGER.log(Level.INFO, "recovered action: {0} latitude:{1} longitude:{2}",
-                                        new Object[]{timeStamp, instance.getArgumentValues().get(0).getValue()
-                                            .toString(), instance.getArgumentValues().get(1).getValue().toString()});
+                                            new Object[]{
+                                                timeStamp,
+                                                instance.getArgumentValues().get(0).getValue().toString(),
+                                                instance.getArgumentValues().get(1).getValue().toString()});
                                 }
                             } catch (Exception e) {
                                 LOGGER.log(Level.WARNING, "recover action failed: {0}", e.getMessage());
@@ -237,8 +245,9 @@ public class CameraAcquisitorSystemCameraTargetHandler {
         }
 
         @Override
-        public MALMessage sendUpdate(ObjectType objType, IdentifierList domain, ArchiveDetailsList objDetails,
-            ElementList objBodies) throws MALInteractionException, MALException {
+        public MALMessage sendUpdate(ObjectType objType, IdentifierList domain,
+                ArchiveDetailsList objDetails, ElementList objBodies)
+                throws MALInteractionException, MALException {
             sendResponse(objType, domain, objDetails, objBodies);
             return null;
         }

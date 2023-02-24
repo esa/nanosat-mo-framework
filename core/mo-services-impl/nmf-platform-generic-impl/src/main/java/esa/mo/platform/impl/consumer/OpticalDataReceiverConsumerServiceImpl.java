@@ -61,13 +61,13 @@ public class OpticalDataReceiverConsumerServiceImpl extends ConsumerServiceImpl 
     }
 
     public OpticalDataReceiverConsumerServiceImpl(SingleConnectionDetails connectionDetails,
-        COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
+            COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
         this(connectionDetails, comServices, null, null);
     }
 
     public OpticalDataReceiverConsumerServiceImpl(SingleConnectionDetails connectionDetails,
-        COMServicesConsumer comServices, Blob authenticationId, String localNamePrefix) throws MALException,
-        MalformedURLException, MALInteractionException {
+            COMServicesConsumer comServices, Blob authenticationId, String localNamePrefix)
+            throws MALException, MalformedURLException, MALInteractionException {
         this.connectionDetails = connectionDetails;
         this.comServices = comServices;
 
@@ -76,7 +76,8 @@ public class OpticalDataReceiverConsumerServiceImpl extends ConsumerServiceImpl 
             try {
                 tmConsumer.close();
             } catch (MALException ex) {
-                Logger.getLogger(OpticalDataReceiverConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(OpticalDataReceiverConsumerServiceImpl.class.getName()).log(
+                        Level.SEVERE, null, ex);
             }
         }
 

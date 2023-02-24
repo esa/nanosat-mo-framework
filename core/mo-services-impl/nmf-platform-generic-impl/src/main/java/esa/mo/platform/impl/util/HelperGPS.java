@@ -119,45 +119,51 @@ public class HelperGPS {
         String[] items = gpgga.split(",");
         try {
             pos.setAltitude(Float.parseFloat(items[GPGGA_GEN_COL.ALTITUDE]));
-            pos.setLatitude(degMinutes2Degrees(items[GPGGA_GEN_COL.LAT]) * ((items[GPGGA_GEN_COL.LAT_DIR]).equals("S") ?
-                -1 : 1));
-            pos.setLongitude(degMinutes2Degrees(items[GPGGA_GEN_COL.LONG]) * ((items[GPGGA_GEN_COL.LONG_DIR]).equals(
-                "W") ? -1 : 1));
+            pos.setLatitude(
+                    degMinutes2Degrees(items[GPGGA_GEN_COL.LAT]) * ((items[GPGGA_GEN_COL.LAT_DIR]).equals("S")
+                    ? -1 : 1));
+            pos.setLongitude(
+                    degMinutes2Degrees(items[GPGGA_GEN_COL.LONG]) * ((items[GPGGA_GEN_COL.LONG_DIR]).equals(
+                    "W") ? -1 : 1));
 
             PositionExtraDetails posExtraDetails = new PositionExtraDetails();
             posExtraDetails.setPositionSource(PositionSourceType.GNSS);
-            if (items[GPGGA_GEN_COL.QUAL].length() != 0)
+            if (items[GPGGA_GEN_COL.QUAL].length() != 0) {
                 posExtraDetails.setFixQuality(Integer.parseInt(items[GPGGA_GEN_COL.QUAL]));
-            else
+            } else {
                 posExtraDetails.setFixQuality(null);
-            if (items[GPGGA_GEN_COL.HDOP].length() != 0)
+            }
+            if (items[GPGGA_GEN_COL.HDOP].length() != 0) {
                 posExtraDetails.setHdop(Float.parseFloat(items[GPGGA_GEN_COL.HDOP]));
-            else
+            } else {
                 posExtraDetails.setHdop(null);
-            if (items[GPGGA_GEN_COL.SATS_IN_USE].length() != 0)
+            }
+            if (items[GPGGA_GEN_COL.SATS_IN_USE].length() != 0) {
                 posExtraDetails.setNumberOfSatellites(Integer.parseInt(items[GPGGA_GEN_COL.SATS_IN_USE]));
-            else
+            } else {
                 posExtraDetails.setNumberOfSatellites(null);
-            if (items[GPGGA_GEN_COL.UNDULATION].length() != 0)
+            }
+            if (items[GPGGA_GEN_COL.UNDULATION].length() != 0) {
                 posExtraDetails.setUndulation(Float.parseFloat(items[GPGGA_GEN_COL.UNDULATION]));
-            else
+            } else {
                 posExtraDetails.setUndulation(null);
+            }
 
             /*
-            * Time needs to be calculated, because GGA message only contains
-            * Hours, minutes and seconds but not day and year
-            * Format: hhmmss.ss
-            * with:
-            * hh = hour of day (24h format)
-            * mm = minute of hour
-            * ss.ss = second in Minute (with fractional second)
-            */
+      * Time needs to be calculated, because GGA message only contains
+      * Hours, minutes and seconds but not day and year
+      * Format: hhmmss.ss
+      * with:
+      * hh = hour of day (24h format)
+      * mm = minute of hour
+      * ss.ss = second in Minute (with fractional second)
+             */
             String time = items[GPGGA_GEN_COL.UTC];
             int hours = Integer.parseInt(time.substring(0, 2));
             int minutes = Integer.parseInt(time.substring(2, 4));
             int seconds = Integer.parseInt(time.substring(4, 6));
             // The GGALONG sentence also contains the fractions of second witch is not contained in the GGA sentence
-            int milliSeconds = (int) (Double.parseDouble(time.substring(6, 9)) * 1000); // convert fractional seconds to milliseconds
+            int miliSeconds = (int) (Double.valueOf(time.substring(6, 9)) * 1000); // convert fractional seconds to milliseconds
 
             // Get current time
             Calendar cal = (Calendar) Calendar.getInstance().clone();
@@ -171,7 +177,7 @@ public class HelperGPS {
             cal.set(Calendar.HOUR_OF_DAY, hours);
             cal.set(Calendar.MINUTE, minutes);
             cal.set(Calendar.SECOND, seconds);
-            cal.set(Calendar.MILLISECOND, milliSeconds);
+            cal.set(Calendar.MILLISECOND, miliSeconds);
 
             // In case, the current time is shortly after midnight and the message was received before midnight
             if (cal.after(cal2)) {
@@ -204,18 +210,16 @@ public class HelperGPS {
                 int count = words.length;
                 int sentenceSatCount = (count - 5) / 4;
                 if (sentenceSatCount <= 0 || sentenceSatCount > 4) {
-                    throw new IOException("Sentence [" + sentence + "] has calculated [" + sentenceSatCount +
-                        "] sat count");
+                    throw new IOException("Sentence [" + sentence + "] has calculated [" + sentenceSatCount + "] sat count");
                 }
                 int expectedSize = sentenceSatCount * 4 + 5;
                 if (count != expectedSize) {
-                    throw new IOException("Sentence [" + sentence + "] has wrong GPS sentence size [" + count +
-                        "], expected minimum [" + expectedSize + "]");
+                    throw new IOException("Sentence [" + sentence + "] has wrong GPS sentence size [" + count + "], expected minimum [" + expectedSize + "]");
 
                 }
                 if (!"$GPGSV".equals(words[GPGSV_COL.HEADER])) {
-                    throw new IOException("Sentence [" + sentence + "] has wrong header [" + words[GPGSV_COL.HEADER] +
-                        "], expected [$GPGSV]");
+                    throw new IOException("Sentence [" + sentence + "] has wrong header ["
+                            + words[GPGSV_COL.HEADER] + "], expected [$GPGSV]");
                 }
                 for (int satOffset = 0, i = 0; i < sentenceSatCount; i++, satOffset += 4) {
                     float azimuth = 0, elevation = 0;
@@ -230,8 +234,8 @@ public class HelperGPS {
                         snr = null; // Workaround for OEM615 not sending SNR of some sats
                     }
                     if (prn > 0) {
-                        sats.add(new SatelliteInfo(azimuth, elevation, prn, null, null, null, null, null, snr, null,
-                            null));
+                        sats.add(new SatelliteInfo(azimuth, elevation, prn, 
+                                null, null, null, null, null, snr, null, null));
                     }
                 }
             }
@@ -251,8 +255,8 @@ public class HelperGPS {
             throw new IOException("Did not find decimal in " + in);
         }
         try {
-            return Float.parseFloat(in.substring(0, decimalAt - 2)) + Float.parseFloat(in.substring(decimalAt - 2,
-                len)) / 60;
+            return Float.parseFloat(in.substring(0, decimalAt - 2))
+                    + Float.parseFloat(in.substring(decimalAt - 2, len)) / 60;
         } catch (NumberFormatException e) {
             throw new IOException("Failed to parse degrees and minutes.", e);
         }
@@ -281,15 +285,17 @@ public class HelperGPS {
         return bestXYZ.split(";")[0];
     }
 
-    /** Removes details from the NMEA log like <OK [COM1]
+    /**
+     * Removes details from the NMEA log like <OK [COM1]
      *
      * @param log NMEA log string
      * @return sanitized NMEA log string
-    */
+     */
     public static String sanitizeNMEALog(String log) {
         log = log.replace("<OK", "").replace("[COM1]", "");
-        if (log.contains("$"))
+        if (log.contains("$")) {
             log = log.substring(log.indexOf("$"));
+        }
         return log.trim(); // Remove whitespaces
     }
 

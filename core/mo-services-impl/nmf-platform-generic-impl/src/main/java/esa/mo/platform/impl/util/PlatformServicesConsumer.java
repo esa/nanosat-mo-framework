@@ -26,6 +26,7 @@ import esa.mo.platform.impl.consumer.ClockConsumerServiceImpl;
 import esa.mo.platform.impl.consumer.GPSConsumerServiceImpl;
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
+import esa.mo.platform.impl.consumer.ArtificialIntelligenceConsumerServiceImpl;
 import esa.mo.platform.impl.consumer.AutonomousADCSConsumerServiceImpl;
 import esa.mo.platform.impl.consumer.OpticalDataReceiverConsumerServiceImpl;
 import esa.mo.platform.impl.consumer.PowerControlConsumerServiceImpl;
@@ -37,6 +38,8 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.Blob;
+import org.ccsds.moims.mo.platform.artificialintelligence.ArtificialIntelligenceHelper;
+import org.ccsds.moims.mo.platform.artificialintelligence.consumer.ArtificialIntelligenceStub;
 import org.ccsds.moims.mo.platform.autonomousadcs.AutonomousADCSHelper;
 import org.ccsds.moims.mo.platform.autonomousadcs.consumer.AutonomousADCSStub;
 import org.ccsds.moims.mo.platform.camera.CameraHelper;
@@ -58,6 +61,7 @@ import org.ccsds.moims.mo.platform.softwaredefinedradio.consumer.SoftwareDefined
  */
 public class PlatformServicesConsumer implements PlatformServicesConsumerInterface {
 
+    private ArtificialIntelligenceConsumerServiceImpl aiService;
     private AutonomousADCSConsumerServiceImpl autonomousADCSService;
     private CameraConsumerServiceImpl cameraService;
     private GPSConsumerServiceImpl gpsService;
@@ -70,51 +74,63 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
         init(connectionConsumer, comServices, null, null);
     }
 
-    public void init(ConnectionConsumer connectionConsumer, COMServicesConsumer comServices, Blob authenticationID,
-        String localNamePrefix) {
+    public void init(ConnectionConsumer connectionConsumer,
+            COMServicesConsumer comServices, Blob authenticationID, String localNamePrefix) {
         SingleConnectionDetails details;
 
         try {
-            // Initialize the AutonomousADCS service
-            details = connectionConsumer.getServicesDetails().get(AutonomousADCSHelper.AUTONOMOUSADCS_SERVICE_NAME);
+            // Initialize the ArtificialIntelligence service
+            details = connectionConsumer.getServicesDetails().get(
+                    ArtificialIntelligenceHelper.ARTIFICIALINTELLIGENCE_SERVICE_NAME);
             if (details != null) {
-                autonomousADCSService = new AutonomousADCSConsumerServiceImpl(details, comServices, authenticationID,
-                    localNamePrefix);
+                aiService = new ArtificialIntelligenceConsumerServiceImpl(
+                        details, comServices, authenticationID, localNamePrefix);
+            }
+
+            // Initialize the AutonomousADCS service
+            details = connectionConsumer.getServicesDetails().get(
+                    AutonomousADCSHelper.AUTONOMOUSADCS_SERVICE_NAME);
+            if (details != null) {
+                autonomousADCSService = new AutonomousADCSConsumerServiceImpl(
+                        details, comServices, authenticationID, localNamePrefix);
             }
 
             // Initialize the Camera service
             details = connectionConsumer.getServicesDetails().get(CameraHelper.CAMERA_SERVICE_NAME);
             if (details != null) {
-                cameraService = new CameraConsumerServiceImpl(details, comServices, authenticationID, localNamePrefix);
+                cameraService = new CameraConsumerServiceImpl(details,
+                        comServices, authenticationID, localNamePrefix);
             }
 
             // Initialize the GPS service
             details = connectionConsumer.getServicesDetails().get(GPSHelper.GPS_SERVICE_NAME);
             if (details != null) {
-                gpsService = new GPSConsumerServiceImpl(details, comServices, authenticationID, localNamePrefix);
+                gpsService = new GPSConsumerServiceImpl(details,
+                        comServices, authenticationID, localNamePrefix);
             }
 
             // Initialize the Optical Data Receiver service
             details = connectionConsumer.getServicesDetails().get(
-                OpticalDataReceiverHelper.OPTICALDATARECEIVER_SERVICE_NAME);
+                    OpticalDataReceiverHelper.OPTICALDATARECEIVER_SERVICE_NAME);
             if (details != null) {
-                odrService = new OpticalDataReceiverConsumerServiceImpl(details, comServices, authenticationID,
-                    localNamePrefix);
+                odrService = new OpticalDataReceiverConsumerServiceImpl(details,
+                        comServices, authenticationID, localNamePrefix);
             }
 
             // Initialize the Software Defined Radio service
             details = connectionConsumer.getServicesDetails().get(
-                SoftwareDefinedRadioHelper.SOFTWAREDEFINEDRADIO_SERVICE_NAME);
+                    SoftwareDefinedRadioHelper.SOFTWAREDEFINEDRADIO_SERVICE_NAME);
             if (details != null) {
-                sdrService = new SoftwareDefinedRadioConsumerServiceImpl(details, comServices, authenticationID,
-                    localNamePrefix);
+                sdrService = new SoftwareDefinedRadioConsumerServiceImpl(details,
+                        comServices, authenticationID, localNamePrefix);
             }
 
             // Initialize the Power Control service
-            details = connectionConsumer.getServicesDetails().get(PowerControlHelper.POWERCONTROL_SERVICE_NAME);
+            details = connectionConsumer.getServicesDetails().get(
+                    PowerControlHelper.POWERCONTROL_SERVICE_NAME);
             if (details != null) {
-                powerControlService = new PowerControlConsumerServiceImpl(details, comServices, authenticationID,
-                    localNamePrefix);
+                powerControlService = new PowerControlConsumerServiceImpl(details,
+                        comServices, authenticationID, localNamePrefix);
             }
 
             // Initialize the Clock service
@@ -125,6 +141,15 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
         } catch (MALException | MALInteractionException | MalformedURLException ex) {
             Logger.getLogger(COMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    @Override
+    public ArtificialIntelligenceStub getAIService() throws IOException {
+        if (this.aiService == null) {
+            throw new IOException("The service consumer is not connected to the provider.");
+        }
+
+        return this.aiService.getArtificialIntelligenceStub();
     }
 
     @Override
@@ -191,6 +216,10 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
     }
 
     // Setters
+    public void setArtificialIntelligenceService(ArtificialIntelligenceConsumerServiceImpl aiService) {
+        this.aiService = aiService;
+    }
+
     public void setAutonomousADCSService(AutonomousADCSConsumerServiceImpl autonomousADCSService) {
         this.autonomousADCSService = autonomousADCSService;
     }
@@ -224,6 +253,10 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
      *
      */
     public void closeConnections() {
+        if (this.aiService != null) {
+            this.aiService.close();
+        }
+
         if (this.autonomousADCSService != null) {
             this.autonomousADCSService.close();
         }
@@ -250,6 +283,10 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
     }
 
     public void setAuthenticationId(Blob authenticationId) {
+        if (this.aiService != null) {
+            this.aiService.setAuthenticationId(authenticationId);
+        }
+
         if (this.autonomousADCSService != null) {
             this.autonomousADCSService.setAuthenticationId(authenticationId);
         }

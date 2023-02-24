@@ -26,9 +26,7 @@ import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.helpers.HelperTime;
-import esa.mo.helpertools.misc.Const;
 import esa.mo.helpertools.misc.TaskScheduler;
-import esa.mo.nmf.sdk.OrekitResources;
 import esa.mo.platform.impl.util.HelperGPS;
 import esa.mo.platform.impl.util.PositionsCalculator;
 import esa.mo.reconfigurable.service.ConfigurationChangeListener;
@@ -87,26 +85,13 @@ import org.ccsds.moims.mo.platform.gps.provider.NearbyPositionPublisher;
 import org.ccsds.moims.mo.platform.gps.structures.*;
 import org.ccsds.moims.mo.platform.structures.VectorD3D;
 import org.ccsds.moims.mo.platform.structures.VectorF3D;
-import org.hipparchus.geometry.euclidean.threed.Vector3D;
-import org.hipparchus.util.FastMath;
-import org.orekit.bodies.GeodeticPoint;
-import org.orekit.bodies.OneAxisEllipsoid;
-import org.orekit.data.DataProvidersManager;
-import org.orekit.frames.Frame;
-import org.orekit.frames.FramesFactory;
-import org.orekit.propagation.SpacecraftState;
-import org.orekit.propagation.analytical.tle.TLE;
-import org.orekit.propagation.analytical.tle.TLEPropagator;
-import org.orekit.time.AbsoluteDate;
-import org.orekit.time.TimeScalesFactory;
-import org.orekit.utils.Constants;
-import org.orekit.utils.IERSConventions;
 
 /**
  * GPS service Provider.
  */
 public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements ReconfigurableService {
-    private static final Logger LOGGER = Logger.getLogger(GPSProviderServiceImpl.class.getName());
+
+    protected static final Logger LOGGER = Logger.getLogger(GPSProviderServiceImpl.class.getName());
     private MALProvider gpsServiceProvider;
     private boolean initialiased = false;
     private boolean running = false;
@@ -116,59 +101,59 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
     private GPSManager manager;
     private PeriodicCurrentPosition periodicCurrentPosition;
     private final ConnectionProvider connection = new ConnectionProvider();
-    private GPSAdapterInterface adapter;
+    protected GPSAdapterInterface adapter;
     private ConfigurationChangeListener configurationAdapter;
 
-    private final Object MUTEX = new Object();
-    private Position currentPosition = null;
-    private VectorD3D currentCartesianPosition = null;
-    private VectorF3D currentCartesianPositionDeviation = null;
-    private VectorD3D currentCartesianVelocity = null;
-    private VectorF3D currentCartesianVelocityDeviation = null;
-    private long timeOfCurrentPosition;
-    private long timeOfCurrentPositionAndVelocity;
+    protected final Object MUTEX = new Object();
+    protected Position currentPosition = null;
+    protected VectorD3D currentCartesianPosition = null;
+    protected VectorF3D currentCartesianPositionDeviation = null;
+    protected VectorD3D currentCartesianVelocity = null;
+    protected VectorF3D currentCartesianVelocityDeviation = null;
 
-    private Boolean isTLEFallbackEnabled = Boolean.parseBoolean(System.getProperty(
-        Const.PLATFORM_GNSS_FALLBACK_TO_TLE_PROPERTY, Const.PLATFORM_GNSS_FALLBACK_TO_TLE_DEFAULT));
-
-    private static final int NANOSECONDS_IN_MILLISECOND = 1000000;
-    private Double utcOffset = Double.parseDouble(System.getProperty(Const.PLATFORM_GNSS_UTC_OFFSET_PROPERTY,
-        Const.PLATFORM_GNSS_UTC_OFFSET_DEFAULT));
-    private static boolean isOrekitDataInitialized = false;
+    protected long timeOfCurrentPosition;
+    protected long timeOfCurrentPositionAndVelocity;
 
     /**
-     * creates the MAL objects, the publisher used to create updates and starts the publishing thread
+     * creates the MAL objects, the publisher used to create updates and starts
+     * the publishing thread
      *
      * @param comServices
      * @param adapter
      * @throws MALException On initialisation error.
      */
-    public synchronized void init(final COMServicesProvider comServices, final GPSAdapterInterface adapter)
-        throws MALException {
+    public synchronized void init(final COMServicesProvider comServices,
+            final GPSAdapterInterface adapter) throws MALException {
+        long timestamp = System.currentTimeMillis();
+
         if (!initialiased) {
 
-            if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
+            if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME,
+                    MALHelper.MAL_AREA_VERSION) == null) {
                 MALHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
-            if (MALContextFactory.lookupArea(PlatformHelper.PLATFORM_AREA_NAME, PlatformHelper.PLATFORM_AREA_VERSION) ==
-                null) {
+            if (MALContextFactory.lookupArea(PlatformHelper.PLATFORM_AREA_NAME,
+                    PlatformHelper.PLATFORM_AREA_VERSION) == null) {
                 PlatformHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
-            if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION) == null) {
+            if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME,
+                    COMHelper.COM_AREA_VERSION) == null) {
                 COMHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
-            if (MALContextFactory.lookupArea(PlatformHelper.PLATFORM_AREA_NAME, PlatformHelper.PLATFORM_AREA_VERSION)
-                .getServiceByName(GPSHelper.GPS_SERVICE_NAME) == null) {
+            if (MALContextFactory.lookupArea(PlatformHelper.PLATFORM_AREA_NAME,
+                    PlatformHelper.PLATFORM_AREA_VERSION)
+                    .getServiceByName(GPSHelper.GPS_SERVICE_NAME) == null) {
                 GPSHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
         }
 
         publisher = createNearbyPositionPublisher(ConfigurationProviderSingleton.getDomain(),
-            ConfigurationProviderSingleton.getNetwork(), SessionType.LIVE, ConfigurationProviderSingleton
-                .getSourceSessionName(), QoSLevel.BESTEFFORT, null, new UInteger(0));
+                ConfigurationProviderSingleton.getNetwork(), SessionType.LIVE,
+                ConfigurationProviderSingleton.getSourceSessionName(), QoSLevel.BESTEFFORT, null,
+                new UInteger(0));
 
         // Shut down old service transport
         if (null != gpsServiceProvider) {
@@ -177,8 +162,8 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
 
         manager = new GPSManager(comServices);
         this.adapter = adapter;
-        gpsServiceProvider = connection.startService(GPSHelper.GPS_SERVICE_NAME.toString(), GPSHelper.GPS_SERVICE,
-            this);
+        gpsServiceProvider = connection.startService(GPSHelper.GPS_SERVICE_NAME.toString(),
+                GPSHelper.GPS_SERVICE, this);
 
         if (Boolean.parseBoolean(System.getProperty(HelperMisc.PROP_GPS_POLLING_ACTIVE, "true"))) {
             periodicCurrentPosition = new PeriodicCurrentPosition();
@@ -187,7 +172,9 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
             initialiased = true;
             periodicCurrentPosition.start();
         }
-        LOGGER.info("GPS service READY");
+
+        timestamp = System.currentTimeMillis() - timestamp;
+        LOGGER.info("GPS service: READY! (" + timestamp + " ms)");
     }
 
     /**
@@ -202,7 +189,8 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
             connection.closeAll();
             running = false;
         } catch (MALException ex) {
-            LOGGER.log(Level.WARNING, "Exception during close down of the provider {0}", ex);
+            LOGGER.log(Level.WARNING,
+                    "Exception during close down of the provider {0}", ex);
         }
     }
 
@@ -217,20 +205,14 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
                 }
             }
 
-            LOGGER.log(Level.FINER, "Generating GPS Nearby Position update for: {0} (Identifier: {1})", new Object[]{
-                                                                                                                     objId,
-                                                                                                                     new Identifier(
-                                                                                                                         manager
-                                                                                                                             .get(
-                                                                                                                                 objId)
-                                                                                                                             .getName()
-                                                                                                                             .toString())});
+            LOGGER.log(Level.FINER, "Generating GPS Nearby Position update for: {0} (Identifier: {1})", 
+                    new Object[]{objId, new Identifier(manager.get(objId).getName().toString())});
 
             final URI uri = connection.getConnectionDetails().getProviderURI();
             final Long pValObjId = manager.storeAndGenerateNearbyPositionAlertId(isInside, objId, uri);
 
-            final EntityKey ekey = new EntityKey(new Identifier(manager.get(objId).getName().toString()), objId,
-                pValObjId, null);
+            final EntityKey ekey = new EntityKey(new Identifier(manager.get(objId).getName().toString()),
+                    objId, pValObjId, null);
             final Time timestamp = HelperTime.getTimestampMillis();
 
             final UpdateHeaderList hdrlst = new UpdateHeaderList();
@@ -242,27 +224,30 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
             publisher.publish(hdrlst, bools);
 
         } catch (IllegalArgumentException | MALException | MALInteractionException ex) {
-            LOGGER.log(Level.WARNING, "Exception during publishing process on the provider {0}", ex);
+            LOGGER.log(Level.WARNING,
+                    "Exception during publishing process on the provider {0}", ex);
         }
     }
 
     /**
      * Ensures the NMEA request ends with a single endline
+     *
      * @param in input NMEA request
      * @return sanitized NMEA request
      */
     private String sanitizeNMEARequest(String in) {
-        if (in.charAt(in.length() - 1) == '\n')
+        if (in.charAt(in.length() - 1) == '\n') {
             return in;
+        }
         return in + "\n";
     }
 
     @Override
     public void getNMEASentence(String sentenceIdentifier, GetNMEASentenceInteraction interaction)
-        throws MALInteractionException, MALException {
+            throws MALInteractionException, MALException {
         if (!adapter.isUnitAvailable()) { // Is the unit available?
-            throw new MALInteractionException(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER,
-                null));
+            throw new MALInteractionException(
+                    new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
         }
 
         interaction.sendAcknowledgement();
@@ -277,8 +262,8 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
     }
 
     @Override
-    public GetLastKnownPositionResponse getLastKnownPosition(MALInteraction interaction) throws MALInteractionException,
-        MALException {
+    public GetLastKnownPositionResponse getLastKnownPosition(MALInteraction interaction)
+            throws MALInteractionException, MALException {
         GetLastKnownPositionResponse response = new GetLastKnownPositionResponse();
         final Position pos;
         final long startTime;
@@ -293,90 +278,52 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
         }
 
         response.setBodyElement0(pos);
-        double elapsedTime = (System.currentTimeMillis() - startTime) / 1000.0; // convert from milli to
+        double elapsedTime = (System.currentTimeMillis() - startTime) / 1000; // convert from milli to
         // sec
         response.setBodyElement1(new Duration(elapsedTime));
         return response;
     }
 
     @Override
-    public void getPosition(GetPositionInteraction interaction) throws MALInteractionException, MALException {
+    public void getPosition(GetPositionInteraction interaction)
+            throws MALInteractionException, MALException {
         boolean useTLEpropagation = false;
         try {
             useTLEpropagation = useTLEPropagation();
         } catch (MALException | MALInteractionException e) {
-            throw new MALInteractionException(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER,
-                null));
+            throw new MALInteractionException(
+                    new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
         }
 
         interaction.sendAcknowledgement();
 
         Position position = updateCurrentPosition(useTLEpropagation);
         if (position == null) {
-            throw new MALInteractionException(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER,
-                null));
+            throw new MALInteractionException(
+                    new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
         }
         interaction.sendResponse(position);
     }
 
-    /**
-     * Checks if TLE propagation should be used
-     * @return true if TLE propagation should be used, false otherwise
-     */
-
-    public boolean useTLEPropagation() throws MALInteractionException, MALException {
-        boolean useTLEpropagation = false;
-        if (!adapter.isUnitAvailable()) {
-            if (isTLEFallbackEnabled) {
-                useTLEpropagation = true;
-            } else {
-                throw new MALInteractionException(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER,
-                    null));
-            }
-        } else if (!isPositionFixed()) {
-            useTLEpropagation = true;
-        }
-        return useTLEpropagation;
-    }
-
-    /**
-     * Updates the current position using TLE if useTLEpropagation is true,
-     * or the GPS adapter if useTLEpropagation is false
-     * @param useTLEpropagation
-     * @return the updated position, or null if the methods that get latest position fail
-     */
-    public Position updateCurrentPosition(boolean useTLEpropagation) {
-        Position position = useTLEpropagation ? getTLEPropagatedPosition() : adapter.getCurrentPosition();
-        if (position == null) {
-            return null;
-        }
-
-        synchronized (MUTEX) { // Store the latest Position
-            currentPosition = position;
-            timeOfCurrentPosition = System.currentTimeMillis();
-        }
-        return position;
-    }
-
     @Override
-    public void getSatellitesInfo(GetSatellitesInfoInteraction interaction) throws MALInteractionException,
-        MALException {
+    public void getSatellitesInfo(GetSatellitesInfoInteraction interaction)
+            throws MALInteractionException, MALException {
         if (!adapter.isUnitAvailable()) {
-            throw new MALInteractionException(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER,
-                null));
+            throw new MALInteractionException(
+                    new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
         }
         interaction.sendAcknowledgement();
         SatelliteInfoList sats = adapter.getSatelliteInfoList();
         if (sats == null) {
-            throw new MALInteractionException(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER,
-                null));
+            throw new MALInteractionException(
+                    new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
         }
         interaction.sendResponse(sats);
     }
 
     @Override
-    public LongList listNearbyPosition(IdentifierList names, MALInteraction interaction) throws MALInteractionException,
-        MALException {
+    public LongList listNearbyPosition(IdentifierList names, MALInteraction interaction)
+            throws MALInteractionException, MALException {
         LongList outLongLst = new LongList();
 
         if (null == names) { // Is the input null?
@@ -402,7 +349,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
 
     @Override
     public LongList addNearbyPosition(final NearbyPositionDefinitionList nearbyPositionDefinitions,
-        final MALInteraction interaction) throws MALInteractionException, MALException {
+            final MALInteraction interaction) throws MALInteractionException, MALException {
         LongList outLongLst = new LongList();
         UIntegerList invIndexList = new UIntegerList();
         UIntegerList dupIndexList = new UIntegerList();
@@ -423,7 +370,8 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
 
             if (manager.list(name) == null) { // Is the supplied name unique?
                 ObjectId source = manager.storeCOMOperationActivity(interaction);
-                outLongLst.add(manager.add(def, source, connection.getConnectionDetails().getProviderURI()));
+                outLongLst
+                        .add(manager.add(def, source, connection.getConnectionDetails().getProviderURI()));
             } else {
                 dupIndexList.add(new UInteger(index)); // requirement: 3.4.10.2.c
             }
@@ -431,11 +379,13 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
 
         // Errors
         if (!dupIndexList.isEmpty()) { // requirement: 3.4.10.3.1
-            throw new MALInteractionException(new MALStandardError(COMHelper.DUPLICATE_ERROR_NUMBER, dupIndexList));
+            throw new MALInteractionException(
+                    new MALStandardError(COMHelper.DUPLICATE_ERROR_NUMBER, dupIndexList));
         }
 
         if (!invIndexList.isEmpty()) { // requirement: 3.4.10.3.2
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+            throw new MALInteractionException(
+                    new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
         }
 
         if (configurationAdapter != null) {
@@ -446,8 +396,8 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
     }
 
     @Override
-    public void removeNearbyPosition(LongList objInstIds, MALInteraction interaction) throws MALInteractionException,
-        MALException {
+    public void removeNearbyPosition(LongList objInstIds, MALInteraction interaction)
+            throws MALInteractionException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         Long tempLong;
         LongList tempLongLst = new LongList();
@@ -475,7 +425,8 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
 
         // Errors
         if (!unkIndexList.isEmpty()) {
-            throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+            throw new MALInteractionException(
+                    new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
         }
 
         for (Long tempLong2 : tempLongLst) {
@@ -488,8 +439,8 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
     }
 
     @Override
-    public GetLastKnownPositionAndVelocityResponse getLastKnownPositionAndVelocity(MALInteraction interaction)
-        throws MALInteractionException, MALException {
+    public GetLastKnownPositionAndVelocityResponse getLastKnownPositionAndVelocity(
+            MALInteraction interaction) throws MALInteractionException, MALException {
         final VectorD3D position;
         final VectorF3D positionDeviation;
         final VectorD3D velocity;
@@ -508,27 +459,28 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
             throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, null));
         }
 
-        double elapsedTime = (System.currentTimeMillis() - startTime) / 1000.0; // convert from milli to sec
+        double elapsedTime = (System.currentTimeMillis() - startTime) / 1000; // convert from milli to sec
 
-        return new GetLastKnownPositionAndVelocityResponse(position, positionDeviation, velocity, velocityDeviation,
-            new Duration(elapsedTime));
+        return new GetLastKnownPositionAndVelocityResponse(position, positionDeviation, velocity,
+                velocityDeviation, new Duration(elapsedTime));
     }
 
     @Override
-    public void getPositionAndVelocity(GetPositionAndVelocityInteraction interaction) throws MALInteractionException,
-        MALException {
+    public void getPositionAndVelocity(GetPositionAndVelocityInteraction interaction) throws
+            MALInteractionException, MALException {
         boolean useTLEpropagation = false;
         try {
             useTLEpropagation = useTLEPropagation();
         } catch (MALException | MALInteractionException e) {
-            throw new MALInteractionException(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER,
-                null));
+            throw new MALInteractionException(
+                    new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
         }
         interaction.sendAcknowledgement();
         try {
             updateCurrentPositionAndVelocity(useTLEpropagation);
         } catch (IOException | NumberFormatException e) {
-            interaction.sendError(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
+            interaction
+                    .sendError(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
         }
         final VectorD3D position;
         final VectorF3D positionDeviation;
@@ -544,103 +496,39 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
         interaction.sendResponse(position, positionDeviation, velocity, velocityDeviation);
     }
 
-    /**
-     * Updates the current position/velocity
-     * @param useTLEpropagation
-     */
-    public void updateCurrentPositionAndVelocity(boolean useTLEpropagation) throws IOException, NumberFormatException {
-        try {
-            final VectorD3D position;
-            final VectorF3D positionDeviation;
-            final VectorD3D velocity;
-            final VectorF3D velocityDeviation;
-
-            if (useTLEpropagation) {
-                Calendar targetDate = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-                SpacecraftState state = getSpacecraftState(targetDate);
-                Vector3D pos = state.getPVCoordinates().getPosition();
-                position = new VectorD3D(pos.getX(), pos.getY(), pos.getZ());
-
-                positionDeviation = new VectorF3D(0f, 0f, 0f);
-
-                Vector3D velocity3D = state.getPVCoordinates().getVelocity();
-                velocity = new VectorD3D(velocity3D.getX(), velocity3D.getY(), velocity3D.getZ());
-
-                velocityDeviation = new VectorF3D(0f, 0f, 0f);
-            } else {
-                String bestxyz = adapter.getBestXYZSentence();
-
-                String[] fields = HelperGPS.getDataFieldsFromBestXYZ(bestxyz);
-
-                position = new VectorD3D(Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.PX]), Double.parseDouble(
-                    fields[HelperGPS.BESTXYZ_FIELD.PY]), Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.PZ]));
-
-                positionDeviation = new VectorF3D(Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.PX_DEVIATION]), Float
-                    .parseFloat(fields[HelperGPS.BESTXYZ_FIELD.PY_DEVIATION]), Float.parseFloat(
-                        fields[HelperGPS.BESTXYZ_FIELD.PZ_DEVIATION]));
-
-                velocity = new VectorD3D(Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.VX]), Double.parseDouble(
-                    fields[HelperGPS.BESTXYZ_FIELD.VY]), Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.VZ]));
-
-                velocityDeviation = new VectorF3D(Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.VX_DEVIATION]), Float
-                    .parseFloat(fields[HelperGPS.BESTXYZ_FIELD.VY_DEVIATION]), Float.parseFloat(
-                        fields[HelperGPS.BESTXYZ_FIELD.VZ_DEVIATION]));
-            }
-            synchronized (MUTEX) { // Store the latest Position
-                currentCartesianPosition = position;
-                currentCartesianPositionDeviation = positionDeviation;
-                currentCartesianVelocity = velocity;
-                currentCartesianVelocityDeviation = velocityDeviation;
-                timeOfCurrentPositionAndVelocity = System.currentTimeMillis();
-            }
-        } catch (IOException | NumberFormatException e) {
-            e.printStackTrace();
-            throw e;
-        }
-    }
-
     @Override
     public void getTLE(GetTLEInteraction interaction) throws MALInteractionException, MALException {
-        if (!adapter.isUnitAvailable() && isTLEFallbackEnabled == false) { // Is the unit available?
-            throw new MALInteractionException(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER,
-                null));
-        }
-        interaction.sendAcknowledgement();
-        TLE tle = adapter.getTLE();
-
-        interaction.sendResponse(new TwoLineElementSet(tle.getSatelliteNumber(), "" + tle.getClassification(), tle
-            .getLaunchYear(), tle.getLaunchNumber(), tle.getLaunchPiece(), tle.getDate().getComponents(0).getDate()
-                .getYear(), tle.getDate().getComponents(0).getDate().getDayOfYear(), tle.getDate().getComponents(0)
-                    .getTime().getSecondsInUTCDay(), tle.getMeanMotionFirstDerivative(), tle
-                        .getMeanMotionSecondDerivative(), tle.getBStar(), tle.getElementNumber(), tle.getI(), tle
-                            .getRaan(), tle.getE(), tle.getPerigeeArgument(), tle.getMeanAnomaly(), tle.getMeanMotion(),
-            tle.getRevolutionNumberAtEpoch()));
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public static final class PublishInteractionListener implements MALPublishInteractionListener {
 
         @Override
         public void publishDeregisterAckReceived(final MALMessageHeader header, final Map qosProperties)
-            throws MALException {
-            LOGGER.fine("PublishInteractionListener::publishDeregisterAckReceived");
+                throws MALException {
+            LOGGER
+                    .fine("PublishInteractionListener::publishDeregisterAckReceived");
         }
 
         @Override
         public void publishErrorReceived(final MALMessageHeader header, final MALErrorBody body,
-            final Map qosProperties) throws MALException {
-            LOGGER.warning("PublishInteractionListener::publishErrorReceived");
+                final Map qosProperties) throws MALException {
+            LOGGER
+                    .warning("PublishInteractionListener::publishErrorReceived");
         }
 
         @Override
         public void publishRegisterAckReceived(final MALMessageHeader header, final Map qosProperties)
-            throws MALException {
-            LOGGER.log(Level.INFO, "Registration Ack: {0}", header.toString());
+                throws MALException {
+            LOGGER.log(Level.INFO,
+                    "Registration Ack: {0}", header.toString());
         }
 
         @Override
         public void publishRegisterErrorReceived(final MALMessageHeader header, final MALErrorBody body,
-            final Map qosProperties) throws MALException {
-            LOGGER.warning("PublishInteractionListener::publishRegisterErrorReceived");
+                final Map qosProperties) throws MALException {
+            LOGGER
+                    .warning("PublishInteractionListener::publishRegisterErrorReceived");
         }
     }
 
@@ -687,8 +575,9 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
 
         // ok, we're good to go...
         // Load the Parameter Definitions from this configuration...
-        PositionList pDefs = (PositionList) HelperArchive.getObjectBodyListFromArchive(manager.getArchiveService(),
-            GPSHelper.NEARBYPOSITION_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(), confSet.getObjInstIds());
+        PositionList pDefs = (PositionList) HelperArchive.getObjectBodyListFromArchive(
+                manager.getArchiveService(), GPSHelper.NEARBYPOSITION_OBJECT_TYPE,
+                ConfigurationProviderSingleton.getDomain(), confSet.getObjInstIds());
 
         manager.reconfigureDefinitions(confSet.getObjInstIds(), pDefs); // Reconfigures the Manager
 
@@ -755,12 +644,12 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
                     boolean useTLEpropagation = false;
                     try {
                         useTLEpropagation = useTLEPropagation();
-                    } catch (MALException | MALInteractionException ignored) {
+                    } catch (MALException | MALInteractionException e) {
                     }
                     final Position pos = updateCurrentPosition(useTLEpropagation);
                     try {
                         updateCurrentPositionAndVelocity(useTLEpropagation);
-                    } catch (IOException | NumberFormatException ignored) {
+                    } catch (IOException | NumberFormatException e) {
                     }
 
                     // Compare with all the available definitions and raise
@@ -773,7 +662,8 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
                         Boolean previousState = manager.getPreviousStatus(objId);
 
                         try {
-                            double distance = PositionsCalculator.deltaDistanceFrom2Points(def.getPosition(), pos);
+                            double distance = PositionsCalculator.deltaDistanceFrom2Points(def.getPosition(),
+                                    pos);
                             boolean isInside = (distance < def.getDistanceBoundary());
 
                             if (previousState == null) { // Maybe it's the first run...
@@ -787,7 +677,8 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
                                 manager.setPreviousStatus(objId, isInside);
                             }
                         } catch (IOException ex) {
-                            LOGGER.log(Level.SEVERE, ex.getMessage());
+                            LOGGER.log(Level.SEVERE,
+                                    ex.getMessage());
                         }
                     }
                 }
@@ -796,87 +687,116 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
     }
 
     @Override
-    public void getBestXYZSentence(GetBestXYZSentenceInteraction interaction) throws MALInteractionException,
-        MALException {
+    public void getBestXYZSentence(GetBestXYZSentenceInteraction interaction)
+            throws MALInteractionException, MALException {
         if (!adapter.isUnitAvailable()) { // Is the unit available?
-            throw new MALInteractionException(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER,
-                null));
+            throw new MALInteractionException(
+                    new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
         }
         interaction.sendAcknowledgement();
         try {
             interaction.sendResponse(adapter.getBestXYZSentence());
         } catch (IOException e) {
-            interaction.sendError(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
-            e.printStackTrace();
+            interaction
+                    .sendError(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
+            LOGGER.log(Level.SEVERE, e.getMessage());
         }
     }
 
     @Override
-    public void getTIMEASentence(GetTIMEASentenceInteraction interaction) throws MALInteractionException, MALException {
+    public void getTIMEASentence(GetTIMEASentenceInteraction interaction)
+            throws MALInteractionException, MALException {
         if (!adapter.isUnitAvailable()) { // Is the unit available?
-            throw new MALInteractionException(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER,
-                null));
+            throw new MALInteractionException(
+                    new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
         }
         interaction.sendAcknowledgement();
         try {
             interaction.sendResponse(adapter.getTIMEASentence());
         } catch (IOException e) {
-            interaction.sendError(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
-            e.printStackTrace();
+            interaction
+                    .sendError(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
+            LOGGER.log(Level.SEVERE, e.getMessage());
+        }
+    }
+
+    public boolean useTLEPropagation() throws MALInteractionException, MALException {
+        return false;
+    }
+
+    /**
+     * Updates the current position/velocity
+     *
+     * @param useTLEpropagation
+     */
+    public void updateCurrentPositionAndVelocity(boolean useTLEpropagation)
+            throws IOException, NumberFormatException {
+        try {
+            final VectorD3D position;
+            final VectorF3D positionDeviation;
+            final VectorD3D velocity;
+            final VectorF3D velocityDeviation;
+
+            String bestxyz = adapter.getBestXYZSentence();
+
+            String[] fields = HelperGPS.getDataFieldsFromBestXYZ(bestxyz);
+
+            position = new VectorD3D(
+                    Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.PX]),
+                    Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.PY]),
+                    Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.PZ])
+            );
+
+            positionDeviation = new VectorF3D(
+                    Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.PX_DEVIATION]),
+                    Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.PY_DEVIATION]),
+                    Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.PZ_DEVIATION])
+            );
+
+            velocity = new VectorD3D(
+                    Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.VX]),
+                    Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.VY]),
+                    Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.VZ])
+            );
+
+            velocityDeviation = new VectorF3D(
+                    Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.VX_DEVIATION]),
+                    Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.VY_DEVIATION]),
+                    Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.VZ_DEVIATION])
+            );
+
+            synchronized (MUTEX) { // Store the latest Position
+                currentCartesianPosition = position;
+                currentCartesianPositionDeviation = positionDeviation;
+                currentCartesianVelocity = velocity;
+                currentCartesianVelocityDeviation = velocityDeviation;
+                timeOfCurrentPositionAndVelocity = System.currentTimeMillis();
+            }
+        } catch (IOException | NumberFormatException e) {
+            LOGGER.log(Level.SEVERE, e.getMessage());
+            throw e;
         }
     }
 
     /**
-     * Checks the fixQquality on the GNSS position.
-     * @return true if a fixed position has been established, false otherwise
+     * Updates the current position using TLE if useTLEpropagation is true, or
+     * the GPS adapter if useTLEpropagation is false
+     *
+     * @param useTLEpropagation
+     * @return the updated position, or null if the methods that get latest
+     * position fail
      */
-    private boolean isPositionFixed() {
-        boolean isFixed = false;
-        try {
-            if (adapter.getCurrentPosition().getExtraDetails().getFixQuality() > 0) {
-                isFixed = true;
-            }
-        } catch (NullPointerException e) {
-            LOGGER.warning("Could not receive a fixed position: " + e.getMessage());
-        }
-        return isFixed;
-    }
-
-    private Position getTLEPropagatedPosition() {
-        Calendar targetDate = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        SpacecraftState state = getSpacecraftState(targetDate);
-
-        // Converting to geodetic lat/lon/alt
-        Frame ecf = FramesFactory.getITRF(IERSConventions.IERS_2010, true);
-        OneAxisEllipsoid earth = new OneAxisEllipsoid(Constants.WGS84_EARTH_EQUATORIAL_RADIUS,
-            Constants.WGS84_EARTH_FLATTENING, ecf);
-        GeodeticPoint satLatLonAlt = earth.transform(state.getPVCoordinates().getPosition(), FramesFactory.getEME2000(),
-            state.getDate());
-
-        PositionExtraDetails extraDetails = new PositionExtraDetails(new Time(targetDate.getTimeInMillis()), 0, 0, 0.0f,
-            0.0f, PositionSourceType.TLE);
-
-        return new Position((float) FastMath.toDegrees(satLatLonAlt.getLatitude()), (float) FastMath.toDegrees(
-            satLatLonAlt.getLongitude()), (float) satLatLonAlt.getAltitude(), extraDetails);
-    }
-
-    private SpacecraftState getSpacecraftState(Calendar targetDate) {
-
-        if (!isOrekitDataInitialized) {
-            //setup orekit if not yet initialized
-            DataProvidersManager manager = DataProvidersManager.getInstance();
-            if (manager.getProviders().isEmpty()) {
-                manager.addProvider(OrekitResources.getOrekitData());
-            }
-            isOrekitDataInitialized = true;
+    public Position updateCurrentPosition(boolean useTLEpropagation) {
+        Position position = adapter.getCurrentPosition();
+        if (position == null) {
+            return null;
         }
 
-        TLE tle = adapter.getTLE();
-        TLEPropagator propagator = TLEPropagator.selectExtrapolator(tle);
-
-        return propagator.propagate(new AbsoluteDate(targetDate.get(Calendar.YEAR), targetDate.get(Calendar.MONTH) + 1,
-            targetDate.get(Calendar.DAY_OF_MONTH), targetDate.get(Calendar.HOUR_OF_DAY), targetDate.get(
-                Calendar.MINUTE), targetDate.get(Calendar.SECOND), TimeScalesFactory.getUTC()));
+        synchronized (MUTEX) { // Store the latest Position
+            currentPosition = position;
+            timeOfCurrentPosition = System.currentTimeMillis();
+        }
+        return position;
     }
 
 }
