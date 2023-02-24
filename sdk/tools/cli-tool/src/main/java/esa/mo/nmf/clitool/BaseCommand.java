@@ -343,4 +343,3 @@ public abstract class BaseCommand {
         return adapter.getAppObjectId();
     }
 }
-//------------------------------------------------------------------------------
