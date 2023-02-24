@@ -46,7 +46,8 @@ import org.ccsds.moims.mo.softwaremanagement.appslauncher.consumer.AppsLauncherS
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.structures.AppDetails;
 import org.ccsds.moims.mo.softwaremanagement.heartbeat.consumer.HeartbeatAdapter;
 import org.ccsds.moims.mo.softwaremanagement.heartbeat.consumer.HeartbeatStub;
-import picocli.CommandLine.*;
+import picocli.CommandLine.Command;
+import picocli.CommandLine.Parameters;
 
 /**
  * @author marcel.mikolajko
@@ -206,8 +207,6 @@ public class SoftwareManagementCommands {
 
             try {
                 AppsLauncherStub appsLauncher = getAppsLauncher();
-                // ArchiveStub archive = consumer.getCOMServices().getArchiveService().getArchiveStub();
-                // Map<String, ProviderAppDetails> providerNameToDetails = getProvidersDetails(archive);
                 IdentifierList appsToSearch = new IdentifierList();
                 appsToSearch.add(new Identifier(appName));
                 ListAppResponse response = appsLauncher.listApp(appsToSearch, null);
@@ -258,12 +257,12 @@ public class SoftwareManagementCommands {
                 appsLauncher.stopApp(appIds, new AppsLauncherAdapter() {
                     @Override
                     public void stopAppUpdateReceived(MALMessageHeader msgHeader, Long appClosing, Map qosProperties) {
-                        System.out.println("Closing App with id: " + appClosing);
+                        System.out.println("Stopping App with id: " + appClosing);
                     }
 
                     @Override
                     public void stopAppResponseReceived(MALMessageHeader msgHeader, Map qosProperties) {
-                        System.out.println("App closed!");
+                        System.out.println("App stopped!");
 
                         synchronized (lock) {
                             lock.notifyAll();

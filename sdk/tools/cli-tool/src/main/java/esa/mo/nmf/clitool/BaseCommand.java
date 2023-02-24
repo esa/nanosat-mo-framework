@@ -27,6 +27,12 @@ import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.nmf.NMFConsumer;
 import esa.mo.nmf.clitool.adapters.ArchiveToAppAdapter;
 import esa.mo.nmf.clitool.adapters.QueryStatusProvider;
+import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveStub;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
@@ -41,34 +47,33 @@ import org.ccsds.moims.mo.common.login.body.LoginResponse;
 import org.ccsds.moims.mo.common.login.structures.Profile;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.structures.*;
+import org.ccsds.moims.mo.mal.structures.ElementList;
+import org.ccsds.moims.mo.mal.structures.Identifier;
+import org.ccsds.moims.mo.mal.structures.IdentifierList;
+import org.ccsds.moims.mo.mal.structures.LongList;
+import org.ccsds.moims.mo.mal.structures.UOctet;
+import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
-import picocli.CommandLine.*;
-
-import java.net.MalformedURLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import picocli.CommandLine.Option;
 
 /**
  * @author marcel.mikolajko
  */
 public abstract class BaseCommand {
+
     private static final Logger LOGGER = Logger.getLogger(BaseCommand.class.getName());
 
     @Option(names = {"-h", "--help"}, usageHelp = true, description = "display a help message")
     private boolean helpRequested;
 
-    @Option(names = {"-r", "--remote"}, paramLabel = "<providerURI>", description = "Provider URI\n" +
-        "  - example: maltcp://10.0.2.15:1024/nanosat-mo-supervisor-Directory")
+    @Option(names = {"-r", "--remote"}, paramLabel = "<providerURI>", description = "Provider URI\n"
+            + "  - example: maltcp://10.0.2.15:1024/nanosat-mo-supervisor-Directory")
     public String providerURI;
 
-    @Option(names = {"-l", "--local"}, paramLabel = "<databaseFile>", description = "Local SQLite database file\n" +
-        "  - example: ../nanosat-mo-supervisor-sim/comArchive.db")
+    @Option(names = {"-l", "--local"}, paramLabel = "<databaseFile>", description = "Local SQLite database file\n"
+            + "  - example: ../nanosat-mo-supervisor-sim/comArchive.db")
     public String databaseFile;
 
     @Option(names = {"-p", "--provider"}, paramLabel = "<providerName>",
@@ -90,7 +95,7 @@ public abstract class BaseCommand {
         try {
             localArchiveProvider.init(null);
             LOGGER.log(Level.INFO, String.format("ArchiveProvider initialized at %s with file %s", localArchiveProvider
-                .getConnection().getConnectionDetails().getProviderURI(), databaseFile));
+                    .getConnection().getConnectionDetails().getProviderURI(), databaseFile));
         } catch (MALException e) {
             LOGGER.log(Level.SEVERE, "Error initializing archiveProvider", e);
             return false;
@@ -175,8 +180,8 @@ public abstract class BaseCommand {
             consumer.init();
             domain = provider.getProviderKey().getDomain();
 
-            if (consumer.getCommonServices().getLoginService() != null && consumer.getCommonServices().getLoginService()
-                .getLoginStub() != null) {
+            if (consumer.getCommonServices().getLoginService() != null
+                    && consumer.getCommonServices().getLoginService().getLoginStub() != null) {
                 System.out.println("\nLogin required for " + provider.getProviderId());
 
                 String login = System.console().readLine("Login: ");
@@ -184,7 +189,7 @@ public abstract class BaseCommand {
                 System.out.println();
 
                 LongList ids = consumer.getCommonServices().getLoginService().getLoginStub().listRoles(new Identifier(
-                    login), String.valueOf(password));
+                        login), String.valueOf(password));
 
                 List<Long> roleIds = new ArrayList<>();
                 List<String> roleNames = new ArrayList<>();
@@ -192,7 +197,7 @@ public abstract class BaseCommand {
                 ArchiveAdapter adapter = new ArchiveAdapter() {
                     @Override
                     public void retrieveResponseReceived(MALMessageHeader msgHeader, ArchiveDetailsList objDetails,
-                        ElementList objBodies, Map qosProperties) {
+                            ElementList objBodies, Map qosProperties) {
                         for (int i = 0; i < objDetails.size(); ++i) {
                             roleIds.add(objDetails.get(i).getInstId());
                             roleNames.add(objBodies.get(i).toString());
@@ -204,8 +209,8 @@ public abstract class BaseCommand {
                 };
 
                 consumer.getCOMServices().getArchiveService().getArchiveStub().retrieve(
-                    LoginHelper.LOGINROLE_OBJECT_TYPE, consumer.getCommonServices().getLoginService()
-                        .getConnectionDetails().getDomain(), ids, adapter);
+                        LoginHelper.LOGINROLE_OBJECT_TYPE, consumer.getCommonServices().getLoginService()
+                                .getConnectionDetails().getDomain(), ids, adapter);
 
                 synchronized (lock) {
                     lock.wait(10000);
@@ -224,7 +229,7 @@ public abstract class BaseCommand {
                 }
 
                 LoginResponse response = consumer.getCommonServices().getLoginService().getLoginStub().login(
-                    new Profile(new Identifier(login), roleId), String.valueOf(password));
+                        new Profile(new Identifier(login), roleId), String.valueOf(password));
                 consumer.setAuthenticationId(response.getBodyElement0());
                 System.out.println("Login successful!");
             }
@@ -263,7 +268,7 @@ public abstract class BaseCommand {
                     ids.clear();
                     ids.add(SoftwareManagementCommands.outputSubscription);
                     consumer.getSMServices().getAppsLauncherService().getAppsLauncherStub().monitorExecutionDeregister(
-                        ids);
+                            ids);
                 }
             } catch (MALInteractionException | MALException e) {
                 LOGGER.log(Level.SEVERE, "Failed to deregister subscription: " + ids.get(0), e);
@@ -286,7 +291,8 @@ public abstract class BaseCommand {
             localArchiveProvider.close();
             localArchiveProvider = null;
         }
-        System.out.println("Consumer successfully closed.");
+
+        LOGGER.log(Level.INFO, "CLI-Tool successfully disconnected!");
     }
 
     /**
@@ -298,11 +304,11 @@ public abstract class BaseCommand {
      * @param queryStatusProvider Interface providing the status of the query
      */
     public static void queryArchive(ObjectType objectsTypes, ArchiveQueryList archiveQueryList, ArchiveAdapter adapter,
-        QueryStatusProvider queryStatusProvider) {
+            QueryStatusProvider queryStatusProvider) {
         // run the query
         try {
             ArchiveStub archive = localArchive == null ? consumer.getCOMServices().getArchiveService()
-                .getArchiveStub() : localArchive.getArchiveStub();
+                    .getArchiveStub() : localArchive.getArchiveStub();
             archive.query(true, objectsTypes, archiveQueryList, null, adapter);
         } catch (MALInteractionException | MALException e) {
             LOGGER.log(Level.SEVERE, "Error when querying archive", e);
@@ -319,8 +325,8 @@ public abstract class BaseCommand {
     }
 
     /**
-     * Search a COM archive provider content to find the ObjectId of an App of the CommandExecutor
-     * service of the SoftwareManagement.
+     * Search a COM archive provider content to find the ObjectId of an App of
+     * the CommandExecutor service of the SoftwareManagement.
      *
      * @param appName Name of the NMF app we want the logs for
      * @param domain Restricts the search to objects in a specific domain ID
@@ -329,8 +335,8 @@ public abstract class BaseCommand {
     public static ObjectId getAppObjectId(String appName, IdentifierList domain) {
         // SoftwareManagement.AppsLaunch.App object type
         ObjectType appType = new ObjectType(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NUMBER,
-            AppsLauncherHelper.APPSLAUNCHER_SERVICE_NUMBER, new UOctet((short) 0),
-            AppsLauncherHelper.APP_OBJECT_NUMBER);
+                AppsLauncherHelper.APPSLAUNCHER_SERVICE_NUMBER, new UOctet((short) 0),
+                AppsLauncherHelper.APP_OBJECT_NUMBER);
 
         // prepare domain filter
         ArchiveQueryList archiveQueryList = new ArchiveQueryList();
