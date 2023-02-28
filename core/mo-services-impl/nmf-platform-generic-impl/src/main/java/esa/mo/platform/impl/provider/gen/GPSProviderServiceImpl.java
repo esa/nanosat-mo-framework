@@ -318,6 +318,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
                 throw new MALInteractionException(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER,
                     null));
             }
+            interaction.sendAcknowledgement();
             infoList = adapter.getSatelliteInfoList();
             if (infoList == null) {
                 throw new MALInteractionException(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER,
