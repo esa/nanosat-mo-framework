@@ -361,17 +361,23 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
     @Override
     public void getSatellitesInfo(GetSatellitesInfoInteraction interaction) throws MALInteractionException,
         MALException {
-        if (!adapter.isUnitAvailable()) {
-            throw new MALInteractionException(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER,
-                null));
+        SatelliteInfoList infoList;
+        if (useTLEPropagation()) {
+            // return an empty List
+            infoList = new SatelliteInfoList();
+            interaction.sendAcknowledgement();
+        } else {
+            if (!adapter.isUnitAvailable()) {
+                throw new MALInteractionException(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER,
+                    null));
+            }
+            infoList = adapter.getSatelliteInfoList();
+            if (infoList == null) {
+                throw new MALInteractionException(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER,
+                    null));
+            }
         }
-        interaction.sendAcknowledgement();
-        SatelliteInfoList sats = adapter.getSatelliteInfoList();
-        if (sats == null) {
-            throw new MALInteractionException(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER,
-                null));
-        }
-        interaction.sendResponse(sats);
+        interaction.sendResponse(infoList);
     }
 
     @Override
