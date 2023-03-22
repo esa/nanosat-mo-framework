@@ -80,13 +80,13 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
                generationEnabled = false)
     private float exposureTime = 0.003f;
 
-    @Parameter(description = "The maximum time (in Milliseconds) the Satellite will take to rotated if it's in the worst possible orientation",
+    @Parameter(description = "The maximum time (in milliseconds) the satellite will take to establish a lock and rotate",
                generationEnabled = false)
     private long worstCaseRotationTimeMS = 1000000;
 
-    @Parameter(description = "The time (in Milliseconds) the Satelite will start the attitude control prior to reaching a target",
+    @Parameter(description = "The time (in milliseconds) the satellite will keep pointing at a given target after passing over it",
                generationEnabled = false)
-    private long attitudeSaftyMarginMS = 20000;
+    private long attitudeSafetyMarginMS = 20000;
 
     @Parameter(description = "The width (x resolution) of the picture taken by the camera", generationEnabled = false)
     private int pictureWidth = 2048;
@@ -208,7 +208,7 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
             .getMinute(), time.getSecond(), utc);
     }
 
-    double getAttitudeSaftyMarginSeconds() {
-        return this.attitudeSaftyMarginMS / 1000.0;
+    double getAttitudeSafetyMarginSeconds() {
+        return this.attitudeSafetyMarginMS / 1000.0;
     }
 }

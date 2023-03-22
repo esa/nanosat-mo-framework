@@ -108,7 +108,7 @@ public class CameraAcquisitorSystemCameraTargetHandler {
 
                 try {
                     casMCAdapter.getConnector().getPlatformServices().getAutonomousADCSService().setDesiredAttitude(
-                        new Duration(timeTillPhotograph.getValue() + casMCAdapter.getAttitudeSaftyMarginSeconds()),
+                        new Duration(timeTillPhotograph.getValue() + casMCAdapter.getAttitudeSafetyMarginSeconds()),
                         desiredAttitude);
 
                     casMCAdapter.getConnector().reportActionExecutionProgress(true, 0, STAGE_ATTITUDE_CORECTION,
