@@ -362,10 +362,10 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
     public void getSatellitesInfo(GetSatellitesInfoInteraction interaction) throws MALInteractionException,
         MALException {
         SatelliteInfoList infoList;
-         // The useTLE check can throw a DEVICE_NOT_AVAILABLE
+        // The useTLE check can throw a DEVICE_NOT_AVAILABLE
         if (useTLEPropagation()) {
             interaction.sendAcknowledgement();
-             // Return an empty list if TLE propagation fallback is active
+            // Return an empty list if TLE propagation fallback is active
             infoList = new SatelliteInfoList();
         } else {
             interaction.sendAcknowledgement();
