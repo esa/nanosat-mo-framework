@@ -27,15 +27,17 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.structures.BooleanList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.softwaremanagement.packagemanagement.body.FindPackageResponse;
+import org.ccsds.moims.mo.softwaremanagement.packagemanagement.consumer.PackageManagementAdapter;
 import org.ccsds.moims.mo.softwaremanagement.packagemanagement.consumer.PackageManagementStub;
 import picocli.CommandLine;
 
 /**
- * The AppsLauncherCommands class contains the static classes for the Apps
- * Launcher service.
+ * The PackageManagementCommands class contains the static classes for the
+ * Package Management service. Launcher service.
  *
  * @author Cesar Coelho
  */
@@ -43,10 +45,12 @@ public class PackageManagementCommands {
 
     private static final Logger LOGGER = Logger.getLogger(PackageManagementCommands.class.getName());
 
-    @CommandLine.Command(name = "findPackage", description = "The findPackage operation allows a consumer to find the available packages on the provider.")
+    @CommandLine.Command(name = "findPackage",
+            description = "The findPackage operation allows a consumer to find the available packages on the provider.")
     public static class FindPackage extends BaseCommand implements Runnable {
 
-        @CommandLine.Parameters(arity = "1", paramLabel = "<appName>", index = "0", description = "Name of the package to find.")
+        @CommandLine.Parameters(arity = "1", paramLabel = "<packageName>",
+                index = "0", description = "Name of the package to find.")
         String name;
 
         @Override
@@ -55,7 +59,7 @@ public class PackageManagementCommands {
                 System.exit(ExitCodes.NO_HOST);
             }
 
-            if (consumer.getSMServices().getAppsLauncherService() == null) {
+            if (consumer.getSMServices().getPackageManagementService() == null) {
                 System.out.println("Package Management service is not available for this provider!");
                 System.exit(ExitCodes.UNAVAILABLE);
             }
@@ -72,7 +76,120 @@ public class PackageManagementCommands {
                     System.out.println("Package name: " + packageName + installedStr);
                 }
             } catch (MALInteractionException | MALException e) {
-                LOGGER.log(Level.SEVERE, "Error during runApp!", e);
+                LOGGER.log(Level.SEVERE, "Error during the execution of the findPackage operation!", e);
+                System.exit(ExitCodes.GENERIC_ERROR);
+            }
+        }
+    }
+
+    @CommandLine.Command(name = "install",
+            description = "The install operation allows a consumer to install the content of a package on the provider.")
+    public static class Install extends BaseCommand implements Runnable {
+
+        @CommandLine.Parameters(arity = "1", paramLabel = "<packageName>",
+                index = "0", description = "Name of the package to be installed.")
+        String name;
+
+        @Override
+        public void run() {
+            if (!super.initRemoteConsumer()) {
+                System.exit(ExitCodes.NO_HOST);
+            }
+
+            if (consumer.getSMServices().getPackageManagementService() == null) {
+                System.out.println("Package Management service is not available for this provider!");
+                System.exit(ExitCodes.UNAVAILABLE);
+            }
+
+            try {
+                PackageManagementStub packageManagement = getPackageManagement();
+                IdentifierList names = new IdentifierList();
+                names.add(new Identifier(name));
+                FindPackageResponse response = packageManagement.findPackage(names);
+                for (int i = 0; i < response.getBodyElement0().size(); i++) {
+                    String packageName = response.getBodyElement0().get(i).getValue();
+                    Boolean isInstalled = response.getBodyElement1().get(i);
+                    String installedStr = isInstalled ? "  (installed)" : "";
+                    System.out.println("Package name: " + packageName + installedStr);
+                }
+            } catch (MALInteractionException | MALException e) {
+                LOGGER.log(Level.SEVERE, "Error during the execution of the install operation!", e);
+                System.exit(ExitCodes.GENERIC_ERROR);
+            }
+        }
+    }
+
+    @CommandLine.Command(name = "uninstall",
+            description = "The uninstall operation allows a consumer to uninstall the content of a package on the provider.")
+    public static class Uninstall extends BaseCommand implements Runnable {
+
+        @CommandLine.Parameters(arity = "1", paramLabel = "<packageName>",
+                index = "0", description = "Name of the package to be uninstalled.")
+        String name;
+
+        @CommandLine.Option(names = {"-k", "--keepConfiguration"}, paramLabel = "<keepConfiguration>",
+                description = "It specifies if the existing configuration is to be kept.")
+        boolean keepConfiguration;
+
+        @Override
+        public void run() {
+            if (!super.initRemoteConsumer()) {
+                System.exit(ExitCodes.NO_HOST);
+            }
+
+            if (consumer.getSMServices().getPackageManagementService() == null) {
+                System.out.println("Package Management service is not available for this provider!");
+                System.exit(ExitCodes.UNAVAILABLE);
+            }
+
+            try {
+                PackageManagementStub packageManagement = getPackageManagement();
+                IdentifierList names = new IdentifierList();
+                names.add(new Identifier(name));
+                BooleanList keepConfigurations = new BooleanList();
+                keepConfigurations.add(keepConfiguration);
+
+                packageManagement.uninstall(names,
+                        keepConfigurations,
+                        new PackageManagementAdapter() {
+                }
+                );
+            } catch (MALInteractionException | MALException e) {
+                LOGGER.log(Level.SEVERE, "Error during the execution of the uninstall operation!", e);
+                System.exit(ExitCodes.GENERIC_ERROR);
+            }
+        }
+    }
+
+    @CommandLine.Command(name = "upgrade",
+            description = "The upgrade operation allows a consumer to upgrade the content of a package on the provider.")
+    public static class Upgrade extends BaseCommand implements Runnable {
+
+        @CommandLine.Parameters(arity = "1", paramLabel = "<packageName>",
+                index = "0", description = "Name of the package to be upgraded.")
+        String name;
+
+        @Override
+        public void run() {
+            if (!super.initRemoteConsumer()) {
+                System.exit(ExitCodes.NO_HOST);
+            }
+
+            if (consumer.getSMServices().getPackageManagementService() == null) {
+                System.out.println("Package Management service is not available for this provider!");
+                System.exit(ExitCodes.UNAVAILABLE);
+            }
+
+            try {
+                PackageManagementStub packageManagement = getPackageManagement();
+                IdentifierList names = new IdentifierList();
+                names.add(new Identifier(name));
+                packageManagement.upgrade(names,
+                        new PackageManagementAdapter() {
+                }
+                );
+            } catch (MALInteractionException | MALException e) {
+                LOGGER.log(Level.SEVERE, "Error during the execution of the upgrade operation!", e);
                 System.exit(ExitCodes.GENERIC_ERROR);
             }
         }

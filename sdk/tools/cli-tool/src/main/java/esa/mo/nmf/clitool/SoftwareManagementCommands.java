@@ -27,6 +27,9 @@ import esa.mo.nmf.clitool.sm.AppsLauncherCommands.MonitorExecution;
 import esa.mo.nmf.clitool.sm.AppsLauncherCommands.RunApp;
 import esa.mo.nmf.clitool.sm.AppsLauncherCommands.StopApp;
 import esa.mo.nmf.clitool.sm.PackageManagementCommands.FindPackage;
+import esa.mo.nmf.clitool.sm.PackageManagementCommands.Install;
+import esa.mo.nmf.clitool.sm.PackageManagementCommands.Uninstall;
+import esa.mo.nmf.clitool.sm.PackageManagementCommands.Upgrade;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -49,7 +52,7 @@ public class SoftwareManagementCommands {
     public static Identifier heartbeatSubscription;
     public static Identifier outputSubscription;
 
-    @Command(name = "software-management", subcommands = {FindPackage.class})
+    @Command(name = "software-management", subcommands = {FindPackage.class, Install.class, Uninstall.class, Upgrade.class})
     public static class SoftwareManagement {
     }
 
@@ -102,7 +105,7 @@ public class SoftwareManagementCommands {
             }
         }
     }
-    
+
     public static PackageManagementStub getPackageManagement() {
         return consumer.getSMServices().getPackageManagementService().getPackageManagementStub();
     }
