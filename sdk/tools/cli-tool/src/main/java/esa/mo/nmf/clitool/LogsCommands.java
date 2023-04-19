@@ -68,7 +68,8 @@ public class LogsCommands {
 
         @Option(names = {"-e", "--end"}, paramLabel = "<endTime>",
                 description = "Restricts the list to NMF apps having logs logged before the given time. " +
-                    "If this option is provided without the -s option, returns the single object that has the closest timestamp to, but not greater than <endTime>\n" +
+                    "If this option is provided without the -s option, returns the single "
+                        + "object that has the closest timestamp to, but not greater than <endTime>\n" +
                     "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n" + "  - example: \"2021-03-05 12:05:45.271\"")
         String endTime;
 
@@ -138,7 +139,8 @@ public class LogsCommands {
 
         @Option(names = {"-e", "--end"}, paramLabel = "<endTime>",
                 description = "Restricts the dump to logs logged before the given time. " +
-                    "If this option is provided without the -s option, returns the single object that has the closest timestamp to, but not greater than <endTime>\n" +
+                    "If this option is provided without the -s option, returns the single "
+                        + "object that has the closest timestamp to, but not greater than <endTime>\n" +
                     "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n" + "  - example: \"2021-03-05 12:05:45.271\"")
         String endTime;
 
