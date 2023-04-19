@@ -41,11 +41,16 @@ public class CLITool {
     private boolean helpRequested;
 
     public static void main(String[] args) {
+        System.out.println("(1) The application is running...");
         Runtime.getRuntime().addShutdownHook(new Thread(BaseCommand::closeConsumer));
+        System.out.println("(2) The application is running...");
         CLITool cliConsumer = new CLITool();
+        System.out.println("(3) The application is running...");
         CommandLine cmd = new CommandLine(cliConsumer);
+        System.out.println("(4) The application is running...");
         cmd.setUsageHelpAutoWidth(true);
         cmd.setUsageHelpLongOptionsMaxWidth(30);
+        System.out.println("(5) The application is running...");
 
         System.exit(cmd.execute(args));
     }
