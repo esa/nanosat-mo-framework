@@ -29,6 +29,7 @@ You can copy this folder from ``opssat-package/experiment/target/experiment-pack
 
 Note that by default the application's ``provider.properties`` will contain property ``helpertools.configurations.provider.app.user``.
 For stand-alone tests it is recommended to remove it, unless necessary users are created in the testing system.
+Note that when packaging for the satellite EM FlatSat and FM Flight Model this property has to be present.
 
 Starting tests
 --------------
