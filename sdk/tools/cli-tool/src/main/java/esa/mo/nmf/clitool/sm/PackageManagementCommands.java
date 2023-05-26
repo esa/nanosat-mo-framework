@@ -23,13 +23,17 @@ package esa.mo.nmf.clitool.sm;
 import esa.mo.nmf.clitool.BaseCommand;
 import static esa.mo.nmf.clitool.BaseCommand.consumer;
 import esa.mo.nmf.clitool.ExitCodes;
+
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.MALStandardError;
 import org.ccsds.moims.mo.mal.structures.BooleanList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
+import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.softwaremanagement.packagemanagement.body.FindPackageResponse;
 import org.ccsds.moims.mo.softwaremanagement.packagemanagement.consumer.PackageManagementAdapter;
 import org.ccsds.moims.mo.softwaremanagement.packagemanagement.consumer.PackageManagementStub;
@@ -109,8 +113,30 @@ public class PackageManagementCommands {
                 for (int i = 0; i < response.getBodyElement0().size(); i++) {
                     String packageName = response.getBodyElement0().get(i).getValue();
                     Boolean isInstalled = response.getBodyElement1().get(i);
-                    String installedStr = isInstalled ? "  (installed)" : "";
-                    System.out.println("Package name: " + packageName + installedStr);
+                    if (!isInstalled) {
+                        packageManagement.install(names, new PackageManagementAdapter() {
+                            @Override
+                            public void installAckReceived(MALMessageHeader msgHeader, BooleanList integrity, Map qosProperties) {
+                                LOGGER.log(Level.INFO, "Installing...");
+                            }
+
+                            @Override
+                            public void installResponseReceived(MALMessageHeader msgHeader, Map qosProperties) {
+                                LOGGER.log(Level.INFO, "Installed successfully");
+                            }
+
+                            @Override
+                            public void installAckErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+                                LOGGER.log(Level.SEVERE, "There was an error during the install operation.", error);
+                            }
+
+                            @Override
+                            public void installResponseErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+                                LOGGER.log(Level.SEVERE, "There was an error during the install operation.", error);
+                            }
+                        });
+                        System.out.println("Package name: " + packageName +  "  (installed)");
+                    }
                 }
             } catch (MALInteractionException | MALException e) {
                 LOGGER.log(Level.SEVERE, "Error during the execution of the install operation!", e);
@@ -152,7 +178,26 @@ public class PackageManagementCommands {
                 packageManagement.uninstall(names,
                         keepConfigurations,
                         new PackageManagementAdapter() {
-                }
+                            @Override
+                            public void uninstallAckReceived(MALMessageHeader msgHeader, Map qosProperties) {
+                                LOGGER.log(Level.INFO, "Uninstalling...");
+                            }
+
+                            @Override
+                            public void uninstallResponseReceived(MALMessageHeader msgHeader, Map qosProperties) {
+                                LOGGER.log(Level.INFO, "Uninstalled successfully");
+                            }
+
+                            @Override
+                            public void uninstallAckErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+                                LOGGER.log(Level.SEVERE, "There was an error during the uninstall operation.", error);
+                            }
+
+                            @Override
+                            public void uninstallResponseErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+                                LOGGER.log(Level.SEVERE, "There was an error during the uninstall operation.", error);
+                            }
+                        }
                 );
             } catch (MALInteractionException | MALException e) {
                 LOGGER.log(Level.SEVERE, "Error during the execution of the uninstall operation!", e);
@@ -186,7 +231,26 @@ public class PackageManagementCommands {
                 names.add(new Identifier(name));
                 packageManagement.upgrade(names,
                         new PackageManagementAdapter() {
-                }
+                            @Override
+                            public void upgradeAckReceived(MALMessageHeader msgHeader, Map qosProperties) {
+                                LOGGER.log(Level.INFO, "Upgrading...");
+                            }
+
+                            @Override
+                            public void upgradeResponseReceived(MALMessageHeader msgHeader, Map qosProperties) {
+                                LOGGER.log(Level.INFO, "Upgraded successfully");
+                            }
+
+                            @Override
+                            public void upgradeAckErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+                                LOGGER.log(Level.SEVERE, "There was an error during the upgrade operation.", error);
+                            }
+
+                            @Override
+                            public void upgradeResponseErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+                                LOGGER.log(Level.SEVERE, "There was an error during the upgrade operation.", error);
+                            }
+                        }
                 );
             } catch (MALInteractionException | MALException e) {
                 LOGGER.log(Level.SEVERE, "Error during the execution of the upgrade operation!", e);

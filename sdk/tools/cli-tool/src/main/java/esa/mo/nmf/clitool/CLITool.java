@@ -28,12 +28,12 @@ import picocli.CommandLine.Option;
  * @author marcel.mikolajko
  */
 @Command(name = "esa.mo.nmf.clitool.CLITool", subcommands = {MCCommands.Parameter.class, MCCommands.Aggregation.class,
-                                                             SoftwareManagementCommands.AppsLauncher.class,
-                                                             SoftwareManagementCommands.Heartbeat.class,
-                                                             PlatformCommands.GPS.class, PlatformCommands.ADCS.class,
-                                                             PlatformCommands.Camera.class, ArchiveCommands.class,
-                                                             LogsCommands.class},
-         description = "Provides a way to use provider's services from the command line.")
+        SoftwareManagementCommands.AppsLauncher.class, SoftwareManagementCommands.SoftwareManagement.class,
+        SoftwareManagementCommands.Heartbeat.class,
+        PlatformCommands.GPS.class, PlatformCommands.ADCS.class,
+        PlatformCommands.Camera.class, ArchiveCommands.class,
+        LogsCommands.class},
+        description = "Provides a way to use provider's services from the command line.")
 public class CLITool {
     public static final String APP_NAME = "cli-consumer";
 
