@@ -59,12 +59,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>int.esa.ccsds.mo</groupId>
-            <artifactId>API_MAL</artifactId>
-        </dependency>
-        <dependency>
             <groupId>int.esa.nmf.core</groupId>
-            <artifactId>generic-composite-model</artifactId>
+            <artifactId>ground-mo-adapter</artifactId>
         </dependency>
         <dependency>
             <groupId>info.picocli</groupId>
@@ -85,10 +81,6 @@
             <groupId>org.xerial</groupId>
             <artifactId>sqlite-jdbc</artifactId>
             <version>3.32.3.2</version>
-        </dependency>
-        <dependency>
-            <groupId>int.esa.nmf.core.moservices.api</groupId>
-            <artifactId>com-nmf</artifactId>
         </dependency>
     </dependencies>
 

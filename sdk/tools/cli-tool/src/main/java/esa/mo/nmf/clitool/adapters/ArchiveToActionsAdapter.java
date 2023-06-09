@@ -20,7 +20,12 @@
  */
 package esa.mo.nmf.clitool.adapters;
 
-import esa.mo.nmf.clitool.TimestampedParameterValue;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.Map;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
@@ -30,89 +35,57 @@ import org.ccsds.moims.mo.mal.structures.ElementList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.ccsds.moims.mo.mc.action.ActionHelper;
 
 /**
- * Archive adapter that retrieves available parameter names and their values.
+ * Archive adapter that retrieves available action names and their values.
  *
  * @author marcel.mikolajko
  */
-public class ArchiveToParametersAdapter extends ArchiveAdapter implements QueryStatusProvider {
+public class ArchiveToActionsAdapter extends ArchiveAdapter implements QueryStatusProvider {
 
-    private static final Logger LOGGER = Logger.getLogger(ArchiveToAppListAdapter.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(ArchiveToActionsAdapter.class.getName());
 
     /**
      * True if the query is over (response or any error received)
      */
     private boolean isQueryOver = false;
 
-    private final ObjectType parameterIdentityType = ParameterHelper.PARAMETERIDENTITY_OBJECT_TYPE;
-    private final ObjectType parameterDefinitionType = ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE;
-    private final ObjectType parameterValueType = ParameterHelper.PARAMETERVALUEINSTANCE_OBJECT_TYPE;
+    private final ObjectType actionIdentityType = ActionHelper.ACTIONIDENTITY_OBJECT_TYPE;
+    private final ObjectType actionDefinitionType = ActionHelper.ACTIONDEFINITION_OBJECT_TYPE;
 
-    private final Map<IdentifierList, List<Identifier>> parameterIdentities = new HashMap<>();
+    private final Map<IdentifierList, List<Identifier>> actionIdentities = new HashMap<>();
     private final Map<IdentifierList, Map<Long, Identifier>> identitiesMap = new HashMap<>();
     private final Map<IdentifierList, Map<Long, Long>> definitionsMap = new HashMap<>();
 
-    /**
-     * Map from ParameterDefinition ID to a list of the parameter values segregated based on the domain
-     */
-    private final Map<IdentifierList, Map<Long, List<TimestampedParameterValue>>> valuesMap = new HashMap<>();
-
-    /**
-     * Map from parameter name to a list of it's values segregated based on the domain
-     */
-    private final Map<IdentifierList, Map<Identifier, List<TimestampedParameterValue>>> parameterValues = new HashMap<>();
-
     @Override
     public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-        ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+            ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
         if (objDetails == null) {
             setIsQueryOver(true);
             return;
         }
         processObjects(objType, objDetails, objBodies, domain);
-
-        for (IdentifierList domainKey : valuesMap.keySet()) {
-            if (!parameterValues.containsKey(domainKey)) {
-                parameterValues.put(domainKey, new HashMap<>());
-            }
-
-            Map<Long, List<TimestampedParameterValue>> parameters = valuesMap.get(domainKey);
-            for (Map.Entry<Long, List<TimestampedParameterValue>> entry : parameters.entrySet()) {
-                Identifier identity = identitiesMap.get(domainKey).get(definitionsMap.get(domainKey).get(entry
-                    .getKey()));
-                parameterValues.get(domainKey).put(identity, entry.getValue());
-            }
-        }
-
         setIsQueryOver(true);
     }
 
     @Override
     public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-        ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+            ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
         processObjects(objType, objDetails, objBodies, domain);
     }
 
     /**
      * Fills the maps based on the type of the object
+     *
      * @param type Type of the objects to be processed
      * @param detailsList Archive details of the objects
      * @param bodiesList Bodies of the objects
      */
     private void processObjects(ObjectType type, ArchiveDetailsList detailsList,
             ElementList bodiesList, IdentifierList domain) {
-        if (!parameterIdentities.containsKey(domain)) {
-            parameterIdentities.put(domain, new ArrayList<>());
+        if (!actionIdentities.containsKey(domain)) {
+            actionIdentities.put(domain, new ArrayList<>());
         }
 
         if (!identitiesMap.containsKey(domain)) {
@@ -123,31 +96,14 @@ public class ArchiveToParametersAdapter extends ArchiveAdapter implements QueryS
             definitionsMap.put(domain, new HashMap<>());
         }
 
-        if (!valuesMap.containsKey(domain)) {
-            valuesMap.put(domain, new HashMap<>());
-        }
-
-        if (type == null || type.equals(parameterIdentityType)) {
+        if (type == null || type.equals(actionIdentityType)) {
             for (int i = 0; i < detailsList.size(); ++i) {
                 identitiesMap.get(domain).put(detailsList.get(i).getInstId(), (Identifier) bodiesList.get(i));
-                parameterIdentities.get(domain).add((Identifier) bodiesList.get(i));
+                actionIdentities.get(domain).add((Identifier) bodiesList.get(i));
             }
-        } else if (type.equals(parameterDefinitionType)) {
+        } else if (type.equals(actionDefinitionType)) {
             for (ArchiveDetails archiveDetails : detailsList) {
                 definitionsMap.get(domain).put(archiveDetails.getInstId(), archiveDetails.getDetails().getRelated());
-            }
-        } else if (type.equals(parameterValueType)) {
-            for (int i = 0; i < detailsList.size(); ++i) {
-                if (valuesMap.get(domain).containsKey(detailsList.get(i).getDetails().getRelated())) {
-                    valuesMap.get(domain).get(detailsList.get(i).getDetails().getRelated()).add(
-                        new TimestampedParameterValue((ParameterValue) bodiesList.get(i), detailsList.get(i)
-                            .getTimestamp()));
-                } else {
-                    List<TimestampedParameterValue> values = new ArrayList<>();
-                    values.add(new TimestampedParameterValue((ParameterValue) bodiesList.get(i), detailsList.get(i)
-                        .getTimestamp()));
-                    valuesMap.get(domain).put(detailsList.get(i).getDetails().getRelated(), values);
-                }
             }
         }
     }
@@ -179,12 +135,8 @@ public class ArchiveToParametersAdapter extends ArchiveAdapter implements QueryS
         this.isQueryOver = isQueryOver;
     }
 
-    public Map<IdentifierList, List<Identifier>> getParameterIdentities() {
-        return parameterIdentities;
-    }
-
-    public Map<IdentifierList, Map<Identifier, List<TimestampedParameterValue>>> getParameterValues() {
-        return parameterValues;
+    public Map<IdentifierList, List<Identifier>> getActionIdentities() {
+        return actionIdentities;
     }
 
     public Map<IdentifierList, Map<Long, Identifier>> getIdentitiesMap() {

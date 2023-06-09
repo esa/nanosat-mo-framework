@@ -20,6 +20,10 @@
  */
 package esa.mo.nmf.clitool;
 
+import esa.mo.nmf.clitool.mc.AggregationCommands;
+import esa.mo.nmf.clitool.mc.MCCommands;
+import esa.mo.nmf.clitool.platform.PlatformCommands;
+import esa.mo.nmf.clitool.sm.SoftwareManagementCommands;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -27,14 +31,22 @@ import picocli.CommandLine.Option;
 /**
  * @author marcel.mikolajko
  */
-@Command(name = "esa.mo.nmf.clitool.CLITool", subcommands = {MCCommands.Parameter.class, MCCommands.Aggregation.class,
-        SoftwareManagementCommands.AppsLauncher.class, SoftwareManagementCommands.SoftwareManagement.class,
-        SoftwareManagementCommands.Heartbeat.class,
-        PlatformCommands.GPS.class, PlatformCommands.ADCS.class,
-        PlatformCommands.Camera.class, ArchiveCommands.class,
-        LogsCommands.class},
+@Command(name = "esa.mo.nmf.clitool.CLITool",
+        subcommands = {
+            MCCommands.Aggregation.class, 
+            MCCommands.Parameter.class, 
+            MCCommands.Action.class, 
+            SoftwareManagementCommands.AppsLauncher.class, 
+            SoftwareManagementCommands.SoftwareManagement.class,
+            SoftwareManagementCommands.Heartbeat.class,
+            PlatformCommands.GPS.class, 
+            PlatformCommands.ADCS.class,
+            PlatformCommands.Camera.class,
+            ArchiveCommands.class,
+            LogsCommands.class},
         description = "Provides a way to use provider's services from the command line.")
 public class CLITool {
+
     public static final String APP_NAME = "cli-consumer";
 
     @Option(names = {"-h", "--help"}, usageHelp = true, description = "display a help message")

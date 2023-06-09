@@ -25,7 +25,7 @@ import esa.mo.nmf.clitool.BaseCommand;
 import static esa.mo.nmf.clitool.BaseCommand.consumer;
 import esa.mo.nmf.clitool.ExitCodes;
 import esa.mo.nmf.clitool.Helper;
-import static esa.mo.nmf.clitool.SoftwareManagementCommands.outputSubscription;
+import static esa.mo.nmf.clitool.sm.SoftwareManagementCommands.outputSubscription;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;

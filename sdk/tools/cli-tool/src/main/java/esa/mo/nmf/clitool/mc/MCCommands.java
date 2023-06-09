@@ -18,19 +18,36 @@
  * limitations under the License.
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nmf.clitool.adapters;
+package esa.mo.nmf.clitool.mc;
+
+import picocli.CommandLine;
 
 /**
- * Interface providing the status of an on-going archive query.
- *
- * @author Tanguy Soto
+ * @author marcel.mikolajko
  */
-public interface QueryStatusProvider {
+public class MCCommands {
 
-    /**
-     * @return true if the query is finished ((response or any error message
-     * received), false otherwise.
-     */
-    boolean isQueryOver();
+    @CommandLine.Command(name = "aggregation", subcommands = {
+        AggregationCommands.AggregationMonitorValue.class,
+        AggregationCommands.AggregationEnableGeneration.class,
+        AggregationCommands.AggregationDisableGeneration.class
+    })
+    public static class Aggregation {
+    }
 
+    @CommandLine.Command(name = "parameter", subcommands = {
+        ParameterCommands.ParameterMonitorValue.class,
+        ParameterCommands.ParameterEnableGeneration.class,
+        ParameterCommands.ParameterDisableGeneration.class,
+        ParameterCommands.GetParameters.class,
+        ParameterCommands.ListParameters.class
+    })
+    public static class Parameter {
+    }
+
+    @CommandLine.Command(name = "action", subcommands = {
+        ActionCommands.SubmitAction.class,
+        ActionCommands.ListActions.class,})
+    public static class Action {
+    }
 }

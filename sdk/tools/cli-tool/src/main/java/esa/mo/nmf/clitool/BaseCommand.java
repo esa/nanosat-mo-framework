@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.clitool;
 
+import esa.mo.nmf.clitool.sm.SoftwareManagementCommands;
 import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.com.impl.provider.ArchiveProviderServiceImpl;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
@@ -27,6 +28,9 @@ import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.nmf.NMFConsumer;
 import esa.mo.nmf.clitool.adapters.ArchiveToAppAdapter;
 import esa.mo.nmf.clitool.adapters.QueryStatusProvider;
+import esa.mo.nmf.clitool.mc.AggregationCommands;
+import esa.mo.nmf.clitool.mc.ParameterCommands;
+import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -80,7 +84,7 @@ public abstract class BaseCommand {
             description = "Name of the provider we want to connect to")
     public String providerName;
 
-    public static NMFConsumer consumer;
+    public static GroundMOAdapterImpl consumer;
     public static IdentifierList domain;
 
     public static ArchiveConsumerServiceImpl localArchive;
@@ -176,7 +180,7 @@ public abstract class BaseCommand {
                 return false;
             }
 
-            consumer = new NMFConsumer(provider);
+            consumer = new GroundMOAdapterImpl(provider);
             consumer.init();
             domain = provider.getProviderKey().getDomain();
 
@@ -246,15 +250,15 @@ public abstract class BaseCommand {
         if (consumer != null) {
             IdentifierList ids = new IdentifierList();
             try {
-                if (MCCommands.parameterSubscription != null) {
+                if (ParameterCommands.parameterSubscription != null) {
                     ids.clear();
-                    ids.add(MCCommands.parameterSubscription);
+                    ids.add(ParameterCommands.parameterSubscription);
                     consumer.getMCServices().getParameterService().getParameterStub().monitorValueDeregister(ids);
                 }
 
-                if (MCCommands.aggregationSubscription != null) {
+                if (AggregationCommands.aggregationSubscription != null) {
                     ids.clear();
-                    ids.add(MCCommands.aggregationSubscription);
+                    ids.add(AggregationCommands.aggregationSubscription);
                     consumer.getMCServices().getAggregationService().getAggregationStub().monitorValueDeregister(ids);
                 }
 

@@ -18,8 +18,9 @@
  * limitations under the License.
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nmf.clitool;
+package esa.mo.nmf.clitool.platform;
 
+import esa.mo.nmf.clitool.BaseCommand;
 import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;

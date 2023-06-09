@@ -24,6 +24,9 @@ import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.nmf.clitool.adapters.ArchiveToAppListAdapter;
 import esa.mo.nmf.clitool.adapters.ArchiveToLogAdapter;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQueryList;
 import org.ccsds.moims.mo.com.structures.ObjectId;
@@ -34,12 +37,9 @@ import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
 import org.ccsds.moims.mo.softwaremanagement.commandexecutor.CommandExecutorHelper;
-
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import picocli.CommandLine.*;
+import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
+import picocli.CommandLine.Parameters;
 
 /**
  * Log commands implementations
@@ -48,29 +48,30 @@ import picocli.CommandLine.*;
  * @author Marcel Mikołajko
  */
 @Command(name = "log", subcommands = {LogsCommands.ListLogs.class, LogsCommands.GetLogs.class},
-         description = "Gets or lists NMF app logs using the content of a local or remote COM archive.")
+        description = "Gets or lists NMF app logs using the content of a local or remote COM archive.")
 public class LogsCommands {
 
     private static final Logger LOGGER = Logger.getLogger(LogsCommands.class.getName());
 
     @Command(name = "list", description = "Lists NMF apps having logs in the content of a local or remote COM archive.")
     public static class ListLogs extends BaseCommand implements Runnable {
+
         @Option(names = {"-d", "--domain"}, paramLabel = "<domainId>",
-                description = "Restricts the list to NMF apps in a specific domain\n" +
-                    "  - default: search for app in all domains\n" + "  - format: key1.key2.[...].keyN.\n" +
-                    "  - example: esa.NMF_SDK.nanosat-mo-supervisor")
+                description = "Restricts the list to NMF apps in a specific domain\n"
+                + "  - default: search for app in all domains\n" + "  - format: key1.key2.[...].keyN.\n"
+                + "  - example: esa.NMF_SDK.nanosat-mo-supervisor")
         String domainId;
 
         @Option(names = {"-s", "--start"}, paramLabel = "<startTime>",
-                description = "Restricts the list to NMF apps having logs logged after the given time\n" +
-                    "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n" + "  - example: \"2021-03-04 08:37:58.482\"")
+                description = "Restricts the list to NMF apps having logs logged after the given time\n"
+                + "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n" + "  - example: \"2021-03-04 08:37:58.482\"")
         String startTime;
 
         @Option(names = {"-e", "--end"}, paramLabel = "<endTime>",
-                description = "Restricts the list to NMF apps having logs logged before the given time. " +
-                    "If this option is provided without the -s option, returns the single "
-                        + "object that has the closest timestamp to, but not greater than <endTime>\n" +
-                    "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n" + "  - example: \"2021-03-05 12:05:45.271\"")
+                description = "Restricts the list to NMF apps having logs logged before the given time. "
+                + "If this option is provided without the -s option, returns the single "
+                + "object that has the closest timestamp to, but not greater than <endTime>\n"
+                + "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n" + "  - example: \"2021-03-05 12:05:45.271\"")
         String endTime;
 
         @Override
@@ -78,7 +79,7 @@ public class LogsCommands {
             // Query all objects from SoftwareManagement area filtering for
             // StandardOutput and StandardError events and App object is done in the query adapter
             ObjectType objectsTypes = new ObjectType(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NUMBER,
-                new UShort(0), SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION, new UShort(0));
+                    new UShort(0), SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION, new UShort(0));
 
             boolean consumerCreated = false;
             if (providerURI != null) {
@@ -97,7 +98,7 @@ public class LogsCommands {
             FineTime startTimeF = startTime == null ? null : HelperTime.readableString2FineTime(startTime);
             FineTime endTimeF = endTime == null ? null : HelperTime.readableString2FineTime(endTime);
             ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, null, 0L, null, startTimeF, endTimeF, null,
-                null);
+                    null);
             archiveQueryList.add(archiveQuery);
 
             // execute query
@@ -118,8 +119,9 @@ public class LogsCommands {
     }
 
     @Command(name = "get",
-             description = "Dumps to a LOG file an NMF app logs using the content of a local or remote COM archive.")
+            description = "Dumps to a LOG file an NMF app logs using the content of a local or remote COM archive.")
     public static class GetLogs extends BaseCommand implements Runnable {
+
         @Parameters(arity = "1", paramLabel = "<appName>", description = "Name of the NMF app we want the logs for")
         String appName;
 
@@ -127,21 +129,21 @@ public class LogsCommands {
         String logFile;
 
         @Option(names = {"-d", "--domain"}, paramLabel = "<domainId>",
-                description = "Domain of the NMF app we want the logs for\n" +
-                    "  - default: search for app in all domains\n" + "  - format: key1.key2.[...].keyN.\n" +
-                    "  - example: esa.NMF_SDK.nanosat-mo-supervisor")
+                description = "Domain of the NMF app we want the logs for\n"
+                + "  - default: search for app in all domains\n" + "  - format: key1.key2.[...].keyN.\n"
+                + "  - example: esa.NMF_SDK.nanosat-mo-supervisor")
         String domainId;
 
         @Option(names = {"-s", "--start"}, paramLabel = "<startTime>",
-                description = "Restricts the dump to logs logged after the given time\n" +
-                    "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n" + "  - example: \"2021-03-04 08:37:58.482\"")
+                description = "Restricts the dump to logs logged after the given time\n"
+                + "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n" + "  - example: \"2021-03-04 08:37:58.482\"")
         String startTime;
 
         @Option(names = {"-e", "--end"}, paramLabel = "<endTime>",
-                description = "Restricts the dump to logs logged before the given time. " +
-                    "If this option is provided without the -s option, returns the single "
-                        + "object that has the closest timestamp to, but not greater than <endTime>\n" +
-                    "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n" + "  - example: \"2021-03-05 12:05:45.271\"")
+                description = "Restricts the dump to logs logged before the given time. "
+                + "If this option is provided without the -s option, returns the single "
+                + "object that has the closest timestamp to, but not greater than <endTime>\n"
+                + "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n" + "  - example: \"2021-03-05 12:05:45.271\"")
         String endTime;
 
         @Option(names = {"-t", "--timestamped"}, paramLabel = "<addTimestamps>",
@@ -153,12 +155,12 @@ public class LogsCommands {
             // Query all objects from SoftwareManagement area and CommandExecutor service,
             // filtering for StandardOutput and StandardError events is done in the query adapter
             ObjectType outputObjectTypes = new ObjectType(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NUMBER,
-                CommandExecutorHelper.COMMANDEXECUTOR_SERVICE_NUMBER,
-                SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION, new UShort(0));
+                    CommandExecutorHelper.COMMANDEXECUTOR_SERVICE_NUMBER,
+                    SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION, new UShort(0));
 
             ObjectType eventObjectTypes = new ObjectType(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NUMBER,
-                AppsLauncherHelper.APPSLAUNCHER_SERVICE_NUMBER,
-                SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION, new UShort(0));
+                    AppsLauncherHelper.APPSLAUNCHER_SERVICE_NUMBER,
+                    SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION, new UShort(0));
 
             boolean consumerCreated = false;
             if (providerURI != null) {
@@ -178,10 +180,10 @@ public class LogsCommands {
             if (appObjectId == null) {
                 if (databaseFile == null) {
                     LOGGER.log(Level.SEVERE, String.format("Couldn't find App with name %s in provider at %s", appName,
-                        providerURI));
+                            providerURI));
                 } else {
                     LOGGER.log(Level.SEVERE, String.format("Couldn't find App with name %s in database at %s", appName,
-                        databaseFile));
+                            databaseFile));
                 }
                 return;
             }
@@ -191,7 +193,7 @@ public class LogsCommands {
             FineTime startTimeF = startTime == null ? null : HelperTime.readableString2FineTime(startTime);
             FineTime endTimeF = endTime == null ? null : HelperTime.readableString2FineTime(endTime);
             ArchiveQuery outputArchiveQuery = new ArchiveQuery(domain, null, null, 0L, appObjectId, startTimeF,
-                endTimeF, null, null);
+                    endTimeF, null, null);
             archiveQueryList.add(outputArchiveQuery);
 
             // execute query
@@ -200,7 +202,7 @@ public class LogsCommands {
 
             archiveQueryList.clear();
             ArchiveQuery eventArchiveQuery = new ArchiveQuery(domain, null, null, appObjectId.getKey().getInstId(),
-                null, startTimeF, endTimeF, null, null);
+                    null, startTimeF, endTimeF, null, null);
             archiveQueryList.add(eventArchiveQuery);
             adapter.resetAdapter();
             queryArchive(eventObjectTypes, archiveQueryList, adapter, adapter);

@@ -19,23 +19,16 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ArchiveToAggreationsAdapter extends ArchiveAdapter implements QueryStatusProvider {
+public class ArchiveToAggregationsAdapter extends ArchiveAdapter implements QueryStatusProvider {
 
-    private static final Logger LOGGER = Logger.getLogger(ArchiveToAggreationsAdapter.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(ArchiveToAggregationsAdapter.class.getName());
 
     /**
      * True if the query is over (response or any error received)
      */
     private boolean isQueryOver = false;
 
-    /**
-     * Map from Aggregation Definition Details ID to Aggregation values
-     */
     private final Map<IdentifierList, Map<Long, List<TimestampedAggregationValue>>> aggregationValues = new HashMap<>();
-
-    /**
-     * Map from Aggregation Definition ID to AggregationDefinition
-     */
     private final Map<IdentifierList, Map<Long, AggregationDefinitionDetails>> aggregationDefinitions = new HashMap<>();
 
     public Map<IdentifierList, Map<Long, List<TimestampedAggregationValue>>> getAggregationValues() {
@@ -57,13 +50,13 @@ public class ArchiveToAggreationsAdapter extends ArchiveAdapter implements Query
 
     @Override
     public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-        ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+            ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
         processObjects(objType, objDetails, objBodies, domain);
     }
 
     @Override
     public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-        ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+            ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
         if (objDetails == null) {
             setIsQueryOver(true);
             return;
@@ -76,12 +69,12 @@ public class ArchiveToAggreationsAdapter extends ArchiveAdapter implements Query
     /**
      * Fills the maps based on the type of the object
      *
-     * @param type        Type of the objects to be processed
+     * @param type Type of the objects to be processed
      * @param detailsList Archive details of the objects
-     * @param bodiesList  Bodies of the objects
+     * @param bodiesList Bodies of the objects
      */
     private void processObjects(ObjectType type, ArchiveDetailsList detailsList, ElementList bodiesList,
-        IdentifierList domain) {
+            IdentifierList domain) {
         if (detailsList == null) {
             return;
         }
@@ -100,7 +93,7 @@ public class ArchiveToAggreationsAdapter extends ArchiveAdapter implements Query
                 Long definitionId = detailsList.get(i).getDetails().getRelated();
                 if (aggregationValues.get(domain).containsKey(definitionId)) {
                     aggregationValues.get(domain).get(definitionId).add(new TimestampedAggregationValue(value,
-                        detailsList.get(i).getTimestamp()));
+                            detailsList.get(i).getTimestamp()));
                 } else {
                     List<TimestampedAggregationValue> list = new ArrayList<>();
                     list.add(new TimestampedAggregationValue(value, detailsList.get(i).getTimestamp()));
@@ -110,7 +103,7 @@ public class ArchiveToAggreationsAdapter extends ArchiveAdapter implements Query
         } else if (AggregationHelper.AGGREGATIONDEFINITION_OBJECT_TYPE.equals(type)) {
             for (int i = 0; i < detailsList.size(); ++i) {
                 aggregationDefinitions.get(domain).put(detailsList.get(i).getInstId(),
-                    (AggregationDefinitionDetails) bodiesList.get(i));
+                        (AggregationDefinitionDetails) bodiesList.get(i));
             }
         }
     }
