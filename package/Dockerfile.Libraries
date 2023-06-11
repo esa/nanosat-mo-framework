@@ -1,0 +1,5 @@
+FROM maven:3.6.0-jdk-11-slim
+RUN mkdir /simulator
+COPY simulator/ simulator/
+WORKDIR /simulator
+RUN mvn clean install
