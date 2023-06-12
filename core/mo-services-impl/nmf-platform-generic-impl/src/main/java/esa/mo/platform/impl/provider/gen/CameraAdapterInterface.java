@@ -44,8 +44,11 @@ public interface CameraAdapterInterface {
     /**
      * @return true if the camera has only a fixed set of resolutions. They can
      * then be retrieved with the getAvailableResolutions() method.
+     * The default is true to be backwards compatible with earlier impementations.
      */
-    boolean hasFixedResolutions();
+    default boolean hasFixedResolutions() {
+        return true; 
+    };
 
     /**
      * @return The resolutions supported by the Camera Adapter
