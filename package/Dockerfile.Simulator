@@ -1,5 +1,5 @@
 
 FROM kosmoedge/nmf-libraries
 RUN cd sdk && mvn install
-WORKDIR /simulator/sdk/sdk-package/target/nmf-sdk-2.1.0-SNAPSHOT/home/nmf/nanosat-mo-supervisor-sim
+WORKDIR /mof/sdk/sdk-package/target/nmf-sdk-2.1.0-SNAPSHOT/home/nmf/nanosat-mo-supervisor-sim
 CMD ["./nanosat-mo-supervisor-sim.sh"]
