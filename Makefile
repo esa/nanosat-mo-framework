@@ -1,4 +1,6 @@
 VERSION:=$(shell package/scripts/version.sh)
+DOCKER_COMPOSE_FILE := package/docker-compose.yaml
+
 libraries:
 	rm -rf package/mof
 	mkdir -p package/mof
@@ -12,7 +14,7 @@ libraries:
 	cd package && docker build -f Dockerfile.Libraries -t kosmoedge/nmf-libraries:latest .
 	rm -rf package/mof	
 
-simulator:
+simulator: libraries
 	cd package && docker build -f Dockerfile.Simulator -t kosmoedge/nmf-simulator:latest .	
 
 consumer-tool:
@@ -28,7 +30,25 @@ run: containers
 	docker stop consumer-tool-temp
 
 
-space-module-%:
+space-module-%: libraries
 	cd package && docker build --build-arg MODULE_PATH=sdk/examples/space/$* --build-arg VERSION=${VERSION} -f Dockerfile.Module -t kosmoedge/$*:latest .
 
+ground-module-%: libraries
+	cd package && docker build --build-arg MODULE_PATH=sdk/examples/ground/$* --build-arg VERSION=${VERSION} -f Dockerfile.Module -t kosmoedge/$*:latest .
 
+create_docker_net:
+	@ docker network inspect mo-bridge > /dev/null 2> /dev/null && : || docker network create mo-bridge
+
+start: create_docker_net
+	@ docker-compose -f $(DOCKER_COMPOSE_FILE) up -d $(CONTAINER_NAMES)
+
+# stop all containers or specific ones
+stop:
+	@ docker-compose -f $(DOCKER_COMPOSE_FILE) stop $(CONTAINER_NAMES)
+
+# stop all containers and remove built images
+down:
+	@ docker-compose -f $(DOCKER_COMPOSE_FILE) down --rmi local
+
+# restart all or specific containers
+restart: stop start

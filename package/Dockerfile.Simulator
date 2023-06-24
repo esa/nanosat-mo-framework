@@ -1,5 +1,6 @@
 
 FROM kosmoedge/nmf-libraries
 RUN cd sdk && mvn install
+RUN echo "deb http://archive.debian.org/debian stretch main" > /etc/apt/sources.list
 WORKDIR /mof/sdk/sdk-package/target/nmf-sdk-2.1.0-SNAPSHOT/home/nmf/nanosat-mo-supervisor-sim
 CMD ["./nanosat-mo-supervisor-sim.sh"]
