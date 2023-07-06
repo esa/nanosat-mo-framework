@@ -27,14 +27,13 @@
   <description>A mission planning services demo app</description>
 
   <scm>
-    <connection>scm:git:git@github.com:esa/nanosat-mo-framework.git</connection>
-    <developerConnection>scm:git:git@github.com:esa/nanosat-mo-framework.git</developerConnection>
+    <connection>scm:git:https://github.com/esa/nanosat-mo-framework.git</connection>
     <url>https://github.com/esa/nanosat-mo-framework</url>
   </scm>
 
   <issueManagement>
-    <system>GitHub</system>
-    <url>https://github.com/esa/nanosat-mo-framework/issues</url>
+    <system>Gitlab</system>
+    <url>https://gitlab.com/esa/NMF/nmf-issues/-/issues</url>
   </issueManagement>
 
   <properties>
