@@ -34,8 +34,7 @@
   </licenses>
 
   <scm>
-    <connection>scm:git:git@github.com:esa/nanosat-mo-framework.git</connection>
-    <developerConnection>scm:git:git@github.com:esa/nanosat-mo-framework.git</developerConnection>
+    <connection>scm:git:https://github.com/esa/nanosat-mo-framework.git</connection>
     <url>https://github.com/esa/nanosat-mo-framework</url>
   </scm>
 

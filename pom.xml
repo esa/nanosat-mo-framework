@@ -22,7 +22,7 @@
   </parent>
   <groupId>int.esa.nmf</groupId>
   <artifactId>reactor</artifactId>
-  <name>ESA NMF</name>
+  <name>ESA NMF Reactor</name>
   <packaging>pom</packaging>
   <description>Maven Reactor for ESA Nanosat MO Framework</description>
   <organization>
