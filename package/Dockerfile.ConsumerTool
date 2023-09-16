@@ -1,5 +1,5 @@
 
-FROM kosmoedge/nmf-libraries
+FROM ghcr.io/kosmoedge/nmf-libraries
 RUN cd sdk && mvn install
 WORKDIR /simulator/sdk/sdk-package/target/nmf-sdk-2.1.0-SNAPSHOT/home/nmf/consumer-test-tool
 #stores in /root/.m2/repository/int/esa

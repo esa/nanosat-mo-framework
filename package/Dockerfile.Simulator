@@ -1,6 +1,7 @@
 
-FROM kosmoedge/nmf-libraries
+FROM ghcr.io/kosmoedge/nmf-libraries
 RUN cd sdk && mvn install
 RUN echo "deb http://archive.debian.org/debian stretch main" > /etc/apt/sources.list
+RUN echo "nameserver 8.8.8.8" > /etc/resolv.conf
 WORKDIR /mof/sdk/sdk-package/target/nmf-sdk-2.1.0-SNAPSHOT/home/nmf/nanosat-mo-supervisor-sim
 CMD ["./nanosat-mo-supervisor-sim.sh"]
