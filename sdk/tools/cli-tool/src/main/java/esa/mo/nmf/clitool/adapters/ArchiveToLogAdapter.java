@@ -22,24 +22,24 @@
 package esa.mo.nmf.clitool.adapters;
 
 import esa.mo.com.impl.util.ArchiveCOMObjectsOutput;
-import esa.mo.helpertools.helpers.HelperTime;
-import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
-import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
-import org.ccsds.moims.mo.com.structures.ObjectType;
-import org.ccsds.moims.mo.mal.MALStandardError;
-import org.ccsds.moims.mo.mal.structures.ElementList;
-import org.ccsds.moims.mo.mal.structures.FineTime;
-import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
-import org.ccsds.moims.mo.softwaremanagement.commandexecutor.CommandExecutorHelper;
-
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
+import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
+import org.ccsds.moims.mo.mal.MOErrorException;
+import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
+import org.ccsds.moims.mo.com.structures.ObjectType;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
+import org.ccsds.moims.mo.mal.structures.Element;
+import org.ccsds.moims.mo.mal.structures.FineTime;
+import org.ccsds.moims.mo.mal.structures.Identifier;
+import org.ccsds.moims.mo.mal.structures.IdentifierList;
+import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
+import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherServiceInfo;
+import org.ccsds.moims.mo.softwaremanagement.commandexecutor.CommandExecutorServiceInfo;
 
 /**
  * Archive adapter that dumps to a LOG file StandardOutput and StandardError events body of the
@@ -81,12 +81,12 @@ public class ArchiveToLogAdapter extends ArchiveAdapter implements QueryStatusPr
         this.addTimestamps = addTimestamps;
         this.logFilePath = logFilePath;
 
-        objectTypes.put(CommandExecutorHelper.STANDARDOUTPUT_OBJECT_TYPE, null);
-        objectTypes.put(CommandExecutorHelper.STANDARDERROR_OBJECT_TYPE, null);
-        objectTypes.put(AppsLauncherHelper.STARTAPP_OBJECT_TYPE, "Event StartApp, body: ");
-        objectTypes.put(AppsLauncherHelper.STOPAPP_OBJECT_TYPE, "Event StopApp, body: ");
-        objectTypes.put(AppsLauncherHelper.STOPPING_OBJECT_TYPE, "Event Stopping, body: ");
-        objectTypes.put(AppsLauncherHelper.STOPPED_OBJECT_TYPE, "Event Stopped, body: ");
+        objectTypes.put(CommandExecutorServiceInfo.STANDARDOUTPUT_OBJECT_TYPE, null);
+        objectTypes.put(CommandExecutorServiceInfo.STANDARDERROR_OBJECT_TYPE, null);
+        objectTypes.put(AppsLauncherServiceInfo.STARTAPP_OBJECT_TYPE, "Event StartApp, body: ");
+        objectTypes.put(AppsLauncherServiceInfo.STOPAPP_OBJECT_TYPE, "Event StopApp, body: ");
+        objectTypes.put(AppsLauncherServiceInfo.STOPPING_OBJECT_TYPE, "Event Stopping, body: ");
+        objectTypes.put(AppsLauncherServiceInfo.STOPPED_OBJECT_TYPE, "Event Stopped, body: ");
     }
 
     /**
@@ -116,7 +116,7 @@ public class ArchiveToLogAdapter extends ArchiveAdapter implements QueryStatusPr
             }
 
             // if somehow we have no object bodies, stop
-            if (comType.getService().equals(CommandExecutorHelper.COMMANDEXECUTOR_SERVICE_NUMBER) && archiveObjectOutput
+            if (comType.getService().equals(CommandExecutorServiceInfo.COMMANDEXECUTOR_SERVICE_NUMBER) && archiveObjectOutput
                 .getObjectBodies() == null) {
                 return;
             }
@@ -124,9 +124,9 @@ public class ArchiveToLogAdapter extends ArchiveAdapter implements QueryStatusPr
             String lineOffset = "                        "; // 24 is the length of the timestamp
             for (int i = 0; i < archiveObjectOutput.getArchiveDetailsList().size(); ++i) {
                 String logObject;
-                if (comType.getService().equals(CommandExecutorHelper.COMMANDEXECUTOR_SERVICE_NUMBER)) {
+                if (comType.getService().equals(CommandExecutorServiceInfo.COMMANDEXECUTOR_SERVICE_NUMBER)) {
                     // write LOG message, we can safely cast to String
-                    logObject = (String) archiveObjectOutput.getObjectBodies().get(i);
+                    logObject = (String) ((Element) archiveObjectOutput.getObjectBodies().get(i)).toString();
                 } else {
                     logObject = objectTypes.get(comType);
 
@@ -190,31 +190,31 @@ public class ArchiveToLogAdapter extends ArchiveAdapter implements QueryStatusPr
 
     @Override
     public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-        ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+        ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
         queryResults.add(new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies));
         setIsQueryOver(true);
     }
 
     @Override
     public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-        ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+        ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
         queryResults.add(new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies));
     }
 
     @Override
-    public void queryAckErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+    public void queryAckErrorReceived(MALMessageHeader msgHeader, MOErrorException error, Map qosProperties) {
         LOGGER.log(Level.SEVERE, "queryAckErrorReceived", error);
         setIsQueryOver(true);
     }
 
     @Override
-    public void queryUpdateErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+    public void queryUpdateErrorReceived(MALMessageHeader msgHeader, MOErrorException error, Map qosProperties) {
         LOGGER.log(Level.SEVERE, "queryUpdateErrorReceived", error);
         setIsQueryOver(true);
     }
 
     @Override
-    public void queryResponseErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+    public void queryResponseErrorReceived(MALMessageHeader msgHeader, MOErrorException error, Map qosProperties) {
         LOGGER.log(Level.SEVERE, "queryResponseErrorReceived", error);
         setIsQueryOver(true);
     }

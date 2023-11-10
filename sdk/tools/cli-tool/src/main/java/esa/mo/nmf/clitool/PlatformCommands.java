@@ -23,7 +23,7 @@ package esa.mo.nmf.clitool;
 import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.MALStandardError;
+import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
@@ -135,7 +135,7 @@ public class PlatformCommands {
                     }
 
                     @Override
-                    public void takePictureResponseErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                    public void takePictureResponseErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
                         Map qosProperties) {
                         LOGGER.log(Level.SEVERE, "Error during takePicture!", error);
                         synchronized (lock) {
@@ -148,7 +148,7 @@ public class PlatformCommands {
                     lock.wait();
                 }
             } catch (MALInteractionException e) {
-                MALStandardError error = e.getStandardError();
+                MOErrorException error = e.getStandardError();
                 if (error.getErrorNumber().equals(COMHelper.INVALID_ERROR_NUMBER)) {
                     if (error.getExtraInformation() instanceof PixelResolutionList) {
                         System.out.println("Provided resolution is not supported!");
@@ -248,7 +248,7 @@ public class PlatformCommands {
                     }
 
                     @Override
-                    public void getNMEASentenceResponseErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                    public void getNMEASentenceResponseErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
                         Map qosProperties) {
                         LOGGER.log(Level.SEVERE, "Error during getNMEASentence!", error);
                         synchronized (lock) {

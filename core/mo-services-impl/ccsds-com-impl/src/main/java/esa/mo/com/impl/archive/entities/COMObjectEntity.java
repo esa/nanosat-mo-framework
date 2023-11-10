@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft â€“ v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -24,14 +24,16 @@ import esa.mo.com.impl.archive.db.COMObjectEntityPK;
 import esa.mo.com.impl.archive.db.SourceLinkContainer;
 import esa.mo.com.impl.archive.encoding.BinaryDecoder;
 import esa.mo.com.impl.archive.encoding.BinaryEncoder;
-import esa.mo.helpertools.helpers.HelperAttributes;
 import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALContextFactory;
-import org.ccsds.moims.mo.mal.MALElementFactory;
+import org.ccsds.moims.mo.mal.MALElementsRegistry;
 import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.mal.MALHelper;
+import org.ccsds.moims.mo.mal.TypeId;
+import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.FineTime;
 
@@ -73,7 +75,7 @@ public class COMObjectEntity implements Serializable {
         this.sourceLinkObjId = (sourceLink == null) ? null : sourceLink.getObjId();
 
         this.objBody = null;
-        final Element ele = (Element) HelperAttributes.javaType2Attribute(object);
+        final Element ele = (Element) Attribute.javaType2Attribute(object);
 
         if (ele != null) {
             try {
@@ -159,9 +161,21 @@ public class COMObjectEntity implements Serializable {
         if (this.objBody != null) {
             try {
                 final BinaryDecoder binDec = new BinaryDecoder(this.objBody);
-                final MALElementFactory eleFact = MALContextFactory.getElementFactoryRegistry().lookupElementFactory(
-                    binDec.decodeLong());
-                elem = binDec.decodeNullableElement((Element) eleFact.createElement());
+                Long sfp = binDec.decodeLong();
+                final MALElementsRegistry eleFact = MALContextFactory.getElementsRegistry();
+                TypeId typeId = new TypeId(sfp);
+
+                // If it a MAL type from the old MAL versions, then convert it to the latest MAL version!
+                if (typeId.isOldMAL()) {
+                    TypeId newTypeId = new TypeId(typeId.getAreaNumber(),
+                            MALHelper._MAL_AREA_VERSION,
+                            typeId.getServiceNumber(),
+                            typeId.getShortFormPartNumber());
+
+                    sfp = newTypeId.getTypeId();
+                }
+
+                elem = binDec.decodeNullableElement((Element) eleFact.createElement(sfp));
             } catch (MALException ex) {
                 Logger.getLogger(COMObjectEntity.class.getName()).log(Level.SEVERE,
                     "The object body could not be decoded! Usually happens when there's " +
@@ -177,7 +191,7 @@ public class COMObjectEntity implements Serializable {
             }
         }
 
-        return HelperAttributes.attribute2JavaType(elem);
+        return Attribute.attribute2JavaType(elem);
     }
 
     @Override

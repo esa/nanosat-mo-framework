@@ -30,7 +30,7 @@ import javax.swing.JOptionPane;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectIdList;
 import org.ccsds.moims.mo.com.structures.ObjectKey;
-import org.ccsds.moims.mo.common.configuration.ConfigurationHelper;
+import org.ccsds.moims.mo.common.configuration.ConfigurationServiceInfo;
 import org.ccsds.moims.mo.common.configuration.consumer.ConfigurationAdapter;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationType;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
@@ -44,7 +44,7 @@ import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.MCHelper;
-import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
+import org.ccsds.moims.mo.mc.parameter.ParameterServiceInfo;
 
 /**
  *
@@ -217,8 +217,7 @@ public class ConfigurationConsumerPanel extends javax.swing.JPanel {
                     result[0] = activationResult;
                 }
             };
-            this.serviceMCConfiguration.getConfigurationStub().activate(providerSummary.getProviderKey(), objIdDef,
-                adapter);
+            this.serviceMCConfiguration.getConfigurationStub().activate(providerSummary.getProviderKey(), objIdDef, adapter);
         } catch (MALInteractionException ex) {
             Logger.getLogger(ConfigurationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MALException ex) {
@@ -268,18 +267,18 @@ public class ConfigurationConsumerPanel extends javax.swing.JPanel {
         IdentifierList idList = new IdentifierList();
         idList.add(new Identifier("*")); // Wildcard
 
-        ServiceKey key = new ServiceKey(); // Wildcards
-        key.setKeyArea(new UShort(0));
-        key.setKeyService(new UShort(0));
-        key.setKeyAreaVersion(new UOctet((byte) 0));
+        ServiceKey key = new ServiceKey(new UShort(0), new UShort(0), new UOctet((byte) 0)); // Wildcards
 
         ObjectIdList output;
         try {
             output = this.serviceMCConfiguration.getConfigurationStub().list(ConfigurationType.SERVICE, idList, key);
-            //            configurationTable.refreshTableWithIds(output, serviceMCConfiguration.getConnectionDetails().getDomain(), ActionHelper.ACTIONDEFINITION_OBJECT_TYPE);
-        } catch (MALInteractionException | MALException ex) {
-            JOptionPane.showMessageDialog(null, "There was an error during the listDefinition operation.", "Error",
-                JOptionPane.PLAIN_MESSAGE);
+//            configurationTable.refreshTableWithIds(output, serviceMCConfiguration.getConnectionDetails().getDomain(), ActionHelper.ACTIONDEFINITION_OBJECT_TYPE);
+        } catch (MALInteractionException ex) {
+            JOptionPane.showMessageDialog(null, "There was an error during the listDefinition operation.", "Error", JOptionPane.PLAIN_MESSAGE);
+            Logger.getLogger(ConfigurationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+            return;
+        } catch (MALException ex) {
+            JOptionPane.showMessageDialog(null, "There was an error during the listDefinition operation.", "Error", JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(ConfigurationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
             return;
         }
@@ -293,11 +292,9 @@ public class ConfigurationConsumerPanel extends javax.swing.JPanel {
 
         IdentifierList domain = new IdentifierList();
         domain.add(new Identifier("*"));
-        ObjectKey objKey = new ObjectKey();
-        objKey.setDomain(domain);
-        objKey.setInstId((long) 0);
+        ObjectKey objKey = new ObjectKey(domain, (long) 0);
 
-        ObjectId objIdDef = new ObjectId(ConfigurationHelper.CONFIGURATIONOBJECTS_OBJECT_TYPE, objKey);
+        ObjectId objIdDef = new ObjectId(ConfigurationServiceInfo.CONFIGURATIONOBJECTS_OBJECT_TYPE, objKey);
         final ObjectIdList oil = new ObjectIdList();
         oil.add(objIdDef);
 
@@ -324,10 +321,12 @@ public class ConfigurationConsumerPanel extends javax.swing.JPanel {
 
     private void storeCurrentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_storeCurrentButtonActionPerformed
 
-        ServiceKey key = new ServiceKey(); // Wildcards
-        key.setKeyArea(new UShort(MCHelper._MC_AREA_NUMBER));
-        key.setKeyService(new UShort(ParameterHelper._PARAMETER_SERVICE_NUMBER));
-        key.setKeyAreaVersion(new UOctet(MCHelper._MC_AREA_VERSION));
+        ServiceKey key = new ServiceKey(
+            new UShort(MCHelper._MC_AREA_NUMBER),
+            new UShort(ParameterServiceInfo._PARAMETER_SERVICE_NUMBER),
+            new UOctet(MCHelper._MC_AREA_VERSION));
+
+        ObjectKey prov = new ObjectKey(this.serviceMCConfiguration.getConnectionDetails().getDomain(), 0L);
 
         class ConfigAdapter extends ConfigurationAdapter {
             @Override
@@ -350,9 +349,9 @@ public class ConfigurationConsumerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_storeCurrentButtonActionPerformed
 
     private void exportXMLButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportXMLButtonActionPerformed
-        ObjectId confObjId = new ObjectId();
-        confObjId.setKey(new ObjectKey(this.serviceMCConfiguration.getConnectionDetails().getDomain(), (long) 7));
-        confObjId.setType(ConfigurationHelper.CONFIGURATIONOBJECTS_OBJECT_TYPE);
+        ObjectId confObjId = new ObjectId(
+            ConfigurationServiceInfo.CONFIGURATIONOBJECTS_OBJECT_TYPE,
+            new ObjectKey(this.serviceMCConfiguration.getConnectionDetails().getDomain(), (long) 7));
 
         try {
             file = this.serviceMCConfiguration.getConfigurationStub().exportXML(confObjId, Boolean.TRUE);

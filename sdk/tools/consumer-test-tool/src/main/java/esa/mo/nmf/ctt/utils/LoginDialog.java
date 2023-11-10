@@ -22,19 +22,6 @@ package esa.mo.nmf.ctt.utils;
 
 import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.common.impl.consumer.LoginConsumerServiceImpl;
-import esa.mo.helpertools.connections.SingleConnectionDetails;
-import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
-import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
-import org.ccsds.moims.mo.common.directory.structures.ServiceCapability;
-import org.ccsds.moims.mo.common.login.LoginHelper;
-import org.ccsds.moims.mo.common.login.body.LoginResponse;
-import org.ccsds.moims.mo.common.login.structures.Profile;
-import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.MALStandardError;
-import org.ccsds.moims.mo.mal.structures.*;
-import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-
 import javax.swing.*;
 import java.awt.*;
 import java.net.MalformedURLException;
@@ -42,6 +29,18 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
+import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
+import org.ccsds.moims.mo.common.directory.structures.ServiceCapability;
+import org.ccsds.moims.mo.common.login.body.LoginResponse;
+import org.ccsds.moims.mo.common.login.LoginServiceInfo;
+import org.ccsds.moims.mo.common.login.structures.Profile;
+import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
+import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.MOErrorException;
+import org.ccsds.moims.mo.mal.structures.*;
+import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 
 /**
  * @author marcel.mikolajko
@@ -157,7 +156,7 @@ public class LoginDialog extends JDialog {
                 LoginResponse response = loginConsumer.getLoginStub().login(new Profile(new Identifier(userTextField
                     .getText()), role), new String(passwordTextField.getPassword()));
                 authenticationId = response.getBodyElement0();
-                loginConsumer.close();
+                loginConsumer.closeConnection();
                 loginSuccessful = true;
                 Logger.getLogger(LoginDialog.class.getName()).log(Level.INFO, "Logged in successfully!");
             } catch (MALException | MalformedURLException | MALInteractionException e) {
@@ -178,7 +177,7 @@ public class LoginDialog extends JDialog {
                 ArchiveConsumerServiceImpl archiveConsumer = new ArchiveConsumerServiceImpl(archiveConnection, null,
                     localNamePrefix);
                 RolesArchiveAdapter archiveAdapter = new RolesArchiveAdapter();
-                archiveConsumer.getArchiveStub().retrieve(LoginHelper.LOGINROLE_OBJECT_TYPE, domainForArchive, roles,
+                archiveConsumer.getArchiveStub().retrieve(LoginServiceInfo.LOGINROLE_OBJECT_TYPE, domainForArchive, roles,
                     archiveAdapter);
                 while (!archiveAdapter.isFinished()) {
                     try {
@@ -187,7 +186,7 @@ public class LoginDialog extends JDialog {
 
                     }
                 }
-                archiveConsumer.close();
+                archiveConsumer.closeConnection();
                 rolesComboBox.setModel(new DefaultComboBoxModel<>(roleNameToId.keySet().toArray(new String[0])));
             } catch (MALException | MALInteractionException | MalformedURLException e) {
                 Logger.getLogger(LoginDialog.class.getName()).log(Level.SEVERE, "Unexpected exception during listRoles",
@@ -237,7 +236,7 @@ public class LoginDialog extends JDialog {
 
         @Override
         public void retrieveResponseReceived(MALMessageHeader msgHeader, ArchiveDetailsList objDetails,
-            ElementList objBodies, Map qosProperties) {
+            HeterogeneousList objBodies, Map qosProperties) {
             for (int i = 0; i < objDetails.size(); ++i) {
                 roleNameToId.put(((Identifier) objBodies.get(i)).getValue(), objDetails.get(i).getInstId());
             }
@@ -245,10 +244,10 @@ public class LoginDialog extends JDialog {
         }
 
         @Override
-        public void retrieveResponseErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+        public void retrieveResponseErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
             Map qosProperties) {
             Logger.getLogger(LoginDialog.class.getName()).log(Level.SEVERE,
-                "Unexpected error during roles retrieval: " + error.getErrorName());
+                "Unexpected error during roles retrieval: " + error.toString());
             finished = true;
         }
 

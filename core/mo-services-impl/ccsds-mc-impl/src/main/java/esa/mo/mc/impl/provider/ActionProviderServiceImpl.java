@@ -32,16 +32,13 @@ import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.COMService;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectKey;
-import org.ccsds.moims.mo.common.CommonHelper;
-import org.ccsds.moims.mo.common.configuration.ConfigurationHelper;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectSet;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectSetList;
-import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.MALStandardError;
+import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.structures.Identifier;
@@ -50,7 +47,6 @@ import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UIntegerList;
 import org.ccsds.moims.mo.mal.structures.UShort;
-import org.ccsds.moims.mo.mc.MCHelper;
 import org.ccsds.moims.mo.mc.action.ActionHelper;
 import org.ccsds.moims.mo.mc.action.provider.ActionInheritanceSkeleton;
 import org.ccsds.moims.mo.mc.action.structures.ActionCreationRequestList;
@@ -62,6 +58,7 @@ import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 import esa.mo.reconfigurable.service.ReconfigurableService;
 import esa.mo.reconfigurable.service.ConfigurationChangeListener;
+import org.ccsds.moims.mo.mc.action.ActionServiceInfo;
 
 /**
  * Action service Provider.
@@ -84,45 +81,14 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
      * @param actions
      * @throws MALException On initialisation error.
      */
-    public synchronized void init(COMServicesProvider comServices, ActionInvocationListener actions)
-        throws MALException {
-        if (!initialiased) {
-
-            if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
-                MALHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION) == null) {
-                COMHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(CommonHelper.COMMON_AREA_NAME, CommonHelper.COMMON_AREA_VERSION) == null) {
-                CommonHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION) == null) {
-                MCHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(CommonHelper.COMMON_AREA_NAME, CommonHelper.COMMON_AREA_VERSION)
-                .getServiceByName(ConfigurationHelper.CONFIGURATION_SERVICE_NAME) == null) {
-                ConfigurationHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION).getServiceByName(
-                ActionHelper.ACTION_SERVICE_NAME) == null) {
-                ActionHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-        }
-
+    public synchronized void init(COMServicesProvider comServices,
+            ActionInvocationListener actions) throws MALException {
         // Shut down old service transport
         if (null != actionServiceProvider) {
             connection.closeAll();
         }
 
-        actionServiceProvider = connection.startService(ActionHelper.ACTION_SERVICE_NAME.toString(),
-            ActionHelper.ACTION_SERVICE, false, this);
+        actionServiceProvider = connection.startService(ActionServiceInfo.ACTION_SERVICE_NAME.toString(), ActionHelper.ACTION_SERVICE, false, this);
 
         running = true;
         manager = new ActionManager(comServices, actions);
@@ -196,8 +162,8 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         // Publish the second Acceptance event
         try {
             // source for ActionInstance ACCEPTANCE event is the ActionInstance object id
-            ObjectId source = new ObjectId(ActionHelper.ACTIONINSTANCE_OBJECT_TYPE, new ObjectKey(
-                ConfigurationProviderSingleton.getDomain(), actionInstId)); // requirement: 3.2.8.f  
+            ObjectId source = new ObjectId(ActionServiceInfo.ACTIONINSTANCE_OBJECT_TYPE,
+                    new ObjectKey(ConfigurationProviderSingleton.getDomain(), actionInstId)); // requirement: 3.2.8.f  
             //body of AcceptanceEvent is value of "accepted"? -> issue #187
             manager.getActivityTrackingService().publishAcceptanceEventOperation(interaction, accepted, null, source); // requirement: 3.2.8.e, f, g  
         } catch (MALInteractionException | MALException ex) {
@@ -207,12 +173,12 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         // Errors
         if (!invIndexList.isEmpty()) { // requirement: 3.2.9.3.1
             manager.getActivityTrackingService().publishExecutionEventSubmitAck(interaction, false, saSource); // requirement: c
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
         }
 
         if (unknown) { // requirement: 3.2.9.3.2
             manager.getActivityTrackingService().publishExecutionEventSubmitAck(interaction, false, saSource); // requirement: c
-            throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, null));
+            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, null));
         }
 
         // If it was accepted then execute the action!
@@ -229,7 +195,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
 
         // requirement: 3.2.10.3.2
         if (!manager.existsDef(actionDetails.getDefInstId())) {
-            throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, null));
+            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, null));
         }
 
         // requirement: 3.2.10.2.a, 3.2.10.2.b
@@ -238,7 +204,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
 
         // Errors
         if (!invIndexList.isEmpty()) { // requirement: 3.2.10.3.1
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
         }
 
         return accepted;
@@ -279,7 +245,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
             // Errors
             if (!unkIndexList.isEmpty()) // requirement: 3.2.11.3.1 (error: a and b)
             {
-                throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+                throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
             }
         }
 
@@ -317,10 +283,10 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         // Errors
         // returning errors before creating the object -> requirement: 3.2.12.2.d
         if (!invIndexList.isEmpty()) { // requirement: 3.2.12.3.1
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
         }
         if (!dupIndexList.isEmpty()) { // requirement: 3.2.12.3.2
-            throw new MALInteractionException(new MALStandardError(COMHelper.DUPLICATE_ERROR_NUMBER, dupIndexList));
+            throw new MALInteractionException(new MOErrorException(COMHelper.DUPLICATE_ERROR_NUMBER, dupIndexList));
         }
 
         //add the definition
@@ -367,11 +333,11 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         // Errors
         // returning errors before creating the object -> requirement: 3.2.13.2.g
         if (!invIndexList.isEmpty()) { // requirement: 3.2.13.2.1 (error: a)
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
         }
 
         if (!unkIndexList.isEmpty()) { // requirement: 3.2.13.2.2 (error: b)
-            throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
         }
         LongList newDefIds = new LongList();
         ObjectId source = manager.storeCOMOperationActivity(interaction); // requirement: 3.2.4.e
@@ -418,7 +384,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         // Errors
         // returning errors before removing the object -> requirement: 3.2.14.2.g
         if (!unkIndexList.isEmpty()) { // requirement: 3.2.14.3.1 (error: a, b)
-            throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
         }
 
         for (Long tempIdentity2 : tempIdentityLst) {
@@ -501,13 +467,13 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         ConfigurationObjectSet confSet1 = configurationObjectDetails.getConfigObjects().get(1);
 
         // Confirm the objTypes
-        if (!confSet0.getObjType().equals(ActionHelper.ACTIONDEFINITION_OBJECT_TYPE) && !confSet1.getObjType().equals(
-            ActionHelper.ACTIONDEFINITION_OBJECT_TYPE)) {
+        if (!confSet0.getObjType().equals(ActionServiceInfo.ACTIONDEFINITION_OBJECT_TYPE)
+                && !confSet1.getObjType().equals(ActionServiceInfo.ACTIONDEFINITION_OBJECT_TYPE)) {
             return false;
         }
 
-        if (!confSet0.getObjType().equals(ActionHelper.ACTIONIDENTITY_OBJECT_TYPE) && !confSet1.getObjType().equals(
-            ActionHelper.ACTIONIDENTITY_OBJECT_TYPE)) {
+        if (!confSet0.getObjType().equals(ActionServiceInfo.ACTIONIDENTITY_OBJECT_TYPE)
+                && !confSet1.getObjType().equals(ActionServiceInfo.ACTIONIDENTITY_OBJECT_TYPE)) {
             return false;
         }
 
@@ -527,19 +493,21 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
 
         // ok, we're good to go...
         // Load the Parameter Definitions from this configuration...
-        ConfigurationObjectSet confSetDefs = (confSet0.getObjType().equals(ActionHelper.ACTIONDEFINITION_OBJECT_TYPE)) ?
-            confSet0 : confSet1;
+        ConfigurationObjectSet confSetDefs = (confSet0.getObjType().equals(ActionServiceInfo.ACTIONDEFINITION_OBJECT_TYPE)) ? confSet0 : confSet1;
 
         ActionDefinitionDetailsList pDefs = (ActionDefinitionDetailsList) HelperArchive.getObjectBodyListFromArchive(
-            manager.getArchiveService(), ActionHelper.ACTIONDEFINITION_OBJECT_TYPE, ConfigurationProviderSingleton
-                .getDomain(), confSetDefs.getObjInstIds());
+                manager.getArchiveService(),
+                ActionServiceInfo.ACTIONDEFINITION_OBJECT_TYPE,
+                ConfigurationProviderSingleton.getDomain(),
+                confSetDefs.getObjInstIds());
 
-        ConfigurationObjectSet confSetIdents = (confSet0.getObjType().equals(ActionHelper.ACTIONIDENTITY_OBJECT_TYPE)) ?
-            confSet0 : confSet1;
+        ConfigurationObjectSet confSetIdents = (confSet0.getObjType().equals(ActionServiceInfo.ACTIONIDENTITY_OBJECT_TYPE)) ? confSet0 : confSet1;
 
-        IdentifierList idents = (IdentifierList) HelperArchive.getObjectBodyListFromArchive(manager.getArchiveService(),
-            ActionHelper.ACTIONIDENTITY_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(), confSetIdents
-                .getObjInstIds());
+        IdentifierList idents = (IdentifierList) HelperArchive.getObjectBodyListFromArchive(
+                manager.getArchiveService(),
+                ActionServiceInfo.ACTIONIDENTITY_OBJECT_TYPE,
+                ConfigurationProviderSingleton.getDomain(),
+                confSetIdents.getObjInstIds());
 
         manager.reconfigureDefinitions(confSetIdents.getObjInstIds(), idents, confSetDefs.getObjInstIds(), pDefs);   // Reconfigures the Manager
 
@@ -564,14 +532,11 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         list.add(objsSet);
          */
         ConfigurationObjectSetList list = manager.getCurrentConfiguration();
-        list.get(0).setObjType(ActionHelper.ACTIONIDENTITY_OBJECT_TYPE);
-        list.get(1).setObjType(ActionHelper.ACTIONDEFINITION_OBJECT_TYPE);
+        list.get(0).setObjType(ActionServiceInfo.ACTIONIDENTITY_OBJECT_TYPE);
+        list.get(1).setObjType(ActionServiceInfo.ACTIONDEFINITION_OBJECT_TYPE);
 
         // Needs the Common API here!
-        ConfigurationObjectDetails set = new ConfigurationObjectDetails();
-        set.setConfigObjects(list);
-
-        return set;
+        return new ConfigurationObjectDetails(list);
     }
 
     @Override

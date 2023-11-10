@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft â€“ v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -27,8 +27,6 @@ import esa.mo.com.impl.sync.EncodeDecode;
 import esa.mo.com.impl.sync.ToDelete;
 import esa.mo.com.impl.util.Quota;
 import esa.mo.helpertools.connections.ConnectionProvider;
-import esa.mo.helpertools.connections.SingleConnectionDetails;
-import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.helpertools.misc.Const;
 import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
@@ -36,16 +34,29 @@ import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
 import org.ccsds.moims.mo.com.archive.structures.PaginationFilter;
 import org.ccsds.moims.mo.com.archivesync.ArchiveSyncHelper;
+import org.ccsds.moims.mo.com.archivesync.ArchiveSyncServiceInfo;
 import org.ccsds.moims.mo.com.archivesync.body.GetTimeResponse;
 import org.ccsds.moims.mo.com.archivesync.provider.ArchiveSyncInheritanceSkeleton;
 import org.ccsds.moims.mo.com.archivesync.provider.RetrieveRangeAgainInteraction;
 import org.ccsds.moims.mo.com.archivesync.provider.RetrieveRangeInteraction;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.com.structures.ObjectTypeList;
-import org.ccsds.moims.mo.mal.*;
+import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.mal.MALHelper;
+import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
-import org.ccsds.moims.mo.mal.structures.*;
+import org.ccsds.moims.mo.mal.structures.Blob;
+import org.ccsds.moims.mo.mal.structures.FineTime;
+import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
+import org.ccsds.moims.mo.mal.structures.Identifier;
+import org.ccsds.moims.mo.mal.structures.IdentifierList;
+import org.ccsds.moims.mo.mal.structures.IntegerList;
+import org.ccsds.moims.mo.mal.structures.LongList;
+import org.ccsds.moims.mo.mal.structures.StringList;
+import org.ccsds.moims.mo.mal.structures.UInteger;
+import org.ccsds.moims.mo.mal.structures.UIntegerList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 
 import java.io.IOException;
@@ -58,6 +69,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 
 /**
  * Archive Sync service Provider.
@@ -113,9 +125,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
         try {
             this.archive = new ArchiveConsumerServiceImpl(connectionToArchiveService, authenticationId,
                 localNamePrefix);
-        } catch (MALException | MalformedURLException ex)
-
-        {
+        } catch (MALException | MalformedURLException ex){
             LOGGER.log(Level.SEVERE, MessageFormat.format(UNEXPECTED_EXCEPTION_0, ex.getMessage()), ex);
         }
 
@@ -166,21 +176,6 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
      * @throws MALException if initialization error.
      */
     public synchronized void init(ArchiveManager manager) throws MALException {
-        if (!initialiased) {
-            if (null == MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION)) {
-                MALHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (null == MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION)) {
-                COMHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION).getServiceByName(
-                ArchiveSyncHelper.ARCHIVESYNC_SERVICE_NAME) == null) {
-                ArchiveSyncHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-        }
-
         this.manager = manager;
 
         // shut down old service transport
@@ -188,11 +183,13 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
             connection.closeAll();
         }
 
-        archiveSyncServiceProvider = connection.startService(ArchiveSyncHelper.ARCHIVESYNC_SERVICE_NAME.toString(),
-            ArchiveSyncHelper.ARCHIVESYNC_SERVICE, false, this);
+        archiveSyncServiceProvider = connection.startService(ArchiveSyncServiceInfo.ARCHIVESYNC_SERVICE_NAME.toString(),
+                ArchiveSyncHelper.ARCHIVESYNC_SERVICE, false, this);
+ 
         initialiased = true;
-        LOGGER.info("ArchiveSync service READY");
-    }
+        Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).info(
+            "ArchiveSync service READY");
+      }
 
     /**
      * Closes all running threads and releases the MAL resources.
@@ -222,7 +219,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
     @Override
     public GetTimeResponse getTime(final MALInteraction interaction) throws MALInteractionException, MALException {
-        final FineTime currentTime = HelperTime.getTimestamp();
+        final FineTime currentTime = FineTime.now();
         final FineTime lastSyncTime = new FineTime(lastSync.get());
         return new GetTimeResponse(currentTime, lastSyncTime);
     }
@@ -275,7 +272,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
         final Dispatcher dispatcher = dispatchers.get(transactionTicket);
 
         if (null == dispatcher) {
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
+            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, null));
         }
 
         TimerTask timerTask = timerTasks.get(transactionTicket);
@@ -359,7 +356,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
         final Dispatcher dispatcher = dispatchers.get(transactionTicket);
 
         if (null == dispatcher) {
-            throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER,
+            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER,
                 "Can't find a dispatcher!"));
         }
 
@@ -374,7 +371,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
         Long lastSyncTime = syncTimes.get(transactionTicket);
 
         if (null == lastSyncTime) {
-            throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER,
+            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER,
                 "Can't find a last sync time!"));
         }
 
@@ -543,7 +540,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
             @Override
             public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-                ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+                ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
                 super.queryUpdateReceived(msgHeader, objType, domain, objDetails, objBodies, qosProperties);
                 if (objDetails != null) {
                     queryResults.addAll(objDetails);
@@ -553,7 +550,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
             @Override
             public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-                ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+                ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
                 super.queryResponseReceived(msgHeader, objType, domain, objDetails, objBodies, qosProperties);
                 if (null == objType || null == domain || null == objDetails || null == objBodies) {
                     return;

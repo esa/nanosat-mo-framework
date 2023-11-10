@@ -35,6 +35,7 @@ import org.ccsds.moims.mo.mp.structures.ObjectIdPairList;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.mp.impl.com.COMArchiveManager;
 import esa.mo.mp.impl.com.COMConfiguration;
+import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 
 /**
  * COMInstanceVersionArchiveManager follows COM Instance Version Object Pattern (Identity <=> Instance <=> Update)
@@ -56,7 +57,7 @@ public class COMInstanceVersionArchiveManager<IdentityT extends Element, Identit
         return super.addCOMObject(identity, instance, source, interaction);
     }
 
-    public ObjectIdPairList addInstances(IdentifierList identities, InstanceListT instances, ObjectId source,
+    public ObjectIdPairList addInstances(IdentifierList identities, HeterogeneousList instances, ObjectId source,
         MALInteraction interaction) throws MALException, MALInteractionException {
         return super.addCOMObjects(identities, instances, source, interaction);
     }
@@ -66,7 +67,7 @@ public class COMInstanceVersionArchiveManager<IdentityT extends Element, Identit
         return super.addCOMObject(instanceId, status, source, interaction);
     }
 
-    public ObjectIdList addStatuses(ObjectIdList instanceIds, StatusListT statuses, ObjectId source,
+    public ObjectIdList addStatuses(ObjectIdList instanceIds, HeterogeneousList statuses, ObjectId source,
         MALInteraction interaction) throws MALException, MALInteractionException {
         return super.addCOMObjects(instanceIds, statuses, source, interaction);
     }
@@ -172,7 +173,7 @@ public class COMInstanceVersionArchiveManager<IdentityT extends Element, Identit
         return super.updateCOMObject(identityId, instance, source, interaction);
     }
 
-    public ObjectIdList updateInstances(ObjectIdList identityIds, InstanceListT instances, ObjectId source,
+    public ObjectIdList updateInstances(ObjectIdList identityIds, HeterogeneousList instances, ObjectId source,
         MALInteraction interaction) throws MALException, MALInteractionException {
         return super.updateCOMObjects(identityIds, instances, source, interaction);
     }
@@ -182,7 +183,7 @@ public class COMInstanceVersionArchiveManager<IdentityT extends Element, Identit
         return super.updateCOMObject(identityId, instance, source, interaction);
     }
 
-    public ObjectIdList updateInstancesByIdentityIds(ObjectIdList identityIds, InstanceListT instances, ObjectId source,
+    public ObjectIdList updateInstancesByIdentityIds(ObjectIdList identityIds, HeterogeneousList instances, ObjectId source,
         MALInteraction interaction) throws MALException, MALInteractionException {
         return super.updateCOMObjects(identityIds, instances, source, interaction);
     }
@@ -192,7 +193,7 @@ public class COMInstanceVersionArchiveManager<IdentityT extends Element, Identit
         return super.updateCOMObject(instanceId, status, source, interaction);
     }
 
-    public ObjectIdList updateStatuses(ObjectIdList instanceIds, StatusListT statuses, ObjectId source,
+    public ObjectIdList updateStatuses(ObjectIdList instanceIds, HeterogeneousList statuses, ObjectId source,
         MALInteraction interaction) throws MALException, MALInteractionException {
         return super.updateCOMObjects(instanceIds, statuses, source, interaction);
     }

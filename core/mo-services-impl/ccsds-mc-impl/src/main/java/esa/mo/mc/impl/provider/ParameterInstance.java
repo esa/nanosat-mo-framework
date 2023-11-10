@@ -41,13 +41,9 @@ public class ParameterInstance {
     public ParameterInstance(final Identifier name, final Attribute value, final ObjectId source,
         final Time timestamp) {
         this.name = name;
-        this.parameterValue = new ParameterValue();
+        this.parameterValue = new ParameterValue(new UOctet((short) 0), value, null);
         this.source = source;
         this.timestamp = timestamp;
-
-        this.parameterValue.setRawValue(value);
-        this.parameterValue.setConvertedValue(null);
-        this.parameterValue.setValidityState(new UOctet((short) 0));
     }
 
     public ParameterInstance(final Identifier name, final ParameterValue pValue, final ObjectId source,

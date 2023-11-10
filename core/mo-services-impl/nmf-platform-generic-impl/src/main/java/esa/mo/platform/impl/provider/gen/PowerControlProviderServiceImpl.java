@@ -25,12 +25,10 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.COMHelper;
-import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.MALStandardError;
+import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.structures.Identifier;
@@ -38,6 +36,7 @@ import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UIntegerList;
 import org.ccsds.moims.mo.platform.PlatformHelper;
 import org.ccsds.moims.mo.platform.powercontrol.PowerControlHelper;
+import org.ccsds.moims.mo.platform.powercontrol.PowerControlServiceInfo;
 import org.ccsds.moims.mo.platform.powercontrol.provider.PowerControlInheritanceSkeleton;
 import org.ccsds.moims.mo.platform.powercontrol.structures.Device;
 import org.ccsds.moims.mo.platform.powercontrol.structures.DeviceList;
@@ -62,34 +61,13 @@ public class PowerControlProviderServiceImpl extends PowerControlInheritanceSkel
      * @throws MALException On initialisation error.
      */
     public synchronized void init(PowerControlAdapterInterface adapter) throws MALException {
-        if (!initialiased) {
-
-            if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
-                MALHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(PlatformHelper.PLATFORM_AREA_NAME, PlatformHelper.PLATFORM_AREA_VERSION) ==
-                null) {
-                PlatformHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION) == null) {
-                COMHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(PlatformHelper.PLATFORM_AREA_NAME, PlatformHelper.PLATFORM_AREA_VERSION)
-                .getServiceByName(PowerControlHelper.POWERCONTROL_SERVICE_NAME) == null) {
-                PowerControlHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-        }
-
         // Shut down old service transport
         if (null != powerControlServiceProvider) {
             connection.closeAll();
         }
 
         this.adapter = adapter;
-        powerControlServiceProvider = connection.startService(PowerControlHelper.POWERCONTROL_SERVICE_NAME.toString(),
+        powerControlServiceProvider = connection.startService(PowerControlServiceInfo.POWERCONTROL_SERVICE_NAME.toString(),
             PowerControlHelper.POWERCONTROL_SERVICE, this);
 
         running = true;
@@ -136,7 +114,7 @@ public class PowerControlProviderServiceImpl extends PowerControlInheritanceSkel
             }
         }
         if (!unkIndexList.isEmpty()) {
-            throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
         }
         return ret;
     }
@@ -148,7 +126,7 @@ public class PowerControlProviderServiceImpl extends PowerControlInheritanceSkel
             adapter.enableDevices(devices);
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, "adapter.enableDevices failed", ex);
-            throw new MALInteractionException(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER,
+            throw new MALInteractionException(new MOErrorException(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER,
                 null));
         }
     }

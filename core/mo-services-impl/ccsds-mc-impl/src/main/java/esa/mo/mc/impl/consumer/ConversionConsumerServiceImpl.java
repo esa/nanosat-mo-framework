@@ -20,13 +20,7 @@
  */
 package esa.mo.mc.impl.consumer;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.mal.MALContextFactory;
-import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALHelper;
-import org.ccsds.moims.mo.mc.MCHelper;
 import org.ccsds.moims.mo.mc.conversion.ConversionHelper;
 
 /**
@@ -36,28 +30,7 @@ import org.ccsds.moims.mo.mc.conversion.ConversionHelper;
 public class ConversionConsumerServiceImpl {
 
     public ConversionConsumerServiceImpl() {
-
-        try {
-            if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
-                MALHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION) == null) {
-                COMHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION) == null) {
-                MCHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION).getServiceByName(
-                ConversionHelper.CONVERSION_SERVICE_NAME) == null) {
-                ConversionHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-        } catch (MALException ex) {
-            Logger.getLogger(ConversionConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+        MALContextFactory.getElementsRegistry().loadServiceAndAreaElements(ConversionHelper.CONVERSION_SERVICE);
     }
 
 }

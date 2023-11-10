@@ -30,12 +30,13 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.structures.BooleanList;
 import org.ccsds.moims.mo.mal.structures.ElementList;
+import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.URI;
-import org.ccsds.moims.mo.platform.gps.GPSHelper;
+import org.ccsds.moims.mo.mal.structures.Union;
+import org.ccsds.moims.mo.platform.gps.GPSServiceInfo;
 import org.ccsds.moims.mo.platform.gps.structures.NearbyPositionDefinition;
 import org.ccsds.moims.mo.platform.gps.structures.NearbyPositionDefinitionList;
 
@@ -92,14 +93,18 @@ public final class GPSManager extends DefinitionsManager {
             uniqueObjIdDef++; // This line as to go before any writing (because it's initialized as zero and that's the wildcard)
             this.addDef(uniqueObjIdDef, definition);
             return uniqueObjIdDef;
-        } else {
-            NearbyPositionDefinitionList defs = new NearbyPositionDefinitionList();
+        }else{
+            HeterogeneousList defs = new HeterogeneousList();
             defs.add(definition);
 
             try {
-                LongList objIds = super.getArchiveService().store(true, GPSHelper.NEARBYPOSITION_OBJECT_TYPE,
-                    ConfigurationProviderSingleton.getDomain(), HelperArchive.generateArchiveDetailsList(null, source,
-                        uri), defs, null);
+                LongList objIds = super.getArchiveService().store(
+                        true,
+                        GPSServiceInfo.NEARBYPOSITION_OBJECT_TYPE,
+                        ConfigurationProviderSingleton.getDomain(),
+                        HelperArchive.generateArchiveDetailsList(null, source, uri),
+                        defs,
+                        null);
 
                 if (objIds.size() == 1) {  // Was it correctly added to the archive? Did it return a unique objId?
                     this.addDef(objIds.get(0), definition);
@@ -120,13 +125,17 @@ public final class GPSManager extends DefinitionsManager {
 
     protected Long storeAndGenerateNearbyPositionAlertId(final Boolean inside, final Long objId, final URI uri) {
         if (super.getArchiveService() != null) {
-            BooleanList isEnteringList = new BooleanList();
-            isEnteringList.add(inside);
+            HeterogeneousList isEnteringList = new HeterogeneousList();
+            isEnteringList.add(new Union(inside));
 
             try {  // requirement: 3.3.4.2
-                LongList objIds = super.getArchiveService().store(true, GPSHelper.NEARBYPOSITIONALERT_OBJECT_TYPE,
-                    ConfigurationProviderSingleton.getDomain(), HelperArchive.generateArchiveDetailsList(objId, null,
-                        uri), isEnteringList, null);
+                LongList objIds = super.getArchiveService().store(
+                        true,
+                        GPSServiceInfo.NEARBYPOSITIONALERT_OBJECT_TYPE,
+                        ConfigurationProviderSingleton.getDomain(),
+                        HelperArchive.generateArchiveDetailsList(objId, null, uri),
+                        isEnteringList,
+                        null);
 
                 if (objIds.size() == 1) {
                     return objIds.get(0);

@@ -22,17 +22,13 @@ package esa.mo.com.impl.util;
 
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
-import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperMisc;
-import esa.mo.helpertools.helpers.HelperTime;
-
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveStub;
 import org.ccsds.moims.mo.com.archive.provider.ArchiveHandler;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
@@ -42,6 +38,7 @@ import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.ElementList;
@@ -124,42 +121,13 @@ public class HelperArchive {
      *            Interaction
      * @return The ArchiveDetailsList object
      */
-    public static ArchiveDetailsList generateArchiveDetailsList(final Long related, final ObjectId source,
-        final MALInteraction interaction) {
-        return generateArchiveDetailsList(related, source, interaction.getMessageHeader().getNetworkZone(), interaction
-            .getMessageHeader().getURIFrom());
-    }
-
-    /**
-     * Generates a ArchiveDetailsList structure with multiple ArchiveDetails
-     * objects. The object instance identifier will be set as 0. The operation will
-     * use the submitted related, source and interaction fields to fill-in the
-     * objects.
-     *
-     * @param related
-     *            Related fields
-     * @param source
-     *            Source field
-     * @param interaction
-     *            Interaction
-     * @return The ArchiveDetailsList object
-     */
-    public static ArchiveDetailsList generateArchiveDetailsList(LongList relatedIds, ObjectId source,
-        MALInteraction interaction) {
-        final ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
-
-        FineTime timestamp = HelperTime.getTimestamp();
-        for (Long relatedId : relatedIds) {
-            final ArchiveDetails archiveDetails = new ArchiveDetails();
-            archiveDetails.setInstId(0L);
-            archiveDetails.setDetails(new ObjectDetails(relatedId, source));
-            archiveDetails.setNetwork(interaction.getMessageHeader().getNetworkZone());
-            archiveDetails.setTimestamp(timestamp);
-            archiveDetails.setProvider(interaction.getMessageHeader().getURIFrom());
-            archiveDetailsList.add(archiveDetails);
-        }
-
-        return archiveDetailsList;
+    public static ArchiveDetailsList generateArchiveDetailsList(final Long related,
+            final ObjectId source, final MALInteraction interaction) {
+        return generateArchiveDetailsList(
+            related,
+            source,
+            null,
+            interaction.getMessageHeader().getFromURI());
     }
 
     /**
@@ -218,7 +186,7 @@ public class HelperArchive {
     public static ArchiveDetailsList generateArchiveDetailsList(final Long related, final ObjectId source,
         final Identifier network, final URI provider) {
         return generateArchiveDetailsList(related, source, ConfigurationProviderSingleton.getNetwork(), provider,
-            HelperTime.getTimestamp());
+            FineTime.now());
     }
 
     /**
@@ -239,14 +207,13 @@ public class HelperArchive {
      *            Timestamp field
      * @return The ArchiveDetailsList object
      */
-    public static ArchiveDetailsList generateArchiveDetailsList(final Long related, final ObjectId source,
-        final Identifier network, final URI provider, final FineTime timestamp) {
-        final ArchiveDetails archiveDetails = new ArchiveDetails();
-        archiveDetails.setInstId(0L);
-        archiveDetails.setDetails(new ObjectDetails(related, source));
-        archiveDetails.setNetwork(network);
-        archiveDetails.setTimestamp(timestamp);
-        archiveDetails.setProvider(provider);
+    public static ArchiveDetailsList generateArchiveDetailsList(final Long related,
+            final ObjectId source, final Identifier network, final URI provider, final FineTime timestamp) {
+        final ArchiveDetails archiveDetails = new ArchiveDetails(Long.valueOf(0),
+            new ObjectDetails(related, source),
+            network,
+            timestamp,
+            provider);
 
         final ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
         archiveDetailsList.add(archiveDetails);
@@ -271,13 +238,16 @@ public class HelperArchive {
      *            Object instance identifier field
      * @return The ArchiveDetailsList object
      */
-    public static ArchiveDetailsList generateArchiveDetailsList(final Long related, final ObjectId source,
-        final Identifier network, final URI provider, final Long objId) {
-        final ArchiveDetailsList archiveDetailsList = HelperArchive.generateArchiveDetailsList(related, source, network,
+    public static ArchiveDetailsList generateArchiveDetailsList(final Long related,
+            final ObjectId source, final Identifier network, final URI provider, final Long objId) {
+        ArchiveDetails archiveDetails = new ArchiveDetails(objId,
+            new ObjectDetails(related, source),
+            network,
+            FineTime.now(),
             provider);
 
-        archiveDetailsList.get(0).setInstId(objId);
-
+        final ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
+        archiveDetailsList.add(archiveDetails);
         return archiveDetailsList;
     }
 

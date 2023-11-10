@@ -25,7 +25,6 @@ import esa.mo.com.impl.util.Quota;
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.nmf.NMFProvider;
 import esa.mo.helpertools.connections.ConnectionProvider;
-import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.misc.AppShutdownGuard;
 import esa.mo.helpertools.misc.Const;
@@ -46,15 +45,17 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectKey;
-import org.ccsds.moims.mo.common.configuration.ConfigurationHelper;
+import org.ccsds.moims.mo.common.configuration.ConfigurationServiceInfo;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterCreationRequest;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterCreationRequestList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
+import org.ccsds.moims.mo.mal.structures.URI;
+import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherServiceInfo;
 
 /**
  * The implementation of the NanoSat MO Supervisor that can be extended by particular
@@ -119,7 +120,7 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
             LOGGER.log(Level.INFO, "Loading previous configurations...");
 
             // Activate the previous configuration
-            final ObjectId confId = new ObjectId(ConfigurationHelper.PROVIDERCONFIGURATION_OBJECT_TYPE, new ObjectKey(
+            final ObjectId confId = new ObjectId(ConfigurationServiceInfo.PROVIDERCONFIGURATION_OBJECT_TYPE, new ObjectKey(
                 ConfigurationProviderSingleton.getDomain(), DEFAULT_PROVIDER_CONFIGURATION_OBJID));
 
             super.providerConfiguration = new PersistProviderConfiguration(this, confId, comServices
@@ -203,7 +204,7 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
 
             // Acknowledge the reception of the request to close (Closing...)
             Long eventId = this.getCOMServices().getEventService().generateAndStoreEvent(
-                AppsLauncherHelper.STOPPING_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(), null, null, source,
+                AppsLauncherServiceInfo.STOPPING_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(), null, null, source,
                 null);
 
             final URI uri = this.getCOMServices().getEventService().getConnectionProvider().getConnectionDetails()
@@ -211,7 +212,7 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
 
             try {
                 this.getCOMServices().getEventService().publishEvent(uri, eventId,
-                    AppsLauncherHelper.STOPPING_OBJECT_TYPE, null, source, null);
+                    AppsLauncherServiceInfo.STOPPING_OBJECT_TYPE, null, source, null);
             } catch (IOException ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
             }
@@ -224,12 +225,12 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
             }
 
             Long eventId2 = this.getCOMServices().getEventService().generateAndStoreEvent(
-                AppsLauncherHelper.STOPPED_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(), null, null, source,
+                AppsLauncherServiceInfo.STOPPED_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(), null, null, source,
                 null);
 
             try {
                 this.getCOMServices().getEventService().publishEvent(uri, eventId2,
-                    AppsLauncherHelper.STOPPED_OBJECT_TYPE, null, source, null);
+                    AppsLauncherServiceInfo.STOPPED_OBJECT_TYPE, null, source, null);
             } catch (IOException ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
             }

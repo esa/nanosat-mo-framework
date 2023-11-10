@@ -27,7 +27,6 @@ import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.URI;
-
 import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.util.logging.Level;

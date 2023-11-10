@@ -27,7 +27,7 @@ import esa.mo.mc.impl.provider.ParameterManager;
 import java.util.HashMap;
 import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.MALStandardError;
+import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mc.check.structures.CheckDefinitionDetails;
@@ -262,8 +262,8 @@ public class CheckLinkEvaluationManager {
             }
             return CheckEvaluation.evaluateCompoundCheck(compoundCheckDef, currCheckLinkEvaluations, evaluationResult);
         }
-        throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER,
-            "There is a problem with the checkDefinition referenced by the checkLink"));
+        throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER,
+                "There is a problem with the checkDefinition referenced by the checkLink"));
     }
 
     /**

@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft â€“ v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -27,8 +27,6 @@ import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
-import esa.mo.helpertools.connections.ServicesConnectionDetails;
-import esa.mo.helpertools.connections.SingleConnectionDetails;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,14 +37,13 @@ import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
 import org.ccsds.moims.mo.com.structures.ObjectKey;
-import org.ccsds.moims.mo.common.CommonHelper;
 import org.ccsds.moims.mo.common.directory.DirectoryHelper;
+import org.ccsds.moims.mo.common.directory.DirectoryServiceInfo;
 import org.ccsds.moims.mo.common.directory.body.PublishProviderResponse;
 import org.ccsds.moims.mo.common.directory.provider.DirectoryInheritanceSkeleton;
 import org.ccsds.moims.mo.common.directory.structures.AddressDetails;
 import org.ccsds.moims.mo.common.directory.structures.AddressDetailsList;
 import org.ccsds.moims.mo.common.directory.structures.ProviderDetails;
-import org.ccsds.moims.mo.common.directory.structures.ProviderDetailsList;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
 import org.ccsds.moims.mo.common.directory.structures.PublishDetails;
@@ -54,14 +51,16 @@ import org.ccsds.moims.mo.common.directory.structures.ServiceCapability;
 import org.ccsds.moims.mo.common.directory.structures.ServiceCapabilityList;
 import org.ccsds.moims.mo.common.directory.structures.ServiceFilter;
 import org.ccsds.moims.mo.common.structures.ServiceKey;
-import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.MALStandardError;
+import org.ccsds.moims.mo.mal.MOErrorException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ServicesConnectionDetails;
+import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.structures.FileList;
+import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.IntegerList;
@@ -94,13 +93,8 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
         qos.add(QoSLevel.ASSURED);
         NamedValueList qosProperties = new NamedValueList();  // Nothing here for now...
 
-        AddressDetails serviceAddress = new AddressDetails();
-        serviceAddress.setSupportedLevels(qos);
-        serviceAddress.setQoSproperties(qosProperties);
-        serviceAddress.setPriorityLevels(new UInteger(1));  // hum?
-        serviceAddress.setServiceURI(conn.getProviderURI());
-        serviceAddress.setBrokerURI(conn.getBrokerURI());
-        serviceAddress.setBrokerProviderObjInstId(null);
+    AddressDetails serviceAddress = new AddressDetails(qos, qosProperties,
+            new UInteger(1), conn.getProviderURI(), conn.getBrokerURI(), null);
 
         return serviceAddress;
     }
@@ -145,25 +139,6 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
      * @throws MALException On initialisation error.
      */
     public synchronized void init(COMServicesProvider comServices) throws MALException {
-        if (!initialiased) {
-            if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
-                MALHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION) == null) {
-                COMHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(CommonHelper.COMMON_AREA_NAME, CommonHelper.COMMON_AREA_VERSION) == null) {
-                CommonHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(CommonHelper.COMMON_AREA_NAME, CommonHelper.COMMON_AREA_VERSION)
-                .getServiceByName(DirectoryHelper.DIRECTORY_SERVICE_NAME) == null) {
-                DirectoryHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-        }
-
         this.comServices = comServices;
 
         // shut down old service transport
@@ -171,13 +146,13 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
             connection.closeAll();
         }
 
-        directoryServiceProvider = connection.startService(DirectoryHelper.DIRECTORY_SERVICE_NAME.toString(),
-            DirectoryHelper.DIRECTORY_SERVICE, false, this);
+        directoryServiceProvider = connection.startService(
+        DirectoryServiceInfo.DIRECTORY_SERVICE_NAME.toString(),
+        DirectoryHelper.DIRECTORY_SERVICE, false, this);
 
         running = true;
         initialiased = true;
         LOGGER.info("Directory service READY");
-
     }
 
     /**
@@ -214,7 +189,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
             Identifier domainPart = inputDomain.get(i);
 
             if (domainPart.toString().equals("*") && i != (inputDomain.size() - 1)) {
-                throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
+                throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, null));
             }
         }
 
@@ -364,7 +339,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
     public PublishProviderResponse publishProvider(final PublishDetails newProviderDetails,
         final MALInteraction interaction) throws MALInteractionException, MALException {
         Identifier serviceProviderName = newProviderDetails.getProviderId();
-        IdentifierList objBodies = new IdentifierList();
+        HeterogeneousList objBodies = new HeterogeneousList();
         objBodies.add(serviceProviderName);
 
         PublishProviderResponse response = new PublishProviderResponse();
@@ -390,17 +365,17 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
 
             // Check if there are comServices...
             if (comServices == null) {
-                throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
+                throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, null));
             }
 
             // Check if the archive is available...
             if (comServices.getArchiveService() == null) {
-                throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
+                throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, null));
             }
 
             // Store in the Archive the ServiceProvider COM object and get an object instance identifier
             final LongList returnedServProvObjIds = comServices.getArchiveService().store(true,
-                DirectoryHelper.SERVICEPROVIDER_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(), archDetails,
+                DirectoryServiceInfo.SERVICEPROVIDER_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(), archDetails,
                 objBodies, null);
 
             Long servProvObjId;
@@ -408,7 +383,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
             if (!returnedServProvObjIds.isEmpty()) {
                 servProvObjId = returnedServProvObjIds.get(0);
             } else {  // Nothing was returned...
-                throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
+                throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, null));
             }
 
             // related contains the objId of the ServiceProvider object
@@ -416,11 +391,11 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
                 servProvObjId, null, connection.getPrimaryConnectionDetails().getProviderURI()) : HelperArchive
                     .generateArchiveDetailsList(servProvObjId, null, interaction);
 
-            ProviderDetailsList capabilities = new ProviderDetailsList(1);
+            HeterogeneousList capabilities = new HeterogeneousList();
             capabilities.add(newProviderDetails.getProviderDetails());
 
             // Store in the Archive the ProviderCapabilities COM object
-            comServices.getArchiveService().store(false, DirectoryHelper.PROVIDERCAPABILITIES_OBJECT_TYPE,
+            comServices.getArchiveService().store(false, DirectoryServiceInfo.PROVIDERCAPABILITIES_OBJECT_TYPE,
                 ConfigurationProviderSingleton.getDomain(), archDetails1, capabilities, null);
 
             this.providersAvailable.put(servProvObjId, newProviderDetails);
@@ -436,21 +411,21 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
         MALException {
         synchronized (MUTEX) {
             if (!this.providersAvailable.containsKey(providerObjectKey)) { // The requested provider does not exist
-                throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, null));
+                throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, null));
             }
 
             ArchiveManager manager = comServices.getArchiveService().getArchiveManager();
             IdentifierList domain = ConfigurationProviderSingleton.getDomain();
             ArchiveQuery query = new ArchiveQuery(domain, null, null, providerObjectKey, null, null, null, null, null);
-            List<ArchivePersistenceObject> result = manager.query(DirectoryHelper.PROVIDERCAPABILITIES_OBJECT_TYPE,
+            List<ArchivePersistenceObject> result = manager.query(DirectoryServiceInfo.PROVIDERCAPABILITIES_OBJECT_TYPE,
                 query, null);
             Long capabilityId = result.get(0).getArchiveDetails().getInstId(); // there should be only one object in the query result
             LongList providerIds = new LongList();
             providerIds.add(providerObjectKey);
-            manager.removeEntries(DirectoryHelper.SERVICEPROVIDER_OBJECT_TYPE, domain, providerIds, null);
+            manager.removeEntries(DirectoryServiceInfo.SERVICEPROVIDER_OBJECT_TYPE, domain, providerIds, null);
             LongList capabilityIds = new LongList();
             capabilityIds.add(capabilityId);
-            manager.removeEntries(DirectoryHelper.PROVIDERCAPABILITIES_OBJECT_TYPE, domain, capabilityIds, null);
+            manager.removeEntries(DirectoryServiceInfo.PROVIDERCAPABILITIES_OBJECT_TYPE, domain, capabilityIds, null);
 
             this.providersAvailable.remove(providerObjectKey); // Remove the provider...
         }

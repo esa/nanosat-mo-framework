@@ -22,8 +22,6 @@ package esa.mo.nmf.ctt.utils;
 
 import esa.mo.helpertools.clock.PlatformClockCallback;
 import esa.mo.helpertools.clock.SystemClock;
-import esa.mo.helpertools.helpers.HelperTime;
-import esa.mo.helpertools.misc.TaskScheduler;
 import esa.mo.nmf.ctt.services.com.ArchiveConsumerManagerPanel;
 import esa.mo.nmf.ctt.services.com.EventConsumerPanel;
 import esa.mo.nmf.ctt.services.common.ConfigurationConsumerPanel;
@@ -57,6 +55,8 @@ import javax.swing.JTabbedPane;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
+import org.ccsds.moims.mo.mal.helpertools.misc.TaskScheduler;
 import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.softwaremanagement.heartbeat.consumer.HeartbeatAdapter;
@@ -367,7 +367,7 @@ public class ProviderTabPanel extends javax.swing.JPanel {
         private final long period; // In seconds
         private long lag; // In milliseconds
         private final TaskScheduler timer;
-        private Time lastBeatAt = HelperTime.getTimestampMillis();
+        private Time lastBeatAt = Time.now();
 
         public ProviderStatusAdapter(final HeartbeatConsumerServiceImpl heartbeat) throws MALInteractionException,
             MALException {
@@ -383,7 +383,7 @@ public class ProviderTabPanel extends javax.swing.JPanel {
 
                 @Override
                 public void run() {
-                    final Time currentTime = HelperTime.getTimestampMillis();
+                    final Time currentTime = Time.now();
 
                     // If the current time has passed the last beat + the beat period + a delta error
                     long threshold = lastBeatAt.getValue() + period + DELTA_ERROR;
@@ -414,9 +414,10 @@ public class ProviderTabPanel extends javax.swing.JPanel {
 
         @Override
         public synchronized void beatNotifyReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-            org.ccsds.moims.mo.mal.structures.Identifier _Identifier0,
-            org.ccsds.moims.mo.mal.structures.UpdateHeaderList _UpdateHeaderList1, java.util.Map qosProperties) {
-            lastBeatAt = HelperTime.getTimestampMillis();
+                org.ccsds.moims.mo.mal.structures.Identifier _Identifier0,
+                org.ccsds.moims.mo.mal.structures.UpdateHeader updateHeader,
+                java.util.Map qosProperties) {
+            lastBeatAt = Time.now();
             final Time onboardTime = msgHeader.getTimestamp();
             final long iDiff = lastBeatAt.getValue() - onboardTime.getValue();
 

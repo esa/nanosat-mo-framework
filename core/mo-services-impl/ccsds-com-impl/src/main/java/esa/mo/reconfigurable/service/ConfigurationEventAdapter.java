@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft â€“ v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -22,7 +22,6 @@ package esa.mo.reconfigurable.service;
 
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
-import esa.mo.helpertools.helpers.HelperTime;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Map;
@@ -32,22 +31,24 @@ import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.event.consumer.EventAdapter;
 import org.ccsds.moims.mo.com.structures.ObjectDetails;
-import org.ccsds.moims.mo.com.structures.ObjectDetailsList;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.com.structures.ObjectType;
-import org.ccsds.moims.mo.common.configuration.ConfigurationHelper;
+import org.ccsds.moims.mo.common.configuration.ConfigurationServiceInfo;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails;
-import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetailsList;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.BooleanList;
-import org.ccsds.moims.mo.mal.structures.ElementList;
+import org.ccsds.moims.mo.mal.structures.Element;
+import org.ccsds.moims.mo.mal.structures.FineTime;
+import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
+import org.ccsds.moims.mo.mal.structures.NullableAttributeList;
 import org.ccsds.moims.mo.mal.structures.URI;
-import org.ccsds.moims.mo.mal.structures.UpdateHeaderList;
+import org.ccsds.moims.mo.mal.structures.UpdateHeader;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 
 /**
@@ -71,96 +72,98 @@ public class ConfigurationEventAdapter extends EventAdapter implements Serializa
 
     @Override
     public void monitorEventNotifyReceived(MALMessageHeader msgHeader, Identifier _Identifier0,
-        UpdateHeaderList updateHeaderList, ObjectDetailsList objectDetailsList, ElementList objects,
-        Map qosProperties) {
+            UpdateHeader updateHeader, ObjectDetails objectDetails,
+            Element object, Map qosProperties) {
         // Notification received from the Configuration serviceImpl...
-        for (int i = 0; i < objectDetailsList.size(); i++) {
-            Identifier eventObjNumber = updateHeaderList.get(i).getKey().getFirstSubKey();
+        NullableAttributeList subkeys = updateHeader.getKeyValues();
+        Identifier eventObjNumber = (Identifier) subkeys.get(0).getValue();
 
-            // Check if it is a "Configuration switch Request" or a "Current Configuration Store"
-            if (!eventObjNumber.toString().equals(ConfigurationHelper.CONFIGURATIONSWITCH_OBJECT_NUMBER.toString()) &&
-                !eventObjNumber.toString().equals(ConfigurationHelper.CONFIGURATIONSTORE_OBJECT_NUMBER.toString())) {
+        // Check if it is a "Configuration switch Request" or a "Current Configuration Store"
+        if (!eventObjNumber.toString().equals(ConfigurationServiceInfo.CONFIGURATIONSWITCH_OBJECT_NUMBER.toString())
+                && !eventObjNumber.toString().equals(ConfigurationServiceInfo.CONFIGURATIONSTORE_OBJECT_NUMBER.toString())) {
+            return;
+        }
+
+        // If so... check if it is a "Configuration switch Request"
+        if (eventObjNumber.toString().equals(ConfigurationServiceInfo.CONFIGURATIONSWITCH_OBJECT_NUMBER.toString())) {
+            if (object == null) {
                 return;
             }
 
-            // If so... check if it is a "Configuration switch Request"
-            if (eventObjNumber.toString().equals(ConfigurationHelper.CONFIGURATIONSWITCH_OBJECT_NUMBER.toString())) {
-                if (objects == null) {
-                    return;
-                }
+            // Get the objId of the Configuration
+            ObjectId obj = (ObjectId) object;
 
-                if (objects.isEmpty()) {
-                    return; // No objects... 
-                }
+            // Check if it is a Configuration event for this particular service (based on the service type, domain ?)
+            if (obj.getType().getArea().equals(serviceImpl.getCOMService().getAreaNumber())
+                    && obj.getType().getNumber().equals(serviceImpl.getCOMService().getServiceNumber())
+                    && obj.getKey().getDomain().equals(providerDomain)) {
 
-                // Get the objId of the Configuration
-                ObjectId obj = (ObjectId) objects.get(0);
+                // Retrieve it from the Archive
+                ConfigurationObjectDetails configurationObj = (ConfigurationObjectDetails) HelperArchive.getObjectBodyFromArchive(
+                        comServices.getArchiveService(), obj.getType(),
+                        obj.getKey().getDomain(), obj.getKey().getInstId());
 
-                if (obj == null) {
-                    return;
-                }
+                // Reload the retrieved configuration
+                Boolean confChanged = serviceImpl.reloadConfiguration(configurationObj);
 
-                // Check if it is a Configuration event for this particular service (based on the service type, domain ?)
-                if (obj.getType().getArea().equals(serviceImpl.getCOMService().getArea().getNumber()) && obj.getType()
-                    .getNumber().equals(serviceImpl.getCOMService().getNumber()) && obj.getKey().getDomain().equals(
-                        providerDomain)) {
-
-                    // Retrieve it from the Archive
-                    ConfigurationObjectDetails configurationObj = (ConfigurationObjectDetails) HelperArchive
-                        .getObjectBodyFromArchive(comServices.getArchiveService(), obj.getType(), obj.getKey()
-                            .getDomain(), obj.getKey().getInstId());
-
-                    // Reload the retrieved configuration
-                    Boolean confChanged = serviceImpl.reloadConfiguration(configurationObj);
-
-                    if (confChanged) {
-                        // Todo: Publish success
-                    } else {
-                        // Todo: Publish failure
-                    }
+                if (confChanged) {
+                    // Todo: Publish success
+                } else {
+                    // Todo: Publish failure
                 }
             }
+        }
 
-            // -----------------------------------------------------------
-            // Check if it is a "Current Configuration Store"
-            if (eventObjNumber.toString().equals(ConfigurationHelper.CONFIGURATIONSTORE_OBJECT_NUMBER.toString())) {
-                ConfigurationObjectDetails set = serviceImpl.getCurrentConfiguration();
-                ConfigurationObjectDetailsList bodies = new ConfigurationObjectDetailsList();
-                bodies.add(set);
+        // Long entityKey3 = (Long) HelperAttributes.attribute2JavaType(subkeys.get(2).getValue());
+        Attribute nullAtt = subkeys.get(2).getValue();
+        Long entityKey3 = (Long) Attribute.javaType2Attribute(nullAtt);
 
-                // For the ConfigurationObjects:
-                ObjectType objType = ConfigurationHelper.CONFIGURATIONOBJECTS_OBJECT_TYPE;
+        // -----------------------------------------------------------
+        // Check if it is a "Current Configuration Store"
+        if (eventObjNumber.toString().equals(ConfigurationServiceInfo.CONFIGURATIONSTORE_OBJECT_NUMBER.toString())) {
+            ConfigurationObjectDetails set = serviceImpl.getCurrentConfiguration();
+            HeterogeneousList bodies = new HeterogeneousList();
+            bodies.add(set);
 
-                ArchiveDetails archiveDetails = new ArchiveDetails();
-                archiveDetails.setInstId(0L);
-                archiveDetails.setDetails(new ObjectDetails(updateHeaderList.get(i).getKey().getThirdSubKey(), null));  // Event objId
-                archiveDetails.setNetwork(msgHeader.getNetworkZone());
-                archiveDetails.setTimestamp(HelperTime.getTimestamp());
-                archiveDetails.setProvider(msgHeader.getURIFrom());
+            // For the ConfigurationObjects:
+            ObjectType objType = ConfigurationServiceInfo.CONFIGURATIONOBJECTS_OBJECT_TYPE;
 
-                ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
-                archiveDetailsList.add(archiveDetails);
+            ArchiveDetails archiveDetails = new ArchiveDetails(new Long(0),
+                    new ObjectDetails(entityKey3, null),
+                    null,
+                    FineTime.now(),
+                    msgHeader.getFromURI());
 
-                try {
-                    // Store the Configuration Object in the COM Archive
-                    LongList objIds = comServices.getArchiveService().store(true, objType, providerDomain,
-                        archiveDetailsList, bodies, null);
+            ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
+            archiveDetailsList.add(archiveDetails);
 
-                    Long objId = objIds.get(0);
+            try {
+                // Store the Configuration Object in the COM Archive
+                LongList objIds = comServices.getArchiveService().store(
+                        true,
+                        objType,
+                        providerDomain,
+                        archiveDetailsList,
+                        bodies,
+                        null);
 
-                    // Publish event: Success with the objId of the Configuration stored
-                    this.publishConfigurationStoredSuccess(objId, updateHeaderList.get(i).getKey().getThirdSubKey());
-                } catch (MALException | MALInteractionException ex) {
-                    // Publish event: Failure with the objId of the Configuration stored
-                    this.publishConfigurationStoredFailure(updateHeaderList.get(i).getKey().getThirdSubKey());  // Event objId
-                }
+                Long objId = objIds.get(0);
+
+                // Publish event: Success with the objId of the Configuration stored
+                this.publishConfigurationStoredSuccess(objId, entityKey3);
+            } catch (MALException ex) {
+                // Publish event: Failure with the objId of the Configuration stored
+                this.publishConfigurationStoredFailure(entityKey3);  // Event objId
+            } catch (MALInteractionException ex) {
+                // Publish event: Failure with the objId of the Configuration stored
+                this.publishConfigurationStoredFailure(entityKey3);  // Event objId
             }
         }
     }
 
     private void publishConfigurationStoredFailure(Long related) {
         // Publish event: Failure with the objId of the Configuration stored
-        ObjectType objTypeEvent = ConfigurationHelper.CONFIGURATIONSTORED_OBJECT_TYPE;
+        ObjectType objTypeEvent = ConfigurationServiceInfo.CONFIGURATIONSTORED_OBJECT_TYPE;
         BooleanList bool = new BooleanList();
         bool.add(false);  // Failure
         ObjectId eventSource = null;  // It was not stored...
@@ -174,12 +177,13 @@ public class ConfigurationEventAdapter extends EventAdapter implements Serializa
 
     private void publishConfigurationStoredSuccess(Long objId, Long related) {
         // Publish event: Success with the objId of the Configuration stored
-        ObjectType objTypeEvent = ConfigurationHelper.CONFIGURATIONSTORED_OBJECT_TYPE;
+        ObjectType objTypeEvent = ConfigurationServiceInfo.CONFIGURATIONSTORED_OBJECT_TYPE;
         BooleanList bool = new BooleanList();
         bool.add(true);  // Success
-        ObjectId eventSource = new ObjectId();
-        eventSource.setType(ConfigurationHelper.CONFIGURATIONOBJECTS_OBJECT_TYPE);
-        eventSource.setKey(new ObjectKey(providerDomain, objId));
+        ObjectId eventSource = new ObjectId(
+                ConfigurationServiceInfo.CONFIGURATIONOBJECTS_OBJECT_TYPE,
+                new ObjectKey(providerDomain, objId)
+        );
 
         try {
             comServices.getEventService().publishEvent(providerURI, objId, objTypeEvent, related, eventSource, bool);

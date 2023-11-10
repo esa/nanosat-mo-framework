@@ -24,8 +24,6 @@ import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
-import esa.mo.helpertools.connections.SingleConnectionDetails;
-import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.mc.impl.interfaces.ExternalStatisticFunctionsInterface;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,25 +34,26 @@ import org.ccsds.moims.mo.com.archive.structures.ExpressionOperator;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
+import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.TimeList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
-import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
+import org.ccsds.moims.mo.mc.parameter.ParameterServiceInfo;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
-import org.ccsds.moims.mo.mc.statistic.StatisticHelper;
+import org.ccsds.moims.mo.mc.statistic.StatisticServiceInfo;
 import org.ccsds.moims.mo.mc.statistic.structures.StatisticCreationRequest;
 import org.ccsds.moims.mo.mc.statistic.structures.StatisticCreationRequestList;
 import org.ccsds.moims.mo.mc.statistic.structures.StatisticEvaluationReport;
 import org.ccsds.moims.mo.mc.statistic.structures.StatisticFunctionDetails;
 import org.ccsds.moims.mo.mc.statistic.structures.StatisticFunctionDetailsList;
-import org.ccsds.moims.mo.mc.statistic.structures.StatisticLinkDetailsList;
 import org.ccsds.moims.mo.mc.statistic.structures.StatisticValue;
-import org.ccsds.moims.mo.mc.statistic.structures.StatisticValueList;
 import org.ccsds.moims.mo.mc.structures.AttributeValue;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
@@ -178,15 +177,17 @@ public final class StatisticManager {
             }
             return this.uniqueObjIdAIns;
         } else {
-            StatisticValueList sValList = new StatisticValueList();
+            HeterogeneousList sValList = new HeterogeneousList();
             sValList.add(sVal);
 
             try {
                 LongList objIds = comServices.getArchiveService().store( //requirement: 3.6.6.c
-                    true, StatisticHelper.STATISTICVALUEINSTANCE_OBJECT_TYPE, //requirement: 3.6.4.i
-                    ConfigurationProviderSingleton.getDomain(), HelperArchive.generateArchiveDetailsList(related,
-                        source, connectionDetails), //requirement: 3.6.4. , n, o 
-                    sValList, null);
+                        true,
+                        StatisticServiceInfo.STATISTICVALUEINSTANCE_OBJECT_TYPE, //requirement: 3.6.4.i
+                        ConfigurationProviderSingleton.getDomain(),
+                        HelperArchive.generateArchiveDetailsList(related, source, connectionDetails), //requirement: 3.6.4. , n, o 
+                        sValList,
+                        null);
 
                 if (objIds.size() == 1) {
                     return objIds.get(0);
@@ -259,7 +260,6 @@ public final class StatisticManager {
     }
 
     public ObjectInstancePair add(StatisticCreationRequest statLink, SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
-
         Long newLinkId;
         Long newLinkDefId;
 
@@ -269,25 +269,29 @@ public final class StatisticManager {
         } else {
             try {
                 // store the StatisticLink object
-                ObjectId source = new ObjectId(ParameterHelper.PARAMETERIDENTITY_OBJECT_TYPE, statLink
-                    .getParameterId());
+                ObjectId source = new ObjectId(ParameterServiceInfo.PARAMETERIDENTITY_OBJECT_TYPE,
+                        statLink.getParameterId());
                 LongList linkIds = comServices.getArchiveService().store( //requirement: 3.6.6.b, 3.6.13.2.i
-                    true, StatisticHelper.STATISTICLINK_OBJECT_TYPE, //requirement: 3.6.4.g, h
-                    ConfigurationProviderSingleton.getDomain(), HelperArchive.generateArchiveDetailsList(statLink
-                        .getStatFuncInstId(), source, connectionDetails), //requirement: 3.6.4.j, k
-                    null, null);
+                        true,
+                        StatisticServiceInfo.STATISTICLINK_OBJECT_TYPE, //requirement: 3.6.4.g, h
+                        ConfigurationProviderSingleton.getDomain(),
+                        HelperArchive.generateArchiveDetailsList(statLink.getStatFuncInstId(), source, connectionDetails), //requirement: 3.6.4.j, k
+                        null,
+                        null);
 
                 newLinkId = linkIds.get(0);
 
                 // store the StatisticLinkDefinition object
-                StatisticLinkDetailsList linkDetails = new StatisticLinkDetailsList();
+                HeterogeneousList linkDetails = new HeterogeneousList();
                 linkDetails.add(statLink.getLinkDetails());
 
                 LongList linkDefIds = comServices.getArchiveService().store( //requirement: 3.6.6.b, 3.6.13.2.i
-                    true, StatisticHelper.STATISTICLINKDEFINITION_OBJECT_TYPE, //requirement: 3.6.4.g, h
-                    ConfigurationProviderSingleton.getDomain(), HelperArchive.generateArchiveDetailsList(newLinkId,
-                        null, connectionDetails), //requirement: 3.6.4.j, k
-                    linkDetails, null);
+                        true,
+                        StatisticServiceInfo.STATISTICLINKDEFINITION_OBJECT_TYPE, //requirement: 3.6.4.g, h
+                        ConfigurationProviderSingleton.getDomain(),
+                        HelperArchive.generateArchiveDetailsList(newLinkId, null, connectionDetails), //requirement: 3.6.4.j, k
+                        linkDetails,
+                        null);
 
                 newLinkDefId = linkDefIds.get(0);
 
@@ -309,13 +313,16 @@ public final class StatisticManager {
             newLinkDefId = ++uniqueObjIdLinkDef; // This line as to go before any writing (because it's initialized as zero and that's the wildcard)
         } else {
             try {
-                StatisticLinkDetailsList links = new StatisticLinkDetailsList();
+                HeterogeneousList links = new HeterogeneousList();
                 links.add(statLink.getLinkDetails());
 
                 LongList linkDefIds = comServices.getArchiveService().store( //requirement: 3.6.15.2.i
-                    true, StatisticHelper.STATISTICLINKDEFINITION_OBJECT_TYPE, ConfigurationProviderSingleton
-                        .getDomain(), HelperArchive.generateArchiveDetailsList(statLinkId, null, connectionDetails),
-                    links, null);
+                        true,
+                        StatisticServiceInfo.STATISTICLINKDEFINITION_OBJECT_TYPE,
+                        ConfigurationProviderSingleton.getDomain(),
+                        HelperArchive.generateArchiveDetailsList(statLinkId, null, connectionDetails),
+                        links,
+                        null);
 
                 newLinkDefId = linkDefIds.get(0);
             } catch (MALException | MALInteractionException ex) {
@@ -540,14 +547,9 @@ public final class StatisticManager {
             return null;
         }
 
-        StatisticValue statValue = new StatisticValue();
-        statValue.setStartTime(times.get(0));
-        statValue.setEndTime(times.get(times.size() - 1)); // Last element
-        statValue.setSampleCount(new UInteger(times.size()));
         long paramDefInstId = parameterManager.getDefinitionId(paramIdentityId);
-        statValue.setParamDefInstId(paramDefInstId);
-
-        return statValue;
+        return new StatisticValue(paramDefInstId, times.get(0),times.get(times.size() - 1),
+                null, null, new UInteger(times.size()));
     }
 
     public Boolean reconfigureLinks(LongList objIds, StatisticCreationRequestList statisticParameterDetailsList) {
@@ -609,8 +611,7 @@ public final class StatisticManager {
                 this.dataSets.get(objId).add(null);
                 this.timeSets.get(objId).add(time);
             } else {
-                AttributeValue value = new AttributeValue();
-                value.setValue(attribute);
+                AttributeValue value = new AttributeValue(attribute);
                 this.dataSets.get(objId).add(value);
                 this.timeSets.get(objId).add(time);
             }

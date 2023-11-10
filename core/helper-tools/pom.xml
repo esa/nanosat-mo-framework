@@ -48,7 +48,7 @@
   <dependencies>
     <dependency>
       <groupId>int.esa.ccsds.mo</groupId>
-      <artifactId>API_MAL</artifactId>
+      <artifactId>api-mal</artifactId>
     </dependency>
     <dependency>
       <groupId>junit</groupId>

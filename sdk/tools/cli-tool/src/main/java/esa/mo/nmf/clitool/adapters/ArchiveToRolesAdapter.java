@@ -22,7 +22,7 @@ package esa.mo.nmf.clitool.adapters;
 
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
-import org.ccsds.moims.mo.mal.MALStandardError;
+import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.structures.ElementList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 
@@ -66,13 +66,13 @@ public class ArchiveToRolesAdapter extends ArchiveAdapter implements QueryStatus
     }
 
     @Override
-    public void retrieveAckErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+    public void retrieveAckErrorReceived(MALMessageHeader msgHeader, MOErrorException error, Map qosProperties) {
         LOGGER.log(Level.SEVERE, "retrieveAckErrorReceived", error);
         setIsQueryOver(true);
     }
 
     @Override
-    public void retrieveResponseErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+    public void retrieveResponseErrorReceived(MALMessageHeader msgHeader, MOErrorException error, Map qosProperties) {
         LOGGER.log(Level.SEVERE, "retrieveResponseErrorReceived", error);
         setIsQueryOver(true);
     }

@@ -22,7 +22,6 @@ package esa.mo.nmf.ctt.services.mc;
 
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.HelperArchive;
-import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.mc.impl.consumer.CheckConsumerServiceImpl;
 import esa.mo.tools.mowindow.MOWindow;
 import java.io.InterruptedIOException;
@@ -36,14 +35,16 @@ import org.ccsds.moims.mo.com.structures.ObjectDetailsList;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.com.structures.ObjectType;
+import org.ccsds.moims.mo.mal.MALElementsRegistry;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.Duration;
+import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.StringList;
-import org.ccsds.moims.mo.mc.check.CheckHelper;
+import org.ccsds.moims.mo.mc.check.CheckServiceInfo;
 import org.ccsds.moims.mo.mc.check.structures.CheckDefinitionDetails;
 import org.ccsds.moims.mo.mc.check.structures.CheckDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.check.structures.CheckLinkDetails;
@@ -55,7 +56,7 @@ import org.ccsds.moims.mo.mc.check.structures.ConstantCheckDefinition;
 import org.ccsds.moims.mo.mc.check.structures.DeltaCheckDefinition;
 import org.ccsds.moims.mo.mc.check.structures.LimitCheckDefinition;
 import org.ccsds.moims.mo.mc.check.structures.ReferenceCheckDefinition;
-import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
+import org.ccsds.moims.mo.mc.parameter.ParameterServiceInfo;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 
 /**
@@ -83,8 +84,8 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
         jScrollPane3.setViewportView(checkLinksTable);
 
         this.serviceMCCheck = serviceMCCheck;
-        objTypeCheckDefinition = CheckHelper.CHECKIDENTITY_OBJECT_TYPE;
-
+        objTypeCheckDefinition = CheckServiceInfo.CHECKIDENTITY_OBJECT_TYPE;
+        
         this.listDefinitionAllButtonActionPerformed(null);
 
     }
@@ -318,8 +319,8 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
         CheckDefinitionDetailsList checkDefinitionList;
 
         try {
-            checkDefinitionList = (CheckDefinitionDetailsList) HelperMisc.element2elementList(checkDefinition);
-            checkDefinitionList.add(checkDefinitionWindow.getObject());
+            checkDefinitionList = (CheckDefinitionDetailsList) MALElementsRegistry.elementToElementList(checkDefinition);
+            checkDefinitionList.add((CheckDefinitionDetails) checkDefinitionWindow.getObject());
             StringList checkNames = new StringList();
             checkNames.add("AcheckDefinition");
 
@@ -370,8 +371,8 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
         CheckDefinitionDetailsList checkDefinitionList;
 
         try {
-            checkDefinitionList = (CheckDefinitionDetailsList) HelperMisc.element2elementList(moObject.getObject());
-            checkDefinitionList.add(moObject.getObject());
+            checkDefinitionList = (CheckDefinitionDetailsList) MALElementsRegistry.elementToElementList((Element) moObject.getObject());
+            checkDefinitionList.add((CheckDefinitionDetails) moObject.getObject());
             this.serviceMCCheck.getCheckStub().updateDefinition(objIds, checkDefinitionList);
             this.listDefinitionAllButtonActionPerformed(null);
         } catch (InterruptedIOException ex) {
@@ -533,8 +534,8 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
             }
 
             details.setRelated(checkDefsTable.getSelectedCOMObject().getObjectId());
-            details.setSource(new ObjectId(ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE, new ObjectKey(serviceMCCheck
-                .getConnectionDetails().getDomain(), 1L)));
+            details.setSource(new ObjectId(ParameterServiceInfo.PARAMETERDEFINITION_OBJECT_TYPE, 
+                    new ObjectKey(serviceMCCheck.getConnectionDetails().getDomain(), new Long (1))));
 
             MOWindow linksWindow = new MOWindow(details, true);
             ObjectDetailsList detailsList = new ObjectDetailsList();
@@ -549,9 +550,10 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
 
             Thread.sleep(500);
             // Get the stored Action Definition from the Archive
-            ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(this.serviceMCCheck.getCOMServices()
-                .getArchiveService().getArchiveStub(), CheckHelper.CHECKLINK_OBJECT_TYPE, serviceMCCheck
-                    .getConnectionDetails().getDomain(), objIds.get(0).getObjDefInstanceId());
+            ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(
+                    this.serviceMCCheck.getCOMServices().getArchiveService().getArchiveStub(),
+                    CheckServiceInfo.CHECKLINK_OBJECT_TYPE, serviceMCCheck.getConnectionDetails().getDomain(),
+                    objIds.get(0).getObjDefInstanceId());
 
             // Add the Check Link to the table
             checkLinksTable.addEntry(new Identifier("A check!!"), comObject);

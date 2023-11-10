@@ -35,6 +35,7 @@ import org.ccsds.moims.mo.mp.structures.ObjectIdPairList;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.mp.impl.com.COMArchiveManager;
 import esa.mo.mp.impl.com.COMConfiguration;
+import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 
 /**
  * COMStaticItemManager follows COM Static Item Object Pattern (Identity <=> Definition)
@@ -56,7 +57,7 @@ public class COMStaticItemArchiveManager<IdentityT extends Element, IdentityList
         return super.addCOMObject(identity, definition, source, interaction);
     }
 
-    public ObjectIdPairList addDefinitions(IdentifierList identities, DefinitionListT definitions, ObjectId source,
+    public ObjectIdPairList addDefinitions(IdentifierList identities, HeterogeneousList definitions, ObjectId source,
         MALInteraction interaction) throws MALException, MALInteractionException {
         return super.addCOMObjects(identities, definitions, source, interaction);
     }
@@ -126,7 +127,7 @@ public class COMStaticItemArchiveManager<IdentityT extends Element, IdentityList
         return super.updateCOMObject(identityId, definition, source, interaction);
     }
 
-    public ObjectIdList updateDefinitions(ObjectIdList identityIds, DefinitionListT definitions, ObjectId source,
+    public ObjectIdList updateDefinitions(ObjectIdList identityIds, HeterogeneousList definitions, ObjectId source,
         MALInteraction interaction) throws MALException, MALInteractionException {
         return super.updateCOMObjects(identityIds, definitions, source, interaction);
     }

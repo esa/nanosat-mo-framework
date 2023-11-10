@@ -38,15 +38,15 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.mp.plandistribution.PlanDistributionHelper;
 import org.ccsds.moims.mo.mp.structures.PlanVersionDetails;
 import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.HelperArchive;
-import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.mp.impl.consumer.PlanDistributionConsumerServiceImpl;
 import esa.mo.nmf.ctt.services.mp.PublishedUpdatesPanel;
 import esa.mo.nmf.ctt.services.mp.util.TimeConverter;
+import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
+import org.ccsds.moims.mo.mp.plandistribution.PlanDistributionServiceInfo;
 
 public class PublishedPlansPanel extends PublishedUpdatesPanel {
     private static final Logger LOGGER = Logger.getLogger(PublishedPlansPanel.class.getName());
@@ -78,7 +78,7 @@ public class PublishedPlansPanel extends PublishedUpdatesPanel {
 
         this.publishedPlansTable.removeAllEntries();
 
-        ObjectType instanceObjectType = PlanDistributionHelper.PLANVERSION_OBJECT_TYPE;
+        ObjectType instanceObjectType = PlanDistributionServiceInfo.PLANVERSION_OBJECT_TYPE;
 
         FineTime startTime = TimeConverter.convert(getRefreshTime());
 
@@ -106,14 +106,14 @@ public class PublishedPlansPanel extends PublishedUpdatesPanel {
                 new ArchiveAdapter() {
                     @Override
                     public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType,
-                        IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies,
+                        IdentifierList domain, ArchiveDetailsList objDetails, HeterogeneousList objBodies,
                         Map qosProperties) {
                         addEntries(domain, objDetails, objBodies);
                     }
 
                     @Override
                     public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType,
-                        IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies,
+                        IdentifierList domain, ArchiveDetailsList objDetails, HeterogeneousList objBodies,
                         Map qosProperties) {
                         addEntries(domain, objDetails, objBodies);
                     }
@@ -130,7 +130,7 @@ public class PublishedPlansPanel extends PublishedUpdatesPanel {
             ArchiveDetails details = objDetails.get(index);
             PlanVersionDetails planVersion = (PlanVersionDetails) objBodies.get(index);
 
-            Time timestamp = HelperTime.fineTimeToTime(details.getTimestamp());
+            Time timestamp = details.getTimestamp().toTime();
             Long instanceId = details.getDetails().getRelated();
             Long identityId = getIdentityId(domain, instanceId);
             Identifier identity = getIdentity(domain, identityId);
@@ -142,7 +142,7 @@ public class PublishedPlansPanel extends PublishedUpdatesPanel {
     private Long getIdentityId(IdentifierList domain, Long instanceId) {
         Long identityId = null;
 
-        ObjectType instanceObjectType = PlanDistributionHelper.PLANVERSION_OBJECT_TYPE;
+        ObjectType instanceObjectType = PlanDistributionServiceInfo.PLANVERSION_OBJECT_TYPE;
 
         ArchivePersistenceObject instanceObject = HelperArchive.getArchiveCOMObject(this.archiveService
             .getArchiveStub(), instanceObjectType, domain, instanceId);
@@ -161,7 +161,7 @@ public class PublishedPlansPanel extends PublishedUpdatesPanel {
             return identity;
         }
 
-        ObjectType identityObjectType = PlanDistributionHelper.PLANIDENTITY_OBJECT_TYPE;
+        ObjectType identityObjectType = PlanDistributionServiceInfo.PLANIDENTITY_OBJECT_TYPE;
 
         ArchivePersistenceObject identityObject = HelperArchive.getArchiveCOMObject(this.archiveService
             .getArchiveStub(), identityObjectType, domain, identityId);

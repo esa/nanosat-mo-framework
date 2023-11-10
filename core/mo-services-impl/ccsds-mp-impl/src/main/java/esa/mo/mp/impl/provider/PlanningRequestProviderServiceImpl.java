@@ -27,16 +27,11 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectIdList;
-import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.MALStandardError;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.provider.MALPublishInteractionListener;
-import org.ccsds.moims.mo.mal.structures.EntityKey;
-import org.ccsds.moims.mo.mal.structures.EntityKeyList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.QoSLevel;
@@ -46,10 +41,8 @@ import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.mal.structures.UpdateHeader;
 import org.ccsds.moims.mo.mal.structures.UpdateHeaderList;
-import org.ccsds.moims.mo.mal.structures.UpdateType;
 import org.ccsds.moims.mo.mal.transport.MALErrorBody;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.mp.MPHelper;
 import org.ccsds.moims.mo.mp.planningrequest.PlanningRequestHelper;
 import org.ccsds.moims.mo.mp.planningrequest.body.GetRequestStatusResponse;
 import org.ccsds.moims.mo.mp.planningrequest.body.SubmitRequestResponse;
@@ -71,12 +64,19 @@ import esa.mo.com.impl.util.EventReceivedListener;
 import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
-import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.mp.impl.api.MPArchiveManager;
 import esa.mo.mp.impl.callback.MPServiceOperation;
 import esa.mo.mp.impl.callback.MPServiceOperationHelper;
 import esa.mo.mp.impl.callback.MPServiceOperationManager;
 import esa.mo.mp.impl.com.COMObjectIdHelper;
+import org.ccsds.moims.mo.mal.MOErrorException;
+import org.ccsds.moims.mo.mal.structures.AttributeList;
+import org.ccsds.moims.mo.mal.structures.AttributeType;
+import org.ccsds.moims.mo.mal.structures.AttributeTypeList;
+import org.ccsds.moims.mo.mal.structures.IdentifierList;
+import org.ccsds.moims.mo.mal.structures.Time;
+import org.ccsds.moims.mo.mal.structures.URI;
+import org.ccsds.moims.mo.mp.planningrequest.PlanningRequestServiceInfo;
 
 /**
  * Planning Request (PRS) Service provider implementation.
@@ -103,32 +103,12 @@ public class PlanningRequestProviderServiceImpl extends PlanningRequestInheritan
      */
     public synchronized void init(COMServicesProvider comServices, MPArchiveManager archiveManager,
         MPServiceOperationManager registration) throws MALException {
-        if (!this.initialised) {
-            if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
-                MALHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION) == null) {
-                COMHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(MPHelper.MP_AREA_NAME, MPHelper.MP_AREA_VERSION) == null) {
-                MPHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            try {
-                PlanningRequestHelper.init(MALContextFactory.getElementFactoryRegistry());
-            } catch (MALException ex) {
-                // nothing to be done..
-            }
-        }
-
         // Shut down old service transport
         if (this.provider != null) {
             this.connection.closeAll();
         }
 
-        this.provider = this.connection.startService(PlanningRequestHelper.PLANNINGREQUEST_SERVICE_NAME.toString(),
+        this.provider = this.connection.startService(PlanningRequestServiceInfo.PLANNINGREQUEST_SERVICE_NAME.toString(),
             PlanningRequestHelper.PLANNINGREQUEST_SERVICE, true, this);
 
         requestPublisher = createMonitorRequestsPublisher(ConfigurationProviderSingleton.getDomain(),
@@ -143,7 +123,7 @@ public class PlanningRequestProviderServiceImpl extends PlanningRequestInheritan
             EventConsumerServiceImpl consumer = new EventConsumerServiceImpl(comServices.getEventService()
                 .getConnectionProvider().getConnectionDetails());
             Subscription subcription = HelperCOM.generateCOMEventSubscriptionBySourceType("RequestStatusUpdates",
-                PlanningRequestHelper.REQUESTSTATUSUPDATE_OBJECT_TYPE);
+                PlanningRequestServiceInfo.REQUESTSTATUSUPDATE_OBJECT_TYPE);
             consumer.addEventReceivedListener(subcription, new EventReceivedListener() {
                 @Override
                 public void onDataReceived(EventCOMObject eventCOMObject) {
@@ -207,7 +187,7 @@ public class PlanningRequestProviderServiceImpl extends PlanningRequestInheritan
         RequestUpdateDetails status = new RequestUpdateDetails();
         status.setRequestId(requestVersionId);
         status.setStatus(RequestStatus.REQUESTED);
-        status.setTimestamp(HelperTime.getTimestampMillis());
+        status.setTimestamp(Time.now());
         ObjectId statusId = this.archiveManager.REQUEST_VERSION.addStatus(requestVersionId, status, null, interaction);
 
         // Operation callback
@@ -241,7 +221,7 @@ public class PlanningRequestProviderServiceImpl extends PlanningRequestInheritan
 
         // Store updated request version to COM Archive
         ObjectId identityId = COMObjectIdHelper.getObjectId(requestIdentityId,
-            PlanningRequestHelper.REQUESTIDENTITY_OBJECT_TYPE);
+            PlanningRequestServiceInfo.REQUESTIDENTITY_OBJECT_TYPE);
         ObjectId requestVersionId = this.archiveManager.REQUEST_VERSION.updateInstance(identityId, requestVersion, null,
             interaction);
 
@@ -249,7 +229,7 @@ public class PlanningRequestProviderServiceImpl extends PlanningRequestInheritan
         RequestUpdateDetails status = new RequestUpdateDetails();
         status.setRequestId(requestVersionId);
         status.setStatus(RequestStatus.REQUESTED);
-        status.setTimestamp(HelperTime.getTimestampMillis());
+        status.setTimestamp(Time.now());
         ObjectId statusId = this.archiveManager.REQUEST_VERSION.addStatus(requestVersionId, status, null, interaction);
 
         // Operation callback
@@ -271,14 +251,14 @@ public class PlanningRequestProviderServiceImpl extends PlanningRequestInheritan
         MALException {
         // Find request version
         ObjectId identityId = COMObjectIdHelper.getObjectId(requestIdentityId,
-            PlanningRequestHelper.REQUESTIDENTITY_OBJECT_TYPE);
+            PlanningRequestServiceInfo.REQUESTIDENTITY_OBJECT_TYPE);
         ObjectId requestVersionId = archiveManager.REQUEST_VERSION.getInstanceIdByIdentityId(identityId);
 
         // Store updated request version update to COM Archive
         RequestUpdateDetails status = new RequestUpdateDetails();
         status.setRequestId(requestVersionId);
         status.setStatus(RequestStatus.CANCELLED);
-        status.setTimestamp(HelperTime.getTimestampMillis());
+        status.setTimestamp(Time.now());
         ObjectId statusId = this.archiveManager.REQUEST_VERSION.updateStatus(requestVersionId, status, null,
             interaction);
 
@@ -369,7 +349,7 @@ public class PlanningRequestProviderServiceImpl extends PlanningRequestInheritan
         Long requestTemplateInstanceId = COMObjectIdHelper.getInstanceId(requestTemplateId);
         RequestTemplateDetails requestTemplate = archiveManager.REQUEST_TEMPLATE.getDefinition(requestTemplateId);
         if (requestTemplateInstanceId == 0L || requestTemplate == null) {
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, new Union(
+            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, new Union(
                 "Invalid Request Template Id")));
         }
     }
@@ -377,26 +357,36 @@ public class PlanningRequestProviderServiceImpl extends PlanningRequestInheritan
     private void publishRequestUpdate(Identifier identity, ObjectId identityId, ObjectId versionId,
         RequestUpdateDetails update) throws IllegalArgumentException, MALInteractionException, MALException {
         if (!this.isPublisherRegistered) {
-            final EntityKeyList entityKeys = new EntityKeyList();
-            entityKeys.add(new EntityKey(new Identifier("*"), 0L, 0L, 0L));
-            requestPublisher.register(entityKeys, new PublishInteractionListener());
+            IdentifierList keys = new IdentifierList();
+            keys.add(new Identifier("firstEntityKey"));
+            keys.add(new Identifier("secondSubKey"));
+            keys.add(new Identifier("thirdSubKey"));
+            keys.add(new Identifier("fourthSubKey"));
+            AttributeTypeList keyTypes = new AttributeTypeList();
+            keyTypes.add(AttributeType.IDENTIFIER);
+            keyTypes.add(AttributeType.LONG);
+            keyTypes.add(AttributeType.LONG);
+            keyTypes.add(AttributeType.LONG);
+            requestPublisher.register(keys, keyTypes, new PublishInteractionListener());
             this.isPublisherRegistered = true;
         }
-
-        UpdateHeaderList headerList = new UpdateHeaderList();
 
         Identifier firstSubKey = identity;
         Long secondSubKey = COMObjectIdHelper.getInstanceId(identityId);
         Long thirdSubKey = COMObjectIdHelper.getInstanceId(versionId);
         Long fourthSubKey = Long.valueOf(update.getStatus().getNumericValue().getValue());
 
-        EntityKey entityKey = new EntityKey(firstSubKey, secondSubKey, thirdSubKey, fourthSubKey);
-        headerList.add(new UpdateHeader(update.getTimestamp(), connection.getConnectionDetails().getProviderURI(),
-            UpdateType.CREATION, entityKey));
-        RequestUpdateDetailsList requestStatusList = new RequestUpdateDetailsList();
-        requestStatusList.add(update);
+        AttributeList keys = new AttributeList(); 
+        keys.add(firstSubKey);
+        keys.addAsJavaType(secondSubKey);
+        keys.addAsJavaType(thirdSubKey);
+        keys.addAsJavaType(fourthSubKey);
 
-        requestPublisher.publish(headerList, requestStatusList);
+        URI source = connection.getConnectionDetails().getProviderURI();
+        UpdateHeader updateHeader = new UpdateHeader(new Identifier(source.getValue()),
+              connection.getConnectionDetails().getDomain(), keys.getAsNullableAttributeList());
+
+        requestPublisher.publish(updateHeader, update);
     }
 
     private boolean checkRequestFilter(RequestFilter requestFilter, ObjectId identityId) {

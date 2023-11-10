@@ -22,10 +22,9 @@ package esa.mo.nmf.nanosatmosupervisor.parameter;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Identifier;
-import esa.mo.helpertools.helpers.HelperAttributes;
+import org.ccsds.moims.mo.mal.structures.Union;
 
 /**
  * Provides dummy parameter values. It returns Attribute with default values of either 0 or null
@@ -60,7 +59,7 @@ public class DummyValuesProvider extends OBSWParameterValuesProvider {
             return parameterStorage.get(identifier);
         } else {
             OBSWParameter param = parameterMap.get(identifier);
-            return HelperAttributes.attributeName2Attribute(param.getType());
+            return new Union(param.getType());
         }
     }
 

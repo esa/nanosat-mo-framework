@@ -27,16 +27,16 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.MALStandardError;
+import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.mp.plandistribution.PlanDistributionHelper;
 import org.ccsds.moims.mo.mp.plandistribution.consumer.PlanDistributionAdapter;
 import org.ccsds.moims.mo.mp.structures.PlanFilter;
 import org.ccsds.moims.mo.mp.structures.PlanInformationList;
 import org.ccsds.moims.mo.mp.structures.PlanStatusList;
 import org.ccsds.moims.mo.mp.structures.PlanVersionDetailsList;
 import esa.mo.mp.impl.consumer.PlanDistributionConsumerServiceImpl;
+import org.ccsds.moims.mo.mp.plandistribution.PlanDistributionServiceInfo;
 
 /**
  * PlanDistributionConsumerPanel
@@ -151,7 +151,7 @@ public class PlanDistributionConsumerPanel extends javax.swing.JPanel {
                                 planVersionIds.get(index)));
                         }
                         planVersionTable.refreshTableWithIds(ids, planDistributionService.getConnectionDetails()
-                            .getDomain(), PlanDistributionHelper.PLANVERSION_OBJECT_TYPE);
+                            .getDomain(), PlanDistributionServiceInfo.PLANVERSION_OBJECT_TYPE);
 
                         jScrollPane2.setViewportView(planVersionTable);
                         LOGGER.log(Level.INFO, "listPlans returned {0} object instance identifiers", planIdentityIds
@@ -159,7 +159,7 @@ public class PlanDistributionConsumerPanel extends javax.swing.JPanel {
                     }
 
                     @Override
-                    public void listPlansErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                    public void listPlansErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
                         Map qosProperties) {
                         JOptionPane.showMessageDialog(null, "There was an error during the listPlans operation.\n" +
                             error.toString(), "Error", JOptionPane.PLAIN_MESSAGE);
@@ -190,7 +190,7 @@ public class PlanDistributionConsumerPanel extends javax.swing.JPanel {
                     }
 
                     @Override
-                    public void getPlanErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                    public void getPlanErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
                         Map qosProperties) {
                         JOptionPane.showMessageDialog(null, "There was an error during the getPlan operation.\n" + error
                             .toString(), "Error", JOptionPane.PLAIN_MESSAGE);
@@ -221,7 +221,7 @@ public class PlanDistributionConsumerPanel extends javax.swing.JPanel {
                     }
 
                     @Override
-                    public void getPlanStatusErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                    public void getPlanStatusErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
                         Map qosProperties) {
                         JOptionPane.showMessageDialog(null, "There was an error during the getPlanStatus operation.\n" +
                             error.toString(), "Error", JOptionPane.PLAIN_MESSAGE);
@@ -252,7 +252,7 @@ public class PlanDistributionConsumerPanel extends javax.swing.JPanel {
                     }
 
                     @Override
-                    public void queryPlanResponseErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                    public void queryPlanResponseErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
                         Map qosProperties) {
                         JOptionPane.showMessageDialog(null, "There was an error during the queryPlan operation.\n" +
                             error.toString(), "Error", JOptionPane.PLAIN_MESSAGE);

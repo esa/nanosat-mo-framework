@@ -8,7 +8,7 @@ import org.ccsds.moims.mo.mal.structures.FineTime;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.junit.Test;
 
-import esa.mo.helpertools.helpers.HelperTime;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
 
 public class TestHelperTime {
 

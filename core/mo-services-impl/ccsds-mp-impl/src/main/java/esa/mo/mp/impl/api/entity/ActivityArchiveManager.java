@@ -24,8 +24,8 @@ import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectIdList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mp.planedit.PlanEditHelper;
-import org.ccsds.moims.mo.mp.planinformationmanagement.PlanInformationManagementHelper;
+import org.ccsds.moims.mo.mp.planedit.PlanEditServiceInfo;
+import org.ccsds.moims.mo.mp.planinformationmanagement.PlanInformationManagementServiceInfo;
 import org.ccsds.moims.mo.mp.structures.ActivityDefinitionDetails;
 import org.ccsds.moims.mo.mp.structures.ActivityDefinitionDetailsList;
 import org.ccsds.moims.mo.mp.structures.ActivityIdentityDetails;
@@ -53,34 +53,34 @@ public class ActivityArchiveManager extends
     }
 
     public ObjectIdList listAllIdentityIds() {
-        return super.listAllIdentityIds(PlanInformationManagementHelper.ACTIVITYIDENTITY_OBJECT_TYPE);
+        return super.listAllIdentityIds(PlanInformationManagementServiceInfo.ACTIVITYIDENTITY_OBJECT_TYPE);
     }
 
     public ObjectIdList listAllDefinitionIds() {
-        return super.listAllIdentityIds(PlanInformationManagementHelper.ACTIVITYDEFINITION_OBJECT_TYPE);
+        return super.listAllIdentityIds(PlanInformationManagementServiceInfo.ACTIVITYDEFINITION_OBJECT_TYPE);
     }
 
     public ObjectIdList listAllInstanceIds() {
-        return super.listAllInstanceIds(PlanEditHelper.ACTIVITYINSTANCE_OBJECT_TYPE);
+        return super.listAllInstanceIds(PlanEditServiceInfo.ACTIVITYINSTANCE_OBJECT_TYPE);
     }
 
     public ObjectIdList listAllStatusIds() {
-        return super.listAllStatusIds(PlanEditHelper.ACTIVITYINSTANCE_OBJECT_TYPE);
+        return super.listAllStatusIds(PlanEditServiceInfo.ACTIVITYINSTANCE_OBJECT_TYPE);
     }
 
     public ObjectId getIdentityId(Identifier identity) {
-        return super.getIdentityId(identity, PlanInformationManagementHelper.ACTIVITYIDENTITY_OBJECT_TYPE);
+        return super.getIdentityId(identity, PlanInformationManagementServiceInfo.ACTIVITYIDENTITY_OBJECT_TYPE);
     }
 
     public ObjectIdList getIdentityIds(IdentifierList identities) {
-        return super.getIdentityIds(identities, PlanInformationManagementHelper.ACTIVITYIDENTITY_OBJECT_TYPE);
+        return super.getIdentityIds(identities, PlanInformationManagementServiceInfo.ACTIVITYIDENTITY_OBJECT_TYPE);
     }
 
     public ActivityDefinitionDetails getDefinition(Identifier identity) {
-        return super.getDefinition(identity, PlanInformationManagementHelper.ACTIVITYIDENTITY_OBJECT_TYPE);
+        return super.getDefinition(identity, PlanInformationManagementServiceInfo.ACTIVITYIDENTITY_OBJECT_TYPE);
     }
 
     public ActivityDefinitionDetailsList getDefinitions(IdentifierList identities) {
-        return super.getDefinitions(identities, PlanInformationManagementHelper.ACTIVITYIDENTITY_OBJECT_TYPE);
+        return super.getDefinitions(identities, PlanInformationManagementServiceInfo.ACTIVITYIDENTITY_OBJECT_TYPE);
     }
 }

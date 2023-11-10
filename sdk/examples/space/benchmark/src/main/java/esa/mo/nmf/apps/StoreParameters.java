@@ -31,8 +31,9 @@ import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.Attribute;
+import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.UOctet;
-import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
+import org.ccsds.moims.mo.mc.parameter.ParameterServiceInfo;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterValueList;
 
@@ -96,12 +97,12 @@ public class StoreParameters {
             try {
                 for (int i = 0; i < values.size(); i++) {
                     ArchiveDetailsList xxx = new ArchiveDetailsList();
-                    ParameterValueList yyy = new ParameterValueList();
+                    HeterogeneousList yyy = new HeterogeneousList();
                     xxx.add(archDetails.get(0));
                     yyy.add(values.get(i));
 
                     connector.getCOMServices().getArchiveService().store(true,
-                        ParameterHelper.PARAMETERVALUEINSTANCE_OBJECT_TYPE, connector.getMCServices().getActionService()
+                        ParameterServiceInfo.PARAMETERVALUEINSTANCE_OBJECT_TYPE, connector.getMCServices().getActionService()
                             .getConnectionProvider().getConnectionDetails().getDomain(), xxx, yyy, null);
 
                 }

@@ -24,31 +24,28 @@ import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.reconfigurable.service.PersistLatestServiceConfigurationAdapter;
-import esa.mo.reconfigurable.service.ReconfigurableService;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.provider.ArchiveInheritanceSkeleton;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.structures.ObjectId;
-import org.ccsds.moims.mo.common.CommonHelper;
-import org.ccsds.moims.mo.common.configuration.ConfigurationHelper;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails;
-import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetailsList;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectSet;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectSetList;
-import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.URI;
+import esa.mo.reconfigurable.service.ReconfigurableService;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.atomic.AtomicInteger;
+import org.ccsds.moims.mo.common.configuration.ConfigurationServiceInfo;
+import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 
 /**
  * This class is responsible for storing the configuration of a provider in the COM Archive every time there is a change
@@ -66,36 +63,27 @@ public class PersistProviderConfiguration {
 
     private LongList objIds;
 
-    public PersistProviderConfiguration(final ReconfigurableProvider provider, final ObjectId confId,
-        final ArchiveInheritanceSkeleton archiveService) {
-
-        if (MALContextFactory.lookupArea(CommonHelper.COMMON_AREA_NAME, CommonHelper.COMMON_AREA_VERSION) != null &&
-            MALContextFactory.lookupArea(CommonHelper.COMMON_AREA_NAME, CommonHelper.COMMON_AREA_VERSION)
-                .getServiceByName(ConfigurationHelper.CONFIGURATION_SERVICE_NAME) == null) {
-            try {
-                ConfigurationHelper.init(MALContextFactory.getElementFactoryRegistry());
-            } catch (MALException ex) {
-                Logger.getLogger(PersistProviderConfiguration.class.getName()).log(Level.SEVERE,
-                    "Unexpectedly ConfigurationHelper already initialized!?", ex);
-            }
-        }
-
+    public PersistProviderConfiguration(final ReconfigurableProvider provider,
+            final ObjectId confId, final ArchiveInheritanceSkeleton archiveService) {
         this.archiveService = archiveService;
         this.confId = confId;
         this.reconfigurableServices = provider.getServices();
         this.executor = Executors.newSingleThreadExecutor(new ConfigurationThreadFactory()); // Guarantees sequential order
 
-        final ArchivePersistenceObject comObjectProvider = HelperArchive.getArchiveCOMObject(archiveService,
-            ConfigurationHelper.PROVIDERCONFIGURATION_OBJECT_TYPE, confId.getKey().getDomain(), confId.getKey()
-                .getInstId());
+        final ArchivePersistenceObject comObjectProvider = HelperArchive.getArchiveCOMObject(
+                archiveService,
+                ConfigurationServiceInfo.PROVIDERCONFIGURATION_OBJECT_TYPE,
+                confId.getKey().getDomain(),
+                confId.getKey().getInstId());
 
         // Does the providerConfiguration object exists?
         if (comObjectProvider != null) {
-            final ArchivePersistenceObject comObjectConfs = HelperArchive.getArchiveCOMObject(archiveService,
-                ConfigurationHelper.CONFIGURATIONOBJECTS_OBJECT_TYPE, confId.getKey().getDomain(), comObjectProvider
-                    .getArchiveDetails().getDetails().getRelated());
-            objIds = ((ConfigurationObjectDetails) comObjectConfs.getObject()).getConfigObjects().get(0)
-                .getObjInstIds();
+            final ArchivePersistenceObject comObjectConfs = HelperArchive.getArchiveCOMObject(
+                    archiveService,
+                    ConfigurationServiceInfo.CONFIGURATIONOBJECTS_OBJECT_TYPE,
+                    confId.getKey().getDomain(),
+                    comObjectProvider.getArchiveDetails().getDetails().getRelated());
+            objIds = ((ConfigurationObjectDetails) comObjectConfs.getObject()).getConfigObjects().get(0).getObjInstIds();
             return;
         }
 
@@ -114,33 +102,43 @@ public class PersistProviderConfiguration {
             }
 
             // Store the provider configuration objects
-            ConfigurationObjectDetailsList archObj = new ConfigurationObjectDetailsList(1);
-            ConfigurationObjectDetails providerObjects = new ConfigurationObjectDetails();
+            HeterogeneousList archObj = new HeterogeneousList();
             ConfigurationObjectSetList setList = new ConfigurationObjectSetList(1);
-            ConfigurationObjectSet set = new ConfigurationObjectSet();
-            set.setDomain(ConfigurationProviderSingleton.getDomain());
-            set.setObjType(ConfigurationHelper.SERVICECONFIGURATION_OBJECT_TYPE);
-            set.setObjInstIds(objIds);
+            ConfigurationObjectSet set = new ConfigurationObjectSet(ConfigurationServiceInfo.SERVICECONFIGURATION_OBJECT_TYPE,
+            ConfigurationProviderSingleton.getDomain(),
+            objIds);
 
             setList.add(set);
-            providerObjects.setConfigObjects(setList);
+            ConfigurationObjectDetails providerObjects = new ConfigurationObjectDetails(setList);
             archObj.add(providerObjects);
 
-            LongList objIds3 = this.archiveService.store(true, ConfigurationHelper.CONFIGURATIONOBJECTS_OBJECT_TYPE,
-                ConfigurationProviderSingleton.getDomain(), HelperArchive.generateArchiveDetailsList(null, null,
-                    ConfigurationProviderSingleton.getNetwork(), new URI("")), archObj, null);
+            LongList objIds3 = this.archiveService.store(
+                    true,
+                    ConfigurationServiceInfo.CONFIGURATIONOBJECTS_OBJECT_TYPE,
+                    ConfigurationProviderSingleton.getDomain(),
+                    HelperArchive.generateArchiveDetailsList(null, null, ConfigurationProviderSingleton.getNetwork(), new URI("")),
+                    archObj,
+                    null);
 
             // Store the provider configuration
             // Related points to the Provider's Configuration Object
-            ArchiveDetailsList details = HelperArchive.generateArchiveDetailsList(objIds3.get(0), null,
-                ConfigurationProviderSingleton.getNetwork(), new URI(""));
-            details.get(0).setInstId(confId.getKey().getInstId());
-            IdentifierList providerNameList = new IdentifierList(1);
+            ArchiveDetailsList details = HelperArchive.generateArchiveDetailsList(objIds3.get(0),
+                    null, ConfigurationProviderSingleton.getNetwork(),
+                    new URI(""), confId.getKey().getInstId());
+
+            HeterogeneousList providerNameList = new HeterogeneousList();
             providerNameList.add(provider.getProviderName());
 
-            this.archiveService.store(false, ConfigurationHelper.PROVIDERCONFIGURATION_OBJECT_TYPE,
-                ConfigurationProviderSingleton.getDomain(), details, providerNameList, null);
-        } catch (MALException | MALInteractionException ex) {
+            this.archiveService.store(
+                    false,
+                    ConfigurationServiceInfo.PROVIDERCONFIGURATION_OBJECT_TYPE,
+                    ConfigurationProviderSingleton.getDomain(),
+                    details,
+                    providerNameList,
+                    null);
+        } catch (MALException ex) {
+            Logger.getLogger(PersistProviderConfiguration.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MALInteractionException ex) {
             Logger.getLogger(PersistProviderConfiguration.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -169,7 +167,8 @@ public class PersistProviderConfiguration {
         throws IOException {
         // Retrieve the COM object of the service
         List<ArchivePersistenceObject> comObjects = HelperArchive.getArchiveCOMObjectList(archiveService,
-            ConfigurationHelper.SERVICECONFIGURATION_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(), objIds);
+                ConfigurationServiceInfo.SERVICECONFIGURATION_OBJECT_TYPE,
+                ConfigurationProviderSingleton.getDomain(), objIds);
 
         if (comObjects == null) { // Could not be found, return
             Logger.getLogger(PersistProviderConfiguration.class.getName()).log(Level.INFO,
@@ -185,13 +184,9 @@ public class PersistProviderConfiguration {
         }
 
         // Retrieve it from the Archive
-        List<ArchivePersistenceObject> confObjs = HelperArchive.getArchiveCOMObjectList(archiveService,
-            ConfigurationHelper.CONFIGURATIONOBJECTS_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(), relateds);
-        if (confObjs == null) {
-            Logger.getLogger(PersistProviderConfiguration.class.getName()).log(Level.SEVERE,
-                "The configuration object of one of the services does not exist in the Archive.");
-            return;
-        }
+        List<ArchivePersistenceObject> confObjs = HelperArchive.getArchiveCOMObjectList(
+                archiveService, ConfigurationServiceInfo.CONFIGURATIONOBJECTS_OBJECT_TYPE,
+                ConfigurationProviderSingleton.getDomain(), relateds);
 
         for (int i = 0; i < confObjs.size(); i++) {
             ConfigurationObjectDetails configurationObjectDetails = (ConfigurationObjectDetails) confObjs.get(i)

@@ -22,11 +22,20 @@ public class RegressionTest0 {
 
     @Before
     public void setup() {
+<<<<<<< HEAD
         try {
             MALHelper.init(MALContextFactory.getElementFactoryRegistry());
         } catch (MALException ex) {
             Logger.getLogger(TestHelperMisc.class.getName()).log(Level.SEVERE, null, ex);
         }
+=======
+      System.getProperties().clear();
+      try {
+        MALHelper.init(MALContextFactory.getElementsRegistry());
+      } catch (MALException ex) {
+        Logger.getLogger(TestHelperMisc.class.getName()).log(Level.SEVERE, null, ex);
+      }
+>>>>>>> ffedc594 (Updates the NMF code to follow version 10)
     }
 
     Properties props;

@@ -23,16 +23,16 @@ package esa.mo.com.impl.util;
 import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.com.impl.consumer.ArchiveSyncConsumerServiceImpl;
 import esa.mo.com.impl.consumer.EventConsumerServiceImpl;
-import esa.mo.helpertools.connections.ConnectionConsumer;
-import esa.mo.helpertools.connections.SingleConnectionDetails;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.archive.ArchiveHelper;
-import org.ccsds.moims.mo.com.archivesync.ArchiveSyncHelper;
-import org.ccsds.moims.mo.com.event.EventHelper;
+import org.ccsds.moims.mo.com.archive.ArchiveServiceInfo;
+import org.ccsds.moims.mo.com.archivesync.ArchiveSyncServiceInfo;
+import org.ccsds.moims.mo.com.event.EventServiceInfo;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
+import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.structures.Blob;
 
 /**
@@ -68,19 +68,19 @@ public class COMServicesConsumer {
 
         try {
             // Initialize the Archive service
-            details = connectionConsumer.getServicesDetails().get(ArchiveHelper.ARCHIVE_SERVICE_NAME);
+            details = connectionConsumer.getServicesDetails().get(ArchiveServiceInfo.ARCHIVE_SERVICE_NAME);
             if (details != null) {
                 archiveService = new ArchiveConsumerServiceImpl(details, authenticationId, localNamePrefix);
             }
 
             // Initialize the Event service (without an Archive)
-            details = connectionConsumer.getServicesDetails().get(EventHelper.EVENT_SERVICE_NAME);
+            details = connectionConsumer.getServicesDetails().get(EventServiceInfo.EVENT_SERVICE_NAME);
             if (details != null) {
                 eventService = new EventConsumerServiceImpl(details, authenticationId, localNamePrefix);
             }
 
             // Initialize the Event service (without an Archive)
-            details = connectionConsumer.getServicesDetails().get(ArchiveSyncHelper.ARCHIVESYNC_SERVICE_NAME);
+            details = connectionConsumer.getServicesDetails().get(ArchiveSyncServiceInfo.ARCHIVESYNC_SERVICE_NAME);
             if (details != null) {
                 archiveSyncService = new ArchiveSyncConsumerServiceImpl(details, authenticationId, localNamePrefix);
             }
@@ -136,15 +136,15 @@ public class COMServicesConsumer {
      */
     public void closeConnections() {
         if (this.eventService != null) {
-            this.eventService.close();
+            this.eventService.closeConnection();
         }
 
         if (this.archiveService != null) {
-            this.archiveService.close();
+            this.archiveService.closeConnection();
         }
 
         if (this.archiveSyncService != null) {
-            this.archiveSyncService.close();
+            this.archiveSyncService.closeConnection();
         }
     }
 

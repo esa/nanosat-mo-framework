@@ -20,32 +20,31 @@
  */
 package esa.mo.nmf.clitool;
 
-import esa.mo.helpertools.connections.ConnectionConsumer;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveStub;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQueryList;
 import org.ccsds.moims.mo.com.structures.ObjectType;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.MALStandardError;
+import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
+import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherServiceInfo;
 import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.consumer.AppsLauncherAdapter;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.consumer.AppsLauncherStub;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.structures.AppDetails;
 import org.ccsds.moims.mo.softwaremanagement.heartbeat.consumer.HeartbeatAdapter;
 import org.ccsds.moims.mo.softwaremanagement.heartbeat.consumer.HeartbeatStub;
 import picocli.CommandLine.*;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * @author marcel.mikolajko
@@ -87,9 +86,9 @@ public class SoftwareManagementCommands {
                 heartbeat.beatRegister(subscription, new HeartbeatAdapter() {
                     @Override
                     public void beatNotifyReceived(MALMessageHeader msgHeader, Identifier identifier,
-                        UpdateHeaderList updateHeaderList, Map qosProperties) {
-                        long timestamp = updateHeaderList.get(0).getTimestamp().getValue();
-                        System.out.println("[" + timestamp + "] - Heartbeat received");
+                        UpdateHeader updateHeader, Map qosProperties) {
+                        //long timestamp = updateHeader.getTimestamp().getValue();
+                        System.out.println("Heartbeat received");
                     }
                 });
 
@@ -134,18 +133,20 @@ public class SoftwareManagementCommands {
                     ArchiveStub archive = consumer.getCOMServices().getArchiveService().getArchiveStub();
                     Map<String, ProviderAppDetails> providerNameToDetails = getProvidersDetails(archive);
 
-                    EntityKeyList entityKeys = new EntityKeyList();
+                    SubscriptionFilterList filters = new SubscriptionFilterList();
+                    //EntityKeyList entityKeys = new EntityKeyList();
                     for (String app : appNames) {
                         Long id = providerNameToDetails.get(app).id;
                         if (id != null) {
-                            EntityKey entitykey = new EntityKey(new Identifier(app), id, 0L, 0L);
-                            entityKeys.add(entitykey);
+                            filters.add(new SubscriptionFilter(new Identifier("app.name"), new AttributeList(app)));
+                            //EntityKey entitykey = new EntityKey(new Identifier(app), id, 0L, 0L);
+                            //entityKeys.add(entitykey);
                         } else {
                             System.out.println("Provider " + app + " not found!");
                         }
                     }
 
-                    if (entityKeys.isEmpty()) {
+                    if (filters.isEmpty()) {
                         System.out.println("Could not find any providers matching provided names!");
                         System.out.println("Available providers:");
                         for (Map.Entry<String, ProviderAppDetails> entry : providerNameToDetails.entrySet()) {
@@ -155,24 +156,22 @@ public class SoftwareManagementCommands {
                         return;
                     }
 
-                    EntityRequest entity = new EntityRequest(null, false, false, false, false, entityKeys);
-                    EntityRequestList entities = new EntityRequestList();
-                    entities.add(entity);
-
-                    subscription = new Subscription(subscriptionId, entities);
+                    //EntityRequest entity = new EntityRequest(null, false, false, false, false, entityKeys);
+                    //EntityRequestList entities = new EntityRequestList();
+                    //entities.add(entity);
+                    //subscription = new Subscription(subscriptionId, entities);
+                    subscription = new Subscription(subscriptionId, null, null, filters);
                 }
                 outputSubscription = subscriptionId;
 
                 appsLauncher.monitorExecutionRegister(subscription, new AppsLauncherAdapter() {
                     @Override
                     public void monitorExecutionNotifyReceived(MALMessageHeader msgHeader, Identifier identifier,
-                        UpdateHeaderList updateHeaderList, StringList strings, Map qosProperties) {
-                        for (int i = 0; i < updateHeaderList.size(); i++) {
-                            String providerName = updateHeaderList.get(i).getKey().getFirstSubKey().getValue();
-                            String[] lines = strings.get(i).split("\n");
-                            for (String line : lines) {
-                                System.out.println("[" + providerName + "]: " + line);
-                            }
+                        UpdateHeader updateHeader, String strings, Map qosProperties) {
+                        String providerName = updateHeader.getKeyValues().get(0).getValue().toString();
+                        String[] lines = strings.split("\n");
+                        for (String line : lines) {
+                            System.out.println("[" + providerName + "]: " + line);
                         }
                     }
                 });
@@ -272,7 +271,7 @@ public class SoftwareManagementCommands {
                     }
 
                     @Override
-                    public void stopAppUpdateErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                    public void stopAppUpdateErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
                         Map qosProperties) {
                         LOGGER.log(Level.SEVERE, "Error during stopApp!", error);
                         synchronized (lock) {
@@ -281,7 +280,7 @@ public class SoftwareManagementCommands {
                     }
 
                     @Override
-                    public void stopAppResponseErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                    public void stopAppResponseErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
                         Map qosProperties) {
                         LOGGER.log(Level.SEVERE, "Error during stopApp!", error);
                         synchronized (lock) {
@@ -357,12 +356,12 @@ public class SoftwareManagementCommands {
 
         Map<String, ProviderAppDetails> result = new HashMap<>();
         ObjectType appType = new ObjectType(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NUMBER,
-            AppsLauncherHelper.APPSLAUNCHER_SERVICE_NUMBER, new UOctet((short) 0),
-            AppsLauncherHelper.APP_OBJECT_NUMBER);
+            AppsLauncherServiceInfo.APPSLAUNCHER_SERVICE_NUMBER, new UOctet((short) 0),
+            AppsLauncherServiceInfo.APP_OBJECT_NUMBER);
         archive.query(true, appType, queries, null, new ArchiveAdapter() {
             @Override
             public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-                ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+                ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
                 for (int i = 0; i < objDetails.size(); ++i) {
                     AppDetails details = (AppDetails) objBodies.get(i);
                     result.put(details.getName().getValue(), new ProviderAppDetails(objDetails.get(i).getInstId(),
@@ -372,7 +371,7 @@ public class SoftwareManagementCommands {
 
             @Override
             public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-                ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+                ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
                 if (objDetails != null) {
                     for (int i = 0; i < objDetails.size(); ++i) {
                         AppDetails details = (AppDetails) objBodies.get(i);
@@ -387,7 +386,7 @@ public class SoftwareManagementCommands {
             }
 
             @Override
-            public void queryUpdateErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+            public void queryUpdateErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
                 Map qosProperties) {
                 LOGGER.log(Level.SEVERE, "Error during archive query!", error);
                 synchronized (lock) {
@@ -396,7 +395,7 @@ public class SoftwareManagementCommands {
             }
 
             @Override
-            public void queryResponseErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+            public void queryResponseErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
                 Map qosProperties) {
                 LOGGER.log(Level.SEVERE, "Error during archive query!", error);
                 synchronized (lock) {

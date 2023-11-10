@@ -29,7 +29,6 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.platform.impl.provider.softsim.*;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.platform.opticaldatareceiver.provider.OpticalDataReceiverInheritanceSkeleton;
@@ -51,6 +50,7 @@ import esa.mo.platform.impl.provider.gen.PowerControlProviderServiceImpl;
 import esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface;
 import esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioProviderServiceImpl;
 import opssat.simulator.main.ESASimulator;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 
 /**
  *

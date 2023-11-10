@@ -21,9 +21,6 @@
 package esa.mo.nmf.commonmoadapter;
 
 import esa.mo.com.impl.util.HelperArchive;
-import esa.mo.helpertools.connections.ConnectionConsumer;
-import esa.mo.helpertools.connections.SingleConnectionDetails;
-import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.mc.impl.provider.AggregationInstance;
 import esa.mo.mc.impl.provider.ParameterInstance;
 import esa.mo.nmf.NMFConsumer;
@@ -36,7 +33,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
-import org.ccsds.moims.mo.com.activitytracking.ActivityTrackingHelper;
+import org.ccsds.moims.mo.com.activitytracking.ActivityTrackingServiceInfo;
 import org.ccsds.moims.mo.com.activitytracking.structures.OperationActivity;
 import org.ccsds.moims.mo.com.activitytracking.structures.OperationActivityList;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
@@ -49,19 +46,25 @@ import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
+import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Duration;
+import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.mal.structures.Time;
+import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mal.structures.UShort;
+import org.ccsds.moims.mo.mal.structures.UpdateHeader;
 import org.ccsds.moims.mo.mal.structures.UpdateHeaderList;
 import org.ccsds.moims.mo.mal.transport.MALMessage;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.mc.action.ActionHelper;
+import org.ccsds.moims.mo.mc.action.ActionServiceInfo;
 import org.ccsds.moims.mo.mc.action.consumer.ActionAdapter;
 import org.ccsds.moims.mo.mc.action.consumer.ActionStub;
 import org.ccsds.moims.mo.mc.action.structures.ActionCreationRequest;
@@ -81,6 +84,7 @@ import org.ccsds.moims.mo.mc.parameter.structures.ParameterCreationRequestList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValue;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterValueList;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetails;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetailsList;
@@ -155,7 +159,7 @@ public class CommonMOAdapterImpl extends NMFConsumer implements SimpleCommanding
         parameters.add(new Identifier(parameterName));
 
         // If it is java type, then convert it to Attribute
-        Object midValue = HelperAttributes.javaType2Attribute(content);
+        Object midValue = Attribute.javaType2Attribute(content);
         Attribute rawValue;
 
         if (midValue instanceof Attribute) { // Is the parameter MAL type or something else?
@@ -227,48 +231,45 @@ public class CommonMOAdapterImpl extends NMFConsumer implements SimpleCommanding
         class DataReceivedParameterAdapter extends ParameterAdapter {
 
             @Override
-            public void monitorValueNotifyReceived(final MALMessageHeader msgHeader, final Identifier lIdentifier,
-                final UpdateHeaderList lUpdateHeaderList, final ObjectIdList lObjectIdList,
-                final ParameterValueList lParameterValueList, final Map qosp) {
+            public void monitorValueNotifyReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
+                    org.ccsds.moims.mo.mal.structures.Identifier subscriptionId,
+                    org.ccsds.moims.mo.mal.structures.UpdateHeader updateHeader,
+                    org.ccsds.moims.mo.com.structures.ObjectId objId,
+                    org.ccsds.moims.mo.mc.parameter.structures.ParameterValue newValue,
+                    java.util.Map qosProperties) {
+                String parameterName = updateHeader.getKeyValues().get(0).getValue().toString();
+                Attribute parameterValue = newValue.getRawValue();
+                Serializable object;
 
-                if (lParameterValueList.size() == lUpdateHeaderList.size()) {
-                    for (int i = 0; i < lUpdateHeaderList.size(); i++) {
-                        String parameterName = lUpdateHeaderList.get(i).getKey().getFirstSubKey().toString();
-                        Attribute parameterValue = lParameterValueList.get(i).getRawValue();
-                        Serializable object;
-
-                        // Is it a Blob?
-                        if (parameterValue instanceof Blob) {
-                            // If so, try to unserialize it
-                            try {
-                                object = HelperAttributes.blobAttribute2serialObject((Blob) parameterValue);
-                            } catch (IOException ex) {
-                                // Didn't work? Well, maybe it is just a normal Blob...
-                                object = (Serializable) HelperAttributes.attribute2JavaType(parameterValue);
-                            }
-                        } else {
-                            // Not a Blob?
-                            // Then make it a Java type if possible
-                            object = (Serializable) HelperAttributes.attribute2JavaType(parameterValue);
-                        }
-
-                        // Push the data to the user interface
-                        // Simple interface
-                        if (listener instanceof SimpleDataReceivedListener) {
-                            ((SimpleDataReceivedListener) listener).onDataReceived(parameterName, object);
-                        }
-
-                        // Complete interface
-                        if (listener instanceof CompleteDataReceivedListener) {
-                            ObjectId source = lObjectIdList.get(i);
-                            Time timestamp = lUpdateHeaderList.get(i).getTimestamp();
-
-                            ParameterInstance parameterInstance = new ParameterInstance(new Identifier(parameterName),
-                                lParameterValueList.get(i), source, timestamp);
-
-                            ((CompleteDataReceivedListener) listener).onDataReceived(parameterInstance);
-                        }
+                // Is it a Blob?
+                if (parameterValue instanceof Blob) {
+                    // If so, try to unserialize it
+                    try {
+                        object = HelperAttributes.blobAttribute2serialObject((Blob) parameterValue);
+                    } catch (IOException ex) {
+                        // Didn't work? Well, maybe it is just a normal Blob...
+                        object = (Serializable) Attribute.attribute2JavaType(parameterValue);
                     }
+                } else {
+                    // Not a Blob?
+                    // Then make it a Java type if possible
+                    object = (Serializable) Attribute.attribute2JavaType(parameterValue);
+                }
+
+                // Push the data to the user interface
+                // Simple interface
+                if (listener instanceof SimpleDataReceivedListener) {
+                    ((SimpleDataReceivedListener) listener).onDataReceived(parameterName, object);
+                }
+
+                // Complete interface
+                if (listener instanceof CompleteDataReceivedListener) {
+                    Time timestamp = Time.now();
+
+                    ParameterInstance parameterInstance = new ParameterInstance(new Identifier(parameterName),
+                        newValue, objId, timestamp);
+
+                    ((CompleteDataReceivedListener) listener).onDataReceived(parameterInstance);
                 }
             }
         }
@@ -277,44 +278,41 @@ public class CommonMOAdapterImpl extends NMFConsumer implements SimpleCommanding
         class DataReceivedAggregationAdapter extends AggregationAdapter {
 
             @Override
-            public void monitorValueNotifyReceived(final MALMessageHeader msgHeader, final Identifier lIdentifier,
-                final UpdateHeaderList lUpdateHeaderList, final ObjectIdList lObjectIdList,
-                final AggregationValueList lAggregationValueList, final Map qosp) {
+            public void monitorValueNotifyReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
+                    org.ccsds.moims.mo.mal.structures.Identifier subscriptionId,
+                    org.ccsds.moims.mo.mal.structures.UpdateHeader updateHeader,
+                    org.ccsds.moims.mo.com.structures.ObjectId objId,
+                    org.ccsds.moims.mo.mc.aggregation.structures.AggregationValue newValue,
+                    java.util.Map qosProperties) {
+                if (listener instanceof SimpleAggregationReceivedListener) {
+                    List<ParameterInstance> parameterInstances = new LinkedList<>();
 
-                if (lAggregationValueList.size() == lUpdateHeaderList.size()) {
-                    for (int i = 0; i < lUpdateHeaderList.size(); i++) {
+                    AggregationValue aggregationValue = newValue;
 
-                        if (listener instanceof SimpleAggregationReceivedListener) {
-                            List<ParameterInstance> parameterInstances = new LinkedList<>();
+                    for (AggregationSetValue aggregationSetValue : aggregationValue.getParameterSetValues()) {
+                        for (AggregationParameterValue aggregationParamValue : aggregationSetValue
+                            .getValues()) {
 
-                            AggregationValue aggregationValue = lAggregationValueList.get(i);
+                            Long paramDefInstId = aggregationParamValue.getParamDefInstId();
+                            Attribute parameterValue = aggregationParamValue.getValue().getRawValue();
 
-                            for (AggregationSetValue aggregationSetValue : aggregationValue.getParameterSetValues()) {
-                                for (AggregationParameterValue aggregationParamValue : aggregationSetValue
-                                    .getValues()) {
-
-                                    Long paramDefInstId = aggregationParamValue.getParamDefInstId();
-                                    Attribute parameterValue = aggregationParamValue.getValue().getRawValue();
-
-                                    // TBD, not sure what to do with this now...
-                                }
-                            }
-
-                            ((SimpleAggregationReceivedListener) listener).onDataReceived(parameterInstances);
-                        }
-
-                        if (listener instanceof CompleteAggregationReceivedListener) {
-                            ObjectId source = lObjectIdList.get(i);
-                            Time timestamp = lUpdateHeaderList.get(i).getTimestamp();
-                            String aggregationName = lUpdateHeaderList.get(i).getKey().getFirstSubKey().toString();
-                            AggregationValue aggregationValue = lAggregationValueList.get(i);
-
-                            AggregationInstance aggregationInstance = new AggregationInstance(new Identifier(
-                                aggregationName), aggregationValue, source, timestamp);
-
-                            ((CompleteAggregationReceivedListener) listener).onDataReceived(aggregationInstance);
+                            // TBD, not sure what to do with this now...
                         }
                     }
+
+                    ((SimpleAggregationReceivedListener) listener).onDataReceived(parameterInstances);
+                }
+
+                if (listener instanceof CompleteAggregationReceivedListener) {
+                    ObjectId source = objId;
+                    Time timestamp = Time.now();
+                    String aggregationName = updateHeader.getKeyValues().get(0).getValue().toString();
+                    AggregationValue aggregationValue = newValue;
+
+                    AggregationInstance aggregationInstance = new AggregationInstance(new Identifier(
+                        aggregationName), aggregationValue, source, timestamp);
+
+                    ((CompleteAggregationReceivedListener) listener).onDataReceived(aggregationInstance);
                 }
             }
         }
@@ -555,11 +553,11 @@ public class CommonMOAdapterImpl extends NMFConsumer implements SimpleCommanding
                 source, actionConnection.getProviderURI());
 
             boolean returnObjInstIds = true;
-            ActionInstanceDetailsList instanceDetailsList = new ActionInstanceDetailsList();
+            HeterogeneousList instanceDetailsList = new HeterogeneousList();
             instanceDetailsList.add(instanceDetails);
 
             LongList objIdActionInstances = super.getCOMServices().getArchiveService().getArchiveStub().store(
-                returnObjInstIds, ActionHelper.ACTIONINSTANCE_OBJECT_TYPE, actionConnection.getDomain(),
+                returnObjInstIds, ActionServiceInfo.ACTIONINSTANCE_OBJECT_TYPE, actionConnection.getDomain(),
                 archiveDetailsListActionInstance, instanceDetailsList);
 
             if (objIdActionInstances.size() == 1) {
@@ -579,7 +577,7 @@ public class CommonMOAdapterImpl extends NMFConsumer implements SimpleCommanding
 
             // Store the corresponding OperationActivity object instance in the
             // Archive and publish its release
-            OperationActivityList opActivityList = new OperationActivityList();
+            HeterogeneousList opActivityList = new HeterogeneousList();
             opActivityList.add(new OperationActivity(msg.getHeader().getInteractionType()));
 
             related = null;
@@ -594,7 +592,7 @@ public class CommonMOAdapterImpl extends NMFConsumer implements SimpleCommanding
             try {
                 returnObjInstIds = false;
                 super.getCOMServices().getArchiveService().getArchiveStub().store(returnObjInstIds,
-                    ActivityTrackingHelper.OPERATIONACTIVITY_OBJECT_TYPE, actionConnection.getDomain(),
+                    ActivityTrackingServiceInfo.OPERATIONACTIVITY_OBJECT_TYPE, actionConnection.getDomain(),
                     archiveDetailsListOp, opActivityList);
             } catch (MALInteractionException ex) {
                 // A duplicate might happen if the consumer stored the Operation Activity object
@@ -608,12 +606,12 @@ public class CommonMOAdapterImpl extends NMFConsumer implements SimpleCommanding
                 throw new NMFException("The storing of the Operation Activity failed. (2)", ex);
             }
 
-            ObjectId source2 = new ObjectId(ActivityTrackingHelper.OPERATIONACTIVITY_OBJECT_TYPE, new ObjectKey(
+            ObjectId source2 = new ObjectId(ActivityTrackingServiceInfo.OPERATIONACTIVITY_OBJECT_TYPE, new ObjectKey(
                 actionConnection.getDomain(), transId));
             ObjectDetails details = new ObjectDetails(defInstId, source2);
             archiveDetailsListActionInstance.get(0).setDetails(details);
 
-            super.getCOMServices().getArchiveService().getArchiveStub().update(ActionHelper.ACTIONINSTANCE_OBJECT_TYPE,
+            super.getCOMServices().getArchiveService().getArchiveStub().update(ActionServiceInfo.ACTIONINSTANCE_OBJECT_TYPE,
                 actionConnection.getDomain(), archiveDetailsListActionInstance, instanceDetailsList);
         } catch (MALInteractionException | MALException | NMFException ex) {
             throw new NMFException("Failed to execute Action " + defInstId, ex);

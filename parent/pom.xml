@@ -16,8 +16,8 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>int.esa.ccsds.mo</groupId>
-    <artifactId>POM</artifactId>
-    <version>8.2</version>
+    <artifactId>parent</artifactId>
+    <version>10.0-SNAPSHOT</version>
     <relativePath/>
   </parent>
   <groupId>int.esa.nmf</groupId>
@@ -80,73 +80,67 @@
       <!-- Workaround for a bug in CCSDS MO POM 7, referencing ${project.groupId} -->
       <dependency>
         <groupId>int.esa.ccsds.mo</groupId>
-        <artifactId>API_MAL</artifactId>
+        <artifactId>api-mal</artifactId>
         <version>${esa.api.mal.version}</version>
       </dependency>
       <dependency>
         <groupId>int.esa.ccsds.mo</groupId>
-        <artifactId>API_COMMON</artifactId>
-        <version>${esa.api.common.version}</version>
-        <exclusions>
-          <exclusion>
-            <groupId>int.esa.ccsds.mo</groupId>
-            <artifactId>API_COM</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-      <dependency>
-        <groupId>int.esa.ccsds.mo</groupId>
-        <artifactId>API_MC</artifactId>
+        <artifactId>api-mc</artifactId>
         <version>${esa.api.mc.version}</version>
       </dependency>
       <dependency>
         <groupId>int.esa.ccsds.mo</groupId>
-        <artifactId>MAL_IMPL</artifactId>
+        <artifactId>api-common</artifactId>
+        <version>${esa.api.common.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>int.esa.ccsds.mo</groupId>
+        <artifactId>mal-impl</artifactId>
         <version>${esa.mal.version}</version>
       </dependency>
       <dependency>
         <groupId>int.esa.ccsds.mo</groupId>
-        <artifactId>ENCODING_GEN</artifactId>
+        <artifactId>encoding-generic</artifactId>
         <version>${esa.gen.encoder.version}</version>
       </dependency>
       <dependency>
         <groupId>int.esa.ccsds.mo</groupId>
-        <artifactId>ENCODING_STRING</artifactId>
+        <artifactId>encoding-string</artifactId>
         <version>${esa.string.encoder.version}</version>
       </dependency>
       <dependency>
         <groupId>int.esa.ccsds.mo</groupId>
-        <artifactId>ENCODING_BINARY</artifactId>
+        <artifactId>encoding-binary</artifactId>
         <version>${esa.binary.encoder.version}</version>
       </dependency>
       <dependency>
         <groupId>int.esa.ccsds.mo</groupId>
-        <artifactId>TRANSPORT_GEN</artifactId>
+        <artifactId>transport-generic</artifactId>
         <version>${esa.gen.transport.version}</version>
       </dependency>
       <dependency>
         <groupId>int.esa.ccsds.mo</groupId>
-        <artifactId>TRANSPORT_RMI</artifactId>
+        <artifactId>transport-rmi</artifactId>
         <version>${esa.rmi.transport.version}</version>
       </dependency>
       <dependency>
         <groupId>int.esa.ccsds.mo</groupId>
-        <artifactId>TRANSPORT_TCPIP</artifactId>
+        <artifactId>transport-tcpip</artifactId>
         <version>${esa.tcpip.transport.version}</version>
       </dependency>
       <dependency>
         <groupId>int.esa.ccsds.mo</groupId>
-        <artifactId>TRANSPORT_JMS</artifactId>
+        <artifactId>transport-jms</artifactId>
         <version>${esa.jms.transport.version}</version>
       </dependency>
       <dependency>
         <groupId>int.esa.ccsds.mo</groupId>
-        <artifactId>TRANSPORT_ACTIVEMQ</artifactId>
+        <artifactId>transport-activemq</artifactId>
         <version>${esa.jms.transport.version}</version>
       </dependency>
       <dependency>
         <groupId>int.esa.ccsds.mo</groupId>
-        <artifactId>TRANSPORT_SPP</artifactId>
+        <artifactId>transport-spp</artifactId>
         <version>${esa.spp.transport.version}</version>
       </dependency>
       <dependency>

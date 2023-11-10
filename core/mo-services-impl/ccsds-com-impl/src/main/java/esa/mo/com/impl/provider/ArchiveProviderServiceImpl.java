@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft â€“ v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -24,13 +24,13 @@ import esa.mo.com.impl.archive.db.SortByField;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.helpertools.connections.ConnectionProvider;
-import esa.mo.helpertools.helpers.HelperMisc;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.archive.ArchiveHelper;
+import org.ccsds.moims.mo.com.archive.ArchiveServiceInfo;
 import org.ccsds.moims.mo.com.archive.provider.ArchiveInheritanceSkeleton;
 import org.ccsds.moims.mo.com.archive.provider.CountInteraction;
 import org.ccsds.moims.mo.com.archive.provider.QueryInteraction;
@@ -43,14 +43,14 @@ import org.ccsds.moims.mo.com.archive.structures.CompositeFilterSet;
 import org.ccsds.moims.mo.com.archive.structures.QueryFilter;
 import org.ccsds.moims.mo.com.archive.structures.QueryFilterList;
 import org.ccsds.moims.mo.com.structures.ObjectType;
-import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.MALStandardError;
+import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
-import org.ccsds.moims.mo.mal.structures.ElementList;
+import org.ccsds.moims.mo.mal.structures.Element;
+import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
@@ -75,21 +75,6 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
      * @throws MALException On initialization error.
      */
     public synchronized void init(EventProviderServiceImpl eventService) throws MALException {
-        if (!initialiased) {
-            if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
-                MALHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION) == null) {
-                COMHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION).getServiceByName(
-                ArchiveHelper.ARCHIVE_SERVICE_NAME) == null) {
-                ArchiveHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-        }
-
         manager.setEventService(eventService);
         manager.init();
 
@@ -98,8 +83,8 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             connection.closeAll();
         }
 
-        archiveServiceProvider = connection.startService(ArchiveHelper.ARCHIVE_SERVICE_NAME.toString(),
-            ArchiveHelper.ARCHIVE_SERVICE, false, this);
+        archiveServiceProvider = connection.startService(ArchiveServiceInfo.ARCHIVE_SERVICE_NAME.toString(),
+                ArchiveHelper.ARCHIVE_SERVICE, false, this);
         running = true;
         initialiased = true;
         Logger.getLogger(ArchiveProviderServiceImpl.class.getName()).info("Archive service READY");
@@ -153,22 +138,22 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
         LongList longList = new LongList();
 
         if (inObjectType == null) {
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null)); // requirement 3.4.3.2.1
+            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, null)); // requirement 3.4.3.2.1
         }
         if (inDomain == null) {
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null)); // requirement: 3.4.3.2.3
+            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, null)); // requirement: 3.4.3.2.3
         }
         if (inObjIds == null) {
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
+            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, null));
         }
         if (ArchiveManager.objectTypeContainsWildcard(inObjectType)) {   // requirement: 3.4.3.2.2
-            //            interaction.sendError(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
+//            interaction.sendError(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, null));
+            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, null));
         }
 
         if (HelperCOM.domainContainsWildcard(inDomain)) {   // requirement: 3.4.3.2.4
-            //            interaction.sendError(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
+//            interaction.sendError(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, null));
+            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, null));
         }
 
         boolean wildcardFound = false;
@@ -182,7 +167,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
         }
 
         ArchiveDetailsList outArchiveDetailsList = new ArchiveDetailsList();
-        ElementList outMatchedObjects = null;
+        HeterogeneousList outMatchedObjects = null;
 
         List<ArchivePersistenceObject> perObjs;
         if (wildcardFound) {
@@ -197,10 +182,10 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
 
             if (perObj == null) {  // COM object not found
                 unkIndexList.add(new UInteger(index)); // requirement: 3.4.3.2.7
-                outArchiveDetailsList.add(null); // requirement: 3.4.3.2.12
+                outArchiveDetailsList.add(new ArchiveDetails()); // requirement: 3.4.3.2.12
 
                 if (outMatchedObjects != null) {
-                    outMatchedObjects.add(null);
+                    outMatchedObjects.add(new UInteger());
                 }
 
                 continue;
@@ -210,31 +195,31 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
 
             if (outMatchedObjects == null) {  // Initialize the elementList object
                 try {
-                    outMatchedObjects = HelperMisc.element2elementList(perObj.getObject());
+                    outMatchedObjects = new HeterogeneousList();
 
                     if (outMatchedObjects != null) { // Was it created?
                         for (int j = 0; j < index; j++) { // Insert the missing elements in the list
-                            outMatchedObjects.add(null);
+                            outMatchedObjects.add(new UInteger());
                         }
                     }
                 } catch (Exception ex) {
                     Logger.getLogger(ArchiveProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-                    interaction.sendError(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER,
-                        "The List of the objects could not be generated!"));
+                    interaction.sendError(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER,
+                            "The List of the objects could not be generated!"));
                     interaction.sendResponse(null, null);
                     return;
                 }
             }
 
             if (outMatchedObjects != null) {
-                outMatchedObjects.add(perObj.getObject()); // requirement: 3.4.3.2.10 and 3.4.3.2.11
+                outMatchedObjects.add((Element) perObj.getObject()); // requirement: 3.4.3.2.10 and 3.4.3.2.11
             }
         }
 
         // Errors
         if (!unkIndexList.isEmpty()) { // requirement: 3.4.3.3 (error: a)
-            //            interaction.sendError(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
-            throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+//            interaction.sendError(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
         }
 
         // requirement: 3.4.3.2.13 and requirement: 3.4.3.2.14: ordering of objects is not specified
@@ -254,7 +239,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
         interaction.sendAcknowledgement();  // "ok, it was received.."
 
         if (lArchiveQueryList == null) {
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));  // requirement: 3.4.4.2.4 and 3.4.4.2.5
+            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, null));  // requirement: 3.4.4.2.4 and 3.4.4.2.5
         }
         // Is the list empty?
         if (lArchiveQueryList.isEmpty()) {
@@ -264,16 +249,19 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
 
         if (returnObjBody == null) {  // Handle it as a false
             returnObjBody = false;  // requirement: 3.4.4.2.25
-            //            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
+//            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, null));
         }
         if (lObjectType == null) {
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));  // requirement: 3.4.4.2.2 and 3.4.4.2.3
+            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, null));  // requirement: 3.4.4.2.2 and 3.4.4.2.3
+        }
+        if (lArchiveQueryList == null) {
+            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, null));  // requirement: 3.4.4.2.4 and 3.4.4.2.5
         }
 
         if (queryFilterList != null) { // requirement: 3.4.4.2.8
             if (lArchiveQueryList.size() != queryFilterList.size()) { // requirement: 3.4.4.2.9
-                //                interaction.sendError(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
-                throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
+//                interaction.sendError(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, null));
+                throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, null));
             }
         }
 
@@ -327,18 +315,17 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                         tmpArchiveQuery.getSortOrder());
                 } catch (NoSuchFieldException ex) {
                     // requirement: 3.4.4.2.14
-                    throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
-                    //                    throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, new UInteger(index)));
-                    //                    interaction.sendError(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
+                    throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, null));
+//                    throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, new UInteger(index)));
+//                    interaction.sendError(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, null));
                 }
             }
 
             // Errors
             if (!invIndexList.isEmpty()) { // requirement: 3.4.4.3 (error: a, b)
-                //                interaction.sendError(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+//                interaction.sendError(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
                 if (index == (sizeArchiveQueryList - 1)) { // Is it the last query?
-                    throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER,
-                        invIndexList));
+                    throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
                 } else {
                     continue;
                 }
@@ -358,7 +345,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                 // Then we need to send data sequentially... object by object
                 for (int j = 0; j < perObjs.size(); j++) {
                     // requirement: 3.4.4.2.21
-                    ElementList outObjectList = null;
+                    HeterogeneousList outObjectList = new HeterogeneousList();
 
                     ArchiveDetailsList outArchDetLst = new ArchiveDetailsList();
                     outArchDetLst.add(perObjs.get(j).getArchiveDetails());
@@ -366,7 +353,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                     if (returnObjBody) {
                         // requirement: 3.4.4.2.1
                         try {  // Let's try to generate the list...
-                            outObjectList = HelperMisc.element2elementList(perObjs.get(j).getObject());
+                            outObjectList = new HeterogeneousList();
                         } catch (Exception ex) { // The list could not be generated
                             Logger.getLogger(ArchiveProviderServiceImpl.class.getName()).log(Level.SEVERE,
                                 "The outObjectList could not be generated!", ex);
@@ -374,7 +361,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                         }
 
                         if (outObjectList != null) {
-                            outObjectList.add(perObjs.get(j).getObject()); // requirement: 3.4.4.2.24
+                            outObjectList.add((Element) perObjs.get(j).getObject()); // requirement: 3.4.4.2.24
                         }
                     }
 
@@ -396,11 +383,11 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                 // Find the objIds based on the query
                 // requirement: 3.4.4.2.10 and 3.4.4.2.11 and 3.4.4.2.12 and 3.4.4.2.13 and 3.4.4.2.15 and 3.4.4.2.16
                 ArchiveDetailsList outArchiveDetailsList = new ArchiveDetailsList();
-                ElementList outObjectList = null;
+                HeterogeneousList outObjectList = null;
 
                 if (returnObjBody && !perObjs.isEmpty()) { // requirement: 3.4.4.2.24
                     try {
-                        outObjectList = HelperMisc.element2elementList(perObjs.get(0).getObject());
+                        outObjectList = new HeterogeneousList();
                     } catch (Exception ex) {
                         Logger.getLogger(ArchiveProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -410,7 +397,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                     outArchiveDetailsList.add(perObjs.get(j).getArchiveDetails());
 
                     if (outObjectList != null) {
-                        outObjectList.add(perObjs.get(j).getObject());
+                        outObjectList.add((Element) perObjs.get(j).getObject());
                     }
                 }
 
@@ -436,7 +423,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
         interaction.sendAcknowledgement();  // "ok, it was received.."
 
         if (lArchiveQueryList == null) {
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null)); // requirement: 3.4.5.2.1
+            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, null)); // requirement: 3.4.5.2.1
         }
 
         // Is the list empty?
@@ -446,14 +433,18 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
         }
 
         if (lObjectType == null) {
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null)); // requirement: 3.4.5.2.1
+            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, null)); // requirement: 3.4.5.2.1
+        }
+
+        if (lArchiveQueryList == null) {
+            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, null)); // requirement: 3.4.5.2.1
         }
 
         if (queryFilterList != null) { // requirement: 3.4.5.2.1
 
             if (lArchiveQueryList.size() != queryFilterList.size()) { // requirement: 3.4.5.2.1
-                //                interaction.sendError(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
-                throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
+//                interaction.sendError(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, null));
+                throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, null));
             }
         }
 
@@ -504,7 +495,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                         tmpArchiveQuery.getSortOrder());
                 } catch (NoSuchFieldException ex) {
                     // requirement: 3.4.4.2.14
-                    throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
+                    throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, null));
                 }
             }
 
@@ -513,23 +504,24 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
 
         // Errors
         if (!invIndexList.isEmpty()) { // requirement: 3.4.4.3 (error: a, b)
-            //            interaction.sendError(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+//            interaction.sendError(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
         }
 
         interaction.sendResponse(outLong);
     }
 
     @Override
-    public LongList store(final Boolean returnObjId, final ObjectType objType, final IdentifierList domain,
-        final ArchiveDetailsList lArchiveDetailsList, final ElementList lElementList, final MALInteraction interaction)
-        throws MALException, MALInteractionException {
+    public LongList store(final Boolean returnObjId, final ObjectType objType,
+            final IdentifierList domain, final ArchiveDetailsList lArchiveDetailsList,
+            final HeterogeneousList lElementList, final MALInteraction interaction)
+            throws MALException, MALInteractionException {
         UIntegerList invIndexList = new UIntegerList();
         UIntegerList dupIndexList;
 
         // What if the list is null?
         if (lArchiveDetailsList == null) {
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
+            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, null));
         }
 
         if (lElementList != null) {
@@ -545,24 +537,24 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                     error.add(new UInteger(i));
                 }
 
-                throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, error));
+                throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, error));
             }
 
         }
 
         if (ArchiveManager.objectTypeContainsWildcard(objType)) { // requirement: 3.4.6.2.9
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
+            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, null));
         }
 
         if (HelperCOM.domainContainsWildcard(domain)) { // requirement: 3.4.6.2.10
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
+            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, null));
         }
 
         // Do we have Duplicates in the objId array?
         dupIndexList = ArchiveManager.checkForDuplicates(lArchiveDetailsList);
 
         if (!dupIndexList.isEmpty()) {
-            throw new MALInteractionException(new MALStandardError(COMHelper.DUPLICATE_ERROR_NUMBER, dupIndexList));
+            throw new MALInteractionException(new MOErrorException(COMHelper.DUPLICATE_ERROR_NUMBER, dupIndexList));
         }
 
         synchronized (manager) {
@@ -596,11 +588,11 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
 
             // Errors
             if (!invIndexList.isEmpty()) { // requirement: 3.4.6.3 (error: a)
-                throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+                throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
             }
 
             if (!dupIndexList.isEmpty()) { // requirement: 3.4.6.3 (error: b)
-                throw new MALInteractionException(new MALStandardError(COMHelper.DUPLICATE_ERROR_NUMBER, dupIndexList));
+                throw new MALInteractionException(new MOErrorException(COMHelper.DUPLICATE_ERROR_NUMBER, dupIndexList));
             }
 
             // The errors have to be before the store operation to fulfil requirement: 3.4.6.2.13
@@ -618,8 +610,8 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
 
     @Override
     public void update(final ObjectType lObjectType, final IdentifierList domain,
-        final ArchiveDetailsList lArchiveDetailsList, final ElementList lElementList, final MALInteraction interaction)
-        throws MALException, MALInteractionException {
+            final ArchiveDetailsList lArchiveDetailsList, final HeterogeneousList lElementList,
+            final MALInteraction interaction) throws MALException, MALInteractionException {
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
 
@@ -632,8 +624,9 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
         if (lArchiveDetailsList == null) {
             return; // requirement: 3.4.4.2.3
         }
-        if (ArchiveManager.objectTypeContainsWildcard(lObjectType) || HelperCOM.domainContainsWildcard(domain)) {   // requirement: 3.4.7.2.8 (first part)
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
+        if (ArchiveManager.objectTypeContainsWildcard(lObjectType)
+                || HelperCOM.domainContainsWildcard(domain)) {   // requirement: 3.4.7.2.8 (first part)
+            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, null));
         }
 
         if (null != lElementList && lArchiveDetailsList.size() != lElementList.size()) { // requirement: ------ (proposed, does not exist yet)
@@ -647,7 +640,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                 error.add(new UInteger(i));
             }
 
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, error));
+            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, error));
         }
 
         synchronized (manager) {
@@ -666,11 +659,11 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
 
             // Errors
             if (!unkIndexList.isEmpty()) { // requirement: 3.4.7.3 (error: a)
-                throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+                throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
             }
 
             if (!invIndexList.isEmpty()) { // requirement: 3.4.7.3 (error: b)
-                throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+                throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
             }
 
             // The errors have to be before the update operation to fulfil requirement: 3.4.7.2.5 and 3.4.7.2.8 ("nothing will be updated")
@@ -686,11 +679,11 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
         LongList toBeDeleted = new LongList();
 
         if (ArchiveManager.objectTypeContainsWildcard(lObjectType)) { // requirement: 3.4.8.2.1
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null)); // requirement: 3.4.8.2.3
+            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, null)); // requirement: 3.4.8.2.3
         }
 
         if (HelperCOM.domainContainsWildcard(lIdentifierList)) { // requirement: 3.4.8.2.2
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null)); // requirement: 3.4.8.2.3
+            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, null)); // requirement: 3.4.8.2.3
         }
 
         synchronized (manager) {
@@ -711,11 +704,11 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
 
             // Errors
             if (!unkIndexList.isEmpty()) { // requirement: 3.4.8.3 (error: a)
-                throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+                throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
             }
 
             if (!invIndexList.isEmpty()) { // requirement: 3.4.8.3 (error: b)
-                throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+                throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
             }
 
             // requirement: 3.4.8.2.4 and 3.4.8.2.7

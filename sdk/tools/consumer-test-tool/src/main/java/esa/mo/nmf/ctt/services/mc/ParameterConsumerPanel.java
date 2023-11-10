@@ -22,7 +22,6 @@ package esa.mo.nmf.ctt.services.mc;
 
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.HelperArchive;
-import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.mc.impl.consumer.ParameterConsumerServiceImpl;
 import esa.mo.tools.mowindow.MOWindow;
 import java.io.IOException;
@@ -36,7 +35,8 @@ import org.ccsds.moims.mo.com.structures.InstanceBooleanPair;
 import org.ccsds.moims.mo.com.structures.InstanceBooleanPairList;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.MALStandardError;
+import org.ccsds.moims.mo.mal.MOErrorException;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Duration;
@@ -46,7 +46,7 @@ import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
+import org.ccsds.moims.mo.mc.parameter.ParameterServiceInfo;
 import org.ccsds.moims.mo.mc.parameter.consumer.ParameterAdapter;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterCreationRequest;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterCreationRequestList;
@@ -213,9 +213,9 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
         parameterDefinition.setValidityExpression(null);
         parameterDefinition.setConversion(null);
 
-        ParameterCreationRequest request = new ParameterCreationRequest();
-        request.setName(new Identifier("GPS.Latitude"));
-        request.setParamDefDetails(parameterDefinition);
+        ParameterCreationRequest request = new ParameterCreationRequest(
+            new Identifier("GPS.Latitude"),
+            parameterDefinition);
         MOWindow parameterDefinitionWindow = new MOWindow(request, true);
 
         ParameterCreationRequestList requestList = new ParameterCreationRequestList();
@@ -234,9 +234,11 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
 
             Thread.sleep(500);
             // Get the stored Parameter Definition from the Archive
-            ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(this.serviceMCParameter
-                .getCOMServices().getArchiveService().getArchiveStub(), ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE,
-                serviceMCParameter.getConnectionDetails().getDomain(), objIds.get(0).getObjDefInstanceId());
+            ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(
+                    this.serviceMCParameter.getCOMServices().getArchiveService().getArchiveStub(),
+                    ParameterServiceInfo.PARAMETERDEFINITION_OBJECT_TYPE, 
+                    serviceMCParameter.getConnectionDetails().getDomain(), 
+                    objIds.get(0).getObjDefInstanceId());
 
             if (comObject == null) {
                 JOptionPane.showMessageDialog(null, "The COM object could not be returned! The objId is: " + objIds.get(
@@ -244,9 +246,11 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
 
                 Thread.sleep(2500);
                 // Get the stored Parameter Definition from the Archive
-                comObject = HelperArchive.getArchiveCOMObject(this.serviceMCParameter.getCOMServices()
-                    .getArchiveService().getArchiveStub(), ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE,
-                    serviceMCParameter.getConnectionDetails().getDomain(), objIds.get(0).getObjDefInstanceId());
+                comObject = HelperArchive.getArchiveCOMObject(
+                        this.serviceMCParameter.getCOMServices().getArchiveService().getArchiveStub(),
+                    ParameterServiceInfo.PARAMETERDEFINITION_OBJECT_TYPE, 
+                    serviceMCParameter.getConnectionDetails().getDomain(), 
+                    objIds.get(0).getObjDefInstanceId());
             }
 
             // Add the Parameter Definition to the table
@@ -328,19 +332,14 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCParameter.getParameterStub().asyncListDefinition(idList, new ParameterAdapter() {
                 @Override
-                public void listDefinitionResponseReceived(MALMessageHeader msgHeader,
-                    ObjectInstancePairList objInstIds, Map qosProperties) {
-                    parameterTable.refreshTableWithIds(objInstIds, serviceMCParameter.getConnectionDetails()
-                        .getDomain(), ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE);
-                    Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.INFO,
-                        "listDefinition(\"*\") returned {0} object instance identifiers", objInstIds.size());
+                public void listDefinitionResponseReceived(MALMessageHeader msgHeader, ObjectInstancePairList objInstIds, Map qosProperties) {
+                    parameterTable.refreshTableWithIds(objInstIds, serviceMCParameter.getConnectionDetails().getDomain(), ParameterServiceInfo.PARAMETERDEFINITION_OBJECT_TYPE);
+                    Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.INFO, "listDefinition(\"*\") returned {0} object instance identifiers", objInstIds.size());
                 }
 
                 @Override
-                public void listDefinitionErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
-                    Map qosProperties) {
-                    JOptionPane.showMessageDialog(null, "There was an error during the listDefinition operation.",
-                        "Error", JOptionPane.PLAIN_MESSAGE);
+                public void listDefinitionErrorReceived(MALMessageHeader msgHeader, MOErrorException error, Map qosProperties) {
+                    JOptionPane.showMessageDialog(null, "There was an error during the listDefinition operation.", "Error", JOptionPane.PLAIN_MESSAGE);
                     Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, error);
                 }
             });

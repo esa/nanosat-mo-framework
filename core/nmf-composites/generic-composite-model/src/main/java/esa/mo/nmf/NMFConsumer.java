@@ -23,7 +23,6 @@ package esa.mo.nmf;
 import esa.mo.com.impl.util.COMServicesConsumer;
 import esa.mo.common.impl.consumer.DirectoryConsumerServiceImpl;
 import esa.mo.common.impl.provider.DirectoryProviderServiceImpl;
-import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.common.impl.util.CommonServicesConsumer;
 import esa.mo.common.impl.util.HelperCommon;
@@ -43,11 +42,16 @@ import org.ccsds.moims.mo.common.directory.structures.ServiceFilter;
 import org.ccsds.moims.mo.common.structures.ServiceKey;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.structures.*;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
+import org.ccsds.moims.mo.mal.structures.Blob;
+import org.ccsds.moims.mo.mal.structures.Identifier;
+import org.ccsds.moims.mo.mal.structures.IdentifierList;
+import org.ccsds.moims.mo.mal.structures.UOctet;
+import org.ccsds.moims.mo.mal.structures.URI;
+import org.ccsds.moims.mo.mal.structures.UShort;
+import org.ccsds.moims.mo.mal.structures.UShortList;
 import org.ccsds.moims.mo.mc.MCHelper;
-import org.ccsds.moims.mo.mp.MPHelper;
 import org.ccsds.moims.mo.platform.PlatformHelper;
 import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
 
@@ -312,9 +316,7 @@ public class NMFConsumer {
         MALInteractionException {
         // Starting the directory service consumer from static method.
         // The whole Common area should be registered to avoid errors during the initHelpers
-        if (MALContextFactory.lookupArea(CommonHelper.COMMON_AREA_NAME, CommonHelper.COMMON_AREA_VERSION) == null) {
-            CommonHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
-        }
+        NMFConsumer.initHelpers();
 
         try {
             HelperMisc.loadConsumerProperties();
@@ -331,21 +333,13 @@ public class NMFConsumer {
         IdentifierList wildcardList = new IdentifierList();
         wildcardList.add(new Identifier("*"));
 
-        ServiceFilter filter = new ServiceFilter();
-        filter.setDomain(wildcardList);
-        filter.setNetwork(new Identifier("*"));
-        filter.setSessionType(null);
-
         // Additional logic to save bandwidth in the Space2Ground link
-        if (isS2G) {
-            filter.setSessionName(new Identifier(DirectoryProviderServiceImpl.CHAR_S2G));
-        } else {
-            filter.setSessionName(new Identifier("*"));
-        }
-
-        filter.setServiceKey(new ServiceKey(new UShort((short) 0), new UShort((short) 0), new UOctet((short) 0)));
-        filter.setRequiredCapabilitySets(new UShortList());
-        filter.setServiceProviderId(new Identifier("*"));
+        ServiceFilter filter = new ServiceFilter(new Identifier("*"),
+                wildcardList, new Identifier("*"), null,
+                new Identifier(isS2G ? DirectoryProviderServiceImpl.CHAR_S2G : "*"),
+                new ServiceKey(new UShort((short) 0), new UShort((short) 0), new UOctet((short) 0)),
+                new UShortList()
+        );
 
         ProviderSummaryList summaryList;
         // Do the lookup
@@ -354,7 +348,7 @@ public class NMFConsumer {
         } catch (MALException | MALInteractionException e) {
             throw e;
         } finally {
-            directoryService.close();  // close the connection
+            directoryService.closeConnection();  // close the connection
         }
 
         return summaryList;
@@ -365,37 +359,11 @@ public class NMFConsumer {
      */
     public static void initHelpers() {
         // Load the MAL factories for the supported services
-        try {
-            MALHelper.init(MALContextFactory.getElementFactoryRegistry());
-
-            if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION) == null) {
-                COMHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION) == null) {
-                MCHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(MPHelper.MP_AREA_NAME, MPHelper.MP_AREA_VERSION) == null) {
-                MPHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(CommonHelper.COMMON_AREA_NAME, CommonHelper.COMMON_AREA_VERSION) == null) {
-                CommonHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME,
-                SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) == null) {
-                SoftwareManagementHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(PlatformHelper.PLATFORM_AREA_NAME, PlatformHelper.PLATFORM_AREA_VERSION) ==
-                null) {
-                PlatformHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
-            }
-        } catch (MALException ex) {
-            Logger.getLogger(NMFConsumer.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        MALContextFactory.getElementsRegistry().loadFullArea(COMHelper.COM_AREA);
+        MALContextFactory.getElementsRegistry().loadFullArea(MCHelper.MC_AREA);
+        MALContextFactory.getElementsRegistry().loadFullArea(CommonHelper.COMMON_AREA);
+        MALContextFactory.getElementsRegistry().loadFullArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA);
+        MALContextFactory.getElementsRegistry().loadFullArea(PlatformHelper.PLATFORM_AREA);
     }
 
     public void setAuthenticationId(Blob authenticationId) {

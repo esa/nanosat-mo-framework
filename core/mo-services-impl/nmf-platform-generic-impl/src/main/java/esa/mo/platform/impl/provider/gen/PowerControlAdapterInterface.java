@@ -22,8 +22,7 @@ package esa.mo.platform.impl.provider.gen;
 
 import java.io.IOException;
 import java.util.Map;
-
-import esa.mo.helpertools.connections.ConnectionConsumer;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.platform.powercontrol.structures.Device;
 import org.ccsds.moims.mo.platform.powercontrol.structures.DeviceList;
