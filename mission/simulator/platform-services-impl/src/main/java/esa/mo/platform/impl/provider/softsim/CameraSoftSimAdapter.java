@@ -20,12 +20,15 @@
  */
 package esa.mo.platform.impl.provider.softsim;
 
+import esa.mo.helpertools.helpers.HelperTime;
+import esa.mo.platform.impl.provider.gen.CameraAdapterInterface;
+import esa.mo.platform.impl.provider.gen.PowerControlAdapterInterface;
+import esa.opssat.camera.processing.OPSSATCameraDebayering;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-
-import esa.mo.platform.impl.provider.gen.PowerControlAdapterInterface;
+import opssat.simulator.main.ESASimulator;
 import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Time;
@@ -36,10 +39,6 @@ import org.ccsds.moims.mo.platform.camera.structures.PictureFormat;
 import org.ccsds.moims.mo.platform.camera.structures.PictureFormatList;
 import org.ccsds.moims.mo.platform.camera.structures.PixelResolution;
 import org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList;
-import esa.mo.helpertools.helpers.HelperTime;
-import esa.mo.platform.impl.provider.gen.CameraAdapterInterface;
-import esa.opssat.camera.processing.OPSSATCameraDebayering;
-import opssat.simulator.main.ESASimulator;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.platform.powercontrol.structures.DeviceType;
 

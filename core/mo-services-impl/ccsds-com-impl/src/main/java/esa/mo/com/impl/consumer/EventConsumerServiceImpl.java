@@ -22,34 +22,32 @@ package esa.mo.com.impl.consumer;
 
 import esa.mo.com.impl.util.EventCOMObject;
 import esa.mo.com.impl.util.EventReceivedListener;
-import esa.mo.com.impl.util.HelperCOM;
-import esa.mo.helpertools.connections.SingleConnectionDetails;
-import esa.mo.helpertools.helpers.HelperAttributes;
-import esa.mo.helpertools.misc.ConsumerServiceImpl;
 import java.net.MalformedURLException;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.event.EventHelper;
 import org.ccsds.moims.mo.com.event.consumer.EventAdapter;
 import org.ccsds.moims.mo.com.event.consumer.EventStub;
-import org.ccsds.moims.mo.com.structures.ObjectDetailsList;
+import org.ccsds.moims.mo.com.structures.ObjectDetails;
 import org.ccsds.moims.mo.com.structures.ObjectType;
-import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.consumer.MALConsumer;
+import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
+import org.ccsds.moims.mo.mal.helpertools.misc.ConsumerServiceImpl;
+import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Element;
-import org.ccsds.moims.mo.mal.structures.ElementList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
+import org.ccsds.moims.mo.mal.structures.NullableAttributeList;
 import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.mal.structures.SubscriptionList;
+import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.UShort;
-import org.ccsds.moims.mo.mal.structures.UpdateHeaderList;
+import org.ccsds.moims.mo.mal.structures.Union;
+import org.ccsds.moims.mo.mal.structures.UpdateHeader;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 
 /**
@@ -82,19 +80,6 @@ public class EventConsumerServiceImpl extends ConsumerServiceImpl {
 
     public EventConsumerServiceImpl(SingleConnectionDetails connectionDetails, Blob authenticationId,
         String localNamePrefix) throws MALException, MALInteractionException, MalformedURLException {
-        if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
-            MALHelper.init(MALContextFactory.getElementFactoryRegistry());
-        }
-
-        if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION) == null) {
-            COMHelper.init(MALContextFactory.getElementFactoryRegistry());
-        }
-
-        if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION).getServiceByName(
-            EventHelper.EVENT_SERVICE_NAME) == null) {
-            EventHelper.init(MALContextFactory.getElementFactoryRegistry());
-        }
-
         this.connectionDetails = connectionDetails;
 
         // Close old connection
@@ -133,25 +118,42 @@ public class EventConsumerServiceImpl extends ConsumerServiceImpl {
         class EventReceivedAdapter extends EventAdapter {
 
             @Override
-            public void monitorEventNotifyReceived(final MALMessageHeader msgHeader, final Identifier lIdentifier,
-                final UpdateHeaderList lUpdateHeaderList, final ObjectDetailsList objectDetailsList,
-                final ElementList elementList, Map qosProperties) {
+            public void monitorEventNotifyReceived(final MALMessageHeader msgHeader,
+                    final Identifier lIdentifier, final UpdateHeader lUpdateHeader,
+                    final ObjectDetails objectDetails, final Element element,
+                    Map qosProperties) {
 
-                if (objectDetailsList.size() == lUpdateHeaderList.size()) { // Something is wrong
-                    for (int i = 0; i < lUpdateHeaderList.size(); i++) {
-
+                        /*
                         Identifier entityKey1 = lUpdateHeaderList.get(i).getKey().getFirstSubKey();
                         Long entityKey2 = lUpdateHeaderList.get(i).getKey().getSecondSubKey();
                         Long entityKey3 = lUpdateHeaderList.get(i).getKey().getThirdSubKey();
                         Long entityKey4 = lUpdateHeaderList.get(i).getKey().getFourthSubKey(); // ObjType of the source
+                        */
 
+                        NullableAttributeList subkeys = lUpdateHeader.getKeyValues();
+                        Identifier entityKey1 = (Identifier) subkeys.get(0).getValue();
+                        Long entityKey2 = ((Union) subkeys.get(1).getValue()).getLongValue();
+                        Long entityKey3 = ((Union) subkeys.get(2).getValue()).getLongValue();
+                        Long entityKey4 = ((Union) subkeys.get(3).getValue()).getLongValue(); // ObjType of the source
+                        /*
+                        Long entityKey2 = (Long) HelperAttributes.attribute2JavaType(subkeys.get(1).getValue());
+                        Long entityKey3 = (Long) HelperAttributes.attribute2JavaType(subkeys.get(2).getValue());
+                        Long entityKey4 = (Long) HelperAttributes.attribute2JavaType(subkeys.get(3).getValue()); // ObjType of the source
+                        */
                         // (UShort area, UShort service, UOctet version, UShort number)
                         // (UShort area, UShort service, UOctet version, 0)
-                        ObjectType objType = HelperCOM.objectTypeId2objectType(entityKey2);
-                        objType.setNumber(new UShort(Integer.parseInt(entityKey1.toString())));
+                        // ObjectType objType = HelperCOM.objectTypeId2objectType(entityKey2);
+                        //objType.setNumber(new UShort(Integer.parseInt(entityKey1.toString())));
 
-                        Object nativeBody = ((elementList == null) ? null : elementList.get(i));
-                        Element body = (Element) HelperAttributes.javaType2Attribute(nativeBody);
+                        final long unwrap = (long) entityKey2;
+
+                        ObjectType objType = new ObjectType(new UShort((short) (unwrap >> 48)),
+                                new UShort((short) (unwrap >> 32)),
+                                new UOctet((byte) (unwrap >> 24)),
+                                new UShort(Integer.parseInt(entityKey1.toString())));
+
+                        Object nativeBody = element;
+                        Element body = (Element) Attribute.javaType2Attribute(nativeBody);
 
                         // ----
                         EventCOMObject newEvent = new EventCOMObject();
@@ -160,20 +162,18 @@ public class EventConsumerServiceImpl extends ConsumerServiceImpl {
                         newEvent.setObjType(objType);
                         newEvent.setObjId(entityKey3);
 
-                        newEvent.setSource(objectDetailsList.get(i).getSource());
-                        newEvent.setRelated(objectDetailsList.get(i).getRelated());
+                        newEvent.setSource(objectDetails.getSource());
+                        newEvent.setRelated(objectDetails.getRelated());
                         newEvent.setBody(body);
 
-                        newEvent.setTimestamp(lUpdateHeaderList.get(i).getTimestamp());
-                        newEvent.setSourceURI(lUpdateHeaderList.get(i).getSourceURI());
-                        newEvent.setNetworkZone(msgHeader.getNetworkZone());
+                        newEvent.setTimestamp(msgHeader.getTimestamp());
+                        newEvent.setSourceURI(msgHeader.getFromURI());
+                        //newEvent.setNetworkZone(msgHeader.getNetworkZone());
                         // ----
 
                         // Push the data to the listener
                         eventReceivedListener.onDataReceived(newEvent);
                     }
-                }
-            }
         }
 
         try {  // Register with the subscription key provided
@@ -189,7 +189,7 @@ public class EventConsumerServiceImpl extends ConsumerServiceImpl {
      *
      */
     @Override
-    protected void closeConnection() {
+    public void closeConnection() {
         // Close old connection
         if (tmConsumer != null) {
             try {

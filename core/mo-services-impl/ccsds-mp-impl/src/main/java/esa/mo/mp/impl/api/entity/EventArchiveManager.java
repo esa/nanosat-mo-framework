@@ -24,8 +24,8 @@ import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectIdList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mp.planedit.PlanEditHelper;
-import org.ccsds.moims.mo.mp.planinformationmanagement.PlanInformationManagementHelper;
+import org.ccsds.moims.mo.mp.planedit.PlanEditServiceInfo;
+import org.ccsds.moims.mo.mp.planinformationmanagement.PlanInformationManagementServiceInfo;
 import org.ccsds.moims.mo.mp.structures.EventDefinitionDetails;
 import org.ccsds.moims.mo.mp.structures.EventDefinitionDetailsList;
 import org.ccsds.moims.mo.mp.structures.EventIdentityDetails;
@@ -52,34 +52,34 @@ public class EventArchiveManager extends
     }
 
     public ObjectIdList listAllIdentityIds() {
-        return super.listAllIdentityIds(PlanInformationManagementHelper.EVENTIDENTITY_OBJECT_TYPE);
+        return super.listAllIdentityIds(PlanInformationManagementServiceInfo.EVENTIDENTITY_OBJECT_TYPE);
     }
 
     public ObjectIdList listAllDefinitionIds() {
-        return super.listAllIdentityIds(PlanInformationManagementHelper.EVENTDEFINITION_OBJECT_TYPE);
+        return super.listAllIdentityIds(PlanInformationManagementServiceInfo.EVENTDEFINITION_OBJECT_TYPE);
     }
 
     public ObjectIdList listAllInstanceIds() {
-        return super.listAllInstanceIds(PlanEditHelper.EVENTINSTANCE_OBJECT_TYPE);
+        return super.listAllInstanceIds(PlanEditServiceInfo.EVENTINSTANCE_OBJECT_TYPE);
     }
 
     public ObjectIdList listAllStatusIds() {
-        return super.listAllStatusIds(PlanEditHelper.EVENTINSTANCE_OBJECT_TYPE);
+        return super.listAllStatusIds(PlanEditServiceInfo.EVENTINSTANCE_OBJECT_TYPE);
     }
 
     public ObjectId getIdentityId(Identifier identity) {
-        return super.getIdentityId(identity, PlanInformationManagementHelper.EVENTIDENTITY_OBJECT_TYPE);
+        return super.getIdentityId(identity, PlanInformationManagementServiceInfo.EVENTIDENTITY_OBJECT_TYPE);
     }
 
     public ObjectIdList getIdentityIds(IdentifierList identities) {
-        return super.getIdentityIds(identities, PlanInformationManagementHelper.EVENTIDENTITY_OBJECT_TYPE);
+        return super.getIdentityIds(identities, PlanInformationManagementServiceInfo.EVENTIDENTITY_OBJECT_TYPE);
     }
 
     public EventDefinitionDetails getDefinition(Identifier identity) {
-        return super.getDefinition(identity, PlanInformationManagementHelper.EVENTIDENTITY_OBJECT_TYPE);
+        return super.getDefinition(identity, PlanInformationManagementServiceInfo.EVENTIDENTITY_OBJECT_TYPE);
     }
 
     public EventDefinitionDetailsList getDefinitions(IdentifierList identities) {
-        return super.getDefinitions(identities, PlanInformationManagementHelper.EVENTIDENTITY_OBJECT_TYPE);
+        return super.getDefinitions(identities, PlanInformationManagementServiceInfo.EVENTIDENTITY_OBJECT_TYPE);
     }
 }

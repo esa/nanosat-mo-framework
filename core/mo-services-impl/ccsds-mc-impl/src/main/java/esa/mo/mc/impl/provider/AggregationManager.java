@@ -23,8 +23,6 @@ package esa.mo.mc.impl.provider;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
-import esa.mo.helpertools.connections.SingleConnectionDetails;
-import esa.mo.helpertools.helpers.HelperTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -32,19 +30,19 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.FineTime;
+import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.TimeList;
 import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.URI;
-import org.ccsds.moims.mo.mc.aggregation.AggregationHelper;
+import org.ccsds.moims.mo.mc.aggregation.AggregationServiceInfo;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetails;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSet;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSetList;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterValue;
@@ -197,16 +195,23 @@ public final class AggregationManager extends MCManager {
             uniqueObjIdAVal++;
             return this.uniqueObjIdAVal;
         } else {
-            AggregationValueList aValList = new AggregationValueList();
+            HeterogeneousList aValList = new HeterogeneousList();
             aValList.add(aVal);
 
             try {
                 //requirement: 3.7.4.d, 3.7.6.b
-                LongList objIds = super.getArchiveService().store(true,
-                    AggregationHelper.AGGREGATIONVALUEINSTANCE_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(),
-                    HelperArchive.generateArchiveDetailsList(related, source, ConfigurationProviderSingleton
-                        .getNetwork(), uri, timestamp), //requirement: 3.7.4.e
-                    aValList, null);
+                LongList objIds = super.getArchiveService().store(
+                        true,
+                        AggregationServiceInfo.AGGREGATIONVALUEINSTANCE_OBJECT_TYPE,
+                        ConfigurationProviderSingleton.getDomain(),
+                        HelperArchive.generateArchiveDetailsList(
+                            related,
+                            source,
+                            ConfigurationProviderSingleton.getNetwork(),
+                            uri,
+                            timestamp), //requirement: 3.7.4.e
+                        aValList,
+                        null);
 
                 if (objIds.size() == 1) {
                     return objIds.get(0);
@@ -466,7 +471,6 @@ public final class AggregationManager extends MCManager {
      * @return
      */
     public AggregationValue getValue(Long identityId) {
-        AggregationValue aVal = new AggregationValue();
         AggregationDefinitionDetails aggrDef = this.getAggregationDefinition(identityId);
         AggregationParameterSetList parameterSets = aggrDef.getParameterSets();
         AggregationSetValueList parameterSetValues = new AggregationSetValueList();
@@ -479,10 +483,7 @@ public final class AggregationManager extends MCManager {
             parameterSetValues.add(aggrSetValue);
         }
 
-        aVal.setParameterSetValues(parameterSetValues);
-        aVal.setGenerationMode(GenerationMode.ADHOC);
-        aVal.setFiltered(false);
-        return aVal;
+        return new AggregationValue(GenerationMode.ADHOC, false, parameterSetValues);
     }
 
     /**
@@ -497,7 +498,6 @@ public final class AggregationManager extends MCManager {
      * @return the most recent values
      */
     public AggregationValue getAggregationValue(Long identityId, GenerationMode generationMode) {
-        AggregationValue aVal = new AggregationValue();
         AggregationDefinitionDetails aggrDef = this.getAggregationDefinition(identityId);
         AggregationParameterSetList parameterSets = aggrDef.getParameterSets();
         AggregationSetValueList parameterSetValues = new AggregationSetValueList();
@@ -520,11 +520,9 @@ public final class AggregationManager extends MCManager {
                 parameterSetValues.add(parameterSetValue);
             }
         }
-        //set the current parameterSetList as the current aggregation vakues
-        aVal.setParameterSetValues(parameterSetValues);
-        aVal.setGenerationMode(generationMode);
-        aVal.setFiltered(isFilterTriggered(identityId));
-        return aVal;
+        //set the current parameterSetList as the current aggregation values
+        return new AggregationValue(generationMode, isFilterTriggered(identityId), parameterSetValues);
+        
     }
 
     /**
@@ -542,11 +540,13 @@ public final class AggregationManager extends MCManager {
     private AggregationSetValue calcAggrSetValueTimes(GenerationMode generationMode, Duration sampleInterval,
         Duration updateInterval, Long identityId, int indexParameterSet) {
         //periodic updates should get the value from the last sampled value
-        AggregationSetValue parameterSetValue = new AggregationSetValue();
-        if (generationMode == GenerationMode.PERIODIC && sampleInterval.getValue() != 0 && sampleInterval.getValue() <
-            updateInterval.getValue()) {
+        AggregationSetValue parameterSetValue;
+
+        if (generationMode == GenerationMode.PERIODIC
+                && sampleInterval.getValue() != 0
+                && sampleInterval.getValue() < updateInterval.getValue()) {
             //calculate the intervals
-            Time currentTime = HelperTime.getTimestampMillis();
+            Time currentTime = Time.now();
             //            Time AggTimeStamp = new Time(currentTime.getValue() - (long) updateInterval.getValue() * 1000);
             //            Time firstSampleTime = new Time(this.latestSampleTimeList.get(identityId).get(indexParameterSet).getValue());
             Time previousSetTimeStamp;
@@ -565,11 +565,9 @@ public final class AggregationManager extends MCManager {
             Duration deltaTime = new Duration(((float) (firstSampleTime.getValue() - previousSetTimeStamp.getValue())) /
                 1000);
             // Duration is in seconds but Time is in miliseconds
-            parameterSetValue.setDeltaTime(deltaTime);
-            parameterSetValue.setIntervalTime(sampleInterval);
+            parameterSetValue = new AggregationSetValue(deltaTime, sampleInterval, null);
         } else {  // a new sample should be generated (if the generationMode is ADHOC or FILTEREDTIMEOUT, or the sampleInterval is out of the updateInterval range)
-            parameterSetValue.setDeltaTime(null);
-            parameterSetValue.setIntervalTime(null);
+            parameterSetValue = new AggregationSetValue(null, null, null);
         }
         return parameterSetValue;
     }
@@ -782,7 +780,7 @@ public final class AggregationManager extends MCManager {
         this.periodicAggregationValuesCurrent.get(identityId).getParameterSetValues().get(indexOfparameterSet)
             .setValues(newParamSample);
         //sets the timestamp of the latest value of the set. needed for the calculation of the delta-time
-        this.latestSampleTimeList.get(identityId).set(indexOfparameterSet, HelperTime.getTimestampMillis());
+        this.latestSampleTimeList.get(identityId).set(indexOfparameterSet, Time.now());
 
         return newParamSample;
     }
@@ -801,26 +799,32 @@ public final class AggregationManager extends MCManager {
             try {
                 //requirement: 3.7.10.2.f: if a AggregationName ever existed before, use the old AggregationIdentity-Object by retrieving it from the archive
                 //check if the name existed before and retrieve id if found
-                Long identityId = retrieveIdentityIdByNameFromArchive(ConfigurationProviderSingleton.getDomain(), name,
-                    AggregationHelper.AGGREGATIONIDENTITY_OBJECT_TYPE);
+                Long identityId = retrieveIdentityIdByNameFromArchive(ConfigurationProviderSingleton.getDomain(),
+                        name, AggregationServiceInfo.AGGREGATIONIDENTITY_OBJECT_TYPE);
 
                 //in case the AggregationName never existed before, create a new identity
                 if (identityId == null) {
-                    IdentifierList names = new IdentifierList();
+                    HeterogeneousList names = new HeterogeneousList();
                     names.add(name);
                     //add to the archive
                     LongList identityIds = super.getArchiveService().store(true,
-                        AggregationHelper.AGGREGATIONIDENTITY_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(),
-                        HelperArchive.generateArchiveDetailsList(null, source, connectionDetails), names, null);
+                            AggregationServiceInfo.AGGREGATIONIDENTITY_OBJECT_TYPE,
+                            ConfigurationProviderSingleton.getDomain(),
+                            HelperArchive.generateArchiveDetailsList(null, source, connectionDetails),
+                            names,
+                            null);
                     identityId = identityIds.get(0);
                 }
 
                 //not matter if the Aggregation was created or loaded, a new definition will be created
-                AggregationDefinitionDetailsList defs = new AggregationDefinitionDetailsList();
+                HeterogeneousList defs = new HeterogeneousList();
                 defs.add(definition);
                 LongList defIds = super.getArchiveService().store(true,
-                    AggregationHelper.AGGREGATIONDEFINITION_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(),
-                    HelperArchive.generateArchiveDetailsList(identityId, source, connectionDetails), defs, null);
+                        AggregationServiceInfo.AGGREGATIONDEFINITION_OBJECT_TYPE,
+                        ConfigurationProviderSingleton.getDomain(),
+                        HelperArchive.generateArchiveDetailsList(identityId, source, connectionDetails),
+                        defs,
+                        null);
 
                 //add to providers local list
                 newIdPair = new ObjectInstancePair(identityId, defIds.get(0));
@@ -863,14 +867,16 @@ public final class AggregationManager extends MCManager {
 
         } else {  // update in the COM Archive
             try {
-                AggregationDefinitionDetailsList defs = new AggregationDefinitionDetailsList();
+                HeterogeneousList defs = new HeterogeneousList();
                 defs.add(definition);
 
                 //requirement 3.7.6.a
                 LongList defIds = super.getArchiveService().store(true,
-                    AggregationHelper.AGGREGATIONDEFINITION_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(),
-                    HelperArchive.generateArchiveDetailsList(identityId, source, connectionDetails), //requirement: 3.7.4.d, h
-                    defs, null);
+                        AggregationServiceInfo.AGGREGATIONDEFINITION_OBJECT_TYPE,
+                        ConfigurationProviderSingleton.getDomain(),
+                        HelperArchive.generateArchiveDetailsList(identityId, source, connectionDetails), //requirement: 3.7.4.d, h
+                        defs,
+                        null);
 
                 newDefId = defIds.get(0);
             } catch (MALException | MALInteractionException ex) {

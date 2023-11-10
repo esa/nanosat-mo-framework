@@ -25,6 +25,7 @@ import java.io.OutputStream;
 import java.math.BigInteger;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.structures.Blob;
+import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.ULong;
 import org.ccsds.moims.mo.mal.structures.URI;
@@ -33,6 +34,7 @@ import org.ccsds.moims.mo.mal.structures.URI;
  * Implements the MALEncoder and MALListEncoder interfaces for a binary encoding.
  */
 public class BinaryEncoder extends GENEncoder {
+
     /**
      * Constructor.
      *
@@ -120,6 +122,27 @@ public class BinaryEncoder extends GENEncoder {
                 encodeString(value);
             } else {
                 outputStream.addBytes(null);
+            }
+        } catch (IOException ex) {
+            throw new MALException(ENCODING_EXCEPTION_STR, ex);
+        }
+    }
+
+    @Override
+    public void encodeAbstractElement(final Element value) throws MALException {
+        encodeLong(value.getShortForm());
+        value.encode(this);
+    }
+
+    @Override
+    public void encodeNullableAbstractElement(final Element value) throws MALException {
+        try {
+            if (value != null) {
+                outputStream.addNotNull();
+                encodeLong(value.getShortForm());
+                value.encode(this);
+            } else {
+                outputStream.addIsNull();
             }
         } catch (IOException ex) {
             throw new MALException(ENCODING_EXCEPTION_STR, ex);

@@ -30,9 +30,10 @@ import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.Duration;
+import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.UOctet;
-import org.ccsds.moims.mo.mc.aggregation.AggregationHelper;
+import org.ccsds.moims.mo.mc.aggregation.AggregationServiceInfo;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetails;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSet;
@@ -47,25 +48,25 @@ public class StoreAggregations {
     public static void storeAggregations(int numberOfObjs, NMFInterface connector) {
         try {
             AggregationDefinitionDetailsList defs = new AggregationDefinitionDetailsList();
-            AggregationDefinitionDetails def = new AggregationDefinitionDetails();
-            def.setDescription("dfvgdf");
-            def.setCategory(new UOctet((short) 1));
-            def.setSendUnchanged(false);
-            def.setGenerationEnabled(true);
-            def.setReportInterval(new Duration(45));
-            def.setFilterEnabled(false);
-            def.setFilteredTimeout(new Duration(54));
-            def.setSendDefinitions(false);
             AggregationParameterSetList aaa = new AggregationParameterSetList();
-            AggregationParameterSet aa = new AggregationParameterSet();
-            aa.setDomain(null);
             LongList lissssst = new LongList();
-            lissssst.add(65L);
-            aa.setParameters(lissssst);
-            aa.setSampleInterval(new Duration(43));
-            aa.setReportFilter(null);
+            lissssst.add(new Long(65));
+            AggregationParameterSet aa = new AggregationParameterSet(
+                null,
+                lissssst,
+                new Duration(43),
+                null);
             aaa.add(aa);
-            def.setParameterSets(aaa);
+            AggregationDefinitionDetails def = new AggregationDefinitionDetails(
+                "dfvgdf",
+                new UOctet((short) 1),
+                new Duration(45),
+                false,
+                false,
+                false,
+                new Duration(54),
+                true,
+                aaa);
             for (int i = 0; i < numberOfObjs; i++) {
                 defs.add(def);
             }
@@ -114,14 +115,16 @@ public class StoreAggregations {
 
                 for (int i = 0; i < defs.size(); i++) {
                     ArchiveDetailsList xxx = new ArchiveDetailsList();
-                    AggregationDefinitionDetailsList yyy = new AggregationDefinitionDetailsList();
+                    HeterogeneousList yyy = new HeterogeneousList();
                     xxx.add(archDetails.get(0));
                     yyy.add(defs.get(i));
 
                     connector.getCOMServices().getArchiveService().store(true,
-                        AggregationHelper.AGGREGATIONDEFINITION_OBJECT_TYPE, connector.getMCServices()
-                            .getActionService().getConnectionProvider().getConnectionDetails().getDomain(), xxx, yyy,
-                        null);
+                            AggregationServiceInfo.AGGREGATIONDEFINITION_OBJECT_TYPE,
+                            connector.getMCServices().getActionService().getConnectionProvider().getConnectionDetails().getDomain(),
+                            xxx,
+                            yyy,
+                            null);
 
                 }
 

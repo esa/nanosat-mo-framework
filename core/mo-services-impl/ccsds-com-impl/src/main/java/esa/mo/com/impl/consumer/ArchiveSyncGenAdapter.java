@@ -96,7 +96,7 @@ public class ArchiveSyncGenAdapter extends org.ccsds.moims.mo.com.archivesync.co
 
     @Override
     public void retrieveRangeAckErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-        org.ccsds.moims.mo.mal.MALStandardError error, java.util.Map qosProperties) {
+            org.ccsds.moims.mo.mal.MOErrorException error, java.util.Map qosProperties) {
         Logger.getLogger(ArchiveSyncGenAdapter.class.getName()).log(Level.SEVERE,
             "retrieveRangeAckErrorReceived: No idea on how this should be handled...", error);
     }
@@ -132,7 +132,7 @@ public class ArchiveSyncGenAdapter extends org.ccsds.moims.mo.com.archivesync.co
 
     @Override
     public void retrieveRangeAgainAckErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-        org.ccsds.moims.mo.mal.MALStandardError error, java.util.Map qosProperties) {
+            org.ccsds.moims.mo.mal.MOErrorException error, java.util.Map qosProperties) {
         Logger.getLogger(ArchiveSyncGenAdapter.class.getName()).log(Level.SEVERE,
             "retrieveRangeAgainAckErrorReceived: No idea on how this should be handled...", error);
     }

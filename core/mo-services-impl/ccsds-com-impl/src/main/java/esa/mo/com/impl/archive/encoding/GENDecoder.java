@@ -29,6 +29,8 @@ import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.FineTime;
 import org.ccsds.moims.mo.mal.structures.Identifier;
+import org.ccsds.moims.mo.mal.structures.IdentifierList;
+import org.ccsds.moims.mo.mal.structures.ObjectRef;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.ULong;
@@ -41,6 +43,7 @@ import org.ccsds.moims.mo.mal.structures.Union;
  * Extends the MALDecoder interface for use in the generic encoding framework.
  */
 public abstract class GENDecoder implements MALDecoder {
+
     protected final BufferHolder sourceBuffer;
 
     protected GENDecoder(BufferHolder sourceBuffer) {
@@ -135,6 +138,21 @@ public abstract class GENDecoder implements MALDecoder {
     @Override
     public Double decodeDouble() throws MALException {
         return sourceBuffer.getDouble();
+    }
+
+    @Override
+    public ObjectRef decodeObjectRef() throws MALException {
+        IdentifierList decodedDomain = new IdentifierList();
+        int length = sourceBuffer.getUnsignedInt();
+
+        for (int i = 0; i < length; i++) {
+            decodedDomain.add(new Identifier(sourceBuffer.getString()));
+        }
+
+        return new ObjectRef(decodedDomain,
+                Long.valueOf(sourceBuffer.getSignedLong()),
+                new Identifier(sourceBuffer.getString()),
+                new UInteger(sourceBuffer.getUnsignedLong32()));
     }
 
     @Override
@@ -313,6 +331,15 @@ public abstract class GENDecoder implements MALDecoder {
         return null;
     }
 
+    @Override
+    public ObjectRef decodeNullableObjectRef() throws MALException {
+        if (sourceBuffer.isNotNull()) {
+            return decodeObjectRef();
+        }
+
+        return null;
+    }
+
     protected Attribute internalDecodeAttribute(final int typeval) throws MALException {
         switch (typeval) {
             case Attribute._BLOB_TYPE_SHORT_FORM:
@@ -390,7 +417,8 @@ public abstract class GENDecoder implements MALDecoder {
     }
 
     /**
-     * Returns the remaining data of the input stream that has not been used for decoding for wrapping in a MALEncodedBody class.
+     * Returns the remaining data of the input stream that has not been used for
+     * decoding for wrapping in a MALEncodedBody class.
      *
      * @return the unused body data.
      * @throws MALException if there is an error.
@@ -398,10 +426,12 @@ public abstract class GENDecoder implements MALDecoder {
     public abstract byte[] getRemainingEncodedData() throws MALException;
 
     /**
-     * Internal class that is used to hold the byte buffer. Derived classes should extend this (and replace it in the constructors) if
-     * they encode the fields differently from this encoding.
+     * Internal class that is used to hold the byte buffer. Derived classes
+     * should extend this (and replace it in the constructors) if they encode
+     * the fields differently from this encoding.
      */
     public abstract static class BufferHolder {
+
         /**
          * Gets a string from the incoming stream.
          *
@@ -467,7 +497,8 @@ public abstract class GENDecoder implements MALDecoder {
         public abstract long getUnsignedLong() throws MALException;
 
         /**
-         * Gets a single 32 bit unsigned integer as a long from the incoming stream.
+         * Gets a single 32 bit unsigned integer as a long from the incoming
+         * stream.
          *
          * @return the extracted value.
          * @throws MALException If there is a problem with the decoding.
@@ -483,7 +514,8 @@ public abstract class GENDecoder implements MALDecoder {
         public abstract int getUnsignedInt() throws MALException;
 
         /**
-         * Gets a single 16 bit unsigned integer as a int from the incoming stream.
+         * Gets a single 16 bit unsigned integer as a int from the incoming
+         * stream.
          *
          * @return the extracted value.
          * @throws MALException If there is a problem with the decoding.
@@ -499,7 +531,8 @@ public abstract class GENDecoder implements MALDecoder {
         public abstract int getUnsignedShort() throws MALException;
 
         /**
-         * Gets a single 8 bit unsigned integer as a short from the incoming stream.
+         * Gets a single 8 bit unsigned integer as a short from the incoming
+         * stream.
          *
          * @return the extracted value.
          * @throws MALException If there is a problem with the decoding.

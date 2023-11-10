@@ -27,8 +27,7 @@ import java.lang.reflect.Field;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import esa.mo.helpertools.misc.TaskScheduler;
+import org.ccsds.moims.mo.mal.helpertools.misc.TaskScheduler;
 
 public class ProcessExecutionHandler {
 

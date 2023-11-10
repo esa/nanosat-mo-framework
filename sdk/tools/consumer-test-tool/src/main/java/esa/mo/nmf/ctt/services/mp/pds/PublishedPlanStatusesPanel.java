@@ -32,16 +32,16 @@ import org.ccsds.moims.mo.com.archive.structures.ArchiveQueryList;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.structures.ElementList;
 import org.ccsds.moims.mo.mal.structures.FineTime;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.mp.plandistribution.PlanDistributionHelper;
 import org.ccsds.moims.mo.mp.structures.PlanUpdateDetails;
 import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.mp.impl.consumer.PlanDistributionConsumerServiceImpl;
 import esa.mo.nmf.ctt.services.mp.PublishedUpdatesPanel;
 import esa.mo.nmf.ctt.services.mp.util.TimeConverter;
+import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
+import org.ccsds.moims.mo.mp.plandistribution.PlanDistributionServiceInfo;
 
 public class PublishedPlanStatusesPanel extends PublishedUpdatesPanel {
     private static final Logger LOGGER = Logger.getLogger(PublishedPlanStatusesPanel.class.getName());
@@ -73,7 +73,7 @@ public class PublishedPlanStatusesPanel extends PublishedUpdatesPanel {
 
         this.publishedPlanStatusesTable.removeAllEntries();
 
-        ObjectType updateObjectType = PlanDistributionHelper.PLANUPDATE_OBJECT_TYPE;
+        ObjectType updateObjectType = PlanDistributionServiceInfo.PLANUPDATE_OBJECT_TYPE;
 
         FineTime startTime = TimeConverter.convert(getRefreshTime());
 
@@ -100,13 +100,13 @@ public class PublishedPlanStatusesPanel extends PublishedUpdatesPanel {
             archiveService.getArchiveStub().query(true, updateObjectType, archiveQueryList, null, new ArchiveAdapter() {
                 @Override
                 public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-                    ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+                    ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
                     addEntries(domain, objDetails, objBodies);
                 }
 
                 @Override
                 public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-                    ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+                    ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
                     addEntries(domain, objDetails, objBodies);
                 }
             });
@@ -115,7 +115,7 @@ public class PublishedPlanStatusesPanel extends PublishedUpdatesPanel {
         }
     }
 
-    private void addEntries(IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies) {
+    private void addEntries(IdentifierList domain, ArchiveDetailsList objDetails, HeterogeneousList objBodies) {
         if (objDetails == null)
             return;
         for (int index = 0; index < objDetails.size(); index++) {

@@ -20,9 +20,9 @@
  */
 package esa.mo.nmf.apps;
 
-import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.nmf.commonmoadapter.CommonMOAdapterImpl;
 import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 
 public class PayloadsTestApp {
 

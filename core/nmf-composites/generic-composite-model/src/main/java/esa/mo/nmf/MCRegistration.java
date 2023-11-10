@@ -39,6 +39,7 @@ import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.ElementList;
+import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
@@ -53,7 +54,7 @@ import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetails
 import org.ccsds.moims.mo.mc.alert.structures.AlertCreationRequest;
 import org.ccsds.moims.mo.mc.alert.structures.AlertCreationRequestList;
 import org.ccsds.moims.mo.mc.alert.structures.AlertDefinitionDetailsList;
-import org.ccsds.moims.mo.mc.conversion.ConversionHelper;
+import org.ccsds.moims.mo.mc.conversion.ConversionServiceInfo;
 import org.ccsds.moims.mo.mc.conversion.structures.DiscreteConversionDetailsList;
 import org.ccsds.moims.mo.mc.conversion.structures.LineConversionDetailsList;
 import org.ccsds.moims.mo.mc.conversion.structures.PolyConversionDetailsList;
@@ -441,22 +442,22 @@ public class MCRegistration {
 
         // Discrete Conversion:
         if (conversions instanceof DiscreteConversionDetailsList) {
-            return this.registerConversionsGen(conversions, ConversionHelper.DISCRETECONVERSION_OBJECT_TYPE);
+            return this.registerConversionsGen(conversions, ConversionServiceInfo.DISCRETECONVERSION_OBJECT_TYPE);
         }
 
         // Line Conversion:
         if (conversions instanceof LineConversionDetailsList) {
-            return this.registerConversionsGen(conversions, ConversionHelper.LINECONVERSION_OBJECT_TYPE);
+            return this.registerConversionsGen(conversions, ConversionServiceInfo.LINECONVERSION_OBJECT_TYPE);
         }
 
         // Polynomial Conversion:
         if (conversions instanceof PolyConversionDetailsList) {
-            return this.registerConversionsGen(conversions, ConversionHelper.POLYCONVERSION_OBJECT_TYPE);
+            return this.registerConversionsGen(conversions, ConversionServiceInfo.POLYCONVERSION_OBJECT_TYPE);
         }
 
         // Range Conversion:
         if (conversions instanceof RangeConversionDetailsList) {
-            return this.registerConversionsGen(conversions, ConversionHelper.RANGECONVERSION_OBJECT_TYPE);
+            return this.registerConversionsGen(conversions, ConversionServiceInfo.RANGECONVERSION_OBJECT_TYPE);
         }
 
         throw new NMFException("The conversion object didn't match any type of Conversion.");
@@ -475,7 +476,7 @@ public class MCRegistration {
         final IdentifierList domain = ConfigurationProviderSingleton.getDomain();
         final ArchiveDetailsList archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null,
             PROVIDER_URI);
-        final IdentifierList names = new IdentifierList();
+        final HeterogeneousList names = new HeterogeneousList();
 
         Random rand = new Random();
 
@@ -487,14 +488,28 @@ public class MCRegistration {
             archiveDetailsList.add(archiveDetailsList.get(0));
         }
 
-        final LongList conversionIdentityObjIds = comServices.getArchiveService().store(true,
-            ConversionHelper.CONVERSIONIDENTITY_OBJECT_TYPE, domain, archiveDetailsList, names, null);
+        final LongList conversionIdentityObjIds = comServices.getArchiveService().store(
+                true,
+                ConversionServiceInfo.CONVERSIONIDENTITY_OBJECT_TYPE,
+                domain,
+                archiveDetailsList,
+                names,
+                null);
 
         for (int i = 0; i < archiveDetailsList.size(); i++) {
             archiveDetailsList.get(i).setDetails(new ObjectDetails(conversionIdentityObjIds.get(i), null));
         }
+        
+        HeterogeneousList myList = new HeterogeneousList();
+        myList.addAll(conversions);
 
-        comServices.getArchiveService().store(false, objType, domain, archiveDetailsList, conversions, null);
+        comServices.getArchiveService().store(
+                false,
+                objType,
+                domain,
+                archiveDetailsList,
+                myList,
+                null);
 
         ObjectIdList output = new ObjectIdList();
 

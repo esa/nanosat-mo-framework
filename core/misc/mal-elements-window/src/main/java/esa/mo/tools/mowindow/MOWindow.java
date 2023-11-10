@@ -20,7 +20,6 @@
  */
 package esa.mo.tools.mowindow;
 
-import esa.mo.helpertools.helpers.HelperMisc;
 import java.io.InterruptedIOException;
 import java.lang.reflect.Field;
 import java.util.logging.Level;
@@ -28,6 +27,7 @@ import java.util.logging.Logger;
 import javax.swing.BoxLayout;
 import org.ccsds.moims.mo.mal.MALArea;
 import org.ccsds.moims.mo.mal.MALContextFactory;
+import org.ccsds.moims.mo.mal.MALElementsRegistry;
 import org.ccsds.moims.mo.mal.MALService;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Composite;
@@ -123,9 +123,9 @@ public final class MOWindow extends javax.swing.JDialog {
                 if (!(list.get(i) instanceof Element)) {
                     if (list.get(i) == null) {
                         try {
-                            Element something = HelperMisc.elementList2element(list);
-                            MOelementList moElementList = new MOelementList(this, String.valueOf(componentsPanel
-                                .getComponentCount()), something, editable, true);
+                            Element something = MALElementsRegistry.elementToElementList(list);
+                            MOelementList moElementList = new MOelementList(this,
+                                    String.valueOf(componentsPanel.getComponentCount()), something, editable, true);
                             componentsPanel.add(moElementList);
                         } catch (Exception ex) {
                             Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex);
@@ -346,9 +346,10 @@ public final class MOWindow extends javax.swing.JDialog {
 
     private void buttonAddActionPerformed(java.awt.event.ActionEvent evt) {
         try {
-            Element element = HelperMisc.elementList2element((ElementList) this.receivedObj);
-            MOelementList moElementList = new MOelementList(this, String.valueOf(componentsPanel.getComponentCount() -
-                1), element, this.editable, (this.receivedObj == null));
+            Element element = MALElementsRegistry.elementToElementList((ElementList) this.receivedObj);
+            MOelementList moElementList = new MOelementList(this,
+                    String.valueOf(componentsPanel.getComponentCount() - 1),
+                    element, this.editable, (this.receivedObj == null));
             componentsPanel.add(moElementList, componentsPanel.getComponentCount() - 1);
             this.refreshVerticalSize();
         } catch (Exception ex) {

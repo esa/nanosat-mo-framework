@@ -24,7 +24,7 @@ import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectIdList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mp.planinformationmanagement.PlanInformationManagementHelper;
+import org.ccsds.moims.mo.mp.planinformationmanagement.PlanInformationManagementServiceInfo;
 import org.ccsds.moims.mo.mp.structures.RequestTemplateDetails;
 import org.ccsds.moims.mo.mp.structures.RequestTemplateDetailsList;
 import org.ccsds.moims.mo.mp.structures.RequestTemplateIdentityDetails;
@@ -48,26 +48,26 @@ public class RequestTemplateArchiveManager extends
     }
 
     public ObjectIdList listAllIdentityIds() {
-        return super.listAllIdentityIds(PlanInformationManagementHelper.REQUESTTEMPLATEIDENTITY_OBJECT_TYPE);
+        return super.listAllIdentityIds(PlanInformationManagementServiceInfo.REQUESTTEMPLATEIDENTITY_OBJECT_TYPE);
     }
 
     public ObjectIdList listAllDefinitionIds() {
-        return super.listAllDefinitionIds(PlanInformationManagementHelper.REQUESTTEMPLATE_OBJECT_TYPE);
+        return super.listAllDefinitionIds(PlanInformationManagementServiceInfo.REQUESTTEMPLATE_OBJECT_TYPE);
     }
 
     public ObjectId getIdentityId(Identifier identity) {
-        return super.getIdentityId(identity, PlanInformationManagementHelper.REQUESTTEMPLATEIDENTITY_OBJECT_TYPE);
+        return super.getIdentityId(identity, PlanInformationManagementServiceInfo.REQUESTTEMPLATEIDENTITY_OBJECT_TYPE);
     }
 
     public ObjectIdList getIdentityIds(IdentifierList identities) {
-        return super.getIdentityIds(identities, PlanInformationManagementHelper.REQUESTTEMPLATEIDENTITY_OBJECT_TYPE);
+        return super.getIdentityIds(identities, PlanInformationManagementServiceInfo.REQUESTTEMPLATEIDENTITY_OBJECT_TYPE);
     }
 
     public RequestTemplateDetails getDefinition(Identifier identity) {
-        return super.getDefinition(identity, PlanInformationManagementHelper.REQUESTTEMPLATEIDENTITY_OBJECT_TYPE);
+        return super.getDefinition(identity, PlanInformationManagementServiceInfo.REQUESTTEMPLATEIDENTITY_OBJECT_TYPE);
     }
 
     public RequestTemplateDetailsList getDefinitions(IdentifierList identities) {
-        return super.getDefinitions(identities, PlanInformationManagementHelper.REQUESTTEMPLATEIDENTITY_OBJECT_TYPE);
+        return super.getDefinitions(identities, PlanInformationManagementServiceInfo.REQUESTTEMPLATEIDENTITY_OBJECT_TYPE);
     }
 }

@@ -22,7 +22,6 @@ package esa.mo.nmf.ctt.services.mc;
 
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.HelperArchive;
-import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.mc.impl.consumer.AggregationConsumerServiceImpl;
 import esa.mo.tools.mowindow.MOWindow;
 import java.io.InterruptedIOException;
@@ -34,16 +33,18 @@ import org.ccsds.moims.mo.com.structures.InstanceBooleanPair;
 import org.ccsds.moims.mo.com.structures.InstanceBooleanPairList;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.MALStandardError;
+import org.ccsds.moims.mo.mal.MOErrorException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
+import org.ccsds.moims.mo.mal.structures.NullableAttributeList;
 import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.mal.structures.UOctet;
-import org.ccsds.moims.mo.mal.structures.UpdateHeader;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.mc.aggregation.AggregationHelper;
+import org.ccsds.moims.mo.mc.aggregation.AggregationServiceInfo;
 import org.ccsds.moims.mo.mc.aggregation.consumer.AggregationAdapter;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationCreationRequest;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationCreationRequestList;
@@ -52,7 +53,6 @@ import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetails
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSet;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSetList;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationSetValue;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationValue;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationValueDetails;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationValueDetailsList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
@@ -315,10 +315,11 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
             }
 
             // Get the stored Parameter Definition from the Archive
-            ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(this.serviceMCAggregation
-                .getCOMServices().getArchiveService().getArchiveStub(),
-                AggregationHelper.AGGREGATIONDEFINITION_OBJECT_TYPE, serviceMCAggregation.getConnectionDetails()
-                    .getDomain(), objIds.get(0).getObjDefInstanceId());
+            ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(
+                    this.serviceMCAggregation.getCOMServices().getArchiveService().getArchiveStub(),
+                    AggregationServiceInfo.AGGREGATIONDEFINITION_OBJECT_TYPE,
+                    serviceMCAggregation.getConnectionDetails().getDomain(),
+                    objIds.get(0).getObjDefInstanceId());
 
             // Add the Action Definition to the table
             aggregationTable.addEntry(requestList.get(0).getName(), comObject);
@@ -395,19 +396,14 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCAggregation.getAggregationStub().asyncListDefinition(idList, new AggregationAdapter() {
                 @Override
-                public void listDefinitionResponseReceived(MALMessageHeader msgHeader,
-                    ObjectInstancePairList objInstIds, Map qosProperties) {
-                    aggregationTable.refreshTableWithIds(objInstIds, serviceMCAggregation.getConnectionDetails()
-                        .getDomain(), AggregationHelper.AGGREGATIONDEFINITION_OBJECT_TYPE);
-                    Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.INFO,
-                        "listDefinition(\"*\") returned {0} object instance identifiers", objInstIds.size());
+                public void listDefinitionResponseReceived(MALMessageHeader msgHeader, ObjectInstancePairList objInstIds, Map qosProperties) {
+                    aggregationTable.refreshTableWithIds(objInstIds, serviceMCAggregation.getConnectionDetails().getDomain(), AggregationServiceInfo.AGGREGATIONDEFINITION_OBJECT_TYPE);
+                    Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.INFO, "listDefinition(\"*\") returned {0} object instance identifiers", objInstIds.size());
                 }
 
                 @Override
-                public void listDefinitionErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
-                    Map qosProperties) {
-                    JOptionPane.showMessageDialog(null, "There was an error during the listDefinition operation.",
-                        "Error", JOptionPane.PLAIN_MESSAGE);
+                public void listDefinitionErrorReceived(MALMessageHeader msgHeader, MOErrorException error, Map qosProperties) {
+                    JOptionPane.showMessageDialog(null, "There was an error during the listDefinition operation.", "Error", JOptionPane.PLAIN_MESSAGE);
                     Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.SEVERE, null, error);
                 }
             });
@@ -627,25 +623,27 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
 
         @Override
         public void monitorValueNotifyReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-            org.ccsds.moims.mo.mal.structures.Identifier identifier,
-            org.ccsds.moims.mo.mal.structures.UpdateHeaderList lUpdateHeaderList,
-            org.ccsds.moims.mo.com.structures.ObjectIdList _ObjectIdList2,
-            org.ccsds.moims.mo.mc.aggregation.structures.AggregationValueList lAggregationValueList,
-            java.util.Map qosProperties) {
+                org.ccsds.moims.mo.mal.structures.Identifier identifier,
+                org.ccsds.moims.mo.mal.structures.UpdateHeader updateHeader,
+                org.ccsds.moims.mo.com.structures.ObjectId objectId,
+                org.ccsds.moims.mo.mc.aggregation.structures.AggregationValue aggregationValue,
+                java.util.Map qosProperties) {
 
             final long iDiff = System.currentTimeMillis() - msgHeader.getTimestamp().getValue();
 
-            final UpdateHeader updateHeader = lUpdateHeaderList.get(0);
+            final NullableAttributeList keyValues = updateHeader.getKeyValues();
+            final String Aggname = HelperAttributes.attribute2string(keyValues.get(0).getValue());
+            final int objId = (int) HelperAttributes.attribute2JavaType(keyValues.get(1).getValue());
+            /*
             final String Aggname = updateHeader.getKey().getFirstSubKey().getValue();
             final int objId = updateHeader.getKey().getSecondSubKey().intValue();
+            */
 
             try {
-                if (msgBoxOn.isSelected() && !lUpdateHeaderList.isEmpty() && lAggregationValueList.size() != 0) {
+                if (msgBoxOn.isSelected()) {
                     StringBuilder str = new StringBuilder();
-                    final AggregationValue aggregationValue = lAggregationValueList.get(0);
-                    str.append("AggregationValue generationMode: ").append(aggregationValue.getGenerationMode()
-                        .toString()).append(" (filtered: ").append(aggregationValue.getFiltered().toString()).append(
-                            ")").append("\n");
+                    str.append("AggregationValue generationMode: " + aggregationValue.getGenerationMode().toString()
+                            + " (filtered: " + aggregationValue.getFiltered().toString() + ")" + "\n");
 
                     str.append("Aggregation objId ").append(objId).append(" (name: ").append(Aggname).append("):")
                         .append("\n");

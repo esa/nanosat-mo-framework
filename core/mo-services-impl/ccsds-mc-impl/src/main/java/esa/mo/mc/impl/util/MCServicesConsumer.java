@@ -27,20 +27,20 @@ import esa.mo.mc.impl.consumer.AlertConsumerServiceImpl;
 import esa.mo.mc.impl.consumer.CheckConsumerServiceImpl;
 import esa.mo.mc.impl.consumer.ParameterConsumerServiceImpl;
 import esa.mo.mc.impl.consumer.StatisticConsumerServiceImpl;
-import esa.mo.helpertools.connections.ConnectionConsumer;
-import esa.mo.helpertools.connections.SingleConnectionDetails;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
+import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.structures.Blob;
-import org.ccsds.moims.mo.mc.action.ActionHelper;
-import org.ccsds.moims.mo.mc.aggregation.AggregationHelper;
-import org.ccsds.moims.mo.mc.alert.AlertHelper;
-import org.ccsds.moims.mo.mc.check.CheckHelper;
-import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
-import org.ccsds.moims.mo.mc.statistic.StatisticHelper;
+import org.ccsds.moims.mo.mc.action.ActionServiceInfo;
+import org.ccsds.moims.mo.mc.aggregation.AggregationServiceInfo;
+import org.ccsds.moims.mo.mc.alert.AlertServiceInfo;
+import org.ccsds.moims.mo.mc.check.CheckServiceInfo;
+import org.ccsds.moims.mo.mc.parameter.ParameterServiceInfo;
+import org.ccsds.moims.mo.mc.statistic.StatisticServiceInfo;
 
 /**
  *
@@ -78,39 +78,39 @@ public class MCServicesConsumer {
 
         try {
             // Initialize the Action service
-            details = connectionConsumer.getServicesDetails().get(ActionHelper.ACTION_SERVICE_NAME);
+            details = connectionConsumer.getServicesDetails().get(ActionServiceInfo.ACTION_SERVICE_NAME);
             if (details != null) {
                 actionService = new ActionConsumerServiceImpl(details, comServices, authenticationId, localNamePrefix);
             }
 
             // Initialize the Parameter service
-            details = connectionConsumer.getServicesDetails().get(ParameterHelper.PARAMETER_SERVICE_NAME);
+            details = connectionConsumer.getServicesDetails().get(ParameterServiceInfo.PARAMETER_SERVICE_NAME);
             if (details != null) {
                 parameterService = new ParameterConsumerServiceImpl(details, comServices, authenticationId,
                     localNamePrefix);
             }
 
             // Initialize the Alert service
-            details = connectionConsumer.getServicesDetails().get(AlertHelper.ALERT_SERVICE_NAME);
+            details = connectionConsumer.getServicesDetails().get(AlertServiceInfo.ALERT_SERVICE_NAME);
             if (details != null) {
                 alertService = new AlertConsumerServiceImpl(details, comServices, authenticationId, localNamePrefix);
             }
 
             // Initialize the Check service
-            details = connectionConsumer.getServicesDetails().get(CheckHelper.CHECK_SERVICE_NAME);
+            details = connectionConsumer.getServicesDetails().get(CheckServiceInfo.CHECK_SERVICE_NAME);
             if (details != null) {
                 checkService = new CheckConsumerServiceImpl(details, comServices, authenticationId, localNamePrefix);
             }
 
             // Initialize the Statistic service
-            details = connectionConsumer.getServicesDetails().get(StatisticHelper.STATISTIC_SERVICE_NAME);
+            details = connectionConsumer.getServicesDetails().get(StatisticServiceInfo.STATISTIC_SERVICE_NAME);
             if (details != null) {
                 statisticService = new StatisticConsumerServiceImpl(details, comServices, authenticationId,
                     localNamePrefix);
             }
 
             // Initialize the Aggregation service
-            details = connectionConsumer.getServicesDetails().get(AggregationHelper.AGGREGATION_SERVICE_NAME);
+            details = connectionConsumer.getServicesDetails().get(AggregationServiceInfo.AGGREGATION_SERVICE_NAME);
             if (details != null) {
                 aggregationService = new AggregationConsumerServiceImpl(details, comServices, authenticationId,
                     localNamePrefix);
@@ -185,27 +185,27 @@ public class MCServicesConsumer {
      */
     public void closeConnections() {
         if (this.actionService != null) {
-            this.actionService.close();
+            this.actionService.closeConnection();
         }
 
         if (this.parameterService != null) {
-            this.parameterService.close();
+            this.parameterService.closeConnection();
         }
 
         if (this.alertService != null) {
-            this.alertService.close();
+            this.alertService.closeConnection();
         }
 
         if (this.checkService != null) {
-            this.checkService.close();
+            this.checkService.closeConnection();
         }
 
         if (this.statisticService != null) {
-            this.statisticService.close();
+            this.statisticService.closeConnection();
         }
 
         if (this.aggregationService != null) {
-            this.aggregationService.close();
+            this.aggregationService.closeConnection();
         }
     }
 

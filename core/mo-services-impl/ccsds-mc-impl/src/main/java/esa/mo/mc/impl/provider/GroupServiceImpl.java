@@ -22,18 +22,16 @@ package esa.mo.mc.impl.provider;
 
 import esa.mo.com.impl.provider.ArchiveProviderServiceImpl;
 import esa.mo.com.impl.util.HelperArchive;
-import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
-import org.ccsds.moims.mo.mc.MCHelper;
 import org.ccsds.moims.mo.mc.conversion.provider.ConversionInheritanceSkeleton;
 import org.ccsds.moims.mo.mc.group.GroupHelper;
+import org.ccsds.moims.mo.mc.group.GroupServiceInfo;
 import org.ccsds.moims.mo.mc.group.structures.GroupDetails;
 
 /**
@@ -51,26 +49,7 @@ public class GroupServiceImpl extends ConversionInheritanceSkeleton {
      */
     protected synchronized void init(ArchiveProviderServiceImpl archiveService) throws MALException {
         this.archiveService = archiveService;
-
-        if (!initialiased) {
-            if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
-                MALHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION) == null) {
-                COMHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION) == null) {
-                MCHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION).getServiceByName(
-                GroupHelper.GROUP_SERVICE_NAME) == null) {
-                GroupHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-        }
-
+        MALContextFactory.getElementsRegistry().loadServiceAndAreaElements(GroupHelper.GROUP_SERVICE);
         initialiased = true;
     }
 
@@ -88,8 +67,8 @@ public class GroupServiceImpl extends ConversionInheritanceSkeleton {
         //get the latest group-definition, referencing the group-identity
         LongList groupDefIds = new LongList();
         groupDefIds.add(0L);
-        final ArchiveDetailsList groupDetailsList = HelperArchive.getArchiveDetailsListFromArchive(archiveService,
-            GroupHelper.GROUPDEFINITION_OBJECT_TYPE, domain, groupDefIds);
+        final ArchiveDetailsList groupDetailsList = HelperArchive.getArchiveDetailsListFromArchive(archiveService, 
+                GroupServiceInfo.GROUPDEFINITION_OBJECT_TYPE, domain, groupDefIds);
         ArchiveDetailsList groupDefsReferencingGroupIdentity = new ArchiveDetailsList();
         //get ALL group-definitions, referencing the current group-identity
         for (ArchiveDetails groupDefDetails : groupDetailsList) {
@@ -137,8 +116,8 @@ public class GroupServiceImpl extends ConversionInheritanceSkeleton {
         }
         //get the group-definitions-body
         //requirement: 3.9.4.g instances of a group will be referenced by the id of the GroupDefinition-object
-        return (GroupDetails) HelperArchive.getObjectBodyFromArchive(archiveService,
-            GroupHelper.GROUPDEFINITION_OBJECT_TYPE, domain, latestGroupDefId);
+        return (GroupDetails) HelperArchive.getObjectBodyFromArchive(archiveService, 
+                GroupServiceInfo.GROUPDEFINITION_OBJECT_TYPE, domain, latestGroupDefId);
     }
 
     /**
@@ -156,8 +135,8 @@ public class GroupServiceImpl extends ConversionInheritanceSkeleton {
 
         //get the group-definitions-body
         //requirement: 3.9.4.g instances of a group will be referenced by the id of the GroupDefinition-object
-        return (GroupDetails) HelperArchive.getObjectBodyFromArchive(archiveService,
-            GroupHelper.GROUPDEFINITION_OBJECT_TYPE, domain, groupDefId);
+        return (GroupDetails) HelperArchive.getObjectBodyFromArchive(archiveService, 
+                GroupServiceInfo.GROUPDEFINITION_OBJECT_TYPE, domain, groupDefId);
     }
 
     /**
@@ -186,7 +165,7 @@ public class GroupServiceImpl extends ConversionInheritanceSkeleton {
         }
         //easiest case: group contains non-group-instances
         //requirement: 3.9.4.h
-        if (!group.getObjectType().equals(GroupHelper.GROUPIDENTITY_OBJECT_TYPE)) {  // It is no group of groups?
+        if (!group.getObjectType().equals(GroupServiceInfo.GROUPIDENTITY_OBJECT_TYPE)) {  // It is no group of groups?
             return new IdObjectTypeList(group.getInstanceIds(), group.getObjectType());
         } else { //solve a case with less complexity: get the instances of the groups groups
             final LongList groupsGroupIdentityIds = group.getInstanceIds();

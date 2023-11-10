@@ -23,12 +23,9 @@ package esa.mo.mp.impl.provider;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.structures.ObjectIdList;
 import org.ccsds.moims.mo.com.structures.ObjectType;
-import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
@@ -36,7 +33,6 @@ import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.ElementList;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
-import org.ccsds.moims.mo.mp.MPHelper;
 import org.ccsds.moims.mo.mp.planinformationmanagement.PlanInformationManagementHelper;
 import org.ccsds.moims.mo.mp.planinformationmanagement.provider.PlanInformationManagementInheritanceSkeleton;
 import org.ccsds.moims.mo.mp.structures.ActivityDefinitionDetails;
@@ -61,6 +57,8 @@ import esa.mo.mp.impl.com.COMObjectIdHelper;
 import esa.mo.mp.impl.com.pattern.COMInstanceArchiveManager;
 import esa.mo.mp.impl.com.pattern.COMStateArchiveManager;
 import esa.mo.mp.impl.com.pattern.COMStaticItemArchiveManager;
+import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
+import org.ccsds.moims.mo.mp.planinformationmanagement.PlanInformationManagementServiceInfo;
 
 /**
  * Plan Information Management (PIM) Service provider implementation
@@ -85,33 +83,13 @@ public class PlanInformationManagementProviderServiceImpl extends PlanInformatio
      */
     public synchronized void init(COMServicesProvider comServices, MPArchiveManager archiveManager,
         MPServiceOperationManager registration) throws MALException {
-        if (!this.initialised) {
-            if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
-                MALHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION) == null) {
-                COMHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(MPHelper.MP_AREA_NAME, MPHelper.MP_AREA_VERSION) == null) {
-                MPHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            try {
-                PlanInformationManagementHelper.init(MALContextFactory.getElementFactoryRegistry());
-            } catch (MALException ex) {
-                // nothing to be done..
-            }
-        }
-
         // Shut down old service transport
         if (this.provider != null) {
             this.connection.closeAll();
         }
 
         this.provider = this.connection.startService(
-            PlanInformationManagementHelper.PLANINFORMATIONMANAGEMENT_SERVICE_NAME.toString(),
+            PlanInformationManagementServiceInfo.PLANINFORMATIONMANAGEMENT_SERVICE_NAME.toString(),
             PlanInformationManagementHelper.PLANINFORMATIONMANAGEMENT_SERVICE, false, this);
 
         this.archiveManager = archiveManager;
@@ -143,29 +121,33 @@ public class PlanInformationManagementProviderServiceImpl extends PlanInformatio
     @Override
     public ObjectInstancePairList addRequestDef(IdentifierList identities, RequestTemplateDetailsList definitions,
         MALInteraction interaction) throws MALInteractionException, MALException {
+        HeterogeneousList defs = new HeterogeneousList();
+        defs.addAll(definitions);
         return this.addDef(MPServiceOperation.ADD_REQUEST_DEF, this.archiveManager.REQUEST_TEMPLATE, identities,
-            definitions, interaction);
+            defs, interaction);
     }
 
     @Override
     public LongList updateRequestDef(LongList identityIds, RequestTemplateDetailsList definitions,
         MALInteraction interaction) throws MALInteractionException, MALException {
+        HeterogeneousList defs = new HeterogeneousList();
+        defs.addAll(definitions);
         return this.updateDef(MPServiceOperation.UPDATE_REQUEST_DEF, this.archiveManager.REQUEST_TEMPLATE, identityIds,
-            PlanInformationManagementHelper.REQUESTTEMPLATEIDENTITY_OBJECT_TYPE, definitions, interaction);
+            PlanInformationManagementServiceInfo.REQUESTTEMPLATEIDENTITY_OBJECT_TYPE, defs, interaction);
     }
 
     @Override
     public ObjectInstancePairList listRequestDefs(IdentifierList identities, MALInteraction interaction)
         throws MALInteractionException, MALException {
         return this.listDefs(this.archiveManager.REQUEST_TEMPLATE, identities,
-            PlanInformationManagementHelper.REQUESTTEMPLATEIDENTITY_OBJECT_TYPE, interaction);
+            PlanInformationManagementServiceInfo.REQUESTTEMPLATEIDENTITY_OBJECT_TYPE, interaction);
     }
 
     @Override
     public RequestTemplateDetailsList getRequestDef(LongList identityIds, MALInteraction interaction)
         throws MALInteractionException, MALException {
         return (RequestTemplateDetailsList) this.getDef(this.archiveManager.REQUEST_TEMPLATE, identityIds,
-            PlanInformationManagementHelper.REQUESTTEMPLATEIDENTITY_OBJECT_TYPE, interaction,
+            PlanInformationManagementServiceInfo.REQUESTTEMPLATEIDENTITY_OBJECT_TYPE, interaction,
             new RequestTemplateDetails());
     }
 
@@ -173,105 +155,117 @@ public class PlanInformationManagementProviderServiceImpl extends PlanInformatio
     public void removeRequestDef(LongList identityIds, MALInteraction interaction) throws MALInteractionException,
         MALException {
         this.removeDef(MPServiceOperation.REMOVE_REQUEST_DEF, this.archiveManager.REQUEST_TEMPLATE, identityIds,
-            PlanInformationManagementHelper.REQUESTTEMPLATEIDENTITY_OBJECT_TYPE, interaction);
+            PlanInformationManagementServiceInfo.REQUESTTEMPLATEIDENTITY_OBJECT_TYPE, interaction);
     }
 
     @Override
     public ObjectInstancePairList addActivityDef(IdentifierList identities, ActivityDefinitionDetailsList definitions,
         MALInteraction interaction) throws MALInteractionException, MALException {
-        return this.addDef(MPServiceOperation.ADD_ACTIVITY_DEF, this.archiveManager.ACTIVITY, identities, definitions,
+        HeterogeneousList defs = new HeterogeneousList();
+        defs.addAll(definitions);
+        return this.addDef(MPServiceOperation.ADD_ACTIVITY_DEF, this.archiveManager.ACTIVITY, identities, defs,
             interaction);
     }
 
     @Override
     public LongList updateActivityDef(LongList identityIds, ActivityDefinitionDetailsList definitions,
         MALInteraction interaction) throws MALInteractionException, MALException {
+        HeterogeneousList defs = new HeterogeneousList();
+        defs.addAll(definitions);
         return this.updateDef(MPServiceOperation.UPDATE_ACTIVITY_DEF, this.archiveManager.ACTIVITY, identityIds,
-            PlanInformationManagementHelper.ACTIVITYIDENTITY_OBJECT_TYPE, definitions, interaction);
+            PlanInformationManagementServiceInfo.ACTIVITYIDENTITY_OBJECT_TYPE, defs, interaction);
     }
 
     @Override
     public ObjectInstancePairList listActivityDefs(IdentifierList identities, MALInteraction interaction)
         throws MALInteractionException, MALException {
         return this.listDefs(this.archiveManager.ACTIVITY, identities,
-            PlanInformationManagementHelper.ACTIVITYIDENTITY_OBJECT_TYPE, interaction);
+            PlanInformationManagementServiceInfo.ACTIVITYIDENTITY_OBJECT_TYPE, interaction);
     }
 
     @Override
     public ActivityDefinitionDetailsList getActivityDef(LongList identityIds, MALInteraction interaction)
         throws MALInteractionException, MALException {
         return (ActivityDefinitionDetailsList) this.getDef(this.archiveManager.ACTIVITY, identityIds,
-            PlanInformationManagementHelper.ACTIVITYIDENTITY_OBJECT_TYPE, interaction, new ActivityDefinitionDetails());
+            PlanInformationManagementServiceInfo.ACTIVITYIDENTITY_OBJECT_TYPE, interaction, new ActivityDefinitionDetails());
     }
 
     @Override
     public void removeActivityDef(LongList identityIds, MALInteraction interaction) throws MALInteractionException,
         MALException {
         this.removeDef(MPServiceOperation.REMOVE_ACTIVITY_DEF, this.archiveManager.ACTIVITY, identityIds,
-            PlanInformationManagementHelper.ACTIVITYIDENTITY_OBJECT_TYPE, interaction);
+            PlanInformationManagementServiceInfo.ACTIVITYIDENTITY_OBJECT_TYPE, interaction);
     }
 
     @Override
     public ObjectInstancePairList addEventDef(IdentifierList identities, EventDefinitionDetailsList definitions,
         MALInteraction interaction) throws MALInteractionException, MALException {
-        return this.addDef(MPServiceOperation.ADD_EVENT_DEF, this.archiveManager.EVENT, identities, definitions,
+        HeterogeneousList defs = new HeterogeneousList();
+        defs.addAll(definitions);
+        return this.addDef(MPServiceOperation.ADD_EVENT_DEF, this.archiveManager.EVENT, identities, defs,
             interaction);
     }
 
     @Override
     public LongList updateEventDef(LongList identityIds, EventDefinitionDetailsList definitions,
         MALInteraction interaction) throws MALInteractionException, MALException {
+        HeterogeneousList defs = new HeterogeneousList();
+        defs.addAll(definitions);
         return this.updateDef(MPServiceOperation.UPDATE_EVENT_DEF, this.archiveManager.EVENT, identityIds,
-            PlanInformationManagementHelper.EVENTIDENTITY_OBJECT_TYPE, definitions, interaction);
+            PlanInformationManagementServiceInfo.EVENTIDENTITY_OBJECT_TYPE, defs, interaction);
     }
 
     @Override
     public ObjectInstancePairList listEventDefs(IdentifierList identities, MALInteraction interaction)
         throws MALInteractionException, MALException {
         return this.listDefs(this.archiveManager.EVENT, identities,
-            PlanInformationManagementHelper.EVENTIDENTITY_OBJECT_TYPE, interaction);
+            PlanInformationManagementServiceInfo.EVENTIDENTITY_OBJECT_TYPE, interaction);
     }
 
     @Override
     public EventDefinitionDetailsList getEventDef(LongList identityIds, MALInteraction interaction)
         throws MALInteractionException, MALException {
         return (EventDefinitionDetailsList) this.getDef(this.archiveManager.EVENT, identityIds,
-            PlanInformationManagementHelper.EVENTIDENTITY_OBJECT_TYPE, interaction, new EventDefinitionDetails());
+            PlanInformationManagementServiceInfo.EVENTIDENTITY_OBJECT_TYPE, interaction, new EventDefinitionDetails());
     }
 
     @Override
     public void removeEventDef(LongList identityIds, MALInteraction interaction) throws MALInteractionException,
         MALException {
         this.removeDef(MPServiceOperation.REMOVE_EVENT_DEF, this.archiveManager.EVENT, identityIds,
-            PlanInformationManagementHelper.EVENTIDENTITY_OBJECT_TYPE, interaction);
+            PlanInformationManagementServiceInfo.EVENTIDENTITY_OBJECT_TYPE, interaction);
     }
 
     @Override
     public ObjectInstancePairList addResourceDef(IdentifierList identities, c_ResourceDefinitionDetailsList definitions,
         MALInteraction interaction) throws MALInteractionException, MALException {
-        return this.addDef(MPServiceOperation.ADD_RESOURCE_DEF, this.archiveManager.RESOURCE, identities, definitions,
+        HeterogeneousList defs = new HeterogeneousList();
+        defs.addAll(definitions);
+        return this.addDef(MPServiceOperation.ADD_RESOURCE_DEF, this.archiveManager.RESOURCE, identities, defs,
             interaction);
     }
 
     @Override
     public LongList updateResourceDef(LongList identityIds, c_ResourceDefinitionDetailsList definitions,
         MALInteraction interaction) throws MALInteractionException, MALException {
+        HeterogeneousList defs = new HeterogeneousList();
+        defs.addAll(definitions);
         return this.updateDef(MPServiceOperation.UPDATE_RESOURCE_DEF, this.archiveManager.RESOURCE, identityIds,
-            PlanInformationManagementHelper.RESOURCEIDENTITY_OBJECT_TYPE, definitions, interaction);
+            PlanInformationManagementServiceInfo.RESOURCEIDENTITY_OBJECT_TYPE, defs, interaction);
     }
 
     @Override
     public ObjectInstancePairList listResourceDefs(IdentifierList identities, MALInteraction interaction)
         throws MALInteractionException, MALException {
         return this.listDefs(this.archiveManager.RESOURCE, identities,
-            PlanInformationManagementHelper.RESOURCEIDENTITY_OBJECT_TYPE, interaction);
+            PlanInformationManagementServiceInfo.RESOURCEIDENTITY_OBJECT_TYPE, interaction);
     }
 
     @Override
     public c_ResourceDefinitionDetailsList getResourceDef(LongList identityIds, MALInteraction interaction)
         throws MALInteractionException, MALException {
         return (c_ResourceDefinitionDetailsList) this.getDef(this.archiveManager.RESOURCE, identityIds,
-            PlanInformationManagementHelper.RESOURCEIDENTITY_OBJECT_TYPE, interaction,
+            PlanInformationManagementServiceInfo.RESOURCEIDENTITY_OBJECT_TYPE, interaction,
             new c_ResourceDefinitionDetails());
     }
 
@@ -279,25 +273,25 @@ public class PlanInformationManagementProviderServiceImpl extends PlanInformatio
     public void removeResourceDef(LongList identityIds, MALInteraction interaction) throws MALInteractionException,
         MALException {
         this.removeDef(MPServiceOperation.REMOVE_RESOURCE_DEF, this.archiveManager.RESOURCE, identityIds,
-            PlanInformationManagementHelper.RESOURCEIDENTITY_OBJECT_TYPE, interaction);
+            PlanInformationManagementServiceInfo.RESOURCEIDENTITY_OBJECT_TYPE, interaction);
     }
 
     private ObjectInstancePairList addDef(MPServiceOperation operation, COMStaticItemArchiveManager archive,
-        IdentifierList identities, ElementList definitions, MALInteraction interaction) throws MALInteractionException,
+        IdentifierList identities, HeterogeneousList definitions, MALInteraction interaction) throws MALInteractionException,
         MALException {
         ObjectIdPairList pairs = archive.addDefinitions(identities, definitions, null, interaction);
         return this.addDefResponse(operation, pairs, interaction);
     }
 
     private ObjectInstancePairList addDef(MPServiceOperation operation, COMStateArchiveManager archive,
-        IdentifierList identities, ElementList definitions, MALInteraction interaction) throws MALInteractionException,
+        IdentifierList identities, HeterogeneousList definitions, MALInteraction interaction) throws MALInteractionException,
         MALException {
         ObjectIdPairList pairs = archive.addDefinitions(identities, definitions, null, interaction);
         return this.addDefResponse(operation, pairs, interaction);
     }
 
     private ObjectInstancePairList addDef(MPServiceOperation operation, COMInstanceArchiveManager archive,
-        IdentifierList identities, ElementList definitions, MALInteraction interaction) throws MALInteractionException,
+        IdentifierList identities, HeterogeneousList definitions, MALInteraction interaction) throws MALInteractionException,
         MALException {
         ObjectIdPairList pairs = archive.addDefinitions(identities, definitions, null, interaction);
         return this.addDefResponse(operation, pairs, interaction);
@@ -315,7 +309,7 @@ public class PlanInformationManagementProviderServiceImpl extends PlanInformatio
     }
 
     private LongList updateDef(MPServiceOperation operation, COMStaticItemArchiveManager archive,
-        LongList identityInstanceIds, ObjectType identityType, ElementList definitions, MALInteraction interaction)
+        LongList identityInstanceIds, ObjectType identityType, HeterogeneousList definitions, MALInteraction interaction)
         throws MALInteractionException, MALException {
         ObjectIdList identityIds = COMObjectIdHelper.getObjectIds(identityInstanceIds, identityType);
         ObjectIdList objectIdList = archive.updateDefinitions(identityIds, definitions, null, interaction);
@@ -323,7 +317,7 @@ public class PlanInformationManagementProviderServiceImpl extends PlanInformatio
     }
 
     private LongList updateDef(MPServiceOperation operation, COMStateArchiveManager archive,
-        LongList identityInstanceIds, ObjectType identityType, ElementList definitions, MALInteraction interaction)
+        LongList identityInstanceIds, ObjectType identityType, HeterogeneousList definitions, MALInteraction interaction)
         throws MALInteractionException, MALException {
         ObjectIdList identityIds = COMObjectIdHelper.getObjectIds(identityInstanceIds, identityType);
         ObjectIdList objectIdList = archive.updateDefinitions(identityIds, definitions, null, interaction);
@@ -331,7 +325,7 @@ public class PlanInformationManagementProviderServiceImpl extends PlanInformatio
     }
 
     private LongList updateDef(MPServiceOperation operation, COMInstanceArchiveManager archive,
-        LongList identityInstanceIds, ObjectType identityType, ElementList definitions, MALInteraction interaction)
+        LongList identityInstanceIds, ObjectType identityType, HeterogeneousList definitions, MALInteraction interaction)
         throws MALInteractionException, MALException {
         ObjectIdList identityIds = COMObjectIdHelper.getObjectIds(identityInstanceIds, identityType);
         ObjectIdList objectIdList = archive.updateDefinitions(identityIds, definitions, null, interaction);

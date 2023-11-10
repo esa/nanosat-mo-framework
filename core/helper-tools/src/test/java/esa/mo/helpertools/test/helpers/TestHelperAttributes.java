@@ -30,7 +30,7 @@ import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.mal.structures.Union;
 import org.junit.Test;
 
-import esa.mo.helpertools.helpers.HelperAttributes;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 
 public class TestHelperAttributes {
 

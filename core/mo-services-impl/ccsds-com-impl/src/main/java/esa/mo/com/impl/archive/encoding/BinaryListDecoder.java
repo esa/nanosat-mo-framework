@@ -28,6 +28,7 @@ import org.ccsds.moims.mo.mal.MALListDecoder;
  * Implements the MALListDecoder interface for a binary encoding.
  */
 public class BinaryListDecoder extends BinaryDecoder implements MALListDecoder {
+
     private final int size;
     private final List list;
 

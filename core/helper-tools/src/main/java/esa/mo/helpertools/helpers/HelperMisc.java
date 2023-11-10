@@ -32,12 +32,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALArea;
 import org.ccsds.moims.mo.mal.MALContextFactory;
-import org.ccsds.moims.mo.mal.MALElementFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALService;
 import org.ccsds.moims.mo.mal.structures.Attribute;
-import org.ccsds.moims.mo.mal.structures.Element;
-import org.ccsds.moims.mo.mal.structures.ElementList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UOctet;
@@ -342,64 +339,6 @@ public class HelperMisc {
     }
 
     /**
-     * Generates a corresponding, empty MAL Element List from a certain MAL Element
-     *
-     * @param obj The MAL Element
-     * @return The MAL Element List
-     * @throws org.ccsds.moims.mo.mal.MALException
-     */
-    public static ElementList element2elementList(Object obj) throws IllegalArgumentException, MALException {
-        if (obj == null) {
-            return null;
-        }
-
-        if (obj instanceof Element) {
-            long l = ((Element) obj).getShortForm();
-            long ll = (-((l) & 0xFFFFFFL)) & 0xFFFFFFL + (l & 0xFFFFFFFFFF000000L);
-
-            MALElementFactory eleFact = MALContextFactory.getElementFactoryRegistry().lookupElementFactory(ll);
-
-            if (eleFact == null) {
-                Logger.getLogger(HelperMisc.class.getName()).log(Level.SEVERE,
-                    "The element could not be found in the MAL ElementFactory! The object type is: ''{0}''." +
-                        " Maybe the service Helper for this object was not initialized." +
-                        " Try initializing the Service Helper of this object.", obj.getClass().getSimpleName());
-                throw new MALException("Cannot instantiate a list of " + obj.getClass().getSimpleName());
-            }
-            return (ElementList) eleFact.createElement();
-        } else {
-            return HelperAttributes.generateElementListFromJavaType(obj);
-        }
-
-    }
-
-    /**
-     * Generates the corresponding, empty MAL Element from a certain MAL Element List
-     *
-     * @param obj The MAL Element List
-     * @return The MAL Element
-     * @throws java.lang.Exception
-     */
-    public static Element elementList2element(ElementList obj) throws Exception {
-        if (obj == null) {
-            return null;
-        }
-        long l = obj.getShortForm();
-        long ll = (-((l) & 0xFFFFFFL)) & 0xFFFFFFL + (l & 0xFFFFFFFFFF000000L);
-
-        MALElementFactory eleFact = MALContextFactory.getElementFactoryRegistry().lookupElementFactory(ll);
-
-        if (eleFact == null) {
-            Logger.getLogger(HelperMisc.class.getName()).log(Level.SEVERE,
-                "The element could not be found in the MAL ElementFactory! The object type is: ''{0}''. Maybe the service Helper for this object was not initialized. Try initializing the Service Helper of this object.",
-                obj.getClass().getSimpleName());
-        }
-
-        return (Element) eleFact.createElement();
-
-    }
-
-    /**
      * Generates the domain field in an IdentifierList from a String separated by
      * dots
      *
@@ -453,7 +392,6 @@ public class HelperMisc {
      * @throws org.ccsds.moims.mo.mal.MALException The area/service is Unknown
      */
     public static String serviceKey2name(UShort area, UOctet areaVersion, UShort service) throws MALException {
-
         MALArea malArea = MALContextFactory.lookupArea(area, areaVersion);
 
         if (malArea == null) {
@@ -470,5 +408,9 @@ public class HelperMisc {
 
         return malSer.getName().toString();
     }
+
+  public static void setInputProcessorsProperty() {
+    System.setProperty("org.ccsds.moims.mo.mal.transport.gen.inputprocessors", "5");
+  }
 
 }

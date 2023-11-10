@@ -30,7 +30,7 @@ import org.ccsds.moims.mo.mal.MALDecoder;
 import org.ccsds.moims.mo.mal.MALEncoder;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.MALStandardError;
+import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.UShort;
@@ -181,7 +181,7 @@ public class PlanEditConsumerPanel extends javax.swing.JPanel {
                     }
 
                     @Override
-                    public void insertActivityErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                    public void insertActivityErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
                         Map qosProperties) {
                         JOptionPane.showMessageDialog(null,
                             "There was an error during the insertActivity operation.\n" + error.toString(), "Error",
@@ -234,7 +234,7 @@ public class PlanEditConsumerPanel extends javax.swing.JPanel {
                     }
 
                     @Override
-                    public void insertEventErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                    public void insertEventErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
                         Map qosProperties) {
                         JOptionPane.showMessageDialog(null, "There was an error during the insertEvent operation.\n" +
                             error.toString(), "Error", JOptionPane.PLAIN_MESSAGE);
@@ -284,7 +284,7 @@ public class PlanEditConsumerPanel extends javax.swing.JPanel {
                     }
 
                     @Override
-                    public void updatePlanStatusErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                    public void updatePlanStatusErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
                         Map qosProperties) {
                         JOptionPane.showMessageDialog(null,
                             "There was an error during the updatePlanStatus operation.\n" + error.toString(), "Error",

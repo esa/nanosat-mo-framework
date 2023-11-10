@@ -23,8 +23,6 @@ package esa.mo.mc.impl.provider;
 import esa.mo.com.impl.provider.ArchiveProviderServiceImpl;
 import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.com.impl.util.HelperArchive;
-import esa.mo.helpertools.helpers.HelperAttributes;
-import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.archive.structures.ExpressionOperator;
@@ -33,7 +31,8 @@ import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.MALStandardError;
+import org.ccsds.moims.mo.mal.MOErrorException;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
@@ -41,8 +40,8 @@ import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.Pair;
 import org.ccsds.moims.mo.mal.structures.PairList;
 import org.ccsds.moims.mo.mal.structures.Union;
-import org.ccsds.moims.mo.mc.MCHelper;
 import org.ccsds.moims.mo.mc.conversion.ConversionHelper;
+import org.ccsds.moims.mo.mc.conversion.ConversionServiceInfo;
 import org.ccsds.moims.mo.mc.conversion.provider.ConversionInheritanceSkeleton;
 import org.ccsds.moims.mo.mc.conversion.structures.DiscreteConversionDetails;
 import org.ccsds.moims.mo.mc.conversion.structures.LineConversionDetails;
@@ -72,22 +71,7 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
         this.archiveService = archiveService;
 
         if (!initialiased) {
-            if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
-                MALHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION) == null) {
-                COMHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION) == null) {
-                MCHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION).getServiceByName(
-                ConversionHelper.CONVERSION_SERVICE_NAME) == null) {
-                ConversionHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
+            MALContextFactory.getElementsRegistry().loadServiceAndAreaElements(ConversionHelper.CONVERSION_SERVICE);
         }
 
         initialiased = true;
@@ -148,7 +132,7 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
         Boolean eval = this.evaluateParameterExpression(conditionalRef.getCondition());
 
         if (!eval) {  // Is the Parameter Expression Invalid?
-            throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, null));
+            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, null));
         }
 
         //requirement: 3.8.4.g id references a ConversionDetails-object (not an identity)
@@ -204,26 +188,26 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
     private Element getConversionDefinition(final IdentifierList domain, final Long identityId) {
         Element conversionDetails;
         //Search in PolyConversions:
-        ObjectType convType = ConversionHelper.POLYCONVERSION_OBJECT_TYPE;
+        ObjectType convType = ConversionServiceInfo.POLYCONVERSION_OBJECT_TYPE;
         conversionDetails = getDefinitionDetailsFromIdentityIdFromArchive(convType, domain, identityId);
 
         if (conversionDetails == null) {
             //Search in DiscreteConversions
-            convType = ConversionHelper.DISCRETECONVERSION_OBJECT_TYPE;
+            convType = ConversionServiceInfo.DISCRETECONVERSION_OBJECT_TYPE;
             conversionDetails = getDefinitionDetailsFromIdentityIdFromArchive(convType, domain, identityId);
         } else {
             return conversionDetails;
         }
         if (conversionDetails == null) {
             //Search in LineConversions
-            convType = ConversionHelper.LINECONVERSION_OBJECT_TYPE;
+            convType = ConversionServiceInfo.LINECONVERSION_OBJECT_TYPE;
             conversionDetails = getDefinitionDetailsFromIdentityIdFromArchive(convType, domain, identityId);
         } else {
             return conversionDetails;
         }
         if (conversionDetails == null) {
             //Search in RangeConversions
-            convType = ConversionHelper.RANGECONVERSION_OBJECT_TYPE;
+            convType = ConversionServiceInfo.RANGECONVERSION_OBJECT_TYPE;
             conversionDetails = getDefinitionDetailsFromIdentityIdFromArchive(convType, domain, identityId);
         }
         return conversionDetails;

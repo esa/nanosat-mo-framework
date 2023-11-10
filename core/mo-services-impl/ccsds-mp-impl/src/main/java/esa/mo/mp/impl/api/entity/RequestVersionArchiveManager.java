@@ -24,7 +24,7 @@ import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectIdList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mp.planningrequest.PlanningRequestHelper;
+import org.ccsds.moims.mo.mp.planningrequest.PlanningRequestServiceInfo;
 import org.ccsds.moims.mo.mp.structures.RequestIdentityDetails;
 import org.ccsds.moims.mo.mp.structures.RequestIdentityDetailsList;
 import org.ccsds.moims.mo.mp.structures.RequestUpdateDetails;
@@ -50,30 +50,30 @@ public class RequestVersionArchiveManager extends
     }
 
     public ObjectIdList listAllIdentityIds() {
-        return super.listAllIdentityIds(PlanningRequestHelper.REQUESTIDENTITY_OBJECT_TYPE);
+        return super.listAllIdentityIds(PlanningRequestServiceInfo.REQUESTIDENTITY_OBJECT_TYPE);
     }
 
     public ObjectIdList listAllInstanceIds() {
-        return super.listAllInstanceIds(PlanningRequestHelper.REQUESTVERSION_OBJECT_TYPE);
+        return super.listAllInstanceIds(PlanningRequestServiceInfo.REQUESTVERSION_OBJECT_TYPE);
     }
 
     public ObjectIdList listAllStatusIds() {
-        return super.listAllStatusIds(PlanningRequestHelper.REQUESTSTATUSUPDATE_OBJECT_TYPE);
+        return super.listAllStatusIds(PlanningRequestServiceInfo.REQUESTSTATUSUPDATE_OBJECT_TYPE);
     }
 
     public ObjectId getIdentityId(Identifier identity) {
-        return super.getIdentityId(identity, PlanningRequestHelper.REQUESTIDENTITY_OBJECT_TYPE);
+        return super.getIdentityId(identity, PlanningRequestServiceInfo.REQUESTIDENTITY_OBJECT_TYPE);
     }
 
     public ObjectIdList getIdentityIds(IdentifierList identities) {
-        return super.getIdentityIds(identities, PlanningRequestHelper.REQUESTIDENTITY_OBJECT_TYPE);
+        return super.getIdentityIds(identities, PlanningRequestServiceInfo.REQUESTIDENTITY_OBJECT_TYPE);
     }
 
     public RequestVersionDetails getInstance(Identifier identity) {
-        return super.getInstance(identity, PlanningRequestHelper.REQUESTIDENTITY_OBJECT_TYPE);
+        return super.getInstance(identity, PlanningRequestServiceInfo.REQUESTIDENTITY_OBJECT_TYPE);
     }
 
     public RequestVersionDetailsList getInstances(IdentifierList identities) {
-        return super.getInstances(identities, PlanningRequestHelper.REQUESTIDENTITY_OBJECT_TYPE);
+        return super.getInstances(identities, PlanningRequestServiceInfo.REQUESTIDENTITY_OBJECT_TYPE);
     }
 }

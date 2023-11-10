@@ -23,7 +23,6 @@ package esa.mo.nmf.apps;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.platform.softwaredefinedradio.consumer.SoftwareDefinedRadioAdapter;
-import org.ccsds.moims.mo.platform.softwaredefinedradio.structures.IQComponents;
 
 class PayloadsTestSDRDataHandler extends SoftwareDefinedRadioAdapter {
 
@@ -31,24 +30,23 @@ class PayloadsTestSDRDataHandler extends SoftwareDefinedRadioAdapter {
 
     @Override
     public void streamRadioNotifyReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-        org.ccsds.moims.mo.mal.structures.Identifier _Identifier0,
-        org.ccsds.moims.mo.mal.structures.UpdateHeaderList _UpdateHeaderList1,
-        org.ccsds.moims.mo.platform.softwaredefinedradio.structures.IQComponentsList _IQComponentsList2,
-        java.util.Map qosProperties) {
-        if (_IQComponentsList2.isEmpty()) {
+            org.ccsds.moims.mo.mal.structures.Identifier _Identifier0,
+            org.ccsds.moims.mo.mal.structures.UpdateHeader updateHeader,
+            org.ccsds.moims.mo.platform.softwaredefinedradio.structures.IQComponents iqComp,
+            java.util.Map qosProperties) {
+        if (iqComp == null) {
             LOGGER.log(Level.SEVERE, "empty IQComponentsList");
             return;
         }
-        for (IQComponents iqComp : _IQComponentsList2) {
-            LOGGER.log(Level.INFO, "Received I {0} samples and Q {1} samples.", new Object[]{iqComp.getInPhase().size(),
-                                                                                             iqComp.getQuadrature()
-                                                                                                 .size()});
-        }
+
+        LOGGER.log(Level.INFO, "Received I {0} samples and Q {1} samples.",
+                new Object[]{iqComp.getInPhase().size(), iqComp.getQuadrature().size()});
     }
 
     @Override
-    public void streamRadioNotifyErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-        org.ccsds.moims.mo.mal.MALStandardError error, java.util.Map qosProperties) {
+    public void streamRadioNotifyErrorReceived(
+            org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
+            org.ccsds.moims.mo.mal.MOErrorException error, java.util.Map qosProperties) {
         LOGGER.log(Level.SEVERE, "MAL Error: {0}", error.toString());
     }
 

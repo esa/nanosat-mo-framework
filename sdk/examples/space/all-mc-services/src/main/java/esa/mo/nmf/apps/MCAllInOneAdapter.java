@@ -20,9 +20,6 @@
  */
 package esa.mo.nmf.apps;
 
-import esa.mo.helpertools.connections.ConnectionConsumer;
-import esa.mo.helpertools.helpers.HelperAttributes;
-import esa.mo.helpertools.misc.TaskScheduler;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MCRegistration.RegistrationMode;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
@@ -39,6 +36,9 @@ import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectIdList;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
+import org.ccsds.moims.mo.mal.helpertools.misc.TaskScheduler;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Duration;
@@ -52,7 +52,7 @@ import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.mal.structures.Union;
-import org.ccsds.moims.mo.mal.structures.UpdateHeaderList;
+import org.ccsds.moims.mo.mal.structures.UpdateHeader;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetails;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetailsList;
@@ -76,14 +76,12 @@ import org.ccsds.moims.mo.mc.structures.ConditionalConversionList;
 import org.ccsds.moims.mo.mc.structures.ParameterExpression;
 import org.ccsds.moims.mo.platform.autonomousadcs.body.GetStatusResponse;
 import org.ccsds.moims.mo.platform.autonomousadcs.consumer.AutonomousADCSAdapter;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.ActuatorsTelemetry;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeBDot;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeNadirPointing;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeSingleSpinning;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeSunPointing;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeTargetTracking;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeTelemetry;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion;
 import org.ccsds.moims.mo.platform.structures.VectorF3D;
 import org.ccsds.moims.mo.platform.gps.body.GetLastKnownPositionResponse;
@@ -565,68 +563,61 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
 
         @Override
         public void monitorAttitudeNotifyReceived(final MALMessageHeader msgHeader, final Identifier lIdentifier,
-            final UpdateHeaderList lUpdateHeaderList,
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeTelemetryList attitudeTelemetryList,
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.ActuatorsTelemetryList actuatorsTelemetryList,
-            org.ccsds.moims.mo.mal.structures.DurationList controlDurationList,
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeList attitudeModeList, final Map qosp) {
-            for (AttitudeTelemetry attitudeTm : attitudeTelemetryList) {
-                try {
-                    VectorF3D sunVector = attitudeTm.getSunVector();
-                    VectorF3D magneticField = attitudeTm.getMagneticField();
-                    VectorF3D angularVelocity = attitudeTm.getAngularVelocity();
-                    Quaternion attitude = attitudeTm.getAttitude();
-                    //attMode = AttitudeMode.NADIRPOINTING;
-                    nmf.pushParameterValue(PARAMETER_SUN_VECTOR_X, sunVector.getX());
-                    nmf.pushParameterValue(PARAMETER_SUN_VECTOR_Y, sunVector.getY());
-                    nmf.pushParameterValue(PARAMETER_SUN_VECTOR_Z, sunVector.getZ());
+            final UpdateHeader lUpdateHeaderList,
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeTelemetry attitudeTm,
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.ActuatorsTelemetry actuatorsTm,
+            org.ccsds.moims.mo.mal.structures.Duration remainingDuration,
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode, final Map qosp) {
+            try {
+                VectorF3D sunVector = attitudeTm.getSunVector();
+                VectorF3D magneticField = attitudeTm.getMagneticField();
+                VectorF3D angularVelocity = attitudeTm.getAngularVelocity();
+                Quaternion attitude = attitudeTm.getAttitude();
+                //attMode = AttitudeMode.NADIRPOINTING;
+                nmf.pushParameterValue(PARAMETER_SUN_VECTOR_X, sunVector.getX());
+                nmf.pushParameterValue(PARAMETER_SUN_VECTOR_Y, sunVector.getY());
+                nmf.pushParameterValue(PARAMETER_SUN_VECTOR_Z, sunVector.getZ());
 
-                    nmf.pushParameterValue(PARAMETER_MAG_X, magneticField.getX());
-                    nmf.pushParameterValue(PARAMETER_MAG_Y, magneticField.getY());
-                    nmf.pushParameterValue(PARAMETER_MAG_Z, magneticField.getZ());
+                nmf.pushParameterValue(PARAMETER_MAG_X, magneticField.getX());
+                nmf.pushParameterValue(PARAMETER_MAG_Y, magneticField.getY());
+                nmf.pushParameterValue(PARAMETER_MAG_Z, magneticField.getZ());
 
-                    nmf.pushParameterValue(PARAMETER_ANGULAR_VELOCITY_X, angularVelocity.getX());
-                    nmf.pushParameterValue(PARAMETER_ANGULAR_VELOCITY_Z, angularVelocity.getY());
-                    nmf.pushParameterValue(PARAMETER_ANGULAR_VELOCITY_Y, angularVelocity.getZ());
+                nmf.pushParameterValue(PARAMETER_ANGULAR_VELOCITY_X, angularVelocity.getX());
+                nmf.pushParameterValue(PARAMETER_ANGULAR_VELOCITY_Z, angularVelocity.getY());
+                nmf.pushParameterValue(PARAMETER_ANGULAR_VELOCITY_Y, angularVelocity.getZ());
 
-                    nmf.pushParameterValue(PARAMETER_ATTITUDE_Q_A, attitude.getA());
-                    nmf.pushParameterValue(PARAMETER_ATTITUDE_Q_B, attitude.getB());
-                    nmf.pushParameterValue(PARAMETER_ATTITUDE_Q_C, attitude.getC());
-                    nmf.pushParameterValue(PARAMETER_ATTITUDE_Q_D, attitude.getD());
-                } catch (NMFException ex) {
-                    LOGGER.log(Level.SEVERE, "Error when propagating Sensors TM", ex);
-                }
+                nmf.pushParameterValue(PARAMETER_ATTITUDE_Q_A, attitude.getA());
+                nmf.pushParameterValue(PARAMETER_ATTITUDE_Q_B, attitude.getB());
+                nmf.pushParameterValue(PARAMETER_ATTITUDE_Q_C, attitude.getC());
+                nmf.pushParameterValue(PARAMETER_ATTITUDE_Q_D, attitude.getD());
+            } catch (NMFException ex) {
+                LOGGER.log(Level.SEVERE, "Error when propagating Sensors TM", ex);
             }
-            for (ActuatorsTelemetry actuatorsTm : actuatorsTelemetryList) {
-                try {
-                    VectorF3D mtqDipoleMoment = actuatorsTm.getMtqDipoleMoment();
-                    //VectorF3D angularVelocity = attitudeTm.getAngularVelocity();
-                    //Quaternion attitude = attitudeTm.getAttitude();
-                    nmf.pushParameterValue(PARAMETER_MTQ_X, mtqDipoleMoment.getX());
-                    nmf.pushParameterValue(PARAMETER_MTQ_Y, mtqDipoleMoment.getY());
-                    nmf.pushParameterValue(PARAMETER_MTQ_Z, mtqDipoleMoment.getZ());
-                } catch (NMFException ex) {
-                    LOGGER.log(Level.SEVERE, "Error when propagating Actuators TM", ex);
-                }
+
+            try {
+                VectorF3D mtqDipoleMoment = actuatorsTm.getMtqDipoleMoment();
+                //VectorF3D angularVelocity = attitudeTm.getAngularVelocity();
+                //Quaternion attitude = attitudeTm.getAttitude();
+                nmf.pushParameterValue(PARAMETER_MTQ_X, mtqDipoleMoment.getX());
+                nmf.pushParameterValue(PARAMETER_MTQ_Y, mtqDipoleMoment.getY());
+                nmf.pushParameterValue(PARAMETER_MTQ_Z, mtqDipoleMoment.getZ());
+            } catch (NMFException ex) {
+                LOGGER.log(Level.SEVERE, "Error when propagating Actuators TM", ex);
             }
-            for (Object activeAttitudeMode : attitudeModeList) {
-                try {
-                    nmf.pushParameterValue(PARAMETER_ADCS_MODE, attitudeModeToParamValue(
-                        (AttitudeMode) activeAttitudeMode));
-                } catch (NMFException ex) {
-                    LOGGER.log(Level.SEVERE, "Error when propagating active ADCS mode", ex);
-                }
+            try {
+                nmf.pushParameterValue(PARAMETER_ADCS_MODE, attitudeModeToParamValue(
+                    (AttitudeMode) attitudeMode));
+            } catch (NMFException ex) {
+                LOGGER.log(Level.SEVERE, "Error when propagating active ADCS mode", ex);
             }
-            for (Duration remainingDuration : controlDurationList) {
-                try {
-                    if (remainingDuration != null) {
-                        nmf.pushParameterValue(PARAMETER_ADCS_DURATION, remainingDuration);
-                    } else {
-                        nmf.pushParameterValue(PARAMETER_ADCS_DURATION, new Duration(0));
-                    }
-                } catch (NMFException ex) {
-                    LOGGER.log(Level.SEVERE, "Error when propagating active ADCS mode duration", ex);
+            try {
+                if (remainingDuration != null) {
+                    nmf.pushParameterValue(PARAMETER_ADCS_DURATION, remainingDuration);
+                } else {
+                    nmf.pushParameterValue(PARAMETER_ADCS_DURATION, new Duration(0));
                 }
+            } catch (NMFException ex) {
+                LOGGER.log(Level.SEVERE, "Error when propagating active ADCS mode duration", ex);
             }
         }
     }

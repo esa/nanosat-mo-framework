@@ -32,7 +32,7 @@ import javax.swing.JOptionPane;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.MALStandardError;
+import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.LongList;
@@ -75,6 +75,8 @@ import esa.mo.mp.impl.consumer.PlanningRequestConsumerServiceImpl;
 import esa.mo.mp.impl.util.MPFactory;
 import esa.mo.mp.impl.util.MPPolyFix;
 import esa.mo.tools.mowindow.MOWindow;
+import org.ccsds.moims.mo.mp.planinformationmanagement.PlanInformationManagementServiceInfo;
+import org.ccsds.moims.mo.mp.planningrequest.PlanningRequestServiceInfo;
 
 /**
  * PlanningRequestConsumerPanel
@@ -240,7 +242,7 @@ public class PlanningRequestConsumerPanel extends javax.swing.JPanel {
                     }
 
                     @Override
-                    public void submitRequestErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                    public void submitRequestErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
                         Map qosProperties) {
                         JOptionPane.showMessageDialog(null, "There was an error during the submitRequest operation.\n" +
                             error.toString(), "Error", JOptionPane.PLAIN_MESSAGE);
@@ -256,7 +258,7 @@ public class PlanningRequestConsumerPanel extends javax.swing.JPanel {
         RequestVersionDetails requestVersion = MPFactory.createRequestVersion();
 
         ObjectId requestTemplateId = COMObjectIdHelper.getObjectId(1L,
-            PlanInformationManagementHelper.REQUESTTEMPLATE_OBJECT_TYPE);
+            PlanInformationManagementServiceInfo.REQUESTTEMPLATE_OBJECT_TYPE);
 
         SimpleActivityDetails activity = new SimpleActivityDetails();
         activity.setActivityDef(1L);
@@ -330,7 +332,7 @@ public class PlanningRequestConsumerPanel extends javax.swing.JPanel {
         activityNode.setActivities(activities);
 
         ObjectId requestTemplateId = COMObjectIdHelper.getObjectId(1L,
-            PlanInformationManagementHelper.REQUESTTEMPLATE_OBJECT_TYPE);
+            PlanInformationManagementServiceInfo.REQUESTTEMPLATE_OBJECT_TYPE);
 
         ArgumentList arguments = new ArgumentList();
 
@@ -421,7 +423,7 @@ public class PlanningRequestConsumerPanel extends javax.swing.JPanel {
         argumentList.add(interestArgument);
 
         ObjectId requestTemplateId = COMObjectIdHelper.getObjectId(2L,
-            PlanInformationManagementHelper.REQUESTTEMPLATE_OBJECT_TYPE);
+            PlanInformationManagementServiceInfo.REQUESTTEMPLATE_OBJECT_TYPE);
 
         ConstraintNode constraints = new ConstraintNode();
 
@@ -480,7 +482,7 @@ public class PlanningRequestConsumerPanel extends javax.swing.JPanel {
                     }
 
                     @Override
-                    public void updateRequestErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                    public void updateRequestErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
                         Map qosProperties) {
                         JOptionPane.showMessageDialog(null, "There was an error during the updateRequest operation.\n" +
                             error.toString(), "Error", JOptionPane.PLAIN_MESSAGE);
@@ -509,7 +511,7 @@ public class PlanningRequestConsumerPanel extends javax.swing.JPanel {
                     }
 
                     @Override
-                    public void cancelRequestErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                    public void cancelRequestErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
                         Map qosProperties) {
                         JOptionPane.showMessageDialog(null, "There was an error during the cancelRequest operation.\n" +
                             error.toString(), "Error", JOptionPane.PLAIN_MESSAGE);
@@ -536,7 +538,7 @@ public class PlanningRequestConsumerPanel extends javax.swing.JPanel {
                             requestInstanceIds.get(index)));
                     }
                     planningRequestTable.refreshTableWithIds(ids, planningRequestService.getConnectionDetails()
-                        .getDomain(), PlanningRequestHelper.REQUESTVERSION_OBJECT_TYPE);
+                        .getDomain(), PlanningRequestServiceInfo.REQUESTVERSION_OBJECT_TYPE);
 
                     jScrollPane2.setViewportView(planningRequestTable);
                     LOGGER.log(Level.INFO, "getRequest(\"*\") returned {0} object instance identifiers",
@@ -544,7 +546,7 @@ public class PlanningRequestConsumerPanel extends javax.swing.JPanel {
                 }
 
                 @Override
-                public void getRequestResponseErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                public void getRequestResponseErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
                     Map qosProperties) {
                     JOptionPane.showMessageDialog(null, "There was an error during the getRequest operation.\n" + error
                         .toString(), "Error", JOptionPane.PLAIN_MESSAGE);
@@ -581,7 +583,7 @@ public class PlanningRequestConsumerPanel extends javax.swing.JPanel {
                     }
 
                     @Override
-                    public void getRequestStatusErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                    public void getRequestStatusErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
                         Map qosProperties) {
                         JOptionPane.showMessageDialog(null,
                             "There was an error during the getRequestStatus operation.\n" + error.toString(), "Error",

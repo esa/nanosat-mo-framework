@@ -21,7 +21,7 @@
 package esa.mo.helpertools.misc;
 
 import esa.mo.helpertools.connections.ConnectionProvider;
-import esa.mo.helpertools.connections.SingleConnectionDetails;
+import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.structures.UShortList;
 

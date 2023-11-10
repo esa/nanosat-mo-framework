@@ -33,20 +33,18 @@ import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.mal.structures.UpdateHeader;
-import org.ccsds.moims.mo.mal.structures.UpdateHeaderList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.mp.planningrequest.PlanningRequestHelper;
 import org.ccsds.moims.mo.mp.planningrequest.consumer.PlanningRequestAdapter;
 import org.ccsds.moims.mo.mp.structures.RequestUpdateDetails;
-import org.ccsds.moims.mo.mp.structures.RequestUpdateDetailsList;
 import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.HelperArchive;
-import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.mp.impl.com.COMObjectIdHelper;
 import esa.mo.mp.impl.consumer.PlanningRequestConsumerServiceImpl;
 import esa.mo.mp.impl.util.MOFactory;
 import esa.mo.nmf.ctt.utils.SharedTablePanel;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
+import org.ccsds.moims.mo.mp.planningrequest.PlanningRequestServiceInfo;
 
 public class PublishedRequestsTable extends SharedTablePanel {
 
@@ -75,7 +73,7 @@ public class PublishedRequestsTable extends SharedTablePanel {
             LOGGER.log(Level.SEVERE, null, ex);
         }
 
-        ObjectType updateObjectType = PlanningRequestHelper.REQUESTSTATUSUPDATE_OBJECT_TYPE;
+        ObjectType updateObjectType = PlanningRequestServiceInfo.REQUESTSTATUSUPDATE_OBJECT_TYPE;
         LongList objectIds = new LongList();
         objectIds.add(0L);
         List<ArchivePersistenceObject> updateObjects = HelperArchive.getArchiveCOMObjectList(this.archiveService
@@ -136,7 +134,8 @@ public class PublishedRequestsTable extends SharedTablePanel {
 
         @Override
         public void monitorRequestsNotifyReceived(MALMessageHeader msgHeader, Identifier identifier,
-            UpdateHeaderList headerList, RequestUpdateDetailsList updateList, Map qosProperties) {
+            UpdateHeader header, RequestUpdateDetails update, Map qosProperties) {
+            /*
             for (int index = 0; index < updateList.size(); index++) {
                 UpdateHeader updateHeader = headerList.get(index);
                 RequestUpdateDetails update = updateList.get(index);
@@ -146,6 +145,7 @@ public class PublishedRequestsTable extends SharedTablePanel {
 
                 addEntry(domain, identity, update);
             }
+            */
         }
     }
 }

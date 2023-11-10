@@ -21,14 +21,14 @@
 package esa.mo.platform.impl.consumer;
 
 import esa.mo.com.impl.util.COMServicesConsumer;
-import esa.mo.helpertools.misc.ConsumerServiceImpl;
-import esa.mo.helpertools.connections.SingleConnectionDetails;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.consumer.MALConsumer;
+import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
+import org.ccsds.moims.mo.mal.helpertools.misc.ConsumerServiceImpl;
 import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.platform.softwaredefinedradio.SoftwareDefinedRadioHelper;
 import org.ccsds.moims.mo.platform.softwaredefinedradio.consumer.SoftwareDefinedRadioStub;

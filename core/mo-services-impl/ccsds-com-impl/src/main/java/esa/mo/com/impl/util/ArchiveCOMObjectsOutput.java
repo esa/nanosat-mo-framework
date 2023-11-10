@@ -22,7 +22,7 @@ package esa.mo.com.impl.util;
 
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.structures.ObjectType;
-import org.ccsds.moims.mo.mal.structures.ElementList;
+import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 
 public class ArchiveCOMObjectsOutput {
@@ -30,10 +30,10 @@ public class ArchiveCOMObjectsOutput {
     private final IdentifierList domain;
     private final ObjectType objType;
     private final ArchiveDetailsList archiveDetailsList;
-    private final ElementList objects;
+    private final HeterogeneousList objects;
 
     public ArchiveCOMObjectsOutput(final IdentifierList domain, final ObjectType objType,
-        final ArchiveDetailsList archiveDetailsList, final ElementList objects) {
+        final ArchiveDetailsList archiveDetailsList, final HeterogeneousList objects) {
         this.domain = domain;
         this.objType = objType;
         this.archiveDetailsList = archiveDetailsList;
@@ -52,7 +52,7 @@ public class ArchiveCOMObjectsOutput {
         return archiveDetailsList;
     }
 
-    public ElementList getObjectBodies() {
+    public HeterogeneousList getObjectBodies() {
         return objects;
     }
 

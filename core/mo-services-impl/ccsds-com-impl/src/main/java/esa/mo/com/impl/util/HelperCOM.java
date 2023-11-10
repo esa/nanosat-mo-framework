@@ -20,8 +20,6 @@
  */
 package esa.mo.com.impl.util;
 
-import esa.mo.helpertools.connections.ConnectionConsumer;
-import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.helpertools.helpers.HelperMisc;
 import java.lang.reflect.Field;
 import java.util.Random;
@@ -31,6 +29,8 @@ import org.ccsds.moims.mo.com.archive.structures.ExpressionOperator;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALService;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Element;
@@ -299,8 +299,10 @@ public class HelperCOM {
             return null;
         }
 
-        return new ObjectType(service.getArea().getNumber(), service.getNumber(), service.getArea().getVersion(),
-            objNumber);
+        return new ObjectType(service.getAreaNumber(),
+                service.getServiceNumber(),
+                service.getServiceVersion(),
+                objNumber);
     }
 
     /**

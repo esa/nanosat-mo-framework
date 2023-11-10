@@ -48,7 +48,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-import org.ccsds.moims.mo.com.activitytracking.ActivityTrackingHelper;
+import org.ccsds.moims.mo.com.activitytracking.ActivityTrackingServiceInfo;
 import org.ccsds.moims.mo.com.activitytracking.structures.ActivityAcceptance;
 import org.ccsds.moims.mo.com.activitytracking.structures.ActivityExecution;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
@@ -62,6 +62,7 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.ElementList;
+import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.Subscription;
@@ -239,7 +240,7 @@ public class CameraAcquisitorGround {
         }
         try {
             Subscription subscription = HelperCOM.generateSubscriptionCOMEvent("ActivityTrackingListener",
-                ActivityTrackingHelper.EXECUTION_OBJECT_TYPE);
+                ActivityTrackingServiceInfo.EXECUTION_OBJECT_TYPE);
             gma.getCOMServices().getEventService().addEventReceivedListener(subscription,
                 new EventReceivedListenerAdapter());
             setInitialParameters();
@@ -551,7 +552,7 @@ public class CameraAcquisitorGround {
 
         @Override
         public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-            ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+            ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
             if (objBodies != null) {
                 int i = 0;
                 for (Object objBody : objBodies) {
@@ -597,7 +598,7 @@ public class CameraAcquisitorGround {
 
         @Override
         public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-            ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+            ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
             queryResponseReceived(msgHeader, objType, domain, objDetails, objBodies, qosProperties);
         }
 

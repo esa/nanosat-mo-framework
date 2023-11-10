@@ -28,7 +28,6 @@ import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.common.impl.util.HelperCommon;
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
-import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.misc.Const;
 import esa.mo.sm.impl.util.OSValidator;
@@ -53,11 +52,12 @@ import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.common.directory.structures.AddressDetailsList;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
 import org.ccsds.moims.mo.common.directory.structures.ServiceCapabilityList;
-import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.ElementList;
+import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
@@ -65,6 +65,7 @@ import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
+import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherServiceInfo;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.provider.StopAppInteraction;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.structures.AppDetails;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.structures.AppDetailsList;
@@ -101,18 +102,6 @@ public class AppsLauncherManager extends DefinitionsManager {
                                                                                                              FOLDER_LOCATION_PROPERTY,
                                                                                                              DEFAULT_APPS_FOLDER_PATH});
             appsFolderPath = new File(DEFAULT_APPS_FOLDER_PATH);
-        }
-
-        if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME,
-            SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) != null && MALContextFactory.lookupArea(
-                SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME,
-                SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION).getServiceByName(
-                    AppsLauncherHelper.APPSLAUNCHER_SERVICE_NAME) == null) {
-            try {
-                AppsLauncherHelper.init(MALContextFactory.getElementFactoryRegistry());
-            } catch (MALException ex) {
-                LOGGER.log(Level.SEVERE, "Unexpectedly AppsLauncherHelper already initialized!?", ex);
-            }
         }
 
         if (super.getArchiveService() == null) {  // No Archive?
@@ -205,12 +194,12 @@ public class AppsLauncherManager extends DefinitionsManager {
 
     private LongList addAppToArchive(final AppDetails definition, final ObjectId source, final URI uri, Long objId,
         Long related) throws MALException, MALInteractionException {
-        AppDetailsList defs = new AppDetailsList();
+        HeterogeneousList defs = new HeterogeneousList();
         defs.add(definition);
         final ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(related, source, uri);
         archDetails.get(0).setInstId(objId);
 
-        return super.getArchiveService().store(true, AppsLauncherHelper.APP_OBJECT_TYPE, ConfigurationProviderSingleton
+        return super.getArchiveService().store(true, AppsLauncherServiceInfo.APP_OBJECT_TYPE, ConfigurationProviderSingleton
             .getDomain(), archDetails, defs, null);
     }
 
@@ -231,12 +220,12 @@ public class AppsLauncherManager extends DefinitionsManager {
 
     private void updateAppInArchive(final Long objId, final AppDetails definition, final MALInteraction interaction)
         throws MALException, MALInteractionException {
-        AppDetailsList defs = new AppDetailsList();
+        HeterogeneousList defs = new HeterogeneousList();
         defs.add(definition);
         final IdentifierList domain = ConfigurationProviderSingleton.getDomain();
 
         ArchiveDetails archiveDetails = HelperArchive.getArchiveDetailsFromArchive(super.getArchiveService(),
-            AppsLauncherHelper.APP_OBJECT_TYPE, domain, objId);
+            AppsLauncherServiceInfo.APP_OBJECT_TYPE, domain, objId);
         if (archiveDetails == null) {
             throw new MALException("No object present in archive.");
         }
@@ -244,7 +233,7 @@ public class AppsLauncherManager extends DefinitionsManager {
         ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
         archiveDetailsList.add(archiveDetails);
 
-        super.getArchiveService().update(AppsLauncherHelper.APP_OBJECT_TYPE, domain, archiveDetailsList, defs,
+        super.getArchiveService().update(AppsLauncherServiceInfo.APP_OBJECT_TYPE, domain, archiveDetailsList, defs,
             interaction);
     }
 
@@ -526,7 +515,7 @@ public class AppsLauncherManager extends DefinitionsManager {
         // Register on the Event service of the respective apps
         // Select all object numbers from the Apps Launcher service Events
         Subscription eventSub = HelperCOM.generateSubscriptionCOMEvent("ClosingAppEvents",
-            AppsLauncherHelper.APP_OBJECT_TYPE);
+            AppsLauncherServiceInfo.APP_OBJECT_TYPE);
         try { // Subscribe to events
             EventConsumerServiceImpl eventServiceConsumer = new EventConsumerServiceImpl(appConnection);
             Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.FINE, "Connected to: {0}", appConnection
@@ -538,7 +527,7 @@ public class AppsLauncherManager extends DefinitionsManager {
         }
 
         // Stop the app...
-        ObjectType objType = AppsLauncherHelper.STOPAPP_OBJECT_TYPE;
+        ObjectType objType = AppsLauncherServiceInfo.STOPAPP_OBJECT_TYPE;
         Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO,
             "Sending event to app: {0} (Name: ''{1}'')", new Object[]{appInstId, appDirectoryServiceName});
         this.setRunning(appInstId, false, interaction.getInteraction());
@@ -550,7 +539,7 @@ public class AppsLauncherManager extends DefinitionsManager {
             ConfigurationProviderSingleton.getDomain(), appDirectoryServiceName, appInstId, eventSource, interaction
                 .getInteraction());
 
-        final URI uri = interaction.getInteraction().getMessageHeader().getURIFrom();
+        final URI uri = interaction.getInteraction().getMessageHeader().getFromURI();
 
         if (appDirectoryServiceName != null) {
             try {

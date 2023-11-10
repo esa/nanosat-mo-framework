@@ -21,8 +21,6 @@
 package esa.mo.nmf.apps;
 
 import esa.mo.common.impl.consumer.DirectoryConsumerServiceImpl;
-import esa.mo.helpertools.connections.ConnectionConsumer;
-import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.helpertools.misc.Const;
@@ -59,8 +57,23 @@ import org.ccsds.moims.mo.common.structures.ServiceKey;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
+import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
-import org.ccsds.moims.mo.mal.structures.*;
+import org.ccsds.moims.mo.mal.structures.Attribute;
+import org.ccsds.moims.mo.mal.structures.Duration;
+import org.ccsds.moims.mo.mal.structures.Identifier;
+import org.ccsds.moims.mo.mal.structures.IdentifierList;
+import org.ccsds.moims.mo.mal.structures.Pair;
+import org.ccsds.moims.mo.mal.structures.PairList;
+import org.ccsds.moims.mo.mal.structures.Subscription;
+import org.ccsds.moims.mo.mal.structures.UInteger;
+import org.ccsds.moims.mo.mal.structures.UIntegerList;
+import org.ccsds.moims.mo.mal.structures.UOctet;
+import org.ccsds.moims.mo.mal.structures.URI;
+import org.ccsds.moims.mo.mal.structures.UShortList;
+import org.ccsds.moims.mo.mal.structures.Union;
+import org.ccsds.moims.mo.mal.structures.UpdateHeader;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.conversion.structures.DiscreteConversionDetails;
 import org.ccsds.moims.mo.mc.conversion.structures.DiscreteConversionDetailsList;
@@ -419,8 +432,8 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
                 IdentifierList domain = new IdentifierList();
                 domain.add(new Identifier("*"));
                 COMService parameterCOM = ParameterHelper.PARAMETER_SERVICE;
-                final ServiceKey serviceKey = new ServiceKey(parameterCOM.getArea().getNumber(), parameterCOM
-                    .getNumber(), parameterCOM.getArea().getVersion());
+                final ServiceKey serviceKey = new ServiceKey(parameterCOM.getserviceKey().getAreaNumber(),
+                        parameterCOM.getserviceKey().getServiceNumber(), parameterCOM.getserviceKey().getAreaVersion());
                 final ServiceFilter sf = new ServiceFilter(new Identifier(Const.NANOSAT_MO_SUPERVISOR_NAME), domain,
                     new Identifier("*"), null, new Identifier("*"), serviceKey, new UShortList());
                 final ProviderSummaryList supervisorParameterServiceConnectionDetails = centralDirectory
@@ -500,33 +513,21 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
                     supervisorParameterService.getParameterStub().enableGeneration(false, enable);
 
                     Identifier subscriptionId = new Identifier("PayloadsTestSupervisorSubscription");
-                    EntityKeyList entityKeys = new EntityKeyList();
-                    for (Identifier parameter : parameterNames) {
-                        EntityKey entitykey = new EntityKey(parameter, 0L, 0L, 0L);
-                        entityKeys.add(entitykey);
-                    }
-                    EntityRequest entity = new EntityRequest(null, false, false, false, false, entityKeys);
-                    EntityRequestList entities = new EntityRequestList();
-                    entities.add(entity);
-                    Subscription subscription = new Subscription(subscriptionId, entities);
+                    Subscription subscription = new Subscription(subscriptionId);
 
                     ParameterAdapter adapter = new ParameterAdapter() {
                         @Override
-                        public void monitorValueNotifyReceived(MALMessageHeader msgHeader, Identifier identifier,
-                            UpdateHeaderList updateHeaderList, ObjectIdList objectIdList,
-                            ParameterValueList parameterValueList, Map qosProperties) {
+                        public void monitorValueNotifyReceived(MALMessageHeader msgHeader, Identifier subscriptionId,
+                            UpdateHeader updateHeader, ObjectId objectId,
+                            ParameterValue parameterValue, Map qosProperties) {
 
-                            for (int i = 0; i < updateHeaderList.size(); ++i) {
-                                String parameterName = updateHeaderList.get(i).getKey().getFirstSubKey().getValue();
-                                Attribute value = parameterValueList.get(i).getRawValue();
-                                Time timestamp = updateHeaderList.get(i).getTimestamp();
-                                Long id = nameToId.get(parameterName);
-                                if (id != null) {
-                                    PayloadsTestMCAdapter.this.onSetValue(new ParameterRawValue(id, value));
-                                } else if (supervisorTMPollingEnabled) {
-                                    System.out.println(HelperTime.time2readableString(timestamp) + " - " +
-                                        parameterName + " - " + value.toString());
-                                }
+                            String parameterName = updateHeader.getKeyValues().get(0).getValue().toString();
+                            Attribute value = parameterValue.getRawValue();
+                            Long id = nameToId.get(parameterName);
+                            if (id != null) {
+                                PayloadsTestMCAdapter.this.onSetValue(new ParameterRawValue(id, value));
+                            } else if (supervisorTMPollingEnabled) {
+                                System.out.println(parameterName + " - " + value.toString());
                             }
                         }
                     };
@@ -535,7 +536,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
                     LOGGER.log(Level.SEVERE,
                         "Could not retrieve supervisor COM Parameter service details from the Central Directory.", ex);
                 }
-                centralDirectory.close();
+                centralDirectory.closeConnection();
             } catch (MALException | MalformedURLException ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
             } catch (MALInteractionException ex) {
@@ -563,14 +564,14 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
 
             @Override
             public void getSatellitesInfoAckErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-                org.ccsds.moims.mo.mal.MALStandardError error, java.util.Map qosProperties) {
+                org.ccsds.moims.mo.mal.MOErrorException error, java.util.Map qosProperties) {
                 sem.release();
             }
 
             @Override
             public void getSatellitesInfoResponseErrorReceived(
                 org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-                org.ccsds.moims.mo.mal.MALStandardError error, java.util.Map qosProperties) {
+                org.ccsds.moims.mo.mal.MOErrorException error, java.util.Map qosProperties) {
                 sem.release();
             }
         }
@@ -999,67 +1000,59 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
     public class ADCSDataHandler extends AutonomousADCSAdapter {
         @Override
         public void monitorAttitudeNotifyReceived(final MALMessageHeader msgHeader, final Identifier lIdentifier,
-            final UpdateHeaderList lUpdateHeaderList,
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeTelemetryList attitudeTelemetryList,
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.ActuatorsTelemetryList actuatorsTelemetryList,
-            org.ccsds.moims.mo.mal.structures.DurationList controlDurationList,
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeList attitudeModeList, final Map qosp) {
+            final UpdateHeader lUpdateHeader,
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeTelemetry attitudeTm,
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.ActuatorsTelemetry actuatorsTm,
+            org.ccsds.moims.mo.mal.structures.Duration remainingDuration,
+            org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode activeAttitudeMode, final Map qosp) {
             LOGGER.log(Level.FINE, "Received monitorAttitude notify");
-            for (AttitudeTelemetry attitudeTm : attitudeTelemetryList) {
-                try {
-                    VectorF3D sunVector = attitudeTm.getSunVector();
-                    VectorF3D magneticField = attitudeTm.getMagneticField();
-                    VectorF3D angularVelocity = attitudeTm.getAngularVelocity();
-                    Quaternion attitude = attitudeTm.getAttitude();
-                    //attMode = AttitudeMode.NADIRPOINTING;
-                    nmf.pushParameterValue(PARAMETER_SUN_VECTOR_X, sunVector.getX());
-                    nmf.pushParameterValue(PARAMETER_SUN_VECTOR_Y, sunVector.getY());
-                    nmf.pushParameterValue(PARAMETER_SUN_VECTOR_Z, sunVector.getZ());
+            try {
+                VectorF3D sunVector = attitudeTm.getSunVector();
+                VectorF3D magneticField = attitudeTm.getMagneticField();
+                VectorF3D angularVelocity = attitudeTm.getAngularVelocity();
+                Quaternion attitude = attitudeTm.getAttitude();
+                //attMode = AttitudeMode.NADIRPOINTING;
+                nmf.pushParameterValue(PARAMETER_SUN_VECTOR_X, sunVector.getX());
+                nmf.pushParameterValue(PARAMETER_SUN_VECTOR_Y, sunVector.getY());
+                nmf.pushParameterValue(PARAMETER_SUN_VECTOR_Z, sunVector.getZ());
 
-                    nmf.pushParameterValue(PARAMETER_MAG_X, magneticField.getX());
-                    nmf.pushParameterValue(PARAMETER_MAG_Y, magneticField.getY());
-                    nmf.pushParameterValue(PARAMETER_MAG_Z, magneticField.getZ());
+                nmf.pushParameterValue(PARAMETER_MAG_X, magneticField.getX());
+                nmf.pushParameterValue(PARAMETER_MAG_Y, magneticField.getY());
+                nmf.pushParameterValue(PARAMETER_MAG_Z, magneticField.getZ());
 
-                    nmf.pushParameterValue(PARAMETER_ANGULAR_VELOCITY_X, angularVelocity.getX());
-                    nmf.pushParameterValue(PARAMETER_ANGULAR_VELOCITY_Z, angularVelocity.getY());
-                    nmf.pushParameterValue(PARAMETER_ANGULAR_VELOCITY_Y, angularVelocity.getZ());
+                nmf.pushParameterValue(PARAMETER_ANGULAR_VELOCITY_X, angularVelocity.getX());
+                nmf.pushParameterValue(PARAMETER_ANGULAR_VELOCITY_Z, angularVelocity.getY());
+                nmf.pushParameterValue(PARAMETER_ANGULAR_VELOCITY_Y, angularVelocity.getZ());
 
-                    nmf.pushParameterValue(PARAMETER_ATTITUDE_Q_A, attitude.getA());
-                    nmf.pushParameterValue(PARAMETER_ATTITUDE_Q_B, attitude.getB());
-                    nmf.pushParameterValue(PARAMETER_ATTITUDE_Q_C, attitude.getC());
-                    nmf.pushParameterValue(PARAMETER_ATTITUDE_Q_D, attitude.getD());
-                } catch (NMFException ex) {
-                    LOGGER.log(Level.SEVERE, "Error when propagating Sensors TM", ex);
-                }
+                nmf.pushParameterValue(PARAMETER_ATTITUDE_Q_A, attitude.getA());
+                nmf.pushParameterValue(PARAMETER_ATTITUDE_Q_B, attitude.getB());
+                nmf.pushParameterValue(PARAMETER_ATTITUDE_Q_C, attitude.getC());
+                nmf.pushParameterValue(PARAMETER_ATTITUDE_Q_D, attitude.getD());
+            } catch (NMFException ex) {
+                LOGGER.log(Level.SEVERE, "Error when propagating Sensors TM", ex);
             }
-            for (ActuatorsTelemetry actuatorsTm : actuatorsTelemetryList) {
-                try {
-                    VectorF3D mtqDipoleMoment = actuatorsTm.getMtqDipoleMoment();
-                    nmf.pushParameterValue(PARAMETER_MTQ_X, mtqDipoleMoment.getX());
-                    nmf.pushParameterValue(PARAMETER_MTQ_Y, mtqDipoleMoment.getY());
-                    nmf.pushParameterValue(PARAMETER_MTQ_Z, mtqDipoleMoment.getZ());
-                } catch (NMFException ex) {
-                    LOGGER.log(Level.SEVERE, "Error when propagating Actuators TM", ex);
-                }
+            try {
+                VectorF3D mtqDipoleMoment = actuatorsTm.getMtqDipoleMoment();
+                nmf.pushParameterValue(PARAMETER_MTQ_X, mtqDipoleMoment.getX());
+                nmf.pushParameterValue(PARAMETER_MTQ_Y, mtqDipoleMoment.getY());
+                nmf.pushParameterValue(PARAMETER_MTQ_Z, mtqDipoleMoment.getZ());
+            } catch (NMFException ex) {
+                LOGGER.log(Level.SEVERE, "Error when propagating Actuators TM", ex);
             }
-            for (Object activeAttitudeMode : attitudeModeList) {
-                try {
-                    nmf.pushParameterValue(PARAMETER_ADCS_MODE, attitudeModeToParamValue(
-                        (AttitudeMode) activeAttitudeMode));
-                } catch (NMFException ex) {
-                    LOGGER.log(Level.SEVERE, "Error when propagating active ADCS mode", ex);
-                }
+            try {
+                nmf.pushParameterValue(PARAMETER_ADCS_MODE, attitudeModeToParamValue(
+                    (AttitudeMode) activeAttitudeMode));
+            } catch (NMFException ex) {
+                LOGGER.log(Level.SEVERE, "Error when propagating active ADCS mode", ex);
             }
-            for (Duration remainingDuration : controlDurationList) {
-                try {
-                    if (remainingDuration != null) {
-                        nmf.pushParameterValue(PARAMETER_ADCS_DURATION, remainingDuration);
-                    } else {
-                        nmf.pushParameterValue(PARAMETER_ADCS_DURATION, new Duration(0));
-                    }
-                } catch (NMFException ex) {
-                    LOGGER.log(Level.SEVERE, "Error when propagating active ADCS mode duration", ex);
+            try {
+                if (remainingDuration != null) {
+                    nmf.pushParameterValue(PARAMETER_ADCS_DURATION, remainingDuration);
+                } else {
+                    nmf.pushParameterValue(PARAMETER_ADCS_DURATION, new Duration(0));
                 }
+            } catch (NMFException ex) {
+                LOGGER.log(Level.SEVERE, "Error when propagating active ADCS mode duration", ex);
             }
         }
     }

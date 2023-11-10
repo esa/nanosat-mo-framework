@@ -32,7 +32,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.MALStandardError;
+import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.UInteger;
@@ -96,7 +96,7 @@ public class CameraAcquisitorSystemCameraHandler {
             }
 
             @Override
-            public void getTLEAckErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+            public void getTLEAckErrorReceived(MALMessageHeader msgHeader, MOErrorException error, Map qosProperties) {
                 LOGGER.log(Level.INFO, "TLE ERROR: {0}", error.toString());
             }
 
@@ -212,7 +212,7 @@ public class CameraAcquisitorSystemCameraHandler {
 
         @Override
         public void takePictureAckErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-            org.ccsds.moims.mo.mal.MALStandardError error, java.util.Map qosProperties) {
+            org.ccsds.moims.mo.mal.MOErrorException error, java.util.Map qosProperties) {
             try {
                 this.casMCAdapter.getConnector().reportActionExecutionProgress(false, 1, STAGE_RECIVED +
                     this.stageOffset, this.totalStage, this.actionInstanceObjId);
@@ -224,7 +224,7 @@ public class CameraAcquisitorSystemCameraHandler {
 
         @Override
         public void takePictureResponseErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-            org.ccsds.moims.mo.mal.MALStandardError error, java.util.Map qosProperties) {
+            org.ccsds.moims.mo.mal.MOErrorException error, java.util.Map qosProperties) {
             try {
                 this.casMCAdapter.getConnector().reportActionExecutionProgress(false, 1, STAGE_RECIVED +
                     this.stageOffset, this.totalStage, this.actionInstanceObjId);

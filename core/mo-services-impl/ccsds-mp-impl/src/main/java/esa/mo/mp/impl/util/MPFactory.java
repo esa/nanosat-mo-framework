@@ -23,6 +23,7 @@ package esa.mo.mp.impl.util;
 import java.util.Arrays;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.StringList;
+import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mp.structures.ActivityDefinitionDetails;
 import org.ccsds.moims.mo.mp.structures.ActivityInstanceDetails;
 import org.ccsds.moims.mo.mp.structures.ActivityNode;
@@ -46,7 +47,6 @@ import org.ccsds.moims.mo.mp.structures.ResourceProfile;
 import org.ccsds.moims.mo.mp.structures.c_ArgDefList;
 import org.ccsds.moims.mo.mp.structures.ArgumentList;
 import org.ccsds.moims.mo.mp.structures.c_ConstraintList;
-import esa.mo.helpertools.helpers.HelperTime;
 
 /**
  * MPFactory contains factory methods to create blank MP structures with default values
@@ -90,7 +90,7 @@ public class MPFactory extends MOFactory {
         ActivityUpdateDetails activityUpdate = new ActivityUpdateDetails();
 
         activityUpdate.setStatus(activityStatus);
-        activityUpdate.setTimestamp(HelperTime.getTimestampMillis());
+        activityUpdate.setTimestamp(Time.now());
 
         return activityUpdate;
     }
@@ -127,7 +127,7 @@ public class MPFactory extends MOFactory {
         PlanInformation planInformation = new PlanInformation();
         planInformation.setComments("");
         planInformation.setDescription("");
-        planInformation.setProductionDate(HelperTime.getTimestampMillis());
+        planInformation.setProductionDate(Time.now());
         planVersion.setInformation(planInformation);
 
         PlannedItems plannedItems = new PlannedItems();
@@ -147,7 +147,7 @@ public class MPFactory extends MOFactory {
 
         planUpdate.setStatus(planStatus);
         planUpdate.setAlternate(false);
-        planUpdate.setTimestamp(HelperTime.getTimestampMillis());
+        planUpdate.setTimestamp(Time.now());
 
         return planUpdate;
     }

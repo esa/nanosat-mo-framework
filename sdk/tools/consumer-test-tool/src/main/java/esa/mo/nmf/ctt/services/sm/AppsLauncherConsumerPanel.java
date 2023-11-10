@@ -20,7 +20,6 @@
  */
 package esa.mo.nmf.ctt.services.sm;
 
-import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.sm.impl.consumer.AppsLauncherConsumerServiceImpl;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -29,7 +28,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.event.consumer.EventAdapter;
@@ -37,10 +35,17 @@ import org.ccsds.moims.mo.com.structures.ObjectDetailsList;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.MALStandardError;
-import org.ccsds.moims.mo.mal.structures.*;
+import org.ccsds.moims.mo.mal.MOErrorException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
+import org.ccsds.moims.mo.mal.structures.BooleanList;
+import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
+import org.ccsds.moims.mo.mal.structures.Identifier;
+import org.ccsds.moims.mo.mal.structures.IdentifierList;
+import org.ccsds.moims.mo.mal.structures.LongList;
+import org.ccsds.moims.mo.mal.structures.Subscription;
+import org.ccsds.moims.mo.mal.structures.UpdateHeader;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
+import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherServiceInfo;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.consumer.AppsLauncherAdapter;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.structures.AppDetails;
 
@@ -215,7 +220,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
                     public void listAppResponseReceived(MALMessageHeader msgHeader, LongList appInstIds,
                         BooleanList running, Map qosProperties) {
                         appsTable.refreshTableWithIds(appInstIds, serviceSMAppsLauncher.getConnectionDetails()
-                            .getDomain(), AppsLauncherHelper.APP_OBJECT_TYPE);
+                            .getDomain(), AppsLauncherServiceInfo.APP_OBJECT_TYPE);
 
                         for (int i = 0; i < appInstIds.size(); i++) {
                             Long objId = appInstIds.get(i);
@@ -228,7 +233,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
                     }
 
                     @Override
-                    public void listAppErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                    public void listAppErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
                         Map qosProperties) {
                         JOptionPane.showMessageDialog(null, "There was an error during the listApp operation.", "Error",
                             JOptionPane.PLAIN_MESSAGE);
@@ -346,18 +351,14 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
         @Override
         public void monitorExecutionNotifyReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
             org.ccsds.moims.mo.mal.structures.Identifier _Identifier0,
-            org.ccsds.moims.mo.mal.structures.UpdateHeaderList updateHeaderList,
-            org.ccsds.moims.mo.mal.structures.StringList outputStream, java.util.Map qosProperties) {
+            org.ccsds.moims.mo.mal.structures.UpdateHeader updateHeader,
+            String outputStream, java.util.Map qosProperties) {
 
-            for (int i = 0; i < updateHeaderList.size(); i++) {
-                final String out = outputStream.get(i);
-                final UpdateHeader updateHeader = updateHeaderList.get(i);
-
-                StringBuffer stringBuf = outputBuffers.get(updateHeader.getKey().getSecondSubKey());
-                stringBuf.append(out);
-                appVerboseTextArea.append(out);
-                appVerboseTextArea.setCaretPosition(appVerboseTextArea.getDocument().getLength());
-            }
+            final String out = outputStream;
+            StringBuffer stringBuf = outputBuffers.get(updateHeader.getKeyValues().get(1).getValue());
+            stringBuf.append(out);
+            appVerboseTextArea.append(out);
+            appVerboseTextArea.setCaretPosition(appVerboseTextArea.getDocument().getLength());
         }
     }
 
@@ -384,7 +385,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
 
         @Override
         public void stopAppAckErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-            org.ccsds.moims.mo.mal.MALStandardError error, java.util.Map qosProperties) {
+            org.ccsds.moims.mo.mal.MOErrorException error, java.util.Map qosProperties) {
             for (Long apid : apids) {
                 appsTable.reportStatus("Stop App Error..." + error.toString(), apid.intValue());
             }
@@ -409,16 +410,16 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
         }
 
         @Override
-        public synchronized void monitorEventNotifyReceived(MALMessageHeader msgHeader, Identifier _Identifier0,
-            UpdateHeaderList updateHeaderList, ObjectDetailsList objectDetailsList, ElementList objects,
-            Map qosProperties) {
-            if (objectDetailsList.size() != 1) {
-                return;
-            }
-
+        public synchronized void monitorEventNotifyReceived(
+                org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
+                org.ccsds.moims.mo.mal.structures.Identifier subscriptionId,
+                org.ccsds.moims.mo.mal.structures.UpdateHeader updateHeader,
+                org.ccsds.moims.mo.com.structures.ObjectDetails eventLinks,
+                org.ccsds.moims.mo.mal.structures.Element eventBody,
+                java.util.Map qosProperties) {
             // Does the objId received matches the one that we originally sent to the service?
-            if (originalObjId.equals(objectDetailsList.get(0).getSource().getKey().getInstId())) {
-                ObjectId obj = objectDetailsList.get(0).getSource();
+            if (originalObjId.equals(eventLinks.getSource().getKey().getInstId())) {
+                ObjectId obj = eventLinks.getSource();
                 updateAppStatus(obj.getKey().getInstId(), "Running", "Failed to start!");
             }
         }
@@ -430,11 +431,11 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
         try {
             int rowId = appsTable.findIndex(appId.intValue());
             serviceSMAppsLauncher.getCOMServices().getArchiveService().getArchiveStub().retrieve(
-                AppsLauncherHelper.APP_OBJECT_TYPE, serviceSMAppsLauncher.getConnectionDetails().getDomain(), ids,
+                AppsLauncherServiceInfo.APP_OBJECT_TYPE, serviceSMAppsLauncher.getConnectionDetails().getDomain(), ids,
                 new ArchiveAdapter() {
                     @Override
                     public void retrieveResponseReceived(MALMessageHeader msgHeader, ArchiveDetailsList objDetails,
-                        ElementList objBodies, Map qosProperties) {
+                        HeterogeneousList objBodies, Map qosProperties) {
                         boolean appIsRunning = ((AppDetails) objBodies.get(0)).getRunning();
                         appsTable.reportStatus((appIsRunning ? runningText : notRunningText), appId.intValue());
                         appsTable.switchEnabledstatus(appIsRunning, rowId);

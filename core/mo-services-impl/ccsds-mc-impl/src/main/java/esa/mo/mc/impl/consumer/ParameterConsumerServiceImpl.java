@@ -21,21 +21,17 @@
 package esa.mo.mc.impl.consumer;
 
 import esa.mo.com.impl.util.COMServicesConsumer;
-import esa.mo.helpertools.misc.ConsumerServiceImpl;
-import esa.mo.helpertools.connections.SingleConnectionDetails;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.COMHelper;
-import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.consumer.MALConsumer;
+import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
+import org.ccsds.moims.mo.mal.helpertools.misc.ConsumerServiceImpl;
 import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mc.MCHelper;
 import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
 import org.ccsds.moims.mo.mc.parameter.consumer.ParameterStub;
 
@@ -74,24 +70,6 @@ public class ParameterConsumerServiceImpl extends ConsumerServiceImpl {
     public ParameterConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices,
         Blob authenticationId, String localNamePrefix) throws MALException, MalformedURLException,
         MALInteractionException {
-
-        if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
-            MALHelper.init(MALContextFactory.getElementFactoryRegistry());
-        }
-
-        if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION) == null) {
-            COMHelper.init(MALContextFactory.getElementFactoryRegistry());
-        }
-
-        if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION) == null) {
-            MCHelper.init(MALContextFactory.getElementFactoryRegistry());
-        }
-
-        if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION).getServiceByName(
-            ParameterHelper.PARAMETER_SERVICE_NAME) == null) {
-            ParameterHelper.init(MALContextFactory.getElementFactoryRegistry());
-        }
-
         this.connectionDetails = connectionDetails;
         this.comServices = comServices;
 

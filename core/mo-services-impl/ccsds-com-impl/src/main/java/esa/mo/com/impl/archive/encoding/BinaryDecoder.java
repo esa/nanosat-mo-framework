@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : CCSDS MO Binary encoder
  * ----------------------------------------------------------------------------
- * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft â€“ v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -28,7 +28,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALListDecoder;
 import org.ccsds.moims.mo.mal.structures.*;
@@ -37,6 +37,7 @@ import org.ccsds.moims.mo.mal.structures.*;
  * Implements the MALDecoder interface for a binary encoding.
  */
 public class BinaryDecoder extends GENDecoder {
+
     protected static final java.util.logging.Logger LOGGER = Logger.getLogger(BinaryDecoder.class.getName());
     protected static final Charset UTF8_CHARSET = StandardCharsets.UTF_8;
     protected static final int BLOCK_SIZE = 65536;
@@ -143,6 +144,32 @@ public class BinaryDecoder extends GENDecoder {
     public byte[] getRemainingEncodedData() throws MALException {
         BinaryBufferHolder dSourceBuffer = (BinaryBufferHolder) sourceBuffer;
         return Arrays.copyOfRange(dSourceBuffer.buf.buf, dSourceBuffer.buf.offset, dSourceBuffer.buf.contentLength);
+    }
+
+    @Override
+    public Element decodeAbstractElement() throws MALException {
+        Long sfp = decodeLong();
+        try {
+            Element type = MALContextFactory.getElementsRegistry().createElement(sfp);
+            return type.decode(this);
+        } catch (Exception ex) {
+            throw new MALException("The Element could not be created!", ex);
+        }
+    }
+
+    @Override
+    public Element decodeNullableAbstractElement() throws MALException {
+        if (sourceBuffer.isNotNull()) {
+            Long sfp = decodeLong();
+            try {
+                Element type = MALContextFactory.getElementsRegistry().createElement(sfp);
+                return type.decode(this);
+            } catch (Exception ex) {
+                throw new MALException("The Element could not be created!", ex);
+            }
+        }
+
+        return null;
     }
 
     /**
