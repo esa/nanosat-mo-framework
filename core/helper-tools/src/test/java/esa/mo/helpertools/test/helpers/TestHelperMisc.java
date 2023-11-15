@@ -51,21 +51,11 @@ public class TestHelperMisc {
 
     private static final Logger LOGGER = Logger.getLogger(TestHelperMisc.class.getName());
 
-<<<<<<< HEAD
     Properties props;
 
     @Before
     public void saveProps() {
         props = (Properties) System.getProperties().clone();
-=======
-  @Before
-  public void setup() {
-    System.getProperties().clear();
-    try {
-      MALHelper.init(MALContextFactory.getElementsRegistry());
-    } catch (MALException ex) {
-      Logger.getLogger(TestHelperMisc.class.getName()).log(Level.SEVERE, null, ex);
->>>>>>> ffedc594 (Updates the NMF code to follow version 10)
     }
 
     @After
