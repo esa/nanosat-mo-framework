@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 
 import org.junit.Test;
 
-import esa.mo.helpertools.connections.ServicesConnectionDetails;
 import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 
 public class TestServicesConnectionDetails {
