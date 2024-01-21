@@ -11,11 +11,14 @@ libraries:
 	cp -r parent package/mof
 	cp -r mission package/mof
 	cp -r sdk package/mof
-	cd package && docker build -f Dockerfile.Libraries -t ghcr.io/kosmoedge/nmf-libraries:latest .
+	cd package && docker buildx build --no-cache --platform linux/amd64,linux/arm64/v8 -f Dockerfile.Libraries -t ghcr.io/kosmoedge/nmf-libraries:latest . --push
 	rm -rf package/mof	
 
 simulator: libraries
 	cd package && docker build -f Dockerfile.Simulator -t ghcr.io/kosmoedge/nmf-simulator:latest .	
+
+supervisor: libraries
+	cd package && docker buildx build --no-cache --platform linux/amd64,linux/arm64/v8 -f Dockerfile.Module -t ghcr.io/kosmoedge/supervisor:latest . --push
 
 consumer-tool:
 	cd package && docker build -f Dockerfile.ConsumerTool -t ghcr.io/kosmoedge/nmf-consumer-tool:latest .
@@ -31,7 +34,7 @@ run: containers
 
 
 space-module-%: libraries
-	cd package && docker build --build-arg MODULE_PATH=sdk/examples/space/$* --build-arg VERSION=${VERSION} -f Dockerfile.Module -t ghcr.io/kosmoedge/$*:latest .
+	cd package && docker buildx build --no-cache --platform linux/amd64,linux/arm64/v8 --build-arg MODULE_PATH=sdk/examples/space/$* --build-arg VERSION=${VERSION} -f Dockerfile.Module -t ghcr.io/kosmoedge/$*:latest . --push
 
 ground-module-%: libraries
 	cd package && docker build --build-arg MODULE_PATH=sdk/examples/ground/$* --build-arg VERSION=${VERSION} -f Dockerfile.Module -t ghcr.io/kosmoedge/$*:latest .
