@@ -1,0 +1,33 @@
+version: "3.9"
+
+services:
+  publish-clock:
+    container_name: publish-clock
+    restart: on-failure
+    image: kosmoedge/publish-clock:latest
+    environment:
+      - SUPERVISOR=maltcp://supervisor.package_default:1024/nanosat-mo-supervisor-Directory
+      - APP=PushClock
+    ports:
+      - 127.0.0.1:1025:1024
+    depends_on:
+      - supervisor
+
+  camera:
+    container_name: camera
+    restart: on-failure
+    image: kosmoedge/camera:latest
+    environment:
+      - SUPERVISOR=maltcp://supervisor.package_default:1024/nanosat-mo-supervisor-Directory
+      - APP=SnapNMF
+    ports:
+      - 127.0.0.1:1026:1024
+    depends_on:
+      - supervisor
+
+  supervisor:
+    container_name: supervisor
+    restart: on-failure
+    image: kosmoedge/nmf-simulator:latest
+    ports:
+      - 127.0.0.1:1024:1024

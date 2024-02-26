@@ -1,0 +1,11 @@
+FROM ghcr.io/kosmoedge/nmf-libraries
+ARG VERSION
+ENV APP=${APP}
+ENV SUPERVISOR=${SUPERVISOR}
+ENV VERSION=${VERSION}
+WORKDIR /mof
+RUN cd sdk/ && mvn install
+COPY scripts/start_module.sh .
+COPY scripts/entrypoint.sh .
+EXPOSE 1024
+ENTRYPOINT [ "./entrypoint.sh" ]

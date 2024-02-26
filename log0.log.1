@@ -1,0 +1,28 @@
+2023-06-18 21:05:36.759 esa.mo.helpertools.helpers.HelperMisc loadPropertiesFile
+WARNING: The file provider.properties does not exist on the path: {}. Is the application working directory configured properly?
+2023-06-18 21:05:36.805 esa.mo.helpertools.helpers.HelperMisc loadPropertiesFile
+WARNING: The file settings.properties does not exist on the path: {}. Is the application working directory configured properly?
+2023-06-18 21:05:36.806 esa.mo.helpertools.helpers.HelperMisc loadPropertiesFile
+WARNING: The file transport.properties does not exist on the path: {}. Is the application working directory configured properly?
+2023-06-18 21:05:36.812 esa.mo.com.impl.archive.db.DatabaseBackend <init>
+INFO: DB file writable - defaulting to non-volatile COM Archive
+2023-06-18 21:05:36.855 esa.mo.com.impl.archive.db.DatabaseBackend startDatabaseDriver
+INFO: Attempting to establish a connection to the database:
+ >> jdbc:sqlite:comArchive.db
+2023-06-18 21:05:36.971 esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl init
+SEVERE: The services could not be initialized. Perhaps there's something wrong with the Transport Layer.
+org.ccsds.moims.mo.mal.MALException: Unknown transport factory for protocol: rmi
+	at org.ccsds.moims.mo.mal.transport.MALTransportFactory.newFactory(MALTransportFactory.java:132)
+	at esa.mo.mal.impl.transport.TransportSingleton.internalInstance(TransportSingleton.java:176)
+	at esa.mo.mal.impl.transport.TransportSingleton.instance(TransportSingleton.java:108)
+	at esa.mo.mal.impl.ServiceComponentImpl.<init>(ServiceComponentImpl.java:100)
+	at esa.mo.mal.impl.provider.MALProviderImpl.<init>(MALProviderImpl.java:62)
+	at esa.mo.mal.impl.provider.MALProviderManagerImpl.createProvider(MALProviderManagerImpl.java:66)
+	at esa.mo.helpertools.connections.ConnectionProvider.startService(ConnectionProvider.java:165)
+	at esa.mo.helpertools.connections.ConnectionProvider.startService(ConnectionProvider.java:125)
+	at esa.mo.com.impl.provider.ArchiveProviderServiceImpl.init(ArchiveProviderServiceImpl.java:101)
+	at esa.mo.com.impl.util.COMServicesProvider.init(COMServicesProvider.java:48)
+	at esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.init(NanoSatMOConnectorImpl.java:109)
+	at esa.mo.nmf.apps.PushClock.<init>(PushClock.java:63)
+	at esa.mo.nmf.apps.PushClock.main(PushClock.java:105)
+
