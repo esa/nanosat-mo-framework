@@ -127,8 +127,7 @@ public class EncodeDecode {
 
             byte[] uncompressedOutput = bytesOutputStream.toByteArray();
             encoder.close();
-            LOGGER.log(Level.FINE, "Uncompressed objects size: " +
-                uncompressedOutput.length + " bytes");
+            LOGGER.log(Level.FINE, "Uncompressed objects size: " + uncompressedOutput.length + " bytes");
 
             ByteArrayOutputStream compressedBytesOutputStream = new ByteArrayOutputStream();
             GZIPOutputStream gzip = new GZIPOutputStream(compressedBytesOutputStream);
@@ -143,8 +142,7 @@ public class EncodeDecode {
             System.arraycopy(uncompressedSize, 0, output, 0, 4);
             System.arraycopy(compressedBytes, 0, output, 4, compressedBytes.length);
 
-            LOGGER.log(Level.FINE, "Compressed objects size: " +
-                compressedBytes.length + " bytes");
+            LOGGER.log(Level.FINE, "Compressed objects size: " + compressedBytes.length + " bytes");
 
             return output;
         } catch (Exception ex) {
@@ -195,17 +193,21 @@ public class EncodeDecode {
         Identifier network = manager.getFastNetwork().getNetwork(entity.getNetwork());
         Integer networkId = dictionary.getWordId(network.getValue());
         encoder.encodeShort(networkId.shortValue());
-        if (networkId.shortValue() != networkId)
-        {
-            LOGGER.log(Level.SEVERE, "network {0} shortValue {1} mismatch networkId full {2}", new Object[]{network.getValue(), networkId.shortValue(), networkId});
+        if (networkId.shortValue() != networkId) {
+            LOGGER.log(Level.SEVERE, "network {0} shortValue {1} mismatch networkId full {2}", new Object[]{network
+                .getValue(), networkId.shortValue(), networkId});
         }
 
         URI providerURI = manager.getFastProviderURI().getProviderURI(entity.getProviderURI());
         Integer providerURIId = dictionary.getWordId(providerURI.getValue());
         encoder.encodeShort(providerURIId.shortValue());
-        if (providerURIId.shortValue() != providerURIId)
-        {
-            LOGGER.log(Level.SEVERE, "providerURI {0} shortValue {1} mismatch networkId full {2}", new Object[]{providerURI.getValue(), providerURIId.shortValue(), providerURIId});
+        if (providerURIId.shortValue() != providerURIId) {
+            LOGGER.log(Level.SEVERE, "providerURI {0} shortValue {1} mismatch networkId full {2}", new Object[]{
+                                                                                                                providerURI
+                                                                                                                    .getValue(),
+                                                                                                                providerURIId
+                                                                                                                    .shortValue(),
+                                                                                                                providerURIId});
         }
 
         ObjectType objType = manager.getFastObjectType().getObjectType(entity.getObjectTypeId());
@@ -218,9 +220,14 @@ public class EncodeDecode {
             IdentifierList sourceDomain = manager.getFastDomain().getDomain(entity.getSourceLink().getDomainId());
             Integer sourceDomainId = dictionary.getWordId(HelperMisc.domain2domainId(sourceDomain));
             encoder.encodeNullableShort(sourceDomainId.shortValue());
-            if (sourceDomainId.shortValue() != sourceDomainId)
-            {
-                LOGGER.log(Level.SEVERE, "providerURI {0} shortValue {1} mismatch networkId full {2}", new Object[]{HelperMisc.domain2domainId(sourceDomain), sourceDomainId.shortValue(), sourceDomainId});
+            if (sourceDomainId.shortValue() != sourceDomainId) {
+                LOGGER.log(Level.SEVERE, "providerURI {0} shortValue {1} mismatch networkId full {2}", new Object[]{
+                                                                                                                    HelperMisc
+                                                                                                                        .domain2domainId(
+                                                                                                                            sourceDomain),
+                                                                                                                    sourceDomainId
+                                                                                                                        .shortValue(),
+                                                                                                                    sourceDomainId});
             }
         }
 
@@ -280,17 +287,14 @@ public class EncodeDecode {
                             .lookupElementFactory(blobDecoder.decodeLong());
                         element = blobDecoder.decodeNullableElement((Element) elementFactory.createElement());
                     } catch (MALException ex) {
-                        LOGGER.log(Level.SEVERE,
-                            "The object body could not be decoded! Usually happens when there's " +
-                                "an update in the APIs. (1) ", ex);
+                        LOGGER.log(Level.SEVERE, "The object body could not be decoded! Usually happens when there's " +
+                            "an update in the APIs. (1) ", ex);
                     } catch (IllegalArgumentException ex) {
-                        LOGGER.log(Level.SEVERE,
-                            "The object body could not be decoded! Usually happens when there's " +
-                                "an update in the APIs. (2) ", ex);
+                        LOGGER.log(Level.SEVERE, "The object body could not be decoded! Usually happens when there's " +
+                            "an update in the APIs. (2) ", ex);
                     } catch (Exception ex) {
-                        LOGGER.log(Level.SEVERE,
-                            "The object body could not be decoded! Usually happens when there's " +
-                                "an update in the APIs. (3) ", ex);
+                        LOGGER.log(Level.SEVERE, "The object body could not be decoded! Usually happens when there's " +
+                            "an update in the APIs. (3) ", ex);
                     }
                 }
 
@@ -319,8 +323,7 @@ public class EncodeDecode {
 
                     for (int j = 0; j < ids.size(); j++) {
                         dictionary.defineWord(ids.get(j), strings.get(j));
-                        LOGGER.log(Level.FINE, "Defining id: " + ids.get(j) +
-                            " as word: " + strings.get(j));
+                        LOGGER.log(Level.FINE, "Defining id: " + ids.get(j) + " as word: " + strings.get(j));
                     }
                 }
 
