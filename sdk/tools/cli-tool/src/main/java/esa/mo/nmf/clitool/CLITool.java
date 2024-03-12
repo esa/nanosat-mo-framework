@@ -20,7 +20,6 @@
  */
 package esa.mo.nmf.clitool;
 
-import esa.mo.nmf.clitool.mc.AggregationCommands;
 import esa.mo.nmf.clitool.mc.MCCommands;
 import esa.mo.nmf.clitool.platform.PlatformCommands;
 import esa.mo.nmf.clitool.sm.SoftwareManagementCommands;
@@ -35,8 +34,8 @@ import picocli.CommandLine.Option;
         subcommands = {
             MCCommands.Aggregation.class, 
             MCCommands.Parameter.class, 
-            MCCommands.Action.class, 
-            SoftwareManagementCommands.AppsLauncher.class, 
+            MCCommands.Action.class,
+            SoftwareManagementCommands.AppsLauncher.class,
             SoftwareManagementCommands.SoftwareManagement.class,
             SoftwareManagementCommands.Heartbeat.class,
             PlatformCommands.GPS.class, 

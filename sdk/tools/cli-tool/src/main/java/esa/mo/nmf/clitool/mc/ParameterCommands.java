@@ -25,8 +25,6 @@ import com.google.gson.GsonBuilder;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.nmf.clitool.BaseCommand;
-import static esa.mo.nmf.clitool.BaseCommand.consumer;
-import static esa.mo.nmf.clitool.BaseCommand.queryArchive;
 import esa.mo.nmf.clitool.TimestampedAggregationValue;
 import esa.mo.nmf.clitool.TimestampedParameterValue;
 import esa.mo.nmf.clitool.adapters.ArchiveToAggregationsAdapter;
@@ -51,18 +49,7 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MALStandardError;
-import org.ccsds.moims.mo.mal.structures.EntityKey;
-import org.ccsds.moims.mo.mal.structures.EntityKeyList;
-import org.ccsds.moims.mo.mal.structures.EntityRequest;
-import org.ccsds.moims.mo.mal.structures.EntityRequestList;
-import org.ccsds.moims.mo.mal.structures.FineTime;
-import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.structures.Subscription;
-import org.ccsds.moims.mo.mal.structures.UInteger;
-import org.ccsds.moims.mo.mal.structures.UIntegerList;
-import org.ccsds.moims.mo.mal.structures.UShort;
-import org.ccsds.moims.mo.mal.structures.UpdateHeaderList;
+import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.MCHelper;
 import org.ccsds.moims.mo.mc.aggregation.AggregationHelper;
@@ -476,4 +463,71 @@ public class ParameterCommands {
             LOGGER.log(Level.SEVERE, "Error during enableGeneration!", e);
         }
     }
+
+    @CommandLine.Command(name = "set", description = "Set a parameter value")
+    public static class SetParameter extends BaseCommand implements Runnable {
+
+        enum ParameterType { Integer, String, Long, Float, Double, Boolean }
+
+        @CommandLine.Parameters(arity = "1", paramLabel = "<paramName>",
+                index = "0", description = "Name of parameter to update")
+        String parameterName;
+
+        @CommandLine.Parameters(arity = "1", paramLabel = "<paramType>",
+                index = "1", description = "Type of parameter, choose from: ${COMPLETION-CANDIDATES} ")
+        ParameterType parameterType;
+
+        @CommandLine.Parameters(arity = "1", paramLabel = "<paramValue>",
+                index = "2", description = "Value of parameter to update, for boolean types write true/false")
+        String parameterValue;
+
+        @Override
+        public void run() {
+            if(!super.initRemoteConsumer()){
+                return;
+            }
+
+            if(consumer.getMCServices().getParameterService() == null){
+                System.out.println("Parameter service not available for this provider");
+                return;
+            }
+
+            try {
+                Union parameter = convertParameter(parameterType, parameterValue);
+                if( parameter != null) {
+                    consumer.setParameter(parameterName, parameter);
+                } else {
+                    System.out.println("The parameter could not be converted to the correct type and set");
+                }
+            } catch (Exception e) {
+                System.out.println("There was an unexpected error");
+                System.out.println(e.getMessage());
+            }
+        }
+
+        private Union convertParameter(ParameterType type, String parameterValue){
+            try{
+                if(type.equals(ParameterType.Integer)){
+                    return new Union(Integer.parseInt(parameterValue));
+                }
+                if(type.equals(ParameterType.Long)){
+                    return new Union(Long.parseLong(parameterValue));
+                }
+                if(type.equals(ParameterType.Double)){
+                    return new Union(Double.parseDouble(parameterValue));
+                }
+                if(type.equals(ParameterType.Float)){
+                    return new Union(Float.parseFloat(parameterValue));
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Number format is wrong!");
+                return null;
+            }
+            if(type.equals(ParameterType.Boolean)){
+                return new Union(Boolean.parseBoolean(parameterValue));
+            }
+            return new Union(parameterValue);
+        }
+    }
+
 }

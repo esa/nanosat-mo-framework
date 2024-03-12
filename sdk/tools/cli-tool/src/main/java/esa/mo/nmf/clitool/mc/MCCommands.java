@@ -40,7 +40,8 @@ public class MCCommands {
         ParameterCommands.ParameterEnableGeneration.class,
         ParameterCommands.ParameterDisableGeneration.class,
         ParameterCommands.GetParameters.class,
-        ParameterCommands.ListParameters.class
+        ParameterCommands.ListParameters.class,
+        ParameterCommands.SetParameter.class
     })
     public static class Parameter {
     }
