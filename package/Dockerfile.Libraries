@@ -1,0 +1,5 @@
+FROM maven:3.6.0-jdk-11-slim
+RUN mkdir /mof
+COPY mof/ mof/
+WORKDIR /mof
+RUN mvn clean install
