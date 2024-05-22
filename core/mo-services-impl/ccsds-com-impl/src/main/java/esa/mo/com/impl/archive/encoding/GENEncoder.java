@@ -26,8 +26,8 @@ import java.math.BigInteger;
 import java.nio.charset.Charset;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.mal.MALEncoder;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALListEncoder;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Duration;
@@ -46,7 +46,7 @@ import org.ccsds.moims.mo.mal.structures.UShort;
  * Extends the MALEncoder and MALListEncoder interfaces for use in the generic
  * encoding framework.
  */
-public abstract class GENEncoder implements MALListEncoder {
+public abstract class GENEncoder implements MALEncoder {
 
     protected static final Charset UTF8_CHARSET = Charset.forName("UTF-8");
     protected static final String ENCODING_EXCEPTION_STR = "Bad encoding";
@@ -60,17 +60,6 @@ public abstract class GENEncoder implements MALListEncoder {
      */
     protected GENEncoder(final StreamHolder os) {
         this.outputStream = os;
-    }
-
-    @Override
-    public MALListEncoder createListEncoder(final java.util.List value) throws MALException {
-        try {
-            outputStream.addUnsignedInt(value.size());
-
-            return this;
-        } catch (IOException ex) {
-            throw new MALException(ENCODING_EXCEPTION_STR, ex);
-        }
     }
 
     @Override

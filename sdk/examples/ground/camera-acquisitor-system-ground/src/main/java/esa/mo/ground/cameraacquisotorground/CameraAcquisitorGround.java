@@ -474,10 +474,10 @@ public class CameraAcquisitorGround {
     }
 
     private void updateEvent(long actionID, int type, Object body) {
-        if (type == ActivityAcceptance.TYPE_SHORT_FORM) {
+        if (type == ActivityAcceptance.TYPE_ID.getSFP()) {
             System.out.println("ActivityAcceptance");
             ActivityAcceptance event = (ActivityAcceptance) body;
-        } else if (type == ActivityExecution.TYPE_SHORT_FORM) {
+        } else if (type == ActivityExecution.TYPE_ID.getSFP()) {
             System.out.println("ActivityExecution");
             ActivityExecution event = (ActivityExecution) body;
             int executionStage = (int) event.getExecutionStage().getValue();
@@ -505,7 +505,7 @@ public class CameraAcquisitorGround {
                                                                                                            executionStage});
             }
 
-        } else if (type == AlertEventDetails.TYPE_SHORT_FORM) {
+        } else if (type == AlertEventDetails.TYPE_ID.getSFP()) {
             System.out.println("AlertEventDetails");
             AlertEventDetails event = (AlertEventDetails) body;
 
