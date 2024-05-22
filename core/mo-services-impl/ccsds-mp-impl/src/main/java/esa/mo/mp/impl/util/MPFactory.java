@@ -70,17 +70,8 @@ public class MPFactory extends MOFactory {
      * Creates a blank Activity instance
      */
     public static ActivityInstanceDetails createActivityInstance() {
-        ActivityInstanceDetails activityInstance = new ActivityInstanceDetails();
-
-        activityInstance.setChildren(new LongList());
-
-        activityInstance.setComments("");
-
-        ConstraintNode constraints = new ConstraintNode();
-        constraints.setConstraints(new c_ConstraintList());
-        activityInstance.setConstraints(constraints);
-
-        return activityInstance;
+        ConstraintNode constraints = new ConstraintNode(new c_ConstraintList(), null, null);
+        return new ActivityInstanceDetails(new LongList(), "", constraints, null);
     }
 
     /**
@@ -119,20 +110,17 @@ public class MPFactory extends MOFactory {
      * Creates a blank Plan Version instance
      */
     public static PlanVersionDetails createPlanVersion() {
-        PlanVersionDetails planVersion = new PlanVersionDetails();
-
-        planVersion.setHasPrecursor(false);
-        planVersion.setPatchPlan(false);
-
         PlanInformation planInformation = new PlanInformation();
         planInformation.setComments("");
         planInformation.setDescription("");
         planInformation.setProductionDate(Time.now());
-        planVersion.setInformation(planInformation);
 
-        PlannedItems plannedItems = new PlannedItems();
-        plannedItems.setPlannedActivities(new PlannedActivityList());
-        plannedItems.setPlannedEvents(new PlannedEventList());
+        PlannedItems plannedItems = new PlannedItems(new PlannedActivityList(), new PlannedEventList());
+
+        PlanVersionDetails planVersion = new PlanVersionDetails();
+        planVersion.setHasPrecursor(false);
+        planVersion.setPatchPlan(false);
+        planVersion.setInformation(planInformation);
         planVersion.setItems(plannedItems);
 
         return planVersion;
@@ -142,47 +130,31 @@ public class MPFactory extends MOFactory {
      * Creates a plan update with given status and current time
      */
 
-    public static PlanUpdateDetails createPlanUpdate(PlanStatus planStatus) {
-        PlanUpdateDetails planUpdate = new PlanUpdateDetails();
-
-        planUpdate.setStatus(planStatus);
-        planUpdate.setAlternate(false);
-        planUpdate.setTimestamp(Time.now());
-
-        return planUpdate;
+    public static PlanUpdateDetails createPlanUpdate(PlanStatus planStatus, String terminationInfo) {
+        return  new PlanUpdateDetails(false, planStatus, terminationInfo, Time.now());
     }
 
     /**
      * Creates a blank Activity Definition
      */
     public static ActivityDefinitionDetails createActivityDefinition() {
-        ActivityDefinitionDetails activityDefinition = new ActivityDefinitionDetails();
-
-        activityDefinition.setArgDefs(new c_ArgDefList());
-        activityDefinition.setChildren(new ActivityNode());
-        activityDefinition.setConstraints(new ConstraintNode());
-        activityDefinition.setDefaultTags(new StringList());
-        activityDefinition.setDescription("");
-        activityDefinition.setDisplayType("");
-        activityDefinition.setDurationSpec(new DurationExpression());
-        activityDefinition.setVersion("");
-
-        return activityDefinition;
+        return new ActivityDefinitionDetails(
+                new c_ArgDefList(),
+                new ActivityNode(),
+                new ConstraintNode(),
+                new StringList(),
+                "",
+                "",
+                new DurationExpression(),
+                null,
+                "");
     }
 
     /**
      * Creates a blank Event Definition
      */
     public static EventDefinitionDetails createEventDefinition() {
-        EventDefinitionDetails eventDefinition = new EventDefinitionDetails();
-
-        eventDefinition.setArgDefs(new c_ArgDefList());
-        eventDefinition.setDescription("");
-        eventDefinition.setDisplayType("");
-        eventDefinition.setEventDefs(new LongList());
-        eventDefinition.setVersion("");
-
-        return eventDefinition;
+        return new EventDefinitionDetails(new c_ArgDefList(), "", "", new LongList(), "");
     }
 
     /**
@@ -208,9 +180,9 @@ public class MPFactory extends MOFactory {
         NumericResourceDefinitionDetails numericResourceDefinition = new NumericResourceDefinitionDetails();
 
         numericResourceDefinition.setDescription("");
+        numericResourceDefinition.setVersion("");
         numericResourceDefinition.setMaximum(new ResourceProfile());
         numericResourceDefinition.setMinimum(new ResourceProfile());
-        numericResourceDefinition.setVersion("");
 
         return numericResourceDefinition;
     }

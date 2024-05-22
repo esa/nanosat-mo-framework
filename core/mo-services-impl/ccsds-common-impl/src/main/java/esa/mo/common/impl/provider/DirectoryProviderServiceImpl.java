@@ -208,7 +208,6 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
         // Filter...
         for (int i = 0; i < keys.size(); i++) { // Filter through all providers
             PublishDetails provider = list.get(keys.get(i));
-            ProviderSummary providerOutput = new ProviderSummary();
 
             //Check service provider name
             if (!filter.getServiceProviderId().toString().equals("*")) { // If not a wildcard...
@@ -246,9 +245,6 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
             }
 
             // Set the Provider Details structure
-            ProviderDetails outProvDetails = new ProviderDetails();
-            outProvDetails.setProviderAddresses(provider.getProviderDetails().getProviderAddresses());
-
             ServiceCapabilityList outCap = new ServiceCapabilityList();
 
             // Check each service
@@ -321,13 +317,8 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
 
             // It passed all the tests!
             final ObjectKey objKey = new ObjectKey(provider.getDomain(), keys.get(i));
-            providerOutput.setProviderKey(objKey);
-            providerOutput.setProviderId(provider.getProviderId());
-
-            outProvDetails.setServiceCapabilities(outCap);
-            providerOutput.setProviderDetails(outProvDetails);
-
-            outputList.add(providerOutput);
+            ProviderDetails outProvDetails = new ProviderDetails(outCap, provider.getProviderDetails().getProviderAddresses());
+            outputList.add(new ProviderSummary(objKey, provider.getProviderId(), outProvDetails));
         }
 
         // Errors
@@ -399,8 +390,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
                 ConfigurationProviderSingleton.getDomain(), archDetails1, capabilities, null);
 
             this.providersAvailable.put(servProvObjId, newProviderDetails);
-            response.setBodyElement0(servProvObjId);
-            response.setBodyElement1(null); // All capabilities (does null really mean that?)
+            response = new PublishProviderResponse(servProvObjId, null);
         }
 
         return response;
@@ -456,11 +446,8 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
             AddressDetailsList serviceAddresses = new AddressDetailsList();
             serviceAddresses.add(serviceAddress);
             ServiceKey key = DirectoryProviderServiceImpl.generateServiceKey(conn.getServiceKey());
-            ServiceCapability capability = new ServiceCapability();
-            capability.setServiceKey(key);
-            capability.setSupportedCapabilitySets(null); // "If NULL then all capabilities supported."
-            capability.setServiceProperties(new NamedValueList());
-            capability.setServiceAddresses(serviceAddresses);
+            // "If NULL then all capabilities supported."
+            ServiceCapability capability = new ServiceCapability(key, null, new NamedValueList(), serviceAddresses);
             capabilities.add(capability);
         }
 
@@ -481,30 +468,19 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
                     serviceAddresses = new AddressDetailsList();
 
                     // Then create a new capability object
-                    capability = new ServiceCapability();
-                    capability.setServiceKey(key2);
-                    capability.setSupportedCapabilitySets(null); // "If NULL then all capabilities supported."
-                    capability.setServiceProperties(new NamedValueList());
-                    capability.setServiceAddresses(serviceAddresses);
-
+                    // "If NULL then all capabilities supported."
+                    capability = new ServiceCapability(key2, null, new NamedValueList(), serviceAddresses);
                     capabilities.add(capability);
                 }
                 serviceAddresses.add(serviceAddress);
             }
         }
 
-        ProviderDetails serviceDetails = new ProviderDetails();
-        serviceDetails.setServiceCapabilities(capabilities);
-        serviceDetails.setProviderAddresses(new AddressDetailsList());
+        ProviderDetails serviceDetails = new ProviderDetails(capabilities, new AddressDetailsList());
 
-        PublishDetails newProviderDetails = new PublishDetails();
-        newProviderDetails.setProviderId(new Identifier(providerName));
-        newProviderDetails.setDomain(ConfigurationProviderSingleton.getDomain());
-        newProviderDetails.setSessionType(ConfigurationProviderSingleton.getSession());
-        //        newProviderDetails.setSourceSessionName(ConfigurationProviderSingleton.getSourceSessionName());
-        newProviderDetails.setSourceSessionName(null); // It just takes bandwidth, so just null it
-        newProviderDetails.setNetwork(ConfigurationProviderSingleton.getNetwork());
-        newProviderDetails.setProviderDetails(serviceDetails);
+        PublishDetails newProviderDetails = new PublishDetails(new Identifier(providerName),
+                ConfigurationProviderSingleton.getDomain(), ConfigurationProviderSingleton.getSession(),
+                null, ConfigurationProviderSingleton.getNetwork(), serviceDetails, null);
 
         try {
             this.publishProvider(newProviderDetails, null);

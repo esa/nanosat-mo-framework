@@ -33,7 +33,7 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALArea;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALService;
+import org.ccsds.moims.mo.mal.ServiceInfo;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
@@ -399,7 +399,7 @@ public class HelperMisc {
                 ") " + "Unknown area to the MAL! Maybe the API was not initialized.");
         }
 
-        MALService malSer = malArea.getServiceByNumber(service);
+        ServiceInfo malSer = malArea.getServiceByNumber(service);
 
         if (malSer == null) {
             throw new MALException("(" + area.getValue() + "," + areaVersion.getValue() + "," + service.getValue() +

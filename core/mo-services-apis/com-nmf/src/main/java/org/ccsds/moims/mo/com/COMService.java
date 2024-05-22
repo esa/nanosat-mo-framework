@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.ccsds.moims.mo.mal.MALOperation;
-import org.ccsds.moims.mo.mal.MALService;
+import org.ccsds.moims.mo.mal.ServiceInfo;
 import org.ccsds.moims.mo.mal.ServiceKey;
 import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.Identifier;
@@ -36,7 +36,7 @@ import org.ccsds.moims.mo.mal.structures.UShort;
  * old MAL.
  */
 @Deprecated
-public abstract class COMService extends MALService {
+public abstract class COMService extends ServiceInfo {
 
     private final Map<Integer, COMObject> objectsByNumber = new HashMap<>();
     private final Map<String, COMObject> objectsByName = new HashMap<>();

@@ -685,13 +685,11 @@ public class AppsLauncherManager extends DefinitionsManager {
     }
 
     private AppDetails readAppDescriptor(final String appName, final File propertiesFile) {
-        final AppDetails app = new AppDetails();
-        app.setName(new Identifier(appName)); // Use the name of the folder
+        Identifier myAppName = new Identifier(appName);
 
         try (FileInputStream inputStream = new FileInputStream(propertiesFile)) {
             final Properties props = new Properties();
             props.load(inputStream);
-            app.setExtraInfo(HelperMisc.PROVIDER_PROPERTIES_FILE);
 
             final String category = (props.getProperty(HelperMisc.APP_CATEGORY) != null) ? props.getProperty(
                 HelperMisc.APP_CATEGORY) : "-";
@@ -704,19 +702,13 @@ public class AppsLauncherManager extends DefinitionsManager {
             final String user = (props.getProperty(HelperMisc.APP_USER) != null) ? props.getProperty(
                 HelperMisc.APP_USER) : null; // Since the user change is only implemented on linux this dependency is fine
 
-            app.setCategory(new Identifier(category));
-            app.setVersion(version);
-            app.setCopyright(copyright);
-            app.setDescription(description);
-            app.setRunAs(user);
-
-            app.setRunAtStartup(false); // This is not supported in this implementation
-            app.setRunning(false); // Default values
+            return  new AppDetails(myAppName, description, version, new Identifier(category),
+                    false, false, HelperMisc.PROVIDER_PROPERTIES_FILE, copyright, user);
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
 
-        return app;
+        return new AppDetails(myAppName, null, null, null, null, null);
     }
 
 }

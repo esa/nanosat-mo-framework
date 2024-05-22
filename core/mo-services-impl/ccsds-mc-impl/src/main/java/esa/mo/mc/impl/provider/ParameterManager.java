@@ -193,12 +193,11 @@ public class ParameterManager extends MCManager {
             ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
 
             for (int i = 0; i < relatedList.size(); i++) {
-                ArchiveDetails archiveDetails = new ArchiveDetails();
-                archiveDetails.setInstId(0L);
-                archiveDetails.setDetails(new ObjectDetails(relatedList.get(i), sourcesList.get(i)));
-                archiveDetails.setNetwork(ConfigurationProviderSingleton.getNetwork());
-                archiveDetails.setTimestamp(timestamps.get(i));
-                archiveDetails.setProvider(connectionDetails.getProviderURI());
+                ArchiveDetails archiveDetails = new ArchiveDetails(0L,
+                        new ObjectDetails(relatedList.get(i), sourcesList.get(i)),
+                        ConfigurationProviderSingleton.getNetwork(),
+                        timestamps.get(i),
+                        connectionDetails.getProviderURI());
 
                 archiveDetailsList.add(archiveDetails);
             }
@@ -792,14 +791,12 @@ public class ParameterManager extends MCManager {
         if (newPValue != null) {
             return newPValue;
         }
-        newPValue = new ParameterValue();
         //convert the raw-value
         //requirement 3.3.3.p is implicitly met here.
         Attribute convertedValue = this.getConvertedValue(rawValue, pDef);
 
         //check the validity and set the state
         UOctet validityState = generateValidityState(pDef, rawValue, convertedValue, aggrExpired);
-        newPValue.setValidityState(validityState);
 
         if (validityState.equals(getAsUOctet(ValidityState.INVALID_CONVERSION))) {
             convertedValue = null;  // requirement: 3.3.3.o
@@ -808,10 +805,7 @@ public class ParameterManager extends MCManager {
             rawValue = null; //requirement: 3.3.3.j
         }
 
-        newPValue.setRawValue(rawValue);
-        newPValue.setConvertedValue(convertedValue);
-        //Attribute unionConvertedValue = (convertedValue == null) ? null : convertedValue;  // Union doesn't directly accept null values
-        return newPValue;
+        return new ParameterValue(validityState, rawValue, convertedValue);
     }
 
     /**

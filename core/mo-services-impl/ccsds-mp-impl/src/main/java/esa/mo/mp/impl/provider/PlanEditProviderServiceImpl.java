@@ -346,7 +346,7 @@ public class PlanEditProviderServiceImpl extends PlanEditInheritanceSkeleton {
         ObjectId planVersionId = this.getLatestPlanVersion(planIdentityId);
 
         // Update plan
-        PlanUpdateDetails planUpdate = MPFactory.createPlanUpdate(planStatus);
+        PlanUpdateDetails planUpdate = MPFactory.createPlanUpdate(planStatus, null);
         ObjectId planUpdateId = archiveManager.PLAN.updateStatus(planVersionId, planUpdate, null, interaction);
 
         // Operation callback

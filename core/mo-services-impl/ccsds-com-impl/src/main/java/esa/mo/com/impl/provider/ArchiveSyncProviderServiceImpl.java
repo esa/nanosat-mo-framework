@@ -240,20 +240,10 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
         interaction.sendAcknowledgement(interactionTicket);
 
-        ArchiveQuery archiveQuery = new ArchiveQuery();
-        archiveQuery.setStartTime(from);
-        archiveQuery.setEndTime(until);
-        archiveQuery.setDomain(null);
-        archiveQuery.setNetwork(null);
-        archiveQuery.setProvider(null);
-        archiveQuery.setRelated(0L);
-        archiveQuery.setSource(null);
-        archiveQuery.setSortFieldName(null);
-        archiveQuery.setSortOrder(true);
+        ArchiveQuery archiveQuery = new ArchiveQuery(null, null, null,
+                0L, null, from, until, true, null);
 
-        PaginationFilter filter = new PaginationFilter();
-        filter.setLimit(new UInteger(objectsLimit));
-        filter.setOffset(new UInteger(0));
+        PaginationFilter filter = new PaginationFilter(new UInteger(objectsLimit), new UInteger(0));
 
         ArrayList<COMObjectEntity> perObjs = manager.queryCOMObjectEntity(objectTypes, archiveQuery, filter);
         latestSync = perObjs.isEmpty() ? latestSync : perObjs.get(perObjs.size() - 1).getTimestamp();

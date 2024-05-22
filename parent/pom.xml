@@ -17,7 +17,7 @@
   <parent>
     <groupId>int.esa.ccsds.mo</groupId>
     <artifactId>parent</artifactId>
-    <version>10.1</version>
+    <version>11.0-SNAPSHOT</version>
     <relativePath/>
   </parent>
   <groupId>int.esa.nmf</groupId>
@@ -80,7 +80,7 @@
       <!-- Workaround for a bug in CCSDS MO POM 7, referencing ${project.groupId} -->
       <dependency>
         <groupId>int.esa.ccsds.mo</groupId>
-        <artifactId>api-mal</artifactId>
+        <artifactId>api-area001-v003-mal</artifactId>
         <version>${esa.mo.version}</version>
       </dependency>
       <dependency>
@@ -90,7 +90,7 @@
       </dependency>
       <dependency>
         <groupId>int.esa.ccsds.mo</groupId>
-        <artifactId>api-common</artifactId>
+        <artifactId>api-area003-v001-common</artifactId>
         <version>${esa.mo.version}</version>
       </dependency>
       <dependency>

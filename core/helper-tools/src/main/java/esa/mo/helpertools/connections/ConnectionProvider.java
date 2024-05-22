@@ -31,7 +31,7 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALContext;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALService;
+import org.ccsds.moims.mo.mal.ServiceInfo;
 import org.ccsds.moims.mo.mal.helpertools.connections.ServicesConnectionDetails;
 import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.provider.MALInteractionHandler;
@@ -107,7 +107,7 @@ public class ConnectionProvider {
      * @return MALProvider
      * @throws MALException On error.
      */
-    public MALProvider startService(String serviceName, MALService malService, MALInteractionHandler handler)
+    public MALProvider startService(String serviceName, ServiceInfo malService, MALInteractionHandler handler)
         throws MALException {
         return startService(serviceName, malService, true, handler);
     }
@@ -123,7 +123,7 @@ public class ConnectionProvider {
      * @return MALProvider
      * @throws MALException On error.
      */
-    public MALProvider startService(String serviceName, MALService malService, boolean isPublisher,
+    public MALProvider startService(String serviceName, ServiceInfo malService, boolean isPublisher,
         MALInteractionHandler handler) throws MALException {
         return startService(serviceName, malService, isPublisher, handler, null);
     }
@@ -140,7 +140,7 @@ public class ConnectionProvider {
      * @return MALProvider
      * @throws MALException On error.
      */
-    public MALProvider startService(String serviceName, MALService malService, boolean isPublisher,
+    public MALProvider startService(String serviceName, ServiceInfo malService, boolean isPublisher,
         MALInteractionHandler handler, Blob authenticationId) throws MALException {
         try {
             malFactory = MALContextFactory.newFactory();

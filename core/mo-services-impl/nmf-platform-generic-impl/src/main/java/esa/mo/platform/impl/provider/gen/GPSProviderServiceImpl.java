@@ -261,7 +261,6 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
     @Override
     public GetLastKnownPositionResponse getLastKnownPosition(MALInteraction interaction) throws MALInteractionException,
         MALException {
-        GetLastKnownPositionResponse response = new GetLastKnownPositionResponse();
         final Position pos;
         final long startTime;
 
@@ -274,11 +273,9 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
             throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, null));
         }
 
-        response.setBodyElement0(pos);
         double elapsedTime = (System.currentTimeMillis() - startTime) / 1000.0; // convert from milli to
         // sec
-        response.setBodyElement1(new Duration(elapsedTime));
-        return response;
+        return new GetLastKnownPositionResponse(pos, new Duration(elapsedTime));
     }
 
     @Override
@@ -687,21 +684,19 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
         // Create a Configuration Object with all the objs of the provider
         HashMap<Long, Element> defObjs = manager.getCurrentDefinitionsConfiguration();
 
-        ConfigurationObjectSet objsSet = new ConfigurationObjectSet();
-        objsSet.setDomain(ConfigurationProviderSingleton.getDomain());
         LongList currentObjIds = new LongList();
         currentObjIds.addAll(defObjs.keySet());
-        objsSet.setObjInstIds(currentObjIds);
-        objsSet.setObjType(GPSServiceInfo.NEARBYPOSITION_OBJECT_TYPE);
+
+        ConfigurationObjectSet objsSet = new ConfigurationObjectSet(
+                GPSServiceInfo.NEARBYPOSITION_OBJECT_TYPE,
+                ConfigurationProviderSingleton.getDomain(),
+                currentObjIds);
 
         ConfigurationObjectSetList list = new ConfigurationObjectSetList();
         list.add(objsSet);
 
         // Needs the Common API here!
-        ConfigurationObjectDetails set = new ConfigurationObjectDetails();
-        set.setConfigObjects(list);
-
-        return set;
+        return new ConfigurationObjectDetails(list);
     }
 
     @Override

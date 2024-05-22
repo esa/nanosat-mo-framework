@@ -184,10 +184,7 @@ public class PlanningRequestProviderServiceImpl extends PlanningRequestInheritan
         ObjectId requestVersionId = pair.getObjectId();
 
         // Store Request Update to COM Archive
-        RequestUpdateDetails status = new RequestUpdateDetails();
-        status.setRequestId(requestVersionId);
-        status.setStatus(RequestStatus.REQUESTED);
-        status.setTimestamp(Time.now());
+        RequestUpdateDetails status = new RequestUpdateDetails(requestVersionId, RequestStatus.REQUESTED, Time.now());
         ObjectId statusId = this.archiveManager.REQUEST_VERSION.addStatus(requestVersionId, status, null, interaction);
 
         // Operation callback
@@ -199,15 +196,11 @@ public class PlanningRequestProviderServiceImpl extends PlanningRequestInheritan
             interaction, null                  // Source
         ));
 
-        // Send response to consumer
-        SubmitRequestResponse response = new SubmitRequestResponse();
-
         Long identityInstanceId = COMObjectIdHelper.getInstanceId(requestIdentityId);
         Long versionInstanceId = COMObjectIdHelper.getInstanceId(requestVersionId);
 
-        response.setBodyElement0(identityInstanceId);
-        response.setBodyElement1(versionInstanceId);
-        return response;
+        // Send response to consumer
+        return new SubmitRequestResponse(identityInstanceId, versionInstanceId);
     }
 
     @Override
@@ -226,10 +219,7 @@ public class PlanningRequestProviderServiceImpl extends PlanningRequestInheritan
             interaction);
 
         // Store updated request version update to COM Archive
-        RequestUpdateDetails status = new RequestUpdateDetails();
-        status.setRequestId(requestVersionId);
-        status.setStatus(RequestStatus.REQUESTED);
-        status.setTimestamp(Time.now());
+        RequestUpdateDetails status = new RequestUpdateDetails(requestVersionId, RequestStatus.REQUESTED, Time.now());
         ObjectId statusId = this.archiveManager.REQUEST_VERSION.addStatus(requestVersionId, status, null, interaction);
 
         // Operation callback
@@ -255,10 +245,7 @@ public class PlanningRequestProviderServiceImpl extends PlanningRequestInheritan
         ObjectId requestVersionId = archiveManager.REQUEST_VERSION.getInstanceIdByIdentityId(identityId);
 
         // Store updated request version update to COM Archive
-        RequestUpdateDetails status = new RequestUpdateDetails();
-        status.setRequestId(requestVersionId);
-        status.setStatus(RequestStatus.CANCELLED);
-        status.setTimestamp(Time.now());
+        RequestUpdateDetails status = new RequestUpdateDetails(requestVersionId, RequestStatus.CANCELLED, Time.now());
         ObjectId statusId = this.archiveManager.REQUEST_VERSION.updateStatus(requestVersionId, status, null,
             interaction);
 
@@ -302,11 +289,7 @@ public class PlanningRequestProviderServiceImpl extends PlanningRequestInheritan
         }
 
         // Send response to consumer
-        GetRequestStatusResponse response = new GetRequestStatusResponse();
-        response.setBodyElement0(identityIdList);
-        response.setBodyElement1(instanceIdList);
-        response.setBodyElement2(statusList);
-        return response;
+        return new GetRequestStatusResponse(identityIdList, instanceIdList, statusList);
     }
 
     @Override

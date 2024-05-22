@@ -464,7 +464,6 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
     public ListAppResponse listApp(final IdentifierList appNames, final Identifier category,
         final MALInteraction interaction) throws MALInteractionException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
-        ListAppResponse outList = new ListAppResponse();
 
         if (null == appNames) { // Is the input null?
             throw new IllegalArgumentException("IdentifierList argument must not be null");
@@ -505,10 +504,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             runningApps.add(manager.isAppRunning(id));
         }
 
-        outList.setBodyElement0(ids);
-        outList.setBodyElement1(runningApps);
-
-        return outList;
+        return new ListAppResponse(ids, runningApps);
     }
 
     @Override
@@ -572,21 +568,17 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         // Create a Configuration Object with all the objs of the provider
         final HashMap<Long, Element> defObjs = manager.getCurrentDefinitionsConfiguration();
 
-        final ConfigurationObjectSet objsSet = new ConfigurationObjectSet();
-        objsSet.setDomain(ConfigurationProviderSingleton.getDomain());
         LongList currentObjIds = new LongList();
         currentObjIds.addAll(defObjs.keySet());
-        objsSet.setObjInstIds(currentObjIds);
-        objsSet.setObjType(AppsLauncherServiceInfo.APP_OBJECT_TYPE);
+
+        final ConfigurationObjectSet objsSet = new ConfigurationObjectSet(AppsLauncherServiceInfo.APP_OBJECT_TYPE,
+        ConfigurationProviderSingleton.getDomain(), currentObjIds);
 
         final ConfigurationObjectSetList list = new ConfigurationObjectSetList();
         list.add(objsSet);
 
         // Needs the Common API here!
-        final ConfigurationObjectDetails set = new ConfigurationObjectDetails();
-        set.setConfigObjects(list);
-
-        return set;
+        return new ConfigurationObjectDetails(list);
     }
 
     @Override

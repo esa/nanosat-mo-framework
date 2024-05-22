@@ -28,7 +28,7 @@ import javax.swing.BoxLayout;
 import org.ccsds.moims.mo.mal.MALArea;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALElementsRegistry;
-import org.ccsds.moims.mo.mal.MALService;
+import org.ccsds.moims.mo.mal.ServiceInfo;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Composite;
 import org.ccsds.moims.mo.mal.structures.Element;
@@ -81,7 +81,7 @@ public final class MOWindow extends javax.swing.JDialog {
         if (obj instanceof Element) {
             MALArea area = MALContextFactory.lookupArea(((Element) obj).getAreaNumber(), ((Element) obj)
                 .getAreaVersion());
-            MALService service = area.getServiceByNumber(((Element) obj).getServiceNumber());
+            ServiceInfo service = area.getServiceByNumber(((Element) obj).getServiceNumber());
             String string;
 
             if (service != null) {

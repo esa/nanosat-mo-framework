@@ -260,8 +260,7 @@ public class PlanExecutionControlProviderServiceImpl extends PlanExecutionContro
     private void updatePlanStatus(ObjectId planVersionId, PlanStatus status, String terminationInfo,
         MALInteraction interaction) {
         try {
-            PlanUpdateDetails planUpdate = MPFactory.createPlanUpdate(status);
-            planUpdate.setTerminationInfo(terminationInfo);
+            PlanUpdateDetails planUpdate = MPFactory.createPlanUpdate(status, terminationInfo);
             archiveManager.PLAN.addStatus(planVersionId, planUpdate, null, interaction);
         } catch (MALException | MALInteractionException e) {
             LOGGER.log(Level.SEVERE, null, e);

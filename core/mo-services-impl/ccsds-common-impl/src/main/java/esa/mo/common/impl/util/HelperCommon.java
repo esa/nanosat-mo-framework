@@ -32,7 +32,7 @@ import org.ccsds.moims.mo.common.directory.structures.ServiceCapabilityList;
 import org.ccsds.moims.mo.common.structures.ServiceKey;
 import org.ccsds.moims.mo.mal.MALArea;
 import org.ccsds.moims.mo.mal.MALContextFactory;
-import org.ccsds.moims.mo.mal.MALService;
+import org.ccsds.moims.mo.mal.ServiceInfo;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.helpertools.connections.ServicesConnectionDetails;
 import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
@@ -93,7 +93,7 @@ public class HelperCommon {
                 continue;
             }
 
-            final MALService malService = malArea.getServiceByNumber(key.getKeyService());
+            final ServiceInfo malService = malArea.getServiceByNumber(key.getKeyService());
 
             if (malService == null) {
                 Logger.getLogger(HelperCommon.class.getName()).log(Level.WARNING,

@@ -167,8 +167,9 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
         } catch (IOException ex) {
             pid = -1;
         }
-        command.setPid(pid);
-        updateCommandDetails(storedCommandObject, command);
+
+        CommandDetails newDetails = new CommandDetails(command.getCommand(), pid, command.getExitCode());
+        updateCommandDetails(storedCommandObject, newDetails);
         return storedCommandObject;
     }
 
@@ -213,8 +214,8 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
         }
         try {
             CommandDetails command = getCommandDetails(objId);
-            command.setExitCode(exitCode);
-            updateCommandDetails(objId, command);
+            CommandDetails newDetails = new CommandDetails(command.getCommand(), command.getPid(), exitCode);
+            updateCommandDetails(objId, newDetails);
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, "Cannot update COM Command object", ex);
         }
