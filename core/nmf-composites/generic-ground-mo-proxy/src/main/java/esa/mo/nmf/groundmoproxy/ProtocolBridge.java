@@ -144,6 +144,8 @@ public class ProtocolBridge {
         Identifier from = new Identifier(destination.getURI().getValue() + "@" + sourceHdr.getFrom().getValue());
         System.out.println("cloneForwardMessage      : " + from + "                to  :    " + to);
 
+        throw new MALException("The code below needs to be updated!");
+        /*
         MALMessage destMessage = destination.createMessage(
                 sourceHdr.getAuthenticationId(),
                 to,
@@ -163,6 +165,7 @@ public class ProtocolBridge {
         destMessage.getHeader().setFrom(from);
 
         return destMessage;
+        */
     }
 
 }

@@ -42,6 +42,7 @@ import org.ccsds.moims.mo.mp.structures.PlanStatus;
 import esa.mo.mp.impl.consumer.PlanEditConsumerServiceImpl;
 import esa.mo.mp.impl.util.MPFactory;
 import esa.mo.tools.mowindow.MOWindow;
+import org.ccsds.moims.mo.mal.TypeId;
 
 /**
  * PlanEditConsumerPanel
@@ -385,6 +386,11 @@ public class PlanEditConsumerPanel extends javax.swing.JPanel {
         public Element decode(MALDecoder decoder) throws MALException {
             return null;
         }
+
+        @Override
+        public TypeId getTypeId() {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
     }
 
     static final class InsertEvent implements org.ccsds.moims.mo.mal.structures.Composite {
@@ -460,6 +466,11 @@ public class PlanEditConsumerPanel extends javax.swing.JPanel {
         public Element decode(MALDecoder decoder) throws MALException {
             return null;
         }
+
+        @Override
+        public TypeId getTypeId() {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
     }
 
     static final class UpdatePlanStatus implements org.ccsds.moims.mo.mal.structures.Composite {
@@ -527,6 +538,11 @@ public class PlanEditConsumerPanel extends javax.swing.JPanel {
         @Override
         public Element decode(MALDecoder decoder) throws MALException {
             return null;
+        }
+
+        @Override
+        public TypeId getTypeId() {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
         }
     }
 }

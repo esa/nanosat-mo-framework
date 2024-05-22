@@ -170,7 +170,7 @@ public class COMObjectEntity implements Serializable {
                     TypeId newTypeId = new TypeId(typeId.getAreaNumber(),
                             MALHelper._MAL_AREA_VERSION,
                             typeId.getServiceNumber(),
-                            typeId.getShortFormPartNumber());
+                            typeId.getSFP());
 
                     sfp = newTypeId.getTypeId();
                 }

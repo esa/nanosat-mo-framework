@@ -64,7 +64,7 @@
     </dependency>
     <dependency>
       <groupId>int.esa.ccsds.mo</groupId>
-      <artifactId>api-mc</artifactId>
+      <artifactId>api-area004-v001-mc</artifactId>
       <exclusions>
         <exclusion>
           <groupId>int.esa.ccsds.mo</groupId>
