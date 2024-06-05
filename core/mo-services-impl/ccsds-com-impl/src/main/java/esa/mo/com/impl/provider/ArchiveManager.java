@@ -450,7 +450,7 @@ public class ArchiveManager {
                         .getDomain()));
                 }
 
-                if (archiveQuery.getSource().getKey().getTypeShortForm() != null) {
+                if (archiveQuery.getSource().getType() != null) {
                     sourceLink.setObjectTypeIds(this.fastObjectType.getObjectTypeIds(archiveQuery.getSource()
                         .getType()));
                 }
@@ -482,7 +482,7 @@ public class ArchiveManager {
                         .getDomain()));
                 }
 
-                if (archiveQuery.getSource().getKey().getTypeShortForm() != null) {
+                if (archiveQuery.getSource().getType() != null) {
                     sourceLink.setObjectTypeIds(this.fastObjectType.getObjectTypeIds(archiveQuery.getSource()
                         .getType()));
                 }
@@ -517,7 +517,7 @@ public class ArchiveManager {
                         .getDomain()));
                 }
 
-                if (archiveQuery.getSource().getKey().getTypeShortForm() != null) {
+                if (archiveQuery.getSource().getType() != null) {
                     sourceLink.setObjectTypeIds(this.fastObjectType.getObjectTypeIds(archiveQuery.getSource()
                         .getType()));
                 }
@@ -711,7 +711,7 @@ public class ArchiveManager {
 
         if (expressionOperator.equals(ExpressionOperator.CONTAINS) || expressionOperator.equals(
             ExpressionOperator.ICONTAINS)) {
-            if (compositeFilter.getFieldValue().getTypeShortForm() != 15) {  // Is it String?
+            if (compositeFilter.getFieldValue().getTypeId().getSFP() != 15) {  // Is it String?
                 return false;
             }
         }

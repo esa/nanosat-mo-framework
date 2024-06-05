@@ -348,31 +348,6 @@ public class PlanEditConsumerPanel extends javax.swing.JPanel {
         }
 
         @Override
-        public Long getShortForm() {
-            return SHORT_FORM;
-        }
-
-        @Override
-        public UShort getAreaNumber() {
-            return AREA_SHORT_FORM;
-        }
-
-        @Override
-        public UOctet getAreaVersion() {
-            return AREA_VERSION;
-        }
-
-        @Override
-        public UShort getServiceNumber() {
-            return SERVICE_SHORT_FORM;
-        }
-
-        @Override
-        public Integer getTypeShortForm() {
-            return TYPE_SHORT_FORM;
-        }
-
-        @Override
         public Element createElement() {
             return null;
         }
@@ -428,31 +403,6 @@ public class PlanEditConsumerPanel extends javax.swing.JPanel {
         }
 
         @Override
-        public Long getShortForm() {
-            return SHORT_FORM;
-        }
-
-        @Override
-        public UShort getAreaNumber() {
-            return AREA_SHORT_FORM;
-        }
-
-        @Override
-        public UOctet getAreaVersion() {
-            return AREA_VERSION;
-        }
-
-        @Override
-        public UShort getServiceNumber() {
-            return SERVICE_SHORT_FORM;
-        }
-
-        @Override
-        public Integer getTypeShortForm() {
-            return TYPE_SHORT_FORM;
-        }
-
-        @Override
         public Element createElement() {
             return null;
         }
@@ -498,31 +448,6 @@ public class PlanEditConsumerPanel extends javax.swing.JPanel {
 
         public org.ccsds.moims.mo.mp.structures.PlanStatus getPlanStatus() {
             return planStatus;
-        }
-
-        @Override
-        public Long getShortForm() {
-            return SHORT_FORM;
-        }
-
-        @Override
-        public UShort getAreaNumber() {
-            return AREA_SHORT_FORM;
-        }
-
-        @Override
-        public UOctet getAreaVersion() {
-            return AREA_VERSION;
-        }
-
-        @Override
-        public UShort getServiceNumber() {
-            return SERVICE_SHORT_FORM;
-        }
-
-        @Override
-        public Integer getTypeShortForm() {
-            return TYPE_SHORT_FORM;
         }
 
         @Override

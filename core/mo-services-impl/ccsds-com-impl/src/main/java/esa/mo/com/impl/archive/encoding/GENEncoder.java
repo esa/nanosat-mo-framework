@@ -540,7 +540,7 @@ public abstract class GENEncoder implements MALEncoder {
     public void encodeAttribute(final Attribute value) throws MALException {
         try {
             checkForNull(value);
-            outputStream.addByte(internalEncodeAttributeType(value.getTypeShortForm().byteValue()));
+            outputStream.addByte(internalEncodeAttributeType(((Integer) value.getTypeId().getSFP()).byteValue()));
             value.encode(this);
         } catch (IOException ex) {
             throw new MALException(ENCODING_EXCEPTION_STR, ex);

@@ -357,7 +357,7 @@ public final class ActionManager extends MCManager {
             for (int index = 0; index < sizeDefArgIds; index++) {
                 int defRawType = actionDef.getArguments().get(index).getRawType().intValue();
                 int defConvType = actionDef.getArguments().get(index).getConvertedType().intValue();
-                int instType = actionInstance.getArgumentValues().get(index).getValue().getTypeShortForm();
+                int instType = actionInstance.getArgumentValues().get(index).getValue().getTypeId().getSFP();
                 boolean isRawValue = (actionInstance.getIsRawValue() == null) || (actionInstance.getIsRawValue().get(
                     index) == null) || (actionInstance.getIsRawValue().get(index));
                 if ((isRawValue && (defRawType != instType)) || (!isRawValue && (defConvType != instType))) {

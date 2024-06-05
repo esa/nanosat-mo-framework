@@ -81,7 +81,7 @@ public class COMObjectEntity implements Serializable {
             try {
                 final ByteArrayOutputStream bodyBaos = new ByteArrayOutputStream();
                 final BinaryEncoder be = new BinaryEncoder(bodyBaos);
-                be.encodeLong(ele.getShortForm());
+                be.encodeLong(ele.getTypeId().getTypeId());
                 be.encodeNullableElement(ele);
                 this.objBody = bodyBaos.toByteArray();
                 be.close();

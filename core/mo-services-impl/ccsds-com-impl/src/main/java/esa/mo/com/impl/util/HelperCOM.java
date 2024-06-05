@@ -191,7 +191,7 @@ public class HelperCOM {
             return null;
         }
 
-        COMService service = (COMService) MALContextFactory.lookupArea(objType.getArea(), objType.getAreaVersion())
+        COMService service = (COMService) MALContextFactory.lookupArea(objType.getArea(), objType.getVersion())
             .getServiceByNumber(objType.getService());
 
         if (service == null || objType.getNumber().getValue() == 0) {  // Special case for the event service...
@@ -222,9 +222,9 @@ public class HelperCOM {
     public static String objType2string(final ObjectType objType) {
         final COMObject comObject = HelperCOM.objType2COMObject(objType);
 
-        String string = MALContextFactory.lookupArea(objType.getArea(), objType.getAreaVersion()).getName().toString();
+        String string = MALContextFactory.lookupArea(objType.getArea(), objType.getVersion()).getName().toString();
 
-        string += " - " + MALContextFactory.lookupArea(objType.getArea(), objType.getAreaVersion()).getServiceByNumber(
+        string += " - " + MALContextFactory.lookupArea(objType.getArea(), objType.getVersion()).getServiceByNumber(
             objType.getService()).getName().toString();
 
         if (comObject != null) {

@@ -34,6 +34,8 @@ import org.ccsds.moims.mo.mal.structures.Composite;
 import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.ElementList;
 import org.ccsds.moims.mo.mal.structures.Enumeration;
+import org.ccsds.moims.mo.mal.structures.UOctet;
+import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.mal.structures.Union;
 
 /**
@@ -79,16 +81,16 @@ public final class MOWindow extends javax.swing.JDialog {
         this.editable = editable;
 
         if (obj instanceof Element) {
-            MALArea area = MALContextFactory.lookupArea(((Element) obj).getAreaNumber(), ((Element) obj)
-                .getAreaVersion());
-            ServiceInfo service = area.getServiceByNumber(((Element) obj).getServiceNumber());
+            MALArea area = MALContextFactory.lookupArea(new UShort(((Element) obj).getTypeId().getAreaNumber()),
+                    new UOctet(((Element) obj).getTypeId().getAreaVersion()));
+            ServiceInfo service = area.getServiceByNumber(new UShort(((Element) obj).getTypeId().getServiceNumber()));
             String string;
 
             if (service != null) {
                 string = "Area: " + area.getName() + "        Service: " + service.getName() +
-                    "        TypeShortForm: " + ((Element) obj).getTypeShortForm();
+                    "        TypeShortForm: " + ((Element) obj).getTypeId().getSFP();
             } else {
-                string = "Area: " + area.getName() + "          TypeShortForm: " + ((Element) obj).getTypeShortForm();
+                string = "Area: " + area.getName() + "          TypeShortForm: " + ((Element) obj).getTypeId().getSFP();
             }
 
             objIdentification.setText(string);

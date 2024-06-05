@@ -134,7 +134,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
                 byte rawType;
                 if (annotation.malType().equals("")) {
                     try {
-                        rawType = ((Attribute) HelperAttributes.javaType2Attribute(field.get(this))).getTypeShortForm()
+                        rawType = ((Integer) ((Attribute) HelperAttributes.javaType2Attribute(field.get(this))).getTypeId().getSFP())
                             .byteValue();
 
                     } catch (IllegalArgumentException | IllegalAccessException ex) {

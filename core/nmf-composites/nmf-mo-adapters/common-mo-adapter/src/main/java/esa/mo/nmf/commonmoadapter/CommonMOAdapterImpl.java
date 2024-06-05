@@ -193,7 +193,7 @@ public class CommonMOAdapterImpl extends NMFConsumer implements SimpleCommanding
                     CommonMOAdapterImpl.class.getName());
 
                 if (rawValue instanceof Attribute) { // Is the parameter MAL type or something else?
-                    parameterDefinition.setRawType(((Attribute) midValue).getTypeShortForm().byteValue());
+                    parameterDefinition.setRawType(((Integer) ((Attribute) midValue).getTypeId().getSFP()).byteValue());
                 } else {
                     parameterDefinition.setRawType(HelperAttributes.SERIAL_OBJECT_RAW_TYPE);
                 }
@@ -385,7 +385,7 @@ public class CommonMOAdapterImpl extends NMFConsumer implements SimpleCommanding
                     Attribute rawValue;
                     if (midValue instanceof Attribute) {
                         // Is the parameter MAL type or something else?
-                        argDef.setRawType(((Attribute) midValue).getTypeShortForm().byteValue());
+                        argDef.setRawType(((Integer) ((Attribute) midValue).getTypeId().getSFP()).byteValue());
                         rawValue = (Attribute) midValue;
                     } else {
                         try {

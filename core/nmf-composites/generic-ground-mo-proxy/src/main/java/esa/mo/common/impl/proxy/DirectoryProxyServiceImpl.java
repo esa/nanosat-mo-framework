@@ -141,7 +141,7 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
 
                         if (COMHelper._COM_AREA_NUMBER == key.getKeyArea().getValue()
                                 && ArchiveServiceInfo._ARCHIVE_SERVICE_NUMBER == key.getKeyService().getValue()
-                                && COMHelper._COM_AREA_VERSION == key.getAreaVersion().getValue()) {
+                                && COMHelper._COM_AREA_VERSION == key.getKeyAreaVersion().getValue()) {
                             AddressDetails details = capability.getServiceAddresses().get(0);
                             details.setServiceURI(to);
                         }
@@ -172,7 +172,7 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
 
                         if (MCHelper._MC_AREA_NUMBER == key.getKeyArea().getValue()
                                 && ActionServiceInfo._ACTION_SERVICE_NUMBER == key.getKeyService().getValue()
-                                && MCHelper._MC_AREA_VERSION == key.getAreaVersion().getValue()) {
+                                && MCHelper._MC_AREA_VERSION == key.getKeyAreaVersion().getValue()) {
                             AddressDetails details = capability.getServiceAddresses().get(0);
                             details.setServiceURI(to);
                         }

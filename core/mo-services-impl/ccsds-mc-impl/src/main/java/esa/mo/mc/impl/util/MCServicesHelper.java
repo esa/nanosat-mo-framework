@@ -181,7 +181,7 @@ public class MCServicesHelper {
     }
 
     public static double getDouble(Attribute attr) {
-        int type = attr.getTypeShortForm();
+        int type = attr.getTypeId().getSFP();
         switch (type) {
             case Attribute._DOUBLE_TYPE_SHORT_FORM:
                 //Already double.

@@ -180,7 +180,7 @@ public class BinaryDecoder extends GENDecoder {
             if (element instanceof Union) {
                 // Case for Attributes that are mapped to the Java API
                 Union union = (Union) element;
-                Attribute att = internalDecodeAttribute(union.getTypeShortForm());
+                Attribute att = internalDecodeAttribute(union.getTypeId().getSFP());
                 list.add(Attribute.attribute2JavaType(att));
             } else {
                 // Normal Case

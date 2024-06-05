@@ -133,7 +133,7 @@ public class BinaryEncoder extends GENEncoder {
 
     @Override
     public void encodeAbstractElement(final Element value) throws MALException {
-        encodeLong(value.getShortForm());
+        encodeLong(value.getTypeId().getTypeId());
         value.encode(this);
     }
 
@@ -142,7 +142,7 @@ public class BinaryEncoder extends GENEncoder {
         try {
             if (value != null) {
                 outputStream.addNotNull();
-                encodeLong(value.getShortForm());
+                encodeLong(value.getTypeId().getTypeId());
                 value.encode(this);
             } else {
                 outputStream.addIsNull();

@@ -535,7 +535,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
                 if (argumentValue.getValue() == null) {  // Well, let's then consider it is a Double
                     rawType = Union.DOUBLE_TYPE_SHORT_FORM.byteValue();
                 } else {
-                    rawType = argumentValue.getValue().getTypeShortForm().byteValue(); // Check what is the type and stamp it
+                    rawType = ((Integer) argumentValue.getValue().getTypeId().getSFP()).byteValue(); // Check what is the type and stamp it
                 }
 
                 // Generate the Argument Definition
