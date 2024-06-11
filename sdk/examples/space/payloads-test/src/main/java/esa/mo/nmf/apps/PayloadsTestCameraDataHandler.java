@@ -116,7 +116,7 @@ public class PayloadsTestCameraDataHandler extends CameraAdapter {
                 fos.close();
                 LOGGER.log(Level.INFO, "Image saved to {0}myPicture.jpg", filenamePrefix);
             }
-        } catch (IOException | MALException ex) {
+        } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
         try {

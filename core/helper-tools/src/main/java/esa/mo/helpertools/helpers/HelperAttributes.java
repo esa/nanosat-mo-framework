@@ -254,10 +254,7 @@ public class HelperAttributes {
         }
 
         if (in instanceof Blob) {
-            try {
-                return Arrays.toString(((Blob) in).getValue());
-            } catch (MALException ex) {
-            }
+            return Arrays.toString(((Blob) in).getValue());
         }
 
         if (in instanceof ULong) {
@@ -835,9 +832,6 @@ public class HelperAttributes {
                     // ignore close exception
                 }
             }
-        } catch (MALException ex) {
-            Logger.getLogger(HelperAttributes.class.getName()).log(Level.SEVERE, null, ex);
-            return obj; // the object could not be Deserialized, so, just deliver the Blob itself
         } finally {
             try {
                 bis.close();

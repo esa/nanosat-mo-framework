@@ -240,7 +240,7 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
                     fos.flush();
                     fos.close();
                 }
-            } catch (MALException | IOException ex) {
+            } catch (IOException ex) {
                 Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
             }
 

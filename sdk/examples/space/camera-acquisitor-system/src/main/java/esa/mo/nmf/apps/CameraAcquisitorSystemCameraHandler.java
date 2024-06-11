@@ -196,7 +196,7 @@ public class CameraAcquisitorSystemCameraHandler {
                     fos.close();
                 }
                 LOGGER.log(Level.INFO, "Photograph was taken at {0}", posString);
-            } catch (IOException | MALException ex) {
+            } catch (IOException ex) {
                 LOGGER.log(Level.SEVERE, "Saving of Photograph Failed!/n{0}", ex);
             }
 

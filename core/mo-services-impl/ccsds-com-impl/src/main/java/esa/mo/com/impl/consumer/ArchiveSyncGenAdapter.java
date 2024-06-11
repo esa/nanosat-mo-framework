@@ -78,11 +78,7 @@ public class ArchiveSyncGenAdapter extends org.ccsds.moims.mo.com.archivesync.co
 
         lastTimeReceived = System.currentTimeMillis();
         lastknowIndex = index;
-        try {
-            receivedChunks.put(index, chunk.getValue());
-        } catch (MALException ex) {
-            Logger.getLogger(ArchiveSyncGenAdapter.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        receivedChunks.put(index, chunk.getValue());
     }
 
     @Override
@@ -117,11 +113,7 @@ public class ArchiveSyncGenAdapter extends org.ccsds.moims.mo.com.archivesync.co
             index);
 
         lastTimeReceived = System.currentTimeMillis();
-        try {
-            receivedChunks.put(index, chunk.getValue());
-        } catch (MALException ex) {
-            Logger.getLogger(ArchiveSyncGenAdapter.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        receivedChunks.put(index, chunk.getValue());
     }
 
     @Override

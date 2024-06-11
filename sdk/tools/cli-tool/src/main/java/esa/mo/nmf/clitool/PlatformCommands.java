@@ -125,7 +125,7 @@ public class PlatformCommands {
                             filename = filename + "." + format.toLowerCase();
                             Files.write(Paths.get(filename), picture.getContent().getValue());
                             System.out.println("File " + filename + " saved!");
-                        } catch (IOException | MALException e) {
+                        } catch (IOException e) {
                             LOGGER.log(Level.SEVERE, "Error during picture saving!", e);
                         }
 

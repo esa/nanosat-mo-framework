@@ -20,10 +20,7 @@
  */
 package esa.mo.nmf.ctt.utils;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
-import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.structures.Blob;
 
 /**
@@ -40,15 +37,9 @@ public class PictureFrame extends javax.swing.JFrame {
         initComponents();
 
         ImageIcon image;
-        try {
-            image = new ImageIcon(picture.getValue());
-            jLabel1.setIcon(image);
-        } catch (MALException ex) {
-            Logger.getLogger(PictureFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+        image = new ImageIcon(picture.getValue());
+        jLabel1.setIcon(image);
         this.setVisible(rootPaneCheckingEnabled);
-
     }
 
     /**
