@@ -62,7 +62,7 @@ public class ProtocolBridge {
 
     protected static MALTransport createTransport(final String protocol, final Map properties) throws Exception {
         System.out.println("Creating transport " + protocol);
-        return MALTransportFactory.newFactory(protocol).createTransport(null, properties);
+        return MALTransportFactory.newFactory(protocol).createTransport(properties);
     }
 
     protected static MALEndpoint createEndpoint(String protocol, MALTransport trans) throws Exception {

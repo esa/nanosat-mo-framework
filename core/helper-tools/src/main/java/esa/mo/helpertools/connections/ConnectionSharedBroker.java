@@ -92,7 +92,7 @@ public class ConnectionSharedBroker {
                 wrt.append(HelperConnections.PROPERTY_SHARED_BROKER + "=" + brokerBinding.getURI());
                 wrt.newLine();
             } catch (IOException ex) {
-                Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING,
+                Logger.getLogger(ConnectionSharedBroker.class.getName()).log(Level.WARNING,
                     "Unable to write URI information to properties file {0}", ex);
             }
         }
@@ -126,7 +126,7 @@ public class ConnectionSharedBroker {
         if (ConnectionProvider.shouldInitUriFiles()) {
             try (BufferedWriter wrt = new BufferedWriter(new FileWriter(HelperMisc.SHARED_BROKER_URI, false))) {
             } catch (IOException ex) {
-                Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING,
+                Logger.getLogger(ConnectionSharedBroker.class.getName()).log(Level.WARNING,
                     "Unable to reset URI information from properties file {0}", ex);
             }
         }

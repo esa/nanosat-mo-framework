@@ -45,8 +45,10 @@ import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.URI;
 
 /**
- * Holds the connection details of a service provider.
+ * Holds the connection details of a service provider. This class has been
+ * moved directly to the MAL.
  */
+@Deprecated
 public class ConnectionProvider {
 
     private MALContextFactory malFactory;
