@@ -33,7 +33,7 @@ In short, you will need to: clone a repository, change some configuration files,
       <expId>000</expId>
       <expApid>1024</expApid>
       <expMainClass>esa.mo.nmf.apps.PayloadsTestApp</expMainClass>
-      <expVersion>2.1.0-SNAPSHOT</expVersion>
+      <expVersion>3.0.0</expVersion>
       <!-- Do not change the following -->
       <esa.nmf.mission.opssat.assembly.outputdir>${project.build.directory}/experiment-package</esa.nmf.mission.opssat.assembly.outputdir>
     </properties>

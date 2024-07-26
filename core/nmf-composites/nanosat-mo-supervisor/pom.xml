@@ -15,7 +15,7 @@
   <parent>
     <groupId>int.esa.nmf</groupId>
     <artifactId>parent</artifactId>
-    <version>2.1.0-SNAPSHOT</version>
+    <version>3.0.0</version>
     <relativePath>../../../parent/pom.xml</relativePath>
   </parent>
   <groupId>int.esa.nmf.core</groupId>
@@ -62,7 +62,7 @@
     <dependency>
       <groupId>int.esa.nmf.mission.simulator.moservices.impl</groupId>
       <artifactId>nmf-platform-impl-sim</artifactId>
-      <version>2.1.0-SNAPSHOT</version>
+      <version>3.0.0</version>
       <type>jar</type>
     </dependency>
     <dependency>
