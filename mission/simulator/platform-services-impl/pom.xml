@@ -59,12 +59,12 @@
       <artifactId>common-mo-adapter</artifactId>
     </dependency>
     <dependency>
-      <groupId>int.esa.opssat</groupId>
+      <groupId>int.esa.nmf.simulator</groupId>
       <artifactId>spacecraft-simulator</artifactId>
       <version>3.0.0</version>
     </dependency>
     <dependency>
-      <groupId>int.esa.opssat</groupId>
+      <groupId>int.esa.nmf.simulator</groupId>
       <artifactId>image-debayer</artifactId>
       <version>3.0.0</version>
     </dependency>

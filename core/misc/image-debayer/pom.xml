@@ -18,7 +18,7 @@
     <version>3.0.0</version>
     <relativePath>../../../parent/pom.xml</relativePath>
   </parent>
-  <groupId>int.esa.opssat</groupId>
+  <groupId>int.esa.nmf.simulator</groupId>
   <artifactId>image-debayer</artifactId>
   <packaging>jar</packaging>
   <name>ESA NMF Core Misc - Image Debayering for OPS-SAT</name>

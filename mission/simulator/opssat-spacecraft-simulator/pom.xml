@@ -15,7 +15,7 @@
     <version>3.0.0</version>
     <relativePath>../../../parent/pom.xml</relativePath>
   </parent>
-  <groupId>int.esa.opssat</groupId>
+  <groupId>int.esa.nmf.simulator</groupId>
   <artifactId>spacecraft-simulator</artifactId>
   <packaging>jar</packaging>
   <name>ESA OPS-SAT - Spacecraft Simulator</name>
@@ -51,7 +51,7 @@
   </developers>
   <dependencies>
     <dependency>
-      <groupId>int.esa.opssat</groupId>
+      <groupId>int.esa.nmf.simulator</groupId>
       <artifactId>gps-simulator</artifactId>
       <version>${project.version}</version>
     </dependency>
