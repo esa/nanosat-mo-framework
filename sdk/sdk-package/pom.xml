@@ -201,8 +201,8 @@
               <goal>wget</goal>
             </goals>
             <configuration>
-              <url>https://public.ccsds.org/Pubs/521x0b2e1.pdf</url>
-              <outputFileName>CCSDS_MO_MAL_521x0b2e1.pdf</outputFileName>
+              <url>https://public.ccsds.org/Pubs/521x0b3.pdf</url>
+              <outputFileName>CCSDS_MO_MAL_521x0b3.pdf</outputFileName>
               <outputDirectory>${esa.nmf.sdk.assembly.outputdir}/docs/MO_Services</outputDirectory>
             </configuration>
           </execution>
