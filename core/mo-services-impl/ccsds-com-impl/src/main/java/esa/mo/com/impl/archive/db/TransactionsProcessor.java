@@ -85,6 +85,11 @@ public class TransactionsProcessor {
         dbTransactionsExecutor.execute(task);
     }
 
+    public <T> Future<T> submitExternalTransactionExecutorTask(final Callable<T> task) {
+        this.sequencialStoring.set(false);
+        return dbTransactionsExecutor.submit(task);
+    }
+
     /**
      * Resizes the database file to match its contents.
      */
