@@ -51,6 +51,20 @@
     <connection>scm:git:https://github.com/esa/nanosat-mo-framework.git</connection>
     <url>https://github.com/esa/nanosat-mo-framework</url>
   </scm>
+    <distributionManagement>
+        <site>
+            <id>Sonatype</id>
+            <url>https://oss.sonatype.org/</url>
+        </site>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
   <developers>
     <developer>
       <id>CesarCoelho</id>
@@ -318,7 +332,31 @@
     </pluginManagement>
   </build>
   <profiles>
-    <profile>
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <extensions>true</extensions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+      <profile>
       <id>formatting-and-linting</id>
       <activation>
         <property>
