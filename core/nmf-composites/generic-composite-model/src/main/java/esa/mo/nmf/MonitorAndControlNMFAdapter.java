@@ -63,7 +63,7 @@ import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetails
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSet;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSetList;
 import org.ccsds.moims.mo.mc.aggregation.structures.ThresholdFilter;
-import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
+import org.ccsds.moims.mo.mc.parameter.ParameterServiceInfo;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterConversion;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetailsList;
@@ -134,7 +134,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
                 byte rawType;
                 if (annotation.malType().equals("")) {
                     try {
-                        rawType = ((Attribute) HelperAttributes.javaType2Attribute(field.get(this))).getTypeShortForm()
+                        rawType = ((Integer) ((Attribute) HelperAttributes.javaType2Attribute(field.get(this))).getTypeId().getSFP())
                             .byteValue();
 
                     } catch (IllegalArgumentException | IllegalAccessException ex) {
@@ -297,7 +297,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
                             false, null);
                         PaginationFilter filter = new PaginationFilter(new UInteger(1), new UInteger(0));
                         List<ArchivePersistenceObject> result = archiveService.getArchiveManager().query(
-                            ParameterHelper.PARAMETERVALUEINSTANCE_OBJECT_TYPE, query, filter);
+                            ParameterServiceInfo.PARAMETERVALUEINSTANCE_OBJECT_TYPE, query, filter);
                         if (!result.isEmpty()) {
                             ArchivePersistenceObject newestParameter = result.get(0); // assume the first one is the newest because of the query sort order
                             Attribute rawValue = ((ParameterValue) newestParameter.getObject()).getRawValue();

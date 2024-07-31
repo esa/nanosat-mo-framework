@@ -27,7 +27,6 @@ import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.URI;
-
 import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
@@ -86,8 +85,9 @@ public class SimpleGround {
 
         @Override
         public void onDataReceived(String parameterName, Serializable data) {
-            LOGGER.log(Level.INFO, "\nParameter name: {0}" + "\n" + "Data content:\n{1}", new Object[]{parameterName,
-                                                                                                       data.toString()});
+            LOGGER.log(Level.INFO,
+                    "\nParameter name: {0}" + "\n" + "Data content:\n{1}",
+                    new Object[]{parameterName, data.toString()});
         }
     }
 }

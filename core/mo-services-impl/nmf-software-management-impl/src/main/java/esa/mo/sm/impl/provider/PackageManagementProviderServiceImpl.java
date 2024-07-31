@@ -25,14 +25,12 @@ import esa.mo.helpertools.connections.ConnectionProvider;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
-import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
 import org.ccsds.moims.mo.softwaremanagement.packagemanagement.PackageManagementHelper;
 import org.ccsds.moims.mo.softwaremanagement.packagemanagement.body.CheckPackageIntegrityResponse;
 import org.ccsds.moims.mo.softwaremanagement.packagemanagement.provider.InstallInteraction;
@@ -41,12 +39,13 @@ import org.ccsds.moims.mo.softwaremanagement.packagemanagement.provider.Uninstal
 import org.ccsds.moims.mo.softwaremanagement.packagemanagement.provider.UpgradeInteraction;
 import esa.mo.sm.impl.util.PMBackend;
 import java.io.IOException;
-import org.ccsds.moims.mo.mal.MALStandardError;
+import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.structures.BooleanList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.StringList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UIntegerList;
+import org.ccsds.moims.mo.softwaremanagement.packagemanagement.PackageManagementServiceInfo;
 import org.ccsds.moims.mo.softwaremanagement.packagemanagement.body.FindPackageResponse;
 
 /**
@@ -58,6 +57,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
     private boolean initialiased = false;
     private boolean running = false;
     private final ConnectionProvider connection = new ConnectionProvider();
+    private COMServicesProvider comServices;
     private PMBackend backend;
 
     /**
@@ -77,28 +77,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
             return;
         }
 
-        if (!initialiased) {
-            if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
-                MALHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION) == null) {
-                COMHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME,
-                    SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) == null) {
-                SoftwareManagementHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME,
-                    SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION)
-                    .getServiceByName(PackageManagementHelper.PACKAGEMANAGEMENT_SERVICE_NAME) == null) {
-                PackageManagementHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-        }
-
+        this.comServices = comServices;
         this.backend = backend;
 
         // shut down old service transport
@@ -107,8 +86,9 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
         }
 
         packageManagementServiceProvider = connection.startService(
-            PackageManagementHelper.PACKAGEMANAGEMENT_SERVICE_NAME.toString(),
-            PackageManagementHelper.PACKAGEMANAGEMENT_SERVICE, false, this);
+                PackageManagementServiceInfo.PACKAGEMANAGEMENT_SERVICE_NAME.toString(),
+                PackageManagementHelper.PACKAGEMANAGEMENT_SERVICE, false, this);
+
         running = true;
         initialiased = true;
         timestamp = System.currentTimeMillis() - timestamp;
@@ -137,7 +117,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
     public FindPackageResponse findPackage(IdentifierList names, MALInteraction interaction)
         throws MALInteractionException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
-        FindPackageResponse outList = new FindPackageResponse();
+        FindPackageResponse outList;
 
         if (null == names) { // Is the input null?
             throw new IllegalArgumentException("names argument and category argument must not be null");
@@ -179,20 +159,18 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
                 }
             }
 
-            outList.setBodyElement0(packages); // ObjIds
-            outList.setBodyElement1(installed); // Installed?
+            outList = new FindPackageResponse(packages, installed);
         } catch (IOException ex) {
             Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(Level.SEVERE,
                 "The list of packages could not be retrieved!", ex);
 
             // Just return empty lists
-            outList.setBodyElement0(new IdentifierList());
-            outList.setBodyElement1(new BooleanList());
+            outList = new FindPackageResponse(new IdentifierList(), new BooleanList());
         }
 
         // Errors
         if (!unkIndexList.isEmpty()) {
-            throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
         }
 
         return outList;
@@ -237,11 +215,11 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
         // Errors
         if (!unkIndexList.isEmpty()) {
-            throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
         }
 
         if (!invIndexList.isEmpty()) {
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
         }
 
         for (Identifier packageName : names) {
@@ -302,15 +280,11 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
         // Errors
         if (!unkIndexList.isEmpty()) {
-            Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(Level.SEVERE,
-                "Unknown error triggered!");
-            throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
         }
 
         if (!invIndexList.isEmpty()) {
-            Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(Level.SEVERE,
-                "Invalid error triggered!");
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
         }
 
         for (int i = 0; i < names.size(); i++) {
@@ -363,11 +337,11 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
         // Errors
         if (!unkIndexList.isEmpty()) {
-            throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
         }
 
         if (!invIndexList.isEmpty()) {
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
         }
 
         for (Identifier packageName : names) {
@@ -416,11 +390,11 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
         // Errors
         if (!unkIndexList.isEmpty()) {
-            throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
         }
 
         if (!invIndexList.isEmpty()) {
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
         }
 
         final BooleanList integrities = new BooleanList();
@@ -433,11 +407,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
             publicKeys.add(publicKey);
         }
 
-        CheckPackageIntegrityResponse out = new CheckPackageIntegrityResponse();
-        out.setBodyElement0(integrities);
-        out.setBodyElement1(publicKeys);
-
-        return out;
+        return new CheckPackageIntegrityResponse(integrities, publicKeys);
     }
 
     private static int packageExistsInIndex(String name, StringList packagesList) {

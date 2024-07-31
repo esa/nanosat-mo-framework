@@ -24,7 +24,11 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigInteger;
 import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Blob;
+import org.ccsds.moims.mo.mal.structures.Element;
+import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
+import org.ccsds.moims.mo.mal.structures.HomogeneousList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.ULong;
 import org.ccsds.moims.mo.mal.structures.URI;
@@ -33,6 +37,7 @@ import org.ccsds.moims.mo.mal.structures.URI;
  * Implements the MALEncoder and MALListEncoder interfaces for a binary encoding.
  */
 public class BinaryEncoder extends GENEncoder {
+
     /**
      * Constructor.
      *
@@ -120,6 +125,62 @@ public class BinaryEncoder extends GENEncoder {
                 encodeString(value);
             } else {
                 outputStream.addBytes(null);
+            }
+        } catch (IOException ex) {
+            throw new MALException(ENCODING_EXCEPTION_STR, ex);
+        }
+    }
+
+    @Override
+    public void encodeAbstractElement(final Element value) throws MALException {
+        encodeLong(value.getTypeId().getTypeId());
+        value.encode(this);
+    }
+
+    @Override
+    public void encodeNullableAbstractElement(final Element value) throws MALException {
+        try {
+            if (value != null) {
+                outputStream.addNotNull();
+                encodeLong(value.getTypeId().getTypeId());
+                value.encode(this);
+            } else {
+                outputStream.addIsNull();
+            }
+        } catch (IOException ex) {
+            throw new MALException(ENCODING_EXCEPTION_STR, ex);
+        }
+    }
+
+    @Override
+    public void encodeHomogeneousList(final HomogeneousList list) throws MALException {
+        try {
+            outputStream.addUnsignedInt(list.size());
+            for (int i = 0; i < list.size(); i++) {
+                Object obj = list.get(i);
+                Element element = (obj instanceof Element) ? (Element) obj : (Element) Attribute.javaType2Attribute(obj);
+                element.encode(this);
+            }
+        } catch (IOException ex) {
+            throw new MALException(ENCODING_EXCEPTION_STR, ex);
+        }
+    }
+
+    @Override
+    public void encodeHeterogeneousList(HeterogeneousList list) throws MALException {
+        try {
+            outputStream.addUnsignedInt(list.size());
+
+            for (int i = 0; i < list.size(); i++) {
+                Object entry = list.get(i);
+                if (!(entry instanceof Element)) {
+                    entry = Attribute.javaType2Attribute(entry);
+                }
+                if (HeterogeneousList.ENFORCE_NON_NULLABLE_ENTRIES) {
+                    encodeAbstractElement((Element) entry);
+                } else {
+                    encodeNullableAbstractElement((Element) entry);
+                }
             }
         } catch (IOException ex) {
             throw new MALException(ENCODING_EXCEPTION_STR, ex);

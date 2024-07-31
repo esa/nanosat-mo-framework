@@ -80,9 +80,7 @@ public class DemoSerialObject {
 
         @Override
         public Serializable onGetValueSimple(String name) {
-            AttributeValue aval = new AttributeValue();
-            aval.setValue(new UInteger(1234));
-            return aval;
+            return new AttributeValue(new UInteger(1234));
         }
 
         @Override

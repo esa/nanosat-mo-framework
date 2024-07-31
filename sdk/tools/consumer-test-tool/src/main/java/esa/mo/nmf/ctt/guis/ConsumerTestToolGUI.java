@@ -21,7 +21,6 @@
 package esa.mo.nmf.ctt.guis;
 
 import esa.mo.nmf.ctt.utils.DirectoryConnectionConsumerPanel;
-import esa.mo.helpertools.connections.ConnectionConsumer;
 import java.awt.EventQueue;
 import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
@@ -31,15 +30,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import org.ccsds.moims.mo.com.COMHelper;
-import org.ccsds.moims.mo.common.CommonHelper;
-import org.ccsds.moims.mo.mal.MALContextFactory;
-import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALHelper;
-import org.ccsds.moims.mo.mc.MCHelper;
-import org.ccsds.moims.mo.mp.MPHelper;
-import org.ccsds.moims.mo.platform.PlatformHelper;
-import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 
 /**
  * This class provides a simple form for the control of the consumer.
@@ -89,18 +80,6 @@ public class ConsumerTestToolGUI extends javax.swing.JFrame {
             LOGGER.log(Level.SEVERE, null, ex);
         } catch (FileNotFoundException ex) {
             LOGGER.log(Level.INFO, "The file with provider URIs is not present.");
-        }
-
-        try {
-            MALHelper.init(MALContextFactory.getElementFactoryRegistry());
-            COMHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
-            MCHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
-            MPHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
-            CommonHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
-            SoftwareManagementHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
-            PlatformHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
-        } catch (MALException ex) {
-            LOGGER.log(Level.SEVERE, null, ex);
         }
     }
 

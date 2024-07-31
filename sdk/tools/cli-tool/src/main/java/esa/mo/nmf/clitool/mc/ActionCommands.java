@@ -34,7 +34,7 @@ import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQueryList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mc.action.ActionHelper;
+import org.ccsds.moims.mo.mc.action.ActionServiceInfo;
 import picocli.CommandLine;
 
 /**
@@ -115,7 +115,7 @@ public class ActionCommands {
             archiveQueryList.add(archiveQuery);
             
             ArchiveToActionsAdapter adapter = new ArchiveToActionsAdapter();
-            queryArchive(ActionHelper.ACTIONIDENTITY_OBJECT_TYPE, archiveQueryList, adapter, adapter);
+            queryArchive(ActionServiceInfo.ACTIONIDENTITY_OBJECT_TYPE, archiveQueryList, adapter, adapter);
 
             // Display list of NMF apps that have actions
             Map<IdentifierList, List<Identifier>> actions = adapter.getActionIdentities();

@@ -33,14 +33,14 @@ import org.ccsds.moims.mo.com.archive.structures.ArchiveQueryList;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.MALStandardError;
-import org.ccsds.moims.mo.mal.structures.ElementList;
+import org.ccsds.moims.mo.mal.MOErrorException;
+import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
+import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherServiceInfo;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.structures.AppDetails;
 
 /**
@@ -83,12 +83,12 @@ public class Helper {
 
         Map<String, ProviderAppDetails> result = new HashMap<>();
         ObjectType appType = new ObjectType(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NUMBER,
-                AppsLauncherHelper.APPSLAUNCHER_SERVICE_NUMBER, new UOctet((short) 0),
-                AppsLauncherHelper.APP_OBJECT_NUMBER);
+                AppsLauncherServiceInfo.APPSLAUNCHER_SERVICE_NUMBER, new UOctet((short) 0),
+                AppsLauncherServiceInfo.APP_OBJECT_NUMBER);
         archive.query(true, appType, queries, null, new ArchiveAdapter() {
             @Override
             public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-                    ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+                    ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
                 for (int i = 0; i < objDetails.size(); ++i) {
                     AppDetails details = (AppDetails) objBodies.get(i);
                     result.put(details.getName().getValue(),
@@ -98,7 +98,7 @@ public class Helper {
 
             @Override
             public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-                    ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+                    ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
                 if (objDetails != null) {
                     for (int i = 0; i < objDetails.size(); ++i) {
                         AppDetails details = (AppDetails) objBodies.get(i);
@@ -113,7 +113,7 @@ public class Helper {
             }
 
             @Override
-            public void queryUpdateErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+            public void queryUpdateErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
                     Map qosProperties) {
                 LOGGER.log(Level.SEVERE, "Error during archive query!", error);
                 synchronized (lock) {
@@ -122,7 +122,7 @@ public class Helper {
             }
 
             @Override
-            public void queryResponseErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+            public void queryResponseErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
                     Map qosProperties) {
                 LOGGER.log(Level.SEVERE, "Error during archive query!", error);
                 synchronized (lock) {

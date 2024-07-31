@@ -87,7 +87,7 @@ public class MPSpaceDemoAdapter extends MissionPlanningNMFAdapter {
                 ObjectIdPair pair = getArchiveManager().PLAN.addInstance(planName, planVersion, null, interaction);
                 this.planIdentityId = pair.getIdentityId();
                 ObjectId planVersionId = pair.getObjectId();
-                PlanUpdateDetails planUpdate = MPFactory.createPlanUpdate(PlanStatus.DRAFT);
+                PlanUpdateDetails planUpdate = MPFactory.createPlanUpdate(PlanStatus.DRAFT, null);
                 getArchiveManager().PLAN.addStatus(planVersionId, planUpdate, null, interaction);
             } catch (MALException | MALInteractionException e) {
                 LOGGER.log(Level.SEVERE, null, e);
@@ -131,7 +131,7 @@ public class MPSpaceDemoAdapter extends MissionPlanningNMFAdapter {
             PlanVersionDetails updatedPlan = currentPlan;
             ObjectId planVersionId = getArchiveManager().PLAN.updateInstanceByIdentityId(getPlanIdentityId(),
                 updatedPlan, null, requestArgument.getInteraction());
-            PlanUpdateDetails planUpdate = MPFactory.createPlanUpdate(PlanStatus.DRAFT);
+            PlanUpdateDetails planUpdate = MPFactory.createPlanUpdate(PlanStatus.DRAFT, null);
             getArchiveManager().PLAN.addStatus(planVersionId, planUpdate, null, requestArgument.getInteraction());
 
             // Save updated Request Status

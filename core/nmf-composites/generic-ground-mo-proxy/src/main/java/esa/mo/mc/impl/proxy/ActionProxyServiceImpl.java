@@ -35,7 +35,7 @@ import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.MALStandardError;
+import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.structures.Duration;
@@ -43,8 +43,8 @@ import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.UIntegerList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.mc.MCHelper;
 import org.ccsds.moims.mo.mc.action.ActionHelper;
+import org.ccsds.moims.mo.mc.action.ActionServiceInfo;
 import org.ccsds.moims.mo.mc.action.consumer.ActionAdapter;
 import org.ccsds.moims.mo.mc.action.provider.ActionInheritanceSkeleton;
 import org.ccsds.moims.mo.mc.action.structures.ActionCreationRequestList;
@@ -72,35 +72,10 @@ public class ActionProxyServiceImpl extends ActionInheritanceSkeleton {
      * @param actionConsumer
      * @throws MALException On initialisation error.
      */
-    public synchronized void init(COMServicesProvider localCOMServices, ActionConsumerServiceImpl actionConsumer)
-        throws MALException {
-        if (!initialiased) {
-            if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
-                MALHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(CommonHelper.COMMON_AREA_NAME, CommonHelper.COMMON_AREA_VERSION) == null) {
-                CommonHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION) == null) {
-                COMHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION) == null) {
-                MCHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(CommonHelper.COMMON_AREA_NAME, CommonHelper.COMMON_AREA_VERSION)
-                .getServiceByName(ConfigurationHelper.CONFIGURATION_SERVICE_NAME) == null) {
-                ConfigurationHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION).getServiceByName(
-                ActionHelper.ACTION_SERVICE_NAME) == null) {
-                ActionHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-        }
+    public synchronized void init(COMServicesProvider localCOMServices,
+            ActionConsumerServiceImpl actionConsumer) throws MALException {
+        MALContextFactory.getElementsRegistry().loadServiceAndAreaElements(ConfigurationHelper.CONFIGURATION_SERVICE);
+        MALContextFactory.getElementsRegistry().loadServiceAndAreaElements(ActionHelper.ACTION_SERVICE);
 
         // Shut down old service transport
         if (null != actionServiceProvider) {
@@ -108,7 +83,7 @@ public class ActionProxyServiceImpl extends ActionInheritanceSkeleton {
         }
 
         Random random = new Random();
-        String name = ActionHelper.ACTION_SERVICE_NAME.toString() + "_" + random.nextInt();
+        String name = ActionServiceInfo.ACTION_SERVICE_NAME.toString() + "_" + random.nextInt();
         actionServiceProvider = connection.startService(name, ActionHelper.ACTION_SERVICE, false, this);
 
         running = true;
@@ -154,8 +129,7 @@ public class ActionProxyServiceImpl extends ActionInheritanceSkeleton {
             }
 
             @Override
-            public void submitActionErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
-                Map qosProperties) {
+            public void submitActionErrorReceived(MALMessageHeader msgHeader, MOErrorException error, Map qosProperties) {
                 Logger.getLogger(ActionProxyServiceImpl.class.getName()).log(Level.WARNING,
                     "The Action could not be submitted to the provider. {0}", error);
             }
@@ -173,7 +147,7 @@ public class ActionProxyServiceImpl extends ActionInheritanceSkeleton {
 
         // 3.2.10.3.2
         if (!manager.existsDef(actionDetails.getDefInstId())) {
-            throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, null));
+            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, null));
         }
 
         // 3.2.10.2.c
@@ -181,7 +155,7 @@ public class ActionProxyServiceImpl extends ActionInheritanceSkeleton {
 
         // Errors
         if (!invIndexList.isEmpty()) { // requirement: 3.2.9.3.1
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
         }
 
         return accepted;

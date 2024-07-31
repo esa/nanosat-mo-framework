@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft â€“ v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -26,9 +26,6 @@ import esa.mo.com.impl.sync.Dictionary;
 import esa.mo.com.impl.sync.EncodeDecode;
 import esa.mo.com.impl.sync.ToDelete;
 import esa.mo.com.impl.util.Quota;
-import esa.mo.helpertools.connections.ConnectionProvider;
-import esa.mo.helpertools.connections.SingleConnectionDetails;
-import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.helpertools.misc.Const;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -51,10 +48,24 @@ import org.ccsds.moims.mo.com.archivesync.provider.RetrieveRangeAgainInteraction
 import org.ccsds.moims.mo.com.archivesync.provider.RetrieveRangeInteraction;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.com.structures.ObjectTypeList;
-import org.ccsds.moims.mo.mal.*;
+import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.mal.MALHelper;
+import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.MOErrorException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
+import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
-import org.ccsds.moims.mo.mal.structures.*;
+import org.ccsds.moims.mo.mal.structures.Blob;
+import org.ccsds.moims.mo.mal.structures.FineTime;
+import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
+import org.ccsds.moims.mo.mal.structures.Identifier;
+import org.ccsds.moims.mo.mal.structures.IdentifierList;
+import org.ccsds.moims.mo.mal.structures.IntegerList;
+import org.ccsds.moims.mo.mal.structures.LongList;
+import org.ccsds.moims.mo.mal.structures.StringList;
+import org.ccsds.moims.mo.mal.structures.UInteger;
+import org.ccsds.moims.mo.mal.structures.UIntegerList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 
 /**
@@ -107,12 +118,11 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
     public ArchiveSyncProviderServiceImpl(SingleConnectionDetails connectionToArchiveService,
             Blob authenticationId, String localNamePrefix) {
         this.latestSync = new FineTime(0);
-
         try {
-            this.archive
-                    = new ArchiveConsumerServiceImpl(connectionToArchiveService, authenticationId, localNamePrefix);
-        } catch (MALException | MalformedURLException ex) {
-            LOGGER.log(Level.SEVERE, "", ex);
+            this.archive = new ArchiveConsumerServiceImpl(connectionToArchiveService, authenticationId,
+                localNamePrefix);
+        } catch (MALException | MalformedURLException ex){
+            LOGGER.log(Level.SEVERE, "The Archive could not be started!", ex);
         }
 
         timerName = getTimerName();
@@ -160,21 +170,6 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
      */
     public synchronized void init(ArchiveManager manager) throws MALException {
         long timestamp = System.currentTimeMillis();
-        if (!initialiased) {
-            if (null == MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION)) {
-                MALHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (null == MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION)) {
-                COMHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION)
-                    .getServiceByName(ArchiveSyncHelper.ARCHIVESYNC_SERVICE_NAME) == null) {
-                ArchiveSyncHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-        }
-
         this.manager = manager;
 
         // shut down old service transport
@@ -182,8 +177,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
             connection.closeAll();
         }
 
-        archiveSyncServiceProvider = connection.startService(ArchiveSyncHelper.ARCHIVESYNC_SERVICE_NAME.toString(),
-                ArchiveSyncHelper.ARCHIVESYNC_SERVICE, false, this);
+        archiveSyncServiceProvider = connection.startService(ArchiveSyncHelper.ARCHIVESYNC_SERVICE, false, this);
         initialiased = true;
         timestamp = System.currentTimeMillis() - timestamp;
         LOGGER.info("ArchiveSync service: READY! (" + timestamp + " ms)");
@@ -213,7 +207,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
     @Override
     public GetTimeResponse getTime(final MALInteraction interaction) throws MALInteractionException, MALException {
-        final FineTime currentTime = HelperTime.getTimestamp();
+        final FineTime currentTime = FineTime.now();
         final FineTime lastSyncTime = new FineTime(lastSync.get());
         return new GetTimeResponse(currentTime, lastSyncTime);
     }
@@ -234,20 +228,10 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
         interaction.sendAcknowledgement(interactionTicket);
 
-        ArchiveQuery archiveQuery = new ArchiveQuery();
-        archiveQuery.setStartTime(from);
-        archiveQuery.setEndTime(until);
-        archiveQuery.setDomain(null);
-        archiveQuery.setNetwork(null);
-        archiveQuery.setProvider(null);
-        archiveQuery.setRelated(0L);
-        archiveQuery.setSource(null);
-        archiveQuery.setSortFieldName(null);
-        archiveQuery.setSortOrder(true);
+        ArchiveQuery archiveQuery = new ArchiveQuery(null, null, null,
+                0L, null, from, until, true, null);
 
-        PaginationFilter filter = new PaginationFilter();
-        filter.setLimit(new UInteger(objectsLimit));
-        filter.setOffset(new UInteger(0));
+        PaginationFilter filter = new PaginationFilter(new UInteger(objectsLimit), new UInteger(0));
 
         ArrayList<COMObjectEntity> perObjs = manager.queryCOMObjectEntity(objectTypes, archiveQuery, filter);
         latestSync = perObjs.isEmpty() ? latestSync : perObjs.get(perObjs.size() - 1).getTimestamp();
@@ -267,7 +251,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
         final Dispatcher dispatcher = dispatchers.get(transactionTicket);
 
         if (null == dispatcher) {
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
+            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, null));
         }
 
         TimerTask timerTask = timerTasks.get(transactionTicket);
@@ -347,8 +331,8 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
         final Dispatcher dispatcher = dispatchers.get(transactionTicket);
 
         if (null == dispatcher) {
-            throw new MALInteractionException(
-                    new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, "Can't find a dispatcher!"));
+            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER,
+                "Can't find a dispatcher!"));
         }
 
         final TimerTask timerTask = timerTasks.get(transactionTicket);
@@ -362,8 +346,8 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
         Long lastSyncTime = syncTimes.get(transactionTicket);
 
         if (null == lastSyncTime) {
-            throw new MALInteractionException(
-                    new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, "Can't find a last sync time!"));
+            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER,
+                "Can't find a last sync time!"));
         }
 
         lastSync.set(lastSyncTime);
@@ -520,7 +504,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
             @Override
             public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-                    ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+                ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
                 super.queryUpdateReceived(msgHeader, objType, domain, objDetails, objBodies, qosProperties);
                 if (objDetails != null) {
                     queryResults.addAll(objDetails);
@@ -530,7 +514,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
             @Override
             public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-                    ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+                ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
                 super.queryResponseReceived(msgHeader, objType, domain, objDetails, objBodies, qosProperties);
                 if (null == objType || null == domain || null == objDetails || null == objBodies) {
                     return;

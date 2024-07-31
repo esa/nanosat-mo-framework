@@ -357,9 +357,6 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test5");
         org.ccsds.moims.mo.mal.structures.FloatList floatList0 = new org.ccsds.moims.mo.mal.structures.FloatList();
         floatList0.trimToSize();
-        org.ccsds.moims.mo.mal.structures.UShort uShort2 = org.ccsds.moims.mo.mal.structures.FloatList.AREA_SHORT_FORM;
-        java.lang.Integer int3 = uShort2.getTypeShortForm();
-        int int4 = floatList0.lastIndexOf((java.lang.Object) uShort2);
         org.ccsds.moims.mo.mal.structures.UShort uShort5 = floatList0.getServiceNumber();
         floatList0.trimToSize();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet7 = floatList0.getAreaVersion();
@@ -484,9 +481,6 @@ public class RegressionTest0 {
         esa.mo.common.impl.util.HelperCommon[][][] helperCommonArray91 = shortList10.toArray(helperCommonArray90);
         esa.mo.common.impl.util.HelperCommon[][][] helperCommonArray92 = floatList0.toArray(helperCommonArray90);
         floatList0.ensureCapacity((int) (short) 10);
-        org.junit.Assert.assertNotNull(uShort2);
-        org.junit.Assert.assertTrue("'" + int3 + "' != '" + 10 + "'", int3.equals(10));
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + (-1) + "'", int4 == (-1));
         org.junit.Assert.assertNotNull(uShort5);
         org.junit.Assert.assertNotNull(uOctet7);
         org.junit.Assert.assertNotNull(floatItor8);

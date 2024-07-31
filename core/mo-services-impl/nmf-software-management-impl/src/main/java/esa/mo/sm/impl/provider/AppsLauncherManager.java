@@ -28,7 +28,6 @@ import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.common.impl.util.HelperCommon;
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
-import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.misc.Const;
 import esa.mo.helpertools.misc.OSValidator;
@@ -53,11 +52,12 @@ import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.common.directory.structures.AddressDetailsList;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
 import org.ccsds.moims.mo.common.directory.structures.ServiceCapabilityList;
-import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.ElementList;
+import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
@@ -65,6 +65,7 @@ import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
+import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherServiceInfo;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.provider.StopAppInteraction;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.structures.AppDetails;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.structures.AppDetailsList;
@@ -115,18 +116,6 @@ public class AppsLauncherManager extends DefinitionsManager {
         // In the future, we will support multiple folders containing Apps
         // Example: If there are Apps installed in an external memory device
         this.addFolderWithApps(appsFolderPath);
-
-        if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME,
-                SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) != null
-                && MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME,
-                        SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION).getServiceByName(
-                                AppsLauncherHelper.APPSLAUNCHER_SERVICE_NAME) == null) {
-            try {
-                AppsLauncherHelper.init(MALContextFactory.getElementFactoryRegistry());
-            } catch (MALException ex) {
-                LOGGER.log(Level.SEVERE, "Unexpectedly AppsLauncherHelper already initialized!?", ex);
-            }
-        }
 
         if (super.getArchiveService() == null) {  // No Archive?
             this.uniqueObjIdDef = new AtomicLong(0);
@@ -248,20 +237,15 @@ public class AppsLauncherManager extends DefinitionsManager {
         return foldersWithApps.get(0); // Use the default folder!
     }
 
-    private LongList addAppToArchive(final AppDetails definition, final ObjectId source,
-            final URI uri, Long objId, Long related) throws MALException, MALInteractionException {
-        AppDetailsList defs = new AppDetailsList();
+    private LongList addAppToArchive(final AppDetails definition, final ObjectId source, final URI uri, Long objId,
+        Long related) throws MALException, MALInteractionException {
+        HeterogeneousList defs = new HeterogeneousList();
         defs.add(definition);
-        ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(related, source, uri);
+        final ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(related, source, uri);
         archDetails.get(0).setInstId(objId);
 
-        return super.getArchiveService().store(
-                true,
-                AppsLauncherHelper.APP_OBJECT_TYPE,
-                ConfigurationProviderSingleton.getDomain(),
-                archDetails,
-                defs,
-                null);
+        return super.getArchiveService().store(true, AppsLauncherServiceInfo.APP_OBJECT_TYPE, ConfigurationProviderSingleton
+            .getDomain(), archDetails, defs, null);
     }
 
     protected boolean update(final Long objId, final AppDetails definition,
@@ -282,12 +266,13 @@ public class AppsLauncherManager extends DefinitionsManager {
 
     private void updateAppInArchive(final Long objId, final AppDetails definition,
             final MALInteraction interaction) throws MALException, MALInteractionException {
-        AppDetailsList defs = new AppDetailsList();
+        HeterogeneousList defs = new HeterogeneousList();
         defs.add(definition);
         IdentifierList domain = ConfigurationProviderSingleton.getDomain();
 
-        ArchiveDetails archiveDetails = HelperArchive.getArchiveDetailsFromArchive(
-                super.getArchiveService(), AppsLauncherHelper.APP_OBJECT_TYPE, domain, objId);
+        ArchiveDetails archiveDetails = HelperArchive.getArchiveDetailsFromArchive(super.getArchiveService(),
+            AppsLauncherServiceInfo.APP_OBJECT_TYPE, domain, objId);
+
         if (archiveDetails == null) {
             throw new MALException("No object present in archive.");
         }
@@ -295,12 +280,8 @@ public class AppsLauncherManager extends DefinitionsManager {
         ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
         archiveDetailsList.add(archiveDetails);
 
-        super.getArchiveService().update(
-                AppsLauncherHelper.APP_OBJECT_TYPE,
-                domain,
-                archiveDetailsList,
-                defs,
-                interaction);
+        super.getArchiveService().update(AppsLauncherServiceInfo.APP_OBJECT_TYPE, domain, archiveDetailsList, defs,
+            interaction);
     }
 
     protected boolean delete(Long objId) {
@@ -604,9 +585,8 @@ public class AppsLauncherManager extends DefinitionsManager {
         ClosingAppListener listener = null;
         // Register on the Event service of the respective apps
         // Select all object numbers from the Apps Launcher service Events
-        Subscription eventSub = HelperCOM.generateSubscriptionCOMEvent(
-                "ClosingAppEvents",
-                AppsLauncherHelper.APP_OBJECT_TYPE);
+        Subscription eventSub = HelperCOM.generateSubscriptionCOMEvent("ClosingAppEvents",
+            AppsLauncherServiceInfo.APP_OBJECT_TYPE);
         try { // Subscribe to events
             EventConsumerServiceImpl eventServiceConsumer = new EventConsumerServiceImpl(appConnection);
             Logger.getLogger(AppsLauncherManager.class.getName()).log(
@@ -620,7 +600,7 @@ public class AppsLauncherManager extends DefinitionsManager {
         }
 
         // Stop the app...
-        ObjectType objType = AppsLauncherHelper.STOPAPP_OBJECT_TYPE;
+        ObjectType objType = AppsLauncherServiceInfo.STOPAPP_OBJECT_TYPE;
         Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO,
                 "Sending event to app: {0} (Name: ''{1}'')",
                 new Object[]{appInstId, appDirectoryServiceName});
@@ -634,7 +614,8 @@ public class AppsLauncherManager extends DefinitionsManager {
                 .generateAndStoreEvent(objType, ConfigurationProviderSingleton.getDomain(),
                         appDirectoryServiceName, appInstId, eventSource, malInt);
 
-        URI uri = (malInt != null) ? malInt.getMessageHeader().getURIFrom() : new URI("");
+
+        URI uri = (malInt != null) ? malInt.getMessageHeader().getFromURI() : new URI("");
 
         if (appDirectoryServiceName != null) {
             try {
@@ -795,13 +776,11 @@ public class AppsLauncherManager extends DefinitionsManager {
     }
 
     private AppDetails readAppDescriptor(final String appName, final File propertiesFile) {
-        final AppDetails app = new AppDetails();
-        app.setName(new Identifier(appName)); // Use the name of the folder
+        Identifier myAppName = new Identifier(appName);
 
         try (FileInputStream inputStream = new FileInputStream(propertiesFile)) {
             Properties props = new Properties();
             props.load(inputStream);
-            app.setExtraInfo(HelperMisc.PROVIDER_PROPERTIES_FILE);
 
             String category = (props.getProperty(HelperMisc.APP_CATEGORY) != null)
                     ? props.getProperty(HelperMisc.APP_CATEGORY) : "-";
@@ -815,19 +794,13 @@ public class AppsLauncherManager extends DefinitionsManager {
                     ? props.getProperty(HelperMisc.APP_USER)
                     : null; // Since the user change is only implemented on linux this dependency is fine
 
-            app.setCategory(new Identifier(category));
-            app.setVersion(version);
-            app.setCopyright(copyright);
-            app.setDescription(description);
-            app.setRunAs(user);
-
-            app.setRunAtStartup(false); // This is not supported in this implementation
-            app.setRunning(false); // Default values
+            return  new AppDetails(myAppName, description, version, new Identifier(category),
+                    false, false, HelperMisc.PROVIDER_PROPERTIES_FILE, copyright, user);
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
 
-        return app;
+        return new AppDetails(myAppName, null, null, null, null, null);
     }
 
     public final void addFolderWithApps(File folder) {

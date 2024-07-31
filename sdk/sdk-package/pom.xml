@@ -195,18 +195,6 @@
         <version>1.4.0</version>
         <executions>
           <execution>
-            <id>get-mal-spec</id>
-            <phase>process-resources</phase>
-            <goals>
-              <goal>wget</goal>
-            </goals>
-            <configuration>
-              <url>https://public.ccsds.org/Pubs/521x0b3.pdf</url>
-              <outputFileName>CCSDS_MO_MAL_521x0b3.pdf</outputFileName>
-              <outputDirectory>${esa.nmf.sdk.assembly.outputdir}/docs/MO_Services</outputDirectory>
-            </configuration>
-          </execution>
-          <execution>
             <id>get-mal-java-api-spec</id>
             <phase>process-resources</phase>
             <goals>
@@ -237,8 +225,8 @@
               <goal>wget</goal>
             </goals>
             <configuration>
-              <url>https://public.ccsds.org/Pubs/521x1b1.pdf</url>
-              <outputFileName>CCSDS_MO_COM_521x1b1.pdf</outputFileName>
+              <url>https://public.ccsds.org/Pubs/521x0b3.pdf</url>
+              <outputFileName>CCSDS_MO_COM_521x0b3.pdf</outputFileName>
               <outputDirectory>${esa.nmf.sdk.assembly.outputdir}/docs/MO_Services</outputDirectory>
             </configuration>
           </execution>

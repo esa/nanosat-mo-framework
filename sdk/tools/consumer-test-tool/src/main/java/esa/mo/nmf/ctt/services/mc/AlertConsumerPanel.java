@@ -33,12 +33,12 @@ import org.ccsds.moims.mo.com.structures.InstanceBooleanPair;
 import org.ccsds.moims.mo.com.structures.InstanceBooleanPairList;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.MALStandardError;
+import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.mc.alert.AlertHelper;
+import org.ccsds.moims.mo.mc.alert.AlertServiceInfo;
 import org.ccsds.moims.mo.mc.alert.consumer.AlertAdapter;
 import org.ccsds.moims.mo.mc.alert.structures.AlertCreationRequest;
 import org.ccsds.moims.mo.mc.alert.structures.AlertCreationRequestList;
@@ -217,24 +217,23 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_listDefinitionButtonActionPerformed
 
     private void addDefinitionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDefinitionButtonActionPerformed
+        ArgumentDefinitionDetails details = new ArgumentDefinitionDetails(
+            new Identifier("0"),
+            (byte) 1);
+
+        ArgumentDefinitionDetailsList detailsList = new ArgumentDefinitionDetailsList();
+        detailsList.add(null);
         // Create and Show the Action Definition to the user
         AlertDefinitionDetails alertDefinition = new AlertDefinitionDetails();
         alertDefinition.setDescription("This Alert is generated 10 seconds after taking the picture.");
         alertDefinition.setSeverity(Severity.INFORMATIONAL);
         alertDefinition.setGenerationEnabled(true);
-
-        ArgumentDefinitionDetails details = new ArgumentDefinitionDetails();
-        details.setRawType((byte) 1);
-        details.setArgId(new Identifier("0"));
-
-        ArgumentDefinitionDetailsList detailsList = new ArgumentDefinitionDetailsList();
-        detailsList.add(null);
         alertDefinition.setArguments(detailsList);
-
-        AlertCreationRequest request = new AlertCreationRequest();
-        request.setAlertDefDetails(alertDefinition);
-        request.setName(new Identifier("Alert1"));
-
+        
+        AlertCreationRequest request = new AlertCreationRequest(
+            new Identifier("Alert1"),
+            alertDefinition);
+        
         MOWindow alertDefinitionWindow = new MOWindow(request, true);
 
         AlertCreationRequestList requestList = new AlertCreationRequestList();
@@ -254,9 +253,11 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
             Thread.sleep(500);
 
             // Get the stored Action Definition from the Archive
-            ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(this.serviceMCAlert.getCOMServices()
-                .getArchiveService().getArchiveStub(), AlertHelper.ALERTDEFINITION_OBJECT_TYPE, serviceMCAlert
-                    .getConnectionDetails().getDomain(), objIds.get(0).getObjDefInstanceId());
+            ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(
+                    this.serviceMCAlert.getCOMServices().getArchiveService().getArchiveStub(),
+                    AlertServiceInfo.ALERTDEFINITION_OBJECT_TYPE, 
+                    serviceMCAlert.getConnectionDetails().getDomain(), 
+                    objIds.get(0).getObjDefInstanceId());
 
             // Add the Action Definition to the table
             alertTable.addEntry(requestList.get(0).getName(), comObject);
@@ -338,19 +339,14 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCAlert.getAlertStub().asyncListDefinition(idList, new AlertAdapter() {
                 @Override
-                public void listDefinitionResponseReceived(MALMessageHeader msgHeader,
-                    ObjectInstancePairList alertObjInstIds, Map qosProperties) {
-                    alertTable.refreshTableWithIds(alertObjInstIds, serviceMCAlert.getConnectionDetails().getDomain(),
-                        AlertHelper.ALERTDEFINITION_OBJECT_TYPE);
-                    Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.INFO,
-                        "listDefinition(\"*\") returned {0} object instance identifiers", alertObjInstIds.size());
+                public void listDefinitionResponseReceived(MALMessageHeader msgHeader, ObjectInstancePairList alertObjInstIds, Map qosProperties) {
+                    alertTable.refreshTableWithIds(alertObjInstIds, serviceMCAlert.getConnectionDetails().getDomain(), AlertServiceInfo.ALERTDEFINITION_OBJECT_TYPE);
+                    Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.INFO, "listDefinition(\"*\") returned {0} object instance identifiers", alertObjInstIds.size());
                 }
 
                 @Override
-                public void listDefinitionErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
-                    Map qosProperties) {
-                    JOptionPane.showMessageDialog(null, "There was an error during the listDefinition operation.",
-                        "Error", JOptionPane.PLAIN_MESSAGE);
+                public void listDefinitionErrorReceived(MALMessageHeader msgHeader, MOErrorException error, Map qosProperties) {
+                    JOptionPane.showMessageDialog(null, "There was an error during the listDefinition operation.", "Error", JOptionPane.PLAIN_MESSAGE);
                     Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, error);
                 }
             });

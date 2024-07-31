@@ -27,7 +27,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.MALStandardError;
+import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
@@ -63,6 +63,7 @@ import org.ccsds.moims.mo.mp.structures.c_ResourceDefinitionDetailsList;
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.mp.impl.consumer.PlanInformationManagementConsumerServiceImpl;
 import esa.mo.tools.mowindow.MOWindow;
+import org.ccsds.moims.mo.mp.planinformationmanagement.PlanInformationManagementServiceInfo;
 
 /**
  * PlanInformationManagementConsumerPanel
@@ -338,7 +339,7 @@ public class PlanInformationManagementConsumerPanel extends javax.swing.JPanel {
                     }
 
                     @Override
-                    public void addRequestDefErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                    public void addRequestDefErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
                         Map qosProperties) {
                         JOptionPane.showMessageDialog(null, "There was an error during the addRequestDef operation.\n" +
                             error.toString(), "Error", JOptionPane.PLAIN_MESSAGE);
@@ -383,7 +384,7 @@ public class PlanInformationManagementConsumerPanel extends javax.swing.JPanel {
                     }
 
                     @Override
-                    public void updateRequestDefErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                    public void updateRequestDefErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
                         Map qosProperties) {
                         JOptionPane.showMessageDialog(null,
                             "There was an error during the updateRequestDef operation.\n" + error.toString(), "Error",
@@ -417,7 +418,7 @@ public class PlanInformationManagementConsumerPanel extends javax.swing.JPanel {
                     }
 
                     @Override
-                    public void removeRequestDefErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                    public void removeRequestDefErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
                         Map qosProperties) {
                         JOptionPane.showMessageDialog(null,
                             "There was an error during the removeRequestDef operation.\n" + error.toString(), "Error",
@@ -448,7 +449,7 @@ public class PlanInformationManagementConsumerPanel extends javax.swing.JPanel {
                                 .getObjectIdentityInstanceId(), defId.getObjectInstanceId()));
                         }
                         requestDefTable.refreshTableWithIds(ids, pimService.getConnectionDetails().getDomain(),
-                            PlanInformationManagementHelper.REQUESTTEMPLATE_OBJECT_TYPE);
+                            PlanInformationManagementServiceInfo.REQUESTTEMPLATE_OBJECT_TYPE);
                         jScrollPane2.setViewportView(requestDefTable);
                         LOGGER.log(Level.INFO, "listRequestDefinition(\"*\") returned {0} object instance identifiers",
                             defInstIds.size());
@@ -459,7 +460,7 @@ public class PlanInformationManagementConsumerPanel extends javax.swing.JPanel {
                     }
 
                     @Override
-                    public void listRequestDefsErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                    public void listRequestDefsErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
                         Map qosProperties) {
                         JOptionPane.showMessageDialog(null,
                             "There was an error during the listRequestDefinition operation.\n" + error.toString(),
@@ -493,7 +494,7 @@ public class PlanInformationManagementConsumerPanel extends javax.swing.JPanel {
                     }
 
                     @Override
-                    public void removeRequestDefErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                    public void removeRequestDefErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
                         Map qosProperties) {
                         JOptionPane.showMessageDialog(null,
                             "There was an error during the removeRequestDef operation.\n" + error.toString(), "Error",
@@ -547,7 +548,7 @@ public class PlanInformationManagementConsumerPanel extends javax.swing.JPanel {
                     }
 
                     @Override
-                    public void addActivityDefErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                    public void addActivityDefErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
                         Map qosProperties) {
                         JOptionPane.showMessageDialog(null,
                             "There was an error during the addActivityDef operation.\n" + error.toString(), "Error",
@@ -593,7 +594,7 @@ public class PlanInformationManagementConsumerPanel extends javax.swing.JPanel {
                     }
 
                     @Override
-                    public void updateActivityDefErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                    public void updateActivityDefErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
                         Map qosProperties) {
                         JOptionPane.showMessageDialog(null,
                             "There was an error during the updateActivityDef operation.\n" + error.toString(), "Error",
@@ -627,7 +628,7 @@ public class PlanInformationManagementConsumerPanel extends javax.swing.JPanel {
                     }
 
                     @Override
-                    public void removeActivityDefErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                    public void removeActivityDefErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
                         Map qosProperties) {
                         JOptionPane.showMessageDialog(null,
                             "There was an error during the removeActivityDef operation.\n" + error.toString(), "Error",
@@ -658,7 +659,7 @@ public class PlanInformationManagementConsumerPanel extends javax.swing.JPanel {
                                 .getObjectIdentityInstanceId(), defId.getObjectInstanceId()));
                         }
                         activityDefTable.refreshTableWithIds(ids, pimService.getConnectionDetails().getDomain(),
-                            PlanInformationManagementHelper.ACTIVITYDEFINITION_OBJECT_TYPE);
+                            PlanInformationManagementServiceInfo.ACTIVITYDEFINITION_OBJECT_TYPE);
                         jScrollPane2.setViewportView(activityDefTable);
                         LOGGER.log(Level.INFO, "listActivityDefinition(\"*\") returned {0} object instance identifiers",
                             defInstIds.size());
@@ -669,7 +670,7 @@ public class PlanInformationManagementConsumerPanel extends javax.swing.JPanel {
                     }
 
                     @Override
-                    public void listRequestDefsErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                    public void listRequestDefsErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
                         Map qosProperties) {
                         JOptionPane.showMessageDialog(null,
                             "There was an error during the listActivityDefinition operation.\n" + error.toString(),
@@ -703,7 +704,7 @@ public class PlanInformationManagementConsumerPanel extends javax.swing.JPanel {
                     }
 
                     @Override
-                    public void removeActivityDefErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                    public void removeActivityDefErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
                         Map qosProperties) {
                         JOptionPane.showMessageDialog(null,
                             "There was an error during the removeActivityDef operation.\n" + error.toString(), "Error",
@@ -757,7 +758,7 @@ public class PlanInformationManagementConsumerPanel extends javax.swing.JPanel {
                     }
 
                     @Override
-                    public void addEventDefErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                    public void addEventDefErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
                         Map qosProperties) {
                         JOptionPane.showMessageDialog(null, "There was an error during the addEventDef operation.\n" +
                             error.toString(), "Error", JOptionPane.PLAIN_MESSAGE);
@@ -801,7 +802,7 @@ public class PlanInformationManagementConsumerPanel extends javax.swing.JPanel {
                     }
 
                     @Override
-                    public void updateEventDefErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                    public void updateEventDefErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
                         Map qosProperties) {
                         JOptionPane.showMessageDialog(null,
                             "There was an error during the updateEventDef operation.\n" + error.toString(), "Error",
@@ -834,7 +835,7 @@ public class PlanInformationManagementConsumerPanel extends javax.swing.JPanel {
                     }
 
                     @Override
-                    public void removeEventDefErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                    public void removeEventDefErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
                         Map qosProperties) {
                         JOptionPane.showMessageDialog(null,
                             "There was an error during the removeEventDef operation.\n" + error.toString(), "Error",
@@ -865,7 +866,7 @@ public class PlanInformationManagementConsumerPanel extends javax.swing.JPanel {
                                 .getObjectIdentityInstanceId(), defId.getObjectInstanceId()));
                         }
                         eventDefTable.refreshTableWithIds(ids, pimService.getConnectionDetails().getDomain(),
-                            PlanInformationManagementHelper.EVENTDEFINITION_OBJECT_TYPE);
+                            PlanInformationManagementServiceInfo.EVENTDEFINITION_OBJECT_TYPE);
                         jScrollPane2.setViewportView(eventDefTable);
                         LOGGER.log(Level.INFO, "listEventDefinition(\"*\") returned {0} object instance identifiers",
                             defInstIds.size());
@@ -876,7 +877,7 @@ public class PlanInformationManagementConsumerPanel extends javax.swing.JPanel {
                     }
 
                     @Override
-                    public void listEventDefsErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                    public void listEventDefsErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
                         Map qosProperties) {
                         JOptionPane.showMessageDialog(null,
                             "There was an error during the listEventDefinition operation.\n" + error.toString(),
@@ -909,7 +910,7 @@ public class PlanInformationManagementConsumerPanel extends javax.swing.JPanel {
                     }
 
                     @Override
-                    public void removeEventDefErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                    public void removeEventDefErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
                         Map qosProperties) {
                         JOptionPane.showMessageDialog(null,
                             "There was an error during the removeEventDef operation.\n" + error.toString(), "Error",
@@ -972,7 +973,7 @@ public class PlanInformationManagementConsumerPanel extends javax.swing.JPanel {
                     }
 
                     @Override
-                    public void addResourceDefErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                    public void addResourceDefErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
                         Map qosProperties) {
                         JOptionPane.showMessageDialog(null,
                             "There was an error during the addResourceDef operation.\n" + error.toString(), "Error",
@@ -1018,7 +1019,7 @@ public class PlanInformationManagementConsumerPanel extends javax.swing.JPanel {
                     }
 
                     @Override
-                    public void updateResourceDefErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                    public void updateResourceDefErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
                         Map qosProperties) {
                         JOptionPane.showMessageDialog(null,
                             "There was an error during the updateResourceDef operation.\n" + error.toString(), "Error",
@@ -1052,7 +1053,7 @@ public class PlanInformationManagementConsumerPanel extends javax.swing.JPanel {
                     }
 
                     @Override
-                    public void removeResourceDefErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                    public void removeResourceDefErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
                         Map qosProperties) {
                         JOptionPane.showMessageDialog(null,
                             "There was an error during the removeResourceDef operation.\n" + error.toString(), "Error",
@@ -1083,7 +1084,7 @@ public class PlanInformationManagementConsumerPanel extends javax.swing.JPanel {
                                 .getObjectIdentityInstanceId(), defId.getObjectInstanceId()));
                         }
                         resourceDefTable.refreshTableWithIds(ids, pimService.getConnectionDetails().getDomain(),
-                            PlanInformationManagementHelper.RESOURCEDEFINITION_OBJECT_TYPE);
+                            PlanInformationManagementServiceInfo.RESOURCEDEFINITION_OBJECT_TYPE);
                         jScrollPane2.setViewportView(resourceDefTable);
                         LOGGER.log(Level.INFO, "listResourceDefinition(\"*\") returned {0} object instance identifiers",
                             defInstIds.size());
@@ -1094,7 +1095,7 @@ public class PlanInformationManagementConsumerPanel extends javax.swing.JPanel {
                     }
 
                     @Override
-                    public void listResourceDefsErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                    public void listResourceDefsErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
                         Map qosProperties) {
                         JOptionPane.showMessageDialog(null,
                             "There was an error during the listResourceDefinition operation.\n" + error.toString(),
@@ -1128,7 +1129,7 @@ public class PlanInformationManagementConsumerPanel extends javax.swing.JPanel {
                     }
 
                     @Override
-                    public void removeResourceDefErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                    public void removeResourceDefErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
                         Map qosProperties) {
                         JOptionPane.showMessageDialog(null,
                             "There was an error during the removeResourceDef operation.\n" + error.toString(), "Error",

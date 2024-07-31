@@ -32,7 +32,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.MALStandardError;
+import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.UInteger;
@@ -101,8 +101,7 @@ public class CameraAcquisitorSystemCameraHandler {
             }
 
             @Override
-            public void getTLEAckErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
-                    Map qosProperties) {
+            public void getTLEAckErrorReceived(MALMessageHeader msgHeader, MOErrorException error, Map qosProperties) {
                 LOGGER.log(Level.INFO, "TLE ERROR: {0}", error.toString());
             }
 
@@ -206,7 +205,7 @@ public class CameraAcquisitorSystemCameraHandler {
                     fos.close();
                 }
                 LOGGER.log(Level.INFO, "Photograph was taken at {0}", posString);
-            } catch (IOException | MALException ex) {
+            } catch (IOException ex) {
                 LOGGER.log(Level.SEVERE, "Saving of Photograph Failed!/n{0}", ex);
             }
 
@@ -223,10 +222,8 @@ public class CameraAcquisitorSystemCameraHandler {
         }
 
         @Override
-        public void takePictureAckErrorReceived(
-                org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-                org.ccsds.moims.mo.mal.MALStandardError error,
-                java.util.Map qosProperties) {
+        public void takePictureAckErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
+            org.ccsds.moims.mo.mal.MOErrorException error, java.util.Map qosProperties) {
             try {
                 this.casMCAdapter.getConnector().reportActionExecutionProgress(false, 1,
                         STAGE_RECIVED + this.stageOffset,
@@ -241,10 +238,8 @@ public class CameraAcquisitorSystemCameraHandler {
         }
 
         @Override
-        public void takePictureResponseErrorReceived(
-                org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-                org.ccsds.moims.mo.mal.MALStandardError error,
-                java.util.Map qosProperties) {
+        public void takePictureResponseErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
+            org.ccsds.moims.mo.mal.MOErrorException error, java.util.Map qosProperties) {
             try {
                 this.casMCAdapter.getConnector().reportActionExecutionProgress(false, 1,
                         STAGE_RECIVED + this.stageOffset,

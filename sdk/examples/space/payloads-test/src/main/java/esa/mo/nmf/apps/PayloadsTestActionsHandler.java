@@ -20,7 +20,6 @@
  */
 package esa.mo.nmf.apps;
 
-import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.nmf.NMFException;
 import java.io.IOException;
 import java.io.Serializable;
@@ -30,6 +29,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.UInteger;

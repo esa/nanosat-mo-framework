@@ -21,26 +21,25 @@
 package esa.mo.nmf.ctt.services.mc;
 
 import esa.mo.mc.impl.consumer.ParameterConsumerServiceImpl;
-import esa.mo.helpertools.connections.ConnectionConsumer;
-import esa.mo.helpertools.helpers.HelperAttributes;
 import java.awt.Color;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.structures.ObjectIdList;
+import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
+import org.ccsds.moims.mo.mal.structures.NullableAttributeList;
 import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.UpdateHeader;
-import org.ccsds.moims.mo.mal.structures.UpdateHeaderList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.parameter.consumer.ParameterAdapter;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterValueList;
 import org.ccsds.moims.mo.mc.parameter.structures.ValidityState;
 
 /**
@@ -107,41 +106,39 @@ public class ParameterPublishedValues extends javax.swing.JPanel {
     public class ParameterConsumerAdapter extends ParameterAdapter {
 
         @Override
-        public void monitorValueNotifyReceived(final MALMessageHeader msgHeader, final Identifier lIdentifier,
-            final UpdateHeaderList lUpdateHeaderList, final ObjectIdList lObjectIdList,
-            final ParameterValueList lParameterValueList, final Map qosp) {
-            Logger.getLogger(ParameterPublishedValues.class.getName()).log(Level.FINE,
-                "Received update parameters list of size : {0}", lObjectIdList.size());
+        public void monitorValueNotifyReceived(final MALMessageHeader msgHeader,
+                final Identifier lIdentifier, final UpdateHeader updateHeader,
+                final ObjectId objectId, final ParameterValue parameterValue,
+                final Map qosp) {
+            Logger.getLogger(ParameterPublishedValues.class.getName()).log(
+                    Level.FINE, "Received update parameter value!");
 
-            for (int i = 0; i < lObjectIdList.size(); i++) {
-                final UpdateHeader updateHeader = lUpdateHeaderList.get(i);
-                final ParameterValue parameterValue = lParameterValueList.get(i);
-                final String name = updateHeader.getKey().getFirstSubKey().getValue();
+            final NullableAttributeList keyValues = updateHeader.getKeyValues();
+            final String name = HelperAttributes.attribute2string(keyValues.get(0).getValue());
+            final Long second = (Long) HelperAttributes.attribute2JavaType(keyValues.get(1).getValue());
+            //final String name = updateHeader.getKey().getFirstSubKey().getValue();
 
-                try {
-                    final int objId = updateHeader.getKey().getSecondSubKey().intValue();
+            try {
+                final int objId = second.intValue();
 
-                    final int index = (int) ((5 * numberOfColumns) * Math.floor(objId / (5.0)) + objId %
-                        numberOfColumns);
+                final int index = (int) ((5 * numberOfColumns) * Math.floor(objId / (5)) + objId % numberOfColumns);
 
-                    if ((0 <= index) && (index < labels.length)) {
-                        String nameId = "(" + objId + ") " + updateHeader.getKey().getFirstSubKey().getValue();
-                        UOctet validityState = parameterValue.getValidityState();
-                        String validity = ValidityState.fromNumericValue(new UInteger(validityState.getValue()))
-                            .toString();
-                        String rawValue = HelperAttributes.attribute2string(parameterValue.getRawValue());
-                        String convertedValue = HelperAttributes.attribute2string(parameterValue.getConvertedValue());
+                if ((0 <= index) && (index < labels.length)) {
+                    String nameId = "(" + String.valueOf(objId) + ") " + name;
+                    UOctet validityState = parameterValue.getValidityState();
+                    String validity = ValidityState.fromNumericValue(new UInteger(validityState.getValue())).toString();
+                    String rawValue = HelperAttributes.attribute2string(parameterValue.getRawValue());
+                    String convertedValue = HelperAttributes.attribute2string(parameterValue.getConvertedValue());
 
-                        boolean isNotValid = (validityState.getValue() != ValidityState._VALID_INDEX);
-                        labels[index + 0 * numberOfColumns].setNewValue(nameId, isNotValid);
-                        labels[index + 1 * numberOfColumns].setNewValue(validity, isNotValid);
-                        labels[index + 2 * numberOfColumns].setNewValue(rawValue, isNotValid);
-                        labels[index + 3 * numberOfColumns].setNewValue(convertedValue, isNotValid);
-                    }
-                } catch (NumberFormatException ex) {
-                    Logger.getLogger(ParameterPublishedValues.class.getName()).log(Level.WARNING,
-                        "Error decoding update with name: {0}", name);
+                    boolean isNotValid = (validityState.getValue() != ValidityState._VALID_INDEX);
+                    labels[index + 0 * numberOfColumns].setNewValue(nameId, isNotValid);
+                    labels[index + 1 * numberOfColumns].setNewValue(validity, isNotValid);
+                    labels[index + 2 * numberOfColumns].setNewValue(rawValue, isNotValid);
+                    labels[index + 3 * numberOfColumns].setNewValue(convertedValue, isNotValid);
                 }
+            } catch (NumberFormatException ex) {
+                Logger.getLogger(ParameterPublishedValues.class.getName()).log(Level.WARNING,
+                        "Error decoding update with name: {0}", name);
             }
         }
     }

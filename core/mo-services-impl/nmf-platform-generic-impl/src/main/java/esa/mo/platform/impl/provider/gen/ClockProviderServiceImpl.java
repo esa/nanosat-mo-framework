@@ -22,18 +22,15 @@ package esa.mo.platform.impl.provider.gen;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.COMHelper;
-import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.structures.Time;
-import org.ccsds.moims.mo.platform.PlatformHelper;
 import org.ccsds.moims.mo.platform.clock.ClockHelper;
 import org.ccsds.moims.mo.platform.clock.provider.ClockInheritanceSkeleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
+import org.ccsds.moims.mo.platform.clock.ClockServiceInfo;
 
 public class ClockProviderServiceImpl extends ClockInheritanceSkeleton {
 
@@ -52,36 +49,14 @@ public class ClockProviderServiceImpl extends ClockInheritanceSkeleton {
      */
     public synchronized void init(ClockAdapterInterface adapter) throws MALException {
         long timestamp = System.currentTimeMillis();
-        
-        if (!initialiased) {
-            if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
-                MALHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(PlatformHelper.PLATFORM_AREA_NAME,
-                    PlatformHelper.PLATFORM_AREA_VERSION) == null) {
-                PlatformHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION) == null) {
-                COMHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            try {
-                ClockHelper.init(MALContextFactory.getElementFactoryRegistry());
-            } catch (MALException ex) {
-                // nothing to be done..
-            }
-        }
-
         // Shut down old service transport
         if (null != clockServiceProvider) {
             connection.closeAll();
         }
 
         this.adapter = adapter;
-        clockServiceProvider = connection.startService(
-                ClockHelper.CLOCK_SERVICE_NAME.toString(), ClockHelper.CLOCK_SERVICE, this);
+        clockServiceProvider = connection.startService(ClockServiceInfo.CLOCK_SERVICE_NAME.toString(),
+            ClockHelper.CLOCK_SERVICE, this);
 
         initialiased = true;
         timestamp = System.currentTimeMillis() - timestamp;

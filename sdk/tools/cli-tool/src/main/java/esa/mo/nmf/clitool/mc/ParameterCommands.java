@@ -48,16 +48,16 @@ import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.MALStandardError;
+import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.MCHelper;
-import org.ccsds.moims.mo.mc.aggregation.AggregationHelper;
+import org.ccsds.moims.mo.mc.aggregation.AggregationServiceInfo;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetails;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSet;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterValue;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationSetValue;
-import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
+import org.ccsds.moims.mo.mc.parameter.ParameterServiceInfo;
 import org.ccsds.moims.mo.mc.parameter.consumer.ParameterAdapter;
 import org.ccsds.moims.mo.mc.parameter.consumer.ParameterStub;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterValueList;
@@ -94,6 +94,7 @@ public class ParameterCommands {
             }
 
             Identifier subscriptionId = new Identifier("CLI-Consumer-ParameterSubscription");
+            /*
             EntityKeyList entityKeys = new EntityKeyList();
             if (parameterNames == null || parameterNames.isEmpty()) {
                 EntityKey entitykey = new EntityKey(new Identifier("*"), 0L, 0L, 0L);
@@ -107,27 +108,38 @@ public class ParameterCommands {
             EntityRequest entity = new EntityRequest(null, false, false, false, false, entityKeys);
             EntityRequestList entities = new EntityRequestList();
             entities.add(entity);
+            */
+            SubscriptionFilterList filters = new SubscriptionFilterList();
+            if (parameterNames == null || parameterNames.isEmpty()) {
+            } else {
+                for (String parameter : parameterNames) {
+                    filters.add(new SubscriptionFilter(new Identifier("objIdentityInstanceName"), new AttributeList(parameter)));
+                }
+            }
 
             ParameterStub stub = consumer.getMCServices().getParameterService().getParameterStub();
-            Subscription subscription = new Subscription(subscriptionId, entities);
+            Subscription subscription = new Subscription(subscriptionId, null, null, filters);
             parameterSubscription = subscriptionId;
             final Object lock = new Object();
             try {
                 stub.monitorValueRegister(subscription, new ParameterAdapter() {
                     @Override
-                    public void monitorValueNotifyReceived(MALMessageHeader msgHeader, Identifier identifier,
-                            UpdateHeaderList updateHeaderList, ObjectIdList objectIdList,
-                            ParameterValueList parameterValueList, Map qosProperties) {
-                        String parameterName = updateHeaderList.get(0).getKey().getFirstSubKey().getValue()
-                                .toLowerCase();
-                        long timestamp = updateHeaderList.get(0).getTimestamp().getValue();
-                        String value = parameterValueList.get(0).getRawValue().toString();
+                    public void monitorValueNotifyReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
+                            org.ccsds.moims.mo.mal.structures.Identifier subscriptionId,
+                            org.ccsds.moims.mo.mal.structures.UpdateHeader updateHeader,
+                            org.ccsds.moims.mo.com.structures.ObjectId objId,
+                            org.ccsds.moims.mo.mc.parameter.structures.ParameterValue newValue,
+                            java.util.Map qosProperties) {
+                        String parameterName = ((Union) updateHeader.getKeyValues().get(0).getValue()).getStringValue();
+                        long timestamp = msgHeader.getTimestamp().getValue();
+                        String value = ((Union) updateHeader.getKeyValues().get(1).getValue()).getStringValue();
+                        //String value = parameterValueList.get(0).getRawValue().toString();
 
                         System.out.println("[" + timestamp + "] - " + parameterName + ": " + value);
                     }
 
                     @Override
-                    public void monitorValueRegisterErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                    public void monitorValueRegisterErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
                             Map qosProperties) {
                         LOGGER.log(Level.SEVERE, "Error during monitorValueRegister!", error);
                         synchronized (lock) {
@@ -249,12 +261,12 @@ public class ParameterCommands {
 
             ArchiveToParametersAdapter parametersAdapter = new ArchiveToParametersAdapter();
             ObjectType parameterObjectType = new ObjectType(MCHelper.MC_AREA_NUMBER,
-                    ParameterHelper.PARAMETER_SERVICE_NUMBER, MCHelper.MC_AREA_VERSION, new UShort(0));
+                    ParameterServiceInfo.PARAMETER_SERVICE_NUMBER, MCHelper.MC_AREA_VERSION, new UShort(0));
             queryArchive(parameterObjectType, archiveQueryList, parametersAdapter, parametersAdapter);
 
             ArchiveToAggregationsAdapter aggregationsAdapter = new ArchiveToAggregationsAdapter();
             ObjectType aggregationObjectType = new ObjectType(MCHelper.MC_AREA_NUMBER,
-                    AggregationHelper.AGGREGATION_SERVICE_NUMBER, MCHelper.MC_AREA_VERSION, new UShort(0));
+                    AggregationServiceInfo.AGGREGATION_SERVICE_NUMBER, MCHelper.MC_AREA_VERSION, new UShort(0));
             queryArchive(aggregationObjectType, archiveQueryList, aggregationsAdapter, aggregationsAdapter);
 
             Map<IdentifierList, Map<Identifier, List<TimestampedParameterValue>>> allParameters = parametersAdapter
@@ -408,7 +420,7 @@ public class ParameterCommands {
             archiveQueryList.add(archiveQuery);
 
             ArchiveToParametersAdapter adapter = new ArchiveToParametersAdapter();
-            queryArchive(ParameterHelper.PARAMETERIDENTITY_OBJECT_TYPE, archiveQueryList, adapter, adapter);
+            queryArchive(ParameterServiceInfo.PARAMETERIDENTITY_OBJECT_TYPE, archiveQueryList, adapter, adapter);
 
             // Display list of NMF apps that have parameters
             Map<IdentifierList, List<Identifier>> parameters = adapter.getParameterIdentities();
@@ -450,7 +462,7 @@ public class ParameterCommands {
             parameterService.enableGeneration(false, enableInstances);
             System.out.println((enable ? "Enable " : "Disable ") + "successful.");
         } catch (MALInteractionException e) {
-            MALStandardError error = e.getStandardError();
+            MOErrorException error = e.getStandardError();
             if (error.getErrorNumber().equals(MALHelper.UNKNOWN_ERROR_NUMBER)) {
                 System.out.println("Provided parameters don't exist in the provider:");
                 for (UInteger id : (UIntegerList) error.getExtraInformation()) {

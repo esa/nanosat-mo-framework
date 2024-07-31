@@ -21,21 +21,19 @@
 package esa.mo.platform.impl.provider.gen;
 
 import esa.mo.helpertools.connections.ConnectionProvider;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
-import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.MALStandardError;
+import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.platform.PlatformHelper;
 import org.ccsds.moims.mo.platform.opticaldatareceiver.OpticalDataReceiverHelper;
+import org.ccsds.moims.mo.platform.opticaldatareceiver.OpticalDataReceiverServiceInfo;
 import org.ccsds.moims.mo.platform.opticaldatareceiver.provider.OpticalDataReceiverInheritanceSkeleton;
 import org.ccsds.moims.mo.platform.opticaldatareceiver.provider.RecordSamplesInteraction;
 
@@ -58,28 +56,6 @@ public class OpticalDataReceiverProviderServiceImpl extends OpticalDataReceiverI
      */
     public synchronized void init(OpticalDataReceiverAdapterInterface adapter) throws MALException {
         long timestamp = System.currentTimeMillis();
-        
-        if (!initialiased) {
-            if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
-                MALHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(PlatformHelper.PLATFORM_AREA_NAME,
-                    PlatformHelper.PLATFORM_AREA_VERSION) == null) {
-                PlatformHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION) == null) {
-                COMHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(PlatformHelper.PLATFORM_AREA_NAME,
-                    PlatformHelper.PLATFORM_AREA_VERSION)
-                    .getServiceByName(OpticalDataReceiverHelper.OPTICALDATARECEIVER_SERVICE_NAME) == null) {
-                OpticalDataReceiverHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-        }
-
         // Shut down old service transport
         if (null != opticalDataReceiverServiceProvider) {
             connection.closeAll();
@@ -87,8 +63,8 @@ public class OpticalDataReceiverProviderServiceImpl extends OpticalDataReceiverI
 
         this.adapter = adapter;
         opticalDataReceiverServiceProvider = connection.startService(
-                OpticalDataReceiverHelper.OPTICALDATARECEIVER_SERVICE_NAME.toString(),
-                OpticalDataReceiverHelper.OPTICALDATARECEIVER_SERVICE, this);
+            OpticalDataReceiverServiceInfo.OPTICALDATARECEIVER_SERVICE_NAME.toString(),
+            OpticalDataReceiverHelper.OPTICALDATARECEIVER_SERVICE, this);
 
         initialiased = true;
         timestamp = System.currentTimeMillis() - timestamp;
@@ -116,28 +92,27 @@ public class OpticalDataReceiverProviderServiceImpl extends OpticalDataReceiverI
             throws MALInteractionException, MALException {
         if (!adapter.isUnitAvailable()) {
             // TODO Add error code to the service spec
-            throw new MALInteractionException(new MALStandardError(
-                    PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
+            throw new MALInteractionException(new MOErrorException(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER,
+                null));
         }
         if (recordingDuration == null || recordingDuration.getValue() == 0.0) {
             // TODO Add error code to the service spec
-            interaction.sendError(new MALStandardError(new UInteger(0), null));
+            interaction.sendError(new MOErrorException(new UInteger(0), null));
             return;
         }
         if (recordingDuration.getValue() > MAX_RECORDING_DURATION) {
-            interaction.sendError(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, 
-                    new Duration(MAX_RECORDING_DURATION)));
+            interaction.sendError(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, new Duration(
+                MAX_RECORDING_DURATION)));
             return;
         }
         interaction.sendAcknowledgement();
         byte[] data = adapter.recordOpticalReceiverData(recordingDuration);
         if (data == null) {
             // TODO Add error code to the service spec
-            interaction.sendError(new MALStandardError(new UInteger(0), null));
+            interaction.sendError(new MOErrorException(new UInteger(0), null));
             return;
         }
 
         interaction.sendResponse(new Blob(data));
     }
-
 }

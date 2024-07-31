@@ -20,7 +20,6 @@
  */
 package esa.mo.nmf.clitool.sm;
 
-import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.nmf.clitool.BaseCommand;
 import esa.mo.nmf.clitool.ExitCodes;
 import static esa.mo.nmf.clitool.BaseCommand.consumer;
@@ -37,6 +36,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.softwaremanagement.heartbeat.consumer.HeartbeatAdapter;
@@ -89,9 +89,11 @@ public class SoftwareManagementCommands {
 
                 heartbeat.beatRegister(subscription, new HeartbeatAdapter() {
                     @Override
-                    public void beatNotifyReceived(MALMessageHeader msgHeader, Identifier identifier,
-                            UpdateHeaderList updateHeaderList, Map qosProperties) {
-                        long timestamp = updateHeaderList.get(0).getTimestamp().getValue();
+                    public void beatNotifyReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
+                            org.ccsds.moims.mo.mal.structures.Identifier subscriptionId,
+                            org.ccsds.moims.mo.mal.structures.UpdateHeader updateHeader,
+                            java.util.Map qosProperties) {
+                        long timestamp = msgHeader.getTimestamp().getValue();
                         System.out.println("[" + timestamp + "] - Heartbeat received");
                     }
                 });

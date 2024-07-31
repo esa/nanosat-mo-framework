@@ -48,7 +48,7 @@
   <dependencies>
     <dependency>
       <groupId>int.esa.ccsds.mo</groupId>
-      <artifactId>API_MAL</artifactId>
+      <artifactId>api-area001-v003-mal</artifactId>
     </dependency>
     <dependency>
       <groupId>int.esa.nmf.core.moservices.api</groupId>
@@ -69,7 +69,6 @@
     <dependency>
       <groupId>int.esa.nmf.core.moservices.impl</groupId>
       <artifactId>ccsds-common</artifactId>
-      <version>3.0.0</version>
       <type>jar</type>
     </dependency>
     <dependency>

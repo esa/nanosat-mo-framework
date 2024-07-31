@@ -20,12 +20,15 @@
  */
 package esa.mo.ground.mp;
 
+import esa.mo.mp.impl.util.MPFactory;
+import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mp.planinformationmanagement.consumer.PlanInformationManagementStub;
@@ -38,9 +41,6 @@ import org.ccsds.moims.mo.mp.structures.RequestTemplateDetails;
 import org.ccsds.moims.mo.mp.structures.RequestTemplateDetailsList;
 import org.ccsds.moims.mo.mp.structures.c_ResourceDefinitionDetails;
 import org.ccsds.moims.mo.mp.structures.c_ResourceDefinitionDetailsList;
-import esa.mo.helpertools.connections.ConnectionConsumer;
-import esa.mo.mp.impl.util.MPFactory;
-import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 
 /**
  * Ground consumer: Mission Planning Services

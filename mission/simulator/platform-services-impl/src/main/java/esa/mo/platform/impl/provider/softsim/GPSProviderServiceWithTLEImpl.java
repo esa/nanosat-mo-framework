@@ -29,7 +29,7 @@ import java.util.Calendar;
 import java.util.TimeZone;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.MALStandardError;
+import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.platform.PlatformHelper;
 import org.ccsds.moims.mo.platform.gps.provider.GetTLEInteraction;
@@ -142,7 +142,7 @@ public class GPSProviderServiceWithTLEImpl extends GPSProviderServiceImpl {
   {
     if (!adapter.isUnitAvailable() && isTLEFallbackEnabled == false) { // Is the unit available?
       throw new MALInteractionException(
-          new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
+          new MOErrorException(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
     }
     interaction.sendAcknowledgement();
     TLE tle = adapterCast.getTLE();
@@ -209,7 +209,7 @@ public class GPSProviderServiceWithTLEImpl extends GPSProviderServiceImpl {
             useTLEpropagation = true;
         } else {
             throw new MALInteractionException(
-                new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null)); 
+                new MOErrorException(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null)); 
         }
     }
     else if(!isPositionFixed()){

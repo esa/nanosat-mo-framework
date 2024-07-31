@@ -22,8 +22,8 @@ package esa.mo.nmf.clitool.adapters;
 
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
-import org.ccsds.moims.mo.mal.MALStandardError;
-import org.ccsds.moims.mo.mal.structures.ElementList;
+import org.ccsds.moims.mo.mal.MOErrorException;
+import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 
 import java.util.ArrayList;
@@ -57,7 +57,7 @@ public class ArchiveToRolesAdapter extends ArchiveAdapter implements QueryStatus
     private final List<String> rolesNames = new ArrayList<>();
 
     public void retrieveResponseReceived(MALMessageHeader msgHeader, ArchiveDetailsList objDetails,
-        ElementList objBodies, Map qosProperties) {
+        HeterogeneousList objBodies, Map qosProperties) {
         for (int i = 0; i < objDetails.size(); ++i) {
             rolesIds.add(objDetails.get(i).getInstId());
             rolesNames.add(objBodies.get(i).toString());
@@ -66,13 +66,13 @@ public class ArchiveToRolesAdapter extends ArchiveAdapter implements QueryStatus
     }
 
     @Override
-    public void retrieveAckErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+    public void retrieveAckErrorReceived(MALMessageHeader msgHeader, MOErrorException error, Map qosProperties) {
         LOGGER.log(Level.SEVERE, "retrieveAckErrorReceived", error);
         setIsQueryOver(true);
     }
 
     @Override
-    public void retrieveResponseErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+    public void retrieveResponseErrorReceived(MALMessageHeader msgHeader, MOErrorException error, Map qosProperties) {
         LOGGER.log(Level.SEVERE, "retrieveResponseErrorReceived", error);
         setIsQueryOver(true);
     }

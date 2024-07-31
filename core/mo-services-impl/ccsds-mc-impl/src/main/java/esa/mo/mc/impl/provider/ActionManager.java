@@ -23,7 +23,6 @@ package esa.mo.mc.impl.provider;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
-import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.mc.impl.interfaces.ActionInvocationListener;
 import java.io.IOException;
 import java.util.HashMap;
@@ -39,19 +38,18 @@ import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
+import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UIntegerList;
 import org.ccsds.moims.mo.mal.structures.URI;
-import org.ccsds.moims.mo.mc.action.ActionHelper;
+import org.ccsds.moims.mo.mc.action.ActionServiceInfo;
 import org.ccsds.moims.mo.mc.action.structures.ActionCreationRequest;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetails;
-import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.action.structures.ActionInstanceDetails;
-import org.ccsds.moims.mo.mc.action.structures.ActionInstanceDetailsList;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetails;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
@@ -108,13 +106,17 @@ public final class ActionManager extends MCManager {
             //                this.save();
             return this.uniqueObjIdAIns;
         } else {
-            ActionInstanceDetailsList aValList = new ActionInstanceDetailsList(1);
+            HeterogeneousList aValList = new HeterogeneousList();
             aValList.add(aIns);
 
             try {
-                LongList objIds = super.getArchiveService().store(true, ActionHelper.ACTIONINSTANCE_OBJECT_TYPE,
-                    ConfigurationProviderSingleton.getDomain(), HelperArchive.generateArchiveDetailsList(related, null,
-                        uri), aValList, null);
+                LongList objIds = super.getArchiveService().store(
+                        true,
+                        ActionServiceInfo.ACTIONINSTANCE_OBJECT_TYPE,
+                        ConfigurationProviderSingleton.getDomain(),
+                        HelperArchive.generateArchiveDetailsList(related, null, uri),
+                        aValList,
+                        null);
 
                 if (objIds.size() == 1) {
                     return objIds.get(0);
@@ -145,31 +147,34 @@ public final class ActionManager extends MCManager {
             try {
                 //requirement: 3.2.12.2.e: if an ActionName ever existed before, use the old ActionIdentity-Object by retrieving it from the archive
                 //check if the name existed before and retrieve id if found
-                Long identityId = retrieveIdentityIdByNameFromArchive(ConfigurationProviderSingleton.getDomain(), name,
-                    ActionHelper.ACTIONIDENTITY_OBJECT_TYPE);
+                Long identityId = retrieveIdentityIdByNameFromArchive(ConfigurationProviderSingleton.getDomain(),
+                        name, ActionServiceInfo.ACTIONIDENTITY_OBJECT_TYPE);
 
                 //in case the ActionName never existed before, create a new identity
                 if (identityId == null) {
-                    IdentifierList names = new IdentifierList(1);
+                    HeterogeneousList names = new HeterogeneousList();
                     //requirement: 3.2.4.b
                     names.add(name);
                     //add identity to the archive 3.2.7.a
                     LongList identityIds = super.getArchiveService().store(true,
-                        ActionHelper.ACTIONIDENTITY_OBJECT_TYPE, //requirement: 3.2.4.a
-                        ConfigurationProviderSingleton.getDomain(), HelperArchive.generateArchiveDetailsList(null,
-                            source, uri), //requirement: 3.2.4.e
-                        names, null);
+                            ActionServiceInfo.ACTIONIDENTITY_OBJECT_TYPE, //requirement: 3.2.4.a
+                            ConfigurationProviderSingleton.getDomain(),
+                            HelperArchive.generateArchiveDetailsList(null, source, uri), //requirement: 3.2.4.e
+                            names,
+                            null);
 
                     //there is only one identity created, so get the id and set it as the related id
                     identityId = identityIds.get(0);
                 }
-                ActionDefinitionDetailsList defs = new ActionDefinitionDetailsList();
+                HeterogeneousList defs = new HeterogeneousList();
                 defs.add(actionDefDetails);
                 //add definition to the archive requirement: 3.2.7.b
-                LongList defIds = super.getArchiveService().store(true, ActionHelper.ACTIONDEFINITION_OBJECT_TYPE, //requirement: 3.2.4.c
-                    ConfigurationProviderSingleton.getDomain(), HelperArchive.generateArchiveDetailsList(identityId,
-                        source, uri), //requirement: 3.2.4.d, f
-                    defs, null);
+                LongList defIds = super.getArchiveService().store(true,
+                        ActionServiceInfo.ACTIONDEFINITION_OBJECT_TYPE, //requirement: 3.2.4.c
+                        ConfigurationProviderSingleton.getDomain(),
+                        HelperArchive.generateArchiveDetailsList(identityId, source, uri), //requirement: 3.2.4.d, f
+                        defs,
+                        null);
 
                 newIdPair = new ObjectInstancePair(identityId, defIds.get(0));
             } catch (MALException | MALInteractionException ex) {
@@ -192,13 +197,16 @@ public final class ActionManager extends MCManager {
 
         } else {  // update in the COM Archive
             try {
-                ActionDefinitionDetailsList defs = new ActionDefinitionDetailsList();
+                HeterogeneousList defs = new HeterogeneousList();
                 defs.add(definition);
 
                 //create a new ActionDefinition 
-                LongList defIds = super.getArchiveService().store(true, ActionHelper.ACTIONDEFINITION_OBJECT_TYPE,
-                    ConfigurationProviderSingleton.getDomain(), HelperArchive.generateArchiveDetailsList(identityId,
-                        source, uri), defs, null);
+                LongList defIds = super.getArchiveService().store(true,
+                        ActionServiceInfo.ACTIONDEFINITION_OBJECT_TYPE,
+                        ConfigurationProviderSingleton.getDomain(),
+                        HelperArchive.generateArchiveDetailsList(identityId, source, uri),
+                        defs,
+                        null);
 
                 newDefId = defIds.get(0);
             } catch (MALException | MALInteractionException ex) {
@@ -349,7 +357,7 @@ public final class ActionManager extends MCManager {
             for (int index = 0; index < sizeDefArgIds; index++) {
                 int defRawType = actionDef.getArguments().get(index).getRawType().intValue();
                 int defConvType = actionDef.getArguments().get(index).getConvertedType().intValue();
-                int instType = actionInstance.getArgumentValues().get(index).getValue().getTypeShortForm();
+                int instType = actionInstance.getArgumentValues().get(index).getValue().getTypeId().getSFP();
                 boolean isRawValue = (actionInstance.getIsRawValue() == null) || (actionInstance.getIsRawValue().get(
                     index) == null) || (actionInstance.getIsRawValue().get(index));
                 if ((isRawValue && (defRawType != instType)) || (!isRawValue && (defConvType != instType))) {
@@ -372,39 +380,45 @@ public final class ActionManager extends MCManager {
         //TODO: after issue I expect to get the identity-id here -> issue #179
         final Identifier name = this.getNameFromObjId(actionDetails.getDefInstId());
 
-        actionsExecutor.execute(() -> {
-            try {
-                final ObjectKey key = new ObjectKey(ConfigurationProviderSingleton.getDomain(), actionInstId);
+        actionsExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    final ObjectKey key = new ObjectKey(ConfigurationProviderSingleton.getDomain(), actionInstId);
 
-                URI uriTo = interaction.getMessageHeader().getURITo();
-                URI uriNextDestination = null;
-                String[] nodes = uriTo.toString().split("@");
+                    URI uriTo = interaction.getMessageHeader().getToURI();
+                    URI uriNextDestination = null;
+                    String[] nodes = uriTo.toString().split("@");
 
-                if (nodes.length > 1) { // Remove the first characters until the '@'; +1 below for the '@'
-                    uriNextDestination = new URI(uriTo.toString().substring(nodes[0].length() + 1));
+                    if (nodes.length > 1) { // Remove the first characters until the '@'; +1 below for the '@'
+                        uriNextDestination = new URI(uriTo.toString().substring(nodes[0].length() + 1));
+                    }
+
+                    // Reception
+                    ObjectId sourceRec = new ObjectId(ActionServiceInfo.ACTIONINSTANCE_OBJECT_TYPE, key);
+                    getActivityTrackingService().publishReceptionEvent(new URI(nodes[0]),
+                            null, true, null, uriNextDestination, sourceRec);
+
+                    UInteger errorNumber;
+
+                    // Call the Action
+                    if (actions != null) {
+                        errorNumber = actions.actionArrived(name, actionDetails.getArgumentValues(),
+                                actionInstId, actionDetails.getStageProgressRequired(), interaction);
+                    } else {
+                        errorNumber = new UInteger(0);
+                    }
+
+                    // Publish forward success
+                    ObjectId sourceFor = new ObjectId(ActionServiceInfo.ACTIONINSTANCE_OBJECT_TYPE, key);
+                    getActivityTrackingService().publishForwardEvent(new URI(nodes[0]),
+                            null, (errorNumber == null),
+                            null, uriNextDestination, sourceFor);
+                } catch (MALInteractionException ex) {
+                    Logger.getLogger(ActionManager.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (MALException ex) {
+                    Logger.getLogger(ActionManager.class.getName()).log(Level.SEVERE, null, ex);
                 }
-
-                // Reception
-                ObjectId sourceRec = new ObjectId(ActionHelper.ACTIONINSTANCE_OBJECT_TYPE, key);
-                getActivityTrackingService().publishReceptionEvent(new URI(nodes[0]), interaction.getMessageHeader()
-                    .getNetworkZone(), true, null, uriNextDestination, sourceRec);
-
-                UInteger errorNumber;
-
-                // Call the Action
-                if (actions != null) {
-                    errorNumber = actions.actionArrived(name, actionDetails.getArgumentValues(), actionInstId,
-                        actionDetails.getStageProgressRequired(), interaction);
-                } else {
-                    errorNumber = new UInteger(0);
-                }
-
-                // Publish forward success
-                ObjectId sourceFor = new ObjectId(ActionHelper.ACTIONINSTANCE_OBJECT_TYPE, key);
-                getActivityTrackingService().publishForwardEvent(new URI(nodes[0]), interaction.getMessageHeader()
-                    .getNetworkZone(), (errorNumber == null), null, uriNextDestination, sourceFor);
-            } catch (MALInteractionException | MALException ex) {
-                Logger.getLogger(ActionManager.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
     }
@@ -463,7 +477,7 @@ public final class ActionManager extends MCManager {
         final int executionStage, final int stageCount, final Long actionInstId, final MALInteraction interaction,
         final SingleConnectionDetails connectionDetails) {
         ObjectKey key = new ObjectKey(ConfigurationProviderSingleton.getDomain(), actionInstId);
-        ObjectId source = new ObjectId(ActionHelper.ACTIONINSTANCE_OBJECT_TYPE, key);
+        ObjectId source = new ObjectId(ActionServiceInfo.ACTIONINSTANCE_OBJECT_TYPE, key);
 
         try {
             if (this.getActivityTrackingService() != null) {
@@ -496,12 +510,17 @@ public final class ActionManager extends MCManager {
 
         // requirement: 3.2.5.c and 3.2.5.d and 3.2.5.e
         if (this.getEventService() != null) {
-            Long objId = this.getEventService().generateAndStoreEvent(ActionHelper.ACTIONFAILURE_OBJECT_TYPE,
-                ConfigurationProviderSingleton.getDomain(), errorNumber, related, source, interaction);
+            Long objId = this.getEventService().generateAndStoreEvent(
+                    ActionServiceInfo.ACTIONFAILURE_OBJECT_TYPE,
+                    ConfigurationProviderSingleton.getDomain(),
+                    errorNumber,
+                    related,
+                    source,
+                    interaction);
 
             try {
-                this.getEventService().publishEvent(new URI(""), objId, ActionHelper.ACTIONFAILURE_OBJECT_TYPE, related,
-                    source, errorNumbers);
+                this.getEventService().publishEvent(new URI(""), objId,
+                        ActionServiceInfo.ACTIONFAILURE_OBJECT_TYPE, related, source, errorNumbers);
             } catch (IOException ex) {
                 Logger.getLogger(ActionManager.class.getName()).log(Level.SEVERE, null, ex);
             }

@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : CCSDS MO Binary encoder
  * ----------------------------------------------------------------------------
- * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft â€“ v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -25,18 +25,17 @@ import java.math.BigInteger;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALListDecoder;
 import org.ccsds.moims.mo.mal.structures.*;
 
 /**
  * Implements the MALDecoder interface for a binary encoding.
  */
 public class BinaryDecoder extends GENDecoder {
+
     protected static final java.util.logging.Logger LOGGER = Logger.getLogger(BinaryDecoder.class.getName());
     protected static final Charset UTF8_CHARSET = StandardCharsets.UTF_8;
     protected static final int BLOCK_SIZE = 65536;
@@ -76,11 +75,6 @@ public class BinaryDecoder extends GENDecoder {
      */
     protected BinaryDecoder(final BufferHolder src) {
         super(src);
-    }
-
-    @Override
-    public MALListDecoder createListDecoder(final List list) throws MALException {
-        return new BinaryListDecoder(list, sourceBuffer);
     }
 
     @Override
@@ -143,6 +137,88 @@ public class BinaryDecoder extends GENDecoder {
     public byte[] getRemainingEncodedData() throws MALException {
         BinaryBufferHolder dSourceBuffer = (BinaryBufferHolder) sourceBuffer;
         return Arrays.copyOfRange(dSourceBuffer.buf.buf, dSourceBuffer.buf.offset, dSourceBuffer.buf.contentLength);
+    }
+
+    @Override
+    public Element decodeAbstractElement() throws MALException {
+        Long sfp = decodeLong();
+        try {
+            Element type = MALContextFactory.getElementsRegistry().createElement(sfp);
+            return type.decode(this);
+        } catch (Exception ex) {
+            throw new MALException("The Element could not be created!", ex);
+        }
+    }
+
+    @Override
+    public Element decodeNullableAbstractElement() throws MALException {
+        if (sourceBuffer.isNotNull()) {
+            Long sfp = decodeLong();
+            try {
+                Element type = MALContextFactory.getElementsRegistry().createElement(sfp);
+                return type.decode(this);
+            } catch (Exception ex) {
+                throw new MALException("The Element could not be created!", ex);
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public HomogeneousList decodeHomogeneousList(HomogeneousList list) throws MALException {
+        UInteger size = decodeUInteger();
+        long decodedSize = size.getValue();
+
+        if (decodedSize > 1000000) {
+            throw new org.ccsds.moims.mo.mal.MALException("The decoded list size is too big: " + decodedSize);
+        }
+
+        for (int i = 0; i < decodedSize; i++) {
+            Element element = list.createTypedElement();
+
+            if (element instanceof Union) {
+                // Case for Attributes that are mapped to the Java API
+                Union union = (Union) element;
+                Attribute att = internalDecodeAttribute(union.getTypeId().getSFP());
+                list.add(Attribute.attribute2JavaType(att));
+            } else {
+                // Normal Case
+                list.add(element.decode(this));
+            }
+        }
+        return list;
+    }
+
+    @Override
+    public HeterogeneousList decodeHeterogeneousList(HeterogeneousList list) throws MALException {
+        UInteger size = decodeUInteger();
+        long decodedSize = size.getValue();
+
+        for (int i = 0; i < decodedSize; i++) {
+            if (HeterogeneousList.ENFORCE_NON_NULLABLE_ENTRIES) {
+                list.add((Element) decodeAbstractElement());
+            } else {
+                list.add((Element) decodeNullableAbstractElement());
+            }
+        }
+        return list;
+    }
+
+    /**
+     * Allows the decoding for the type of an abstract element to be over-ridded
+     *
+     * @param isNullable If true encode a isNull field
+     * @return The type to decode
+     * @throws MALException if there is an error
+     */
+    @Override
+    public Long decodeAbstractElementSFP(boolean isNullable) throws MALException {
+        if (isNullable) {
+            return decodeNullableLong();
+        }
+
+        return decodeLong();
     }
 
     /**

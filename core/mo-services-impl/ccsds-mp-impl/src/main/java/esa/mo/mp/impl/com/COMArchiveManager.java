@@ -32,7 +32,7 @@ import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.MALStandardError;
+import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.ElementList;
@@ -48,7 +48,7 @@ import esa.mo.com.impl.provider.ArchiveProviderServiceImpl;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
-import esa.mo.helpertools.helpers.HelperMisc;
+import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 
 /**
  * Front-end to COM Archive. Delegates to ArchiveProviderServiceImpl.
@@ -89,7 +89,7 @@ public class COMArchiveManager<IdentityT extends Element, IdentityListT extends 
         MALInteraction interaction) throws MALException, MALInteractionException {
         IdentifierList identities = new IdentifierList();
         identities.add(identity);
-        ElementList objects = HelperMisc.element2elementList(object);
+        HeterogeneousList objects = new HeterogeneousList();
         objects.add(object);
         ObjectIdPairList pairs = addCOMObjects(identities, objects, source, interaction);
         return pairs.get(0);
@@ -107,7 +107,7 @@ public class COMArchiveManager<IdentityT extends Element, IdentityListT extends 
      * @throws MALException
      * @throws MALInteractionException If input validation exception occurred
      */
-    protected ObjectIdPairList addCOMObjects(IdentifierList identities, ElementList comObjects, ObjectId source,
+    protected ObjectIdPairList addCOMObjects(IdentifierList identities, HeterogeneousList comObjects, ObjectId source,
         MALInteraction interaction) throws MALException, MALInteractionException {
         checkForInvalidIdentities(identities);
 
@@ -116,10 +116,12 @@ public class COMArchiveManager<IdentityT extends Element, IdentityListT extends 
         IdentifierList domain = ConfigurationProviderSingleton.getDomain();
 
         checkForDuplicateIdentities(identities, identityType);
+        HeterogeneousList list = new HeterogeneousList();
+        list.addAll(identities);
 
         // Store identity
         LongList identityInstanceIds = this.archiveService.store(true, identityType, domain, HelperArchive
-            .generateArchiveDetailsList((Long) null, source, interaction), identities, interaction);
+            .generateArchiveDetailsList((Long) null, source, interaction), list, interaction);
 
         ObjectIdList identityIds = COMObjectIdHelper.getObjectIds(identityInstanceIds, identityType, domain);
 
@@ -142,7 +144,7 @@ public class COMArchiveManager<IdentityT extends Element, IdentityListT extends 
         throws MALException, MALInteractionException {
         ObjectIdList relatedIds = new ObjectIdList();
         relatedIds.add(relatedId);
-        ElementList objects = HelperMisc.element2elementList(comObject);
+        HeterogeneousList objects = new HeterogeneousList();
         objects.add(comObject);
         ObjectIdList idList = addCOMObjects(relatedIds, objects, source, interaction);
         return idList.get(0);
@@ -160,7 +162,7 @@ public class COMArchiveManager<IdentityT extends Element, IdentityListT extends 
      * @throws MALException
      * @throws MALInteractionException If input validation exception occurred
      */
-    protected ObjectIdList addCOMObjects(ObjectIdList relatedIds, ElementList comObjects, ObjectId source,
+    protected ObjectIdList addCOMObjects(ObjectIdList relatedIds, HeterogeneousList comObjects, ObjectId source,
         MALInteraction interaction) throws MALException, MALInteractionException {
         checkForInvalidIds(relatedIds);
 
@@ -170,8 +172,9 @@ public class COMArchiveManager<IdentityT extends Element, IdentityListT extends 
         IdentifierList domain = ConfigurationProviderSingleton.getDomain();
 
         // Store object
-        LongList objectInstanceIds = this.archiveService.store(true, objectType, domain, HelperArchive
-            .generateArchiveDetailsList(relatedInstanceIds, source, interaction), comObjects, interaction);
+        LongList objectInstanceIds = this.archiveService.store(true, objectType, domain,
+                HelperArchive.generateArchiveDetailsList(relatedInstanceIds.get(0), source, interaction),
+                comObjects, interaction);
 
         // Store configuration
         this.storeConfiguration(relatedInstanceIds, relatedType, objectInstanceIds, source, interaction);
@@ -468,7 +471,7 @@ public class COMArchiveManager<IdentityT extends Element, IdentityListT extends 
         MALInteraction interaction) throws MALException, MALInteractionException {
         ObjectIdList relatedIds = new ObjectIdList();
         relatedIds.add(relatedId);
-        ElementList objects = HelperMisc.element2elementList(comObject);
+        HeterogeneousList objects = new HeterogeneousList();
         objects.add(comObject);
         ObjectIdList pairs = updateCOMObjects(relatedIds, objects, source, interaction);
         return pairs.get(0);
@@ -486,7 +489,7 @@ public class COMArchiveManager<IdentityT extends Element, IdentityListT extends 
      * @throws MALException
      * @throws MALInteractionException If input validation exception occurred
      */
-    protected ObjectIdList updateCOMObjects(ObjectIdList relatedIds, ElementList comObjects, ObjectId source,
+    protected ObjectIdList updateCOMObjects(ObjectIdList relatedIds, HeterogeneousList comObjects, ObjectId source,
         MALInteraction interaction) throws MALException, MALInteractionException {
         checkForInvalidIds(relatedIds);
 
@@ -499,7 +502,7 @@ public class COMArchiveManager<IdentityT extends Element, IdentityListT extends 
 
         // Store updated object
         LongList updatedObjectInstanceIds = this.archiveService.store(true, objectType, domain, HelperArchive
-            .generateArchiveDetailsList(relatedInstanceIds, source, interaction), comObjects, interaction);
+            .generateArchiveDetailsList(relatedInstanceIds.get(0), source, interaction), comObjects, interaction);
 
         // Update configuration
         this.updateConfiguration(relatedInstanceIds, relatedType, updatedObjectInstanceIds, source, interaction);
@@ -542,15 +545,16 @@ public class COMArchiveManager<IdentityT extends Element, IdentityListT extends 
         MALInteraction interaction) throws MALException, MALInteractionException {
         ObjectType configurationType = this.configuration.getConfigurationType(relatedType);
         IdentifierList domain = ConfigurationProviderSingleton.getDomain();
-        ObjectIdList configurationList = new ObjectIdList();
+        HeterogeneousList configurationList = new HeterogeneousList();
 
         for (Long relatedId : relatedIds) {
             ObjectId configurationBody = getConfigurationBody(relatedId, relatedType);
             configurationList.add(configurationBody);
         }
 
-        this.archiveService.store(true, configurationType, domain, HelperArchive.generateArchiveDetailsList(objectIds,
-            source, interaction), configurationList, interaction);
+        this.archiveService.store(true, configurationType, domain,
+                HelperArchive.generateArchiveDetailsList(objectIds.get(0), source, interaction),
+                configurationList, interaction);
     }
 
     private void updateConfiguration(LongList relatedIds, ObjectType relatedType, LongList objectIds, ObjectId source,
@@ -571,9 +575,8 @@ public class COMArchiveManager<IdentityT extends Element, IdentityListT extends 
             }
         }
 
-        ObjectIdList configurationList = new ObjectIdList();
-        ArchiveDetailsList archiveDetailsList = HelperArchive.generateArchiveDetailsList(objectIds, source,
-            interaction);
+        HeterogeneousList configurationList = new HeterogeneousList();
+        ArchiveDetailsList archiveDetailsList = HelperArchive.generateArchiveDetailsList(objectIds.get(0), source, interaction);
 
         for (int index = 0; index < relatedIds.size(); index++) {
             Long relatedId = relatedIds.get(index);
@@ -626,7 +629,7 @@ public class COMArchiveManager<IdentityT extends Element, IdentityListT extends 
         }
 
         if (!invalidIndexList.isEmpty()) {
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invalidIndexList));
+            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, invalidIndexList));
         }
     }
 
@@ -642,7 +645,7 @@ public class COMArchiveManager<IdentityT extends Element, IdentityListT extends 
         }
 
         if (!duplicateIndexList.isEmpty()) {
-            throw new MALInteractionException(new MALStandardError(COMHelper.DUPLICATE_ERROR_NUMBER,
+            throw new MALInteractionException(new MOErrorException(COMHelper.DUPLICATE_ERROR_NUMBER,
                 duplicateIndexList));
         }
     }
@@ -664,7 +667,7 @@ public class COMArchiveManager<IdentityT extends Element, IdentityListT extends 
         }
 
         if (!invalidIndexList.isEmpty()) {
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invalidIndexList));
+            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, invalidIndexList));
         }
     }
 
@@ -691,7 +694,7 @@ public class COMArchiveManager<IdentityT extends Element, IdentityListT extends 
         }
 
         if (!unknownIndexList.isEmpty()) {
-            throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unknownIndexList));
+            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, unknownIndexList));
         }
     }
 

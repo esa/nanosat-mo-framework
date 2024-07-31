@@ -20,47 +20,6 @@
  */
 package esa.mo.mp.impl.provider;
 
-import java.net.MalformedURLException;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.COMHelper;
-import org.ccsds.moims.mo.com.structures.ObjectId;
-import org.ccsds.moims.mo.com.structures.ObjectKey;
-import org.ccsds.moims.mo.mal.MALContextFactory;
-import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALHelper;
-import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.provider.MALInteraction;
-import org.ccsds.moims.mo.mal.provider.MALProvider;
-import org.ccsds.moims.mo.mal.provider.MALPublishInteractionListener;
-import org.ccsds.moims.mo.mal.structures.EntityKey;
-import org.ccsds.moims.mo.mal.structures.EntityKeyList;
-import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.QoSLevel;
-import org.ccsds.moims.mo.mal.structures.SessionType;
-import org.ccsds.moims.mo.mal.structures.Subscription;
-import org.ccsds.moims.mo.mal.structures.UInteger;
-import org.ccsds.moims.mo.mal.structures.UpdateHeader;
-import org.ccsds.moims.mo.mal.structures.UpdateHeaderList;
-import org.ccsds.moims.mo.mal.structures.UpdateType;
-import org.ccsds.moims.mo.mal.transport.MALErrorBody;
-import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.mp.MPHelper;
-import org.ccsds.moims.mo.mp.planedit.PlanEditHelper;
-import org.ccsds.moims.mo.mp.planexecutioncontrol.PlanExecutionControlHelper;
-import org.ccsds.moims.mo.mp.planexecutioncontrol.provider.MonitorActivitiesPublisher;
-import org.ccsds.moims.mo.mp.planexecutioncontrol.provider.PlanExecutionControlInheritanceSkeleton;
-import org.ccsds.moims.mo.mp.structures.ActivityDefinitionDetails;
-import org.ccsds.moims.mo.mp.structures.ActivityStatus;
-import org.ccsds.moims.mo.mp.structures.ActivityUpdateDetails;
-import org.ccsds.moims.mo.mp.structures.ActivityUpdateDetailsList;
-import org.ccsds.moims.mo.mp.structures.PlanStatus;
-import org.ccsds.moims.mo.mp.structures.PlanUpdateDetails;
-import org.ccsds.moims.mo.mp.structures.PlanVersionDetails;
-import org.ccsds.moims.mo.mp.structures.PlannedActivity;
-import org.ccsds.moims.mo.mp.structures.PlannedItems;
 import esa.mo.com.impl.consumer.EventConsumerServiceImpl;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.EventCOMObject;
@@ -77,6 +36,44 @@ import esa.mo.mp.impl.exec.TimelineItem;
 import esa.mo.mp.impl.exec.TimelineExecutionEngine;
 import esa.mo.mp.impl.exec.activity.ActivityExecutionEngine;
 import esa.mo.mp.impl.util.MPFactory;
+import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.ccsds.moims.mo.com.structures.ObjectId;
+import org.ccsds.moims.mo.com.structures.ObjectKey;
+import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.provider.MALInteraction;
+import org.ccsds.moims.mo.mal.provider.MALProvider;
+import org.ccsds.moims.mo.mal.provider.MALPublishInteractionListener;
+import org.ccsds.moims.mo.mal.structures.AttributeList;
+import org.ccsds.moims.mo.mal.structures.AttributeType;
+import org.ccsds.moims.mo.mal.structures.AttributeTypeList;
+import org.ccsds.moims.mo.mal.structures.Identifier;
+import org.ccsds.moims.mo.mal.structures.IdentifierList;
+import org.ccsds.moims.mo.mal.structures.QoSLevel;
+import org.ccsds.moims.mo.mal.structures.SessionType;
+import org.ccsds.moims.mo.mal.structures.Subscription;
+import org.ccsds.moims.mo.mal.structures.UInteger;
+import org.ccsds.moims.mo.mal.structures.URI;
+import org.ccsds.moims.mo.mal.structures.UpdateHeader;
+import org.ccsds.moims.mo.mal.transport.MALErrorBody;
+import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
+import org.ccsds.moims.mo.mp.planedit.PlanEditServiceInfo;
+import org.ccsds.moims.mo.mp.planexecutioncontrol.PlanExecutionControlHelper;
+import org.ccsds.moims.mo.mp.planexecutioncontrol.PlanExecutionControlServiceInfo;
+import org.ccsds.moims.mo.mp.planexecutioncontrol.provider.MonitorActivitiesPublisher;
+import org.ccsds.moims.mo.mp.planexecutioncontrol.provider.PlanExecutionControlInheritanceSkeleton;
+import org.ccsds.moims.mo.mp.structures.ActivityDefinitionDetails;
+import org.ccsds.moims.mo.mp.structures.ActivityStatus;
+import org.ccsds.moims.mo.mp.structures.ActivityUpdateDetails;
+import org.ccsds.moims.mo.mp.structures.PlanStatus;
+import org.ccsds.moims.mo.mp.structures.PlanUpdateDetails;
+import org.ccsds.moims.mo.mp.structures.PlanVersionDetails;
+import org.ccsds.moims.mo.mp.structures.PlannedActivity;
+import org.ccsds.moims.mo.mp.structures.PlannedItems;
 
 /**
  * Plan Execution Control (PEC) Service provider implementation.
@@ -104,35 +101,15 @@ public class PlanExecutionControlProviderServiceImpl extends PlanExecutionContro
      * @param comServices
      * @throws MALException            On initialisation error.
      */
-    public synchronized void init(COMServicesProvider comServices, MPArchiveManager archiveManager, MPServiceOperationManager registration, ActivityExecutionEngine activityExecutionEngine) throws MALException {
+    public synchronized void init(COMServicesProvider comServices, MPArchiveManager archiveManager,
+        MPServiceOperationManager registration, ActivityExecutionEngine activityExecutionEngine) throws MALException {
         long timestamp = System.currentTimeMillis();
-        
-        if (!this.initialised) {
-            if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
-                MALHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION) == null) {
-                COMHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(MPHelper.MP_AREA_NAME, MPHelper.MP_AREA_VERSION) == null) {
-                MPHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            try {
-                PlanExecutionControlHelper.init(MALContextFactory.getElementFactoryRegistry());
-            } catch (MALException ex) {
-                // nothing to be done..
-            }
-        }
-
         // Shut down old service transport
         if (this.provider != null) {
             this.connection.closeAll();
         }
 
-        this.provider = this.connection.startService(PlanExecutionControlHelper.PLANEXECUTIONCONTROL_SERVICE_NAME
+        this.provider = this.connection.startService(PlanExecutionControlServiceInfo.PLANEXECUTIONCONTROL_SERVICE_NAME
             .toString(), PlanExecutionControlHelper.PLANEXECUTIONCONTROL_SERVICE, true, this);
 
         activityPublisher = createMonitorActivitiesPublisher(ConfigurationProviderSingleton.getDomain(),
@@ -148,7 +125,7 @@ public class PlanExecutionControlProviderServiceImpl extends PlanExecutionContro
             EventConsumerServiceImpl consumer = new EventConsumerServiceImpl(comServices.getEventService()
                 .getConnectionProvider().getConnectionDetails());
             Subscription subcription = HelperCOM.generateCOMEventSubscriptionBySourceType("ActivityStatusUpdates",
-                PlanEditHelper.ACTIVITYUPDATE_OBJECT_TYPE);
+                PlanEditServiceInfo.ACTIVITYUPDATE_OBJECT_TYPE);
             consumer.addEventReceivedListener(subcription, new EventReceivedListener() {
                 @Override
                 public void onDataReceived(EventCOMObject eventCOMObject) {
@@ -226,7 +203,7 @@ public class PlanExecutionControlProviderServiceImpl extends PlanExecutionContro
         ArrayList<TimelineItem> timeline = new ArrayList<>();
         for (PlannedActivity plannedActivity : plannedItems.getPlannedActivities()) {
             ObjectKey activityInstanceIdKey = plannedActivity.getInstanceId();
-            ObjectId activityInstanceId = new ObjectId(PlanEditHelper.ACTIVITYINSTANCE_OBJECT_TYPE,
+            ObjectId activityInstanceId = new ObjectId(PlanEditServiceInfo.ACTIVITYINSTANCE_OBJECT_TYPE,
                 activityInstanceIdKey);
 
             ObjectId activityDefinitionId = archiveManager.ACTIVITY.getDefinitionIdByInstanceId(activityInstanceId);
@@ -285,8 +262,7 @@ public class PlanExecutionControlProviderServiceImpl extends PlanExecutionContro
     private void updatePlanStatus(ObjectId planVersionId, PlanStatus status, String terminationInfo,
         MALInteraction interaction) {
         try {
-            PlanUpdateDetails planUpdate = MPFactory.createPlanUpdate(status);
-            planUpdate.setTerminationInfo(terminationInfo);
+            PlanUpdateDetails planUpdate = MPFactory.createPlanUpdate(status, terminationInfo);
             archiveManager.PLAN.addStatus(planVersionId, planUpdate, null, interaction);
         } catch (MALException | MALInteractionException e) {
             LOGGER.log(Level.SEVERE, null, e);
@@ -296,26 +272,36 @@ public class PlanExecutionControlProviderServiceImpl extends PlanExecutionContro
     private void publishActivityUpdate(Identifier identity, ObjectId identityId, ObjectId instanceId,
         ActivityUpdateDetails update) throws IllegalArgumentException, MALInteractionException, MALException {
         if (!this.isPublisherRegistered) {
-            final EntityKeyList entityKeys = new EntityKeyList();
-            entityKeys.add(new EntityKey(new Identifier("*"), 0L, 0L, 0L));
-            activityPublisher.register(entityKeys, new PublishInteractionListener());
+            IdentifierList keys = new IdentifierList();
+            keys.add(new Identifier("firstEntityKey"));
+            keys.add(new Identifier("secondSubKey"));
+            keys.add(new Identifier("thirdSubKey"));
+            keys.add(new Identifier("fourthSubKey"));
+            AttributeTypeList keyTypes = new AttributeTypeList();
+            keyTypes.add(AttributeType.IDENTIFIER);
+            keyTypes.add(AttributeType.LONG);
+            keyTypes.add(AttributeType.LONG);
+            keyTypes.add(AttributeType.LONG);
+            activityPublisher.register(keys, keyTypes, new PublishInteractionListener());
             this.isPublisherRegistered = true;
         }
-
-        UpdateHeaderList headerList = new UpdateHeaderList();
 
         Identifier firstSubKey = identity;
         Long secondSubKey = COMObjectIdHelper.getInstanceId(identityId);
         Long thirdSubKey = COMObjectIdHelper.getInstanceId(instanceId);
         Long fourthSubKey = Long.valueOf(update.getStatus().getNumericValue().getValue());
 
-        EntityKey entityKey = new EntityKey(firstSubKey, secondSubKey, thirdSubKey, fourthSubKey);
-        headerList.add(new UpdateHeader(update.getTimestamp(), connection.getConnectionDetails().getProviderURI(),
-            UpdateType.CREATION, entityKey));
-        ActivityUpdateDetailsList activityStatusList = new ActivityUpdateDetailsList();
-        activityStatusList.add(update);
+        AttributeList keys = new AttributeList(); 
+        keys.add(firstSubKey);
+        keys.addAsJavaType(secondSubKey);
+        keys.addAsJavaType(thirdSubKey);
+        keys.addAsJavaType(fourthSubKey);
 
-        activityPublisher.publish(headerList, activityStatusList);
+        URI source = connection.getConnectionDetails().getProviderURI();
+        UpdateHeader updateHeader = new UpdateHeader(new Identifier(source.getValue()),
+              connection.getConnectionDetails().getDomain(), keys.getAsNullableAttributeList());
+
+        activityPublisher.publish(updateHeader, update);
     }
 
     private static final class PublishInteractionListener implements MALPublishInteractionListener {

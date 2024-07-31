@@ -22,7 +22,6 @@ package esa.mo.nmf.spacemoadapter;
 
 import esa.mo.common.impl.consumer.DirectoryConsumerServiceImpl;
 import esa.mo.common.impl.util.HelperCommon;
-import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.misc.Const;
 import esa.mo.nmf.commonmoadapter.CommonMOAdapterImpl;
 import java.net.MalformedURLException;
@@ -34,6 +33,7 @@ import org.ccsds.moims.mo.common.directory.structures.ServiceFilter;
 import org.ccsds.moims.mo.common.structures.ServiceKey;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.structures.*;
 
 /**

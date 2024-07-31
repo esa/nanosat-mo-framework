@@ -4,11 +4,10 @@ import esa.mo.nmf.clitool.TimestampedAggregationValue;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.structures.ObjectType;
-import org.ccsds.moims.mo.mal.MALStandardError;
-import org.ccsds.moims.mo.mal.structures.ElementList;
+import org.ccsds.moims.mo.mal.MOErrorException;
+import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.mc.aggregation.AggregationHelper;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetails;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationValue;
 
@@ -18,6 +17,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
+import org.ccsds.moims.mo.mc.aggregation.AggregationServiceInfo;
 
 public class ArchiveToAggregationsAdapter extends ArchiveAdapter implements QueryStatusProvider {
 
@@ -50,13 +51,13 @@ public class ArchiveToAggregationsAdapter extends ArchiveAdapter implements Quer
 
     @Override
     public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-            ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+        ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
         processObjects(objType, objDetails, objBodies, domain);
     }
 
     @Override
     public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-            ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+        ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
         if (objDetails == null) {
             setIsQueryOver(true);
             return;
@@ -73,7 +74,7 @@ public class ArchiveToAggregationsAdapter extends ArchiveAdapter implements Quer
      * @param detailsList Archive details of the objects
      * @param bodiesList Bodies of the objects
      */
-    private void processObjects(ObjectType type, ArchiveDetailsList detailsList, ElementList bodiesList,
+    private void processObjects(ObjectType type, ArchiveDetailsList detailsList, HeterogeneousList bodiesList,
             IdentifierList domain) {
         if (detailsList == null) {
             return;
@@ -87,7 +88,7 @@ public class ArchiveToAggregationsAdapter extends ArchiveAdapter implements Quer
             aggregationDefinitions.put(domain, new HashMap<>());
         }
 
-        if (AggregationHelper.AGGREGATIONVALUEINSTANCE_OBJECT_TYPE.equals(type)) {
+        if (AggregationServiceInfo.AGGREGATIONVALUEINSTANCE_OBJECT_TYPE.equals(type)) {
             for (int i = 0; i < detailsList.size(); ++i) {
                 AggregationValue value = (AggregationValue) bodiesList.get(i);
                 Long definitionId = detailsList.get(i).getDetails().getRelated();
@@ -100,7 +101,7 @@ public class ArchiveToAggregationsAdapter extends ArchiveAdapter implements Quer
                     aggregationValues.get(domain).put(definitionId, list);
                 }
             }
-        } else if (AggregationHelper.AGGREGATIONDEFINITION_OBJECT_TYPE.equals(type)) {
+        } else if (AggregationServiceInfo.AGGREGATIONDEFINITION_OBJECT_TYPE.equals(type)) {
             for (int i = 0; i < detailsList.size(); ++i) {
                 aggregationDefinitions.get(domain).put(detailsList.get(i).getInstId(),
                         (AggregationDefinitionDetails) bodiesList.get(i));
@@ -109,19 +110,19 @@ public class ArchiveToAggregationsAdapter extends ArchiveAdapter implements Quer
     }
 
     @Override
-    public void queryAckErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+    public void queryAckErrorReceived(MALMessageHeader msgHeader, MOErrorException error, Map qosProperties) {
         LOGGER.log(Level.SEVERE, "queryAckErrorReceived", error);
         setIsQueryOver(true);
     }
 
     @Override
-    public void queryUpdateErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+    public void queryUpdateErrorReceived(MALMessageHeader msgHeader, MOErrorException error, Map qosProperties) {
         LOGGER.log(Level.SEVERE, "queryUpdateErrorReceived", error);
         setIsQueryOver(true);
     }
 
     @Override
-    public void queryResponseErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+    public void queryResponseErrorReceived(MALMessageHeader msgHeader, MOErrorException error, Map qosProperties) {
         LOGGER.log(Level.SEVERE, "queryResponseErrorReceived", error);
         setIsQueryOver(true);
     }

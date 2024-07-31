@@ -73,11 +73,6 @@ public class SoftwareDefinedRadioSoftSimAdapter implements SoftwareDefinedRadioA
             quadrature.add((float) data[2 * i + 1]);
         }
 
-        IQComponents iqComponents = new IQComponents();
-        iqComponents.setInPhase(inPhase);
-        iqComponents.setQuadrature(quadrature);
-
-        return iqComponents;
+        return new IQComponents(inPhase, quadrature);
     }
-
 }

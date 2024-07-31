@@ -28,6 +28,7 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
+import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherServiceInfo;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.provider.StopAppInteraction;
 
 /**
@@ -56,12 +57,12 @@ public class ClosingAppListener extends EventReceivedListener {
 
     @Override
     public void onDataReceived(EventCOMObject eventCOMObject) {
-        if (eventCOMObject.getObjType().equals(AppsLauncherHelper.STOPPING_OBJECT_TYPE)) {
+        if (eventCOMObject.getObjType().equals(AppsLauncherServiceInfo.STOPPING_OBJECT_TYPE)) {
             // Is it the ack from the app?
             LOGGER.log(Level.INFO, "The app with objId {0} is stopping...", objId);
         }
 
-        if (eventCOMObject.getObjType().equals(AppsLauncherHelper.STOPPED_OBJECT_TYPE)) {
+        if (eventCOMObject.getObjType().equals(AppsLauncherServiceInfo.STOPPED_OBJECT_TYPE)) {
             LOGGER.log(Level.INFO, "The app with objId {0} is now stopped!", objId);
 
             try { // Send update to consumer stating that the app is stopped
@@ -73,7 +74,7 @@ public class ClosingAppListener extends EventReceivedListener {
             }
 
             // If so, then close the connection to the service
-            eventService.close();
+            eventService.closeConnection();
 
             synchronized (semaphore) {
                 this.appClosed = true;

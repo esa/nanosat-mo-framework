@@ -23,8 +23,6 @@ package esa.mo.mc.impl.provider;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
-import esa.mo.helpertools.helpers.HelperTime;
-import esa.mo.helpertools.misc.TaskScheduler;
 import esa.mo.mc.impl.interfaces.ExternalStatisticFunctionsInterface;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -41,20 +39,22 @@ import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectIdList;
 import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.com.structures.ObjectKeyList;
-import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.MALStandardError;
+import org.ccsds.moims.mo.mal.MOErrorException;
+import org.ccsds.moims.mo.mal.helpertools.misc.TaskScheduler;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.provider.MALPublishInteractionListener;
 import org.ccsds.moims.mo.mal.structures.Attribute;
+import org.ccsds.moims.mo.mal.structures.AttributeList;
+import org.ccsds.moims.mo.mal.structures.AttributeType;
+import org.ccsds.moims.mo.mal.structures.AttributeTypeList;
 import org.ccsds.moims.mo.mal.structures.BooleanList;
 import org.ccsds.moims.mo.mal.structures.Duration;
-import org.ccsds.moims.mo.mal.structures.EntityKey;
-import org.ccsds.moims.mo.mal.structures.EntityKeyList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
+import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.QoSLevel;
 import org.ccsds.moims.mo.mal.structures.SessionType;
@@ -62,17 +62,17 @@ import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.TimeList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UIntegerList;
+import org.ccsds.moims.mo.mal.structures.URI;
+import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.mal.structures.UpdateHeader;
-import org.ccsds.moims.mo.mal.structures.UpdateHeaderList;
-import org.ccsds.moims.mo.mal.structures.UpdateType;
 import org.ccsds.moims.mo.mal.transport.MALErrorBody;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.mc.MCHelper;
 import org.ccsds.moims.mo.mc.group.structures.GroupDetails;
-import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
+import org.ccsds.moims.mo.mc.parameter.ParameterServiceInfo;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
 import org.ccsds.moims.mo.mc.statistic.StatisticHelper;
+import org.ccsds.moims.mo.mc.statistic.StatisticServiceInfo;
 import org.ccsds.moims.mo.mc.statistic.provider.MonitorStatisticsPublisher;
 import org.ccsds.moims.mo.mc.statistic.provider.StatisticInheritanceSkeleton;
 import org.ccsds.moims.mo.mc.statistic.structures.StatisticCreationRequest;
@@ -85,7 +85,6 @@ import org.ccsds.moims.mo.mc.statistic.structures.StatisticLinkDetailsList;
 import org.ccsds.moims.mo.mc.statistic.structures.StatisticLinkSummary;
 import org.ccsds.moims.mo.mc.statistic.structures.StatisticLinkSummaryList;
 import org.ccsds.moims.mo.mc.statistic.structures.StatisticValue;
-import org.ccsds.moims.mo.mc.statistic.structures.StatisticValueList;
 import org.ccsds.moims.mo.mc.structures.AttributeValue;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
@@ -141,26 +140,6 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
             throws MALException {
         long timestamp = System.currentTimeMillis();
 
-        if (!initialiased) {
-
-            if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
-                MALHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION) == null) {
-                MCHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION) == null) {
-                COMHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION).getServiceByName(
-                StatisticHelper.STATISTIC_SERVICE_NAME) == null) {
-                StatisticHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-        }
-
         publisher = createMonitorStatisticsPublisher(ConfigurationProviderSingleton.getDomain(),
             ConfigurationProviderSingleton.getNetwork(), SessionType.LIVE, ConfigurationProviderSingleton
                 .getSourceSessionName(), QoSLevel.BESTEFFORT, null, new UInteger(0));
@@ -170,8 +149,7 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
             connection.close();
         }
 
-        statisticServiceProvider = connection.startService(StatisticHelper.STATISTIC_SERVICE_NAME.toString(),
-            StatisticHelper.STATISTIC_SERVICE, this);
+        statisticServiceProvider = connection.startService(StatisticServiceInfo.STATISTIC_SERVICE_NAME.toString(), StatisticHelper.STATISTIC_SERVICE, this);
 
         running = true;
         manager = new StatisticManager(comServices, parameterManager, statisticFunctions);
@@ -216,9 +194,17 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
         try {
             synchronized (lock) {
                 if (!isRegistered) {
-                    final EntityKeyList lst = new EntityKeyList();
-                    lst.add(new EntityKey(new Identifier("*"), 0L, 0L, 0L));
-                    publisher.register(lst, new PublishInteractionListener());
+                    IdentifierList keys = new IdentifierList();
+                    keys.add(new Identifier("funcName"));
+                    keys.add(new Identifier("objIdLink"));
+                    keys.add(new Identifier("instId"));
+                    keys.add(new Identifier("sValObjId"));
+                    AttributeTypeList keyTypes = new AttributeTypeList();
+                    keyTypes.add(AttributeType.IDENTIFIER);
+                    keyTypes.add(AttributeType.LONG);
+                    keyTypes.add(AttributeType.LONG);
+                    keyTypes.add(AttributeType.LONG);
+                    publisher.register(keys, keyTypes, new PublishInteractionListener());
                     isRegistered = true;
                 }
             }
@@ -234,24 +220,22 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
             final Identifier funcName = manager.getStatisticFunction(statLink.getStatFuncInstId()).getName();
 
             // requirements: 3.6.9.2.a , 3.6.9.2.b , 3.6.9.2.c , 3.6.9.2.d
-            final EntityKey ekey = new EntityKey(funcName, objIdLink, statLink.getParameterId().getInstId(), sValObjId);
-            final Time timestamp = HelperTime.getTimestampMillis(); //  requirement: 3.6.9.2.e
+            //final EntityKey ekey = ConnectionConsumer.subscriptionKeys(funcName, objIdLink, statLink.getParameterId().getInstId(), sValObjId);
+            AttributeList keys = new AttributeList();
+            keys.add(funcName);
+            keys.add(new Union(objIdLink));
+            keys.add(new Union(statLink.getParameterId().getInstId()));
+            keys.add(new Union(sValObjId));
+            
+            final Time timestamp = Time.now(); //  requirement: 3.6.9.2.e
 
-            final UpdateHeaderList hdrlst = new UpdateHeaderList();
-            LongList relatedId = new LongList();
-            final ObjectIdList sourceId = new ObjectIdList();
+            URI uri = connection.getConnectionDetails().getProviderURI();
+            UpdateHeader updateHeader = new UpdateHeader(new Identifier(uri.getValue()),
+                    connection.getConnectionDetails().getDomain(), keys.getAsNullableAttributeList());
 
-            hdrlst.add(new UpdateHeader(timestamp, connection.getConnectionDetails().getProviderURI(),
-                UpdateType.UPDATE, ekey));
-            sourceId.add(source); // requirement: 3.6.9.2.f and 3.6.9.2.g
-
-            StatisticValueList statisticValues = new StatisticValueList();
-            statisticValues.add(sVal); // requirement: 3.6.9.2.h
-
-            relatedId.add(objIdLinkDef);
-
-            publisher.publish(hdrlst, relatedId, sourceId, statisticValues);
-
+            // requirement: 3.6.9.2.h
+            // requirement: 3.6.9.2.f and 3.6.9.2.g
+            publisher.publish(updateHeader, objIdLinkDef, source, sVal);
         } catch (IllegalArgumentException | MALInteractionException | MALException ex) {
             Logger.getLogger(AggregationProviderServiceImpl.class.getName()).log(Level.WARNING,
                 "Exception during publishing process on the provider {0}", ex);
@@ -339,8 +323,7 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
 
                             //checks if the given identityId is found in the internal Parameter-list, if not its not a parameter and invalid
                             for (GroupServiceImpl.IdObjectType idObjectType : idObjectTypes) {
-                                if (idObjectType.getObjectType().equals(
-                                    ParameterHelper.PARAMETERIDENTITY_OBJECT_TYPE)) {
+                                if (idObjectType.getObjectType().equals(ParameterServiceInfo.PARAMETERIDENTITY_OBJECT_TYPE)) {
                                     final Long identityId = idObjectType.getId();
                                     //checks if the parameterId referenced in the group is known
                                     if (!manager.existsParameterIdentity(identityId)) {// requirement 3.6.7.2.h
@@ -363,10 +346,10 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
 
         // Errors
         if (!unkIndexList.isEmpty()) { // requirement 3.6.7.3.1
-            throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
         }
         if (!invIndexList.isEmpty()) {// requirement 3.6.7.3.2
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
         }
 
         //find the statLinkIds that are to be reported
@@ -527,7 +510,7 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
 
                         //checks if the given identityId is found in the internal StatisticLink-list, if not its not a StatisticLink and invalid
                         for (GroupServiceImpl.IdObjectType idObjectTypePair : idObjectTypes) {
-                            if (idObjectTypePair.getObjectType().equals(StatisticHelper.STATISTICLINK_OBJECT_TYPE)) {  //requirement: 3.6.8.2.b
+                            if (idObjectTypePair.getObjectType().equals(StatisticServiceInfo.STATISTICLINK_OBJECT_TYPE)) {  //requirement: 3.6.8.2.b
                                 final Long statLinkId = idObjectTypePair.getId();
                                 //checks if the parameterId referenced in the group is known
                                 if (manager.getStatisticLink(statLinkId) == null) {// requirement: 3.6.8.2.d
@@ -549,10 +532,10 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
 
         // Errors
         if (!unkIndexList.isEmpty()) { // requirement: 3.6.12.2.1
-            throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
         }
         if (!invIndexList.isEmpty()) { // requirement: 3.6.12.2.2
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
         }
 
         // requirement: 3.6.8.2.g (This part of the code is only reached if no error was raised)
@@ -676,7 +659,7 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
 
                         //checks if the given identityId is found in the internal StatisticLink-list, if not its not a StatisticLink and invalid
                         for (GroupServiceImpl.IdObjectType idObjectTypePair : idObjectTypes) {
-                            if (idObjectTypePair.getObjectType().equals(StatisticHelper.STATISTICLINK_OBJECT_TYPE)) {  //requirement: 3.6.12.2.b
+                            if (idObjectTypePair.getObjectType().equals(StatisticServiceInfo.STATISTICLINK_OBJECT_TYPE)) {  //requirement: 3.6.12.2.b
                                 final Long statLinkId = idObjectTypePair.getId();
                                 //checks if the parameterId referenced in the group is known
                                 if (manager.getStatisticLink(statLinkId) == null) {// requirement: 3.6.12.2.g
@@ -699,10 +682,10 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
 
         // Errors
         if (!unkIndexList.isEmpty()) { // requirement: 3.6.12.2.1
-            throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
         }
         if (!invIndexList.isEmpty()) { // requirement: 3.6.12.2.2
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
         }
 
         // requirement: 3.6.12.2.i (This part of the code is only reached if no error was raised)
@@ -777,11 +760,11 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
 
         // Errors
         if (!invIndexList.isEmpty()) { // requirement: 3.6.14.3.2
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
         }
 
         if (!unkIndexList.isEmpty()) { // requirement: 3.6.14.3.1
-            throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
         }
 
         // If no errors, then add!  // requirement: 3.6.14.2.i
@@ -845,11 +828,11 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
         }
         // Errors
         if (!invIndexList.isEmpty()) { // requirement: 3.6.15.3.2
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
         }
 
         if (!unkIndexList.isEmpty()) { // requirement: 3.6.15.3.1
-            throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
         }
 
         LongList newDefIds = new LongList();
@@ -902,7 +885,7 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
 
         // Errors
         if (!unkIndexList.isEmpty()) { // requirement: 3.6.15.3 (error: a, b)
-            throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
         }
 
         // requirement: 3.6.15.3.e (Inserting the errors before this line guarantees that the requirement is met)
@@ -947,7 +930,7 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
         // Errors
         if (!unkIndexList.isEmpty()) // requirement: 3.6.13.3.1 (error: a and b)
         {
-            throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
         }
 
         StatisticLinkSummaryList statLinkSummaries = new StatisticLinkSummaryList(statLinkIds.size());
@@ -1111,9 +1094,9 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
                 pVal = manager.getParameterValue(identityId); // Get the Parameter Value of the parameter referenced in the statLink
                 // Add the value to the data set
                 manager.getDataSets().addAttributeToDataSet(identityId, useConverted ? pVal.getConvertedValue() : pVal
-                    .getRawValue(), HelperTime.getTimestampMillis());
+                    .getRawValue(), Time.now());
             } catch (MALInteractionException ex) {
-                manager.getDataSets().addAttributeToDataSet(identityId, null, HelperTime.getTimestampMillis());
+                manager.getDataSets().addAttributeToDataSet(identityId, null, Time.now());
             }
             generateAndAddStatisticEvaluationReport(identityId);
         }

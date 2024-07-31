@@ -24,17 +24,17 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigInteger;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.mal.MALEncoder;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALListEncoder;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.FineTime;
 import org.ccsds.moims.mo.mal.structures.Identifier;
+import org.ccsds.moims.mo.mal.structures.ObjectRef;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.ULong;
@@ -43,31 +43,23 @@ import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mal.structures.UShort;
 
 /**
- * Extends the MALEncoder and MALListEncoder interfaces for use in the generic encoding framework.
+ * Extends the MALEncoder and MALListEncoder interfaces for use in the generic
+ * encoding framework.
  */
-public abstract class GENEncoder implements MALListEncoder {
-    protected static final Charset UTF8_CHARSET = StandardCharsets.UTF_8;
+public abstract class GENEncoder implements MALEncoder {
+
+    protected static final Charset UTF8_CHARSET = Charset.forName("UTF-8");
     protected static final String ENCODING_EXCEPTION_STR = "Bad encoding";
     protected final StreamHolder outputStream;
 
     /**
-     * Constructor for derived classes that have their own stream holder implementation that should be used.
+     * Constructor for derived classes that have their own stream holder
+     * implementation that should be used.
      *
      * @param os Output stream to write to.
      */
     protected GENEncoder(final StreamHolder os) {
         this.outputStream = os;
-    }
-
-    @Override
-    public MALListEncoder createListEncoder(final java.util.List value) throws MALException {
-        try {
-            outputStream.addUnsignedInt(value.size());
-
-            return this;
-        } catch (IOException ex) {
-            throw new MALException(ENCODING_EXCEPTION_STR, ex);
-        }
     }
 
     @Override
@@ -450,8 +442,9 @@ public abstract class GENEncoder implements MALListEncoder {
     @Override
     public void encodeNullableBlob(final Blob value) throws MALException {
         try {
-            if ((null != value) && ((value.isURLBased() && (null != value.getURL())) || (!value.isURLBased() && (null !=
-                value.getValue())))) {
+            if ((null != value)
+                    && ((value.isURLBased() && (null != value.getURL()))
+                    || (!value.isURLBased() && (null != value.getValue())))) {
                 outputStream.addNotNull();
                 encodeBlob(value);
             } else {
@@ -478,6 +471,39 @@ public abstract class GENEncoder implements MALListEncoder {
             if (null != value) {
                 outputStream.addNotNull();
                 encodeDuration(value);
+            } else {
+                outputStream.addIsNull();
+            }
+        } catch (IOException ex) {
+            throw new MALException(ENCODING_EXCEPTION_STR, ex);
+        }
+    }
+
+    @Override
+    public void encodeObjectRef(final ObjectRef value) throws IllegalArgumentException, MALException {
+        try {
+            checkForNull(value);
+            int length = value.getDomain().size();
+            outputStream.addUnsignedInt(length);
+
+            for (int i = 0; i < length; i++) {
+                outputStream.addString(value.getDomain().get(i).getValue());
+            }
+
+            outputStream.addSignedLong(value.getabsoluteSFP());
+            outputStream.addString(value.getKey().getValue());
+            outputStream.addUnsignedLong32(value.getObjectVersion().getValue());
+        } catch (IOException ex) {
+            throw new MALException(ENCODING_EXCEPTION_STR, ex);
+        }
+    }
+
+    @Override
+    public void encodeNullableObjectRef(final ObjectRef value) throws MALException {
+        try {
+            if (null != value) {
+                outputStream.addNotNull();
+                encodeObjectRef(value);
             } else {
                 outputStream.addIsNull();
             }
@@ -514,7 +540,7 @@ public abstract class GENEncoder implements MALListEncoder {
     public void encodeAttribute(final Attribute value) throws MALException {
         try {
             checkForNull(value);
-            outputStream.addByte(internalEncodeAttributeType(value.getTypeShortForm().byteValue()));
+            outputStream.addByte(internalEncodeAttributeType(((Integer) value.getTypeId().getSFP()).byteValue()));
             value.encode(this);
         } catch (IOException ex) {
             throw new MALException(ENCODING_EXCEPTION_STR, ex);
@@ -595,7 +621,8 @@ public abstract class GENEncoder implements MALListEncoder {
     }
 
     /**
-     * Converts the MAL representation of an Attribute type short form to the representation used by the encoding.
+     * Converts the MAL representation of an Attribute type short form to the
+     * representation used by the encoding.
      *
      * @param value The Attribute type short form.
      * @return The byte value used by the encoding
@@ -618,9 +645,11 @@ public abstract class GENEncoder implements MALListEncoder {
     }
 
     /**
-     * Internal class for writing to the output stream. Overridden by sub-classes to alter the low level encoding.
+     * Internal class for writing to the output stream. Overridden by
+     * sub-classes to alter the low level encoding.
      */
     protected abstract static class StreamHolder {
+
         protected final OutputStream outputStream;
 
         /**
@@ -636,7 +665,8 @@ public abstract class GENEncoder implements MALListEncoder {
          * Adds a String to the output stream.
          *
          * @param value the value to encode.
-         * @throws IOException is there is a problem adding the value to the stream.
+         * @throws IOException is there is a problem adding the value to the
+         * stream.
          */
         public abstract void addString(final String value) throws IOException;
 
@@ -644,7 +674,8 @@ public abstract class GENEncoder implements MALListEncoder {
          * Adds a float to the output stream.
          *
          * @param value the value to encode.
-         * @throws IOException is there is a problem adding the value to the stream.
+         * @throws IOException is there is a problem adding the value to the
+         * stream.
          */
         public abstract void addFloat(final float value) throws IOException;
 
@@ -652,7 +683,8 @@ public abstract class GENEncoder implements MALListEncoder {
          * Adds a double to the output stream.
          *
          * @param value the value to encode.
-         * @throws IOException is there is a problem adding the value to the stream.
+         * @throws IOException is there is a problem adding the value to the
+         * stream.
          */
         public abstract void addDouble(final double value) throws IOException;
 
@@ -660,7 +692,8 @@ public abstract class GENEncoder implements MALListEncoder {
          * Adds a BigInteger to the output stream.
          *
          * @param value the value to encode.
-         * @throws IOException is there is a problem adding the value to the stream.
+         * @throws IOException is there is a problem adding the value to the
+         * stream.
          */
         public abstract void addBigInteger(final BigInteger value) throws IOException;
 
@@ -668,7 +701,8 @@ public abstract class GENEncoder implements MALListEncoder {
          * Adds a signed long to the output stream.
          *
          * @param value the value to encode.
-         * @throws IOException is there is a problem adding the value to the stream.
+         * @throws IOException is there is a problem adding the value to the
+         * stream.
          */
         public abstract void addSignedLong(final long value) throws IOException;
 
@@ -676,7 +710,8 @@ public abstract class GENEncoder implements MALListEncoder {
          * Adds a signed int to the output stream.
          *
          * @param value the value to encode.
-         * @throws IOException is there is a problem adding the value to the stream.
+         * @throws IOException is there is a problem adding the value to the
+         * stream.
          */
         public abstract void addSignedInt(final int value) throws IOException;
 
@@ -684,7 +719,8 @@ public abstract class GENEncoder implements MALListEncoder {
          * Adds a signed short to the output stream.
          *
          * @param value the value to encode.
-         * @throws IOException is there is a problem adding the value to the stream.
+         * @throws IOException is there is a problem adding the value to the
+         * stream.
          */
         public abstract void addSignedShort(final short value) throws IOException;
 
@@ -692,7 +728,8 @@ public abstract class GENEncoder implements MALListEncoder {
          * Adds a zigzag encoded unsigned long to the output stream.
          *
          * @param value the value to encode.
-         * @throws IOException is there is a problem adding the value to the stream.
+         * @throws IOException is there is a problem adding the value to the
+         * stream.
          */
         public abstract void addUnsignedLong(long value) throws IOException;
 
@@ -700,7 +737,8 @@ public abstract class GENEncoder implements MALListEncoder {
          * Adds an unsigned 32bit integer held as a long to the output stream.
          *
          * @param value the value to encode.
-         * @throws IOException is there is a problem adding the value to the stream.
+         * @throws IOException is there is a problem adding the value to the
+         * stream.
          */
         public abstract void addUnsignedLong32(long value) throws IOException;
 
@@ -708,7 +746,8 @@ public abstract class GENEncoder implements MALListEncoder {
          * Adds a zigzag encoded unsigned int to the output stream.
          *
          * @param value the value to encode.
-         * @throws IOException is there is a problem adding the value to the stream.
+         * @throws IOException is there is a problem adding the value to the
+         * stream.
          */
         public abstract void addUnsignedInt(int value) throws IOException;
 
@@ -716,7 +755,8 @@ public abstract class GENEncoder implements MALListEncoder {
          * Adds an unsigned 32bit integer held as a long to the output stream.
          *
          * @param value the value to encode.
-         * @throws IOException is there is a problem adding the value to the stream.
+         * @throws IOException is there is a problem adding the value to the
+         * stream.
          */
         public abstract void addUnsignedInt16(int value) throws IOException;
 
@@ -724,7 +764,8 @@ public abstract class GENEncoder implements MALListEncoder {
          * Adds a zigzag encoded unsigned short to the output stream.
          *
          * @param value the value to encode.
-         * @throws IOException is there is a problem adding the value to the stream.
+         * @throws IOException is there is a problem adding the value to the
+         * stream.
          */
         public abstract void addUnsignedShort(int value) throws IOException;
 
@@ -732,7 +773,8 @@ public abstract class GENEncoder implements MALListEncoder {
          * Adds an unsigned 32bit integer held as a long to the output stream.
          *
          * @param value the value to encode.
-         * @throws IOException is there is a problem adding the value to the stream.
+         * @throws IOException is there is a problem adding the value to the
+         * stream.
          */
         public abstract void addUnsignedShort8(short value) throws IOException;
 
@@ -740,7 +782,8 @@ public abstract class GENEncoder implements MALListEncoder {
          * Adds a byte array to the output stream.
          *
          * @param value the value to encode.
-         * @throws IOException is there is a problem adding the value to the stream.
+         * @throws IOException is there is a problem adding the value to the
+         * stream.
          */
         public abstract void addBytes(final byte[] value) throws IOException;
 
@@ -748,7 +791,8 @@ public abstract class GENEncoder implements MALListEncoder {
          * Adds a byte to the output stream.
          *
          * @param value the value to encode.
-         * @throws IOException is there is a problem adding the value to the stream.
+         * @throws IOException is there is a problem adding the value to the
+         * stream.
          */
         public abstract void addByte(final byte value) throws IOException;
 
@@ -756,21 +800,24 @@ public abstract class GENEncoder implements MALListEncoder {
          * Adds a Boolean to the output stream.
          *
          * @param value the value to encode.
-         * @throws IOException is there is a problem adding the value to the stream.
+         * @throws IOException is there is a problem adding the value to the
+         * stream.
          */
         public abstract void addBool(boolean value) throws IOException;
 
         /**
          * Adds a not Null flag value to the output stream.
          *
-         * @throws IOException is there is a problem adding the value to the stream.
+         * @throws IOException is there is a problem adding the value to the
+         * stream.
          */
         public abstract void addNotNull() throws IOException;
 
         /**
          * Adds an is Null flag value to the output stream.
          *
-         * @throws IOException is there is a problem adding the value to the stream.
+         * @throws IOException is there is a problem adding the value to the
+         * stream.
          */
         public abstract void addIsNull() throws IOException;
 
@@ -778,7 +825,8 @@ public abstract class GENEncoder implements MALListEncoder {
          * Low level byte array write to the output stream.
          *
          * @param value the value to encode.
-         * @throws IOException is there is a problem adding the value to the stream.
+         * @throws IOException is there is a problem adding the value to the
+         * stream.
          */
         public void directAdd(final byte[] value) throws IOException {
             outputStream.write(value);
@@ -790,7 +838,8 @@ public abstract class GENEncoder implements MALListEncoder {
          * @param value the value to encode.
          * @param os offset into array.
          * @param ln length to add.
-         * @throws IOException is there is a problem adding the value to the stream.
+         * @throws IOException is there is a problem adding the value to the
+         * stream.
          */
         public void directAdd(final byte[] value, int os, int ln) throws IOException {
             outputStream.write(value, os, ln);
@@ -800,7 +849,8 @@ public abstract class GENEncoder implements MALListEncoder {
          * Low level byte write to the output stream.
          *
          * @param value the value to encode.
-         * @throws IOException is there is a problem adding the value to the stream.
+         * @throws IOException is there is a problem adding the value to the
+         * stream.
          */
         public void directAdd(final byte value) throws IOException {
             outputStream.write(value);

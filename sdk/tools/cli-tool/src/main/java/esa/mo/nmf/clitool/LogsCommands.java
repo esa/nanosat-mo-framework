@@ -21,7 +21,6 @@
 package esa.mo.nmf.clitool;
 
 import esa.mo.helpertools.helpers.HelperMisc;
-import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.nmf.clitool.adapters.ArchiveToAppListAdapter;
 import esa.mo.nmf.clitool.adapters.ArchiveToLogAdapter;
 import java.util.ArrayList;
@@ -31,15 +30,14 @@ import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQueryList;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectType;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
 import org.ccsds.moims.mo.mal.structures.FineTime;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UShort;
+import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherServiceInfo;
+import org.ccsds.moims.mo.softwaremanagement.commandexecutor.CommandExecutorServiceInfo;
 import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
-import org.ccsds.moims.mo.softwaremanagement.commandexecutor.CommandExecutorHelper;
-import picocli.CommandLine.Command;
-import picocli.CommandLine.Option;
-import picocli.CommandLine.Parameters;
+import picocli.CommandLine.*;
 
 /**
  * Log commands implementations
@@ -155,12 +153,12 @@ public class LogsCommands {
             // Query all objects from SoftwareManagement area and CommandExecutor service,
             // filtering for StandardOutput and StandardError events is done in the query adapter
             ObjectType outputObjectTypes = new ObjectType(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NUMBER,
-                    CommandExecutorHelper.COMMANDEXECUTOR_SERVICE_NUMBER,
-                    SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION, new UShort(0));
+                CommandExecutorServiceInfo.COMMANDEXECUTOR_SERVICE_NUMBER,
+                SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION, new UShort(0));
 
             ObjectType eventObjectTypes = new ObjectType(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NUMBER,
-                    AppsLauncherHelper.APPSLAUNCHER_SERVICE_NUMBER,
-                    SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION, new UShort(0));
+                AppsLauncherServiceInfo.APPSLAUNCHER_SERVICE_NUMBER,
+                SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION, new UShort(0));
 
             boolean consumerCreated = false;
             if (providerURI != null) {

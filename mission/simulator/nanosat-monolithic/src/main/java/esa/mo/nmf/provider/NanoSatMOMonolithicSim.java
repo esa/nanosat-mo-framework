@@ -21,16 +21,17 @@
 package esa.mo.nmf.provider;
 
 import esa.mo.com.impl.util.COMServicesProvider;
-import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
 import esa.mo.nmf.nanosatmomonolithic.NanoSatMOMonolithic;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.platform.impl.util.PlatformServicesProviderSoftSim;
+import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 
 /**
  * NanoSat MO Monolithic OPS-SAT Software Simulator
@@ -78,6 +79,8 @@ public class NanoSatMOMonolithicSim extends NanoSatMOMonolithic {
             super.getPlatformServices().init(connectionConsumer, null);
         } catch (MalformedURLException | NMFException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(NanoSatMOMonolithicSim.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

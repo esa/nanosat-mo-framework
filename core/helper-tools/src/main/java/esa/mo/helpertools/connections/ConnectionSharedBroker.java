@@ -26,6 +26,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALContext;
@@ -35,6 +36,7 @@ import org.ccsds.moims.mo.mal.broker.MALBroker;
 import org.ccsds.moims.mo.mal.broker.MALBrokerBinding;
 import org.ccsds.moims.mo.mal.broker.MALBrokerManager;
 import org.ccsds.moims.mo.mal.structures.Blob;
+import org.ccsds.moims.mo.mal.structures.NamedValueList;
 import org.ccsds.moims.mo.mal.structures.QoSLevel;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 
@@ -79,7 +81,8 @@ public class ConnectionSharedBroker {
                 null == authenticationId ? new Blob("".getBytes()) : authenticationId,
                 new QoSLevel[]{QoSLevel.ASSURED},
                 new UInteger(1),
-                new HashMap());
+                new Hashtable(),
+                new NamedValueList());
 
         Logger.getLogger(ConnectionSharedBroker.class.getName()).log(Level.INFO, "Shared Broker URI: {0}", brokerBinding
             .getURI());
@@ -90,7 +93,7 @@ public class ConnectionSharedBroker {
                 wrt.append(HelperConnections.PROPERTY_SHARED_BROKER + "=" + brokerBinding.getURI());
                 wrt.newLine();
             } catch (IOException ex) {
-                Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING,
+                Logger.getLogger(ConnectionSharedBroker.class.getName()).log(Level.WARNING,
                     "Unable to write URI information to properties file {0}", ex);
             }
         }
@@ -124,7 +127,7 @@ public class ConnectionSharedBroker {
         if (ConnectionProvider.shouldInitUriFiles()) {
             try (BufferedWriter wrt = new BufferedWriter(new FileWriter(HelperMisc.SHARED_BROKER_URI, false))) {
             } catch (IOException ex) {
-                Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING,
+                Logger.getLogger(ConnectionSharedBroker.class.getName()).log(Level.WARNING,
                     "Unable to reset URI information from properties file {0}", ex);
             }
         }

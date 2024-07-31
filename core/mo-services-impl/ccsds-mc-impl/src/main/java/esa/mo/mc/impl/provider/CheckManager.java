@@ -24,8 +24,6 @@ import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
-import esa.mo.helpertools.connections.SingleConnectionDetails;
-import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.mc.impl.provider.check.CheckLinkEvaluationManager;
 import esa.mo.mc.impl.provider.check.CheckLinkEvaluation;
 import esa.mo.mc.impl.provider.check.EvaluationResult;
@@ -40,17 +38,19 @@ import org.ccsds.moims.mo.com.structures.ObjectDetails;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.com.structures.ObjectType;
+import org.ccsds.moims.mo.mal.MALElementsRegistry;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
+import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.Time;
-import org.ccsds.moims.mo.mc.check.CheckHelper;
+import org.ccsds.moims.mo.mc.check.CheckServiceInfo;
 import org.ccsds.moims.mo.mc.check.structures.CheckDefinitionDetails;
 import org.ccsds.moims.mo.mc.check.structures.CheckDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.check.structures.CheckLinkDetails;
-import org.ccsds.moims.mo.mc.check.structures.CheckLinkDetailsList;
 import org.ccsds.moims.mo.mc.check.structures.CheckResult;
 import org.ccsds.moims.mo.mc.check.structures.CheckResultList;
 import org.ccsds.moims.mo.mc.check.structures.CheckResultSummary;
@@ -239,23 +239,25 @@ public final class CheckManager extends CheckLinksManager {
                 //requirement: 3.5.16.2.j: if a ParameterName ever existed before, use the old ParameterIdentity-Object by retrieving it from the archive
                 //check if the name existed before and retrieve id if found
                 Long identityId = retrieveIdentityIdByNameFromArchive(ConfigurationProviderSingleton.getDomain(),
-                    new Identifier(name), CheckHelper.CHECKIDENTITY_OBJECT_TYPE);
+                        new Identifier(name), CheckServiceInfo.CHECKIDENTITY_OBJECT_TYPE);
                 //in case the ParameterName never existed before, create a new identity
                 if (identityId == null) {
                     //  requirement: 3.5.16.2.k
                     //Store Identity Object
-                    IdentifierList names = new IdentifierList();
+                    HeterogeneousList names = new HeterogeneousList();
                     names.add(new Identifier(name));
                     LongList identityIds = super.getArchiveService().store( //requirement: 3.5.7.a
-                        true, CheckHelper.CHECKIDENTITY_OBJECT_TYPE, //requirement: 3.5.4.a
-                        ConfigurationProviderSingleton.getDomain(), HelperArchive.generateArchiveDetailsList(null,
-                            incomeSource, connectionDetails), names, //requirement 3.5.4.b
-                        null);
+                            true,
+                            CheckServiceInfo.CHECKIDENTITY_OBJECT_TYPE, //requirement: 3.5.4.a
+                            ConfigurationProviderSingleton.getDomain(),
+                            HelperArchive.generateArchiveDetailsList(null, incomeSource, connectionDetails),
+                            names, //requirement 3.5.4.b
+                            null);
                     identityId = identityIds.get(0);
                 }
                 //requirement: 3.5.4.c
                 // Store the actual Definition
-                CheckDefinitionDetailsList defs = (CheckDefinitionDetailsList) HelperMisc.element2elementList(checkDef);
+                CheckDefinitionDetailsList defs = (CheckDefinitionDetailsList) MALElementsRegistry.elementToElementList(checkDef);
                 defs.add(checkDef);
                 ObjectType objType = CheckManager.generateCheckObjectType(checkDef); //requirement 3.5.4.c
                 LongList actDefIds = super.getArchiveService().store( //requirement: 3.5.7.b
@@ -287,7 +289,7 @@ public final class CheckManager extends CheckLinksManager {
         } else {  // store new objects in the COM Archive
             try {
                 // Store the actual Definition
-                CheckDefinitionDetailsList defs = (CheckDefinitionDetailsList) HelperMisc.element2elementList(checkDef);
+                CheckDefinitionDetailsList defs = (CheckDefinitionDetailsList) MALElementsRegistry.elementToElementList(checkDef);
                 defs.add(checkDef);
                 ObjectType objType = CheckManager.generateCheckObjectType(checkDef); //requirement 3.5.4.c
                 LongList actDefIds = super.getArchiveService().store(true, objType, ConfigurationProviderSingleton
@@ -320,16 +322,16 @@ public final class CheckManager extends CheckLinksManager {
         }
         try {
             //Store the new CheckLinkDefinition-Object
-            CheckLinkDetailsList linkDetails = new CheckLinkDetailsList();
+            HeterogeneousList linkDetails = new HeterogeneousList();
             linkDetails.add(checkLinkDetails);
             LongList checkLinkDefIds = super.getArchiveService().store( //requirement: 3.5.7.d
-                true, CheckHelper.CHECKLINKDEFINITION_OBJECT_TYPE, //requirement: 3.5.4.h
-                ConfigurationProviderSingleton.getDomain(), HelperArchive.generateArchiveDetailsList(checkLinkId, null,
-                    connectionDetails), //requirement: 3.5.18.2.b, 3.5.4.i
-                linkDetails, //requirement: 3.5.18.2.a
-                null);
+                    true,
+                    CheckServiceInfo.CHECKLINKDEFINITION_OBJECT_TYPE, //requirement: 3.5.4.h
+                    ConfigurationProviderSingleton.getDomain(),
+                    HelperArchive.generateArchiveDetailsList(checkLinkId, null, connectionDetails), //requirement: 3.5.18.2.b, 3.5.4.i
+                    linkDetails, //requirement: 3.5.18.2.a
+                    null);
             newCheckLinkDefId = checkLinkDefIds.get(0);
-
         } catch (MALException | MALInteractionException ex) {
             Logger.getLogger(CheckManager.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -350,22 +352,25 @@ public final class CheckManager extends CheckLinksManager {
 
                 // Store the CheckLink-Object
                 LongList checkLinkIds = super.getArchiveService().store( //requirement: 3.5.7.c
-                    true, CheckHelper.CHECKLINK_OBJECT_TYPE,//requirement: 3.5.4.e
-                    ConfigurationProviderSingleton.getDomain(), HelperArchive.generateArchiveDetailsList(linkRef
-                        .getRelated(), linkRef.getSource(), connectionDetails), //requirement: 3.5.18.2.b, 3.5.4.f, 3.5.4.g
-                    null, //requirement: 3.5.18.2.a
-                    null);
+                        true,
+                        CheckServiceInfo.CHECKLINK_OBJECT_TYPE,//requirement: 3.5.4.e
+                        ConfigurationProviderSingleton.getDomain(),
+                        HelperArchive.generateArchiveDetailsList(linkRef.getRelated(),
+                                linkRef.getSource(), connectionDetails), //requirement: 3.5.18.2.b, 3.5.4.f, 3.5.4.g
+                        null, //requirement: 3.5.18.2.a
+                        null);
                 checkLinkId = checkLinkIds.get(0);
 
                 //Store the CheckLinkDefinition-Object
-                CheckLinkDetailsList linkDetails = new CheckLinkDetailsList();
+                HeterogeneousList linkDetails = new HeterogeneousList();
                 linkDetails.add(linkDetail);
                 LongList checkLinkDefIds = super.getArchiveService().store( //requirement: 3.5.7.d
-                    true, CheckHelper.CHECKLINKDEFINITION_OBJECT_TYPE,//requirement: 3.5.4.h
-                    ConfigurationProviderSingleton.getDomain(), HelperArchive.generateArchiveDetailsList(checkLinkId,
-                        null, connectionDetails), //requirement: 3.5.18.2.b, 3.5.4.i
-                    linkDetails, //requirement: 3.5.18.2.a
-                    null);
+                        true,
+                        CheckServiceInfo.CHECKLINKDEFINITION_OBJECT_TYPE,//requirement: 3.5.4.h
+                        ConfigurationProviderSingleton.getDomain(),
+                        HelperArchive.generateArchiveDetailsList(checkLinkId, null, connectionDetails), //requirement: 3.5.18.2.b, 3.5.4.i
+                        linkDetails, //requirement: 3.5.18.2.a
+                        null);
                 checkLinkDefId = checkLinkDefIds.get(0);
 
             } catch (MALException | MALInteractionException ex) {
@@ -448,23 +453,23 @@ public final class CheckManager extends CheckLinksManager {
     public static ObjectType generateCheckObjectType(CheckDefinitionDetails checkDef) {
 
         if (checkDef instanceof ConstantCheckDefinition) {
-            return CheckHelper.CONSTANTCHECK_OBJECT_TYPE;
+            return CheckServiceInfo.CONSTANTCHECK_OBJECT_TYPE;
         }
 
         if (checkDef instanceof ReferenceCheckDefinition) {
-            return CheckHelper.REFERENCECHECK_OBJECT_TYPE;
+            return CheckServiceInfo.REFERENCECHECK_OBJECT_TYPE;
         }
 
         if (checkDef instanceof DeltaCheckDefinition) {
-            return CheckHelper.DELTACHECK_OBJECT_TYPE;
+            return CheckServiceInfo.DELTACHECK_OBJECT_TYPE;
         }
 
         if (checkDef instanceof LimitCheckDefinition) {
-            return CheckHelper.LIMITCHECK_OBJECT_TYPE;
+            return CheckServiceInfo.LIMITCHECK_OBJECT_TYPE;
         }
 
         if (checkDef instanceof CompoundCheckDefinition) {
-            return CheckHelper.COMPOUNDCHECK_OBJECT_TYPE;
+            return CheckServiceInfo.COMPOUNDCHECK_OBJECT_TYPE;
         }
 
         return null;
@@ -591,16 +596,26 @@ public final class CheckManager extends CheckLinksManager {
         final ObjectId source) {
         // Store the event in the Archive
         Long eventObjId = getEventService().generateAndStoreEvent( //requirement: 3.5.7.e
-            CheckHelper.CHECKTRANSITION_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(), checkResult, related,
-            source, null, ConfigurationProviderSingleton.getNetwork());
+                CheckServiceInfo.CHECKTRANSITION_OBJECT_TYPE,
+                ConfigurationProviderSingleton.getDomain(),
+                checkResult,
+                related,
+                source,
+                null,
+                ConfigurationProviderSingleton.getNetwork());
 
         CheckResultList checkResults = new CheckResultList(1);
         checkResults.add(checkResult);
 
         try {
             // Publish the Event
-            getEventService().publishEvent(connection.getPrimaryConnectionDetails().getProviderURI(), eventObjId,
-                CheckHelper.CHECKTRANSITION_OBJECT_TYPE, related, source, checkResults);
+            getEventService().publishEvent(
+                    connection.getPrimaryConnectionDetails().getProviderURI(),
+                    eventObjId,
+                    CheckServiceInfo.CHECKTRANSITION_OBJECT_TYPE,
+                    related,
+                    source,
+                    checkResults);
         } catch (IOException ex) {
             Logger.getLogger(CheckManager.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft â€“ v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -26,7 +26,6 @@ import esa.mo.com.impl.consumer.ArchiveSyncGenAdapter;
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.ArchiveCOMObjectsOutput;
 import esa.mo.com.impl.util.COMObjectStructure;
-import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.tools.mowindow.MOWindow;
 import java.awt.Component;
 import java.awt.Font;
@@ -55,6 +54,7 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.ElementList;
 import org.ccsds.moims.mo.mal.structures.FineTime;
+import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
@@ -161,7 +161,7 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
         }
 
         public synchronized void add(ObjectType objType, IdentifierList domain, ArchiveDetailsList objDetails,
-            ElementList objBodies) {
+            HeterogeneousList objBodies) {
             ArchiveCOMObjectsOutput archiveObjectOutput = new ArchiveCOMObjectsOutput(domain, objType, objDetails,
                 objBodies);
             archiveTablePanel.addEntries(archiveObjectOutput);
@@ -394,7 +394,7 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
             return;
         }
 
-        FineTime until = HelperTime.getTimestamp();
+        FineTime until = FineTime.now();
         MOWindow windowUntil = new MOWindow(until, true);
         try {
             until = (FineTime) windowUntil.getObject();
@@ -418,11 +418,12 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
         ArchiveSyncTab newTab = new ArchiveSyncTab("Synchronized!");
 
         for (COMObjectStructure obj : objs) {
-            ElementList bodies;
+            HeterogeneousList bodies = new HeterogeneousList();
+            bodies.addAll(obj.getObjects());
             ArchiveDetailsList archList = new ArchiveDetailsList();
             archList.add(obj.getArchiveDetails());
 
-            newTab.add(obj.getObjType(), obj.getDomain(), archList, obj.getObjects());
+            newTab.add(obj.getObjType(), obj.getDomain(), archList, bodies);
         }
 
     }//GEN-LAST:event_retrieveAutoActionPerformed
@@ -462,7 +463,7 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
             return;
         }
 
-        FineTime until = HelperTime.getTimestamp();
+        FineTime until = FineTime.now();
         MOWindow windowUntil = new MOWindow(until, true);
         try {
             until = (FineTime) windowUntil.getObject();
@@ -691,27 +692,25 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
 
     public static ArchiveQuery generateArchiveQuery() {
         // ArchiveDetails
-        ArchiveQuery archiveQuery = new ArchiveQuery();
-        archiveQuery.setDomain(null);
-        archiveQuery.setNetwork(null);
-        archiveQuery.setProvider(null);
-        archiveQuery.setRelated(0L);
-        archiveQuery.setSource(null);
-        archiveQuery.setStartTime(null);
-        archiveQuery.setEndTime(null);
-        archiveQuery.setSortOrder(null);
-        archiveQuery.setSortFieldName(null);
+        ArchiveQuery archiveQuery = new ArchiveQuery(
+          null,
+          null,
+          null,
+          new Long(0),
+          null,
+          null,
+          null,
+          null,
+          null);
 
         return archiveQuery;
     }
 
     public static CompositeFilter generateCompositeFilter() {
-        CompositeFilter compositeFilter = new CompositeFilter();
-        compositeFilter.setFieldName("name");
-        compositeFilter.setType(ExpressionOperator.fromNumericValue(ExpressionOperator.EQUAL_NUM_VALUE));
-        compositeFilter.setFieldValue(new Identifier("AggregationUpdate"));
-
-        return compositeFilter;
+        return new CompositeFilter(
+            "name",
+            ExpressionOperator.fromNumericValue(ExpressionOperator.EQUAL_NUM_VALUE),
+            new Identifier("AggregationUpdate"));
     }
 
     private void test_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_test_buttonActionPerformed

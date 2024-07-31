@@ -23,16 +23,14 @@ package esa.mo.com.impl.provider;
 import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
-import esa.mo.helpertools.helpers.HelperMisc;
-import esa.mo.helpertools.helpers.HelperTime;
 import java.io.IOException;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.event.EventHelper;
+import org.ccsds.moims.mo.com.event.EventServiceInfo;
 import org.ccsds.moims.mo.com.event.provider.EventInheritanceSkeleton;
 import org.ccsds.moims.mo.com.event.provider.MonitorEventPublisher;
 import org.ccsds.moims.mo.com.structures.ObjectDetails;
@@ -40,29 +38,29 @@ import org.ccsds.moims.mo.com.structures.ObjectDetailsList;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectIdList;
 import org.ccsds.moims.mo.com.structures.ObjectType;
-import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.provider.MALPublishInteractionListener;
+import org.ccsds.moims.mo.mal.structures.AttributeList;
+import org.ccsds.moims.mo.mal.structures.AttributeType;
+import org.ccsds.moims.mo.mal.structures.AttributeTypeList;
 import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.ElementList;
-import org.ccsds.moims.mo.mal.structures.EntityKey;
-import org.ccsds.moims.mo.mal.structures.EntityKeyList;
+import org.ccsds.moims.mo.mal.structures.FineTime;
+import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
+import org.ccsds.moims.mo.mal.structures.NullableAttribute;
+import org.ccsds.moims.mo.mal.structures.NullableAttributeList;
 import org.ccsds.moims.mo.mal.structures.QoSLevel;
 import org.ccsds.moims.mo.mal.structures.SessionType;
-import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.UInteger;
-import org.ccsds.moims.mo.mal.structures.UIntegerList;
 import org.ccsds.moims.mo.mal.structures.URI;
+import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.mal.structures.UpdateHeader;
-import org.ccsds.moims.mo.mal.structures.UpdateHeaderList;
-import org.ccsds.moims.mo.mal.structures.UpdateType;
 import org.ccsds.moims.mo.mal.transport.MALErrorBody;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 
@@ -88,22 +86,6 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
      */
     public synchronized void init(ArchiveProviderServiceImpl archiveService) throws MALException {
         long timestamp = System.currentTimeMillis();
-        
-        if (!initialiased) {
-            if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
-                MALHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION) == null) {
-                COMHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION).getServiceByName(
-                EventHelper.EVENT_SERVICE_NAME) == null) {
-                EventHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-        }
-
         this.archiveService = archiveService;
 
         publisher = createMonitorEventPublisher(ConfigurationProviderSingleton.getDomain(),
@@ -115,8 +97,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
             connection.closeAll();
         }
 
-        eventServiceProvider = connection.startService(EventHelper.EVENT_SERVICE_NAME.toString(),
-            EventHelper.EVENT_SERVICE, this);
+        eventServiceProvider = connection.startService(EventServiceInfo.EVENT_SERVICE_NAME.toString(), EventHelper.EVENT_SERVICE, this);
         running = true;
         initialiased = true;
         timestamp = System.currentTimeMillis() - timestamp;
@@ -186,21 +167,16 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
 
         ObjectDetailsList objectDetailsList = new ObjectDetailsList();
         objectDetailsList.add(new ObjectDetails(related, source));
-        ElementList events = null;
+        HeterogeneousList events = new HeterogeneousList();
 
-        try {
-            if (eventObjBody != null) {  // Do we have a null as input?
-                // Is it a list already?
-                if (eventObjBody instanceof java.util.ArrayList) {
-                    events = (ElementList) eventObjBody;    // Then just cast it to ElementList
-                } else {
-                    events = HelperMisc.element2elementList(eventObjBody);  // Else, convert it to ElementList
-                    events.add(eventObjBody);
-                }
+        if (eventObjBody != null) {  // Do we have a null as input?
+            // Is it a list already?
+            if (eventObjBody instanceof java.util.ArrayList) {
+                events.addAll((ElementList) eventObjBody);    // Then just cast it to ElementList
+            } else {
+                // Else, convert it to ElementList
+                events.add(eventObjBody);
             }
-
-        } catch (Exception ex) {
-            Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         // Store it!!
@@ -232,7 +208,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
 
         if (interaction != null) {
             if (interaction.getMessageHeader() != null) {
-                sourceURI = interaction.getMessageHeader().getURITo();
+                sourceURI = interaction.getMessageHeader().getToURI();
             }
         }
 
@@ -249,11 +225,11 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
      * @param objType Object type
      * @param related Related link
      * @param source Source link
-     * @param eventBodies Bodies of the event
+     * @param eventBody Body of the event
      * @throws java.io.IOException if it cannot publish the Event
      */
-    public void publishEvent(final URI sourceURI, final Long objId, final ObjectType objType, final Long related,
-        final ObjectId source, ElementList eventBodies) throws IOException {
+    public void publishEvent(final URI sourceURI, final Long objId, final ObjectType objType,
+            final Long related, final ObjectId source, Element eventBody) throws IOException {
         // 3.3.2.1 , 3.3.2.2 , 3.3.2.3 , 3.3.2.4 , 3.3.2.5
         if (!running) {
             throw new IOException("The Event service is not running.");
@@ -262,9 +238,17 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
         try {
             synchronized (lock) {
                 if (!isRegistered) {
-                    final EntityKeyList lst = new EntityKeyList();
-                    lst.add(new EntityKey(new Identifier("*"), 0L, 0L, 0L));
-                    publisher.register(lst, new PublishInteractionListener());
+                    IdentifierList keyNames = new IdentifierList();
+                    keyNames.add(new Identifier("K1"));
+                    keyNames.add(new Identifier("K2"));
+                    keyNames.add(new Identifier("K3"));
+                    keyNames.add(new Identifier("K4"));
+                    AttributeTypeList keyTypes = new AttributeTypeList();
+                    keyTypes.add(AttributeType.IDENTIFIER);
+                    keyTypes.add(AttributeType.LONG);
+                    keyTypes.add(AttributeType.LONG);
+                    keyTypes.add(AttributeType.LONG);
+                    publisher.register(keyNames, keyTypes, new PublishInteractionListener());
                     isRegistered = true;
                 }
             }
@@ -278,31 +262,35 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
 
             final Long subKey = (source != null) ? HelperCOM.generateSubKey(source.getType()) : null;
             // requirements: 3.3.4.2.1 , 3.3.4.2.2 , 3.3.4.2.3 , 3.3.4.2.4
-            final EntityKey ekey = new EntityKey(new Identifier(objType.getNumber().toString()), secondEntityKey, objId,
-                subKey);
+            /*
+            final EntityKey ekey = new EntityKey(
+                    new Identifier(objType.getNumber().toString()),
+                    secondEntityKey,
+                    objId,
+                    subKey);
 
-            final Time timestamp = HelperTime.getTimestampMillis(); //  requirement: 3.3.4.2.7
+            NamedValueList subkeys = new NamedValueList();
+            subkeys.add(new NamedValue(new Identifier("key1"), new Identifier(objType.getNumber().toString())));
+            subkeys.add(new NamedValue(new Identifier("key2"), new Union(secondEntityKey)));
+            subkeys.add(new NamedValue(new Identifier("key3"), new Union(objId)));
+            subkeys.add(new NamedValue(new Identifier("key4"), new Union(subKey)));
+             */
 
-            final UpdateHeaderList hdrlst = new UpdateHeaderList();
-            final ObjectDetailsList objectDetailsList = new ObjectDetailsList();
+            final NullableAttributeList keyValues = new NullableAttributeList();
+            keyValues.add(new NullableAttribute(new Identifier(objType.getNumber().toString())));
+            keyValues.add(new NullableAttribute(new Union(secondEntityKey)));
+            keyValues.add(new NullableAttribute(new Union(objId)));
+            keyValues.add(new NullableAttribute(new Union(subKey)));
 
-            hdrlst.add(new UpdateHeader(timestamp, sourceURI, UpdateType.DELETION, ekey));
-            objectDetailsList.add(new ObjectDetails(related, source)); // requirement: 3.3.4.2.5
+            UpdateHeader updateHeader = new UpdateHeader(new Identifier(sourceURI.getValue()),
+                    connection.getConnectionDetails().getDomain(), keyValues);
+            ObjectDetails objectDetails = new ObjectDetails(related, source); // requirement: 3.3.4.2.5
 
-            if (eventBodies != null) {
-                if (eventBodies.isEmpty()) {
-                    Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.WARNING,
-                        "The event bodies list is empty!");
-                }
-            } else {
-                eventBodies = new UIntegerList(hdrlst.size());
-
-                for (UpdateHeader hdrlst1 : hdrlst) {
-                    eventBodies.add(new UInteger());
-                }
+            if (eventBody == null) {
+                eventBody = new UInteger();
             }
 
-            publisher.publish(hdrlst, objectDetailsList, eventBodies); // requirement: 3.7.2.15
+            publisher.publish(updateHeader, objectDetails, eventBody); // requirement: 3.7.2.15
         } catch (IllegalArgumentException ex) {
             Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.WARNING,
                 "Exception during publishing process on the provider (0)", ex);
@@ -323,11 +311,11 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
      * @param objType Object type
      * @param relateds Related links
      * @param sources Source links
-     * @param eventBodies Bodies of the event
+     * @param eventBody Body of the event
      * @throws java.io.IOException if it cannot publish the Event
      */
     public void publishEvents(final URI sourceURI, final LongList objIds, final ObjectType objType,
-        final LongList relateds, final ObjectIdList sources, ElementList eventBodies) throws IOException {
+            final LongList relateds, final ObjectIdList sources, Element eventBody) throws IOException {
         // 3.3.2.1 , 3.3.2.2 , 3.3.2.3 , 3.3.2.4 , 3.3.2.5
         if (!running) {
             throw new IOException("The Event service is not running.");
@@ -336,9 +324,17 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
         try {
             synchronized (lock) {
                 if (!isRegistered) {
-                    final EntityKeyList lst = new EntityKeyList();
-                    lst.add(new EntityKey(new Identifier("*"), 0L, 0L, 0L));
-                    publisher.register(lst, new PublishInteractionListener());
+                    IdentifierList keyNames = new IdentifierList();
+                    keyNames.add(new Identifier("K1"));
+                    keyNames.add(new Identifier("K2"));
+                    keyNames.add(new Identifier("K3"));
+                    keyNames.add(new Identifier("K4"));
+                    AttributeTypeList keyTypes = new AttributeTypeList();
+                    keyTypes.add(AttributeType.IDENTIFIER);
+                    keyTypes.add(AttributeType.LONG);
+                    keyTypes.add(AttributeType.LONG);
+                    keyTypes.add(AttributeType.LONG);
+                    publisher.register(keyNames, keyTypes, new PublishInteractionListener());
                     isRegistered = true;
                 }
             }
@@ -348,9 +344,6 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
                     "Publishing Event for the Event objIds: {0}; with Event Object Numbers: {1}",
                     new Object[]{objIds, objType.getNumber()});
              */
-            final UpdateHeaderList hdrlst = new UpdateHeaderList(objIds.size());
-            final ObjectDetailsList objectDetailsList = new ObjectDetailsList(objIds.size());
-
             for (int i = 0; i < objIds.size(); i++) {
                 // 0xFFFF FFFF FF00 0000
                 final Long secondEntityKey = 0xFFFFFFFFFF000000L & HelperCOM.generateSubKey(objType);
@@ -358,30 +351,24 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
                 final Long subKey = (sources.get(i) != null) ? HelperCOM.generateSubKey(sources.get(i).getType()) :
                     null;
                 // requirements: 3.3.4.2.1 , 3.3.4.2.2 , 3.3.4.2.3 , 3.3.4.2.4
-                final EntityKey ekey = new EntityKey(new Identifier(objType.getNumber().toString()), secondEntityKey,
-                    objIds.get(i), subKey);
+                AttributeList keys = new AttributeList();
+                keys.add(new Identifier(objType.getNumber().toString()));
+                keys.addAsJavaType(secondEntityKey);
+                keys.addAsJavaType(objIds.get(i));
+                keys.addAsJavaType(subKey);
 
-                final Time timestamp = HelperTime.getTimestampMillis(); //  requirement: 3.3.4.2.7
                 final Long related = (relateds == null) ? null : relateds.get(i);
 
-                hdrlst.add(new UpdateHeader(timestamp, sourceURI, UpdateType.DELETION, ekey));
-                objectDetailsList.add(new ObjectDetails(related, sources.get(i))); // requirement: 3.3.4.2.5
-            }
+                UpdateHeader updateHeader = new UpdateHeader(new Identifier(sourceURI.getValue()),
+                        connection.getConnectionDetails().getDomain(), keys.getAsNullableAttributeList());
+                ObjectDetails objectDetails = new ObjectDetails(related, sources.get(i)); // requirement: 3.3.4.2.5
 
-            if (eventBodies != null) {
-                if (eventBodies.isEmpty()) {
-                    Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.WARNING,
-                        "The event bodies list is empty!");
+                if (eventBody == null) {
+                    eventBody = new UInteger();
                 }
-            } else {
-                eventBodies = new UIntegerList(hdrlst.size());
 
-                for (UpdateHeader hdrlst1 : hdrlst) {
-                    eventBodies.add(new UInteger());
-                }
+                publisher.publish(updateHeader, objectDetails, eventBody); // requirement: 3.7.2.15
             }
-
-            publisher.publish(hdrlst, objectDetailsList, eventBodies); // requirement: 3.7.2.15
         } catch (IllegalArgumentException ex) {
             Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.WARNING,
                 "Exception during publishing process on the provider (0)", ex);
@@ -403,15 +390,15 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
             objectDetailsList.add(new ObjectDetails(related, sourceList.get(i)));
         }
 
-        ElementList events = null;
-        Identifier network;
-        URI uri;
+        HeterogeneousList events = null;
+        Identifier network = ConfigurationProviderSingleton.getNetwork();
+        URI uri = null;
 
         if (interaction != null) {
-            network = interaction.getMessageHeader().getNetworkZone();
-            uri = interaction.getMessageHeader().getURIFrom();
-        }else{
-            network = ConfigurationProviderSingleton.getNetwork();
+            uri = interaction.getMessageHeader().getFromURI();
+        }
+
+        if (uri == null) {
             uri = connection.getConnectionDetails().getProviderURI();
         }
 
@@ -422,12 +409,12 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
         ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList(objectDetailsList.size());
 
         for (int i = 0; i < objectDetailsList.size(); i++) {
-            ArchiveDetails archiveDetails = new ArchiveDetails();
-            archiveDetails.setDetails(objectDetailsList.get(i));
-            archiveDetails.setInstId(0L); // no need to worry about objIds
-            archiveDetails.setTimestamp(HelperTime.getTimestamp());
-            archiveDetails.setNetwork(network);
-            archiveDetails.setProvider(uri);
+            ArchiveDetails archiveDetails = new ArchiveDetails(new Long(0),
+            objectDetailsList.get(i),
+            network,
+            FineTime.now(),
+            uri);
+
             archiveDetailsList.add(archiveDetails);
         }
 
@@ -476,10 +463,10 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
      * Stores an Event in the Archive
      */
     private Long storeEventOnArchive(final ObjectDetailsList objectDetailsList, final IdentifierList domain,
-        final ObjectType objType, final ElementList events, final MALInteraction interaction) {
+            final ObjectType objType, final HeterogeneousList events, final MALInteraction interaction) {
         if (interaction != null) {
-            return this.storeEventOnArchive(objectDetailsList, domain, objType, events, interaction.getMessageHeader()
-                .getURIFrom(), interaction.getMessageHeader().getNetworkZone());
+            return this.storeEventOnArchive(objectDetailsList, domain, objType,
+                    events, interaction.getMessageHeader().getFromURI(), null);
         } else {
             return this.storeEventOnArchive(objectDetailsList, domain, objType, events, null, null);
         }
@@ -489,7 +476,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
      * Stores an Event in the Archive
      */
     private Long storeEventOnArchive(final ObjectDetailsList objectDetailsList, final IdentifierList domain,
-        final ObjectType objType, final ElementList events, final URI uri, final Identifier network) {
+            final ObjectType objType, final HeterogeneousList events, URI uri, Identifier network) {
 
         if (this.archiveService == null) {
             return null;
@@ -500,24 +487,34 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
             // Currently being taken
         }
 
-        ArchiveDetails archiveDetails = new ArchiveDetails();
+        if (network == null) {
+            network = ConfigurationProviderSingleton.getNetwork();
+        }
+
+        if (uri == null) {
+            uri = connection.getConnectionDetails().getProviderURI();
+        }
+        
+        ArchiveDetails archiveDetails = new ArchiveDetails(new Long(0),
+            objectDetailsList.get(0), network, FineTime.now(), uri);
+        
+        /*
         archiveDetails.setDetails(objectDetailsList.get(0));
-        archiveDetails.setInstId(0L); // no need to worry about objIds
+        archiveDetails.setInstId(new Long(0)); // no need to worry about objIds
+        archiveDetails.setTimestamp(HelperTime.getTimestamp());
 
         if (network != null) {
             archiveDetails.setNetwork(network);
         } else {
             archiveDetails.setNetwork(ConfigurationProviderSingleton.getNetwork());
         }
-
         if (uri != null) {
             archiveDetails.setProvider(uri);
         } else {
             archiveDetails.setProvider(connection.getConnectionDetails().getProviderURI());
         }
-
-        archiveDetails.setTimestamp(HelperTime.getTimestamp());
-
+*/
+        
         ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
         archiveDetailsList.add(archiveDetails);
 
@@ -550,7 +547,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
     public static URI convertMALInteractionToURI(final MALInteraction interaction) {
         if (interaction != null) {
             if (interaction.getMessageHeader() != null) {
-                return interaction.getMessageHeader().getURITo();
+                return interaction.getMessageHeader().getToURI();
             }
         }
 

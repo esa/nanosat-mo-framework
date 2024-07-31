@@ -15,21 +15,20 @@ package esa.mo.nmf.clitool.adapters;
 
 import esa.mo.com.impl.provider.ArchiveProviderServiceImpl;
 import esa.mo.com.impl.util.ArchiveCOMObjectsOutput;
-import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
-import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
-import org.ccsds.moims.mo.com.structures.ObjectType;
-import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.MALStandardError;
-import org.ccsds.moims.mo.mal.structures.ElementList;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
+import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
+import org.ccsds.moims.mo.com.structures.ObjectType;
+import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.MOErrorException;
+import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
+import org.ccsds.moims.mo.mal.structures.IdentifierList;
+import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 
 /**
  * @author marcel.mikolajko
@@ -85,31 +84,31 @@ public class ArchiveToBackupAdapter extends ArchiveAdapter implements QueryStatu
 
     @Override
     public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-        ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+        ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
         dumpArchiveObjectsOutput(new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies));
         setIsQueryOver(true);
     }
 
     @Override
     public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-        ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+        ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
         dumpArchiveObjectsOutput(new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies));
     }
 
     @Override
-    public void queryAckErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+    public void queryAckErrorReceived(MALMessageHeader msgHeader, MOErrorException error, Map qosProperties) {
         LOGGER.log(Level.SEVERE, "queryAckErrorReceived", error);
         setIsQueryOver(true);
     }
 
     @Override
-    public void queryUpdateErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+    public void queryUpdateErrorReceived(MALMessageHeader msgHeader, MOErrorException error, Map qosProperties) {
         LOGGER.log(Level.SEVERE, "queryUpdateErrorReceived", error);
         setIsQueryOver(true);
     }
 
     @Override
-    public void queryResponseErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+    public void queryResponseErrorReceived(MALMessageHeader msgHeader, MOErrorException error, Map qosProperties) {
         LOGGER.log(Level.SEVERE, "queryResponseErrorReceived", error);
         setIsQueryOver(true);
     }

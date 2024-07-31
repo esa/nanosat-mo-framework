@@ -22,33 +22,30 @@ package esa.mo.sm.impl.provider;
 
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
-import esa.mo.helpertools.helpers.HelperTime;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.provider.MALPublishInteractionListener;
+import org.ccsds.moims.mo.mal.structures.AttributeTypeList;
 import org.ccsds.moims.mo.mal.structures.Duration;
-import org.ccsds.moims.mo.mal.structures.EntityKey;
-import org.ccsds.moims.mo.mal.structures.EntityKeyList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
+import org.ccsds.moims.mo.mal.structures.IdentifierList;
+import org.ccsds.moims.mo.mal.structures.NullableAttributeList;
 import org.ccsds.moims.mo.mal.structures.QoSLevel;
 import org.ccsds.moims.mo.mal.structures.SessionType;
 import org.ccsds.moims.mo.mal.structures.UInteger;
+import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mal.structures.UpdateHeader;
-import org.ccsds.moims.mo.mal.structures.UpdateHeaderList;
-import org.ccsds.moims.mo.mal.structures.UpdateType;
 import org.ccsds.moims.mo.mal.transport.MALErrorBody;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
 import org.ccsds.moims.mo.softwaremanagement.heartbeat.HeartbeatHelper;
+import org.ccsds.moims.mo.softwaremanagement.heartbeat.HeartbeatServiceInfo;
 import org.ccsds.moims.mo.softwaremanagement.heartbeat.provider.BeatPublisher;
 import org.ccsds.moims.mo.softwaremanagement.heartbeat.provider.HeartbeatInheritanceSkeleton;
 
@@ -76,40 +73,21 @@ public class HeartbeatProviderServiceImpl extends HeartbeatInheritanceSkeleton {
      */
     public synchronized void init() throws MALException {
         long timestamp = System.currentTimeMillis();
-        
-        if (!initialiased) {
-            if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
-                MALHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME,
-                    SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) == null) {
-                SoftwareManagementHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME,
-                    SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION)
-                    .getServiceByName(HeartbeatHelper.HEARTBEAT_SERVICE_NAME) == null) {
-                HeartbeatHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-        }
-
-        publisher = createBeatPublisher(ConfigurationProviderSingleton.getDomain(),
-                ConfigurationProviderSingleton.getNetwork(),
-                SessionType.LIVE,
-                ConfigurationProviderSingleton.getSourceSessionName(),
-                QoSLevel.BESTEFFORT,
-                null,
-                new UInteger(0));
+        publisher = createBeatPublisher(ConfigurationProviderSingleton.getDomain(), ConfigurationProviderSingleton
+                .getNetwork(), SessionType.LIVE, ConfigurationProviderSingleton.getSourceSessionName(), QoSLevel.BESTEFFORT,
+                null, new UInteger(0));
 
         // Shut down old service transport
         if (null != heartbeatServiceProvider) {
             connection.closeAll();
         }
 
-        heartbeatServiceProvider = connection.startService(
-                HeartbeatHelper.HEARTBEAT_SERVICE_NAME.toString(),
+        heartbeatServiceProvider = connection.startService(HeartbeatServiceInfo.HEARTBEAT_SERVICE_NAME.toString(),
                 HeartbeatHelper.HEARTBEAT_SERVICE, true, this);
+
+        running = true;
+        initialiased = true;
+        LOGGER.info("Heartbeat service READY");
 
         // Start the timer to publish the heartbeat
         timer = new Timer("HeartbeatThread");
@@ -148,23 +126,15 @@ public class HeartbeatProviderServiceImpl extends HeartbeatInheritanceSkeleton {
     private synchronized void publishHeartbeat() {
         try {
             if (!isRegistered) {
-                final EntityKeyList lst = new EntityKeyList();
-                lst.add(new EntityKey(new Identifier("*"), 0L, 0L, 0L));
-                publisher.register(lst, new PublishInteractionListener());
+                publisher.register(new IdentifierList(), new AttributeTypeList(), new PublishInteractionListener());
                 isRegistered = true;
             }
 
-            final UpdateHeaderList hdrlst = new UpdateHeaderList(1);
-            hdrlst.add(
-                    new UpdateHeader(
-                            HelperTime.getTimestampMillis(),
-                            connection.getConnectionDetails().getProviderURI(),
-                            UpdateType.UPDATE,
-                            new EntityKey(null, null, null, null)
-                    )
-            );
+            URI source = connection.getConnectionDetails().getProviderURI();
+            UpdateHeader updateHeader = new UpdateHeader(new Identifier(source.getValue()),
+                    connection.getConnectionDetails().getDomain(), new NullableAttributeList());
 
-            publisher.publish(hdrlst);
+            publisher.publish(updateHeader);
         } catch (IllegalArgumentException | MALException | MALInteractionException ex) {
             LOGGER.log(Level.WARNING, "Exception during publishing process on the provider", ex);
         }

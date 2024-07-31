@@ -77,7 +77,7 @@ public class PictureReceivedAdapter extends CameraAdapter {
         try {
             // Store it in a file!
             Files.write(outputFile, picture.getContent().getValue());
-        } catch (IOException | MALException e) {
+        } catch (IOException e) {
             Logger.getLogger(PictureReceivedAdapter.class.getName()).log(Level.SEVERE,
                 "Picture could not be saved to file!", e);
             return false;

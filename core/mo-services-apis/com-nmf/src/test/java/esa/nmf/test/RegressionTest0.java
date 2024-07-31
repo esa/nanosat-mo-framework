@@ -21,11 +21,6 @@ public class RegressionTest0 {
         java.lang.Integer int5 = identifier4.getTypeShortForm();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet6 = identifier4.getAreaVersion();
         org.ccsds.moims.mo.com.COMService cOMService7 = new org.ccsds.moims.mo.com.COMService(uShort3, identifier4);
-        try {
-            org.ccsds.moims.mo.mal.MALOperation[] mALOperationArray9 = cOMService7.getOperationsByCapabilitySet(6);
-            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field org.ccsds.moims.mo.com.COMService.randoop_classUsedFlag from class org.ccsds.moims.mo.mal.MALService");
-        } catch (java.lang.IllegalAccessError e) {
-        }
         org.junit.Assert.assertNotNull(uShort1);
         org.junit.Assert.assertTrue("'" + int2 + "' != '" + 12 + "'", int2.equals(12));
         org.junit.Assert.assertNotNull(uShort3);
@@ -45,11 +40,6 @@ public class RegressionTest0 {
         java.lang.Integer int5 = identifier4.getTypeShortForm();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet6 = identifier4.getAreaVersion();
         org.ccsds.moims.mo.com.COMService cOMService7 = new org.ccsds.moims.mo.com.COMService(uShort3, identifier4);
-        try {
-            org.ccsds.moims.mo.mal.MALSubmitOperation[] mALSubmitOperationArray8 = cOMService7.getSubmitOperations();
-            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field org.ccsds.moims.mo.com.COMService.randoop_classUsedFlag from class org.ccsds.moims.mo.mal.MALService");
-        } catch (java.lang.IllegalAccessError e) {
-        }
         org.junit.Assert.assertNotNull(uShort1);
         org.junit.Assert.assertTrue("'" + int2 + "' != '" + 12 + "'", int2.equals(12));
         org.junit.Assert.assertNotNull(uShort3);
@@ -69,11 +59,6 @@ public class RegressionTest0 {
         java.lang.Integer int5 = identifier4.getTypeShortForm();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet6 = identifier4.getAreaVersion();
         org.ccsds.moims.mo.com.COMService cOMService7 = new org.ccsds.moims.mo.com.COMService(uShort3, identifier4);
-        try {
-            org.ccsds.moims.mo.mal.MALInvokeOperation[] mALInvokeOperationArray8 = cOMService7.getInvokeOperations();
-            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field org.ccsds.moims.mo.com.COMService.randoop_classUsedFlag from class org.ccsds.moims.mo.mal.MALService");
-        } catch (java.lang.IllegalAccessError e) {
-        }
         org.junit.Assert.assertNotNull(uShort1);
         org.junit.Assert.assertTrue("'" + int2 + "' != '" + 12 + "'", int2.equals(12));
         org.junit.Assert.assertNotNull(uShort3);
@@ -93,12 +78,6 @@ public class RegressionTest0 {
         java.lang.Integer int5 = identifier4.getTypeShortForm();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet6 = identifier4.getAreaVersion();
         org.ccsds.moims.mo.com.COMService cOMService7 = new org.ccsds.moims.mo.com.COMService(uShort3, identifier4);
-        try {
-            org.ccsds.moims.mo.mal.MALProgressOperation[] mALProgressOperationArray8 = cOMService7
-                .getProgressOperations();
-            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field org.ccsds.moims.mo.com.COMService.randoop_classUsedFlag from class org.ccsds.moims.mo.mal.MALService");
-        } catch (java.lang.IllegalAccessError e) {
-        }
         org.junit.Assert.assertNotNull(uShort1);
         org.junit.Assert.assertTrue("'" + int2 + "' != '" + 12 + "'", int2.equals(12));
         org.junit.Assert.assertNotNull(uShort3);
@@ -141,11 +120,6 @@ public class RegressionTest0 {
         java.lang.Object[] objArray33 = longList13.toArray();
         java.util.stream.Stream<java.lang.Long> longStream34 = longList13.parallelStream();
         boolean boolean35 = identifier8.equals((java.lang.Object) longList13);
-        try {
-            org.ccsds.moims.mo.mal.MALOperation mALOperation36 = cOMService7.getOperationByName(identifier8);
-            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field org.ccsds.moims.mo.com.COMService.randoop_classUsedFlag from class org.ccsds.moims.mo.mal.MALService");
-        } catch (java.lang.IllegalAccessError e) {
-        }
         org.junit.Assert.assertNotNull(uShort1);
         org.junit.Assert.assertTrue("'" + int2 + "' != '" + 12 + "'", int2.equals(12));
         org.junit.Assert.assertNotNull(uShort3);
@@ -206,11 +180,6 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.Time time9 = new org.ccsds.moims.mo.mal.structures.Time((long) (byte) 100);
         org.ccsds.moims.mo.mal.structures.Element element10 = time9.createElement();
         org.ccsds.moims.mo.mal.structures.UShort uShort11 = time9.getServiceNumber();
-        try {
-            org.ccsds.moims.mo.mal.MALOperation mALOperation12 = cOMService7.getOperationByNumber(uShort11);
-            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field org.ccsds.moims.mo.com.COMService.randoop_classUsedFlag from class org.ccsds.moims.mo.mal.MALService");
-        } catch (java.lang.IllegalAccessError e) {
-        }
         org.junit.Assert.assertNotNull(uShort1);
         org.junit.Assert.assertTrue("'" + int2 + "' != '" + 12 + "'", int2.equals(12));
         org.junit.Assert.assertNotNull(uShort3);
@@ -399,11 +368,6 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.com.COMService cOMService25 = new org.ccsds.moims.mo.com.COMService(uShort16, identifier21);
         org.ccsds.moims.mo.com.COMService cOMService26 = new org.ccsds.moims.mo.com.COMService(uShort15, identifier21);
         org.ccsds.moims.mo.com.COMService cOMService27 = new org.ccsds.moims.mo.com.COMService(uShort11, identifier21);
-        try {
-            org.ccsds.moims.mo.mal.MALOperation[] mALOperationArray29 = cOMService27.getOperationsByCapabilitySet(3);
-            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field org.ccsds.moims.mo.com.COMService.randoop_classUsedFlag from class org.ccsds.moims.mo.mal.MALService");
-        } catch (java.lang.IllegalAccessError e) {
-        }
         org.junit.Assert.assertNotNull(byteArray5);
         org.junit.Assert.assertNotNull(element9);
         org.junit.Assert.assertNull(str10);
@@ -604,12 +568,6 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.Identifier identifier5 = new org.ccsds.moims.mo.mal.structures.Identifier("");
         org.ccsds.moims.mo.mal.structures.Element element6 = identifier5.createElement();
         org.ccsds.moims.mo.com.COMService cOMService7 = new org.ccsds.moims.mo.com.COMService(uShort3, identifier5);
-        try {
-            org.ccsds.moims.mo.mal.MALOperation[] mALOperationArray9 = cOMService7.getOperationsByCapabilitySet(
-                (int) (short) 0);
-            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field org.ccsds.moims.mo.com.COMService.randoop_classUsedFlag from class org.ccsds.moims.mo.mal.MALService");
-        } catch (java.lang.IllegalAccessError e) {
-        }
         org.junit.Assert.assertNotNull(element2);
         org.junit.Assert.assertNotNull(uShort3);
         org.junit.Assert.assertNotNull(element6);
@@ -1079,11 +1037,6 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.com.COMService cOMService8 = new org.ccsds.moims.mo.com.COMService(uShort4, identifier5);
         org.ccsds.moims.mo.com.COMService cOMService9 = new org.ccsds.moims.mo.com.COMService(uShort0, identifier5);
         org.ccsds.moims.mo.com.COMObject[] cOMObjectArray10 = cOMService9.getObjects();
-        try {
-            org.ccsds.moims.mo.mal.MALOperation[] mALOperationArray12 = cOMService9.getOperationsByCapabilitySet(17);
-            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field org.ccsds.moims.mo.com.COMService.randoop_classUsedFlag from class org.ccsds.moims.mo.mal.MALService");
-        } catch (java.lang.IllegalAccessError e) {
-        }
         org.junit.Assert.assertNotNull(uShort0);
         org.junit.Assert.assertNotNull(uShort2);
         org.junit.Assert.assertTrue("'" + int3 + "' != '" + 12 + "'", int3.equals(12));
@@ -1536,11 +1489,6 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.UOctet uOctet6 = identifier4.getAreaVersion();
         org.ccsds.moims.mo.com.COMService cOMService7 = new org.ccsds.moims.mo.com.COMService(uShort3, identifier4);
         org.ccsds.moims.mo.mal.structures.UShort uShort8 = org.ccsds.moims.mo.mal.structures.LongList.SERVICE_SHORT_FORM;
-        try {
-            org.ccsds.moims.mo.mal.MALOperation mALOperation9 = cOMService7.getOperationByNumber(uShort8);
-            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field org.ccsds.moims.mo.com.COMService.randoop_classUsedFlag from class org.ccsds.moims.mo.mal.MALService");
-        } catch (java.lang.IllegalAccessError e) {
-        }
         org.junit.Assert.assertNotNull(uShort1);
         org.junit.Assert.assertTrue("'" + int2 + "' != '" + 12 + "'", int2.equals(12));
         org.junit.Assert.assertNotNull(uShort3);
@@ -2105,11 +2053,6 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.com.COMObject cOMObject42 = cOMService7.getObjectByName(identifier35);
         org.ccsds.moims.mo.mal.structures.URI uRI44 = new org.ccsds.moims.mo.mal.structures.URI("[1, 1, -1, 0]");
         org.ccsds.moims.mo.mal.structures.UShort uShort45 = uRI44.getAreaNumber();
-        try {
-            org.ccsds.moims.mo.mal.MALOperation mALOperation46 = cOMService7.getOperationByNumber(uShort45);
-            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field org.ccsds.moims.mo.com.COMService.randoop_classUsedFlag from class org.ccsds.moims.mo.mal.MALService");
-        } catch (java.lang.IllegalAccessError e) {
-        }
         org.junit.Assert.assertNotNull(uShort1);
         org.junit.Assert.assertTrue("'" + int2 + "' != '" + 12 + "'", int2.equals(12));
         org.junit.Assert.assertNotNull(uShort3);
@@ -2186,11 +2129,6 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.com.COMService cOMService45 = new org.ccsds.moims.mo.com.COMService(uShort34, identifier40);
         org.ccsds.moims.mo.com.COMService cOMService46 = new org.ccsds.moims.mo.com.COMService(uShort30, identifier40);
         org.ccsds.moims.mo.com.COMObject cOMObject47 = cOMService9.getObjectByName(identifier40);
-        try {
-            org.ccsds.moims.mo.mal.MALOperation[] mALOperationArray49 = cOMService9.getOperationsByCapabilitySet((-9));
-            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field org.ccsds.moims.mo.com.COMService.randoop_classUsedFlag from class org.ccsds.moims.mo.mal.MALService");
-        } catch (java.lang.IllegalAccessError e) {
-        }
         org.junit.Assert.assertNotNull(uShort0);
         org.junit.Assert.assertNotNull(uShort2);
         org.junit.Assert.assertTrue("'" + int3 + "' != '" + 12 + "'", int3.equals(12));
@@ -2231,11 +2169,6 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.UOctet uOctet6 = identifier4.getAreaVersion();
         org.ccsds.moims.mo.com.COMService cOMService7 = new org.ccsds.moims.mo.com.COMService(uShort3, identifier4);
         org.ccsds.moims.mo.mal.MALOperation mALOperation8 = null;
-        try {
-            // flaky:             cOMService7.addOperation(mALOperation8);
-            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field org.ccsds.moims.mo.com.COMService.randoop_classUsedFlag from class org.ccsds.moims.mo.mal.MALService");
-        } catch (java.lang.IllegalAccessError e) {
-        }
         org.junit.Assert.assertNotNull(uShort1);
         org.junit.Assert.assertTrue("'" + int2 + "' != '" + 12 + "'", int2.equals(12));
         org.junit.Assert.assertNotNull(uShort3);
@@ -2270,11 +2203,6 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.com.COMService cOMService24 = new org.ccsds.moims.mo.com.COMService(uShort15, identifier20);
         org.ccsds.moims.mo.com.COMService cOMService25 = new org.ccsds.moims.mo.com.COMService(uShort14, identifier20);
         boolean boolean26 = stringList0.remove((java.lang.Object) cOMService25);
-        try {
-            org.ccsds.moims.mo.mal.MALOperation[] mALOperationArray28 = cOMService25.getOperationsByCapabilitySet(15);
-            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field org.ccsds.moims.mo.com.COMService.randoop_classUsedFlag from class org.ccsds.moims.mo.mal.MALService");
-        } catch (java.lang.IllegalAccessError e) {
-        }
         org.junit.Assert.assertNotNull(shortArray6);
         org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + true + "'", boolean8 == true);
         org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + false + "'", boolean10 == false);
@@ -2384,11 +2312,6 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.com.COMService cOMService14 = new org.ccsds.moims.mo.com.COMService(uShort3, identifier9);
         org.ccsds.moims.mo.mal.structures.Identifier identifier15 = new org.ccsds.moims.mo.mal.structures.Identifier();
         java.lang.Integer int16 = identifier15.getTypeShortForm();
-        try {
-            org.ccsds.moims.mo.mal.MALOperation mALOperation17 = cOMService14.getOperationByName(identifier15);
-            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field org.ccsds.moims.mo.com.COMService.randoop_classUsedFlag from class org.ccsds.moims.mo.mal.MALService");
-        } catch (java.lang.IllegalAccessError e) {
-        }
         org.junit.Assert.assertNotNull(uShort2);
         org.junit.Assert.assertNotNull(uShort3);
         org.junit.Assert.assertNotNull(uShort4);
@@ -2465,11 +2388,6 @@ public class RegressionTest0 {
             (java.lang.Double) 0.0d);
         org.ccsds.moims.mo.mal.structures.UShort uShort65 = union64.getAreaNumber();
         org.ccsds.moims.mo.com.COMObject cOMObject66 = cOMService48.getObjectByNumber(uShort65);
-        try {
-            org.ccsds.moims.mo.mal.MALOperation mALOperation67 = cOMService33.getOperationByNumber(uShort65);
-            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field org.ccsds.moims.mo.com.COMService.randoop_classUsedFlag from class org.ccsds.moims.mo.mal.MALService");
-        } catch (java.lang.IllegalAccessError e) {
-        }
         org.junit.Assert.assertNotNull(uShort2);
         org.junit.Assert.assertNotNull(uOctet3);
         org.junit.Assert.assertNotNull(uShort4);

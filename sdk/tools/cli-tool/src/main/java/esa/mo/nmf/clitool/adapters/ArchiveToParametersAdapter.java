@@ -21,24 +21,23 @@
 package esa.mo.nmf.clitool.adapters;
 
 import esa.mo.nmf.clitool.TimestampedParameterValue;
-import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
-import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
-import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
-import org.ccsds.moims.mo.com.structures.ObjectType;
-import org.ccsds.moims.mo.mal.MALStandardError;
-import org.ccsds.moims.mo.mal.structures.ElementList;
-import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
+import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
+import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
+import org.ccsds.moims.mo.com.structures.ObjectType;
+import org.ccsds.moims.mo.mal.MOErrorException;
+import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
+import org.ccsds.moims.mo.mal.structures.Identifier;
+import org.ccsds.moims.mo.mal.structures.IdentifierList;
+import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
+import org.ccsds.moims.mo.mc.parameter.ParameterServiceInfo;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
 
 /**
  * Archive adapter that retrieves available parameter names and their values.
@@ -54,9 +53,20 @@ public class ArchiveToParametersAdapter extends ArchiveAdapter implements QueryS
      */
     private boolean isQueryOver = false;
 
-    private final ObjectType parameterIdentityType = ParameterHelper.PARAMETERIDENTITY_OBJECT_TYPE;
-    private final ObjectType parameterDefinitionType = ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE;
-    private final ObjectType parameterValueType = ParameterHelper.PARAMETERVALUEINSTANCE_OBJECT_TYPE;
+    /**
+     * MC.Parameter.ParameterIdentity object type
+     */
+    private final ObjectType parameterIdentityType = ParameterServiceInfo.PARAMETERIDENTITY_OBJECT_TYPE;
+
+    /**
+     * MC.Parameter.ParameterDefinition object type
+     */
+    private final ObjectType parameterDefinitionType = ParameterServiceInfo.PARAMETERDEFINITION_OBJECT_TYPE;
+
+    /**
+     * MC.Parameter.ParameterValueInstance object type
+     */
+    private final ObjectType parameterValueType = ParameterServiceInfo.PARAMETERVALUEINSTANCE_OBJECT_TYPE;
 
     private final Map<IdentifierList, List<Identifier>> parameterIdentities = new HashMap<>();
     private final Map<IdentifierList, Map<Long, Identifier>> identitiesMap = new HashMap<>();
@@ -74,7 +84,7 @@ public class ArchiveToParametersAdapter extends ArchiveAdapter implements QueryS
 
     @Override
     public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-        ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+        ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
         if (objDetails == null) {
             setIsQueryOver(true);
             return;
@@ -99,7 +109,7 @@ public class ArchiveToParametersAdapter extends ArchiveAdapter implements QueryS
 
     @Override
     public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-        ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+        ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
         processObjects(objType, objDetails, objBodies, domain);
     }
 
@@ -110,7 +120,7 @@ public class ArchiveToParametersAdapter extends ArchiveAdapter implements QueryS
      * @param bodiesList Bodies of the objects
      */
     private void processObjects(ObjectType type, ArchiveDetailsList detailsList,
-            ElementList bodiesList, IdentifierList domain) {
+            HeterogeneousList bodiesList, IdentifierList domain) {
         if (!parameterIdentities.containsKey(domain)) {
             parameterIdentities.put(domain, new ArrayList<>());
         }
@@ -153,19 +163,19 @@ public class ArchiveToParametersAdapter extends ArchiveAdapter implements QueryS
     }
 
     @Override
-    public void queryAckErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+    public void queryAckErrorReceived(MALMessageHeader msgHeader, MOErrorException error, Map qosProperties) {
         LOGGER.log(Level.SEVERE, "queryAckErrorReceived", error);
         setIsQueryOver(true);
     }
 
     @Override
-    public void queryUpdateErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+    public void queryUpdateErrorReceived(MALMessageHeader msgHeader, MOErrorException error, Map qosProperties) {
         LOGGER.log(Level.SEVERE, "queryUpdateErrorReceived", error);
         setIsQueryOver(true);
     }
 
     @Override
-    public void queryResponseErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+    public void queryResponseErrorReceived(MALMessageHeader msgHeader, MOErrorException error, Map qosProperties) {
         LOGGER.log(Level.SEVERE, "queryResponseErrorReceived", error);
         setIsQueryOver(true);
     }

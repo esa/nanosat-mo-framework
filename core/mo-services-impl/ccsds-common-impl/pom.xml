@@ -59,7 +59,7 @@
   <dependencies>
     <dependency>
       <groupId>int.esa.ccsds.mo</groupId>
-      <artifactId>API_COMMON</artifactId>
+      <artifactId>api-area003-v001-common</artifactId>
     </dependency>
     <dependency>
       <groupId>int.esa.nmf.core.moservices.api</groupId>

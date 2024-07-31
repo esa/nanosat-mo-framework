@@ -26,7 +26,6 @@ import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.structures.ObjectId;
-import org.ccsds.moims.mo.com.structures.ObjectIdList;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
@@ -34,20 +33,18 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.Subscription;
-import org.ccsds.moims.mo.mal.structures.UpdateHeaderList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.mp.plandistribution.PlanDistributionHelper;
 import org.ccsds.moims.mo.mp.plandistribution.consumer.PlanDistributionAdapter;
 import org.ccsds.moims.mo.mp.structures.PlanUpdateDetails;
-import org.ccsds.moims.mo.mp.structures.PlanUpdateDetailsList;
 import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.HelperArchive;
-import esa.mo.helpertools.helpers.HelperTime;
-import esa.mo.mp.impl.com.COMObjectIdHelper;
 import esa.mo.mp.impl.consumer.PlanDistributionConsumerServiceImpl;
 import esa.mo.mp.impl.util.MOFactory;
 import esa.mo.nmf.ctt.utils.SharedTablePanel;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
+import org.ccsds.moims.mo.mal.structures.UpdateHeader;
+import org.ccsds.moims.mo.mp.plandistribution.PlanDistributionServiceInfo;
 
 public class PublishedPlanStatusesTable extends SharedTablePanel {
 
@@ -76,7 +73,7 @@ public class PublishedPlanStatusesTable extends SharedTablePanel {
             LOGGER.log(Level.SEVERE, null, ex);
         }
 
-        ObjectType updateObjectType = PlanDistributionHelper.PLANUPDATE_OBJECT_TYPE;
+        ObjectType updateObjectType = PlanDistributionServiceInfo.PLANUPDATE_OBJECT_TYPE;
         LongList objectIds = new LongList();
         objectIds.add(0L);
         List<ArchivePersistenceObject> updateObjects = HelperArchive.getArchiveCOMObjectList(this.archiveService
@@ -132,8 +129,9 @@ public class PublishedPlanStatusesTable extends SharedTablePanel {
 
         @Override
         public void monitorPlanStatusNotifyReceived(MALMessageHeader msgHeader, Identifier identifier,
-            UpdateHeaderList headerList, ObjectIdList planVersionIdList, PlanUpdateDetailsList updateList,
+            UpdateHeader header, ObjectId planVersionId, PlanUpdateDetails update,
             Map qosProperties) {
+            /*
             for (int index = 0; index < headerList.size(); index++) {
                 ObjectId planVersionId = planVersionIdList.get(index);
                 PlanUpdateDetails update = updateList.get(index);
@@ -144,6 +142,7 @@ public class PublishedPlanStatusesTable extends SharedTablePanel {
 
                 addEntry(domain, instanceId, update);
             }
+            */
         }
     }
 }

@@ -38,7 +38,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import org.ccsds.moims.mo.mal.MALStandardError;
+import org.ccsds.moims.mo.mal.MOErrorException;
+import org.ccsds.moims.mo.platform.artificialintelligence.ArtificialIntelligenceServiceInfo;
 import org.ccsds.moims.mo.platform.artificialintelligence.provider.DoComputerVisionInteraction;
 
 /**
@@ -67,27 +68,6 @@ public class ArtificialIntelligenceProviderServiceImpl extends ArtificialIntelli
     public synchronized void init(AIAdapterInterface adapter) throws MALException {
         long timestamp = System.currentTimeMillis();
         
-        if (!initialiased) {
-            if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
-                MALHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(PlatformHelper.PLATFORM_AREA_NAME,
-                    PlatformHelper.PLATFORM_AREA_VERSION) == null) {
-                PlatformHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION) == null) {
-                COMHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            try {
-                ArtificialIntelligenceHelper.init(MALContextFactory.getElementFactoryRegistry());
-            } catch (MALException ex) {
-                // nothing to be done..
-            }
-        }
-
         // Shut down old service transport
         if (null != aiServiceProvider) {
             connection.closeAll();
@@ -95,7 +75,7 @@ public class ArtificialIntelligenceProviderServiceImpl extends ArtificialIntelli
 
         this.adapter = adapter;
         aiServiceProvider = connection.startService(
-                ArtificialIntelligenceHelper.ARTIFICIALINTELLIGENCE_SERVICE_NAME.toString(),
+                ArtificialIntelligenceServiceInfo.ARTIFICIALINTELLIGENCE_SERVICE_NAME.toString(),
                 ArtificialIntelligenceHelper.ARTIFICIALINTELLIGENCE_SERVICE, this);
 
         initialiased = true;
@@ -157,7 +137,7 @@ public class ArtificialIntelligenceProviderServiceImpl extends ArtificialIntelli
         if (!inputTiles.exists()) {
             String msg = "The inputTilesPath does not exist in path: " + inputTilesPath;
             throw new MALInteractionException(
-                    new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, msg)
+                    new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, msg)
             );
         }
 
@@ -209,7 +189,7 @@ public class ArtificialIntelligenceProviderServiceImpl extends ArtificialIntelli
         if (!path.exists()) {
             String msg = "The file does not exist in path: " + path;
             throw new MALInteractionException(
-                    new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, msg)
+                    new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, msg)
             );
         }
 

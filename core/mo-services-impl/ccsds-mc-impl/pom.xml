@@ -60,21 +60,21 @@
   <dependencies>
     <dependency>
       <groupId>int.esa.ccsds.mo</groupId>
-      <artifactId>API_MAL</artifactId>
+      <artifactId>api-area001-v003-mal</artifactId>
     </dependency>
     <dependency>
       <groupId>int.esa.ccsds.mo</groupId>
-      <artifactId>API_MC</artifactId>
+      <artifactId>api-area004-v001-mc</artifactId>
       <exclusions>
         <exclusion>
           <groupId>int.esa.ccsds.mo</groupId>
-          <artifactId>API_COM</artifactId>
+          <artifactId>api-area002-v001-com</artifactId>
         </exclusion>
       </exclusions>
     </dependency>
     <dependency>
       <groupId>int.esa.ccsds.mo</groupId>
-      <artifactId>API_COMMON</artifactId>
+      <artifactId>api-area003-v001-common</artifactId>
     </dependency>
     <dependency>
       <groupId>int.esa.nmf.core</groupId>

@@ -29,7 +29,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.MALStandardError;
+import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.structures.BooleanList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
@@ -126,12 +126,12 @@ public class PackageManagementCommands {
                             }
 
                             @Override
-                            public void installAckErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+                            public void installAckErrorReceived(MALMessageHeader msgHeader, MOErrorException error, Map qosProperties) {
                                 LOGGER.log(Level.SEVERE, "There was an error during the install operation.", error);
                             }
 
                             @Override
-                            public void installResponseErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+                            public void installResponseErrorReceived(MALMessageHeader msgHeader, MOErrorException error, Map qosProperties) {
                                 LOGGER.log(Level.SEVERE, "There was an error during the install operation.", error);
                             }
                         });
@@ -189,12 +189,12 @@ public class PackageManagementCommands {
                             }
 
                             @Override
-                            public void uninstallAckErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+                            public void uninstallAckErrorReceived(MALMessageHeader msgHeader, MOErrorException error, Map qosProperties) {
                                 LOGGER.log(Level.SEVERE, "There was an error during the uninstall operation.", error);
                             }
 
                             @Override
-                            public void uninstallResponseErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+                            public void uninstallResponseErrorReceived(MALMessageHeader msgHeader, MOErrorException error, Map qosProperties) {
                                 LOGGER.log(Level.SEVERE, "There was an error during the uninstall operation.", error);
                             }
                         }
@@ -242,12 +242,12 @@ public class PackageManagementCommands {
                             }
 
                             @Override
-                            public void upgradeAckErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+                            public void upgradeAckErrorReceived(MALMessageHeader msgHeader, MOErrorException error, Map qosProperties) {
                                 LOGGER.log(Level.SEVERE, "There was an error during the upgrade operation.", error);
                             }
 
                             @Override
-                            public void upgradeResponseErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+                            public void upgradeResponseErrorReceived(MALMessageHeader msgHeader, MOErrorException error, Map qosProperties) {
                                 LOGGER.log(Level.SEVERE, "There was an error during the upgrade operation.", error);
                             }
                         }

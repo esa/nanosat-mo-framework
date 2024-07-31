@@ -355,15 +355,13 @@ public abstract class MCManager {
             defObjIds.add(pair.getObjDefInstanceId());
         }
 
-        ConfigurationObjectSet idents = new ConfigurationObjectSet();
-        idents.setDomain(ConfigurationProviderSingleton.getDomain());
-        idents.setObjInstIds(idObjIds);
+        ConfigurationObjectSet idents = new ConfigurationObjectSet(null,
+                ConfigurationProviderSingleton.getDomain(), idObjIds);
 
         LongList currentObjIds1 = new LongList();
         currentObjIds1.addAll(defObjIds);
-        ConfigurationObjectSet defis = new ConfigurationObjectSet();
-        defis.setDomain(ConfigurationProviderSingleton.getDomain());
-        defis.setObjInstIds(currentObjIds1);
+        ConfigurationObjectSet defis = new ConfigurationObjectSet(null,
+                ConfigurationProviderSingleton.getDomain(), currentObjIds1);
 
         ConfigurationObjectSetList list = new ConfigurationObjectSetList();
         list.add(idents);

@@ -27,6 +27,7 @@ import java.net.MalformedURLException;
 import java.util.Collection;
 import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.archive.ArchiveHelper;
+import org.ccsds.moims.mo.com.archive.ArchiveServiceInfo;
 import org.ccsds.moims.mo.common.directory.structures.AddressDetails;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
@@ -42,6 +43,7 @@ import org.ccsds.moims.mo.mal.structures.SessionType;
 import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mc.MCHelper;
 import org.ccsds.moims.mo.mc.action.ActionHelper;
+import org.ccsds.moims.mo.mc.action.ActionServiceInfo;
 
 /**
  *
@@ -71,14 +73,14 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
         this.withdrawAllProviders();
 
         for (ProviderSummary provider : providers) {
-            PublishDetails pub = new PublishDetails();
-            pub.setDomain(provider.getProviderKey().getDomain());
-            pub.setNetwork(new Identifier("not_available"));
-            pub.setProviderDetails(provider.getProviderDetails());
-            pub.setProviderId(provider.getProviderId());
-            pub.setServiceXML(null);
-            pub.setSessionType(SessionType.LIVE);
-            pub.setSourceSessionName(null);
+            PublishDetails pub = new PublishDetails(
+                provider.getProviderId(),
+                provider.getProviderKey().getDomain(),
+                SessionType.LIVE,
+                null,
+                new Identifier("not_available"),
+                provider.getProviderDetails(),
+                null);
             this.publishProvider(pub, null);
         }
 
@@ -137,9 +139,9 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
                     for (ServiceCapability capability : capabilities) {
                         ServiceKey key = capability.getServiceKey();
 
-                        if (COMHelper._COM_AREA_NUMBER == key.getKeyArea().getValue() &&
-                            ArchiveHelper._ARCHIVE_SERVICE_NUMBER == key.getKeyService().getValue() &&
-                            COMHelper._COM_AREA_VERSION == key.getKeyAreaVersion().getValue()) {
+                        if (COMHelper._COM_AREA_NUMBER == key.getKeyArea().getValue()
+                                && ArchiveServiceInfo._ARCHIVE_SERVICE_NUMBER == key.getKeyService().getValue()
+                                && COMHelper._COM_AREA_VERSION == key.getKeyAreaVersion().getValue()) {
                             AddressDetails details = capability.getServiceAddresses().get(0);
                             details.setServiceURI(to);
                         }
@@ -168,9 +170,9 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
                     for (ServiceCapability capability : capabilities) {
                         ServiceKey key = capability.getServiceKey();
 
-                        if (MCHelper._MC_AREA_NUMBER == key.getKeyArea().getValue() &&
-                            ActionHelper._ACTION_SERVICE_NUMBER == key.getKeyService().getValue() &&
-                            MCHelper._MC_AREA_VERSION == key.getKeyAreaVersion().getValue()) {
+                        if (MCHelper._MC_AREA_NUMBER == key.getKeyArea().getValue()
+                                && ActionServiceInfo._ACTION_SERVICE_NUMBER == key.getKeyService().getValue()
+                                && MCHelper._MC_AREA_VERSION == key.getKeyAreaVersion().getValue()) {
                             AddressDetails details = capability.getServiceAddresses().get(0);
                             details.setServiceURI(to);
                         }

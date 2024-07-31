@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft â€“ v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -45,6 +45,7 @@ import java.util.stream.Collectors;
 
 import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.archive.ArchiveHelper;
+import org.ccsds.moims.mo.com.archive.ArchiveServiceInfo;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
@@ -53,9 +54,12 @@ import org.ccsds.moims.mo.com.archive.structures.CompositeFilterList;
 import org.ccsds.moims.mo.com.archive.structures.CompositeFilterSet;
 import org.ccsds.moims.mo.com.archive.structures.ExpressionOperator;
 import org.ccsds.moims.mo.com.archive.structures.QueryFilter;
-import org.ccsds.moims.mo.com.structures.*;
-import org.ccsds.moims.mo.mal.MALContextFactory;
-import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.com.structures.ObjectDetails;
+import org.ccsds.moims.mo.com.structures.ObjectId;
+import org.ccsds.moims.mo.com.structures.ObjectIdList;
+import org.ccsds.moims.mo.com.structures.ObjectKey;
+import org.ccsds.moims.mo.com.structures.ObjectType;
+import org.ccsds.moims.mo.com.structures.ObjectTypeList;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
@@ -104,20 +108,9 @@ public class ArchiveManager {
      */
     public ArchiveManager(EventProviderServiceImpl eventService) {
         this.eventService = eventService;
-
-        // This code is no longer needed here...
-        if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION) != null
-                && MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION)
-                        .getServiceByName(ArchiveHelper.ARCHIVE_SERVICE_NAME) == null) {
-            try {
-                ArchiveHelper.init(MALContextFactory.getElementFactoryRegistry());
-            } catch (MALException ex) {
-                LOGGER.log(Level.SEVERE, "Unexpectedly ArchiveHelper already initialized!?", ex);
-            }
-        }
-
         this.globalGenerateEvents = Boolean.parseBoolean(System.getProperty(Const.ARCHIVE_GENERATE_EVENTS_PROPERTY,
                 Const.ARCHIVE_GENERATE_EVENTS_DEFAULT));
+
         this.dbBackend = new DatabaseBackend();
         this.dbProcessor = new TransactionsProcessor(dbBackend);
 
@@ -324,7 +317,7 @@ public class ArchiveManager {
         Long sourceObjId = null;
 
         if (source != null) {
-            if (source.getKey().getDomain() != null) {
+            if (source.getKey() != null && source.getKey().getDomain() != null) {
                 sourceDomainId = this.fastDomain.getDomainId(source.getKey().getDomain());
             }
 
@@ -332,7 +325,9 @@ public class ArchiveManager {
                 sourceObjectTypeId = this.fastObjectType.getObjectTypeId(source.getType());
             }
 
-            sourceObjId = source.getKey().getInstId();
+            if (source.getKey() != null) {
+                sourceObjId = source.getKey().getInstId();
+            }
         }
 
         return new SourceLinkContainer(sourceObjectTypeId, sourceDomainId, sourceObjId);
@@ -375,7 +370,7 @@ public class ArchiveManager {
         }
 
         final Runnable publishEvents = (globalGenerateEvents && generateEvents) ? this.generatePublishEventsThread(
-            ArchiveHelper.OBJECTSTORED_OBJECT_TYPE, objType, domain, objIds, interaction) : null;
+            ArchiveServiceInfo.OBJECTSTORED_OBJECT_TYPE, objType, domain, objIds, interaction) : null;
 
         this.dbProcessor.insert(perObjsEntities, publishEvents);
 
@@ -414,7 +409,7 @@ public class ArchiveManager {
         }
 
         Runnable publishEvents = (globalGenerateEvents && generateEvents) ? this.generatePublishEventsThread(
-            ArchiveHelper.OBJECTUPDATED_OBJECT_TYPE, objType, domain, objIds, interaction) : null;
+            ArchiveServiceInfo.OBJECTUPDATED_OBJECT_TYPE, objType, domain, objIds, interaction) : null;
 
         this.dbProcessor.update(newObjs, publishEvents);
     }
@@ -430,7 +425,7 @@ public class ArchiveManager {
         final int domainId = this.fastDomain.getDomainId(domain);
 
         Runnable publishEvents = (globalGenerateEvents && generateEvents) ? this.generatePublishEventsThread(
-            ArchiveHelper.OBJECTDELETED_OBJECT_TYPE, objType, domain, objIds, interaction) : null;
+            ArchiveServiceInfo.OBJECTDELETED_OBJECT_TYPE, objType, domain, objIds, interaction) : null;
         this.dbProcessor.remove(objTypeId, domainId, objIds, publishEvents);
         this.fastObjId.delete(objTypeId, domainId);
         return objIds;
@@ -475,7 +470,7 @@ public class ArchiveManager {
                         .getDomain()));
                 }
 
-                if (archiveQuery.getSource().getKey().getTypeShortForm() != null) {
+                if (archiveQuery.getSource().getType() != null) {
                     sourceLink.setObjectTypeIds(this.fastObjectType.getObjectTypeIds(archiveQuery.getSource()
                         .getType()));
                 }
@@ -507,7 +502,7 @@ public class ArchiveManager {
                         .getDomain()));
                 }
 
-                if (archiveQuery.getSource().getKey().getTypeShortForm() != null) {
+                if (archiveQuery.getSource().getType() != null) {
                     sourceLink.setObjectTypeIds(this.fastObjectType.getObjectTypeIds(archiveQuery.getSource()
                         .getType()));
                 }
@@ -542,7 +537,7 @@ public class ArchiveManager {
                         .getDomain()));
                 }
 
-                if (archiveQuery.getSource().getKey().getTypeShortForm() != null) {
+                if (archiveQuery.getSource().getType() != null) {
                     sourceLink.setObjectTypeIds(this.fastObjectType.getObjectTypeIds(archiveQuery.getSource()
                         .getType()));
                 }
@@ -593,7 +588,7 @@ public class ArchiveManager {
                     continue;
                 }
 
-                Element leftHandSide = (Element) HelperAttributes.javaType2Attribute(obj);
+                Element leftHandSide = (Element) Attribute.javaType2Attribute(obj);
                 Boolean evaluation = HelperCOM.evaluateExpression(leftHandSide, compositeFilter.getType(),
                     compositeFilter.getFieldValue());
 
@@ -656,7 +651,7 @@ public class ArchiveManager {
 
         if (interaction != null) {
             if (interaction.getMessageHeader() != null) {
-                sourceURI = interaction.getMessageHeader().getURITo();
+                sourceURI = interaction.getMessageHeader().getToURI();
             }
         }
 
@@ -736,7 +731,7 @@ public class ArchiveManager {
 
         if (expressionOperator.equals(ExpressionOperator.CONTAINS) || expressionOperator.equals(
             ExpressionOperator.ICONTAINS)) {
-            if (compositeFilter.getFieldValue().getTypeShortForm() != 15) {  // Is it String?
+            if (compositeFilter.getFieldValue().getTypeId().getSFP() != 15) {  // Is it String?
                 return false;
             }
         }

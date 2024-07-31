@@ -36,7 +36,7 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Duration;
-import org.ccsds.moims.mo.mal.structures.ElementList;
+import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UOctet;
@@ -206,9 +206,8 @@ public class CameraAcquisitorSystemCameraTargetHandler {
         }
 
         @Override
-        public MALMessage sendResponse(ObjectType objType, IdentifierList domain,
-                ArchiveDetailsList objDetails, ElementList objBodies)
-                throws MALInteractionException, MALException {
+        public MALMessage sendResponse(ObjectType objType, IdentifierList domain, ArchiveDetailsList objDetails,
+            HeterogeneousList objBodies) throws MALInteractionException, MALException {
             if (objBodies != null) {
                 int i = 0;
                 for (Object objBody : objBodies) {
@@ -246,10 +245,10 @@ public class CameraAcquisitorSystemCameraTargetHandler {
 
         @Override
         public MALMessage sendUpdate(ObjectType objType, IdentifierList domain,
-                ArchiveDetailsList objDetails, ElementList objBodies)
+                ArchiveDetailsList objDetails, HeterogeneousList objBodies)
                 throws MALInteractionException, MALException {
-            sendResponse(objType, domain, objDetails, objBodies);
-            return null;
+          sendResponse(objType, domain, objDetails, objBodies);
+          return null;
         }
     }
 }

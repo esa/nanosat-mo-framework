@@ -31,19 +31,24 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALContext;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALService;
+import org.ccsds.moims.mo.mal.ServiceInfo;
+import org.ccsds.moims.mo.mal.helpertools.connections.ServicesConnectionDetails;
+import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.provider.MALInteractionHandler;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.provider.MALProviderManager;
 import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.IntegerList;
+import org.ccsds.moims.mo.mal.structures.NamedValueList;
 import org.ccsds.moims.mo.mal.structures.QoSLevel;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.URI;
 
 /**
- * Holds the connection details of a service provider.
+ * Holds the connection details of a service provider. This class has been
+ * moved directly to the MAL.
  */
+@Deprecated
 public class ConnectionProvider {
 
     private final static ServicesConnectionDetails GLOBAL_PROVIDERS_DETAILS_PRIMARY = new ServicesConnectionDetails();
@@ -105,7 +110,7 @@ public class ConnectionProvider {
      * @return MALProvider
      * @throws MALException On error.
      */
-    public MALProvider startService(String serviceName, MALService malService, MALInteractionHandler handler)
+    public MALProvider startService(String serviceName, ServiceInfo malService, MALInteractionHandler handler)
         throws MALException {
         return startService(serviceName, malService, true, handler);
     }
@@ -121,7 +126,7 @@ public class ConnectionProvider {
      * @return MALProvider
      * @throws MALException On error.
      */
-    public MALProvider startService(String serviceName, MALService malService,
+    public MALProvider startService(String serviceName, ServiceInfo malService,
             boolean isPublisher, MALInteractionHandler handler) throws MALException {
         return startService(serviceName, malService, isPublisher, handler, null);
     }
@@ -138,7 +143,7 @@ public class ConnectionProvider {
      * @return MALProvider
      * @throws MALException On error.
      */
-    public MALProvider startService(String serviceName, MALService malService, boolean isPublisher,
+    public MALProvider startService(String serviceName, ServiceInfo malService, boolean isPublisher,
         MALInteractionHandler handler, Blob authenticationId) throws MALException {
         try {
             malFactory = MALContextFactory.newFactory();
@@ -163,14 +168,22 @@ public class ConnectionProvider {
         Properties props = new Properties();
         props.putAll(System.getProperties());
 
-        MALProvider serviceProvider = providerMgr.createProvider(uriName, null, malService, null == authenticationId ?
-            new Blob("".getBytes()) : authenticationId, handler, new QoSLevel[]{QoSLevel.ASSURED}, new UInteger(1),
-            props, isPublisher, sharedBrokerURI);
+        MALProvider serviceProvider = providerMgr.createProvider(uriName,
+                null,
+                malService,
+                null == authenticationId ? new Blob("".getBytes()) : authenticationId,
+                handler,
+                new QoSLevel[]{QoSLevel.ASSURED},
+                new UInteger(1),
+                props,
+                isPublisher,
+                sharedBrokerURI,
+                new NamedValueList());
 
         IntegerList serviceKey = new IntegerList();
-        serviceKey.add(malService.getArea().getNumber().getValue()); // Area
-        serviceKey.add(malService.getNumber().getValue()); // Service
-        serviceKey.add((int) malService.getArea().getVersion().getValue()); // Version
+        serviceKey.add(malService.getAreaNumber().getValue()); // Area
+        serviceKey.add(malService.getServiceNumber().getValue()); // Service
+        serviceKey.add((int) malService.getServiceVersion().getValue()); // Version
 
         primaryConnectionDetails.setProviderURI(serviceProvider.getURI());
         primaryConnectionDetails.setBrokerURI(serviceProvider.getBrokerURI());
@@ -206,10 +219,17 @@ public class ConnectionProvider {
         if (secondaryProtocol != null) {
             secondaryConnectionDetails = new SingleConnectionDetails();
 
-            MALProvider serviceProvider2 = providerMgr.createProvider(uriName, secondaryProtocol, malService, null ==
-                authenticationId ? new Blob("".getBytes()) : authenticationId, handler, new QoSLevel[]{
-                                                                                                       QoSLevel.ASSURED},
-                new UInteger(1), props, isPublisher, sharedBrokerURI);
+            MALProvider serviceProvider2 = providerMgr.createProvider(uriName,
+                    secondaryProtocol,
+                    malService,
+                    null == authenticationId ? new Blob("".getBytes()) : authenticationId,
+                    handler,
+                    new QoSLevel[]{QoSLevel.ASSURED},
+                    new UInteger(1),
+                    props,
+                    isPublisher,
+                    sharedBrokerURI,
+                    new NamedValueList());
 
             secondaryConnectionDetails.setProviderURI(serviceProvider2.getURI());
             secondaryConnectionDetails.setBrokerURI(serviceProvider2.getBrokerURI());

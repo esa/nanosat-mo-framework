@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft â€“ v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -33,7 +33,6 @@ import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALContextFactory;
-import org.ccsds.moims.mo.mal.MALElementFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.structures.*;
 
@@ -63,7 +62,7 @@ public class EncodeDecode {
      * @param entity The object to encode
      * @param manager The archive manager for fast object details retrieval
      * @param dictionary Dictionary mapping strings to integers
-     * @return The byte array holding the encoded COM object
+     * @return The byte array holding the encoded COMÂ object
      */
     public static byte[] encodeToByteArray(final COMObjectEntity entity, ArchiveManager manager,
         Dictionary dictionary) {
@@ -282,10 +281,10 @@ public class EncodeDecode {
 
                 if (blob != null) {
                     try {
-                        final BinaryDecoder blobDecoder = new BinaryDecoder(blob.getValue());
-                        final MALElementFactory elementFactory = MALContextFactory.getElementFactoryRegistry()
-                            .lookupElementFactory(blobDecoder.decodeLong());
-                        element = blobDecoder.decodeNullableElement((Element) elementFactory.createElement());
+                        final BinaryDecoder binDec = new BinaryDecoder(blob.getValue());
+                        final Long sfp = binDec.decodeLong();
+                        Element newEle = MALContextFactory.getElementsRegistry().createElement(sfp);
+                        element = binDec.decodeNullableElement((Element) newEle);
                     } catch (MALException ex) {
                         LOGGER.log(Level.SEVERE, "The object body could not be decoded! Usually happens when there's " +
                             "an update in the APIs. (1) ", ex);

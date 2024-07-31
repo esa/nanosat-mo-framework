@@ -20,7 +20,6 @@
  */
 package esa.mo.nmf.nanosatmosupervisor;
 
-import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.misc.OSValidator;
 import esa.mo.helpertools.misc.ShellCommander;
 import esa.mo.nmf.annotations.Action;
@@ -40,7 +39,7 @@ import javax.xml.stream.XMLStreamException;
 import jakarta.xml.bind.JAXBException;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.MALStandardError;
+import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
@@ -55,9 +54,12 @@ import esa.mo.nmf.annotations.Parameter;
 import esa.mo.nmf.nanosatmosupervisor.parameter.OBSWParameterManager;
 import esa.mo.helpertools.misc.OSValidator;
 import esa.mo.helpertools.misc.ShellCommander;
+import org.ccsds.moims.mo.mal.MOErrorException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
+import org.ccsds.moims.mo.mal.structures.UpdateHeader;
 import org.ccsds.moims.mo.mal.structures.UpdateHeaderList;
 import org.ccsds.moims.mo.platform.autonomousadcs.consumer.AutonomousADCSAdapter;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeSunPointing;
@@ -159,8 +161,8 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
     public void startAdcsAttitudeMonitoring() {
         try {
             // Subscribe monitorAttitude
-            nmfSupervisor.getPlatformServices().getAutonomousADCSService().monitorAttitudeRegister(ConnectionConsumer
-                .subscriptionWildcard(), new ADCSDataHandler());
+            nmfSupervisor.getPlatformServices().getAutonomousADCSService().monitorAttitudeRegister(
+                    ConnectionConsumer.subscriptionWildcard(), new ADCSDataHandler());
             configureMonitoring();
         } catch (IOException | MALInteractionException | MALException | NMFException ex) {
             LOGGER.log(Level.SEVERE, "Error when setting up attitude monitoring.", ex);
@@ -169,20 +171,20 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
 
     public class ADCSDataHandler extends AutonomousADCSAdapter {
         @Override
-        public void monitorAttitudeNotifyReceived(final MALMessageHeader msgHeader, final Identifier lIdentifier,
-            final UpdateHeaderList lUpdateHeaderList,
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeTelemetryList attitudeTelemetryList,
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.ActuatorsTelemetryList actuatorsTelemetryList,
-            org.ccsds.moims.mo.mal.structures.DurationList controlDurationList,
-            org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeList attitudeModeList, final Map qosp) {
+        public void monitorAttitudeNotifyReceived(
+                final MALMessageHeader msgHeader,
+                final Identifier lIdentifier, final UpdateHeader lUpdateHeader,
+                org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeTelemetry attitudeTm,
+                org.ccsds.moims.mo.platform.autonomousadcs.structures.ActuatorsTelemetry actuatorsTelemetry,
+                org.ccsds.moims.mo.mal.structures.Duration controlDuration,
+                org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode,
+                final Map qosp){
             LOGGER.log(Level.FINE, "Received monitorAttitude notify");
-            for (AttitudeTelemetry attitudeTm : attitudeTelemetryList) {
-                Quaternion attitude = attitudeTm.getAttitude();
-                attitudeQuatA = attitude.getA();
-                attitudeQuatB = attitude.getB();
-                attitudeQuatC = attitude.getC();
-                attitudeQuatD = attitude.getD();
-            }
+            Quaternion attitude = attitudeTm.getAttitude();
+            attitudeQuatA = attitude.getA();
+            attitudeQuatB = attitude.getB();
+            attitudeQuatC = attitude.getC();
+            attitudeQuatD = attitude.getD();
         }
     }
 
@@ -289,13 +291,13 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
     private static class GPSConsumerAdapter extends GPSAdapter {
 
         @Override
-        public void getNMEASentenceResponseErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+        public void getNMEASentenceResponseErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
             Map qosProperties) {
             LOGGER.log(Level.WARNING, "Received response error");
         }
 
         @Override
-        public void getNMEASentenceAckErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+        public void getNMEASentenceAckErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
             Map qosProperties) {
             LOGGER.log(Level.WARNING, "Received ACK error");
         }

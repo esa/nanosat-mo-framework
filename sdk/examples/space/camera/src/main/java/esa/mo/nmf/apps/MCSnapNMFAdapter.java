@@ -261,7 +261,7 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
                     fos.flush();
                     fos.close();
                 }
-            } catch (MALException | IOException ex) {
+            } catch (IOException ex) {
                 Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
             }
 
@@ -274,10 +274,12 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
         }
 
         @Override
-        public void takePictureAckErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-                org.ccsds.moims.mo.mal.MALStandardError error, java.util.Map qosProperties) {
+        public void takePictureAckErrorReceived(
+                org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
+                org.ccsds.moims.mo.mal.MOErrorException error, java.util.Map qosProperties) {
             try {
-                connector.reportActionExecutionProgress(false, 1, STAGE_ACK, TOTAL_STAGES, actionInstanceObjId);
+                connector.reportActionExecutionProgress(false, 1, STAGE_ACK, TOTAL_STAGES,
+                        actionInstanceObjId);
             } catch (NMFException ex) {
                 Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE,
                         "The action progress could not be reported!", ex);
@@ -285,10 +287,12 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
         }
 
         @Override
-        public void takePictureResponseErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-                org.ccsds.moims.mo.mal.MALStandardError error, java.util.Map qosProperties) {
+        public void takePictureResponseErrorReceived(
+                org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
+                org.ccsds.moims.mo.mal.MOErrorException error, java.util.Map qosProperties) {
             try {
-                connector.reportActionExecutionProgress(false, 1, STAGE_RSP, TOTAL_STAGES, actionInstanceObjId);
+                connector.reportActionExecutionProgress(false, 1, STAGE_RSP, TOTAL_STAGES,
+                        actionInstanceObjId);
             } catch (NMFException ex) {
                 Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE,
                         "The action progress could not be reported!", ex);

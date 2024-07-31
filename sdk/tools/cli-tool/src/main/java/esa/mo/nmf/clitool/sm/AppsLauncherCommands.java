@@ -20,7 +20,6 @@
  */
 package esa.mo.nmf.clitool.sm;
 
-import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.nmf.clitool.BaseCommand;
 import static esa.mo.nmf.clitool.BaseCommand.consumer;
 import esa.mo.nmf.clitool.ExitCodes;
@@ -32,16 +31,17 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.MALStandardError;
-import org.ccsds.moims.mo.mal.structures.EntityKey;
-import org.ccsds.moims.mo.mal.structures.EntityKeyList;
-import org.ccsds.moims.mo.mal.structures.EntityRequest;
-import org.ccsds.moims.mo.mal.structures.EntityRequestList;
+import org.ccsds.moims.mo.mal.MOErrorException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
+import org.ccsds.moims.mo.mal.structures.AttributeList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.StringList;
 import org.ccsds.moims.mo.mal.structures.Subscription;
+import org.ccsds.moims.mo.mal.structures.SubscriptionFilter;
+import org.ccsds.moims.mo.mal.structures.SubscriptionFilterList;
+import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.mal.structures.UpdateHeaderList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.body.ListAppResponse;
@@ -82,46 +82,28 @@ public class AppsLauncherCommands {
                 Long timestamp = System.currentTimeMillis();
                 Identifier subscriptionId = new Identifier("CLI-Consumer-AppsLauncherSubscription_" + timestamp);
                 Subscription subscription = ConnectionConsumer.subscriptionWildcard(subscriptionId);
-                EntityKeyList entityKeys = new EntityKeyList();
 
                 if (appNames != null && !appNames.isEmpty()) {
+                    SubscriptionFilterList filters = new SubscriptionFilterList();
                     for (String app : appNames) {
-                        IdentifierList appsToSearch = new IdentifierList();
-                        appsToSearch.add(new Identifier(app));
-                        ListAppResponse response = appsLauncher.listApp(appsToSearch, null);
-                        Long id = response.getBodyElement0().get(0);
-
-                        if (id != null) {
-                            EntityKey entitykey = new EntityKey(new Identifier(app), id, 0L, 0L);
-                            entityKeys.add(entitykey);
-                        } else {
-                            System.out.println("Provider " + app + " not found!");
-                        }
+                        filters.add(new SubscriptionFilter(new Identifier("app.name"), new AttributeList(app)));
                     }
 
-                    if (entityKeys.isEmpty()) {
-                        System.out.println("Could not find any providers matching provided names!");
-                        System.exit(ExitCodes.GENERIC_ERROR);
-                    }
-
-                    EntityRequest entity = new EntityRequest(null, false, false, false, false, entityKeys);
-                    EntityRequestList entities = new EntityRequestList();
-                    entities.add(entity);
-
-                    subscription = new Subscription(subscriptionId, entities);
+                    subscription = new Subscription(subscriptionId, null, null, filters);
                 }
                 outputSubscription = subscriptionId;
 
                 appsLauncher.monitorExecutionRegister(subscription, new AppsLauncherAdapter() {
                     @Override
-                    public void monitorExecutionNotifyReceived(MALMessageHeader msgHeader, Identifier identifier,
-                            UpdateHeaderList updateHeaderList, StringList strings, Map qosProperties) {
-                        for (int i = 0; i < updateHeaderList.size(); i++) {
-                            String providerName = updateHeaderList.get(i).getKey().getFirstSubKey().getValue();
-                            String[] lines = strings.get(i).split("\n");
-                            for (String line : lines) {
-                                System.out.println("[" + providerName + "]: " + line);
-                            }
+                    public void monitorExecutionNotifyReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
+                            org.ccsds.moims.mo.mal.structures.Identifier subscriptionId,
+                            org.ccsds.moims.mo.mal.structures.UpdateHeader updateHeader,
+                            String outputStream,
+                            java.util.Map qosProperties) {
+                        String providerName = ((Union) updateHeader.getKeyValues().get(0).getValue()).getStringValue();
+                        String[] lines = outputStream.split("\n");
+                        for (String line : lines) {
+                            System.out.println("[" + providerName + "]: " + line);
                         }
                     }
                 });
@@ -220,7 +202,7 @@ public class AppsLauncherCommands {
                     }
 
                     @Override
-                    public void stopAppUpdateErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                    public void stopAppUpdateErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
                             Map qosProperties) {
                         LOGGER.log(Level.SEVERE, "Error during stopApp!", error);
                         synchronized (lock) {
@@ -229,7 +211,7 @@ public class AppsLauncherCommands {
                     }
 
                     @Override
-                    public void stopAppResponseErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                    public void stopAppResponseErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
                             Map qosProperties) {
                         LOGGER.log(Level.SEVERE, "Error during stopApp!", error);
                         synchronized (lock) {

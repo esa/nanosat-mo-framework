@@ -23,9 +23,7 @@ package esa.mo.nmf.groundmoproxy;
 import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.common.impl.proxy.DirectoryProxyServiceImpl;
-import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.connections.ConnectionProvider;
-import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.misc.Const;
 import esa.mo.nmf.NMFConsumer;
@@ -45,17 +43,27 @@ import org.ccsds.moims.mo.com.archive.ArchiveHelper;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQueryList;
-import org.ccsds.moims.mo.common.directory.DirectoryHelper;
+import org.ccsds.moims.mo.common.directory.DirectoryServiceInfo;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
 import org.ccsds.moims.mo.common.directory.structures.ServiceFilter;
 import org.ccsds.moims.mo.common.structures.ServiceKey;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.structures.*;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
+import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
+import org.ccsds.moims.mo.mal.structures.FineTime;
+import org.ccsds.moims.mo.mal.structures.Identifier;
+import org.ccsds.moims.mo.mal.structures.IdentifierList;
+import org.ccsds.moims.mo.mal.structures.LongList;
+import org.ccsds.moims.mo.mal.structures.Subscription;
+import org.ccsds.moims.mo.mal.structures.UOctet;
+import org.ccsds.moims.mo.mal.structures.URI;
+import org.ccsds.moims.mo.mal.structures.UShort;
+import org.ccsds.moims.mo.mal.structures.UShortList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mal.transport.MALTransmitErrorException;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
+import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherServiceInfo;
 import org.ccsds.moims.mo.softwaremanagement.heartbeat.HeartbeatHelper;
 
 /**
@@ -107,8 +115,8 @@ public abstract class GroundMOProxy {
     }
 
     private SingleConnectionDetails cdFromService(COMService service) {
-        final ServiceKey serviceKey = new ServiceKey(service.getArea().getNumber(), service.getNumber(), service
-            .getArea().getVersion());
+        final ServiceKey serviceKey = new ServiceKey(service.getserviceKey().getAreaNumber(),
+                service.getserviceKey().getServiceNumber(), service.getserviceKey().getAreaVersion());
 
         try {
             ProviderSummaryList list = getRemoteNMSProviderSpecificService(serviceKey);
@@ -256,11 +264,11 @@ public abstract class GroundMOProxy {
                     };
 
                     // Use the count operation from the Archive for Common.Directory.ServiceProvider
-                    archiveService.getArchiveStub().count(DirectoryHelper.SERVICEPROVIDER_OBJECT_TYPE, archiveQueryList,
+                    archiveService.getArchiveStub().count(DirectoryServiceInfo.SERVICEPROVIDER_OBJECT_TYPE, archiveQueryList,
                         null, adapter);
 
                     // use the count operation from the Archive for SoftwareManagement.AppsLauncher.StopApp
-                    archiveService.getArchiveStub().count(AppsLauncherHelper.STOPAPP_OBJECT_TYPE, archiveQueryList,
+                    archiveService.getArchiveStub().count(AppsLauncherServiceInfo.STOPAPP_OBJECT_TYPE, archiveQueryList,
                         null, adapter);
 
                     if (count[0] != 0L) {
@@ -314,7 +322,7 @@ public abstract class GroundMOProxy {
                         failureCounter++;
                         if (failureCounter >= 3) {
                             // Reset everything
-                            heartbeatService.close();
+                            heartbeatService.closeConnection();
                             providerStatusAdapter.stop();
                             firstTime = true;
                             failureCounter = 0;

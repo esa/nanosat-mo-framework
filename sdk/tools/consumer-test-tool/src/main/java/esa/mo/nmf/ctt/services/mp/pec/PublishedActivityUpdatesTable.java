@@ -45,12 +45,13 @@ import org.ccsds.moims.mo.mp.structures.Trigger;
 import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.HelperArchive;
-import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.mp.impl.com.COMObjectIdHelper;
 import esa.mo.mp.impl.consumer.PlanExecutionControlConsumerServiceImpl;
 import esa.mo.mp.impl.util.MOFactory;
 import esa.mo.mp.impl.util.MPPolyFix;
 import esa.mo.nmf.ctt.utils.SharedTablePanel;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
+import org.ccsds.moims.mo.mp.planedit.PlanEditServiceInfo;
 
 public class PublishedActivityUpdatesTable extends SharedTablePanel {
 
@@ -92,7 +93,7 @@ public class PublishedActivityUpdatesTable extends SharedTablePanel {
             }
         }
 
-        ObjectType updateObjectType = PlanEditHelper.ACTIVITYUPDATE_OBJECT_TYPE;
+        ObjectType updateObjectType = PlanEditServiceInfo.ACTIVITYUPDATE_OBJECT_TYPE;
         LongList objectIds = new LongList();
         objectIds.add(0L);
         List<ArchivePersistenceObject> updateObjects = HelperArchive.getArchiveCOMObjectList(this.archiveService
@@ -108,7 +109,7 @@ public class PublishedActivityUpdatesTable extends SharedTablePanel {
             }
         }
 
-        ObjectType instanceObjectType = PlanEditHelper.ACTIVITYINSTANCE_OBJECT_TYPE;
+        ObjectType instanceObjectType = PlanEditServiceInfo.ACTIVITYINSTANCE_OBJECT_TYPE;
         ArchivePersistenceObject instanceComObject = HelperArchive.getArchiveCOMObject(this.archiveService
             .getArchiveStub(), instanceObjectType, domain, instanceId);
 
@@ -168,18 +169,15 @@ public class PublishedActivityUpdatesTable extends SharedTablePanel {
 
         @Override
         public void monitorActivitiesNotifyReceived(MALMessageHeader msgHeader, Identifier identifier,
-            UpdateHeaderList headerList, ActivityUpdateDetailsList updateList, Map qosProperties) {
-            for (int index = 0; index < updateList.size(); index++) {
-                UpdateHeader updateHeader = headerList.get(index);
-                ActivityUpdateDetails update = updateList.get(index);
-
+            UpdateHeader header, ActivityUpdateDetails update, Map qosProperties) {
+/*
                 IdentifierList domain = msgHeader.getDomain();
 
                 Identifier identity = updateHeader.getKey().getFirstSubKey();
                 Long instanceId = updateHeader.getKey().getThirdSubKey();
 
                 addEntry(domain, identity, instanceId, update);
-            }
+*/
         }
     }
 }

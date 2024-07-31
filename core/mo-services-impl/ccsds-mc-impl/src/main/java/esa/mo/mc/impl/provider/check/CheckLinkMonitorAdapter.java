@@ -24,11 +24,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.event.consumer.EventAdapter;
 import org.ccsds.moims.mo.com.structures.ObjectDetails;
-import org.ccsds.moims.mo.com.structures.ObjectDetailsList;
-import org.ccsds.moims.mo.mal.MALStandardError;
-import org.ccsds.moims.mo.mal.structures.ElementList;
+import org.ccsds.moims.mo.mal.MOErrorException;
+import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.UpdateHeaderList;
+import org.ccsds.moims.mo.mal.structures.UpdateHeader;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 
 /**
@@ -47,36 +46,33 @@ public class CheckLinkMonitorAdapter extends EventAdapter {
     public void monitorEventRegisterAckReceived(MALMessageHeader msgHeader, Map qosProperties) {
         //save the value of the register-time to test the periodic update later on
         Logger.getLogger(CheckLinkMonitorAdapter.class.getName()).log(Level.INFO,
-            "successfully registered for monitorEvents");
+                "successfully registered for monitorEvents");
         super.monitorEventRegisterAckReceived(msgHeader, qosProperties);
     }
 
     @Override
-    public void monitorEventRegisterErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
-        Map qosProperties) {
+    public void monitorEventRegisterErrorReceived(MALMessageHeader msgHeader, MOErrorException error, Map qosProperties) {
         Logger.getLogger(CheckLinkMonitorAdapter.class.getName()).log(Level.SEVERE,
-            "registration for monitorEvents failed with error {0}", error.getErrorName());
+                "registration for monitorEvents failed with error {0}", error);
         super.monitorEventRegisterErrorReceived(msgHeader, error, qosProperties);
     }
 
     @Override
-    public void monitorEventNotifyErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+    public void monitorEventNotifyErrorReceived(MALMessageHeader msgHeader, MOErrorException error, Map qosProperties) {
         Logger.getLogger(CheckLinkMonitorAdapter.class.getName()).log(Level.SEVERE,
-            "monitorEvents notification failed with error {0}", error.getErrorName());
+                "monitorEvents notification failed with error {0}", error);
         super.monitorEventNotifyErrorReceived(msgHeader, error, qosProperties);
     }
 
     @Override
-    public void monitorEventNotifyReceived(MALMessageHeader msgHeader, Identifier _Identifier0,
-        UpdateHeaderList _UpdateHeaderList1, ObjectDetailsList _ObjectDetailsList2, ElementList elementList,
-        Map qosProperties) {
+    public void monitorEventNotifyReceived(MALMessageHeader msgHeader, Identifier _Identifier0, UpdateHeader updateHeader,
+            ObjectDetails objectDetails, Element element, Map qosProperties) {
         Logger.getLogger(CheckLinkMonitorAdapter.class.getName()).log(Level.INFO, "monitorEvents-update received");
-        for (ObjectDetails objectDetails : _ObjectDetailsList2) {
-            manager.updatedCheckLinkEvaluation(objectDetails.getRelated(), msgHeader.getDomain());
-        }
 
-        super.monitorEventNotifyReceived(msgHeader, _Identifier0, _UpdateHeaderList1, _ObjectDetailsList2, elementList,
-            qosProperties);
+        manager.updatedCheckLinkEvaluation(objectDetails.getRelated(), null);
+
+        super.monitorEventNotifyReceived(msgHeader, _Identifier0, updateHeader,
+                objectDetails, element, qosProperties);
     }
 
     @Override

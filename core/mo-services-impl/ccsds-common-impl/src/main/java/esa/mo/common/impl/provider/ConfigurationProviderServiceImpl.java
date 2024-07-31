@@ -26,7 +26,6 @@ import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
-import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -37,31 +36,28 @@ import java.util.Map;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.COMService;
 import org.ccsds.moims.mo.com.event.consumer.EventAdapter;
 import org.ccsds.moims.mo.com.structures.*;
-import org.ccsds.moims.mo.common.CommonHelper;
 import org.ccsds.moims.mo.common.configuration.ConfigurationHelper;
+import org.ccsds.moims.mo.common.configuration.ConfigurationServiceInfo;
 import org.ccsds.moims.mo.common.configuration.provider.ActivateInteraction;
 import org.ccsds.moims.mo.common.configuration.provider.ConfigurationInheritanceSkeleton;
 import org.ccsds.moims.mo.common.configuration.provider.StoreCurrentInteraction;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationType;
 import org.ccsds.moims.mo.common.structures.ServiceKey;
-import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.structures.Element;
-import org.ccsds.moims.mo.mal.structures.ElementList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.mal.structures.UShort;
-import org.ccsds.moims.mo.mal.structures.UpdateHeaderList;
+import org.ccsds.moims.mo.mal.structures.UpdateHeader;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 
 /**
@@ -74,11 +70,13 @@ public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSk
     private MALProvider configurationServiceProvider;
     private boolean initialiased = false;
     private boolean running = false;
+    private final HashMap<ObjectId, Element> configs = new HashMap<>();
     private final ConnectionProvider connection = new ConnectionProvider();
     private final Random random = new Random();
     private COMServicesProvider comServices;
     private final HashMap<ObjectId, ConfigurationObjectDetails> serviceConfigurations = new HashMap<>();
     private final HashMap<ObjectId, ConfigurationObjectDetails> providerConfigurations = new HashMap<>();
+    private final HashMap<ObjectId, ConfigurationObjectDetails> compositeConfigurations = new HashMap<>();
 
     /**
      * creates the MAL objects, the publisher used to create updates and starts
@@ -89,26 +87,6 @@ public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSk
      */
     public synchronized void init(COMServicesProvider comServices) throws MALException {
         long timestamp = System.currentTimeMillis();
-        
-        if (!initialiased) {
-            if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
-                MALHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION) == null) {
-                COMHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(CommonHelper.COMMON_AREA_NAME, CommonHelper.COMMON_AREA_VERSION) == null) {
-                CommonHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(CommonHelper.COMMON_AREA_NAME, CommonHelper.COMMON_AREA_VERSION)
-                .getServiceByName(ConfigurationHelper.CONFIGURATION_SERVICE_NAME) == null) {
-                ConfigurationHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-        }
 
         // shut down old service transport
         if (null != configurationServiceProvider) {
@@ -116,8 +94,8 @@ public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSk
         }
 
         service = ConfigurationHelper.CONFIGURATION_SERVICE;
-        configurationServiceProvider = connection.startService(ConfigurationHelper.CONFIGURATION_SERVICE_NAME
-            .toString(), ConfigurationHelper.CONFIGURATION_SERVICE, false, this);
+        configurationServiceProvider = connection.startService(ConfigurationServiceInfo.CONFIGURATION_SERVICE_NAME.toString(), 
+                ConfigurationHelper.CONFIGURATION_SERVICE, false, this);
         this.comServices = comServices;
 
         running = true;
@@ -145,46 +123,46 @@ public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSk
     }
 
     @Override
-    public void activate(ObjectKey serviceProvider, ObjectId configObjId, ActivateInteraction activateInteraction)
-        throws MALInteractionException, MALException {
-        activateInteraction.sendAcknowledgement();
+    public void activate(ObjectKey serviceProvider, ObjectId configObjId, ActivateInteraction interaction) throws MALInteractionException, MALException {
         ObjectIdList objBodies = new ObjectIdList();
         objBodies.add(configObjId);
 
         Long related = null;
-        ObjectId source = this.comServices.getActivityTrackingService().storeCOMOperationActivity(activateInteraction
-            .getInteraction(), null);
+        ObjectId source = this.comServices.getActivityTrackingService().storeCOMOperationActivity(interaction.getInteraction(), null);
 
         // Store Event in the Archive
         Long objId = this.comServices.getEventService().generateAndStoreEvent(
-            ConfigurationHelper.CONFIGURATIONSWITCH_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(), objBodies,
-            related, source, activateInteraction.getInteraction());
+                ConfigurationServiceInfo.CONFIGURATIONSWITCH_OBJECT_TYPE,
+                ConfigurationProviderSingleton.getDomain(),
+                objBodies,
+                related,
+                source,
+                interaction.getInteraction());
 
         try {
             // Send Activation event
-            this.comServices.getEventService().publishEvent(activateInteraction.getInteraction(), objId,
-                ConfigurationHelper.CONFIGURATIONSWITCH_OBJECT_TYPE, related, source, objBodies);
+            this.comServices.getEventService().publishEvent(interaction.getInteraction(), objId,
+                    ConfigurationServiceInfo.CONFIGURATIONSWITCH_OBJECT_TYPE, related, source, objBodies);
         } catch (IOException ex) {
             Logger.getLogger(ConfigurationProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-        activateInteraction.sendResponse(true, objBodies);
+        interaction.sendResponse(true, objBodies);
     }
 
     @Override
-    public ObjectIdList getCurrent(ObjectKey serviceProvider, ServiceKey serviceKey, MALInteraction malInteraction)
-        throws MALInteractionException, MALException {
+    public ObjectIdList getCurrent(ObjectKey serviceProvider, ServiceKey serviceKey, MALInteraction interaction) throws MALInteractionException, MALException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void add(ObjectKey serviceProvider, ObjectIdList configObjsIds, MALInteraction malInteraction)
-        throws MALInteractionException, MALException {
+    public void add(ObjectKey serviceProvider, ObjectIdList configObjIds, MALInteraction interaction) throws MALInteractionException, MALException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void storeCurrent(ObjectKey serviceProvider, ServiceKey serviceKey, Boolean autoAdd,
-        StoreCurrentInteraction interaction) throws MALInteractionException, MALException {
+    public void storeCurrent(ObjectKey serviceProvider, ServiceKey serviceKey, Boolean autoAdd, StoreCurrentInteraction interaction) throws MALInteractionException, MALException {
+//    public void storeCurrent(ServiceProviderKey service, ConfigurationType type, Boolean autoAdd, 
+//            StoreCurrentInteraction interaction) throws MALInteractionException, MALException {
         interaction.sendAcknowledgement();
 
         if (this.comServices.getEventService() == null) {  // If there is no event service then we can't really do anything...
@@ -197,30 +175,38 @@ public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSk
 
         // Store Event in the Archive
         Long objId = this.comServices.getEventService().generateAndStoreEvent(
-            ConfigurationHelper.CONFIGURATIONSTORE_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(), null,
-            related, source, interaction.getInteraction());
+                ConfigurationServiceInfo.CONFIGURATIONSTORE_OBJECT_TYPE,
+                ConfigurationProviderSingleton.getDomain(),
+                null,
+                related,
+                source,
+                interaction.getInteraction());
 
         // Create the Adapter which will wait for the callback of the service
         try {  // Consumer of Events for the configurations
             EventConsumerServiceImpl eventServiceConsumer = new EventConsumerServiceImpl(comServices.getEventService()
                 .getConnectionProvider().getConnectionDetails());
 
-            // For the Configuration service: area=3 ; service=5; version=1
-            //            ObjectType objType = HelperCOM.generateCOMObjectType(3, 5, 1, 0);  // Listen only to Configuration events
-            ObjectType objType = ConfigurationHelper.CONFIGURATIONOBJECTS_OBJECT_TYPE;  // Listen only to Configuration events
-            objType.setNumber(new UShort((short) 0));  // Select "any" object from the Configuration service
+            // Listen only to Configuration events
+            ObjectType original = ConfigurationServiceInfo.CONFIGURATIONOBJECTS_OBJECT_TYPE;
+            ObjectType objType = new ObjectType(original.getArea(),
+                    original.getService(),
+                    original.getVersion(),
+                    new UShort((short) 0)); // Select "any" object from the Configuration service
+
             Long key2 = HelperCOM.generateSubKey(objType);
-            Subscription subscription = ConnectionConsumer.subscriptionKeys(new Identifier("*"), key2, 0L, 0L);
+            Subscription subscriptionPartial = ConnectionConsumer.subscriptionKeys(new Identifier("*"), key2, 0L, 0L);
             Identifier subId = new Identifier("ConfigurationEvent" + random.nextInt());  // Add some randomness in the subscriptionId to avoid colisions
 
-            subscription.setSubscriptionId(subId);
+            Subscription subscription = new Subscription(subId, null, null, subscriptionPartial.getFilters());
+            //subscription.setSubscriptionId(subId);
             EventConsumerConfigurationCallbackAdapter adapter = new EventConsumerConfigurationCallbackAdapter(objId);
             eventServiceConsumer.getEventStub().monitorEventRegister(subscription, adapter);
 
             try {
                 // Send Store event
                 this.comServices.getEventService().publishEvent(interaction.getInteraction(), objId,
-                    ConfigurationHelper.CONFIGURATIONSTORE_OBJECT_TYPE, related, source, null);
+                        ConfigurationServiceInfo.CONFIGURATIONSTORE_OBJECT_TYPE, related, source, null);
             } catch (IOException ex) {
                 Logger.getLogger(ConfigurationProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -270,16 +256,15 @@ public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSk
             
             //            xmlEOS.writeElement(objBody, null);
             
-            //            ( (ConfigurationObjectDetails) objBody).getConfigObjects().get(0).getDomain().add(new Identifier("César"));
-            //            xmlEOS.writeElement(objBody, null);
+//            ( (ConfigurationObjectDetails) objBody).getConfigObjects().get(0).getDomain().add(new Identifier("Test123"));
+//            xmlEOS.writeElement(objBody, null);
             xmlEOS.flush();
             xmlEOS.close();
             */
             // Create a static method in the Helper Tools to cconvert rom a Java file to a MAL File and vice versa
             org.ccsds.moims.mo.mal.structures.File xmlFile = new org.ccsds.moims.mo.mal.structures.File();
-            //            xmlFile.setContent((Blob) HelperAttributes.javaType2Attribute(Files.readAllBytes(file.toPath())));
-            xmlFile.setName(new Identifier("bbgbgbdg"));
-            fos.close();
+//            xmlFile.setContent((Blob) HelperAttributes.javaType2Attribute(Files.readAllBytes(file.toPath())));
+            //xmlFile.setName("MyFilename.file");
             return xmlFile;
 
         } catch (IOException ex) {
@@ -315,8 +300,7 @@ public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSk
 
     @Override
     public ObjectIdList list(ConfigurationType type, IdentifierList domain, ServiceKey serviceKey,
-        MALInteraction malInteraction) throws MALInteractionException, MALException {
-
+            MALInteraction interaction) throws MALInteractionException, MALException {
         // Select the right type of Configuration
         HashMap<ObjectId, ConfigurationObjectDetails> configurations = null;
 
@@ -327,6 +311,12 @@ public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSk
         if (type == ConfigurationType.PROVIDER) {
             configurations = providerConfigurations;
         }
+
+        /*
+        if (type == ConfigurationType.COMPOSITE) {
+            configurations = compositeConfigurations;
+        }
+        */
 
         ObjectIdList out = new ObjectIdList();
 
@@ -351,8 +341,7 @@ public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSk
     }
 
     @Override
-    public void remove(ObjectKey serviceProvider, ObjectIdList configObjsIds, MALInteraction malInteraction)
-        throws MALInteractionException, MALException {
+    public void remove(ObjectKey serviceProvider, ObjectIdList configObjIds, MALInteraction interaction) throws MALInteractionException, MALException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -369,15 +358,15 @@ public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSk
 
         @Override
         public synchronized void monitorEventNotifyReceived(MALMessageHeader msgHeader, Identifier _Identifier0,
-            UpdateHeaderList updateHeaderList, ObjectDetailsList objectDetailsList, ElementList objects,
-            Map qosProperties) {
-            if (objectDetailsList.size() != 1) {
+                UpdateHeader updateHeader, ObjectDetails objectDetails,
+                Element object, Map qosProperties) {
+            if (objectDetails == null) {
                 return;
             }
 
             // Does the objId received matches the one the we originally sent to the service?
-            if (originalObjId.equals(objectDetailsList.get(0).getRelated())) {
-                objectId = objectDetailsList.get(0).getSource();
+            if (originalObjId.equals(objectDetails.getRelated())) {
+                objectId = objectDetails.getSource();
                 this.notify();
                 available = true;
             }

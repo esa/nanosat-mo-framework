@@ -20,6 +20,8 @@
  */
 package esa.mo.nmf.nanosatmosupervisor.parameter;
 
+import esa.mo.nmf.MCRegistration;
+import jakarta.xml.bind.JAXBException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
@@ -30,8 +32,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import jakarta.xml.bind.JAXBException;
 import javax.xml.stream.XMLStreamException;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
@@ -40,9 +42,6 @@ import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValue;
-
-import esa.mo.helpertools.helpers.HelperAttributes;
-import esa.mo.nmf.MCRegistration;
 
 /**
  * Handles the provisioning of OBSW parameter.
@@ -118,8 +117,8 @@ public class OBSWParameterManager {
 
         for (OBSWParameter param : parameters) {
             paramDefs.add(new ParameterDefinitionDetails(param.getDescription(),
-                    HelperAttributes.attributeName2typeShortForm(param.getType()).byteValue(), "", false,
-                    new Duration(DEFAULT_REPORT_INTERVAL), null, null));
+                    HelperAttributes.attributeName2typeShortForm(param.getType()).byteValue(),
+                    "", false, new Duration(DEFAULT_REPORT_INTERVAL), null, null));
             paramIdentifiers.add(new Identifier(param.getName()));
         }
 

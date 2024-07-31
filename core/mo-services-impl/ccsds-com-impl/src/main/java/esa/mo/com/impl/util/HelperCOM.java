@@ -20,8 +20,6 @@
  */
 package esa.mo.com.impl.util;
 
-import esa.mo.helpertools.connections.ConnectionConsumer;
-import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.helpertools.helpers.HelperMisc;
 import java.lang.reflect.Field;
 import java.util.Random;
@@ -30,7 +28,9 @@ import org.ccsds.moims.mo.com.COMService;
 import org.ccsds.moims.mo.com.archive.structures.ExpressionOperator;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALContextFactory;
-import org.ccsds.moims.mo.mal.MALService;
+import org.ccsds.moims.mo.mal.ServiceInfo;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Element;
@@ -191,7 +191,7 @@ public class HelperCOM {
             return null;
         }
 
-        COMService service = (COMService) MALContextFactory.lookupArea(objType.getArea(), objType.getAreaVersion())
+        COMService service = (COMService) MALContextFactory.lookupArea(objType.getArea(), objType.getVersion())
             .getServiceByNumber(objType.getService());
 
         if (service == null || objType.getNumber().getValue() == 0) {  // Special case for the event service...
@@ -222,9 +222,9 @@ public class HelperCOM {
     public static String objType2string(final ObjectType objType) {
         final COMObject comObject = HelperCOM.objType2COMObject(objType);
 
-        String string = MALContextFactory.lookupArea(objType.getArea(), objType.getAreaVersion()).getName().toString();
+        String string = MALContextFactory.lookupArea(objType.getArea(), objType.getVersion()).getName().toString();
 
-        string += " - " + MALContextFactory.lookupArea(objType.getArea(), objType.getAreaVersion()).getServiceByNumber(
+        string += " - " + MALContextFactory.lookupArea(objType.getArea(), objType.getVersion()).getServiceByNumber(
             objType.getService()).getName().toString();
 
         if (comObject != null) {
@@ -293,14 +293,16 @@ public class HelperCOM {
      * @param objNumber Object number
      * @return The ObjectType object
      */
-    public static ObjectType generateCOMObjectType(MALService service, UShort objNumber) {
+    public static ObjectType generateCOMObjectType(ServiceInfo service, UShort objNumber) {
 
         if (service == null || objNumber == null) {
             return null;
         }
 
-        return new ObjectType(service.getArea().getNumber(), service.getNumber(), service.getArea().getVersion(),
-            objNumber);
+        return new ObjectType(service.getAreaNumber(),
+                service.getServiceNumber(),
+                service.getServiceVersion(),
+                objNumber);
     }
 
     /**
