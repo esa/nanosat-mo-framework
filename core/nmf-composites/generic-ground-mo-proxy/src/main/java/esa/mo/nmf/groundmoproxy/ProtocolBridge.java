@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -45,7 +45,7 @@ public class ProtocolBridge {
     private MALEndpoint epA;
     private MALEndpoint epB;
 
-    public void init(final String protocolA, final String protocolB, final Map properties) throws MALException, Exception {
+    public void init(final String protocolA, final String protocolB, final Map properties) throws Exception {
         transportA = createTransport(protocolA, properties);
         transportB = createTransport(protocolB, properties);
         epA = createEndpoint(protocolA, transportA);
@@ -94,7 +94,8 @@ public class ProtocolBridge {
         }
 
         @Override
-        public void onTransmitError(MALEndpoint callingEndpoint, MALMessageHeader srcMessageHeader, MALStandardError err, Map qosMap) {
+        public void onTransmitError(MALEndpoint callingEndpoint, MALMessageHeader srcMessageHeader,
+            MALStandardError err, Map qosMap) {
             throw new UnsupportedOperationException("Not supported yet.");
         }
 
@@ -107,10 +108,7 @@ public class ProtocolBridge {
                 MALMessage dMsg = cloneForwardMessage(destination, srcMessage);
                 System.out.println("Injecting message...");
                 destination.sendMessage(dMsg);
-            } catch (MALException ex) {
-                Logger.getLogger(ProtocolBridge.class.getName()).log(Level.SEVERE, null, ex);
-                // ToDo need to bounce this back to source... maybe
-            } catch (MALTransmitErrorException ex) {
+            } catch (MALException | MALTransmitErrorException ex) {
                 Logger.getLogger(ProtocolBridge.class.getName()).log(Level.SEVERE, null, ex);
                 // ToDo need to bounce this back to source... maybe
             }
@@ -131,38 +129,26 @@ public class ProtocolBridge {
         }
     }
 
-    protected static MALMessage cloneForwardMessage(MALEndpoint destination, MALMessage srcMessage) throws MALException {
+    protected static MALMessage cloneForwardMessage(MALEndpoint destination, MALMessage srcMessage)
+        throws MALException {
         MALMessageHeader sourceHdr = srcMessage.getHeader();
         MALMessageBody body = srcMessage.getBody();
 
-        System.out.println("cloneForwardMessage from : " + sourceHdr.getURIFrom() + "                to  :    " + sourceHdr.getURITo());
+        System.out.println("cloneForwardMessage from : " + sourceHdr.getURIFrom() + "                to  :    " +
+            sourceHdr.getURITo());
         String endpointUriPart = sourceHdr.getURITo().getValue();
         final int iSecond = endpointUriPart.indexOf("@");
-        endpointUriPart = endpointUriPart.substring(iSecond + 1, endpointUriPart.length());
+        endpointUriPart = endpointUriPart.substring(iSecond + 1);
         URI to = new URI(endpointUriPart);
         URI from = new URI(destination.getURI().getValue() + "@" + sourceHdr.getURIFrom().getValue());
         System.out.println("cloneForwardMessage      : " + from + "                to  :    " + to);
 
-        MALMessage destMessage = destination.createMessage(
-                sourceHdr.getAuthenticationId(),
-                to,
-                sourceHdr.getTimestamp(),
-                sourceHdr.getQoSlevel(),
-                sourceHdr.getPriority(),
-                sourceHdr.getDomain(),
-                sourceHdr.getNetworkZone(),
-                sourceHdr.getSession(),
-                sourceHdr.getSessionName(),
-                sourceHdr.getInteractionType(),
-                sourceHdr.getInteractionStage(),
-                sourceHdr.getTransactionId(),
-                sourceHdr.getServiceArea(),
-                sourceHdr.getService(),
-                sourceHdr.getOperation(),
-                sourceHdr.getAreaVersion(),
-                sourceHdr.getIsErrorMessage(),
-                srcMessage.getQoSProperties(),
-                body.getEncodedBody());
+        MALMessage destMessage = destination.createMessage(sourceHdr.getAuthenticationId(), to, sourceHdr
+            .getTimestamp(), sourceHdr.getQoSlevel(), sourceHdr.getPriority(), sourceHdr.getDomain(), sourceHdr
+                .getNetworkZone(), sourceHdr.getSession(), sourceHdr.getSessionName(), sourceHdr.getInteractionType(),
+            sourceHdr.getInteractionStage(), sourceHdr.getTransactionId(), sourceHdr.getServiceArea(), sourceHdr
+                .getService(), sourceHdr.getOperation(), sourceHdr.getAreaVersion(), sourceHdr.getIsErrorMessage(),
+            srcMessage.getQoSProperties(), body.getEncodedBody());
 
         destMessage.getHeader().setURIFrom(from);
 

@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -65,7 +65,7 @@ import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 public class CheckConsumerPanel extends javax.swing.JPanel {
 
     private CheckConsumerServiceImpl serviceMCCheck;
-//    private ParameterConsumerServiceImpl serviceMCParameter;
+    //    private ParameterConsumerServiceImpl serviceMCParameter;
     private CheckDefinitionsTablePanel checkDefsTable;
     private CheckLinksTablePanel checkLinksTable;
     private ObjectType objTypeCheckDefinition;
@@ -84,9 +84,9 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
 
         this.serviceMCCheck = serviceMCCheck;
         objTypeCheckDefinition = CheckHelper.CHECKIDENTITY_OBJECT_TYPE;
-        
+
         this.listDefinitionAllButtonActionPerformed(null);
-    
+
     }
 
     /**
@@ -132,21 +132,20 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
         jScrollPane2.setName(""); // NOI18N
         jScrollPane2.setPreferredSize(new java.awt.Dimension(796, 80));
 
-        actionDefinitionsTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, Boolean.TRUE, null},
-                {null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "Obj Inst Id", "name", "description", "rawType", "rawUnit", "generationEnabled", "updateInterval"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Float.class
-            };
+        actionDefinitionsTable.setModel(new javax.swing.table.DefaultTableModel(new Object[][]{{null, null, null, null,
+                                                                                                null, Boolean.TRUE,
+                                                                                                null}, {null, null,
+                                                                                                        null, null,
+                                                                                                        null, null,
+                                                                                                        null}},
+            new String[]{"Obj Inst Id", "name", "description", "rawType", "rawUnit", "generationEnabled",
+                         "updateInterval"}) {
+            Class[] types = new Class[]{java.lang.Integer.class, java.lang.String.class, java.lang.String.class,
+                                        java.lang.Object.class, java.lang.String.class, java.lang.Boolean.class,
+                                        java.lang.Float.class};
 
             public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
+                return types[columnIndex];
             }
         });
         actionDefinitionsTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
@@ -164,21 +163,20 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
         jScrollPane3.setPreferredSize(new java.awt.Dimension(796, 80));
         jScrollPane3.setRequestFocusEnabled(false);
 
-        actionDefinitionsTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, Boolean.TRUE, null},
-                {null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "Obj Inst Id", "name", "description", "rawType", "rawUnit", "generationEnabled", "updateInterval"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Float.class
-            };
+        actionDefinitionsTable1.setModel(new javax.swing.table.DefaultTableModel(new Object[][]{{null, null, null, null,
+                                                                                                 null, Boolean.TRUE,
+                                                                                                 null}, {null, null,
+                                                                                                         null, null,
+                                                                                                         null, null,
+                                                                                                         null}},
+            new String[]{"Obj Inst Id", "name", "description", "rawType", "rawUnit", "generationEnabled",
+                         "updateInterval"}) {
+            Class[] types = new Class[]{java.lang.Integer.class, java.lang.String.class, java.lang.String.class,
+                                        java.lang.Object.class, java.lang.String.class, java.lang.Boolean.class,
+                                        java.lang.Float.class};
 
             public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
+                return types[columnIndex];
             }
         });
         actionDefinitionsTable1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
@@ -197,35 +195,19 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
         parameterTab.setLayout(new java.awt.GridLayout(3, 1));
 
         getCurrentTransitionListButton.setText("getCurrentTransitionList");
-        getCurrentTransitionListButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                getCurrentTransitionListButtonActionPerformed(evt);
-            }
-        });
+        getCurrentTransitionListButton.addActionListener(this::getCurrentTransitionListButtonActionPerformed);
         jPanel2.add(getCurrentTransitionListButton);
 
         getSummaryReportButton.setText("getSummaryReport");
-        getSummaryReportButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                getSummaryReportButtonActionPerformed(evt);
-            }
-        });
+        getSummaryReportButton.addActionListener(this::getSummaryReportButtonActionPerformed);
         jPanel2.add(getSummaryReportButton);
 
         enableServiceButton.setText("enableService");
-        enableServiceButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                enableServiceButtonActionPerformed(evt);
-            }
-        });
+        enableServiceButton.addActionListener(this::enableServiceButtonActionPerformed);
         jPanel2.add(enableServiceButton);
 
         getServiceStatusButton.setText("getServiceStatus");
-        getServiceStatusButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                getServiceStatusButtonActionPerformed(evt);
-            }
-        });
+        getServiceStatusButton.addActionListener(this::getServiceStatusButtonActionPerformed);
         jPanel2.add(getServiceStatusButton);
 
         jLabel1.setText("Unk");
@@ -234,152 +216,102 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
         parameterTab.add(jPanel2);
 
         enableCheckButton.setText("enableCheck");
-        enableCheckButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                enableCheckButtonActionPerformed(evt);
-            }
-        });
+        enableCheckButton.addActionListener(this::enableCheckButtonActionPerformed);
         jPanel1.add(enableCheckButton);
 
         enableCheckAllButton.setText("enableCheck(group=false, 0)");
-        enableCheckAllButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                enableCheckAllButtonActionPerformed(evt);
-            }
-        });
+        enableCheckAllButton.addActionListener(this::enableCheckAllButtonActionPerformed);
         jPanel1.add(enableCheckAllButton);
 
         triggerCheckButton.setText("triggerCheck");
-        triggerCheckButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                triggerCheckButtonActionPerformed(evt);
-            }
-        });
+        triggerCheckButton.addActionListener(this::triggerCheckButtonActionPerformed);
         jPanel1.add(triggerCheckButton);
 
         listDefinitionAllButton.setText("listDefinition(\"*\")");
-        listDefinitionAllButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                listDefinitionAllButtonActionPerformed(evt);
-            }
-        });
+        listDefinitionAllButton.addActionListener(this::listDefinitionAllButtonActionPerformed);
         jPanel1.add(listDefinitionAllButton);
 
         parameterTab.add(jPanel1);
 
         addDefButton.setText("addDefinition");
-        addDefButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addDefButtonActionPerformed(evt);
-            }
-        });
+        addDefButton.addActionListener(this::addDefButtonActionPerformed);
         jPanel5.add(addDefButton);
 
         updateDefButton.setText("updateDefinition");
-        updateDefButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                updateDefButtonActionPerformed(evt);
-            }
-        });
+        updateDefButton.addActionListener(this::updateDefButtonActionPerformed);
         jPanel5.add(updateDefButton);
 
         removeDefButton.setText("removeDefinition");
-        removeDefButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeDefButtonActionPerformed(evt);
-            }
-        });
+        removeDefButton.addActionListener(this::removeDefButtonActionPerformed);
         jPanel5.add(removeDefButton);
 
         removeDefAllButton.setText("removeDefinition(0)");
-        removeDefAllButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeDefAllButtonActionPerformed(evt);
-            }
-        });
+        removeDefAllButton.addActionListener(this::removeDefAllButtonActionPerformed);
         jPanel5.add(removeDefAllButton);
 
         addParameterCheck.setText("addParameterCheck");
-        addParameterCheck.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addParameterCheckActionPerformed(evt);
-            }
-        });
+        addParameterCheck.addActionListener(this::addParameterCheckActionPerformed);
         jPanel5.add(addParameterCheck);
 
         removeParameterCheck.setText("removeParameterCheck");
-        removeParameterCheck.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeParameterCheckActionPerformed(evt);
-            }
-        });
+        removeParameterCheck.addActionListener(this::removeParameterCheckActionPerformed);
         jPanel5.add(removeParameterCheck);
 
         parameterTab.add(jPanel5);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(parameterTab, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 939, Short.MAX_VALUE)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel6)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(parameterTab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
+        layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
+            parameterTab, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE).addComponent(jLabel6,
+                javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING,
+                javax.swing.GroupLayout.DEFAULT_SIZE, 939, Short.MAX_VALUE).addComponent(jScrollPane3,
+                    javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE,
+                    javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
+        layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout
+            .createSequentialGroup().addContainerGap().addComponent(jLabel6).addGap(18, 18, 18).addComponent(
+                jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE).addPreferredGap(
+                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jScrollPane3,
+                        javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE).addPreferredGap(
+                            javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(parameterTab,
+                                javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                javax.swing.GroupLayout.PREFERRED_SIZE)));
     }// </editor-fold>//GEN-END:initComponents
 
     private void addDefButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDefButtonActionPerformed
 
         // User must pick a type of check...
-        Object[] possibilities = {"ConstantCheckDefinition", "ReferenceCheckDefinition", 
-            "DeltaCheckDefinition", "LimitCheckDefinition", "CompoundCheckDefinition" };
-        
-        String s = (String)JOptionPane.showInputDialog(
-                    null,
-                    "Type of Check:\n",
-                    "Check Type",
-                    JOptionPane.PLAIN_MESSAGE,
-                    null,
-                    possibilities,
-                    "ham");        
-        
-        if (s == null){
+        Object[] possibilities = {"ConstantCheckDefinition", "ReferenceCheckDefinition", "DeltaCheckDefinition",
+                                  "LimitCheckDefinition", "CompoundCheckDefinition"};
+
+        String s = (String) JOptionPane.showInputDialog(null, "Type of Check:\n", "Check Type",
+            JOptionPane.PLAIN_MESSAGE, null, possibilities, "ham");
+
+        if (s == null) {
             return;
         }
-        
+
         CheckDefinitionDetails checkDefinition = null;
-        
-        if ("ConstantCheckDefinition".equals(s.toString())){
+
+        if ("ConstantCheckDefinition".equals(s)) {
             checkDefinition = new ConstantCheckDefinition();
         }
 
-        if ("ReferenceCheckDefinition".equals(s.toString())){
+        if ("ReferenceCheckDefinition".equals(s)) {
             checkDefinition = new ReferenceCheckDefinition();
         }
 
-        if ("DeltaCheckDefinition".equals(s.toString())){
+        if ("DeltaCheckDefinition".equals(s)) {
             checkDefinition = new DeltaCheckDefinition();
         }
 
-        if ("LimitCheckDefinition".equals(s.toString())){
+        if ("LimitCheckDefinition".equals(s)) {
             checkDefinition = new LimitCheckDefinition();
         }
 
-        if ("CompoundCheckDefinition".equals(s.toString())){
+        if ("CompoundCheckDefinition".equals(s)) {
             checkDefinition = new CompoundCheckDefinition();
-         }
+        }
 
         // Display in a window
         MOWindow checkDefinitionWindow = new MOWindow(checkDefinition, true);
@@ -387,24 +319,23 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
 
         try {
             checkDefinitionList = (CheckDefinitionDetailsList) HelperMisc.element2elementList(checkDefinition);
-            checkDefinitionList.add((CheckDefinitionDetails) checkDefinitionWindow.getObject());
+            checkDefinitionList.add(checkDefinitionWindow.getObject());
             StringList checkNames = new StringList();
             checkNames.add("AcheckDefinition");
 
-            ObjectInstancePairList objIds = this.serviceMCCheck.getCheckStub().addCheck(checkNames, checkDefinitionList);
+            ObjectInstancePairList objIds = this.serviceMCCheck.getCheckStub().addCheck(checkNames,
+                checkDefinitionList);
 
             if (objIds.isEmpty()) {
                 return;
             }
-            
+
             Thread.sleep(500);
             // Get the stored Action Definition from the Archive
-            ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(
-                    this.serviceMCCheck.getCOMServices().getArchiveService().getArchiveStub(),
-                    objTypeCheckDefinition, 
-                    serviceMCCheck.getConnectionDetails().getDomain(), 
-                    objIds.get(0).getObjDefInstanceId());
-/*
+            ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(this.serviceMCCheck.getCOMServices()
+                .getArchiveService().getArchiveStub(), objTypeCheckDefinition, serviceMCCheck.getConnectionDetails()
+                    .getDomain(), objIds.get(0).getObjDefInstanceId());
+            /*
             ObjectId source = comObject.getArchiveDetails().getDetails().getSource();
             
             if (source == null){
@@ -414,13 +345,14 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
             // Get the specific Action Definition from the Archive
             ArchivePersistenceObject comObject2 = HelperArchive.getArchiveCOMObject(this.serviceMCCheck.getCOMServices().getArchiveService().getArchiveService(),
                     source.getType(), source.getKey().getDomain(), source.getKey().getInstId());
-*/            
+            */
             // Add the Statistic Link to the table
             checkDefsTable.addEntry(new Identifier(checkNames.get(0)), comObject);
         } catch (InterruptedIOException ex) {
             return;
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "There was an error with the submitted check definition.", "Error", JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(null, "There was an error with the submitted check definition.", "Error",
+                JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(CheckConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_addDefButtonActionPerformed
@@ -439,7 +371,7 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
 
         try {
             checkDefinitionList = (CheckDefinitionDetailsList) HelperMisc.element2elementList(moObject.getObject());
-            checkDefinitionList.add((CheckDefinitionDetails) moObject.getObject());
+            checkDefinitionList.add(moObject.getObject());
             this.serviceMCCheck.getCheckStub().updateDefinition(objIds, checkDefinitionList);
             this.listDefinitionAllButtonActionPerformed(null);
         } catch (InterruptedIOException ex) {
@@ -453,7 +385,7 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
         if (checkDefsTable.getSelectedRow() == -1) { // The row is not selected?
             return;  // Well, then nothing to be done here folks!
         }
-        
+
         Long objId = checkDefsTable.getSelectedIdentityObjId();
         LongList longlist = new LongList();
         longlist.add(objId);
@@ -461,9 +393,7 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCCheck.getCheckStub().removeCheck(longlist);
             checkDefsTable.removeSelectedEntry();
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(CheckConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(CheckConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_removeDefButtonActionPerformed
@@ -477,22 +407,21 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
             outputs = this.serviceMCCheck.getCheckStub().listDefinition(idList);
             ObjectInstancePairList objIds = new ObjectInstancePairList();
 
-            for(CheckTypedInstance output : outputs){
+            for (CheckTypedInstance output : outputs) {
                 objIds.add(output.getObjInstIds());
             }
-                    
-            checkDefsTable.refreshTableWithIds(objIds, serviceMCCheck.getConnectionDetails().getDomain(), objTypeCheckDefinition);
-        } catch (MALInteractionException ex) {
-            JOptionPane.showMessageDialog(null, "There was an error during the listDefinition operation.", "Error", JOptionPane.PLAIN_MESSAGE);
-            Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-            return;
-        } catch (MALException ex) {
-            JOptionPane.showMessageDialog(null, "There was an error during the listDefinition operation.", "Error", JOptionPane.PLAIN_MESSAGE);
+
+            checkDefsTable.refreshTableWithIds(objIds, serviceMCCheck.getConnectionDetails().getDomain(),
+                objTypeCheckDefinition);
+        } catch (MALInteractionException | MALException ex) {
+            JOptionPane.showMessageDialog(null, "There was an error during the listDefinition operation.", "Error",
+                JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
             return;
         }
 
-        Logger.getLogger(CheckConsumerPanel.class.getName()).log(Level.INFO, "listDefinition(\"*\") returned {0} object instance identifiers.", outputs.size());
+        Logger.getLogger(CheckConsumerPanel.class.getName()).log(Level.INFO,
+            "listDefinition(\"*\") returned {0} object instance identifiers.", outputs.size());
     }//GEN-LAST:event_listDefinitionAllButtonActionPerformed
 
     private void removeDefAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeDefAllButtonActionPerformed
@@ -503,15 +432,12 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCCheck.getCheckStub().removeCheck(longlist);
             checkDefsTable.removeAllEntries();
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(CheckConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(CheckConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_removeDefAllButtonActionPerformed
 
     private void getServiceStatusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_getServiceStatusButtonActionPerformed
-
 
     }//GEN-LAST:event_getServiceStatusButtonActionPerformed
 
@@ -548,12 +474,10 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCCheck.getCheckStub().enableCheck(false, BoolPairList);
             checkLinksTable.removeSelectedEntry();
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(CheckConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(CheckConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }//GEN-LAST:event_enableCheckAllButtonActionPerformed
 
     private void enableCheckButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enableCheckButtonActionPerformed
@@ -576,9 +500,7 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCCheck.getCheckStub().enableCheck(false, BoolPairList);
             checkLinksTable.removeSelectedEntry();
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(CheckConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(CheckConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_enableCheckButtonActionPerformed
@@ -588,14 +510,14 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_triggerCheckButtonActionPerformed
 
     private void addParameterCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addParameterCheckActionPerformed
-        
+
         CheckLinkDetails checkLink = new CheckLinkDetails();
         checkLink.setCheckEnabled(true);
         checkLink.setCheckInterval(new Duration(4));
         checkLink.setCheckOnChange(true);
         checkLink.setCondition(null);
         checkLink.setUseConverted(false);
-        
+
         // Display in a window
         try {
             MOWindow checkLinkWindow = new MOWindow(checkLink, true);
@@ -604,29 +526,32 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
 
             ObjectDetails details = new ObjectDetails();
 
-            if (checkDefsTable.getSelectedCOMObject() == null){
-                JOptionPane.showMessageDialog(null, "Please select the check definition to be linked.", "Error", JOptionPane.PLAIN_MESSAGE);
+            if (checkDefsTable.getSelectedCOMObject() == null) {
+                JOptionPane.showMessageDialog(null, "Please select the check definition to be linked.", "Error",
+                    JOptionPane.PLAIN_MESSAGE);
                 return;
             }
-            
+
             details.setRelated(checkDefsTable.getSelectedCOMObject().getObjectId());
-            details.setSource(new ObjectId(ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE, 
-                    new ObjectKey(serviceMCCheck.getConnectionDetails().getDomain(), 1L)));
+            details.setSource(new ObjectId(ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE, new ObjectKey(serviceMCCheck
+                .getConnectionDetails().getDomain(), 1L)));
 
             MOWindow linksWindow = new MOWindow(details, true);
             ObjectDetailsList detailsList = new ObjectDetailsList();
             detailsList.add((ObjectDetails) linksWindow.getObject());
-            
-            ObjectInstancePairList objIds = this.serviceMCCheck.getCheckStub().addParameterCheck(checkLinkList, detailsList);
+
+            ObjectInstancePairList objIds = this.serviceMCCheck.getCheckStub().addParameterCheck(checkLinkList,
+                detailsList);
 
             if (objIds.isEmpty()) {
                 return;
             }
-            
+
             Thread.sleep(500);
             // Get the stored Action Definition from the Archive
-            ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(this.serviceMCCheck.getCOMServices().getArchiveService().getArchiveStub(),
-                    CheckHelper.CHECKLINK_OBJECT_TYPE, serviceMCCheck.getConnectionDetails().getDomain(), objIds.get(0).getObjDefInstanceId());
+            ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(this.serviceMCCheck.getCOMServices()
+                .getArchiveService().getArchiveStub(), CheckHelper.CHECKLINK_OBJECT_TYPE, serviceMCCheck
+                    .getConnectionDetails().getDomain(), objIds.get(0).getObjDefInstanceId());
 
             // Add the Check Link to the table
             checkLinksTable.addEntry(new Identifier("A check!!"), comObject);
@@ -634,7 +559,8 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
         } catch (InterruptedIOException ex) {
             return;
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "There was an error with the submitted check definition.", "Error", JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(null, "There was an error with the submitted check definition.", "Error",
+                JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(CheckConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_addParameterCheckActionPerformed
@@ -644,7 +570,7 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
         if (checkLinksTable.getSelectedRow() == -1) { // The row is not selected?
             return;  // Well, then nothing to be done here folks!
         }
-        
+
         Long objId = checkLinksTable.getSelectedDefinitionObjId();
         LongList longlist = new LongList();
         longlist.add(objId);
@@ -652,9 +578,7 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCCheck.getCheckStub().removeParameterCheck(longlist);
             checkLinksTable.removeSelectedEntry();
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(CheckConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(CheckConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -668,11 +592,6 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_actionDefinitionsTableComponentAdded
 
-
-    
-    
-    
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable actionDefinitionsTable;
     private javax.swing.JTable actionDefinitionsTable1;
@@ -699,6 +618,5 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
     private javax.swing.JButton triggerCheckButton;
     private javax.swing.JButton updateDefButton;
     // End of variables declaration//GEN-END:variables
-    
-    
+
 }

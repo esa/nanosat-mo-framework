@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -21,34 +21,35 @@
 package esa.mo.platform.impl.provider.softsim;
 
 import esa.mo.platform.impl.provider.gen.OpticalDataReceiverAdapterInterface;
+import esa.mo.platform.impl.provider.gen.PowerControlAdapterInterface;
 import opssat.simulator.main.ESASimulator;
 import org.ccsds.moims.mo.mal.structures.Duration;
+import org.ccsds.moims.mo.platform.powercontrol.structures.DeviceType;
 
 /**
  *
  * @author Cesar Coelho
  */
-public class OpticalDataReceiverSoftSimAdapter implements OpticalDataReceiverAdapterInterface
-{
+public class OpticalDataReceiverSoftSimAdapter implements OpticalDataReceiverAdapterInterface, SimulatorAdapter {
 
-  private final ESASimulator instrumentsSimulator;
+    private final ESASimulator instrumentsSimulator;
+    private PowerControlAdapterInterface pcAdapter;
 
-  public OpticalDataReceiverSoftSimAdapter(ESASimulator instrumentsSimulator)
-  {
-    this.instrumentsSimulator = instrumentsSimulator;
-  }
+    public OpticalDataReceiverSoftSimAdapter(ESASimulator instrumentsSimulator,
+        PowerControlAdapterInterface pcAdapter) {
+        this.instrumentsSimulator = instrumentsSimulator;
+        this.pcAdapter = pcAdapter;
+    }
 
-  @Override
-  public boolean isUnitAvailable()
-  {
-    return true;
-  }
+    @Override
+    public boolean isUnitAvailable() {
+        return pcAdapter.isDeviceEnabled(DeviceType.OPTRX);
+    }
 
-  @Override
-  public byte[] recordOpticalReceiverData(Duration recordingLength)
-  {
-    int nSamples = (int) (recordingLength.getValue() * 1000); // Assume 1kHz sample rate
-    return instrumentsSimulator.getpOpticalReceiver().readFromMessageBuffer(nSamples);
-  }
+    @Override
+    public byte[] recordOpticalReceiverData(Duration recordingLength) {
+        int nSamples = (int) (recordingLength.getValue() * 1000); // Assume 1kHz sample rate
+        return instrumentsSimulator.getpOpticalReceiver().readFromMessageBuffer(nSamples);
+    }
 
 }

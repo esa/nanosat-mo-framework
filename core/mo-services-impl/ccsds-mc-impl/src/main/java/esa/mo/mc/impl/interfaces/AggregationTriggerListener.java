@@ -1,6 +1,6 @@
 /* 
  * M&C Services for CCSDS Mission Operations Framework
- * Copyright (C) 2016 Deutsches Zentrum fuer Luft- und Raumfahrt e.V. (DLR).
+ * Copyright (C) 2021 Deutsches Zentrum fuer Luft- und Raumfahrt e.V. (DLR).
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -32,6 +32,6 @@ public interface AggregationTriggerListener {
      * 
      * @param name the name of the aggregation the update should be triggered of
      */
-    public void triggerAggregationUpdate(Identifier name);
+    void triggerAggregationUpdate(Identifier name);
 
 }

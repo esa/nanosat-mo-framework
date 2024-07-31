@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -44,23 +44,23 @@ import org.ccsds.moims.mo.platform.gps.structures.NearbyPositionDefinitionList;
  * @author Cesar Coelho
  */
 public final class GPSManager extends DefinitionsManager {
-    
+
     private Long uniqueObjIdDef; // Unique objId Definition (different for every Definition)
     private final HashMap<Long, Boolean> previousIsInsideStatus;
-    
-    public GPSManager(COMServicesProvider comServices){
+
+    public GPSManager(COMServicesProvider comServices) {
         super(comServices);
 
-        this.previousIsInsideStatus = new HashMap<Long, Boolean>();
-        
+        this.previousIsInsideStatus = new HashMap<>();
+
         if (super.getArchiveService() == null) {  // No Archive?
             this.uniqueObjIdDef = 0L; // The zeroth value will not be used (reserved for the wildcard)
-        }else{
-            
+        } else {
+
         }
 
     }
-    
+
     @Override
     public Boolean compareName(final Long objId, final Identifier name) {
         return this.get(objId).getName().equals(name);
@@ -83,75 +83,63 @@ public final class GPSManager extends DefinitionsManager {
         return previousIsInsideStatus.put(input, isInside);
     }
 
-    public NearbyPositionDefinitionList getAll(){
+    public NearbyPositionDefinitionList getAll() {
         return (NearbyPositionDefinitionList) this.getAllDefs();
     }
 
-    public Long add(final NearbyPositionDefinition definition, final ObjectId source, URI uri){
+    public Long add(final NearbyPositionDefinition definition, final ObjectId source, URI uri) {
         if (super.getArchiveService() == null) {
             uniqueObjIdDef++; // This line as to go before any writing (because it's initialized as zero and that's the wildcard)
             this.addDef(uniqueObjIdDef, definition);
             return uniqueObjIdDef;
-        }else{
+        } else {
             NearbyPositionDefinitionList defs = new NearbyPositionDefinitionList();
             defs.add(definition);
 
             try {
-                LongList objIds = super.getArchiveService().store(
-                        true,
-                        GPSHelper.NEARBYPOSITION_OBJECT_TYPE,
-                        ConfigurationProviderSingleton.getDomain(),
-                        HelperArchive.generateArchiveDetailsList(null, source, uri),
-                        defs,
-                        null);
+                LongList objIds = super.getArchiveService().store(true, GPSHelper.NEARBYPOSITION_OBJECT_TYPE,
+                    ConfigurationProviderSingleton.getDomain(), HelperArchive.generateArchiveDetailsList(null, source,
+                        uri), defs, null);
 
                 if (objIds.size() == 1) {  // Was it correctly added to the archive? Did it return a unique objId?
                     this.addDef(objIds.get(0), definition);
                     return objIds.get(0);
                 }
 
-            } catch (MALException ex) {
-                Logger.getLogger(GPSManager.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALInteractionException ex) {
+            } catch (MALException | MALInteractionException ex) {
                 Logger.getLogger(GPSManager.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
         return null;
     }
-      
-    public boolean delete(final Long objId){
+
+    public boolean delete(final Long objId) {
         return this.deleteDef(objId);
     }
 
-    protected Long storeAndGenerateNearbyPositionAlertId(final Boolean inside, 
+    protected Long storeAndGenerateNearbyPositionAlertId(final Boolean inside,
             final Long objId, final URI uri) {
         if (super.getArchiveService() != null) {
             BooleanList isEnteringList = new BooleanList();
             isEnteringList.add(inside);
 
             try {  // requirement: 3.3.4.2
-                LongList objIds = super.getArchiveService().store(
-                        true,
-                        GPSHelper.NEARBYPOSITIONALERT_OBJECT_TYPE,
-                        ConfigurationProviderSingleton.getDomain(),
-                        HelperArchive.generateArchiveDetailsList(objId, null, uri),
-                        isEnteringList,
-                        null);
+                LongList objIds = super.getArchiveService().store(true, GPSHelper.NEARBYPOSITIONALERT_OBJECT_TYPE,
+                    ConfigurationProviderSingleton.getDomain(), HelperArchive.generateArchiveDetailsList(objId, null,
+                        uri), isEnteringList, null);
 
                 if (objIds.size() == 1) {
                     return objIds.get(0);
                 }
 
-            } catch (MALException ex) {
-                Logger.getLogger(GPSManager.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALInteractionException ex) {
+            } catch (MALException | MALInteractionException ex) {
                 Logger.getLogger(GPSManager.class.getName()).log(Level.SEVERE, null, ex);
             }
 
             return null;
         }
-        
+
         return 0L;
     }
 

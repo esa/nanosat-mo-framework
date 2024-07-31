@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -29,7 +29,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.persistence.*;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALElementFactory;
 import org.ccsds.moims.mo.mal.MALException;
@@ -37,77 +36,28 @@ import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.FineTime;
 
 /**
- * The entity class that holds COM objects in the database.
+ * The entity class that holds COM objects. Used to be a persistence entity
+ * however eclipse-link was removed. Now, this class is used to hold COM
+ * Objects.
  *
  * @author Cesar Coelho
  */
-@Entity
-@IdClass(COMObjectEntityPK.class)
-@Table(name = "COMObjectEntity",
-        indexes = {
-            @Index(name = "index_related2", columnList = "relatedLink", unique = false),
-//            @Index(name = "index_network2", columnList = "network", unique = false),
-            @Index(name = "index_timestampArchiveDetails2", columnList = "timestampArchiveDetails", unique = false)
-//            @Index(name = "index_providerURI2", columnList = "providerURI", unique = false)
-        })
 public class COMObjectEntity implements Serializable {
 
-    // ---------------------    
-    @Id
-    @Column(name = "objectTypeId")
     private Integer objectTypeId;
-
-    @Id
-    @Column(name = "domainId")
     private Integer domainId;
-
-    @Id
-    @Column(name = "objId")
     private Long objId;
-    // ---------------------    
-
-    @Column(name = "relatedLink")
     private Long relatedLink;
-
-    @Column(name = "network")
     private Integer network;
-
-    @Column(name = "timestampArchiveDetails")
     private Long timestampArchiveDetails;
-
-    @Column(name = "providerURI")
     private Integer providerURI;
-
-    private byte[] obj;
-
-    // ---------------------    
-    @Column(name = "sourceLinkObjectTypeId")
+    private byte[] objBody;
     private Integer sourceLinkObjectTypeId;
-
-    @Column(name = "sourceLinkDomainId")
     private Integer sourceLinkDomainId;
-
-    @Column(name = "sourceLinkObjId")
     private Long sourceLinkObjId;
-    // ---------------------    
 
-    /**
-     * This method only exists because Eclipse Link needs the constructor
-     * without parameters
-     */
-    protected COMObjectEntity() {
-    }
-
-    public COMObjectEntity(
-            Integer objectTypeId,
-            Integer domain,
-            Long objId,
-            Long timestampArchiveDetails,
-            Integer providerURI,
-            Integer network,
-            SourceLinkContainer sourceLink,
-            Long relatedLink,
-            Object object) {
+    public COMObjectEntity(Integer objectTypeId, Integer domain, Long objId, Long timestampArchiveDetails,
+        Integer providerURI, Integer network, SourceLinkContainer sourceLink, Long relatedLink, Object object) {
         this.objectTypeId = objectTypeId;
         this.domainId = domain;
         this.objId = objId;
@@ -118,10 +68,11 @@ public class COMObjectEntity implements Serializable {
         this.relatedLink = relatedLink;
 
         this.sourceLinkObjectTypeId = (sourceLink == null) ? null : sourceLink.getObjectTypeId();
-        this.sourceLinkDomainId = (sourceLink == null || sourceLink.getDomainId() == null) ? null : sourceLink.getDomainId();
+        this.sourceLinkDomainId = (sourceLink == null || sourceLink.getDomainId() == null) ? null : sourceLink
+            .getDomainId();
         this.sourceLinkObjId = (sourceLink == null) ? null : sourceLink.getObjId();
 
-        this.obj = null;
+        this.objBody = null;
         final Element ele = (Element) HelperAttributes.javaType2Attribute(object);
 
         if (ele != null) {
@@ -130,26 +81,17 @@ public class COMObjectEntity implements Serializable {
                 final BinaryEncoder be = new BinaryEncoder(bodyBaos);
                 be.encodeLong(ele.getShortForm());
                 be.encodeNullableElement(ele);
-                this.obj = bodyBaos.toByteArray();
+                this.objBody = bodyBaos.toByteArray();
                 be.close();
             } catch (MALException ex) {
                 Logger.getLogger(COMObjectEntity.class.getName()).log(Level.SEVERE,
-                        "Could not encode COM object with object body class: "
-                        + ele.getClass().getSimpleName(), ex);
+                    "Could not encode COM object with object body class: " + ele.getClass().getSimpleName(), ex);
             }
         }
     }
 
-    public COMObjectEntity(
-            Integer objectTypeId,
-            Integer domain,
-            Long objId,
-            Long timestampArchiveDetails,
-            Integer providerURI,
-            Integer network,
-            SourceLinkContainer sourceLink,
-            Long relatedLink,
-            byte[] object) {
+    public COMObjectEntity(Integer objectTypeId, Integer domain, Long objId, Long timestampArchiveDetails,
+        Integer providerURI, Integer network, SourceLinkContainer sourceLink, Long relatedLink, byte[] object) {
         this.objectTypeId = objectTypeId;
         this.domainId = domain;
         this.objId = objId;
@@ -163,7 +105,7 @@ public class COMObjectEntity implements Serializable {
         this.sourceLinkDomainId = sourceLink.getDomainId();
         this.sourceLinkObjId = sourceLink.getObjId();
 
-        this.obj = object;
+        this.objBody = object;
     }
 
     public static COMObjectEntityPK generatePK(final Integer objectTypeId, final Integer domain, final Long objId) {
@@ -192,11 +134,7 @@ public class COMObjectEntity implements Serializable {
 
     public SourceLinkContainer getSourceLink() {
         final Integer domainIdLocal = (sourceLinkDomainId != null) ? sourceLinkDomainId : null;
-        return new SourceLinkContainer(
-                sourceLinkObjectTypeId,
-                domainIdLocal,
-                sourceLinkObjId
-        );
+        return new SourceLinkContainer(sourceLinkObjectTypeId, domainIdLocal, sourceLinkObjId);
     }
 
     public Integer getNetwork() {
@@ -212,29 +150,30 @@ public class COMObjectEntity implements Serializable {
     }
 
     public byte[] getObjectEncoded() {
-        return this.obj;
+        return this.objBody;
     }
 
     public Object getObject() {
         Element elem = null;
 
-        if (this.obj != null) {
+        if (this.objBody != null) {
             try {
-                final BinaryDecoder binDec = new BinaryDecoder(this.obj);
-                final MALElementFactory eleFact = MALContextFactory.getElementFactoryRegistry().lookupElementFactory(binDec.decodeLong());
+                final BinaryDecoder binDec = new BinaryDecoder(this.objBody);
+                final MALElementFactory eleFact = MALContextFactory.getElementFactoryRegistry().lookupElementFactory(
+                    binDec.decodeLong());
                 elem = binDec.decodeNullableElement((Element) eleFact.createElement());
             } catch (MALException ex) {
                 Logger.getLogger(COMObjectEntity.class.getName()).log(Level.SEVERE,
-                        "The object body could not be decoded! Usually happens when there's "
-                        + "an update in the APIs. (1) " + this.toString(), ex);
+                    "The object body could not be decoded! Usually happens when there's " +
+                        "an update in the APIs. (1) " + this.toString(), ex);
             } catch (IllegalArgumentException ex) {
                 Logger.getLogger(COMObjectEntity.class.getName()).log(Level.SEVERE,
-                        "The object body could not be decoded! Usually happens when there's "
-                        + "an update in the APIs. (2) " + this.toString(), ex);
+                    "The object body could not be decoded! Usually happens when there's " +
+                        "an update in the APIs. (2) " + this.toString(), ex);
             } catch (Exception ex) {
                 Logger.getLogger(COMObjectEntity.class.getName()).log(Level.SEVERE,
-                        "The object body could not be decoded! Usually happens when there's "
-                        + "an update in the APIs. (3) " + this.toString(), ex);
+                    "The object body could not be decoded! Usually happens when there's " +
+                        "an update in the APIs. (3) " + this.toString(), ex);
             }
         }
 
@@ -243,8 +182,8 @@ public class COMObjectEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "COM Object: this.objectTypeId=" + this.objectTypeId
-                + ", this.domainId=" + this.domainId + ", this.objId=" + this.objId;
+        return "----\nFor COM Object:\nobjectTypeId=" + this.objectTypeId + "\ndomainId=" + this.domainId + "\nobjId=" +
+            this.objId;
     }
 
 }

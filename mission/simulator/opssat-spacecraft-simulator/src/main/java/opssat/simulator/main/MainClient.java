@@ -1,13 +1,13 @@
 /*
  *  ----------------------------------------------------------------------------
- *  Copyright (C) 2016      European Space Agency
+ *  Copyright (C) 2021      European Space Agency
  *                          European Space Operations Centre
  *                          Darmstadt
  *                          Germany
  *  ----------------------------------------------------------------------------
  *  System                : ESA NanoSat MO Framework
  *  ----------------------------------------------------------------------------
- *  Licensed under the European Space Agency Public License, Version 2.0
+ *  Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  *  You may not use this file except in compliance with the License.
  * 
  *  Except as expressly set forth in this License, the Software is provided to
@@ -35,12 +35,12 @@ public class MainClient {
     private static GuiApp guiApp;
 
     public static void main(String[] args) {
-      
+
         LookAndFeelInfo[] info = UIManager.getInstalledLookAndFeels();
-        for(int i = 0; i < info.length; i++) {
-          System.out.println(info[i].toString());
+        for (int i = 0; i < info.length; i++) {
+            System.out.println(info[i].toString());
         }
-     
+
         if (args.length == 2) {
             guiApp = new GuiApp(args[0], Integer.parseInt(args[1]));
         } else {

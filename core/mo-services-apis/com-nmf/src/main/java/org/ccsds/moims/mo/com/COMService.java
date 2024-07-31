@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : CCSDS MO COM Java API
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -21,7 +21,6 @@
 package org.ccsds.moims.mo.com;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,72 +32,66 @@ import org.ccsds.moims.mo.mal.structures.UShort;
 /**
  *
  */
-public class COMService extends MALService
-{
-  private final Map<Integer, COMObject> objectsByNumber = new HashMap<Integer, COMObject>();
-  private final Map<String, COMObject> objectsByName = new HashMap<String, COMObject>();
-  
-  public COMService(UShort number, Identifier name)
-  {
-    super(number, name);
-  }
+public class COMService extends MALService {
+    private final Map<Integer, COMObject> objectsByNumber = new HashMap<>();
+    private final Map<String, COMObject> objectsByName = new HashMap<>();
 
-  /**
-   * Adds a COM object to this service specification.
-   *
-   * @param object The new object to add.
-   * @throws java.lang.IllegalArgumentException If the argument is null.
-   */
-  @Proposed
-  public void addCOMObject(COMObject object) throws java.lang.IllegalArgumentException
-  {
-    if(object == null) {
-      throw new IllegalArgumentException("object must not be null.");
+    public COMService(UShort number, Identifier name) {
+        super(number, name);
     }
-    objectsByNumber.put(object.getObjectType().getNumber().getValue(), object);
-    objectsByName.put(object.getObjectName().getValue(), object);
-  }
 
-  /**
-   * Return an object identified by its number.
-   *
-   * @param opNumber The number of the object.
-   * @return The found operation or null.
-   * @throws java.lang.IllegalArgumentException If opNumber == null.
-   */
-  public COMObject getObjectByNumber(final UShort opNumber) throws IllegalArgumentException
-  {
-    if(opNumber == null) {
-      throw new IllegalArgumentException("opNumber must not be null.");
+    /**
+     * Adds a COM object to this service specification.
+     *
+     * @param object The new object to add.
+     * @throws java.lang.IllegalArgumentException If the argument is null.
+     */
+    @Proposed
+    public void addCOMObject(COMObject object) throws java.lang.IllegalArgumentException {
+        if (object == null) {
+            throw new IllegalArgumentException("object must not be null.");
+        }
+        objectsByNumber.put(object.getObjectType().getNumber().getValue(), object);
+        objectsByName.put(object.getObjectName().getValue(), object);
     }
-    return objectsByNumber.get(opNumber.getValue());
-  }
 
-  /**
-   * Return an object identified by its name.
-   *
-   * @param opName The name of the object.
-   * @return The found operation or null.
-   * @throws java.lang.IllegalArgumentException If opName == null.
-   */
-  public COMObject getObjectByName(final Identifier opName) throws IllegalArgumentException
-  {
-    if(opName == null) {
-      throw new IllegalArgumentException("opName must not be null.");
+    /**
+     * Return an object identified by its number.
+     *
+     * @param opNumber The number of the object.
+     * @return The found operation or null.
+     * @throws java.lang.IllegalArgumentException If opNumber == null.
+     */
+    public COMObject getObjectByNumber(final UShort opNumber) throws IllegalArgumentException {
+        if (opNumber == null) {
+            throw new IllegalArgumentException("opNumber must not be null.");
+        }
+        return objectsByNumber.get(opNumber.getValue());
     }
-    return objectsByName.get(opName.getValue());
-  }
 
-  /**
-   * Returns the set of objects.
-   *
-   * @return The set of objects or an empty array if none defined.
-   */
-  public COMObject[] getObjects()
-  {
-    List<COMObject> lst = new ArrayList<COMObject>(objectsByName.values());
-    COMObject[] result = new COMObject[lst.size()];
-    lst.toArray(result);
-    return result;
-  }
+    /**
+     * Return an object identified by its name.
+     *
+     * @param opName The name of the object.
+     * @return The found operation or null.
+     * @throws java.lang.IllegalArgumentException If opName == null.
+     */
+    public COMObject getObjectByName(final Identifier opName) throws IllegalArgumentException {
+        if (opName == null) {
+            throw new IllegalArgumentException("opName must not be null.");
+        }
+        return objectsByName.get(opName.getValue());
+    }
+
+    /**
+     * Returns the set of objects.
+     *
+     * @return The set of objects or an empty array if none defined.
+     */
+    public COMObject[] getObjects() {
+        List<COMObject> lst = new ArrayList<>(objectsByName.values());
+        COMObject[] result = new COMObject[lst.size()];
+        lst.toArray(result);
+        return result;
+    }
 }

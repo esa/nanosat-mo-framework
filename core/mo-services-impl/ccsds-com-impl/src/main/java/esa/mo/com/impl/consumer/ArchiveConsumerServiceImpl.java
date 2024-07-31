@@ -1,21 +1,21 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
  * You on an "as is" basis and without warranties of any kind, including without
  * limitation merchantability, fitness for a particular purpose, absence of
  * defects or errors, accuracy or non-infringement of intellectual property rights.
- * 
+ *
  * See the License for the specific language governing permissions and
- * limitations under the License. 
+ * limitations under the License.
  * ----------------------------------------------------------------------------
  */
 package esa.mo.com.impl.consumer;
@@ -32,6 +32,7 @@ import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.consumer.MALConsumer;
+import org.ccsds.moims.mo.mal.structures.Blob;
 
 /**
  *
@@ -55,7 +56,13 @@ public class ArchiveConsumerServiceImpl extends ConsumerServiceImpl {
         return archiveService;
     }
 
-    public ArchiveConsumerServiceImpl(SingleConnectionDetails connectionDetails) throws MALException, MalformedURLException {
+    public ArchiveConsumerServiceImpl(SingleConnectionDetails connectionDetails) throws MALException,
+        MalformedURLException {
+        this(connectionDetails, null, null);
+    }
+
+    public ArchiveConsumerServiceImpl(SingleConnectionDetails connectionDetails, Blob authenticationId,
+        String localNamePrefix) throws MALException, MalformedURLException {
 
         if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
             MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -65,9 +72,9 @@ public class ArchiveConsumerServiceImpl extends ConsumerServiceImpl {
             COMHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 
-        try {
+        if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION).getServiceByName(
+            ArchiveHelper.ARCHIVE_SERVICE_NAME) == null) {
             ArchiveHelper.init(MALContextFactory.getElementFactoryRegistry());
-        } catch (MALException ex) {
         }
 
         this.connectionDetails = connectionDetails;
@@ -81,11 +88,9 @@ public class ArchiveConsumerServiceImpl extends ConsumerServiceImpl {
             }
         }
 
-        tmConsumer = connection.startService(
-                this.connectionDetails.getProviderURI(),
-                this.connectionDetails.getBrokerURI(),
-                this.connectionDetails.getDomain(),
-                ArchiveHelper.ARCHIVE_SERVICE);
+        tmConsumer = connection.startService(this.connectionDetails.getProviderURI(), this.connectionDetails
+            .getBrokerURI(), this.connectionDetails.getDomain(), ArchiveHelper.ARCHIVE_SERVICE, authenticationId,
+            localNamePrefix);
 
         this.archiveService = new ArchiveStub(tmConsumer);
 

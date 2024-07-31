@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -44,8 +44,7 @@ public class Magnetometer {
         // From: http://en.wikipedia.org/wiki/Dipole_model_of_the_Earth%27s_magnetic_field
         Orbit.OrbitParameters param = orbit.getParameters();
         double theta = Math.PI - param.getlatitude() * Math.PI / 180;
-        double B_r = -2 * B_0 * Math.pow(R_e / param.geta(), 3) * Math.cos(theta);
-        return B_r;
+        return -2 * B_0 * Math.pow(R_e / param.geta(), 3) * Math.cos(theta);
     }
 
     /**
@@ -57,8 +56,7 @@ public class Magnetometer {
         // From: http://en.wikipedia.org/wiki/Dipole_model_of_the_Earth%27s_magnetic_field
         Orbit.OrbitParameters param = orbit.getParameters();
         double theta = Math.PI - param.getlatitude() * Math.PI / 180;
-        double B_theta = -B_0 * Math.pow(R_e / param.geta(), 3) * Math.sin(theta);
-        return B_theta;
+        return -B_0 * Math.pow(R_e / param.geta(), 3) * Math.sin(theta);
     }
 
 }

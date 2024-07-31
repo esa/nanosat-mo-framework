@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -24,6 +24,8 @@ import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.mc.impl.consumer.ActionConsumerServiceImpl;
+import esa.mo.nmf.NMFException;
+import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 import esa.mo.tools.mowindow.MOWindow;
 import java.io.InterruptedIOException;
 import java.util.Map;
@@ -62,21 +64,22 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
 
     private final ActionConsumerServiceImpl serviceMCAction;
     private final ActionTablePanel actionTable;
+    private GroundMOAdapterImpl gma;
 
     /**
      * Creates new formAddModifyParameter ConsumerPanelArchive
      *
-     * @param serviceMCAction
+     * @param groundMOAdapter
      */
-    public ActionConsumerPanel(ActionConsumerServiceImpl serviceMCAction) {
+    public ActionConsumerPanel(GroundMOAdapterImpl groundMOAdapter) {
         initComponents();
-
-        this.serviceMCAction = serviceMCAction;
+        this.gma = groundMOAdapter;
+        this.serviceMCAction = groundMOAdapter.getMCServices().getActionService();
         actionTable = new ActionTablePanel(serviceMCAction.getCOMServices().getArchiveService());
         jScrollPane2.setViewportView(actionTable);
     }
-    
-    public void init(){
+
+    public void init() {
         this.listDefinitionAllButtonActionPerformed(null);
     }
 
@@ -106,28 +109,32 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("Action Service");
+        jLabel6.setText("Action Service - Definitions");
         jLabel6.setToolTipText("");
 
         jScrollPane2.setHorizontalScrollBar(null);
         jScrollPane2.setPreferredSize(new java.awt.Dimension(796, 380));
         jScrollPane2.setRequestFocusEnabled(false);
 
-        actionDefinitionsTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, Boolean.TRUE, null},
-                {null, null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "Identity", "Obj Inst Id", "name", "description", "rawType", "rawUnit", "generationEnabled", "updateInterval"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Float.class
-            };
+        actionDefinitionsTable.setModel(new javax.swing.table.DefaultTableModel(new Object[][]{{null, null, null, null,
+                                                                                                null, null,
+                                                                                                Boolean.TRUE, null}, {
+                                                                                                                      null,
+                                                                                                                      null,
+                                                                                                                      null,
+                                                                                                                      null,
+                                                                                                                      null,
+                                                                                                                      null,
+                                                                                                                      null,
+                                                                                                                      null}},
+            new String[]{"Identity", "Obj Inst Id", "name", "description", "rawType", "rawUnit", "generationEnabled",
+                         "updateInterval"}) {
+            Class[] types = new Class[]{java.lang.Object.class, java.lang.Integer.class, java.lang.String.class,
+                                        java.lang.String.class, java.lang.Object.class, java.lang.String.class,
+                                        java.lang.Boolean.class, java.lang.Float.class};
 
             public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
+                return types[columnIndex];
             }
         });
         actionDefinitionsTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
@@ -144,91 +151,54 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
         parameterTab.setLayout(new java.awt.GridLayout(2, 1));
 
         submitAction.setText("submitAction");
-        submitAction.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                submitActionActionPerformed(evt);
-            }
-        });
+        submitAction.addActionListener(this::submitActionActionPerformed);
         jPanel1.add(submitAction);
 
         preCheckActionButton.setText("preCheckAction");
-        preCheckActionButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                preCheckActionButtonActionPerformed(evt);
-            }
-        });
+        preCheckActionButton.addActionListener(this::preCheckActionButtonActionPerformed);
         jPanel1.add(preCheckActionButton);
 
         listDefinitionButton.setText("listDefinition()");
-        listDefinitionButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                listDefinitionButtonActionPerformed(evt);
-            }
-        });
+        listDefinitionButton.addActionListener(this::listDefinitionButtonActionPerformed);
         jPanel1.add(listDefinitionButton);
 
         parameterTab.add(jPanel1);
 
         addDefinitionButton.setText("addDefinition");
-        addDefinitionButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addDefinitionButtonActionPerformed(evt);
-            }
-        });
+        addDefinitionButton.addActionListener(this::addDefinitionButtonActionPerformed);
         jPanel5.add(addDefinitionButton);
 
         updateDefinitionButton.setText("updateDefinition");
-        updateDefinitionButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                updateDefinitionButtonActionPerformed(evt);
-            }
-        });
+        updateDefinitionButton.addActionListener(this::updateDefinitionButtonActionPerformed);
         jPanel5.add(updateDefinitionButton);
 
         removeDefinitionButton.setText("removeDefinition");
-        removeDefinitionButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeDefinitionButtonActionPerformed(evt);
-            }
-        });
+        removeDefinitionButton.addActionListener(this::removeDefinitionButtonActionPerformed);
         jPanel5.add(removeDefinitionButton);
 
         listDefinitionAllButton.setText("listDefinition(\"*\")");
-        listDefinitionAllButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                listDefinitionAllButtonActionPerformed(evt);
-            }
-        });
+        listDefinitionAllButton.addActionListener(this::listDefinitionAllButtonActionPerformed);
         jPanel5.add(listDefinitionAllButton);
 
         removeDefinitionAllButton.setText("removeDefinition(0)");
-        removeDefinitionAllButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeDefinitionAllButtonActionPerformed(evt);
-            }
-        });
+        removeDefinitionAllButton.addActionListener(this::removeDefinitionAllButtonActionPerformed);
         jPanel5.add(removeDefinitionAllButton);
 
         parameterTab.add(jPanel5);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(parameterTab, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 882, Short.MAX_VALUE)
-            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel6)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(parameterTab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
+        layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
+            parameterTab, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE).addComponent(jScrollPane2,
+                javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 882, Short.MAX_VALUE)
+            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+                Short.MAX_VALUE));
+        layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout
+            .createSequentialGroup().addContainerGap().addComponent(jLabel6).addGap(18, 18, 18).addComponent(
+                jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE).addPreferredGap(
+                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(parameterTab,
+                        javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+                        javax.swing.GroupLayout.PREFERRED_SIZE)));
     }// </editor-fold>//GEN-END:initComponents
 
     private void submitActionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitActionActionPerformed
@@ -242,15 +212,16 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
         ActionDefinitionDetails actDef = (ActionDefinitionDetails) comObject.getObject();
         AttributeValueList argumentValueList = new AttributeValueList();
         ArgumentDefinitionDetailsList arguments = actDef.getArguments();
-        
-        if (arguments != null){
+
+        if (arguments != null) {
             for (int i = 0; i < arguments.size(); i++) {
                 if (arguments.get(i) == null) {  // If the argument is null, then please jump over it
                     argumentValueList.add(null);
                     continue;
                 }
 
-                String attributeName = HelperAttributes.typeShortForm2attributeName(arguments.get(i).getRawType().intValue());
+                String attributeName = HelperAttributes.typeShortForm2attributeName(arguments.get(i).getRawType()
+                    .intValue());
                 Object aaa = HelperAttributes.attributeName2object(attributeName);
                 Attribute elem = (Attribute) HelperAttributes.javaType2Attribute(aaa);
 
@@ -261,45 +232,43 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
             }
         }
 
-        ActionInstanceDetails actionInstanceDetails = new ActionInstanceDetails();
-        actionInstanceDetails.setDefInstId(actionTable.getSelectedDefinitionObjId());
-
-        actionInstanceDetails.setStageStartedRequired(true);
-        actionInstanceDetails.setStageProgressRequired(true);
-        actionInstanceDetails.setStageCompletedRequired(true);
-        actionInstanceDetails.setArgumentValues(argumentValueList);
-        actionInstanceDetails.setArgumentIds(null);
-        actionInstanceDetails.setIsRawValue(null);
-
-        MOWindow genericObject = new MOWindow(actionInstanceDetails, true);
+        // Allow the user to specify the arguments
+        MOWindow moWindow = new MOWindow(argumentValueList, true, "Action arguments list");
         try {
-            actionInstanceDetails = (ActionInstanceDetails) genericObject.getObject();
+            argumentValueList = (AttributeValueList) moWindow.getObject();
         } catch (InterruptedIOException ex) {
             return;
         }
 
-        // Store the Action Instance in the Archive and get an object instance identifier to use during the submit
         try {
-            /*
-            LongList objIdActionInstances = this.serviceMCAction.getCOMServices().getArchiveService().getArchiveStub().store(
-                    true,
-                    ActionHelper.ACTIONINSTANCE_OBJECT_TYPE,
-                    serviceMCAction.getConnectionDetails().getDomain(),
-                    HelperArchive.generateArchiveDetailsList(objIdDef, null, serviceMCAction.getConnectionDetails()),
-                    actionInstanceDetailsList);
+            Long definitionObjId = actionTable.getSelectedDefinitionObjId();
+            Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.INFO, 
+                    "Triggering action with id: " + definitionObjId);
+            
+            gma.launchAction(definitionObjId, argumentValueList, new ActionAdapter() {
+                @Override
+                public void submitActionAckReceived(MALMessageHeader msgHeader, Map qosProperties) {
+                    super.submitActionAckReceived(msgHeader, qosProperties);
+                    JOptionPane.showMessageDialog(null, "The action instance was successfully submitted.", "Success",
+                        JOptionPane.PLAIN_MESSAGE);
+                }
 
-             */
-
-//            this.serviceMCAction.getActionStub().submitAction(objIdActionInstances.get(0), actionInstanceDetails);
-            this.serviceMCAction.getActionStub().submitAction(System.currentTimeMillis(), actionInstanceDetails);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
-            JOptionPane.showMessageDialog(null, "There was an error with the submitted action instance.", "Error", JOptionPane.PLAIN_MESSAGE);
+                @Override
+                public void submitActionErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                    Map qosProperties) {
+                    super.submitActionErrorReceived(msgHeader, error, qosProperties);
+                    JOptionPane.showMessageDialog(
+                            null, 
+                            "The submitted action failed: " + error.toString(), 
+                            "Error", JOptionPane.PLAIN_MESSAGE);
+                }
+            });
+        } catch (NMFException ex) {
+            JOptionPane.showMessageDialog(null, "There was an error with the submitted action.", "Error",
+                JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        JOptionPane.showMessageDialog(null, "The action instance was successfully submitted.", "Success", JOptionPane.PLAIN_MESSAGE);
     }//GEN-LAST:event_submitActionActionPerformed
 
     private void listDefinitionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listDefinitionButtonActionPerformed
@@ -309,24 +278,24 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
         try {
             ObjectInstancePairList objIds;
             try {
-                objIds = this.serviceMCAction.getActionStub().listDefinition((IdentifierList) actionNamesWindow.getObject());
+                objIds = this.serviceMCAction.getActionStub().listDefinition((IdentifierList) actionNamesWindow
+                    .getObject());
             } catch (InterruptedIOException ex) {
                 return;
             }
 
-            String str = "Object instance identifiers on the provider: \n";
+            StringBuilder str = new StringBuilder("Object instance identifiers on the provider: \n");
             if (objIds != null) {
                 for (ObjectInstancePair objId : objIds) {
-                    str += "ObjId Def: " + objId.getObjDefInstanceId().toString()
-                            + " Identity: " + objId.getObjIdentityInstanceId().toString() + "\n";
+                    str.append("ObjId Def: ").append(objId.getObjDefInstanceId().toString()).append(" Identity: ")
+                        .append(objId.getObjIdentityInstanceId().toString()).append("\n");
                 }
             }
 
-            JOptionPane.showMessageDialog(null, str, "Returned List from the Provider", JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(null, str.toString(), "Returned List from the Provider",
+                JOptionPane.PLAIN_MESSAGE);
 
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -370,16 +339,15 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
 
             Thread.sleep(500);
             // Get the stored Action Definition from the Archive
-            ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(this.serviceMCAction.getCOMServices().getArchiveService().getArchiveStub(),
-                    ActionHelper.ACTIONDEFINITION_OBJECT_TYPE, serviceMCAction.getConnectionDetails().getDomain(), objIds.get(0).getObjDefInstanceId());
+            ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(this.serviceMCAction.getCOMServices()
+                .getArchiveService().getArchiveStub(), ActionHelper.ACTIONDEFINITION_OBJECT_TYPE, serviceMCAction
+                    .getConnectionDetails().getDomain(), objIds.get(0).getObjDefInstanceId());
 
             // Add the Action Definition to the table
             actionTable.addEntry(requestList.get(0).getName(), comObject);
-        } catch (MALInteractionException ex) {
-            JOptionPane.showMessageDialog(null, "There was an error with the submitted action instance.", "Error", JOptionPane.PLAIN_MESSAGE);
-            Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
-            JOptionPane.showMessageDialog(null, "There was an error with the submitted action instance.", "Error", JOptionPane.PLAIN_MESSAGE);
+        } catch (MALInteractionException | MALException ex) {
+            JOptionPane.showMessageDialog(null, "There was an error with the submitted action instance.", "Error",
+                JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InterruptedException ex) {
             Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -407,9 +375,7 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCAction.getActionStub().updateDefinition(objIds, defs);
             this.listDefinitionAllButtonActionPerformed(null);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_updateDefinitionButtonActionPerformed
@@ -426,9 +392,7 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
             this.serviceMCAction.getActionStub().removeAction(longlist);
 
             actionTable.removeSelectedEntry();
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_removeDefinitionButtonActionPerformed
@@ -439,7 +403,7 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
 
         /*
         ObjectInstancePairList output;
-
+        
         try {
             output = this.serviceMCAction.getActionStub().listDefinition(idList);
             actionTable.refreshTableWithIds(output, serviceMCAction.getConnectionDetails().getDomain(), ActionHelper.ACTIONDEFINITION_OBJECT_TYPE);
@@ -452,30 +416,31 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
             Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
             return;
         }
-
+        
         Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.INFO, "listDefinition(\"*\") returned {0} object instance identifiers", output.size());
-*/
+        */
         try {
             this.serviceMCAction.getActionStub().asyncListDefinition(idList, new ActionAdapter() {
                 @Override
-                public void listDefinitionResponseReceived(MALMessageHeader msgHeader, ObjectInstancePairList actionInstIds, Map qosProperties) {
-                    actionTable.refreshTableWithIds(actionInstIds, serviceMCAction.getConnectionDetails().getDomain(), ActionHelper.ACTIONDEFINITION_OBJECT_TYPE);
-                    Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.INFO, "listDefinition(\"*\") returned {0} object instance identifiers", actionInstIds.size());
+                public void listDefinitionResponseReceived(MALMessageHeader msgHeader,
+                    ObjectInstancePairList actionInstIds, Map qosProperties) {
+                    actionTable.refreshTableWithIds(actionInstIds, serviceMCAction.getConnectionDetails().getDomain(),
+                        ActionHelper.ACTIONDEFINITION_OBJECT_TYPE);
+                    Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.INFO,
+                        "listDefinition(\"*\") returned {0} object instance identifiers", actionInstIds.size());
                 }
 
                 @Override
-                public void listDefinitionErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
-                    JOptionPane.showMessageDialog(null, "There was an error during the listDefinition operation.", "Error", JOptionPane.PLAIN_MESSAGE);
+                public void listDefinitionErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                    Map qosProperties) {
+                    JOptionPane.showMessageDialog(null, "There was an error during the listDefinition operation.",
+                        "Error", JOptionPane.PLAIN_MESSAGE);
                     Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, error);
                 }
-            }
-            );
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+            });
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-
 
     }//GEN-LAST:event_listDefinitionAllButtonActionPerformed
 
@@ -487,9 +452,7 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCAction.getActionStub().removeAction(longlist);
             actionTable.removeAllEntries();
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_removeDefinitionAllButtonActionPerformed
@@ -510,21 +473,19 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
 
         try {
             this.serviceMCAction.getActionStub().preCheckAction(actionInstanceDetails);
-        } catch (MALInteractionException ex) {
-            JOptionPane.showMessageDialog(null, "There was an error with the submitted action instance.", "Error", JOptionPane.PLAIN_MESSAGE);
-            Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
-            JOptionPane.showMessageDialog(null, "There was an error with the submitted action instance.", "Error", JOptionPane.PLAIN_MESSAGE);
+        } catch (MALInteractionException | MALException ex) {
+            JOptionPane.showMessageDialog(null, "There was an error with the submitted action instance.", "Error",
+                JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        JOptionPane.showMessageDialog(null, "The action instance was successfully submitted.", "Success", JOptionPane.PLAIN_MESSAGE);
+        JOptionPane.showMessageDialog(null, "The action instance pre-check has passed successfully.", "Success",
+            JOptionPane.PLAIN_MESSAGE);
     }//GEN-LAST:event_preCheckActionButtonActionPerformed
 
     private void actionDefinitionsTableComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_actionDefinitionsTableComponentAdded
         // TODO add your handling code here:
     }//GEN-LAST:event_actionDefinitionsTableComponentAdded
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable actionDefinitionsTable;

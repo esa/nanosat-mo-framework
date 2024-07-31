@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -48,7 +48,7 @@ public class COMObjectStructure {
     private final Element object;
 
     public COMObjectStructure(final IdentifierList domain, final ObjectType objType,
-            final ArchiveDetails archiveDetails, final Element object) {
+        final ArchiveDetails archiveDetails, final Element object) {
         this.objType = objType;
         this.domain = domain;
         this.objId = archiveDetails.getInstId();
@@ -63,8 +63,8 @@ public class COMObjectStructure {
     }
 
     public COMObjectStructure(final ArchivePersistenceObject archivePersistenceObject) {
-        this(archivePersistenceObject.getDomain(), archivePersistenceObject.getObjectType(),
-                archivePersistenceObject.getArchiveDetails(), (Element) archivePersistenceObject.getObject());
+        this(archivePersistenceObject.getDomain(), archivePersistenceObject.getObjectType(), archivePersistenceObject
+            .getArchiveDetails(), (Element) archivePersistenceObject.getObject());
     }
 
     public ObjectType getObjType() {
@@ -117,13 +117,7 @@ public class COMObjectStructure {
     }
 
     public ArchiveDetails getArchiveDetails() {
-        return new ArchiveDetails(
-                objId,
-                new ObjectDetails(relatedLink, sourceLink),
-                network,
-                timestamp,
-                providerURI
-        );
+        return new ArchiveDetails(objId, new ObjectDetails(relatedLink, sourceLink), network, timestamp, providerURI);
     }
 
 }

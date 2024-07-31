@@ -1,13 +1,13 @@
 /*
  *  ----------------------------------------------------------------------------
- *  Copyright (C) 2016      European Space Agency
+ *  Copyright (C) 2021      European Space Agency
  *                          European Space Operations Centre
  *                          Darmstadt
  *                          Germany
  *  ----------------------------------------------------------------------------
  *  System                : ESA NanoSat MO Framework
  *  ----------------------------------------------------------------------------
- *  Licensed under the European Space Agency Public License, Version 2.0
+ *  Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  *  You may not use this file except in compliance with the License.
  * 
  *  Except as expressly set forth in this License, the Software is provided to
@@ -62,7 +62,7 @@ public abstract class GenericWavFileBasedOperatingBuffer implements SimulatorOpe
                 ClassLoader classLoader;
                 classLoader = getClass().getClassLoader();
                 final URL url2 = classLoader.getSystemResource(path);
-
+            
                 final InputStream inputStream = classLoader.getSystemResourceAsStream(path);
                 try {
                     File newFile = new File(absolutePath);
@@ -83,11 +83,10 @@ public abstract class GenericWavFileBasedOperatingBuffer implements SimulatorOpe
                 }
             }
             */
-            String absolutePath=SimulatorNode.handleResourcePath(path, logger, getClass().getClassLoader());
-            
-//            this.dataFilePath = Paths.get(absolutePath).toString();
-            this.dataFilePath = absolutePath;
-            
+
+            //            this.dataFilePath = Paths.get(absolutePath).toString();
+            this.dataFilePath = SimulatorNode.handleResourcePath(path, logger, getClass().getClassLoader(), false);
+
             WavFile wavFile;
             try {
                 wavFile = WavFile.openWavFile(new File(this.dataFilePath));
@@ -99,7 +98,7 @@ public abstract class GenericWavFileBasedOperatingBuffer implements SimulatorOpe
                 int framesRead;
                 // Read frames into buffer
                 framesRead = wavFile.readFrames(tempBuffer, (int) wavFile.getNumFrames());
-                this.dataBuffer = (Object) tempBuffer;
+                this.dataBuffer = tempBuffer;
                 this.operatingIndex = 0;
             } catch (WavFileException ex) {
                 Logger.getLogger(GenericWavFileBasedOperatingBuffer.class.getName()).log(Level.SEVERE, null, ex);
@@ -114,7 +113,7 @@ public abstract class GenericWavFileBasedOperatingBuffer implements SimulatorOpe
     @Override
     public boolean preparePath(String path) {
         boolean fileExists = true;
-        
+
         try {
             RandomAccessFile f = new RandomAccessFile(SimulatorNode.getResourcesPath() + path, "r");
             f.close();
@@ -124,7 +123,6 @@ public abstract class GenericWavFileBasedOperatingBuffer implements SimulatorOpe
             Logger.getLogger(GenericFileBasedOperatingBuffer.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        
         if (fileExists) {
             this.dataFilePath = path;
             return true;
@@ -165,7 +163,8 @@ public abstract class GenericWavFileBasedOperatingBuffer implements SimulatorOpe
                     result.append(",");
                 }
                 if (k > 10) {
-                    result.append(" and [" + (tempCast.length - k) + "] more , total [" + tempCast.length + "] doubles.");
+                    result.append(" and [" + (tempCast.length - k) + "] more , total [" + tempCast.length +
+                        "] doubles.");
                     break;
                 }
             }

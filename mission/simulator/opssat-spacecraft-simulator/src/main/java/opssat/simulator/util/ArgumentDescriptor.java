@@ -1,13 +1,13 @@
 /*
  *  ----------------------------------------------------------------------------
- *  Copyright (C) 2016      European Space Agency
+ *  Copyright (C) 2021      European Space Agency
  *                          European Space Operations Centre
  *                          Darmstadt
  *                          Germany
  *  ----------------------------------------------------------------------------
  *  System                : ESA NanoSat MO Framework
  *  ----------------------------------------------------------------------------
- *  Licensed under the European Space Agency Public License, Version 2.0
+ *  Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  *  You may not use this file except in compliance with the License.
  * 
  *  Except as expressly set forth in this License, the Software is provided to
@@ -23,7 +23,6 @@ package opssat.simulator.util;
 
 import java.io.Serializable;
 import java.util.Locale;
-
 
 /**
  *
@@ -42,60 +41,46 @@ public class ArgumentDescriptor implements Serializable {
         this.defaultType = type;
         this.defaultName = name;
     }
+
     public ArgumentDescriptor(String type, String name) {
-        
+
         this.name = name;
         if (type.equals("Boolean")) {
-            Boolean newData = false;
-            this.type = newData;
+            this.type = false;
         } else if (type.equals("Integer") || type.equals("int")) {
-            int newData = 0;
-            this.type = newData;
+            this.type = 0;
         } else if (type.equals("Float")) {
-            float newData = (float) 0.0;
-            this.type = newData;
+            this.type = (float) 0.0;
         } else if (type.equals("String")) {
-            String newData = "";
-            this.type = newData;
+            this.type = "";
         } else if (type.equals("byte[]")) {
-            byte[] newData = new byte[0];
-            this.type = newData;
+            this.type = new byte[0];
         } else if (type.equals("float")) {
-            float newData = (float) 0.0;
-            this.type = newData;
+            this.type = (float) 0.0;
         } else if (type.equals("float[]")) {
-            float newData[] = new float[0];
-            this.type = newData;
+            this.type = new float[0];
         } else if (type.equals("long")) {
-            float newData = (long) 0.0;
-            this.type = newData;
+            this.type = (float) (long) 0.0;
         } else if (type.equals("long[]")) {
-            long newData[] = new long[0];
-            this.type = newData;
+            this.type = new long[0];
         } else if (type.equals("int[]")) {
-            int newData[] = new int[0];
-            this.type = newData;
+            this.type = new int[0];
         } else if (type.startsWith("int[")) {
-            String partial=type.substring(4);
-            partial=partial.substring(0,partial.length()-1);
-            int newData[] = new int[Integer.parseInt(partial)];
-            this.type = newData;
+            String partial = type.substring(4);
+            partial = partial.substring(0, partial.length() - 1);
+            this.type = new int[Integer.parseInt(partial)];
         } else if (type.startsWith("float[")) {
-            String partial=type.substring(6);
-            partial=partial.substring(0,partial.length()-1);
-            float newData[] = new float[Integer.parseInt(partial)];
-            this.type = newData;
+            String partial = type.substring(6);
+            partial = partial.substring(0, partial.length() - 1);
+            this.type = new float[Integer.parseInt(partial)];
         } else if (type.equals("double")) {
-            double newData = (double) 0.0;
-            this.type = newData;
+            this.type = (double) 0.0;
         } else if (type.equals("double[]")) {
-            double newData[] = new double[0];
-            this.type = newData;
+            this.type = new double[0];
         } else {
             //logger.info("Error on ArgumentDescriptor(String type, String name) with ArgumentDescriptor(["+type+"],["+name+"])");
             this.name = "UnknownDeviceDataTypeString{" + type + "}";
-            Object newObject=null;
-            this.type= newObject;
+            this.type = null;
         }
         this.defaultType = this.type;
         this.defaultName = this.name;
@@ -105,14 +90,15 @@ public class ArgumentDescriptor implements Serializable {
         this.type = this.defaultType;
         this.name = this.defaultName;
     }
-    public float getTypeAsFloatByIndex(int index)
-    {
-        return ((float []) type)[index];
+
+    public float getTypeAsFloatByIndex(int index) {
+        return ((float[]) type)[index];
     }
-    public int getTypeAsIntByIndex(int index)
-    {
-        return ((int []) type)[index];
+
+    public int getTypeAsIntByIndex(int index) {
+        return ((int[]) type)[index];
     }
+
     public Object getType() {
         return type;
     }
@@ -120,23 +106,23 @@ public class ArgumentDescriptor implements Serializable {
     public void setType(Object type) {
         this.type = type;
     }
-    
-    public void setIntTypeByIndex(int newValue,int index) {
-        int[] cast=((int[]) this.type);
-        if (cast.length<index+1)
-        {
-            this.type=new int[index+1];
+
+    public void setIntTypeByIndex(int newValue, int index) {
+        int[] cast = ((int[]) this.type);
+        if (cast.length < index + 1) {
+            this.type = new int[index + 1];
         }
-        ((int[]) this.type)[index]=newValue;
+        ((int[]) this.type)[index] = newValue;
     }
-    public void setFloatTypeByIndex(float newValue,int index) {
-        float[] cast=((float[]) this.type);
-        if (cast.length<index+1)
-        {
-            this.type=new float[index+1];
+
+    public void setFloatTypeByIndex(float newValue, int index) {
+        float[] cast = ((float[]) this.type);
+        if (cast.length < index + 1) {
+            this.type = new float[index + 1];
         }
-        ((float[]) this.type)[index]=newValue;
+        ((float[]) this.type)[index] = newValue;
     }
+
     public String getName() {
         return name;
     }
@@ -144,10 +130,10 @@ public class ArgumentDescriptor implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+
     @Override
-    public String toString()
-    {
-        String formattedArgs="";
+    public String toString() {
+        String formattedArgs = "";
         if (type instanceof Byte) {
             formattedArgs = formattedArgs + "Byte " + name + "={" + String.format("0x%02X", type) + "}";
         } else if (type instanceof byte[]) {
@@ -155,7 +141,7 @@ public class ArgumentDescriptor implements Serializable {
             byte[] bytes = (byte[]) type;
             int bytesLen = 0;
             for (byte b : bytes) {
-                sb.append(String.format("0x%02X",b));
+                sb.append(String.format("0x%02X", b));
                 if (++bytesLen < bytes.length) {
                     sb.append(",");
                 }
@@ -220,7 +206,7 @@ public class ArgumentDescriptor implements Serializable {
             formattedArgs = formattedArgs + "float " + name + "={" + type + "}";
         }
         if (type instanceof Double) {
-            formattedArgs = formattedArgs + "double " + name + "={" + String.format(Locale.ROOT, "%.17f",type) + "}";
+            formattedArgs = formattedArgs + "double " + name + "={" + String.format(Locale.ROOT, "%.17f", type) + "}";
         }
         return formattedArgs;
     }

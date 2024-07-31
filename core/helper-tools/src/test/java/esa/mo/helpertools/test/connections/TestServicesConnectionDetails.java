@@ -18,28 +18,24 @@ import esa.mo.helpertools.connections.SingleConnectionDetails;
 
 public class TestServicesConnectionDetails {
 
-  @Test
-  public void testLoadURIFromFiles() {
-    ServicesConnectionDetails scd = new ServicesConnectionDetails();
+    @Test
+    public void testLoadURIFromFiles() {
+        ServicesConnectionDetails scd = new ServicesConnectionDetails();
 
-    try {
-      ServicesConnectionDetails res = scd.loadURIFromFiles(
-          getClass().getClassLoader().getResource("providerURIs.properties").getFile());
-      HashMap<String, SingleConnectionDetails> resmap = res.getServices();
-      Set<Entry<String, SingleConnectionDetails>> entryset = resmap.entrySet();
-      List<SingleConnectionDetails> scdlist = entryset.stream().map(x -> x.getValue())
-          .collect(Collectors.toList());
-      assertEquals("maltcp://172.17.0.1:1024/nanosat-mo-supervisor-Archive",
-          scdlist.get(0).getProviderURI().getValue());
-      assertEquals("maltcp://172.17.0.1:1024/nanosat-mo-supervisor-Event",
-          scdlist.get(1).getProviderURI().getValue());
-    } catch (MalformedURLException e) {
-      e.printStackTrace();
-      fail("Should not throw exception");
-    } catch (FileNotFoundException e) {
-      e.printStackTrace();
-      fail("Should not throw exception");
+        try {
+            ServicesConnectionDetails res = scd.loadURIFromFiles(getClass().getClassLoader().getResource(
+                "providerURIs.properties").getFile());
+            HashMap<String, SingleConnectionDetails> resmap = res.getServices();
+            Set<Entry<String, SingleConnectionDetails>> entryset = resmap.entrySet();
+            List<SingleConnectionDetails> scdlist = entryset.stream().map(Entry::getValue).collect(Collectors.toList());
+            assertEquals("maltcp://172.17.0.1:1024/nanosat-mo-supervisor-Archive", scdlist.get(0).getProviderURI()
+                .getValue());
+            assertEquals("maltcp://172.17.0.1:1024/nanosat-mo-supervisor-Event", scdlist.get(1).getProviderURI()
+                .getValue());
+        } catch (MalformedURLException | FileNotFoundException e) {
+            e.printStackTrace();
+            fail("Should not throw exception");
+        }
     }
-  }
 
 }

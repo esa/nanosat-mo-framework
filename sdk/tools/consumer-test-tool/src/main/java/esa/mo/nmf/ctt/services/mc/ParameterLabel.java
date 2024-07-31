@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -28,13 +28,9 @@ import java.io.Serializable;
  */
 public class ParameterLabel extends javax.swing.JLabel implements Serializable {
 
-    private final Color[] coloursBackground = new Color[]{
-        Color.GREEN, Color.BLACK
-    };
-    private final Color[] coloursText = new Color[]{
-        Color.BLACK, Color.WHITE
-    };
-    
+    private final Color[] coloursBackground = new Color[]{Color.GREEN, Color.BLACK};
+    private final Color[] coloursText = new Color[]{Color.BLACK, Color.WHITE};
+
     private final ParameterValueLabel value;
     private short counter;
 
@@ -56,7 +52,7 @@ public class ParameterLabel extends javax.swing.JLabel implements Serializable {
         if (newVal.equals("")) {
             setText("");
         } else {
-            setText(String.valueOf(newVal));
+            setText(newVal);
         }
 
         // if we are in error we highlight the label in a different colour
@@ -65,7 +61,7 @@ public class ParameterLabel extends javax.swing.JLabel implements Serializable {
         if (!newVal.equals("")) {
             counter++;
         }
-        
+
         if (value.isInError()) {
             setBackground(Color.RED);
         } else {

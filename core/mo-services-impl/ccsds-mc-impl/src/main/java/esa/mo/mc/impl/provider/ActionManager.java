@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -66,7 +66,7 @@ public final class ActionManager extends MCManager {
     private Long uniqueObjIdDef; // Unique objId Definition (different for every Definition)
     private Long uniqueObjIdAIns;
     private final ActionInvocationListener actions;
-    private final HashMap<Long, ActionInstanceDetails> actionInstances = new HashMap<Long, ActionInstanceDetails>();
+    private final HashMap<Long, ActionInstanceDetails> actionInstances = new HashMap<>();
 
     private final static int MINIMUM_THREADS_IN_POOL = 2;
     private final static int MAXIMUM_THREADS_IN_POOL = 100;
@@ -74,9 +74,8 @@ public final class ActionManager extends MCManager {
     private final static int MAXIMUM_NUMBER_OF_TASKS_IN_POOL = 1000;
 
     private final ExecutorService actionsExecutor = new ThreadPoolExecutor(MINIMUM_THREADS_IN_POOL,
-            MAXIMUM_THREADS_IN_POOL, KEEP_ALIVE_TIME_THREADS_IN_POOL, TimeUnit.SECONDS,
-            new ArrayBlockingQueue<Runnable>(MAXIMUM_NUMBER_OF_TASKS_IN_POOL, true),
-            new ActionThreadFactory("ActionsExecutor"));
+        MAXIMUM_THREADS_IN_POOL, KEEP_ALIVE_TIME_THREADS_IN_POOL, TimeUnit.SECONDS, new ArrayBlockingQueue<>(
+            MAXIMUM_NUMBER_OF_TASKS_IN_POOL, true), new ActionThreadFactory("ActionsExecutor"));
 
     public ActionManager(COMServicesProvider comServices, ActionInvocationListener actions) {
         super(comServices);
@@ -86,7 +85,7 @@ public final class ActionManager extends MCManager {
             this.uniqueObjIdIdentity = 0L; // The zeroth value will not be used (reserved for the wildcard)
             this.uniqueObjIdDef = 0L; // The zeroth value will not be used (reserved for the wildcard)
             this.uniqueObjIdAIns = 0L; // The zeroth value will not be used (reserved for the wildcard)
-//            this.load(); // Load the file
+            //            this.load(); // Load the file
         } else {
 
         }
@@ -105,28 +104,22 @@ public final class ActionManager extends MCManager {
     public Long storeAndGenerateAInsobjId(ActionInstanceDetails aIns, Long related, final URI uri) {
         if (super.getArchiveService() == null) {
             uniqueObjIdAIns++;
-///            if (uniqueObjIdAIns % SAVING_PERIOD  == 0) // It is used to avoid constant saving every time we generate a new obj Inst identifier.
-//                this.save();
+            ///            if (uniqueObjIdAIns % SAVING_PERIOD  == 0) // It is used to avoid constant saving every time we generate a new obj Inst identifier.
+            //                this.save();
             return this.uniqueObjIdAIns;
         } else {
             ActionInstanceDetailsList aValList = new ActionInstanceDetailsList(1);
             aValList.add(aIns);
 
             try {
-                LongList objIds = super.getArchiveService().store(
-                        true,
-                        ActionHelper.ACTIONINSTANCE_OBJECT_TYPE,
-                        ConfigurationProviderSingleton.getDomain(),
-                        HelperArchive.generateArchiveDetailsList(related, null, uri),
-                        aValList,
-                        null);
+                LongList objIds = super.getArchiveService().store(true, ActionHelper.ACTIONINSTANCE_OBJECT_TYPE,
+                    ConfigurationProviderSingleton.getDomain(), HelperArchive.generateArchiveDetailsList(related, null,
+                        uri), aValList, null);
 
                 if (objIds.size() == 1) {
                     return objIds.get(0);
                 }
-            } catch (MALException ex) {
-                Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALInteractionException ex) {
+            } catch (MALException | MALInteractionException ex) {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             }
 
@@ -135,9 +128,9 @@ public final class ActionManager extends MCManager {
 
     }
 
-//    public ActionDefinitionDetailsList getAll(){
-//        return (ActionDefinitionDetailsList) this.listgetAllDefs();
-//    }
+    //    public ActionDefinitionDetailsList getAll(){
+    //        return (ActionDefinitionDetailsList) this.listgetAllDefs();
+    //    }
     public ObjectInstancePair add(ActionCreationRequest creationRequest, ObjectId source, URI uri) { // requirement: 3.3.2.5
         ObjectInstancePair newIdPair = new ObjectInstancePair();
         final Identifier name = creationRequest.getName();
@@ -152,8 +145,8 @@ public final class ActionManager extends MCManager {
             try {
                 //requirement: 3.2.12.2.e: if an ActionName ever existed before, use the old ActionIdentity-Object by retrieving it from the archive
                 //check if the name existed before and retrieve id if found
-                Long identityId = retrieveIdentityIdByNameFromArchive(ConfigurationProviderSingleton.getDomain(),
-                        name, ActionHelper.ACTIONIDENTITY_OBJECT_TYPE);
+                Long identityId = retrieveIdentityIdByNameFromArchive(ConfigurationProviderSingleton.getDomain(), name,
+                    ActionHelper.ACTIONIDENTITY_OBJECT_TYPE);
 
                 //in case the ActionName never existed before, create a new identity
                 if (identityId == null) {
@@ -162,11 +155,10 @@ public final class ActionManager extends MCManager {
                     names.add(name);
                     //add identity to the archive 3.2.7.a
                     LongList identityIds = super.getArchiveService().store(true,
-                            ActionHelper.ACTIONIDENTITY_OBJECT_TYPE, //requirement: 3.2.4.a
-                            ConfigurationProviderSingleton.getDomain(),
-                            HelperArchive.generateArchiveDetailsList(null, source, uri), //requirement: 3.2.4.e
-                            names,
-                            null);
+                        ActionHelper.ACTIONIDENTITY_OBJECT_TYPE, //requirement: 3.2.4.a
+                        ConfigurationProviderSingleton.getDomain(), HelperArchive.generateArchiveDetailsList(null,
+                            source, uri), //requirement: 3.2.4.e
+                        names, null);
 
                     //there is only one identity created, so get the id and set it as the related id
                     identityId = identityIds.get(0);
@@ -174,22 +166,18 @@ public final class ActionManager extends MCManager {
                 ActionDefinitionDetailsList defs = new ActionDefinitionDetailsList();
                 defs.add(actionDefDetails);
                 //add definition to the archive requirement: 3.2.7.b
-                LongList defIds = super.getArchiveService().store(true,
-                        ActionHelper.ACTIONDEFINITION_OBJECT_TYPE, //requirement: 3.2.4.c
-                        ConfigurationProviderSingleton.getDomain(),
-                        HelperArchive.generateArchiveDetailsList(identityId, source, uri), //requirement: 3.2.4.d, f
-                        defs,
-                        null);
+                LongList defIds = super.getArchiveService().store(true, ActionHelper.ACTIONDEFINITION_OBJECT_TYPE, //requirement: 3.2.4.c
+                    ConfigurationProviderSingleton.getDomain(), HelperArchive.generateArchiveDetailsList(identityId,
+                        source, uri), //requirement: 3.2.4.d, f
+                    defs, null);
 
                 newIdPair = new ObjectInstancePair(identityId, defIds.get(0));
-            } catch (MALException ex) {
-                Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALInteractionException ex) {
+            } catch (MALException | MALInteractionException ex) {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         //add to internal lists
-//        this.addIdentityDefinition(newIdPair.getObjIdentityInstanceId(), name, newIdPair.getObjDefInstanceId(), actionDefDetails);
+        //        this.addIdentityDefinition(newIdPair.getObjIdentityInstanceId(), name, newIdPair.getObjDefInstanceId(), actionDefDetails);
         this.addIdentityDefinition(name, newIdPair, actionDefDetails);
         return newIdPair;
     }
@@ -208,17 +196,12 @@ public final class ActionManager extends MCManager {
                 defs.add(definition);
 
                 //create a new ActionDefinition 
-                LongList defIds = super.getArchiveService().store(true,
-                        ActionHelper.ACTIONDEFINITION_OBJECT_TYPE,
-                        ConfigurationProviderSingleton.getDomain(),
-                        HelperArchive.generateArchiveDetailsList(identityId, source, uri),
-                        defs,
-                        null);
+                LongList defIds = super.getArchiveService().store(true, ActionHelper.ACTIONDEFINITION_OBJECT_TYPE,
+                    ConfigurationProviderSingleton.getDomain(), HelperArchive.generateArchiveDetailsList(identityId,
+                        source, uri), defs, null);
 
                 newDefId = defIds.get(0);
-            } catch (MALException ex) {
-                Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALInteractionException ex) {
+            } catch (MALException | MALInteractionException ex) {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -236,8 +219,8 @@ public final class ActionManager extends MCManager {
     protected boolean isActionDefinitionValid(ActionDefinitionDetails oldDef, ActionDefinitionDetails newDef) {
 
         if (//!oldDef.getName().equals(newDef.getName()) ||
-                !oldDef.getCategory().equals(newDef.getCategory())
-                || !oldDef.getProgressStepCount().equals(newDef.getProgressStepCount())) {
+        !oldDef.getCategory().equals(newDef.getCategory()) || !oldDef.getProgressStepCount().equals(newDef
+            .getProgressStepCount())) {
             return false;
         }
 
@@ -290,7 +273,8 @@ public final class ActionManager extends MCManager {
         for (int index = 0; index < oldDef.getArguments().size(); index++) {
             if (oldDef.getArguments().get(index) != null && newDef.getArguments().get(index) != null) {
 
-                if (!oldDef.getArguments().get(index).getArgId().getValue().equals(newDef.getArguments().get(index).getArgId().getValue())) {
+                if (!oldDef.getArguments().get(index).getArgId().getValue().equals(newDef.getArguments().get(index)
+                    .getArgId().getValue())) {
                     return false;
                 }
             }
@@ -353,7 +337,8 @@ public final class ActionManager extends MCManager {
             }
             // Are the argumentIds the same?
             for (int index = 0; index < sizeDefArgIds; index++) {
-                if (!(actionDef.getArguments().get(index).getArgId().getValue().equals(actionInstance.getArgumentIds().get(index).getValue()))) {
+                if (!(actionDef.getArguments().get(index).getArgId().getValue().equals(actionInstance.getArgumentIds()
+                    .get(index).getValue()))) {
                     errorList.add(new UInteger(index));
                 }
                 if (!errorList.isEmpty()) {
@@ -365,11 +350,9 @@ public final class ActionManager extends MCManager {
                 int defRawType = actionDef.getArguments().get(index).getRawType().intValue();
                 int defConvType = actionDef.getArguments().get(index).getConvertedType().intValue();
                 int instType = actionInstance.getArgumentValues().get(index).getValue().getTypeShortForm();
-                boolean isRawValue = (actionInstance.getIsRawValue() == null)
-                        || (actionInstance.getIsRawValue().get(index) == null)
-                        || (actionInstance.getIsRawValue().get(index));
-                if ((isRawValue && (defRawType != instType))
-                        || (!isRawValue && (defConvType != instType))) {
+                boolean isRawValue = (actionInstance.getIsRawValue() == null) || (actionInstance.getIsRawValue().get(
+                    index) == null) || (actionInstance.getIsRawValue().get(index));
+                if ((isRawValue && (defRawType != instType)) || (!isRawValue && (defConvType != instType))) {
                     errorList.add(new UInteger(index));
                 }
                 if (!errorList.isEmpty()) {
@@ -385,100 +368,89 @@ public final class ActionManager extends MCManager {
     }
 
     protected void forward(final Long actionInstId, final ActionInstanceDetails actionDetails,
-            final MALInteraction interaction, final SingleConnectionDetails connectionDetails) {
+        final MALInteraction interaction, final SingleConnectionDetails connectionDetails) {
         //TODO: after issue I expect to get the identity-id here -> issue #179
-        final Identifier name = getName(actionDetails.getDefInstId());
+        final Identifier name = this.getNameFromObjId(actionDetails.getDefInstId());
 
-        actionsExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    final ObjectKey key = new ObjectKey(ConfigurationProviderSingleton.getDomain(), actionInstId);
+        actionsExecutor.execute(() -> {
+            try {
+                final ObjectKey key = new ObjectKey(ConfigurationProviderSingleton.getDomain(), actionInstId);
 
-                    URI uriTo = interaction.getMessageHeader().getURITo();
-                    URI uriNextDestination = null;
-                    String[] nodes = uriTo.toString().split("@");
+                URI uriTo = interaction.getMessageHeader().getURITo();
+                URI uriNextDestination = null;
+                String[] nodes = uriTo.toString().split("@");
 
-                    if (nodes.length > 1) { // Remove the first characters until the '@'; +1 below for the '@'
-                        uriNextDestination = new URI(uriTo.toString().substring(nodes[0].length() + 1));
-                    }
-
-                    // Reception
-                    ObjectId sourceRec = new ObjectId(ActionHelper.ACTIONINSTANCE_OBJECT_TYPE, key);
-                    getActivityTrackingService().publishReceptionEvent(new URI(nodes[0]),
-                            interaction.getMessageHeader().getNetworkZone(), true, null, uriNextDestination, sourceRec);
-
-                    UInteger errorNumber;
-
-                    // Call the Action
-                    if (actions != null) {
-                        errorNumber = actions.actionArrived(name, actionDetails.getArgumentValues(),
-                                actionInstId, actionDetails.getStageProgressRequired(), interaction);
-                    } else {
-                        errorNumber = new UInteger(0);
-                    }
-
-                    // Publish forward success
-                    ObjectId sourceFor = new ObjectId(ActionHelper.ACTIONINSTANCE_OBJECT_TYPE, key);
-                    getActivityTrackingService().publishForwardEvent(new URI(nodes[0]),
-                            interaction.getMessageHeader().getNetworkZone(), (errorNumber == null),
-                            null, uriNextDestination, sourceFor);
-                } catch (MALInteractionException ex) {
-                    Logger.getLogger(ActionManager.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (MALException ex) {
-                    Logger.getLogger(ActionManager.class.getName()).log(Level.SEVERE, null, ex);
+                if (nodes.length > 1) { // Remove the first characters until the '@'; +1 below for the '@'
+                    uriNextDestination = new URI(uriTo.toString().substring(nodes[0].length() + 1));
                 }
+
+                // Reception
+                ObjectId sourceRec = new ObjectId(ActionHelper.ACTIONINSTANCE_OBJECT_TYPE, key);
+                getActivityTrackingService().publishReceptionEvent(new URI(nodes[0]), interaction.getMessageHeader()
+                    .getNetworkZone(), true, null, uriNextDestination, sourceRec);
+
+                UInteger errorNumber;
+
+                // Call the Action
+                if (actions != null) {
+                    errorNumber = actions.actionArrived(name, actionDetails.getArgumentValues(), actionInstId,
+                        actionDetails.getStageProgressRequired(), interaction);
+                } else {
+                    errorNumber = new UInteger(0);
+                }
+
+                // Publish forward success
+                ObjectId sourceFor = new ObjectId(ActionHelper.ACTIONINSTANCE_OBJECT_TYPE, key);
+                getActivityTrackingService().publishForwardEvent(new URI(nodes[0]), interaction.getMessageHeader()
+                    .getNetworkZone(), (errorNumber == null), null, uriNextDestination, sourceFor);
+            } catch (MALInteractionException | MALException ex) {
+                Logger.getLogger(ActionManager.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
     }
 
     protected void execute(final Long actionInstId, final ActionInstanceDetails actionDetails,
             final MALInteraction interaction, final SingleConnectionDetails connectionDetails) {
-
         actionInstances.put(actionInstId, actionDetails);
-        final Identifier name = this.getName(actionDetails.getDefInstId());
+        final Identifier name = this.getNameFromObjId(actionDetails.getDefInstId());
 
-        actionsExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                final ActionDefinitionDetails actionDefinition = getActionDefinitionFromDefId(actionDetails.getDefInstId());
+        actionsExecutor.execute(() -> {
+            final ActionDefinitionDetails actionDefinition = getActionDefinitionFromDefId(actionDetails.getDefInstId());
 
-                //from here on: requirement 3.2.8.b
-                // Publish Event stating that the execution was initialized
-                if (actionDetails.getStageStartedRequired()) {  // ActionInstanceDetails field requirement
-                    reportExecutionStart(true, null, actionDefinition.getProgressStepCount().getValue(),
-                            actionInstId, interaction, connectionDetails);
-                }
-
-                UInteger errorNumber;
-
-                // Call the Action
-                if (actions != null) {
-                    //requirement: 3.2.8.j, 3.2.5.a -> actionArrived will send the progress-events
-                    errorNumber = actions.actionArrived(name, actionDetails.getArgumentValues(),
-                            actionInstId, actionDetails.getStageProgressRequired(), interaction);
-                } else {
-                    errorNumber = new UInteger(0);
-                }
-
-                // Publish Event stating that the execution was finished
-                if (actionDetails.getStageCompletedRequired()) {  // ActionInstanceDetails field requirement
-                    reportExecutionComplete((errorNumber == null), errorNumber,
-                            actionDefinition.getProgressStepCount().getValue(),
-                            actionInstId, interaction, connectionDetails);
-                }
-
-                actionInstances.remove(actionInstId);
-
-//                //TODO: i think the failure was published in actionArrived method and only if it wasnt, 
-                //the following completion event shall be published -> issue
-//                // Publish Event stating that the execution was finished
-//				success = actions.getFailureStage() != actionDefinition.getProgressStepCount().getValue() + 2;
-//                if (actionDetails.getStageCompletedRequired()) {  // ActionInstanceDetails field requirement
-//                    reportExecutionComplete(success, success ? null : actions.getFailureCode(), 
-//                        actionDefinition.getProgressStepCount().getValue(), actionInstId, interaction, connectionDetails);
-//                }
+            //from here on: requirement 3.2.8.b
+            // Publish Event stating that the execution was initialized
+            if (actionDetails.getStageStartedRequired()) {  // ActionInstanceDetails field requirement
+                reportExecutionStart(true, null, actionDefinition.getProgressStepCount().getValue(), actionInstId,
+                    interaction, connectionDetails);
             }
+
+            UInteger errorNumber;
+
+            // Call the Action
+            if (actions != null) {
+                //requirement: 3.2.8.j, 3.2.5.a -> actionArrived will send the progress-events
+                errorNumber = actions.actionArrived(name, actionDetails.getArgumentValues(), actionInstId, actionDetails
+                    .getStageProgressRequired(), interaction);
+            } else {
+                errorNumber = new UInteger(0);
+            }
+
+            // Publish Event stating that the execution was finished
+            if (actionDetails.getStageCompletedRequired()) {  // ActionInstanceDetails field requirement
+                reportExecutionComplete((errorNumber == null), errorNumber, actionDefinition.getProgressStepCount()
+                    .getValue(), actionInstId, interaction, connectionDetails);
+            }
+
+            actionInstances.remove(actionInstId);
+
+            //                //TODO: i think the failure was published in actionArrived method and only if it wasnt,
+            //the following completion event shall be published -> issue
+            //                // Publish Event stating that the execution was finished
+            //				success = actions.getFailureStage() != actionDefinition.getProgressStepCount().getValue() + 2;
+            //                if (actionDetails.getStageCompletedRequired()) {  // ActionInstanceDetails field requirement
+            //                    reportExecutionComplete(success, success ? null : actions.getFailureCode(),
+            //                        actionDefinition.getProgressStepCount().getValue(), actionInstId, interaction, connectionDetails);
+            //                }
         });
 
     }
@@ -488,8 +460,8 @@ public final class ActionManager extends MCManager {
     }
 
     protected void reportActivityExecutionEvent(final boolean success, final UInteger errorNumber,
-            final int executionStage, final int stageCount, final Long actionInstId,
-            final MALInteraction interaction, final SingleConnectionDetails connectionDetails) {
+        final int executionStage, final int stageCount, final Long actionInstId, final MALInteraction interaction,
+        final SingleConnectionDetails connectionDetails) {
         ObjectKey key = new ObjectKey(ConfigurationProviderSingleton.getDomain(), actionInstId);
         ObjectId source = new ObjectId(ActionHelper.ACTIONINSTANCE_OBJECT_TYPE, key);
 
@@ -498,12 +470,14 @@ public final class ActionManager extends MCManager {
                 ObjectId executionEventLink;
                 try {
                     // requirement 3.2.5.a ,  3.2.7.d -> will be done in the "publishExecutionEventOperation"-method.
-                    executionEventLink = this.getActivityTrackingService().publishExecutionEventOperation(connectionDetails.getProviderURI(),
-                            ConfigurationProviderSingleton.getNetwork(), success, executionStage, stageCount, null, source);
+                    executionEventLink = this.getActivityTrackingService().publishExecutionEventOperation(
+                        connectionDetails.getProviderURI(), ConfigurationProviderSingleton.getNetwork(), success,
+                        executionStage, stageCount, null, source);
 
                     if (!success) { // requirement 3.2.5.c
                         //TODO: requirement 3.2.5.c is the source really the completionEvent? -> issue #189 
-                        this.publishActionFailureEvent(errorNumber, actionInstId, executionEventLink, interaction, connectionDetails);
+                        this.publishActionFailureEvent(errorNumber, actionInstId, executionEventLink, interaction,
+                            connectionDetails);
                     }
                 } catch (MALInteractionException ex) {
                     Logger.getLogger(ActionManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -514,25 +488,20 @@ public final class ActionManager extends MCManager {
         }
     }
 
-    private void publishActionFailureEvent(final UInteger errorNumber, final Long related,
-            final ObjectId source, final MALInteraction interaction, final SingleConnectionDetails connectionDetails) {
+    private void publishActionFailureEvent(final UInteger errorNumber, final Long related, final ObjectId source,
+        final MALInteraction interaction, final SingleConnectionDetails connectionDetails) {
         // requirement: 3.2.5.f
         final UIntegerList errorNumbers = new UIntegerList(1);
         errorNumbers.add(errorNumber);
 
         // requirement: 3.2.5.c and 3.2.5.d and 3.2.5.e
         if (this.getEventService() != null) {
-            Long objId = this.getEventService().generateAndStoreEvent(
-                    ActionHelper.ACTIONFAILURE_OBJECT_TYPE,
-                    ConfigurationProviderSingleton.getDomain(),
-                    errorNumber,
-                    related,
-                    source,
-                    interaction);
+            Long objId = this.getEventService().generateAndStoreEvent(ActionHelper.ACTIONFAILURE_OBJECT_TYPE,
+                ConfigurationProviderSingleton.getDomain(), errorNumber, related, source, interaction);
 
             try {
-                this.getEventService().publishEvent(new URI(""), objId,
-                        ActionHelper.ACTIONFAILURE_OBJECT_TYPE, related, source, errorNumbers);
+                this.getEventService().publishEvent(new URI(""), objId, ActionHelper.ACTIONFAILURE_OBJECT_TYPE, related,
+                    source, errorNumbers);
             } catch (IOException ex) {
                 Logger.getLogger(ActionManager.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -540,11 +509,11 @@ public final class ActionManager extends MCManager {
     }
 
     private void reportExecutionStart(final boolean success, final UInteger errorNumber,
-            final int totalNumberOfProgressStages, final Long actionInstId,
-            final MALInteraction interaction, final SingleConnectionDetails connectionDetails) {
+        final int totalNumberOfProgressStages, final Long actionInstId, final MALInteraction interaction,
+        final SingleConnectionDetails connectionDetails) {
         // requirement: 3.2.8.h and 3.2.8.i
-        reportActivityExecutionEvent(success, errorNumber, 1, 2 + totalNumberOfProgressStages,
-                actionInstId, interaction, connectionDetails);
+        reportActivityExecutionEvent(success, errorNumber, 1, 2 + totalNumberOfProgressStages, actionInstId,
+            interaction, connectionDetails);
     }
 
     /**
@@ -555,11 +524,11 @@ public final class ActionManager extends MCManager {
      * @param actionInstId
      */
     private void reportExecutionComplete(final boolean success, final UInteger errorNumber,
-            final int totalNumberOfProgressStages, final Long actionInstId,
-            final MALInteraction interaction, final SingleConnectionDetails connectionDetails) {
+        final int totalNumberOfProgressStages, final Long actionInstId, final MALInteraction interaction,
+        final SingleConnectionDetails connectionDetails) {
         // requirement: 3.2.8.h and 3.2.8.k
-        reportActivityExecutionEvent(success, errorNumber, 2 + totalNumberOfProgressStages,
-                2 + totalNumberOfProgressStages, actionInstId, interaction, connectionDetails);
+        reportActivityExecutionEvent(success, errorNumber, 2 + totalNumberOfProgressStages, 2 +
+            totalNumberOfProgressStages, actionInstId, interaction, connectionDetails);
     }
 
     /**
@@ -573,16 +542,13 @@ public final class ActionManager extends MCManager {
 
         ActionThreadFactory(String prefix) {
             SecurityManager s = System.getSecurityManager();
-            group = (s != null) ? s.getThreadGroup()
-                    : Thread.currentThread().getThreadGroup();
+            group = (s != null) ? s.getThreadGroup() : Thread.currentThread().getThreadGroup();
             namePrefix = prefix + "-thread-";
         }
 
         @Override
         public Thread newThread(Runnable r) {
-            Thread t = new Thread(group, r,
-                    namePrefix + threadNumber.getAndIncrement(),
-                    0);
+            Thread t = new Thread(group, r, namePrefix + threadNumber.getAndIncrement(), 0);
             if (t.isDaemon()) {
                 t.setDaemon(false);
             }

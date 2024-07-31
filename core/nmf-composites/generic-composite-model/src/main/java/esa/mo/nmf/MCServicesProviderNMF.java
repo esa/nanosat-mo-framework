@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -45,7 +45,7 @@ public class MCServicesProviderNMF {
     private final AggregationProviderServiceImpl aggregationService = new AggregationProviderServiceImpl();
 
     public void init(COMServicesProvider comServices, ActionInvocationListener actions,
-            ParameterStatusListener monitoringParameters) throws MALException {
+        ParameterStatusListener monitoringParameters) throws MALException {
         parameterManager = new ParameterManager(comServices, monitoringParameters);
         parameterService.init(parameterManager);
         actionService.init(comServices, actions);
@@ -53,8 +53,8 @@ public class MCServicesProviderNMF {
         aggregationService.init(comServices, parameterManager);
     }
 
-    public void init(final COMServicesProvider comServices,
-            final MonitorAndControlNMFAdapter adapter) throws MALException {
+    public void init(final COMServicesProvider comServices, final MonitorAndControlNMFAdapter adapter)
+        throws MALException {
         parameterManager = new ParameterManager(comServices, adapter);
         parameterService.init(parameterManager);
         actionService.init(comServices, adapter);

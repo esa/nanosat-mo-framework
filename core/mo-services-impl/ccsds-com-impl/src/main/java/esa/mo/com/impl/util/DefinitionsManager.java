@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -45,7 +45,7 @@ public abstract class DefinitionsManager {
     private final COMServicesProvider comServices;
 
     public DefinitionsManager(COMServicesProvider comServices) {
-        this.defs = new HashMap<Long, Element>();
+        this.defs = new HashMap<>();
 
         if (comServices != null) {
             this.eventService = comServices.getEventService();
@@ -156,7 +156,7 @@ public abstract class DefinitionsManager {
      * not exist in the manager, in this case, the definition is not added.
      */
     public synchronized boolean updateDef(Long objId, Element definition) {
-        return (this.deleteDef(objId) == true) ? this.addDef(objId, definition) : false;
+        return (this.deleteDef(objId)) ? this.addDef(objId, definition) : false;
     }
 
     /**

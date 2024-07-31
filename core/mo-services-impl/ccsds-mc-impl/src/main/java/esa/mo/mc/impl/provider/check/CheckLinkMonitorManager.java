@@ -1,6 +1,6 @@
 /*
  * M&C Services for CCSDS Mission Operations Framework
- * Copyright (C) 2016 Deutsches Zentrum für Luft- und Raumfahrt e.V. (DLR).
+ * Copyright (C) 2021 Deutsches Zentrum für Luft- und Raumfahrt e.V. (DLR).
  * 
  *  This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -59,7 +59,7 @@ public class CheckLinkMonitorManager {
         this.adapter = new CheckLinkMonitorAdapter(this);
         this.eventService = eventService;
         this.checkManager = checkManager;
-        this.notifyList = new HashMap<Long, List<Long>>();
+        this.notifyList = new HashMap<>();
     }
 
     /**
@@ -76,7 +76,7 @@ public class CheckLinkMonitorManager {
         for (Long compoundedCheckLink : compoundedCheckLinks) {
             List<Long> currentChecksToNotify = notifyList.get(compoundedCheckLink);
             if (currentChecksToNotify == null) {
-                currentChecksToNotify = new ArrayList<Long>();
+                currentChecksToNotify = new ArrayList<>();
             }
             currentChecksToNotify.add(checkLinkId);
             notifyList.put(compoundedCheckLink, currentChecksToNotify);
@@ -116,8 +116,8 @@ public class CheckLinkMonitorManager {
         final List<Long> checkLinksToNotify = notifyList.get(sourceCheckLinkId);
         if (checkLinksToNotify != null) {
             for (Long checkLinkToNotify : checkLinksToNotify) {
-                checkManager.executeCheck(checkLinkToNotify, null, false, false,
-                        new ObjectId(CheckHelper.CHECKLINK_OBJECT_TYPE, new ObjectKey(domain, sourceCheckLinkId)));
+                checkManager.executeCheck(checkLinkToNotify, null, false, false, new ObjectId(
+                    CheckHelper.CHECKLINK_OBJECT_TYPE, new ObjectKey(domain, sourceCheckLinkId)));
             }
         }
     }
@@ -127,10 +127,9 @@ public class CheckLinkMonitorManager {
      */
     private synchronized void registerForCheckTranisitionEvents() {
         try {
-            eventService.monitorEventRegister(subscriptionKeys(new Identifier("AllCheckTransitions"), new Identifier("4"), 0L, 0L, 0L), adapter);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(CheckLinkMonitorManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+            eventService.monitorEventRegister(subscriptionKeys(new Identifier("AllCheckTransitions"), new Identifier(
+                "4"), 0L, 0L, 0L), adapter);
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(CheckLinkMonitorManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -143,9 +142,7 @@ public class CheckLinkMonitorManager {
             IdentifierList subIdentifiers = new IdentifierList();
             subIdentifiers.add(new Identifier("AllCheckTransitions"));
             eventService.monitorEventDeregister(subIdentifiers);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(CheckLinkMonitorManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(CheckLinkMonitorManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

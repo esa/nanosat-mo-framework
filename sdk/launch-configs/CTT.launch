@@ -8,7 +8,7 @@
 <listAttribute key="M2_PROPERTIES">
 <listEntry value="exec.args=-classpath %classpath esa.mo.nmf.ctt.guis.ConsumerTestToolGUI"/>
 <listEntry value="exec.executable=PATH_TO_JAVA_BINARY/java"/>
-<listEntry value="exec.workingdir=PATH_TO_NMF_ROOT_DIRECTORY/nanosat-mo-framework/sdk/sdk-package/target/nmf-sdk-2.0.0-SNAPSHOT/bin/tools/consumer-test-tool"/>
+<listEntry value="exec.workingdir=PATH_TO_NMF_ROOT_DIRECTORY/nanosat-mo-framework/sdk/sdk-package/target/nmf-sdk-3.0.0/home/nmf/consumer-test-tool"/>
 </listAttribute>
 <stringAttribute key="M2_RUNTIME" value="maven2"/>
 <booleanAttribute key="M2_SKIP_TESTS" value="false"/>

@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -40,8 +40,9 @@ public class CheckLinksTablePanel extends SharedTablePanel {
 
     @Override
     public void addEntry(final Identifier name, final ArchivePersistenceObject comObject) {
-        if (comObject == null){
-            Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, "The table cannot process a null COM Object.");
+        if (comObject == null) {
+            Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE,
+                "The table cannot process a null COM Object.");
             return;
         }
 
@@ -52,14 +53,9 @@ public class CheckLinksTablePanel extends SharedTablePanel {
         }
 
         CheckLinkDetails checkLink = (CheckLinkDetails) comObject.getObject();
-        
-        tableData.addRow(new Object[]{
-            comObject.getArchiveDetails().getInstId(),
-            checkLink.getCheckEnabled(),
-            checkLink.getCheckOnChange(),
-            checkLink.getUseConverted(),
-            checkLink.getCheckInterval().toString()
-        });
+
+        tableData.addRow(new Object[]{comObject.getArchiveDetails().getInstId(), checkLink.getCheckEnabled(), checkLink
+            .getCheckOnChange(), checkLink.getUseConverted(), checkLink.getCheckInterval().toString()});
 
         comObjects.add(comObject);
 
@@ -69,31 +65,26 @@ public class CheckLinksTablePanel extends SharedTablePanel {
 
     @Override
     public void defineTableContent() {
-    
-        String[] tableCol = new String[]{
-            "Obj Inst Id", "Enabled", "checkOnChange", 
-            "useConverted", "checkInterval"  };
 
-        tableData = new javax.swing.table.DefaultTableModel(
-                new Object[][]{}, tableCol) {
-                    Class[] types = new Class[]{
-                        java.lang.Integer.class, java.lang.Boolean.class, java.lang.Boolean.class, 
-                        java.lang.Boolean.class, java.lang.String.class
-                    };
+        String[] tableCol = new String[]{"Obj Inst Id", "Enabled", "checkOnChange", "useConverted", "checkInterval"};
 
-                    @Override               //all cells false
-                    public boolean isCellEditable(int row, int column) {
-                        return false;
-                    }
+        tableData = new javax.swing.table.DefaultTableModel(new Object[][]{}, tableCol) {
+            Class[] types = new Class[]{java.lang.Integer.class, java.lang.Boolean.class, java.lang.Boolean.class,
+                                        java.lang.Boolean.class, java.lang.String.class};
 
-                    @Override
-                    public Class getColumnClass(int columnIndex) {
-                        return types[columnIndex];
-                    }
-                };
+            @Override               //all cells false
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+
+            @Override
+            public Class getColumnClass(int columnIndex) {
+                return types[columnIndex];
+            }
+        };
 
         super.getTable().setModel(tableData);
 
     }
-    
+
 }

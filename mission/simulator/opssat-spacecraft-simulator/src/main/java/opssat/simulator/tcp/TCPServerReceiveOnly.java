@@ -1,13 +1,13 @@
 /*
  *  ----------------------------------------------------------------------------
- *  Copyright (C) 2016      European Space Agency
+ *  Copyright (C) 2021      European Space Agency
  *                          European Space Operations Centre
  *                          Darmstadt
  *                          Germany
  *  ----------------------------------------------------------------------------
  *  System                : ESA NanoSat MO Framework
  *  ----------------------------------------------------------------------------
- *  Licensed under the European Space Agency Public License, Version 2.0
+ *  Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  *  You may not use this file except in compliance with the License.
  * 
  *  Except as expressly set forth in this License, the Software is provided to
@@ -44,8 +44,6 @@ public class TCPServerReceiveOnly extends Thread {
     public void setShouldClose(boolean shouldClose) {
         this.shouldClose = shouldClose;
     }
-    
-    
 
     public String getData() {
         synchronized (dataMutex) {
@@ -59,10 +57,10 @@ public class TCPServerReceiveOnly extends Thread {
         Thread.currentThread().setName("sim-" + this.getClass().getSimpleName() + "-" + port);
         String clientSentence = null;
         ServerSocket welcomeSocket = null;
-        while (true && !shouldClose) {
+        while (!shouldClose) {
             try {
                 welcomeSocket = new ServerSocket(port);
-                this.logger.log(Level.INFO,"Created ServerSocket on port [" + port + "]");
+                this.logger.log(Level.INFO, "Created ServerSocket on port [" + port + "]");
 
                 Socket connectionSocket;
                 try {
@@ -71,11 +69,11 @@ public class TCPServerReceiveOnly extends Thread {
                     Logger.getLogger(TCPServerReceiveOnly.class.getName()).log(Level.SEVERE, null, ex);
                     break;
                 }
-                this.logger.log(Level.INFO,"Accepted Socket from [" + connectionSocket.getInetAddress() + "]");
+                this.logger.log(Level.INFO, "Accepted Socket from [" + connectionSocket.getInetAddress() + "]");
                 BufferedReader inFromClient;
                 try {
                     inFromClient = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
-                    while (true && !shouldClose) {
+                    while (!shouldClose) {
                         try {
                             clientSentence = inFromClient.readLine();
                             if (clientSentence == null) {
@@ -102,8 +100,7 @@ public class TCPServerReceiveOnly extends Thread {
                 }
 
             } catch (IOException ex) {
-                if (welcomeSocket!=null)
-                {
+                if (welcomeSocket != null) {
                     try {
                         welcomeSocket.close();
                     } catch (IOException ex1) {
@@ -123,13 +120,13 @@ public class TCPServerReceiveOnly extends Thread {
     }
 
     public TCPServerReceiveOnly(int port, Logger logger) {
-        this.logger=logger;
+        this.logger = logger;
         this.port = port;
 
     }
-    
-    public static void main(String argv[]) {
-        TCPServerReceiveOnly tcpServer = new TCPServerReceiveOnly(10500,Logger.getLogger(Logger.GLOBAL_LOGGER_NAME));
+
+    public static void main(String[] argv) {
+        TCPServerReceiveOnly tcpServer = new TCPServerReceiveOnly(10500, Logger.getLogger(Logger.GLOBAL_LOGGER_NAME));
         tcpServer.start();
     }
 }

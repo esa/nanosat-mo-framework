@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -44,11 +44,12 @@ import org.ccsds.moims.mo.mc.structures.AttributeValueList;
  * object and puts it inside a MAL Blob type (a byte container).
  *
  */
-public abstract class SimpleMonitorAndControlAdapter extends MonitorAndControlNMFAdapter implements SimpleMonitorAndControlListener {
+public abstract class SimpleMonitorAndControlAdapter extends MonitorAndControlNMFAdapter implements
+    SimpleMonitorAndControlListener {
 
     @Override
-    public UInteger actionArrived(Identifier identifier, AttributeValueList attributeValues, 
-            Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
+    public UInteger actionArrived(Identifier identifier, AttributeValueList attributeValues, Long actionInstanceObjId,
+        boolean reportProgress, MALInteraction interaction) {
         Serializable[] values = new Serializable[attributeValues.size()];
 
         for (int i = 0; i < attributeValues.size(); i++) {
@@ -65,7 +66,7 @@ public abstract class SimpleMonitorAndControlAdapter extends MonitorAndControlNM
             }
         }
 
-        final Boolean success = this.actionArrivedSimple(identifier.getValue(), values, actionInstanceObjId);
+        final boolean success = this.actionArrivedSimple(identifier.getValue(), values, actionInstanceObjId);
 
         if (success) {
             return new UInteger(0);
@@ -82,14 +83,14 @@ public abstract class SimpleMonitorAndControlAdapter extends MonitorAndControlNM
             return (Attribute) ret;
         } else {
             // First try to convert it into a MO type...
-            Object moType = (Object) HelperAttributes.javaType2Attribute(ret);
+            Object moType = HelperAttributes.javaType2Attribute(ret);
 
             if (moType instanceof Attribute) { // Was it succcessfully converted from Java to Attribute?
                 return (Attribute) moType;
             }
 
             try { // Thy to serialize the object and put it inside a Blob
-                return (Attribute) HelperAttributes.serialObject2blobAttribute(ret);
+                return HelperAttributes.serialObject2blobAttribute(ret);
             } catch (IOException ex) {
                 Logger.getLogger(SimpleMonitorAndControlAdapter.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -100,14 +101,14 @@ public abstract class SimpleMonitorAndControlAdapter extends MonitorAndControlNM
 
     @Override
     public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values) {
-        if(identifiers.isEmpty() || values.isEmpty()){ // Validation
+        if (identifiers.isEmpty() || values.isEmpty()) { // Validation
             return false;
         }
 
         final Identifier identifier = identifiers.get(0);
         final Attribute value = values.get(0).getRawValue();
         Serializable obj;
-        
+
         if (value instanceof Blob) {
             // Try to unserialize it!
             try {
@@ -122,20 +123,20 @@ public abstract class SimpleMonitorAndControlAdapter extends MonitorAndControlNM
         obj = (Serializable) HelperAttributes.attribute2JavaType(value);
 
         return this.onSetValueSimple(identifier.getValue(), obj);
-        
+
         /* If we ever change the interface to support a boolean list, then use the code below */
         /*
         final BooleanList output = new BooleanList();
-
+        
         if (identifiers.isEmpty() || values.isEmpty()) { // Validation
             return output;
         }
-
+        
         for (int i = 0; i < values.size(); i++) {
             final Identifier identifier = identifiers.get(i);
             final Attribute value = values.get(i).getRawValue();
             Serializable obj;
-
+        
             if (value instanceof Blob) { // Try to unserialize it!
                 try {
                     obj = HelperAttributes.blobAttribute2serialObject((Blob) value);
@@ -146,14 +147,14 @@ public abstract class SimpleMonitorAndControlAdapter extends MonitorAndControlNM
                     // It didn't work? Maybe it really just a Blob (not a serialized object)
                 }
             }
-
+        
             // Convert it to java type
             obj = (Serializable) HelperAttributes.attribute2JavaType(value);
-
+        
             boolean success = this.onSetValueSimple(identifier.getValue(), obj);
             output.add(success);
         }
-
+        
         return output;
         
         

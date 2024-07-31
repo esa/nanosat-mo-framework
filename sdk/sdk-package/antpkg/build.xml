@@ -1,24 +1,47 @@
 <project name="SDK Package" default="build" basedir="../../">
   <property name="outputDir" value="${esa.nmf.sdk.assembly.outputdir}/home"/>
   <property name="repoName" value="nmf/lib"/>
-  <target name="build" depends="emit-ctt, emit-simulator-gui, emit-space-supervisor, emit-space-app-all-mc-services,
-  emit-space-app-publish-clock, emit-space-app-camera, emit-space-app-benchmark, emit-space-app-payloads-test, emit-space-app-waveform">
-    <!--This empty target is used as the top level target. Add your app targets to the depends attribute! -->
+  <target name="build"
+    depends="emit-ctt, emit-cli-tool, emit-simulator-gui, emit-space-supervisor, emit-space-app-all-mc-services,
+  emit-space-app-publish-clock, emit-space-app-camera, emit-space-app-benchmark, emit-space-app-payloads-test,
+  emit-space-app-waveform, emit-space-app-camera-acquisitor-system, emit-space-app-picture-processor,
+  emit-space-app-mp-demo, emit-ground-app-mp-demo">
+    <!--This
+    empty target is used as the top level target. Add your app targets to the depends attribute! -->
   </target>
-  <target name="emit-ctt">  
+  <target name="emit-ctt">
     <ant antfile="antpkg/build_shell_script.xml">
       <property name="mainClass" value="esa.mo.nmf.ctt.guis.ConsumerTestToolGUI"/>
       <property name="id" value="consumer-test-tool"/>
+      <property name="binDir" value="nmf/consumer-test-tool"/>
+      <property name="max_heap" value="256m"/>
       <property name="nmf_home" value="`cd .. > /dev/null; pwd`"/>
       <property name="nmf_lib" value="`cd ../lib > /dev/null; pwd`"/>
-      <property name="binDir" value="nmf/consumer-test-tool"/>
     </ant>
     <ant antfile="antpkg/build_batch_script.xml">
       <property name="mainClass" value="esa.mo.nmf.ctt.guis.ConsumerTestToolGUI"/>
       <property name="id" value="consumer-test-tool"/>
-      <property name="nmf_home" value="%cd%\.."/>
-      <property name="nmf_lib" value="`cd ../lib > /dev/null; pwd`"/>
       <property name="binDir" value="nmf/consumer-test-tool"/>
+      <property name="max_heap" value="256m"/>
+      <property name="nmf_home" value="%cd%\.."/>
+    </ant>
+  </target>
+
+  <target name="emit-cli-tool">
+    <ant antfile="antpkg/build_shell_script.xml">
+      <property name="mainClass" value="esa.mo.nmf.clitool.CLITool"/>
+      <property name="id" value="cli-tool"/>
+      <property name="binDir" value="nmf/cli-tool"/>
+      <property name="max_heap" value="256m"/>
+      <property name="nmf_home" value="`cd .. > /dev/null; pwd`"/>
+      <property name="nmf_lib" value="`cd ../lib > /dev/null; pwd`"/>
+    </ant>
+    <ant antfile="antpkg/build_batch_script.xml">
+      <property name="mainClass" value="esa.mo.nmf.clitool.CLITool"/>
+      <property name="id" value="cli-tool"/>
+      <property name="binDir" value="nmf/cli-tool"/>
+      <property name="max_heap" value="256m"/>
+      <property name="nmf_home" value="%cd%\.."/>
     </ant>
   </target>
 
@@ -26,33 +49,37 @@
     <ant antfile="antpkg/build_shell_script.xml">
       <property name="mainClass" value="opssat.simulator.main.MainClient"/>
       <property name="id" value="spacecraft-simulator-gui"/>
+      <property name="binDir" value="nmf/spacecraft-simulator-gui"/>
+      <property name="max_heap" value="256m"/>
       <property name="nmf_home" value="`cd .. > /dev/null; pwd`"/>
       <property name="nmf_lib" value="`cd ../lib > /dev/null; pwd`"/>
-      <property name="binDir" value="nmf/spacecraft-simulator-gui"/>
     </ant>
     <ant antfile="antpkg/build_batch_script.xml">
       <property name="mainClass" value="opssat.simulator.main.MainClient"/>
       <property name="id" value="spacecraft-simulator-gui"/>
-      <property name="nmf_home" value="%cd%\.."/>
-      <property name="nmf_lib" value="`cd ../lib > /dev/null; pwd`"/>
       <property name="binDir" value="nmf/spacecraft-simulator-gui"/>
+      <property name="max_heap" value="256m"/>
+      <property name="nmf_home" value="%cd%\.."/>
     </ant>
   </target>
 
   <target name="emit-space-supervisor">
     <ant antfile="antpkg/build_shell_script.xml">
-      <property name="mainClass" value="esa.mo.nmf.provider.NanoSatMOSupervisorSoftSimImpl"/>
+      <property name="mainClass" value="esa.mo.nmf.nanosatmosupervisor.NanosatMOSupervisorBasicImpl"/>
       <property name="id" value="nanosat-mo-supervisor-sim"/>
+      <property name="binDir" value="nmf/nanosat-mo-supervisor-sim"/>
+      <property name="platform" value="esa.mo.platform.impl.util.PlatformServicesProviderSoftSim"/>
+      <property name="max_heap" value="384m"/>
       <property name="nmf_home" value="`cd .. > /dev/null; pwd`"/>
       <property name="nmf_lib" value="`cd ../lib > /dev/null; pwd`"/>
-      <property name="binDir" value="nmf/nanosat-mo-supervisor-sim"/>
     </ant>
     <ant antfile="antpkg/build_batch_script.xml">
-      <property name="mainClass" value="esa.mo.nmf.provider.NanoSatMOSupervisorSoftSimImpl"/>
+      <property name="mainClass" value="esa.mo.nmf.nanosatmosupervisor.NanosatMOSupervisorBasicImpl"/>
       <property name="id" value="nanosat-mo-supervisor-sim"/>
-      <property name="nmf_home" value="%cd%\.."/>
-      <property name="nmf_lib" value="`cd ../lib > /dev/null; pwd`"/>
       <property name="binDir" value="nmf/nanosat-mo-supervisor-sim"/>
+      <property name="platform" value="esa.mo.platform.impl.util.PlatformServicesProviderSoftSim"/>
+      <property name="max_heap" value="384m"/>
+      <property name="nmf_home" value="%cd%\.."/>
     </ant>
   </target>
 
@@ -60,15 +87,11 @@
     <ant antfile="antpkg/build_shell_script.xml">
       <property name="mainClass" value="esa.mo.nmf.apps.AllInOne"/>
       <property name="id" value="start_all-mc-services"/>
-      <property name="nmf_home" value="`cd ../nmf > /dev/null; pwd`"/>
-      <property name="nmf_lib" value="`cd ../nmf/lib > /dev/null; pwd`"/>
       <property name="binDir" value="all-mc-services"/>
     </ant>
     <ant antfile="antpkg/build_batch_script.xml">
       <property name="mainClass" value="esa.mo.nmf.apps.AllInOne"/>
       <property name="id" value="start_all-mc-services"/>
-      <property name="nmf_home" value="%cd%\..\nmf"/>
-      <property name="nmf_lib" value="`cd ../nmf/lib > /dev/null; pwd`"/>
       <property name="binDir" value="all-mc-services"/>
     </ant>
   </target>
@@ -77,15 +100,11 @@
     <ant antfile="antpkg/build_shell_script.xml">
       <property name="mainClass" value="esa.mo.nmf.apps.PushClock"/>
       <property name="id" value="start_publish-clock"/>
-      <property name="nmf_home" value="`cd ../nmf > /dev/null; pwd`"/>
-      <property name="nmf_lib" value="`cd ../nmf/lib > /dev/null; pwd`"/>
       <property name="binDir" value="publish-clock"/>
     </ant>
     <ant antfile="antpkg/build_batch_script.xml">
       <property name="mainClass" value="esa.mo.nmf.apps.PushClock"/>
       <property name="id" value="start_publish-clock"/>
-      <property name="nmf_home" value="%cd%\..\nmf"/>
-      <property name="nmf_lib" value="`cd ../nmf/lib > /dev/null; pwd`"/>
       <property name="binDir" value="publish-clock"/>
     </ant>
   </target>
@@ -94,15 +113,11 @@
     <ant antfile="antpkg/build_shell_script.xml">
       <property name="mainClass" value="esa.mo.nmf.apps.SnapNMF"/>
       <property name="id" value="start_camera"/>
-      <property name="nmf_home" value="`cd ../nmf > /dev/null; pwd`"/>
-      <property name="nmf_lib" value="`cd ../nmf/lib > /dev/null; pwd`"/>
       <property name="binDir" value="camera"/>
     </ant>
     <ant antfile="antpkg/build_batch_script.xml">
       <property name="mainClass" value="esa.mo.nmf.apps.SnapNMF"/>
       <property name="id" value="start_camera"/>
-      <property name="nmf_home" value="%cd%\..\nmf"/>
-      <property name="nmf_lib" value="`cd ../nmf/lib > /dev/null; pwd`"/>
       <property name="binDir" value="camera"/>
     </ant>
   </target>
@@ -111,15 +126,11 @@
     <ant antfile="antpkg/build_shell_script.xml">
       <property name="mainClass" value="esa.mo.nmf.apps.BenchmarkApp"/>
       <property name="id" value="start_benchmark"/>
-      <property name="nmf_home" value="`cd ../nmf > /dev/null; pwd`"/>
-      <property name="nmf_lib" value="`cd ../nmf/lib > /dev/null; pwd`"/>
       <property name="binDir" value="benchmark"/>
     </ant>
     <ant antfile="antpkg/build_batch_script.xml">
       <property name="mainClass" value="esa.mo.nmf.apps.BenchmarkApp"/>
       <property name="id" value="start_benchmark"/>
-      <property name="nmf_home" value="%cd%\..\nmf"/>
-      <property name="nmf_lib" value="`cd ../nmf/lib > /dev/null; pwd`"/>
       <property name="binDir" value="benchmark"/>
     </ant>
   </target>
@@ -128,15 +139,11 @@
     <ant antfile="antpkg/build_shell_script.xml">
       <property name="mainClass" value="esa.mo.nmf.apps.PayloadsTestApp"/>
       <property name="id" value="start_payloads-test"/>
-      <property name="nmf_home" value="`cd ../nmf > /dev/null; pwd`"/>
-      <property name="nmf_lib" value="`cd ../nmf/lib > /dev/null; pwd`"/>
       <property name="binDir" value="payloads-test"/>
     </ant>
     <ant antfile="antpkg/build_batch_script.xml">
       <property name="mainClass" value="esa.mo.nmf.apps.PayloadsTestApp"/>
       <property name="id" value="start_payloads-test"/>
-      <property name="nmf_home" value="%cd%\..\nmf"/>
-      <property name="nmf_lib" value="`cd ../nmf/lib > /dev/null; pwd`"/>
       <property name="binDir" value="payloads-test"/>
     </ant>
   </target>
@@ -145,16 +152,61 @@
     <ant antfile="antpkg/build_shell_script.xml">
       <property name="mainClass" value="esa.mo.nmf.apps.Waveform"/>
       <property name="id" value="start_waveform"/>
-      <property name="nmf_home" value="`cd ../nmf > /dev/null; pwd`"/>
-      <property name="nmf_lib" value="`cd ../nmf/lib > /dev/null; pwd`"/>
       <property name="binDir" value="waveform"/>
     </ant>
     <ant antfile="antpkg/build_batch_script.xml">
       <property name="mainClass" value="esa.mo.nmf.apps.Waveform"/>
       <property name="id" value="start_waveform"/>
-      <property name="nmf_home" value="%cd%\..\nmf"/>
-      <property name="nmf_lib" value="`cd ../nmf/lib > /dev/null; pwd`"/>
       <property name="binDir" value="waveform"/>
+    </ant>
+  </target>
+  <target name="emit-space-app-camera-acquisitor-system">
+    <ant antfile="antpkg/build_shell_script.xml">
+      <property name="mainClass" value="esa.mo.nmf.apps.CameraAcquisitorSystemApp"/>
+      <property name="id" value="start_camera-acquisitor-system"/>
+      <property name="binDir" value="camera-acquisitor-system"/>
+    </ant>
+    <ant antfile="antpkg/build_batch_script.xml">
+      <property name="mainClass" value="esa.mo.nmf.apps.CameraAcquisitorSystemApp"/>
+      <property name="id" value="start_camera-acquisitor-system"/>
+      <property name="binDir" value="camera-acquisitor-system"/>
+    </ant>
+  </target>
+  <target name="emit-space-app-picture-processor">
+    <ant antfile="antpkg/build_shell_script.xml">
+      <property name="mainClass" value="esa.mo.nmf.apps.pictureprocessor.PictureProcessorApp"/>
+      <property name="id" value="start_picture-processor"/>
+      <property name="binDir" value="picture-processor"/>
+    </ant>
+    <ant antfile="antpkg/build_batch_script.xml">
+      <property name="mainClass" value="esa.mo.nmf.apps.pictureprocessor.PictureProcessorApp"/>
+      <property name="id" value="start_picture-processor"/>
+      <property name="binDir" value="picture-processor"/>
+    </ant>
+  </target>
+  <target name="emit-space-app-mp-demo">
+    <ant antfile="antpkg/build_shell_script.xml">
+      <property name="mainClass" value="esa.mo.nmf.apps.MPSpaceDemo"/>
+      <property name="id" value="start_mp-demo"/>
+      <property name="binDir" value="mp-demo"/>
+    </ant>
+    <ant antfile="antpkg/build_batch_script.xml">
+      <property name="mainClass" value="esa.mo.nmf.apps.MPSpaceDemo"/>
+      <property name="id" value="start_mp-demo"/>
+      <property name="binDir" value="mp-demo"/>
+    </ant>
+  </target>
+
+  <target name="emit-ground-app-mp-demo">
+    <ant antfile="antpkg/build_shell_script.xml">
+      <property name="mainClass" value="esa.mo.ground.mp.MPGroundDemo"/>
+      <property name="id" value="start_mp-ground-demo"/>
+      <property name="binDir" value="mp-ground-demo"/>
+    </ant>
+    <ant antfile="antpkg/build_batch_script.xml">
+      <property name="mainClass" value="esa.mo.ground.mp.MPGroundDemo"/>
+      <property name="id" value="start_mp-ground-demo"/>
+      <property name="binDir" value="mp-ground-demo"/>
     </ant>
   </target>
 </project>

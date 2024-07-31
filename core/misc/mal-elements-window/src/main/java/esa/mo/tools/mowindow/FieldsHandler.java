@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -43,7 +43,7 @@ public class FieldsHandler {
 
         return null;
     }
-    
+
     public static Field[] getDeclaredFields(Object obj) {
 
         Field[] fields = obj.getClass().getDeclaredFields();
@@ -72,9 +72,7 @@ public class FieldsHandler {
         try {
             field.setAccessible(true);
             objectWithValue = field.get(obj);
-        } catch (IllegalArgumentException ex) {
-            return true;
-        } catch (IllegalAccessException ex) {
+        } catch (IllegalArgumentException | IllegalAccessException ex) {
             return true;
         }
 
@@ -93,9 +91,7 @@ public class FieldsHandler {
             if (objectWithValue1 != null) {
                 return objectWithValue1;
             }
-        } catch (IllegalArgumentException ex) {
-            // Ja.. just continue the rest of the tests...
-        } catch (IllegalAccessException ex) {
+        } catch (IllegalArgumentException | IllegalAccessException ex) {
             // Ja.. just continue the rest of the tests...
         }
 
@@ -104,11 +100,7 @@ public class FieldsHandler {
             rawObj = field.getType().newInstance();
             secondObj = (Attribute) rawObj;
             return secondObj;
-        } catch (ClassCastException ex0) {
-            FieldsHandler.generateFieldObjectFromField(rawObj, field);
-        } catch (InstantiationException ex0) {
-            FieldsHandler.generateFieldObjectFromField(rawObj, field);
-        } catch (IllegalAccessException ex0) {
+        } catch (ClassCastException | IllegalAccessException | InstantiationException ex0) {
             FieldsHandler.generateFieldObjectFromField(rawObj, field);
         }
 
@@ -129,15 +121,11 @@ public class FieldsHandler {
                 Constructor constructor = constructors[0];  // Use the first constructor
                 constructor.setAccessible(true);
                 try {
-                    Enumeration ctor = (Enumeration) constructor.newInstance(0);
-                    return ctor;
-                } catch (InstantiationException ex) {
-                    Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IllegalAccessException ex) {
-                    Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IllegalArgumentException ex) {
-                    Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (InvocationTargetException ex) {
+                    return (Enumeration) constructor.newInstance(0);
+                } catch (InstantiationException |
+                         InvocationTargetException |
+                         IllegalArgumentException |
+                         IllegalAccessException ex) {
                     Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
@@ -149,11 +137,11 @@ public class FieldsHandler {
                 String name = constructor.getName();
                 try {
                     if (name.equals("java.lang.Boolean")) {
-                        return HelperAttributes.javaType2Attribute((Boolean) constructor.newInstance(true));
+                        return HelperAttributes.javaType2Attribute(constructor.newInstance(true));
                     }
 
                     if (name.equals("java.lang.String")) {
-                        return HelperAttributes.javaType2Attribute((String) constructor.newInstance(""));
+                        return HelperAttributes.javaType2Attribute(constructor.newInstance(""));
                     }
 
                     if (name.equals("java.lang.Byte")) {
@@ -161,13 +149,10 @@ public class FieldsHandler {
                     }
 
                     return HelperAttributes.javaType2Attribute(constructor.newInstance(1));
-                } catch (InstantiationException ex) {
-                    Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IllegalAccessException ex) {
-                    Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IllegalArgumentException ex) {
-                    Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (InvocationTargetException ex) {
+                } catch (InstantiationException |
+                         InvocationTargetException |
+                         IllegalArgumentException |
+                         IllegalAccessException ex) {
                     Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
@@ -177,5 +162,4 @@ public class FieldsHandler {
         return null;
     }
 
-    
 }

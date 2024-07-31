@@ -1,13 +1,13 @@
 /*
  *  ----------------------------------------------------------------------------
- *  Copyright (C) 2016      European Space Agency
+ *  Copyright (C) 2021      European Space Agency
  *                          European Space Operations Centre
  *                          Darmstadt
  *                          Germany
  *  ----------------------------------------------------------------------------
  *  System                : ESA NanoSat MO Framework
  *  ----------------------------------------------------------------------------
- *  Licensed under the European Space Agency Public License, Version 2.0
+ *  Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  *  You may not use this file except in compliance with the License.
  * 
  *  Except as expressly set forth in this License, the Software is provided to
@@ -37,14 +37,10 @@ public class CommandResult implements Serializable {
     private boolean commandFailed;
 
     public String toExtString() {
-        return "CommandResult{intfName=" + commandDescriptor.getIntF()
-                + ", methodBody=" + commandDescriptor.getMethodBody()
-                + ",internalID=" + commandDescriptor.getInternalID()
-                + ", executionTime=" + executionTime
-                + ", simulatorTime=" + simulatorTime
-                + "," + commandDescriptor.getInputArgs()
-                + ", " + getOutputAsString()
-                + "}";
+        return "CommandResult{intfName=" + commandDescriptor.getIntF() + ", methodBody=" + commandDescriptor
+            .getMethodBody() + ",internalID=" + commandDescriptor.getInternalID() + ", executionTime=" + executionTime +
+            ", simulatorTime=" + simulatorTime + "," + commandDescriptor.getInputArgs() + ", " + getOutputAsString() +
+            "}";
     }
 
     public String getOutputAsString() {
@@ -68,8 +64,8 @@ public class CommandResult implements Serializable {
                     sb2.append(",");
                 }
                 if (bytesLen > 1024) {
-                    String continuation = "+ [" + (bytes.length - bytesLen)
-                            + "] more , total [" + bytes.length + "] bytes.";
+                    String continuation = "+ [" + (bytes.length - bytesLen) + "] more , total [" + bytes.length +
+                        "] bytes.";
                     sb.append(continuation);
                     sb2.append(continuation);
                     break;
@@ -89,8 +85,8 @@ public class CommandResult implements Serializable {
                     sb.append(",");
                 }
                 if (bytesLen > 1024) {
-                    String continuation = "+ [" + (bytes.length - bytesLen)
-                            + "] more , total [" + bytes.length + "] doubles.";
+                    String continuation = "+ [" + (bytes.length - bytesLen) + "] more , total [" + bytes.length +
+                        "] doubles.";
                     sb.append(continuation);
                     break;
                 }
@@ -133,8 +129,8 @@ public class CommandResult implements Serializable {
 
     @Override
     public String toString() {
-        return "CommandResult{" + "methodBody=" + commandDescriptor.getMethodBody()
-                + ", executionTime=" + executionTime + "}";
+        return "CommandResult{" + "methodBody=" + commandDescriptor.getMethodBody() + ", executionTime=" +
+            executionTime + "}";
     }
 
     public CommandDescriptor getCommandDescriptor() {

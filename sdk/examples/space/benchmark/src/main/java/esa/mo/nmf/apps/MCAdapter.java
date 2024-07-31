@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -54,7 +54,7 @@ import org.ccsds.moims.mo.mc.structures.ConditionalConversionList;
 public class MCAdapter extends MonitorAndControlNMFAdapter {
 
     private final NMFInterface connector;
-//    private static int NUMBER_OF_OBJS = 5000;
+    //    private static int NUMBER_OF_OBJS = 5000;
     private static final int NUMBER_OF_OBJS = 10000;
     private static final String PARAMETER_PERIODIC = "Periodic_Parameter";
     private static final String PARAMETER_ARCHIVE_SIZE = "COM_Archive.size";
@@ -74,29 +74,15 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
         IdentifierList paramNames = new IdentifierList();
 
         // Creates a periodic parameter
-        parDef.add(new ParameterDefinitionDetails(
-                "A periodic parameter with a double value.",
-                Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
-                "unit",
-                false,
-                new Duration(1),
-                null,
-                null
-        ));
+        parDef.add(new ParameterDefinitionDetails("A periodic parameter with a double value.",
+            Union.DOUBLE_TYPE_SHORT_FORM.byteValue(), "unit", false, new Duration(1), null, null));
         paramNames.add(new Identifier(PARAMETER_PERIODIC));
 
         // Creates a periodic parameter
-        parDef.add(new ParameterDefinitionDetails(
-                "The COM Archive size.",
-                Union.LONG_TYPE_SHORT_FORM.byteValue(),
-                "bytes",
-                false,
-                new Duration(0),
-                null,
-                null
-        ));
+        parDef.add(new ParameterDefinitionDetails("The COM Archive size.", Union.LONG_TYPE_SHORT_FORM.byteValue(),
+            "bytes", false, new Duration(0), null, null));
         paramNames.add(new Identifier(PARAMETER_ARCHIVE_SIZE));
-        
+
         registration.registerParameters(paramNames, parDef);
 
         // ------------------ Actions ------------------
@@ -112,25 +98,17 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
             String convertedUnit = null;
 
             arguments1.add(new ArgumentDefinitionDetails(new Identifier("1"), "", rawType, rawUnit,
-                    conditionalConversions, convertedType, convertedUnit));
+                conditionalConversions, convertedType, convertedUnit));
         }
 
-        actionDefs.add(new ActionDefinitionDetails(
-                "Stores " + NUMBER_OF_OBJS + " aggregation definition objects in the COM Archive.",
-                new UOctet((short) 0),
-                new UShort(0),
-                arguments1
-        ));
+        actionDefs.add(new ActionDefinitionDetails("Stores " + NUMBER_OF_OBJS +
+            " aggregation definition objects in the COM Archive.", new UOctet((short) 0), new UShort(0), arguments1));
         actionNames.add(new Identifier(ACTION_STORE_AGGS));
 
-        actionDefs.add(new ActionDefinitionDetails(
-                "Stores " + NUMBER_OF_OBJS + " parameter value objects in the COM Archive.",
-                new UOctet((short) 0),
-                new UShort(0),
-                arguments1
-        ));
+        actionDefs.add(new ActionDefinitionDetails("Stores " + NUMBER_OF_OBJS +
+            " parameter value objects in the COM Archive.", new UOctet((short) 0), new UShort(0), arguments1));
         actionNames.add(new Identifier(ACTION_STORE_PARS));
-        
+
         LongList actionObjIds = registration.registerActions(actionNames, actionDefs);
     }
 
@@ -139,7 +117,7 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
         if (PARAMETER_PERIODIC.equals(identifier.getValue())) {
             return (Attribute) HelperAttributes.javaType2Attribute(123.456);
         }
-        
+
         if (PARAMETER_ARCHIVE_SIZE.equals(identifier.getValue())) {
             File f = new File("comArchive.db");
             long size = f.length();
@@ -155,8 +133,8 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
     }
 
     @Override
-    public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,
-            Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
+    public UInteger actionArrived(Identifier name, AttributeValueList attributeValues, Long actionInstanceObjId,
+        boolean reportProgress, MALInteraction interaction) {
         if (ACTION_STORE_AGGS.equals(name.getValue())) {
             StoreAggregations.storeAggregations(NUMBER_OF_OBJS, connector);
         }

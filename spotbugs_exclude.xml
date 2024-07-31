@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<FindBugsFilter>
+    <Bug pattern="EI_EXPOSE_REP, EI_EXPOSE_REP2, MS_EXPOSE_REP"/>
+    <Bug pattern="DCN_NULLPOINTER_EXCEPTION"/>
+    <Bug pattern="OBL_UNSATISFIED_OBLIGATION_EXCEPTION_EDGE"/>
+    <Bug pattern="ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD"/>
+    <Bug pattern="DM_DEFAULT_ENCODING"/>
+    <Bug pattern="DC_DOUBLECHECK"/>
+    <Bug pattern="URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD"/>
+    <Bug pattern="BIT_ADD_OF_SIGNED_BYTE"/>
+    <Bug pattern="EQ_COMPARETO_USE_OBJECT_EQUALS"/>
+    <Bug pattern="EQ_CHECK_FOR_OPERAND_NOT_COMPATIBLE_WITH_THIS"/>
+    <Bug pattern="DMI_HARDCODED_ABSOLUTE_FILENAME"/>
+    <Bug pattern="REC_CATCH_EXCEPTION"/>
+    <Bug pattern="UW_UNCOND_WAIT"/>
+    <Bug pattern="STCAL_INVOKE_ON_STATIC_DATE_FORMAT_INSTANCE"/>
+    <Bug pattern="NP_BOOLEAN_RETURN_NULL"/>
+    <Bug pattern="MS_CANNOT_BE_FINAL"/>
+    <Bug pattern="RC_REF_COMPARISON_BAD_PRACTICE"/>
+    <Bug pattern="DMI_THREAD_PASSED_WHERE_RUNNABLE_EXPECTED"/>
+    <Bug pattern="UWF_UNWRITTEN_PUBLIC_OR_PROTECTED_FIELD"/>
+    <Bug pattern="UUF_UNUSED_PUBLIC_OR_PROTECTED_FIELD"/>
+    <Bug pattern="URF_UNREAD_FIELD"/>
+    <Bug pattern="UUF_UNUSED_FIELD"/>
+    <Bug pattern="NP_UNWRITTEN_FIELD"/>
+    <Bug pattern="UWF_UNWRITTEN_FIELD"/>
+    <Bug pattern="DM_EXIT"/>
+    <Bug pattern="DM_STRING_VOID_CTOR"/>
+    <Bug pattern="SE_BAD_FIELD"/>
+    <Bug pattern="RR_NOT_CHECKED"/>
+    <Bug pattern="ODR_OPEN_DATABASE_RESOURCE"/>
+    <Bug pattern="OBL_UNSATISFIED_OBLIGATION"/>
+    <Bug pattern="IS2_INCONSISTENT_SYNC"/>
+    <Bug pattern="DLS_DEAD_LOCAL_STORE"/>
+    <Bug pattern="SSD_DO_NOT_USE_INSTANCE_LOCK_ON_SHARED_STATIC_DATA"/>
+    <Bug pattern="DE_MIGHT_IGNORE"/>
+    <Bug pattern="RV_RETURN_VALUE_IGNORED_BAD_PRACTICE"/>
+    <Bug pattern="DM_GC"/>
+    <Bug pattern="BC_VACUOUS_INSTANCEOF"/>
+    <Bug pattern="VA_FORMAT_STRING_USES_NEWLINE"/>
+    <Bug pattern="FI_EXPLICIT_INVOCATION"/>
+    <Bug pattern="MS_PKGPROTECT"/>
+    <Bug pattern="FL_FLOATS_AS_LOOP_COUNTERS"/>
+    <Bug pattern="UC_USELESS_OBJECT"/>
+
+    <Match>
+        <Or>
+            <Class name="esa.mo.helpertools.helpers.HelperAttributes"/>
+            <Class name="esa.mo.com.impl.consumer.EventConsumerServiceImpl"/>
+            <Class name="esa.mo.sm.impl.provider.AppsLauncherManager"/>
+            <Class name="esa.mo.mc.impl.consumer.ParameterConsumerServiceImpl"/>
+            <Class name="esa.mo.nmf.nmfpackage.NMFPackagePMBackend"/>
+            <Class name="esa.mo.nmf.nmfpackage.GenerateNMFPackageMojo"/>
+            <Class name="esa.mo.nmf.apps.pictureprocessor.process.PictureProcessingExecutor"/>
+            <Class name="esa.mo.nmf.apps.pictureprocessor.utils.FileUtils"/>
+            <Class name="esa.mo.nmf.ground.facebook.Push2Facebook$DataReceivedAdapter"/>
+        </Or>
+        <Bug pattern="NP_NULL_ON_SOME_PATH_EXCEPTION, RCN_REDUNDANT_NULLCHECK_OF_NULL_VALUE, NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE, RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE"/>
+    </Match>
+
+    <Match>
+        <Or>
+            <Class name="esa.mo.com.impl.archive.db.DatabaseBackend"/>
+        </Or>
+        <Bug pattern="SQL_NONCONSTANT_STRING_PASSED_TO_EXECUTE"/>
+    </Match>
+
+    <Match>
+        <Or>
+            <Class name="esa.mo.common.impl.provider.ConfigurationProviderServiceImpl$EventConsumerConfigurationCallbackAdapter"/>
+            <Class name="~esa\.mo\.nmf\.clitool\..*"/>
+        </Or>
+        <Bug pattern="SS_SHOULD_BE_STATIC, WA_NOT_IN_LOOP, LI_LAZY_INIT_STATIC"/>
+    </Match>
+
+    <Match>
+        <Or>
+            <Class name="esa.mo.nmf.nmfpackage.receipt.ReceiptVersion1"/>
+            <Class name="esa.mo.nmf.nmfpackage.receipt.ReceiptVersion2"/>
+            <Class name="esa.mo.nmf.nmfpackage.descriptor.NMFPackageDescriptor"/>
+            <Class name="esa.mo.nmf.nmfpackage.NMFPackageManager"/>
+            <Class name="esa.mo.platform.impl.util.PlatformServicesProviderSoftSim"/>
+        </Or>
+        <Bug pattern="SA_LOCAL_SELF_COMPARISON, OS_OPEN_STREAM"/>
+    </Match>
+
+    <Match>
+        <Or>
+            <Class name="esa.mo.mc.impl.proxy.ParameterProxyServiceImpl"/>
+        </Or>
+        <Bug pattern="IL_INFINITE_LOOP"/>
+    </Match>
+
+    <Match>
+        <Or>
+            <Class name="esa.mo.tools.mowindow.MOWindow"/>
+        </Or>
+        <Bug pattern="NP_LOAD_OF_KNOWN_NULL_VALUE"/>
+    </Match>
+
+    <Match>
+        <Or>
+            <Class name="esa.mo.nmf.apps.CameraAcquisitorSystemCameraHandler$CameraDataHandler"/>
+            <Class name="esa.mo.ground.echo.AlertTest2$EventConsumerAdapter"/>
+        </Or>
+        <Bug pattern="SIC_INNER_SHOULD_BE_STATIC"/>
+    </Match>
+
+    <Match>
+        <Or>
+            <Class name="esa.mo.nmf.clitool.adapters.ArchiveToParametersAdapter"/>
+            <Class name="esa.mo.nmf.clitool.MCCommands$GetParameters"/>
+        </Or>
+        <Bug pattern="WMI_WRONG_MAP_ITERATOR"/>
+    </Match>
+
+    <Package name="~opssat.simulator.*"/>
+    <!-- Exclude generated sources -->
+    <Package name="~org.ccsds.moims.mo.*"/>
+
+    <Match>
+        <Class name="~.*\.*Test"/>
+        <Not>
+            <Bug code="IJU"/>
+        </Not>
+    </Match>
+</FindBugsFilter>

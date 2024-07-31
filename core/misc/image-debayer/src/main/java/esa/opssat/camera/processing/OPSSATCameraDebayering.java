@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2017      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -67,7 +67,7 @@ public class OPSSATCameraDebayering {
         fi.width = 2048;
         fi.height = 1944;
 
-        fi.offset = (int) 0;
+        fi.offset = 0;
         fi.nImages = 1;
         fi.gapBetweenImages = 0;
         fi.intelByteOrder = true; // Little-endian byte order
@@ -86,11 +86,11 @@ public class OPSSATCameraDebayering {
         ImagePlus imp = new ImagePlus("", processor);
 
         ImagePlus outImage = OPSSATCameraDebayering.processImage(imp, algorithm);
-//        outImage.show();
+        //        outImage.show();
 
         return outImage.getBufferedImage();
     }
-    
+
     private static ImagePlus processImage(ImagePlus imp, int algorithm) {
         Debayer_Image debayeringFilter = new Debayer_Image();
         debayeringFilter.setup(String.valueOf(algorithm), imp);

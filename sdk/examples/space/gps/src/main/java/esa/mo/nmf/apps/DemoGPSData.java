@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -73,7 +73,7 @@ public class DemoGPSData {
 
     public DemoGPSData() {
         this.connector = new NanoSatMOConnectorImpl();
-        this.connector.init(new mcAdapter());
+        this.connector.init(new McAdapter());
     }
 
     /**
@@ -82,7 +82,7 @@ public class DemoGPSData {
      * @param args the command line arguments
      * @throws java.lang.Exception If there is an error
      */
-    public static void main(final String args[]) throws Exception {
+    public static void main(final String[] args) throws Exception {
         DemoGPSData demo = new DemoGPSData();
     }
 
@@ -96,18 +96,15 @@ public class DemoGPSData {
             final ObjectId source = null;
             final Time timestamp = new Time((new Date()).getTime());
 
-            return connector.getMCServices().getAggregationService().pushAggregationAdhocUpdate(
-                    new Identifier("GPS"),
-                    source,
-                    timestamp
-            );
+            return connector.getMCServices().getAggregationService().pushAggregationAdhocUpdate(new Identifier("GPS"),
+                source, timestamp);
         } catch (NMFException ex) {
             Logger.getLogger(DemoGPSData.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
 
-    public class mcAdapter extends MonitorAndControlNMFAdapter {
+    public class McAdapter extends MonitorAndControlNMFAdapter {
 
         @Override
         public void initialRegistrations(MCRegistration registrationObject) {
@@ -118,50 +115,22 @@ public class DemoGPSData {
             IdentifierList paramNames = new IdentifierList();
 
             // Create the GPS.Latitude
-            parDef.add(new ParameterDefinitionDetails(
-                    "The GPS Latitude",
-                    Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
-                    "degrees",
-                    false,
-                    new Duration(2),
-                    null,
-                    null
-            ));
+            parDef.add(new ParameterDefinitionDetails("The GPS Latitude", Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
+                "degrees", false, new Duration(2), null, null));
             paramNames.add(new Identifier(PARAMETER_GPS_LATITUDE));
 
             // Create the GPS.Longitude
-            parDef.add(new ParameterDefinitionDetails(
-                    "The GPS Longitude",
-                    Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
-                    "degrees",
-                    false,
-                    new Duration(2),
-                    null,
-                    null
-            ));
+            parDef.add(new ParameterDefinitionDetails("The GPS Longitude", Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
+                "degrees", false, new Duration(2), null, null));
             paramNames.add(new Identifier(PARAMETER_GPS_LONGITUDE));
 
             // Create the GPS.Altitude
-            parDef.add(new ParameterDefinitionDetails(
-                    "The GPS Altitude",
-                    Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
-                    "meters",
-                    false,
-                    new Duration(2),
-                    null,
-                    null
-            ));
+            parDef.add(new ParameterDefinitionDetails("The GPS Altitude", Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
+                "meters", false, new Duration(2), null, null));
             paramNames.add(new Identifier(PARAMETER_GPS_ALTITUDE));
 
-            parDef.add(new ParameterDefinitionDetails(
-                    "The number of satellites in view of GPS receiver.",
-                    Union.INTEGER_SHORT_FORM.byteValue(),
-                    "sats",
-                    false,
-                    new Duration(4),
-                    null,
-                    null
-            ));
+            parDef.add(new ParameterDefinitionDetails("The number of satellites in view of GPS receiver.",
+                Union.INTEGER_SHORT_FORM.byteValue(), "sats", false, new Duration(4), null, null));
             paramNames.add(new Identifier(PARAMETER_GPS_N_SATS_IN_VIEW));
 
             LongList parameterObjIdsGPS = registrationObject.registerParameters(paramNames, parDef);
@@ -172,24 +141,13 @@ public class DemoGPSData {
 
             // Create the Aggregation GPS
             AggregationDefinitionDetails defGPSAgg = new AggregationDefinitionDetails(
-                    "Aggregates: GPS Latitude, GPS Longitude, GPS Altitude, GPS.NumberOfSatellitesInView.",
-                    new UOctet((short) AggregationCategory.GENERAL.getOrdinal()),
-                    new Duration(10),
-                    true,
-                    false,
-                    false,
-                    new Duration(20),
-                    true,
-                    new AggregationParameterSetList()
-            );
+                "Aggregates: GPS Latitude, GPS Longitude, GPS Altitude, GPS.NumberOfSatellitesInView.", new UOctet(
+                    (short) AggregationCategory.GENERAL.getOrdinal()), new Duration(10), true, false, false,
+                new Duration(20), true, new AggregationParameterSetList());
             aggNames.add(new Identifier(AGGREGATION_GPS));
 
-            defGPSAgg.getParameterSets().add(new AggregationParameterSet(
-                    null,
-                    parameterObjIdsGPS,
-                    new Duration(3),
-                    null
-            ));
+            defGPSAgg.getParameterSets().add(new AggregationParameterSet(null, parameterObjIdsGPS, new Duration(3),
+                null));
 
             aggDef.add(defGPSAgg);
             registrationObject.registerAggregations(aggNames, aggDef);
@@ -203,7 +161,8 @@ public class DemoGPSData {
                 }
 
                 try {
-                    GetLastKnownPositionResponse pos = connector.getPlatformServices().getGPSService().getLastKnownPosition();
+                    GetLastKnownPositionResponse pos = connector.getPlatformServices().getGPSService()
+                        .getLastKnownPosition();
 
                     if (PARAMETER_GPS_LATITUDE.equals(identifier.getValue())) {
                         return (Attribute) HelperAttributes.javaType2Attribute(pos.getBodyElement0().getLatitude());
@@ -216,9 +175,7 @@ public class DemoGPSData {
                     if (PARAMETER_GPS_ALTITUDE.equals(identifier.getValue())) {
                         return (Attribute) HelperAttributes.javaType2Attribute(pos.getBodyElement0().getAltitude());
                     }
-                } catch (IOException ex) {
-                    Logger.getLogger(DemoGPSData.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (NMFException ex) {
+                } catch (IOException | NMFException ex) {
                     Logger.getLogger(DemoGPSData.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
@@ -229,8 +186,10 @@ public class DemoGPSData {
                     class AdapterImpl extends GPSAdapter {
 
                         @Override
-                        public void getSatellitesInfoResponseReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-                                org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList gpsSatellitesInfo, java.util.Map qosProperties) {
+                        public void getSatellitesInfoResponseReceived(
+                            org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
+                            org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList gpsSatellitesInfo,
+                            java.util.Map qosProperties) {
                             nOfSats.add(gpsSatellitesInfo.size());
                             sem.release();
                         }
@@ -238,9 +197,7 @@ public class DemoGPSData {
 
                     try {
                         connector.getPlatformServices().getGPSService().getSatellitesInfo(new AdapterImpl());
-                    } catch (IOException ex) {
-                        Logger.getLogger(DemoGPSData.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (NMFException ex) {
+                    } catch (IOException | NMFException ex) {
                         Logger.getLogger(DemoGPSData.class.getName()).log(Level.SEVERE, null, ex);
                     }
 
@@ -252,9 +209,7 @@ public class DemoGPSData {
 
                     return (Attribute) HelperAttributes.javaType2Attribute(nOfSats.get(0));
                 }
-            } catch (MALException ex) {
-                Logger.getLogger(DemoGPSData.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALInteractionException ex) {
+            } catch (MALException | MALInteractionException ex) {
                 Logger.getLogger(DemoGPSData.class.getName()).log(Level.SEVERE, null, ex);
             }
 
@@ -267,8 +222,8 @@ public class DemoGPSData {
         }
 
         @Override
-        public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,
-                Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
+        public UInteger actionArrived(Identifier name, AttributeValueList attributeValues, Long actionInstanceObjId,
+            boolean reportProgress, MALInteraction interaction) {
             return null;  // Action service not integrated
         }
     }

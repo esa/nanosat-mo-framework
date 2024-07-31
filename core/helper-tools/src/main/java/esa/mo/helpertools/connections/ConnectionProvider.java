@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -46,12 +46,15 @@ import org.ccsds.moims.mo.mal.structures.URI;
  */
 public class ConnectionProvider {
 
+    private final static ServicesConnectionDetails GLOBAL_PROVIDERS_DETAILS_PRIMARY = new ServicesConnectionDetails();
+    private final static ServicesConnectionDetails GLOBAL_PROVIDERS_DETAILS_SECONDARY = new ServicesConnectionDetails();
+
+    private final SingleConnectionDetails primaryConnectionDetails = new SingleConnectionDetails();
     private MALContextFactory malFactory;
     private MALContext mal;
     private MALProviderManager providerMgr;
     private MALProvider primaryMALServiceProvider = null;
     private MALProvider secondaryMALServiceProvider = null;
-    private final SingleConnectionDetails primaryConnectionDetails = new SingleConnectionDetails();
     private SingleConnectionDetails secondaryConnectionDetails = null;
 
     /**
@@ -99,11 +102,11 @@ public class ConnectionProvider {
      * @param serviceName Name of the service
      * @param malService MAL service
      * @param handler The handler of the interaction
-     * @return
+     * @return MALProvider
      * @throws MALException On error.
      */
-    public MALProvider startService(String serviceName, MALService malService,
-            MALInteractionHandler handler) throws MALException {
+    public MALProvider startService(String serviceName, MALService malService, MALInteractionHandler handler)
+        throws MALException {
         return startService(serviceName, malService, true, handler);
     }
 
@@ -115,17 +118,34 @@ public class ConnectionProvider {
      * @param malService MAL service
      * @param isPublisher Boolean flag to define if the service has PUB-SUB
      * @param handler The handler of the interaction
-     * @return
+     * @return MALProvider
      * @throws MALException On error.
      */
     public MALProvider startService(String serviceName, MALService malService,
             boolean isPublisher, MALInteractionHandler handler) throws MALException {
+        return startService(serviceName, malService, isPublisher, handler, null);
+    }
+
+    /**
+     * Closes any existing service providers and recreates them. Used to
+     * initialize services.
+     *
+     * @param serviceName Name of the service
+     * @param malService MAL service
+     * @param isPublisher Boolean flag to define if the service has PUB-SUB
+     * @param handler The handler of the interaction
+     * @param authenticationId authenticationId of the logged in user
+     * @return MALProvider
+     * @throws MALException On error.
+     */
+    public MALProvider startService(String serviceName, MALService malService, boolean isPublisher,
+        MALInteractionHandler handler, Blob authenticationId) throws MALException {
         try {
             malFactory = MALContextFactory.newFactory();
         } catch (MALException ex) {
             Logger.getLogger(ConnectionProvider.class.getName()).log(Level.SEVERE,
-                    "Check if the MAL implementation is included in your project!! "
-                    + "This error usually happens when the MAL layer is missing.", ex);
+                "Check if the MAL implementation is included in your project!! " +
+                    "This error usually happens when the MAL layer is missing.", ex);
         }
 
         mal = malFactory.createMALContext(System.getProperties());
@@ -143,18 +163,9 @@ public class ConnectionProvider {
         Properties props = new Properties();
         props.putAll(System.getProperties());
 
-        MALProvider serviceProvider = providerMgr.createProvider(uriName,
-                null,
-                malService,
-                new Blob("".getBytes()),
-                handler,
-                new QoSLevel[]{
-                    QoSLevel.ASSURED
-                },
-                new UInteger(1),
-                props,
-                isPublisher,
-                sharedBrokerURI);
+        MALProvider serviceProvider = providerMgr.createProvider(uriName, null, malService, null == authenticationId ?
+            new Blob("".getBytes()) : authenticationId, handler, new QoSLevel[]{QoSLevel.ASSURED}, new UInteger(1),
+            props, isPublisher, sharedBrokerURI);
 
         IntegerList serviceKey = new IntegerList();
         serviceKey.add(malService.getArea().getNumber().getValue()); // Area
@@ -166,21 +177,26 @@ public class ConnectionProvider {
         primaryConnectionDetails.setDomain(ConfigurationProviderSingleton.getDomain());
         primaryConnectionDetails.setServiceKey(serviceKey);
 
-        Logger.getLogger(ConnectionProvider.class.getName()).log(Level.FINE,
-                "\n" + serviceName + " Service URI        : {0}"
-                + "\n" + serviceName + " Service broker URI : {1}"
-                + "\n" + serviceName + " Service domain     : {2}"
-                + "\n" + serviceName + " Service key        : {3}",
-                new Object[]{
-                    primaryConnectionDetails.getProviderURI(),
-                    primaryConnectionDetails.getBrokerURI(),
-                    primaryConnectionDetails.getDomain(),
-                    serviceKey
-                });
+        Logger.getLogger(ConnectionProvider.class.getName()).log(Level.FINE, "\n" + serviceName +
+            " Service URI        : {0}" + "\n" + serviceName + " Service broker URI : {1}" + "\n" + serviceName +
+            " Service domain     : {2}" + "\n" + serviceName + " Service key        : {3}", new Object[]{
+                                                                                                         primaryConnectionDetails
+                                                                                                             .getProviderURI(),
+                                                                                                         primaryConnectionDetails
+                                                                                                             .getBrokerURI(),
+                                                                                                         primaryConnectionDetails
+                                                                                                             .getDomain(),
+                                                                                                         serviceKey});
 
-        this.writeURIsOnFile(primaryConnectionDetails,
-                serviceName,
-                HelperMisc.PROVIDER_URIS_PROPERTIES_FILENAME);
+        if (shouldInitUriFiles()) {
+            String path = System.getProperty(HelperMisc.PROP_PROVIDERURIS_PATH,
+                    HelperMisc.PROVIDER_URIS_PROPERTIES_FILENAME);
+
+            this.writeURIsOnFile(primaryConnectionDetails,
+                    serviceName,
+                    path);
+        }
+        GLOBAL_PROVIDERS_DETAILS_PRIMARY.add(serviceName, primaryConnectionDetails);
 
         primaryMALServiceProvider = serviceProvider;
 
@@ -190,40 +206,36 @@ public class ConnectionProvider {
         if (secondaryProtocol != null) {
             secondaryConnectionDetails = new SingleConnectionDetails();
 
-            MALProvider serviceProvider2 = providerMgr.createProvider(uriName,
-                    secondaryProtocol,
-                    malService,
-                    new Blob("".getBytes()),
-                    handler,
-                    new QoSLevel[]{
-                        QoSLevel.ASSURED
-                    },
-                    new UInteger(1),
-                    props,
-                    isPublisher,
-                    sharedBrokerURI);
+            MALProvider serviceProvider2 = providerMgr.createProvider(uriName, secondaryProtocol, malService, null ==
+                authenticationId ? new Blob("".getBytes()) : authenticationId, handler, new QoSLevel[]{
+                                                                                                       QoSLevel.ASSURED},
+                new UInteger(1), props, isPublisher, sharedBrokerURI);
 
             secondaryConnectionDetails.setProviderURI(serviceProvider2.getURI());
             secondaryConnectionDetails.setBrokerURI(serviceProvider2.getBrokerURI());
             secondaryConnectionDetails.setDomain(ConfigurationProviderSingleton.getDomain());
             secondaryConnectionDetails.setServiceKey(serviceKey);
 
-            Logger.getLogger(ConnectionProvider.class.getName()).log(Level.FINE,
-                    "\n" + serviceName + " Service URI        : {0}"
-                    + "\n" + serviceName + " Service broker URI : {1}"
-                    + "\n" + serviceName + " Service domain     : {2}"
-                    + "\n" + serviceName + " Service key        : {3}",
-                    new Object[]{
-                        secondaryConnectionDetails.getProviderURI(),
-                        secondaryConnectionDetails.getBrokerURI(),
-                        secondaryConnectionDetails.getDomain(),
-                        serviceKey
-                    });
+            Logger.getLogger(ConnectionProvider.class.getName()).log(Level.FINE, "\n" + serviceName +
+                " Service URI        : {0}" + "\n" + serviceName + " Service broker URI : {1}" + "\n" + serviceName +
+                " Service domain     : {2}" + "\n" + serviceName + " Service key        : {3}", new Object[]{
+                                                                                                             secondaryConnectionDetails
+                                                                                                                 .getProviderURI(),
+                                                                                                             secondaryConnectionDetails
+                                                                                                                 .getBrokerURI(),
+                                                                                                             secondaryConnectionDetails
+                                                                                                                 .getDomain(),
+                                                                                                             serviceKey});
 
-            this.writeURIsOnFile(secondaryConnectionDetails,
-                    serviceName,
-                    HelperMisc.PROVIDER_URIS_SECONDARY_PROPERTIES_FILENAME);
+            if (shouldInitUriFiles()) {
+                String pathSec = System.getProperty(HelperMisc.PROP_PROVIDERURIS_SEC_PATH,
+                        HelperMisc.PROVIDER_URIS_SECONDARY_PROPERTIES_FILENAME);
 
+                this.writeURIsOnFile(secondaryConnectionDetails,
+                        serviceName,
+                        pathSec);
+            }
+            GLOBAL_PROVIDERS_DETAILS_SECONDARY.add(serviceName, secondaryConnectionDetails);
             secondaryMALServiceProvider = serviceProvider2;
         }
 
@@ -246,7 +258,7 @@ public class ConnectionProvider {
             }
         } catch (MALException ex) {
             Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING,
-                    "Exception during close down of the provider {0}", ex);
+                "Exception during close down of the provider {0}", ex);
         }
     }
 
@@ -265,7 +277,7 @@ public class ConnectionProvider {
             }
         } catch (MALException ex) {
             Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING,
-                    "Exception during close down of the provider {0}", ex);
+                "Exception during close down of the provider {0}", ex);
         }
 
         try {
@@ -278,46 +290,95 @@ public class ConnectionProvider {
             }
         } catch (MALException ex) {
             Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING,
-                    "Exception during close down of the provider {0}", ex);
+                "Exception during close down of the provider {0}", ex);
         }
     }
 
     /**
-     * Clears the URI links file of the provider
+     * Indicates whether the URI Files should be initialised. Defaults to false.
+     *
+     * @return true if URI Files should be initialised
      */
-    public static void resetURILinksFile() {
-        try (BufferedWriter wrt = new BufferedWriter(new FileWriter(HelperMisc.PROVIDER_URIS_PROPERTIES_FILENAME, false))) {
-        } catch (IOException ex) {
-            Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING,
-                    "Unable to reset URI information from properties file {0}", ex);
-        }
+    public static boolean shouldInitUriFiles() {
+        return Boolean.valueOf(System.getProperty(HelperMisc.PROP_INIT_URI_FILES, "false"));
+    }
 
-        if (System.getProperty(HelperMisc.SECONDARY_PROTOCOL) != null) {
-            try (BufferedWriter wrt2 = new BufferedWriter(new FileWriter(HelperMisc.PROVIDER_URIS_SECONDARY_PROPERTIES_FILENAME, false))) {
+    /**
+     * Clears the URI links file if its generation is enabled
+     */
+    public static void resetURILinks() {
+        GLOBAL_PROVIDERS_DETAILS_PRIMARY.reset();
+        GLOBAL_PROVIDERS_DETAILS_SECONDARY.reset();
+
+        if (shouldInitUriFiles()) {
+            String path = System.getProperty(HelperMisc.PROP_PROVIDERURIS_PATH,
+                    HelperMisc.PROVIDER_URIS_PROPERTIES_FILENAME);
+
+            try (BufferedWriter wrt = new BufferedWriter(new FileWriter(path, false))) {
             } catch (IOException ex) {
                 Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING,
+                    "Unable to reset URI information from properties file {0}", ex);
+            }
+
+            if (System.getProperty(HelperMisc.SECONDARY_PROTOCOL) != null) {
+                String pathSec = System.getProperty(HelperMisc.PROP_PROVIDERURIS_SEC_PATH,
+                        HelperMisc.PROVIDER_URIS_SECONDARY_PROPERTIES_FILENAME);
+
+                try (BufferedWriter wrt2 = new BufferedWriter(new FileWriter(pathSec, false))) {
+                } catch (IOException ex) {
+                    Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING,
                         "Unable to reset URI information from properties file {0}", ex);
+                }
             }
         }
+    }
 
+    /**
+     * Get primary connection interface details of all providers in the
+     * application.
+     *
+     * @return Primary connection details of all providers in the application.
+     */
+    public static ServicesConnectionDetails getGlobalProvidersDetailsPrimary() {
+        return GLOBAL_PROVIDERS_DETAILS_PRIMARY;
+    }
+
+    /**
+     * Get secondary connection interface details of all providers in the
+     * application.
+     *
+     * @return Secondary connection details of all providers in the application.
+     */
+    public static ServicesConnectionDetails getGlobalProvidersDetailsSecondary() {
+        return GLOBAL_PROVIDERS_DETAILS_SECONDARY;
     }
 
     /**
      * Writes the URIs on a text file
      */
     private void writeURIsOnFile(SingleConnectionDetails connectionDetails, String serviceName, String filename) {
+        StringBuilder str = new StringBuilder();
+        str.append(serviceName).append(HelperConnections.SUFFIX_URI).append("=").append(connectionDetails.getProviderURI()).append("\n");
+        str.append(serviceName).append(HelperConnections.SUFFIX_BROKER).append("=").append(connectionDetails.getBrokerURI()).append("\n");
+        str.append(serviceName).append(HelperConnections.SUFFIX_DOMAIN).append("=").append(HelperMisc.domain2domainId(connectionDetails.getDomain())).append("\n");
+        str.append(serviceName).append(HelperConnections.SUFFIX_SERVICE_KEY).append("=").append(connectionDetails.getServiceKey()).append("\n");
+        
         try (BufferedWriter wrt = new BufferedWriter(new FileWriter(filename, true))) {
+            wrt.append(str.toString());
+            /*
             wrt.append(serviceName + HelperConnections.SUFFIX_URI + "=" + connectionDetails.getProviderURI());
             wrt.newLine();
             wrt.append(serviceName + HelperConnections.SUFFIX_BROKER + "=" + connectionDetails.getBrokerURI());
             wrt.newLine();
-            wrt.append(serviceName + HelperConnections.SUFFIX_DOMAIN + "=" + HelperMisc.domain2domainId(connectionDetails.getDomain()));
+            wrt.append(serviceName + HelperConnections.SUFFIX_DOMAIN + "=" + HelperMisc.domain2domainId(
+                connectionDetails.getDomain()));
             wrt.newLine();
             wrt.append(serviceName + HelperConnections.SUFFIX_SERVICE_KEY + "=" + connectionDetails.getServiceKey());
             wrt.newLine();
+            */
         } catch (IOException ex) {
             Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING,
-                    "Unable to write URI information to properties file {0}", ex);
+                "Unable to write URI information to properties file {0}", ex);
         }
     }
 

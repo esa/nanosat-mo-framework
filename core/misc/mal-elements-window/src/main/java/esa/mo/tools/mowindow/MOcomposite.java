@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -27,33 +27,27 @@ import org.ccsds.moims.mo.mal.structures.Element;
  *
  * @author Cesar Coelho
  */
-public class MOcomposite extends MOelement{
-    
+public class MOcomposite extends MOelement {
+
     private final javax.swing.JToggleButton button;
 
     public MOcomposite(String fieldNameIn, Element obj, boolean editable, boolean objIsNull) {
         super(fieldNameIn, obj, editable, objIsNull);
-        
+
         // Make a button and put it in the middle Panel
         button = new javax.swing.JToggleButton();
-        button.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonActionPerformed(evt);
-            }
-        });
-        
+        button.addActionListener(this::buttonActionPerformed);
+
         super.middlePanel.add(button);
 
-        
         // Set the text
-        if (editable == true) {
+        if (editable) {
             this.button.setText("Edit");
         } else {
             this.button.setText("View");
         }
 
-        if (objIsNull){
+        if (objIsNull) {
             super.makeFieldNull();
             this.button.setText("Add");
         }
@@ -63,14 +57,14 @@ public class MOcomposite extends MOelement{
 
     @Override
     public Object getObject() {
-        if (nullCB.isSelected()){
+        if (nullCB.isSelected()) {
             return null;
         }
-        
+
         return object;
     }
 
-    private void buttonActionPerformed(java.awt.event.ActionEvent evt) {                                       
+    private void buttonActionPerformed(java.awt.event.ActionEvent evt) {
         MOWindow genericObj = new MOWindow(object, this.editable);
 
         try {
@@ -80,10 +74,10 @@ public class MOcomposite extends MOelement{
         }
 
         // Set text
-        if (editable == true) {
+        if (editable) {
             this.button.setText("Edit");
         }
-        
-    }                                      
-    
+
+    }
+
 }

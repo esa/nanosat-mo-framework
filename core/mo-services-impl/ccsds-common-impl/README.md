@@ -11,7 +11,7 @@ The NMF Composites do not instantiate the Configuration service itself however t
 
 The Directory service plays an important role in the NMF because the provider side can be found in 3 different places of the system: in the NMF App itself, in the NanoSat MO Supervisor as Central Directory service, and in the Ground MO Proxy as a replica of the Central Directory service. The Directory service implementation includes all its operations except for the getServiceXML operation.
 
-The Login service implementation was developed by a student participating in ESA’s Summer of Code in Space (SOCIS). This implementation uses Apache Shiro and the MAL Access Control mechanism for handling the logins.
+The Login service implementation was developed by a student participating in ESA's Summer of Code in Space (SOCIS). This implementation uses Apache Shiro and the MAL Access Control mechanism for handling the logins.
 
 
 

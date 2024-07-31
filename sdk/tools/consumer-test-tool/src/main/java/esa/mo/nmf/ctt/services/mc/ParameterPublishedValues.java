@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -31,6 +31,7 @@ import org.ccsds.moims.mo.com.structures.ObjectIdList;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.Identifier;
+import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UOctet;
@@ -51,6 +52,7 @@ public class ParameterPublishedValues extends javax.swing.JPanel {
     final ParameterConsumerServiceImpl parameterService;
     private final int numberOfColumns = 5;
     private final ParameterLabel[] labels = new ParameterLabel[32 * numberOfColumns];
+    private Subscription subscription;
 
     public ParameterLabel[] getLabels() {
         return this.labels;
@@ -87,19 +89,29 @@ public class ParameterPublishedValues extends javax.swing.JPanel {
 
     public void subscribeToParameters() throws MALInteractionException, MALException {
         // Subscribe to ParametersValues
-        final Subscription subscription = ConnectionConsumer.subscriptionWildcard();
+        subscription = ConnectionConsumer.subscriptionWildcard();
         this.parameterService.getParameterStub().monitorValueRegister(subscription, new ParameterConsumerAdapter());
+    }
+
+    public void removeNotify() {
+        super.removeNotify();
+        IdentifierList ids = new IdentifierList();
+        ids.add(subscription.getSubscriptionId());
+        try {
+            parameterService.getParameterStub().monitorValueDeregister(ids);
+        } catch (MALInteractionException | MALException ex) {
+            Logger.getLogger(ParameterPublishedValues.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public class ParameterConsumerAdapter extends ParameterAdapter {
 
         @Override
-        public void monitorValueNotifyReceived(final MALMessageHeader msgHeader,
-                final Identifier lIdentifier, final UpdateHeaderList lUpdateHeaderList,
-                final ObjectIdList lObjectIdList, final ParameterValueList lParameterValueList,
-                final Map qosp) {
+        public void monitorValueNotifyReceived(final MALMessageHeader msgHeader, final Identifier lIdentifier,
+            final UpdateHeaderList lUpdateHeaderList, final ObjectIdList lObjectIdList,
+            final ParameterValueList lParameterValueList, final Map qosp) {
             Logger.getLogger(ParameterPublishedValues.class.getName()).log(Level.FINE,
-                    "Received update parameters list of size : {0}", lObjectIdList.size());
+                "Received update parameters list of size : {0}", lObjectIdList.size());
 
             for (int i = 0; i < lObjectIdList.size(); i++) {
                 final UpdateHeader updateHeader = lUpdateHeaderList.get(i);
@@ -109,12 +121,14 @@ public class ParameterPublishedValues extends javax.swing.JPanel {
                 try {
                     final int objId = updateHeader.getKey().getSecondSubKey().intValue();
 
-                    final int index = (int) ((5 * numberOfColumns) * Math.floor(objId / (5)) + objId % numberOfColumns);
+                    final int index = (int) ((5 * numberOfColumns) * Math.floor(objId / (5.0)) + objId %
+                        numberOfColumns);
 
                     if ((0 <= index) && (index < labels.length)) {
-                        String nameId = "(" + String.valueOf(objId) + ") " + updateHeader.getKey().getFirstSubKey().getValue();
+                        String nameId = "(" + objId + ") " + updateHeader.getKey().getFirstSubKey().getValue();
                         UOctet validityState = parameterValue.getValidityState();
-                        String validity = ValidityState.fromNumericValue(new UInteger(validityState.getValue())).toString();
+                        String validity = ValidityState.fromNumericValue(new UInteger(validityState.getValue()))
+                            .toString();
                         String rawValue = HelperAttributes.attribute2string(parameterValue.getRawValue());
                         String convertedValue = HelperAttributes.attribute2string(parameterValue.getConvertedValue());
 
@@ -126,7 +140,7 @@ public class ParameterPublishedValues extends javax.swing.JPanel {
                     }
                 } catch (NumberFormatException ex) {
                     Logger.getLogger(ParameterPublishedValues.class.getName()).log(Level.WARNING,
-                            "Error decoding update with name: {0}", name);
+                        "Error decoding update with name: {0}", name);
                 }
             }
         }
@@ -143,14 +157,10 @@ public class ParameterPublishedValues extends javax.swing.JPanel {
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 795, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 496, Short.MAX_VALUE)
-        );
+        layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 795,
+            Short.MAX_VALUE));
+        layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 496,
+            Short.MAX_VALUE));
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

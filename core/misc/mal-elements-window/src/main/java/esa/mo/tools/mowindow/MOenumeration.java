@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -57,9 +57,7 @@ public class MOenumeration extends MOelement {
             // Set the selected index;
             this.comboBox.setSelectedItem(enumeration.toString());
 
-        } catch (IllegalArgumentException ex) {
-            Logger.getLogger(MOenumeration.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
+        } catch (IllegalArgumentException | IllegalAccessException ex) {
             Logger.getLogger(MOenumeration.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -86,9 +84,7 @@ public class MOenumeration extends MOelement {
 
         try {
             return field.get(object);
-        } catch (IllegalArgumentException ex) {
-            Logger.getLogger(MOenumeration.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
+        } catch (IllegalArgumentException | IllegalAccessException ex) {
             Logger.getLogger(MOenumeration.class.getName()).log(Level.SEVERE, null, ex);
         }
 

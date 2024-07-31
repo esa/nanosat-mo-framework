@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -49,17 +49,15 @@ public class CloseAppEventListener extends EventReceivedListener {
 
         if (!provider.getProviderName().getValue().equals(name.getValue())) {
             Logger.getLogger(CloseAppEventListener.class.getName()).log(Level.FINE,
-                "This Event is not for us! App Directory Id: {0} , Related: {1} name: {2}",
-                new Object[]{provider.getAppDirectoryId(),
-              eventCOMObject.getRelated(), name.getValue()});
+                "This Event is not for us! App Directory Id: {0} , Related: {1} name: {2}", new Object[]{provider
+                    .getAppDirectoryId(), eventCOMObject.getRelated(), name.getValue()});
 
             return; // If not, get out..
         }
 
         Logger.getLogger(CloseAppEventListener.class.getName()).log(Level.FINE,
-            "This Event is for us! App Directory Id: {0} , Related: {1} name: {2}",
-            new Object[]{provider.getAppDirectoryId(),
-          eventCOMObject.getRelated(), name.getValue()});
+            "This Event is for us! App Directory Id: {0} , Related: {1} name: {2}", new Object[]{provider
+                .getAppDirectoryId(), eventCOMObject.getRelated(), name.getValue()});
 
         // Even though the subscription will guarantee that...
         // It is better to double-check if it is a Close App Event request...
@@ -68,8 +66,9 @@ public class CloseAppEventListener extends EventReceivedListener {
         }
 
         Logger.getLogger(CloseAppEventListener.class.getName()).log(Level.INFO,
-            "New StopApp Event Received! For provider: ''{0}'' (Related link: {1})",
-            new Object[]{name.getValue(), eventCOMObject.getRelated()});
+            "New StopApp Event Received! For provider: ''{0}'' (Related link: {1})", new Object[]{name.getValue(),
+                                                                                                  eventCOMObject
+                                                                                                      .getRelated()});
 
         final ObjectId source = eventCOMObject.getObjectId();
         this.provider.closeGracefully(source);

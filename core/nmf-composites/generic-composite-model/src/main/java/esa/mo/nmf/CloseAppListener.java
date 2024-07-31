@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -22,7 +22,6 @@ package esa.mo.nmf;
 
 import java.util.EventListener;
 
-
 /**
  * The CloseAppListener provides a simple interface to be implemented by the
  * App developers in order to provide App-specific operations before closing 
@@ -30,7 +29,7 @@ import java.util.EventListener;
  * 
  */
 public interface CloseAppListener extends EventListener {
-    
+
     /**
      * The onClose signature shall be called when the app is requested to be
      * closed.
@@ -39,5 +38,5 @@ public interface CloseAppListener extends EventListener {
      * otherwise.
      */
     Boolean onClose();
-    
+
 }

@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -34,6 +34,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mc.action.ActionHelper;
 import org.ccsds.moims.mo.mc.aggregation.AggregationHelper;
 import org.ccsds.moims.mo.mc.alert.AlertHelper;
@@ -61,49 +62,60 @@ public class MCServicesConsumer {
      * @param comServices COM services
      */
     public void init(ConnectionConsumer connectionConsumer, COMServicesConsumer comServices) {
+        init(connectionConsumer, comServices, null, null);
+    }
+
+    /**
+     * Initializes the Monitor and Control services
+     *
+     * @param connectionConsumer Connection details
+     * @param comServices COM services
+     * @param authenticationId authenticationId of the logged in user
+     */
+    public void init(ConnectionConsumer connectionConsumer, COMServicesConsumer comServices, Blob authenticationId,
+        String localNamePrefix) {
         SingleConnectionDetails details;
 
         try {
             // Initialize the Action service
             details = connectionConsumer.getServicesDetails().get(ActionHelper.ACTION_SERVICE_NAME);
             if (details != null) {
-                actionService = new ActionConsumerServiceImpl(details, comServices);
+                actionService = new ActionConsumerServiceImpl(details, comServices, authenticationId, localNamePrefix);
             }
 
             // Initialize the Parameter service
             details = connectionConsumer.getServicesDetails().get(ParameterHelper.PARAMETER_SERVICE_NAME);
             if (details != null) {
-                parameterService = new ParameterConsumerServiceImpl(details, comServices);
+                parameterService = new ParameterConsumerServiceImpl(details, comServices, authenticationId,
+                    localNamePrefix);
             }
 
             // Initialize the Alert service
             details = connectionConsumer.getServicesDetails().get(AlertHelper.ALERT_SERVICE_NAME);
             if (details != null) {
-                alertService = new AlertConsumerServiceImpl(details, comServices);
+                alertService = new AlertConsumerServiceImpl(details, comServices, authenticationId, localNamePrefix);
             }
 
             // Initialize the Check service
             details = connectionConsumer.getServicesDetails().get(CheckHelper.CHECK_SERVICE_NAME);
             if (details != null) {
-                checkService = new CheckConsumerServiceImpl(details, comServices);
+                checkService = new CheckConsumerServiceImpl(details, comServices, authenticationId, localNamePrefix);
             }
 
             // Initialize the Statistic service
             details = connectionConsumer.getServicesDetails().get(StatisticHelper.STATISTIC_SERVICE_NAME);
             if (details != null) {
-                statisticService = new StatisticConsumerServiceImpl(details, comServices);
+                statisticService = new StatisticConsumerServiceImpl(details, comServices, authenticationId,
+                    localNamePrefix);
             }
 
             // Initialize the Aggregation service
             details = connectionConsumer.getServicesDetails().get(AggregationHelper.AGGREGATION_SERVICE_NAME);
             if (details != null) {
-                aggregationService = new AggregationConsumerServiceImpl(details, comServices);
+                aggregationService = new AggregationConsumerServiceImpl(details, comServices, authenticationId,
+                    localNamePrefix);
             }
-        } catch (MALException ex) {
-            Logger.getLogger(COMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(COMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALInteractionException ex) {
+        } catch (MALException | MALInteractionException | MalformedURLException ex) {
             Logger.getLogger(COMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -132,13 +144,9 @@ public class MCServicesConsumer {
         return this.aggregationService;
     }
 
-    public void setServices(
-            ActionConsumerServiceImpl actionService,
-            ParameterConsumerServiceImpl parameterService,
-            AlertConsumerServiceImpl alertService,
-            CheckConsumerServiceImpl checkService,
-            StatisticConsumerServiceImpl statisticService,
-            AggregationConsumerServiceImpl aggregationService) {
+    public void setServices(ActionConsumerServiceImpl actionService, ParameterConsumerServiceImpl parameterService,
+        AlertConsumerServiceImpl alertService, CheckConsumerServiceImpl checkService,
+        StatisticConsumerServiceImpl statisticService, AggregationConsumerServiceImpl aggregationService) {
         this.actionService = actionService;
         this.parameterService = parameterService;
         this.alertService = alertService;
@@ -177,27 +185,53 @@ public class MCServicesConsumer {
      */
     public void closeConnections() {
         if (this.actionService != null) {
-            this.actionService.closeConnection();
+            this.actionService.close();
         }
 
         if (this.parameterService != null) {
-            this.parameterService.closeConnection();
+            this.parameterService.close();
         }
 
         if (this.alertService != null) {
-            this.alertService.closeConnection();
+            this.alertService.close();
         }
 
         if (this.checkService != null) {
-            this.checkService.closeConnection();
+            this.checkService.close();
         }
 
         if (this.statisticService != null) {
-            this.statisticService.closeConnection();
+            this.statisticService.close();
         }
 
         if (this.aggregationService != null) {
-            this.aggregationService.closeConnection();
+            this.aggregationService.close();
+        }
+    }
+
+    public void setAuthenticationId(Blob authenticationId) {
+        if (this.actionService != null) {
+            this.actionService.setAuthenticationId(authenticationId);
+        }
+
+        if (this.parameterService != null) {
+            this.parameterService.setAuthenticationId(authenticationId);
+        }
+
+        if (this.alertService != null) {
+            this.alertService.setAuthenticationId(authenticationId);
+        }
+
+        if (this.checkService != null) {
+            this.checkService.setAuthenticationId(authenticationId);
+        }
+
+        if (this.statisticService != null) {
+            this.statisticService.setAuthenticationId(authenticationId);
+        }
+
+        if (this.aggregationService != null) {
+            this.aggregationService.setAuthenticationId(authenticationId);
         }
     }
 }

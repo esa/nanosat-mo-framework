@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -33,6 +33,7 @@ import org.ccsds.moims.mo.com.archivesync.ArchiveSyncHelper;
 import org.ccsds.moims.mo.com.event.EventHelper;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.structures.Blob;
 
 /**
  * Class holding all the COM services consumers. The services can all be
@@ -51,31 +52,39 @@ public class COMServicesConsumer {
      * @param connectionConsumer Connection details
      */
     public void init(final ConnectionConsumer connectionConsumer) {
+        init(connectionConsumer, null, null);
+    }
+
+    /**
+     * Initializes all the COM services consumer side automatically from the
+     * connectionConsumer holding the details of the connections.
+     *
+     * @param connectionConsumer Connection details
+     * @param authenticationId authenticationId of the logged in user
+     */
+    public void init(final ConnectionConsumer connectionConsumer, final Blob authenticationId,
+        final String localNamePrefix) {
         SingleConnectionDetails details;
 
         try {
             // Initialize the Archive service
             details = connectionConsumer.getServicesDetails().get(ArchiveHelper.ARCHIVE_SERVICE_NAME);
             if (details != null) {
-                archiveService = new ArchiveConsumerServiceImpl(details);
+                archiveService = new ArchiveConsumerServiceImpl(details, authenticationId, localNamePrefix);
             }
 
             // Initialize the Event service (without an Archive)
             details = connectionConsumer.getServicesDetails().get(EventHelper.EVENT_SERVICE_NAME);
             if (details != null) {
-                eventService = new EventConsumerServiceImpl(details);
+                eventService = new EventConsumerServiceImpl(details, authenticationId, localNamePrefix);
             }
 
             // Initialize the Event service (without an Archive)
             details = connectionConsumer.getServicesDetails().get(ArchiveSyncHelper.ARCHIVESYNC_SERVICE_NAME);
             if (details != null) {
-                archiveSyncService = new ArchiveSyncConsumerServiceImpl(details);
+                archiveSyncService = new ArchiveSyncConsumerServiceImpl(details, authenticationId, localNamePrefix);
             }
-        } catch (MALException ex) {
-            Logger.getLogger(COMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(COMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALInteractionException ex) {
+        } catch (MALException | MALInteractionException | MalformedURLException ex) {
             Logger.getLogger(COMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -127,15 +136,29 @@ public class COMServicesConsumer {
      */
     public void closeConnections() {
         if (this.eventService != null) {
-            this.eventService.closeConnection();
+            this.eventService.close();
         }
 
         if (this.archiveService != null) {
-            this.archiveService.closeConnection();
+            this.archiveService.close();
         }
 
         if (this.archiveSyncService != null) {
-            this.archiveSyncService.closeConnection();
+            this.archiveSyncService.close();
+        }
+    }
+
+    public void setAuthenticationId(Blob authenticationId) {
+        if (this.eventService != null) {
+            this.eventService.setAuthenticationId(authenticationId);
+        }
+
+        if (this.archiveService != null) {
+            this.archiveService.setAuthenticationId(authenticationId);
+        }
+
+        if (this.archiveSyncService != null) {
+            this.archiveSyncService.setAuthenticationId(authenticationId);
         }
     }
 

@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -29,6 +29,7 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.consumer.MALConsumer;
+import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.platform.opticaldatareceiver.OpticalDataReceiverHelper;
 import org.ccsds.moims.mo.platform.opticaldatareceiver.consumer.OpticalDataReceiverStub;
 
@@ -59,8 +60,14 @@ public class OpticalDataReceiverConsumerServiceImpl extends ConsumerServiceImpl 
         return new OpticalDataReceiverStub(tmConsumer);
     }
 
-    public OpticalDataReceiverConsumerServiceImpl(SingleConnectionDetails connectionDetails, 
+    public OpticalDataReceiverConsumerServiceImpl(SingleConnectionDetails connectionDetails,
             COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
+        this(connectionDetails, comServices, null, null);
+    }
+
+    public OpticalDataReceiverConsumerServiceImpl(SingleConnectionDetails connectionDetails,
+            COMServicesConsumer comServices, Blob authenticationId, String localNamePrefix)
+            throws MALException, MalformedURLException, MALInteractionException {
         this.connectionDetails = connectionDetails;
         this.comServices = comServices;
 
@@ -69,15 +76,14 @@ public class OpticalDataReceiverConsumerServiceImpl extends ConsumerServiceImpl 
             try {
                 tmConsumer.close();
             } catch (MALException ex) {
-                Logger.getLogger(OpticalDataReceiverConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(OpticalDataReceiverConsumerServiceImpl.class.getName()).log(
+                        Level.SEVERE, null, ex);
             }
         }
 
-        tmConsumer = connection.startService(
-                this.connectionDetails.getProviderURI(),
-                this.connectionDetails.getBrokerURI(),
-                this.connectionDetails.getDomain(),
-                OpticalDataReceiverHelper.OPTICALDATARECEIVER_SERVICE);
+        tmConsumer = connection.startService(this.connectionDetails.getProviderURI(), this.connectionDetails
+            .getBrokerURI(), this.connectionDetails.getDomain(), OpticalDataReceiverHelper.OPTICALDATARECEIVER_SERVICE,
+            authenticationId, localNamePrefix);
 
         this.opticalDataReceiverService = new OpticalDataReceiverStub(tmConsumer);
     }

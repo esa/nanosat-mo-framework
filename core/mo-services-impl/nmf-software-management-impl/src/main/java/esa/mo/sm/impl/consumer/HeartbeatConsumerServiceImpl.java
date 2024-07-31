@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -33,6 +33,7 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.consumer.MALConsumer;
+import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
@@ -68,7 +69,14 @@ public class HeartbeatConsumerServiceImpl extends ConsumerServiceImpl {
         return new HeartbeatStub(tmConsumer);
     }
 
-    public HeartbeatConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
+    public HeartbeatConsumerServiceImpl(SingleConnectionDetails connectionDetails, 
+            COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
+        this(connectionDetails, comServices, null, null);
+    }
+
+    public HeartbeatConsumerServiceImpl(SingleConnectionDetails connectionDetails, 
+            COMServicesConsumer comServices, Blob authenticationId,
+            String localNamePrefix) throws MALException, MalformedURLException, MALInteractionException {
 
         if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
             MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -78,14 +86,15 @@ public class HeartbeatConsumerServiceImpl extends ConsumerServiceImpl {
             COMHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 
-        if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME, SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) == null) {
+        if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME, 
+                SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) == null) {
             SoftwareManagementHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 
-        try {
+        if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME,
+                SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION)
+                .getServiceByName(HeartbeatHelper.HEARTBEAT_SERVICE_NAME) == null) {
             HeartbeatHelper.init(MALContextFactory.getElementFactoryRegistry());
-        } catch (MALException ex) {
-            // nothing to be done..
         }
 
         this.connectionDetails = connectionDetails;
@@ -96,15 +105,14 @@ public class HeartbeatConsumerServiceImpl extends ConsumerServiceImpl {
             try {
                 tmConsumer.close();
             } catch (MALException ex) {
-                Logger.getLogger(HeartbeatConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(HeartbeatConsumerServiceImpl.class.getName()).log(
+                        Level.SEVERE, null, ex);
             }
         }
 
-        tmConsumer = connection.startService(
-                this.connectionDetails.getProviderURI(),
-                this.connectionDetails.getBrokerURI(),
-                this.connectionDetails.getDomain(),
-                HeartbeatHelper.HEARTBEAT_SERVICE);
+        tmConsumer = connection.startService(this.connectionDetails.getProviderURI(), this.connectionDetails
+            .getBrokerURI(), this.connectionDetails.getDomain(), HeartbeatHelper.HEARTBEAT_SERVICE, authenticationId,
+            localNamePrefix);
 
         this.heartbeatService = new HeartbeatStub(tmConsumer);
     }
@@ -122,10 +130,9 @@ public class HeartbeatConsumerServiceImpl extends ConsumerServiceImpl {
             heartbeatSubscription = ConnectionConsumer.subscriptionWildcardRandom();
             try {
                 heartbeatService.beatRegister(heartbeatSubscription, adapter);
-            } catch (MALInteractionException ex) {
-                Logger.getLogger(HeartbeatConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALException ex) {
-                Logger.getLogger(HeartbeatConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (MALInteractionException | MALException ex) {
+                Logger.getLogger(HeartbeatConsumerServiceImpl.class.getName()).log(
+                        Level.SEVERE, null, ex);
             }
         }
     }
@@ -143,10 +150,9 @@ public class HeartbeatConsumerServiceImpl extends ConsumerServiceImpl {
                 IdentifierList ids = new IdentifierList();
                 ids.add(heartbeatSubscription.getSubscriptionId());
                 heartbeatService.beatDeregister(ids);
-            } catch (MALInteractionException ex) {
-                Logger.getLogger(HeartbeatConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALException ex) {
-                Logger.getLogger(HeartbeatConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (MALInteractionException | MALException ex) {
+                Logger.getLogger(HeartbeatConsumerServiceImpl.class.getName()).log(
+                        Level.SEVERE, null, ex);
             }
         }
     }

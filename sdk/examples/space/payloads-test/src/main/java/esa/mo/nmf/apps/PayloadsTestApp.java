@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -20,23 +20,29 @@
  */
 package esa.mo.nmf.apps;
 
+import esa.mo.helpertools.connections.ConnectionConsumer;
+import esa.mo.nmf.commonmoadapter.CommonMOAdapterImpl;
 import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
 
-public class PayloadsTestApp
-{
+public class PayloadsTestApp {
 
-  /**
-   * Main command line entry point.
-   *
-   * @param args the command line arguments
-   * @throws java.lang.Exception If there is an error
-   */
-  public static void main(final String args[]) throws Exception
-  {
-    final NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
-    PayloadsTestMCAdapter adapter = new PayloadsTestMCAdapter(connector);
-    connector.init(adapter);
-    adapter.startAdcsAttitudeMonitoring();
-  }
+    /**
+     * Main command line entry point.
+     *
+     * @param args the command line arguments
+     * @throws java.lang.Exception If there is an error
+     */
+    public static void main(final String[] args) throws Exception {
+        final NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
+        PayloadsTestMCAdapter adapter = new PayloadsTestMCAdapter(connector);
+        connector.init(adapter);
+        adapter.startAdcsAttitudeMonitoring();
+        // Initialize the loopback connection to consume own interfaces easily
+        ConnectionConsumer connectionConsumer = new ConnectionConsumer();
+        connectionConsumer.loadURIs();
+        adapter.setSimpleCommandingInterface(new CommonMOAdapterImpl(connectionConsumer));
+
+        adapter.subscribeToSupervisorParameters(connector.readCentralDirectoryServiceURI());
+    }
 
 }

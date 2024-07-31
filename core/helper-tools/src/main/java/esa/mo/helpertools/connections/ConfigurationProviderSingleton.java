@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -55,18 +55,17 @@ public final class ConfigurationProviderSingleton {
         initializeIfNeeded();
         return SESSION;
     }
-    
+
     public static Identifier getSourceSessionName() {
         return SESSION_NAME;
     }
 
-    private static synchronized void initializeIfNeeded(){
-        if (!isInitialized){
+    private static synchronized void initializeIfNeeded() {
+        if (!isInitialized) {
             init();
             isInitialized = true;
         }
     }
-    
 
     public static ConfigurationProviderSingleton getInstance() {
         return INSTANCE;

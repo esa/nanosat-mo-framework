@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -62,7 +62,6 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MALStandardError;
 import org.ccsds.moims.mo.mal.structures.Duration;
-import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.ElementList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
@@ -252,7 +251,8 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         }
 
         private void refreshTabCounter() {
-            JLabel label = new JLabel(functionName + " (" + dateFormat.format(date) + ")" + " (" + n_objs_counter + ")");
+            JLabel label = new JLabel(functionName + " (" + dateFormat.format(date) + ")" + " (" + n_objs_counter +
+                ")");
             JLabel closeLabel = new JLabel("x");
             closeLabel.addMouseListener(new CloseMouseHandler(this));
             closeLabel.setFont(closeLabel.getFont().deriveFont(closeLabel.getFont().getStyle() | Font.BOLD));
@@ -313,25 +313,36 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         }
 
         @Override
-        public synchronized void retrieveResponseReceived(MALMessageHeader msgHeader,
-                ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
-            ArchiveCOMObjectsOutput archiveObjectOutput = new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies);
+        public synchronized void retrieveResponseReceived(MALMessageHeader msgHeader, ArchiveDetailsList objDetails,
+            ElementList objBodies, Map qosProperties) {
+            ArchiveCOMObjectsOutput archiveObjectOutput = new ArchiveCOMObjectsOutput(domain, objType, objDetails,
+                objBodies);
             archiveTablePanel.addEntries(archiveObjectOutput);
             n_objs_counter = n_objs_counter + objDetails.size();
             refreshTabCounter();
         }
 
         @Override
-        public synchronized void countResponseReceived(MALMessageHeader msgHeader,
-                LongList _LongList0, Map qosProperties) {
+        public synchronized void countResponseReceived(MALMessageHeader msgHeader, LongList _LongList0,
+            Map qosProperties) {
             JOptionPane.showMessageDialog(null, _LongList0.toString(),
-                    "The count operation returned the following data!", JOptionPane.PLAIN_MESSAGE);
+                "The count operation returned the following data!", JOptionPane.PLAIN_MESSAGE);
         }
 
         @Override
         public synchronized void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType,
-                IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
-            ArchiveCOMObjectsOutput archiveObjectOutput = new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies);
+            IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+            // If object type is null all objects have the same type
+            if (objType == null) {
+                objType = this.objType;
+            }
+            if (objType == null || domain == null || objDetails == null) {
+                refreshTabCounter();
+                isOver.release();
+                return;
+            }
+            ArchiveCOMObjectsOutput archiveObjectOutput = new ArchiveCOMObjectsOutput(domain, objType, objDetails,
+                objBodies);
             archiveTablePanel.addEntries(archiveObjectOutput);
             n_objs_counter = n_objs_counter + objDetails.size();
             refreshTabCounter();
@@ -341,8 +352,18 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
 
         @Override
         public synchronized void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType,
-                IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
-            ArchiveCOMObjectsOutput archiveObjectOutput = new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies);
+            IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+            // If object type is null all objects have the same type
+            if (objType == null) {
+                objType = this.objType;
+            }
+            if (objType == null || domain == null || objDetails == null) {
+                refreshTabCounter();
+                repaint();
+                return;
+            }
+            ArchiveCOMObjectsOutput archiveObjectOutput = new ArchiveCOMObjectsOutput(domain, objType, objDetails,
+                objBodies);
             archiveTablePanel.addEntries(archiveObjectOutput);
             n_objs_counter = n_objs_counter + objDetails.size();
             refreshTabCounter();
@@ -350,8 +371,10 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         }
 
         @Override
-        public synchronized void queryAckErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
-            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, "queryAckErrorReceived", error);
+        public synchronized void queryAckErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+            Map qosProperties) {
+            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, "queryAckErrorReceived",
+                error);
         }
 
         protected void deleteAllInTable() {
@@ -368,9 +391,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
                 objIds.add(comObject.getArchiveDetails().getInstId());
                 try {
                     serviceCOMArchive.getArchiveStub().delete(comObject.getObjectType(), comObject.getDomain(), objIds);
-                } catch (MALInteractionException ex) {
-                    Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (MALException ex) {
+                } catch (MALInteractionException | MALException ex) {
                     Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
@@ -456,57 +477,29 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("Archive Manager");
+        jLabel6.setText("COM Archive Manager");
         jLabel6.setToolTipText("");
 
         jButtonStoreAggregation.setText("Quick Store (Aggregation)");
-        jButtonStoreAggregation.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonStoreAggregationActionPerformed(evt);
-            }
-        });
+        jButtonStoreAggregation.addActionListener(this::jButtonStoreAggregationActionPerformed);
 
         jButtonGetAll.setText("Get All");
-        jButtonGetAll.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonGetAllActionPerformed(evt);
-            }
-        });
+        jButtonGetAll.addActionListener(this::jButtonGetAllActionPerformed);
 
         jButtonQuery.setText("Execute Query");
-        jButtonQuery.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonQueryActionPerformed(evt);
-            }
-        });
+        jButtonQuery.addActionListener(this::jButtonQueryActionPerformed);
 
         jButtonDelete.setText("Delete Object");
-        jButtonDelete.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonDeleteActionPerformed(evt);
-            }
-        });
+        jButtonDelete.addActionListener(this::jButtonDeleteActionPerformed);
 
         jButtonRetrieve.setText("Retrieve Object");
-        jButtonRetrieve.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonRetrieveActionPerformed(evt);
-            }
-        });
+        jButtonRetrieve.addActionListener(this::jButtonRetrieveActionPerformed);
 
         jButtonUpdate.setText("Update Object");
-        jButtonUpdate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonUpdateActionPerformed(evt);
-            }
-        });
+        jButtonUpdate.addActionListener(this::jButtonUpdateActionPerformed);
 
         jButtonCount.setText("Count Objects");
-        jButtonCount.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonCountActionPerformed(evt);
-            }
-        });
+        jButtonCount.addActionListener(this::jButtonCountActionPerformed);
 
         tabs.setToolTipText("");
         tabs.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -517,129 +510,93 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         tabs.addTab("Home", homeTab);
 
         jButtonStoreConversions.setText("Quick Store (Conversions)");
-        jButtonStoreConversions.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonStoreConversionsActionPerformed(evt);
-            }
-        });
+        jButtonStoreConversions.addActionListener(this::jButtonStoreConversionsActionPerformed);
 
-        jButtonStoreActions.setText("Query with 'Pages'");
-        jButtonStoreActions.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonStoreActionsActionPerformed(evt);
-            }
-        });
+        jButtonStoreActions.setText("Query with Pagination");
+        jButtonStoreActions.addActionListener(this::jButtonStoreActionsActionPerformed);
 
         jButtonStoreGroups.setText("Quick Store (Groups)");
-        jButtonStoreGroups.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonStoreGroupsActionPerformed(evt);
-            }
-        });
+        jButtonStoreGroups.addActionListener(this::jButtonStoreGroupsActionPerformed);
 
-        TBoxStore.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TBoxStoreActionPerformed(evt);
-            }
-        });
+        TBoxStore.addActionListener(this::TBoxStoreActionPerformed);
 
         jButtonDeleteAll.setText("Delete All");
         jButtonDeleteAll.setEnabled(false);
-        jButtonDeleteAll.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonDeleteAllActionPerformed(evt);
-            }
-        });
+        jButtonDeleteAll.addActionListener(this::jButtonDeleteAllActionPerformed);
 
         open_ArchiveSync.setText("Open ArchiveSync Tab");
-        open_ArchiveSync.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                open_ArchiveSyncActionPerformed(evt);
-            }
-        });
+        open_ArchiveSync.addActionListener(this::open_ArchiveSyncActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(48, 48, 48)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButtonGetAll, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonRetrieve))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonDeleteAll, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonCount, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButtonQuery, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonStoreActions, javax.swing.GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButtonStoreConversions, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
-                    .addComponent(jButtonStoreGroups, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(open_ArchiveSync, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonStoreAggregation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(TBoxStore, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(48, 48, 48))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(tabs, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 957, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(jLabel6)
-                .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonRetrieve)
-                    .addComponent(jButtonStoreAggregation)
-                    .addComponent(jButtonUpdate)
-                    .addComponent(jButtonStoreGroups)
-                    .addComponent(TBoxStore, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonQuery)
-                    .addComponent(jButtonCount))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonGetAll)
-                    .addComponent(jButtonDeleteAll)
-                    .addComponent(jButtonDelete)
-                    .addComponent(jButtonStoreActions)
-                    .addComponent(jButtonStoreConversions)
-                    .addComponent(open_ArchiveSync))
-                .addContainerGap(438, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addGap(129, 129, 129)
-                    .addComponent(tabs, javax.swing.GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)))
-        );
+        layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
+            jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE,
+            javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addGroup(layout.createSequentialGroup().addGap(48,
+                48, 48).addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButtonGetAll, javax.swing.GroupLayout.DEFAULT_SIZE,
+                        javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(jButtonRetrieve))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(layout
+                    .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jButtonDeleteAll,
+                        javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonUpdate, javax.swing.GroupLayout.DEFAULT_SIZE,
+                        javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)).addPreferredGap(
+                            javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(layout.createParallelGroup(
+                                javax.swing.GroupLayout.Alignment.LEADING).addComponent(jButtonDelete,
+                                    javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                    Short.MAX_VALUE).addComponent(jButtonCount, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                        javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)).addPreferredGap(
+                                            javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(layout
+                                                .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                .addComponent(jButtonQuery, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                    javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(
+                                                        jButtonStoreActions, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                        149, Short.MAX_VALUE)).addPreferredGap(
+                                                            javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false).addComponent(
+                    jButtonStoreConversions, javax.swing.GroupLayout.PREFERRED_SIZE, 178, Short.MAX_VALUE).addComponent(
+                        jButtonStoreGroups, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+                        Short.MAX_VALUE)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
+                            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
+                                open_ArchiveSync, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(
+                                    jButtonStoreAggregation, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                    javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)).addPreferredGap(
+                                        javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(TBoxStore,
+                                            javax.swing.GroupLayout.PREFERRED_SIZE, 28,
+                                            javax.swing.GroupLayout.PREFERRED_SIZE).addGap(48, 48, 48)).addGroup(layout
+                                                .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(tabs, javax.swing.GroupLayout.Alignment.TRAILING,
+                                                    javax.swing.GroupLayout.DEFAULT_SIZE, 957, Short.MAX_VALUE)));
+        layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout
+            .createSequentialGroup().addGap(18, 18, 18).addComponent(jLabel6).addGap(20, 20, 20).addGroup(layout
+                .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(jButtonRetrieve)
+                .addComponent(jButtonStoreAggregation).addComponent(jButtonUpdate).addComponent(jButtonStoreGroups)
+                .addComponent(TBoxStore, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+                    javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(jButtonQuery).addComponent(jButtonCount))
+            .addGap(18, 18, 18).addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(jButtonGetAll).addComponent(jButtonDeleteAll).addComponent(jButtonDelete).addComponent(
+                    jButtonStoreActions).addComponent(jButtonStoreConversions).addComponent(open_ArchiveSync))
+            .addContainerGap(438, Short.MAX_VALUE)).addGroup(layout.createParallelGroup(
+                javax.swing.GroupLayout.Alignment.LEADING).addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout
+                    .createSequentialGroup().addGap(129, 129, 129).addComponent(tabs,
+                        javax.swing.GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE))));
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonStoreAggregationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStoreAggregationActionPerformed
-//        ArchiveDetailsList archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive.getConnectionDetails());
-        ArchiveDetailsList archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive.getConnectionDetails().getProviderURI());
+        //        ArchiveDetailsList archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive.getConnectionDetails());
+        ArchiveDetailsList archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive
+            .getConnectionDetails().getProviderURI());
 
         AggregationDefinitionDetailsList objList = new AggregationDefinitionDetailsList();
         objList.add(ArchiveConsumerManagerPanel.generateAggregationDefinition("AggregationStore"));
 
         try {
             LongList outObjId = serviceCOMArchive.getArchiveStub().store(Boolean.TRUE,
-                    AggregationHelper.AGGREGATIONDEFINITION_OBJECT_TYPE,
-                    serviceCOMArchive.getConnectionDetails().getDomain(), archiveDetailsList, objList);
+                AggregationHelper.AGGREGATIONDEFINITION_OBJECT_TYPE, serviceCOMArchive.getConnectionDetails()
+                    .getDomain(), archiveDetailsList, objList);
             Long received = outObjId.get(0);
             TBoxStore.setText(received.toString());
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButtonStoreAggregationActionPerformed
@@ -668,13 +625,10 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
 
         try {
             serviceCOMArchive.getArchiveStub().query(Boolean.TRUE, objType, archiveQueryList, null, adapter);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButtonGetAllActionPerformed
-
 
     private void jButtonQueryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonQueryActionPerformed
         ArchiveConsumerAdapter adapter = new ArchiveConsumerAdapter("Query...");
@@ -714,10 +668,10 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         }
 
         try {
-            serviceCOMArchive.getArchiveStub().query(Boolean.TRUE, objType, archiveQueryList, compositeFilters, adapter);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+            adapter.setObjType(objType);
+            serviceCOMArchive.getArchiveStub().query(Boolean.TRUE, objType, archiveQueryList, compositeFilters,
+                adapter);
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -732,9 +686,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
 
         try {
             serviceCOMArchive.getArchiveStub().delete(comObject.getObjectType(), comObject.getDomain(), objIds);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -772,9 +724,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
 
         try {
             serviceCOMArchive.getArchiveStub().retrieve(objType, domain, objIds, adapter);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -790,14 +740,13 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         ElementList finalObject;
 
         try {
-            finalObject = HelperMisc.element2elementList((Element) objBodyWindow.getObject());
+            finalObject = HelperMisc.element2elementList(objBodyWindow.getObject());
             finalObject.add(objBodyWindow.getObject());
 
             try {
-                serviceCOMArchive.getArchiveStub().update(comObject.getObjectType(), comObject.getDomain(), archiveDetailsList, finalObject);
-            } catch (MALInteractionException ex) {
-                Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALException ex) {
+                serviceCOMArchive.getArchiveStub().update(comObject.getObjectType(), comObject.getDomain(),
+                    archiveDetailsList, finalObject);
+            } catch (MALInteractionException | MALException ex) {
                 Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
             }
 
@@ -848,21 +797,18 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
 
         try {
             serviceCOMArchive.getArchiveStub().count(objType, archiveQueryList, compositeFilters, adapter);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         JDialog frame = new JDialog();
-        int n = JOptionPane.showConfirmDialog(frame, "Would you like to automatically query and get the objects?", "Query?", JOptionPane.YES_NO_OPTION);
+        int n = JOptionPane.showConfirmDialog(frame, "Would you like to automatically query and get the objects?",
+            "Query?", JOptionPane.YES_NO_OPTION);
 
         if (n == JOptionPane.YES_OPTION) {
             try {
                 serviceCOMArchive.getArchiveStub().query(true, objType, archiveQueryList, compositeFilters, adapter);
-            } catch (MALInteractionException ex) {
-                Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALException ex) {
+            } catch (MALInteractionException | MALException ex) {
                 Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -871,74 +817,73 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
 
     private void jButtonStoreConversionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStoreConversionsActionPerformed
         LongList outObjId;
-//        ArchiveDetailsList archiveDetailsList;
+        //        ArchiveDetailsList archiveDetailsList;
         ObjectType objType;
 
-//        archiveDetailsList = new ArchiveDetailsList();
-//        archiveDetailsList.add(serviceCOMArchive.generateArchiveDetails(new Long(0)));
-        ArchiveDetailsList archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive.getConnectionDetails());
+        //        archiveDetailsList = new ArchiveDetailsList();
+        //        archiveDetailsList.add(serviceCOMArchive.generateArchiveDetails(new Long(0)));
+        ArchiveDetailsList archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive
+            .getConnectionDetails());
         objType = ConversionHelper.DISCRETECONVERSION_OBJECT_TYPE;
         DiscreteConversionDetailsList objList1 = new DiscreteConversionDetailsList();
         objList1.add(this.generateDiscreteConversionDetails());
 
         try {
-            outObjId = serviceCOMArchive.getArchiveStub().store(Boolean.TRUE, objType, serviceCOMArchive.getConnectionDetails().getDomain(), archiveDetailsList, objList1);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+            outObjId = serviceCOMArchive.getArchiveStub().store(Boolean.TRUE, objType, serviceCOMArchive
+                .getConnectionDetails().getDomain(), archiveDetailsList, objList1);
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-//        archiveDetailsList = new ArchiveDetailsList();
-//        archiveDetailsList.add(serviceCOMArchive.generateArchiveDetails(new Long(0)));
-        archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive.getConnectionDetails());
+        //        archiveDetailsList = new ArchiveDetailsList();
+        //        archiveDetailsList.add(serviceCOMArchive.generateArchiveDetails(new Long(0)));
+        archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive
+            .getConnectionDetails());
         objType = ConversionHelper.LINECONVERSION_OBJECT_TYPE;
         LineConversionDetailsList objList2 = new LineConversionDetailsList();
         objList2.add(this.generateLineConversionDetails());
 
         try {
-            outObjId = serviceCOMArchive.getArchiveStub().store(Boolean.TRUE, objType, serviceCOMArchive.getConnectionDetails().getDomain(), archiveDetailsList, objList2);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+            outObjId = serviceCOMArchive.getArchiveStub().store(Boolean.TRUE, objType, serviceCOMArchive
+                .getConnectionDetails().getDomain(), archiveDetailsList, objList2);
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-//        archiveDetailsList = new ArchiveDetailsList();
-//        archiveDetailsList.add(serviceCOMArchive.generateArchiveDetails(new Long(0)));
-        archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive.getConnectionDetails());
+        //        archiveDetailsList = new ArchiveDetailsList();
+        //        archiveDetailsList.add(serviceCOMArchive.generateArchiveDetails(new Long(0)));
+        archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive
+            .getConnectionDetails());
         objType = ConversionHelper.POLYCONVERSION_OBJECT_TYPE;
         PolyConversionDetailsList objList3 = new PolyConversionDetailsList();
         objList3.add(this.generatePolyConversionDetails());
 
         try {
-            outObjId = serviceCOMArchive.getArchiveStub().store(Boolean.TRUE, objType, serviceCOMArchive.getConnectionDetails().getDomain(), archiveDetailsList, objList3);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+            outObjId = serviceCOMArchive.getArchiveStub().store(Boolean.TRUE, objType, serviceCOMArchive
+                .getConnectionDetails().getDomain(), archiveDetailsList, objList3);
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-//        archiveDetailsList = new ArchiveDetailsList();
-//        archiveDetailsList.add(serviceCOMArchive.generateArchiveDetails(new Long(0)));
-        archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive.getConnectionDetails());
+        //        archiveDetailsList = new ArchiveDetailsList();
+        //        archiveDetailsList.add(serviceCOMArchive.generateArchiveDetails(new Long(0)));
+        archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive
+            .getConnectionDetails());
         objType = ConversionHelper.RANGECONVERSION_OBJECT_TYPE;
         RangeConversionDetailsList objList4 = new RangeConversionDetailsList();
         objList4.add(this.generateRangeConversionDetails());
 
         try {
-            outObjId = serviceCOMArchive.getArchiveStub().store(Boolean.TRUE, objType, serviceCOMArchive.getConnectionDetails().getDomain(), archiveDetailsList, objList4);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+            outObjId = serviceCOMArchive.getArchiveStub().store(Boolean.TRUE, objType, serviceCOMArchive
+                .getConnectionDetails().getDomain(), archiveDetailsList, objList4);
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-
 
     }//GEN-LAST:event_jButtonStoreConversionsActionPerformed
 
     private void jButtonStoreActionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStoreActionsActionPerformed
-        ArchiveConsumerAdapter adapter = new ArchiveConsumerAdapter("Query with 'Pages'");
+        ArchiveConsumerAdapter adapter = new ArchiveConsumerAdapter("Query with Pagination");
 
         UShort shorty = new UShort(0);
         UOctet octety = new UOctet((short) 0);
@@ -975,19 +920,17 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
 
         try {
             serviceCOMArchive.getArchiveStub().query(Boolean.TRUE, objType, archiveQueryList, list, adapter);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         /*
         // Object Type
         ObjectType objType = new ObjectType(new UShort(4), new UShort(1), new UOctet((short) 1), new UShort(1));
-
+        
         // Domain
         IdentifierList domain = serviceCOMArchive.getConnectionDetails().getDomain();
-
+        
         // Archive details
         ArchiveDetailsList archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive.getConnectionDetails());
         archiveDetailsList.add(archiveDetailsList.get(0));
@@ -997,46 +940,46 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         } catch (InterruptedIOException ex) {
             return;
         }
-
+        
         ActionDefinitionDetails actionDefinition = new ActionDefinitionDetails();
-//        actionDefinition.setName(new Identifier("Take_Picture"));
+        //        actionDefinition.setName(new Identifier("Take_Picture"));
         actionDefinition.setDescription("The action takes a picture and stores it in a the 'picture' parameter.");
         actionDefinition.setProgressStepCount(new UShort(1));
-
+        
         ArgumentDefinitionDetails argument = new ArgumentDefinitionDetails();
         argument.setRawType(Duration.DURATION_TYPE_SHORT_FORM.byteValue());
-
+        
         ArgumentDefinitionDetailsList arguments = new ArgumentDefinitionDetailsList();
         arguments.add(argument);
-
+        
         actionDefinition.setArguments(arguments);
         actionDefinition.setArgumentIds(null);
-
+        
         ActionDefinitionDetails actionDefinition1 = new ActionDefinitionDetails();
-//        actionDefinition1.setName(new Identifier("Take_Picture"));
+        //        actionDefinition1.setName(new Identifier("Take_Picture"));
         actionDefinition1.setDescription("The action takes a picture and stores it in a the 'picture' parameter.");
         actionDefinition1.setProgressStepCount(new UShort(1));
-
+        
         ArgumentDefinitionDetails argument1 = new ArgumentDefinitionDetails();
         argument1.setRawType(Duration.DURATION_TYPE_SHORT_FORM.byteValue());
-
+        
         ArgumentDefinitionDetailsList arguments1 = new ArgumentDefinitionDetailsList();
         arguments1.add(argument1);
-
+        
         actionDefinition1.setArguments(arguments1);
         actionDefinition1.setArgumentIds(null);
-
+        
         MOWindow genActionDefinition = new MOWindow(actionDefinition, true);
         try {
             actionDefinition = (ActionDefinitionDetails) genActionDefinition.getObject();
         } catch (InterruptedIOException ex) {
             return;
         }
-
+        
         ActionDefinitionDetailsList actionDefinitionList = new ActionDefinitionDetailsList();
         actionDefinitionList.add(actionDefinition);
         actionDefinitionList.add(actionDefinition1);
-
+        
         // Actually you have to use the Action service to store the definiton
         try {
             LongList received = serviceCOMArchive.getArchiveStub().store(true, objType, domain, archiveDetailsList, actionDefinitionList);
@@ -1058,7 +1001,8 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         IdentifierList domain = serviceCOMArchive.getConnectionDetails().getDomain();
 
         // Archive details
-        ArchiveDetailsList archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive.getConnectionDetails());
+        ArchiveDetailsList archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive
+            .getConnectionDetails());
         MOWindow genArchiveDetailsList = new MOWindow(archiveDetailsList, true);
         try {
             archiveDetailsList = (ArchiveDetailsList) genArchiveDetailsList.getObject();
@@ -1069,9 +1013,10 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         GroupDetails group = new GroupDetails();
         GroupDetailsList groupList = new GroupDetailsList();
 
-//        group.setName(new Identifier("Group1"));
+        //        group.setName(new Identifier("Group1"));
         group.setDescription("A group of the 3 first Parameter Definitions.");
-        ObjectType objTypeParameterDef = new ObjectType(new UShort(4), new UShort(2), new UOctet((short) 1), new UShort(1));
+        ObjectType objTypeParameterDef = new ObjectType(new UShort(4), new UShort(2), new UOctet((short) 1), new UShort(
+            1));
         group.setObjectType(objTypeParameterDef);
         group.setDomain(domain);
         LongList objIds = new LongList();
@@ -1086,9 +1031,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         // Actually you have to use the Action service to store the definiton
         try {
             serviceCOMArchive.getArchiveStub().store(false, objType, domain, archiveDetailsList, groupList);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -1127,9 +1070,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         try {
             serviceCOMArchive.getArchiveStub().query(Boolean.TRUE, objType, archiveQueryList, null, adapter);
             adapter.deleteAllInTable();  // Deletes all the objects in the table
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -1160,15 +1101,12 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         return compositeFilter;
     }
 
-
     private void open_ArchiveSyncActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_open_ArchiveSyncActionPerformed
 
         if (serviceTabs != null) {
             if (services.getCOMServices().getArchiveSyncService() != null) {
-                ArchiveSyncConsumerManagerPanel panel = new ArchiveSyncConsumerManagerPanel(
-                        services.getCOMServices().getArchiveService(),
-                        services.getCOMServices().getArchiveSyncService()
-                );
+                ArchiveSyncConsumerManagerPanel panel = new ArchiveSyncConsumerManagerPanel(services.getCOMServices()
+                    .getArchiveService(), services.getCOMServices().getArchiveSyncService());
                 serviceTabs.insertTab("ArchiveSync service", null, panel, "ArchiveSync Tab", location);
             }
         }

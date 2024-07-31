@@ -1,13 +1,13 @@
 /*
  *  ----------------------------------------------------------------------------
- *  Copyright (C) 2016      European Space Agency
+ *  Copyright (C) 2021      European Space Agency
  *                          European Space Operations Centre
  *                          Darmstadt
  *                          Germany
  *  ----------------------------------------------------------------------------
  *  System                : ESA NanoSat MO Framework
  *  ----------------------------------------------------------------------------
- *  Licensed under the European Space Agency Public License, Version 2.0
+ *  Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  *  You may not use this file except in compliance with the License.
  * 
  *  Except as expressly set forth in this License, the Software is provided to
@@ -34,19 +34,17 @@ public class EndlessSingleStreamOperatingBuffer extends GenericFileBasedOperatin
     }
 
     public byte[] getDataAsByteArray(int quantityOfData) {
-        int bytesNo=(Integer) quantityOfData;
-        byte[] result=new byte[bytesNo];
-        byte[] tempData=(byte[])super.getDataBuffer();
-        int capacity=tempData.length;
-        int tempOperatingIndex=super.getOperatingIndex();
-        if (tempData!=null && capacity>0)
-        {
-            int resultIndex=0;
-            while ((bytesNo--)>0){
-                result[resultIndex]=tempData[tempOperatingIndex++];
-                if (tempOperatingIndex>=capacity)
-                {
-                    tempOperatingIndex=0;
+        int bytesNo = quantityOfData;
+        byte[] result = new byte[bytesNo];
+        byte[] tempData = (byte[]) super.getDataBuffer();
+        int capacity = tempData.length;
+        int tempOperatingIndex = super.getOperatingIndex();
+        if (tempData != null && capacity > 0) {
+            int resultIndex = 0;
+            while ((bytesNo--) > 0) {
+                result[resultIndex] = tempData[tempOperatingIndex++];
+                if (tempOperatingIndex >= capacity) {
+                    tempOperatingIndex = 0;
                 }
                 resultIndex++;
             }
@@ -54,9 +52,9 @@ public class EndlessSingleStreamOperatingBuffer extends GenericFileBasedOperatin
         }
         return result;
     }
-    public void setDataFromByteArray(byte[] directData)
-    {
+
+    public void setDataFromByteArray(byte[] directData) {
         super.setOperatingIndex(0);
-        super.setDataBuffer((Object) directData);
+        super.setDataBuffer(directData);
     }
 }

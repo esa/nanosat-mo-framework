@@ -1,13 +1,13 @@
 /*
  *  ----------------------------------------------------------------------------
- *  Copyright (C) 2016      European Space Agency
+ *  Copyright (C) 2021      European Space Agency
  *                          European Space Operations Centre
  *                          Darmstadt
  *                          Germany
  *  ----------------------------------------------------------------------------
  *  System                : ESA NanoSat MO Framework
  *  ----------------------------------------------------------------------------
- *  Licensed under the European Space Agency Public License, Version 2.0
+ *  Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  *  You may not use this file except in compliance with the License.
  * 
  *  Except as expressly set forth in this License, the Software is provided to
@@ -36,78 +36,78 @@ import opssat.simulator.util.LoggerFormatter1Line;
  */
 public class GuiApp {
 
-  private final GuiMainWindow guiMainWindow;
-  private final ConcurrentLinkedQueue<Object> toServerQueue;
-  private final ConcurrentLinkedQueue<Object> fromServerQueue;
-  private SocketClient socketClient;
-  private String targetURL;
-  private int targetPort;
-  Logger logger;
-  private String simulatorWorkingDir;
+    private final GuiMainWindow guiMainWindow;
+    private final ConcurrentLinkedQueue<Object> toServerQueue;
+    private final ConcurrentLinkedQueue<Object> fromServerQueue;
+    private SocketClient socketClient;
+    private String targetURL;
+    private int targetPort;
+    Logger logger;
+    private String simulatorWorkingDir;
 
-  public String getSimulatorWorkingDir() {
-    return simulatorWorkingDir;
-  }
+    public String getSimulatorWorkingDir() {
+        return simulatorWorkingDir;
+    }
 
-  public void setSimulatorWorkingDir(String dir) {
-    this.simulatorWorkingDir = dir;
-  }
+    public void setSimulatorWorkingDir(String dir) {
+        this.simulatorWorkingDir = dir;
+    }
 
-  public SocketClient getSocketClient() {
-    return socketClient;
-  }
+    public SocketClient getSocketClient() {
+        return socketClient;
+    }
 
-  public void setTargetConnection(String targetURL, int targetPort) {
-    this.targetURL = targetURL;
-    this.targetPort = targetPort;
-    this.socketClient.setTargetConnection(targetURL, targetPort);
-  }
+    public void setTargetConnection(String targetURL, int targetPort) {
+        this.targetURL = targetURL;
+        this.targetPort = targetPort;
+        this.socketClient.setTargetConnection(targetURL, targetPort);
+    }
 
-  public ConcurrentLinkedQueue<Object> getFromServerQueue() {
-    return fromServerQueue;
+    public ConcurrentLinkedQueue<Object> getFromServerQueue() {
+        return fromServerQueue;
 
-  }
+    }
 
-  public ConcurrentLinkedQueue<Object> getToServerQueue() {
-    return toServerQueue;
-  }
+    public ConcurrentLinkedQueue<Object> getToServerQueue() {
+        return toServerQueue;
+    }
 
-  public GuiMainWindow getGuiMainWindow() {
-    return guiMainWindow;
-  }
+    public GuiMainWindow getGuiMainWindow() {
+        return guiMainWindow;
+    }
 
-  public void restartSocket() {
-    socketClient = new SocketClient(targetURL, targetPort, this);
-    socketClient.start();
-  }
+    public void restartSocket() {
+        socketClient = new SocketClient(targetURL, targetPort, this);
+        socketClient.start();
+    }
 
-  public Logger getLogger() {
-    return logger;
-  }
+    public Logger getLogger() {
+        return logger;
+    }
 
-  public GuiApp(String targetURL, int targetPort) {
-    this.logger = Logger.getLogger(GuiMainWindow.class.getName());
-    logger.setUseParentHandlers(false);
-    logger.setLevel(Level.ALL);
-    ConsoleHandler consoleHandler = (new ConsoleHandler());
-    consoleHandler.setFormatter(new LoggerFormatter1Line(GuiMainWindow.class.getName()));
-    logger.addHandler(consoleHandler);
-    fromServerQueue = new ConcurrentLinkedQueue<Object>();
-    toServerQueue = new ConcurrentLinkedQueue<Object>();
-    this.targetURL = targetURL;
-    this.targetPort = targetPort;
-    guiMainWindow = new GuiMainWindow(this, targetURL, targetPort);
-    (new Thread(guiMainWindow)).start();
-  }
+    public GuiApp(String targetURL, int targetPort) {
+        this.logger = Logger.getLogger(GuiMainWindow.class.getName());
+        logger.setUseParentHandlers(false);
+        logger.setLevel(Level.ALL);
+        ConsoleHandler consoleHandler = (new ConsoleHandler());
+        consoleHandler.setFormatter(new LoggerFormatter1Line(GuiMainWindow.class.getName()));
+        logger.addHandler(consoleHandler);
+        fromServerQueue = new ConcurrentLinkedQueue<>();
+        toServerQueue = new ConcurrentLinkedQueue<>();
+        this.targetURL = targetURL;
+        this.targetPort = targetPort;
+        guiMainWindow = new GuiMainWindow(this, targetURL, targetPort);
+        (new Thread(guiMainWindow)).start();
+    }
 
-  public void startSocket() {
-    socketClient = new SocketClient(targetURL, targetPort, this);
-    socketClient.start();
-  }
+    public void startSocket() {
+        socketClient = new SocketClient(targetURL, targetPort, this);
+        socketClient.start();
+    }
 
-  public void addGUIInteraction(Object data) {
-    toServerQueue.add(data);
-    fromServerQueue.add("Local;UserInput;" + CommandDescriptor.makeConsoleDescriptionForObj(data));
-  }
+    public void addGUIInteraction(Object data) {
+        toServerQueue.add(data);
+        fromServerQueue.add("Local;UserInput;" + CommandDescriptor.makeConsoleDescriptionForObj(data));
+    }
 
 }

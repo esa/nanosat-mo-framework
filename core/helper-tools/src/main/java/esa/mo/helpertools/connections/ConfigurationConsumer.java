@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -22,8 +22,6 @@ package esa.mo.helpertools.connections;
 
 import esa.mo.helpertools.helpers.HelperMisc;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.SessionType;
 
@@ -74,7 +72,7 @@ public class ConfigurationConsumer {
                 // The property does not exist?
                 HelperMisc.loadConsumerProperties(); // try to load the properties from the file...
             } catch (IOException ex) {
-                Logger.getLogger(ConfigurationConsumer.class.getName()).log(Level.SEVERE, null, ex);
+                // Ignore the exception if it does not exist - the file is becoming deprecated
             }
         }
 

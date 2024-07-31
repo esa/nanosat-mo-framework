@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -41,8 +41,9 @@ public class CheckDefinitionsTablePanel extends SharedTablePanel {
 
     @Override
     public void addEntry(final Identifier name, final ArchivePersistenceObject comObject) {
-        if (comObject == null){
-            Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, "The table cannot process a null COM Object.");
+        if (comObject == null) {
+            Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE,
+                "The table cannot process a null COM Object.");
             return;
         }
 
@@ -55,25 +56,17 @@ public class CheckDefinitionsTablePanel extends SharedTablePanel {
         // We are actually receiving a Check Definition that points to the right definition via the source field
 
         // So, let's get the source Object with the details of the definition
-        ArchivePersistenceObject sourceCOMObject = HelperArchive.getArchiveCOMObject(super.getArchiveService().getArchiveStub(),
-                    comObject.getArchiveDetails().getDetails().getSource().getType(), 
-                    comObject.getArchiveDetails().getDetails().getSource().getKey().getDomain(), 
-                    comObject.getArchiveDetails().getDetails().getSource().getKey().getInstId() );
-        
-        
+        ArchivePersistenceObject sourceCOMObject = HelperArchive.getArchiveCOMObject(super.getArchiveService()
+            .getArchiveStub(), comObject.getArchiveDetails().getDetails().getSource().getType(), comObject
+                .getArchiveDetails().getDetails().getSource().getKey().getDomain(), comObject.getArchiveDetails()
+                    .getDetails().getSource().getKey().getInstId());
+
         CheckDefinitionDetails checkDef = (CheckDefinitionDetails) sourceCOMObject.getObject();
-        
-        tableData.addRow(new Object[]{
-            comObject.getArchiveDetails().getInstId(),
-            name.toString(),
-            checkDef.getDescription().toString(),
-            checkDef.getCheckSeverity().toString(),
-            checkDef.getMaxReportingInterval().toString(),
-            checkDef.getNominalCount().getValue(),
-            checkDef.getNominalTime().toString(),
-            checkDef.getViolationCount().getValue(),
-            checkDef.getViolationTime()
-        });
+
+        tableData.addRow(new Object[]{comObject.getArchiveDetails().getInstId(), name.toString(), checkDef
+            .getDescription(), checkDef.getCheckSeverity().toString(), checkDef.getMaxReportingInterval().toString(),
+                                      checkDef.getNominalCount().getValue(), checkDef.getNominalTime().toString(),
+                                      checkDef.getViolationCount().getValue(), checkDef.getViolationTime()});
 
         comObjects.add(comObject);
         semaphore.release();
@@ -81,32 +74,28 @@ public class CheckDefinitionsTablePanel extends SharedTablePanel {
 
     @Override
     public void defineTableContent() {
-    
-        String[] tableCol = new String[]{
-            "Obj Inst Id", "Check Definition name", "Description", 
-            "Severity", "Max Reporting Interval", "Nominal Count", 
-            "Nominal Time", "Violation Count", "Violation Time" };
 
-        tableData = new javax.swing.table.DefaultTableModel(
-                new Object[][]{}, tableCol) {
-                    Class[] types = new Class[]{
-                        java.lang.Integer.class, java.lang.String.class, java.lang.String.class, 
-                        java.lang.String.class, java.lang.String.class, java.lang.Integer.class, 
-                        java.lang.String.class, java.lang.Integer.class, java.lang.String.class
-                    };
+        String[] tableCol = new String[]{"Obj Inst Id", "Check Definition name", "Description", "Severity",
+                                         "Max Reporting Interval", "Nominal Count", "Nominal Time", "Violation Count",
+                                         "Violation Time"};
 
-                    @Override               //all cells false
-                    public boolean isCellEditable(int row, int column) {
-                        return false;
-                    }
+        tableData = new javax.swing.table.DefaultTableModel(new Object[][]{}, tableCol) {
+            Class[] types = new Class[]{java.lang.Integer.class, java.lang.String.class, java.lang.String.class,
+                                        java.lang.String.class, java.lang.String.class, java.lang.Integer.class,
+                                        java.lang.String.class, java.lang.Integer.class, java.lang.String.class};
 
-                    @Override
-                    public Class getColumnClass(int columnIndex) {
-                        return types[columnIndex];
-                    }
-                };
+            @Override               //all cells false
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+
+            @Override
+            public Class getColumnClass(int columnIndex) {
+                return types[columnIndex];
+            }
+        };
 
         super.getTable().setModel(tableData);
     }
-    
+
 }

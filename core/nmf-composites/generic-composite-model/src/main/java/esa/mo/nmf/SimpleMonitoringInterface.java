@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -32,7 +32,9 @@ import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 public interface SimpleMonitoringInterface {
 
     /**
-     * Reports the execution of the current action progress stage
+     * Reports the execution of the current action progress stage by producing necessary
+     * ActivityTracking Events which are persisted within COM Archive and published
+     * to all listeners with COM Event subscription for ActivityTracking objects.
      *
      * @param success Flag stating the successfulness of the stage
      * @param errorNumber Error number code. The interpretation of the value is
@@ -46,8 +48,8 @@ public interface SimpleMonitoringInterface {
      * @throws NMFException if the action execution progress could not be
      * reported.
      */
-    void reportActionExecutionProgress(final boolean success, final int errorNumber,
-            final int progressStage, final int totalNumberOfProgressStages, final long actionInstId) throws NMFException;
+    void reportActionExecutionProgress(final boolean success, final int errorNumber, final int progressStage,
+        final int totalNumberOfProgressStages, final long actionInstId) throws NMFException;
 
     /**
      * The publishAlertEvent operation allows an external software entity to
@@ -60,7 +62,8 @@ public interface SimpleMonitoringInterface {
      * there is any error, then a null shall be returned instead
      * @throws NMFException if the alert event could not be published.
      */
-    Long publishAlertEvent(final String alertDefinitionName, final AttributeValueList attributeValues) throws NMFException;
+    Long publishAlertEvent(final String alertDefinitionName, final AttributeValueList attributeValues)
+        throws NMFException;
 
     /**
      * The pushParameterValue operation allows an external software entity to
@@ -91,6 +94,7 @@ public interface SimpleMonitoringInterface {
      * @return Returns the flag reporting if the push was successful
      * @throws NMFException if the parameter value could not be pushed.
      */
-    Boolean pushParameterValue(final String name, final Serializable content, final boolean storeIt) throws NMFException;
+    Boolean pushParameterValue(final String name, final Serializable content, final boolean storeIt)
+        throws NMFException;
 
 }

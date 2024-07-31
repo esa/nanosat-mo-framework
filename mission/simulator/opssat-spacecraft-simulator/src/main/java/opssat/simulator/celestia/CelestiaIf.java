@@ -1,13 +1,13 @@
 /*
  *  ----------------------------------------------------------------------------
- *  Copyright (C) 2016      European Space Agency
+ *  Copyright (C) 2021      European Space Agency
  *                          European Space Operations Centre
  *                          Darmstadt
  *                          Germany
  *  ----------------------------------------------------------------------------
  *  System                : ESA NanoSat MO Framework
  *  ----------------------------------------------------------------------------
- *  Licensed under the European Space Agency Public License, Version 2.0
+ *  Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  *  You may not use this file except in compliance with the License.
  * 
  *  Except as expressly set forth in this License, the Software is provided to
@@ -123,7 +123,9 @@ public class CelestiaIf implements Runnable {
                                 //No reply
                                 retries = retries + 1;
                                 if (retries <= 1) {
-                                    logger.log(Level.WARNING, "CelestiaIf: No response within [" + DURATION_ACK_RECOVER + "] ms, resending data message!");
+                                    sendQueue.clear();
+                                    logger.log(Level.WARNING, "CelestiaIf: No response within [" +
+                                        DURATION_ACK_RECOVER + "] ms, resending data message!");
                                 } else {
                                     break;
                                 }
@@ -158,7 +160,7 @@ public class CelestiaIf implements Runnable {
      */
     private void init() {
 
-        this.SPACECRAFT_ID = new ArrayList<String>();
+        this.SPACECRAFT_ID = new ArrayList<>();
 
         if (MISSION_ID.equals("OPS-SAT")) {
             this.SPACECRAFT_ID.add("OPSSAT");
@@ -188,7 +190,8 @@ public class CelestiaIf implements Runnable {
             logger.log(Level.FINE, "Waiting for connection...");
             connection = this.socket.accept();
             connection.setTcpNoDelay(true);
-            logger.log(Level.INFO, "Connection received from " + connection.getInetAddress().getHostName() + " on port " + connection.getLocalPort());
+            logger.log(Level.INFO, "Connection received from " + connection.getInetAddress().getHostName() +
+                " on port " + connection.getLocalPort());
 
             //3. get Input and Output streams
             //output stream: MO Consumer -> Celestia
@@ -251,10 +254,10 @@ public class CelestiaIf implements Runnable {
      */
     String buildMessage(CelestiaData data) {
 
-        String dataStringSc = "";
-        String dataStringParam = "";
-        String dataStringValue = "";
-        String dataStringUnit = "";
+        StringBuilder dataStringSc = new StringBuilder();
+        StringBuilder dataStringParam = new StringBuilder();
+        StringBuilder dataStringValue = new StringBuilder();
+        StringBuilder dataStringUnit = new StringBuilder();
         String outMsg = "";
         String scId = "";
 
@@ -269,13 +272,13 @@ public class CelestiaIf implements Runnable {
                 + "T" + String.format("%02d", data.getHours())
                 + ":" + String.format("%02d", data.getMinutes())
                 + ":" + String.format("%02d", data.getSeconds()));
-*/
-        
+        */
+
         float[] q = {data.getQ()[0], data.getQ()[1], data.getQ()[2], data.getQ()[3]}; // [qs, q1, q2, q3]
-//        LocalDateTime anxTime = LocalDateTime.parse("2015-08-09T10:00:00");
-//        LocalDateTime dnxTime = LocalDateTime.parse("2015-08-09T10:45:33");
-//        LocalDateTime aosKirTime = LocalDateTime.parse("2015-08-09T11:49:00");
-//        LocalDateTime losKirTime = LocalDateTime.parse("2015-08-09T12:01:00");
+        //        LocalDateTime anxTime = LocalDateTime.parse("2015-08-09T10:00:00");
+        //        LocalDateTime dnxTime = LocalDateTime.parse("2015-08-09T10:45:33");
+        //        LocalDateTime aosKirTime = LocalDateTime.parse("2015-08-09T11:49:00");
+        //        LocalDateTime losKirTime = LocalDateTime.parse("2015-08-09T12:01:00");
 
         ListIterator<String> iter = this.SPACECRAFT_ID.listIterator();
 
@@ -285,8 +288,8 @@ public class CelestiaIf implements Runnable {
             scId = iter.next();
 
             // epoch        
-            dataStringSc = dataStringSc + " " + scId;
-            dataStringParam = dataStringParam + " " + "SIM_EPOCH_TIME";
+            dataStringSc.append(" ").append(scId);
+            dataStringParam.append(" ").append("SIM_EPOCH_TIME");
             /*
             dataStringValue = dataStringValue + " " + dateTime.getYear() + "/"
                     + dateTime.getMonthValue() + "/"
@@ -295,66 +298,65 @@ public class CelestiaIf implements Runnable {
                     + dateTime.getMinute() + ":"
                     + dateTime.getSecond();
             */
-            dataStringValue = dataStringValue + " " + data.getYears() + "/"
-                    + data.getMonths() + "/"
-                    + data.getDays() + "-"
-                    + data.getHours() + ":"
-                    + data.getMinutes() + ":"
-                    + data.getSeconds();
-            
-            dataStringUnit = dataStringUnit + " " + "UTC";
+            dataStringValue.append(" ").append(data.getYears()).append("/").append(data.getMonths()).append("/").append(
+                data.getDays()).append("-").append(data.getHours()).append(":").append(data.getMinutes()).append(":")
+                .append(data.getSeconds());
+
+            dataStringUnit.append(" ").append("UTC");
 
             // ICF position and velocity        
-            dataStringSc = dataStringSc + " " + scId + " " + scId + " " + scId + " " + scId + " " + scId + " " + scId;
-            dataStringParam = dataStringParam + " " + "X_ICF Y_ICF Z_ICF VX_ICF VY_ICF VZ_ICF";
-            dataStringValue = dataStringValue + " " + rv[0] + " " + rv[1] + " " + rv[2] + " " + rv[3] + " " + rv[4] + " " + rv[5];
-            dataStringUnit = dataStringUnit + " " + "km km km km/s km/s km/s";
+            dataStringSc.append(" ").append(scId).append(" ").append(scId).append(" ").append(scId).append(" ").append(
+                scId).append(" ").append(scId).append(" ").append(scId);
+            dataStringParam.append(" ").append("X_ICF Y_ICF Z_ICF VX_ICF VY_ICF VZ_ICF");
+            dataStringValue.append(" ").append(rv[0]).append(" ").append(rv[1]).append(" ").append(rv[2]).append(" ")
+                .append(rv[3]).append(" ").append(rv[4]).append(" ").append(rv[5]);
+            dataStringUnit.append(" ").append("km km km km/s km/s km/s");
 
             // attitude        
-            dataStringSc = dataStringSc + " " + scId + " " + scId + " " + scId + " " + scId;
-            dataStringParam = dataStringParam + " " + "QS_ICF QX_ICF QY_ICF QZ_ICF";
-            dataStringValue = dataStringValue + " " + q[0] + " " // scalar part  --> order to be checked with MO message
-                    + q[1] + " "
-                    + q[2] + " "
-                    + q[3];
-            dataStringUnit = dataStringUnit + " " + "- - - -";
+            dataStringSc.append(" ").append(scId).append(" ").append(scId).append(" ").append(scId).append(" ").append(
+                scId);
+            dataStringParam.append(" ").append("QS_ICF QX_ICF QY_ICF QZ_ICF");
+            dataStringValue.append(" ").append(q[0]).append(" " // scalar part  --> order to be checked with MO message
+            ).append(q[1]).append(" ").append(q[2]).append(" ").append(q[3]);
+            dataStringUnit.append(" ").append("- - - -");
 
             if (this.PRINT_EVENTS) {
                 // INFO        
-                dataStringSc = dataStringSc + " " + scId;
-                dataStringParam = dataStringParam + " " + "INFO";
-                dataStringValue = dataStringValue + " " + data.getInfo();
-                dataStringUnit = dataStringUnit + " " + "UTC";
+                dataStringSc.append(" ").append(scId);
+                dataStringParam.append(" ").append("INFO");
+                dataStringValue.append(" ").append(data.getInfo());
+                dataStringUnit.append(" ").append("UTC");
 
                 // ANX        
-                dataStringSc = dataStringSc + " " + scId;
-                dataStringParam = dataStringParam + " " + "ANX";
-                dataStringValue = dataStringValue + " " + data.getAnx();
-                dataStringUnit = dataStringUnit + " " + "UTC";
+                dataStringSc.append(" ").append(scId);
+                dataStringParam.append(" ").append("ANX");
+                dataStringValue.append(" ").append(data.getAnx());
+                dataStringUnit.append(" ").append("UTC");
 
                 // DNX        
-                dataStringSc = dataStringSc + " " + scId;
-                dataStringParam = dataStringParam + " " + "DNX";
-                dataStringValue = dataStringValue + " " + data.getDnx();
-                dataStringUnit = dataStringUnit + " " + "UTC";
+                dataStringSc.append(" ").append(scId);
+                dataStringParam.append(" ").append("DNX");
+                dataStringValue.append(" ").append(data.getDnx());
+                dataStringUnit.append(" ").append("UTC");
 
                 // AOS_KIRUNA
-                dataStringSc = dataStringSc + " " + scId;
-                dataStringParam = dataStringParam + " " + "AOS_ESOC";
-                dataStringValue = dataStringValue + " " + data.getAos();
-                dataStringUnit = dataStringUnit + " " + "UTC";
+                dataStringSc.append(" ").append(scId);
+                dataStringParam.append(" ").append("AOS_ESOC");
+                dataStringValue.append(" ").append(data.getAos());
+                dataStringUnit.append(" ").append("UTC");
 
                 // LOS_KIRUNA
-                dataStringSc = dataStringSc + " " + scId;
-                dataStringParam = dataStringParam + " " + "LOS_ESOC";
-                dataStringValue = dataStringValue + " " + data.getLos();
-                dataStringUnit = dataStringUnit + " " + "UTC";
+                dataStringSc.append(" ").append(scId);
+                dataStringParam.append(" ").append("LOS_ESOC");
+                dataStringValue.append(" ").append(data.getLos());
+                dataStringUnit.append(" ").append("UTC");
             }
 
         }
 
         // put together the message to be transmitted                                   
-        outMsg = "$DATA_START$ $PROTOCOL_VERSION_" + this.PROTOCOL_VERSION + "$" + dataStringSc + " //" + dataStringParam + " //" + dataStringValue + " //" + dataStringUnit + " $DATA_END$";
+        outMsg = "$DATA_START$ $PROTOCOL_VERSION_" + this.PROTOCOL_VERSION + "$" + dataStringSc + " //" +
+            dataStringParam + " //" + dataStringValue + " //" + dataStringUnit + " $DATA_END$";
 
         return outMsg;
     }

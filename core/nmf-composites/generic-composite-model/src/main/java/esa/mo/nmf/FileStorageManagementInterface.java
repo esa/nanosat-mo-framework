@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -28,7 +28,7 @@ import java.util.ArrayList;
  * 
  */
 public interface FileStorageManagementInterface {
-    
+
     /**
      * Lists the Folders available in the specified path
      *
@@ -36,7 +36,7 @@ public interface FileStorageManagementInterface {
      * @return A list of Folders
      */
     ArrayList<String> listFolders(final boolean path);
-    
+
     /**
      * Creates a folder in the specified path
      *
@@ -53,7 +53,7 @@ public interface FileStorageManagementInterface {
      * @param newName The new name of the folder
      */
     void renameFolder(final boolean path, final String oldName, final String newName);
-    
+
     /**
      * The publishAlertEvent operation allows an external software entity to
      * publish Alert events through the Alert service
@@ -63,5 +63,5 @@ public interface FileStorageManagementInterface {
      * If there is any error, then a null shall be returned instead
      */
     Long getFolderUsageStats(final String path);
-    
+
 }

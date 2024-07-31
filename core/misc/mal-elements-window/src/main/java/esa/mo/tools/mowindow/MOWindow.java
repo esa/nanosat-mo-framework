@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -49,28 +49,44 @@ public final class MOWindow extends javax.swing.JDialog {
     /**
      * Creates new form MOWindow
      *
-     * @param obj
-     * @param editable
+     * @param obj MAL Object to visualise in the window.
+     * @param editable Should the object be editable.
      */
     public MOWindow(Object obj, boolean editable) {
+        this(obj, editable, null);
+    }
+
+    /**
+     * Creates new form MOWindow
+     *
+     * @param obj MAL Object to visualise in the window.
+     * @param editable Should the object be editable.
+     * @param title Title of the window. Will use class name if empty or null.
+     */
+    public MOWindow(Object obj, boolean editable, String title) {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setModal(true);
         componentsPanel.setLayout(new BoxLayout(componentsPanel, BoxLayout.PAGE_AXIS));
 
-        String className = obj.getClass().getSimpleName();
-        this.setTitle(className);  // Set Title
+        if (title != null && !title.trim().isEmpty()) {
+            this.setTitle(title);
+        } else {
+            String className = obj.getClass().getSimpleName();
+            this.setTitle(className);
+        }
         this.receivedObj = obj;
         this.editable = editable;
 
         if (obj instanceof Element) {
-            MALArea area = MALContextFactory.lookupArea(((Element) obj).getAreaNumber(), ((Element) obj).getAreaVersion());
+            MALArea area = MALContextFactory.lookupArea(((Element) obj).getAreaNumber(), ((Element) obj)
+                .getAreaVersion());
             MALService service = area.getServiceByNumber(((Element) obj).getServiceNumber());
             String string;
 
             if (service != null) {
-                string = "Area: " + area.getName() + "        Service: " + service.getName()
-                        + "        TypeShortForm: " + ((Element) obj).getTypeShortForm();
+                string = "Area: " + area.getName() + "        Service: " + service.getName() +
+                    "        TypeShortForm: " + ((Element) obj).getTypeShortForm();
             } else {
                 string = "Area: " + area.getName() + "          TypeShortForm: " + ((Element) obj).getTypeShortForm();
             }
@@ -108,34 +124,28 @@ public final class MOWindow extends javax.swing.JDialog {
                     if (list.get(i) == null) {
                         try {
                             Element something = HelperMisc.elementList2element(list);
-                            MOelementList moElementList = new MOelementList(this,
-                                    String.valueOf(componentsPanel.getComponentCount()), something, editable, true);
+                            MOelementList moElementList = new MOelementList(this, String.valueOf(componentsPanel
+                                .getComponentCount()), something, editable, true);
                             componentsPanel.add(moElementList);
                         } catch (Exception ex) {
                             Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex);
                         }
 
                     } else {
-                        MOelementList moElementList = new MOelementList(this,
-                                String.valueOf(componentsPanel.getComponentCount()),
-                                FieldsHandler.filterRawObject(list.get(i)), editable, (list.get(i) == null));
+                        MOelementList moElementList = new MOelementList(this, String.valueOf(componentsPanel
+                            .getComponentCount()), FieldsHandler.filterRawObject(list.get(i)), editable, (list.get(i) ==
+                                null));
                         componentsPanel.add(moElementList);
                     }
                 } else {
-                    MOelementList moElementList = new MOelementList(this,
-                            String.valueOf(componentsPanel.getComponentCount()),
-                            (Element) list.get(i), editable, (list.get(i) == null));
+                    MOelementList moElementList = new MOelementList(this, String.valueOf(componentsPanel
+                        .getComponentCount()), list.get(i), editable, (list.get(i) == null));
                     componentsPanel.add(moElementList);
                 }
 
             }
 
-            java.awt.event.ActionListener actionListener = new java.awt.event.ActionListener() {
-                @Override
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    buttonAddActionPerformed(evt);
-                }
-            };
+            java.awt.event.ActionListener actionListener = this::buttonAddActionPerformed;
 
             MOelementListBlank moElementListBlank = new MOelementListBlank(actionListener, editable);
             componentsPanel.add(moElementListBlank);
@@ -158,36 +168,36 @@ public final class MOWindow extends javax.swing.JDialog {
 
                 // If another Composite add a button to create another MOWindow
                 if (fieldObject instanceof Composite) {
-                    MOcomposite moComposite = new MOcomposite(fields[i].getName(),
-                            (Element) fieldObject, editable, fieldObjectIsNull);
+                    MOcomposite moComposite = new MOcomposite(fields[i].getName(), (Element) fieldObject, editable,
+                        fieldObjectIsNull);
                     componentsPanel.add(moComposite);
                     continue;
                 }
 
                 if (fieldObject instanceof Attribute) {
-                    MOattribute moField = new MOattribute(fields[i].getName(),
-                            (Element) fieldObject, editable, fieldObjectIsNull);
+                    MOattribute moField = new MOattribute(fields[i].getName(), fieldObject, editable,
+                        fieldObjectIsNull);
                     componentsPanel.add(moField);
                     continue;
                 }
 
                 if (fieldObject instanceof Enumeration) {
-                    MOenumeration moField = new MOenumeration(fields[i].getName(),
-                            (Element) fieldObject, editable, fieldObjectIsNull);
+                    MOenumeration moField = new MOenumeration(fields[i].getName(), (Element) fieldObject, editable,
+                        fieldObjectIsNull);
                     componentsPanel.add(moField);
                     continue;
                 }
 
                 if (fieldObject == null) {  // It is unknown or type "Attribute"
-                    MOattribute moField = new MOattribute(fields[i].getName(),
-                            (Element) fieldObject, editable, fieldObjectIsNull);
+                    MOattribute moField = new MOattribute(fields[i].getName(), fieldObject, editable,
+                        fieldObjectIsNull);
                     componentsPanel.add(moField);
                     continue;
                 }
 
                 if (!(fieldObject instanceof Element)) {
-                    MOattribute moField = new MOattribute(fields[i].getName(),
-                            FieldsHandler.filterRawObject(fieldObject), editable, fieldObjectIsNull);
+                    MOattribute moField = new MOattribute(fields[i].getName(), FieldsHandler.filterRawObject(
+                        fieldObject), editable, fieldObjectIsNull);
                     componentsPanel.add(moField);
                     continue;
                 }
@@ -249,14 +259,16 @@ public final class MOWindow extends javax.swing.JDialog {
         button = new javax.swing.JToggleButton();
 
         setMinimumSize(new java.awt.Dimension(600, 120));
-        setResizable(false);
+        setResizable(true);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
             }
+
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
             }
+
             public void windowDeactivated(java.awt.event.WindowEvent evt) {
                 formWindowDeactivated(evt);
             }
@@ -270,17 +282,12 @@ public final class MOWindow extends javax.swing.JDialog {
 
         javax.swing.GroupLayout topPanelLayout = new javax.swing.GroupLayout(topPanel);
         topPanel.setLayout(topPanelLayout);
-        topPanelLayout.setHorizontalGroup(
-            topPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(objIdentification, javax.swing.GroupLayout.DEFAULT_SIZE, 604, Short.MAX_VALUE)
-        );
-        topPanelLayout.setVerticalGroup(
-            topPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        topPanelLayout.setHorizontalGroup(topPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(objIdentification, javax.swing.GroupLayout.DEFAULT_SIZE, 604, Short.MAX_VALUE));
+        topPanelLayout.setVerticalGroup(topPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, topPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(objIdentification)
-                .addContainerGap())
-        );
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(objIdentification)
+                .addContainerGap()));
 
         getContentPane().add(topPanel, java.awt.BorderLayout.PAGE_START);
 
@@ -295,25 +302,17 @@ public final class MOWindow extends javax.swing.JDialog {
         bottomPanel.setPreferredSize(new java.awt.Dimension(452, 40));
 
         button.setText("Submit");
-        button.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonActionPerformed(evt);
-            }
-        });
+        button.addActionListener(this::buttonActionPerformed);
 
         javax.swing.GroupLayout bottomPanelLayout = new javax.swing.GroupLayout(bottomPanel);
         bottomPanel.setLayout(bottomPanelLayout);
-        bottomPanelLayout.setHorizontalGroup(
-            bottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(button, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 604, Short.MAX_VALUE)
-        );
-        bottomPanelLayout.setVerticalGroup(
-            bottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bottomPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(button)
-                .addContainerGap())
-        );
+        bottomPanelLayout.setHorizontalGroup(bottomPanelLayout.createParallelGroup(
+            javax.swing.GroupLayout.Alignment.LEADING).addComponent(button, javax.swing.GroupLayout.Alignment.TRAILING,
+                javax.swing.GroupLayout.DEFAULT_SIZE, 604, Short.MAX_VALUE));
+        bottomPanelLayout.setVerticalGroup(bottomPanelLayout.createParallelGroup(
+            javax.swing.GroupLayout.Alignment.LEADING).addGroup(javax.swing.GroupLayout.Alignment.TRAILING,
+                bottomPanelLayout.createSequentialGroup().addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE,
+                    Short.MAX_VALUE).addComponent(button).addContainerGap()));
 
         getContentPane().add(bottomPanel, java.awt.BorderLayout.PAGE_END);
 
@@ -334,7 +333,7 @@ public final class MOWindow extends javax.swing.JDialog {
     }//GEN-LAST:event_formWindowClosed
 
     private void formWindowDeactivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowDeactivated
-//        closeButtonPressed = true;
+        //        closeButtonPressed = true;
     }//GEN-LAST:event_formWindowDeactivated
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -348,9 +347,8 @@ public final class MOWindow extends javax.swing.JDialog {
     private void buttonAddActionPerformed(java.awt.event.ActionEvent evt) {
         try {
             Element element = HelperMisc.elementList2element((ElementList) this.receivedObj);
-            MOelementList moElementList = new MOelementList(this,
-                    String.valueOf(componentsPanel.getComponentCount() - 1),
-                    element, this.editable, (this.receivedObj == null));
+            MOelementList moElementList = new MOelementList(this, String.valueOf(componentsPanel.getComponentCount() -
+                1), element, this.editable, (this.receivedObj == null));
             componentsPanel.add(moElementList, componentsPanel.getComponentCount() - 1);
             this.refreshVerticalSize();
         } catch (Exception ex) {
@@ -403,21 +401,16 @@ public final class MOWindow extends javax.swing.JDialog {
                             fields[i + 6].set(this.receivedObj, fieldUnion.get(object));
                         }
 
-                    } catch (NoSuchFieldException ex1) {
-                        Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex1);
-                    } catch (SecurityException ex1) {
-                        Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex1);
-                    } catch (IllegalArgumentException ex1) {
-                        Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex1);
-                    } catch (IllegalAccessException ex1) {
+                    } catch (NoSuchFieldException |
+                             IllegalAccessException |
+                             IllegalArgumentException |
+                             SecurityException ex1) {
                         Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex1);
                     }
                 } else {
                     try {
                         fields[i + 6].set(this.receivedObj, object);
-                    } catch (IllegalArgumentException ex) {
-                        Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (IllegalAccessException ex) {
+                    } catch (IllegalArgumentException | IllegalAccessException ex) {
                         Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }

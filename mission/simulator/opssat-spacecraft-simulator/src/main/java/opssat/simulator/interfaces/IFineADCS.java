@@ -1,13 +1,13 @@
 /*
  *  ----------------------------------------------------------------------------
- *  Copyright (C) 2016      European Space Agency
+ *  Copyright (C) 2021      European Space Agency
  *                          European Space Operations Centre
  *                          Darmstadt
  *                          Germany
  *  ----------------------------------------------------------------------------
  *  System                : ESA NanoSat MO Framework
  *  ----------------------------------------------------------------------------
- *  Licensed under the European Space Agency Public License, Version 2.0
+ *  Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  *  You may not use this file except in compliance with the License.
  * 
  *  Except as expressly set forth in this License, the Software is provided to
@@ -26,10 +26,10 @@ package opssat.simulator.interfaces;
  * @author Cezar Suteu
  */
 public interface IFineADCS {
-//# Boolean enabled1
-//# Integer valueInteger1
-//# Float valueFloat1
-//# String textField1
+    //# Boolean enabled1
+    //# Integer valueInteger1
+    //# Float valueFloat1
+    //# String textField1
 
     /**
      * /
@@ -2245,7 +2245,8 @@ public interface IFineADCS {
      * F32: Y - value;
      * </pre>
      */
-    void singleSpinningStartControlLoop(float[] targetBodyAxis, float targetAngularVelocityMagnitude, float[] inertialTargetVector);//1149
+    void singleSpinningStartControlLoop(float[] targetBodyAxis, float targetAngularVelocityMagnitude,
+        float[] inertialTargetVector);//1149
 
     /**
      * <pre>
@@ -2454,9 +2455,9 @@ public interface IFineADCS {
      * Size of returned parameters: 0
      * TLE Data
      * 69x UI8 : Line 1
-     * UI8 : Empty Character ’\0’
+     * UI8 : Empty Character '\0'
      * 69x UI8 : Line 2
-     * UI8 : Empty Character ’\0’
+     * UI8 : Empty Character '\0'
      * </pre>
      */
     void orbitSetTLE(byte[] tleData);//1162
@@ -2478,7 +2479,7 @@ public interface IFineADCS {
      * Input parameters:
      * Return parameters:void
      * Size of returned parameters: 0
-     * Same as cmd ’Set Mode: Safe’ [0x02]
+     * Same as cmd 'Set Mode: Safe' [0x02]
      * </pre>
      */
     void opModeIdle();//1164
@@ -2489,7 +2490,7 @@ public interface IFineADCS {
      * Input parameters:
      * Return parameters:void
      * Size of returned parameters: 0
-     * Sets the ’Safe Mode’. All sensor polling off. All actuators off. No controlling.
+     * Sets the 'Safe Mode'. All sensor polling off. All actuators off. No controlling.
      * </pre>
      */
     void opModeSafe();//1165
@@ -2500,7 +2501,7 @@ public interface IFineADCS {
      * Input parameters:
      * Return parameters:void
      * Size of returned parameters: 0
-     * Sets the ’Measurement Mode’. All sensor polling ON. All actuators off. No controlling.
+     * Sets the 'Measurement Mode'. All sensor polling ON. All actuators off. No controlling.
      * </pre>
      */
     void opModeMeasure();//1166
@@ -2511,7 +2512,7 @@ public interface IFineADCS {
      * Input parameters:byte start,long[] times
      * Return parameters:void
      * Size of returned parameters: 0
-     * Set the ’Detumbling Mode’. Enables ’B-dot Max Control Loop’ based on magnetometer and magnetorquers.
+     * Set the 'Detumbling Mode'. Enables 'B-dot Max Control Loop' based on magnetometer and magnetorquers.
      * Turns off all other unnecessary activities.
      * Parameters:
      * 1x UI8 Start (=1) or Stop (=0)
@@ -2526,7 +2527,7 @@ public interface IFineADCS {
      * Input parameters:byte[] mode,long[] times,float[] targetSunVector
      * Return parameters:void
      * Size of returned parameters: 0
-     * Sets the ’Sun Pointing Mode’. Enables ’Sun Pointing Control Loop’ based on RW and sun sensors.
+     * Sets the 'Sun Pointing Mode'. Enables 'Sun Pointing Control Loop' based on RW and sun sensors.
      * Turns off all other unnecessary activities.
      * Parameters:
      * 1x UI8 Start (=1) or Stop (=0)
@@ -2559,8 +2560,8 @@ public interface IFineADCS {
      * Input parameters:byte mode,long[] times,float[] targetVector
      * Return parameters:void
      * Size of returned parameters: 0
-     * Sets the ’Single Spinner Mode’.
-     * Enables ’SSMC Control Loop’ based on MTQ, HP-gyro, magnetometer and sun sensors.
+     * Sets the 'Single Spinner Mode'.
+     * Enables 'SSMC Control Loop' based on MTQ, HP-gyro, magnetometer and sun sensors.
      * Turns off all other unnecessary activities.
      * Parameters:
      * 1x UI8 Start (=1) or Stop (=0)
@@ -2594,8 +2595,8 @@ public interface IFineADCS {
      * Input parameters:byte mode,long[] times,float[] targetVector
      * Return parameters:void
      * Size of returned parameters: 0
-     * Sets the ’Contant Velocity Target Tracking Mode’.
-     * Enables ’Control Loop’ based on RW, HP-gyro, ST, Kalman Filter.
+     * Sets the 'Contant Velocity Target Tracking Mode'.
+     * Enables 'Control Loop' based on RW, HP-gyro, ST, Kalman Filter.
      * Turns off all other unnecessary activities.
      * Parameters:
      * 1x UI8 Start (=1) or Stop (=0)
@@ -2628,8 +2629,8 @@ public interface IFineADCS {
      * Input parameters:byte mode,long[] times
      * Return parameters:void
      * Size of returned parameters: 0
-     * Sets the ’Nadir Dynamic Target Tracking Mode’.
-     * Enables ’Control Loop’ based on RW, HP-gyro, ST, Kalman Filter.
+     * Sets the 'Nadir Dynamic Target Tracking Mode'.
+     * Enables 'Control Loop' based on RW, HP-gyro, ST, Kalman Filter.
      * Turns off all other unnecessary activities.
      * Parameters:
      * 1x UI8 Start (=1) or Stop (=0)
@@ -2661,8 +2662,8 @@ public interface IFineADCS {
      * Input parameters:byte mode,long[] times,float[] quaternionCoefficients
      * Return parameters:void
      * Size of returned parameters: 0
-     * Sets the ’Std. Target Tracking Mode’.
-     * Enables ’Control Loop’ based on RW, HP-gyro, ST, Kalman Filter.
+     * Sets the 'Std. Target Tracking Mode'.
+     * Enables 'Control Loop' based on RW, HP-gyro, ST, Kalman Filter.
      * Turns off all other unnecessary activities.
      * Parameters:
      * 1x UI8 Start (=1) or Stop (=0)
@@ -2693,8 +2694,8 @@ public interface IFineADCS {
      * Input parameters:byte mode,long[] times,float[] latitudeLongitude
      * Return parameters:void
      * Size of returned parameters: 0
-     * Sets the ’Fix WGS84 Target Tracking Mode’.
-     * Enables ’Control Loop’ based on RW, HP-gyro, ST, Kalman Filter.
+     * Sets the 'Fix WGS84 Target Tracking Mode'.
+     * Enables 'Control Loop' based on RW, HP-gyro, ST, Kalman Filter.
      * Turns off all other unnecessary activities.
      * Parameters:
      * 1x UI8 Start (=1) or Stop (=0)
@@ -2728,8 +2729,8 @@ public interface IFineADCS {
      * Input parameters:byte mode,long startTime,float[] data
      * Return parameters:void
      * Size of returned parameters: 0
-     * Sets the ’HL Target Capture 1 Mode’.
-     * Enables ’Control Loop’ based on RW, HP-gyro, Kalman Filter and ST or S/B-Sensors. Uses simple euler rotations for tracking.
+     * Sets the 'HL Target Capture 1 Mode'.
+     * Enables 'Control Loop' based on RW, HP-gyro, Kalman Filter and ST or S/B-Sensors. Uses simple euler rotations for tracking.
      * Turns off all other unnecessary activities.
      * Parameter:
      * UI8 Mode

@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -28,14 +28,16 @@ import java.util.logging.Logger;
 
 public class VirtualSPPURIsManager {
 
+    private static Random random = new Random();
+
     private final static String PROTOCOL_SPP = "malspp";
     private final static String APID_QUALIFIER = "247";
     private final int apidRangeStart;
     private final int apidRangeEnd;
     private final static int SOURDEID_RANGE_START = 0; // Set by SPP
     private final static int SOURDEID_RANGE_END = 255;
-    private final HashMap<String, String> virtualAPIDsMap = new HashMap<String, String>();
-    private final HashMap<String, String> reverseMap = new HashMap<String, String>();
+    private final HashMap<String, String> virtualAPIDsMap = new HashMap<>();
+    private final HashMap<String, String> reverseMap = new HashMap<>();
     private final AtomicInteger uniqueAPID;
     private final AtomicInteger uniqueSourceId;
     private final Object MUTEX = new Object();
@@ -44,7 +46,6 @@ public class VirtualSPPURIsManager {
         this.apidRangeStart = apidRangeStart;
         this.apidRangeEnd = apidRangeEnd;
 
-        Random random = new Random();
         int apid = random.nextInt((apidRangeEnd - apidRangeStart) + 1) + apidRangeStart;
         int sourceId = random.nextInt((SOURDEID_RANGE_END - SOURDEID_RANGE_START) + 1) + SOURDEID_RANGE_START;
 
@@ -60,7 +61,7 @@ public class VirtualSPPURIsManager {
 
             if (reverse == null) {
                 Logger.getLogger(VirtualSPPURIsManager.class.getName()).log(Level.SEVERE,
-                        "The reverse APID for virtualSPPURI: " + virtualSPPURI + " could not be found!");
+                    "The reverse APID for virtualSPPURI: " + virtualSPPURI + " could not be found!");
             }
         }
 
@@ -79,8 +80,8 @@ public class VirtualSPPURIsManager {
                 reverseMap.put(virtualAPID, uriFrom);
             }
 
-            Logger.getLogger(VirtualSPPURIsManager.class.getName()).log(Level.FINE,
-                    "The virtualAPID is: " + virtualAPID);
+            Logger.getLogger(VirtualSPPURIsManager.class.getName()).log(Level.FINE, "The virtualAPID is: " +
+                virtualAPID);
         }
 
         return virtualAPID;

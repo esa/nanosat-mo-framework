@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -34,6 +34,7 @@ import org.ccsds.moims.mo.common.directory.DirectoryHelper;
 import org.ccsds.moims.mo.common.login.LoginHelper;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.structures.Blob;
 
 /**
  *
@@ -46,6 +47,11 @@ public class CommonServicesConsumer {
     private LoginConsumerServiceImpl loginService;
 
     public void init(ConnectionConsumer connectionConsumer, COMServicesConsumer comServices) {
+        init(connectionConsumer, comServices, null, null);
+    }
+
+    public void init(ConnectionConsumer connectionConsumer, COMServicesConsumer comServices, Blob authenticationId,
+        String localNamePrefix) {
 
         SingleConnectionDetails details;
 
@@ -53,25 +59,23 @@ public class CommonServicesConsumer {
             // Initialize the Directory service
             details = connectionConsumer.getServicesDetails().get(DirectoryHelper.DIRECTORY_SERVICE_NAME);
             if (details != null) {
-                directoryService = new DirectoryConsumerServiceImpl(details.getProviderURI());
+                directoryService = new DirectoryConsumerServiceImpl(details.getProviderURI(), authenticationId,
+                    localNamePrefix);
             }
 
             // Initialize the Configuration service
             details = connectionConsumer.getServicesDetails().get(ConfigurationHelper.CONFIGURATION_SERVICE_NAME);
             if (details != null) {
-                configurationService = new ConfigurationConsumerServiceImpl(details, comServices);
+                configurationService = new ConfigurationConsumerServiceImpl(details, comServices, authenticationId,
+                    localNamePrefix);
             }
 
             // Initialize the Login service
             details = connectionConsumer.getServicesDetails().get(LoginHelper.LOGIN_SERVICE_NAME);
             if (details != null) {
-                loginService = new LoginConsumerServiceImpl(details, comServices);
+                loginService = new LoginConsumerServiceImpl(details, comServices, authenticationId, localNamePrefix);
             }
-        } catch (MALException ex) {
-            Logger.getLogger(CommonServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(CommonServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALInteractionException ex) {
+        } catch (MALException | MALInteractionException | MalformedURLException ex) {
             Logger.getLogger(CommonServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -89,10 +93,8 @@ public class CommonServicesConsumer {
         return this.loginService;
     }
 
-    public void setServices(
-            DirectoryConsumerServiceImpl directoryService,
-            ConfigurationConsumerServiceImpl configurationService,
-            LoginConsumerServiceImpl loginService) {
+    public void setServices(DirectoryConsumerServiceImpl directoryService,
+        ConfigurationConsumerServiceImpl configurationService, LoginConsumerServiceImpl loginService) {
         this.directoryService = directoryService;
         this.configurationService = configurationService;
         this.loginService = loginService;
@@ -116,16 +118,29 @@ public class CommonServicesConsumer {
      */
     public void closeConnections() {
         if (this.directoryService != null) {
-            this.directoryService.closeConnection();
+            this.directoryService.close();
         }
 
         if (this.configurationService != null) {
-            this.configurationService.closeConnection();
+            this.configurationService.close();
         }
 
         if (this.loginService != null) {
-            this.loginService.closeConnection();
+            this.loginService.close();
         }
     }
 
+    public void setAuthenticationId(Blob authenticationId) {
+        if (this.directoryService != null) {
+            this.directoryService.setAuthenticationId(authenticationId);
+        }
+
+        if (this.configurationService != null) {
+            this.configurationService.setAuthenticationId(authenticationId);
+        }
+
+        if (this.loginService != null) {
+            this.loginService.setAuthenticationId(authenticationId);
+        }
+    }
 }

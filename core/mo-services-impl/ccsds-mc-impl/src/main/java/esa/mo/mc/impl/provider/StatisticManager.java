@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -28,7 +28,7 @@ import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.mc.impl.interfaces.ExternalStatisticFunctionsInterface;
 import java.util.HashMap;
-import java.util.Set;
+import java.util.Map;
 import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -84,22 +84,23 @@ public final class StatisticManager {
     private final transient ParameterManager parameterManager;
     private final transient ExternalStatisticFunctionsInterface externalStatFunctions;
 
-    public StatisticManager(COMServicesProvider comServices, ParameterManager parameterManager, ExternalStatisticFunctionsInterface externalStatFunctions) {
+    public StatisticManager(COMServicesProvider comServices, ParameterManager parameterManager,
+        ExternalStatisticFunctionsInterface externalStatFunctions) {
         this.comServices = comServices;
         this.parameterManager = parameterManager;
         this.externalStatFunctions = externalStatFunctions;
 
-        this.statFunctions = new HashMap<Long, StatisticFunctionDetails>();
-        this.statLinks = new HashMap<Long, StatisticCreationRequest>();
-        this.statEvaluationReports = new HashMap<Long, StatisticEvaluationReport>();
-        this.statLinkDefIdsByStatLinkIds = new HashMap<Long, Long>();
+        this.statFunctions = new HashMap<>();
+        this.statLinks = new HashMap<>();
+        this.statEvaluationReports = new HashMap<>();
+        this.statLinkDefIdsByStatLinkIds = new HashMap<>();
         this.dataSets = new DataSets();
 
         if (comServices != null) {  // Do we have COM services?
             if (comServices.getArchiveService() == null) {  // No Archive?
                 this.uniqueObjIdLink = 0L; // The zeroth value will not be used (reserved for the wildcard)
                 this.uniqueObjIdAIns = 0L; // The zeroth value will not be used (reserved for the wildcard)
-//            this.load(); // Load the file
+                //            this.load(); // Load the file
             } else {
 
             }
@@ -145,10 +146,9 @@ public final class StatisticManager {
 
     public LongList getStatisticLinksForFunction(Long statFuncId) {
         LongList foundList = new LongList();
-        final Set<Long> statLinkIds = statLinks.keySet();
-        for (Long statLinkId : statLinkIds) {
-            if (statLinks.get(statLinkId).getStatFuncInstId().equals(statFuncId)) {
-                foundList.add(statLinkId);
+        for (Map.Entry<Long, StatisticCreationRequest> entry : statLinks.entrySet()) {
+            if (entry.getValue().getStatFuncInstId().equals(statFuncId)) {
+                foundList.add(entry.getKey());
             }
         }
         return foundList;
@@ -168,12 +168,13 @@ public final class StatisticManager {
         return list;
     }
 
-    public Long storeAndGenerateStatValueInsobjId(StatisticValue sVal, Long related, SingleConnectionDetails connectionDetails, ObjectId source) {
+    public Long storeAndGenerateStatValueInsobjId(StatisticValue sVal, Long related,
+        SingleConnectionDetails connectionDetails, ObjectId source) {
         if (comServices.getArchiveService() == null) {
             uniqueObjIdAIns++;
             if (uniqueObjIdAIns % SAVING_PERIOD == 0) // It is used to avoid constant saving every time we generate a new obj Inst identifier.
             {
-//                this.save();
+                //                this.save();
             }
             return this.uniqueObjIdAIns;
         } else {
@@ -182,20 +183,16 @@ public final class StatisticManager {
 
             try {
                 LongList objIds = comServices.getArchiveService().store( //requirement: 3.6.6.c
-                        true,
-                        StatisticHelper.STATISTICVALUEINSTANCE_OBJECT_TYPE, //requirement: 3.6.4.i
-                        ConfigurationProviderSingleton.getDomain(),
-                        HelperArchive.generateArchiveDetailsList(related, source, connectionDetails), //requirement: 3.6.4. , n, o 
-                        sValList,
-                        null);
+                    true, StatisticHelper.STATISTICVALUEINSTANCE_OBJECT_TYPE, //requirement: 3.6.4.i
+                    ConfigurationProviderSingleton.getDomain(), HelperArchive.generateArchiveDetailsList(related,
+                        source, connectionDetails), //requirement: 3.6.4. , n, o 
+                    sValList, null);
 
                 if (objIds.size() == 1) {
                     return objIds.get(0);
                 }
 
-            } catch (MALException ex) {
-                Logger.getLogger(StatisticManager.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALInteractionException ex) {
+            } catch (MALException | MALInteractionException ex) {
                 Logger.getLogger(StatisticManager.class.getName()).log(Level.SEVERE, null, ex);
             }
 
@@ -240,17 +237,17 @@ public final class StatisticManager {
      if (!this.statLinkExists(objId)) {
      return false;
      }
-
+    
      StatisticValue statValue = new StatisticValue();
      statValue.setStartTime(ConfigurationProvider.getTimestampMillis());
      statValue.setSampleCount(new UInteger(0));
-
+    
      StatisticEvaluationReport statEval = new StatisticEvaluationReport(); // Let's add a new one...
      statEval.setLinkId(objId);
      statEval.setValue(statValue);
-
+    
      this.statEvaluations.put(objId, statEval);  // The old value is replaced
-
+    
      return true;
      }
      */
@@ -272,15 +269,13 @@ public final class StatisticManager {
         } else {
             try {
                 // store the StatisticLink object
-                ObjectId source = new ObjectId(ParameterHelper.PARAMETERIDENTITY_OBJECT_TYPE,
-                        statLink.getParameterId());
+                ObjectId source = new ObjectId(ParameterHelper.PARAMETERIDENTITY_OBJECT_TYPE, statLink
+                    .getParameterId());
                 LongList linkIds = comServices.getArchiveService().store( //requirement: 3.6.6.b, 3.6.13.2.i
-                        true,
-                        StatisticHelper.STATISTICLINK_OBJECT_TYPE, //requirement: 3.6.4.g, h
-                        ConfigurationProviderSingleton.getDomain(),
-                        HelperArchive.generateArchiveDetailsList(statLink.getStatFuncInstId(), source, connectionDetails), //requirement: 3.6.4.j, k
-                        null,
-                        null);
+                    true, StatisticHelper.STATISTICLINK_OBJECT_TYPE, //requirement: 3.6.4.g, h
+                    ConfigurationProviderSingleton.getDomain(), HelperArchive.generateArchiveDetailsList(statLink
+                        .getStatFuncInstId(), source, connectionDetails), //requirement: 3.6.4.j, k
+                    null, null);
 
                 newLinkId = linkIds.get(0);
 
@@ -289,19 +284,14 @@ public final class StatisticManager {
                 linkDetails.add(statLink.getLinkDetails());
 
                 LongList linkDefIds = comServices.getArchiveService().store( //requirement: 3.6.6.b, 3.6.13.2.i
-                        true,
-                        StatisticHelper.STATISTICLINKDEFINITION_OBJECT_TYPE, //requirement: 3.6.4.g, h
-                        ConfigurationProviderSingleton.getDomain(),
-                        HelperArchive.generateArchiveDetailsList(newLinkId, null, connectionDetails), //requirement: 3.6.4.j, k
-                        linkDetails,
-                        null);
+                    true, StatisticHelper.STATISTICLINKDEFINITION_OBJECT_TYPE, //requirement: 3.6.4.g, h
+                    ConfigurationProviderSingleton.getDomain(), HelperArchive.generateArchiveDetailsList(newLinkId,
+                        null, connectionDetails), //requirement: 3.6.4.j, k
+                    linkDetails, null);
 
                 newLinkDefId = linkDefIds.get(0);
 
-            } catch (MALException ex) {
-                Logger.getLogger(StatisticManager.class.getName()).log(Level.SEVERE, null, ex);
-                return null;
-            } catch (MALInteractionException ex) {
+            } catch (MALException | MALInteractionException ex) {
                 Logger.getLogger(StatisticManager.class.getName()).log(Level.SEVERE, null, ex);
                 return null;
             }
@@ -323,18 +313,12 @@ public final class StatisticManager {
                 links.add(statLink.getLinkDetails());
 
                 LongList linkDefIds = comServices.getArchiveService().store( //requirement: 3.6.15.2.i
-                        true,
-                        StatisticHelper.STATISTICLINKDEFINITION_OBJECT_TYPE,
-                        ConfigurationProviderSingleton.getDomain(),
-                        HelperArchive.generateArchiveDetailsList(statLinkId, null, connectionDetails),
-                        links,
-                        null);
+                    true, StatisticHelper.STATISTICLINKDEFINITION_OBJECT_TYPE, ConfigurationProviderSingleton
+                        .getDomain(), HelperArchive.generateArchiveDetailsList(statLinkId, null, connectionDetails),
+                    links, null);
 
                 newLinkDefId = linkDefIds.get(0);
-            } catch (MALException ex) {
-                Logger.getLogger(StatisticManager.class.getName()).log(Level.SEVERE, null, ex);
-                return null;
-            } catch (MALInteractionException ex) {
+            } catch (MALException | MALInteractionException ex) {
                 Logger.getLogger(StatisticManager.class.getName()).log(Level.SEVERE, null, ex);
                 return null;
             }
@@ -382,7 +366,8 @@ public final class StatisticManager {
         this.statEvaluationReports.remove(statLinkId);
     }
 
-    protected StatisticValue generateStatisticValue(Long statFuncId, long paramIdentityId, TimeList times, AttributeValueList values) {
+    protected StatisticValue generateStatisticValue(Long statFuncId, long paramIdentityId, TimeList times,
+        AttributeValueList values) {
         StatisticFunctionDetails statFunction = this.getStatisticFunction(statFuncId);
 
         if (statFunction == null) {
@@ -414,7 +399,8 @@ public final class StatisticManager {
         return null;
     }
 
-    private StatisticValue generateStatisticValueMaximum(long paramIdentityId, TimeList times, AttributeValueList values) {
+    private StatisticValue generateStatisticValueMaximum(long paramIdentityId, TimeList times,
+        AttributeValueList values) {
         StatisticValue statValue = this.newStatisticValue(paramIdentityId, times, values);
 
         if (statValue == null) {
@@ -431,7 +417,8 @@ public final class StatisticManager {
 
             // Comparison must be done here
             //requirement: 3.6.3.h report first occurance of max value
-            if (HelperCOM.evaluateExpression(values.get(i).getValue(), ExpressionOperator.GREATER, values.get(maximum).getValue())) {
+            if (HelperCOM.evaluateExpression(values.get(i).getValue(), ExpressionOperator.GREATER, values.get(maximum)
+                .getValue())) {
                 maximum = i;
             }
         }
@@ -442,7 +429,8 @@ public final class StatisticManager {
         return statValue;
     }
 
-    private StatisticValue generateStatisticValueMinimum(long paramIdentityId, TimeList times, AttributeValueList values) {
+    private StatisticValue generateStatisticValueMinimum(long paramIdentityId, TimeList times,
+        AttributeValueList values) {
         StatisticValue statValue = this.newStatisticValue(paramIdentityId, times, values);
 
         if (statValue == null) {
@@ -459,7 +447,8 @@ public final class StatisticManager {
 
             // Comparison must be done here
             //requirement: 3.6.3.i report first occurance of min value
-            if (HelperCOM.evaluateExpression(values.get(i).getValue(), ExpressionOperator.LESS, values.get(minimum).getValue())) {
+            if (HelperCOM.evaluateExpression(values.get(i).getValue(), ExpressionOperator.LESS, values.get(minimum)
+                .getValue())) {
                 minimum = i;
             }
         }
@@ -470,7 +459,8 @@ public final class StatisticManager {
         return statValue;
     }
 
-    private StatisticValue generateStatisticValueMeanAverage(long paramIdentityId, TimeList times, AttributeValueList values) {
+    private StatisticValue generateStatisticValueMeanAverage(long paramIdentityId, TimeList times,
+        AttributeValueList values) {
         StatisticValue statValue = this.newStatisticValue(paramIdentityId, times, values);
 
         if (statValue == null) {
@@ -499,7 +489,8 @@ public final class StatisticManager {
         return statValue;
     }
 
-    private StatisticValue generateStatisticValueStandardDeviation(long paramIdentityId, TimeList times, AttributeValueList values) {
+    private StatisticValue generateStatisticValueStandardDeviation(long paramIdentityId, TimeList times,
+        AttributeValueList values) {
         StatisticValue statValue = this.newStatisticValue(paramIdentityId, times, values);
 
         if (statValue == null) {
@@ -575,10 +566,10 @@ public final class StatisticManager {
         return parameterManager.existsIdentity(instId);
     }
 
-    public class DataSets {
+    public static class DataSets {
 
-        private final HashMap<Long, AttributeValueList> dataSets = new HashMap<Long, AttributeValueList>();
-        private final HashMap<Long, TimeList> timeSets = new HashMap<Long, TimeList>();
+        private final HashMap<Long, AttributeValueList> dataSets = new HashMap<>();
+        private final HashMap<Long, TimeList> timeSets = new HashMap<>();
         private final Semaphore semaphore = new Semaphore(1);
 
         public void lock() {
@@ -639,7 +630,8 @@ public final class StatisticManager {
                 return null;
             }
             int i = 0;
-            for (; i < allTimes.size() && allTimes.get(i).getValue() < oldestTimeInMs; i++);
+            for (; i < allTimes.size() && allTimes.get(i).getValue() < oldestTimeInMs; i++)
+                ;
             return i;
         }
 

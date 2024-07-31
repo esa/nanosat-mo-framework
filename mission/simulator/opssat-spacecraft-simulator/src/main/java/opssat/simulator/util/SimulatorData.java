@@ -1,13 +1,13 @@
 /*
  *  ----------------------------------------------------------------------------
- *  Copyright (C) 2016      European Space Agency
+ *  Copyright (C) 2021      European Space Agency
  *                          European Space Operations Centre
  *                          Darmstadt
  *                          Germany
  *  ----------------------------------------------------------------------------
  *  System                : ESA NanoSat MO Framework
  *  ----------------------------------------------------------------------------
- *  Licensed under the European Space Agency Public License, Version 2.0
+ *  Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  *  You may not use this file except in compliance with the License.
  * 
  *  Except as expressly set forth in this License, the Software is provided to
@@ -38,8 +38,6 @@ import java.util.concurrent.TimeUnit;
  * @author Cezar Suteu
  */
 public class SimulatorData implements Serializable {
-	
-
 
     /**
      * Get a diff between two dates
@@ -50,44 +48,46 @@ public class SimulatorData implements Serializable {
      */
     public static long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
         long diffInMillies = date2.getTime() - date1.getTime();
-        return timeUnit.convert(diffInMillies,TimeUnit.MILLISECONDS);
+        return timeUnit.convert(diffInMillies, TimeUnit.MILLISECONDS);
     }
-    public static Map<TimeUnit,Long> computeTimeUnit(long date1)
-    {
-       long diffInMillies = date1;
-        List<TimeUnit> units = new ArrayList<TimeUnit>(EnumSet.allOf(TimeUnit.class));
+
+    public static Map<TimeUnit, Long> computeTimeUnit(long date1) {
+        List<TimeUnit> units = new ArrayList<>(EnumSet.allOf(TimeUnit.class));
         Collections.reverse(units);
-        Map<TimeUnit,Long> result = new LinkedHashMap<TimeUnit,Long>();
-        long milliesRest = diffInMillies;
-        for ( TimeUnit unit : units ) {
-            long diff = unit.convert(milliesRest,TimeUnit.MILLISECONDS);
+        Map<TimeUnit, Long> result = new LinkedHashMap<>();
+        long milliesRest = date1;
+        for (TimeUnit unit : units) {
+            long diff = unit.convert(milliesRest, TimeUnit.MILLISECONDS);
             long diffInMilliesForUnit = unit.toMillis(diff);
             milliesRest = milliesRest - diffInMilliesForUnit;
-            result.put(unit,diff);
-        }
-        return result; 
-    }
-    public static Map<TimeUnit,Long> computeDiff(Date date1, Date date2) {
-        long diffInMillies = date2.getTime() - date1.getTime();
-        List<TimeUnit> units = new ArrayList<TimeUnit>(EnumSet.allOf(TimeUnit.class));
-        Collections.reverse(units);
-        Map<TimeUnit,Long> result = new LinkedHashMap<TimeUnit,Long>();
-        long milliesRest = diffInMillies;
-        for ( TimeUnit unit : units ) {
-            long diff = unit.convert(milliesRest,TimeUnit.MILLISECONDS);
-            long diffInMilliesForUnit = unit.toMillis(diff);
-            milliesRest = milliesRest - diffInMilliesForUnit;
-            result.put(unit,diff);
+            result.put(unit, diff);
         }
         return result;
     }
+
+    public static Map<TimeUnit, Long> computeDiff(Date date1, Date date2) {
+        long diffInMillies = date2.getTime() - date1.getTime();
+        List<TimeUnit> units = new ArrayList<>(EnumSet.allOf(TimeUnit.class));
+        Collections.reverse(units);
+        Map<TimeUnit, Long> result = new LinkedHashMap<>();
+        long milliesRest = diffInMillies;
+        for (TimeUnit unit : units) {
+            long diff = unit.convert(milliesRest, TimeUnit.MILLISECONDS);
+            long diffInMilliesForUnit = unit.toMillis(diff);
+            milliesRest = milliesRest - diffInMilliesForUnit;
+            result.put(unit, diff);
+        }
+        return result;
+    }
+
     private int timeFactor = 1;
     private int counter;
     private int methodsExecuted;
-    private Date currentTime;   
+    private Date currentTime;
     private boolean timeRunning;
     private boolean simulatorRunning;
     private long currentTimeLong;
+    private long utcOffsetInMillis = -18000;
 
     public void setMethodsExecuted(int methodsExecuted) {
         this.methodsExecuted = methodsExecuted;
@@ -95,7 +95,8 @@ public class SimulatorData implements Serializable {
 
     @Override
     public String toString() {
-        return "{" + "counter=" + counter + ", methodsExecuted=" + methodsExecuted + ", currentTime=" + currentTime + '}';
+        return "{" + "counter=" + counter + ", methodsExecuted=" + methodsExecuted + ", currentTime=" + currentTime +
+            '}';
     }
 
     public void incrementMethods() {
@@ -118,7 +119,7 @@ public class SimulatorData implements Serializable {
 
     public void feedTimeElapsed(long timeElapsed) {
         this.currentTime.setTime(this.currentTime.getTime() + timeElapsed * timeFactor);
-        this.currentTimeLong=this.currentTimeLong+timeElapsed;
+        this.currentTimeLong = this.currentTimeLong + timeElapsed;
     }
 
     public SimulatorData(int counter, Date currentTime) {
@@ -147,7 +148,7 @@ public class SimulatorData implements Serializable {
         this.timeRunning = data.isAutoStartTime();
         this.timeFactor = data.getTimeFactor();
         this.currentTime = new Date(data.getStartDate().getTime());
-        this.currentTimeLong=0;
+        this.currentTimeLong = 0;
     }
 
     public int getTimeFactor() {
@@ -161,29 +162,58 @@ public class SimulatorData implements Serializable {
     public Date getCurrentTime() {
         return currentTime;
     }
-    
+
     public long getCurrentTimeMillis() {
         return currentTimeLong;
     }
+
     public String getUTCCurrentTime() {
-        DateFormat df = new SimpleDateFormat("hhmmss.SS");
+        DateFormat df = new SimpleDateFormat("HHmmss.SS");
         return df.format(currentTime);
     }
+
     public String getUTCCurrentTime2() {
-        DateFormat df = new SimpleDateFormat("hhmm");
+        DateFormat df = new SimpleDateFormat("HHmm");
         return df.format(currentTime);
     }
+
+    public String getUTCCurrentHour() {
+        DateFormat df = new SimpleDateFormat("H");
+        return df.format(currentTime);
+    }
+
+    public String getUTCCurrentMinute() {
+        DateFormat df = new SimpleDateFormat("m");
+        return df.format(currentTime);
+    }
+
+    public String getUTCCurrentSecond() {
+        DateFormat df = new SimpleDateFormat("s");
+        return df.format(currentTime);
+    }
+
+    public String getUTCCurrentMillis() {
+        DateFormat df = new SimpleDateFormat("SSS");
+        return df.format(currentTime);
+    }
+
     public String getCurrentDay() {
         DateFormat df = new SimpleDateFormat("dd");
         return df.format(currentTime);
     }
+
     public String getCurrentMonth() {
         DateFormat df = new SimpleDateFormat("MM");
         return df.format(currentTime);
     }
+
     public String getCurrentYear() {
         DateFormat df = new SimpleDateFormat("yyyy");
         return df.format(currentTime);
     }
-    
+
+    public long getUtcOffsetInMillis() {
+        return utcOffsetInMillis;
+    }
+
 }

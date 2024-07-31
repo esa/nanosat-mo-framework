@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -62,7 +62,7 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
      * @throws MALInteractionException
      */
     public ProviderSummaryList syncLocalDirectoryServiceWithCentral(final URI centralDirectoryServiceURI,
-            final URI routedURI) throws MALException, MalformedURLException, MALInteractionException {
+        final URI routedURI) throws MALException, MalformedURLException, MALInteractionException {
         ProviderSummaryList providers = NMFConsumer.retrieveProvidersFromDirectory(true, centralDirectoryServiceURI);
         addProxyPrefix(providers, routedURI.getValue());
 
@@ -75,7 +75,7 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
             pub.setDomain(provider.getProviderKey().getDomain());
             pub.setNetwork(new Identifier("not_available"));
             pub.setProviderDetails(provider.getProviderDetails());
-            pub.setProviderName(provider.getProviderName());
+            pub.setProviderId(provider.getProviderId());
             pub.setServiceXML(null);
             pub.setSessionType(SessionType.LIVE);
             pub.setSourceSessionName(null);
@@ -95,8 +95,8 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
      * @param proxyURI The URI of the protocol bridge
      * @throws IllegalArgumentException if the providers object is null
      */
-    public static void addProxyPrefix(final ProviderSummaryList providers,
-            final String proxyURI) throws IllegalArgumentException {
+    public static void addProxyPrefix(final ProviderSummaryList providers, final String proxyURI)
+        throws IllegalArgumentException {
         if (providers == null) {
             throw new IllegalArgumentException("The provider object cannot be null.");
         }
@@ -137,9 +137,9 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
                     for (ServiceCapability capability : capabilities) {
                         ServiceKey key = capability.getServiceKey();
 
-                        if (COMHelper._COM_AREA_NUMBER == key.getArea().getValue()
-                                && ArchiveHelper._ARCHIVE_SERVICE_NUMBER == key.getService().getValue()
-                                && COMHelper._COM_AREA_VERSION == key.getVersion().getValue()) {
+                        if (COMHelper._COM_AREA_NUMBER == key.getKeyArea().getValue() &&
+                            ArchiveHelper._ARCHIVE_SERVICE_NUMBER == key.getKeyService().getValue() &&
+                            COMHelper._COM_AREA_VERSION == key.getKeyAreaVersion().getValue()) {
                             AddressDetails details = capability.getServiceAddresses().get(0);
                             details.setServiceURI(to);
                         }
@@ -168,9 +168,9 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
                     for (ServiceCapability capability : capabilities) {
                         ServiceKey key = capability.getServiceKey();
 
-                        if (MCHelper._MC_AREA_NUMBER == key.getArea().getValue()
-                                && ActionHelper._ACTION_SERVICE_NUMBER == key.getService().getValue()
-                                && MCHelper._MC_AREA_VERSION == key.getVersion().getValue()) {
+                        if (MCHelper._MC_AREA_NUMBER == key.getKeyArea().getValue() &&
+                            ActionHelper._ACTION_SERVICE_NUMBER == key.getKeyService().getValue() &&
+                            MCHelper._MC_AREA_VERSION == key.getKeyAreaVersion().getValue()) {
                             AddressDetails details = capability.getServiceAddresses().get(0);
                             details.setServiceURI(to);
                         }

@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -20,6 +20,8 @@
  */
 package esa.mo.com.impl.util;
 
+import esa.mo.helpertools.helpers.HelperMisc;
+import java.text.MessageFormat;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.com.structures.ObjectType;
@@ -51,9 +53,9 @@ public class EventCOMObject {
     public EventCOMObject() {
     }
 
-    public EventCOMObject(final IdentifierList domain, final ObjectType objType,
-            final Long objId, final ObjectId source, final Long related, final Element body,
-            final Time timestamp, final Identifier networkZone, final URI sourceURI) {
+    public EventCOMObject(final IdentifierList domain, final ObjectType objType, final Long objId,
+        final ObjectId source, final Long related, final Element body, final Time timestamp,
+        final Identifier networkZone, final URI sourceURI) {
         this.domain = domain;
         this.objType = objType;
         this.objId = objId;
@@ -143,4 +145,10 @@ public class EventCOMObject {
         return new ObjectId(this.objType, new ObjectKey(this.domain, this.objId));
     }
 
+    @Override
+    public String toString() {
+        return MessageFormat.format("EventCOMObject: domain={1}, objType={2}, objId={3}, source={4}, related={5}" +
+            ", body={6}, timestamp={7}, networkZone={8}, sourceURI={9}", HelperMisc.domain2domainId(domain), objType,
+            objId, source, related, body, timestamp, networkZone, sourceURI);
+    }
 }

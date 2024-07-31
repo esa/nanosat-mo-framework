@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -52,11 +52,11 @@ public class DemoSerialObject {
      * @param args the command line arguments
      * @throws java.lang.Exception If there is an error
      */
-    public static void main(final String args[]) throws Exception {
+    public static void main(final String[] args) throws Exception {
         DemoSerialObject demo = new DemoSerialObject();
     }
 
-    public class MCAdapter extends SimpleMonitorAndControlAdapter {
+    public static class MCAdapter extends SimpleMonitorAndControlAdapter {
 
         @Override
         public void initialRegistrations(MCRegistration registrationObject) {
@@ -66,15 +66,8 @@ public class DemoSerialObject {
             final ParameterDefinitionDetailsList defsOther = new ParameterDefinitionDetailsList();
             final IdentifierList names = new IdentifierList();
 
-            defsOther.add(new ParameterDefinitionDetails(
-                    "A single parameter.",
-                    Union.STRING_SHORT_FORM.byteValue(),
-                    "",
-                    true,
-                    new Duration(0),
-                    null,
-                    null
-            ));
+            defsOther.add(new ParameterDefinitionDetails("A single parameter.", Union.STRING_SHORT_FORM.byteValue(), "",
+                true, new Duration(0), null, null));
             names.add(new Identifier(PARAMETER));
 
             registrationObject.registerParameters(names, defsOther);

@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -76,7 +76,7 @@ public class ParameterAddModify extends javax.swing.JFrame {
      * @param parameterService
      */
     public ParameterAddModify(final ParameterConsumerServiceImpl parameterService,
-            final DefaultTableModel parameterTableData) {
+        final DefaultTableModel parameterTableData) {
         initComponents();
 
         this.serviceMCParameter = parameterService;
@@ -108,9 +108,9 @@ public class ParameterAddModify extends javax.swing.JFrame {
         this.parameterDefinitionSelectedIndex = in;
     }
 
-    public ParameterDefinitionDetails makeNewParameterDefinition(int rawType,
-            String rawUnit, String description, boolean generationEnabled, float interval,
-            ParameterExpression validityExpression, ParameterConversion conversion) {
+    public ParameterDefinitionDetails makeNewParameterDefinition(int rawType, String rawUnit, String description,
+        boolean generationEnabled, float interval, ParameterExpression validityExpression,
+        ParameterConversion conversion) {
         ParameterDefinitionDetails PDef = new ParameterDefinitionDetails();
         PDef.setDescription(description);
         PDef.setRawType((byte) rawType);
@@ -124,7 +124,8 @@ public class ParameterAddModify extends javax.swing.JFrame {
         return PDef;
     }
 
-    public ParameterExpression makeNewParameterExpression(Long instId, int operator, Boolean useConverted, String value) {
+    public ParameterExpression makeNewParameterExpression(Long instId, int operator, Boolean useConverted,
+        String value) {
         ParameterExpression PExp = new ParameterExpression();
 
         PExp.setParameterId(new ObjectKey(serviceMCParameter.getConnectionDetails().getDomain(), instId));
@@ -136,10 +137,10 @@ public class ParameterAddModify extends javax.swing.JFrame {
     }
 
     public Duration makeDuration(float input) {
-//        Duration durationOne = new Duration(1);
-//        Object value = durationOne.getValue();
+        //        Duration durationOne = new Duration(1);
+        //        Object value = durationOne.getValue();
 
-//      return new Duration((int) Math.round(input));  // Then it is an int! (round the number before)
+        //      return new Duration((int) Math.round(input));  // Then it is an int! (round the number before)
         return new Duration(input);
     }
 
@@ -161,7 +162,7 @@ public class ParameterAddModify extends javax.swing.JFrame {
         validityExpressionCBActionPerformed(null);
 
         String str = parameterTable.getValueAt(parameterTable.getSelectedRow(), 5).toString();
-        Boolean curState = (str.equals("true")); // String to Boolean conversion
+        boolean curState = (str.equals("true")); // String to Boolean conversion
         generationEnabledCB.setSelected(curState);
         generationEnabledCB.setEnabled(true);
         isAddDef = false;
@@ -269,7 +270,11 @@ public class ParameterAddModify extends javax.swing.JFrame {
         jLabel4.setPreferredSize(new java.awt.Dimension(100, 14));
         jPanel4.add(jLabel4);
 
-        rawTypeCB.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-", "Blob", "Boolean", "Duration", "Float", "Double", "Identifier", "Octet", "UOctet", "Short", "UShort", "Integer", "UInteger", "Long", "ULong", "String", "Time", "FineTime", "URI", " " }));
+        rawTypeCB.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"-", "Blob", "Boolean", "Duration",
+                                                                             "Float", "Double", "Identifier", "Octet",
+                                                                             "UOctet", "Short", "UShort", "Integer",
+                                                                             "UInteger", "Long", "ULong", "String",
+                                                                             "Time", "FineTime", "URI", " "}));
         rawTypeCB.setMaximumSize(new java.awt.Dimension(150, 20));
         rawTypeCB.setMinimumSize(new java.awt.Dimension(150, 20));
         rawTypeCB.setPreferredSize(new java.awt.Dimension(150, 20));
@@ -291,21 +296,13 @@ public class ParameterAddModify extends javax.swing.JFrame {
 
         updateIntervalTF.setText("3");
         updateIntervalTF.setPreferredSize(new java.awt.Dimension(150, 20));
-        updateIntervalTF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                updateIntervalTFActionPerformed(evt);
-            }
-        });
+        updateIntervalTF.addActionListener(this::updateIntervalTFActionPerformed);
         jPanel4.add(updateIntervalTF);
 
         generationEnabledCB.setText("generationEnabled");
         generationEnabledCB.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         generationEnabledCB.setOpaque(false);
-        generationEnabledCB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                generationEnabledCBActionPerformed(evt);
-            }
-        });
+        generationEnabledCB.addActionListener(this::generationEnabledCBActionPerformed);
         jPanel4.add(generationEnabledCB);
 
         jSeparator7.setMaximumSize(new java.awt.Dimension(250, 10));
@@ -314,11 +311,7 @@ public class ParameterAddModify extends javax.swing.JFrame {
         jPanel4.add(jSeparator7);
 
         validityExpressionCB.setText("validityExpression");
-        validityExpressionCB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                validityExpressionCBActionPerformed(evt);
-            }
-        });
+        validityExpressionCB.addActionListener(this::validityExpressionCBActionPerformed);
         jPanel4.add(validityExpressionCB);
 
         jPanel10.setMaximumSize(new java.awt.Dimension(280, 70));
@@ -346,32 +339,21 @@ public class ParameterAddModify extends javax.swing.JFrame {
         validity1.setMaximumSize(new java.awt.Dimension(100, 20));
         validity1.setMinimumSize(new java.awt.Dimension(100, 20));
         validity1.setPreferredSize(new java.awt.Dimension(100, 20));
-        validity1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                validity1ActionPerformed(evt);
-            }
-        });
+        validity1.addActionListener(this::validity1ActionPerformed);
         jPanel10.add(validity1);
 
-        validity2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "=", "≠", ">", "≥", "<", "≤", "CONTAINS", "ICONTAINS" }));
+        validity2.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"=", "≠", ">", "≥", "<", "≤", "CONTAINS",
+                                                                             "ICONTAINS"}));
         validity2.setEnabled(false);
         validity2.setMaximumSize(new java.awt.Dimension(90, 20));
         validity2.setMinimumSize(new java.awt.Dimension(90, 20));
         validity2.setPreferredSize(new java.awt.Dimension(90, 20));
-        validity2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                validity2ActionPerformed(evt);
-            }
-        });
+        validity2.addActionListener(this::validity2ActionPerformed);
         jPanel10.add(validity2);
 
         validity3.setEnabled(false);
         validity3.setPreferredSize(new java.awt.Dimension(60, 20));
-        validity3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                validity3ActionPerformed(evt);
-            }
-        });
+        validity3.addActionListener(this::validity3ActionPerformed);
         jPanel10.add(validity3);
 
         validity4.setText("useConverted");
@@ -379,11 +361,7 @@ public class ParameterAddModify extends javax.swing.JFrame {
         validity4.setMaximumSize(new java.awt.Dimension(180, 23));
         validity4.setMinimumSize(new java.awt.Dimension(180, 23));
         validity4.setPreferredSize(null);
-        validity4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                validity4ActionPerformed(evt);
-            }
-        });
+        validity4.addActionListener(this::validity4ActionPerformed);
         jPanel10.add(validity4);
 
         jPanel4.add(jPanel10);
@@ -395,11 +373,7 @@ public class ParameterAddModify extends javax.swing.JFrame {
         jPanel4.add(jSeparator4);
 
         conversionCB.setText("conversion");
-        conversionCB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                conversionCBActionPerformed(evt);
-            }
-        });
+        conversionCB.addActionListener(this::conversionCBActionPerformed);
         jPanel4.add(conversionCB);
 
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -420,53 +394,66 @@ public class ParameterAddModify extends javax.swing.JFrame {
         jLabel12.setText("Reference obj Type:");
         jLabel12.setPreferredSize(new java.awt.Dimension(100, 14));
 
-        objTypeCB.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-", "Discrete Conversion", "Line Conversion", "Poly Conversion", "Range Conversion" }));
+        objTypeCB.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"-", "Discrete Conversion",
+                                                                             "Line Conversion", "Poly Conversion",
+                                                                             "Range Conversion"}));
         objTypeCB.setMaximumSize(new java.awt.Dimension(150, 20));
         objTypeCB.setMinimumSize(new java.awt.Dimension(150, 20));
         objTypeCB.setPreferredSize(new java.awt.Dimension(150, 20));
-        objTypeCB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                objTypeCBActionPerformed(evt);
-            }
-        });
+        objTypeCB.addActionListener(this::objTypeCBActionPerformed);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(16, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(referenceObjIdTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(convertedUnit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(objTypeCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(referenceObjIdTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(objTypeCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(convertedUnit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(24, Short.MAX_VALUE))
-        );
+        jPanel1Layout.setHorizontalGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup().addContainerGap(16, Short.MAX_VALUE).addGroup(jPanel1Layout
+                .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
+                    javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup().addComponent(
+                        jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+                        javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(
+                            javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(referenceObjIdTF,
+                                javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                javax.swing.GroupLayout.PREFERRED_SIZE)).addGroup(
+                                    javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                            javax.swing.GroupLayout.DEFAULT_SIZE,
+                                            javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(
+                                                javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(
+                                                    convertedUnit, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                    javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                    javax.swing.GroupLayout.PREFERRED_SIZE)).addGroup(
+                                                        javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout
+                                                            .createSequentialGroup().addComponent(jLabel12,
+                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(
+                                                                    javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                            .addComponent(objTypeCB,
+                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap()));
+        jPanel1Layout.setVerticalGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup().addGroup(jPanel1Layout.createParallelGroup(
+                javax.swing.GroupLayout.Alignment.BASELINE).addComponent(referenceObjIdTF,
+                    javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+                    javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(jLabel6,
+                        javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
+                            javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addGroup(jPanel1Layout
+                                .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(objTypeCB,
+                                    javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                    javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(jLabel12,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
+                                            javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addGroup(jPanel1Layout
+                                                .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                .addComponent(convertedUnit, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                    javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                    javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(jLabel10,
+                                                        javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                        javax.swing.GroupLayout.PREFERRED_SIZE)).addContainerGap(24,
+                                                            Short.MAX_VALUE)));
 
         jPanel4.add(jPanel1);
 
@@ -476,27 +463,19 @@ public class ParameterAddModify extends javax.swing.JFrame {
         jPanel4.add(jSeparator8);
 
         submitButton.setText("Submit");
-        submitButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                submitButtonActionPerformed(evt);
-            }
-        });
+        submitButton.addActionListener(this::submitButtonActionPerformed);
         jPanel4.add(submitButton);
 
         jPanel3.add(jPanel4);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 545, Short.MAX_VALUE)
-        );
+        layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
+            javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup().addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 410,
+                    javax.swing.GroupLayout.PREFERRED_SIZE)));
+        layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
+            jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 545, Short.MAX_VALUE));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -539,20 +518,19 @@ public class ParameterAddModify extends javax.swing.JFrame {
 
     private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
 
-        if (nameTF.getText().equals("")
-                || descriptionTF.getText().equals("")
-                || descriptionTF.getText().equals("")
-                || rawTypeCB.getSelectedIndex() == 0
-                || rawUnitTF.getText().equals("")
-                || updateIntervalTF.getText().equals("")) {
-            JOptionPane.showMessageDialog(null, "Please fill-in all the necessary fields!", "Warning!", JOptionPane.PLAIN_MESSAGE);
+        if (nameTF.getText().equals("") || descriptionTF.getText().equals("") || descriptionTF.getText().equals("") ||
+            rawTypeCB.getSelectedIndex() == 0 || rawUnitTF.getText().equals("") || updateIntervalTF.getText().equals(
+                "")) {
+            JOptionPane.showMessageDialog(null, "Please fill-in all the necessary fields!", "Warning!",
+                JOptionPane.PLAIN_MESSAGE);
             return;
         }
 
         try {
             Double.parseDouble(updateIntervalTF.getText());  // Check if it is a number
         } catch (NumberFormatException nfe) {
-            JOptionPane.showMessageDialog(null, "updateInterval is not a number!", "Warning!", JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(null, "updateInterval is not a number!", "Warning!",
+                JOptionPane.PLAIN_MESSAGE);
             return;
         }
 
@@ -560,10 +538,12 @@ public class ParameterAddModify extends javax.swing.JFrame {
 
         if (validityExpressionCB.isSelected()) {
             if (validity2.getSelectedIndex() != -1 && !validity3.getText().equals("")) {
-                Long instId = new Long(parameterTableData.getValueAt(validity1.getSelectedIndex(), 0).toString());
-                PExp = makeNewParameterExpression(instId, validity2.getSelectedIndex(), validity4.isSelected(), validity3.getText());
+                Long instId = Long.valueOf(parameterTableData.getValueAt(validity1.getSelectedIndex(), 0).toString());
+                PExp = makeNewParameterExpression(instId, validity2.getSelectedIndex(), validity4.isSelected(),
+                    validity3.getText());
             } else {
-                JOptionPane.showMessageDialog(null, "Please select an operator and a value!", "Warning!", JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Please select an operator and a value!", "Warning!",
+                    JOptionPane.PLAIN_MESSAGE);
                 return;
             }
         } else {
@@ -575,8 +555,8 @@ public class ParameterAddModify extends javax.swing.JFrame {
         if (conversionCB.isSelected()) {
             // Reference to the conversion Object
             ObjectId referenceId = new ObjectId();
-            referenceId.setKey(new ObjectKey(serviceMCParameter.getConnectionDetails().getDomain(),
-                    new Long(referenceObjIdTF.getText())));  // Get the first objId
+            referenceId.setKey(new ObjectKey(serviceMCParameter.getConnectionDetails().getDomain(), Long.valueOf(
+                referenceObjIdTF.getText())));  // Get the first objId
 
             int index = objTypeCB.getSelectedIndex();
 
@@ -614,14 +594,8 @@ public class ParameterAddModify extends javax.swing.JFrame {
         }
 
         ParameterDefinitionDetails Pdef;
-        Pdef = makeNewParameterDefinition(
-                rawTypeCB.getSelectedIndex(),
-                rawUnitTF.getText(),
-                descriptionTF.getText(),
-                generationEnabledCB.isSelected(),
-                Float.parseFloat(updateIntervalTF.getText()),
-                PExp,
-                pConv);
+        Pdef = makeNewParameterDefinition(rawTypeCB.getSelectedIndex(), rawUnitTF.getText(), descriptionTF.getText(),
+            generationEnabledCB.isSelected(), Float.parseFloat(updateIntervalTF.getText()), PExp, pConv);
 
         ParameterDefinitionDetailsList PDefs = new ParameterDefinitionDetailsList();
         PDefs.add(Pdef);
@@ -641,16 +615,12 @@ public class ParameterAddModify extends javax.swing.JFrame {
                 Logger.getLogger(ParameterAddModify.class.getName()).info("addDefinition started");
                 ObjectInstancePairList output = serviceMCParameter.getParameterStub().addParameter(requestList);
                 Logger.getLogger(ParameterAddModify.class.getName()).log(Level.INFO,
-                        "addDefinition returned {0} object instance identifiers", output.size());
+                    "addDefinition returned {0} object instance identifiers", output.size());
 
-                parameterTableData.addRow(
-                        new Object[]{output.get(0).getObjDefInstanceId().intValue(), request.getName().toString(), Pdef.getDescription(),
-                            rawTypeCB.getItemAt(Pdef.getRawType()).toString(), Pdef.getRawUnit(),
-                            Pdef.getGenerationEnabled(), Pdef.getReportInterval().getValue()}
-                );
-            } catch (MALInteractionException ex) {
-                Logger.getLogger(ParameterAddModify.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALException ex) {
+                parameterTableData.addRow(new Object[]{output.get(0).getObjDefInstanceId().intValue(), request.getName()
+                    .toString(), Pdef.getDescription(), rawTypeCB.getItemAt(Pdef.getRawType()).toString(), Pdef
+                        .getRawUnit(), Pdef.getGenerationEnabled(), Pdef.getReportInterval().getValue()});
+            } catch (MALInteractionException | MALException ex) {
                 Logger.getLogger(ParameterAddModify.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
@@ -658,18 +628,22 @@ public class ParameterAddModify extends javax.swing.JFrame {
                 // Well, then we are updating a previous selected definition
                 Logger.getLogger(ParameterAddModify.class.getName()).info("updateDefinition started");
                 LongList objIds = new LongList();
-                objIds.add(new Long(parameterTableData.getValueAt(parameterDefinitionSelectedIndex, 0).toString()));
+                objIds.add(Long.valueOf(parameterTableData.getValueAt(parameterDefinitionSelectedIndex, 0).toString()));
                 serviceMCParameter.getParameterStub().updateDefinition(objIds, PDefs);
                 parameterTableData.removeRow(parameterDefinitionSelectedIndex);
-                parameterTableData.insertRow(parameterDefinitionSelectedIndex,
-                        new Object[]{objIds.get(0).intValue(), request.getName().toString(), Pdef.getDescription(),
-                            rawTypeCB.getItemAt(Pdef.getRawType()).toString(), Pdef.getRawUnit(),
-                            Pdef.getGenerationEnabled(), Pdef.getReportInterval().getValue()}
-                );
+                parameterTableData.insertRow(parameterDefinitionSelectedIndex, new Object[]{objIds.get(0).intValue(),
+                                                                                            request.getName()
+                                                                                                .toString(), Pdef
+                                                                                                    .getDescription(),
+                                                                                            rawTypeCB.getItemAt(Pdef
+                                                                                                .getRawType())
+                                                                                                .toString(), Pdef
+                                                                                                    .getRawUnit(), Pdef
+                                                                                                        .getGenerationEnabled(),
+                                                                                            Pdef.getReportInterval()
+                                                                                                .getValue()});
                 Logger.getLogger(ParameterAddModify.class.getName()).info("updateDefinition executed");
-            } catch (MALInteractionException ex) {
-                Logger.getLogger(ParameterAddModify.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALException ex) {
+            } catch (MALInteractionException | MALException ex) {
                 Logger.getLogger(ParameterAddModify.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -678,7 +652,6 @@ public class ParameterAddModify extends javax.swing.JFrame {
     private void objTypeCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_objTypeCBActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_objTypeCBActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox conversionCB;

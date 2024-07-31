@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -29,8 +29,8 @@ import org.ccsds.moims.mo.platform.gps.structures.Position;
  */
 public class PositionsCalculator {
 
-    public static double R = 6371; // Equatorial Radius
-    public static double f = 0.00335281066474748071984552861852; // Flattening
+    public static final double R = 6371; // Equatorial Radius
+    public static final double f = 0.00335281066474748071984552861852; // Flattening
 
     public static class ECEFVector {
 
@@ -83,13 +83,12 @@ public class PositionsCalculator {
         double alt = p.getAltitude();
 
         double meanSeaLevel = Math.atan((1 - f) * (1 - f) * Math.tan(lat));
-        double rs = Math.sqrt(R * R / ((1 + (1 / ((1 - f) * (1 - f)) - 1) * Math.sin(meanSeaLevel) * Math.sin(meanSeaLevel))));
+        double rs = Math.sqrt(R * R / ((1 + (1 / ((1 - f) * (1 - f)) - 1) * Math.sin(meanSeaLevel) * Math.sin(
+            meanSeaLevel))));
 
-        return new ECEFVector(
-                rs * Math.cos(meanSeaLevel) * Math.cos(lon) + alt * Math.cos(lat) * Math.cos(lon),
-                rs * Math.cos(meanSeaLevel) * Math.sin(lon) + alt * Math.cos(lat) * Math.sin(lon),
-                rs * Math.sin(meanSeaLevel) + alt * Math.sin(lat)
-        );
+        return new ECEFVector(rs * Math.cos(meanSeaLevel) * Math.cos(lon) + alt * Math.cos(lat) * Math.cos(lon), rs *
+            Math.cos(meanSeaLevel) * Math.sin(lon) + alt * Math.cos(lat) * Math.sin(lon), rs * Math.sin(meanSeaLevel) +
+                alt * Math.sin(lat));
     }
 
 }

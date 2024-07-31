@@ -1,0 +1,2 @@
+#<internalID>|<templateName>|<inputArgs=[String inputArgument={data}>]
+#2001|GLMLA|inputArgs=[String inputSentence={GLMLA}]

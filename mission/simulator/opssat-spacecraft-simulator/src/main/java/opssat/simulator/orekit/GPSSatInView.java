@@ -1,13 +1,13 @@
 /*
  *  ----------------------------------------------------------------------------
- *  Copyright (C) 2016      European Space Agency
+ *  Copyright (C) 2021      European Space Agency
  *                          European Space Operations Centre
  *                          Darmstadt
  *                          Germany
  *  ----------------------------------------------------------------------------
  *  System                : ESA NanoSat MO Framework
  *  ----------------------------------------------------------------------------
- *  Licensed under the European Space Agency Public License, Version 2.0
+ *  Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  *  You may not use this file except in compliance with the License.
  * 
  *  Except as expressly set forth in this License, the Software is provided to
@@ -58,24 +58,23 @@ public class GPSSatInView {
         return elevation;
     }
 
-    
     public GPSSatInView(String name, double distance) {
         this.name = name;
         this.distance = distance;
-        String prn = name.substring(name.indexOf("(")+1,name.indexOf(")"));
-        String[] prnWords=prn.split(" ");
-        this.prn=Integer.parseInt(prnWords[1]);
+        String prn = name.substring(name.indexOf("(") + 1, name.indexOf(")"));
+        String[] prnWords = prn.split(" ");
+        this.prn = Integer.parseInt(prnWords[1]);
     }
 
     public String getName() {
         return name;
     }
-    
+
     @Override
     public String toString() {
-        return "GPSSatInView{" + "name=" + name + ", distance=" + String.format(Locale.ROOT, "%.2f", distance/1000.0 ) 
-                + "[km], azimuth=" + String.format(Locale.ROOT, "%.2f",azimuth)
-                + "[deg], elevation=" + String.format(Locale.ROOT, "%.2f",elevation) + "[deg]}";
+        return "GPSSatInView{" + "name=" + name + ", distance=" + String.format(Locale.ROOT, "%.2f", distance /
+            1000.0) + "[km], azimuth=" + String.format(Locale.ROOT, "%.2f", azimuth) + "[deg], elevation=" + String
+                .format(Locale.ROOT, "%.2f", elevation) + "[deg]}";
     }
-    
+
 }

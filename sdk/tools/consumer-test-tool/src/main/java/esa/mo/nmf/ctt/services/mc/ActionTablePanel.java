@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -41,7 +41,8 @@ public class ActionTablePanel extends SharedTablePanel {
     @Override
     public void addEntry(final Identifier name, final ArchivePersistenceObject comObject) {
         if (comObject == null) {
-            Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, "The table cannot process a null COM Object.");
+            Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE,
+                "The table cannot process a null COM Object.");
             return;
         }
 
@@ -53,14 +54,9 @@ public class ActionTablePanel extends SharedTablePanel {
 
         ActionDefinitionDetails pDef = (ActionDefinitionDetails) comObject.getObject();
 
-        tableData.addRow(new Object[]{
-            comObject.getArchiveDetails().getDetails().getRelated(),
-            comObject.getArchiveDetails().getInstId(),
-            name.toString(),
-            pDef.getDescription(),
-            String.valueOf(pDef.getCategory().getValue()),
-            pDef.getProgressStepCount().toString()
-        });
+        tableData.addRow(new Object[]{comObject.getArchiveDetails().getDetails().getRelated(), comObject
+            .getArchiveDetails().getInstId(), name.toString(), pDef.getDescription(), String.valueOf(pDef.getCategory()
+                .getValue()), pDef.getProgressStepCount().toString()});
 
         comObjects.add(comObject);
         semaphore.release();
@@ -68,15 +64,12 @@ public class ActionTablePanel extends SharedTablePanel {
 
     @Override
     public void defineTableContent() {
-        String[] tableCol = new String[]{
-            "Identity", "Obj Inst Id", "name", "description", "Category", "progressStepCount"};
+        String[] tableCol = new String[]{"Identity", "Obj Inst Id", "name", "description", "Category",
+                                         "progressStepCount"};
 
-        tableData = new javax.swing.table.DefaultTableModel(
-                new Object[][]{}, tableCol) {
-            Class[] types = new Class[]{
-                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, 
-                java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
+        tableData = new javax.swing.table.DefaultTableModel(new Object[][]{}, tableCol) {
+            Class[] types = new Class[]{java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class,
+                                        java.lang.String.class, java.lang.String.class, java.lang.String.class};
 
             @Override               //all cells false
             public boolean isCellEditable(int row, int column) {

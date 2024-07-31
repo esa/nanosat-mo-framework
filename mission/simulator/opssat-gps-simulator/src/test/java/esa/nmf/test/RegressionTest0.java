@@ -43,22 +43,13 @@ public class RegressionTest0 {
     }
 
     @Test
-    public void test4() throws Throwable {
-        if (debug)
-            System.out.format("%n%s%n", "RegressionTest0.test4");
-        opssat.simulator.Camera camera0 = new opssat.simulator.Camera();
-        byte[] byteArray2 = camera0.takePicture(0.0f);
-        org.junit.Assert.assertNull(byteArray2);
-    }
-
-    @Test
     public void test5() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test5");
         opssat.simulator.InstrumentsSimulator instrumentsSimulator0 = new opssat.simulator.InstrumentsSimulator();
         instrumentsSimulator0.printRealPosition();
         double double2 = instrumentsSimulator0.getFineADCSmagnetometerBtheta();
-// flaky:         org.junit.Assert.assertTrue("'" + double2 + "' != '" + 1.1814262328124097E-5d + "'", double2 == 1.1814262328124097E-5d);
+        // flaky:         org.junit.Assert.assertTrue("'" + double2 + "' != '" + 1.1814262328124097E-5d + "'", double2 == 1.1814262328124097E-5d);
     }
 
     @Test
@@ -68,16 +59,8 @@ public class RegressionTest0 {
         opssat.simulator.Vector vector6 = new opssat.simulator.Vector((double) (byte) 10, 0.0d, (double) (byte) 0);
         double double7 = vector6.x();
         java.util.Date date8 = null;
-        opssat.simulator.Orbit.OrbitParameters orbitParameters9 = new opssat.simulator.Orbit.OrbitParameters((double) 'a', (double) 7, (double) 6, vector6, date8);
+        opssat.simulator.Orbit.OrbitParameters orbitParameters9 = new opssat.simulator.Orbit.OrbitParameters(
+            (double) 'a', (double) 7, (double) 6, vector6, date8);
         org.junit.Assert.assertTrue("'" + double7 + "' != '" + 10.0d + "'", double7 == 10.0d);
-    }
-
-    @Test
-    public void test7() throws Throwable {
-        if (debug)
-            System.out.format("%n%s%n", "RegressionTest0.test7");
-        opssat.simulator.InstrumentsSimulator instrumentsSimulator0 = new opssat.simulator.InstrumentsSimulator();
-        java.lang.Boolean boolean2 = instrumentsSimulator0.takePicture((int) (short) 100);
-        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + false + "'", boolean2.equals(false));
     }
 }

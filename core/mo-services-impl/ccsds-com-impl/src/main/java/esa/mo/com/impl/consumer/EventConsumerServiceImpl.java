@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -41,6 +41,7 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.consumer.MALConsumer;
+import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.ElementList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
@@ -74,7 +75,13 @@ public class EventConsumerServiceImpl extends ConsumerServiceImpl {
         return eventService;
     }
 
-    public EventConsumerServiceImpl(SingleConnectionDetails connectionDetails) throws MALException, MALInteractionException, MalformedURLException {
+    public EventConsumerServiceImpl(SingleConnectionDetails connectionDetails) throws MALException,
+        MALInteractionException, MalformedURLException {
+        this(connectionDetails, null, null);
+    }
+
+    public EventConsumerServiceImpl(SingleConnectionDetails connectionDetails, Blob authenticationId,
+        String localNamePrefix) throws MALException, MALInteractionException, MalformedURLException {
         if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
             MALHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
@@ -83,10 +90,9 @@ public class EventConsumerServiceImpl extends ConsumerServiceImpl {
             COMHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 
-        try {
+        if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION).getServiceByName(
+            EventHelper.EVENT_SERVICE_NAME) == null) {
             EventHelper.init(MALContextFactory.getElementFactoryRegistry());
-        } catch (MALException ex) {
-            // nothing to be done..
         }
 
         this.connectionDetails = connectionDetails;
@@ -108,32 +114,28 @@ public class EventConsumerServiceImpl extends ConsumerServiceImpl {
 
                 subs = new SubscriptionList();
                 tmConsumer.close();
-            } catch (MALException ex) {
-                Logger.getLogger(EventConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALInteractionException ex) {
+            } catch (MALException | MALInteractionException ex) {
                 Logger.getLogger(EventConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
-        tmConsumer = connection.startService(
-                this.connectionDetails.getProviderURI(),
-                this.connectionDetails.getBrokerURI(),
-                this.connectionDetails.getDomain(),
-                EventHelper.EVENT_SERVICE);
+        tmConsumer = connection.startService(this.connectionDetails.getProviderURI(), this.connectionDetails
+            .getBrokerURI(), this.connectionDetails.getDomain(), EventHelper.EVENT_SERVICE, authenticationId,
+            localNamePrefix);
 
         this.eventService = new EventStub(tmConsumer);
     }
 
-    public void addEventReceivedListener(final Subscription subscription, final EventReceivedListener eventReceivedListener) {
+    public void addEventReceivedListener(final Subscription subscription,
+        final EventReceivedListener eventReceivedListener) {
 
         // Make the event adapter to call the eventReceivedListener when there's a new object available
         class EventReceivedAdapter extends EventAdapter {
 
             @Override
-            public void monitorEventNotifyReceived(final MALMessageHeader msgHeader,
-                    final Identifier lIdentifier, final UpdateHeaderList lUpdateHeaderList,
-                    final ObjectDetailsList objectDetailsList, final ElementList elementList,
-                    Map qosProperties) {
+            public void monitorEventNotifyReceived(final MALMessageHeader msgHeader, final Identifier lIdentifier,
+                final UpdateHeaderList lUpdateHeaderList, final ObjectDetailsList objectDetailsList,
+                final ElementList elementList, Map qosProperties) {
 
                 if (objectDetailsList.size() == lUpdateHeaderList.size()) { // Something is wrong
                     for (int i = 0; i < lUpdateHeaderList.size(); i++) {
@@ -153,7 +155,7 @@ public class EventConsumerServiceImpl extends ConsumerServiceImpl {
 
                         // ----
                         EventCOMObject newEvent = new EventCOMObject();
-//                        newEvent.setDomain(msgHeader.getDomain());
+                        //                        newEvent.setDomain(msgHeader.getDomain());
                         newEvent.setDomain(connectionDetails.getDomain());
                         newEvent.setObjType(objType);
                         newEvent.setObjId(entityKey3);
@@ -177,9 +179,7 @@ public class EventConsumerServiceImpl extends ConsumerServiceImpl {
         try {  // Register with the subscription key provided
             this.getEventStub().monitorEventRegister(subscription, new EventReceivedAdapter());
             subs.add(subscription);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(EventConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(EventConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -189,7 +189,7 @@ public class EventConsumerServiceImpl extends ConsumerServiceImpl {
      *
      */
     @Override
-    public void closeConnection() {
+    protected void closeConnection() {
         // Close old connection
         if (tmConsumer != null) {
             try {

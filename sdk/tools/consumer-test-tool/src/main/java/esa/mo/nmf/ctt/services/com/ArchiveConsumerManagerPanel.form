@@ -99,7 +99,7 @@
           <Font name="Tahoma" size="18" style="1"/>
         </Property>
         <Property name="horizontalAlignment" type="int" value="0"/>
-        <Property name="text" type="java.lang.String" value="Archive Manager"/>
+        <Property name="text" type="java.lang.String" value="COM Archive Manager"/>
         <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
@@ -202,7 +202,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButtonStoreActions">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Query with &apos;Pages&apos;"/>
+        <Property name="text" type="java.lang.String" value="Query with Pagination"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonStoreActionsActionPerformed"/>

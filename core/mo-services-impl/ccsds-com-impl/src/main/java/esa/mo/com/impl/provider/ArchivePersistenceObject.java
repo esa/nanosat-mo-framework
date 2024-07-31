@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -36,76 +36,66 @@ import org.ccsds.moims.mo.mal.structures.URI;
  *
  * @author Cesar Coelho
  */
-public class ArchivePersistenceObject implements Serializable
-{
+public class ArchivePersistenceObject implements Serializable {
 
-  private final ObjectType objectType;
-  private final IdentifierList domainId;
-  private final Long objId;
+    private final ObjectType objectType;
+    private final IdentifierList domainId;
+    private final Long objId;
 
-  private final ObjectId sourceLink;
-  private final Long relatedLink;
-  private final String network;
+    private final ObjectId sourceLink;
+    private final Long relatedLink;
+    private final String network;
 
-  private final Long timestampArchiveDetails;
-  private final String providerURI;
-//    private final Element obj;
+    private final Long timestampArchiveDetails;
+    private final String providerURI;
+    //    private final Element obj;
 
-  // The Element wrapping was removed!
-  private final Object object;
+    // The Element wrapping was removed!
+    private final Object object;
 
-  public ArchivePersistenceObject(final ObjectType objectType, final IdentifierList domain,
-      final Long objId, final ArchiveDetails archiveDetails, final Object object)
-  {
-    this.objectType = objectType;
-    this.domainId = domain;
-    this.objId = objId;
+    public ArchivePersistenceObject(final ObjectType objectType, final IdentifierList domain, final Long objId,
+        final ArchiveDetails archiveDetails, final Object object) {
+        this.objectType = objectType;
+        this.domainId = domain;
+        this.objId = objId;
 
-    this.providerURI = (archiveDetails.getProvider() != null)
-        ? archiveDetails.getProvider().getValue() : null;
-    this.network = (archiveDetails.getNetwork() != null)
-        ? archiveDetails.getNetwork().getValue() : null;
-    this.timestampArchiveDetails = (archiveDetails.getTimestamp() != null)
-        ? archiveDetails.getTimestamp().getValue() : 0;
+        this.providerURI = (archiveDetails.getProvider() != null) ? archiveDetails.getProvider().getValue() : null;
+        this.network = (archiveDetails.getNetwork() != null) ? archiveDetails.getNetwork().getValue() : null;
+        this.timestampArchiveDetails = (archiveDetails.getTimestamp() != null) ? archiveDetails.getTimestamp()
+            .getValue() : 0;
 
-    this.sourceLink = archiveDetails.getDetails().getSource();
-    this.relatedLink = archiveDetails.getDetails().getRelated();
-//        this.obj = (Element) HelperAttributes.javaType2Attribute(object);
-    this.object = object;
-  }
+        this.sourceLink = archiveDetails.getDetails().getSource();
+        this.relatedLink = archiveDetails.getDetails().getRelated();
+        //        this.obj = (Element) HelperAttributes.javaType2Attribute(object);
+        this.object = object;
+    }
 
-  public ObjectType getObjectType()
-  {
-    return this.objectType;
-  }
+    public ObjectType getObjectType() {
+        return this.objectType;
+    }
 
-  public Long getObjectTypeId()
-  {
-    return HelperCOM.generateSubKey(this.objectType);
-  }
+    public Long getObjectTypeId() {
+        return HelperCOM.generateSubKey(this.objectType);
+    }
 
-  public IdentifierList getDomain()
-  {
-    return this.domainId;
-  }
+    public IdentifierList getDomain() {
+        return this.domainId;
+    }
 
-  public Long getObjectId()
-  {
-    return this.objId;
-  }
+    public Long getObjectId() {
+        return this.objId;
+    }
 
-  public ArchiveDetails getArchiveDetails()
-  {
-    final Identifier net = (this.network == null) ? null : new Identifier(network);
-    final URI uri = (this.providerURI == null) ? null : new URI(providerURI);
-    return new ArchiveDetails(objId, new ObjectDetails(relatedLink, sourceLink),
-        net, new FineTime(timestampArchiveDetails), uri);
-  }
+    public ArchiveDetails getArchiveDetails() {
+        final Identifier net = (this.network == null) ? null : new Identifier(network);
+        final URI uri = (this.providerURI == null) ? null : new URI(providerURI);
+        return new ArchiveDetails(objId, new ObjectDetails(relatedLink, sourceLink), net, new FineTime(
+            timestampArchiveDetails), uri);
+    }
 
-  public Object getObject()
-  {
-//        return HelperAttributes.attribute2JavaType(obj);
-    return this.object;
-  }
+    public Object getObject() {
+        //        return HelperAttributes.attribute2JavaType(obj);
+        return this.object;
+    }
 
 }

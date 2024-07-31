@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -56,7 +56,8 @@ public class HelperCOM {
      * @param rightHandSide The right hand side value of the expression
      * @return The boolean value of the evaluation. Null if not evaluated.
      */
-    public static Boolean evaluateExpression(Element leftHandSide, ExpressionOperator operator, Attribute rightHandSide) {
+    public static Boolean evaluateExpression(Element leftHandSide, ExpressionOperator operator,
+        Attribute rightHandSide) {
 
         if (operator == null) {
             return null; // Operator cannot be null
@@ -94,8 +95,8 @@ public class HelperCOM {
         }
 
         // if one of the sides is string, then we shall do a comparison between strings:
-        boolean stringComparison = HelperMisc.isStringAttribute(rightHandSide)
-                || HelperMisc.isStringAttribute(rightHandSide);
+        boolean stringComparison = HelperMisc.isStringAttribute(rightHandSide) || HelperMisc.isStringAttribute(
+            rightHandSide);
 
         String rightHandSideString = null;
         String leftHandSideString = null;
@@ -190,10 +191,8 @@ public class HelperCOM {
             return null;
         }
 
-        COMService service = (COMService) MALContextFactory.lookupArea(
-                objType.getArea(),
-                objType.getAreaVersion()
-        ).getServiceByNumber(objType.getService());
+        COMService service = (COMService) MALContextFactory.lookupArea(objType.getArea(), objType.getAreaVersion())
+            .getServiceByNumber(objType.getService());
 
         if (service == null || objType.getNumber().getValue() == 0) {  // Special case for the event service...
             return null;
@@ -211,10 +210,7 @@ public class HelperCOM {
      * @return COMService
      */
     public static COMService findCOMService(UShort area, UOctet areaVersion, UShort serviceNumber) {
-        return (COMService) MALContextFactory.lookupArea(
-                area,
-                areaVersion
-        ).getServiceByNumber(serviceNumber);
+        return (COMService) MALContextFactory.lookupArea(area, areaVersion).getServiceByNumber(serviceNumber);
     }
 
     /**
@@ -226,15 +222,10 @@ public class HelperCOM {
     public static String objType2string(final ObjectType objType) {
         final COMObject comObject = HelperCOM.objType2COMObject(objType);
 
-        String string = MALContextFactory.lookupArea(
-                objType.getArea(),
-                objType.getAreaVersion()
-        ).getName().toString();
+        String string = MALContextFactory.lookupArea(objType.getArea(), objType.getAreaVersion()).getName().toString();
 
-        string += " - " + MALContextFactory.lookupArea(
-                objType.getArea(),
-                objType.getAreaVersion()
-        ).getServiceByNumber(objType.getService()).getName().toString();
+        string += " - " + MALContextFactory.lookupArea(objType.getArea(), objType.getAreaVersion()).getServiceByNumber(
+            objType.getService()).getName().toString();
 
         if (comObject != null) {
             string += ": " + comObject.getObjectName().getValue();
@@ -308,10 +299,8 @@ public class HelperCOM {
             return null;
         }
 
-        return new ObjectType(service.getArea().getNumber(),
-                service.getNumber(),
-                service.getArea().getVersion(),
-                objNumber);
+        return new ObjectType(service.getArea().getNumber(), service.getNumber(), service.getArea().getVersion(),
+            objNumber);
     }
 
     /**
@@ -330,12 +319,7 @@ public class HelperCOM {
      */
     @Deprecated
     public static ObjectType generateCOMObjectType(int area, int service, int version, int number) {
-        return new ObjectType(
-                new UShort(area),
-                new UShort(service),
-                new UOctet((short) version),
-                new UShort(number)
-        );
+        return new ObjectType(new UShort(area), new UShort(service), new UOctet((short) version), new UShort(number));
     }
 
     /**
@@ -354,10 +338,7 @@ public class HelperCOM {
         long versionVal = (long) objectType.getVersion().getValue();
         long numberVal = (long) objectType.getNumber().getValue();
 
-        return (numberVal
-                | (versionVal << 24)
-                | (serviceVal << 32)
-                | (areaVal << 48));
+        return (numberVal | (versionVal << 24) | (serviceVal << 32) | (areaVal << 48));
 
     }
 
@@ -368,12 +349,10 @@ public class HelperCOM {
      * @return ObjectType object
      */
     public static ObjectType objectTypeId2objectType(Long subkey) {
-        final long unwrap = (long) subkey;
+        final long unwrap = subkey;
 
-        return new ObjectType(new UShort((short) (unwrap >> 48)),
-                new UShort((short) (unwrap >> 32)),
-                new UOctet((byte) (unwrap >> 24)),
-                new UShort((short) (unwrap)));
+        return new ObjectType(new UShort((short) (unwrap >> 48)), new UShort((short) (unwrap >> 32)), new UOctet(
+            (byte) (unwrap >> 24)), new UShort((short) (unwrap)));
     }
 
     /*
@@ -404,20 +383,18 @@ public class HelperCOM {
                     obj = HelperCOM.getObjectInsideObject(part, obj);
                 } else {
                     // Then it is a Enumeration
-//                            obj = ((Enumeration) obj).getNumericValue();
+                    //                            obj = ((Enumeration) obj).getNumericValue();
                 }
             }
-        } catch (IllegalArgumentException ex) {
-            throw new NoSuchFieldException();
-        } catch (IllegalAccessException ex) {
+        } catch (IllegalArgumentException | IllegalAccessException ex) {
             throw new NoSuchFieldException();
         }
 
         return obj;
     }
 
-    private static Object getObjectInsideObject(final String fieldName, final Object obj)
-            throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+    private static Object getObjectInsideObject(final String fieldName, final Object obj) throws NoSuchFieldException,
+        IllegalArgumentException, IllegalAccessException {
         if (obj == null) {
             throw new NoSuchFieldException();
         }
@@ -443,8 +420,23 @@ public class HelperCOM {
     public static Subscription generateSubscriptionCOMEvent(String identifier, ObjectType objType) {
         final Long secondEntityKey = 0xFFFFFFFFFF000000L & HelperCOM.generateSubKey(objType);
         final Random random = new Random();
-        return ConnectionConsumer.subscriptionKeys(
-                new Identifier(identifier + random.nextInt()),
-                new Identifier("*"), secondEntityKey, 0L, 0L);
+        return ConnectionConsumer.subscriptionKeys(new Identifier(identifier + random.nextInt()), new Identifier("*"),
+            secondEntityKey, 0L, 0L);
+    }
+
+    /**
+     * Creates a subscription object for the Event service. This subscription
+     * selects all the COM Events of a certain source.
+     *
+     * @param identifier A name identifier for the subscription
+     * @param sourceType The source type containing the area, service, and version
+     * of the source to be selected.
+     * @return
+     */
+    public static Subscription generateCOMEventSubscriptionBySourceType(String identifier, ObjectType sourceType) {
+        final Long fourthEntityKey = 0xFFFFFFFFFFFFFFFFL & HelperCOM.generateSubKey(sourceType);
+        final Random random = new Random();
+        return ConnectionConsumer.subscriptionKeys(new Identifier(identifier + random.nextInt()), new Identifier("*"),
+            Long.valueOf(0), Long.valueOf(0), fourthEntityKey);
     }
 }

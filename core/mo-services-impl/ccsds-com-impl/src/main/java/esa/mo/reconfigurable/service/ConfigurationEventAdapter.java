@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -61,10 +61,8 @@ public class ConfigurationEventAdapter extends EventAdapter implements Serializa
     private final IdentifierList providerDomain;
     private final URI providerURI;
 
-    public ConfigurationEventAdapter(COMServicesProvider comServices,
-            ReconfigurableService serviceImpl,
-            IdentifierList providerDomain,
-            URI providerURI) {
+    public ConfigurationEventAdapter(COMServicesProvider comServices, ReconfigurableService serviceImpl,
+        IdentifierList providerDomain, URI providerURI) {
         this.comServices = comServices;
         this.serviceImpl = serviceImpl;
         this.providerDomain = providerDomain;
@@ -73,15 +71,15 @@ public class ConfigurationEventAdapter extends EventAdapter implements Serializa
 
     @Override
     public void monitorEventNotifyReceived(MALMessageHeader msgHeader, Identifier _Identifier0,
-            UpdateHeaderList updateHeaderList, ObjectDetailsList objectDetailsList,
-            ElementList objects, Map qosProperties) {
+        UpdateHeaderList updateHeaderList, ObjectDetailsList objectDetailsList, ElementList objects,
+        Map qosProperties) {
         // Notification received from the Configuration serviceImpl...
         for (int i = 0; i < objectDetailsList.size(); i++) {
             Identifier eventObjNumber = updateHeaderList.get(i).getKey().getFirstSubKey();
 
             // Check if it is a "Configuration switch Request" or a "Current Configuration Store"
-            if (!eventObjNumber.toString().equals(ConfigurationHelper.CONFIGURATIONSWITCH_OBJECT_NUMBER.toString())
-                    && !eventObjNumber.toString().equals(ConfigurationHelper.CONFIGURATIONSTORE_OBJECT_NUMBER.toString())) {
+            if (!eventObjNumber.toString().equals(ConfigurationHelper.CONFIGURATIONSWITCH_OBJECT_NUMBER.toString()) &&
+                !eventObjNumber.toString().equals(ConfigurationHelper.CONFIGURATIONSTORE_OBJECT_NUMBER.toString())) {
                 return;
             }
 
@@ -103,15 +101,14 @@ public class ConfigurationEventAdapter extends EventAdapter implements Serializa
                 }
 
                 // Check if it is a Configuration event for this particular service (based on the service type, domain ?)
-                if (obj.getType().getArea().equals(serviceImpl.getCOMService().getArea().getNumber())
-                        && obj.getType().getNumber().equals(serviceImpl.getCOMService().getNumber())
-                        && obj.getKey().getDomain().equals(providerDomain)) {
+                if (obj.getType().getArea().equals(serviceImpl.getCOMService().getArea().getNumber()) && obj.getType()
+                    .getNumber().equals(serviceImpl.getCOMService().getNumber()) && obj.getKey().getDomain().equals(
+                        providerDomain)) {
 
                     // Retrieve it from the Archive
-                    ConfigurationObjectDetails configurationObj = (ConfigurationObjectDetails) 
-                            HelperArchive.getObjectBodyFromArchive(
-                            comServices.getArchiveService(), obj.getType(),
-                            obj.getKey().getDomain(), obj.getKey().getInstId());
+                    ConfigurationObjectDetails configurationObj = (ConfigurationObjectDetails) HelperArchive
+                        .getObjectBodyFromArchive(comServices.getArchiveService(), obj.getType(), obj.getKey()
+                            .getDomain(), obj.getKey().getInstId());
 
                     // Reload the retrieved configuration
                     Boolean confChanged = serviceImpl.reloadConfiguration(configurationObj);
@@ -146,22 +143,14 @@ public class ConfigurationEventAdapter extends EventAdapter implements Serializa
 
                 try {
                     // Store the Configuration Object in the COM Archive
-                    LongList objIds = comServices.getArchiveService().store(
-                            true,
-                            objType,
-                            providerDomain,
-                            archiveDetailsList,
-                            bodies,
-                            null);
+                    LongList objIds = comServices.getArchiveService().store(true, objType, providerDomain,
+                        archiveDetailsList, bodies, null);
 
                     Long objId = objIds.get(0);
 
                     // Publish event: Success with the objId of the Configuration stored
                     this.publishConfigurationStoredSuccess(objId, updateHeaderList.get(i).getKey().getThirdSubKey());
-                } catch (MALException ex) {
-                    // Publish event: Failure with the objId of the Configuration stored
-                    this.publishConfigurationStoredFailure(updateHeaderList.get(i).getKey().getThirdSubKey());  // Event objId
-                } catch (MALInteractionException ex) {
+                } catch (MALException | MALInteractionException ex) {
                     // Publish event: Failure with the objId of the Configuration stored
                     this.publishConfigurationStoredFailure(updateHeaderList.get(i).getKey().getThirdSubKey());  // Event objId
                 }
@@ -177,14 +166,7 @@ public class ConfigurationEventAdapter extends EventAdapter implements Serializa
         ObjectId eventSource = null;  // It was not stored...
 
         try {
-            comServices.getEventService().publishEvent(
-                    providerURI,
-                    null,
-                    objTypeEvent,
-                    related,
-                    eventSource,
-                    bool
-            );
+            comServices.getEventService().publishEvent(providerURI, null, objTypeEvent, related, eventSource, bool);
         } catch (IOException ex) {
             Logger.getLogger(ConfigurationEventAdapter.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -200,14 +182,7 @@ public class ConfigurationEventAdapter extends EventAdapter implements Serializa
         eventSource.setKey(new ObjectKey(providerDomain, objId));
 
         try {
-            comServices.getEventService().publishEvent(
-                    providerURI,
-                    objId,
-                    objTypeEvent,
-                    related,
-                    eventSource,
-                    bool
-            );
+            comServices.getEventService().publishEvent(providerURI, objId, objTypeEvent, related, eventSource, bool);
         } catch (IOException ex) {
             Logger.getLogger(ConfigurationEventAdapter.class.getName()).log(Level.SEVERE, null, ex);
         }

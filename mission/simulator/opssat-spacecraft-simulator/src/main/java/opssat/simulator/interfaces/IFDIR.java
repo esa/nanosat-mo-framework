@@ -1,13 +1,13 @@
 /*
  *  ----------------------------------------------------------------------------
- *  Copyright (C) 2016      European Space Agency
+ *  Copyright (C) 2021      European Space Agency
  *                          European Space Operations Centre
  *                          Darmstadt
  *                          Germany
  *  ----------------------------------------------------------------------------
  *  System                : ESA NanoSat MO Framework
  *  ----------------------------------------------------------------------------
- *  Licensed under the European Space Agency Public License, Version 2.0
+ *  Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  *  You may not use this file except in compliance with the License.
  * 
  *  Except as expressly set forth in this License, the Software is provided to
@@ -25,17 +25,16 @@ package opssat.simulator.interfaces;
  *
  * @author Cezar Suteu
  */
-public interface IFDIR{
-/**
-<pre>
-Low level command to interact with FDIR.
-Input parameters:int cmdID,byte[] data
-Return parameters:byte[]
-Size of returned parameters: 0
-This commands accepts generic structures for FDIR.
-</pre>
-*/
-byte[] runRawCommand(int cmdID,byte[] data);//5001
+public interface IFDIR {
+    /**
+    <pre>
+    Low level command to interact with FDIR.
+    Input parameters:int cmdID,byte[] data
+    Return parameters:byte[]
+    Size of returned parameters: 0
+    This commands accepts generic structures for FDIR.
+    </pre>
+    */
+    byte[] runRawCommand(int cmdID, byte[] data);//5001
 
 }
-

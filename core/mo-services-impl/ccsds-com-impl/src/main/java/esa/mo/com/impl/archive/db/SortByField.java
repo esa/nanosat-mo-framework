@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2016      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -51,7 +51,8 @@ public class SortByField implements Comparator {
     private final String fieldName;
     private Field field;
 
-    SortByField(Class<?> beanClass, String fieldName, boolean ascending) throws NoSuchFieldException, SecurityException {
+    SortByField(Class<?> beanClass, String fieldName, boolean ascending) throws NoSuchFieldException,
+        SecurityException {
         this.ascending = ascending;
 
         if (fieldName != null) {  // Is it timestamp sorting?
@@ -95,7 +96,7 @@ public class SortByField implements Comparator {
                         this.field.setAccessible(true);
                     } else {
                         // Then it is a Enumeration
-//                                obj = ((Enumeration) obj).getNumericValue();
+                        //                                obj = ((Enumeration) obj).getNumericValue();
                     }
                 }
             }
@@ -132,20 +133,18 @@ public class SortByField implements Comparator {
                 obj1 = this.field.get(((ArchivePersistenceObject) in1).getArchiveDetails());
                 obj2 = this.field.get(((ArchivePersistenceObject) in2).getArchiveDetails());
             }
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalAccessException | IllegalArgumentException e) {
             throw new RuntimeException(e);
         } catch (SecurityException ex) {
             Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         // Treat empty strings like nulls
-        if (obj1 instanceof String && ((String) obj1).length() == 0) {
+        if (obj1 instanceof String && ((String) obj1).isEmpty()) {
             obj1 = null;
         }
 
-        if (obj2 instanceof String && ((String) obj2).length() == 0) {
+        if (obj2 instanceof String && ((String) obj2).isEmpty()) {
             obj2 = null;
         }
 
@@ -164,7 +163,7 @@ public class SortByField implements Comparator {
         /*
         Object c1;
         Object c2;
-
+        
         if (this.ascending) {
             c1 = obj1;
             c2 = obj2;
@@ -192,13 +191,14 @@ public class SortByField implements Comparator {
         }
 
         if (c1 instanceof java.lang.Integer) {
-//                return ((int) c1 - (int) c2);
-//                return (((Integer) c1).intValue() - ((Integer) c2).intValue());
+            //                return ((int) c1 - (int) c2);
+            //                return (((Integer) c1).intValue() - ((Integer) c2).intValue());
             return (((Integer) c1) - ((Integer) c2));
         }
 
         if (c1 instanceof Enumeration) {
-            return (int) (((Enumeration) c1).getNumericValue().getValue() - ((Enumeration) c2).getNumericValue().getValue());
+            return (int) (((Enumeration) c1).getNumericValue().getValue() - ((Enumeration) c2).getNumericValue()
+                .getValue());
         }
 
         if (c1 instanceof Attribute) {
@@ -228,30 +228,29 @@ public class SortByField implements Comparator {
     }
 
     public static ArrayList<ArchivePersistenceObject> sortPersistenceObjects(
-            final ArrayList<ArchivePersistenceObject> perObjs, final String fieldString,
-            final Boolean ascending) throws NoSuchFieldException {
+        final ArrayList<ArchivePersistenceObject> perObjs, final String fieldString, final Boolean ascending)
+        throws NoSuchFieldException {
 
         IdentifierList tmpDomain;
         ObjectType tmpObjType;
-        ArrayList<ArchivePersistenceObject> stackA = perObjs;
         ArrayList<ArchivePersistenceObject> stackB;
-        ArrayList<ArchivePersistenceObject> stackOut = new ArrayList<ArchivePersistenceObject>();
+        ArrayList<ArchivePersistenceObject> stackOut = new ArrayList<>();
 
         // Requirement 3.4.4.2.27: 
         // "Each domain/object type pair shall be sorted separately from other domain/object type 
         //  pairs; there is no requirement for sorting to be applied across domain/object type pairs"
-        while (!stackA.isEmpty()) { // We will sweep stackA
+        while (!perObjs.isEmpty()) { // We will sweep stackA
             // What is the current zeroth pair?
-            tmpDomain = stackA.get(0).getDomain();
-            tmpObjType = stackA.get(0).getObjectType();
-            stackB = new ArrayList<ArchivePersistenceObject>();
+            tmpDomain = perObjs.get(0).getDomain();
+            tmpObjType = perObjs.get(0).getObjectType();
+            stackB = new ArrayList<>();
 
             // Make a stack B with all the equal pairs domain+objType
-            for (int index = 0; index < stackA.size(); index++) { // Let's cycle the complete stack A
-                if (stackA.get(index).getDomain().equals(tmpDomain)
-                        && stackA.get(index).getObjectType().equals(tmpObjType)) { // if the pair is the same...
-                    stackB.add(stackA.get(index));
-                    stackA.remove(index);
+            for (int index = 0; index < perObjs.size(); index++) { // Let's cycle the complete stack A
+                if (perObjs.get(index).getDomain().equals(tmpDomain) && perObjs.get(index).getObjectType().equals(
+                    tmpObjType)) { // if the pair is the same...
+                    stackB.add(perObjs.get(index));
+                    perObjs.remove(index);
                     index--; // index has to be the same on next iteration; counter the index++
                 }
             }
@@ -264,7 +263,7 @@ public class SortByField implements Comparator {
     }
 
     private static ArrayList<ArchivePersistenceObject> sortStack(ArrayList<ArchivePersistenceObject> stack,
-            final String fieldString, final Boolean ascending) throws NoSuchFieldException {
+        final String fieldString, final Boolean ascending) throws NoSuchFieldException {
 
         if (stack == null) {
             return null;
@@ -290,7 +289,7 @@ public class SortByField implements Comparator {
         SortByField comparator = new SortByField(aClass, fieldString, ascending);
         // stack.sort(comparator);
         // Changed to be compatible with java 6:
-        java.util.Collections.sort(stack, comparator);
+        stack.sort(comparator);
 
         return stack;
     }

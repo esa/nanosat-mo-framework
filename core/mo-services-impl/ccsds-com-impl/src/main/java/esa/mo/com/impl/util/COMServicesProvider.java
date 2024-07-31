@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -27,8 +27,8 @@ import esa.mo.com.impl.provider.EventProviderServiceImpl;
 import org.ccsds.moims.mo.mal.MALException;
 
 /**
- * Class holding all the COM services providers. The services can all be
- * initialized automatically or can be set manually.
+ * Class holding all the COM services providers. The services can all be initialized automatically
+ * or can be set manually.
  */
 public class COMServicesProvider {
 
@@ -40,8 +40,7 @@ public class COMServicesProvider {
     /**
      * Initializes all the COM services automatically.
      *
-     * @throws org.ccsds.moims.mo.mal.MALException if the services could not be
-     * initialized.
+     * @throws org.ccsds.moims.mo.mal.MALException if the services could not be initialized.
      */
     public void init() throws MALException {
         // Initialize the Archive service
@@ -56,6 +55,8 @@ public class COMServicesProvider {
 
         // Set the Archive service in the Event service
         eventService.setArchiveService(archiveService);
+
+        archiveService.setEventService(eventService);
 
         // Start Activity Tracking Service
         activityTrackingService.init(archiveService, eventService);
@@ -78,7 +79,7 @@ public class COMServicesProvider {
     }
 
     public void initArchiveSync() throws MALException {
-        archiveSyncService = new ArchiveSyncProviderServiceImpl();
+        archiveSyncService = new ArchiveSyncProviderServiceImpl(archiveService.getConnection().getConnectionDetails());
         this.archiveSyncService.init(archiveService.getArchiveManager());
     }
 
@@ -113,5 +114,4 @@ public class COMServicesProvider {
         this.archiveService.close();
         this.eventService.close();
     }
-
 }

@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2022      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -21,17 +21,15 @@
 package esa.mo.com.impl.archive.db;
 
 import esa.mo.com.impl.provider.ArchiveManager;
+import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
+import java.sql.Statement;
 import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 
 /**
  * The class that bridges the COM Archive logic to the actual database backend.
@@ -40,168 +38,191 @@ import javax.persistence.Persistence;
  */
 public class DatabaseBackend {
 
-    private static final String DROP_TABLE_PROPERTY = "esa.mo.com.impl.provider.ArchiveManager.droptable";
-    private static final String PERSISTENCE_UNIT_NAME = "ArchivePersistenceUnit";
-    private static final boolean OPTIMIZED_STARTUP = true;
+    public static final Logger LOGGER = Logger.getLogger(ArchiveManager.class.getName());
 
-    private final Semaphore emAvailability = new Semaphore(0, true);  // true for fairness, because we want FIFO
-    private EntityManagerFactory emf;
-    private EntityManager em;
-    private Connection serverConnection;
-
-//    private static final String DRIVER_CLASS_NAME = "org.apache.derby.jdbc.EmbeddedDriver"; // Derby Embedded Driver
-//    private static final String DATABASE_NAME = "derby"; // Derby
-//    private static final String DATABASE_LOCATION_NAME = "databaseV0.4";
     private static final String DRIVER_CLASS_NAME = "org.sqlite.JDBC"; // SQLite JDBC Driver
+
     private static final String DATABASE_NAME = "sqlite"; // SQLite
+
     private static final String DATABASE_LOCATION_NAME = "comArchive.db";
+
+    private static final String MEMORY_DB_OPTION = ":memory:";
+
+    // true for fairness, because we want FIFO
+    private final Semaphore availability = new Semaphore(0, true);
+
+    private final String jdbcDriver;
 
     private final String url;
 
+    private final String user;
+
+    private final String password;
+
+    private Connection serverConnection;
+
+    private boolean indexCreated = false;
+
+    public boolean isPostgres = false;
+
+    // Prepared statements storage for currently active connection
+    private PreparedStatements preparedStatements;
+
     public DatabaseBackend() {
-        // Create unique URL that identifies the connection
-        this.url = "jdbc:" + DATABASE_NAME + ":" + DATABASE_LOCATION_NAME;
+        String urlP = System.getProperty("esa.nmf.archive.persistence.jdbc.url");
+
+        if (null != urlP && !"".equals(urlP)) {
+            this.url = urlP;
+        } else {
+            File dbFile = new File(DATABASE_LOCATION_NAME);
+            boolean writableFs = true;
+            // Check if we are operating on Read-Only FS
+            if (dbFile.exists()) {
+                if (!dbFile.canWrite()) {
+                    writableFs = false;
+                }
+            } else {
+                try {
+                    dbFile.createNewFile();
+                } catch (IOException e) {
+                    writableFs = false;
+                }
+            }
+            if (writableFs) {
+                LOGGER.info("DB file writable - defaulting to non-volatile COM Archive");
+                this.url = "jdbc:" + DATABASE_NAME + ":" + DATABASE_LOCATION_NAME;
+            } else {
+                LOGGER.info("DB file not writable - defaulting to in-memory COM Archive");
+                this.url = "jdbc:" + DATABASE_NAME + ":" + MEMORY_DB_OPTION;
+            }
+        }
+
+        String driver = System.getProperty("esa.nmf.archive.persistence.jdbc.driver");
+        this.jdbcDriver = (null != driver && !"".equals(driver)) ? driver : DRIVER_CLASS_NAME;
+        String userP = System.getProperty("esa.nmf.archive.persistence.jdbc.user");
+        this.user = (null != userP && !"".equals(userP)) ? userP : null;
+        String pass = System.getProperty("esa.nmf.archive.persistence.jdbc.password");
+        this.password = (null != pass && !"".equals(pass)) ? pass : null;
     }
 
-    public Semaphore getEmAvailability() {
-        return emAvailability;
+    public Semaphore getAvailability() {
+        return availability;
+    }
+
+    public Connection getConnection() {
+        return serverConnection;
+    }
+
+    public PreparedStatements getPreparedStatements() {
+        return preparedStatements;
     }
 
     /**
-     * Starts the database backend by creates the Entity Manager Factory.
+     * Starts the database backend by starting the Database Driver, check if a
+     * migration to the new tables is needed, and creates the main COM Objects
+     * table if it does not exist.
      *
      * @param dbProcessor The transactions processor.
      */
     public void startBackendDatabase(final TransactionsProcessor dbProcessor) {
-        if (OPTIMIZED_STARTUP) {
-            dbProcessor.submitExternalTask(new Runnable() {
-                @Override
-                public void run() {
-                    createEMFactory();
-                    emAvailability.release();
-                    Logger.getLogger(DatabaseBackend.class.getName()).log(Level.INFO,
-                            "The EntityManagerFactory was created.");
-                }
-            });
-        } else {
-            createEMFactory();
-            emAvailability.release();
-            Logger.getLogger(DatabaseBackend.class.getName()).log(Level.INFO,
-                    "The EntityManagerFactory was created.");
+        availability.release();
+        startDatabaseDriver(this.url, this.user, this.password);
+
+        try {
+            checkIfMigrationNeeded();
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseBackend.class.getName()).log(Level.FINE, "Migration not needed...");
         }
 
-        startDatabaseDriver(url);
+        try {
+            String blobType = "BLOB";
+            if (this.url.contains("postgresql")) {
+                blobType = "bytea";
+                isPostgres = true;
+            }
+            Statement query = serverConnection.createStatement();
+            query.execute("CREATE TABLE IF NOT EXISTS COMObjectEntity (objectTypeId INTEGER NOT NULL, objId BIGINT NOT NULL, domainId INTEGER NOT NULL, network INTEGER, objBody " + blobType + ", providerURI INTEGER, relatedLink BIGINT, sourceLinkDomainId INTEGER, sourceLinkObjId BIGINT, sourceLinkObjectTypeId INTEGER, timestampArchiveDetails BIGINT, PRIMARY KEY (objectTypeId, objId, domainId))");
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseBackend.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        preparedStatements = new PreparedStatements(serverConnection);
+        try {
+            preparedStatements.init(isPostgres);
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, "Could not prepare the SQL statements. Application will exit!", ex);
+            System.exit(0);
+        }
+
     }
 
-    private void startDatabaseDriver(String url2) {
-//        System.setProperty("derby.drda.startNetworkServer", "true");
-        // Loads a new instance of the database driver
+    private void checkIfMigrationNeeded() throws SQLException {
+        Statement mig = serverConnection.createStatement();
+        // The first query will throw exception to the outside
+        mig.execute("ALTER TABLE COMObjectEntity RENAME COLUMN OBJ TO objBody");
+
+        Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.INFO,
+            "Migrating the database to new Table schemas...");
         try {
-            Logger.getLogger(DatabaseBackend.class.getName()).log(Level.INFO,
-                    "Creating a new instance of the database driver: " + DRIVER_CLASS_NAME);
-            Class.forName(DRIVER_CLASS_NAME).newInstance();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(DatabaseBackend.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(DatabaseBackend.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
+            mig.execute("ALTER TABLE DomainHolderEntity RENAME COLUMN domainString TO value");
+            mig.execute("ALTER TABLE DomainHolderEntity RENAME TO FastDomain");
+            mig.execute("ALTER TABLE NetworkHolderEntity RENAME COLUMN networkString TO value");
+            mig.execute("ALTER TABLE NetworkHolderEntity RENAME TO FastNetwork");
+            mig.execute("ALTER TABLE ObjectTypeHolderEntity RENAME COLUMN objectType TO value");
+            mig.execute("ALTER TABLE ObjectTypeHolderEntity RENAME TO FastObjectType");
+            mig.execute("ALTER TABLE ProviderURIHolderEntity RENAME COLUMN providerURIString TO value");
+            mig.execute("ALTER TABLE ProviderURIHolderEntity RENAME TO FastProviderURI");
+        } catch (SQLException ex1) {
+            Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex1);
+        }
+        Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.INFO, "Database migrated successfully!");
+    }
+
+    public void createIndexesIfFirstTime() {
+        if (indexCreated) {
+            return;
+        }
+        try {
+            Statement statement = serverConnection.createStatement();
+            statement.execute("CREATE INDEX IF NOT EXISTS index_related2 ON COMObjectEntity (relatedLink)");
+            statement.execute(
+                "CREATE INDEX IF NOT EXISTS index_timestampArchiveDetails2 ON COMObjectEntity (timestampArchiveDetails)");
+            indexCreated = true;
+        } catch (SQLException ex) {
             Logger.getLogger(DatabaseBackend.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
 
-        // Create unique URL that identifies the driver to use for the connection
-//        String url2 = this.url + ";decryptDatabase=true"; // new
+    private void startDatabaseDriver(String url2, String user, String password) {
         try {
             // Connect to the database
-            Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO,
-                    "Attempting to establish a connection to the database: " + url2);
-            serverConnection = DriverManager.getConnection(url2);
-        } catch (SQLException ex) {
-            Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO,
-                    "There was an SQLException, maybe the " + DATABASE_LOCATION_NAME
-                    + " folder/file does not exist. Attempting to create it...");
+            LOGGER.log(Level.INFO, "Attempting to establish a connection to the database:\n >> " + url2);
 
-            try {
-                // Connect to the database but also create the database if it does not exist
-                serverConnection = DriverManager.getConnection(url2 + ";create=true");
-                Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO, "Successfully created!");
-            } catch (SQLException ex2) {
-                Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO,
-                        "Derby connection already exists! Error: {0}", ex2);
-                Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO,
-                        "Most likely there is another instance of the same application already running. "
-                        + "Two instances of the same application are not allowed. The application will exit.");
+            if (jdbcDriver.equals(DRIVER_CLASS_NAME)) {
+                serverConnection = DriverManager.getConnection(url2);
+            } else {
+                serverConnection = DriverManager.getConnection(url2, user, password);
+            }
+        } catch (SQLException ex) {
+            if (jdbcDriver.equals(DRIVER_CLASS_NAME)) {
+                LOGGER.log(Level.WARNING, "Unexpected exception ! ", ex);
+                LOGGER.log(Level.INFO, "There was an SQLException, maybe the " + DATABASE_LOCATION_NAME +
+                    " folder/file does not exist. Attempting to create it...");
+                try {
+                    // Connect to the database but also create the database if it does not exist
+                    serverConnection = DriverManager.getConnection(url2 + ";create=true");
+                    LOGGER.log(Level.INFO, "Successfully created!");
+                } catch (SQLException ex2) {
+                    LOGGER.log(Level.SEVERE, "Other connection already exists! Error: " + ex2.getMessage(), ex2);
+                    LOGGER.log(Level.SEVERE,
+                        "Most likely there is another instance of the same application already running. " +
+                            "Two instances of the same application are not allowed. The application will exit.");
+                    System.exit(0);
+                }
+            } else {
+                LOGGER.log(Level.SEVERE, "Unexpected exception ! " + ex.getMessage(), ex);
                 System.exit(0);
             }
         }
     }
-
-    private void createEMFactory() {
-        // Is the status of the dropTable flag on?
-        boolean dropTable = "true".equals(System.getProperty(DROP_TABLE_PROPERTY));
-        Map<String, String> persistenceMap = new HashMap<String, String>();
-
-        // Add the url property of the connection to the database
-        persistenceMap.put("javax.persistence.jdbc.url", this.url);
-
-        if (dropTable) {
-            persistenceMap.put("javax.persistence.schema-generation.database.action", "drop-and-create");
-            Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO,
-                    "The droptable flag in the properties file is enabled! The table will be dropped upon start-up.");
-        }
-
-        Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO, "Creating Entity Manager Factory...");
-        this.emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME, persistenceMap);
-    }
-
-    public void createEntityManager() {
-        try {
-            this.emAvailability.acquire();
-        } catch (InterruptedException ex) {
-            Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        this.em = this.emf.createEntityManager();
-    }
-
-    public void closeEntityManager() {
-        this.em.close();
-        this.emAvailability.release();
-    }
-
-    public EntityManager getEM() {
-        return this.em;
-    }
-
-    public void restartEMF() {
-        this.emf.close();
-        this.createEMFactory();
-        this.emAvailability.release();
-    }
-
-    public void safeCommit() {
-        try {  // This is where the db takes longer!!
-            this.em.getTransaction().commit(); // 1.220 ms
-        } catch (Exception ex) {
-            if (ex instanceof java.lang.IllegalStateException) {
-                Logger.getLogger(ArchiveManager.class.getName()).log(Level.WARNING,
-                        "The database file might be locked by another application...");
-            }
-
-            Logger.getLogger(ArchiveManager.class.getName()).log(Level.WARNING,
-                    "The object could not be commited! Waiting 2500 ms and trying again...");
-            try {
-                Thread.sleep(2500);
-            } catch (InterruptedException ex1) {
-                Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex1);
-            }
-
-            try {
-                this.em.getTransaction().commit(); // 1.220 ms
-            } catch (Exception ex2) {
-                Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE,
-                        "The objects could not be commited on the second try!", ex2);
-            }
-        }
-    }
-
 }

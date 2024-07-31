@@ -1,13 +1,13 @@
 /*
  *  ----------------------------------------------------------------------------
- *  Copyright (C) 2016      European Space Agency
+ *  Copyright (C) 2021      European Space Agency
  *                          European Space Operations Centre
  *                          Darmstadt
  *                          Germany
  *  ----------------------------------------------------------------------------
  *  System                : ESA NanoSat MO Framework
  *  ----------------------------------------------------------------------------
- *  Licensed under the European Space Agency Public License, Version 2.0
+ *  Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  *  You may not use this file except in compliance with the License.
  * 
  *  Except as expressly set forth in this License, the Software is provided to
@@ -21,9 +21,6 @@
  */
 package opssat.simulator.util;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.logging.Formatter;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
@@ -38,12 +35,11 @@ public class LoggerFormatter1Line extends Formatter {
     // Create a DateFormat to format the logger timestamp.
     //
     String nodeName;
-    public final static String SIMULATOR_PRE_LOG="OPS-SAT SoftSim:";
+    public final static String SIMULATOR_PRE_LOG = "OPS-SAT SoftSim:";
+
     public LoggerFormatter1Line(String nodeName) {
         this.nodeName = nodeName;
     }
-    
-    
 
     public String format(LogRecord record) {
         StringBuilder builder = new StringBuilder(1000);

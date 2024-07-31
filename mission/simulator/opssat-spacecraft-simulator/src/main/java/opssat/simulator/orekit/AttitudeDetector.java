@@ -16,40 +16,35 @@ import org.orekit.time.AbsoluteDate;
  *
  * @author yannick
  */
-public class AttitudeDetector extends AbstractDetector<AttitudeDetector>
-{
-  private int position;
+public class AttitudeDetector extends AbstractDetector<AttitudeDetector> {
+    private int position;
 
-  public AttitudeDetector(int position) {
-    super(DEFAULT_MAXCHECK, DEFAULT_THRESHOLD, DEFAULT_MAX_ITER, null);
-    this.position = position;
-  }
+    public AttitudeDetector(int position) {
+        super(DEFAULT_MAXCHECK, DEFAULT_THRESHOLD, DEFAULT_MAX_ITER, null);
+        this.position = position;
+    }
 
-  @Override
-  public void init(SpacecraftState s0, AbsoluteDate t) {
-  }
+    @Override
+    public void init(SpacecraftState s0, AbsoluteDate t) {
+    }
 
-  @Override
-  public Action eventOccurred(SpacecraftState s, boolean increasing) throws OrekitException {
-    return Action.CONTINUE;
-  }
+    @Override
+    public Action eventOccurred(SpacecraftState s, boolean increasing) throws OrekitException {
+        return Action.CONTINUE;
+    }
 
-  @Override
-  public SpacecraftState resetState(SpacecraftState oldState) throws OrekitException {
-    return oldState;
-  }
+    @Override
+    public SpacecraftState resetState(SpacecraftState oldState) throws OrekitException {
+        return oldState;
+    }
 
-  @Override
-  public double g(SpacecraftState ss)
-  {
-    double additional = ss.getAdditionalState("attitude")[position]; // 0 holds sun
-    return additional;
-  }
+    @Override
+    public double g(SpacecraftState ss) {
+        return ss.getAdditionalState("attitude")[position];
+    }
 
-  @Override
-  protected AttitudeDetector create(double d, double d1, int i,
-      EventHandler<? super AttitudeDetector> eh)
-  {
-    return new AttitudeDetector(0);
-  }
+    @Override
+    protected AttitudeDetector create(double d, double d1, int i, EventHandler<? super AttitudeDetector> eh) {
+        return new AttitudeDetector(0);
+    }
 }

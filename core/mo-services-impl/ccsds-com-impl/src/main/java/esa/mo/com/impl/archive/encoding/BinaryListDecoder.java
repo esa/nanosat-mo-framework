@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2013      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : CCSDS MO Binary encoder
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -27,36 +27,31 @@ import org.ccsds.moims.mo.mal.MALListDecoder;
 /**
  * Implements the MALListDecoder interface for a binary encoding.
  */
-public class BinaryListDecoder extends BinaryDecoder implements MALListDecoder
-{
-  private final int size;
-  private final List list;
+public class BinaryListDecoder extends BinaryDecoder implements MALListDecoder {
+    private final int size;
+    private final List list;
 
-  /**
-   * Constructor.
-   *
-   * @param list List to decode into.
-   * @param srcBuffer Buffer to manage.
-   * @throws MALException If cannot decode list size.
-   */
-  public BinaryListDecoder(final List list, final BufferHolder srcBuffer)
-          throws MALException
-  {
-    super(srcBuffer);
+    /**
+     * Constructor.
+     *
+     * @param list List to decode into.
+     * @param srcBuffer Buffer to manage.
+     * @throws MALException If cannot decode list size.
+     */
+    public BinaryListDecoder(final List list, final BufferHolder srcBuffer) throws MALException {
+        super(srcBuffer);
 
-    this.list = list;
-    size = srcBuffer.getUnsignedInt();
-  }
+        this.list = list;
+        size = srcBuffer.getUnsignedInt();
+    }
 
-  @Override
-  public boolean hasNext()
-  {
-    return list.size() < size;
-  }
+    @Override
+    public boolean hasNext() {
+        return list.size() < size;
+    }
 
-  @Override
-  public int size()
-  {
-    return size;
-  }
+    @Override
+    public int size() {
+        return size;
+    }
 }

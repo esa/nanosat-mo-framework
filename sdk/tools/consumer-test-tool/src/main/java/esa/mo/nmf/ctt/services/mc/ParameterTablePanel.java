@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -42,9 +42,9 @@ public class ParameterTablePanel extends SharedTablePanel {
     @Override
     public void addEntry(final Identifier name, final ArchivePersistenceObject comObject) {
 
-        if (comObject == null){
-            Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, 
-                    "The table cannot process a null COM Object.");
+        if (comObject == null) {
+            Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE,
+                "The table cannot process a null COM Object.");
             return;
         }
 
@@ -53,25 +53,19 @@ public class ParameterTablePanel extends SharedTablePanel {
         } catch (InterruptedException ex) {
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-            
+
         ParameterDefinitionDetails pDef = (ParameterDefinitionDetails) comObject.getObject();
-        
-        tableData.addRow(new Object[]{
-            comObject.getArchiveDetails().getDetails().getRelated(),
-            name.toString(),
-            pDef.getDescription(),
-            HelperAttributes.typeShortForm2attributeName(pDef.getRawType().intValue()),
-            pDef.getRawUnit(),
-            pDef.getGenerationEnabled(),
-            pDef.getReportInterval().getValue()
-        });
+
+        tableData.addRow(new Object[]{comObject.getArchiveDetails().getDetails().getRelated(), name.toString(), pDef
+            .getDescription(), HelperAttributes.typeShortForm2attributeName(pDef.getRawType().intValue()), pDef
+                .getRawUnit(), pDef.getGenerationEnabled(), pDef.getReportInterval().getValue()});
 
         comObjects.add(comObject);
         semaphore.release();
 
     }
 
-    public void switchEnabledstatus(boolean status){
+    public void switchEnabledstatus(boolean status) {
         try {
             semaphore.acquire();
         } catch (InterruptedException ex) {
@@ -81,50 +75,48 @@ public class ParameterTablePanel extends SharedTablePanel {
         // 5 because it is where generationEnabled is!
         tableData.setValueAt(status, this.getSelectedRow(), 5);
         ((ParameterDefinitionDetails) this.getSelectedCOMObject().getObject()).setGenerationEnabled(status);
-        
+
         semaphore.release();
     }
-    
-    public void switchEnabledstatusAll(boolean status){
+
+    public void switchEnabledstatusAll(boolean status) {
         try {
             semaphore.acquire();
         } catch (InterruptedException ex) {
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         // 5 because it is where generationEnabled is!
-        for (int i = 0; i < this.getTable().getRowCount() ; i++){
+        for (int i = 0; i < this.getTable().getRowCount(); i++) {
             tableData.setValueAt(status, i, 5);
             ((ParameterDefinitionDetails) this.getCOMObjects().get(i).getObject()).setGenerationEnabled(status);
         }
-        
+
         semaphore.release();
     }
-    
+
     @Override
     public void defineTableContent() {
-        String[] tableCol = new String[]{
-            "Identity", "name", "description", "rawType", "rawUnit", "generationEnabled", "updateInterval"};
+        String[] tableCol = new String[]{"Identity", "name", "description", "rawType", "rawUnit", "generationEnabled",
+                                         "updateInterval"};
 
-        tableData = new javax.swing.table.DefaultTableModel(
-                new Object[][]{}, tableCol) {
-                    Class[] types = new Class[]{
-                        java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class,
-                        java.lang.String.class, java.lang.Boolean.class, java.lang.Float.class
-                    };
+        tableData = new javax.swing.table.DefaultTableModel(new Object[][]{}, tableCol) {
+            Class[] types = new Class[]{java.lang.Integer.class, java.lang.String.class, java.lang.String.class,
+                                        java.lang.Object.class, java.lang.String.class, java.lang.Boolean.class,
+                                        java.lang.Float.class};
 
-                    @Override               //all cells false
-                    public boolean isCellEditable(int row, int column) {
-                        return false;
-                    }
+            @Override               //all cells false
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
 
-                    @Override
-                    public Class getColumnClass(int columnIndex) {
-                        return types[columnIndex];
-                    }
-                };
+            @Override
+            public Class getColumnClass(int columnIndex) {
+                return types[columnIndex];
+            }
+        };
 
         super.getTable().setModel(tableData);
     }
-    
+
 }

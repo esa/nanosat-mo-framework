@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-  <!--
-    Licensed under the European Space Agency Public License, Version 2.0
+<!--
+    Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
     You may not use this file except in compliance with the License.
 
     Except as expressly set forth in this License, the Software is provided to
@@ -18,7 +18,7 @@
   <parent>
     <groupId>int.esa.nmf</groupId>
     <artifactId>parent</artifactId>
-    <version>2.0.0-SNAPSHOT</version>
+    <version>3.0.0</version>
     <relativePath>../../parent/pom.xml</relativePath>
   </parent>
 
@@ -26,7 +26,7 @@
   <artifactId>examples-reactor</artifactId>
   <name>ESA NMF SDK Reactor - NMF Applications Examples</name>
   <packaging>pom</packaging>
-    
+
   <organization>
     <name>ESA</name>
     <url>http://www.esa.int</url>
@@ -34,21 +34,20 @@
 
   <licenses>
     <license>
-      <name>The European Space Agency Public License, Version 2.0</name>
+      <name>European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4</name>
       <url>https://raw.github.com/esa/nanosat-mo-framework/master/LICENCE.md</url>
       <distribution>repo</distribution>
     </license>
   </licenses>
 
   <scm>
-    <connection>scm:git:git@github.com:esa/nanosat-mo-framework.git</connection>
-    <developerConnection>scm:git:git@github.com:esa/nanosat-mo-framework.git</developerConnection>
+    <connection>scm:git:https://github.com/esa/nanosat-mo-framework.git</connection>
     <url>https://github.com/esa/nanosat-mo-framework</url>
   </scm>
 
   <issueManagement>
-    <system>GitHub</system>
-    <url>https://github.com/esa/nanosat-mo-framework/issues</url>
+    <system>Gitlab</system>
+    <url>https://gitlab.com/esa/NMF/nmf-issues/-/issues</url>
   </issueManagement>
 
   <developers>

@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -62,7 +62,7 @@ public class FiveStagesAction {
      * @param args the command line arguments
      * @throws java.lang.Exception If there is an error
      */
-    public static void main(final String args[]) throws Exception {
+    public static void main(final String[] args) throws Exception {
         FiveStagesAction demo = new FiveStagesAction();
     }
 
@@ -81,16 +81,12 @@ public class FiveStagesAction {
                 Byte convertedType = null;
                 String convertedUnit = null;
 
-                argDef.add(new ArgumentDefinitionDetails(new Identifier("1"), null,
-                        rawType, rawUnit, conditionalConversions, convertedType, convertedUnit));
+                argDef.add(new ArgumentDefinitionDetails(new Identifier("1"), null, rawType, rawUnit,
+                    conditionalConversions, convertedType, convertedUnit));
             }
 
-            ActionDefinitionDetails actionDef1 = new ActionDefinitionDetails(
-                    "Example of an Action with 5 stages.",
-                    new UOctet((short) 0),
-                    new UShort(5),
-                    argDef
-            );
+            ActionDefinitionDetails actionDef1 = new ActionDefinitionDetails("Example of an Action with 5 stages.",
+                new UOctet((short) 0), new UShort(5), argDef);
             names.add(new Identifier(ACTION5STAGES));
             actionDefs.add(actionDef1);
             registrationObject.registerActions(names, actionDefs);
@@ -107,15 +103,15 @@ public class FiveStagesAction {
         }
 
         @Override
-        public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,
-                Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
+        public UInteger actionArrived(Identifier name, AttributeValueList attributeValues, Long actionInstanceObjId,
+            boolean reportProgress, MALInteraction interaction) {
             if (ACTION5STAGES.equals(name.getValue())) {
                 try {
                     // action1 was called?
                     reportFiveStepsAction(actionInstanceObjId);
                 } catch (NMFException ex) {
                     Logger.getLogger(FiveStagesAction.class.getName()).log(Level.SEVERE,
-                            "The action could not report the five steps!", ex);
+                        "The action could not report the five steps!", ex);
                     return new UInteger(0);
                 }
 

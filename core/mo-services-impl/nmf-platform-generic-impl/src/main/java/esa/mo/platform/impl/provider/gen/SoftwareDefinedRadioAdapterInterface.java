@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -27,36 +27,36 @@ import org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfigurat
  *
  * @author Cesar Coelho
  */
-public interface SoftwareDefinedRadioAdapterInterface
-{
+public interface SoftwareDefinedRadioAdapterInterface {
 
-  /**
-   * Checks if the device is present and accessible.
-   *
-   * @return true if the device is present and available for operations.
-   */
-  boolean isUnitAvailable();
+    /**
+     * Checks if the device is present and accessible.
+     *
+     * @return true if the device is present and available for operations.
+     */
+    boolean isUnitAvailable();
 
-  /**
-   * Applies SDR configuration.
-   *
-   * @param configuration SDR configuration
-   * @return true if the configuration was accepted and set on the SDR.
-   */
-  boolean setConfiguration(SDRConfiguration configuration);
+    /**
+     * Applies SDR configuration.
+     *
+     * @param configuration SDR configuration
+     * @return true if the configuration was accepted and set on the SDR.
+     */
+    boolean setConfiguration(SDRConfiguration configuration);
 
-  /**
-   * Enables or disables the SDR
-   *
-   * @param enable Enable flag.
-   * @return true if the operation ran successfully.
-   */
-  boolean enableSDR(Boolean enable);
+    /**
+     * Enables or disables the SDR
+     *
+     * @param enable Enable flag.
+     * @return true if the operation ran successfully.
+     */
+    boolean enableSDR(Boolean enable);
 
-  /**
-   * Gets SDR I/Q buffer
-   * @return Buffer of I/Q data
-   */
-  IQComponents getIQComponents();
+    /**
+     * Gets SDR I/Q buffer
+     *
+     * @return Buffer of I/Q data
+     */
+    IQComponents getIQComponents();
 
 }

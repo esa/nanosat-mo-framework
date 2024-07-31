@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -37,7 +37,7 @@ import org.ccsds.moims.mo.mal.structures.URI;
  */
 public class ServicesConnectionDetails {
 
-    private HashMap<String, SingleConnectionDetails> services = new HashMap<String, SingleConnectionDetails>();
+    private HashMap<String, SingleConnectionDetails> services = new HashMap<>();
 
     public HashMap<String, SingleConnectionDetails> getServices() {
         return this.services;
@@ -53,6 +53,14 @@ public class ServicesConnectionDetails {
 
     public SingleConnectionDetails get(Identifier id) {
         return services.get(id.toString());
+    }
+
+    public void add(String key, SingleConnectionDetails value) {
+        services.put(key, value);
+    }
+
+    public void reset() {
+        services.clear();
     }
 
     /**
@@ -76,7 +84,8 @@ public class ServicesConnectionDetails {
      * initialized correctly
      * @throws java.io.FileNotFoundException if the URI file has not been found
      */
-    public ServicesConnectionDetails loadURIFromFiles(String filename) throws MalformedURLException, FileNotFoundException {
+    public ServicesConnectionDetails loadURIFromFiles(String filename) throws MalformedURLException,
+        FileNotFoundException {
 
         if (filename == null) {
             filename = System.getProperty("providerURI.properties", HelperMisc.PROVIDER_URIS_PROPERTIES_FILENAME);
@@ -109,7 +118,8 @@ public class ServicesConnectionDetails {
             String propString = array[i].toString();
 
             if (propString.endsWith(HelperConnections.SUFFIX_URI)) {  // Is it a URI property of some service?
-                String serviceName = propString.substring(0, propString.length() - HelperConnections.SUFFIX_URI.length());  // Remove the URI part of it
+                String serviceName = propString.substring(0, propString.length() - HelperConnections.SUFFIX_URI
+                    .length());  // Remove the URI part of it
                 SingleConnectionDetails details = new SingleConnectionDetails();
 
                 // Get the URI + Broker + Domain from the Properties
@@ -122,7 +132,8 @@ public class ServicesConnectionDetails {
                     details.setBrokerURI((URI) null);
                 }
 
-                details.setDomain(HelperMisc.domainId2domain(uriProps.getProperty(serviceName + HelperConnections.SUFFIX_DOMAIN)));
+                details.setDomain(HelperMisc.domainId2domain(uriProps.getProperty(serviceName +
+                    HelperConnections.SUFFIX_DOMAIN)));
                 String serviceKeyRaw = uriProps.getProperty(serviceName + HelperConnections.SUFFIX_SERVICE_KEY);
 
                 if (serviceKeyRaw != null) {

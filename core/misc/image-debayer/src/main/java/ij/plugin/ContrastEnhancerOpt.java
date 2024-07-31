@@ -41,11 +41,7 @@ public class ContrastEnhancerOpt extends ContrastEnhancer {
         ImagePlus imp = newImage;
         stackSize = imp.getStackSize();
         imp.trimProcessor();
-/*
-        if (!showDialog(imp)) {
-            return;
-        }
-*/
+
         Roi roi = imp.getRoi();
         if (roi != null) {
             roi.endPaste();

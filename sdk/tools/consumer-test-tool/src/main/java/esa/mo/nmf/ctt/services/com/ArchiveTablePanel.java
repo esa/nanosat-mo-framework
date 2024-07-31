@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -37,6 +37,9 @@ import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
+
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.structures.Element;
 
@@ -56,22 +59,18 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
      * @param archiveObjectOutput
      * @param archiveService
      */
-    public ArchiveTablePanel(ArchiveCOMObjectsOutput archiveObjectOutput, 
-            final ArchiveConsumerServiceImpl archiveService) {
+    public ArchiveTablePanel(ArchiveCOMObjectsOutput archiveObjectOutput,
+        final ArchiveConsumerServiceImpl archiveService) {
         initComponents();
 
-        comObjects = new ArrayList<ArchivePersistenceObject>();
+        comObjects = new ArrayList<>();
 
-        String[] archiveTableCol = new String[]{
-            "Domain", "Object Type", "Object Instance Identifier",
-            "Timestamp", "Source", "Related"};
+        String[] archiveTableCol = new String[]{"Domain", "Object Type", "Object Instance Identifier", "Timestamp",
+                                                "Source", "Related"};
 
-        archiveTableData = new javax.swing.table.DefaultTableModel(
-                new Object[][]{}, archiveTableCol) {
-            Class[] types = new Class[]{
-                java.lang.String.class, java.lang.String.class, java.lang.String.class,
-                java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
+        archiveTableData = new javax.swing.table.DefaultTableModel(new Object[][]{}, archiveTableCol) {
+            Class[] types = new Class[]{java.lang.String.class, java.lang.String.class, java.lang.Integer.class,
+                                        java.lang.String.class, java.lang.String.class, java.lang.String.class};
 
             @Override               //all cells false
             public boolean isCellEditable(int row, int column) {
@@ -93,7 +92,8 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
                     // Get from the list of objects the one we want and display
                     ArchivePersistenceObject comObject = getSelectedCOMObject();
                     try {
-                        COMObjectWindow comObjectWindow = new COMObjectWindow(comObject, false, archiveService.getArchiveStub());
+                        COMObjectWindow comObjectWindow = new COMObjectWindow(comObject, false, archiveService
+                            .getArchiveStub());
                     } catch (IOException ex) {
                         Logger.getLogger(ArchiveTablePanel.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -101,6 +101,8 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
             }
         });
 
+        TableRowSorter<TableModel> sorter = new TableRowSorter<>(archiveTable.getModel());
+        archiveTable.setRowSorter(sorter);
         this.addEntries(archiveObjectOutput);
     }
 
@@ -126,16 +128,11 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
         }
 
         for (int i = 0; i < archiveObjectOutput.getArchiveDetailsList().size(); i++) {
-            Element objects = (archiveObjectOutput.getObjectBodies() == null)
-                    ? null
-                    : (Element) HelperAttributes.javaType2Attribute(archiveObjectOutput.getObjectBodies().get(i));
-            ArchivePersistenceObject comObject = new ArchivePersistenceObject(
-                    archiveObjectOutput.getObjectType(),
-                    archiveObjectOutput.getDomain(),
-                    archiveObjectOutput.getArchiveDetailsList().get(i).getInstId(),
-                    archiveObjectOutput.getArchiveDetailsList().get(i),
-                    objects
-            );
+            Element objects = (archiveObjectOutput.getObjectBodies() == null) ? null : (Element) HelperAttributes
+                .javaType2Attribute(archiveObjectOutput.getObjectBodies().get(i));
+            ArchivePersistenceObject comObject = new ArchivePersistenceObject(archiveObjectOutput.getObjectType(),
+                archiveObjectOutput.getDomain(), archiveObjectOutput.getArchiveDetailsList().get(i).getInstId(),
+                archiveObjectOutput.getArchiveDetailsList().get(i), objects);
 
             addEntry(comObject);
         }
@@ -160,7 +157,8 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
 
         if (comObject.getArchiveDetails().getDetails().getSource() != null) {
             source = HelperCOM.objType2string(comObject.getArchiveDetails().getDetails().getSource().getType());
-            source += " (objId: " + comObject.getArchiveDetails().getDetails().getSource().getKey().getInstId().toString() + ")";
+            source += " (objId: " + comObject.getArchiveDetails().getDetails().getSource().getKey().getInstId()
+                .toString() + ")";
         }
 
         if (comObject.getArchiveDetails().getDetails().getRelated() != null) {
@@ -177,14 +175,8 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
             Logger.getLogger(ArchiveTablePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        archiveTableData.addRow(new Object[]{
-            domain,
-            objType,
-            comObject.getArchiveDetails().getInstId(),
-            timestamp,
-            source,
-            related
-        });
+        archiveTableData.addRow(new Object[]{domain, objType, comObject.getArchiveDetails().getInstId(), timestamp,
+                                             source, related});
 
         comObjects.add(comObject);
         semaphore.release();
@@ -217,21 +209,15 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
         jScrollPane3.setPreferredSize(new java.awt.Dimension(796, 380));
         jScrollPane3.setRequestFocusEnabled(false);
 
-        archiveTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
-            },
-            new String [] {
-                "Domain", "Object Type", "Obj Instance Id", "Timestamp", "Related", "Source"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
+        archiveTable.setModel(new javax.swing.table.DefaultTableModel(new Object[][]{{null, null, null, null, null,
+                                                                                      null}, {null, null, null, null,
+                                                                                              null, null}},
+            new String[]{"Domain", "Object Type", "Obj Instance Id", "Timestamp", "Related", "Source"}) {
+            Class[] types = new Class[]{java.lang.String.class, java.lang.String.class, java.lang.String.class,
+                                        java.lang.String.class, java.lang.String.class, java.lang.String.class};
 
             public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
+                return types[columnIndex];
             }
         });
         archiveTable.setAlignmentX(0.0F);
@@ -248,20 +234,15 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 617, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
-        );
+        layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
+            jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 617, Short.MAX_VALUE));
+        layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
+            jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE));
     }// </editor-fold>//GEN-END:initComponents
 
     private void archiveTableComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_archiveTableComponentAdded
         // TODO add your handling code here:
     }//GEN-LAST:event_archiveTableComponentAdded
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable archiveTable;

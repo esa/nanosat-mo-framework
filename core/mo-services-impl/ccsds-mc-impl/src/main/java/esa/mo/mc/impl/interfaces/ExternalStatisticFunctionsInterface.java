@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -31,7 +31,7 @@ import org.ccsds.moims.mo.mc.structures.AttributeValueList;
  * 
  */
 public interface ExternalStatisticFunctionsInterface {
-    
+
     /**
      * The user must implement this interface to get custom Statistic
      * Functions.
@@ -41,11 +41,8 @@ public interface ExternalStatisticFunctionsInterface {
      * MC Standard.
      * @return The corresponding Statistic Function
      */
-    public StatisticFunctionDetails getCustomStatisticFunction (Long statFuncId);
-    
-    
-    public StatisticValue generateCustomStatisticValue(Long statFuncId, TimeList times, AttributeValueList values);
+    StatisticFunctionDetails getCustomStatisticFunction(Long statFuncId);
 
-    
-    
+    StatisticValue generateCustomStatisticValue(Long statFuncId, TimeList times, AttributeValueList values);
+
 }

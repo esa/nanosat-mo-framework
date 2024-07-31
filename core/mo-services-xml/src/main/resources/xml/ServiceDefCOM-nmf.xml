@@ -636,8 +636,32 @@ If the MAL data type specification is being used the body of an object shall not
             <mal:type area="COM" list="true" name="CompactCOMObject" service="ArchiveSync"/>
           </mal:field>
         </mal:composite>
+      <mal:composite comment="The LastSync structure is used to hold information about synchronizations." name="LastSync" shortFormPart="11">
+          <mal:extends>
+            <mal:type area="MAL" list="false" name="Composite"/>
+          </mal:extends>
+          <mal:field canBeNull="false" comment="The provider URI." name="providerURI">
+            <mal:type area="MAL" list="false" name="String"/>
+          </mal:field>
+          <mal:field canBeNull="false" comment="The domain." name="domainId">
+            <mal:type area="MAL" list="false" name="String"/>
+          </mal:field>
+          <mal:field canBeNull="false" comment="The time of the last synchronization." name="lastSyncTime">
+            <mal:type area="MAL" list="false" name="Time"/>
+          </mal:field>
+        </mal:composite>
       </mal:dataTypes>
-      <com:features/>
+      <com:features>
+        <com:objects comment="The ArchiveSync service can store the last synchronizations information on the COM Archive.">
+          <com:object name="LastSync" number="1">
+            <com:objectType>
+              <mal:type area="COM" list="false" name="LastSync" service="ArchiveSync"/>
+            </com:objectType>
+            <com:relatedObject comment=""/>
+            <com:sourceObject comment=""/>
+          </com:object>
+        </com:objects>
+      </com:features>
     </mal:service>
     <mal:dataTypes>
       <mal:composite comment="The ObjectType structure uniquely identifies the type of an object. It is the combination of the area number, service number, area version, and service object type number. The combined parts are able to fit inside a MAL::Long (for implementations that prefer to index on a single numeric field rather than a structure)." name="ObjectType" shortFormPart="1">

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
-    Licensed under the European Space Agency Public License, Version 2.0
+    Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
     You may not use this file except in compliance with the License.
 
     Except as expressly set forth in this License, the Software is provided to
@@ -18,7 +18,7 @@
   <parent>
     <groupId>int.esa.nmf</groupId>
     <artifactId>parent</artifactId>
-    <version>2.0.0-SNAPSHOT</version>
+    <version>3.0.0</version>
     <relativePath>../../parent/pom.xml</relativePath>
   </parent>
 
@@ -34,21 +34,20 @@
 
   <licenses>
     <license>
-      <name>The European Space Agency Public License, Version 2.0</name>
+      <name>European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4</name>
       <url>https://raw.github.com/esa/nanosat-mo-framework/master/LICENCE.md</url>
       <distribution>repo</distribution>
     </license>
   </licenses>
 
   <scm>
-    <connection>scm:git:git@github.com:esa/nanosat-mo-framework.git</connection>
-    <developerConnection>scm:git:git@github.com:esa/nanosat-mo-framework.git</developerConnection>
+    <connection>scm:git:https://github.com/esa/nanosat-mo-framework.git</connection>
     <url>https://github.com/esa/nanosat-mo-framework</url>
   </scm>
 
   <issueManagement>
-    <system>GitHub</system>
-    <url>https://github.com/esa/nanosat-mo-framework/issues</url>
+    <system>Gitlab</system>
+    <url>https://gitlab.com/esa/NMF/nmf-issues/-/issues</url>
   </issueManagement>
 
   <developers>
@@ -68,7 +67,22 @@
     as maven-dependency-plugin:copy does not support it. -->
     <dependency>
       <groupId>int.esa.nmf.sdk</groupId>
+      <artifactId>orekit-resources</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>int.esa.nmf.core</groupId>
+      <artifactId>nanosat-mo-supervisor</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>int.esa.nmf.sdk</groupId>
       <artifactId>consumer-test-tool</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>int.esa.nmf.sdk</groupId>
+      <artifactId>cli-tool</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
@@ -97,8 +111,13 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>int.esa.nmf.mission.simulator</groupId>
-      <artifactId>nanosat-mo-supervisor-sim</artifactId>
+      <groupId>int.esa.nmf.sdk.examples.space</groupId>
+      <artifactId>mp-space-demo</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>int.esa.nmf.sdk.examples.ground</groupId>
+      <artifactId>mp-ground-demo</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
@@ -106,8 +125,25 @@
       <artifactId>benchmark</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>int.esa.nmf.sdk.examples.space</groupId>
+      <artifactId>camera-acquisitor-system</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>int.esa.nmf.sdk.examples.space</groupId>
+      <artifactId>picture-processor</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <!-- Needed as the transitive dependency is not resolved properly -->
+    <dependency>
+      <groupId>int.esa.nmf.core.moservices.impl</groupId>
+      <artifactId>ccsds-com</artifactId>
+      <version>${project.version}</version>
+    </dependency>
   </dependencies>
-  <build> 
+  <build>
     <plugins>
       <!-- disable JAR assembly -->
       <plugin>
@@ -165,8 +201,8 @@
               <goal>wget</goal>
             </goals>
             <configuration>
-              <url>https://public.ccsds.org/Pubs/521x0b2e1.pdf</url>
-              <outputFileName>CCSDS_MO_MAL_521x0b2e1.pdf</outputFileName>
+              <url>https://public.ccsds.org/Pubs/521x0b3.pdf</url>
+              <outputFileName>CCSDS_MO_MAL_521x0b3.pdf</outputFileName>
               <outputDirectory>${esa.nmf.sdk.assembly.outputdir}/docs/MO_Services</outputDirectory>
             </configuration>
           </execution>
@@ -243,7 +279,7 @@
         <artifactId>maven-assembly-plugin</artifactId>
         <configuration combine.self="override">
           <skipAssembly>${esa.nmf.sdk.assembly.quickbuild}</skipAssembly>
-          <finalName>nmf-sdk-${project.version}</finalName>
+          <finalName>nmf-sdk-${git.commit.id.describe}</finalName>
           <appendAssemblyId>false</appendAssemblyId>
           <descriptors>
             <descriptor>${basedir}/src/main/assembly/zip.xml</descriptor>
@@ -281,6 +317,11 @@
                 <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/nmf/consumer-test-tool">
                   <fileset dir="${basedir}/src/main/resources/ground-consumer-root"/>
                 </copy>
+                <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/nmf/cli-tool">
+                  <fileset dir="${basedir}/src/main/resources/ground-consumer-root"/>
+                  <fileset dir="${basedir}/src/main/resources/space-common"/>
+                  <fileset dir="${basedir}/src/main/resources/space-supervisor-root"/>
+                </copy>
                 <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/nmf/nanosat-mo-supervisor-sim">
                   <fileset dir="${basedir}/src/main/resources/space-common"/>
                   <fileset dir="${basedir}/src/main/resources/space-supervisor-root"/>
@@ -310,10 +351,46 @@
                   <fileset dir="${basedir}/src/main/resources/space-common"/>
                   <fileset dir="${basedir}/src/main/resources/space-app-root"/>
                 </copy>
+                <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/camera-acquisitor-system">
+                  <fileset dir="${basedir}/src/main/resources/space-common"/>
+                  <fileset dir="${basedir}/src/main/resources/space-app-root"/>
+                </copy>
+                <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/picture-processor">
+                  <fileset dir="${basedir}/src/main/resources/space-common"/>
+                  <fileset dir="${basedir}/src/main/resources/space-app-root"/>
+                  <fileset dir="${basedir}/../examples/space/picture-processor/src/main/resources/scripts/imageEditor"/>
+                </copy>
+                <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/mp-demo">
+                  <fileset dir="${basedir}/src/main/resources/space-common"/>
+                  <fileset dir="${basedir}/src/main/resources/space-app-root"/>
+                  <fileset dir="${basedir}/src/main/resources/ground-consumer-root"/>
+                </copy>
               </target>
             </configuration>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>pl.project13.maven</groupId>
+        <artifactId>git-commit-id-plugin</artifactId>
+        <version>4.9.10</version>
+        <executions>
+          <execution>
+            <id>get-the-git-infos</id>
+            <goals>
+              <goal>revision</goal>
+            </goals>
+            <phase>initialize</phase>
+          </execution>
+        </executions>
+        <configuration>
+          <failOnNoGitDirectory>false</failOnNoGitDirectory>
+          <commitIdGenerationMode>full</commitIdGenerationMode>
+          <gitDescribe>
+            <tags>true</tags>
+            <forceLongFormat>true</forceLongFormat>
+          </gitDescribe>
+        </configuration>
       </plugin>
     </plugins>
     <pluginManagement>
@@ -335,7 +412,7 @@
                     </goals>
                   </pluginExecutionFilter>
                   <action>
-                    <execute />
+                    <execute/>
                   </action>
                 </pluginExecution>
                 <pluginExecution>
@@ -348,7 +425,7 @@
                     </goals>
                   </pluginExecutionFilter>
                   <action>
-                    <execute />
+                    <execute/>
                   </action>
                 </pluginExecution>
               </pluginExecutions>

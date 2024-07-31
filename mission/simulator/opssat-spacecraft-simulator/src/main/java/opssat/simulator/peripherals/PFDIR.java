@@ -1,13 +1,13 @@
 /*
  *  ----------------------------------------------------------------------------
- *  Copyright (C) 2016      European Space Agency
+ *  Copyright (C) 2021      European Space Agency
  *                          European Space Operations Centre
  *                          Darmstadt
  *                          Germany
  *  ----------------------------------------------------------------------------
  *  System                : ESA NanoSat MO Framework
  *  ----------------------------------------------------------------------------
- *  Licensed under the European Space Agency Public License, Version 2.0
+ *  Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  *  You may not use this file except in compliance with the License.
  * 
  *  Except as expressly set forth in this License, the Software is provided to
@@ -30,21 +30,19 @@ import opssat.simulator.threading.SimulatorNode;
  *
  * @author Cezar Suteu
  */
-public class PFDIR extends GenericPeripheral implements IFDIR{
-    
+public class PFDIR extends GenericPeripheral implements IFDIR {
+
     public PFDIR(SimulatorNode simulatorNode, String name) {
         super(simulatorNode, name);
     }
-    
+
     @Override
-    @InternalData (internalID=5001,commandIDs={"",""},argNames={"cmdID","data"})
-    public byte[] runRawCommand(int cmdID,byte[] data) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+    @InternalData(internalID = 5001, commandIDs = {"", ""}, argNames = {"cmdID", "data"})
+    public byte[] runRawCommand(int cmdID, byte[] data) {
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(cmdID);
         argObject.add(data);
-        return (byte[]) super.getSimulatorNode().runGenericMethod(5001,argObject);
-    };
+        return (byte[]) super.getSimulatorNode().runGenericMethod(5001, argObject);
+    }
 
-
-    
 }

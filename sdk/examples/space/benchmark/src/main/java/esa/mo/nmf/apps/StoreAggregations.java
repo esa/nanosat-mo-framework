@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -69,8 +69,8 @@ public class StoreAggregations {
             for (int i = 0; i < numberOfObjs; i++) {
                 defs.add(def);
             }
-            ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(null, null,
-                    connector.getMCServices().getActionService().getConnectionProvider().getConnectionDetails());
+            ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(null, null, connector
+                .getMCServices().getActionService().getConnectionProvider().getConnectionDetails());
             for (int i = 0; i < numberOfObjs - 1; i++) {
                 archDetails.add(archDetails.get(0));
             }
@@ -119,26 +119,22 @@ public class StoreAggregations {
                     yyy.add(defs.get(i));
 
                     connector.getCOMServices().getArchiveService().store(true,
-                            AggregationHelper.AGGREGATIONDEFINITION_OBJECT_TYPE,
-                            connector.getMCServices().getActionService().getConnectionProvider().getConnectionDetails().getDomain(),
-                            xxx,
-                            yyy,
-                            null);
+                        AggregationHelper.AGGREGATIONDEFINITION_OBJECT_TYPE, connector.getMCServices()
+                            .getActionService().getConnectionProvider().getConnectionDetails().getDomain(), xxx, yyy,
+                        null);
 
                 }
 
-            } catch (MALException ex) {
-                Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALInteractionException ex) {
+            } catch (MALException | MALInteractionException ex) {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             }
             long estimatedTime = System.nanoTime() - startTime;
-            Logger.getLogger(BenchmarkApp.class.getName()).log(Level.INFO,
-                    "Total time: " + numberOfObjs + " objects in {0} nanoseconds", estimatedTime);
-            float objectPerSec = numberOfObjs / ((float) ((float) estimatedTime / (float) 1000000000));
+            Logger.getLogger(BenchmarkApp.class.getName()).log(Level.INFO, "Total time: " + numberOfObjs +
+                " objects in {0} nanoseconds", estimatedTime);
+            float objectPerSec = numberOfObjs / ((float) estimatedTime / (float) 1000000000);
             float averageTimePerObj = 1 / objectPerSec;
-            Logger.getLogger(BenchmarkApp.class.getName()).log(Level.INFO,
-                    "Objects per second: " + objectPerSec + " (average: " + averageTimePerObj + " sec)");
+            Logger.getLogger(BenchmarkApp.class.getName()).log(Level.INFO, "Objects per second: " + objectPerSec +
+                " (average: " + averageTimePerObj + " sec)");
         } catch (NMFException ex) {
             Logger.getLogger(BenchmarkApp.class.getName()).log(Level.SEVERE, null, ex);
         }

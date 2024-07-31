@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -47,14 +47,14 @@ public interface ActionInvocationListener {
      * @return Returns null if the Action was successful. If not null, then the
      * returned value should hold the error number
      */
-    public UInteger actionArrived(Identifier identifier, AttributeValueList attributeValues,
-            Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction);
+    UInteger actionArrived(Identifier identifier, AttributeValueList attributeValues, Long actionInstanceObjId,
+        boolean reportProgress, MALInteraction interaction);
 
-    public boolean preCheck(ActionDefinitionDetails defDetails, ActionInstanceDetails instDetails, UIntegerList errorList);
-//	public void setForcePreCheckInvalidException(boolean force);
-//	public void setForcePreCheckInvalidExceptionExtra(UIntegerList extra);
-//	public void setForcePreCheckFailure(boolean force);
-//	public void setFailureStage(UInteger stage, UInteger failureCode);
-//	public int getFailureStage();
-//	public UInteger getFailureCode();
+    boolean preCheck(ActionDefinitionDetails defDetails, ActionInstanceDetails instDetails, UIntegerList errorList);
+    //	public void setForcePreCheckInvalidException(boolean force);
+    //	public void setForcePreCheckInvalidExceptionExtra(UIntegerList extra);
+    //	public void setForcePreCheckFailure(boolean force);
+    //	public void setFailureStage(UInteger stage, UInteger failureCode);
+    //	public int getFailureStage();
+    //	public UInteger getFailureCode();
 }

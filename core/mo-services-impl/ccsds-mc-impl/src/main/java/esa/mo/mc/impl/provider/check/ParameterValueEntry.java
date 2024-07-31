@@ -1,6 +1,6 @@
 /* 
  * M&C Services for CCSDS Mission Operations Framework
- * Copyright (C) 2016 Deutsches Zentrum fuer Luft- und Raumfahrt e.V. (DLR).
+ * Copyright (C) 2021 Deutsches Zentrum fuer Luft- und Raumfahrt e.V. (DLR).
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,11 +19,10 @@
  */
 package esa.mo.mc.impl.provider.check;
 
-import java.util.Map;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
 
-public class ParameterValueEntry{
+public class ParameterValueEntry {
 
     private ParameterValue value;
     private Time creationTime;
@@ -52,6 +51,4 @@ public class ParameterValueEntry{
         this.creationTime = creationTime;
     }
 
-    
-    
 }

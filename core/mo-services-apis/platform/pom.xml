@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    Licensed under the European Space Agency Public License, Version 2.0
+    Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
     You may not use this file except in compliance with the License.
 
     Except as expressly set forth in this License, the Software is provided to
@@ -15,7 +15,7 @@
   <parent>
     <groupId>int.esa.nmf</groupId>
     <artifactId>parent</artifactId>
-    <version>2.0.0-SNAPSHOT</version>
+    <version>3.0.0</version>
     <relativePath>../../../parent/pom.xml</relativePath>
   </parent>
   <groupId>int.esa.nmf.core.moservices.api</groupId>
@@ -30,14 +30,13 @@
   </organization>
   <licenses>
     <license>
-      <name>The European Space Agency Public License, Version 2.0</name>
+      <name>European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4</name>
       <url>https://raw.github.com/esa/nanosat-mo-framework/master/LICENCE.md</url>
       <distribution>repo</distribution>
     </license>
   </licenses>
   <scm>
-    <connection>scm:git:git@github.com:esa/nanosat-mo-framework.git</connection>
-    <developerConnection>scm:git:git@github.com:esa/nanosat-mo-framework.git</developerConnection>
+    <connection>scm:git:https://github.com/esa/nanosat-mo-framework.git</connection>
     <url>https://github.com/esa/nanosat-mo-framework</url>
   </scm>
   <developers>
@@ -76,17 +75,11 @@
   <build>
     <resources>
       <resource>
-        <directory>${basedir}/..</directory>
-        <includes>
-          <include>LICENCE.md</include>
-        </includes>
-      </resource>
-      <resource>
         <directory>${esa.stubgen.xmlDirectory}</directory>
         <targetPath>xml</targetPath>
       </resource>
     </resources>
- 
+
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -128,7 +121,7 @@
                     </goals>
                   </pluginExecutionFilter>
                   <action>
-                    <execute />
+                    <execute/>
                   </action>
                 </pluginExecution>
               </pluginExecutions>

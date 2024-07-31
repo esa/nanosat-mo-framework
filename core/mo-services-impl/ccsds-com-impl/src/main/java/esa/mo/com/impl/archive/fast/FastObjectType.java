@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -21,118 +21,70 @@
 package esa.mo.com.impl.archive.fast;
 
 import esa.mo.com.impl.archive.db.DatabaseBackend;
-import esa.mo.com.impl.archive.entities.ObjectTypeHolderEntity;
+import esa.mo.com.impl.archive.db.TransactionsProcessor;
 import esa.mo.com.impl.provider.ArchiveManager;
 import esa.mo.com.impl.util.HelperCOM;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.persistence.Query;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.structures.IntegerList;
-import org.ccsds.moims.mo.mal.structures.LongList;
 
 /**
  * Holds the set of object types that the database contains in its dedicated table
  * and avoids constant checking on it which makes things go much faster.
  */
-public class FastObjectType {
+public class FastObjectType extends FastIndex<Long> {
 
-    private final static String QUERY_DELETE_OBJECTTYPE = "DELETE FROM ObjectTypeHolderEntity";
-    private final static String QUERY_SELECT_OBJECTTYPE = "SELECT PU FROM ObjectTypeHolderEntity PU";
-    private final DatabaseBackend dbBackend;
-    private AtomicInteger uniqueId = new AtomicInteger(0);
-    private HashMap<Long, Integer> fastID;
-    private HashMap<Integer, Long> fastIDreverse;
+    private final static String TABLE_NAME = "FastObjectType";
 
     public FastObjectType(final DatabaseBackend dbBackend) {
-        this.fastID = new HashMap<Long, Integer>();
-        this.fastIDreverse = new HashMap<Integer, Long>();
-        this.dbBackend = dbBackend;
+        super(dbBackend, TABLE_NAME);
     }
 
-    public synchronized void resetFastObjectType() {
-        this.fastID = new HashMap<Long, Integer>();
-        this.fastIDreverse = new HashMap<Integer, Long>();
-        uniqueId = new AtomicInteger(0);
-
-        // To Do: Erase it from the table
-        dbBackend.getEM().getTransaction().begin();
-        dbBackend.getEM().createQuery(QUERY_DELETE_OBJECTTYPE).executeUpdate();
-        dbBackend.getEM().getTransaction().commit();
-    }
-
+    @Override
     public synchronized void init() {
         // Retrieve all the ids and objectTypes from the Database
-        dbBackend.createEntityManager();
-
-        // Get All the objectTypes available
-        Query query = dbBackend.getEM().createQuery(QUERY_SELECT_OBJECTTYPE);
-        List resultList = query.getResultList();
-        ArrayList<ObjectTypeHolderEntity> objectTypeHolderEntities = new ArrayList<ObjectTypeHolderEntity>();
-        objectTypeHolderEntities.addAll(resultList);
-
-        dbBackend.closeEntityManager();
-
-        final IntegerList ids = new IntegerList();
-        final LongList objectTypes = new LongList();
-
-        // From the list of entities to separate lists of ids and objectTypeIds
-        for (int i = 0; i < objectTypeHolderEntities.size(); i++) {
-            ids.add(objectTypeHolderEntities.get(i).getId());
-            objectTypes.add(objectTypeHolderEntities.get(i).getObjectType());
+        try {
+            dbBackend.getAvailability().acquire();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(FastObjectType.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         int max = 0;
+        try {
+            Connection c = dbBackend.getConnection();
+            Statement query = c.createStatement();
+            query.execute("CREATE TABLE IF NOT EXISTS " + TABLE_NAME +
+                " (id INTEGER NOT NULL, value BIGINT, PRIMARY KEY (id))");
+            insertStmt = c.prepareStatement(QUERY_INSERT);
+            ResultSet rs = query.executeQuery(QUERY_SELECT);
 
-        // Populate the variables on this class
-        for (int i = 0; i < ids.size(); i++) {
-            this.fastID.put(objectTypes.get(i), ids.get(i));
-            this.fastIDreverse.put(ids.get(i), objectTypes.get(i));
+            while (rs.next()) {
+                Integer id = rs.getInt(1);
+                Long objType = TransactionsProcessor.convert2Long(rs.getObject(2));
+                this.fastID.put(objType, id);
+                this.fastIDreverse.put(id, objType);
 
-            if (ids.get(i) > max) { // Get the maximum value
-                max = ids.get(i);
+                max = (id > max) ? id : max;
             }
+        } catch (SQLException ex) {
+            Logger.getLogger(FastObjectType.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         uniqueId = new AtomicInteger(max);
-    }
-
-    public synchronized boolean exists(final Long objectType) {
-        return (this.fastID.get(objectType) != null);
-    }
-
-    public synchronized boolean exists(final Integer id) {
-        return (this.fastIDreverse.get(id) != null);
-    }
-
-    private Integer addNew(final Long objectType) {
-        final int id = uniqueId.incrementAndGet();
-        dbBackend.createEntityManager();
-
-        // Create Entity
-        ObjectTypeHolderEntity objectTypeEntity = new ObjectTypeHolderEntity(id, objectType);
-
-        // Add it to the table
-        dbBackend.getEM().getTransaction().begin();
-        dbBackend.getEM().persist(objectTypeEntity);
-        dbBackend.getEM().getTransaction().commit();
-        dbBackend.closeEntityManager();
-
-        this.fastID.put(objectType, id);
-        this.fastIDreverse.put(id, objectType);
-
-        return id;
+        dbBackend.getAvailability().release();
     }
 
     public synchronized Integer getObjectTypeId(final ObjectType objectType) {
         final Long longObjType = HelperCOM.generateSubKey(objectType);
         final Integer id = this.fastID.get(longObjType);
-        return (id == null) ? this.addNew(longObjType) : id;
+        return (id == null) ? this.addNewEntry(longObjType) : id;
     }
 
     public synchronized IntegerList getObjectTypeIds(final ObjectType objectType) {
@@ -158,9 +110,9 @@ public class FastObjectType {
         } else {
             final Long longObjType = HelperCOM.generateSubKey(objectType);
             final Integer id = this.fastID.get(longObjType);
-            ids.add((id == null) ? this.addNew(longObjType) : id);
+            ids.add((id == null) ? this.addNewEntry(longObjType) : id);
         }
-        
+
         return ids;
     }
 
@@ -173,17 +125,14 @@ public class FastObjectType {
 
         return HelperCOM.objectTypeId2objectType(objectType);
     }
-    
+
     private static Long objectType2Mask(final ObjectType objType) {
         long areaVal = (objType.getArea().getValue() == 0) ? (long) 0 : (long) 0xFFFF;
         long serviceVal = (objType.getService().getValue() == 0) ? (long) 0 : (long) 0xFFFF;
         long versionVal = (objType.getVersion().getValue() == 0) ? (long) 0 : (long) 0xFF;
         long numberVal = (objType.getNumber().getValue() == 0) ? (long) 0 : (long) 0xFFFF;
 
-        return (areaVal << 48
-                | serviceVal << 32
-                | versionVal << 24
-                | numberVal);
-    }    
+        return (areaVal << 48 | serviceVal << 32 | versionVal << 24 | numberVal);
+    }
 
 }

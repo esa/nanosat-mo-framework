@@ -6,8 +6,10 @@
         <prefixlines prefix="@REM "/>
       </filterchain>
     </loadfile>
-    <property name="fulloutput" value="${outputDir}/${binDir}"/>
+    <!-- Default set of values that can be overriden by the invoking ANT script -->
     <property name="binbaserelpath" basedir="${fulloutput}" value="${outputDir}" relative="true"/>
+    <property name="nmf_home" value="%cd%\..\nmf"/>
+    <property name="fulloutput" value="${outputDir}/${binDir}"/>
     <copy file="antpkg/windowsBinTemplate" tofile="newShellScript"/>
     <replace file="newShellScript" token="#LICENSE_HEADER#" value="${license}"/>
     <replace file="newShellScript" token="#BIN_BASE_RELATIVE_PATH#" value="${binbaserelpath}"/>
@@ -22,6 +24,7 @@
     <replace file="newShellScript" token="#MAINCLASS#" value="${mainClass}"/>
     <replace file="newShellScript" token="#APP_ARGUMENTS#" value=""/>
     <replace file="newShellScript" token="#UNIX_BACKGROUND#" value=""/>
+    <replace file="newShellScript" token="#PLATFORM#" value="${platform}"/>
     <replace file="newShellScript" token="/" value="\"/>
     <move file="newShellScript" toFile="${id}.bat"/>
     <mkdir dir="${fulloutput}"/>

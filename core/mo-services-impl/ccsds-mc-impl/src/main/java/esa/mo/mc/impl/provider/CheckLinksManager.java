@@ -1,6 +1,6 @@
 /* 
  * M&C Services for CCSDS Mission Operations Framework
- * Copyright (C) 2016 Deutsches Zentrum fuer Luft- und Raumfahrt e.V. (DLR).
+ * Copyright (C) 2021 Deutsches Zentrum fuer Luft- und Raumfahrt e.V. (DLR).
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -23,6 +23,8 @@ import esa.mo.com.impl.util.COMServicesProvider;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.ccsds.moims.mo.com.structures.ObjectDetails;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mc.check.structures.CheckLinkDetails;
@@ -36,7 +38,7 @@ import org.ccsds.moims.mo.mc.check.structures.CheckLinkDetails;
  */
 class CheckLinksManager extends MCManager {
 
-//    private final HashMap<Long, Long> checkIdentityDefIds; //contains the CheckIdentity-Id and the CheckDefinition-Id
+    //    private final HashMap<Long, Long> checkIdentityDefIds; //contains the CheckIdentity-Id and the CheckDefinition-Id
     private final HashMap<Long, Long> checkLinkIds; //contains the checkLinkId and the CheckLinkDefinitionId
     private final HashMap<Long, ObjectDetails> checkLinkLinks; //contains the checkLinkId and the ObjectDetails
     private final HashMap<Long, CheckLinkDetails> checkLinkDetails; //contains the checkLinkDefinitionId and the CheckLinkDetails
@@ -44,26 +46,24 @@ class CheckLinksManager extends MCManager {
     //CheckLinkDefinitionId <-> CheckLinkDetails (CheckLinkDefinition) => checkLinkDetails
     public CheckLinksManager(COMServicesProvider comServices) {
         super(comServices);
-//        this.checkIdentityDefIds = new HashMap<Long, Long>();
-        this.checkLinkDetails = new HashMap<Long, CheckLinkDetails>();
-        this.checkLinkIds = new HashMap<Long, Long>();
+        //        this.checkIdentityDefIds = new HashMap<Long, Long>();
+        this.checkLinkDetails = new HashMap<>();
+        this.checkLinkIds = new HashMap<>();
         this.checkLinkLinks = new HashMap<Long, ObjectDetails>();
     }
 
-//    /**
-//     * gets all the checkDefinitions (not actual definition) related to all
-//     * existing identity ids
-//     *
-//     * @return
-//     */
-//    public LongList getAllCheckDefinitionIds() {
-//        return (LongList) checkIdentityDefIds.values();
-//    }
+    //    /**
+    //     * gets all the checkDefinitions (not actual definition) related to all
+    //     * existing identity ids
+    //     *
+    //     * @return
+    //     */
+    //    public LongList getAllCheckDefinitionIds() {
+    //        return (LongList) checkIdentityDefIds.values();
+    //    }
     public LongList listAllCheckLinkIds() {
         LongList checkLinkIdList = new LongList();
-        for (Long key : checkLinkIds.keySet()) {
-            checkLinkIdList.add(key);
-        }
+        checkLinkIdList.addAll(checkLinkIds.keySet());
         return checkLinkIdList;
     }
 
@@ -75,28 +75,28 @@ class CheckLinksManager extends MCManager {
         return (ArrayList<CheckLinkDetails>) checkLinkDetails.values();
     }
 
-//    /**
-//     * gets the checkDefinition (not actual definition) related to the given
-//     * identity id
-//     *
-//     * @param identityId id of the identity
-//     * @return id of the checkDefiniton realted to the given id
-//     */
-//    public Long getCheckDefinitionId(Long identityId) {
-//        return checkIdentityDefIds.get(identityId);
-//    }
-//    /**
-//     * gets the CheckIdentity of a given CheckDefinition (not actual definition)
-//     * @param definitionId the id of the CheckDefinition (not actual definition)
-//     * @return the id of the CheckIdentity or NULL if not found
-//     */
-//    public Long getCheckIdentityId(Long definitionId){
-//        for (Long identityId : checkIdentityDefIds.keySet()) {
-//            if (checkIdentityDefIds.get(identityId).equals(definitionId))
-//                return identityId;
-//        }
-//        return null;
-//    }
+    //    /**
+    //     * gets the checkDefinition (not actual definition) related to the given
+    //     * identity id
+    //     *
+    //     * @param identityId id of the identity
+    //     * @return id of the checkDefiniton realted to the given id
+    //     */
+    //    public Long getCheckDefinitionId(Long identityId) {
+    //        return checkIdentityDefIds.get(identityId);
+    //    }
+    //    /**
+    //     * gets the CheckIdentity of a given CheckDefinition (not actual definition)
+    //     * @param definitionId the id of the CheckDefinition (not actual definition)
+    //     * @return the id of the CheckIdentity or NULL if not found
+    //     */
+    //    public Long getCheckIdentityId(Long definitionId){
+    //        for (Long identityId : checkIdentityDefIds.keySet()) {
+    //            if (checkIdentityDefIds.get(identityId).equals(definitionId))
+    //                return identityId;
+    //        }
+    //        return null;
+    //    }
     public Long getCheckLinkDefId(Long checkLinkId) {
         return this.checkLinkIds.get(checkLinkId);
     }
@@ -113,12 +113,12 @@ class CheckLinksManager extends MCManager {
     }
 
     public Long getCheckLinkId(Long checkLinkDefId) {
-        for (Long key : checkLinkIds.keySet()) {
-            if(checkLinkIds.get(key) == null && checkLinkDefId == null){
-                return key;
+        for (Map.Entry<Long, Long> entry : checkLinkIds.entrySet()) {
+            if (entry.getValue() == null && checkLinkDefId == null) {
+                return entry.getKey();
             }
-            if (checkLinkIds.get(key) != null && checkLinkDefId != null  && checkLinkIds.get(key).equals(checkLinkDefId)) {
-                return key;
+            if (entry.getValue() != null && entry.getValue().equals(checkLinkDefId)) {
+                return entry.getKey();
             }
         }
         return null;
@@ -132,18 +132,19 @@ class CheckLinksManager extends MCManager {
         return this.checkLinkDetails.get(checkLinkDefId);
     }
 
-//    /**
-//     * sets the given definitionId (not actual Definition Id) to the existing
-//     * identityId in the internal list
-//     *
-//     * @param identityId
-//     * @param defId id of the definition (not actual Definition) to be added to
-//     * the identity
-//     */
-//    protected void updateCheckIdentityDefPair(Long identityId, Long defId) {
-//        this.checkIdentityDefIds.put(identityId, defId);
-//    }
-    protected void addCheckLink(Long checkLinkId, ObjectDetails objDetails, Long checkLinkDefId, CheckLinkDetails checkLinkDetails) {
+    //    /**
+    //     * sets the given definitionId (not actual Definition Id) to the existing
+    //     * identityId in the internal list
+    //     *
+    //     * @param identityId
+    //     * @param defId id of the definition (not actual Definition) to be added to
+    //     * the identity
+    //     */
+    //    protected void updateCheckIdentityDefPair(Long identityId, Long defId) {
+    //        this.checkIdentityDefIds.put(identityId, defId);
+    //    }
+    protected void addCheckLink(Long checkLinkId, ObjectDetails objDetails, Long checkLinkDefId,
+        CheckLinkDetails checkLinkDetails) {
         this.checkLinkIds.put(checkLinkId, checkLinkDefId);
         this.checkLinkLinks.put(checkLinkId, objDetails);
         this.checkLinkDetails.put(checkLinkDefId, checkLinkDetails);
@@ -195,15 +196,15 @@ class CheckLinksManager extends MCManager {
         this.checkLinkIds.put(checkLinkId, checkLinkDefId);
     }
 
-//    /**
-//     * deletes the given identity id and its definition id (not actual
-//     * Definition Id) from the internal list
-//     *
-//     * @param identityId the identity if the check to be deleted
-//     */
-//    protected void deleteCheckIdentity(Long identityId) {
-//        this.checkIdentityDefIds.remove(identityId);
-//    }
+    //    /**
+    //     * deletes the given identity id and its definition id (not actual
+    //     * Definition Id) from the internal list
+    //     *
+    //     * @param identityId the identity if the check to be deleted
+    //     */
+    //    protected void deleteCheckIdentity(Long identityId) {
+    //        this.checkIdentityDefIds.remove(identityId);
+    //    }
     /**
      * deletes the ObjectDetails of the checkLink with the given id from the
      * internal list, as well as the CheckLinkDefinitionDetails and the
@@ -218,14 +219,14 @@ class CheckLinksManager extends MCManager {
         this.checkLinkIds.remove(checkLinkId);
     }
 
-//    /**
-//     * deletes all the identity ids and its definition id (not actual
-//     * Definition Id) from the internal list
-//     *
-//     */
-//    protected void deleteAllCheckIdentities() {
-//        this.checkIdentityDefIds.clear();
-//    }
+    //    /**
+    //     * deletes all the identity ids and its definition id (not actual
+    //     * Definition Id) from the internal list
+    //     *
+    //     */
+    //    protected void deleteAllCheckIdentities() {
+    //        this.checkIdentityDefIds.clear();
+    //    }
     /**
      * deletes all the ObjectDetails from the internal list
      */

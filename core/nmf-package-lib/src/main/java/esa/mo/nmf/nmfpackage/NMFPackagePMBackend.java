@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft â€“ v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -21,44 +21,55 @@
 package esa.mo.nmf.nmfpackage;
 
 import esa.mo.helpertools.misc.Const;
-import java.io.File;
+import esa.mo.nmf.nmfpackage.metadata.Metadata;
+import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl;
 import esa.mo.sm.impl.util.PMBackend;
+import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.zip.ZipFile;
 import org.ccsds.moims.mo.mal.structures.StringList;
 
 /**
+ * The Package Management backend to handle the NMF Packages.
  *
  * @author Cesar Coelho
  */
 public class NMFPackagePMBackend implements PMBackend {
 
-    private static final String FOLDER_LOCATION_PROPERTY = "esa.mo.nmf.package.FolderLocation";
-    private static final String PACKAGES_FOLDER = "packages";  // dir name
-    private File folderWithPackages = new File(PACKAGES_FOLDER);  // Location of the folder
+    private final File packagesFolder;  // Location of the packages folder
+    private final NMFPackageManager manager;
 
-    public NMFPackagePMBackend() {
-        // If there is a property for that, then use it!! 
-        if (System.getProperty(FOLDER_LOCATION_PROPERTY) != null) {
-            folderWithPackages = new File(System.getProperty(FOLDER_LOCATION_PROPERTY));
-        }
+    /**
+     * Initializes a backend for NMF Packages. The backend will look for
+     * packages in the folder passed as argument.
+     *
+     * @param folder The folder to look for packages
+     */
+    public NMFPackagePMBackend(String folder, AppsLauncherProviderServiceImpl appsLauncherService) {
+        this.packagesFolder = new File(folder);
+        this.manager = new NMFPackageManager(appsLauncherService);
+    }
+
+    public NMFPackagePMBackend(String folder) {
+        this(folder, null);
     }
 
     @Override
     public StringList getListOfPackages() throws IOException {
         // Go to the folder that contains the Packages and return the list of files!
 
-        if (!folderWithPackages.exists()) { // The folder does not exist
+        if (!packagesFolder.exists()) { // The folder does not exist
             // Then create a new folder with a default name
             Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.INFO,
                     "The packages folder does not exist. It will be created in path: {0}",
-                    folderWithPackages.getCanonicalPath());
+                    packagesFolder.getCanonicalPath());
 
-            folderWithPackages.mkdir();
+            packagesFolder.mkdir();
         }
 
-        File[] files = folderWithPackages.listFiles();
+        File[] files = packagesFolder.listFiles();
 
         StringList packageNames = new StringList(files.length);
 
@@ -78,64 +89,84 @@ public class NMFPackagePMBackend implements PMBackend {
 
     @Override
     public void install(final String packageName) {
-        String folderLocation = this.getFolderLocation(packageName);
+        String packageLocation = this.getFolderLocation(packageName);
+        File destination = Deployment.getNMFRootDir();
+
         Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.INFO,
-                "Installing the package from: {0}", folderLocation);
+                "Installing the package...\nPackage name: " + packageName
+                + "\nPackage location: " + packageLocation);
 
         try {
-            NMFPackageManager.install(folderLocation);
+            manager.install(packageLocation, destination);
         } catch (IOException ex) {
-            Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.SEVERE,
+                    "The package '" + packageName + "' could not be installed!", ex);
         }
     }
 
     @Override
-    public void uninstall(final String packageName, final boolean keepConfigurations) {
+    public void uninstall(final String packageName, final boolean keepUserData) {
         String folderLocation = this.getFolderLocation(packageName);
         Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.INFO,
                 "Uninstalling the package from: {0}", folderLocation);
 
         try {
-            NMFPackageManager.uninstall(folderLocation, keepConfigurations);
+            // Get the Package and descriptor to be uninstalled
+            ZipFile zipFile = new ZipFile(folderLocation);
+
+            // Verify integrity of the file: Are all the declared files matching their CRCs?
+            Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.INFO,
+                    "Reading the metadata file that includes the list of files to be uninstalled...");
+
+            Metadata metadata = Metadata.parseZipFile(zipFile);
+            manager.uninstall(metadata, keepUserData);
         } catch (IOException ex) {
-            Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.SEVERE,
+                    "The package '" + packageName + "' could not be uninstalled!", ex);
         }
     }
 
     @Override
     public void upgrade(final String packageName) {
-        String folderLocation = this.getFolderLocation(packageName);
+        String packageLocation = this.getFolderLocation(packageName);
         Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.INFO,
-                "Upgrading the package from: {0}", folderLocation);
-        
+                "Upgrading the package from: {0}", packageLocation);
+
+        // Define the location to be installed!
+        File destination = Deployment.getNMFRootDir();
+
         try {
-            NMFPackageManager.upgrade(folderLocation);
+            manager.upgrade(packageLocation, destination);
         } catch (IOException ex) {
-            Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(NMFPackagePMBackend.class.getName()).log(
+                    Level.SEVERE, "The package could not be upgraded!", ex);
         }
     }
-    
+
     @Override
-    public String getPublicKey(final String packageName){
+    public String getPublicKey(final String packageName) {
         String folderLocation = this.getFolderLocation(packageName);
         return NMFPackageManager.getPublicKey(folderLocation);
     }
-    
+
     @Override
     public boolean isPackageInstalled(final String packageName) {
         String folderLocation = this.getFolderLocation(packageName);
-        return NMFPackageManager.isPackageInstalled(folderLocation);
+        return manager.isPackageInstalled(folderLocation);
     }
 
     @Override
     public boolean checkPackageIntegrity(final String packageName) throws UnsupportedOperationException {
-
         // To do: Check the package integrity!
         return true;
     }
 
     private String getFolderLocation(final String packageName) {
-        return folderWithPackages.getAbsolutePath() + File.separator + packageName;
+        return packagesFolder.getAbsolutePath() + File.separator + packageName;
+    }
+
+    public void setAppsLauncher(AppsLauncherProviderServiceImpl appsLauncherService) {
+        manager.setAppsLauncher(appsLauncherService);
     }
 
 }

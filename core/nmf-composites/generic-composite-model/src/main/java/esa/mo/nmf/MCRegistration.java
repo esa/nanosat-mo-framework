@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -78,7 +78,8 @@ public class MCRegistration {
      */
     public enum RegistrationMode {
         UPDATE_IF_EXISTS, DONT_UPDATE_IF_EXISTS
-    };
+    }
+
     private RegistrationMode mode = RegistrationMode.DONT_UPDATE_IF_EXISTS; // default mode
 
     public final COMServicesProvider comServices;
@@ -87,13 +88,9 @@ public class MCRegistration {
     public final AlertProviderServiceImpl alertService;
     public final ActionProviderServiceImpl actionService;
 
-    public MCRegistration(
-            COMServicesProvider comServices,
-            ParameterProviderServiceImpl parameterService,
-            AggregationProviderServiceImpl aggregationService,
-            AlertProviderServiceImpl alertService,
-            ActionProviderServiceImpl actionService
-    ) {
+    public MCRegistration(COMServicesProvider comServices, ParameterProviderServiceImpl parameterService,
+        AggregationProviderServiceImpl aggregationService, AlertProviderServiceImpl alertService,
+        ActionProviderServiceImpl actionService) {
         this.comServices = comServices;
         this.parameterService = parameterService;
         this.aggregationService = aggregationService;
@@ -141,7 +138,7 @@ public class MCRegistration {
                 //-------------New Definitions-------------
                 ParameterCreationRequestList newDefs = new ParameterCreationRequestList();
 
-                for (int i = 0; i < extraInfo.size(); i++) { // Which ones already exist?
+                for (int i = 0; i < extraInfo.size(); i++) { // Which ones are new?
                     int index = (short) extraInfo.get(i).getValue();
                     newDefs.add(new ParameterCreationRequest(names.get(index), definitions.get(index)));
                 }
@@ -178,9 +175,7 @@ public class MCRegistration {
             }
 
             return outs;
-        } catch (MALException ex1) {
-            Logger.getLogger(MCRegistration.class.getName()).log(Level.SEVERE, null, ex1);
-        } catch (MALInteractionException ex1) {
+        } catch (MALException | MALInteractionException ex1) {
             Logger.getLogger(MCRegistration.class.getName()).log(Level.SEVERE, null, ex1);
         }
 
@@ -197,7 +192,8 @@ public class MCRegistration {
      * @return The aggregation object instance identifiers of the
      * AggregationIdentity objects.
      */
-    public LongList registerAggregations(final IdentifierList names, final AggregationDefinitionDetailsList definitions) {
+    public LongList registerAggregations(final IdentifierList names,
+        final AggregationDefinitionDetailsList definitions) {
         // Some validation
         if (names == null || definitions == null) {
             return null;
@@ -260,9 +256,7 @@ public class MCRegistration {
             }
 
             return outs;
-        } catch (MALException ex1) {
-            Logger.getLogger(MCRegistration.class.getName()).log(Level.SEVERE, null, ex1);
-        } catch (MALInteractionException ex1) {
+        } catch (MALException | MALInteractionException ex1) {
             Logger.getLogger(MCRegistration.class.getName()).log(Level.SEVERE, null, ex1);
         }
 
@@ -342,9 +336,7 @@ public class MCRegistration {
             }
 
             return outs;
-        } catch (MALException ex1) {
-            Logger.getLogger(MCRegistration.class.getName()).log(Level.SEVERE, null, ex1);
-        } catch (MALInteractionException ex1) {
+        } catch (MALException | MALInteractionException ex1) {
             Logger.getLogger(MCRegistration.class.getName()).log(Level.SEVERE, null, ex1);
         }
 
@@ -424,9 +416,7 @@ public class MCRegistration {
             }
 
             return outs;
-        } catch (MALException ex1) {
-            Logger.getLogger(MCRegistration.class.getName()).log(Level.SEVERE, null, ex1);
-        } catch (MALInteractionException ex1) {
+        } catch (MALException | MALInteractionException ex1) {
             Logger.getLogger(MCRegistration.class.getName()).log(Level.SEVERE, null, ex1);
         }
 
@@ -443,7 +433,8 @@ public class MCRegistration {
      * @throws org.ccsds.moims.mo.mal.MALInteractionException if there is a
      * problem while storing the registrations in the COM Archive.
      */
-    public ObjectIdList registerConversions(ElementList conversions) throws NMFException, MALException, MALInteractionException {
+    public ObjectIdList registerConversions(ElementList conversions) throws NMFException, MALException,
+        MALInteractionException {
         if (conversions == null) {
             throw new NMFException("The conversions object cannot be null!");
         }
@@ -479,10 +470,11 @@ public class MCRegistration {
      * @param objType The Object Type of the conversions
      * @return The list of ObjIds of the Identity objects of the conversions.
      */
-    private ObjectIdList registerConversionsGen(final ElementList conversions,
-            final ObjectType objType) throws MALException, MALInteractionException {
+    private ObjectIdList registerConversionsGen(final ElementList conversions, final ObjectType objType)
+        throws MALException, MALInteractionException {
         final IdentifierList domain = ConfigurationProviderSingleton.getDomain();
-        final ArchiveDetailsList archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, PROVIDER_URI);
+        final ArchiveDetailsList archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null,
+            PROVIDER_URI);
         final IdentifierList names = new IdentifierList();
 
         Random rand = new Random();
@@ -495,25 +487,14 @@ public class MCRegistration {
             archiveDetailsList.add(archiveDetailsList.get(0));
         }
 
-        final LongList conversionIdentityObjIds = comServices.getArchiveService().store(
-                true,
-                ConversionHelper.CONVERSIONIDENTITY_OBJECT_TYPE,
-                domain,
-                archiveDetailsList,
-                names,
-                null);
+        final LongList conversionIdentityObjIds = comServices.getArchiveService().store(true,
+            ConversionHelper.CONVERSIONIDENTITY_OBJECT_TYPE, domain, archiveDetailsList, names, null);
 
         for (int i = 0; i < archiveDetailsList.size(); i++) {
             archiveDetailsList.get(i).setDetails(new ObjectDetails(conversionIdentityObjIds.get(i), null));
         }
 
-        comServices.getArchiveService().store(
-                false,
-                objType,
-                domain,
-                archiveDetailsList,
-                conversions,
-                null);
+        comServices.getArchiveService().store(false, objType, domain, archiveDetailsList, conversions, null);
 
         ObjectIdList output = new ObjectIdList();
 

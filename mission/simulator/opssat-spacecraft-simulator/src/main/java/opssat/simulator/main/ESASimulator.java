@@ -1,13 +1,13 @@
 /*
  *  ----------------------------------------------------------------------------
- *  Copyright (C) 2016      European Space Agency
+ *  Copyright (C) 2021      European Space Agency
  *                          European Space Operations Centre
  *                          Darmstadt
  *                          Germany
  *  ----------------------------------------------------------------------------
  *  System                : ESA NanoSat MO Framework
  *  ----------------------------------------------------------------------------
- *  Licensed under the European Space Agency Public License, Version 2.0
+ *  Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  *  You may not use this file except in compliance with the License.
  * 
  *  Except as expressly set forth in this License, the Software is provided to
@@ -45,114 +45,114 @@ import opssat.simulator.util.LoggerFormatter1Line;
  */
 public class ESASimulator extends GenericSimulator {
 
-  private SimulatorNode simulatorNode;
-  private CentralNode centralNode;
+    private SimulatorNode simulatorNode;
+    private CentralNode centralNode;
 
-  Level simulatorLoggingLevel = Level.INFO;
-  Level centralLoggingLevel = Level.INFO;
-  Level consoleLoggingLevel = Level.INFO;
+    Level simulatorLoggingLevel = Level.INFO;
+    Level centralLoggingLevel = Level.INFO;
+    Level consoleLoggingLevel = Level.INFO;
 
-  private Level getLevelFromString(String[] split, String test) {
-    if (split[0].equals(test)) {
-      Level logLevel = null;
-      if ((logLevel = Level.parse(split[1])) != null) {
+    private Level getLevelFromString(String[] split, String test) {
+        if (split[0].equals(test)) {
+            Level logLevel = null;
+            if ((logLevel = Level.parse(split[1])) != null) {
 
-        return logLevel;
-      }
-    }
-    return null;
-
-  }
-
-  private void initProperties() {
-    final String fileName = "_OPS-SAT-SIMULATOR-header.txt";
-    File propertiesFile = new File(System.getProperty("user.dir"), fileName);
-    if (propertiesFile.exists()) {
-      // System.out.println(LoggerFormatter1Line.SIMULATOR_PRE_LOG + "PRE_INIT: Header
-      // file was found");
-      BufferedReader in = null;
-      try {
-        in = new BufferedReader(new FileReader(fileName));
-        String line;
-        try {
-          while ((line = in.readLine()) != null) {
-
-            if (line.startsWith("#")) {
-              ;// comment line
-            } else {
-              String split[] = line.split("=");
-              if (split.length == 2) {
-                Level temp = null;
-                temp = getLevelFromString(split, "simulatorLogLevel");
-                if (temp != null) {
-                  this.simulatorLoggingLevel = temp;
-                }
-                temp = getLevelFromString(split, "centralLogLevel");
-                if (temp != null) {
-                  this.centralLoggingLevel = temp;
-                }
-                temp = getLevelFromString(split, "consoleLogLevel");
-                if (temp != null) {
-                  this.consoleLoggingLevel = temp;
-                }
-              }
+                return logLevel;
             }
-          }
-          in.close();
-        } catch (IOException ex) {
-          Logger.getLogger(ESASimulator.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+
+    }
+
+    private void initProperties() {
+        final String fileName = "_OPS-SAT-SIMULATOR-header.txt";
+        File propertiesFile = new File(System.getProperty("user.dir"), fileName);
+        if (propertiesFile.exists()) {
+            // System.out.println(LoggerFormatter1Line.SIMULATOR_PRE_LOG + "PRE_INIT: Header
+            // file was found");
+            BufferedReader in = null;
+            try {
+                in = new BufferedReader(new FileReader(fileName));
+                String line;
+                try {
+                    while ((line = in.readLine()) != null) {
+
+                        if (line.startsWith("#")) {
+                            // comment line
+                        } else {
+                            String[] split = line.split("=");
+                            if (split.length == 2) {
+                                Level temp = null;
+                                temp = getLevelFromString(split, "simulatorLogLevel");
+                                if (temp != null) {
+                                    this.simulatorLoggingLevel = temp;
+                                }
+                                temp = getLevelFromString(split, "centralLogLevel");
+                                if (temp != null) {
+                                    this.centralLoggingLevel = temp;
+                                }
+                                temp = getLevelFromString(split, "consoleLogLevel");
+                                if (temp != null) {
+                                    this.consoleLoggingLevel = temp;
+                                }
+                            }
+                        }
+                    }
+                    in.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(ESASimulator.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(ESASimulator.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            System.out.println(LoggerFormatter1Line.SIMULATOR_PRE_LOG +
+                "PRE_INIT: Header was not found, a default header will be created.");
         }
 
-      } catch (FileNotFoundException ex) {
-        Logger.getLogger(ESASimulator.class.getName()).log(Level.SEVERE, null, ex);
-      }
-    } else {
-      System.out.println(LoggerFormatter1Line.SIMULATOR_PRE_LOG
-          + "PRE_INIT: Header was not found, a default header will be created.");
     }
 
-  }
+    private void initDevices() {
+        simulatorNode.getLogObject().fine("Initializing devices..");
+        super.setpGPS(new PGPS(this.simulatorNode, "GPS"));
+        super.setpFineADCS(new PFineADCS(this.simulatorNode, "FineADCS"));
+        super.setpCamera(new PCamera(this.simulatorNode, "Camera"));
+        super.setpOpticalReceiver(new POpticalReceiver(this.simulatorNode, "OpticalReceiver"));
+        super.setpSDR(new PSDR(this.simulatorNode, "SDR"));
+    }
 
-  private void initDevices() {
-    simulatorNode.getLogObject().fine("Initializing devices..");
-    super.setpGPS(new PGPS(this.simulatorNode, "GPS"));
-    super.setpFineADCS(new PFineADCS(this.simulatorNode, "FineADCS"));
-    super.setpCamera(new PCamera(this.simulatorNode, "Camera"));
-    super.setpOpticalReceiver(new POpticalReceiver(this.simulatorNode, "OpticalReceiver"));
-    super.setpSDR(new PSDR(this.simulatorNode, "SDR"));
-  }
+    // Entry stub for lightweight component
+    public ESASimulator() {
+        initProperties();
+        ConcurrentLinkedQueue<Object> qSimToGUI = new ConcurrentLinkedQueue<>();
+        ConcurrentLinkedQueue<Object> qGUIToSim = new ConcurrentLinkedQueue<>();
+        simulatorNode = new SimulatorNode(qGUIToSim, qSimToGUI, "Sim", 10, this.simulatorLoggingLevel,
+            this.consoleLoggingLevel);
+        initDevices();
 
-  // Entry stub for lightweight component
-  public ESASimulator() {
-    initProperties();
-    ConcurrentLinkedQueue<Object> qSimToGUI = new ConcurrentLinkedQueue<Object>();
-    ConcurrentLinkedQueue<Object> qGUIToSim = new ConcurrentLinkedQueue<Object>();
-    simulatorNode = new SimulatorNode(qGUIToSim, qSimToGUI, "Sim", 10, this.simulatorLoggingLevel,
-        this.consoleLoggingLevel);
-    initDevices();
+    }
 
-  }
+    // Entry stub for simulator running with TCP listener
+    public ESASimulator(String listenURL) {
+        initProperties();
+        final CentralNode centralNode;
 
-  // Entry stub for simulator running with TCP listener
-  public ESASimulator(String listenURL) {
-    initProperties();
-    final CentralNode centralNode;
+        ConcurrentLinkedQueue<Object> qSimToCentral = new ConcurrentLinkedQueue<>();
+        ConcurrentLinkedQueue<Object> qCentralToSim = new ConcurrentLinkedQueue<>();
 
-    ConcurrentLinkedQueue<Object> qSimToCentral = new ConcurrentLinkedQueue<Object>();
-    ConcurrentLinkedQueue<Object> qCentralToSim = new ConcurrentLinkedQueue<Object>();
+        simulatorNode = new SimulatorNode(qCentralToSim, qSimToCentral, "Sim", 100, this.simulatorLoggingLevel,
+            this.consoleLoggingLevel);
+        centralNode = new CentralNode(qSimToCentral, qCentralToSim, listenURL, "Cen", 10, this.centralLoggingLevel,
+            this.consoleLoggingLevel, this);
+        this.centralNode = centralNode;
+        (new Thread(simulatorNode, "sim-" + simulatorNode.getClass().getSimpleName())).start();
+        (new Thread(centralNode, "sim-" + centralNode.getClass().getSimpleName())).start();
+        initDevices();
+    }
 
-    simulatorNode = new SimulatorNode(qCentralToSim, qSimToCentral, "Sim", 100,
-        this.simulatorLoggingLevel, this.consoleLoggingLevel);
-    centralNode = new CentralNode(qSimToCentral, qCentralToSim, listenURL, "Cen", 10,
-        this.centralLoggingLevel, this.consoleLoggingLevel, this);
-    this.centralNode = centralNode;
-    (new Thread(simulatorNode, "sim-" + simulatorNode.getClass().getSimpleName())).start();
-    (new Thread(centralNode, "sim-" + centralNode.getClass().getSimpleName())).start();
-    initDevices();
-  }
-
-  public SimulatorNode getSimulatorNode() {
-    return simulatorNode;
-  }
+    public SimulatorNode getSimulatorNode() {
+        return simulatorNode;
+    }
 
 }

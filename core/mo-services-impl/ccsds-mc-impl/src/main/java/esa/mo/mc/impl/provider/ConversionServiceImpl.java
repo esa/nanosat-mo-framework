@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -28,7 +28,6 @@ import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.archive.structures.ExpressionOperator;
-import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
@@ -85,10 +84,9 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
                 MCHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
-            try {
+            if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION).getServiceByName(
+                ConversionHelper.CONVERSION_SERVICE_NAME) == null) {
                 ConversionHelper.init(MALContextFactory.getElementFactoryRegistry());
-            } catch (MALException ex) {
-                // nothing to be done..
             }
         }
 
@@ -129,7 +127,8 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
             return true;  // No test is required
         }
         ParameterValue parameterValue = manager.getParameterValue(expression.getParameterId().getInstId());
-        Attribute param = expression.getUseConverted() ? parameterValue.getConvertedValue() : parameterValue.getRawValue();
+        Attribute param = expression.getUseConverted() ? parameterValue.getConvertedValue() : parameterValue
+            .getRawValue();
 
         return HelperCOM.evaluateExpression(param, expression.getOperator(), expression.getValue());
     }
@@ -144,7 +143,8 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
     }
     */
 
-    private Attribute applyConversion(final Attribute value, final ConditionalConversion conditionalRef) throws MALInteractionException {
+    private Attribute applyConversion(final Attribute value, final ConditionalConversion conditionalRef)
+        throws MALInteractionException {
         Boolean eval = this.evaluateParameterExpression(conditionalRef.getCondition());
 
         if (!eval) {  // Is the Parameter Expression Invalid?
@@ -152,7 +152,7 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
         }
 
         //requirement: 3.8.4.g id references a ConversionDetails-object (not an identity)
-//        Element conversionDetails = this.retrieveConversionDetailsFromArchive(conditionalRef.getConversionId());
+        //        Element conversionDetails = this.retrieveConversionDetailsFromArchive(conditionalRef.getConversionId());
         /**
          * get the conversionDetails by the identityId *
          */
@@ -244,14 +244,16 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
      * @return The DefinitionDetails-Object with the newest timestamp or null if
      * no object of the given objectType references the given identity.
      */
-    private Element getDefinitionDetailsFromIdentityIdFromArchive(ObjectType objType, final IdentifierList domain, Long identityId) {
+    private Element getDefinitionDetailsFromIdentityIdFromArchive(ObjectType objType, final IdentifierList domain,
+        Long identityId) {
         //retrieve all existing conversion-objects
         LongList defIds = new LongList();
         defIds.add(0L);
-        final ArchiveDetailsList defarchiveDetailsListFromArchive = HelperArchive.getArchiveDetailsListFromArchive(archiveService, objType, domain, defIds);
+        final ArchiveDetailsList defarchiveDetailsListFromArchive = HelperArchive.getArchiveDetailsListFromArchive(
+            archiveService, objType, domain, defIds);
         //look if there are conversionDetails, which reference the identity
         Long defId = null;
-        Long maxTimeStamp = 0L;
+        long maxTimeStamp = 0L;
         if (defarchiveDetailsListFromArchive == null)
             return null;
         //iterate through all entries to check for the given identity as the source object
@@ -273,7 +275,8 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
         return null;
     }
 
-    private Attribute applyDiscreteConversion(final DiscreteConversionDetails conversionDetails, final Attribute value) {
+    private Attribute applyDiscreteConversion(final DiscreteConversionDetails conversionDetails,
+        final Attribute value) {
         //requirement: 3.8.3.c => no entry in the points-list returns null
         for (Pair mapping : conversionDetails.getMapping()) {
             if (mapping.getFirst().equals(value)) {
@@ -350,7 +353,8 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
 
         double convertedValue = 0;
         for (Pair point : points) {
-            double midStep = Math.pow(HelperAttributes.attribute2double(value), ((Union) point.getFirst()).getIntegerValue());
+            double midStep = Math.pow(HelperAttributes.attribute2double(value), ((Union) point.getFirst())
+                .getIntegerValue());
             convertedValue += HelperAttributes.attribute2double(point.getSecond()) * midStep;
         }
 

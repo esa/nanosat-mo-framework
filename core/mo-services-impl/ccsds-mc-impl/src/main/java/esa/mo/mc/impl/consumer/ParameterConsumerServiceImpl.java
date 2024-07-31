@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -32,6 +32,7 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.consumer.MALConsumer;
+import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mc.MCHelper;
@@ -65,7 +66,14 @@ public class ParameterConsumerServiceImpl extends ConsumerServiceImpl {
         return new ParameterStub(tmConsumer);
     }
 
-    public ParameterConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
+    public ParameterConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices)
+        throws MALException, MalformedURLException, MALInteractionException {
+        this(connectionDetails, comServices, null, null);
+    }
+
+    public ParameterConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices,
+        Blob authenticationId, String localNamePrefix) throws MALException, MalformedURLException,
+        MALInteractionException {
 
         if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
             MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -79,36 +87,33 @@ public class ParameterConsumerServiceImpl extends ConsumerServiceImpl {
             MCHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 
-        try {
+        if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION).getServiceByName(
+            ParameterHelper.PARAMETER_SERVICE_NAME) == null) {
             ParameterHelper.init(MALContextFactory.getElementFactoryRegistry());
-        } catch (MALException ex) {
-            // nothing to be done..
         }
-        
+
         this.connectionDetails = connectionDetails;
         this.comServices = comServices;
 
         // Close old connection
         if (tmConsumer != null) {
-                final Identifier subscriptionId = new Identifier("SUB");
-                final IdentifierList subLst = new IdentifierList();
-                subLst.add(subscriptionId);
-                if (parameterService != null) {
-                    parameterService.monitorValueDeregister(subLst);
-                }
+            final Identifier subscriptionId = new Identifier("SUB");
+            final IdentifierList subLst = new IdentifierList();
+            subLst.add(subscriptionId);
+            if (parameterService != null) {
+                parameterService.monitorValueDeregister(subLst);
+            }
 
-                try {
+            try {
                 tmConsumer.close();
             } catch (MALException ex) {
                 Logger.getLogger(ParameterConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
-        tmConsumer = connection.startService(
-                this.connectionDetails.getProviderURI(),
-                this.connectionDetails.getBrokerURI(),
-                this.connectionDetails.getDomain(),
-                ParameterHelper.PARAMETER_SERVICE);
+        tmConsumer = connection.startService(this.connectionDetails.getProviderURI(), this.connectionDetails
+            .getBrokerURI(), this.connectionDetails.getDomain(), ParameterHelper.PARAMETER_SERVICE, authenticationId,
+            localNamePrefix);
 
         this.parameterService = new ParameterStub(tmConsumer);
     }

@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2015      European Space Agency
+ * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -21,10 +21,8 @@
 package esa.mo.mc.impl.provider;
 
 import org.ccsds.moims.mo.com.structures.ObjectId;
-import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.Time;
-import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationValue;
 
 /**
@@ -38,14 +36,14 @@ public class AggregationInstance {
     private final ObjectId source;
     private final Time timestamp;
 
-    public AggregationInstance(final Identifier name, final AggregationValue pValue,
-            final ObjectId source, final Time timestamp) {
+    public AggregationInstance(final Identifier name, final AggregationValue pValue, final ObjectId source,
+        final Time timestamp) {
         this.name = name;
         this.aggregationValue = pValue;
         this.source = source;
         this.timestamp = timestamp;
     }
-    
+
     public Identifier getName() {
         return this.name;
     }
