@@ -73,37 +73,38 @@ public class HelperAttributes {
      * @return The convert Double value or null if in == null
      */
     public static Double attribute2double(Attribute in) {
+        Integer val = in.getTypeId().getSFP();
 
         if (in instanceof Union) {
-            if (in.getTypeShortForm().equals(Union.BOOLEAN_TYPE_SHORT_FORM)) { // 2
+            if (val.equals(Union.BOOLEAN_TYPE_SHORT_FORM)) { // 2
                 return (double) (((Union) in).getBooleanValue() ? 1 : 0);
             }
 
-            if (in.getTypeShortForm().equals(Union.FLOAT_TYPE_SHORT_FORM)) { // 4
+            if (val.equals(Union.FLOAT_TYPE_SHORT_FORM)) { // 4
                 return new Double(((Union) in).getFloatValue());
             }
 
-            if (in.getTypeShortForm().equals(Union.DOUBLE_TYPE_SHORT_FORM)) { // 5
+            if (val.equals(Union.DOUBLE_TYPE_SHORT_FORM)) { // 5
                 return ((Union) in).getDoubleValue();
             }
 
-            if (in.getTypeShortForm().equals(Union.OCTET_TYPE_SHORT_FORM)) { // 7
+            if (val.equals(Union.OCTET_TYPE_SHORT_FORM)) { // 7
                 return (double) (short) ((Union) in).getOctetValue();
             }
 
-            if (in.getTypeShortForm().equals(Union.SHORT_TYPE_SHORT_FORM)) { // 9
+            if (val.equals(Union.SHORT_TYPE_SHORT_FORM)) { // 9
                 return new Double(((Union) in).getShortValue());
             }
 
-            if (in.getTypeShortForm().equals(Union.INTEGER_TYPE_SHORT_FORM)) { // 11
+            if (val.equals(Union.INTEGER_TYPE_SHORT_FORM)) { // 11
                 return new Double(((Union) in).getIntegerValue());
             }
 
-            if (in.getTypeShortForm().equals(Union.LONG_TYPE_SHORT_FORM)) { // 13
+            if (val.equals(Union.LONG_TYPE_SHORT_FORM)) { // 13
                 return new Double(((Union) in).getLongValue());
             }
 
-            if (in.getTypeShortForm().equals(Union.STRING_TYPE_SHORT_FORM)) { // 15
+            if (val.equals(Union.STRING_TYPE_SHORT_FORM)) { // 15
                 double dou;
                 try {
                     dou = Double.parseDouble(((Union) in).getStringValue());
@@ -176,57 +177,58 @@ public class HelperAttributes {
         }
 
         if (in instanceof Union) {
+        Integer val = ((Union) in).getTypeId().getSFP();
 
-            if (((Union) in).getTypeShortForm().equals(Union.DOUBLE_TYPE_SHORT_FORM)) {
+            if (val.equals(Union.DOUBLE_TYPE_SHORT_FORM)) {
                 if (((Union) in).getDoubleValue() == null) {
                     return "";
                 }
                 return ((Union) in).getDoubleValue().toString();
             }
 
-            if (((Union) in).getTypeShortForm().equals(Union.BOOLEAN_TYPE_SHORT_FORM)) {
+            if (val.equals(Union.BOOLEAN_TYPE_SHORT_FORM)) {
                 if (((Union) in).getBooleanValue() == null) {
                     return "";
                 }
                 return ((Union) in).getBooleanValue() ? "true" : "false";
             }
 
-            if (((Union) in).getTypeShortForm().equals(Union.FLOAT_TYPE_SHORT_FORM)) {
+            if (val.equals(Union.FLOAT_TYPE_SHORT_FORM)) {
                 if (((Union) in).getFloatValue() == null) {
                     return "";
                 }
                 return (((Union) in).getFloatValue()).toString();
             }
 
-            if (((Union) in).getTypeShortForm().equals(Union.INTEGER_TYPE_SHORT_FORM)) {
+            if (val.equals(Union.INTEGER_TYPE_SHORT_FORM)) {
                 if (((Union) in).getIntegerValue() == null) {
                     return "";
                 }
                 return (((Union) in).getIntegerValue()).toString();
             }
 
-            if (((Union) in).getTypeShortForm().equals(Union.LONG_TYPE_SHORT_FORM)) {
+            if (val.equals(Union.LONG_TYPE_SHORT_FORM)) {
                 if (((Union) in).getLongValue() == null) {
                     return "";
                 }
                 return (((Union) in).getLongValue()).toString();
             }
 
-            if (((Union) in).getTypeShortForm().equals(Union.OCTET_TYPE_SHORT_FORM)) {
+            if (val.equals(Union.OCTET_TYPE_SHORT_FORM)) {
                 if (((Union) in).getOctetValue() == null) {
                     return "";
                 }
                 return (((Union) in).getOctetValue()).toString();
             }
 
-            if (((Union) in).getTypeShortForm().equals(Union.SHORT_TYPE_SHORT_FORM)) {
+            if (val.equals(Union.SHORT_TYPE_SHORT_FORM)) {
                 if (((Union) in).getShortValue() == null) {
                     return "";
                 }
                 return (((Union) in).getShortValue()).toString();
             }
 
-            if (((Union) in).getTypeShortForm().equals(Union.STRING_TYPE_SHORT_FORM)) {
+            if (val.equals(Union.STRING_TYPE_SHORT_FORM)) {
                 if (((Union) in).getStringValue() == null) {
                     return "";
                 }
@@ -252,10 +254,7 @@ public class HelperAttributes {
         }
 
         if (in instanceof Blob) {
-            try {
-                return Arrays.toString(((Blob) in).getValue());
-            } catch (MALException ex) {
-            }
+            return Arrays.toString(((Blob) in).getValue());
         }
 
         if (in instanceof ULong) {
@@ -403,35 +402,37 @@ public class HelperAttributes {
             return null;
         }
         if (in instanceof Union) {
-            if (((Union) in).getTypeShortForm().equals(Union.DOUBLE_TYPE_SHORT_FORM)) {
+            Integer val = ((Union) in).getTypeId().getSFP();
+
+            if (val.equals(Union.DOUBLE_TYPE_SHORT_FORM)) {
                 return new Union(Double.parseDouble(value));
             }
 
-            if (((Union) in).getTypeShortForm().equals(Union.BOOLEAN_TYPE_SHORT_FORM)) {
+            if (val.equals(Union.BOOLEAN_TYPE_SHORT_FORM)) {
                 return new Union(Boolean.parseBoolean(value));
             }
 
-            if (((Union) in).getTypeShortForm().equals(Union.FLOAT_TYPE_SHORT_FORM)) {
+            if (val.equals(Union.FLOAT_TYPE_SHORT_FORM)) {
                 return new Union(Float.parseFloat(value));
             }
 
-            if (((Union) in).getTypeShortForm().equals(Union.INTEGER_TYPE_SHORT_FORM)) {
+            if (val.equals(Union.INTEGER_TYPE_SHORT_FORM)) {
                 return new Union(Integer.parseInt(value));
             }
 
-            if (((Union) in).getTypeShortForm().equals(Union.LONG_TYPE_SHORT_FORM)) {
+            if (val.equals(Union.LONG_TYPE_SHORT_FORM)) {
                 return new Union(Long.parseLong(value));
             }
 
-            if (((Union) in).getTypeShortForm().equals(Union.OCTET_TYPE_SHORT_FORM)) {
+            if (val.equals(Union.OCTET_TYPE_SHORT_FORM)) {
                 return new Union(Byte.parseByte(value));
             }
 
-            if (((Union) in).getTypeShortForm().equals(Union.SHORT_TYPE_SHORT_FORM)) {
+            if (val.equals(Union.SHORT_TYPE_SHORT_FORM)) {
                 return new Union(Short.parseShort(value));
             }
 
-            if (((Union) in).getTypeShortForm().equals(Union.STRING_TYPE_SHORT_FORM)) {
+            if (val.equals(Union.STRING_TYPE_SHORT_FORM)) {
                 return new Union(value);
             }
 
@@ -536,7 +537,7 @@ public class HelperAttributes {
     public static Object attribute2JavaType(Object obj) {
 
         if (obj instanceof Union) {
-            Integer typeShortForm = ((Union) obj).getTypeShortForm();
+            Integer typeShortForm = ((Union) obj).getTypeId().getSFP();
 
             if (typeShortForm.intValue() == Attribute.BOOLEAN_TYPE_SHORT_FORM.intValue()) {
                 return ((Union) obj).getBooleanValue();
@@ -831,9 +832,6 @@ public class HelperAttributes {
                     // ignore close exception
                 }
             }
-        } catch (MALException ex) {
-            Logger.getLogger(HelperAttributes.class.getName()).log(Level.SEVERE, null, ex);
-            return obj; // the object could not be Deserialized, so, just deliver the Blob itself
         } finally {
             try {
                 bis.close();

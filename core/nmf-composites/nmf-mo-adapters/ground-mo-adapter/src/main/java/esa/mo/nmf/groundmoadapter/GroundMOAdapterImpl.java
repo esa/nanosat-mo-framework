@@ -20,9 +20,9 @@
  */
 package esa.mo.nmf.groundmoadapter;
 
-import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.nmf.commonmoadapter.CommonMOAdapterImpl;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.structures.Blob;
 
 /**

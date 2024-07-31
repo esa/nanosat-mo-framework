@@ -28,10 +28,7 @@ import java.util.List;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.structures.EntityKey;
-import org.ccsds.moims.mo.mal.structures.EntityKeyList;
-import org.ccsds.moims.mo.mal.structures.EntityRequest;
-import org.ccsds.moims.mo.mal.structures.EntityRequestList;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.Subscription;
@@ -47,7 +44,7 @@ import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
 /**
  * This class manages all monitorings for parameter-updates. The new
  * parameter-values are needed for the evaluation of the CheckLinks. Each
- * CheckLinks parameter will be monitored here. 
+ * CheckLinks parameter will be monitored here.
  */
 public class ParameterMonitoringManager {
 
@@ -60,8 +57,8 @@ public class ParameterMonitoringManager {
     final ParameterMonitorAdapter adapter;
 
     /**
-     * Current list of checks for one parameter Key: Parameter Identity Id that is
-     * monitored; Value: List of CheckLinks ids that are checked changes.
+     * Current list of checks for one parameter Key: Parameter Identity Id that
+     * is monitored; Value: List of CheckLinks ids that are checked changes.
      */
     private final HashMap<Long, List<Long>> parameterChecks = new HashMap<>();
     /**
@@ -74,8 +71,8 @@ public class ParameterMonitoringManager {
      */
     private final HashMap<Long, List<Long>> parameterReferences = new HashMap<>();
     /**
-     * Key: Parameter Identity Id that is monitored; Value: List of CheckLinks ids
-     * that will be notified (a check will be executed) if parameterValue
+     * Key: Parameter Identity Id that is monitored; Value: List of CheckLinks
+     * ids that will be notified (a check will be executed) if parameterValue
      * changes.
      */
     private final HashMap<Long, List<Long>> onChangeNotifierList = new HashMap<>();
@@ -115,9 +112,9 @@ public class ParameterMonitoringManager {
         //add referenced parameter (referenced in ReferenceCheck/DeltaCheck) 
         final CheckDefinitionDetails checkDefDetails = manager.getActualCheckDefinitionFromCheckLinks(checkLinkId);
         if (checkDefDetails instanceof ReferenceCheckDefinition || checkDefDetails instanceof DeltaCheckDefinition) {
-            final ReferenceValue checkReference = checkDefDetails instanceof ReferenceCheckDefinition ?
-                ((ReferenceCheckDefinition) checkDefDetails).getCheckReference() :
-                ((DeltaCheckDefinition) checkDefDetails).getCheckReference();
+            final ReferenceValue checkReference = checkDefDetails instanceof ReferenceCheckDefinition
+                    ? ((ReferenceCheckDefinition) checkDefDetails).getCheckReference()
+                    : ((DeltaCheckDefinition) checkDefDetails).getCheckReference();
             if (checkReference.getParameterId() != null) {
                 final Long refParamIdentityId = checkReference.getParameterId().getInstId();
                 addParameterReferenceToMonitor(refParamIdentityId, checkLinkId);
@@ -148,9 +145,9 @@ public class ParameterMonitoringManager {
         }
         final CheckDefinitionDetails checkDefDetails = manager.getActualCheckDefinitionFromCheckLinks(checkLinkId);
         if (checkDefDetails instanceof ReferenceCheckDefinition || checkDefDetails instanceof DeltaCheckDefinition) {
-            final ReferenceValue checkReference = checkDefDetails instanceof ReferenceCheckDefinition ?
-                ((ReferenceCheckDefinition) checkDefDetails).getCheckReference() :
-                ((DeltaCheckDefinition) checkDefDetails).getCheckReference();
+            final ReferenceValue checkReference = checkDefDetails instanceof ReferenceCheckDefinition ? 
+                    ((ReferenceCheckDefinition) checkDefDetails).getCheckReference() : 
+                    ((DeltaCheckDefinition) checkDefDetails).getCheckReference();
             if (checkReference.getParameterId() != null) {
                 final Long refParamIdentityId = checkReference.getParameterId().getInstId();
                 removeParameterFromLists(refParamIdentityId, checkLinkId);
@@ -161,13 +158,14 @@ public class ParameterMonitoringManager {
     /**
      * sets the new parameter in the internal lists, adds the checkLinkId, if an
      * OnChange is active and subscribes for this parameter
+     *
      * @param checkLinkDetails
      * @param checkLinkId
      * @throws MALException
      * @throws MALInteractionException
      */
-    private void addParameterToMonitor(Long paramIdentityId, final CheckLinkDetails checkLinkDetails, Long checkLinkId)
-        throws MALException, MALInteractionException {
+    private void addParameterToMonitor(Long paramIdentityId, final CheckLinkDetails checkLinkDetails, 
+            final Long checkLinkId) throws MALException, MALInteractionException {
         addToParameterCheckList(paramIdentityId, checkLinkId);
         //add to the OnChange-Notifier List, if necessary
         if (checkLinkDetails.getCheckOnChange()) {
@@ -209,8 +207,8 @@ public class ParameterMonitoringManager {
             .currentTimeMillis())));
         parameterValues.put(paramIdentityId, values);
         //parameter will be registered at the adapter
-        Subscription sub = subscriptionKeys(new Identifier("" + paramIdentityId), new Identifier("*"), paramIdentityId,
-            0L, 0L);
+        Subscription sub = ConnectionConsumer.subscriptionKeys(
+                new Identifier("" + paramIdentityId), new Identifier("*"), paramIdentityId, 0L, 0L);
         parameterStub.monitorValueRegister(sub, adapter);
     }
 
@@ -300,8 +298,8 @@ public class ParameterMonitoringManager {
      */
     public void startAll() throws MALException, MALInteractionException {
         for (Long paramIdentityId : parameterChecks.keySet()) {
-            Subscription sub = subscriptionKeys(new Identifier("" + paramIdentityId), new Identifier("*"),
-                paramIdentityId, 0L, 0L);
+            Subscription sub = ConnectionConsumer.subscriptionKeys(
+                    new Identifier("" + paramIdentityId), new Identifier("*"), paramIdentityId, 0L, 0L);
             parameterStub.monitorValueRegister(sub, adapter);
         }
     }
@@ -336,10 +334,11 @@ public class ParameterMonitoringManager {
         //check the onChange-CheckLinks 
         if (!oldParamValue.equals(newParamValue)) {
             final List<Long> checkLinkIdsToNotify = onChangeNotifierList.get(paramIdentityId);
-            if (checkLinkIdsToNotify != null)
+            if (checkLinkIdsToNotify != null) {
                 for (Long checkLinkId : checkLinkIdsToNotify) {
                     manager.executeCheck(checkLinkId, newParamValue, false, false, source);
                 }
+            }
         }
         //the parameter is a reference-parameter
         final List<Long> refCheckLinks = parameterReferences.get(paramIdentityId);
@@ -347,9 +346,9 @@ public class ParameterMonitoringManager {
             //set the new value to the referenceValue if there are validCount samples in the last deltaTime seconds
             for (Long refCheckLink : refCheckLinks) {
                 final CheckDefinitionDetails actCheckDef = manager.getActualCheckDefinitionFromCheckLinks(refCheckLink);
-                ReferenceValue refValue = actCheckDef instanceof ReferenceCheckDefinition ?
-                    ((ReferenceCheckDefinition) actCheckDef).getCheckReference() : ((DeltaCheckDefinition) actCheckDef)
-                        .getCheckReference();
+                ReferenceValue refValue = actCheckDef instanceof ReferenceCheckDefinition ? 
+                        ((ReferenceCheckDefinition) actCheckDef).getCheckReference() : 
+                        ((DeltaCheckDefinition) actCheckDef).getCheckReference();
                 List<ParameterValueEntry> values = parameterValues.get(paramIdentityId);
                 //task: make it more effective and delete the expired ones
                 long now = System.currentTimeMillis();
@@ -367,30 +366,6 @@ public class ParameterMonitoringManager {
                 }
             }
         }
-    }
-
-    /**
-     *
-     * Returns a subscription object with the entity keys field set as the
-     * provided keys
-     *
-     * @param subId Identifier of the subscription
-     * @param key1 First key - name
-     * @param key2 Second key - identity-id
-     * @param key3 Third key - definition-id
-     * @param key4 Fourth key - value-id
-     * @return The subscription object
-     */
-    private Subscription subscriptionKeys(Identifier subId, Identifier key1, Long key2, Long key3, Long key4) {
-        final EntityKeyList entityKeys = new EntityKeyList();
-        final EntityKey entitykey = new EntityKey(key1, key2, key3, key4);
-        entityKeys.add(entitykey);
-
-        final EntityRequest entity = new EntityRequest(null, false, false, false, false, entityKeys);
-        final EntityRequestList entities = new EntityRequestList();
-        entities.add(entity);
-
-        return new Subscription(subId, entities);
     }
 
 }

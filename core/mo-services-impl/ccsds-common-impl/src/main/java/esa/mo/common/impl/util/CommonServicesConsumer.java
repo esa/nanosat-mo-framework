@@ -21,19 +21,19 @@
 package esa.mo.common.impl.util;
 
 import esa.mo.com.impl.util.COMServicesConsumer;
-import esa.mo.helpertools.connections.ConnectionConsumer;
-import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.common.impl.consumer.ConfigurationConsumerServiceImpl;
 import esa.mo.common.impl.consumer.DirectoryConsumerServiceImpl;
 import esa.mo.common.impl.consumer.LoginConsumerServiceImpl;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.common.configuration.ConfigurationHelper;
-import org.ccsds.moims.mo.common.directory.DirectoryHelper;
-import org.ccsds.moims.mo.common.login.LoginHelper;
+import org.ccsds.moims.mo.common.configuration.ConfigurationServiceInfo;
+import org.ccsds.moims.mo.common.directory.DirectoryServiceInfo;
+import org.ccsds.moims.mo.common.login.LoginServiceInfo;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
+import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.structures.Blob;
 
 /**
@@ -57,21 +57,21 @@ public class CommonServicesConsumer {
 
         try {
             // Initialize the Directory service
-            details = connectionConsumer.getServicesDetails().get(DirectoryHelper.DIRECTORY_SERVICE_NAME);
+            details = connectionConsumer.getServicesDetails().get(DirectoryServiceInfo.DIRECTORY_SERVICE_NAME);
             if (details != null) {
                 directoryService = new DirectoryConsumerServiceImpl(details.getProviderURI(), authenticationId,
                     localNamePrefix);
             }
 
             // Initialize the Configuration service
-            details = connectionConsumer.getServicesDetails().get(ConfigurationHelper.CONFIGURATION_SERVICE_NAME);
+            details = connectionConsumer.getServicesDetails().get(ConfigurationServiceInfo.CONFIGURATION_SERVICE_NAME);
             if (details != null) {
                 configurationService = new ConfigurationConsumerServiceImpl(details, comServices, authenticationId,
                     localNamePrefix);
             }
 
             // Initialize the Login service
-            details = connectionConsumer.getServicesDetails().get(LoginHelper.LOGIN_SERVICE_NAME);
+            details = connectionConsumer.getServicesDetails().get(LoginServiceInfo.LOGIN_SERVICE_NAME);
             if (details != null) {
                 loginService = new LoginConsumerServiceImpl(details, comServices, authenticationId, localNamePrefix);
             }
@@ -118,15 +118,15 @@ public class CommonServicesConsumer {
      */
     public void closeConnections() {
         if (this.directoryService != null) {
-            this.directoryService.close();
+            this.directoryService.closeConnection();
         }
 
         if (this.configurationService != null) {
-            this.configurationService.close();
+            this.configurationService.closeConnection();
         }
 
         if (this.loginService != null) {
-            this.loginService.close();
+            this.loginService.closeConnection();
         }
     }
 

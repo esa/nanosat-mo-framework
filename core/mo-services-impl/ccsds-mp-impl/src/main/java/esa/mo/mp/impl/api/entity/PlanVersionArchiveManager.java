@@ -24,7 +24,7 @@ import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectIdList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mp.plandistribution.PlanDistributionHelper;
+import org.ccsds.moims.mo.mp.plandistribution.PlanDistributionServiceInfo;
 import org.ccsds.moims.mo.mp.structures.PlanIdentityDetails;
 import org.ccsds.moims.mo.mp.structures.PlanIdentityDetailsList;
 import org.ccsds.moims.mo.mp.structures.PlanUpdateDetails;
@@ -50,30 +50,30 @@ public class PlanVersionArchiveManager extends
     }
 
     public ObjectIdList listAllIdentityIds() {
-        return super.listAllIdentityIds(PlanDistributionHelper.PLANIDENTITY_OBJECT_TYPE);
+        return super.listAllIdentityIds(PlanDistributionServiceInfo.PLANIDENTITY_OBJECT_TYPE);
     }
 
     public ObjectIdList listAllInstanceIds() {
-        return super.listAllInstanceIds(PlanDistributionHelper.PLANVERSION_OBJECT_TYPE);
+        return super.listAllInstanceIds(PlanDistributionServiceInfo.PLANVERSION_OBJECT_TYPE);
     }
 
     public ObjectIdList listAllStatusIds() {
-        return super.listAllStatusIds(PlanDistributionHelper.PLANUPDATE_OBJECT_TYPE);
+        return super.listAllStatusIds(PlanDistributionServiceInfo.PLANUPDATE_OBJECT_TYPE);
     }
 
     public ObjectId getIdentityId(Identifier identity) {
-        return super.getIdentityId(identity, PlanDistributionHelper.PLANIDENTITY_OBJECT_TYPE);
+        return super.getIdentityId(identity, PlanDistributionServiceInfo.PLANIDENTITY_OBJECT_TYPE);
     }
 
     public ObjectIdList getIdentityIds(IdentifierList identities) {
-        return super.getIdentityIds(identities, PlanDistributionHelper.PLANIDENTITY_OBJECT_TYPE);
+        return super.getIdentityIds(identities, PlanDistributionServiceInfo.PLANIDENTITY_OBJECT_TYPE);
     }
 
     public PlanVersionDetails getInstance(Identifier identity) {
-        return super.getInstance(identity, PlanDistributionHelper.PLANIDENTITY_OBJECT_TYPE);
+        return super.getInstance(identity, PlanDistributionServiceInfo.PLANIDENTITY_OBJECT_TYPE);
     }
 
     public PlanVersionDetailsList getInstances(IdentifierList identities) {
-        return super.getInstances(identities, PlanDistributionHelper.PLANIDENTITY_OBJECT_TYPE);
+        return super.getInstances(identities, PlanDistributionServiceInfo.PLANIDENTITY_OBJECT_TYPE);
     }
 }

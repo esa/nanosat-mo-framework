@@ -8,7 +8,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import org.junit.Test;
-import esa.mo.helpertools.misc.FileDataSerialization;
+import org.ccsds.moims.mo.mal.helpertools.misc.FileDataSerialization;
 
 public class TestFileDataSerialization {
 

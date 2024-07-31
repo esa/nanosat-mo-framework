@@ -24,7 +24,6 @@ import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.ArchiveCOMObjectsOutput;
 import esa.mo.com.impl.util.HelperArchive;
-import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 import esa.mo.tools.mowindow.MOWindow;
 import java.awt.Component;
@@ -57,12 +56,16 @@ import org.ccsds.moims.mo.com.archive.structures.CompositeFilterSetList;
 import org.ccsds.moims.mo.com.archive.structures.ExpressionOperator;
 import org.ccsds.moims.mo.com.archive.structures.PaginationFilter;
 import org.ccsds.moims.mo.com.archive.structures.PaginationFilterList;
+import org.ccsds.moims.mo.com.archive.structures.QueryFilterList;
 import org.ccsds.moims.mo.com.structures.ObjectType;
+import org.ccsds.moims.mo.mal.MALElementsRegistry;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.MALStandardError;
+import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.structures.Duration;
+import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.ElementList;
+import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
@@ -73,12 +76,12 @@ import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.mc.aggregation.AggregationHelper;
+import org.ccsds.moims.mo.mc.aggregation.AggregationServiceInfo;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetails;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSet;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSetList;
-import org.ccsds.moims.mo.mc.conversion.ConversionHelper;
+import org.ccsds.moims.mo.mc.conversion.ConversionServiceInfo;
 import org.ccsds.moims.mo.mc.conversion.structures.DiscreteConversionDetails;
 import org.ccsds.moims.mo.mc.conversion.structures.DiscreteConversionDetailsList;
 import org.ccsds.moims.mo.mc.conversion.structures.LineConversionDetails;
@@ -313,10 +316,9 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         }
 
         @Override
-        public synchronized void retrieveResponseReceived(MALMessageHeader msgHeader, ArchiveDetailsList objDetails,
-            ElementList objBodies, Map qosProperties) {
-            ArchiveCOMObjectsOutput archiveObjectOutput = new ArchiveCOMObjectsOutput(domain, objType, objDetails,
-                objBodies);
+        public synchronized void retrieveResponseReceived(MALMessageHeader msgHeader,
+                ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
+            ArchiveCOMObjectsOutput archiveObjectOutput = new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies);
             archiveTablePanel.addEntries(archiveObjectOutput);
             n_objs_counter = n_objs_counter + objDetails.size();
             refreshTabCounter();
@@ -331,11 +333,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
 
         @Override
         public synchronized void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType,
-            IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
-            // If object type is null all objects have the same type
-            if (objType == null) {
-                objType = this.objType;
-            }
+                IdentifierList domain, ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
             if (objType == null || domain == null || objDetails == null) {
                 refreshTabCounter();
                 isOver.release();
@@ -352,7 +350,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
 
         @Override
         public synchronized void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType,
-            IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+                IdentifierList domain, ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
             // If object type is null all objects have the same type
             if (objType == null) {
                 objType = this.objType;
@@ -371,10 +369,8 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         }
 
         @Override
-        public synchronized void queryAckErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
-            Map qosProperties) {
-            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, "queryAckErrorReceived",
-                error);
+        public synchronized void queryAckErrorReceived(MALMessageHeader msgHeader, MOErrorException error, Map qosProperties) {
+            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, "queryAckErrorReceived", error);
         }
 
         protected void deleteAllInTable() {
@@ -587,13 +583,13 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         ArchiveDetailsList archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive
             .getConnectionDetails().getProviderURI());
 
-        AggregationDefinitionDetailsList objList = new AggregationDefinitionDetailsList();
+        HeterogeneousList objList = new HeterogeneousList();
         objList.add(ArchiveConsumerManagerPanel.generateAggregationDefinition("AggregationStore"));
 
         try {
             LongList outObjId = serviceCOMArchive.getArchiveStub().store(Boolean.TRUE,
-                AggregationHelper.AGGREGATIONDEFINITION_OBJECT_TYPE, serviceCOMArchive.getConnectionDetails()
-                    .getDomain(), archiveDetailsList, objList);
+                    AggregationServiceInfo.AGGREGATIONDEFINITION_OBJECT_TYPE,
+                    serviceCOMArchive.getConnectionDetails().getDomain(), archiveDetailsList, objList);
             Long received = outObjId.get(0);
             TBoxStore.setText(received.toString());
         } catch (MALInteractionException | MALException ex) {
@@ -609,17 +605,16 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         ObjectType objType = new ObjectType(shorty, shorty, octety, shorty);
 
         ArchiveQueryList archiveQueryList = new ArchiveQueryList();
-        ArchiveQuery archiveQuery = new ArchiveQuery();
-
-        archiveQuery.setDomain(null);
-        archiveQuery.setNetwork(null);
-        archiveQuery.setProvider(null);
-        archiveQuery.setRelated(0L);
-        archiveQuery.setSource(null);
-        archiveQuery.setStartTime(null);
-        archiveQuery.setEndTime(null);
-        archiveQuery.setSortFieldName(null);
-        archiveQuery.setSortFieldName(null);
+        ArchiveQuery archiveQuery = new ArchiveQuery(
+          null,
+          null,
+          null,
+          new Long(0),
+          null,
+          null,
+          null,
+          null,
+          null);
 
         archiveQueryList.add(archiveQuery);
 
@@ -634,7 +629,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         ArchiveConsumerAdapter adapter = new ArchiveConsumerAdapter("Query...");
 
         // Object Type
-        ObjectType objType = AggregationHelper.AGGREGATIONDEFINITION_OBJECT_TYPE;
+        ObjectType objType = AggregationServiceInfo.AGGREGATIONDEFINITION_OBJECT_TYPE;
         MOWindow genObjType = new MOWindow(objType, true);
         try {
             objType = (ObjectType) genObjType.getObject();
@@ -654,15 +649,14 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         }
 
         // Composite Filter
-        CompositeFilterSetList compositeFilters = new CompositeFilterSetList();
-        CompositeFilterSet compositeFilterSet = new CompositeFilterSet();
+        QueryFilterList compositeFilters = new QueryFilterList();
         CompositeFilterList compositeFilterList = new CompositeFilterList();
         compositeFilterList.add(ArchiveConsumerManagerPanel.generateCompositeFilter());
-        compositeFilterSet.setFilters(compositeFilterList);
+        CompositeFilterSet compositeFilterSet = new CompositeFilterSet(compositeFilterList);
         compositeFilters.add(compositeFilterSet);
         MOWindow genFilter = new MOWindow(compositeFilters, true);
         try {
-            compositeFilters = (CompositeFilterSetList) genFilter.getObject();
+            compositeFilters = (QueryFilterList) genFilter.getObject();
         } catch (InterruptedIOException ex) {
             return;
         }
@@ -697,7 +691,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
     private void jButtonRetrieveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRetrieveActionPerformed
 
         // Object Type
-        ObjectType objType = AggregationHelper.AGGREGATIONDEFINITION_OBJECT_TYPE;
+        ObjectType objType = AggregationServiceInfo.AGGREGATIONDEFINITION_OBJECT_TYPE;
         MOWindow genObjType = new MOWindow(objType, true);
         try {
             objType = (ObjectType) genObjType.getObject();
@@ -737,11 +731,10 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         MOWindow objBodyWindow = new MOWindow(comObject.getObject(), true);
         ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
         archiveDetailsList.add(comObject.getArchiveDetails());
-        ElementList finalObject;
+        HeterogeneousList finalObject = new HeterogeneousList();
 
         try {
-            finalObject = HelperMisc.element2elementList(objBodyWindow.getObject());
-            finalObject.add(objBodyWindow.getObject());
+            finalObject.add((Element) objBodyWindow.getObject());
 
             try {
                 serviceCOMArchive.getArchiveStub().update(comObject.getObjectType(), comObject.getDomain(),
@@ -759,7 +752,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
     private void jButtonCountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCountActionPerformed
 
         // Object Type
-        ObjectType objType = AggregationHelper.AGGREGATIONDEFINITION_OBJECT_TYPE;
+        ObjectType objType = AggregationServiceInfo.AGGREGATIONDEFINITION_OBJECT_TYPE;
         MOWindow genObjType = new MOWindow(objType, true);
         try {
             objType = (ObjectType) genObjType.getObject();
@@ -779,15 +772,14 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         }
 
         // Composite Filter
-        CompositeFilterSetList compositeFilters = new CompositeFilterSetList();
-        CompositeFilterSet compositeFilterSet = new CompositeFilterSet();
+        QueryFilterList compositeFilters = new QueryFilterList();
         CompositeFilterList compositeFilterList = new CompositeFilterList();
         compositeFilterList.add(ArchiveConsumerManagerPanel.generateCompositeFilter());
-        compositeFilterSet.setFilters(compositeFilterList);
+        CompositeFilterSet compositeFilterSet = new CompositeFilterSet(compositeFilterList);
         compositeFilters.add(compositeFilterSet);
         MOWindow genFilter = new MOWindow(compositeFilters, true);
         try {
-            compositeFilters = (CompositeFilterSetList) genFilter.getObject();
+            compositeFilters = (QueryFilterList) genFilter.getObject();
         } catch (InterruptedIOException ex) {
             return;
         }
@@ -820,42 +812,43 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         //        ArchiveDetailsList archiveDetailsList;
         ObjectType objType;
 
-        //        archiveDetailsList = new ArchiveDetailsList();
-        //        archiveDetailsList.add(serviceCOMArchive.generateArchiveDetails(new Long(0)));
-        ArchiveDetailsList archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive
-            .getConnectionDetails());
-        objType = ConversionHelper.DISCRETECONVERSION_OBJECT_TYPE;
-        DiscreteConversionDetailsList objList1 = new DiscreteConversionDetailsList();
+//        archiveDetailsList = new ArchiveDetailsList();
+//        archiveDetailsList.add(serviceCOMArchive.generateArchiveDetails(new Long(0)));
+        ArchiveDetailsList archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive.getConnectionDetails());
+        objType = ConversionServiceInfo.DISCRETECONVERSION_OBJECT_TYPE;
+        HeterogeneousList objList1 = new HeterogeneousList();
         objList1.add(this.generateDiscreteConversionDetails());
 
         try {
-            outObjId = serviceCOMArchive.getArchiveStub().store(Boolean.TRUE, objType, serviceCOMArchive
-                .getConnectionDetails().getDomain(), archiveDetailsList, objList1);
-        } catch (MALInteractionException | MALException ex) {
+            outObjId = serviceCOMArchive.getArchiveStub().store(Boolean.TRUE, objType, 
+                    serviceCOMArchive.getConnectionDetails().getDomain(), archiveDetailsList, objList1);
+        } catch (MALInteractionException ex) {
+            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MALException ex) {
             Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        //        archiveDetailsList = new ArchiveDetailsList();
-        //        archiveDetailsList.add(serviceCOMArchive.generateArchiveDetails(new Long(0)));
-        archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive
-            .getConnectionDetails());
-        objType = ConversionHelper.LINECONVERSION_OBJECT_TYPE;
-        LineConversionDetailsList objList2 = new LineConversionDetailsList();
+//        archiveDetailsList = new ArchiveDetailsList();
+//        archiveDetailsList.add(serviceCOMArchive.generateArchiveDetails(new Long(0)));
+        archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive.getConnectionDetails());
+        objType = ConversionServiceInfo.LINECONVERSION_OBJECT_TYPE;
+        HeterogeneousList objList2 = new HeterogeneousList();
         objList2.add(this.generateLineConversionDetails());
 
         try {
-            outObjId = serviceCOMArchive.getArchiveStub().store(Boolean.TRUE, objType, serviceCOMArchive
-                .getConnectionDetails().getDomain(), archiveDetailsList, objList2);
-        } catch (MALInteractionException | MALException ex) {
+            outObjId = serviceCOMArchive.getArchiveStub().store(Boolean.TRUE, objType,
+                    serviceCOMArchive.getConnectionDetails().getDomain(), archiveDetailsList, objList2);
+        } catch (MALInteractionException ex) {
+            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MALException ex) {
             Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        //        archiveDetailsList = new ArchiveDetailsList();
-        //        archiveDetailsList.add(serviceCOMArchive.generateArchiveDetails(new Long(0)));
-        archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive
-            .getConnectionDetails());
-        objType = ConversionHelper.POLYCONVERSION_OBJECT_TYPE;
-        PolyConversionDetailsList objList3 = new PolyConversionDetailsList();
+//        archiveDetailsList = new ArchiveDetailsList();
+//        archiveDetailsList.add(serviceCOMArchive.generateArchiveDetails(new Long(0)));
+        archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive.getConnectionDetails());
+        objType = ConversionServiceInfo.POLYCONVERSION_OBJECT_TYPE;
+        HeterogeneousList objList3 = new HeterogeneousList();
         objList3.add(this.generatePolyConversionDetails());
 
         try {
@@ -865,12 +858,9 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
             Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        //        archiveDetailsList = new ArchiveDetailsList();
-        //        archiveDetailsList.add(serviceCOMArchive.generateArchiveDetails(new Long(0)));
-        archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive
-            .getConnectionDetails());
-        objType = ConversionHelper.RANGECONVERSION_OBJECT_TYPE;
-        RangeConversionDetailsList objList4 = new RangeConversionDetailsList();
+        archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive.getConnectionDetails());
+        objType = ConversionServiceInfo.RANGECONVERSION_OBJECT_TYPE;
+        HeterogeneousList objList4 = new HeterogeneousList();
         objList4.add(this.generateRangeConversionDetails());
 
         try {
@@ -890,23 +880,20 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         ObjectType objType = new ObjectType(shorty, shorty, octety, shorty);
 
         ArchiveQueryList archiveQueryList = new ArchiveQueryList();
-        ArchiveQuery archiveQuery = new ArchiveQuery();
-
-        archiveQuery.setDomain(null);
-        archiveQuery.setNetwork(null);
-        archiveQuery.setProvider(null);
-        archiveQuery.setRelated(0L);
-        archiveQuery.setSource(null);
-        archiveQuery.setStartTime(null);
-        archiveQuery.setEndTime(null);
-        archiveQuery.setSortFieldName(null);
-        archiveQuery.setSortFieldName(null);
+        ArchiveQuery archiveQuery = new ArchiveQuery(
+          null,
+          null,
+          null,
+          new Long(0),
+          null,
+          null,
+          null,
+          null,
+          null);
 
         archiveQueryList.add(archiveQuery);
 
-        PaginationFilter filter = new PaginationFilter();
-        filter.setLimit(new UInteger(5));
-        filter.setOffset(new UInteger(0));
+        PaginationFilter filter = new PaginationFilter(new UInteger(5), new UInteger(0));
 
         MOWindow genObjType = new MOWindow(filter, true);
         try {
@@ -915,7 +902,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
             return;
         }
 
-        PaginationFilterList list = new PaginationFilterList();
+        QueryFilterList list = new QueryFilterList();
         list.add(filter);
 
         try {
@@ -1010,21 +997,19 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
             return;
         }
 
-        GroupDetails group = new GroupDetails();
-        GroupDetailsList groupList = new GroupDetailsList();
+        HeterogeneousList groupList = new HeterogeneousList();
 
-        //        group.setName(new Identifier("Group1"));
-        group.setDescription("A group of the 3 first Parameter Definitions.");
-        ObjectType objTypeParameterDef = new ObjectType(new UShort(4), new UShort(2), new UOctet((short) 1), new UShort(
-            1));
-        group.setObjectType(objTypeParameterDef);
-        group.setDomain(domain);
+        ObjectType objTypeParameterDef = new ObjectType(new UShort(4), new UShort(2), new UOctet((short) 1), new UShort(1));
         LongList objIds = new LongList();
         objIds.add(1L);
         objIds.add(2L);
         objIds.add(3L);
 
-        group.setInstanceIds(objIds);
+        GroupDetails group = new GroupDetails(
+            "A group of the 3 first Parameter Definitions.",
+            objTypeParameterDef,
+            domain,
+            objIds);
 
         groupList.add(group);
 
@@ -1053,17 +1038,16 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         ObjectType objType = new ObjectType(shorty, shorty, octety, shorty);
 
         ArchiveQueryList archiveQueryList = new ArchiveQueryList();
-        ArchiveQuery archiveQuery = new ArchiveQuery();
-
-        archiveQuery.setDomain(null);
-        archiveQuery.setNetwork(null);
-        archiveQuery.setProvider(null);
-        archiveQuery.setRelated(0L);
-        archiveQuery.setSource(null);
-        archiveQuery.setStartTime(null);
-        archiveQuery.setEndTime(null);
-        archiveQuery.setSortFieldName(null);
-        archiveQuery.setSortFieldName(null);
+        ArchiveQuery archiveQuery = new ArchiveQuery(
+          null,
+          null,
+          null,
+          new Long(0),
+          null,
+          null,
+          null,
+          null,
+          null);
 
         archiveQueryList.add(archiveQuery);
 
@@ -1078,25 +1062,23 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
 
     public static ArchiveQuery generateArchiveQuery() {
         // ArchiveDetails
-        ArchiveQuery archiveQuery = new ArchiveQuery();
-        archiveQuery.setDomain(null);
-        archiveQuery.setNetwork(null);
-        archiveQuery.setProvider(null);
-        archiveQuery.setRelated(0L);
-        archiveQuery.setSource(null);
-        archiveQuery.setStartTime(null);
-        archiveQuery.setEndTime(null);
-        archiveQuery.setSortOrder(null);
-        archiveQuery.setSortFieldName(null);
-
-        return archiveQuery;
+        return new ArchiveQuery(
+          null,
+          null,
+          null,
+          new Long(0),
+          null,
+          null,
+          null,
+          null,
+          null);
     }
 
     public static CompositeFilter generateCompositeFilter() {
-        CompositeFilter compositeFilter = new CompositeFilter();
-        compositeFilter.setFieldName("name");
-        compositeFilter.setType(ExpressionOperator.fromNumericValue(ExpressionOperator.EQUAL_NUM_VALUE));
-        compositeFilter.setFieldValue(new Identifier("AggregationUpdate"));
+        CompositeFilter compositeFilter = new CompositeFilter(
+            "name",
+            ExpressionOperator.fromNumericValue(ExpressionOperator.EQUAL_NUM_VALUE),
+            new Identifier("AggregationUpdate"));
 
         return compositeFilter;
     }

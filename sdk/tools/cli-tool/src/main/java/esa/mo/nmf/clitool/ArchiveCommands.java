@@ -26,16 +26,16 @@ import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.com.impl.util.ArchiveCOMObjectsOutput;
 import esa.mo.common.impl.consumer.DirectoryConsumerServiceImpl;
 import esa.mo.helpertools.helpers.HelperMisc;
-import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.nmf.clitool.adapters.ArchiveToBackupAdapter;
 import esa.mo.nmf.clitool.adapters.ArchiveToJsonAdapter;
+import org.ccsds.moims.mo.com.archive.ArchiveServiceInfo;
 import org.ccsds.moims.mo.com.COMHelper;
-import org.ccsds.moims.mo.com.archive.ArchiveHelper;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQueryList;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.common.directory.structures.*;
 import org.ccsds.moims.mo.common.structures.ServiceKey;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.*;
@@ -53,7 +53,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import picocli.CommandLine.*;
 
 /**
@@ -251,14 +250,14 @@ public class ArchiveCommands {
         // Create archive provider filter
         IdentifierList domain = new IdentifierList();
         domain.add(new Identifier("*"));
-        ServiceKey sk = new ServiceKey(COMHelper.COM_AREA_NUMBER, ArchiveHelper.ARCHIVE_SERVICE_NUMBER, new UOctet(
+        ServiceKey sk = new ServiceKey(COMHelper.COM_AREA_NUMBER, ArchiveServiceInfo.ARCHIVE_SERVICE_NUMBER, new UOctet(
             (short) 0));
         ServiceFilter sf2 = new ServiceFilter(new Identifier("*"), domain, new Identifier("*"), null, new Identifier(
             "*"), sk, new UShortList());
 
         // Query directory service with filter
-        try (DirectoryConsumerServiceImpl centralDirectory = new DirectoryConsumerServiceImpl(
-            centralDirectoryServiceURI)) {
+        try {
+            DirectoryConsumerServiceImpl centralDirectory = new DirectoryConsumerServiceImpl(centralDirectoryServiceURI);
             ProviderSummaryList providersSummaries = centralDirectory.getDirectoryStub().lookupProvider(sf2);
             for (ProviderSummary providerSummary : providersSummaries) {
                 final StringBuilder provider = new StringBuilder(providerSummary.getProviderId().getValue());

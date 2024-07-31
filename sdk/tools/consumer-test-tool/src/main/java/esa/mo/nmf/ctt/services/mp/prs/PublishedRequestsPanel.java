@@ -32,12 +32,10 @@ import org.ccsds.moims.mo.com.archive.structures.ArchiveQueryList;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.structures.ElementList;
 import org.ccsds.moims.mo.mal.structures.FineTime;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.mp.planningrequest.PlanningRequestHelper;
 import org.ccsds.moims.mo.mp.structures.RequestUpdateDetails;
 import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
@@ -45,6 +43,8 @@ import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.mp.impl.consumer.PlanningRequestConsumerServiceImpl;
 import esa.mo.nmf.ctt.services.mp.PublishedUpdatesPanel;
 import esa.mo.nmf.ctt.services.mp.util.TimeConverter;
+import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
+import org.ccsds.moims.mo.mp.planningrequest.PlanningRequestServiceInfo;
 
 public class PublishedRequestsPanel extends PublishedUpdatesPanel {
     private static final Logger LOGGER = Logger.getLogger(PublishedRequestsPanel.class.getName());
@@ -76,7 +76,7 @@ public class PublishedRequestsPanel extends PublishedUpdatesPanel {
 
         this.publishedRequestsTable.removeAllEntries();
 
-        ObjectType updateObjectType = PlanningRequestHelper.REQUESTSTATUSUPDATE_OBJECT_TYPE;
+        ObjectType updateObjectType = PlanningRequestServiceInfo.REQUESTSTATUSUPDATE_OBJECT_TYPE;
 
         FineTime startTime = TimeConverter.convert(getRefreshTime());
 
@@ -103,13 +103,13 @@ public class PublishedRequestsPanel extends PublishedUpdatesPanel {
             archiveService.getArchiveStub().query(true, updateObjectType, archiveQueryList, null, new ArchiveAdapter() {
                 @Override
                 public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-                    ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+                    ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
                     addEntries(domain, objDetails, objBodies);
                 }
 
                 @Override
                 public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-                    ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+                    ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
                     addEntries(domain, objDetails, objBodies);
                 }
             });
@@ -118,7 +118,7 @@ public class PublishedRequestsPanel extends PublishedUpdatesPanel {
         }
     }
 
-    private void addEntries(IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies) {
+    private void addEntries(IdentifierList domain, ArchiveDetailsList objDetails, HeterogeneousList objBodies) {
         if (objDetails == null)
             return;
         for (int index = 0; index < objDetails.size(); index++) {
@@ -135,8 +135,8 @@ public class PublishedRequestsPanel extends PublishedUpdatesPanel {
     private Identifier getIdentity(IdentifierList domain, Long instanceId) {
         Identifier identity = null;
 
-        ObjectType instanceObjectType = PlanningRequestHelper.REQUESTVERSION_OBJECT_TYPE;
-        ObjectType identityObjectType = PlanningRequestHelper.REQUESTIDENTITY_OBJECT_TYPE;
+        ObjectType instanceObjectType = PlanningRequestServiceInfo.REQUESTVERSION_OBJECT_TYPE;
+        ObjectType identityObjectType = PlanningRequestServiceInfo.REQUESTIDENTITY_OBJECT_TYPE;
 
         ArchivePersistenceObject instanceObject = HelperArchive.getArchiveCOMObject(this.archiveService
             .getArchiveStub(), instanceObjectType, domain, instanceId);

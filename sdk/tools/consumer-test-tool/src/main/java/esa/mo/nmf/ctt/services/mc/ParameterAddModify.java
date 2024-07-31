@@ -88,13 +88,8 @@ public class ParameterAddModify extends javax.swing.JFrame {
         this.setResizable(false);
         this.setVisible(false);
 
-        try {
-            ConversionHelper.init(MALContextFactory.getElementFactoryRegistry());
-        } catch (MALException ex) {
-            // nothing to be done..
-        }
-
         service = ConversionHelper.CONVERSION_SERVICE;
+        MALContextFactory.getElementsRegistry().loadServiceAndAreaElements(service);
 
         // Conversion Service Object Types
         OBJ_TYPE_CS_DISCRETECONVERSION = HelperCOM.generateCOMObjectType(service, new UShort(1));

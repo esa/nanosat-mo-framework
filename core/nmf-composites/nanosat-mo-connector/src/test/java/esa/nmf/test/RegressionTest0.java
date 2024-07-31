@@ -3821,6 +3821,7 @@ public class RegressionTest0 {
     }
 
     @Test
+<<<<<<< HEAD
     public void test158() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test158");
@@ -3842,6 +3843,8 @@ public class RegressionTest0 {
     }
 
     @Test
+=======
+>>>>>>> ffedc594 (Updates the NMF code to follow version 10)
     public void test159() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test159");
@@ -8118,6 +8121,7 @@ public class RegressionTest0 {
     }
 
     @Test
+<<<<<<< HEAD
     public void test292() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test292");
@@ -8251,6 +8255,8 @@ public class RegressionTest0 {
     }
 
     @Test
+=======
+>>>>>>> ffedc594 (Updates the NMF code to follow version 10)
     public void test293() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test293");
@@ -8329,6 +8335,7 @@ public class RegressionTest0 {
     }
 
     @Test
+<<<<<<< HEAD
     public void test297() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test297");
@@ -8446,6 +8453,8 @@ public class RegressionTest0 {
     }
 
     @Test
+=======
+>>>>>>> ffedc594 (Updates the NMF code to follow version 10)
     public void test298() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test298");
@@ -9159,6 +9168,7 @@ public class RegressionTest0 {
     }
 
     @Test
+<<<<<<< HEAD
     public void test321() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test321");
@@ -9260,6 +9270,8 @@ public class RegressionTest0 {
     }
 
     @Test
+=======
+>>>>>>> ffedc594 (Updates the NMF code to follow version 10)
     public void test322() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test322");
@@ -11014,6 +11026,7 @@ public class RegressionTest0 {
     }
 
     @Test
+<<<<<<< HEAD
     public void test366() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test366");
@@ -11130,6 +11143,8 @@ public class RegressionTest0 {
     }
 
     @Test
+=======
+>>>>>>> ffedc594 (Updates the NMF code to follow version 10)
     public void test367() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test367");
@@ -14366,6 +14381,7 @@ public class RegressionTest0 {
     }
 
     @Test
+<<<<<<< HEAD
     public void test447() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test447");
@@ -14491,6 +14507,8 @@ public class RegressionTest0 {
     }
 
     @Test
+=======
+>>>>>>> ffedc594 (Updates the NMF code to follow version 10)
     public void test448() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test448");
@@ -15211,6 +15229,7 @@ public class RegressionTest0 {
     }
 
     @Test
+<<<<<<< HEAD
     public void test469() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test469");
@@ -15293,6 +15312,8 @@ public class RegressionTest0 {
     }
 
     @Test
+=======
+>>>>>>> ffedc594 (Updates the NMF code to follow version 10)
     public void test470() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test470");

@@ -49,9 +49,9 @@
     <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
   </properties>
   <modules>
-    <module>platform-services-impl</module>
-    <module>nanosat-monolithic</module>
     <module>opssat-gps-simulator</module>
     <module>opssat-spacecraft-simulator</module>
+    <module>platform-services-impl</module>
+    <module>nanosat-monolithic</module>
   </modules>
 </project>

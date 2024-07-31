@@ -26,7 +26,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
+import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherServiceInfo;
 
 /**
  * The Listener for Event requests to close the NMF App. This class is used
@@ -61,7 +61,7 @@ public class CloseAppEventListener extends EventReceivedListener {
 
         // Even though the subscription will guarantee that...
         // It is better to double-check if it is a Close App Event request...
-        if (!eventCOMObject.getObjType().equals(AppsLauncherHelper.STOPAPP_OBJECT_TYPE)) {
+        if (!eventCOMObject.getObjType().equals(AppsLauncherServiceInfo.STOPAPP_OBJECT_TYPE)) {
             return; // If not, get out..
         }
 

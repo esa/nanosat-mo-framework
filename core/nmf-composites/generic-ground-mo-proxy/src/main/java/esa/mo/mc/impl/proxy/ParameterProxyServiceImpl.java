@@ -27,21 +27,16 @@ import java.util.HashMap;
 import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.structures.InstanceBooleanPairList;
-import org.ccsds.moims.mo.common.CommonHelper;
-import org.ccsds.moims.mo.common.configuration.ConfigurationHelper;
-import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.URI;
-import org.ccsds.moims.mo.mc.MCHelper;
 import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
+import org.ccsds.moims.mo.mc.parameter.ParameterServiceInfo;
 import org.ccsds.moims.mo.mc.parameter.provider.ParameterInheritanceSkeleton;
 import org.ccsds.moims.mo.mc.parameter.structures.*;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
@@ -69,35 +64,6 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
      * @param adaptersList
      */
     public synchronized void initProxy(HashMap<String, NMFConsumer> adaptersList) throws MALException {
-        if (!proxyInitialiased) {
-            if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
-                MALHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION) == null) {
-                COMHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION) == null) {
-                MCHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(CommonHelper.COMMON_AREA_NAME, CommonHelper.COMMON_AREA_VERSION) == null) {
-                CommonHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(CommonHelper.COMMON_AREA_NAME, CommonHelper.COMMON_AREA_VERSION)
-                .getServiceByName(ConfigurationHelper.CONFIGURATION_SERVICE_NAME) == null) {
-                ConfigurationHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION).getServiceByName(
-                ParameterHelper.PARAMETER_SERVICE_NAME) == null) {
-                ParameterHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-        }
-
         // One should initialize the Consumer first...
         // Maybe we can use the Ground MO Adapter and pass it during initialization... ;)
         this.consumer = adaptersList.get("lalalalla").getMCServices().getParameterService();
@@ -116,8 +82,8 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
             connection.close();
         }
 
-        parameterServiceProvider = connection.startService(ParameterHelper.PARAMETER_SERVICE_NAME.toString(),
-            ParameterHelper.PARAMETER_SERVICE, this);
+        parameterServiceProvider = connection.startService(ParameterServiceInfo.PARAMETER_SERVICE_NAME.toString(),
+                ParameterHelper.PARAMETER_SERVICE, this);
 
         running = true;
 
@@ -133,7 +99,7 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
         // between the consumer part of the proxy to the provider on Space
 
         //  Check the interaction object to know to whom the message should be forwarded to...
-        URI uriTo = interaction.getMessageHeader().getURITo();
+        URI uriTo = interaction.getMessageHeader().getToURI();
 
         // Remove the first part of the uriTo
         URI uriOfSpaceProvider = this.removePrefix(uriTo);

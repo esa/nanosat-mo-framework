@@ -20,20 +20,18 @@
  */
 package esa.mo.mp.impl.consumer;
 
+import esa.mo.com.impl.util.COMServicesConsumer;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mp.plandistribution.PlanDistributionHelper;
-import org.ccsds.moims.mo.mp.planedit.PlanEditHelper;
-import org.ccsds.moims.mo.mp.planexecutioncontrol.PlanExecutionControlHelper;
-import org.ccsds.moims.mo.mp.planinformationmanagement.PlanInformationManagementHelper;
-import org.ccsds.moims.mo.mp.planningrequest.PlanningRequestHelper;
-
-import esa.mo.com.impl.util.COMServicesConsumer;
-import esa.mo.helpertools.connections.ConnectionConsumer;
-import esa.mo.helpertools.connections.SingleConnectionDetails;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
+import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
+import org.ccsds.moims.mo.mp.plandistribution.PlanDistributionServiceInfo;
+import org.ccsds.moims.mo.mp.planedit.PlanEditServiceInfo;
+import org.ccsds.moims.mo.mp.planexecutioncontrol.PlanExecutionControlServiceInfo;
+import org.ccsds.moims.mo.mp.planinformationmanagement.PlanInformationManagementServiceInfo;
+import org.ccsds.moims.mo.mp.planningrequest.PlanningRequestServiceInfo;
 
 /**
  * The Mission Planning consumer services to be available on the NMF
@@ -55,32 +53,32 @@ public class MPServicesConsumer {
         try {
             // Initialize the Plan Information Management service
             details = connectionConsumer.getServicesDetails().get(
-                PlanInformationManagementHelper.PLANINFORMATIONMANAGEMENT_SERVICE_NAME);
+                PlanInformationManagementServiceInfo.PLANINFORMATIONMANAGEMENT_SERVICE_NAME);
             if (details != null) {
                 this.pimService = new PlanInformationManagementConsumerServiceImpl(details, comServices);
             }
 
             // Initialize the Planning Request service
-            details = connectionConsumer.getServicesDetails().get(PlanningRequestHelper.PLANNINGREQUEST_SERVICE_NAME);
+            details = connectionConsumer.getServicesDetails().get(PlanningRequestServiceInfo.PLANNINGREQUEST_SERVICE_NAME);
             if (details != null) {
                 this.planningRequestService = new PlanningRequestConsumerServiceImpl(details, comServices);
             }
 
             // Initialize the Plan Distribution Service
-            details = connectionConsumer.getServicesDetails().get(PlanDistributionHelper.PLANDISTRIBUTION_SERVICE_NAME);
+            details = connectionConsumer.getServicesDetails().get(PlanDistributionServiceInfo.PLANDISTRIBUTION_SERVICE_NAME);
             if (details != null) {
                 this.planDistributionService = new PlanDistributionConsumerServiceImpl(details, comServices);
             }
 
             // Initialize the Plan Edit Service
-            details = connectionConsumer.getServicesDetails().get(PlanEditHelper.PLANEDIT_SERVICE_NAME);
+            details = connectionConsumer.getServicesDetails().get(PlanEditServiceInfo.PLANEDIT_SERVICE_NAME);
             if (details != null) {
                 this.planEditService = new PlanEditConsumerServiceImpl(details, comServices);
             }
 
             // Initialize the Plan Execution Control Service
             details = connectionConsumer.getServicesDetails().get(
-                PlanExecutionControlHelper.PLANEXECUTIONCONTROL_SERVICE_NAME);
+                PlanExecutionControlServiceInfo.PLANEXECUTIONCONTROL_SERVICE_NAME);
             if (details != null) {
                 this.planExecutionControlService = new PlanExecutionControlConsumerServiceImpl(details, comServices);
             }
@@ -114,23 +112,23 @@ public class MPServicesConsumer {
      */
     public void closeConnections() {
         if (this.pimService != null) {
-            this.pimService.close();
+            this.pimService.closeConnection();
         }
 
         if (this.planningRequestService != null) {
-            this.planningRequestService.close();
+            this.planningRequestService.closeConnection();
         }
 
         if (this.planDistributionService != null) {
-            this.planDistributionService.close();
+            this.planDistributionService.closeConnection();
         }
 
         if (this.planEditService != null) {
-            this.planEditService.close();
+            this.planEditService.closeConnection();
         }
 
         if (this.planExecutionControlService != null) {
-            this.planExecutionControlService.close();
+            this.planExecutionControlService.closeConnection();
         }
     }
 }

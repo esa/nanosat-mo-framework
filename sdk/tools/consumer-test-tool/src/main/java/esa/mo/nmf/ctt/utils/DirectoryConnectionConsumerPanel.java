@@ -20,11 +20,8 @@
  */
 package esa.mo.nmf.ctt.utils;
 
-import esa.mo.helpertools.connections.ConnectionConsumer;
-import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
-
 import java.util.Random;
 import java.util.prefs.Preferences;
 import java.awt.Component;
@@ -41,9 +38,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
-
 import org.ccsds.moims.mo.com.archive.ArchiveHelper;
-import org.ccsds.moims.mo.common.directory.DirectoryHelper;
+import org.ccsds.moims.mo.common.directory.DirectoryServiceInfo;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
 import org.ccsds.moims.mo.common.directory.structures.ServiceCapability;
@@ -52,6 +48,8 @@ import org.ccsds.moims.mo.common.login.LoginHelper;
 import org.ccsds.moims.mo.common.structures.ServiceKey;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
+import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.URI;
@@ -303,13 +301,13 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
                 this.setName("ConnectButtonActionThread");
 
                 ServiceKey loginServiceKey = new ServiceKey(LoginHelper.LOGIN_SERVICE.getArea().getNumber(),
-                    LoginHelper.LOGIN_SERVICE.getNumber(), LoginHelper.LOGIN_SERVICE.getArea().getVersion());
+                    LoginHelper.LOGIN_SERVICE.getServiceNumber(), LoginHelper.LOGIN_SERVICE.getArea().getVersion());
                 ServiceCapability loginService = summary.getProviderDetails().getServiceCapabilities().stream().filter(
                     serviceCapability -> serviceCapability.getServiceKey().equals(loginServiceKey)).findFirst().orElse(
                         null);
 
                 ServiceKey archiveServiceKey = new ServiceKey(ArchiveHelper.ARCHIVE_SERVICE.getArea().getNumber(),
-                    ArchiveHelper.ARCHIVE_SERVICE.getNumber(), ArchiveHelper.ARCHIVE_SERVICE.getArea().getVersion());
+                    ArchiveHelper.ARCHIVE_SERVICE.getServiceNumber(), ArchiveHelper.ARCHIVE_SERVICE.getArea().getVersion());
                 ServiceCapability archiveService = summary.getProviderDetails().getServiceCapabilities().stream()
                     .filter(serviceCapability -> serviceCapability.getServiceKey().equals(archiveServiceKey))
                     .findFirst().orElse(null);
@@ -434,7 +432,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
     private void initTextBoxAddress() {  // runs during the init of the app
                                        // Common services
         SingleConnectionDetails details = connectionConsumer.getServicesDetails().get(
-            DirectoryHelper.DIRECTORY_SERVICE_NAME);
+            DirectoryServiceInfo.DIRECTORY_SERVICE_NAME);
 
         if (details != null) {
             this.uriServiceDirectory.setText(details.getProviderURI().toString());

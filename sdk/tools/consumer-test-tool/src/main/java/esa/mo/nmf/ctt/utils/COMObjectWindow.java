@@ -23,9 +23,7 @@ package esa.mo.nmf.ctt.utils;
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.com.impl.util.HelperCOM;
-import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.helpertools.helpers.HelperMisc;
-import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.tools.mowindow.MOWindow;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -35,6 +33,8 @@ import org.ccsds.moims.mo.com.COMObject;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveStub;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.structures.ObjectId;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
+import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Element;
 
 /**
@@ -658,7 +658,7 @@ public final class COMObjectWindow extends javax.swing.JDialog {
     private void objectBodyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_objectBodyButtonActionPerformed
         // Open the body object
         if (this.comObject != null) {
-            Element object = (Element) HelperAttributes.javaType2Attribute(this.comObject.getObject());
+            Element object = (Element) Attribute.javaType2Attribute(this.comObject.getObject());
             if (object != null) {
                 MOWindow objectBodyWindow = new MOWindow(object, false);
             }
@@ -770,7 +770,7 @@ public final class COMObjectWindow extends javax.swing.JDialog {
     }
 
     public Element getObjectBody() {
-        return (Element) HelperAttributes.javaType2Attribute(comObject.getObject());
+        return (Element) Attribute.javaType2Attribute(comObject.getObject());
     }
 
 }

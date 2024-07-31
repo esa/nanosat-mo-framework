@@ -22,12 +22,13 @@ package esa.mo.com.impl.archive.encoding;
 
 import java.util.List;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALListDecoder;
+import org.ccsds.moims.mo.mal.encoding.BufferHolder;
 
 /**
  * Implements the MALListDecoder interface for a binary encoding.
  */
-public class BinaryListDecoder extends BinaryDecoder implements MALListDecoder {
+public class BinaryListDecoder {
+
     private final int size;
     private final List list;
 
@@ -39,18 +40,14 @@ public class BinaryListDecoder extends BinaryDecoder implements MALListDecoder {
      * @throws MALException If cannot decode list size.
      */
     public BinaryListDecoder(final List list, final BufferHolder srcBuffer) throws MALException {
-        super(srcBuffer);
-
         this.list = list;
-        size = srcBuffer.getUnsignedInt();
+        size = srcBuffer.readUnsignedInt();
     }
 
-    @Override
     public boolean hasNext() {
         return list.size() < size;
     }
 
-    @Override
     public int size() {
         return size;
     }

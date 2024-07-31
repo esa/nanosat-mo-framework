@@ -31,7 +31,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALStandardError;
+import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.platform.camera.consumer.CameraAdapter;
 import org.ccsds.moims.mo.platform.camera.structures.Picture;
@@ -116,7 +116,7 @@ public class PayloadsTestCameraDataHandler extends CameraAdapter {
                 fos.close();
                 LOGGER.log(Level.INFO, "Image saved to {0}myPicture.jpg", filenamePrefix);
             }
-        } catch (IOException | MALException ex) {
+        } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
         try {
@@ -135,7 +135,7 @@ public class PayloadsTestCameraDataHandler extends CameraAdapter {
 
     @Override
     public void takePictureAckErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-        org.ccsds.moims.mo.mal.MALStandardError error, java.util.Map qosProperties) {
+        org.ccsds.moims.mo.mal.MOErrorException error, java.util.Map qosProperties) {
         try {
             mcAdapter.nmf.reportActionExecutionProgress(false, 1, STAGE_ACK, PayloadsTestActionsHandler.TOTAL_STAGES,
                 actionInstanceObjId);
@@ -146,14 +146,14 @@ public class PayloadsTestCameraDataHandler extends CameraAdapter {
     }
 
     @Override
-    public void takeAutoExposedPictureAckErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+    public void takeAutoExposedPictureAckErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
         Map qosProperties) {
         takePictureAckErrorReceived(msgHeader, error, qosProperties);
     }
 
     @Override
     public void takePictureResponseErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-        org.ccsds.moims.mo.mal.MALStandardError error, java.util.Map qosProperties) {
+        org.ccsds.moims.mo.mal.MOErrorException error, java.util.Map qosProperties) {
         try {
             mcAdapter.nmf.reportActionExecutionProgress(false, 1, STAGE_RSP, PayloadsTestActionsHandler.TOTAL_STAGES,
                 actionInstanceObjId);
@@ -164,7 +164,7 @@ public class PayloadsTestCameraDataHandler extends CameraAdapter {
     }
 
     @Override
-    public void takeAutoExposedPictureResponseErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+    public void takeAutoExposedPictureResponseErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
         Map qosProperties) {
         takePictureResponseErrorReceived(msgHeader, error, qosProperties); // To change body of generated methods, choose Tools | Templates.
     }

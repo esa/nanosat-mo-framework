@@ -20,22 +20,16 @@
  */
 package esa.mo.mp.impl.consumer;
 
+import esa.mo.com.impl.util.COMServicesConsumer;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import org.ccsds.moims.mo.com.COMHelper;
-import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.consumer.MALConsumer;
-import org.ccsds.moims.mo.mp.MPHelper;
+import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
+import org.ccsds.moims.mo.mal.helpertools.misc.ConsumerServiceImpl;
 import org.ccsds.moims.mo.mp.planningrequest.PlanningRequestHelper;
 import org.ccsds.moims.mo.mp.planningrequest.consumer.PlanningRequestStub;
-
-import esa.mo.com.impl.util.COMServicesConsumer;
-import esa.mo.helpertools.connections.SingleConnectionDetails;
-import esa.mo.helpertools.misc.ConsumerServiceImpl;
 
 /**
  * Planning Request (PRS) Service consumer implementation
@@ -67,24 +61,6 @@ public class PlanningRequestConsumerServiceImpl extends ConsumerServiceImpl {
 
     public PlanningRequestConsumerServiceImpl(SingleConnectionDetails connectionDetails,
         COMServicesConsumer comServices) throws MALException, MalformedURLException {
-        if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
-            MALHelper.init(MALContextFactory.getElementFactoryRegistry());
-        }
-
-        if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION) == null) {
-            COMHelper.init(MALContextFactory.getElementFactoryRegistry());
-        }
-
-        if (MALContextFactory.lookupArea(MPHelper.MP_AREA_NAME, MPHelper.MP_AREA_VERSION) == null) {
-            MPHelper.init(MALContextFactory.getElementFactoryRegistry());
-        }
-
-        try {
-            PlanningRequestHelper.init(MALContextFactory.getElementFactoryRegistry());
-        } catch (MALException ex) {
-            // nothing to be done..
-        }
-
         this.connectionDetails = connectionDetails;
         this.comServices = comServices;
 

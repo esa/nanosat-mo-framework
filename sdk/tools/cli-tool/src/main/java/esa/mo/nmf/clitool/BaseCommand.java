@@ -22,7 +22,6 @@ package esa.mo.nmf.clitool;
 
 import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.com.impl.provider.ArchiveProviderServiceImpl;
-import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.nmf.NMFConsumer;
 import esa.mo.nmf.clitool.adapters.ArchiveToAppAdapter;
@@ -44,7 +43,6 @@ import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
 import picocli.CommandLine.*;
 
 import java.net.MalformedURLException;
@@ -53,6 +51,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.common.login.LoginServiceInfo;
+import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
+import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherServiceInfo;
 
 /**
  * @author marcel.mikolajko
@@ -192,7 +193,7 @@ public abstract class BaseCommand {
                 ArchiveAdapter adapter = new ArchiveAdapter() {
                     @Override
                     public void retrieveResponseReceived(MALMessageHeader msgHeader, ArchiveDetailsList objDetails,
-                        ElementList objBodies, Map qosProperties) {
+                        HeterogeneousList objBodies, Map qosProperties) {
                         for (int i = 0; i < objDetails.size(); ++i) {
                             roleIds.add(objDetails.get(i).getInstId());
                             roleNames.add(objBodies.get(i).toString());
@@ -204,7 +205,7 @@ public abstract class BaseCommand {
                 };
 
                 consumer.getCOMServices().getArchiveService().getArchiveStub().retrieve(
-                    LoginHelper.LOGINROLE_OBJECT_TYPE, consumer.getCommonServices().getLoginService()
+                    LoginServiceInfo.LOGINROLE_OBJECT_TYPE, consumer.getCommonServices().getLoginService()
                         .getConnectionDetails().getDomain(), ids, adapter);
 
                 synchronized (lock) {
@@ -278,7 +279,7 @@ public abstract class BaseCommand {
         }
 
         if (localArchive != null) {
-            localArchive.close();
+            localArchive.closeConnection();
             localArchive = null;
         }
 
@@ -329,8 +330,8 @@ public abstract class BaseCommand {
     public static ObjectId getAppObjectId(String appName, IdentifierList domain) {
         // SoftwareManagement.AppsLaunch.App object type
         ObjectType appType = new ObjectType(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NUMBER,
-            AppsLauncherHelper.APPSLAUNCHER_SERVICE_NUMBER, new UOctet((short) 0),
-            AppsLauncherHelper.APP_OBJECT_NUMBER);
+            AppsLauncherServiceInfo.APPSLAUNCHER_SERVICE_NUMBER, new UOctet((short) 0),
+            AppsLauncherServiceInfo.APP_OBJECT_NUMBER);
 
         // prepare domain filter
         ArchiveQueryList archiveQueryList = new ArchiveQueryList();

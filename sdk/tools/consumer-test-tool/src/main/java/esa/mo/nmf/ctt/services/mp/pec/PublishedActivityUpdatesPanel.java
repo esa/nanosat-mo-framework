@@ -20,6 +20,12 @@
  */
 package esa.mo.nmf.ctt.services.mp.pec;
 
+import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
+import esa.mo.com.impl.provider.ArchivePersistenceObject;
+import esa.mo.com.impl.util.HelperArchive;
+import esa.mo.mp.impl.consumer.PlanExecutionControlConsumerServiceImpl;
+import esa.mo.nmf.ctt.services.mp.PublishedUpdatesPanel;
+import esa.mo.nmf.ctt.services.mp.util.TimeConverter;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,20 +38,14 @@ import org.ccsds.moims.mo.com.archive.structures.ArchiveQueryList;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.structures.ElementList;
 import org.ccsds.moims.mo.mal.structures.FineTime;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.mp.planedit.PlanEditHelper;
-import org.ccsds.moims.mo.mp.planinformationmanagement.PlanInformationManagementHelper;
+import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
+import org.ccsds.moims.mo.mp.planedit.PlanEditServiceInfo;
+import org.ccsds.moims.mo.mp.planinformationmanagement.PlanInformationManagementServiceInfo;
 import org.ccsds.moims.mo.mp.structures.ActivityUpdateDetails;
-import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
-import esa.mo.com.impl.provider.ArchivePersistenceObject;
-import esa.mo.com.impl.util.HelperArchive;
-import esa.mo.mp.impl.consumer.PlanExecutionControlConsumerServiceImpl;
-import esa.mo.nmf.ctt.services.mp.PublishedUpdatesPanel;
-import esa.mo.nmf.ctt.services.mp.util.TimeConverter;
 
 public class PublishedActivityUpdatesPanel extends PublishedUpdatesPanel {
     private static final Logger LOGGER = Logger.getLogger(PublishedActivityUpdatesPanel.class.getName());
@@ -78,7 +78,7 @@ public class PublishedActivityUpdatesPanel extends PublishedUpdatesPanel {
 
         this.publishedActivityUpdatesTable.removeAllEntries();
 
-        ObjectType updateObjectType = PlanEditHelper.ACTIVITYUPDATE_OBJECT_TYPE;
+        ObjectType updateObjectType = PlanEditServiceInfo.ACTIVITYUPDATE_OBJECT_TYPE;
 
         FineTime startTime = TimeConverter.convert(getRefreshTime());
 
@@ -105,13 +105,13 @@ public class PublishedActivityUpdatesPanel extends PublishedUpdatesPanel {
             archiveService.getArchiveStub().query(true, updateObjectType, archiveQueryList, null, new ArchiveAdapter() {
                 @Override
                 public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-                    ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+                    ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
                     addEntries(domain, objDetails, objBodies);
                 }
 
                 @Override
                 public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-                    ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+                    ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
                     addEntries(domain, objDetails, objBodies);
                 }
             });
@@ -120,7 +120,7 @@ public class PublishedActivityUpdatesPanel extends PublishedUpdatesPanel {
         }
     }
 
-    private void addEntries(IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies) {
+    private void addEntries(IdentifierList domain, ArchiveDetailsList objDetails, HeterogeneousList objBodies) {
         if (objDetails == null)
             return;
         for (int index = 0; index < objDetails.size(); index++) {
@@ -137,9 +137,9 @@ public class PublishedActivityUpdatesPanel extends PublishedUpdatesPanel {
     private Identifier getIdentity(IdentifierList domain, Long instanceId) {
         Identifier identity = null;
 
-        ObjectType instanceObjectType = PlanEditHelper.ACTIVITYINSTANCE_OBJECT_TYPE;
-        ObjectType definitionObjectType = PlanInformationManagementHelper.ACTIVITYDEFINITION_OBJECT_TYPE;
-        ObjectType identityObjectType = PlanInformationManagementHelper.ACTIVITYIDENTITY_OBJECT_TYPE;
+        ObjectType instanceObjectType = PlanEditServiceInfo.ACTIVITYINSTANCE_OBJECT_TYPE;
+        ObjectType definitionObjectType = PlanInformationManagementServiceInfo.ACTIVITYDEFINITION_OBJECT_TYPE;
+        ObjectType identityObjectType = PlanInformationManagementServiceInfo.ACTIVITYIDENTITY_OBJECT_TYPE;
 
         ArchivePersistenceObject instanceObject = HelperArchive.getArchiveCOMObject(this.archiveService
             .getArchiveStub(), instanceObjectType, domain, instanceId);

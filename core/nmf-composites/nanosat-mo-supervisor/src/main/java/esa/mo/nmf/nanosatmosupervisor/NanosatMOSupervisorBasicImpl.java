@@ -21,7 +21,6 @@
 package esa.mo.nmf.nanosatmosupervisor;
 
 import esa.mo.com.impl.util.COMServicesProvider;
-import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
@@ -32,6 +31,7 @@ import esa.mo.platform.impl.util.PlatformServicesProviderInterface;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 
 /**
  * This is a specific implementation of the NMF supervisor which is currently being used by

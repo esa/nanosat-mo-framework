@@ -48,7 +48,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-import org.ccsds.moims.mo.com.activitytracking.ActivityTrackingHelper;
+import org.ccsds.moims.mo.com.activitytracking.ActivityTrackingServiceInfo;
 import org.ccsds.moims.mo.com.activitytracking.structures.ActivityAcceptance;
 import org.ccsds.moims.mo.com.activitytracking.structures.ActivityExecution;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
@@ -62,6 +62,7 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.ElementList;
+import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.Subscription;
@@ -239,7 +240,7 @@ public class CameraAcquisitorGround {
         }
         try {
             Subscription subscription = HelperCOM.generateSubscriptionCOMEvent("ActivityTrackingListener",
-                ActivityTrackingHelper.EXECUTION_OBJECT_TYPE);
+                ActivityTrackingServiceInfo.EXECUTION_OBJECT_TYPE);
             gma.getCOMServices().getEventService().addEventReceivedListener(subscription,
                 new EventReceivedListenerAdapter());
             setInitialParameters();
@@ -473,10 +474,10 @@ public class CameraAcquisitorGround {
     }
 
     private void updateEvent(long actionID, int type, Object body) {
-        if (type == ActivityAcceptance.TYPE_SHORT_FORM) {
+        if (type == ActivityAcceptance.TYPE_ID.getSFP()) {
             System.out.println("ActivityAcceptance");
             ActivityAcceptance event = (ActivityAcceptance) body;
-        } else if (type == ActivityExecution.TYPE_SHORT_FORM) {
+        } else if (type == ActivityExecution.TYPE_ID.getSFP()) {
             System.out.println("ActivityExecution");
             ActivityExecution event = (ActivityExecution) body;
             int executionStage = (int) event.getExecutionStage().getValue();
@@ -504,7 +505,7 @@ public class CameraAcquisitorGround {
                                                                                                            executionStage});
             }
 
-        } else if (type == AlertEventDetails.TYPE_SHORT_FORM) {
+        } else if (type == AlertEventDetails.TYPE_ID.getSFP()) {
             System.out.println("AlertEventDetails");
             AlertEventDetails event = (AlertEventDetails) body;
 
@@ -542,7 +543,7 @@ public class CameraAcquisitorGround {
 
             long actionID = eventCOMObject.getSource().getKey().getInstId();
 
-            int type = eventCOMObject.getBody().getTypeShortForm();
+            int type = eventCOMObject.getBody().getTypeId().getSFP();
             updateEvent(actionID, type, eventCOMObject.getBody());
         }
     }
@@ -551,7 +552,7 @@ public class CameraAcquisitorGround {
 
         @Override
         public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-            ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+            ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
             if (objBodies != null) {
                 int i = 0;
                 for (Object objBody : objBodies) {
@@ -583,12 +584,12 @@ public class CameraAcquisitorGround {
                         }
                     } else if (objBody instanceof ActivityAcceptance) {
                         ActivityAcceptance instance = ((ActivityAcceptance) objBody);
-                        updateEvent(objDetails.get(i).getDetails().getSource().getKey().getInstId(), instance
-                            .getTypeShortForm(), objBody);
+                        updateEvent(objDetails.get(i).getDetails().getSource().getKey().getInstId(),
+                                instance.getTypeId().getSFP(), objBody);
                     } else if (objBody instanceof ActivityExecution) {
                         ActivityExecution instance = ((ActivityExecution) objBody);
-                        updateEvent(objDetails.get(i).getDetails().getSource().getKey().getInstId(), instance
-                            .getTypeShortForm(), objBody);
+                        updateEvent(objDetails.get(i).getDetails().getSource().getKey().getInstId(),
+                                instance.getTypeId().getSFP(), objBody);
                     }
                     i++;
                 }
@@ -597,7 +598,7 @@ public class CameraAcquisitorGround {
 
         @Override
         public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-            ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+            ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
             queryResponseReceived(msgHeader, objType, domain, objDetails, objBodies, qosProperties);
         }
 

@@ -25,8 +25,6 @@ import esa.mo.com.impl.util.EventCOMObject;
 import esa.mo.com.impl.util.EventReceivedListener;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.com.impl.util.HelperCOM;
-import esa.mo.helpertools.helpers.HelperAttributes;
-import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.sm.impl.consumer.CommandExecutorConsumerServiceImpl;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -38,12 +36,14 @@ import javax.swing.JOptionPane;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
 import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.softwaremanagement.commandexecutor.CommandExecutorHelper;
+import org.ccsds.moims.mo.softwaremanagement.commandexecutor.CommandExecutorServiceInfo;
 import org.ccsds.moims.mo.softwaremanagement.commandexecutor.consumer.CommandExecutorAdapter;
 import org.ccsds.moims.mo.softwaremanagement.commandexecutor.structures.CommandDetails;
 
@@ -95,7 +95,7 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel {
 
     public void init() {
         final Subscription subscription = HelperCOM.generateSubscriptionCOMEvent("SUB",
-            CommandExecutorHelper.EXECUTIONFINISHED_OBJECT_TYPE);
+            CommandExecutorServiceInfo.EXECUTIONFINISHED_OBJECT_TYPE);
         // Produce wildcard subscribtion to all event objects
         serviceSMCommandExecutor.getCOMServices().getEventService().addEventReceivedListener(subscription,
             new EventReceivedAdapter());
@@ -230,11 +230,11 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel {
                     eventCOMObject.getObjId());
                 return;
             }
-            if (objType.equals(CommandExecutorHelper.EXECUTIONFINISHED_OBJECT_TYPE)) {
+            if (objType.equals(CommandExecutorServiceInfo.EXECUTIONFINISHED_OBJECT_TYPE)) {
                 recentCommandsTable.updateExitCode(sourceObjId, ((Union) object).getIntegerValue());
-            } else if (objType.equals(CommandExecutorHelper.STANDARDOUTPUT_OBJECT_TYPE)) {
+            } else if (objType.equals(CommandExecutorServiceInfo.STANDARDOUTPUT_OBJECT_TYPE)) {
                 addCommandOutput(sourceObjId, time + " stdout:\n" + object.toString());
-            } else if (objType.equals(CommandExecutorHelper.STANDARDERROR_OBJECT_TYPE)) {
+            } else if (objType.equals(CommandExecutorServiceInfo.STANDARDERROR_OBJECT_TYPE)) {
                 addCommandOutput(sourceObjId, time + " stderr:\n" + object.toString());
             } else {
                 LOGGER.log(Level.SEVERE, "Received an unsupported object type. {0}", objType.toString());
@@ -253,7 +253,7 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel {
         @Override
         public void runCommandResponseReceived(MALMessageHeader msgHeader, Long commandInstId, Map qosProperties) {
             ArchivePersistenceObject comObj = HelperArchive.getArchiveCOMObject(serviceSMCommandExecutor
-                .getCOMServices().getArchiveService().getArchiveStub(), CommandExecutorHelper.COMMAND_OBJECT_TYPE,
+                .getCOMServices().getArchiveService().getArchiveStub(), CommandExecutorServiceInfo.COMMAND_OBJECT_TYPE,
                 serviceSMCommandExecutor.getConnectionDetails().getDomain(), commandInstId);
             if (comObj == null) {
                 LOGGER.log(Level.SEVERE, "Retrieved null COM object for objInstId {0}", commandInstId);

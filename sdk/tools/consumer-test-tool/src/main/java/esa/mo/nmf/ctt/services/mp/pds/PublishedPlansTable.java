@@ -43,10 +43,11 @@ import org.ccsds.moims.mo.mp.structures.PlanVersionDetailsList;
 import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.HelperArchive;
-import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.mp.impl.consumer.PlanDistributionConsumerServiceImpl;
 import esa.mo.mp.impl.util.MOFactory;
 import esa.mo.nmf.ctt.utils.SharedTablePanel;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
+import org.ccsds.moims.mo.mp.plandistribution.PlanDistributionServiceInfo;
 
 public class PublishedPlansTable extends SharedTablePanel {
 
@@ -95,7 +96,7 @@ public class PublishedPlansTable extends SharedTablePanel {
             }
         }
 
-        ObjectType instanceObjectType = PlanDistributionHelper.PLANVERSION_OBJECT_TYPE;
+        ObjectType instanceObjectType = PlanDistributionServiceInfo.PLANVERSION_OBJECT_TYPE;
         LongList objectIds = new LongList();
         objectIds.add(0L);
         List<ArchivePersistenceObject> instanceObjects = HelperArchive.getArchiveCOMObjectList(this.archiveService
@@ -152,7 +153,8 @@ public class PublishedPlansTable extends SharedTablePanel {
 
         @Override
         public void monitorPlanNotifyReceived(MALMessageHeader msgHeader, Identifier identifier,
-            UpdateHeaderList headerList, PlanVersionDetailsList versionList, Map qosProperties) {
+            UpdateHeader header, PlanVersionDetails version, Map qosProperties) {
+            /*
             for (int index = 0; index < versionList.size(); index++) {
                 UpdateHeader updateHeader = headerList.get(index);
                 PlanVersionDetails planVersion = versionList.get(index);
@@ -166,6 +168,7 @@ public class PublishedPlansTable extends SharedTablePanel {
 
                 addEntry(domain, timestamp, identityId, identity, instanceId, planVersion);
             }
+            */
         }
     }
 }

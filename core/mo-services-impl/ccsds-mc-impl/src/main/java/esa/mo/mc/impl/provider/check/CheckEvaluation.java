@@ -20,11 +20,11 @@
 package esa.mo.mc.impl.provider.check;
 
 import esa.mo.com.impl.util.HelperCOM;
-import esa.mo.helpertools.helpers.HelperAttributes;
 import java.util.HashMap;
 import java.util.List;
 import org.ccsds.moims.mo.com.archive.structures.ExpressionOperator;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.UInteger;

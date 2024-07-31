@@ -24,7 +24,8 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALStandardError;
+import org.ccsds.moims.mo.mal.MOErrorException;
+import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mal.transport.MALEndpoint;
 import org.ccsds.moims.mo.mal.transport.MALMessage;
@@ -61,12 +62,12 @@ public class ProtocolBridge {
 
     protected static MALTransport createTransport(final String protocol, final Map properties) throws Exception {
         System.out.println("Creating transport " + protocol);
-        return MALTransportFactory.newFactory(protocol).createTransport(null, properties);
+        return MALTransportFactory.newFactory(protocol).createTransport(properties);
     }
 
     protected static MALEndpoint createEndpoint(String protocol, MALTransport trans) throws Exception {
         System.out.println("Creating endpoint for transport " + protocol);
-        MALEndpoint ep = trans.createEndpoint("ProtocolBridge", null);
+        MALEndpoint ep = trans.createEndpoint("ProtocolBridge", null, null);
         System.out.println("Transport " + protocol + " URI is " + ep.getURI().getValue());
 
         return ep;
@@ -94,15 +95,15 @@ public class ProtocolBridge {
         }
 
         @Override
-        public void onTransmitError(MALEndpoint callingEndpoint, MALMessageHeader srcMessageHeader,
-            MALStandardError err, Map qosMap) {
+        public void onTransmitError(MALEndpoint callingEndpoint,
+                MALMessageHeader srcMessageHeader, MOErrorException err, Map qosMap) {
             throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
         public void onMessage(MALEndpoint callingEndpoint, MALMessage srcMessage) {
             try {
-                System.out.println("Received message from: " + srcMessage.getHeader().getURIFrom().getValue());
+                System.out.println("Received message from: " + srcMessage.getHeader().getFrom().getValue());
 
                 // copy source message into destination message format
                 MALMessage dMsg = cloneForwardMessage(destination, srcMessage);
@@ -134,25 +135,37 @@ public class ProtocolBridge {
         MALMessageHeader sourceHdr = srcMessage.getHeader();
         MALMessageBody body = srcMessage.getBody();
 
-        System.out.println("cloneForwardMessage from : " + sourceHdr.getURIFrom() + "                to  :    " +
-            sourceHdr.getURITo());
-        String endpointUriPart = sourceHdr.getURITo().getValue();
+        System.out.println("cloneForwardMessage from : " + sourceHdr.getFrom()
+                + "                to  :    " + sourceHdr.getTo());
+        String endpointUriPart = sourceHdr.getTo().getValue();
         final int iSecond = endpointUriPart.indexOf("@");
         endpointUriPart = endpointUriPart.substring(iSecond + 1);
         URI to = new URI(endpointUriPart);
-        URI from = new URI(destination.getURI().getValue() + "@" + sourceHdr.getURIFrom().getValue());
+        Identifier from = new Identifier(destination.getURI().getValue() + "@" + sourceHdr.getFrom().getValue());
         System.out.println("cloneForwardMessage      : " + from + "                to  :    " + to);
 
-        MALMessage destMessage = destination.createMessage(sourceHdr.getAuthenticationId(), to, sourceHdr
-            .getTimestamp(), sourceHdr.getQoSlevel(), sourceHdr.getPriority(), sourceHdr.getDomain(), sourceHdr
-                .getNetworkZone(), sourceHdr.getSession(), sourceHdr.getSessionName(), sourceHdr.getInteractionType(),
-            sourceHdr.getInteractionStage(), sourceHdr.getTransactionId(), sourceHdr.getServiceArea(), sourceHdr
-                .getService(), sourceHdr.getOperation(), sourceHdr.getAreaVersion(), sourceHdr.getIsErrorMessage(),
-            srcMessage.getQoSProperties(), body.getEncodedBody());
+        throw new MALException("The code below needs to be updated!");
+        /*
+        MALMessage destMessage = destination.createMessage(
+                sourceHdr.getAuthenticationId(),
+                to,
+                sourceHdr.getTimestamp(),
+                sourceHdr.getInteractionType(),
+                sourceHdr.getInteractionStage(),
+                sourceHdr.getTransactionId(),
+                sourceHdr.getServiceArea(),
+                sourceHdr.getService(),
+                sourceHdr.getOperation(),
+                sourceHdr.getServiceVersion(),
+                sourceHdr.getIsErrorMessage(),
+                sourceHdr.getSupplements(),
+                srcMessage.getQoSProperties(),
+                body.getEncodedBody());
 
-        destMessage.getHeader().setURIFrom(from);
+        destMessage.getHeader().setFrom(from);
 
         return destMessage;
+        */
     }
 
 }

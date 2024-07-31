@@ -20,9 +20,6 @@
  */
 package esa.mo.common.impl.util;
 
-import esa.mo.helpertools.connections.ConnectionConsumer;
-import esa.mo.helpertools.connections.ServicesConnectionDetails;
-import esa.mo.helpertools.connections.SingleConnectionDetails;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,7 +32,10 @@ import org.ccsds.moims.mo.common.directory.structures.ServiceCapabilityList;
 import org.ccsds.moims.mo.common.structures.ServiceKey;
 import org.ccsds.moims.mo.mal.MALArea;
 import org.ccsds.moims.mo.mal.MALContextFactory;
-import org.ccsds.moims.mo.mal.MALService;
+import org.ccsds.moims.mo.mal.ServiceInfo;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
+import org.ccsds.moims.mo.mal.helpertools.connections.ServicesConnectionDetails;
+import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.structures.StringList;
 
 /**
@@ -93,7 +93,7 @@ public class HelperCommon {
                 continue;
             }
 
-            final MALService malService = malArea.getServiceByNumber(key.getKeyService());
+            final ServiceInfo malService = malArea.getServiceByNumber(key.getKeyService());
 
             if (malService == null) {
                 Logger.getLogger(HelperCommon.class.getName()).log(Level.WARNING,
@@ -121,39 +121,47 @@ public class HelperCommon {
      * @return The filtered ProviderSummary
      */
     public static ProviderSummary selectBestIPCTransport(final ProviderSummary provider) {
-        final ProviderSummary newSummary = new ProviderSummary();
-        newSummary.setProviderKey(provider.getProviderKey());
-        newSummary.setProviderId(provider.getProviderId());
-
-        final ProviderDetails details = new ProviderDetails();
-        newSummary.setProviderDetails(details);
-        details.setProviderAddresses(provider.getProviderDetails().getProviderAddresses());
+        //newSummary.setProviderKey(provider.getProviderKey());
+        //newSummary.setProviderId(provider.getProviderId());
+        //newSummary.setProviderDetails(details);
 
         final ServiceCapabilityList oldCapabilities = provider.getProviderDetails().getServiceCapabilities();
         final ServiceCapabilityList newCapabilities = new ServiceCapabilityList();
+        final ProviderDetails details = new ProviderDetails(newCapabilities,
+            provider.getProviderDetails().getProviderAddresses());
+        final ProviderSummary newSummary = new ProviderSummary(provider.getProviderKey(),
+            provider.getProviderId(), details);
 
         for (int i = 0; i < oldCapabilities.size(); i++) {
             AddressDetailsList addresses = oldCapabilities.get(i).getServiceAddresses();
-            ServiceCapability cap = new ServiceCapability();
-            cap.setServiceKey(oldCapabilities.get(i).getServiceKey());
-            cap.setServiceProperties(oldCapabilities.get(i).getServiceProperties());
-            cap.setSupportedCapabilitySets(oldCapabilities.get(i).getSupportedCapabilitySets());
+            AddressDetailsList serviceAddresses = null;
 
             try {
                 final int bestIndex = getBestIPCServiceAddressIndex(addresses);
 
                 // Select only the best address for IPC
-                AddressDetailsList newAddresses = new AddressDetailsList();
-                newAddresses.add(addresses.get(bestIndex));
-                cap.setServiceAddresses(newAddresses);
+                serviceAddresses = new AddressDetailsList();
+                serviceAddresses.add(addresses.get(bestIndex));
             } catch (IllegalArgumentException ex) {
-                LOGGER.log(Level.SEVERE, "The best IPC service address index could not be determined!", ex);
+                LOGGER.log(Level.SEVERE,
+                        "The best IPC service address index could not be determined!", ex);
             }
-
+            ServiceCapability cap = new ServiceCapability(
+                oldCapabilities.get(i).getServiceKey(),
+                oldCapabilities.get(i).getSupportedCapabilitySets(),
+                oldCapabilities.get(i).getServiceProperties(),
+                serviceAddresses);
+            /*
+            cap.setServiceKey(oldCapabilities.get(i).getServiceKey());
+            cap.setSupportedCapabilitySets(oldCapabilities.get(i).getSupportedCapabilitySets());
+            cap.setServiceProperties(oldCapabilities.get(i).getServiceProperties());
+            cap.setServiceAddresses(newAddresses);
+            */
             newCapabilities.add(cap);
         }
 
-        details.setServiceCapabilities(newCapabilities);
+        //details.setServiceCapabilities(newCapabilities);
+        //details.setProviderAddresses(provider.getProviderDetails().getProviderAddresses());
 
         return newSummary;
     }
@@ -166,61 +174,65 @@ public class HelperCommon {
      * @return Index of the address in the list with the best IPC transport
      * @throws IllegalArgumentException If addresses is empty
      */
-    public static int getBestIPCServiceAddressIndex(AddressDetailsList addresses) throws IllegalArgumentException {
-        if (addresses.isEmpty()) {
-            throw new IllegalArgumentException("The addresses argument cannot be empty.");
-        }
+    public static int getBestIPCServiceAddressIndex(AddressDetailsList addresses) throws
+        IllegalArgumentException
+    {
+      if (addresses.isEmpty()) {
+        throw new IllegalArgumentException("The addresses argument cannot be empty.");
+      }
 
-        if (addresses.size() == 1) { // Well, there is only one...
-            return 0;
-        }
+      if (addresses.size() == 1) { // Well, there is only one...
+        return 0;
+      }
 
-        // Well, if there are more than one, then it means we can pick...
-        // My preference would be, in order: tcp/ip, rmi, other, spp
-        // SPP is in last because usually this is the transport supposed
-        // to be used on the ground-to-space link and not internally.
-        StringList availableTransports = getAvailableTransports(addresses);
+      // Well, if there are more than one, then it means we can pick...
+      // My preference would be, in order: tcp/ip, rmi, other, spp
+      // SPP is in last because usually this is the transport supposed
+      // to be used on the ground-to-space link and not internally.
+      StringList availableTransports = getAvailableTransports(addresses);
 
-        int index = getTransportIndex(availableTransports, "tcpip");
-        if (index != -1) {
-            return index;
-        }
+      int index = getTransportIndex(availableTransports, "tcpip");
+      if (index != -1) {
+        return index;
+      }
 
-        index = getTransportIndex(availableTransports, "rmi");
-        if (index != -1) {
-            return index;
-        }
+      index = getTransportIndex(availableTransports, "rmi");
+      if (index != -1) {
+        return index;
+      }
 
-        index = getTransportIndex(availableTransports, "malspp");
+      index = getTransportIndex(availableTransports, "malspp");
 
-        // If could not be found nor it is not the first one
-        if (index != 0) { // Then let's pick the first one
-            return 0;
-        } else {
-            // It was found and it is the first one (0)
-            // Then let's select the second (index == 1) transport available...
-            return 1;
-        }
+      // If could not be found nor it is not the first one
+      if (index != 0) { // Then let's pick the first one
+        return 0;
+      } else {
+        // It was found and it is the first one (0)
+        // Then let's select the second (index == 1) transport available...
+        return 1;
+      }
     }
 
-    private static StringList getAvailableTransports(AddressDetailsList addresses) {
-        StringList transports = new StringList(); // List of transport names
+    private static StringList getAvailableTransports(AddressDetailsList addresses)
+    {
+      StringList transports = new StringList(); // List of transport names
 
-        for (AddressDetails address : addresses) {
-            // The name of the transport is always before ":"
-            String[] parts = address.getServiceURI().toString().split(":");
-            transports.add(parts[0]);
-        }
+      for (AddressDetails address : addresses) {
+        // The name of the transport is always before ":"
+        String[] parts = address.getServiceURI().toString().split(":");
+        transports.add(parts[0]);
+      }
 
-        return transports;
+      return transports;
     }
 
-    private static int getTransportIndex(StringList transports, String findString) {
-        for (int i = 0; i < transports.size(); i++) {
-            if (findString.equals(transports.get(i))) {
-                return i;  // match
-            }
+    private static int getTransportIndex(StringList transports, String findString)
+    {
+      for (int i = 0; i < transports.size(); i++) {
+        if (findString.equals(transports.get(i))) {
+          return i;  // match
         }
-        return -1;
+      }
+      return -1;
     }
 }

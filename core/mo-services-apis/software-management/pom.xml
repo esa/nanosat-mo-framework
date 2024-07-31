@@ -61,7 +61,7 @@
   <dependencies>
     <dependency>
       <groupId>int.esa.ccsds.mo</groupId>
-      <artifactId>API_MAL</artifactId>
+      <artifactId>api-area001-v003-mal</artifactId>
     </dependency>
     <dependency>
       <groupId>int.esa.nmf.core.moservices.api</groupId>
@@ -94,7 +94,7 @@
       </plugin>
       <plugin>
         <groupId>int.esa.ccsds.mo</groupId>
-        <artifactId>StubGenerator</artifactId>
+        <artifactId>api-generator-maven-plugin</artifactId>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -113,7 +113,7 @@
                 <pluginExecution>
                   <pluginExecutionFilter>
                     <groupId>int.esa.ccsds.mo</groupId>
-                    <artifactId>StubGenerator</artifactId>
+                    <artifactId>api-generator-maven-plugin</artifactId>
                     <versionRange>${esa.stubgen.version}</versionRange>
                     <goals>
                       <goal>generate</goal>

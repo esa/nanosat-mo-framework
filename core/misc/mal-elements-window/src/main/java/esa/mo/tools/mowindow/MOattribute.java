@@ -21,9 +21,12 @@
 package esa.mo.tools.mowindow;
 
 import esa.mo.helpertools.helpers.HelperAttributes;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.structures.Attribute;
+import org.ccsds.moims.mo.mal.structures.Element;
 
 /**
  *
@@ -52,16 +55,18 @@ public class MOattribute extends MOelement {
 
     @Override
     public Object getObject() {
-
         if (super.object == null && super.fieldSelectableAttribute.isEnabled()) {  // Unknown attribute
-            long index = super.fieldSelectableAttribute.getSelectedIndex();
+            long index = (long) super.fieldSelectableAttribute.getSelectedIndex();
             if (index == 0) {
                 index = Attribute.STRING_TYPE_SHORT_FORM;  // If nothing was selected, then just consider it as a String
             }
 
             Long shortForm = Attribute.ABSOLUTE_AREA_SERVICE_NUMBER + index;
-            super.object = MALContextFactory.getElementFactoryRegistry().lookupElementFactory(shortForm)
-                .createElement();
+            try {
+                super.object = (Element) MALContextFactory.getElementsRegistry().createElement(shortForm);
+            } catch (Exception ex) {
+                Logger.getLogger(MOattribute.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
 
         try {
@@ -72,11 +77,11 @@ public class MOattribute extends MOelement {
             }
 
             return out;
-
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(null, "The field value: '" + fieldValue.getText() +
-                "' could not be converted into " + super.object.getClass().getSimpleName(), "NumberFormatException",
-                JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "The field value: '"
+                    + fieldValue.getText() + "' could not be converted into "
+                    + super.object.getClass().getSimpleName(),
+                    "NumberFormatException", JOptionPane.ERROR_MESSAGE);
         }
 
         return null;

@@ -24,8 +24,6 @@ import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.mc.impl.consumer.ParameterConsumerServiceImpl;
 import esa.mo.mc.impl.consumer.StatisticConsumerServiceImpl;
-import esa.mo.helpertools.connections.ConnectionConsumer;
-import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.tools.mowindow.MOWindow;
 import java.io.InterruptedIOException;
 import java.util.Map;
@@ -34,26 +32,28 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import org.ccsds.moims.mo.com.structures.InstanceBooleanPair;
 import org.ccsds.moims.mo.com.structures.InstanceBooleanPairList;
-import org.ccsds.moims.mo.com.structures.ObjectIdList;
+import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
+import org.ccsds.moims.mo.mal.structures.NullableAttributeList;
 import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.mal.structures.UpdateHeader;
-import org.ccsds.moims.mo.mal.structures.UpdateHeaderList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.mc.statistic.StatisticHelper;
+import org.ccsds.moims.mo.mc.statistic.StatisticServiceInfo;
 import org.ccsds.moims.mo.mc.statistic.consumer.StatisticAdapter;
 import org.ccsds.moims.mo.mc.statistic.structures.StatisticCreationRequest;
 import org.ccsds.moims.mo.mc.statistic.structures.StatisticCreationRequestList;
 import org.ccsds.moims.mo.mc.statistic.structures.StatisticLinkDetails;
 import org.ccsds.moims.mo.mc.statistic.structures.StatisticLinkDetailsList;
 import org.ccsds.moims.mo.mc.statistic.structures.StatisticValue;
-import org.ccsds.moims.mo.mc.statistic.structures.StatisticValueList;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 
 /**
@@ -238,19 +238,18 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
         statLinkDetails.setReportingInterval(new Duration(4));
         statLinkDetails.setResetEveryCollection(true);
         statLinkDetails.setSamplingInterval(new Duration(1));
+        
+        ObjectKey paramId = new ObjectKey(
+            serviceMCParameter.getConnectionDetails().getDomain(),
+            new Long(3));
+//        statLink.setParameterId(paramId);
+        
 
-        //        statLink.setLinkDetails(statLinkDetails);
-
-        ObjectKey paramId = new ObjectKey();
-        paramId.setDomain(serviceMCParameter.getConnectionDetails().getDomain());
-        paramId.setInstId(3L);
-        //        statLink.setParameterId(paramId);
-
-        StatisticCreationRequest request = new StatisticCreationRequest();
-        request.setLinkDetails(statLinkDetails);
-        request.setParameterId(paramId);
-        request.setStatFuncInstId(1L);
-
+        StatisticCreationRequest request = new StatisticCreationRequest(
+            new Long(1),
+            paramId,
+            statLinkDetails);
+        
         MOWindow statDefinitionWindow = new MOWindow(request, true);
 
         StatisticCreationRequestList statLinkList = new StatisticCreationRequestList();
@@ -270,9 +269,11 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
 
             Thread.sleep(500);
             // Get the stored Action Definition from the Archive
-            ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(this.serviceMCStatistic
-                .getCOMServices().getArchiveService().getArchiveStub(), StatisticHelper.STATISTICLINK_OBJECT_TYPE,
-                serviceMCStatistic.getConnectionDetails().getDomain(), objIds.get(0).getObjDefInstanceId());
+            ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(
+                    this.serviceMCStatistic.getCOMServices().getArchiveService().getArchiveStub(),
+                    StatisticServiceInfo.STATISTICLINK_OBJECT_TYPE,
+                    serviceMCStatistic.getConnectionDetails().getDomain(),
+                    objIds.get(0).getObjDefInstanceId());
 
             // Add the Statistic Link to the table
             statisticTable.addEntry(new Identifier("MyStat!"), comObject);
@@ -404,23 +405,27 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
 
     public class StatisticConsumerAdapter extends StatisticAdapter {
         @Override
-        public void monitorStatisticsNotifyReceived(MALMessageHeader msgHeader, Identifier _Identifier0,
-            UpdateHeaderList lUpdateHeaderList, LongList _LongList2, ObjectIdList _ObjectIdList3,
-            StatisticValueList _StatisticValueList3, Map qosProperties) {
+        public void monitorStatisticsNotifyReceived(MALMessageHeader msgHeader, 
+            Identifier _Identifier0, UpdateHeader updateHeader, 
+            Long _Long, ObjectId _ObjectId, StatisticValue statisticValue, Map qosProperties) {
 
             final long iDiff = System.currentTimeMillis() - msgHeader.getTimestamp().getValue();
 
-            final UpdateHeader updateHeader = lUpdateHeaderList.get(0);
+            final NullableAttributeList keyValues = updateHeader.getKeyValues();
+            final String statFunctionName = HelperAttributes.attribute2string(keyValues.get(0).getValue());
+            final int statLinkObjId = (int) HelperAttributes.attribute2JavaType(keyValues.get(1).getValue());
+            final int paramObjId = (int) HelperAttributes.attribute2JavaType(keyValues.get(2).getValue());
+            /*
             final String statFunctionName = updateHeader.getKey().getFirstSubKey().getValue();
             final int statLinkObjId = updateHeader.getKey().getSecondSubKey().intValue();
             final int paramObjId = updateHeader.getKey().getThirdSubKey().intValue();
+            */
 
             try {
-                if (msgBoxOn2.isSelected() && lUpdateHeaderList.size() != 0 && _StatisticValueList3.size() != 0) {
+                if (msgBoxOn2.isSelected()) {
                     String str = "";
-                    str += "Statistic Function name: " + statFunctionName + " | " + "Statistic Link id: " +
-                        statLinkObjId + " | " + "Parameter obj Id: " + paramObjId + " | " + "\n";
-                    final StatisticValue statisticValue = _StatisticValueList3.get(0);
+                    str += "Statistic Function name: " + statFunctionName + " | " + "Statistic Link id: " 
+                            + statLinkObjId + " | " + "Parameter obj Id: " + paramObjId + " | " + "\n";
                     str += "startTime: " + HelperTime.time2readableString(statisticValue.getStartTime()) + "\n";
                     str += "endTime: " + HelperTime.time2readableString(statisticValue.getEndTime()) + "\n";
                     str += "valueTime: " + HelperTime.time2readableString(statisticValue.getValueTime()) + "\n";

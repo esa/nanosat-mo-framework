@@ -21,8 +21,8 @@
 package esa.mo.platform.impl.util;
 
 import esa.mo.com.impl.util.COMServicesProvider;
-import esa.mo.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.platform.autonomousadcs.provider.AutonomousADCSInheritanceSkeleton;
 import org.ccsds.moims.mo.platform.camera.provider.CameraInheritanceSkeleton;
 import org.ccsds.moims.mo.platform.gps.provider.GPSInheritanceSkeleton;
