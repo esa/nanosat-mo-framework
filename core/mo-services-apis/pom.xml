@@ -49,9 +49,9 @@
     <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
   </properties>
   <modules>
+    <module>com-nmf</module>
     <module>platform</module>
     <module>software-management</module>
-    <module>com-nmf</module>
     <module>mp-nmf</module>
   </modules>
 </project>
