@@ -21,8 +21,6 @@
 package esa.mo.nmf.ctt.services.common;
 
 import esa.mo.common.impl.consumer.ConfigurationConsumerServiceImpl;
-import esa.mo.helpertools.connections.ConfigurationConsumer;
-
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,6 +35,7 @@ import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
 import org.ccsds.moims.mo.common.structures.ServiceKey;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationConsumer;
 import org.ccsds.moims.mo.mal.structures.File;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
