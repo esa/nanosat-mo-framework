@@ -21,7 +21,6 @@
 package esa.mo.com.impl.provider;
 
 import esa.mo.com.impl.util.HelperCOM;
-import esa.mo.helpertools.connections.ConnectionProvider;
 import java.io.IOException;
 import java.util.Map;
 import java.util.logging.Level;
@@ -40,6 +39,7 @@ import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.provider.MALPublishInteractionListener;

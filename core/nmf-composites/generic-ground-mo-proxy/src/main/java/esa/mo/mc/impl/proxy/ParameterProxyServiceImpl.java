@@ -20,7 +20,6 @@
  */
 package esa.mo.mc.impl.proxy;
 
-import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.mc.impl.consumer.ParameterConsumerServiceImpl;
 import esa.mo.nmf.NMFConsumer;
 import java.util.HashMap;
@@ -30,6 +29,7 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.structures.InstanceBooleanPairList;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;

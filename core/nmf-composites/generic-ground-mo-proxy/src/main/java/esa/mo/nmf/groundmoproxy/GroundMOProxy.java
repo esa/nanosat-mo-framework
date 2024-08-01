@@ -23,7 +23,6 @@ package esa.mo.nmf.groundmoproxy;
 import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.common.impl.proxy.DirectoryProxyServiceImpl;
-import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.misc.Const;
 import esa.mo.nmf.NMFConsumer;
@@ -51,6 +50,7 @@ import org.ccsds.moims.mo.common.structures.ServiceKey;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.structures.FineTime;
 import org.ccsds.moims.mo.mal.structures.Identifier;
@@ -86,7 +86,7 @@ public abstract class GroundMOProxy {
     protected DirectoryScanTask directoryScanTask;
 
     public GroundMOProxy() {
-        ConnectionProvider.resetURILinks();
+        ConnectionProvider.resetURILinksFile();
         HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
 
         // Initialize the Helpers for the APIs

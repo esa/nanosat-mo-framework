@@ -1,20 +1,17 @@
 package esa.mo.helpertools.test.connections;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-
+import esa.mo.helpertools.helpers.HelperMisc;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
-
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.junit.After;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
-
-import esa.mo.helpertools.connections.ConnectionProvider;
-import esa.mo.helpertools.helpers.HelperMisc;
 
 public class TestConnectionProvider {
 
@@ -39,7 +36,7 @@ public class TestConnectionProvider {
             fos.write("I am a provider properties file and my content is meaningless because I get deleted anyways."
                 .getBytes());
             fos.close();
-            ConnectionProvider.resetURILinks();
+            ConnectionProvider.resetURILinksFile();
             assertEquals(0, f.length());
         } catch (FileNotFoundException e) {
             e.printStackTrace();

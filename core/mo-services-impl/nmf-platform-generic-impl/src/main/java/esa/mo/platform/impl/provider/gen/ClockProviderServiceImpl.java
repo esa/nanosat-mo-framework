@@ -24,13 +24,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.platform.clock.ClockHelper;
-import org.ccsds.moims.mo.platform.clock.provider.ClockInheritanceSkeleton;
-import esa.mo.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.platform.clock.ClockServiceInfo;
+import org.ccsds.moims.mo.platform.clock.provider.ClockInheritanceSkeleton;
 
 public class ClockProviderServiceImpl extends ClockInheritanceSkeleton {
 

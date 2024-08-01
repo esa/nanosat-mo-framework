@@ -14,6 +14,8 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import esa.mo.helpertools.test.helpers.TestHelperMisc;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
+import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class RegressionTest0 {
@@ -101,15 +103,15 @@ public class RegressionTest0 {
     public void test0009() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test0009");
-        esa.mo.helpertools.connections.ConnectionProvider.resetURILinks();
+        
+        ConnectionProvider.resetURILinks();
     }
 
     @Test
     public void test0010() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test0010");
-        org.ccsds.moims.mo.mal.structures.SessionType sessionType0 = esa.mo.helpertools.connections.ConfigurationProviderSingleton
-            .getSession();
+        org.ccsds.moims.mo.mal.structures.SessionType sessionType0 = ConfigurationProviderSingleton.getSession();
         org.junit.Assert.assertNotNull(sessionType0);
     }
 
@@ -1733,10 +1735,9 @@ public class RegressionTest0 {
         boolean boolean48 = strList46.isEmpty();
         boolean boolean49 = booleanList41.retainAll((java.util.Collection<java.lang.String>) strList46);
         boolean boolean50 = uShortList16.removeAll((java.util.Collection<java.lang.String>) strList46);
-        esa.mo.helpertools.connections.ConnectionProvider connectionProvider51 = new esa.mo.helpertools.connections.ConnectionProvider();
-        esa.mo.helpertools.connections.SingleConnectionDetails singleConnectionDetails52 = connectionProvider51
-            .getConnectionDetails();
-        esa.mo.helpertools.connections.SingleConnectionDetails singleConnectionDetails53 = connectionProvider51
+        ConnectionProvider connectionProvider51 = new esa.mo.helpertools.connections.ConnectionProvider();
+        SingleConnectionDetails singleConnectionDetails52 = connectionProvider51.getConnectionDetails();
+        SingleConnectionDetails singleConnectionDetails53 = connectionProvider51
             .getIPCConnectionDetails();
         boolean boolean54 = strList46.contains((java.lang.Object) singleConnectionDetails53);
         boolean boolean55 = stringList12.containsAll((java.util.Collection<java.lang.String>) strList46);
@@ -1848,11 +1849,9 @@ public class RegressionTest0 {
         boolean boolean69 = strList67.isEmpty();
         boolean boolean70 = booleanList62.retainAll((java.util.Collection<java.lang.String>) strList67);
         boolean boolean71 = uShortList37.removeAll((java.util.Collection<java.lang.String>) strList67);
-        esa.mo.helpertools.connections.ConnectionProvider connectionProvider72 = new esa.mo.helpertools.connections.ConnectionProvider();
-        esa.mo.helpertools.connections.SingleConnectionDetails singleConnectionDetails73 = connectionProvider72
-            .getConnectionDetails();
-        esa.mo.helpertools.connections.SingleConnectionDetails singleConnectionDetails74 = connectionProvider72
-            .getIPCConnectionDetails();
+        ConnectionProvider connectionProvider72 = new ConnectionProvider();
+        SingleConnectionDetails singleConnectionDetails73 = connectionProvider72.getConnectionDetails();
+        SingleConnectionDetails singleConnectionDetails74 = connectionProvider72.getIPCConnectionDetails();
         boolean boolean75 = strList67.contains((java.lang.Object) singleConnectionDetails74);
         boolean boolean76 = stringList33.containsAll((java.util.Collection<java.lang.String>) strList67);
         boolean boolean77 = doubleList1.removeAll((java.util.Collection<java.lang.String>) stringList33);

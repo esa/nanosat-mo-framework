@@ -21,7 +21,6 @@
 package esa.mo.sm.impl.provider;
 
 import esa.mo.com.impl.util.COMServicesProvider;
-import esa.mo.helpertools.connections.ConnectionProvider;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
@@ -40,6 +39,7 @@ import org.ccsds.moims.mo.softwaremanagement.packagemanagement.provider.UpgradeI
 import esa.mo.sm.impl.util.PMBackend;
 import java.io.IOException;
 import org.ccsds.moims.mo.mal.MOErrorException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.structures.BooleanList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.StringList;

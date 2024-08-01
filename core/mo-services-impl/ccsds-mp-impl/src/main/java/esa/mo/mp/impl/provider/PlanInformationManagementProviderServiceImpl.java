@@ -47,7 +47,6 @@ import org.ccsds.moims.mo.mp.structures.RequestTemplateDetailsList;
 import org.ccsds.moims.mo.mp.structures.c_ResourceDefinitionDetails;
 import org.ccsds.moims.mo.mp.structures.c_ResourceDefinitionDetailsList;
 import esa.mo.com.impl.util.COMServicesProvider;
-import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.mp.impl.api.MPArchiveManager;
 import esa.mo.mp.impl.callback.MPServiceOperation;
 import esa.mo.mp.impl.callback.MPServiceOperationArguments;
@@ -57,6 +56,7 @@ import esa.mo.mp.impl.com.COMObjectIdHelper;
 import esa.mo.mp.impl.com.pattern.COMInstanceArchiveManager;
 import esa.mo.mp.impl.com.pattern.COMStateArchiveManager;
 import esa.mo.mp.impl.com.pattern.COMStaticItemArchiveManager;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mp.planinformationmanagement.PlanInformationManagementServiceInfo;
 
