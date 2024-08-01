@@ -21,7 +21,6 @@
 package esa.mo.com.impl.util;
 
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
-import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.helpers.HelperMisc;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -38,6 +37,7 @@ import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Element;

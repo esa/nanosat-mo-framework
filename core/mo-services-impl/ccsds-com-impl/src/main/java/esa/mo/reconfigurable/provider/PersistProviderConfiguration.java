@@ -22,7 +22,6 @@ package esa.mo.reconfigurable.provider;
 
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.HelperArchive;
-import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.reconfigurable.service.PersistLatestServiceConfigurationAdapter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -45,6 +44,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.ccsds.moims.mo.common.configuration.ConfigurationServiceInfo;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 
 /**

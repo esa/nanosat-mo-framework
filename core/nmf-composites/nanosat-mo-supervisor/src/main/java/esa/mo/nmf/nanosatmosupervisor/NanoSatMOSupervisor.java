@@ -22,24 +22,22 @@ package esa.mo.nmf.nanosatmosupervisor;
 
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.Quota;
-import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
-import esa.mo.nmf.NMFProvider;
-import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.misc.AppShutdownGuard;
 import esa.mo.helpertools.misc.Const;
-import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.CloseAppListener;
 import esa.mo.nmf.MCRegistration;
+import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
+import esa.mo.nmf.NMFProvider;
 import esa.mo.nmf.OneInstanceLock;
 import esa.mo.nmf.nmfpackage.Deployment;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.reconfigurable.provider.PersistProviderConfiguration;
 import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl;
 import esa.mo.sm.impl.provider.CommandExecutorProviderServiceImpl;
-import esa.mo.sm.impl.util.PMBackend;
 import esa.mo.sm.impl.provider.PackageManagementProviderServiceImpl;
+import esa.mo.sm.impl.util.PMBackend;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -48,9 +46,10 @@ import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.common.configuration.ConfigurationServiceInfo;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.structures.*;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherServiceInfo;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.body.ListAppResponse;
 
@@ -89,7 +88,7 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
         this.generateStartBanner();
         OneInstanceLock lock = new OneInstanceLock();
         HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
-        ConnectionProvider.resetURILinks();
+        ConnectionProvider.resetURILinksFile();
 
         // Check if we are running as root when we have the NMF in Mode 2
         String user = System.getProperties().getProperty("user.name", "?");

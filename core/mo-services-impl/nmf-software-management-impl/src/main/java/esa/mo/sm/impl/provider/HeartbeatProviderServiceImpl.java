@@ -20,8 +20,6 @@
  */
 package esa.mo.sm.impl.provider;
 
-import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
-import esa.mo.helpertools.connections.ConnectionProvider;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -29,6 +27,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.provider.MALPublishInteractionListener;
@@ -73,8 +73,9 @@ public class HeartbeatProviderServiceImpl extends HeartbeatInheritanceSkeleton {
      */
     public synchronized void init() throws MALException {
         long timestamp = System.currentTimeMillis();
-        publisher = createBeatPublisher(ConfigurationProviderSingleton.getDomain(), ConfigurationProviderSingleton
-                .getNetwork(), SessionType.LIVE, ConfigurationProviderSingleton.getSourceSessionName(), QoSLevel.BESTEFFORT,
+        publisher = createBeatPublisher(ConfigurationProviderSingleton.getDomain(),
+                ConfigurationProviderSingleton.getNetwork(), SessionType.LIVE,
+                ConfigurationProviderSingleton.getSourceSessionName(), QoSLevel.BESTEFFORT,
                 null, new UInteger(0));
 
         // Shut down old service transport

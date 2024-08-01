@@ -21,9 +21,7 @@
 package esa.mo.nmf.nanosatmomonolithic;
 
 import esa.mo.com.impl.util.COMServicesProvider;
-import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.nmf.NMFProvider;
-import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.misc.AppShutdownGuard;
 import esa.mo.helpertools.misc.Const;
@@ -40,6 +38,8 @@ import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.common.configuration.ConfigurationServiceInfo;
 import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherServiceInfo;
 
@@ -66,7 +66,7 @@ public abstract class NanoSatMOMonolithic extends NMFProvider {
     public void init(final MonitorAndControlNMFAdapter mcAdapter, final PlatformServicesConsumer platformServices) {
         super.startTime = System.currentTimeMillis();
         HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
-        ConnectionProvider.resetURILinks();
+        ConnectionProvider.resetURILinksFile();
 
         // Create provider name to be registerd on the Directory service...
         super.providerName = System.getProperty(HelperMisc.PROP_MO_APP_NAME) + PROVIDER_SUFFIX_NAME;

@@ -47,7 +47,7 @@ import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.provider.ArchiveProviderServiceImpl;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
-import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 
 /**

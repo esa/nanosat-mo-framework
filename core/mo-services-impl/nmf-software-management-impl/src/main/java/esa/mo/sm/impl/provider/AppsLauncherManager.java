@@ -27,7 +27,6 @@ import esa.mo.com.impl.util.DefinitionsManager;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.common.impl.util.HelperCommon;
-import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.misc.Const;
 import esa.mo.helpertools.misc.OSValidator;
@@ -54,6 +53,7 @@ import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
 import org.ccsds.moims.mo.common.directory.structures.ServiceCapabilityList;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.ElementList;
@@ -244,8 +244,8 @@ public class AppsLauncherManager extends DefinitionsManager {
         final ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(related, source, uri);
         archDetails.get(0).setInstId(objId);
 
-        return super.getArchiveService().store(true, AppsLauncherServiceInfo.APP_OBJECT_TYPE, ConfigurationProviderSingleton
-            .getDomain(), archDetails, defs, null);
+        return super.getArchiveService().store(true, AppsLauncherServiceInfo.APP_OBJECT_TYPE,
+                ConfigurationProviderSingleton.getDomain(), archDetails, defs, null);
     }
 
     protected boolean update(final Long objId, final AppDetails definition,

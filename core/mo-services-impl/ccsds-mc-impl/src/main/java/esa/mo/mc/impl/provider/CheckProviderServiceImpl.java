@@ -22,8 +22,6 @@ package esa.mo.mc.impl.provider;
 
 import esa.mo.com.impl.consumer.EventConsumerServiceImpl;
 import esa.mo.com.impl.util.COMServicesProvider;
-import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
-import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.misc.TaskScheduler;
 import esa.mo.mc.impl.provider.check.CheckLinkMonitorManager;
 import esa.mo.mc.impl.provider.check.ParameterMonitoringManager;
@@ -47,6 +45,8 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MOErrorException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.structures.BooleanList;

@@ -22,8 +22,6 @@ package esa.mo.mc.impl.provider;
 
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
-import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
-import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.mc.impl.interfaces.ActionInvocationListener;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -58,6 +56,8 @@ import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 import esa.mo.reconfigurable.service.ReconfigurableService;
 import esa.mo.reconfigurable.service.ConfigurationChangeListener;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mc.action.ActionServiceInfo;
 
 /**

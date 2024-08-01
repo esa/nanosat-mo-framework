@@ -22,8 +22,6 @@ package esa.mo.mc.impl.provider;
 
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
-import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
-import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.mc.impl.provider.check.CheckLinkEvaluationManager;
 import esa.mo.mc.impl.provider.check.CheckLinkEvaluation;
 import esa.mo.mc.impl.provider.check.EvaluationResult;
@@ -41,6 +39,8 @@ import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALElementsRegistry;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.Identifier;

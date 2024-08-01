@@ -20,19 +20,19 @@
  */
 package esa.mo.mp.impl.com;
 
+import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import java.util.stream.Collectors;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectIdList;
 import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.com.structures.ObjectType;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mp.structures.ObjectIdPair;
 import org.ccsds.moims.mo.mp.structures.ObjectIdPairList;
 import org.ccsds.moims.mo.mp.structures.ObjectInstancePair;
 import org.ccsds.moims.mo.mp.structures.ObjectInstancePairList;
-import esa.mo.com.impl.provider.ArchivePersistenceObject;
-import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 
 /**
  * Utility helper class with static methods for ObjectId

@@ -27,8 +27,6 @@ import esa.mo.common.impl.consumer.DirectoryConsumerServiceImpl;
 import esa.mo.common.impl.util.HelperCommon;
 import esa.mo.helpertools.clock.SystemClock;
 import esa.mo.helpertools.clock.PlatformClockCallback;
-import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
-import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.misc.AppShutdownGuard;
 import esa.mo.nmf.MCRegistration;
@@ -60,7 +58,9 @@ import org.ccsds.moims.mo.common.structures.ServiceKey;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.helpertools.misc.Const;
 import org.ccsds.moims.mo.mal.structures.Identifier;
@@ -101,7 +101,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
     public void init(final MonitorAndControlNMFAdapter mcAdapter) {
         super.startTime = System.currentTimeMillis();
         HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
-        ConnectionProvider.resetURILinks();
+        ConnectionProvider.resetURILinksFile();
 
         // Create provider name to be registerd on the Directory service...
         String appName = "Unknown";
@@ -290,8 +290,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
             final ObjectId confId = new ObjectId(ConfigurationServiceInfo.PROVIDERCONFIGURATION_OBJECT_TYPE,
                     new ObjectKey(ConfigurationProviderSingleton.getDomain(), DEFAULT_PROVIDER_CONFIGURATION_OBJID));
 
-            super.providerConfiguration = new PersistProviderConfiguration(this, confId, comServices
-                .getArchiveService());
+            super.providerConfiguration = new PersistProviderConfiguration(this, confId, comServices.getArchiveService());
 
             try {
                 super.providerConfiguration.loadPreviousConfigurations();
@@ -301,14 +300,14 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
         }
 
         if (mcAdapter != null) {
-            MCRegistration registration = new MCRegistration(comServices, mcServices.getParameterService(), mcServices
-                .getAggregationService(), mcServices.getAlertService(), mcServices.getActionService());
+            MCRegistration registration = new MCRegistration(comServices, mcServices.getParameterService(),
+                    mcServices.getAggregationService(), mcServices.getAlertService(), mcServices.getActionService());
             mcAdapter.initialRegistrations(registration);
             mcAdapter.restoreParameterValuesFromArchive();
         }
 
-        LOGGER.log(Level.INFO, "NanoSat MO Connector initialized in " + (((float) (System.currentTimeMillis() -
-            super.startTime)) / 1000) + " seconds!");
+        LOGGER.log(Level.INFO, "NanoSat MO Connector initialized in " 
+                + (((float) (System.currentTimeMillis() - super.startTime)) / 1000) + " seconds!");
 
         final String uri = directoryService.getConnection().getPrimaryConnectionDetails().getProviderURI().toString();
         LOGGER.log(Level.INFO, "URI: {0}\n", uri);
@@ -317,7 +316,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
     public void init(final MissionPlanningNMFAdapter mpAdapter) {
         super.startTime = System.currentTimeMillis();
         HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
-        ConnectionProvider.resetURILinks();
+        ConnectionProvider.resetURILinksFile();
 
         // Create provider name to be registerd on the Directory service...
         String appName = "Unknown";
@@ -386,7 +385,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
     public void init(final MonitorAndControlNMFAdapter mcAdapter, final MissionPlanningNMFAdapter mpAdapter) {
         super.startTime = System.currentTimeMillis();
         HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
-        ConnectionProvider.resetURILinks();
+        ConnectionProvider.resetURILinksFile();
 
         // Create provider name to be registerd on the Directory service...
         String appName = "Unknown";

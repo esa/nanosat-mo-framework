@@ -21,8 +21,6 @@
 package esa.mo.platform.impl.provider.gen;
 
 import esa.mo.com.impl.util.COMServicesProvider;
-import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
-import esa.mo.helpertools.connections.ConnectionProvider;
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -33,6 +31,8 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MOErrorException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.helpertools.misc.Const;
 import org.ccsds.moims.mo.mal.helpertools.misc.TaskScheduler;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;

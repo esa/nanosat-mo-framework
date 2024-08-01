@@ -49,8 +49,8 @@
     <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
   </properties>
   <modules>
+    <module>common-mo-adapter</module>
     <module>space-mo-adapter</module>
     <module>ground-mo-adapter</module>
-    <module>common-mo-adapter</module>
   </modules>
 </project>

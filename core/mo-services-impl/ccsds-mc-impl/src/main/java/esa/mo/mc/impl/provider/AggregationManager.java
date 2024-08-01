@@ -22,7 +22,6 @@ package esa.mo.mc.impl.provider;
 
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
-import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -30,6 +29,7 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Duration;

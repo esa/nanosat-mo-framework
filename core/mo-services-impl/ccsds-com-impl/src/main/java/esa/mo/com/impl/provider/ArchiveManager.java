@@ -24,8 +24,6 @@ import esa.mo.com.impl.archive.db.TransactionsProcessor;
 import esa.mo.com.impl.archive.fast.FastObjId;
 import esa.mo.com.impl.archive.fast.FastDomain;
 import esa.mo.com.impl.util.HelperCOM;
-import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
-import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.helpertools.misc.Const;
 import esa.mo.com.impl.archive.db.DatabaseBackend;
 import esa.mo.com.impl.archive.fast.FastNetwork;
@@ -61,6 +59,7 @@ import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.com.structures.ObjectTypeList;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Blob;
@@ -641,8 +640,8 @@ public class ArchiveManager {
                 + "\nDomain: " + ConfigurationProviderSingleton.getDomain().toString() + "\nSourceList: " + sourceList.toString());
          */
         // requirement: 3.4.2.4
-        final LongList eventObjIds = eventService.generateAndStoreEvents(objType, ConfigurationProviderSingleton
-            .getDomain(), null, sourceList, interaction);
+        final LongList eventObjIds = eventService.generateAndStoreEvents(objType,
+                ConfigurationProviderSingleton.getDomain(), null, sourceList, interaction);
 
         /* Just use it for debugging
         LOGGER.log(Level.FINE, "The eventObjIds are: " + eventObjIds.toString());

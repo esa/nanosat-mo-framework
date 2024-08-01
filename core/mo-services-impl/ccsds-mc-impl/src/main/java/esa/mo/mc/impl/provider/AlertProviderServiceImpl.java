@@ -23,8 +23,6 @@ package esa.mo.mc.impl.provider;
 import esa.mo.com.impl.provider.EventProviderServiceImpl;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
-import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
-import esa.mo.helpertools.connections.ConnectionProvider;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -68,6 +66,8 @@ import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 import org.ccsds.moims.mo.mc.structures.Severity;
 import esa.mo.reconfigurable.service.ReconfigurableService;
 import esa.mo.reconfigurable.service.ConfigurationChangeListener;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mc.alert.AlertServiceInfo;
 
 /**
@@ -186,8 +186,8 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
                     //these are Group-Definition-ids req: 3.9.4.g,h
                     enableInstance = enableInstances.get(index);
                     final Long groupId = enableInstance.getId();
-                    GroupDetails group = groupService.retrieveGroupDetailsFromArchive(ConfigurationProviderSingleton
-                        .getDomain(), groupId);
+                    GroupDetails group = groupService.retrieveGroupDetailsFromArchive(
+                            ConfigurationProviderSingleton.getDomain(), groupId);
                     if (group == null) { //group wasnt found
                         unkIndexList.add(new UInteger(index)); // requirement: 3.4.8.2.g
                     } else { //if group was found, then get the instances of it and its groups
