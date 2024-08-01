@@ -22,12 +22,14 @@ package esa.mo.nmf;
 
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.common.impl.provider.DirectoryProviderServiceImpl;
-import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.helpertools.misc.Const;
 import esa.mo.mc.impl.provider.ParameterInstance;
 import esa.mo.mp.impl.provider.MPServicesProvider;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.reconfigurable.provider.PersistProviderConfiguration;
+import esa.mo.reconfigurable.provider.ReconfigurableProvider;
+import esa.mo.reconfigurable.service.ConfigurationChangeListener;
+import esa.mo.reconfigurable.service.ReconfigurableService;
 import esa.mo.sm.impl.provider.HeartbeatProviderServiceImpl;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -42,17 +44,15 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.Properties;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
-import esa.mo.reconfigurable.service.ReconfigurableService;
-import esa.mo.reconfigurable.service.ConfigurationChangeListener;
-import esa.mo.reconfigurable.provider.ReconfigurableProvider;
-import java.util.Properties;
 
 /**
  * The generic NMF Provider. Includes a Heartbeat service and a Directory

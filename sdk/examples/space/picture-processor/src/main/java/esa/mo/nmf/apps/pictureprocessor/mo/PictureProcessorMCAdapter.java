@@ -20,18 +20,25 @@
  */
 package esa.mo.nmf.apps.pictureprocessor.mo;
 
-import static esa.mo.helpertools.helpers.HelperAttributes.attribute2JavaType;
+import esa.mo.nmf.apps.pictureprocessor.process.ProcessEventListener;
 import esa.mo.nmf.AppStorage;
-
+import esa.mo.nmf.MCRegistration;
+import esa.mo.nmf.MonitorAndControlNMFAdapter;
+import esa.mo.nmf.NMFException;
+import esa.mo.nmf.NMFInterface;
+import esa.mo.nmf.NMFProvider;
+import static esa.mo.nmf.apps.pictureprocessor.utils.FileUtils.createDirectoriesIfNotExist;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Duration;
@@ -49,16 +56,6 @@ import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.platform.camera.structures.CameraSettings;
 import org.ccsds.moims.mo.platform.camera.structures.PictureFormat;
 import org.ccsds.moims.mo.platform.camera.structures.PixelResolution;
-
-import esa.mo.nmf.MCRegistration;
-import esa.mo.nmf.MonitorAndControlNMFAdapter;
-import esa.mo.nmf.NMFException;
-import esa.mo.nmf.NMFInterface;
-import esa.mo.nmf.NMFProvider;
-import esa.mo.nmf.apps.pictureprocessor.process.ProcessEventListener;
-import static esa.mo.nmf.apps.pictureprocessor.utils.FileUtils.createDirectoriesIfNotExist;
-import java.io.File;
-import java.nio.file.Paths;
 
 /**
  * The adapter for the NMF App
@@ -221,7 +218,7 @@ public class PictureProcessorMCAdapter extends MonitorAndControlNMFAdapter imple
         if (attributeValue == null) {
             return null;
         }
-        return (T) attribute2JavaType(attributeValue.getValue());
+        return (T) HelperAttributes.attribute2JavaType(attributeValue.getValue());
     }
 
 }

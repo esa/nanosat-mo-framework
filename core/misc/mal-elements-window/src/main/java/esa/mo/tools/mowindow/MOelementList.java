@@ -20,8 +20,8 @@
  */
 package esa.mo.tools.mowindow;
 
-import esa.mo.helpertools.helpers.HelperAttributes;
 import java.io.InterruptedIOException;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.structures.ElementList;
 
 /**

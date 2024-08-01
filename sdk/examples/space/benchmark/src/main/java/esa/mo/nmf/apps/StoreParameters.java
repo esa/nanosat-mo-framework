@@ -21,13 +21,13 @@
 package esa.mo.nmf.apps;
 
 import esa.mo.com.impl.util.HelperArchive;
-import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.mc.impl.provider.ParameterManager;
 import esa.mo.nmf.NMFException;
 import esa.mo.nmf.NMFInterface;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.Attribute;

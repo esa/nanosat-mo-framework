@@ -20,11 +20,16 @@
  */
 package esa.mo.nmf.apps.pythonscript.run;
 
-import static esa.mo.helpertools.helpers.HelperAttributes.attribute2JavaType;
+import esa.mo.nmf.MCRegistration;
+import esa.mo.nmf.MonitorAndControlNMFAdapter;
+import esa.mo.nmf.NMFException;
+import esa.mo.nmf.NMFInterface;
+import esa.mo.nmf.NMFProvider;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Identifier;
@@ -38,11 +43,6 @@ import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetails;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.structures.AttributeValue;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
-import esa.mo.nmf.MCRegistration;
-import esa.mo.nmf.MonitorAndControlNMFAdapter;
-import esa.mo.nmf.NMFException;
-import esa.mo.nmf.NMFInterface;
-import esa.mo.nmf.NMFProvider;
 
 /**
  * The adapter for the NMF App
@@ -186,7 +186,7 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
         if (attributeValue == null) {
             return null;
         }
-        return (T) attribute2JavaType(attributeValue.getValue());
+        return (T) HelperAttributes.attribute2JavaType(attributeValue.getValue());
     }
 
 }
