@@ -22,7 +22,7 @@ copyright = '2021, European Space Agency'
 author = 'Dominik Marszk, Yannick Lavan'
 
 # The full version, including alpha/beta/rc tags
-release = '3.0.0'
+release = '4.0-SNAPSHOT'
 
 # -- General configuration ---------------------------------------------------
 
