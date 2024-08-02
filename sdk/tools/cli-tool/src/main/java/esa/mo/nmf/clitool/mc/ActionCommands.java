@@ -20,7 +20,6 @@
  */
 package esa.mo.nmf.clitool.mc;
 
-import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.nmf.clitool.BaseCommand;
 import static esa.mo.nmf.clitool.BaseCommand.consumer;
 import static esa.mo.nmf.clitool.BaseCommand.queryArchive;
@@ -32,6 +31,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQueryList;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperDomain;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mc.action.ActionServiceInfo;
@@ -108,7 +108,7 @@ public class ActionCommands {
                 LOGGER.log(Level.SEVERE, "Failed to create consumer!");
                 return;
             }
-            IdentifierList domain = domainId == null ? null : HelperMisc.domainId2domain(domainId);
+            IdentifierList domain = domainId == null ? null : HelperDomain.domainId2domain(domainId);
             
             ArchiveQueryList archiveQueryList = new ArchiveQueryList();
             ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, null, 0L, null, null, null, null, null);

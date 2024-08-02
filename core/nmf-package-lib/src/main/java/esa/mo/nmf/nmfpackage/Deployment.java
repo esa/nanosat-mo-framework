@@ -20,7 +20,6 @@
  */
 package esa.mo.nmf.nmfpackage;
 
-import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.nmf.nmfpackage.utils.HelperNMFPackage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -29,6 +28,7 @@ import java.io.IOException;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
 
 /**
  * The Deployment class is contains the information on how the NMF root

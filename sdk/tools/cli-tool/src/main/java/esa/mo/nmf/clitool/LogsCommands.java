@@ -20,7 +20,6 @@
  */
 package esa.mo.nmf.clitool;
 
-import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.nmf.clitool.adapters.ArchiveToAppListAdapter;
 import esa.mo.nmf.clitool.adapters.ArchiveToLogAdapter;
 import java.util.ArrayList;
@@ -30,6 +29,7 @@ import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQueryList;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectType;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperDomain;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
 import org.ccsds.moims.mo.mal.structures.FineTime;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
@@ -91,7 +91,7 @@ public class LogsCommands {
                 return;
             }
             // prepare domain, time and object id filters
-            IdentifierList domain = domainId == null ? null : HelperMisc.domainId2domain(domainId);
+            IdentifierList domain = domainId == null ? null : HelperDomain.domainId2domain(domainId);
             ArchiveQueryList archiveQueryList = new ArchiveQueryList();
             FineTime startTimeF = startTime == null ? null : HelperTime.readableString2FineTime(startTime);
             FineTime endTimeF = endTime == null ? null : HelperTime.readableString2FineTime(endTime);
@@ -172,7 +172,7 @@ public class LogsCommands {
                 return;
             }
             // Query archive for the App object id
-            IdentifierList domain = domainId == null ? null : HelperMisc.domainId2domain(domainId);
+            IdentifierList domain = domainId == null ? null : HelperDomain.domainId2domain(domainId);
             ObjectId appObjectId = getAppObjectId(appName, domain);
 
             if (appObjectId == null) {

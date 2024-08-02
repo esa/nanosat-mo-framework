@@ -22,7 +22,6 @@ package esa.mo.nmf.nanosatmosupervisor;
 
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.Quota;
-import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.misc.AppShutdownGuard;
 import esa.mo.helpertools.misc.Const;
 import esa.mo.nmf.CloseAppListener;
@@ -49,6 +48,7 @@ import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
 import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherServiceInfo;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.body.ListAppResponse;

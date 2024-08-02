@@ -20,7 +20,6 @@
  */
 package esa.mo.com.impl.util;
 
-import esa.mo.helpertools.helpers.HelperMisc;
 import java.lang.reflect.Field;
 import java.util.Random;
 import org.ccsds.moims.mo.com.COMObject;
@@ -31,6 +30,7 @@ import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.ServiceInfo;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Element;

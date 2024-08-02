@@ -23,7 +23,6 @@ package esa.mo.nmf.ctt.utils;
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.com.impl.util.HelperCOM;
-import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.tools.mowindow.MOWindow;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -33,6 +32,7 @@ import org.ccsds.moims.mo.com.COMObject;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveStub;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.structures.ObjectId;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperDomain;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Element;
@@ -90,7 +90,7 @@ public final class COMObjectWindow extends javax.swing.JDialog {
         this.tfObjectType3.setEditable(editable);
         this.tfObjectType4.setEditable(editable);
 
-        this.tfDomain.setText(HelperMisc.domain2domainId(comObject.getDomain()));
+        this.tfDomain.setText(HelperDomain.domain2domainId(comObject.getDomain()));
         this.tfObjId.setText(comObject.getObjectId().toString());
 
         this.tfObjectType.setText(HelperCOM.objType2string(comObject.getObjectType()));
@@ -163,7 +163,7 @@ public final class COMObjectWindow extends javax.swing.JDialog {
                 this.sourceType4.setText(comObject.getArchiveDetails().getDetails().getSource().getType().getNumber()
                     .toString());
 
-                this.sourceDomain.setText(HelperMisc.domain2domainId(comObject.getArchiveDetails().getDetails()
+                this.sourceDomain.setText(HelperDomain.domain2domainId(comObject.getArchiveDetails().getDetails()
                     .getSource().getKey().getDomain()));
                 this.sourceObjId.setText(comObject.getArchiveDetails().getDetails().getSource().getKey().getInstId()
                     .toString());

@@ -21,7 +21,6 @@
 package esa.mo.nmf.apps;
 
 import esa.mo.common.impl.consumer.DirectoryConsumerServiceImpl;
-import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.misc.Const;
 import esa.mo.mc.impl.consumer.ParameterConsumerServiceImpl;
 import esa.mo.nmf.MCRegistration;
@@ -33,7 +32,7 @@ import esa.mo.nmf.annotations.ActionParameter;
 import esa.mo.nmf.annotations.Aggregation;
 import esa.mo.nmf.annotations.Parameter;
 import esa.mo.nmf.commonmoadapter.SimpleCommandingInterface;
-
+import esa.mo.sm.impl.provider.AppsLauncherManager;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.HashMap;
@@ -43,8 +42,6 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import esa.mo.sm.impl.provider.AppsLauncherManager;
 import org.ccsds.moims.mo.com.COMService;
 import org.ccsds.moims.mo.com.structures.InstanceBooleanPair;
 import org.ccsds.moims.mo.com.structures.InstanceBooleanPairList;
@@ -58,6 +55,7 @@ import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Duration;

@@ -26,7 +26,6 @@ import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.EventCOMObject;
 import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.nmf.ctt.utils.COMObjectWindow;
-import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.com.impl.util.EventReceivedListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -43,6 +42,7 @@ import org.ccsds.moims.mo.com.structures.ObjectDetails;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperDomain;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
 import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.Subscription;
@@ -142,7 +142,7 @@ public class EventConsumerPanel extends javax.swing.JPanel {
                 .getInstId().toString() : "null";
 
             String time = HelperTime.time2readableString(eventCOMObject.getTimestamp());
-            String domainName = HelperMisc.domain2domainId(eventCOMObject.getDomain());
+            String domainName = HelperDomain.domain2domainId(eventCOMObject.getDomain());
             String eventName = HelperCOM.objType2COMObject(eventCOMObject.getObjType()).getObjectName().toString();
 
             eventTableData.addRow(new Object[]{time, eventCOMObject.getSourceURI().toString(), eKey2, eventName,

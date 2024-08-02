@@ -25,7 +25,6 @@ import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.nmf.ctt.utils.COMObjectWindow;
-import esa.mo.helpertools.helpers.HelperMisc;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -39,6 +38,7 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperDomain;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
 import org.ccsds.moims.mo.mal.structures.Element;
 
@@ -146,7 +146,7 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
         String related = "null";
 
         if (comObject.getDomain() != null) {
-            domain = HelperMisc.domain2domainId(comObject.getDomain());
+            domain = HelperDomain.domain2domainId(comObject.getDomain());
         }
 
         if (comObject.getObjectType() != null) {

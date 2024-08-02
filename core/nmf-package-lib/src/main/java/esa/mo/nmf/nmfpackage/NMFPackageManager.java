@@ -22,7 +22,6 @@ package esa.mo.nmf.nmfpackage;
 
 import esa.mo.nmf.nmfpackage.utils.LinuxUsersGroups;
 import esa.mo.nmf.nmfpackage.utils.HelperNMFPackage;
-import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.misc.Const;
 import esa.mo.helpertools.misc.OSValidator;
 import esa.mo.nmf.nmfpackage.metadata.Metadata;
@@ -38,6 +37,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;

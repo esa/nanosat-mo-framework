@@ -22,9 +22,14 @@ package esa.mo.nmf.clitool;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.nmf.clitool.adapters.ArchiveToAggregationsAdapter;
 import esa.mo.nmf.clitool.adapters.ArchiveToParametersAdapter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveStub;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
@@ -33,8 +38,10 @@ import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQueryList;
 import org.ccsds.moims.mo.com.structures.InstanceBooleanPair;
 import org.ccsds.moims.mo.com.structures.InstanceBooleanPairList;
-import org.ccsds.moims.mo.com.structures.ObjectIdList;
+import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectType;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperDomain;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
@@ -42,26 +49,17 @@ import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.MCHelper;
+import org.ccsds.moims.mo.mc.aggregation.AggregationServiceInfo;
 import org.ccsds.moims.mo.mc.aggregation.consumer.AggregationAdapter;
 import org.ccsds.moims.mo.mc.aggregation.consumer.AggregationStub;
 import org.ccsds.moims.mo.mc.aggregation.structures.*;
 import org.ccsds.moims.mo.mc.parameter.consumer.ParameterAdapter;
 import org.ccsds.moims.mo.mc.parameter.consumer.ParameterStub;
+import org.ccsds.moims.mo.mc.parameter.ParameterServiceInfo;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 import picocli.CommandLine.*;
-
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
-import org.ccsds.moims.mo.com.structures.ObjectId;
-import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
-import org.ccsds.moims.mo.mc.aggregation.AggregationServiceInfo;
-import org.ccsds.moims.mo.mc.parameter.ParameterServiceInfo;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
 
 /**
  * @author marcel.mikolajko
@@ -651,7 +649,7 @@ public class MCCommands {
             ArchiveQueryList archiveQueryList = new ArchiveQueryList();
             FineTime startTimeF = startTime == null ? null : HelperTime.readableString2FineTime(startTime);
             FineTime endTimeF = endTime == null ? null : HelperTime.readableString2FineTime(endTime);
-            IdentifierList domain = domainId == null ? null : HelperMisc.domainId2domain(domainId);
+            IdentifierList domain = domainId == null ? null : HelperDomain.domainId2domain(domainId);
 
             ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, null, 0L, null, startTimeF, endTimeF, null,
                 null);
@@ -767,7 +765,7 @@ public class MCCommands {
                         gson.toJson(parameters, writer);
                     } else {
                         for (IdentifierList domainKey : parameters.keySet()) {
-                            writer.write("Domain: " + HelperMisc.domain2domainId(domainKey) + "\n");
+                            writer.write("Domain: " + HelperDomain.domain2domainId(domainKey) + "\n");
                             List<String> keys = parameters.get(domainKey).keySet().stream().map(Identifier::getValue)
                                 .sorted().collect(Collectors.toList());
                             for (String parameter : keys) {
@@ -810,7 +808,7 @@ public class MCCommands {
                 LOGGER.log(Level.SEVERE, "Failed to create consumer!");
                 return;
             }
-            IdentifierList domain = domainId == null ? null : HelperMisc.domainId2domain(domainId);
+            IdentifierList domain = domainId == null ? null : HelperDomain.domainId2domain(domainId);
 
             ArchiveQueryList archiveQueryList = new ArchiveQueryList();
             ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, null, 0L, null, null, null, null, null);

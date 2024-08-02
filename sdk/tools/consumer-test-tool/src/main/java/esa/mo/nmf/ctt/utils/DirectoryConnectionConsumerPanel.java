@@ -20,10 +20,7 @@
  */
 package esa.mo.nmf.ctt.utils;
 
-import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
-import java.util.Random;
-import java.util.prefs.Preferences;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -52,6 +49,7 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
 import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.URI;

@@ -25,7 +25,6 @@ import com.restfb.FacebookClient;
 import com.restfb.Parameter;
 import com.restfb.Version;
 import com.restfb.types.FacebookType;
-import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 import esa.mo.nmf.commonmoadapter.SimpleDataReceivedListener;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
@@ -39,6 +38,7 @@ import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
 
 /**
  * Demo application pushing data into Facebook

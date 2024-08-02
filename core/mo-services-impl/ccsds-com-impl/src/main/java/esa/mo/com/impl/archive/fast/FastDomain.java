@@ -22,7 +22,6 @@ package esa.mo.com.impl.archive.fast;
 
 import esa.mo.com.impl.archive.db.DatabaseBackend;
 import esa.mo.com.impl.util.HelperCOM;
-import esa.mo.helpertools.helpers.HelperMisc;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -31,6 +30,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperDomain;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.IntegerList;
 
@@ -67,7 +67,7 @@ public class FastDomain extends FastIndex<IdentifierList> {
 
             while (rs.next()) {
                 Integer id = rs.getInt(1);
-                IdentifierList domain = HelperMisc.domainId2domain(rs.getString(2));
+                IdentifierList domain = HelperDomain.domainId2domain(rs.getString(2));
                 this.fastID.put(domain, id);
                 this.fastIDreverse.put(id, domain);
 
@@ -94,7 +94,7 @@ public class FastDomain extends FastIndex<IdentifierList> {
 
         try {
             insertStmt.setObject(1, domainId);
-            insertStmt.setObject(2, HelperMisc.domain2domainId(domain));
+            insertStmt.setObject(2, HelperDomain.domain2domainId(domain));
             insertStmt.execute();
         } catch (SQLException ex) {
             Logger.getLogger(FastDomain.class.getName()).log(Level.SEVERE, null, ex);

@@ -22,7 +22,6 @@ package esa.mo.nmf.clitool.mc;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.nmf.clitool.BaseCommand;
 import esa.mo.nmf.clitool.TimestampedAggregationValue;
 import esa.mo.nmf.clitool.TimestampedParameterValue;
@@ -47,6 +46,7 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MOErrorException;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperDomain;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
 import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
@@ -251,7 +251,7 @@ public class ParameterCommands {
             ArchiveQueryList archiveQueryList = new ArchiveQueryList();
             FineTime startTimeF = startTime == null ? null : HelperTime.readableString2FineTime(startTime);
             FineTime endTimeF = endTime == null ? null : HelperTime.readableString2FineTime(endTime);
-            IdentifierList domain = domainId == null ? null : HelperMisc.domainId2domain(domainId);
+            IdentifierList domain = domainId == null ? null : HelperDomain.domainId2domain(domainId);
 
             ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, null, 0L, null, startTimeF, endTimeF, null,
                     null);
@@ -367,7 +367,7 @@ public class ParameterCommands {
                         gson.toJson(parameters, writer);
                     } else {
                         for (IdentifierList domainKey : parameters.keySet()) {
-                            writer.write("Domain: " + HelperMisc.domain2domainId(domainKey) + "\n");
+                            writer.write("Domain: " + HelperDomain.domain2domainId(domainKey) + "\n");
                             List<String> keys = parameters.get(domainKey).keySet().stream().map(Identifier::getValue)
                                     .sorted().collect(Collectors.toList());
                             for (String parameter : keys) {
@@ -411,7 +411,7 @@ public class ParameterCommands {
                 LOGGER.log(Level.SEVERE, "Failed to create consumer!");
                 return;
             }
-            IdentifierList domain = domainId == null ? null : HelperMisc.domainId2domain(domainId);
+            IdentifierList domain = domainId == null ? null : HelperDomain.domainId2domain(domainId);
 
             ArchiveQueryList archiveQueryList = new ArchiveQueryList();
             ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, null, 0L, null, null, null, null, null);

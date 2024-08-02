@@ -25,7 +25,6 @@ import com.google.gson.GsonBuilder;
 import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.com.impl.util.ArchiveCOMObjectsOutput;
 import esa.mo.common.impl.consumer.DirectoryConsumerServiceImpl;
-import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.nmf.clitool.adapters.ArchiveToBackupAdapter;
 import esa.mo.nmf.clitool.adapters.ArchiveToJsonAdapter;
 import java.io.File;
@@ -49,6 +48,7 @@ import org.ccsds.moims.mo.common.structures.ServiceKey;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperDomain;
 import org.ccsds.moims.mo.mal.structures.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -187,7 +187,7 @@ public class ArchiveCommands {
 
             // prepare domain and time filters
             ArchiveQueryList archiveQueryList = new ArchiveQueryList();
-            IdentifierList domain = domainId == null ? null : HelperMisc.domainId2domain(domainId);
+            IdentifierList domain = domainId == null ? null : HelperDomain.domainId2domain(domainId);
             FineTime startTimeF = startTime == null ? null : HelperTime.readableString2FineTime(startTime);
             FineTime endTimeF = endTime == null ? null : HelperTime.readableString2FineTime(endTime);
             ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, null, 0L, null, startTimeF, endTimeF, null,
@@ -304,7 +304,7 @@ public class ArchiveCommands {
             ObjectType objectsTypes = new ObjectType(new UShort(0), new UShort(0), new UOctet((short) 0), new UShort(
                 0));
             ArchiveQueryList archiveQueryList = new ArchiveQueryList();
-            IdentifierList domain = domainId == null ? null : HelperMisc.domainId2domain(domainId);
+            IdentifierList domain = domainId == null ? null : HelperDomain.domainId2domain(domainId);
             ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, null, 0L, null, null, null, null, null);
             archiveQueryList.add(archiveQuery);
 

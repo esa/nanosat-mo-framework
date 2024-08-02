@@ -21,7 +21,6 @@
 package esa.mo.com.impl.util;
 
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
-import esa.mo.helpertools.helpers.HelperMisc;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +38,7 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperDomain;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.ElementList;
@@ -479,7 +479,7 @@ public class HelperArchive {
         } catch (MALInteractionException ex) {
             LOGGER.log(Level.INFO,
                 "(MALInteractionException) The object {0}, domain = {1}, objIds = {2} could not be retrieved from the Archive ({3})! A null will be returned!",
-                new Object[]{objType.toString(), HelperMisc.domain2domainId(domain), objIds.toString(), archiveService
+                new Object[]{objType.toString(), HelperDomain.domain2domainId(domain), objIds.toString(), archiveService
                     .getClass().getSimpleName()});
             return null;
         } catch (MALException ex) {

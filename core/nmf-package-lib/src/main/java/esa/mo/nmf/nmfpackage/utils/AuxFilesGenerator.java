@@ -20,13 +20,13 @@
  */
 package esa.mo.nmf.nmfpackage.utils;
 
-import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.misc.OSValidator;
 import esa.mo.nmf.nmfpackage.Deployment;
 import esa.mo.nmf.nmfpackage.metadata.MetadataApp;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
 
 /**
  * Generates the necessary auxiliary files.

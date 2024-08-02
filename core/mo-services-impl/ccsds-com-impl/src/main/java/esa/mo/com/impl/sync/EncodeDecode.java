@@ -25,7 +25,6 @@ import esa.mo.com.impl.archive.encoding.BinaryEncoder;
 import esa.mo.com.impl.archive.entities.COMObjectEntity;
 import esa.mo.com.impl.provider.ArchiveManager;
 import esa.mo.com.impl.util.COMObjectStructure;
-import esa.mo.helpertools.helpers.HelperMisc;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.archivesync.consumer.ArchiveSyncStub;
 import org.ccsds.moims.mo.com.structures.ObjectDetails;
@@ -46,6 +45,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperDomain;
 
 /**
  * Encodes and decodes COM objects to and from bytes.
@@ -217,16 +217,11 @@ public class EncodeDecode {
             encoder.encodeNullableShort(null);
         } else {
             IdentifierList sourceDomain = manager.getFastDomain().getDomain(entity.getSourceLink().getDomainId());
-            Integer sourceDomainId = dictionary.getWordId(HelperMisc.domain2domainId(sourceDomain));
+            Integer sourceDomainId = dictionary.getWordId(HelperDomain.domain2domainId(sourceDomain));
             encoder.encodeNullableShort(sourceDomainId.shortValue());
             if (sourceDomainId.shortValue() != sourceDomainId) {
-                LOGGER.log(Level.SEVERE, "providerURI {0} shortValue {1} mismatch networkId full {2}", new Object[]{
-                                                                                                                    HelperMisc
-                                                                                                                        .domain2domainId(
-                                                                                                                            sourceDomain),
-                                                                                                                    sourceDomainId
-                                                                                                                        .shortValue(),
-                                                                                                                    sourceDomainId});
+                LOGGER.log(Level.SEVERE, "providerURI {0} shortValue {1} mismatch networkId full {2}",
+                        new Object[]{HelperDomain.domain2domainId(sourceDomain), sourceDomainId.shortValue(), sourceDomainId});
             }
         }
 
@@ -330,7 +325,7 @@ public class EncodeDecode {
                 URI providerURI = new URI(dictionary.getWord((int) providerURIId));
                 IdentifierList sourceDomain;
                 if (sourceDomainId != null) {
-                    sourceDomain = HelperMisc.domainId2domain(dictionary.getWord((int) sourceDomainId));
+                    sourceDomain = HelperDomain.domainId2domain(dictionary.getWord((int) sourceDomainId));
                 } else {
                     sourceDomain = null;
                 }

@@ -22,7 +22,6 @@ package esa.mo.nmf.nanosatmomonolithic;
 
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.nmf.NMFProvider;
-import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.misc.AppShutdownGuard;
 import esa.mo.helpertools.misc.Const;
 import esa.mo.nmf.MCRegistration;
@@ -40,6 +39,7 @@ import org.ccsds.moims.mo.common.configuration.ConfigurationServiceInfo;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
 import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherServiceInfo;
 

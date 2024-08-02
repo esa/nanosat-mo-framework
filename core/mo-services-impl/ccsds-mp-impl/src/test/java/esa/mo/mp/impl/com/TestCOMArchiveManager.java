@@ -24,9 +24,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import esa.mo.com.impl.provider.ArchiveProviderServiceImpl;
 import esa.mo.com.impl.util.COMServicesProvider;
-import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.mp.impl.api.MPConfiguration;
 import esa.mo.mp.impl.util.MPFactory;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
 
 /**
  * TestCOMArchiveManager contains tests for COMArchiveManager worker methods

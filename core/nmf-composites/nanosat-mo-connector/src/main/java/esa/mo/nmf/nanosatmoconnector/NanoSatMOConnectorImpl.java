@@ -27,7 +27,6 @@ import esa.mo.common.impl.consumer.DirectoryConsumerServiceImpl;
 import esa.mo.common.impl.util.HelperCommon;
 import esa.mo.helpertools.clock.SystemClock;
 import esa.mo.helpertools.clock.PlatformClockCallback;
-import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.misc.AppShutdownGuard;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MPRegistration;
@@ -62,6 +61,7 @@ import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingl
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
 import org.ccsds.moims.mo.mal.helpertools.misc.Const;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;

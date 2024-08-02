@@ -24,7 +24,6 @@ import esa.mo.com.impl.consumer.EventConsumerServiceImpl;
 import esa.mo.com.impl.util.EventCOMObject;
 import esa.mo.com.impl.util.EventReceivedListener;
 import esa.mo.com.impl.util.HelperCOM;
-import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 import java.text.Format;
 import java.text.SimpleDateFormat;
@@ -35,6 +34,7 @@ import org.ccsds.moims.mo.com.structures.InstanceBooleanPairList;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperDomain;
 import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
@@ -113,7 +113,7 @@ public class AlertTest2 {
             Format format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
             IdentifierList domain = eventCOMObject.getDomain();
-            String domainName = HelperMisc.domain2domainId(domain);
+            String domainName = HelperDomain.domain2domainId(domain);
 
             ObjectType objTypeEvent = eventCOMObject.getObjType();
             String eventName = HelperCOM.objType2COMObject(objTypeEvent).getObjectName().toString();

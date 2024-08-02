@@ -20,11 +20,11 @@
  */
 package esa.mo.com.impl.util;
 
-import esa.mo.helpertools.helpers.HelperMisc;
 import java.text.MessageFormat;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.com.structures.ObjectType;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperDomain;
 import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
@@ -148,7 +148,7 @@ public class EventCOMObject {
     @Override
     public String toString() {
         return MessageFormat.format("EventCOMObject: domain={1}, objType={2}, objId={3}, source={4}, related={5}" +
-            ", body={6}, timestamp={7}, networkZone={8}, sourceURI={9}", HelperMisc.domain2domainId(domain), objType,
+            ", body={6}, timestamp={7}, networkZone={8}, sourceURI={9}", HelperDomain.domain2domainId(domain), objType,
             objId, source, related, body, timestamp, networkZone, sourceURI);
     }
 }

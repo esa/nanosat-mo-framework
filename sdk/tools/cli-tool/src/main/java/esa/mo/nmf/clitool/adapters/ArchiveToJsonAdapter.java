@@ -23,7 +23,6 @@ package esa.mo.nmf.clitool.adapters;
 
 import esa.mo.com.impl.util.ArchiveCOMObjectsOutput;
 import esa.mo.com.impl.util.HelperCOM;
-import esa.mo.helpertools.helpers.HelperMisc;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.io.FileWriter;
@@ -41,6 +40,7 @@ import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
 import org.ccsds.moims.mo.mal.MOErrorException;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperDomain;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
@@ -103,7 +103,7 @@ public class ArchiveToJsonAdapter extends ArchiveAdapter implements QueryStatusP
         }
 
         // Group objects by domain ...
-        String domainKey = HelperMisc.domain2domainId(archiveObjectOutput.getDomain());
+        String domainKey = HelperDomain.domain2domainId(archiveObjectOutput.getDomain());
         archiveObjects.computeIfAbsent(domainKey, k -> new HashMap<>());
 
         // ... and by COM object type
@@ -237,7 +237,7 @@ public class ArchiveToJsonAdapter extends ArchiveAdapter implements QueryStatusP
 
                 public CleanObjectId(ObjectId objectId) {
                     objectType = HelperCOM.objType2string(objectId.getType()).replace(" - ", ".").replace(": ", ".");
-                    domain = HelperMisc.domain2domainId(objectId.getKey().getDomain());
+                    domain = HelperDomain.domain2domainId(objectId.getKey().getDomain());
                     instanceId = objectId.getKey().getInstId();
                 }
             }

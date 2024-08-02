@@ -20,7 +20,6 @@
  */
 package esa.mo.nmf.ctt.utils;
 
-import esa.mo.helpertools.helpers.HelperMisc;
 import java.awt.EventQueue;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -32,6 +31,7 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
 
 /**
  * This class provides a simple form for the control of the consumer.
