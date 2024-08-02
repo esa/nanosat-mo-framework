@@ -29,9 +29,9 @@ import org.ccsds.moims.mo.mp.structures.TimeWindow;
 import org.ccsds.moims.mo.mp.structures.TimeWindowList;
 import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
-import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.mp.impl.com.COMObjectIdHelper;
 import esa.mo.nmf.ctt.utils.SharedTablePanel;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
 
 public class PlanningRequestTablePanel extends SharedTablePanel {
 
@@ -63,8 +63,8 @@ public class PlanningRequestTablePanel extends SharedTablePanel {
             TimeWindow validityWindow = validityWindows.get(0);
             Time validityStart = validityWindow.getStart() != null ? (Time) validityWindow.getStart().getValue() : null;
             Time validityEnd = validityWindow.getEnd() != null ? (Time) validityWindow.getEnd().getValue() : null;
-            validityPeriod = String.format("%s - %s", HelperTime.time2readableString(validityStart), HelperTime
-                .time2readableString(validityEnd));
+            validityPeriod = String.format("%s - %s", HelperTime.time2readableString(validityStart),
+                    HelperTime.time2readableString(validityEnd));
         }
 
         tableData.addRow(new Object[]{identity.toString(), comObject.getArchiveDetails().getInstId(),

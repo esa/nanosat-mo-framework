@@ -20,7 +20,6 @@
  */
 package esa.mo.nmf.apps;
 
-import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.mp.impl.callback.MPServiceOperation;
 import esa.mo.mp.impl.callback.MPServiceOperationCallback;
 import esa.mo.mp.impl.util.MPFactory;
@@ -48,6 +47,7 @@ import org.ccsds.moims.mo.mp.structures.RequestStatus;
 import org.ccsds.moims.mo.mp.structures.RequestUpdateDetails;
 import org.ccsds.moims.mo.mp.structures.RequestVersionDetails;
 import esa.mo.nmf.NMFInterface;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
 
 /**
  * The adapter for the NMF App

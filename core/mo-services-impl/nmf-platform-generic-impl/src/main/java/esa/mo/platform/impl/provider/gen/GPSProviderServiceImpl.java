@@ -23,7 +23,6 @@ package esa.mo.platform.impl.provider.gen;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.helpertools.helpers.HelperMisc;
-import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.helpertools.misc.TaskScheduler;
 import esa.mo.platform.impl.util.HelperGPS;
 import esa.mo.platform.impl.util.PositionsCalculator;

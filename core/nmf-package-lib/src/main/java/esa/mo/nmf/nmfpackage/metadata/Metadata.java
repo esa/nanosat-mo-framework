@@ -20,7 +20,6 @@
  */
 package esa.mo.nmf.nmfpackage.metadata;
 
-import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.nmf.nmfpackage.NMFPackageManager;
 import esa.mo.nmf.nmfpackage.receipt.NMFPackageDescriptor;
 import esa.mo.nmf.nmfpackage.NMFPackageFile;
@@ -45,6 +44,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
 import org.ccsds.moims.mo.mal.structures.Time;
 
 /**

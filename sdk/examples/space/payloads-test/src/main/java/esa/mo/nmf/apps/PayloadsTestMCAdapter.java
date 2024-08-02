@@ -22,7 +22,6 @@ package esa.mo.nmf.apps;
 
 import esa.mo.common.impl.consumer.DirectoryConsumerServiceImpl;
 import esa.mo.helpertools.helpers.HelperMisc;
-import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.helpertools.misc.Const;
 import esa.mo.mc.impl.consumer.ParameterConsumerServiceImpl;
 import esa.mo.nmf.MCRegistration;

@@ -25,11 +25,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.platform.clock.consumer.ClockAdapter;
 import org.ccsds.moims.mo.platform.clock.consumer.ClockStub;
-import esa.mo.helpertools.helpers.HelperTime;
 
 /**
  * ClockConsumerPanel

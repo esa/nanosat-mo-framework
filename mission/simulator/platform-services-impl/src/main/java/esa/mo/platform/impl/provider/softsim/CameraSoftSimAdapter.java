@@ -20,7 +20,6 @@
  */
 package esa.mo.platform.impl.provider.softsim;
 
-import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.platform.impl.provider.gen.CameraAdapterInterface;
 import esa.mo.platform.impl.provider.gen.PowerControlAdapterInterface;
 import esa.opssat.camera.processing.OPSSATCameraDebayering;
@@ -40,6 +39,7 @@ import org.ccsds.moims.mo.platform.camera.structures.PictureFormatList;
 import org.ccsds.moims.mo.platform.camera.structures.PixelResolution;
 import org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList;
 import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
 import org.ccsds.moims.mo.platform.powercontrol.structures.DeviceType;
 
 /**

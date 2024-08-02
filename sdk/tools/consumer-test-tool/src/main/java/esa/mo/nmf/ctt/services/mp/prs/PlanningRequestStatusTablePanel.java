@@ -20,16 +20,14 @@
  */
 package esa.mo.nmf.ctt.services.mp.prs;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mp.structures.RequestUpdateDetails;
-
 import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
-import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.nmf.ctt.utils.SharedTablePanel;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
+import org.ccsds.moims.mo.mal.structures.Identifier;
+import org.ccsds.moims.mo.mp.structures.RequestUpdateDetails;
 
 public class PlanningRequestStatusTablePanel extends SharedTablePanel {
 
@@ -47,8 +45,8 @@ public class PlanningRequestStatusTablePanel extends SharedTablePanel {
         }
 
         tableData.addRow(new Object[]{requestIdentityId, requestVersionId, status.getErrCode(), status.getErrInfo(),
-                                      status.getStatus().toString(), HelperTime.time2readableString(status
-                                          .getTimestamp())});
+                                      status.getStatus().toString(),
+                                      HelperTime.time2readableString(status.getTimestamp())});
 
         comObjects.add(null);
 
