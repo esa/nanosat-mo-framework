@@ -20,7 +20,6 @@
  */
 package esa.mo.nmf.groundmoproxy;
 
-import esa.mo.helpertools.misc.TaskScheduler;
 import esa.mo.sm.impl.consumer.HeartbeatConsumerServiceImpl;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -28,6 +27,7 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
+import org.ccsds.moims.mo.mal.helpertools.misc.TaskScheduler;
 import org.ccsds.moims.mo.mal.structures.FineTime;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.softwaremanagement.heartbeat.consumer.HeartbeatAdapter;
