@@ -100,7 +100,7 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
 
     // ----------------------------------------------------------------------------------------------
     public PictureFormat getPictureType() {
-        return PictureFormat.fromOrdinal(pictureType);
+        return new PictureFormat(pictureType);
     }
 
     public float getGainRed() {

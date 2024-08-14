@@ -124,7 +124,7 @@ public class ParameterAddModify extends javax.swing.JFrame {
         ParameterExpression PExp = new ParameterExpression();
 
         PExp.setParameterId(new ObjectKey(serviceMCParameter.getConnectionDetails().getDomain(), instId));
-        PExp.setOperator(ExpressionOperator.fromOrdinal(operator));
+        PExp.setOperator(new ExpressionOperator(operator));
         PExp.setUseConverted(useConverted);
         PExp.setValue(new Union(value));
 

@@ -530,7 +530,7 @@ public class AggregationAddModify extends javax.swing.JFrame {
         }
 
         AggregationDefinitionDetails aDef;
-        aDef = makeNewAggregationDefinition(descriptionTF.getText(), AggregationCategory.fromOrdinal(categoryCB
+        aDef = makeNewAggregationDefinition(descriptionTF.getText(), new AggregationCategory(categoryCB
             .getSelectedIndex()), generationEnabledCB.isSelected(), updateInterval, filterEnabledCB.isSelected(),
             filteredTimeout, makeNewAggregationParameterSetList());
 

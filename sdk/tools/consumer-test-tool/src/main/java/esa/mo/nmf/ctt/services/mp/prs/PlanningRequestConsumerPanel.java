@@ -288,7 +288,7 @@ public class PlanningRequestConsumerPanel extends javax.swing.JPanel {
 
         String planningPeriod = Integer.toString(Year.now().getValue());
 
-        TimeReference timeReference = TimeReference.fromOrdinal(0);
+        TimeReference timeReference = new TimeReference(0);
 
         Identifier user = new Identifier("CTT");
 
@@ -340,7 +340,7 @@ public class PlanningRequestConsumerPanel extends javax.swing.JPanel {
 
         String planningPeriod = Integer.toString(Year.now().getValue());
 
-        TimeReference timeReference = TimeReference.fromOrdinal(0);
+        TimeReference timeReference = new TimeReference(0);
 
         Identifier user = new Identifier("CTT");
 
@@ -429,7 +429,7 @@ public class PlanningRequestConsumerPanel extends javax.swing.JPanel {
 
         String planningPeriod = Integer.toString(Year.now().getValue());
 
-        TimeReference timeReference = TimeReference.fromOrdinal(0);
+        TimeReference timeReference = new TimeReference(0);
 
         Identifier user = new Identifier("CTT");
 
