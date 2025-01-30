@@ -45,17 +45,9 @@ public class TestCOMArchiveManager {
         System.setProperty("transport.properties", "src/test/resources/testTransport.properties");
         HelperMisc.loadPropertiesFile();
 
-        if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
-            MALHelper.init(MALContextFactory.getElementFactoryRegistry());
-        }
-
-        if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION) == null) {
-            COMHelper.init(MALContextFactory.getElementFactoryRegistry());
-        }
-
-        if (MALContextFactory.lookupArea(MPHelper.MP_AREA_NAME, MPHelper.MP_AREA_VERSION) == null) {
-            MPHelper.init(MALContextFactory.getElementFactoryRegistry());
-        }
+        MALContextFactory.registerArea(MALHelper.MAL_AREA);
+        MALContextFactory.registerArea(COMHelper.COM_AREA);
+        MALContextFactory.registerArea(MPHelper.MP_AREA);
 
         COMServicesProvider comServices = new COMServicesProvider();
         comServices.init();
@@ -120,7 +112,7 @@ public class TestCOMArchiveManager {
     public void testListAllIdentityIds() throws MALException, MALInteractionException {
         ObjectIdPair pair = this.addTestActivity("List Identity");
         ObjectIdList ids = archiveManager.listAllIdentityIds(
-            PlanInformationManagementHelper.ACTIVITYIDENTITY_OBJECT_TYPE);
+            PlanInformationManagementHelper.PLANINFORMATIONMANAGEMENT_SERVICE.ACTIVITYIDENTITY_OBJECT_TYPE);
         assertNotNull(ids);
         assertTrue(ids.size() >= 1);
         assertTrue(ids.contains(pair.getIdentityId()));
@@ -130,7 +122,7 @@ public class TestCOMArchiveManager {
     public void testListAllObjectIds() throws MALException, MALInteractionException {
         ObjectIdPair pair = this.addTestActivity("List Object");
         ObjectIdList ids = archiveManager.listAllObjectIds(
-            PlanInformationManagementHelper.ACTIVITYDEFINITION_OBJECT_TYPE);
+            PlanInformationManagementHelper.PLANINFORMATIONMANAGEMENT_SERVICE.ACTIVITYDEFINITION_OBJECT_TYPE);
         assertNotNull(ids);
         assertTrue(ids.size() >= 1);
         assertTrue(ids.contains(pair.getObjectId()));
@@ -141,7 +133,7 @@ public class TestCOMArchiveManager {
         String identityName = "Get Identity Id";
         ObjectIdPair pair = this.addTestActivity(identityName);
         ObjectId id = archiveManager.getIdentityId(new Identifier(identityName),
-            PlanInformationManagementHelper.ACTIVITYIDENTITY_OBJECT_TYPE);
+            PlanInformationManagementHelper.PLANINFORMATIONMANAGEMENT_SERVICE.ACTIVITYIDENTITY_OBJECT_TYPE);
         assertNotNull(id);
         assertEquals(pair.getIdentityId(), id);
     }
@@ -151,7 +143,7 @@ public class TestCOMArchiveManager {
         String identityName = "Get Object By Identity";
         this.addTestActivity(identityName);
         Element object = archiveManager.getObject(new Identifier(identityName),
-            PlanInformationManagementHelper.ACTIVITYIDENTITY_OBJECT_TYPE);
+            PlanInformationManagementHelper.PLANINFORMATIONMANAGEMENT_SERVICE.ACTIVITYIDENTITY_OBJECT_TYPE);
         assertNotNull(object);
         assertTrue(object instanceof ActivityDefinitionDetails);
     }
