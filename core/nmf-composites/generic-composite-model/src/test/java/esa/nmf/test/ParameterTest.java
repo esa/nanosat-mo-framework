@@ -20,7 +20,6 @@ package esa.nmf.test;
  * limitations under the License.
  * ----------------------------------------------------------------------------
  */
-import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.annotations.Parameter;
@@ -106,21 +105,21 @@ public class ParameterTest {
         test.initialRegistrations(new registrationTester());
 
         ParameterRawValueList setList = new ParameterRawValueList();
-        Object attribute = HelperAttributes.javaType2Attribute(42);
+        Object attribute = Attribute.javaType2Attribute(42);
         setList.add(new ParameterRawValue(ID1, (Attribute) attribute));
-        attribute = HelperAttributes.javaType2Attribute(0.8f);
+        attribute = Attribute.javaType2Attribute(0.8f);
         setList.add(new ParameterRawValue(ID2, (Attribute) attribute));
-        attribute = HelperAttributes.javaType2Attribute(.99999);
+        attribute = Attribute.javaType2Attribute(.99999);
         setList.add(new ParameterRawValue(ID3, (Attribute) attribute));
-        attribute = HelperAttributes.javaType2Attribute("Hallo");
+        attribute = Attribute.javaType2Attribute("Hallo");
         setList.add(new ParameterRawValue(ID4, (Attribute) attribute));
         test.onSetValue(setList);
 
-        Object v1 = HelperAttributes.attribute2JavaType(test.onGetValue(ID1));
-        Object v2 = HelperAttributes.attribute2JavaType(test.onGetValue(ID2));
-        Object v3 = HelperAttributes.attribute2JavaType(test.onGetValue(ID3));
-        Object v4 = HelperAttributes.attribute2JavaType(test.onGetValue(ID4));
-        Object v5 = HelperAttributes.attribute2JavaType(test.onGetValue(ID5));
+        Object v1 = Attribute.attribute2JavaType(test.onGetValue(ID1));
+        Object v2 = Attribute.attribute2JavaType(test.onGetValue(ID2));
+        Object v3 = Attribute.attribute2JavaType(test.onGetValue(ID3));
+        Object v4 = Attribute.attribute2JavaType(test.onGetValue(ID4));
+        Object v5 = Attribute.attribute2JavaType(test.onGetValue(ID5));
 
         org.junit.Assert.assertTrue("'" + v1 + "' != '" + 42 + "'", v1.equals(42));
         org.junit.Assert.assertTrue("'" + v2 + "' != '" + 0.8f + "'", v2.equals(0.8f));

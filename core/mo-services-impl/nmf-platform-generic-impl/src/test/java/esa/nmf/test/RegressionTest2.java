@@ -245,7 +245,6 @@ public class RegressionTest2 {
         boolean boolean50 = byteList38.removeAll((java.util.Collection<java.lang.Byte>) byteList48);
         boolean boolean51 = doubleList21.removeAll((java.util.Collection<java.lang.Byte>) byteList38);
         org.ccsds.moims.mo.mal.structures.OctetList octetList52 = new org.ccsds.moims.mo.mal.structures.OctetList();
-        org.ccsds.moims.mo.mal.structures.UOctet uOctet53 = octetList52.getAreaVersion();
         boolean boolean54 = doubleList21.retainAll((java.util.Collection<java.lang.Byte>) octetList52);
         boolean boolean55 = uRIList1.equals((java.lang.Object) octetList52);
         java.lang.Object obj56 = null;
@@ -303,7 +302,6 @@ public class RegressionTest2 {
         org.junit.Assert.assertTrue("'" + boolean49 + "' != '" + true + "'", boolean49);
         org.junit.Assert.assertTrue("'" + boolean50 + "' != '" + true + "'", boolean50);
         org.junit.Assert.assertTrue("'" + boolean51 + "' != '" + false + "'", !boolean51);
-        org.junit.Assert.assertNotNull(uOctet53);
         org.junit.Assert.assertTrue("'" + boolean54 + "' != '" + false + "'", !boolean54);
         org.junit.Assert.assertTrue("'" + boolean55 + "' != '" + true + "'", boolean55);
         org.junit.Assert.assertTrue("'" + int57 + "' != '" + (-1) + "'", int57 == (-1));
@@ -401,9 +399,7 @@ public class RegressionTest2 {
         boolean boolean26 = shortList6.retainAll((java.util.Collection<java.lang.Byte>) byteList23);
         java.util.Spliterator<java.lang.Short> shortSpliterator27 = shortList6.spliterator();
         org.ccsds.moims.mo.mal.structures.OctetList octetList28 = new org.ccsds.moims.mo.mal.structures.OctetList();
-        org.ccsds.moims.mo.mal.structures.UOctet uOctet29 = octetList28.getAreaVersion();
         java.util.Spliterator<java.lang.Byte> byteSpliterator30 = octetList28.spliterator();
-        org.ccsds.moims.mo.mal.structures.UShort uShort31 = octetList28.getAreaNumber();
         boolean boolean32 = shortList6.retainAll((java.util.Collection<java.lang.Byte>) octetList28);
         byte[] byteArray34 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int16_2ByteArray(15);
         int int35 = octetList28.indexOf((java.lang.Object) byteArray34);
@@ -426,9 +422,7 @@ public class RegressionTest2 {
             "[100, 1, -1, 10]"));
         org.junit.Assert.assertTrue("'" + boolean26 + "' != '" + true + "'", boolean26);
         org.junit.Assert.assertNotNull(shortSpliterator27);
-        org.junit.Assert.assertNotNull(uOctet29);
         org.junit.Assert.assertNotNull(byteSpliterator30);
-        org.junit.Assert.assertNotNull(uShort31);
         org.junit.Assert.assertTrue("'" + boolean32 + "' != '" + false + "'", !boolean32);
         org.junit.Assert.assertNotNull(byteArray34);
         org.junit.Assert.assertTrue("'" + int35 + "' != '" + (-1) + "'", int35 == (-1));
@@ -887,24 +881,14 @@ public class RegressionTest2 {
             System.out.format("%n%s%n", "RegressionTest2.test1044");
         }
         org.ccsds.moims.mo.mal.structures.OctetList octetList0 = new org.ccsds.moims.mo.mal.structures.OctetList();
-        org.ccsds.moims.mo.mal.structures.UOctet uOctet1 = octetList0.getAreaVersion();
-        org.ccsds.moims.mo.mal.structures.UOctet uOctet2 = octetList0.getAreaVersion();
-        java.lang.Integer int3 = uOctet2.getTypeShortForm();
-        org.ccsds.moims.mo.mal.structures.UShort uShort4 = uOctet2.getServiceNumber();
         byte[] byteArray6 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.long2ByteArray(281474993487883L);
-        boolean boolean7 = uOctet2.equals((java.lang.Object) byteArray6);
         try {
             org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion quaternion8 = esa.mo.platform.impl.util.HelperIADCS100
                 .getQuaternionsFromSpinModeStatus(byteArray6);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
-        org.junit.Assert.assertNotNull(uOctet1);
-        org.junit.Assert.assertNotNull(uOctet2);
-        org.junit.Assert.assertTrue("'" + int3 + "' != '" + 8 + "'", int3.equals(8));
-        org.junit.Assert.assertNotNull(uShort4);
         org.junit.Assert.assertNotNull(byteArray6);
-        org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", !boolean7);
     }
 
     @Test
@@ -1157,15 +1141,12 @@ public class RegressionTest2 {
             System.out.format("%n%s%n", "RegressionTest2.test1061");
         }
         org.ccsds.moims.mo.mal.structures.LongList longList1 = new org.ccsds.moims.mo.mal.structures.LongList(64);
-        org.ccsds.moims.mo.mal.structures.UShort uShort2 = longList1.getServiceNumber();
         longList1.trimToSize();
         org.ccsds.moims.mo.mal.structures.UShortList uShortList5 = new org.ccsds.moims.mo.mal.structures.UShortList(48);
-        java.lang.Long long6 = uShortList5.getShortForm();
         org.ccsds.moims.mo.mal.structures.Element element7 = uShortList5.createElement();
         org.ccsds.moims.mo.mal.structures.Element element8 = uShortList5.createElement();
         java.util.Spliterator<org.ccsds.moims.mo.mal.structures.UShort> uShortSpliterator9 = uShortList5.spliterator();
         java.util.Iterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor10 = uShortList5.iterator();
-        org.ccsds.moims.mo.mal.structures.UShort uShort11 = uShortList5.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray12 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList13 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
         boolean boolean14 = java.util.Collections.addAll(
@@ -1202,12 +1183,9 @@ public class RegressionTest2 {
         boolean boolean62 = byteList50.removeAll((java.util.Collection<java.lang.Byte>) byteList60);
         boolean boolean63 = doubleList33.removeAll((java.util.Collection<java.lang.Byte>) byteList50);
         org.ccsds.moims.mo.mal.structures.OctetList octetList64 = new org.ccsds.moims.mo.mal.structures.OctetList();
-        org.ccsds.moims.mo.mal.structures.UOctet uOctet65 = octetList64.getAreaVersion();
         boolean boolean66 = doubleList33.retainAll((java.util.Collection<java.lang.Byte>) octetList64);
         boolean boolean67 = uRIList13.equals((java.lang.Object) octetList64);
         org.ccsds.moims.mo.mal.structures.Element element68 = octetList64.createElement();
-        java.lang.Long long69 = octetList64.getShortForm();
-        org.ccsds.moims.mo.mal.structures.UShort uShort70 = octetList64.getServiceNumber();
         java.util.stream.Stream<java.lang.Byte> byteStream71 = octetList64.stream();
         boolean boolean72 = uShortList5.retainAll((java.util.Collection<java.lang.Byte>) octetList64);
         java.util.ListIterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor74 = uShortList5.listIterator(
@@ -1228,16 +1206,11 @@ public class RegressionTest2 {
             positionsCalculatorArray81);
         esa.mo.platform.impl.util.PositionsCalculator[] positionsCalculatorArray83 = longList1.toArray(
             positionsCalculatorArray82);
-        java.lang.Long long84 = longList1.getShortForm();
         java.util.Spliterator<java.lang.Long> longSpliterator85 = longList1.spliterator();
-        java.lang.Integer int86 = longList1.getTypeShortForm();
-        org.junit.Assert.assertNotNull(uShort2);
-        org.junit.Assert.assertTrue("'" + long6 + "' != '" + 281475010265078L + "'", long6.equals(281475010265078L));
         org.junit.Assert.assertNotNull(element7);
         org.junit.Assert.assertNotNull(element8);
         org.junit.Assert.assertNotNull(uShortSpliterator9);
         org.junit.Assert.assertNotNull(uShortItor10);
-        org.junit.Assert.assertNotNull(uShort11);
         org.junit.Assert.assertNotNull(uRIArray12);
         org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + false + "'", !boolean14);
         org.junit.Assert.assertNotNull(doubleArray18);
@@ -1259,21 +1232,16 @@ public class RegressionTest2 {
         org.junit.Assert.assertTrue("'" + boolean61 + "' != '" + true + "'", boolean61);
         org.junit.Assert.assertTrue("'" + boolean62 + "' != '" + true + "'", boolean62);
         org.junit.Assert.assertTrue("'" + boolean63 + "' != '" + false + "'", !boolean63);
-        org.junit.Assert.assertNotNull(uOctet65);
         org.junit.Assert.assertTrue("'" + boolean66 + "' != '" + false + "'", !boolean66);
         org.junit.Assert.assertTrue("'" + boolean67 + "' != '" + true + "'", boolean67);
         org.junit.Assert.assertNotNull(element68);
-        org.junit.Assert.assertTrue("'" + long69 + "' != '" + 281475010265081L + "'", long69.equals(281475010265081L));
-        org.junit.Assert.assertNotNull(uShort70);
         org.junit.Assert.assertNotNull(byteStream71);
         org.junit.Assert.assertTrue("'" + boolean72 + "' != '" + false + "'", !boolean72);
         org.junit.Assert.assertNotNull(uShortItor74);
         org.junit.Assert.assertNotNull(positionsCalculatorArray81);
         org.junit.Assert.assertNotNull(positionsCalculatorArray82);
         org.junit.Assert.assertNotNull(positionsCalculatorArray83);
-        org.junit.Assert.assertTrue("'" + long84 + "' != '" + 281475010265075L + "'", long84.equals(281475010265075L));
         org.junit.Assert.assertNotNull(longSpliterator85);
-        org.junit.Assert.assertTrue("'" + int86 + "' != '" + (-13) + "'", int86.equals((-13)));
     }
 
     @Test
@@ -1356,20 +1324,14 @@ public class RegressionTest2 {
         }
         org.ccsds.moims.mo.mal.structures.ShortList shortList0 = new org.ccsds.moims.mo.mal.structures.ShortList();
         shortList0.trimToSize();
-        org.ccsds.moims.mo.mal.structures.UOctet uOctet2 = shortList0.getAreaVersion();
-        java.lang.String str3 = uOctet2.toString();
         byte[] byteArray5 = esa.mo.platform.impl.util.HelperIADCS100.FWRefFineADCS.int2ByteArray(4);
-        boolean boolean6 = uOctet2.equals((java.lang.Object) byteArray5);
         try {
             org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed wheelsSpeed7 = esa.mo.platform.impl.util.HelperIADCS100
                 .getWheelSpeedFromFixWGS84TargetTrackingStatus(byteArray5);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
-        org.junit.Assert.assertNotNull(uOctet2);
-        org.junit.Assert.assertTrue("'" + str3 + "' != '" + "1" + "'", str3.equals("1"));
         org.junit.Assert.assertNotNull(byteArray5);
-        org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + false + "'", !boolean6);
     }
 
     @Test

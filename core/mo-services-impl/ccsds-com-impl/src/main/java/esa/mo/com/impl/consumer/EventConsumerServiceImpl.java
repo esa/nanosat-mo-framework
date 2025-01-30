@@ -136,9 +136,9 @@ public class EventConsumerServiceImpl extends ConsumerServiceImpl {
                         Long entityKey3 = ((Union) subkeys.get(2).getValue()).getLongValue();
                         Long entityKey4 = ((Union) subkeys.get(3).getValue()).getLongValue(); // ObjType of the source
                         /*
-                        Long entityKey2 = (Long) HelperAttributes.attribute2JavaType(subkeys.get(1).getValue());
-                        Long entityKey3 = (Long) HelperAttributes.attribute2JavaType(subkeys.get(2).getValue());
-                        Long entityKey4 = (Long) HelperAttributes.attribute2JavaType(subkeys.get(3).getValue()); // ObjType of the source
+                        Long entityKey2 = (Long) Attribute.attribute2JavaType(subkeys.get(1).getValue());
+                        Long entityKey3 = (Long) Attribute.attribute2JavaType(subkeys.get(2).getValue());
+                        Long entityKey4 = (Long) Attribute.attribute2JavaType(subkeys.get(3).getValue()); // ObjType of the source
                         */
                         // (UShort area, UShort service, UOctet version, UShort number)
                         // (UShort area, UShort service, UOctet version, 0)
