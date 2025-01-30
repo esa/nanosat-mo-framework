@@ -27,6 +27,7 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Element;
+import org.ccsds.moims.mo.mal.structures.Enumeration;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.HomogeneousList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
@@ -184,6 +185,18 @@ public class BinaryEncoder extends GENEncoder {
             }
         } catch (IOException ex) {
             throw new MALException(ENCODING_EXCEPTION_STR, ex);
+        }
+    }
+
+    @Override
+    public void encodeEnumeration(Enumeration enumeration) throws MALException {
+        int enumSize = enumeration.getEnumSize();
+        Integer ordinal = (Integer) enumeration.getOrdinal();
+
+        if (enumSize < 256) {
+            this.encodeUOctet(new org.ccsds.moims.mo.mal.structures.UOctet(ordinal.shortValue()));
+        } else if (enumSize < 65536) {
+            this.encodeUShort(new org.ccsds.moims.mo.mal.structures.UShort(ordinal));
         }
     }
 

@@ -221,6 +221,19 @@ public class BinaryDecoder extends GENDecoder {
         return decodeLong();
     }
 
+    @Override
+    public Element decodeEnumeration(Enumeration enumeration) throws MALException {
+        int enumSize = enumeration.getEnumSize();
+
+        if (enumSize < 256) {
+            return enumeration.fromOrdinal(this.decodeUOctet().getValue());
+        } else if (enumSize < 65536) {
+            return enumeration.fromOrdinal(this.decodeUShort().getValue());
+        }
+
+        throw new MALException("The Enumeration could not be decoded!");
+    }
+
     /**
      * Internal class that is used to hold the byte buffer. Derived classes should extend this (and replace it in the
      * constructors) if they encode the fields differently from this encoding.
