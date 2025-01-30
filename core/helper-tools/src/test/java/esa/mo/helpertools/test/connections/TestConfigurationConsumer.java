@@ -2,15 +2,13 @@ package esa.mo.helpertools.test.connections;
 
 import static org.junit.Assert.assertEquals;
 
+import esa.mo.helpertools.connections.ConfigurationConsumer;
 import java.util.Properties;
-
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.SessionType;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import esa.mo.helpertools.connections.ConfigurationConsumer;
 
 public class TestConfigurationConsumer {
 
