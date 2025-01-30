@@ -357,15 +357,11 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test5");
         org.ccsds.moims.mo.mal.structures.FloatList floatList0 = new org.ccsds.moims.mo.mal.structures.FloatList();
         floatList0.trimToSize();
-        org.ccsds.moims.mo.mal.structures.UShort uShort5 = floatList0.getServiceNumber();
         floatList0.trimToSize();
-        org.ccsds.moims.mo.mal.structures.UOctet uOctet7 = floatList0.getAreaVersion();
         java.util.ListIterator<java.lang.Float> floatItor8 = floatList0.listIterator();
         org.ccsds.moims.mo.mal.structures.ULong uLong9 = new org.ccsds.moims.mo.mal.structures.ULong();
         org.ccsds.moims.mo.mal.structures.ShortList shortList10 = new org.ccsds.moims.mo.mal.structures.ShortList();
         boolean boolean11 = uLong9.equals((java.lang.Object) shortList10);
-        org.ccsds.moims.mo.mal.structures.UShort uShort12 = shortList10.getServiceNumber();
-        org.ccsds.moims.mo.mal.structures.UShort uShort13 = shortList10.getServiceNumber();
         java.util.Iterator<java.lang.Short> shortItor14 = shortList10.iterator();
         java.util.stream.Stream<java.lang.Short> shortStream15 = shortList10.stream();
         org.ccsds.moims.mo.mal.structures.BooleanList[] booleanListArray16 = new org.ccsds.moims.mo.mal.structures.BooleanList[]{};
@@ -481,12 +477,8 @@ public class RegressionTest0 {
         esa.mo.common.impl.util.HelperCommon[][][] helperCommonArray91 = shortList10.toArray(helperCommonArray90);
         esa.mo.common.impl.util.HelperCommon[][][] helperCommonArray92 = floatList0.toArray(helperCommonArray90);
         floatList0.ensureCapacity((int) (short) 10);
-        org.junit.Assert.assertNotNull(uShort5);
-        org.junit.Assert.assertNotNull(uOctet7);
         org.junit.Assert.assertNotNull(floatItor8);
         org.junit.Assert.assertTrue("'" + boolean11 + "' != '" + false + "'", !boolean11);
-        org.junit.Assert.assertNotNull(uShort12);
-        org.junit.Assert.assertNotNull(uShort13);
         org.junit.Assert.assertNotNull(shortItor14);
         org.junit.Assert.assertNotNull(shortStream15);
         org.junit.Assert.assertNotNull(booleanListArray16);

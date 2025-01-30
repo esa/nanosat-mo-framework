@@ -307,12 +307,6 @@ public class TestHelperAttributes {
     }
 
     @Test
-    public void testAttribute2Double48() {
-        ULong attribute = new ULong(ULong.MAX_VALUE);
-        assertEquals(18446744073709551615.0, (double) HelperAttributes.attribute2double(attribute), 0.0000001);
-    }
-
-    @Test
     public void testAttribute2Double49() {
         ULong attribute = new ULong(new BigInteger("42"));
         assertEquals(42.0, (double) HelperAttributes.attribute2double(attribute), 0.0000001);
@@ -697,7 +691,7 @@ public class TestHelperAttributes {
     public void testString2Attribute3() {
         Union attribute = new Union(42.0);
         Union result = (Union) HelperAttributes.string2attribute(attribute, "1337.0");
-        assertEquals(Union._DOUBLE_TYPE_SHORT_FORM, (int) result.getTypeShortForm());
+        assertEquals(Union._DOUBLE_TYPE_SHORT_FORM, (int) result.getTypeId().getSFP());
         assertEquals(1337.0, result.getDoubleValue(), 0.000001);
     }
 
@@ -705,7 +699,7 @@ public class TestHelperAttributes {
     public void testString2Attribute4() {
         Union attribute = new Union(true);
         Union result = (Union) HelperAttributes.string2attribute(attribute, "false");
-        assertEquals(Union._BOOLEAN_TYPE_SHORT_FORM, (int) result.getTypeShortForm());
+        assertEquals(Union._BOOLEAN_TYPE_SHORT_FORM, (int) result.getTypeId().getSFP());
         assertEquals(false, result.getBooleanValue());
     }
 
@@ -713,7 +707,7 @@ public class TestHelperAttributes {
     public void testString2Attribute5() {
         Union attribute = new Union(false);
         Union result = (Union) HelperAttributes.string2attribute(attribute, "true");
-        assertEquals(Union._BOOLEAN_TYPE_SHORT_FORM, (int) result.getTypeShortForm());
+        assertEquals(Union._BOOLEAN_TYPE_SHORT_FORM, (int) result.getTypeId().getSFP());
         assertEquals(true, result.getBooleanValue());
     }
 
@@ -721,7 +715,7 @@ public class TestHelperAttributes {
     public void testString2Attribute6() {
         Union attribute = new Union(0f);
         Union result = (Union) HelperAttributes.string2attribute(attribute, "42.0f");
-        assertEquals(Union._FLOAT_TYPE_SHORT_FORM, (int) result.getTypeShortForm());
+        assertEquals(Union._FLOAT_TYPE_SHORT_FORM, (int) result.getTypeId().getSFP());
         assertEquals(42.0f, (float) result.getFloatValue(), 0.000001f);
     }
 
@@ -729,7 +723,7 @@ public class TestHelperAttributes {
     public void testString2Attribute7() {
         Union attribute = new Union(0);
         Union result = (Union) HelperAttributes.string2attribute(attribute, "1337");
-        assertEquals(Union._INTEGER_TYPE_SHORT_FORM, (int) result.getTypeShortForm());
+        assertEquals(Union._INTEGER_TYPE_SHORT_FORM, (int) result.getTypeId().getSFP());
         assertEquals(1337, (int) result.getIntegerValue());
     }
 
@@ -737,7 +731,7 @@ public class TestHelperAttributes {
     public void testString2Attribute8() {
         Union attribute = new Union(0L);
         Union result = (Union) HelperAttributes.string2attribute(attribute, "123456789");
-        assertEquals(Union._LONG_TYPE_SHORT_FORM, (int) result.getTypeShortForm());
+        assertEquals(Union._LONG_TYPE_SHORT_FORM, (int) result.getTypeId().getSFP());
         assertEquals(123456789L, (long) result.getLongValue());
     }
 
@@ -745,7 +739,7 @@ public class TestHelperAttributes {
     public void testString2Attribute9() {
         Union attribute = new Union((byte) 123);
         Union result = (Union) HelperAttributes.string2attribute(attribute, "42");
-        assertEquals(Union._OCTET_TYPE_SHORT_FORM, (int) result.getTypeShortForm());
+        assertEquals(Union._OCTET_TYPE_SHORT_FORM, (int) result.getTypeId().getSFP());
         assertEquals(42, (byte) result.getOctetValue());
     }
 
@@ -753,7 +747,7 @@ public class TestHelperAttributes {
     public void testString2Attribute10() {
         Union attribute = new Union((short) 4321);
         Union result = (Union) HelperAttributes.string2attribute(attribute, "9876");
-        assertEquals(Union._SHORT_TYPE_SHORT_FORM, (int) result.getTypeShortForm());
+        assertEquals(Union._SHORT_TYPE_SHORT_FORM, (int) result.getTypeId().getSFP());
         assertEquals(9876, (short) result.getShortValue());
     }
 
@@ -862,7 +856,7 @@ public class TestHelperAttributes {
         Object res = HelperAttributes.javaType2Attribute(true);
         assertTrue(res instanceof Union);
         Union result = (Union) res;
-        assertEquals(Union._BOOLEAN_TYPE_SHORT_FORM, (int) result.getTypeShortForm());
+        assertEquals(Union._BOOLEAN_TYPE_SHORT_FORM, (int) result.getTypeId().getSFP());
         assertEquals(true, result.getBooleanValue());
     }
 
@@ -871,7 +865,7 @@ public class TestHelperAttributes {
         Object res = HelperAttributes.javaType2Attribute(false);
         assertTrue(res instanceof Union);
         Union result = (Union) res;
-        assertEquals(Union._BOOLEAN_TYPE_SHORT_FORM, (int) result.getTypeShortForm());
+        assertEquals(Union._BOOLEAN_TYPE_SHORT_FORM, (int) result.getTypeId().getSFP());
         assertEquals(false, result.getBooleanValue());
     }
 
@@ -880,7 +874,7 @@ public class TestHelperAttributes {
         Object res = HelperAttributes.javaType2Attribute(42);
         assertTrue(res instanceof Union);
         Union result = (Union) res;
-        assertEquals(Union._INTEGER_TYPE_SHORT_FORM, (int) result.getTypeShortForm());
+        assertEquals(Union._INTEGER_TYPE_SHORT_FORM, (int) result.getTypeId().getSFP());
         assertEquals(42, (int) result.getIntegerValue());
     }
 
@@ -889,7 +883,7 @@ public class TestHelperAttributes {
         Object res = HelperAttributes.javaType2Attribute(1337429874L);
         assertTrue(res instanceof Union);
         Union result = (Union) res;
-        assertEquals(Union._LONG_TYPE_SHORT_FORM, (int) result.getTypeShortForm());
+        assertEquals(Union._LONG_TYPE_SHORT_FORM, (int) result.getTypeId().getSFP());
         assertEquals(1337429874L, (long) result.getLongValue());
     }
 
@@ -898,7 +892,7 @@ public class TestHelperAttributes {
         Object res = HelperAttributes.javaType2Attribute("I am a test.");
         assertTrue(res instanceof Union);
         Union result = (Union) res;
-        assertEquals(Union._STRING_TYPE_SHORT_FORM, (int) result.getTypeShortForm());
+        assertEquals(Union._STRING_TYPE_SHORT_FORM, (int) result.getTypeId().getSFP());
         assertEquals("I am a test.", result.getStringValue());
     }
 
@@ -907,7 +901,7 @@ public class TestHelperAttributes {
         Object res = HelperAttributes.javaType2Attribute(42.1337);
         assertTrue(res instanceof Union);
         Union result = (Union) res;
-        assertEquals(Union._DOUBLE_TYPE_SHORT_FORM, (int) result.getTypeShortForm());
+        assertEquals(Union._DOUBLE_TYPE_SHORT_FORM, (int) result.getTypeId().getSFP());
         assertEquals(42.1337, result.getDoubleValue(), 0.000001);
     }
 
@@ -916,7 +910,7 @@ public class TestHelperAttributes {
         Object res = HelperAttributes.javaType2Attribute(1337.42f);
         assertTrue(res instanceof Union);
         Union result = (Union) res;
-        assertEquals(Union._FLOAT_TYPE_SHORT_FORM, (int) result.getTypeShortForm());
+        assertEquals(Union._FLOAT_TYPE_SHORT_FORM, (int) result.getTypeId().getSFP());
         assertEquals(1337.42f, result.getFloatValue(), 0.000001);
     }
 
@@ -925,7 +919,7 @@ public class TestHelperAttributes {
         Object res = HelperAttributes.javaType2Attribute((byte) 123);
         assertTrue(res instanceof Union);
         Union result = (Union) res;
-        assertEquals(Union._OCTET_TYPE_SHORT_FORM, (int) result.getTypeShortForm());
+        assertEquals(Union._OCTET_TYPE_SHORT_FORM, (int) result.getTypeId().getSFP());
         assertEquals(123, (byte) result.getOctetValue());
     }
 
@@ -934,7 +928,7 @@ public class TestHelperAttributes {
         Object res = HelperAttributes.javaType2Attribute((short) 12345);
         assertTrue(res instanceof Union);
         Union result = (Union) res;
-        assertEquals(Union._SHORT_TYPE_SHORT_FORM, (int) result.getTypeShortForm());
+        assertEquals(Union._SHORT_TYPE_SHORT_FORM, (int) result.getTypeId().getSFP());
         assertEquals(12345, (short) result.getShortValue());
     }
 

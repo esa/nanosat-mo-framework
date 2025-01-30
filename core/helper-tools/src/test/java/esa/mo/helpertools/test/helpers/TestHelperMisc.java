@@ -5,7 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-
+import esa.mo.helpertools.helpers.HelperMisc;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -13,7 +13,6 @@ import java.net.URL;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
@@ -44,8 +43,6 @@ import org.ccsds.moims.mo.mal.structures.Union;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import esa.mo.helpertools.helpers.HelperMisc;
 
 public class TestHelperMisc {
 
