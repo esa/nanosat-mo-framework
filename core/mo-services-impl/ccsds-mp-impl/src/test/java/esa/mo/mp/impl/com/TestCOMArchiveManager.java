@@ -45,9 +45,9 @@ public class TestCOMArchiveManager {
         System.setProperty("transport.properties", "src/test/resources/testTransport.properties");
         HelperMisc.loadPropertiesFile();
 
-        MALContextFactory.registerArea(MALHelper.MAL_AREA);
-        MALContextFactory.registerArea(COMHelper.COM_AREA);
-        MALContextFactory.registerArea(MPHelper.MP_AREA);
+        MALContextFactory.getElementsRegistry().loadFullArea(MALHelper.MAL_AREA);
+        MALContextFactory.getElementsRegistry().loadFullArea(COMHelper.COM_AREA);
+        MALContextFactory.getElementsRegistry().loadFullArea(MPHelper.MP_AREA);
 
         COMServicesProvider comServices = new COMServicesProvider();
         comServices.init();
