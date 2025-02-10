@@ -7,7 +7,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.orekit.data.DataProvidersManager;
-import org.orekit.data.DataContext;
+//import org.orekit.data.DataContext;
 import org.orekit.data.DirectoryCrawler;
 
 public class GPSSoftSimAdapterTest {
@@ -22,10 +22,12 @@ public class GPSSoftSimAdapterTest {
     @Before
     public void setup() throws IOException {
         // configure Orekit
+        /*
         final File home = new File(System.getProperty("user.home"));
         final File orekitData = new File(home, "orekit-data");
         final DataProvidersManager manager = DataContext.getDefault().getDataProvidersManager();
         manager.addProvider(new DirectoryCrawler(orekitData));
+        */
     }
 
     @Test
