@@ -12,7 +12,7 @@ import org.orekit.data.DirectoryCrawler;
 
 public class GPSSoftSimAdapterTest {
 
-    private static opssat.simulator.main.ESASimulator eSASimulator = new ESASimulator();
+//    private static opssat.simulator.main.ESASimulator eSASimulator = new ESASimulator();
 
     private final static String CLOCK_MODEL_STATUS = "(VALID|CONVERGING|ITERATING|INVALID)";
     private final static String UTC_STATUS = "(VALID|INVALID|WARNING)";
