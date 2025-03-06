@@ -43,7 +43,7 @@ import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mc.alert.AlertServiceInfo;
 import org.ccsds.moims.mo.mc.alert.structures.AlertDefinitionDetails;
 import org.ccsds.moims.mo.mc.alert.structures.AlertEventDetails;
-import org.ccsds.moims.mo.mc.alert.consumer.Alert;
+import org.ccsds.moims.mo.mc.alert.consumer.AlertStub;
 import org.ccsds.moims.mo.mc.structures.AttributeValue;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
@@ -72,7 +72,7 @@ public class AlertTest2 {
         }
 
         //----------------------------------------------------------------
-        Alert alertConsumer = groundAdapter.getMCServices().getAlertService().getAlertStub();
+        AlertStub alertConsumer = groundAdapter.getMCServices().getAlertService().getAlertStub();
         EventConsumerServiceImpl eventConsumer = groundAdapter.getCOMServices().getEventService();
 
         // get a list of identifiers for all Alert Definitions in the Archive
