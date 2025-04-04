@@ -34,6 +34,7 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.platform.camera.structures.PictureFormat;
+import org.orekit.data.DataContext;
 import org.orekit.data.DataProvidersManager;
 import org.orekit.errors.OrekitException;
 import org.orekit.time.AbsoluteDate;
@@ -159,7 +160,7 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
         try {
             // load orekit-data wich is required for many parts of orekit to work.
             LOGGER.log(Level.INFO, "Loading orekit data");
-            DataProvidersManager manager = DataProvidersManager.getInstance();
+            DataProvidersManager manager = DataContext.getDefault().getDataProvidersManager();
             manager.addProvider(OrekitResources.getOrekitData());
         } catch (OrekitException e) {
             LOGGER.log(Level.SEVERE, "Failed to initialise Orekit:\n{0}", e.getMessage());

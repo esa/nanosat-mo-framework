@@ -60,6 +60,7 @@ import org.orekit.bodies.CelestialBody;
 import org.orekit.bodies.CelestialBodyFactory;
 import org.orekit.bodies.GeodeticPoint;
 import org.orekit.bodies.OneAxisEllipsoid;
+import org.orekit.data.DataContext;
 import org.orekit.data.DataProvidersManager;
 import org.orekit.errors.OrekitException;
 import org.orekit.frames.Frame;
@@ -223,7 +224,9 @@ public class OrekitCore {
         this.logger = logger;
 
         // Setup orekit, must contain the IGRF and WMM data files
-        DataProvidersManager manager = DataProvidersManager.getInstance();
+        //DataProvidersManager manager = DataProvidersManager.getInstance();
+        //DataProvidersManager manager = new DataProvidersManager();
+        DataProvidersManager manager = DataContext.getDefault().getDataProvidersManager();
         manager.addProvider(OrekitResources.getOrekitData());
 
         // Initial date in UTC time scale
@@ -504,7 +507,7 @@ public class OrekitCore {
                         if (TLE.isFormatOK(tle1, tle2)) {
                             TLE newTLE = new TLE(tle1, tle2);
                             TLEPropagator tempTLEPropagator = TLEPropagator.selectExtrapolator(newTLE);
-                            tempTLEPropagator.setSlaveMode();
+                            // tempTLEPropagator.setSlaveMode();
                             GPSSatellite newSat = new GPSSatellite(name, tempTLEPropagator);
                             this.gpsConstellation.add(newSat);
                         }

@@ -180,7 +180,8 @@ public class GPSProviderServiceWithTLEImpl extends GPSProviderServiceImpl {
 
     if(!isOrekitDataInitialized) {
       //setup orekit if not yet initialized
-      DataProvidersManager manager = DataProvidersManager.getInstance();
+      //DataProvidersManager manager = DataProvidersManager.getInstance();
+      DataProvidersManager manager = new DataProvidersManager();
       if(manager.getProviders().isEmpty())
       {
         manager.addProvider(OrekitResources.getOrekitData());

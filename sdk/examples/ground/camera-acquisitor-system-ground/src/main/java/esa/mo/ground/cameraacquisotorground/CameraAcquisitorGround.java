@@ -77,6 +77,7 @@ import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 import org.ccsds.moims.mo.platform.camera.structures.PictureFormat;
 import org.orekit.bodies.GeodeticPoint;
+import org.orekit.data.DataContext;
 import org.orekit.data.DataProvidersManager;
 import org.orekit.propagation.analytical.tle.TLE;
 import org.orekit.time.AbsoluteDate;
@@ -211,7 +212,7 @@ public class CameraAcquisitorGround {
 
         //setup orekit
         LOGGER.log(Level.INFO, "Setup Orekit");
-        DataProvidersManager manager = DataProvidersManager.getInstance();
+        DataProvidersManager manager = DataContext.getDefault().getDataProvidersManager();
         manager.addProvider(OrekitResources.getOrekitData());
 
         LOGGER.log(Level.INFO, "Setup providers");

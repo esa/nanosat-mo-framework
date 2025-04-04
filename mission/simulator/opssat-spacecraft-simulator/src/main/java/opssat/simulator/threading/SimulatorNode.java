@@ -103,6 +103,7 @@ import static org.hipparchus.util.FastMath.toDegrees;
 import org.orekit.bodies.GeodeticPoint;
 import org.orekit.errors.OrekitException;
 import org.orekit.propagation.analytical.tle.TLE;
+import org.orekit.utils.TimeStampedPVCoordinates;
 
 /**
  *
@@ -113,21 +114,21 @@ public class SimulatorNode extends TaskNode {
     private int counter;
     private boolean sendList;
     private boolean sendHeader;
-    LinkedList<File> interfaceFilesList;
-    LinkedList<CommandDescriptor> commandsList;
-    LinkedList<CommandDescriptor> commandsQueue;
-    LinkedList<CommandResult> commandsResults;
-    LinkedList<SimulatorDeviceData> simulatorDevices;
-    SimulatorData simulatorData;
-    SimulatorHeader simulatorHeader;
-    HashMap<DevDatPBind, ArgumentDescriptor> hMapSDData;
-    int schedulerDataIndex;
-    LinkedList<SimulatorSchedulerPiece> schedulerData;
+    private LinkedList<File> interfaceFilesList;
+    private LinkedList<CommandDescriptor> commandsList;
+    private LinkedList<CommandDescriptor> commandsQueue;
+    private LinkedList<CommandResult> commandsResults;
+    private LinkedList<SimulatorDeviceData> simulatorDevices;
+    private SimulatorData simulatorData;
+    private SimulatorHeader simulatorHeader;
+    private HashMap<DevDatPBind, ArgumentDescriptor> hMapSDData;
+    private int schedulerDataIndex;
+    private LinkedList<SimulatorSchedulerPiece> schedulerData;
 
     // Optical Receiver
-    OpticalReceiverModel opticalReceiverModel;
+    private OpticalReceiverModel opticalReceiverModel;
     // Orekit
-    OrekitCore orekitCore;
+    private OrekitCore orekitCore;
 
     // Models
     private Orbit darkDusk;
@@ -166,7 +167,7 @@ public class SimulatorNode extends TaskNode {
     private boolean benchmarkFinished = false;
     private long benchmarkTimeElapsed = 0;
     private long benchmarkStartupTime = 0;
-    TCPServerReceiveOnly quaternionTcpServer = null;
+    private TCPServerReceiveOnly quaternionTcpServer = null;
 
     private String cameraScriptPath = null;
     private final static String OPS_SAT_SIMULATOR_DATA = File.separator + ".ops-sat-simulator" + File.separator;
@@ -387,7 +388,7 @@ public class SimulatorNode extends TaskNode {
 
     }
 
-    private void initModels() {
+    private synchronized void initModels() {
         benchmarkInProgress = false;
         benchmarkFinished = false;
         String imageFile = platformProperties.getProperty("camerasim.imagefile");
@@ -1766,7 +1767,7 @@ public class SimulatorNode extends TaskNode {
         return r.getOutput();
     }
 
-    public CommandResult runGenericMethodForCommand(CommandDescriptor c) {
+    public synchronized CommandResult runGenericMethodForCommand(CommandDescriptor c) {
         simulatorData.incrementMethods();
         ArrayList<Object> argObject = c.getInputArgObjList();
         this.logger.log(Level.FINE, "runGenericMethod;identifier;" + c.getInternalID() + ";" + c.getInputArgs());
@@ -3636,8 +3637,10 @@ public class SimulatorNode extends TaskNode {
                     double x = (r_n + alt) * cosLat * cosLon * 1000; // multiply by thousand to get meters
                     double y = (r_n + alt) * cosLat * sinLon * 1000;
                     double z = ((1 - e_sqr) * r_n + alt) * sinLat * 1000;
-                    Vector3D vel = this.orekitCore.getOrbit().getPVCoordinates(this.orekitCore.earthFrameITRF)
-                        .getVelocity();// this.orekitCore.getOrbit().getPVCoordinates().getPosition();
+                    org.orekit.orbits.Orbit orbit = this.orekitCore.getOrbit();
+                    TimeStampedPVCoordinates coord = orbit.getPVCoordinates(this.orekitCore.earthFrameITRF);
+                    Vector3D vel = coord.getVelocity();
+                    // this.orekitCore.getOrbit().getPVCoordinates().getPosition();
                     double velX = vel.getX();
                     double velY = vel.getY();
                     double velZ = vel.getZ();
@@ -3755,6 +3758,7 @@ public class SimulatorNode extends TaskNode {
                     commandResult.setCommandFailed(true);
             }
         } catch (Exception e) {
+            Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, "Something went wrong...", e);
             String errorString = e.toString();
             commandResult.setOutput(errorString);
             commandResult.setCommandFailed(true);
