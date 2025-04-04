@@ -91,7 +91,7 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
         table.setRowSorter(sorter);
     }
 
-    public int getSelectedRow() {
+    public synchronized int getSelectedRow() {
         return table.getRowSorter().convertRowIndexToModel(table.getSelectedRow());
     }
 
@@ -199,16 +199,16 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
         return null;
     }
 
-    public JTable getTable() {
+    public synchronized JTable getTable() {
         return table;
     }
 
-    public void removeSelectedEntry() {
+    public synchronized void removeSelectedEntry() {
         comObjects.remove(this.getSelectedRow());
         tableData.removeRow(this.getSelectedRow());
     }
 
-    public void removeAllEntries() {
+    public synchronized void removeAllEntries() {
         while (tableData.getRowCount() != 0) {
             comObjects.remove(tableData.getRowCount() - 1);
             tableData.removeRow(tableData.getRowCount() - 1);
