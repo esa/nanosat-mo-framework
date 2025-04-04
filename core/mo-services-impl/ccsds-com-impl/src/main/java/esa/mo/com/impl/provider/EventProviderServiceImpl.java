@@ -260,7 +260,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
             // 0xFFFF FFFF FF00 0000
             final Long secondEntityKey = 0xFFFFFFFFFF000000L & HelperCOM.generateSubKey(objType);
 
-            final Long subKey = (source != null) ? HelperCOM.generateSubKey(source.getType()) : null;
+            final Long subKey = (source != null) ? HelperCOM.generateSubKey(source.getType()) : 0L;
             // requirements: 3.3.4.2.1 , 3.3.4.2.2 , 3.3.4.2.3 , 3.3.4.2.4
             /*
             final EntityKey ekey = new EntityKey(
@@ -349,7 +349,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
                 final Long secondEntityKey = 0xFFFFFFFFFF000000L & HelperCOM.generateSubKey(objType);
 
                 final Long subKey = (sources.get(i) != null) ? HelperCOM.generateSubKey(sources.get(i).getType()) :
-                    null;
+                    0L;
                 // requirements: 3.3.4.2.1 , 3.3.4.2.2 , 3.3.4.2.3 , 3.3.4.2.4
                 AttributeList keys = new AttributeList();
                 keys.add(new Identifier(objType.getNumber().toString()));
