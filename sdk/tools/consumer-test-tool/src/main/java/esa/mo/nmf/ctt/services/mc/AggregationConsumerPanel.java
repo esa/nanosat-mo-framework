@@ -633,7 +633,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
 
             final NullableAttributeList keyValues = updateHeader.getKeyValues();
             final String Aggname = HelperAttributes.attribute2string(keyValues.get(0).getValue());
-            final int objId = (int) HelperAttributes.attribute2JavaType(keyValues.get(1).getValue());
+            final Long objId = (Long) HelperAttributes.attribute2JavaType(keyValues.get(1).getValue());
             /*
             final String Aggname = updateHeader.getKey().getFirstSubKey().getValue();
             final int objId = updateHeader.getKey().getSecondSubKey().intValue();
