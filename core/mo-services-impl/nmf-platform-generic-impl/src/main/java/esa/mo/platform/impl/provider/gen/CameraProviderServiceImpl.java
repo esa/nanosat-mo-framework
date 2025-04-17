@@ -223,7 +223,7 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
         boolean isFormatsAvailable = false;
         // Do we have the resolution requested?
         for (PictureFormat availableFormat : availableFormats) {
-            if (settings.getFormat().getNumericValue().getValue() == availableFormat.getNumericValue().getValue()) {
+            if (settings.getFormat().getValue() == availableFormat.getValue()) {
                 isFormatsAvailable = true;
             }
         }

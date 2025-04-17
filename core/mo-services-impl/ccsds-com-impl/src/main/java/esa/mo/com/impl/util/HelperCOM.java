@@ -87,11 +87,11 @@ public class HelperCOM {
 
         // Is it an Enumeration?
         if (leftHandSide instanceof Enumeration) {
-            leftHandSide = new UInteger(((Enumeration) leftHandSide).getOrdinal());
+            leftHandSide = new UInteger(((Enumeration) leftHandSide).getValue());
         }
 
         if (rightHandSide instanceof Enumeration) {
-            rightHandSide = new UInteger(((Enumeration) rightHandSide).getOrdinal());
+            rightHandSide = new UInteger(((Enumeration) rightHandSide).getValue());
         }
 
         // if one of the sides is string, then we shall do a comparison between strings:

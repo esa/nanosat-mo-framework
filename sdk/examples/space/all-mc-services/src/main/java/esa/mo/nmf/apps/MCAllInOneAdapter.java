@@ -268,7 +268,7 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
         // Create the Aggregation GPS
         AggregationDefinitionDetails defGPSAgg = new AggregationDefinitionDetails(
             "Aggregates: GPS Latitude, GPS Longitude, GPS Altitude.", new UOctet((short) AggregationCategory.GENERAL
-                .getOrdinal()), new Duration(10), true, false, false, new Duration(20), false,
+                .getValue()), new Duration(10), true, false, false, new Duration(20), false,
             new AggregationParameterSetList());
         aggNames.add(new Identifier(AGGREGATION_GPS));
 
@@ -277,7 +277,7 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
         // Create the Aggregation Magnetometer
         AggregationDefinitionDetails defMagAgg = new AggregationDefinitionDetails(
             "Aggregates Magnetometer components: X, Y, Z.", new UOctet((short) AggregationCategory.GENERAL
-                .getOrdinal()), new Duration(10), true, false, false, new Duration(20), false,
+                .getValue()), new Duration(10), true, false, false, new Duration(20), false,
             new AggregationParameterSetList());
         aggNames.add(new Identifier(AGGREGATION_MAG));
 

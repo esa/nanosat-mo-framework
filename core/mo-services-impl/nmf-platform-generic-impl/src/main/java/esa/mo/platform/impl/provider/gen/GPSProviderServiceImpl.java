@@ -249,7 +249,6 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
     @Override
     public GetLastKnownPositionResponse getLastKnownPosition(MALInteraction interaction)
             throws MALInteractionException, MALException {
-        GetLastKnownPositionResponse response = new GetLastKnownPositionResponse();
         final Position pos;
         final long startTime;
 
@@ -262,11 +261,8 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
             throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, null));
         }
 
-        response.setBodyElement0(pos);
         double elapsedTime = (System.currentTimeMillis() - startTime) / 1000; // convert from milli to
-        // sec
-        response.setBodyElement1(new Duration(elapsedTime));
-        return response;
+        return new GetLastKnownPositionResponse(pos, new Duration(elapsedTime));
     }
 
     @Override

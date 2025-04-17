@@ -709,7 +709,7 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
     public static CompositeFilter generateCompositeFilter() {
         return new CompositeFilter(
             "name",
-            ExpressionOperator.fromNumericValue(ExpressionOperator.EQUAL_NUM_VALUE),
+            ExpressionOperator.EQUAL,
             new Identifier("AggregationUpdate"));
     }
 

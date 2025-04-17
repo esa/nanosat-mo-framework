@@ -40,7 +40,6 @@ import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.mal.structures.UpdateHeader;
-import org.ccsds.moims.mo.mal.structures.UpdateHeaderList;
 import org.ccsds.moims.mo.mal.transport.MALErrorBody;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mp.planningrequest.PlanningRequestHelper;
@@ -359,7 +358,7 @@ public class PlanningRequestProviderServiceImpl extends PlanningRequestInheritan
         Identifier firstSubKey = identity;
         Long secondSubKey = COMObjectIdHelper.getInstanceId(identityId);
         Long thirdSubKey = COMObjectIdHelper.getInstanceId(versionId);
-        Long fourthSubKey = Long.valueOf(update.getStatus().getNumericValue().getValue());
+        Long fourthSubKey = Long.valueOf(update.getStatus().getValue());
 
         AttributeList keys = new AttributeList(); 
         keys.add(firstSubKey);

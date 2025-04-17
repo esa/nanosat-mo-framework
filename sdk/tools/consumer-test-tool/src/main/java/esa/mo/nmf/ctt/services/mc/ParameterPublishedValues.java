@@ -34,7 +34,6 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.NullableAttributeList;
 import org.ccsds.moims.mo.mal.structures.Subscription;
-import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.UpdateHeader;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
@@ -126,11 +125,11 @@ public class ParameterPublishedValues extends javax.swing.JPanel {
                 if ((0 <= index) && (index < labels.length)) {
                     String nameId = "(" + String.valueOf(objId) + ") " + name;
                     UOctet validityState = parameterValue.getValidityState();
-                    String validity = ValidityState.fromNumericValue(new UInteger(validityState.getValue())).toString();
+                    String validity = ValidityState.VALID.fromValue((int) validityState.getValue()).toString();
                     String rawValue = HelperAttributes.attribute2string(parameterValue.getRawValue());
                     String convertedValue = HelperAttributes.attribute2string(parameterValue.getConvertedValue());
 
-                    boolean isNotValid = (validityState.getValue() != ValidityState._VALID_INDEX);
+                    boolean isNotValid = ((int) validityState.getValue() != ValidityState.VALID_VALUE);
                     labels[index + 0 * numberOfColumns].setNewValue(nameId, isNotValid);
                     labels[index + 1 * numberOfColumns].setNewValue(validity, isNotValid);
                     labels[index + 2 * numberOfColumns].setNewValue(rawValue, isNotValid);

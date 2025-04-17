@@ -101,23 +101,23 @@ public class PayloadsTestActionsHandler {
             @Override
             public void run() {
                 String actionName;
-                switch (format.getOrdinal()) {
-                    case PictureFormat._BMP_INDEX:
+                switch (format.getValue()) {
+                    case PictureFormat.BMP_VALUE:
                         if (autoExposed) {
                             actionName = "takeAutoExposedPicture_BMP";
                         } else {
                             actionName = "takePicture_BMP";
                         }
                         break;
-                    case PictureFormat._RAW_INDEX:
+                    case PictureFormat.RAW_VALUE:
                         if (autoExposed) {
                             actionName = "takeAutoExposedPicture_RAW";
                         } else {
                             actionName = "takePicture_RAW";
                         }
                         break;
-                    case PictureFormat._PNG_INDEX:
-                    case PictureFormat._JPG_INDEX:
+                    case PictureFormat.PNG_VALUE:
+                    case PictureFormat.JPG_VALUE:
                     default:
                         if (autoExposed) {
                             actionName = "takeAutoExposedPicture_JPG";
@@ -176,7 +176,8 @@ public class PayloadsTestActionsHandler {
             MALInteraction interaction, UInteger deviceType, boolean setOn) {
         try {
             DeviceList deviceList = new DeviceList();
-            deviceList.add(new Device(setOn, null, null, DeviceType.fromNumericValue(deviceType)));
+            DeviceType d = (DeviceType) DeviceType.ADCS.fromValue((int) deviceType.getValue());
+            deviceList.add(new Device(setOn, null, null, d));
             payloadsTestMCAdapter.nmf.getPlatformServices().getPowerControlService().enableDevices(deviceList);
             return null; // Success!
         } catch (MALInteractionException | MALException | IOException | NMFException ex) {

@@ -433,7 +433,7 @@ public class ParameterManager extends MCManager {
      * @return the converted validityState as an UOctet
      */
     private UOctet getAsUOctet(ValidityState valState) {
-        return new UOctet((short) valState.getNumericValue().getValue());
+        return new UOctet(valState.getValue());
     }
 
     /**

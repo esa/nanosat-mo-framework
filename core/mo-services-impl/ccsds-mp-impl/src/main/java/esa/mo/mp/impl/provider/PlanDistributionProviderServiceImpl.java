@@ -338,7 +338,7 @@ public class PlanDistributionProviderServiceImpl extends PlanDistributionInherit
         Identifier firstSubKey = planIdentity;
         Long secondSubKey = COMObjectIdHelper.getInstanceId(planIdentityId);
         Long thirdSubKey = COMObjectIdHelper.getInstanceId(planVersionId);
-        Long fourthSubKey = planUpdate != null ? Long.valueOf(planUpdate.getStatus().getNumericValue().getValue()) : 0L;
+        Long fourthSubKey = planUpdate != null ? Long.valueOf(planUpdate.getStatus().getValue()) : 0L;
 
         AttributeList keys = new AttributeList(); 
         keys.add(firstSubKey);
@@ -373,7 +373,7 @@ public class PlanDistributionProviderServiceImpl extends PlanDistributionInherit
         Identifier firstSubKey = planIdentity;
         Long secondSubKey = COMObjectIdHelper.getInstanceId(planIdentityId);
         Long thirdSubKey = COMObjectIdHelper.getInstanceId(planVersionId);
-        Long fourthSubKey = Long.valueOf(planUpdate.getStatus().getNumericValue().getValue());
+        Long fourthSubKey = Long.valueOf(planUpdate.getStatus().getValue());
 
         AttributeList keys = new AttributeList(); 
         keys.add(firstSubKey);

@@ -226,9 +226,9 @@ public class BinaryDecoder extends GENDecoder {
         int enumSize = enumeration.getEnumSize();
 
         if (enumSize < 256) {
-            return enumeration.fromOrdinal(this.decodeUOctet().getValue());
+            return enumeration.fromValue((int) this.decodeUOctet().getValue());
         } else if (enumSize < 65536) {
-            return enumeration.fromOrdinal(this.decodeUShort().getValue());
+            return enumeration.fromValue(this.decodeUShort().getValue());
         }
 
         throw new MALException("The Enumeration could not be decoded!");

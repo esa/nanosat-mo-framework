@@ -105,7 +105,7 @@ public class AggregationAddModify extends javax.swing.JFrame {
         float filteredTimeout, AggregationParameterSetList parameterSets) {
         AggregationDefinitionDetails aDef = new AggregationDefinitionDetails();
         aDef.setDescription(description);
-        aDef.setCategory(new UOctet((short) category.getOrdinal()));
+        aDef.setCategory(new UOctet((short) category.getValue()));
         aDef.setGenerationEnabled(generationEnabled);
         aDef.setReportInterval(new Duration(updateInterval));
         aDef.setFilterEnabled(filterEnabled);  // shall not matter, because when we add it it will be false!

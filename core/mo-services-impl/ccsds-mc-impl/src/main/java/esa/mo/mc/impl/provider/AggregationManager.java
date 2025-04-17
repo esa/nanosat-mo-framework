@@ -238,7 +238,7 @@ public final class AggregationManager extends MCManager {
         try {
             return parameterManager.getParameterValue(paramIdentityId, aggrExpired);
         } catch (MALInteractionException ex) {
-            return new ParameterValue(new UOctet((short) ValidityState.INVALID_RAW_NUM_VALUE.getValue()), null, null);
+            return new ParameterValue(new UOctet(ValidityState.INVALID_RAW_VALUE), null, null);
         }
     }
 
@@ -433,7 +433,7 @@ public final class AggregationManager extends MCManager {
                     if (currentParamValues.get(k).getValue().getRawValue().equals(newParameterValueSamples.get(k)
                         .getValue().getRawValue())) {
                         newParameterValueSamples.get(k).getValue().setValidityState(new UOctet(Short.valueOf("" +
-                            ValidityState.EXPIRED_NUM_VALUE)));
+                            ValidityState.EXPIRED_VALUE)));
                     }
                 }
             }

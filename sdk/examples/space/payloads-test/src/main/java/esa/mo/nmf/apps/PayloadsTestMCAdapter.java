@@ -86,6 +86,7 @@ import org.ccsds.moims.mo.platform.gps.consumer.GPSAdapter;
 import org.ccsds.moims.mo.platform.gps.structures.Position;
 import org.ccsds.moims.mo.platform.gps.structures.PositionList;
 import org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList;
+import org.ccsds.moims.mo.platform.powercontrol.structures.DeviceType;
 import org.ccsds.moims.mo.platform.structures.VectorF3D;
 
 /**
@@ -632,7 +633,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
 
     public void onGetGPSElapsedTime() {
         try {
-            GPS_ElapsedTime = nmf.getPlatformServices().getGPSService().getLastKnownPosition().getBodyElement1();
+            GPS_ElapsedTime = nmf.getPlatformServices().getGPSService().getLastKnownPosition().getElapsedTime();
         } catch (NMFException | IOException | MALInteractionException | MALException ex) {
             LOGGER.log(Level.SEVERE, "GPS error: " + ex.getMessage());
             GPS_ElapsedTime = null;
@@ -641,7 +642,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
 
     public void onGetMagneticField_X() {
         try {
-            MagneticField_X = nmf.getPlatformServices().getAutonomousADCSService().getStatus().getBodyElement0()
+            MagneticField_X = nmf.getPlatformServices().getAutonomousADCSService().getStatus().getAttitudeTelemetry()
                 .getMagneticField().getX();
         } catch (NMFException | IOException | MALInteractionException | MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
@@ -651,7 +652,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
 
     public void onGetMagneticField_Y() {
         try {
-            MagneticField_Y = nmf.getPlatformServices().getAutonomousADCSService().getStatus().getBodyElement0()
+            MagneticField_Y = nmf.getPlatformServices().getAutonomousADCSService().getStatus().getAttitudeTelemetry()
                 .getMagneticField().getY();
         } catch (NMFException | IOException | MALInteractionException | MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
@@ -661,7 +662,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
 
     public void onGetMagneticField_Z() {
         try {
-            MagneticField_Z = nmf.getPlatformServices().getAutonomousADCSService().getStatus().getBodyElement0()
+            MagneticField_Z = nmf.getPlatformServices().getAutonomousADCSService().getStatus().getAttitudeTelemetry()
                 .getMagneticField().getZ();
         } catch (NMFException | IOException | MALInteractionException | MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
@@ -675,7 +676,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
 
     public void onGetAttitudeQuatA() {
         try {
-            attitudeQuatA = nmf.getPlatformServices().getAutonomousADCSService().getStatus().getBodyElement0()
+            attitudeQuatA = nmf.getPlatformServices().getAutonomousADCSService().getStatus().getAttitudeTelemetry()
                 .getAttitude().getA();
         } catch (MALInteractionException | MALException | IOException | NMFException e) {
             LOGGER.log(Level.SEVERE, null, e);
@@ -685,7 +686,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
 
     public void onGetAttitudeQuatB() {
         try {
-            attitudeQuatB = nmf.getPlatformServices().getAutonomousADCSService().getStatus().getBodyElement0()
+            attitudeQuatB = nmf.getPlatformServices().getAutonomousADCSService().getStatus().getAttitudeTelemetry()
                 .getAttitude().getB();
         } catch (MALInteractionException | MALException | IOException | NMFException e) {
             LOGGER.log(Level.SEVERE, null, e);
@@ -695,7 +696,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
 
     public void onGetAttitudeQuatC() {
         try {
-            attitudeQuatC = nmf.getPlatformServices().getAutonomousADCSService().getStatus().getBodyElement0()
+            attitudeQuatC = nmf.getPlatformServices().getAutonomousADCSService().getStatus().getAttitudeTelemetry()
                 .getAttitude().getC();
         } catch (MALInteractionException | MALException | IOException | NMFException e) {
             LOGGER.log(Level.SEVERE, null, e);
@@ -705,7 +706,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
 
     public void onGetAttitudeQuatD() {
         try {
-            attitudeQuatD = nmf.getPlatformServices().getAutonomousADCSService().getStatus().getBodyElement0()
+            attitudeQuatD = nmf.getPlatformServices().getAutonomousADCSService().getStatus().getAttitudeTelemetry()
                 .getAttitude().getD();
         } catch (MALInteractionException | MALException | IOException | NMFException e) {
             LOGGER.log(Level.SEVERE, null, e);
@@ -715,7 +716,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
 
     public void onGetAngularVelocityX() {
         try {
-            angularVelocityX = nmf.getPlatformServices().getAutonomousADCSService().getStatus().getBodyElement0()
+            angularVelocityX = nmf.getPlatformServices().getAutonomousADCSService().getStatus().getAttitudeTelemetry()
                 .getAngularVelocity().getX();
         } catch (MALInteractionException | MALException | IOException | NMFException e) {
             LOGGER.log(Level.SEVERE, null, e);
@@ -725,7 +726,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
 
     public void onGetAngularVelocityY() {
         try {
-            angularVelocityY = nmf.getPlatformServices().getAutonomousADCSService().getStatus().getBodyElement0()
+            angularVelocityY = nmf.getPlatformServices().getAutonomousADCSService().getStatus().getAttitudeTelemetry()
                 .getAngularVelocity().getY();
         } catch (MALInteractionException | MALException | IOException | NMFException e) {
             LOGGER.log(Level.SEVERE, null, e);
@@ -735,7 +736,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
 
     public void onGetAngularVelocityZ() {
         try {
-            angularVelocityZ = nmf.getPlatformServices().getAutonomousADCSService().getStatus().getBodyElement0()
+            angularVelocityZ = nmf.getPlatformServices().getAutonomousADCSService().getStatus().getAttitudeTelemetry()
                 .getAngularVelocity().getZ();
         } catch (MALInteractionException | MALException | IOException | NMFException e) {
             LOGGER.log(Level.SEVERE, null, e);
@@ -745,7 +746,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
 
     public void onGetSunVectorX() {
         try {
-            sunVectorX = nmf.getPlatformServices().getAutonomousADCSService().getStatus().getBodyElement0()
+            sunVectorX = nmf.getPlatformServices().getAutonomousADCSService().getStatus().getAttitudeTelemetry()
                 .getSunVector().getX();
         } catch (MALInteractionException | MALException | IOException | NMFException e) {
             LOGGER.log(Level.SEVERE, null, e);
@@ -755,7 +756,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
 
     public void onGetSunVectorY() {
         try {
-            sunVectorY = nmf.getPlatformServices().getAutonomousADCSService().getStatus().getBodyElement0()
+            sunVectorY = nmf.getPlatformServices().getAutonomousADCSService().getStatus().getAttitudeTelemetry()
                 .getSunVector().getY();
         } catch (MALInteractionException | MALException | IOException | NMFException e) {
             LOGGER.log(Level.SEVERE, null, e);
@@ -765,7 +766,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
 
     public void onGetSunVectorZ() {
         try {
-            sunVectorZ = nmf.getPlatformServices().getAutonomousADCSService().getStatus().getBodyElement0()
+            sunVectorZ = nmf.getPlatformServices().getAutonomousADCSService().getStatus().getAttitudeTelemetry()
                 .getSunVector().getZ();
         } catch (MALInteractionException | MALException | IOException | NMFException e) {
             LOGGER.log(Level.SEVERE, null, e);
@@ -785,7 +786,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
 
     public void onGetMtqDipoleMomentX() {
         try {
-            mtqDipoleMomentX = nmf.getPlatformServices().getAutonomousADCSService().getStatus().getBodyElement1()
+            mtqDipoleMomentX = nmf.getPlatformServices().getAutonomousADCSService().getStatus().getActuatorsTelemetry()
                 .getMtqDipoleMoment().getX();
         } catch (MALInteractionException | MALException | IOException | NMFException e) {
             LOGGER.log(Level.SEVERE, null, e);
@@ -795,7 +796,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
 
     public void onGetMtqDipoleMomentY() {
         try {
-            mtqDipoleMomentY = nmf.getPlatformServices().getAutonomousADCSService().getStatus().getBodyElement1()
+            mtqDipoleMomentY = nmf.getPlatformServices().getAutonomousADCSService().getStatus().getActuatorsTelemetry()
                 .getMtqDipoleMoment().getY();
         } catch (MALInteractionException | MALException | IOException | NMFException e) {
             LOGGER.log(Level.SEVERE, null, e);
@@ -805,7 +806,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
 
     public void onGetMtqDipoleMomentZ() {
         try {
-            mtqDipoleMomentZ = nmf.getPlatformServices().getAutonomousADCSService().getStatus().getBodyElement1()
+            mtqDipoleMomentZ = nmf.getPlatformServices().getAutonomousADCSService().getStatus().getActuatorsTelemetry()
                 .getMtqDipoleMoment().getZ();
         } catch (MALInteractionException | MALException | IOException | NMFException e) {
             LOGGER.log(Level.SEVERE, null, e);
@@ -815,8 +816,8 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
 
     public void onGetMtqState() {
         try {
-            mtqState = nmf.getPlatformServices().getAutonomousADCSService().getStatus().getBodyElement1().getMtqState()
-                .getNumericValue();
+            mtqState = new UInteger(nmf.getPlatformServices().getAutonomousADCSService().getStatus().getActuatorsTelemetry().getMtqState()
+                .getValue());
         } catch (MALInteractionException | MALException | IOException | NMFException | NullPointerException e) {
             LOGGER.log(Level.SEVERE, null, e);
             mtqState = null;

@@ -289,7 +289,7 @@ public class PlanExecutionControlProviderServiceImpl extends PlanExecutionContro
         Identifier firstSubKey = identity;
         Long secondSubKey = COMObjectIdHelper.getInstanceId(identityId);
         Long thirdSubKey = COMObjectIdHelper.getInstanceId(instanceId);
-        Long fourthSubKey = Long.valueOf(update.getStatus().getNumericValue().getValue());
+        Long fourthSubKey = Long.valueOf(update.getStatus().getValue());
 
         AttributeList keys = new AttributeList(); 
         keys.add(firstSubKey);

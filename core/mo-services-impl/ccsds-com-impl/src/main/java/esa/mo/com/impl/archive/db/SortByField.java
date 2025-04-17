@@ -197,8 +197,7 @@ public class SortByField implements Comparator {
         }
 
         if (c1 instanceof Enumeration) {
-            return (int) (((Enumeration) c1).getNumericValue().getValue() - ((Enumeration) c2).getNumericValue()
-                .getValue());
+            return ((Enumeration) c1).getValue() - ((Enumeration) c2).getValue();
         }
 
         if (c1 instanceof Attribute) {

@@ -471,7 +471,7 @@ public class CameraAcquisitorGround {
         gma.setParameter(Parameter.GAIN_BLUE, 1.0f);
         gma.setParameter(Parameter.PICTURE_WIDTH, 2048);
         gma.setParameter(Parameter.PICTURE_HEIGHT, 1944);
-        gma.setParameter(Parameter.PICTURE_TYPE, PictureFormat.PNG.getOrdinal());
+        gma.setParameter(Parameter.PICTURE_TYPE, PictureFormat.PNG.getValue());
     }
 
     private void updateEvent(long actionID, int type, Object body) {
