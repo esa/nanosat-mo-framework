@@ -90,7 +90,7 @@ public class TestCOMArchiveManager {
     @Test
     public void testAddCOMObjectByRelatedId() throws MALException, MALInteractionException {
         ObjectIdPair pair = this.addTestActivity("Related Identity");
-        ActivityDefinitionDetails definition = MPFactory.createActivityDefinition();
+        ActivityDefinitionDetails definition = MPFactory.createActivityDefinition("", null);
         ObjectId definitionId = archiveManager.addCOMObject(pair.getIdentityId(), definition, null, interaction);
         assertNotNull(definitionId);
     }
@@ -99,7 +99,7 @@ public class TestCOMArchiveManager {
     public void testAddCOMObjectByInvalidRelatedId() throws MALException, MALInteractionException {
         try {
             ObjectId invalidObjectId = new ObjectId();
-            ActivityDefinitionDetails definition = MPFactory.createActivityDefinition();
+            ActivityDefinitionDetails definition = MPFactory.createActivityDefinition("", null);
             archiveManager.addCOMObject(invalidObjectId, definition, null, interaction);
             fail("No exception thrown");
         } catch (MALInteractionException e) {
@@ -192,8 +192,7 @@ public class TestCOMArchiveManager {
     @Test
     public void testUpdateObject() throws MALException, MALInteractionException {
         ObjectIdPair pair = this.addTestActivity("Update Object");
-        ActivityDefinitionDetails updatedDefinition = MPFactory.createActivityDefinition();
-        updatedDefinition.setDescription("Updated definition");
+        ActivityDefinitionDetails updatedDefinition = MPFactory.createActivityDefinition("Updated definition", null);
 
         ObjectId objectId = archiveManager.updateCOMObject(pair.getIdentityId(), updatedDefinition, null, interaction);
         assertNotNull(objectId);
@@ -237,7 +236,7 @@ public class TestCOMArchiveManager {
     private ObjectIdPair addTestActivity(String identityName, ObjectId source) throws MALException,
         MALInteractionException {
         Identifier identity = new Identifier(identityName);
-        ActivityDefinitionDetails definition = MPFactory.createActivityDefinition();
+        ActivityDefinitionDetails definition = MPFactory.createActivityDefinition("", null);
         return archiveManager.addCOMObject(identity, definition, source, interaction);
     }
 }
