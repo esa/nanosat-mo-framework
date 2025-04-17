@@ -222,13 +222,13 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
             (byte) 1);
 
         ArgumentDefinitionDetailsList detailsList = new ArgumentDefinitionDetailsList();
-        detailsList.add(null);
+        detailsList.add(details);
         // Create and Show the Action Definition to the user
-        AlertDefinitionDetails alertDefinition = new AlertDefinitionDetails();
-        alertDefinition.setDescription("This Alert is generated 10 seconds after taking the picture.");
-        alertDefinition.setSeverity(Severity.INFORMATIONAL);
-        alertDefinition.setGenerationEnabled(true);
-        alertDefinition.setArguments(detailsList);
+        AlertDefinitionDetails alertDefinition = new AlertDefinitionDetails(
+                "This Alert is generated 10 seconds after taking the picture.",
+                Severity.INFORMATIONAL,
+                true,
+                detailsList);
         
         AlertCreationRequest request = new AlertCreationRequest(
             new Identifier("Alert1"),

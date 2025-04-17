@@ -84,18 +84,16 @@ public class CameraSoftSimAdapter implements CameraAdapterInterface, SimulatorAd
 
     @Override
     public synchronized Picture getPicturePreview() {
-        final PixelResolution resolution = new PixelResolution(new UInteger(PREVIEW_WIDTH), new UInteger(
-            PREVIEW_HEIGHT));
+        final PixelResolution resolution = new PixelResolution(
+                new UInteger(PREVIEW_WIDTH), new UInteger(PREVIEW_HEIGHT));
         final Duration exposureTime = new Duration(0.1);
         final Time timestamp = HelperTime.getTimestampMillis();
-        final byte[] data = instrumentsSimulator.getpCamera().takePicture((int) resolution.getWidth().getValue(),
-            (int) resolution.getHeight().getValue());
+        final byte[] data = instrumentsSimulator.getpCamera().takePicture(
+                (int) resolution.getWidth().getValue(),
+                (int) resolution.getHeight().getValue());
 
-        CameraSettings pictureSettings = new CameraSettings();
-        pictureSettings.setResolution(resolution);
-        pictureSettings.setFormat(PictureFormat.RAW);
-        pictureSettings.setExposureTime(exposureTime);
-
+        CameraSettings pictureSettings = new CameraSettings(resolution,
+                PictureFormat.RAW, exposureTime, null, null, null);
         return new Picture(timestamp, pictureSettings, new Blob(data));
     }
 
@@ -110,13 +108,13 @@ public class CameraSoftSimAdapter implements CameraAdapterInterface, SimulatorAd
             data = convertImage(data, settings.getFormat());
         }
 
-        CameraSettings pictureSettings = new CameraSettings();
-        pictureSettings.setResolution(settings.getResolution());
-        pictureSettings.setFormat(settings.getFormat());
-        pictureSettings.setExposureTime(settings.getExposureTime());
-        pictureSettings.setGainRed(settings.getGainRed());
-        pictureSettings.setGainGreen(settings.getGainGreen());
-        pictureSettings.setGainBlue(settings.getGainBlue());
+        CameraSettings pictureSettings = new CameraSettings(
+                settings.getResolution(),
+                settings.getFormat(),
+                settings.getExposureTime(),
+                settings.getGainRed(),
+                settings.getGainGreen(),
+                settings.getGainBlue());
         return new Picture(timestamp, pictureSettings, new Blob(data));
     }
 

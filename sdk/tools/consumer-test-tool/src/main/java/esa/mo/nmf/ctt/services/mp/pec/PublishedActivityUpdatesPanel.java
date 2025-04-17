@@ -75,11 +75,8 @@ public class PublishedActivityUpdatesPanel extends PublishedUpdatesPanel {
     }
 
     private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {
-
         this.publishedActivityUpdatesTable.removeAllEntries();
-
         ObjectType updateObjectType = PlanEditServiceInfo.ACTIVITYUPDATE_OBJECT_TYPE;
-
         FineTime startTime = TimeConverter.convert(getRefreshTime());
 
         if (startTime == null) {
@@ -88,17 +85,8 @@ public class PublishedActivityUpdatesPanel extends PublishedUpdatesPanel {
         }
 
         ArchiveQueryList archiveQueryList = new ArchiveQueryList();
-        ArchiveQuery archiveQuery = new ArchiveQuery();
-
-        archiveQuery.setDomain(null);
-        archiveQuery.setNetwork(null);
-        archiveQuery.setProvider(null);
-        archiveQuery.setRelated(0L);
-        archiveQuery.setSource(null);
-        archiveQuery.setStartTime(startTime);
-        archiveQuery.setEndTime(null);
-        archiveQuery.setSortFieldName(null);
-        archiveQuery.setSortFieldName(null);
+        ArchiveQuery archiveQuery = new ArchiveQuery(null, null, null,
+                0L, null, startTime, null, null, null);
 
         archiveQueryList.add(archiveQuery);
         try {
@@ -121,8 +109,10 @@ public class PublishedActivityUpdatesPanel extends PublishedUpdatesPanel {
     }
 
     private void addEntries(IdentifierList domain, ArchiveDetailsList objDetails, HeterogeneousList objBodies) {
-        if (objDetails == null)
+        if (objDetails == null) {
             return;
+        }
+
         for (int index = 0; index < objDetails.size(); index++) {
             ArchiveDetails details = objDetails.get(index);
             ActivityUpdateDetails update = (ActivityUpdateDetails) objBodies.get(index);
@@ -136,7 +126,6 @@ public class PublishedActivityUpdatesPanel extends PublishedUpdatesPanel {
 
     private Identifier getIdentity(IdentifierList domain, Long instanceId) {
         Identifier identity = null;
-
         ObjectType instanceObjectType = PlanEditServiceInfo.ACTIVITYINSTANCE_OBJECT_TYPE;
         ObjectType definitionObjectType = PlanInformationManagementServiceInfo.ACTIVITYDEFINITION_OBJECT_TYPE;
         ObjectType identityObjectType = PlanInformationManagementServiceInfo.ACTIVITYIDENTITY_OBJECT_TYPE;

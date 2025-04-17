@@ -255,8 +255,6 @@ public class PlanningRequestConsumerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_submitRequestButtonActionPerformed
 
     private RequestVersionDetails createGenericRequest() {
-        RequestVersionDetails requestVersion = MPFactory.createRequestVersion();
-
         ObjectId requestTemplateId = COMObjectIdHelper.getObjectId(1L,
             PlanInformationManagementServiceInfo.REQUESTTEMPLATE_OBJECT_TYPE);
 
@@ -264,38 +262,32 @@ public class PlanningRequestConsumerPanel extends javax.swing.JPanel {
         activity.setActivityDef(1L);
         activity.setComments("Take picture");
 
-        TemporalRepetition timeRepetition = new TemporalRepetition();
-        timeRepetition.setCount(10);
-        timeRepetition.setInitialTime(new TimeExpression("=", null, ArgType.TIME, new Time(1577836800)));
-        timeRepetition.setSeparation(new DurationExpression("=", null, ArgType.DURATION, new Duration(86400)));
-
+        TemporalRepetition timeRepetition = new TemporalRepetition(
+                10,
+                null,
+                null,
+                new TimeExpression("=", null, ArgType.TIME, new Time(1577836800)),
+                new DurationExpression("=", null, ArgType.DURATION, new Duration(86400)),
+                null);
         c_ActivityDetails activityDetails = new c_ActivityDetails();
         activityDetails.setSimpleActivityDetails(activity);
 
         c_ActivityDetailsList activityList = new c_ActivityDetailsList();
         activityList.add(activityDetails);
 
-        ActivityNode activities = new ActivityNode();
-        activities.setActivities(activityList);
-
         c_Repetition repetition = new c_Repetition();
         repetition.setTemporalRepetition(timeRepetition);
-        activities.setRepetition(repetition);
 
+        ActivityNode activities = new ActivityNode(null, null, null, null, activityList, repetition);
         ArgumentList arguments = new ArgumentList();
-
         ConstraintNode constraints = new ConstraintNode();
-
         String planningPeriod = Integer.toString(Year.now().getValue());
-
         TimeReference timeReference = new TimeReference(0);
-
         Identifier user = new Identifier("CTT");
-
         EventWindowList validityEvent = new EventWindowList();
-
         TimeWindowList validityTime = createValidityTime();
 
+        RequestVersionDetails requestVersion = MPFactory.createRequestVersion();
         requestVersion.setActivities(activities);
         requestVersion.setArguments(arguments);
         requestVersion.setComments("");
@@ -313,10 +305,7 @@ public class PlanningRequestConsumerPanel extends javax.swing.JPanel {
     }
 
     private RequestVersionDetails createTakeImageRequest(String[] positions) {
-        RequestVersionDetails requestVersion = MPFactory.createRequestVersion();
-
         String description = "Take picture at " + Arrays.toString(positions);
-
         List<ActivityDetails> activityDetailsList = new ArrayList<>();
 
         for (String position : positions) {
@@ -325,43 +314,34 @@ public class PlanningRequestConsumerPanel extends javax.swing.JPanel {
         }
 
         c_ActivityDetailsList activities = MPPolyFix.encodeActivityDetails(activityDetailsList);
-
-        ActivityNode activityNode = new ActivityNode();
-        activityNode.setComments("Take picture activity");
-
-        activityNode.setActivities(activities);
+        ActivityNode activityNode = new ActivityNode(null, null, "Take picture activity", null, activities, null);
 
         ObjectId requestTemplateId = COMObjectIdHelper.getObjectId(1L,
             PlanInformationManagementServiceInfo.REQUESTTEMPLATE_OBJECT_TYPE);
 
         ArgumentList arguments = new ArgumentList();
-
         ConstraintNode constraints = new ConstraintNode();
-
         String planningPeriod = Integer.toString(Year.now().getValue());
-
         TimeReference timeReference = new TimeReference(0);
-
         Identifier user = new Identifier("CTT");
-
         EventWindowList validityEvent = new EventWindowList();
-
         TimeWindowList validityTime = createValidityTime();
 
-        requestVersion.setActivities(activityNode);
-        requestVersion.setArguments(arguments);
-        requestVersion.setComments("");
-        requestVersion.setConstraints(constraints);
-        requestVersion.setDescription(description);
-        requestVersion.setPlanningPeriod(new Identifier(planningPeriod));
-        requestVersion.setStandingOrder(false);
-        requestVersion.setTemplate(requestTemplateId);
-        requestVersion.setTimeReference(timeReference);
-        requestVersion.setUser(user);
-        requestVersion.setValidityEvent(validityEvent);
-        requestVersion.setValidityTime(validityTime);
-
-        return requestVersion;
+        return new RequestVersionDetails(
+                activityNode,
+                arguments,
+                "",
+                constraints,
+                description,
+                null,
+                new Identifier(planningPeriod),
+                false,
+                requestTemplateId,
+                timeReference,
+                user,
+                null,
+                validityEvent,
+                validityTime);
     }
 
     private SimpleActivityDetails createTakeImageActivity(String position) {
@@ -392,8 +372,6 @@ public class PlanningRequestConsumerPanel extends javax.swing.JPanel {
     }
 
     private RequestVersionDetails createScoutRequest(String[] positions) {
-        RequestVersionDetails requestVersion = MPFactory.createRequestVersion();
-
         String description = "Scout at " + Arrays.toString(positions) + " for Volcano, Reef, Human-made, Land or Water";
 
         Argument positionArgument = new Argument();
@@ -437,19 +415,21 @@ public class PlanningRequestConsumerPanel extends javax.swing.JPanel {
 
         TimeWindowList validityTime = createValidityTime();
 
-        requestVersion.setArguments(argumentList);
-        requestVersion.setComments("");
-        requestVersion.setConstraints(constraints);
-        requestVersion.setDescription(description);
-        requestVersion.setPlanningPeriod(new Identifier(planningPeriod));
-        requestVersion.setStandingOrder(false);
-        requestVersion.setTemplate(requestTemplateId);
-        requestVersion.setTimeReference(timeReference);
-        requestVersion.setUser(user);
-        requestVersion.setValidityEvent(validityEvent);
-        requestVersion.setValidityTime(validityTime);
-
-        return requestVersion;
+        return new RequestVersionDetails(
+                null,
+                argumentList,
+                "",
+                constraints,
+                description,
+                null,
+                new Identifier(planningPeriod),
+                false,
+                requestTemplateId,
+                timeReference,
+                user,
+                null,
+                validityEvent,
+                validityTime);
     }
 
     private void updateRequestButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateRequestButtonActionPerformed
@@ -524,8 +504,7 @@ public class PlanningRequestConsumerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_cancelRequestButtonActionPerformed
 
     private void getRequestAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_getRequestAllButtonActionPerformed
-        RequestFilter filter = new RequestFilter();
-        filter.setReturnAll(true);
+        RequestFilter filter = new RequestFilter(true, null, null, null);
 
         try {
             this.planningRequestService.getPlanningRequestStub().asyncGetRequest(filter, new PlanningRequestAdapter() {
@@ -561,8 +540,7 @@ public class PlanningRequestConsumerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_getRequestAllButtonActionPerformed
 
     private void getRequestStatusAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_getRequestStatusAllButtonActionPerformed
-        RequestFilter filter = new RequestFilter();
-        filter.setReturnAll(true);
+        RequestFilter filter = new RequestFilter(true, null, null, null);
 
         try {
             this.planningRequestService.getPlanningRequestStub().asyncGetRequestStatus(filter,

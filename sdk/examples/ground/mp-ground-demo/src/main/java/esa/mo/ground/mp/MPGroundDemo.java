@@ -78,9 +78,8 @@ public class MPGroundDemo {
         pimService = test.gma.getMPServices().getPlanInformationManagementService().getPlanInformationManagementStub();
 
         // Add single Activity definition
-        ActivityDefinitionDetails activityDefinition = MPFactory.createActivityDefinition();
-        activityDefinition.setDescription("NMF Activity");
-        activityDefinition.setExecDef(new Identifier("TAKE_PICTURE"));
+        ActivityDefinitionDetails activityDefinition = MPFactory.createActivityDefinition(
+                "NMF Activity", new Identifier("TAKE_PICTURE"));
 
         ActivityDefinitionDetailsList activityDefinitions = new ActivityDefinitionDetailsList();
         activityDefinitions.add(activityDefinition);
@@ -93,8 +92,7 @@ public class MPGroundDemo {
         }
 
         // Add single Event definition
-        EventDefinitionDetails eventDefinition = MPFactory.createEventDefinition();
-        eventDefinition.setDescription("NMF Event");
+        EventDefinitionDetails eventDefinition = MPFactory.createEventDefinition("NMF Event");
 
         EventDefinitionDetailsList eventDefinitions = new EventDefinitionDetailsList();
         eventDefinitions.add(eventDefinition);
@@ -107,11 +105,9 @@ public class MPGroundDemo {
         }
 
         // Add single Resource definition
-        NumericResourceDefinitionDetails numericResourceDefinition = MPFactory.createNumericResourceDefinition();
-        numericResourceDefinition.setDescription("NMF Resource");
+        NumericResourceDefinitionDetails numericResourceDefinition = MPFactory.createNumericResourceDefinition("NMF Resource");
 
-        c_ResourceDefinitionDetails c_ResourceDefinition = new c_ResourceDefinitionDetails();
-        c_ResourceDefinition.setNumericResourceDef(numericResourceDefinition);
+        c_ResourceDefinitionDetails c_ResourceDefinition = new c_ResourceDefinitionDetails(null, numericResourceDefinition, null, null);
         c_ResourceDefinitionDetailsList c_ResourceDefinitions = new c_ResourceDefinitionDetailsList();
         c_ResourceDefinitions.add(c_ResourceDefinition);
         IdentifierList resourceIdentities = new IdentifierList();
@@ -123,8 +119,7 @@ public class MPGroundDemo {
         }
 
         // Add single Request template
-        RequestTemplateDetails requestTemplate = MPFactory.createRequestTemplate();
-        requestTemplate.setDescription("NMF Request");
+        RequestTemplateDetails requestTemplate = MPFactory.createRequestTemplate("NMF Request");
 
         RequestTemplateDetailsList requestTemplates = new RequestTemplateDetailsList();
         requestTemplates.add(requestTemplate);

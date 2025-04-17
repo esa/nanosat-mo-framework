@@ -83,17 +83,8 @@ public class PublishedPlanStatusesPanel extends PublishedUpdatesPanel {
         }
 
         ArchiveQueryList archiveQueryList = new ArchiveQueryList();
-        ArchiveQuery archiveQuery = new ArchiveQuery();
-
-        archiveQuery.setDomain(null);
-        archiveQuery.setNetwork(null);
-        archiveQuery.setProvider(null);
-        archiveQuery.setRelated(0L);
-        archiveQuery.setSource(null);
-        archiveQuery.setStartTime(startTime);
-        archiveQuery.setEndTime(null);
-        archiveQuery.setSortFieldName(null);
-        archiveQuery.setSortFieldName(null);
+        ArchiveQuery archiveQuery = new ArchiveQuery(null, null, null,
+                0L, null, startTime, null, null, null);
 
         archiveQueryList.add(archiveQuery);
         try {

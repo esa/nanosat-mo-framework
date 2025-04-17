@@ -512,12 +512,7 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
 
     private void addParameterCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addParameterCheckActionPerformed
 
-        CheckLinkDetails checkLink = new CheckLinkDetails();
-        checkLink.setCheckEnabled(true);
-        checkLink.setCheckInterval(new Duration(4));
-        checkLink.setCheckOnChange(true);
-        checkLink.setCondition(null);
-        checkLink.setUseConverted(false);
+        CheckLinkDetails checkLink = new CheckLinkDetails(true, true, false, new Duration(4));
 
         // Display in a window
         try {
@@ -525,16 +520,15 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
             CheckLinkDetailsList checkLinkList = new CheckLinkDetailsList();
             checkLinkList.add((CheckLinkDetails) checkLinkWindow.getObject());
 
-            ObjectDetails details = new ObjectDetails();
-
             if (checkDefsTable.getSelectedCOMObject() == null) {
                 JOptionPane.showMessageDialog(null, "Please select the check definition to be linked.", "Error",
                     JOptionPane.PLAIN_MESSAGE);
                 return;
             }
 
-            details.setRelated(checkDefsTable.getSelectedCOMObject().getObjectId());
-            details.setSource(new ObjectId(ParameterServiceInfo.PARAMETERDEFINITION_OBJECT_TYPE, 
+            ObjectDetails details = new ObjectDetails(
+                    checkDefsTable.getSelectedCOMObject().getObjectId(),
+                    new ObjectId(ParameterServiceInfo.PARAMETERDEFINITION_OBJECT_TYPE, 
                     new ObjectKey(serviceMCCheck.getConnectionDetails().getDomain(), new Long (1))));
 
             MOWindow linksWindow = new MOWindow(details, true);

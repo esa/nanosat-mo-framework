@@ -163,17 +163,7 @@ public class CameraAcquisitorSystemCameraTargetHandler {
     void recoverLastState() {
         // get previous requests
         ArchiveQueryList archiveQueryList = new ArchiveQueryList();
-        ArchiveQuery archiveQuery = new ArchiveQuery();
-
-        archiveQuery.setDomain(null);
-        archiveQuery.setNetwork(null);
-        archiveQuery.setProvider(null);
-        archiveQuery.setRelated(0L);
-        archiveQuery.setSource(null);
-        archiveQuery.setStartTime(null);
-        archiveQuery.setEndTime(null);
-        archiveQuery.setSortFieldName(null);
-
+        ArchiveQuery archiveQuery = new ArchiveQuery(0L);
         archiveQueryList.add(archiveQuery);
 
         SchedulerArchiveAdapter archiveAdapter = new SchedulerArchiveAdapter();

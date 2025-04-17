@@ -232,12 +232,13 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
 
     private void addLinkButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addLinkButtonActionPerformed
         // Create and Show the Action Definition to the user
-        StatisticLinkDetails statLinkDetails = new StatisticLinkDetails();
-        statLinkDetails.setCollectionInterval(new Duration(2));
-        statLinkDetails.setReportingEnabled(true);
-        statLinkDetails.setReportingInterval(new Duration(4));
-        statLinkDetails.setResetEveryCollection(true);
-        statLinkDetails.setSamplingInterval(new Duration(1));
+        StatisticLinkDetails statLinkDetails = new StatisticLinkDetails(
+                new Duration(1),
+                new Duration(4),
+                new Duration(2),
+                true,
+                true,
+                null);
         
         ObjectKey paramId = new ObjectKey(
             serviceMCParameter.getConnectionDetails().getDomain(),

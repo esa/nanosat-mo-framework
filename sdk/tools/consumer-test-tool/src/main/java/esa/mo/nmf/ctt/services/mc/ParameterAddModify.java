@@ -106,29 +106,17 @@ public class ParameterAddModify extends javax.swing.JFrame {
     public ParameterDefinitionDetails makeNewParameterDefinition(int rawType, String rawUnit, String description,
         boolean generationEnabled, float interval, ParameterExpression validityExpression,
         ParameterConversion conversion) {
-        ParameterDefinitionDetails PDef = new ParameterDefinitionDetails();
-        PDef.setDescription(description);
-        PDef.setRawType((byte) rawType);
-        PDef.setRawUnit(rawUnit);
-        PDef.setDescription(description);
-        PDef.setGenerationEnabled(generationEnabled);  // shall not matter, because when we add it it will be false!
-        PDef.setReportInterval(makeDuration(interval));
-        PDef.setValidityExpression(validityExpression);
-        PDef.setConversion(conversion);
-
-        return PDef;
+        return new ParameterDefinitionDetails(description, (Byte) ((byte) rawType), rawUnit,
+                generationEnabled, makeDuration(interval), validityExpression, conversion);
     }
 
     public ParameterExpression makeNewParameterExpression(Long instId, int operator, Boolean useConverted,
         String value) {
-        ParameterExpression PExp = new ParameterExpression();
-
-        PExp.setParameterId(new ObjectKey(serviceMCParameter.getConnectionDetails().getDomain(), instId));
-        PExp.setOperator(new ExpressionOperator(operator));
-        PExp.setUseConverted(useConverted);
-        PExp.setValue(new Union(value));
-
-        return PExp;
+        return new ParameterExpression(
+                new ObjectKey(serviceMCParameter.getConnectionDetails().getDomain(), instId),
+                new ExpressionOperator(operator),
+                useConverted,
+                new Union(value));
     }
 
     public Duration makeDuration(float input) {
@@ -545,47 +533,36 @@ public class ParameterAddModify extends javax.swing.JFrame {
             PExp = null;
         }
 
-        ParameterConversion pConv;
+        ParameterConversion pConv = null;
 
         if (conversionCB.isSelected()) {
-            // Reference to the conversion Object
-            ObjectId referenceId = new ObjectId();
-            referenceId.setKey(new ObjectKey(serviceMCParameter.getConnectionDetails().getDomain(), Long.valueOf(
-                referenceObjIdTF.getText())));  // Get the first objId
-
             int index = objTypeCB.getSelectedIndex();
+            ObjectType type = null;
 
             switch (index) {
                 case 1:
-                    referenceId.setType(OBJ_TYPE_CS_DISCRETECONVERSION);
+                    type = OBJ_TYPE_CS_DISCRETECONVERSION;
                     break;
                 case 2:
-                    referenceId.setType(OBJ_TYPE_CS_LINECONVERSION);
+                    type = OBJ_TYPE_CS_LINECONVERSION;
                     break;
                 case 3:
-                    referenceId.setType(OBJ_TYPE_CS_POLYCONVERSION);
+                    type = OBJ_TYPE_CS_POLYCONVERSION;
                     break;
                 case 4:
-                    referenceId.setType(OBJ_TYPE_CS_RANGECONVERSION);
-                    break;
-                default:
-                    referenceId.setType(null);
+                    type = OBJ_TYPE_CS_RANGECONVERSION;
                     break;
             }
 
+            // Reference to the conversion Object
+            ObjectId referenceId = new ObjectId(type, 
+                    new ObjectKey(serviceMCParameter.getConnectionDetails().getDomain(), Long.valueOf(
+                referenceObjIdTF.getText())));  // Get the first objId
+
             ConditionalConversionList conversionConditions = new ConditionalConversionList();
-            ConditionalConversion conversionCondition = new ConditionalConversion();
-            conversionCondition.setCondition(null);
-            conversionCondition.setConversionId(referenceId.getKey());
+            ConditionalConversion conversionCondition = new ConditionalConversion(referenceId.getKey());
             conversionConditions.add(conversionCondition);
-
-            pConv = new ParameterConversion();
-            pConv.setConvertedType((byte) rawTypeCB.getSelectedIndex());
-            pConv.setConvertedUnit(convertedUnit.getText());
-            pConv.setConditionalConversions(conversionConditions);
-
-        } else {
-            pConv = null;
+            pConv = new ParameterConversion((byte) rawTypeCB.getSelectedIndex(), convertedUnit.getText(), conversionConditions);
         }
 
         ParameterDefinitionDetails Pdef;
@@ -595,10 +572,7 @@ public class ParameterAddModify extends javax.swing.JFrame {
         ParameterDefinitionDetailsList PDefs = new ParameterDefinitionDetailsList();
         PDefs.add(Pdef);
 
-        ParameterCreationRequest request = new ParameterCreationRequest();
-        request.setName(new Identifier(nameTF.getText()));
-        request.setParamDefDetails(Pdef);
-
+        ParameterCreationRequest request = new ParameterCreationRequest(new Identifier(nameTF.getText()), Pdef);
         ParameterCreationRequestList requestList = new ParameterCreationRequestList();
         requestList.add(request);
 

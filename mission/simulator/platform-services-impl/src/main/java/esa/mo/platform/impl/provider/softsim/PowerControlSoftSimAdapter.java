@@ -126,7 +126,6 @@ public class PowerControlSoftSimAdapter implements PowerControlAdapterInterface,
 
     @Override
     public boolean isDeviceEnabled(DeviceType deviceType) {
-
         Device device = findByType(deviceType);
         return device == null ? false : device.getEnabled();
     }
@@ -138,7 +137,10 @@ public class PowerControlSoftSimAdapter implements PowerControlAdapterInterface,
 
     private void switchDevice(SimPayloadDevice device, Boolean enabled) throws IOException {
         LOGGER.log(Level.INFO, "Switching device {0} to enabled: {1}", new Object[]{device, enabled});
-        deviceByType.get(device).setEnabled(enabled);
+        Device d = deviceByType.get(device);
+        Device newDevice = new Device(enabled, d.getUnitObjInstId(), d.getName(), d.getDeviceType());
+        deviceByType.put(device, newDevice);
+        //deviceByType.get(device).setEnabled(enabled);
     }
 
 }

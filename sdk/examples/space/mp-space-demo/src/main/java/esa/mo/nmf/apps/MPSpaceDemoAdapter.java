@@ -82,8 +82,7 @@ public class MPSpaceDemoAdapter extends MissionPlanningNMFAdapter {
             try {
                 LOGGER.info("Creating blank plan...");
                 MALInteraction interaction = new AppInteraction();
-                PlanVersionDetails planVersion = MPFactory.createPlanVersion();
-                planVersion.getInformation().setDescription("NMF App Plan");
+                PlanVersionDetails planVersion = MPFactory.createPlanVersion("NMF App Plan");
                 ObjectIdPair pair = getArchiveManager().PLAN.addInstance(planName, planVersion, null, interaction);
                 this.planIdentityId = pair.getIdentityId();
                 ObjectId planVersionId = pair.getObjectId();
@@ -135,11 +134,8 @@ public class MPSpaceDemoAdapter extends MissionPlanningNMFAdapter {
             getArchiveManager().PLAN.addStatus(planVersionId, planUpdate, null, requestArgument.getInteraction());
 
             // Save updated Request Status
-            RequestUpdateDetails newStatus = new RequestUpdateDetails();
-            newStatus.setRequestId(requestArgument.getInstanceId());
-            newStatus.setStatus(RequestStatus.PLANNED);
-            newStatus.setTimestamp(HelperTime.getTimestampMillis());
-            newStatus.setPlanRef(planVersionId);
+            RequestUpdateDetails newStatus = new RequestUpdateDetails(null, null, planVersionId,
+                    requestArgument.getInstanceId(), RequestStatus.PLANNED, HelperTime.getTimestampMillis());
             ObjectId statusId = getArchiveManager().REQUEST_VERSION.updateStatus(requestArgument.getInstanceId(),
                 newStatus, null, requestArgument.getInteraction());
         }
@@ -192,8 +188,7 @@ public class MPSpaceDemoAdapter extends MissionPlanningNMFAdapter {
             ActivityInstanceDetails activityInstance = getArchiveManager().ACTIVITY.getInstance(activityId);
 
             // Add event on planned items
-            PlannedActivity plannedActivity = new PlannedActivity();
-            plannedActivity.setInstance(activityInstance);
+            PlannedActivity plannedActivity = new PlannedActivity(activityInstance, null, null);
             planVersion.getItems().getPlannedActivities().add(plannedActivity);
 
             // Save modified Plan Version
@@ -226,8 +221,7 @@ public class MPSpaceDemoAdapter extends MissionPlanningNMFAdapter {
             EventInstanceDetails eventInstance = getArchiveManager().EVENT.getInstance(eventId);
 
             // Add event on planned items
-            PlannedEvent plannedEvent = new PlannedEvent();
-            plannedEvent.setInstance(eventInstance);
+            PlannedEvent plannedEvent = new PlannedEvent(eventInstance, null, null);
             planVersion.getItems().getPlannedEvents().add(plannedEvent);
 
             // Save modified Plan Version

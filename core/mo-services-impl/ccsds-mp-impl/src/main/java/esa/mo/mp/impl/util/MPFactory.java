@@ -21,6 +21,7 @@
 package esa.mo.mp.impl.util;
 
 import java.util.Arrays;
+import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.StringList;
 import org.ccsds.moims.mo.mal.structures.Time;
@@ -57,13 +58,9 @@ public class MPFactory extends MOFactory {
      * Creates a blank Request Version instance
      */
     public static RequestVersionDetails createRequestVersion() {
-        RequestVersionDetails requestVersion = new RequestVersionDetails();
-
-        requestVersion.setArguments(new ArgumentList());
-        requestVersion.setComments("");
-        requestVersion.setDescription("");
-
-        return requestVersion;
+        return new RequestVersionDetails(null, new ArgumentList(), "", null,
+                "", null, null, null, null,
+                null, null, null, null, null);
     }
 
     /**
@@ -78,12 +75,8 @@ public class MPFactory extends MOFactory {
      * Creates a blank Activity update with given status and current time
      */
     public static ActivityUpdateDetails createActivityUpdate(ActivityStatus activityStatus) {
-        ActivityUpdateDetails activityUpdate = new ActivityUpdateDetails();
-
-        activityUpdate.setStatus(activityStatus);
-        activityUpdate.setTimestamp(Time.now());
-
-        return activityUpdate;
+        return new ActivityUpdateDetails(null, null, null, null, null,
+                null, null, null, null, activityStatus, Time.now());
     }
 
     /**
@@ -97,33 +90,22 @@ public class MPFactory extends MOFactory {
      * Creates an Event instance with given events
      */
     public static EventInstanceDetails createEventInstance(Long... events) {
-        EventInstanceDetails eventInstance = new EventInstanceDetails();
-
         LongList eventList = new LongList();
         eventList.addAll(Arrays.asList(events));
-        eventInstance.setEvents(eventList);
-
-        return eventInstance;
+        return new EventInstanceDetails(eventList);
     }
 
     /**
      * Creates a blank Plan Version instance
+     * @param description The description.
+     * @return The plan version object.
      */
-    public static PlanVersionDetails createPlanVersion() {
-        PlanInformation planInformation = new PlanInformation();
-        planInformation.setComments("");
-        planInformation.setDescription("");
-        planInformation.setProductionDate(Time.now());
-
+    public static PlanVersionDetails createPlanVersion(String description) {
+        PlanInformation planInformation = new PlanInformation("", description, null,
+                null, null, Time.now(), null, null, null);
         PlannedItems plannedItems = new PlannedItems(new PlannedActivityList(), new PlannedEventList());
-
-        PlanVersionDetails planVersion = new PlanVersionDetails();
-        planVersion.setHasPrecursor(false);
-        planVersion.setPatchPlan(false);
-        planVersion.setInformation(planInformation);
-        planVersion.setItems(plannedItems);
-
-        return planVersion;
+        return new PlanVersionDetails(planInformation, plannedItems, null,
+                null, false, false, null, null);
     }
 
     /**
@@ -137,53 +119,39 @@ public class MPFactory extends MOFactory {
     /**
      * Creates a blank Activity Definition
      */
-    public static ActivityDefinitionDetails createActivityDefinition() {
+    public static ActivityDefinitionDetails createActivityDefinition(String description, Identifier execDef) {
         return new ActivityDefinitionDetails(
                 new c_ArgDefList(),
                 new ActivityNode(),
                 new ConstraintNode(),
                 new StringList(),
-                "",
+                description,
                 "",
                 new DurationExpression(),
-                null,
+                execDef,
                 "");
     }
 
     /**
      * Creates a blank Event Definition
      */
-    public static EventDefinitionDetails createEventDefinition() {
-        return new EventDefinitionDetails(new c_ArgDefList(), "", "", new LongList(), "");
+    public static EventDefinitionDetails createEventDefinition(String description) {
+        return new EventDefinitionDetails(new c_ArgDefList(), description, "", new LongList(), "");
     }
 
     /**
      * Creates a blank Request Template
      */
-    public static RequestTemplateDetails createRequestTemplate() {
-        RequestTemplateDetails requestTemplate = new RequestTemplateDetails();
-
-        requestTemplate.setActivities(new ActivityNode());
-        requestTemplate.setArgDefs(new c_ArgDefList());
-        requestTemplate.setConstraints(new ConstraintNode());
-        requestTemplate.setDescription("");
-        requestTemplate.setStandingOrder(false);
-        requestTemplate.setVersion("");
-
-        return requestTemplate;
+    public static RequestTemplateDetails createRequestTemplate(String description) {
+        return new RequestTemplateDetails(new ActivityNode(), new c_ArgDefList(),
+                new ConstraintNode(), description, false, "");
     }
 
     /**
      * Creates a blank Numeric Resource Definition
      */
-    public static NumericResourceDefinitionDetails createNumericResourceDefinition() {
-        NumericResourceDefinitionDetails numericResourceDefinition = new NumericResourceDefinitionDetails();
-
-        numericResourceDefinition.setDescription("");
-        numericResourceDefinition.setVersion("");
-        numericResourceDefinition.setMaximum(new ResourceProfile());
-        numericResourceDefinition.setMinimum(new ResourceProfile());
-
-        return numericResourceDefinition;
+    public static NumericResourceDefinitionDetails createNumericResourceDefinition(String description) {
+        return new NumericResourceDefinitionDetails(null, description,
+                null, "", new ResourceProfile(), new ResourceProfile());
     }
 }

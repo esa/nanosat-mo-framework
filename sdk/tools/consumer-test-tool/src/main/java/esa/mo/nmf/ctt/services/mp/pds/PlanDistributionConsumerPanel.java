@@ -135,8 +135,7 @@ public class PlanDistributionConsumerPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void listPlansButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listPlansButtonActionPerformed
-        PlanFilter filter = new PlanFilter();
-        filter.setReturnAll(true);
+        PlanFilter filter = new PlanFilter(true, null, null, null);
 
         try {
             this.planDistributionService.getPlanDistributionStub().asyncListPlans(filter,

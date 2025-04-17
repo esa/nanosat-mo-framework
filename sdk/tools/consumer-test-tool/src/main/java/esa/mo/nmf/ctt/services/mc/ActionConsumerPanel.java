@@ -320,11 +320,11 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
         detailsList.add(null);
         
         // Create and Show the Action Definition to the user
-        ActionDefinitionDetails actionDefinition = new ActionDefinitionDetails();
-        actionDefinition.setDescription("The action takes a picture and saves it in the 'picture' parameter.");
-        actionDefinition.setCategory(new UOctet((short) 0));
-        actionDefinition.setProgressStepCount(new UShort(1));
-        actionDefinition.setArguments(detailsList);
+        ActionDefinitionDetails actionDefinition = new ActionDefinitionDetails(
+                "The action takes a picture and saves it in the 'picture' parameter.",
+                new UOctet((short) 0),
+                new UShort(1),
+                detailsList);
 
         ActionCreationRequest creation = new ActionCreationRequest(
             new Identifier("Take_Picture"),
@@ -470,8 +470,7 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
             return;  // Well, then nothing to be done here folks!
         }
 
-        ActionInstanceDetails actionInstanceDetails = new ActionInstanceDetails();
-        actionInstanceDetails.setDefInstId(actionTable.getSelectedDefinitionObjId());
+        ActionInstanceDetails actionInstanceDetails = new ActionInstanceDetails(actionTable.getSelectedDefinitionObjId(), null, null, null);
         MOWindow genericObject = new MOWindow(actionInstanceDetails, true);
         try {
             actionInstanceDetails = (ActionInstanceDetails) genericObject.getObject();

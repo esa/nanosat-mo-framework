@@ -133,29 +133,26 @@ public class AutonomousADCSSoftSimAdapter implements AutonomousADCSAdapterInterf
     @Override
     public AttitudeTelemetry getAttitudeTelemetry() throws IOException {
         byte[] tmBuffer = instrumentsSimulator.getpFineADCS().GetSensorTelemetry();
-        AttitudeTelemetry ret = new AttitudeTelemetry();
-        ret.setAngularVelocity(HelperIADCS100.getAngularVelocityFromSensorTM(tmBuffer));
-        ret.setAttitude(HelperIADCS100.getAttitudeFromSensorTM(tmBuffer));
-        ret.setMagneticField(HelperIADCS100.getMagneticFieldFromSensorTM(tmBuffer));
-        ret.setSunVector(new VectorF3D((float) 1, (float) 0, (float) 0)); // TODO provide real data
         byte[] tmBufferPointingLoop = instrumentsSimulator.getpFineADCS().GetAttitudeTelemetry();
-        if (HelperIADCS100.getPointingLoopStateTarget(tmBufferPointingLoop) == 1) {
-            ret.setStateTarget(true);
-        } else {
-            ret.setStateTarget(false);
-        }
-        return ret;
+        boolean stateTarget = (HelperIADCS100.getPointingLoopStateTarget(tmBufferPointingLoop) == 1);
+
+        return new AttitudeTelemetry(
+                HelperIADCS100.getAttitudeFromSensorTM(tmBuffer),
+                HelperIADCS100.getAngularVelocityFromSensorTM(tmBuffer),
+                new VectorF3D((float) 1, (float) 0, (float) 0),
+                HelperIADCS100.getMagneticFieldFromSensorTM(tmBuffer),
+                stateTarget
+        );
     }
 
     @Override
     public ActuatorsTelemetry getActuatorsTelemetry() throws IOException {
         byte[] tmBuffer = instrumentsSimulator.getpFineADCS().GetActuatorTelemetry();
-        ActuatorsTelemetry ret = new ActuatorsTelemetry();
-        ret.setMtqDipoleMoment(HelperIADCS100.getMTQFromActuatorTM(tmBuffer));
-        ret.setMtqState(MagnetorquersState.ACTIVE); // TODO provide real data
-        ret.setCurrentWheelSpeed(HelperIADCS100.getCurrentWheelSpeedFromActuatorTM(tmBuffer));
-        ret.setTargetWheelSpeed(HelperIADCS100.getTargetWheelSpeedFromActuatorTM(tmBuffer));
-        return ret;
+        return new ActuatorsTelemetry(
+                HelperIADCS100.getTargetWheelSpeedFromActuatorTM(tmBuffer),
+                HelperIADCS100.getCurrentWheelSpeedFromActuatorTM(tmBuffer),
+                HelperIADCS100.getMTQFromActuatorTM(tmBuffer),
+                MagnetorquersState.ACTIVE); // TODO provide real data
     }
 
     @Override
@@ -178,8 +175,8 @@ public class AutonomousADCSSoftSimAdapter implements AutonomousADCSAdapterInterf
     }
 
     @Override
-    public void setAllReactionWheelSpeeds(float wheelX, float wheelY, float wheelZ, float wheelU, float wheelV,
-        float wheelW) {
+    public void setAllReactionWheelSpeeds(float wheelX, float wheelY,
+            float wheelZ, float wheelU, float wheelV, float wheelW) {
         Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,
             "Setting of Reaction wheels is not implemented in the Simulator yet!");
     }

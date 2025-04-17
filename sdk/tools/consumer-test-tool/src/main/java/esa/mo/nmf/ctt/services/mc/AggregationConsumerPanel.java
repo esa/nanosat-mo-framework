@@ -273,31 +273,28 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_listDefinitionButtonActionPerformed
 
     private void addDefinitionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDefinitionButtonActionPerformed
-        // Create and Show the Action Definition to the user
-        AggregationDefinitionDetails aggregationDefinition = new AggregationDefinitionDetails();
-        aggregationDefinition.setDescription("A aggregation of 2 parameters.");
-        aggregationDefinition.setCategory(new UOctet((short) 0));
-        aggregationDefinition.setGenerationEnabled(true);
-        aggregationDefinition.setReportInterval(new Duration(2));
-        aggregationDefinition.setFilterEnabled(false);
-        aggregationDefinition.setSendDefinitions(false);
-        aggregationDefinition.setSendUnchanged(false);
-        aggregationDefinition.setFilteredTimeout(new Duration(5));
+        AggregationParameterSet aggSet = new AggregationParameterSet(
+                this.serviceMCAggregation.getConnectionDetails().getDomain(),
+                new LongList(),
+                new Duration(2),
+                null);
 
         AggregationParameterSetList aggSetList = new AggregationParameterSetList();
-
-        AggregationParameterSet aggSet = new AggregationParameterSet();
-        aggSet.setDomain(this.serviceMCAggregation.getConnectionDetails().getDomain());
-        aggSet.setParameters(new LongList());
-        aggSet.setSampleInterval(new Duration(2));
-        aggSet.setReportFilter(null);
-
         aggSetList.add(aggSet);
-        aggregationDefinition.setParameterSets(aggSetList);
 
-        AggregationCreationRequest request = new AggregationCreationRequest();
-        request.setAggDefDetails(aggregationDefinition);
-        request.setName(new Identifier("Map"));
+        // Create and Show the Action Definition to the user
+        AggregationDefinitionDetails aggregationDefinition = new AggregationDefinitionDetails(
+                "A aggregation of 2 parameters.",
+                new UOctet((short) 0),
+                new Duration(2),
+                false,
+                false,
+                false,
+                new Duration(5),
+                true,
+                aggSetList);
+
+        AggregationCreationRequest request = new AggregationCreationRequest(new Identifier("Map"), aggregationDefinition);
         MOWindow aggregationDefinitionWindow = new MOWindow(request, true);
 
         AggregationCreationRequestList requestList = new AggregationCreationRequestList();
