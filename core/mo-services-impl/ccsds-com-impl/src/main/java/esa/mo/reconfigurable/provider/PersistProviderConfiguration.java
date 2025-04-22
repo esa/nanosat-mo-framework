@@ -23,29 +23,29 @@ package esa.mo.reconfigurable.provider;
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.reconfigurable.service.PersistLatestServiceConfigurationAdapter;
+import esa.mo.reconfigurable.service.ReconfigurableService;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.provider.ArchiveInheritanceSkeleton;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.structures.ObjectId;
+import org.ccsds.moims.mo.common.configuration.ConfigurationServiceInfo;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectSet;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectSetList;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.URI;
-import esa.mo.reconfigurable.service.ReconfigurableService;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.atomic.AtomicInteger;
-import org.ccsds.moims.mo.common.configuration.ConfigurationServiceInfo;
-import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
-import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 
 /**
  * This class is responsible for storing the configuration of a provider in the
@@ -108,9 +108,10 @@ public class PersistProviderConfiguration {
             // Store the provider configuration objects
             HeterogeneousList archObj = new HeterogeneousList();
             ConfigurationObjectSetList setList = new ConfigurationObjectSetList(1);
-            ConfigurationObjectSet set = new ConfigurationObjectSet(ConfigurationServiceInfo.SERVICECONFIGURATION_OBJECT_TYPE,
-            ConfigurationProviderSingleton.getDomain(),
-            objIds);
+            ConfigurationObjectSet set = new ConfigurationObjectSet(
+                    ConfigurationServiceInfo.SERVICECONFIGURATION_OBJECT_TYPE,
+                    ConfigurationProviderSingleton.getDomain(),
+                    objIds);
 
             setList.add(set);
             ConfigurationObjectDetails providerObjects = new ConfigurationObjectDetails(setList);
@@ -164,13 +165,13 @@ public class PersistProviderConfiguration {
         for (int i = 0; i < objIds.size(); i++) {
             final ReconfigurableService providerService = reconfigurableServices.get(i);
             final PersistLatestServiceConfigurationAdapter persistLatestConfig
-                    = new PersistLatestServiceConfigurationAdapter(providerService, 
+                    = new PersistLatestServiceConfigurationAdapter(providerService,
                             objIds.get(i), this.archiveService, this.executor);
             providerService.setOnConfigurationChangeListener(persistLatestConfig);
         }
     }
 
-    private void reloadServiceConfigurations(final ArrayList<ReconfigurableService> services, 
+    private void reloadServiceConfigurations(final ArrayList<ReconfigurableService> services,
             final LongList objIds) throws IOException {
         // Retrieve the COM object of the service
         List<ArchivePersistenceObject> comObjects = HelperArchive.getArchiveCOMObjectList(archiveService,
