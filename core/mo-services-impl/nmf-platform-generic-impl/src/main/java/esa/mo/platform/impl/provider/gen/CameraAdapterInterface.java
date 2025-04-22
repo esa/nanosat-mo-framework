@@ -42,25 +42,55 @@ public interface CameraAdapterInterface {
     boolean isUnitAvailable();
 
     /**
+     * Returns true of the camera as a fixed set of resolutions.
+     *
      * @return true if the camera has only a fixed set of resolutions. They can
-     * then be retrieved with the getAvailableResolutions() method.
+     * then be retrieved with the getAvailableResolutions() method. The default
+     * is true to be backwards compatible with earlier implementations.
      */
-    boolean hasFixedResolutions();
+    default boolean hasFixedResolutions() {
+        return true;
+    }
 
     /**
+     * Returns the available resolutions for the camera.
+     *
      * @return The resolutions supported by the Camera Adapter
      */
     PixelResolutionList getAvailableResolutions();
 
     /**
-     * @return The formats supported by the Camera Adapter
+     * Returns the supported formats for the camera.
+     *
+     * @return The formats supported by the Camera Adapter.
      */
     PictureFormatList getAvailableFormats();
 
+    /**
+     * Captures a preview of the picture.
+     *
+     * @return A preview of the picture.
+     * @throws java.io.IOException if something went wrong.
+     */
     Picture getPicturePreview() throws IOException;
 
+    /**
+     * Captures a picture.
+     *
+     * @param settings The settings for capturing the picture.
+     * @return The picture.
+     * @throws IOException if the picture could not be taken.
+     */
     Picture takePicture(final CameraSettings settings) throws IOException;
 
+    /**
+     * Captures a picture using auto exposure.
+     *
+     * @param settings The settings for capturing the picture.
+     * @return The picture.
+     * @throws IOException if the picture could not be taken.
+     * @throws MALException if something else went wrong.
+     */
     Picture takeAutoExposedPicture(final CameraSettings settings) throws IOException, MALException;
 
     /**
