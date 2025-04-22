@@ -62,7 +62,7 @@ public class EncodeDecode {
      * @param entity The object to encode
      * @param manager The archive manager for fast object details retrieval
      * @param dictionary Dictionary mapping strings to integers
-     * @return The byte array holding the encoded COMÂ object
+     * @return The byte array holding the encoded COM object
      */
     public static byte[] encodeToByteArray(final COMObjectEntity entity, ArchiveManager manager,
         Dictionary dictionary) {
