@@ -70,6 +70,8 @@ public class DockerApi extends SimulatorApi {
         if (output.contains("command not found")) {
             throw new IOException("Please install docker Docker before running the code.");
         }
+
+        Logger.getLogger(DockerApi.class.getName()).log(Level.INFO, "The output is: {0}", output);
     }
 
     /**
