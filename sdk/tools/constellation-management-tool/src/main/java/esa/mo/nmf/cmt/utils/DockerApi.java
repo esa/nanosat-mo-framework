@@ -25,6 +25,8 @@ package esa.mo.nmf.cmt.utils;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * This class implements the Docker API for simulating NanoSat segments.
@@ -79,7 +81,8 @@ public class DockerApi extends SimulatorApi {
     @Override
     public void start(String name) throws IOException {
         String cmd = String.format("docker start %s", name);
-        executeCommand(cmd);
+        String output = executeCommand(cmd);
+        Logger.getLogger(DockerApi.class.getName()).log(Level.INFO, "The output is: {0}", output);
     }
 
     /**
