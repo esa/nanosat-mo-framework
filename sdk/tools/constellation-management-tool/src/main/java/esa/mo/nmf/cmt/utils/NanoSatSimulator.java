@@ -23,44 +23,35 @@
 package esa.mo.nmf.cmt.utils;
 
 import esa.mo.nmf.cmt.ConstellationManagementTool;
-import esa.mo.nmf.cmt.utils.DockerApi;
-import esa.mo.nmf.cmt.utils.NanoSat;
-import esa.mo.nmf.cmt.utils.SimulatorApi;
-
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * NanoSat Segment Simulator Object.
- * This object simulates the NanoSat Segment of the NMF. It is responsible for
- * managing the Docker Container in which the NanoSat Segment is executed.
+ * NanoSat Segment Simulator Object. This object simulates the NanoSat Segment
+ * of the NMF. It is responsible for managing the Docker Container in which the
+ * NanoSat Segment is executed.
  */
 public class NanoSatSimulator extends NanoSat {
+
     private SimulatorApi simulatorApi;
     private String[] keplerElements = null;
 
     /**
-     * Initializer Constructor.
-     * This class manages the Docker Container which provides the NanoSat
-     * segment for the simulated constellation.
+     * Initializer Constructor. This class manages the Docker Container which
+     * provides the NanoSat segment for the simulated constellation.
      *
      * @param name Container name
      */
     public NanoSatSimulator(String name) {
-        this.name = name;
-
-        // TODO: make API type closable when creating the NanoSat, maybe use factory pattern
-        this.simulatorApi = new DockerApi();
-        // this.simulatorApi = new KubernetesApi();
+        this(name, null);
     }
 
     /**
-     * Initializer Constructor.
-     * This class manages the Docker Container which provides the NanoSat
-     * segment for the simulated constellation.
+     * Initializer Constructor. This class manages the Docker Container which
+     * provides the NanoSat segment for the simulated constellation.
      *
-     * @param name           Container name
+     * @param name Container name
      * @param keplerElements Orbit parameters for GPS simulation
      */
     public NanoSatSimulator(String name, String[] keplerElements) {
@@ -73,7 +64,8 @@ public class NanoSatSimulator extends NanoSat {
     }
 
     /**
-     * Create a Docker Container that will host the NanoSat Segment and start it.
+     * Create a Docker Container that will host the NanoSat Segment and start
+     * it.
      *
      * @throws IOException
      */
@@ -139,7 +131,8 @@ public class NanoSatSimulator extends NanoSat {
         try {
             this.simulatorApi.remove(this.name);
         } catch (IOException ex) {
-            Logger.getLogger(ConstellationManagementTool.class.getName()).log(Level.SEVERE, "{0}: could not be removed!: {1}", new Object[]{this.name, ex});
+            Logger.getLogger(ConstellationManagementTool.class.getName()).log(Level.SEVERE,
+                    "{0}: could not be removed!: {1}", new Object[]{this.name, ex});
         }
     }
 

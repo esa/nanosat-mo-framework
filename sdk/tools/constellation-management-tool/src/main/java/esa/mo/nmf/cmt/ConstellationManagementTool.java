@@ -119,8 +119,9 @@ public class ConstellationManagementTool {
      * @param name Name of the constellation. Container naming scheme:
      *             <name>-sim-<1...n>
      * @param size Constellation size
+     * @throws java.io.IOException if the simulation could not be started.
      */
-    public void addBasicSimulations(String name, int size) {
+    public void addBasicSimulations(String name, int size) throws IOException {
         try {
             for (int i = 1; i <= size; i++) {
                 int nodeNumber = this.constellation.size() + 1;
@@ -135,6 +136,7 @@ public class ConstellationManagementTool {
             if (ex.toString().contains("permission denied")) {
                 JOptionPane.showMessageDialog(null, "Failed to initialize the constellation: Do you have permission to use Docker?", "Error", JOptionPane.INFORMATION_MESSAGE);
             }
+            throw ex;
         }
         this.cmtGui.refreshNanoSatSegmentList();
     }

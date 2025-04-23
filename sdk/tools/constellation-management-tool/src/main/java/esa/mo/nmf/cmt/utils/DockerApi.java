@@ -29,19 +29,19 @@ import java.io.InputStreamReader;
 /**
  * This class implements the Docker API for simulating NanoSat segments.
  */
-public class DockerApi extends SimulatorApi{
+public class DockerApi extends SimulatorApi {
 
-    private String image;
+    private final String image;
 
     public DockerApi() {
         this.image = "nmf-rpi/nmf-supervisor:2.0"; // TODO: get image name from config
     }
 
     /**
-     * Run the NanoSat Segment Docker container.
-     * Configure with orbit dynamics when kepler elements are provided.
+     * Run the NanoSat Segment Docker container. Configure with orbit dynamics
+     * when kepler elements are provided.
      *
-     * @param name           Container name
+     * @param name Container name
      * @param keplerElements kepler elements for orbit dynamics simulation
      * @throws IOException
      */
@@ -63,7 +63,11 @@ public class DockerApi extends SimulatorApi{
 
         strBuilder.append(String.format("--name %s -h %s -d %s", name, name, this.image));
 
-        executeCommand(strBuilder.toString());
+        String output = executeCommand(strBuilder.toString());
+
+        if (output.contains("command not found")) {
+            throw new IOException("Please install docker Docker before running the code.");
+        }
     }
 
     /**
@@ -171,7 +175,8 @@ public class DockerApi extends SimulatorApi{
                     }
                 }
 
-            } catch (Exception ex) { }
+            } catch (Exception ex) {
+            }
 
             p.waitFor();
 

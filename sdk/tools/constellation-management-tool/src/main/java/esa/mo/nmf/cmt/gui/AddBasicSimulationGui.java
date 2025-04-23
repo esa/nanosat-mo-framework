@@ -26,7 +26,6 @@ import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import esa.mo.nmf.cmt.ConstellationManagementTool;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -83,9 +82,7 @@ public class AddBasicSimulationGui extends JFrame {
             }
 
             this.dispose();
-
             JOptionPane.showMessageDialog(null, "Simulation started! " + size + " Docker Container were created and have been added to the constellation.", "Info", JOptionPane.INFORMATION_MESSAGE);
-
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(null, "Please enter a valid number of NanoSat segments.", "Error", JOptionPane.INFORMATION_MESSAGE);
         } catch (IllegalArgumentException ex) {
@@ -93,7 +90,6 @@ public class AddBasicSimulationGui extends JFrame {
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex, "Error", JOptionPane.INFORMATION_MESSAGE);
         }
-
     }
 
     {
