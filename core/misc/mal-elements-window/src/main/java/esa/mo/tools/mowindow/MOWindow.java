@@ -29,6 +29,7 @@ import org.ccsds.moims.mo.mal.MALArea;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALElementsRegistry;
 import org.ccsds.moims.mo.mal.ServiceInfo;
+import org.ccsds.moims.mo.mal.TypeId;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Composite;
 import org.ccsds.moims.mo.mal.structures.Element;
@@ -81,16 +82,21 @@ public final class MOWindow extends javax.swing.JDialog {
         this.editable = editable;
 
         if (obj instanceof Element) {
-            MALArea area = MALContextFactory.lookupArea(new UShort(((Element) obj).getTypeId().getAreaNumber()),
-                    new UOctet(((Element) obj).getTypeId().getAreaVersion()));
-            ServiceInfo service = area.getServiceByNumber(new UShort(((Element) obj).getTypeId().getServiceNumber()));
+            TypeId typeId = ((Element) obj).getTypeId();
+            MALArea area = MALContextFactory.lookupArea(new UShort(typeId.getAreaNumber()),
+                    new UOctet(typeId.getAreaVersion()));
+            ServiceInfo service = null;
+            if (area != null) {
+                service = area.getServiceByNumber(new UShort(typeId.getServiceNumber()));
+            }
             String string;
 
-            if (service != null) {
-                string = "Area: " + area.getName() + "        Service: " + service.getName() +
-                    "        TypeShortForm: " + ((Element) obj).getTypeId().getSFP();
+            if (service != null && area != null) {
+                string = "Area: " + area.getName()
+                        + "        Service: " + service.getName()
+                        + "        TypeId: " + typeId.getSFP();
             } else {
-                string = "Area: " + area.getName() + "          TypeShortForm: " + ((Element) obj).getTypeId().getSFP();
+                string = "TypeId: " + typeId.toString();
             }
 
             objIdentification.setText(string);
@@ -134,14 +140,16 @@ public final class MOWindow extends javax.swing.JDialog {
                         }
 
                     } else {
-                        MOelementList moElementList = new MOelementList(this, String.valueOf(componentsPanel
-                            .getComponentCount()), FieldsHandler.filterRawObject(list.get(i)), editable, (list.get(i) ==
-                                null));
+                        MOelementList moElementList = new MOelementList(this,
+                                String.valueOf(componentsPanel.getComponentCount()),
+                                FieldsHandler.filterRawObject(list.get(i)), editable,
+                                (list.get(i) == null));
                         componentsPanel.add(moElementList);
                     }
                 } else {
-                    MOelementList moElementList = new MOelementList(this, String.valueOf(componentsPanel
-                        .getComponentCount()), list.get(i), editable, (list.get(i) == null));
+                    MOelementList moElementList = new MOelementList(this,
+                            String.valueOf(componentsPanel.getComponentCount()),
+                            list.get(i), editable, (list.get(i) == null));
                     componentsPanel.add(moElementList);
                 }
 
@@ -157,7 +165,6 @@ public final class MOWindow extends javax.swing.JDialog {
 
         // Is the object a composite?
         if (obj instanceof Composite) { // Is Composite...
-
             Field[] fields = FieldsHandler.getDeclaredFields(obj);
 
             if (fields.length < 6) {
@@ -171,35 +178,35 @@ public final class MOWindow extends javax.swing.JDialog {
                 // If another Composite add a button to create another MOWindow
                 if (fieldObject instanceof Composite) {
                     MOcomposite moComposite = new MOcomposite(fields[i].getName(), (Element) fieldObject, editable,
-                        fieldObjectIsNull);
+                            fieldObjectIsNull);
                     componentsPanel.add(moComposite);
                     continue;
                 }
 
                 if (fieldObject instanceof Attribute) {
                     MOattribute moField = new MOattribute(fields[i].getName(), fieldObject, editable,
-                        fieldObjectIsNull);
+                            fieldObjectIsNull);
                     componentsPanel.add(moField);
                     continue;
                 }
 
                 if (fieldObject instanceof Enumeration) {
                     MOenumeration moField = new MOenumeration(fields[i].getName(), (Element) fieldObject, editable,
-                        fieldObjectIsNull);
+                            fieldObjectIsNull);
                     componentsPanel.add(moField);
                     continue;
                 }
 
                 if (fieldObject == null) {  // It is unknown or type "Attribute"
                     MOattribute moField = new MOattribute(fields[i].getName(), fieldObject, editable,
-                        fieldObjectIsNull);
+                            fieldObjectIsNull);
                     componentsPanel.add(moField);
                     continue;
                 }
 
                 if (!(fieldObject instanceof Element)) {
                     MOattribute moField = new MOattribute(fields[i].getName(), FieldsHandler.filterRawObject(
-                        fieldObject), editable, fieldObjectIsNull);
+                            fieldObject), editable, fieldObjectIsNull);
                     componentsPanel.add(moField);
                     continue;
                 }
@@ -404,10 +411,10 @@ public final class MOWindow extends javax.swing.JDialog {
                             fields[i + 6].set(this.receivedObj, fieldUnion.get(object));
                         }
 
-                    } catch (NoSuchFieldException |
-                             IllegalAccessException |
-                             IllegalArgumentException |
-                             SecurityException ex1) {
+                    } catch (NoSuchFieldException
+                            | IllegalAccessException
+                            | IllegalArgumentException
+                            | SecurityException ex1) {
                         Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex1);
                     }
                 } else {
