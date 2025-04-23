@@ -35,8 +35,8 @@ public class DockerApi extends SimulatorApi {
 
     private final String image;
 
-    public DockerApi() {
-        this.image = "nmf-rpi/nmf-supervisor:2.0"; // TODO: get image name from config
+    public DockerApi(String image) {
+        this.image = image;
     }
 
     /**
@@ -49,9 +49,7 @@ public class DockerApi extends SimulatorApi {
      */
     @Override
     public void run(String name, String[] keplerElements) throws IOException {
-
         StringBuilder strBuilder = new StringBuilder();
-
         strBuilder.append("docker run ");
 
         if (keplerElements != null) {
@@ -72,6 +70,10 @@ public class DockerApi extends SimulatorApi {
         }
 
         Logger.getLogger(DockerApi.class.getName()).log(Level.INFO, "The output is: {0}", output);
+
+        if (output.contains("permission denied")) {
+            throw new IOException("Please enable permissions for the user running the code.");
+        }
     }
 
     /**

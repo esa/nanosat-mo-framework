@@ -3,10 +3,10 @@ package esa.mo.nmf.cmt.utils;
 import java.io.IOException;
 
 // TODO: implement Kubernetes API
-public class KubernetesApi extends SimulatorApi{
+public class KubernetesApi extends SimulatorApi {
 
-    public KubernetesApi() {}
-
+    public KubernetesApi() {
+    }
 
     @Override
     public void run(String name, String[] keplerElements) throws IOException {

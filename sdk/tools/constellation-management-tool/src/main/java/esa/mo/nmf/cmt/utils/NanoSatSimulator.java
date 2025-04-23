@@ -59,7 +59,8 @@ public class NanoSatSimulator extends NanoSat {
         this.keplerElements = keplerElements;
 
         // TODO: make API type closable when creating the NanoSat, maybe use factory pattern
-        this.simulatorApi = new DockerApi();
+        String image = "nmf-rpi/nmf-supervisor:2.0";
+        this.simulatorApi = new DockerApi(image);
         // this.simulatorApi = new KubernetesApi();
     }
 

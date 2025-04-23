@@ -25,7 +25,6 @@ package esa.mo.nmf.cmt;
 import esa.mo.nmf.cmt.gui.ConstellationManagerGui;
 import esa.mo.nmf.cmt.utils.NanoSat;
 import esa.mo.nmf.cmt.utils.NanoSatSimulator;
-
 import javax.swing.*;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -35,21 +34,21 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Ground consumer: Constellation Manager
- * An orchestration tool for a constellation of NanoSatellites.
+ * Ground consumer: Constellation Manager An orchestration tool for a
+ * constellation of NanoSatellites.
  */
 public class ConstellationManagementTool {
+
     private final Logger LOGGER = Logger.getLogger(ConstellationManagementTool.class.getName());
 
     private final ArrayList<NanoSat> constellation = new ArrayList<NanoSat>();
     private ConstellationManagerGui cmtGui;
 
     /**
-     * Initializer Constructor.
-     * This Class manages a constellation of NanoSatellites.
+     * Initializer Constructor. This Class manages a constellation of
+     * NanoSatellites.
      */
     public ConstellationManagementTool() {
-
         try {
             // Set cross-platform Java L&F (also called "Metal")
             //UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
@@ -66,7 +65,6 @@ public class ConstellationManagementTool {
      * @throws Exception If there is an error
      */
     public static void main(final String[] args) {
-
         ConstellationManagementTool cmt = new ConstellationManagementTool();
         cmt.startGui();
     }
@@ -91,7 +89,8 @@ public class ConstellationManagementTool {
     }
 
     /**
-     * Check if a given NanoSat segment name already exists in the constellation.
+     * Check if a given NanoSat segment name already exists in the
+     * constellation.
      *
      * @param name the name to check for uniqueness
      * @return true: name is unique, false: name already exists
@@ -107,7 +106,8 @@ public class ConstellationManagementTool {
         this.constellation.forEach(nanoSat -> {
             if (nanoSat.isActive()) {
 
-                Logger.getLogger(ConstellationManagementTool.class.getName()).log(Level.INFO, "Removing node {0}...", new Object[]{nanoSat.getName()});
+                Logger.getLogger(ConstellationManagementTool.class.getName()).log(
+                        Level.INFO, "Removing node {0}...", new Object[]{nanoSat.getName()});
                 nanoSat.deleteIfSimulation();
             }
         });
@@ -117,7 +117,7 @@ public class ConstellationManagementTool {
      * Initialize the constellation. Creates and runs the Docker containers.
      *
      * @param name Name of the constellation. Container naming scheme:
-     *             <name>-sim-<1...n>
+     * <name>-sim-<1...n>
      * @param size Constellation size
      * @throws java.io.IOException if the simulation could not be started.
      */
@@ -134,7 +134,9 @@ public class ConstellationManagementTool {
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, "Failed to add nodes to constellation: ", ex);
             if (ex.toString().contains("permission denied")) {
-                JOptionPane.showMessageDialog(null, "Failed to initialize the constellation: Do you have permission to use Docker?", "Error", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null,
+                        "Failed to initialize the constellation: Do you have permission to use Docker?",
+                        "Error", JOptionPane.INFORMATION_MESSAGE);
             }
             throw ex;
         }
@@ -142,10 +144,11 @@ public class ConstellationManagementTool {
     }
 
     /**
-     * Add NanoSat segments to the constellation and configure orbit dynamics based on
-     * kepler elements.
+     * Add NanoSat segments to the constellation and configure orbit dynamics
+     * based on kepler elements.
      *
-     * @param nanoSatConfigurations string: NanoSat Segment name, string[]: kepler elements
+     * @param nanoSatConfigurations string: NanoSat Segment name, string[]:
+     * kepler elements
      */
     public void addAdvancedSimulations(HashMap<String, String[]> nanoSatConfigurations) {
         try {
@@ -160,21 +163,25 @@ public class ConstellationManagementTool {
 
             int size = nanoSatConfigurations.size();
 
-            JOptionPane.showMessageDialog(null, "Successfully added " + size + " nodes to the constellation!", "Success", JOptionPane.INFORMATION_MESSAGE);
-            LOGGER.log(Level.INFO, "Successfully added " + size + " nodes to the constellation!");
+            JOptionPane.showMessageDialog(null,
+                    "Successfully added " + size + " nodes to the constellation!",
+                    "Success", JOptionPane.INFORMATION_MESSAGE);
+            LOGGER.log(Level.INFO, "Successfully added {0} nodes to the constellation!", size);
 
             this.cmtGui.refreshNanoSatSegmentList();
-
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "Failed to add nodes to constellation: ", ex);
-            JOptionPane.showMessageDialog(null, "Failed to add nodes to the constellation: " + ex, "Error", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null,
+                    "Failed to add nodes to the constellation: " + ex,
+                    "Error", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
     /**
      * Connect to NanoSat segment nodes of an existing constellation.
      *
-     * @param nanoSatSegmentConnections connection string CSV for NanoSat segments
+     * @param nanoSatSegmentConnections connection string CSV for NanoSat
+     * segments
      */
     public void connectToNanoSatSegments(HashMap<String, String> nanoSatSegmentConnections) {
         try {
@@ -191,19 +198,24 @@ public class ConstellationManagementTool {
 
             int size = nanoSatSegmentConnections.size();
 
-            JOptionPane.showMessageDialog(null, "Successfully added " + size + " nodes to the constellation!", "Success", JOptionPane.INFORMATION_MESSAGE);
-            LOGGER.log(Level.INFO, "Successfully added " + size + " nodes to the constellation!");
+            JOptionPane.showMessageDialog(null,
+                    "Successfully added " + size + " nodes to the constellation!",
+                    "Success", JOptionPane.INFORMATION_MESSAGE);
+            LOGGER.log(Level.INFO, "Successfully added {0} nodes to the constellation!", size);
 
             this.cmtGui.refreshNanoSatSegmentList();
 
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "Failed to add nodes to constellation: ", ex);
-            JOptionPane.showMessageDialog(null, "Failed to add nodes to the constellation: " + ex, "Error", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null,
+                    "Failed to add nodes to the constellation: " + ex,
+                    "Error", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
     /**
-     * Connects to the service providers on all the constellation's NanoSat segments.
+     * Connects to the service providers on all the constellation's NanoSat
+     * segments.
      */
     public void connectToConstellationProviders() {
         this.constellation.forEach(NanoSat::connectToProviders);
