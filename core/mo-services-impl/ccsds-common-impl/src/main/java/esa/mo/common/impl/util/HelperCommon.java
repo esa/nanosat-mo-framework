@@ -72,7 +72,7 @@ public class HelperCommon {
 
                 if (serviceInfo.getServiceAddresses().size() != 1) {
                     Logger.getLogger(HelperCommon.class.getName()).log(Level.WARNING,
-                        "There are more than just one service address in the ServiceCapability.");
+                            "There are more than just one service address in the ServiceCapability.");
                 }
             } else {
                 continue;
@@ -87,9 +87,9 @@ public class HelperCommon {
 
             if (malArea == null) {
                 Logger.getLogger(HelperCommon.class.getName()).log(Level.WARNING,
-                    "The service could not be found in the MAL factory. " +
-                        "Maybe the Helper for that service was not initialized. " + "The service key is: " + key
-                            .toString());
+                        "The service could not be found in the MAL factory. "
+                        + "Maybe the Helper for that service was not initialized. "
+                        + "The service key is: " + key.toString());
                 continue;
             }
 
@@ -97,9 +97,9 @@ public class HelperCommon {
 
             if (malService == null) {
                 Logger.getLogger(HelperCommon.class.getName()).log(Level.WARNING,
-                    "The service could not be found in the MAL factory. " +
-                        "Maybe the Helper for that service was not initialized. " + "The service key is: " + key
-                            .toString());
+                        "The service could not be found in the MAL factory. "
+                        + "Maybe the Helper for that service was not initialized. "
+                        + "The service key is: " + key.toString());
                 continue;
             }
 
@@ -113,24 +113,17 @@ public class HelperCommon {
     }
 
     /**
-     * Filters services addresses of a given ProviderSummary. If a service exposes multiple
-     * addresses (for multiple IPC transport), then only keep the best one. Best meaning
-     * picking, if available, in the following order: tcpip, rmi, other, malspp.
+     * Filters services addresses of a given ProviderSummary. If a service
+     * exposes multiple addresses (for multiple IPC transport), then only keep
+     * the best one. Best meaning picking, if available, in the following order:
+     * tcpip, rmi, other, malspp.
      *
      * @param provider The ProviderSummary to filter
      * @return The filtered ProviderSummary
      */
     public static ProviderSummary selectBestIPCTransport(final ProviderSummary provider) {
-        //newSummary.setProviderKey(provider.getProviderKey());
-        //newSummary.setProviderId(provider.getProviderId());
-        //newSummary.setProviderDetails(details);
-
         final ServiceCapabilityList oldCapabilities = provider.getProviderDetails().getServiceCapabilities();
         final ServiceCapabilityList newCapabilities = new ServiceCapabilityList();
-        final ProviderDetails details = new ProviderDetails(newCapabilities,
-            provider.getProviderDetails().getProviderAddresses());
-        final ProviderSummary newSummary = new ProviderSummary(provider.getProviderKey(),
-            provider.getProviderId(), details);
 
         for (int i = 0; i < oldCapabilities.size(); i++) {
             AddressDetailsList addresses = oldCapabilities.get(i).getServiceAddresses();
@@ -147,92 +140,84 @@ public class HelperCommon {
                         "The best IPC service address index could not be determined!", ex);
             }
             ServiceCapability cap = new ServiceCapability(
-                oldCapabilities.get(i).getServiceKey(),
-                oldCapabilities.get(i).getSupportedCapabilitySets(),
-                oldCapabilities.get(i).getServiceProperties(),
-                serviceAddresses);
-            /*
-            cap.setServiceKey(oldCapabilities.get(i).getServiceKey());
-            cap.setSupportedCapabilitySets(oldCapabilities.get(i).getSupportedCapabilitySets());
-            cap.setServiceProperties(oldCapabilities.get(i).getServiceProperties());
-            cap.setServiceAddresses(newAddresses);
-            */
+                    oldCapabilities.get(i).getServiceKey(),
+                    oldCapabilities.get(i).getSupportedCapabilitySets(),
+                    oldCapabilities.get(i).getServiceProperties(),
+                    serviceAddresses);
+
             newCapabilities.add(cap);
         }
 
-        //details.setServiceCapabilities(newCapabilities);
-        //details.setProviderAddresses(provider.getProviderDetails().getProviderAddresses());
-
-        return newSummary;
+        final ProviderDetails details = new ProviderDetails(newCapabilities,
+                provider.getProviderDetails().getProviderAddresses());
+        return new ProviderSummary(provider.getProviderKey(),
+                provider.getProviderId(), details);
     }
 
     /**
-     * Select the address with the best IPC transport from a given list of addresses.
-     * Best meaning picking, if available, in the following order: tcpip, rmi, other, malspp.
+     * Select the address with the best IPC transport from a given list of
+     * addresses. Best meaning picking, if available, in the following order:
+     * tcpip, rmi, other, malspp.
      *
      * @param addresses The list of addresses
      * @return Index of the address in the list with the best IPC transport
      * @throws IllegalArgumentException If addresses is empty
      */
-    public static int getBestIPCServiceAddressIndex(AddressDetailsList addresses) throws
-        IllegalArgumentException
-    {
-      if (addresses.isEmpty()) {
-        throw new IllegalArgumentException("The addresses argument cannot be empty.");
-      }
-
-      if (addresses.size() == 1) { // Well, there is only one...
-        return 0;
-      }
-
-      // Well, if there are more than one, then it means we can pick...
-      // My preference would be, in order: tcp/ip, rmi, other, spp
-      // SPP is in last because usually this is the transport supposed
-      // to be used on the ground-to-space link and not internally.
-      StringList availableTransports = getAvailableTransports(addresses);
-
-      int index = getTransportIndex(availableTransports, "tcpip");
-      if (index != -1) {
-        return index;
-      }
-
-      index = getTransportIndex(availableTransports, "rmi");
-      if (index != -1) {
-        return index;
-      }
-
-      index = getTransportIndex(availableTransports, "malspp");
-
-      // If could not be found nor it is not the first one
-      if (index != 0) { // Then let's pick the first one
-        return 0;
-      } else {
-        // It was found and it is the first one (0)
-        // Then let's select the second (index == 1) transport available...
-        return 1;
-      }
-    }
-
-    private static StringList getAvailableTransports(AddressDetailsList addresses)
-    {
-      StringList transports = new StringList(); // List of transport names
-
-      for (AddressDetails address : addresses) {
-        // The name of the transport is always before ":"
-        String[] parts = address.getServiceURI().toString().split(":");
-        transports.add(parts[0]);
-      }
-
-      return transports;
-    }
-
-    private static int getTransportIndex(StringList transports, String findString)
-    {
-      for (int i = 0; i < transports.size(); i++) {
-        if (findString.equals(transports.get(i))) {
-          return i;  // match
+    public static int getBestIPCServiceAddressIndex(AddressDetailsList addresses) throws IllegalArgumentException {
+        if (addresses.isEmpty()) {
+            throw new IllegalArgumentException("The addresses argument cannot be empty.");
         }
-      }
-      return -1;
+
+        if (addresses.size() == 1) { // Well, there is only one...
+            return 0;
+        }
+
+        // Well, if there are more than one, then it means we can pick...
+        // My preference would be, in order: tcp/ip, rmi, other, spp
+        // SPP is in last because usually this is the transport supposed
+        // to be used on the ground-to-space link and not internally.
+        StringList availableTransports = getAvailableTransports(addresses);
+
+        int index = getTransportIndex(availableTransports, "tcpip");
+        if (index != -1) {
+            return index;
+        }
+
+        index = getTransportIndex(availableTransports, "rmi");
+        if (index != -1) {
+            return index;
+        }
+
+        index = getTransportIndex(availableTransports, "malspp");
+
+        // If could not be found nor it is not the first one
+        if (index != 0) { // Then let's pick the first one
+            return 0;
+        } else {
+            // It was found and it is the first one (0)
+            // Then let's select the second (index == 1) transport available...
+            return 1;
+        }
+    }
+
+    private static StringList getAvailableTransports(AddressDetailsList addresses) {
+        StringList transports = new StringList(); // List of transport names
+
+        for (AddressDetails address : addresses) {
+            // The name of the transport is always before ":"
+            String[] parts = address.getServiceURI().toString().split(":");
+            transports.add(parts[0]);
+        }
+
+        return transports;
+    }
+
+    private static int getTransportIndex(StringList transports, String findString) {
+        for (int i = 0; i < transports.size(); i++) {
+            if (findString.equals(transports.get(i))) {
+                return i;  // match
+            }
+        }
+        return -1;
     }
 }

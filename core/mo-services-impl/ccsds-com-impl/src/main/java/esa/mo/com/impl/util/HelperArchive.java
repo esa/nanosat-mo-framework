@@ -460,6 +460,9 @@ public class HelperArchive {
             LOGGER.log(Level.INFO, "The Archive service provided contains a null pointer!");
             return null;
         }
+        if(objType == null) {
+            LOGGER.log(Level.WARNING, "The objType is null!");
+        }
         Object ret = null;
         HelperArchiveRetrieveAdapterInterface adapter;
 
@@ -479,9 +482,10 @@ public class HelperArchive {
             }
         } catch (MALInteractionException ex) {
             LOGGER.log(Level.INFO,
-                "(MALInteractionException) The object {0}, domain = {1}, objIds = {2} could not be retrieved from the Archive ({3})! A null will be returned!",
-                new Object[]{objType.toString(), HelperDomain.domain2domainId(domain), objIds.toString(), archiveService
-                    .getClass().getSimpleName()});
+                "(MALInteractionException) The object {0}, domain = {1}, objIds = {2} "
+                        + "could not be retrieved from the Archive ({3})! A null will be returned!",
+                new Object[]{objType.toString(), HelperDomain.domain2domainId(domain),
+                    objIds.toString(), archiveService.getClass().getSimpleName()});
             return null;
         } catch (MALException ex) {
             LOGGER.log(Level.INFO,

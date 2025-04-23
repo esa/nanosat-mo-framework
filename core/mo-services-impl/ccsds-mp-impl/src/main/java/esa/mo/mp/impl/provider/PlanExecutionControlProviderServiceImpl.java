@@ -131,10 +131,8 @@ public class PlanExecutionControlProviderServiceImpl extends PlanExecutionContro
                 public void onDataReceived(EventCOMObject eventCOMObject) {
                     ObjectId statusId = eventCOMObject.getSource();
                     ObjectId activityInstanceId = archiveManager.ACTIVITY.getInstanceIdByStatusId(statusId);
-                    ObjectId activityDefinitionId = archiveManager.ACTIVITY.getDefinitionIdByInstanceId(
-                        activityInstanceId);
-                    ObjectId activityIdentityId = archiveManager.ACTIVITY.getIdentityIdByDefinitionId(
-                        activityDefinitionId);
+                    ObjectId activityDefinitionId = archiveManager.ACTIVITY.getDefinitionIdByInstanceId(activityInstanceId);
+                    ObjectId activityIdentityId = archiveManager.ACTIVITY.getIdentityIdByDefinitionId(activityDefinitionId);
                     Identifier activityIdentity = archiveManager.ACTIVITY.getIdentity(activityIdentityId);
                     ActivityUpdateDetails status = archiveManager.ACTIVITY.getStatus(statusId);
                     try {

@@ -59,7 +59,9 @@ import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
  *
  * @see COMConfiguration
  */
-public class COMArchiveManager<IdentityT extends Element, IdentityListT extends ElementList, DefinitionT extends Element, DefinitionListT extends ElementList, InstanceT extends Element, InstanceListT extends ElementList, StatusT extends Element, StatusListT extends ElementList> {
+public class COMArchiveManager<IdentityT extends Element, IdentityListT extends ElementList,
+        DefinitionT extends Element, DefinitionListT extends ElementList, InstanceT extends Element,
+        InstanceListT extends ElementList, StatusT extends Element, StatusListT extends ElementList> {
 
     private static final java.util.logging.Logger LOGGER = Logger.getLogger(COMArchiveManager.class.getName());
 
@@ -370,13 +372,13 @@ public class COMArchiveManager<IdentityT extends Element, IdentityListT extends 
         IdentifierList domain = ConfigurationProviderSingleton.getDomain();
         LongList inverseRelatedInstanceIds = COMObjectIdHelper.getInstanceIds(inverseRelatedIds);
 
-        List<ArchivePersistenceObject> inverseRelatedObjects = this.getObjectsFromArchive(inverseRelatedType, domain,
-            inverseRelatedInstanceIds);
+        List<ArchivePersistenceObject> inverseRelatedObjects = this.getObjectsFromArchive(
+                inverseRelatedType, domain, inverseRelatedInstanceIds);
         ObjectIdList objectIds = new ObjectIdList();
         for (ArchivePersistenceObject inverseRelatedObject : inverseRelatedObjects) {
             Long objectInstanceId = inverseRelatedObject.getArchiveDetails().getDetails().getRelated();
-            ObjectId objectId = COMObjectIdHelper.getObjectId(objectInstanceId, relatedType, inverseRelatedObject
-                .getDomain());
+            ObjectId objectId = COMObjectIdHelper.getObjectId(objectInstanceId,
+                    relatedType, inverseRelatedObject.getDomain());
             objectIds.add(objectId);
         }
         return objectIds;
