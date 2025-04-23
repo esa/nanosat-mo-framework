@@ -45,14 +45,20 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.Properties;
+import org.ccsds.moims.mo.com.COMHelper;
+import org.ccsds.moims.mo.common.CommonHelper;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails;
+import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.URI;
+import org.ccsds.moims.mo.mc.MCHelper;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
+import org.ccsds.moims.mo.platform.PlatformHelper;
+import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
 
 /**
  * The generic NMF Provider. Includes a Heartbeat service and a Directory
@@ -304,6 +310,18 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
             }
             return null;
         }
+    }
+
+    /**
+     * Initializes the MAL Helpers for all the sets of services.
+     */
+    public static void initHelpers() {
+        // Load the MAL factories for the supported services
+        MALContextFactory.getElementsRegistry().loadFullArea(COMHelper.COM_AREA);
+        MALContextFactory.getElementsRegistry().loadFullArea(MCHelper.MC_AREA);
+        MALContextFactory.getElementsRegistry().loadFullArea(CommonHelper.COMMON_AREA);
+        MALContextFactory.getElementsRegistry().loadFullArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA);
+        MALContextFactory.getElementsRegistry().loadFullArea(PlatformHelper.PLATFORM_AREA);
     }
 
     public final void writeCentralDirectoryServiceURI(final String centralDirectoryURI, final String secondaryURI) {

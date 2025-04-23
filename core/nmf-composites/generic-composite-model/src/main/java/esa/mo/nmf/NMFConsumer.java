@@ -41,6 +41,7 @@ import org.ccsds.moims.mo.common.directory.structures.ServiceFilter;
 import org.ccsds.moims.mo.common.structures.ServiceKey;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
@@ -359,6 +360,7 @@ public class NMFConsumer {
      */
     public static void initHelpers() {
         // Load the MAL factories for the supported services
+        MALContextFactory.getElementsRegistry().loadFullArea(MALHelper.MAL_AREA);
         MALContextFactory.getElementsRegistry().loadFullArea(COMHelper.COM_AREA);
         MALContextFactory.getElementsRegistry().loadFullArea(MCHelper.MC_AREA);
         MALContextFactory.getElementsRegistry().loadFullArea(CommonHelper.COMMON_AREA);
