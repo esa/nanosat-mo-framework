@@ -22,7 +22,7 @@
   <artifactId>mp-space-demo</artifactId>
   <packaging>jar</packaging>
 
-  <name>MP Services space demo</name>
+  <name>ESA NMF SDK App Example - MP Services Space Demo</name>
   <description>A demo application for testing MP services.</description>
 
   <licenses>
