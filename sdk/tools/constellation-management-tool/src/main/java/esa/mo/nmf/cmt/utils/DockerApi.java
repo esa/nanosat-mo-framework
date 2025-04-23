@@ -72,7 +72,16 @@ public class DockerApi extends SimulatorApi {
         Logger.getLogger(DockerApi.class.getName()).log(Level.INFO, "The output is: {0}", output);
 
         if (output.contains("permission denied")) {
-            throw new IOException("Please enable permissions for the user running the code.");
+            throw new IOException("Please enable permissions for the user running the code. "
+                    + "Please check it online but usually is something like:\n"
+                    + "\nsudo groupadd docker"
+                    + "\nsudo usermod -aG docker $USER"
+                    + "\nRestart the machine"
+                    + "\nTest with: docker run hello-world");
+        }
+
+        if (output.contains("Unable to find image")) {
+            throw new IOException(output);
         }
     }
 
