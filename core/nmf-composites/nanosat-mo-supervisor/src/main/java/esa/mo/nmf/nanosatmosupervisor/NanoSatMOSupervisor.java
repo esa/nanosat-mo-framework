@@ -42,7 +42,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectKey;
+import org.ccsds.moims.mo.common.configuration.ConfigurationHelper;
 import org.ccsds.moims.mo.common.configuration.ConfigurationServiceInfo;
+import org.ccsds.moims.mo.mal.MALContextFactory;
+import org.ccsds.moims.mo.mal.MALElementsRegistry;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
@@ -142,9 +145,9 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
                     ListAppResponse response = appsLauncherService.listApp(allApps, new Identifier("*"), null);
                     LongList runningApps = new LongList();
 
-                    for (int i = 0; i < response.getBodyElement0().size(); i++) {
-                        Long appId = response.getBodyElement0().get(i);
-                        if (response.getBodyElement1().get(i)) {
+                    for (int i = 0; i < response.getAppInstIds().size(); i++) {
+                        Long appId = response.getAppInstIds().get(i);
+                        if (response.getRunning().get(i)) {
                             runningApps.add(appId);
                         }
                     }
@@ -169,6 +172,7 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
         // Are the dynamic changes enabled?
         if ("true".equals(System.getProperty(Const.DYNAMIC_CHANGES_PROPERTY))) {
             LOGGER.log(Level.INFO, "Loading previous configurations...");
+            MALContextFactory.getElementsRegistry().loadServiceAndAreaElements(ConfigurationHelper.CONFIGURATION_SERVICE);
 
             // Activate the previous configuration
             final ObjectId confId = new ObjectId(ConfigurationServiceInfo.PROVIDERCONFIGURATION_OBJECT_TYPE,
