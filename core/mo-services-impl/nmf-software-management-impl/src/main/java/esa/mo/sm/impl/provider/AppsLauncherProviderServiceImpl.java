@@ -64,7 +64,6 @@ import org.ccsds.moims.mo.softwaremanagement.appslauncher.provider.AppsLauncherI
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.provider.MonitorExecutionPublisher;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.provider.StopAppInteraction;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.structures.AppDetails;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.structures.AppDetailsList;
 import org.ccsds.moims.mo.softwaremanagement.commandexecutor.CommandExecutorServiceInfo;
 
 /**
@@ -149,8 +148,8 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         this.stdQuota = q;
     }
 
-    private void publishExecutionMonitoring(final Long appObjId, final String outputText,
-            ObjectType objType) {
+    private void publishExecutionMonitoring(final Long appObjId,
+            final String outputText, ObjectType objType) {
         try {
             synchronized (lock) {
                 if (!isRegistered) {
@@ -618,27 +617,26 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
     public static final class PublishInteractionListener implements MALPublishInteractionListener {
 
         @Override
-        public void publishDeregisterAckReceived(final MALMessageHeader header, final Map qosProperties)
-                throws MALException {
+        public void publishDeregisterAckReceived(final MALMessageHeader header,
+                final Map qosProperties) throws MALException {
             LOGGER.fine("PublishInteractionListener::publishDeregisterAckReceived");
         }
 
         @Override
-        public void publishErrorReceived(final MALMessageHeader header, final MALErrorBody body,
-                final Map qosProperties)
-                throws MALException {
+        public void publishErrorReceived(final MALMessageHeader header,
+                final MALErrorBody body, final Map qosProperties) throws MALException {
             LOGGER.warning("PublishInteractionListener::publishErrorReceived");
         }
 
         @Override
-        public void publishRegisterAckReceived(final MALMessageHeader header, final Map qosProperties)
-                throws MALException {
+        public void publishRegisterAckReceived(final MALMessageHeader header,
+                final Map qosProperties) throws MALException {
             LOGGER.fine("PublishInteractionListener::publishRegisterAckReceived");
         }
 
         @Override
-        public void publishRegisterErrorReceived(final MALMessageHeader header, final MALErrorBody body,
-                final Map qosProperties) throws MALException {
+        public void publishRegisterErrorReceived(final MALMessageHeader header,
+                final MALErrorBody body, final Map qosProperties) throws MALException {
             LOGGER.warning("PublishInteractionListener::publishRegisterErrorReceived");
         }
     }
