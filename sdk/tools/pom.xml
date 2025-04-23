@@ -65,6 +65,7 @@
   <modules>
     <module>consumer-test-tool</module>
     <module>cli-tool</module>
+    <module>constellation-management-tool</module>
   </modules>
 
 </project>
