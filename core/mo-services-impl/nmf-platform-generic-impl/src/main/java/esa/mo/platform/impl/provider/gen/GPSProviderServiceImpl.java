@@ -54,6 +54,7 @@ import org.ccsds.moims.mo.mal.structures.AttributeTypeList;
 import org.ccsds.moims.mo.mal.structures.BooleanList;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Element;
+import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
@@ -553,14 +554,14 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
 
         // If the list is empty, reconfigure the service with nothing...
         if (confSet.getObjInstIds().isEmpty()) {
-            manager.reconfigureDefinitions(new LongList(), new PositionList()); // Reconfigures the
+            manager.reconfigureDefinitions(new LongList(), new HeterogeneousList()); // Reconfigures the
             // Manager
             return true;
         }
 
         // ok, we're good to go...
         // Load the Parameter Definitions from this configuration...
-        PositionList pDefs = (PositionList) HelperArchive.getObjectBodyListFromArchive(
+        HeterogeneousList pDefs = (HeterogeneousList) HelperArchive.getObjectBodyListFromArchive(
                 manager.getArchiveService(), GPSServiceInfo.NEARBYPOSITION_OBJECT_TYPE,
                 ConfigurationProviderSingleton.getDomain(), confSet.getObjInstIds());
 
@@ -574,11 +575,11 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
         // Get all the current objIds in the serviceImpl
         // Create a Configuration Object with all the objs of the provider
         HashMap<Long, Element> defObjs = manager.getCurrentDefinitionsConfiguration();
+        LongList currentObjIds = new LongList();
+        currentObjIds.addAll(defObjs.keySet());
 
         ConfigurationObjectSet objsSet = new ConfigurationObjectSet();
         objsSet.setDomain(ConfigurationProviderSingleton.getDomain());
-        LongList currentObjIds = new LongList();
-        currentObjIds.addAll(defObjs.keySet());
         objsSet.setObjInstIds(currentObjIds);
         objsSet.setObjType(GPSServiceInfo.NEARBYPOSITION_OBJECT_TYPE);
 

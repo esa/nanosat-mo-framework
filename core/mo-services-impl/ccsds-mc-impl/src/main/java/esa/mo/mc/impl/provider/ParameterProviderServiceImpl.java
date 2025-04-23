@@ -685,7 +685,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         // Load the Parameter Definitions from this configuration...
         ConfigurationObjectSet confSetDefs = (confSet0.getObjType().equals(ParameterServiceInfo.PARAMETERDEFINITION_OBJECT_TYPE)) ? confSet0 : confSet1;
 
-        ParameterDefinitionDetailsList pDefs = (ParameterDefinitionDetailsList) HelperArchive.getObjectBodyListFromArchive(
+        HeterogeneousList pDefs = (HeterogeneousList) HelperArchive.getObjectBodyListFromArchive(
                 manager.getArchiveService(),
                 ParameterServiceInfo.PARAMETERDEFINITION_OBJECT_TYPE,
                 ConfigurationProviderSingleton.getDomain(),
@@ -693,7 +693,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
         ConfigurationObjectSet confSetIdents = (confSet0.getObjType().equals(ParameterServiceInfo.PARAMETERIDENTITY_OBJECT_TYPE)) ? confSet0 : confSet1;
 
-        IdentifierList idents = (IdentifierList) HelperArchive.getObjectBodyListFromArchive(
+        HeterogeneousList retrievedIdents = (HeterogeneousList) HelperArchive.getObjectBodyListFromArchive(
                 manager.getArchiveService(),
                 ParameterServiceInfo.PARAMETERIDENTITY_OBJECT_TYPE,
                 ConfigurationProviderSingleton.getDomain(),
@@ -701,6 +701,10 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
         periodicReportingManager.pause();
 
+        IdentifierList idents = new IdentifierList();
+        for(Element element : retrievedIdents) {
+            idents.add((Identifier) element);
+        }
         manager.reconfigureDefinitions(confSetIdents.getObjInstIds(), idents,
                 confSetDefs.getObjInstIds(), pDefs);   // Reconfigures the Manager
 

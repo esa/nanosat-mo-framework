@@ -386,8 +386,9 @@ public abstract class MCManager {
             return false;
         }
 
-        if (identityIds.size() != names.size() && defIds.size() != definitions.size() && identityIds.size() != defIds
-            .size()) {
+        if (identityIds.size() != names.size()
+                && defIds.size() != definitions.size()
+                && identityIds.size() != defIds.size()) {
             return false;
         }
 

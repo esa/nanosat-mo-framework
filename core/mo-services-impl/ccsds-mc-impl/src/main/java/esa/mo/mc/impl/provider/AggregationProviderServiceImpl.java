@@ -56,6 +56,8 @@ import org.ccsds.moims.mo.mal.structures.AttributeType;
 import org.ccsds.moims.mo.mal.structures.AttributeTypeList;
 import org.ccsds.moims.mo.mal.structures.BooleanList;
 import org.ccsds.moims.mo.mal.structures.Duration;
+import org.ccsds.moims.mo.mal.structures.Element;
+import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
@@ -1292,7 +1294,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         // Load the Parameter Definitions from this configuration...
         ConfigurationObjectSet confSetDefs = (confSet0.getObjType().equals(AggregationServiceInfo.AGGREGATIONDEFINITION_OBJECT_TYPE)) ? confSet0 : confSet1;
 
-        AggregationDefinitionDetailsList pDefs = (AggregationDefinitionDetailsList) HelperArchive.getObjectBodyListFromArchive(
+        HeterogeneousList pDefs = (HeterogeneousList) HelperArchive.getObjectBodyListFromArchive(
                 manager.getArchiveService(),
                 AggregationServiceInfo.AGGREGATIONDEFINITION_OBJECT_TYPE,
                 ConfigurationProviderSingleton.getDomain(),
@@ -1300,7 +1302,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
         ConfigurationObjectSet confSetIdents = (confSet0.getObjType().equals(AggregationServiceInfo.AGGREGATIONIDENTITY_OBJECT_TYPE)) ? confSet0 : confSet1;
 
-        IdentifierList idents = (IdentifierList) HelperArchive.getObjectBodyListFromArchive(
+        HeterogeneousList retrievedIdents = (HeterogeneousList) HelperArchive.getObjectBodyListFromArchive(
                 manager.getArchiveService(),
                 AggregationServiceInfo.AGGREGATIONIDENTITY_OBJECT_TYPE,
                 ConfigurationProviderSingleton.getDomain(),
@@ -1309,6 +1311,10 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         periodicReportingManager.pause();
         periodicSamplingManager.pause();
 
+        IdentifierList idents = new IdentifierList();
+        for(Element element : retrievedIdents) {
+            idents.add((Identifier) element);
+        }
         manager.reconfigureDefinitions(confSetIdents.getObjInstIds(), idents, confSetDefs.getObjInstIds(), pDefs);   // Reconfigures the Manager
 
         // The periodic reporting and sampling need to be refreshed

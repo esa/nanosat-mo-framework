@@ -564,13 +564,13 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
         // If the list is empty, reconfigure the service with nothing...
         if (confSet.getObjInstIds().isEmpty()) {
-            manager.reconfigureDefinitions(new LongList(), new AppDetailsList());   // Reconfigures the Manager
+            manager.reconfigureDefinitions(new LongList(), new HeterogeneousList());   // Reconfigures the Manager
             return true;
         }
 
         // ok, we're good to go...
         // Load the App Details from this configuration...
-        AppDetailsList pDefs = (AppDetailsList) HelperArchive.getObjectBodyListFromArchive(manager.getArchiveService(),
+        HeterogeneousList pDefs = (HeterogeneousList) HelperArchive.getObjectBodyListFromArchive(manager.getArchiveService(),
             AppsLauncherServiceInfo.APP_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(), confSet.getObjInstIds());
 
         if (manager.reconfigureDefinitions(confSet.getObjInstIds(), pDefs)) {

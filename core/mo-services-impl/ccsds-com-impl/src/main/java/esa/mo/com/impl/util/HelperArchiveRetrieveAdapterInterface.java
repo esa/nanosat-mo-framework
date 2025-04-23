@@ -36,9 +36,12 @@ public interface HelperArchiveRetrieveAdapterInterface {
         List<ArchivePersistenceObject> ret = new ArrayList<>();
 
         for (int i = 0; i < objDetails.size(); i++) {
-            ArchivePersistenceObject tmp = new ArchivePersistenceObject(getObjType(), getDomain(),
-                ((ArchiveDetails) objDetails.get(i)).getInstId(), (ArchiveDetails) objDetails.get(i), (Element) obj.get(
-                    i));
+            ArchivePersistenceObject tmp = new ArchivePersistenceObject(
+                    getObjType(),
+                    getDomain(),
+                    ((ArchiveDetails) objDetails.get(i)).getInstId(),
+                    (ArchiveDetails) objDetails.get(i),
+                    (Element) obj.get(i));
 
             ret.add(tmp);
         }

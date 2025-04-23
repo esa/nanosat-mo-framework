@@ -28,6 +28,7 @@ import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.ElementList;
+import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.LongList;
 
@@ -188,7 +189,7 @@ public abstract class DefinitionsManager {
      * @return True if the configuration was successfully changed. False
      * otherwise.
      */
-    public synchronized Boolean reconfigureDefinitions(LongList objIds, ElementList definitions) {
+    public synchronized Boolean reconfigureDefinitions(LongList objIds, HeterogeneousList definitions) {
         if (objIds == null || definitions == null) {
             return false;
         }

@@ -43,8 +43,7 @@ import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mal.structures.UShort;
 
 /**
- * Extends the MALEncoder and MALListEncoder interfaces for use in the generic
- * encoding framework.
+ * Extends the MALEncoder interfaces for use in the generic encoding framework.
  */
 public abstract class GENEncoder implements MALEncoder {
 

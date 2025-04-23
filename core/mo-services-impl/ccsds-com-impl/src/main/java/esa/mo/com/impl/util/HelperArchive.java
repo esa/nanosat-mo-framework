@@ -43,6 +43,7 @@ import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.ElementList;
 import org.ccsds.moims.mo.mal.structures.FineTime;
+import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
@@ -296,9 +297,9 @@ public class HelperArchive {
      *         object was returned
      */
     @Deprecated
-    public static ElementList getObjectBodyListFromArchive(Object archiveService, final ObjectType objType,
+    public static HeterogeneousList getObjectBodyListFromArchive(Object archiveService, final ObjectType objType,
         final IdentifierList domain, final LongList objIds) {
-        return (ElementList) getFromArchive(archiveService, objType, domain, objIds, ToBeReturned.OBJECT_BODY, true);
+        return (HeterogeneousList) getFromArchive(archiveService, objType, domain, objIds, ToBeReturned.OBJECT_BODY, true);
     }
 
     /**

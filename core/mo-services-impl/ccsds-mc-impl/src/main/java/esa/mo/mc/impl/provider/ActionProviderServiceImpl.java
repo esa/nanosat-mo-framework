@@ -58,6 +58,8 @@ import esa.mo.reconfigurable.service.ReconfigurableService;
 import esa.mo.reconfigurable.service.ConfigurationChangeListener;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
+import org.ccsds.moims.mo.mal.structures.Element;
+import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mc.action.ActionServiceInfo;
 
 /**
@@ -498,7 +500,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         // Load the Parameter Definitions from this configuration...
         ConfigurationObjectSet confSetDefs = (confSet0.getObjType().equals(ActionServiceInfo.ACTIONDEFINITION_OBJECT_TYPE)) ? confSet0 : confSet1;
 
-        ActionDefinitionDetailsList pDefs = (ActionDefinitionDetailsList) HelperArchive.getObjectBodyListFromArchive(
+        HeterogeneousList pDefs = (HeterogeneousList) HelperArchive.getObjectBodyListFromArchive(
                 manager.getArchiveService(),
                 ActionServiceInfo.ACTIONDEFINITION_OBJECT_TYPE,
                 ConfigurationProviderSingleton.getDomain(),
@@ -506,13 +508,18 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
 
         ConfigurationObjectSet confSetIdents = (confSet0.getObjType().equals(ActionServiceInfo.ACTIONIDENTITY_OBJECT_TYPE)) ? confSet0 : confSet1;
 
-        IdentifierList idents = (IdentifierList) HelperArchive.getObjectBodyListFromArchive(
+        HeterogeneousList retrievedIdents = (HeterogeneousList) HelperArchive.getObjectBodyListFromArchive(
                 manager.getArchiveService(),
                 ActionServiceInfo.ACTIONIDENTITY_OBJECT_TYPE,
                 ConfigurationProviderSingleton.getDomain(),
                 confSetIdents.getObjInstIds());
 
-        manager.reconfigureDefinitions(confSetIdents.getObjInstIds(), idents, confSetDefs.getObjInstIds(), pDefs);   // Reconfigures the Manager
+        IdentifierList idents = new IdentifierList();
+        for(Element element : retrievedIdents) {
+            idents.add((Identifier) element);
+        }
+        manager.reconfigureDefinitions(confSetIdents.getObjInstIds(), idents,
+                confSetDefs.getObjInstIds(), pDefs);   // Reconfigures the Manager
 
         return true;
     }
