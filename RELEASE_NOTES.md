@@ -9,6 +9,7 @@ The different versions and respective updates are the following:
 * Moves many of the Helper Tools classes to the MAL API
 * Updates the Orekit data
 * Removes unnecessary dummy/dumb auto-generated tests
+* Adds the Constellation Management Tool to the SDK
 
 ### Version 3.0.0 (July 2024)
 * Adds the new Artificial Intelligence service
