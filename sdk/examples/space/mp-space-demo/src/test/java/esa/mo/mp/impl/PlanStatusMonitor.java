@@ -1,11 +1,12 @@
 package esa.mo.mp.impl;
 
 import java.util.Map;
-import org.ccsds.moims.mo.com.structures.ObjectIdList;
+import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.UpdateHeaderList;
+import org.ccsds.moims.mo.mal.structures.UpdateHeader;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mp.plandistribution.consumer.PlanDistributionAdapter;
+import org.ccsds.moims.mo.mp.structures.PlanUpdateDetails;
 import org.ccsds.moims.mo.mp.structures.PlanUpdateDetailsList;
 
 /**
@@ -21,9 +22,9 @@ public class PlanStatusMonitor extends PlanDistributionAdapter {
 
     @Override
     public void monitorPlanStatusNotifyReceived(MALMessageHeader msgHeader, Identifier identifier,
-        UpdateHeaderList headerList, ObjectIdList planVersionList, PlanUpdateDetailsList updateList,
-        Map qosProperties) {
-        this.receivedPlanStatuses.addAll(updateList);
+            UpdateHeader header, ObjectId planVersion, PlanUpdateDetails update,
+            Map qosProperties) {
+        this.receivedPlanStatuses.add(update);
         synchronized (this) {
             this.notifyAll();
         }

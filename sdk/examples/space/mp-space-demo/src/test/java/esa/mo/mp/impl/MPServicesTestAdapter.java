@@ -19,7 +19,6 @@ import org.ccsds.moims.mo.mp.structures.PlannedEvent;
 import org.ccsds.moims.mo.mp.structures.RequestStatus;
 import org.ccsds.moims.mo.mp.structures.RequestUpdateDetails;
 import org.ccsds.moims.mo.mp.structures.RequestVersionDetails;
-import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.mp.impl.callback.MPServiceOperation;
 import esa.mo.mp.impl.callback.MPServiceOperationArguments;
 import esa.mo.mp.impl.callback.MPServiceOperationCallback;
@@ -28,11 +27,13 @@ import esa.mo.nmf.MPRegistration;
 import esa.mo.nmf.MissionPlanningNMFAdapter;
 import esa.mo.nmf.NMFInterface;
 import esa.mo.nmf.apps.AppInteraction;
+import org.ccsds.moims.mo.mal.structures.Time;
 
 /**
  * The adapter for the TestMPServices tests
  */
 public class MPServicesTestAdapter extends MissionPlanningNMFAdapter {
+
     private static final java.util.logging.Logger LOGGER = Logger.getLogger(MPServicesTestAdapter.class.getName());
 
     private NMFInterface connector;
@@ -60,12 +61,11 @@ public class MPServicesTestAdapter extends MissionPlanningNMFAdapter {
             try {
                 LOGGER.info("Creating blank plan...");
                 MALInteraction interaction = new AppInteraction();
-                PlanVersionDetails planVersion = MPFactory.createPlanVersion();
-                planVersion.getInformation().setDescription("NMF App Plan");
+                PlanVersionDetails planVersion = MPFactory.createPlanVersion("NMF App Plan");
                 ObjectIdPair pair = getArchiveManager().PLAN.addInstance(planName, planVersion, null, interaction);
                 this.planIdentityId = pair.getIdentityId();
                 ObjectId planVersionId = pair.getObjectId();
-                PlanUpdateDetails planUpdate = MPFactory.createPlanUpdate(PlanStatus.DRAFT);
+                PlanUpdateDetails planUpdate = MPFactory.createPlanUpdate(PlanStatus.DRAFT, null);
                 getArchiveManager().PLAN.addStatus(planVersionId, planUpdate, null, interaction);
             } catch (MALException | MALInteractionException e) {
                 LOGGER.log(Level.SEVERE, null, e);
@@ -81,6 +81,7 @@ public class MPServicesTestAdapter extends MissionPlanningNMFAdapter {
     }
 
     class SubmitRequestVersionCallback extends MPServiceOperationCallback {
+
         @Override
         public void validate(RequestVersionDetails requestVersion) {
             // Request Version validation here
@@ -89,7 +90,7 @@ public class MPServicesTestAdapter extends MissionPlanningNMFAdapter {
 
         @Override
         public void onCallback(List<MPServiceOperationArguments> arguments) throws MALException,
-            MALInteractionException {
+                MALInteractionException {
             // Arguments contains Request Identity Id, Request Version Id and Request Status Update Id
             MPServiceOperationArguments requestArgument = arguments.get(0);
 
@@ -102,28 +103,25 @@ public class MPServicesTestAdapter extends MissionPlanningNMFAdapter {
             PlanVersionDetails currentPlan = getArchiveManager().PLAN.getInstanceByIdentityId(getPlanIdentityId());
 
             /* Insert some Mission Planning System here */
-
             // Save modified Plan Version
             ObjectId planVersionId = getArchiveManager().PLAN.updateInstanceByIdentityId(getPlanIdentityId(),
-                currentPlan, null, requestArgument.getInteraction());
-            PlanUpdateDetails planUpdate = MPFactory.createPlanUpdate(PlanStatus.DRAFT);
+                    currentPlan, null, requestArgument.getInteraction());
+            PlanUpdateDetails planUpdate = MPFactory.createPlanUpdate(PlanStatus.DRAFT, null);
             getArchiveManager().PLAN.addStatus(planVersionId, planUpdate, null, requestArgument.getInteraction());
 
             // Save updated Request Status
-            RequestUpdateDetails newStatus = new RequestUpdateDetails();
-            newStatus.setRequestId(requestArgument.getInstanceId());
-            newStatus.setStatus(RequestStatus.PLANNED);
-            newStatus.setTimestamp(HelperTime.getTimestampMillis());
-            newStatus.setPlanRef(planVersionId);
+            RequestUpdateDetails newStatus = new RequestUpdateDetails(null, null,
+                    planVersionId, requestArgument.getInstanceId(), RequestStatus.PLANNED, Time.now());
             ObjectId statusId = getArchiveManager().REQUEST_VERSION.updateStatus(requestArgument.getInstanceId(),
-                newStatus, null, requestArgument.getInteraction());
+                    newStatus, null, requestArgument.getInteraction());
         }
     }
 
     class InsertActivityCallback extends MPServiceOperationCallback {
+
         @Override
         public void onCallback(List<MPServiceOperationArguments> arguments) throws MALException,
-            MALInteractionException {
+                MALInteractionException {
             MPServiceOperationArguments activityArgument = arguments.get(1);
 
             PlanVersionDetails currentPlan = getArchiveManager().PLAN.getInstanceByIdentityId(getPlanIdentityId());
@@ -139,16 +137,17 @@ public class MPServicesTestAdapter extends MissionPlanningNMFAdapter {
 
             // Save modified Plan Version
             ObjectId planVersionId = getArchiveManager().PLAN.updateInstanceByIdentityId(getPlanIdentityId(),
-                currentPlan, null, activityArgument.getInteraction());
-            PlanUpdateDetails planUpdate = MPFactory.createPlanUpdate(PlanStatus.DRAFT);
+                    currentPlan, null, activityArgument.getInteraction());
+            PlanUpdateDetails planUpdate = MPFactory.createPlanUpdate(PlanStatus.DRAFT, null);
             getArchiveManager().PLAN.addStatus(planVersionId, planUpdate, null, activityArgument.getInteraction());
         }
     }
 
     class InsertEventCallback extends MPServiceOperationCallback {
+
         @Override
         public void onCallback(List<MPServiceOperationArguments> arguments) throws MALException,
-            MALInteractionException {
+                MALInteractionException {
             MPServiceOperationArguments eventArgument = arguments.get(1);
 
             PlanVersionDetails currentPlan = getArchiveManager().PLAN.getInstanceByIdentityId(getPlanIdentityId());
@@ -164,8 +163,8 @@ public class MPServicesTestAdapter extends MissionPlanningNMFAdapter {
 
             // Save modified Plan Version
             ObjectId planVersionId = getArchiveManager().PLAN.updateInstanceByIdentityId(getPlanIdentityId(),
-                currentPlan, null, eventArgument.getInteraction());
-            PlanUpdateDetails planUpdate = MPFactory.createPlanUpdate(PlanStatus.DRAFT);
+                    currentPlan, null, eventArgument.getInteraction());
+            PlanUpdateDetails planUpdate = MPFactory.createPlanUpdate(PlanStatus.DRAFT, null);
             getArchiveManager().PLAN.addStatus(planVersionId, planUpdate, null, eventArgument.getInteraction());
         }
     }

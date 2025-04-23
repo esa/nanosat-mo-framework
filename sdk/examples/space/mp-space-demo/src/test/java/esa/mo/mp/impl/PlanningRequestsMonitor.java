@@ -3,9 +3,10 @@ package esa.mo.mp.impl;
 import java.util.Map;
 
 import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.UpdateHeaderList;
+import org.ccsds.moims.mo.mal.structures.UpdateHeader;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mp.planningrequest.consumer.PlanningRequestAdapter;
+import org.ccsds.moims.mo.mp.structures.RequestUpdateDetails;
 import org.ccsds.moims.mo.mp.structures.RequestUpdateDetailsList;
 
 /**
@@ -17,8 +18,8 @@ public class PlanningRequestsMonitor extends PlanningRequestAdapter {
 
     @Override
     public void monitorRequestsNotifyReceived(MALMessageHeader msgHeader, Identifier identifier,
-        UpdateHeaderList headerList, RequestUpdateDetailsList updateList, Map qosProperties) {
-        receivedUpdateList.addAll(updateList);
+            UpdateHeader header, RequestUpdateDetails update, Map qosProperties) {
+        receivedUpdateList.add(update);
         synchronized (this) {
             this.notifyAll();
         }
