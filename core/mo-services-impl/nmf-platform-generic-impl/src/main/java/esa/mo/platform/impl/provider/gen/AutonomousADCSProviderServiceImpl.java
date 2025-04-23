@@ -38,18 +38,7 @@ import org.ccsds.moims.mo.mal.helpertools.misc.TaskScheduler;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.provider.MALPublishInteractionListener;
-import org.ccsds.moims.mo.mal.structures.Attribute;
-import org.ccsds.moims.mo.mal.structures.AttributeList;
-import org.ccsds.moims.mo.mal.structures.AttributeTypeList;
-import org.ccsds.moims.mo.mal.structures.Duration;
-import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.structures.NamedValueList;
-import org.ccsds.moims.mo.mal.structures.QoSLevel;
-import org.ccsds.moims.mo.mal.structures.SessionType;
-import org.ccsds.moims.mo.mal.structures.UInteger;
-import org.ccsds.moims.mo.mal.structures.URI;
-import org.ccsds.moims.mo.mal.structures.UpdateHeader;
+import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALErrorBody;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.platform.PlatformHelper;
@@ -127,7 +116,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
 
         initialiased = true;
         timestamp = System.currentTimeMillis() - timestamp;
-        LOGGER.info("AutonomousADCS service: READY! (" + timestamp + " ms)");
+        LOGGER.log(Level.INFO, "AutonomousADCS service: READY! ({0} ms)", timestamp);
     }
 
     /**

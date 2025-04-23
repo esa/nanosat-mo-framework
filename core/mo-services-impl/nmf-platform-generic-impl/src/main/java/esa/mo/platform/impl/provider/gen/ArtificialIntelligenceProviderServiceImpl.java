@@ -20,23 +20,23 @@
  */
 package esa.mo.platform.impl.provider.gen;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.COMHelper;
-import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.provider.MALInteraction;
-import org.ccsds.moims.mo.mal.provider.MALProvider;
-import org.ccsds.moims.mo.platform.artificialintelligence.ArtificialIntelligenceHelper;
-import org.ccsds.moims.mo.platform.artificialintelligence.provider.ArtificialIntelligenceInheritanceSkeleton;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import org.ccsds.moims.mo.mal.MOErrorException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
+import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.MOErrorException;
+import org.ccsds.moims.mo.mal.provider.MALInteraction;
+import org.ccsds.moims.mo.mal.provider.MALProvider;
+import org.ccsds.moims.mo.platform.artificialintelligence.ArtificialIntelligenceHelper;
 import org.ccsds.moims.mo.platform.artificialintelligence.ArtificialIntelligenceServiceInfo;
+import org.ccsds.moims.mo.platform.artificialintelligence.provider.ArtificialIntelligenceInheritanceSkeleton;
 import org.ccsds.moims.mo.platform.artificialintelligence.provider.DoComputerVisionInteraction;
 
 /**
@@ -64,7 +64,7 @@ public class ArtificialIntelligenceProviderServiceImpl extends ArtificialIntelli
      */
     public synchronized void init(AIAdapterInterface adapter) throws MALException {
         long timestamp = System.currentTimeMillis();
-        
+
         // Shut down old service transport
         if (null != aiServiceProvider) {
             connection.closeAll();
@@ -77,7 +77,7 @@ public class ArtificialIntelligenceProviderServiceImpl extends ArtificialIntelli
 
         initialiased = true;
         timestamp = System.currentTimeMillis() - timestamp;
-        LOGGER.info("Artificial Intelligence service: READY! (" + timestamp + " ms)");
+        LOGGER.log(Level.INFO, "Artificial Intelligence service: READY! ({0} ms)", timestamp);
     }
 
     /**

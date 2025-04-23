@@ -40,8 +40,10 @@ public interface AIAdapterInterface {
     /**
      * Executes the computer vision process for the provided json file.
      *
-     * @param jsonFile The json file that contains the information for executing
-     * the computer vision process on the device.
+     * @param jsonPath The json file path that contains the information for
+     * executing the computer vision process on the device.
+     * @throws java.io.IOException if the execution of the computer was not
+     * successful.
      */
     public void doComputerVision(String jsonPath) throws IOException;
 
