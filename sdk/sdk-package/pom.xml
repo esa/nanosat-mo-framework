@@ -194,6 +194,8 @@
         <artifactId>download-maven-plugin</artifactId>
         <version>1.4.0</version>
         <executions>
+            <!-- The code below will not allow the compilation when one of the Standards gets deprecated -->
+            <!--
           <execution>
             <id>get-mal-java-api-spec</id>
             <phase>process-resources</phase>
@@ -254,6 +256,7 @@
               <outputDirectory>${esa.nmf.sdk.assembly.outputdir}/docs/MO_Services</outputDirectory>
             </configuration>
           </execution>
+            -->
         </executions>
       </plugin>
       <plugin>
