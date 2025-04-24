@@ -519,25 +519,22 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
 
     @Override
     public LongList store(final Boolean returnObjId, final ObjectType objType,
-            final IdentifierList domain, final ArchiveDetailsList lArchiveDetailsList,
-            final HeterogeneousList lElementList, final MALInteraction interaction)
+            final IdentifierList domain, final ArchiveDetailsList details,
+            final HeterogeneousList bodies, final MALInteraction interaction)
             throws MALException, MALInteractionException {
         UIntegerList invIndexList = new UIntegerList();
         UIntegerList dupIndexList;
 
         // What if the list is null?
-        if (lArchiveDetailsList == null) {
+        if (details == null) {
             throw new MALInteractionException(new InvalidException(null));
         }
 
-        if (lElementList != null) {
-
-            if (lArchiveDetailsList.size() != lElementList.size()) { // requirement: 3.4.6.2.8
+        if (bodies != null) {
+            if (details.size() != bodies.size()) { // requirement: 3.4.6.2.8
                 UIntegerList error = new UIntegerList();
-                int size1 = (lArchiveDetailsList.size() < lElementList.size()) ? lArchiveDetailsList.size() :
-                    lElementList.size();
-                int size2 = (lArchiveDetailsList.size() > lElementList.size()) ? lArchiveDetailsList.size() :
-                    lElementList.size();
+                int size1 = (details.size() < bodies.size()) ? details.size() : bodies.size();
+                int size2 = (details.size() > bodies.size()) ? details.size() : bodies.size();
 
                 for (int i = size1; i < size2; i++) { // make a list with the invalid indexes
                     error.add(new UInteger(i));
@@ -557,24 +554,24 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
         }
 
         // Do we have Duplicates in the objId array?
-        dupIndexList = ArchiveManager.checkForDuplicates(lArchiveDetailsList);
+        dupIndexList = ArchiveManager.checkForDuplicates(details);
 
         if (!dupIndexList.isEmpty()) {
             throw new MALInteractionException(new DuplicateException(dupIndexList));
         }
 
         synchronized (manager) {
-            for (int index = 0; index < lArchiveDetailsList.size(); index++) { // Validation of ArchiveDetails object
-                if (lArchiveDetailsList.get(index).getInstId() == 0) { // requirement: 3.4.6.2.5
+            for (int index = 0; index < details.size(); index++) { // Validation of ArchiveDetails object
+                if (details.get(index).getInstId() == 0) { // requirement: 3.4.6.2.5
                     // Shall be taken care in the manager & per inserted entry
                 } else { // Does it exist already?  // requirement: 3.4.6.2.6
-                    if (manager.objIdExists(objType, domain, lArchiveDetailsList.get(index).getInstId())) {
+                    if (manager.objIdExists(objType, domain, details.get(index).getInstId())) {
                         dupIndexList.add(new UInteger(index));
                         continue;
                     }
                 }
 
-                if (HelperArchive.archiveDetailsContainsWildcard(lArchiveDetailsList.get(index))) { // requirement: 3.4.6.2.11
+                if (HelperArchive.archiveDetailsContainsWildcard(details.get(index))) { // requirement: 3.4.6.2.11
                     invIndexList.add(new UInteger(index));
                     //                continue;
                 }
@@ -605,10 +602,10 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             if (returnObjId) { // requirement: 3.4.6.2.1 and 3.4.6.2.14
                 // Execute the store operation (objType, domain, archiveDetails, objs)
                 // requirement: 3.4.6.2.15 (the operation returns the objIds with the same order)
-                return manager.insertEntries(objType, domain, lArchiveDetailsList, lElementList, interaction);
+                return manager.insertEntries(objType, domain, details, bodies, interaction);
             } else {
                 // Cannot be Threaded because is does not lock the access to the db and out of order will happen
-                manager.insertEntriesFast(objType, domain, lArchiveDetailsList, lElementList, interaction); // requirement: 3.4.6.2.15
+                manager.insertEntriesFast(objType, domain, details, bodies, interaction); // requirement: 3.4.6.2.15
                 return null;
             }
         }
