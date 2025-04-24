@@ -108,7 +108,10 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
 
     public void init(final MonitorAndControlNMFAdapter mcAdapter, final MissionPlanningNMFAdapter mpAdapter) {
         super.startTime = System.currentTimeMillis();
-        HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
+        LOGGER.log(Level.INFO, this.generateStartBanner());
+
+        // Loads: provider.properties; settings.properties; transport.properties
+        HelperMisc.loadPropertiesFile();
         ConnectionProvider.resetURILinksFile();
         NMFProvider.initHelpers();
 
