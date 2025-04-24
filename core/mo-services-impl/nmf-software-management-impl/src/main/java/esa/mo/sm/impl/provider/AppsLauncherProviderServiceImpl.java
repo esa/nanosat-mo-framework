@@ -44,6 +44,7 @@ import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectSet
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
 import org.ccsds.moims.mo.common.directory.structures.ServiceFilter;
 import org.ccsds.moims.mo.common.structures.ServiceKey;
+import org.ccsds.moims.mo.mal.InternalException;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
@@ -284,26 +285,28 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
                     details = directoryService.getConnection().getConnectionDetails();
                 }
                 String directoryServiceURI = details.getProviderURI().toString();
-                AppDetails app = this.manager.get(appInstIds.get(i));
+                Long appId = appInstIds.get(i);
+                AppDetails app = this.manager.get(appId);
                 ObjectType objType = AppsLauncherServiceInfo.STARTAPP_OBJECT_TYPE;
                 ObjectId eventSource = this.manager.getCOMServices().getActivityTrackingService()
                         .storeCOMOperationActivity(interaction, null);
 
                 Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO,
                         "Generating StartApp event for app: {0} (Name: ''{1}'')",
-                        new Object[]{appInstIds.get(i), app.getName()});
+                        new Object[]{appId, app.getName()});
                 this.manager.getCOMServices().getEventService().generateAndStoreEvent(
-                        objType, ConfigurationProviderSingleton.getDomain(), app.getName(),
-                        appInstIds.get(i), eventSource, interaction);
+                        objType, ConfigurationProviderSingleton.getDomain(),
+                        app.getName(), appId, eventSource, interaction);
 
-                manager.startAppProcess(new ProcessExecutionHandler(new CallbacksImpl(),
-                        appInstIds.get(i)), interaction, directoryServiceURI);
+                CallbacksImpl calback = new CallbacksImpl();
+                ProcessExecutionHandler pHandler = new ProcessExecutionHandler(calback, appId);
+                manager.startAppProcess(pHandler, interaction, directoryServiceURI);
             } catch (IOException ex) {
                 UIntegerList intIndexList = new UIntegerList();
                 intIndexList.add(new UInteger(i));
                 Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO,
                         "Not able to start the application process...", ex);
-                throw new MALInteractionException(new MOErrorException(MALHelper.INTERNAL_ERROR_NUMBER, intIndexList));
+                throw new MALInteractionException(new InternalException(intIndexList));
             }
         }
     }

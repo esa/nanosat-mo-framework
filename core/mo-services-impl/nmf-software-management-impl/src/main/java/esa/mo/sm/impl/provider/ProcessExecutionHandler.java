@@ -59,7 +59,7 @@ public class ProcessExecutionHandler {
     }
 
     private final TaskScheduler timer = new TaskScheduler(1);
-    private static final int PERIOD_PUB = 2 * 1000; // Publish every 2 seconds
+    private static final int PERIOD_PUB = 1 * 1000; // Publish every 1 seconds
     private final Long objId;
     private Thread stdoutReader;
     private Thread stderrReader;

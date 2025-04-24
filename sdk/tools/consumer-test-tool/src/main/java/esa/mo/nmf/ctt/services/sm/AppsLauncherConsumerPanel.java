@@ -266,8 +266,9 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
                 appsTable.reportStatus("Killed!", id.intValue());
             }
         } catch (MALInteractionException | MALException ex) {
-            JOptionPane.showMessageDialog(null, "Error!\nException:\n" + ex + "\n" + ex.getMessage(), "Error!",
-                    JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(null,
+                    "Error!\nException:\n" + ex + "\n" + ex.getMessage(),
+                    "Error!", JOptionPane.PLAIN_MESSAGE);
             LOGGER.log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_killAppButtonActionPerformed
@@ -290,8 +291,9 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
             this.serviceSMAppsLauncher.getAppsLauncherStub().stopApp(ids, new StopAdapter(ids));
             //appsTable.switchEnabledstatus(false);
         } catch (MALInteractionException | MALException ex) {
-            JOptionPane.showMessageDialog(null, "Error!\nException:\n" + ex + "\n" + ex.getMessage(), "Error!",
-                    JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(null,
+                    "Error!\nException:\n" + ex + "\n" + ex.getMessage(),
+                    "Error!", JOptionPane.PLAIN_MESSAGE);
             LOGGER.log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_stopAppButtonActionPerformed
@@ -313,8 +315,9 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
             appsTable.switchEnabledstatusForApp(true, objId.intValue());
             appsTable.reportStatus("Starting...", objId.intValue());
         } catch (MALInteractionException | MALException ex) {
-            JOptionPane.showMessageDialog(null, "Error!\nException:\n" + ex + "\n" + ex.getMessage(), "Error!",
-                    JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(null,
+                    "Error!\nException:\n" + ex + "\n" + ex.getMessage(),
+                    "Error!", JOptionPane.PLAIN_MESSAGE);
             LOGGER.log(Level.SEVERE, null, ex);
         }
 
