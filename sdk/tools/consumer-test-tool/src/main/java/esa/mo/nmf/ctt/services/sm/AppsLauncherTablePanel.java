@@ -56,16 +56,29 @@ public class AppsLauncherTablePanel extends SharedTablePanel {
 
         AppDetails appDetails = (AppDetails) comObject.getObject();
 
-        tableData.addRow(new Object[]{comObject.getArchiveDetails().getInstId(), appDetails.getName().toString(),
-                                      appDetails.getDescription(), appDetails.getCategory().toString(), appDetails
-                                          .getRunAtStartup(), appDetails.getRunning(), ""});
+        tableData.addRow(new Object[]{comObject.getArchiveDetails().getInstId(),
+            appDetails.getName().toString(), appDetails.getDescription(),
+            appDetails.getCategory().toString(), appDetails.getRunAtStartup(),
+            appDetails.getRunning(), ""});
 
         comObjects.add(comObject);
         semaphore.release();
     }
 
+    /*
     public void switchEnabledstatus(boolean status) {
         switchEnabledstatus(status, this.getSelectedRow());
+    }
+    */
+
+    public void switchEnabledstatusForApp(boolean status, int appId) {
+        try {
+            int index = this.findIndex(appId);
+            switchEnabledstatus(status, index);
+        } catch (Exception ex) {
+            Logger.getLogger(AppsLauncherTablePanel.class.getName()).log(
+                    Level.SEVERE, "The App was not found in the list: " + appId, ex);
+        }
     }
 
     public void switchEnabledstatus(boolean status, int rowId) {
@@ -77,7 +90,8 @@ public class AppsLauncherTablePanel extends SharedTablePanel {
 
         // 4 because it is where generationEnabled is!
         tableData.setValueAt(status, rowId, 5);
-        ((AppDetails) this.getSelectedCOMObject().getObject()).setRunning(status);
+        AppDetails app = (AppDetails) this.getSelectedCOMObject().getObject();
+        app.setRunning(status);
 
         semaphore.release();
     }
@@ -92,7 +106,8 @@ public class AppsLauncherTablePanel extends SharedTablePanel {
         // 5 because it is where the flag is!
         for (int i = 0; i < this.getTable().getRowCount(); i++) {
             tableData.setValueAt(status, i, 5);
-            ((AppDetails) this.getCOMObjects().get(i).getObject()).setRunning(status);
+            AppDetails app = (AppDetails) this.getCOMObjects().get(i).getObject();
+            app.setRunning(status);
         }
 
         semaphore.release();
@@ -106,9 +121,8 @@ public class AppsLauncherTablePanel extends SharedTablePanel {
         }
         LOGGER.log(Level.INFO, "Updating test for appId {0}: ''{1}''", new Object[]{appId, text});
 
-        int index;
         try {
-            index = this.findIndex(appId);
+            int index = this.findIndex(appId);
 
             // 6 because it is where the status field is!
             tableData.setValueAt(text, index, 6);
@@ -120,7 +134,6 @@ public class AppsLauncherTablePanel extends SharedTablePanel {
     }
 
     public int findIndex(int appId) throws Exception {
-
         final int max = tableData.getRowCount();
 
         for (int i = 0; i < max; i++) {
@@ -136,14 +149,13 @@ public class AppsLauncherTablePanel extends SharedTablePanel {
 
     @Override
     public void defineTableContent() {
-
-        String[] tableCol = new String[]{"Obj Inst Id", "name", "description", "category", "runAtStartup", "running",
-                                         "Status"};
+        String[] tableCol = new String[]{"Obj Inst Id", "name", "description",
+            "category", "runAtStartup", "running", "Status"};
 
         tableData = new javax.swing.table.DefaultTableModel(new Object[][]{}, tableCol) {
-            Class[] types = new Class[]{java.lang.Integer.class, java.lang.String.class, java.lang.String.class,
-                                        java.lang.String.class, java.lang.Boolean.class, java.lang.Boolean.class,
-                                        java.lang.String.class};
+            Class[] types = new Class[]{java.lang.Integer.class, java.lang.String.class,
+                java.lang.String.class, java.lang.String.class, java.lang.Boolean.class,
+                java.lang.Boolean.class, java.lang.String.class};
 
             @Override               //all cells false
             public boolean isCellEditable(int row, int column) {

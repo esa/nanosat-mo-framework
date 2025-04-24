@@ -260,7 +260,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
 
         try {
             this.serviceSMAppsLauncher.getAppsLauncherStub().killApp(ids);
-            appsTable.switchEnabledstatus(false);
+            appsTable.switchEnabledstatusForApp(false, objId.intValue());
 
             for (Long id : ids) {
                 appsTable.reportStatus("Killed!", id.intValue());
@@ -288,8 +288,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
                 appsTable.reportStatus("Sending stop request.", id.intValue());
             }
             this.serviceSMAppsLauncher.getAppsLauncherStub().stopApp(ids, new StopAdapter(ids));
-            appsTable.switchEnabledstatus(false);
-
+            //appsTable.switchEnabledstatus(false);
         } catch (MALInteractionException | MALException ex) {
             JOptionPane.showMessageDialog(null, "Error!\nException:\n" + ex + "\n" + ex.getMessage(), "Error!",
                     JOptionPane.PLAIN_MESSAGE);
@@ -311,7 +310,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
         try {
             subscribeToEvents(objId);
             this.serviceSMAppsLauncher.getAppsLauncherStub().runApp(ids);
-            appsTable.switchEnabledstatus(true);
+            appsTable.switchEnabledstatusForApp(true, objId.intValue());
             appsTable.reportStatus("Starting...", objId.intValue());
         } catch (MALInteractionException | MALException ex) {
             JOptionPane.showMessageDialog(null, "Error!\nException:\n" + ex + "\n" + ex.getMessage(), "Error!",
@@ -406,6 +405,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
                 java.util.Map qosProperties) {
             for (Long apid : apids) {
                 appsTable.reportStatus("Stop App Completed.", apid.intValue());
+                appsTable.switchEnabledstatusForApp(false, apid.intValue());
             }
         }
 
