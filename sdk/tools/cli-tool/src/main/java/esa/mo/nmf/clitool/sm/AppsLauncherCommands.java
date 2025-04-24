@@ -81,7 +81,7 @@ public class AppsLauncherCommands {
                 AppsLauncherStub appsLauncher = getAppsLauncher();
                 Long timestamp = System.currentTimeMillis();
                 Identifier subscriptionId = new Identifier("CLI-Consumer-AppsLauncherSubscription_" + timestamp);
-                Subscription subscription = ConnectionConsumer.subscriptionWildcard(subscriptionId);
+                Subscription subscription = new Subscription(subscriptionId, null, null, null);
 
                 if (appNames != null && !appNames.isEmpty()) {
                     SubscriptionFilterList filters = new SubscriptionFilterList();

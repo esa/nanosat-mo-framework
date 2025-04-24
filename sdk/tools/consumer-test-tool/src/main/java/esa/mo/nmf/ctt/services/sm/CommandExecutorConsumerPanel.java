@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.ctt.services.sm;
 
+import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.EventCOMObject;
 import esa.mo.com.impl.util.EventReceivedListener;
@@ -62,8 +63,8 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel {
     public CommandExecutorConsumerPanel(CommandExecutorConsumerServiceImpl serviceSMCommandExecutor) {
         initComponents();
 
-        recentCommandsTable = new CommandExecutorTablePanel(serviceSMCommandExecutor.getCOMServices()
-            .getArchiveService());
+        ArchiveConsumerServiceImpl archive = serviceSMCommandExecutor.getCOMServices().getArchiveService();
+        recentCommandsTable = new CommandExecutorTablePanel(archive);
 
         recentCommandsTable.getTable().addMouseListener(new MouseListener() {
             @Override
@@ -221,12 +222,13 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel {
             Long sourceObjId = eventCOMObject.getSource().getKey().getInstId();
             if (sourceObjId == null) {
                 LOGGER.log(Level.SEVERE,
-                    "Missing source object in a received event (oID {0}). This should never happen.", eventCOMObject
-                        .getObjId());
+                    "Missing source object in a received event (oID {0}). This should never happen.",
+                    eventCOMObject.getObjId());
                 return;
             }
             if (object == null) {
-                LOGGER.log(Level.SEVERE, "Missing body in a received event (oID {0}). This should never happen.",
+                LOGGER.log(Level.SEVERE,
+                        "Missing body in a received event (oID {0}). This should never happen.",
                     eventCOMObject.getObjId());
                 return;
             }

@@ -48,7 +48,6 @@ import org.ccsds.moims.mo.common.directory.structures.ServiceFilter;
 import org.ccsds.moims.mo.common.structures.ServiceKey;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
@@ -341,7 +340,7 @@ public abstract class GroundMOProxy {
                                 HeartbeatHelper.HEARTBEAT_SERVICE);
                             heartbeatService = new HeartbeatConsumerServiceImpl(connectionDetails, null);
                             createProviderStatusAdapter(heartbeatService);
-                            heartbeatSubscription = ConnectionConsumer.subscriptionWildcard(new Identifier("HBSUB"));
+                            heartbeatSubscription = new Subscription(new Identifier("HBSUB"), null, null, null);
 
                             try {
                                 firstTime = false;

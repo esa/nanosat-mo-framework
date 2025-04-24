@@ -524,8 +524,8 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
     public void startAdcsAttitudeMonitoring() {
         try {
             // Subscribe monitorAttitude
-            nmf.getPlatformServices().getAutonomousADCSService().monitorAttitudeRegister(ConnectionConsumer
-                .subscriptionWildcard(), new DataReceivedAdapter());
+            nmf.getPlatformServices().getAutonomousADCSService().monitorAttitudeRegister(
+                    ConnectionConsumer.subscriptionWildcardRandom(), new DataReceivedAdapter());
             nmf.getPlatformServices().getAutonomousADCSService().enableMonitoring(true, ATTITUDE_MONITORING_INTERVAL);
         } catch (IOException | MALInteractionException | MALException | NMFException ex) {
             LOGGER.log(Level.SEVERE, "Error when setting up attitude monitoring.", ex);

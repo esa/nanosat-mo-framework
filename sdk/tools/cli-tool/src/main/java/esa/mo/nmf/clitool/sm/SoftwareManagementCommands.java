@@ -31,14 +31,11 @@ import esa.mo.nmf.clitool.sm.PackageManagementCommands.FindPackage;
 import esa.mo.nmf.clitool.sm.PackageManagementCommands.Install;
 import esa.mo.nmf.clitool.sm.PackageManagementCommands.Uninstall;
 import esa.mo.nmf.clitool.sm.PackageManagementCommands.Upgrade;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.structures.*;
-import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.softwaremanagement.heartbeat.consumer.HeartbeatAdapter;
 import org.ccsds.moims.mo.softwaremanagement.heartbeat.consumer.HeartbeatStub;
 import org.ccsds.moims.mo.softwaremanagement.packagemanagement.consumer.PackageManagementStub;
@@ -84,7 +81,7 @@ public class SoftwareManagementCommands {
                 HeartbeatStub heartbeat = consumer.getSMServices().getHeartbeatService().getHeartbeatStub();
 
                 Identifier subscriptionId = new Identifier("CLI-Consumer-HeartbeatSubscription");
-                Subscription subscription = ConnectionConsumer.subscriptionWildcard(subscriptionId);
+                Subscription subscription = new Subscription(subscriptionId, null, null, null);
                 heartbeatSubscription = subscriptionId;
 
                 heartbeat.beatRegister(subscription, new HeartbeatAdapter() {

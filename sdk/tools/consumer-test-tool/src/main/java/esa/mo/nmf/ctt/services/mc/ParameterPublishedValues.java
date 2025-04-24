@@ -87,7 +87,7 @@ public class ParameterPublishedValues extends javax.swing.JPanel {
 
     public void subscribeToParameters() throws MALInteractionException, MALException {
         // Subscribe to ParametersValues
-        subscription = ConnectionConsumer.subscriptionWildcard();
+        subscription = ConnectionConsumer.subscriptionWildcardRandom();
         this.parameterService.getParameterStub().monitorValueRegister(subscription, new ParameterConsumerAdapter());
     }
 

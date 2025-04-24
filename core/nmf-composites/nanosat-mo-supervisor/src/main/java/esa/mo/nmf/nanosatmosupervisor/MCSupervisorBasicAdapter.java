@@ -120,7 +120,7 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
         try {
             // Subscribe monitorAttitude
             nmfSupervisor.getPlatformServices().getAutonomousADCSService().monitorAttitudeRegister(
-                    ConnectionConsumer.subscriptionWildcard(), new ADCSDataHandler());
+                    ConnectionConsumer.subscriptionWildcardRandom(), new ADCSDataHandler());
             configureMonitoring();
         } catch (IOException | MALInteractionException | MALException | NMFException ex) {
             LOGGER.log(Level.SEVERE, "Error when setting up attitude monitoring.", ex);

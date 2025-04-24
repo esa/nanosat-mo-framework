@@ -113,7 +113,7 @@ public class EventConsumerPanel extends javax.swing.JPanel {
 
     public void init() {
         // Subscribe to all Events
-        final Subscription subscription = ConnectionConsumer.subscriptionWildcard();
+        final Subscription subscription = ConnectionConsumer.subscriptionWildcardRandom();
         serviceCOMEvent.addEventReceivedListener(subscription, new EventReceivedAdapter());
     }
 

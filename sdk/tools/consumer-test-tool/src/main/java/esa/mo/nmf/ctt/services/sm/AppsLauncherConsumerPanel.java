@@ -110,7 +110,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
         this.listAppAllButtonActionPerformed(null);
 
         // Subscribe to Apps
-        subscription = ConnectionConsumer.subscriptionWildcard();
+        subscription = ConnectionConsumer.subscriptionWildcardRandom();
         try {
             serviceSMAppsLauncher.getAppsLauncherStub().monitorExecutionRegister(
                     subscription, new AppsLauncherConsumerAdapter());
@@ -323,7 +323,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
 
     private void subscribeToEvents(Long appId) {
         Identifier id = new Identifier(LAUNCH_APP_SUBSCRIPTION + appId.toString());
-        Subscription subscription = ConnectionConsumer.subscriptionWildcard();
+        Subscription subscription = ConnectionConsumer.subscriptionWildcardRandom();
         try {
             serviceSMAppsLauncher.getCOMServices().getEventService().getEventStub().monitorEventRegister(subscription,
                     new AppLaunchEventAdapter(appId));

@@ -85,7 +85,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         this.listDefinitionAllButtonActionPerformed(null);
 
         // Subscribe to ParametersValues
-        subscription = ConnectionConsumer.subscriptionWildcard();
+        subscription = ConnectionConsumer.subscriptionWildcardRandom();
         try {
             serviceMCAggregation.getAggregationStub().monitorValueRegister(subscription,
                 new AggregationConsumerAdapter());

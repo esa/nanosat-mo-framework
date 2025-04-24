@@ -31,7 +31,6 @@ import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQueryList;
 import org.ccsds.moims.mo.com.structures.ObjectType;
-import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MOErrorException;
@@ -80,7 +79,7 @@ public class SoftwareManagementCommands {
                 HeartbeatStub heartbeat = consumer.getSMServices().getHeartbeatService().getHeartbeatStub();
 
                 Identifier subscriptionId = new Identifier("CLI-Consumer-HeartbeatSubscription");
-                Subscription subscription = ConnectionConsumer.subscriptionWildcard(subscriptionId);
+                Subscription subscription = new Subscription(subscriptionId, null, null, null);
                 heartbeatSubscription = subscriptionId;
 
                 heartbeat.beatRegister(subscription, new HeartbeatAdapter() {
@@ -128,7 +127,7 @@ public class SoftwareManagementCommands {
                 Identifier subscriptionId = new Identifier("CLI-Consumer-AppsLauncherSubscription");
                 Subscription subscription;
                 if (appNames == null || appNames.isEmpty()) {
-                    subscription = ConnectionConsumer.subscriptionWildcard(subscriptionId);
+                    subscription = new Subscription(subscriptionId, null, null, null);
                 } else {
                     ArchiveStub archive = consumer.getCOMServices().getArchiveService().getArchiveStub();
                     Map<String, ProviderAppDetails> providerNameToDetails = getProvidersDetails(archive);

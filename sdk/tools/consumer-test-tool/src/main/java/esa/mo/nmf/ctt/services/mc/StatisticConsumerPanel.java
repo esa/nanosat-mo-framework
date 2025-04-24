@@ -85,7 +85,7 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
         this.listDefinitionAllButtonActionPerformed(null);
 
         // Subscribe to Statistic Values
-        subscription = ConnectionConsumer.subscriptionWildcard();
+        subscription = ConnectionConsumer.subscriptionWildcardRandom();
         try {
             serviceMCStatistic.getStatisticStub().monitorStatisticsRegister(subscription,
                 new StatisticConsumerAdapter());
