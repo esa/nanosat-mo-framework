@@ -27,7 +27,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherServiceInfo;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.provider.StopAppInteraction;
 
@@ -46,8 +45,8 @@ public class ClosingAppListener extends EventReceivedListener {
     private boolean appClosed;
     private final Object semaphore; // This should be done with a proper Semaphore... :/
 
-    public ClosingAppListener(final StopAppInteraction interaction, final EventConsumerServiceImpl eventService,
-        final Long objId) {
+    public ClosingAppListener(final StopAppInteraction interaction,
+            final EventConsumerServiceImpl eventService, final Long objId) {
         this.interaction = interaction;
         this.eventService = eventService;
         this.objId = objId;

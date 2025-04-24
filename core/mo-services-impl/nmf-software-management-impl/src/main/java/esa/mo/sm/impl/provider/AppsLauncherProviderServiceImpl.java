@@ -105,7 +105,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
     public synchronized void init(final COMServicesProvider comServices,
             final DirectoryProviderServiceImpl directoryService) throws MALException {
         long timestamp = System.currentTimeMillis();
-        
+
         int kbyte = Integer.parseInt(System.getProperty(Const.APPSLAUNCHER_STD_LIMIT_PROPERTY,
                 Const.APPSLAUNCHER_STD_LIMIT_DEFAULT));
         stdLimit = kbyte * 1024; // init limit with value of property
@@ -126,7 +126,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         this.directoryService = directoryService;
         manager = new AppsLauncherManager(comServices);
         appsLauncherServiceProvider = connection.startService(AppsLauncherServiceInfo.APPSLAUNCHER_SERVICE_NAME.toString(),
-            AppsLauncherHelper.APPSLAUNCHER_SERVICE, this);
+                AppsLauncherHelper.APPSLAUNCHER_SERVICE, this);
         running = true;
         initialiased = true;
         timestamp = System.currentTimeMillis() - timestamp;
@@ -163,13 +163,13 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
                     isRegistered = true;
                 }
             }
-      
+
             String appName = manager.get(appObjId).getName().toString();
 
             LOGGER.log(Level.FINER,
-              "Generating update for the App: {0} (Identifier: {1})",
-              new Object[]{appObjId, new Identifier(appName)});
-      
+                    "Generating update for the App: {0} (Identifier: {1})",
+                    new Object[]{appObjId, new Identifier(appName)});
+
             String outputList = new String();
 
             AttributeList keyValues = new AttributeList();
@@ -178,8 +178,8 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
             final UpdateHeaderList hdrlst = new UpdateHeaderList();
             URI sourceURI = connection.getConnectionDetails().getProviderURI();
-            UpdateHeader updateHeader = new UpdateHeader(new Identifier(sourceURI.getValue()), 
-                  connection.getConnectionDetails().getDomain(), keyValues.getAsNullableAttributeList());
+            UpdateHeader updateHeader = new UpdateHeader(new Identifier(sourceURI.getValue()),
+                    connection.getConnectionDetails().getDomain(), keyValues.getAsNullableAttributeList());
             EventProviderServiceImpl eventService = this.comServices.getEventService();
 
             int length = outputText.length();
@@ -188,44 +188,44 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
                 String segment = outputText.substring(i, end);
                 outputList = outputList + segment;
                 boolean storeInArchive = Boolean.valueOf(System.getProperty(Const.APPSLAUNCHER_STD_STORE_PROPERTY,
-                    Const.APPSLAUNCHER_STD_STORE_DEFAULT));
+                        Const.APPSLAUNCHER_STD_STORE_DEFAULT));
 
                 if (storeInArchive) {
-                  // Store in COM archive if the option is enabled and below limit
-                  int currentStd = stdQuota.retrieve(appObjId);
-                  IdentifierList domain = connection.getPrimaryConnectionDetails().getDomain();
+                    // Store in COM archive if the option is enabled and below limit
+                    int currentStd = stdQuota.retrieve(appObjId);
+                    IdentifierList domain = connection.getPrimaryConnectionDetails().getDomain();
 
-                  if (currentStd + segment.length() <= stdLimit) {
-                    Element eventBody = new Union(segment);
-                    stdQuota.increase(appObjId, segment.length());
-                    ObjectId source = new ObjectId(AppsLauncherServiceInfo.APP_OBJECT_TYPE, 
-                            new ObjectKey(domain, appObjId));
-                    eventService.generateAndStoreEvent(
-                        objType,
-                        domain, eventBody, appObjId, source, null);
-                  } else {
-                    String errorString
-                        = "Your logging is too verbose and reached the limit.\nPlease reduce verbosity.";
-                    Element eventBody = new Union(errorString);
-                    outputList = outputList + errorString;
-                    ObjectId source = new ObjectId(AppsLauncherServiceInfo.APP_OBJECT_TYPE, 
-                            new ObjectKey(domain, appObjId));
-                    eventService.generateAndStoreEvent(
-                        objType,
-                        domain, eventBody, appObjId, source, null);
-                  }
+                    if (currentStd + segment.length() <= stdLimit) {
+                        Element eventBody = new Union(segment);
+                        stdQuota.increase(appObjId, segment.length());
+                        ObjectId source = new ObjectId(AppsLauncherServiceInfo.APP_OBJECT_TYPE,
+                                new ObjectKey(domain, appObjId));
+                        eventService.generateAndStoreEvent(
+                                objType,
+                                domain, eventBody, appObjId, source, null);
+                    } else {
+                        String errorString
+                                = "Your logging is too verbose and reached the limit.\nPlease reduce verbosity.";
+                        Element eventBody = new Union(errorString);
+                        outputList = outputList + errorString;
+                        ObjectId source = new ObjectId(AppsLauncherServiceInfo.APP_OBJECT_TYPE,
+                                new ObjectKey(domain, appObjId));
+                        eventService.generateAndStoreEvent(
+                                objType,
+                                domain, eventBody, appObjId, source, null);
+                    }
                 }
             }
-            
+
             publisher.publish(updateHeader, outputList);
         } catch (IllegalArgumentException | MALException | MALInteractionException ex) {
-          LOGGER.log(Level.WARNING,
-              "Exception during publishing process on the provider {0}", ex);
+            LOGGER.log(Level.WARNING,
+                    "Exception during publishing process on the provider {0}", ex);
         }
     }
 
     @Override
-    public void runApp(LongList appInstIds, MALInteraction interaction) 
+    public void runApp(LongList appInstIds, MALInteraction interaction)
             throws MALInteractionException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
@@ -290,26 +290,26 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
                         .storeCOMOperationActivity(interaction, null);
 
                 Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO,
-                        "Generating StartApp event for app: {0} (Name: ''{1}'')", 
+                        "Generating StartApp event for app: {0} (Name: ''{1}'')",
                         new Object[]{appInstIds.get(i), app.getName()});
                 this.manager.getCOMServices().getEventService().generateAndStoreEvent(
                         objType, ConfigurationProviderSingleton.getDomain(), app.getName(),
-                                appInstIds.get(i), eventSource, interaction);
+                        appInstIds.get(i), eventSource, interaction);
 
-                manager.startAppProcess(new ProcessExecutionHandler(new CallbacksImpl(), 
+                manager.startAppProcess(new ProcessExecutionHandler(new CallbacksImpl(),
                         appInstIds.get(i)), interaction, directoryServiceURI);
             } catch (IOException ex) {
                 UIntegerList intIndexList = new UIntegerList();
                 intIndexList.add(new UInteger(i));
                 Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO,
-                    "Not able to start the application process...", ex);
+                        "Not able to start the application process...", ex);
                 throw new MALInteractionException(new MOErrorException(MALHelper.INTERNAL_ERROR_NUMBER, intIndexList));
             }
         }
     }
 
     @Override
-    public void killApp(LongList appInstIds, MALInteraction interaction) 
+    public void killApp(LongList appInstIds, MALInteraction interaction)
             throws MALInteractionException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
@@ -363,7 +363,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
     }
 
     @Override
-    public void stopApp(final LongList appInstIds, final StopAppInteraction interaction) 
+    public void stopApp(final LongList appInstIds, final StopAppInteraction interaction)
             throws MALInteractionException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
@@ -386,37 +386,6 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         }
 
         IdentifierList appDirectoryServiceNames = new IdentifierList();
-
-        prepareStopApp(appInstIds, interaction, unkIndexList, invIndexList, 
-                intIndexList, appConnections, appDirectoryServiceNames);
-
-        // Errors
-        if (!unkIndexList.isEmpty()) {
-            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
-        }
-
-        if (!invIndexList.isEmpty()) {
-            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
-        }
-
-        if (!intIndexList.isEmpty()) {
-            throw new MALInteractionException(new MOErrorException(MALHelper.INTERNAL_ERROR_NUMBER, intIndexList));
-        }
-
-        if(interaction != null) {
-            interaction.sendAcknowledgement();
-        }
-        
-        manager.stopApps(appInstIds, appDirectoryServiceNames, appConnections, interaction);
-        
-        if(interaction != null) {
-            interaction.sendResponse();
-        }
-    }
-
-    private void prepareStopApp(final LongList appInstIds, final StopAppInteraction interaction, UIntegerList unkIndexList,
-            UIntegerList invIndexList, UIntegerList intIndexList, ArrayList<SingleConnectionDetails> appConnections,
-            IdentifierList appDirectoryServiceNames) throws MALInteractionException, MALException {
         for (int i = 0; i < appInstIds.size(); i++) {
             // Get it from the list of available apps
             Long appId = appInstIds.get(i);
@@ -441,8 +410,9 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             final COMService eventCOM = EventHelper.EVENT_SERVICE;
             ServiceKey serviceKey = new ServiceKey(eventCOM.getAreaNumber(),
                     eventCOM.getServiceNumber(), eventCOM.getServiceVersion());
-            ServiceFilter sf = new ServiceFilter(serviceProviderName, domain, new Identifier("*"), null, new Identifier(
-                "*"), serviceKey, new UShortList());
+            ServiceFilter sf = new ServiceFilter(serviceProviderName, domain,
+                    new Identifier("*"), null, new Identifier("*"), serviceKey, new UShortList());
+
             if (app.getCategory().getValue().equalsIgnoreCase("NMF_App")) {
                 // Do a lookup on the Central Drectory service for the app that we want
                 MALInteraction malInt = (interaction != null) ? interaction.getInteraction() : null;
@@ -472,6 +442,29 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
                 appConnections.add(null);
                 appDirectoryServiceNames.add(null);
             }
+        }
+
+        // Errors
+        if (!unkIndexList.isEmpty()) {
+            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+        }
+
+        if (!invIndexList.isEmpty()) {
+            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+        }
+
+        if (!intIndexList.isEmpty()) {
+            throw new MALInteractionException(new MOErrorException(MALHelper.INTERNAL_ERROR_NUMBER, intIndexList));
+        }
+
+        if (interaction != null) {
+            interaction.sendAcknowledgement();
+        }
+
+        manager.stopApps(appInstIds, appDirectoryServiceNames, appConnections, interaction);
+
+        if (interaction != null) {
+            interaction.sendResponse();
         }
     }
 
@@ -508,10 +501,10 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             }
 
             Long appId = manager.list(appNames.get(index));
-            
+
             if (appId == null) { // The app does not exist...
                 unkIndexList.add(new UInteger(index)); // Throw an UNKNOWN error
-            }else{
+            } else {
                 matchedIds.add(appId);
             }
         }
@@ -570,7 +563,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         // ok, we're good to go...
         // Load the App Details from this configuration...
         HeterogeneousList pDefs = (HeterogeneousList) HelperArchive.getObjectBodyListFromArchive(manager.getArchiveService(),
-            AppsLauncherServiceInfo.APP_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(), confSet.getObjInstIds());
+                AppsLauncherServiceInfo.APP_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(), confSet.getObjInstIds());
 
         if (manager.reconfigureDefinitions(confSet.getObjInstIds(), pDefs)) {
             for (Long id : confSet.getObjInstIds()) { // Set all running state to false
@@ -592,7 +585,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         currentObjIds.addAll(defObjs.keySet());
 
         final ConfigurationObjectSet objsSet = new ConfigurationObjectSet(AppsLauncherServiceInfo.APP_OBJECT_TYPE,
-        ConfigurationProviderSingleton.getDomain(), currentObjIds);
+                ConfigurationProviderSingleton.getDomain(), currentObjIds);
 
         final ConfigurationObjectSetList list = new ConfigurationObjectSetList();
         list.add(objsSet);
@@ -609,8 +602,8 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
     public void refresh() {
         manager.refreshAvailableAppsList(new URI(""));
     }
-    
-    public void addFolderWithApps(java.io.File folder){
+
+    public void addFolderWithApps(java.io.File folder) {
         manager.addFolderWithApps(folder);
     }
 

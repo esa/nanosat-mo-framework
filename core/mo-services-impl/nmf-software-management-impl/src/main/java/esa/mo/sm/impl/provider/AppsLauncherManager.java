@@ -92,7 +92,7 @@ public class AppsLauncherManager extends DefinitionsManager {
      * Location of the apps folder, relative to the MO Supervisor
      */
     private final ArrayList<File> foldersWithApps = new ArrayList<>();
-    
+
     private final HashMap<Long, ProcessExecutionHandler> handlers = new HashMap<>();
 
     private AtomicLong uniqueObjIdDef; // Counter
@@ -211,8 +211,9 @@ public class AppsLauncherManager extends DefinitionsManager {
     private Long readAppObjectId(final AppDetails definition) throws IOException {
         Long objId;
         File appsFolderPath = this.getAppsFolderPath(definition.getName());
-        File fileProps = new File(appsFolderPath.getCanonicalPath() + File.separator + definition.
-                getName().getValue() + File.separator + definition.getExtraInfo());
+        File fileProps = new File(appsFolderPath.getCanonicalPath()
+                + File.separator + definition.getName().getValue()
+                + File.separator + definition.getExtraInfo());
 
         Properties props = HelperMisc.loadProperties(fileProps.getCanonicalPath());
 
@@ -235,8 +236,8 @@ public class AppsLauncherManager extends DefinitionsManager {
         return foldersWithApps.get(0); // Use the default folder!
     }
 
-    private LongList addAppToArchive(final AppDetails definition, final ObjectId source, final URI uri, Long objId,
-        Long related) throws MALException, MALInteractionException {
+    private LongList addAppToArchive(final AppDetails definition, final ObjectId source,
+            final URI uri, Long objId, Long related) throws MALException, MALInteractionException {
         HeterogeneousList defs = new HeterogeneousList();
         defs.add(definition);
         final ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(related, source, uri);
@@ -269,7 +270,7 @@ public class AppsLauncherManager extends DefinitionsManager {
         IdentifierList domain = ConfigurationProviderSingleton.getDomain();
 
         ArchiveDetails archiveDetails = HelperArchive.getArchiveDetailsFromArchive(super.getArchiveService(),
-            AppsLauncherServiceInfo.APP_OBJECT_TYPE, domain, objId);
+                AppsLauncherServiceInfo.APP_OBJECT_TYPE, domain, objId);
 
         if (archiveDetails == null) {
             throw new MALException("No object present in archive.");
@@ -278,8 +279,8 @@ public class AppsLauncherManager extends DefinitionsManager {
         ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
         archiveDetailsList.add(archiveDetails);
 
-        super.getArchiveService().update(AppsLauncherServiceInfo.APP_OBJECT_TYPE, domain, archiveDetailsList, defs,
-            interaction);
+        super.getArchiveService().update(AppsLauncherServiceInfo.APP_OBJECT_TYPE,
+                domain, archiveDetailsList, defs, interaction);
     }
 
     protected boolean delete(Long objId) {
@@ -393,8 +394,7 @@ public class AppsLauncherManager extends DefinitionsManager {
         ProcessExecutionHandler handler = handlers.get(appId);
 
         if (handler == null) {
-            LOGGER.log(Level.FINE,
-                    "The Process handler could not be found!");
+            LOGGER.log(Level.FINE, "The Process handler could not be found!");
 
             app.setRunning(false);
             return false;
@@ -407,7 +407,7 @@ public class AppsLauncherManager extends DefinitionsManager {
             final String runAs, final String prefix, final String[] env) {
         ArrayList<String> ret = new ArrayList<>();
         String trimmedAppName = appName.replaceAll("space-app-", "");
-        
+
         if (osValidator.isWindows()) {
             ret.add("cmd");
             ret.add("/c");
@@ -577,20 +577,20 @@ public class AppsLauncherManager extends DefinitionsManager {
         return killAppProcess(appInstId, interaction.getInteraction());
     }
 
-    protected void stopNMFApp(final Long appInstId, final Identifier appDirectoryServiceName,
-            final SingleConnectionDetails appConnection,
-            final StopAppInteraction interaction) throws MALException, MALInteractionException {
+    protected void stopNMFAppGracefully(final Long appInstId, final Identifier appDirectoryServiceName,
+            final SingleConnectionDetails appConnection, final StopAppInteraction interaction)
+            throws MALException, MALInteractionException {
         ClosingAppListener listener = null;
         // Register on the Event service of the respective apps
         // Select all object numbers from the Apps Launcher service Events
         Subscription eventSub = HelperCOM.generateSubscriptionCOMEvent("ClosingAppEvents",
-            AppsLauncherServiceInfo.APP_OBJECT_TYPE);
-        try { // Subscribe to events
+                AppsLauncherServiceInfo.APP_OBJECT_TYPE);
+        try {
+            // Subscribe to events
             EventConsumerServiceImpl eventServiceConsumer = new EventConsumerServiceImpl(appConnection);
             Logger.getLogger(AppsLauncherManager.class.getName()).log(
                     Level.FINE, "Connected to: {0}", appConnection.toString());
-            listener = new ClosingAppListener(interaction, eventServiceConsumer,
-                    appInstId);
+            listener = new ClosingAppListener(interaction, eventServiceConsumer, appInstId);
             eventServiceConsumer.addEventReceivedListener(eventSub, listener);
         } catch (MalformedURLException ex) {
             Logger.getLogger(AppsLauncherManager.class.getName()).log(
@@ -603,7 +603,6 @@ public class AppsLauncherManager extends DefinitionsManager {
                 "Sending event to app: {0} (Name: ''{1}'')",
                 new Object[]{appInstId, appDirectoryServiceName});
         MALInteraction malInt = (interaction != null) ? interaction.getInteraction() : null;
-        this.setRunning(appInstId, false, malInt);
         ObjectId eventSource = super.getCOMServices().getActivityTrackingService()
                 .storeCOMOperationActivity(malInt, null);
 
@@ -611,7 +610,6 @@ public class AppsLauncherManager extends DefinitionsManager {
         Long objId = super.getCOMServices().getEventService()
                 .generateAndStoreEvent(objType, ConfigurationProviderSingleton.getDomain(),
                         appDirectoryServiceName, appInstId, eventSource, malInt);
-
 
         URI uri = (malInt != null) ? malInt.getMessageHeader().getFromURI() : new URI("");
 
@@ -629,6 +627,7 @@ public class AppsLauncherManager extends DefinitionsManager {
         if (listener != null) {
             try {
                 listener.waitForAppClosing(APP_STOP_TIMEOUT);
+                this.setRunning(appInstId, false, malInt);
             } catch (InterruptedException ex) {
                 LOGGER.log(Level.WARNING, "The listener timedout!", ex);
             }
@@ -662,15 +661,18 @@ public class AppsLauncherManager extends DefinitionsManager {
             boolean stopExists = stopScript.exists();
             if (curr.getCategory().getValue().equalsIgnoreCase("NMF_App")) {
                 if (appDirectoryServiceNames.get(i) == null) {
-                    LOGGER.log(Level.WARNING, "appDirectoryServiceName null for ''{0}'' app, falling back to kill",
+                    LOGGER.log(Level.WARNING,
+                            "appDirectoryServiceName null for ''{0}'' app, falling back to kill",
                             new Object[]{curr.getName().getValue()});
                     this.killAppProcess(appInstId, interaction.getInteraction());
                 } else if (appConnections.get(i) == null) {
-                    LOGGER.log(Level.WARNING, "appConnection null for ''{0}'' app, falling back to kill",
+                    LOGGER.log(Level.WARNING,
+                            "appConnection null for ''{0}'' app, falling back to kill",
                             new Object[]{curr.getName().getValue()});
                     this.killAppProcess(appInstId, interaction.getInteraction());
                 } else {
-                    this.stopNMFApp(appInstId, appDirectoryServiceNames.get(i), appConnections.get(i), interaction);
+                    this.stopNMFAppGracefully(appInstId, appDirectoryServiceNames.get(i),
+                            appConnections.get(i), interaction);
                 }
                 if (stopExists) {
                     Map<String, String> env = assembleAppLauncherEnvironment("");
@@ -776,7 +778,7 @@ public class AppsLauncherManager extends DefinitionsManager {
     private AppDetails readAppDescriptor(final String appName, final File propertiesFile) {
         Identifier myAppName = new Identifier(appName);
 
-        try (FileInputStream inputStream = new FileInputStream(propertiesFile)) {
+        try ( FileInputStream inputStream = new FileInputStream(propertiesFile)) {
             Properties props = new Properties();
             props.load(inputStream);
 
@@ -792,7 +794,7 @@ public class AppsLauncherManager extends DefinitionsManager {
                     ? props.getProperty(HelperMisc.APP_USER)
                     : null; // Since the user change is only implemented on linux this dependency is fine
 
-            return  new AppDetails(myAppName, description, version, new Identifier(category),
+            return new AppDetails(myAppName, description, version, new Identifier(category),
                     false, false, HelperMisc.PROVIDER_PROPERTIES_FILE, copyright, user);
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
