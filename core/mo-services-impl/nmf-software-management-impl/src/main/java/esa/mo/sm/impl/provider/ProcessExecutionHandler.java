@@ -83,8 +83,6 @@ public class ProcessExecutionHandler {
 
     public void close() {
         removeShutdownHook();
-        stdoutReader.stop();
-        stderrReader.stop();
         process.destroy();
         // process.descendants().forEach(ProcessHandle::destroy);
         try {
