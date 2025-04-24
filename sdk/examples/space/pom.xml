@@ -64,7 +64,6 @@
   </properties>
 
   <modules>
-    <module>adcs-eds</module>
     <module>all-mc-services</module>
     <module>all-mc-services-with-sim</module>
     <module>benchmark</module>
