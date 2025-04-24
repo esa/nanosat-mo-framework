@@ -195,7 +195,8 @@ public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSk
                     new UShort((short) 0)); // Select "any" object from the Configuration service
 
             Long key2 = HelperCOM.generateSubKey(objType);
-            Subscription subscriptionPartial = ConnectionConsumer.subscriptionKeys(new Identifier("*"), key2, 0L, 0L);
+            final Identifier subscriptionId = new Identifier("SUB");
+            Subscription subscriptionPartial = ConnectionConsumer.subscriptionKeys(subscriptionId, new Identifier("*"), key2, 0L, 0L);
             Identifier subId = new Identifier("ConfigurationEvent" + random.nextInt());  // Add some randomness in the subscriptionId to avoid colisions
 
             Subscription subscription = new Subscription(subId, null, null, subscriptionPartial.getFilters());
