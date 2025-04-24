@@ -82,10 +82,11 @@ public class ProcessExecutionHandler {
     }
 
     public void close() {
-        timer.stopLast();
-        stdoutReader.interrupt();
-        stderrReader.interrupt();
+        removeShutdownHook();
+        stdoutReader.stop();
+        stderrReader.stop();
         process.destroy();
+        // process.descendants().forEach(ProcessHandle::destroy);
         try {
             process.getInputStream().close();
             process.getOutputStream().close();
@@ -101,7 +102,7 @@ public class ProcessExecutionHandler {
             process.destroyForcibly();
         }
 
-        removeShutdownHook();
+        timer.stopLast();
     }
 
     public void installShutdownHook() {
