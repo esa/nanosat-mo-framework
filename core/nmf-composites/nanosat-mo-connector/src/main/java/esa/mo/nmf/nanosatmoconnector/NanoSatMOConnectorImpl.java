@@ -170,8 +170,9 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
         // Connect to the Central Directory service
         if (centralDirectoryURI != null) {
             try {
-                LOGGER.log(Level.INFO, "Attempting to connect to Central Directory service at: {0}", centralDirectoryURI
-                        .toString());
+                LOGGER.log(Level.INFO,
+                        "Attempting to connect to Central Directory service at: {0}",
+                        centralDirectoryURI.toString());
 
                 // Connect to the Central Directory service...
                 centralDirectory = new DirectoryConsumerServiceImpl(centralDirectoryURI);
@@ -207,15 +208,6 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                             "CloseAppEventListener",
                             AppsLauncherServiceInfo.APP_OBJECT_TYPE);
 
-                    /* Previous code */
- /*
-                    final Long secondEntityKey = 0xFFFFFFFFFF000000L & HelperCOM.generateSubKey(AppsLauncherHelper.APP_OBJECT_TYPE);
-                    final Random random = new Random();
-                    subscription = ConnectionConsumer.subscriptionKeys(
-                            new Identifier("CloseAppEventListener" + random.nextInt()),
-                            new Identifier("*"), secondEntityKey, new Long(0), new Long(0));
-                     */
- /* ------------- */
                     // Register with the subscription key provided
                     serviceCOMEvent.addEventReceivedListener(subscription, new CloseAppEventListener(this));
                 }
@@ -282,12 +274,13 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
         if (centralDirectoryURI != null) {
             try {
                 if (centralDirectory != null) {
-                    LOGGER.log(Level.INFO, "Populating Central Directory service on URI: {0}", centralDirectoryURI
-                            .getValue());
+                    LOGGER.log(Level.INFO,
+                            "Populating Central Directory service on URI: {0}",
+                            centralDirectoryURI.getValue());
 
                     final PublishProviderResponse response = centralDirectory.getDirectoryStub().publishProvider(
                             publishDetails);
-                    this.appDirectoryServiceId = response.getBodyElement0();
+                    this.appDirectoryServiceId = response.getProviderObjId();
                     centralDirectory.closeConnection(); // Close the connection to the Directory service
                     LOGGER.log(Level.INFO,
                             "Populated! And the connection to the Directory service has been successfully closed!");

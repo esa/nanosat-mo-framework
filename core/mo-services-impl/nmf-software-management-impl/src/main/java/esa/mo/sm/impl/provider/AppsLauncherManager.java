@@ -52,7 +52,6 @@ import org.ccsds.moims.mo.common.directory.structures.AddressDetailsList;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
 import org.ccsds.moims.mo.common.directory.structures.ServiceCapabilityList;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
@@ -618,10 +617,8 @@ public class AppsLauncherManager extends DefinitionsManager {
 
         if (appDirectoryServiceName != null) {
             try {
-                IdentifierList eventBodies = new IdentifierList(1);
-                eventBodies.add(appDirectoryServiceName);
                 super.getCOMServices().getEventService().publishEvent(uri,
-                        objId, objType, appInstId, eventSource, eventBodies);
+                        objId, objType, appInstId, eventSource, appDirectoryServiceName);
             } catch (IOException ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
             }

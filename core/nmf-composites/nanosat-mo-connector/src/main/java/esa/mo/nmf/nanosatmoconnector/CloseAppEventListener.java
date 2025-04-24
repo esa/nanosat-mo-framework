@@ -25,6 +25,7 @@ import esa.mo.com.impl.util.EventReceivedListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.structures.ObjectId;
+import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherServiceInfo;
 
@@ -45,19 +46,20 @@ public class CloseAppEventListener extends EventReceivedListener {
     @Override
     public void onDataReceived(final EventCOMObject eventCOMObject) {
         // Make sure that it is indeed a Close App event for us!
-        final Identifier name = (Identifier) eventCOMObject.getBody();
+        final Element body = eventCOMObject.getBody();
+        final Identifier name = (Identifier) body; // Cast to Identifier
 
         if (!provider.getProviderName().getValue().equals(name.getValue())) {
             Logger.getLogger(CloseAppEventListener.class.getName()).log(Level.FINE,
-                "This Event is not for us! App Directory Id: {0} , Related: {1} name: {2}", new Object[]{provider
-                    .getAppDirectoryId(), eventCOMObject.getRelated(), name.getValue()});
+                    "This Event is not for us! App Directory Id: {0} , Related: {1} name: {2}",
+                    new Object[]{provider.getAppDirectoryId(), eventCOMObject.getRelated(), name.getValue()});
 
             return; // If not, get out..
         }
 
         Logger.getLogger(CloseAppEventListener.class.getName()).log(Level.FINE,
-            "This Event is for us! App Directory Id: {0} , Related: {1} name: {2}", new Object[]{provider
-                .getAppDirectoryId(), eventCOMObject.getRelated(), name.getValue()});
+                "This Event is for us! App Directory Id: {0} , Related: {1} name: {2}",
+                new Object[]{provider.getAppDirectoryId(), eventCOMObject.getRelated(), name.getValue()});
 
         // Even though the subscription will guarantee that...
         // It is better to double-check if it is a Close App Event request...
@@ -66,9 +68,8 @@ public class CloseAppEventListener extends EventReceivedListener {
         }
 
         Logger.getLogger(CloseAppEventListener.class.getName()).log(Level.INFO,
-            "New StopApp Event Received! For provider: ''{0}'' (Related link: {1})", new Object[]{name.getValue(),
-                                                                                                  eventCOMObject
-                                                                                                      .getRelated()});
+                "New StopApp Event Received! For provider: ''{0}'' (Related link: {1})",
+                new Object[]{name.getValue(), eventCOMObject.getRelated()});
 
         final ObjectId source = eventCOMObject.getObjectId();
         this.provider.closeGracefully(source);
