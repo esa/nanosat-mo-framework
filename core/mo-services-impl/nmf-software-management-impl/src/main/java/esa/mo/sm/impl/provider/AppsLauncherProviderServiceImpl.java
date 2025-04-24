@@ -570,7 +570,9 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
                 manager.setRunning(id, false, null);
             }
         } else {
-            LOGGER.log(Level.WARNING, "Failed to reconfigure definitions. Ids: {0} pDefs: {1}", new Object[]{confSet.getObjInstIds(), pDefs});
+            LOGGER.log(Level.WARNING,
+                    "Failed to reconfigure definitions. Ids: {0} pDefs: {1}",
+                    new Object[]{confSet.getObjInstIds(), pDefs});
         }
         return true;
     }

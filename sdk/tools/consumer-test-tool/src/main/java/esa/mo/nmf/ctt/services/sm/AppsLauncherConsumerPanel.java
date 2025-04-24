@@ -395,9 +395,16 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
         @Override
         public void stopAppAckErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
                 org.ccsds.moims.mo.mal.MOErrorException error, java.util.Map qosProperties) {
-            for (Long apid : apids) {
-                appsTable.reportStatus("Stop App Error..." + error.toString(), apid.intValue());
+            Object extrainfo = error.getExtraInformation();
+            if (extrainfo != null) {
+                Long objId = (Long) extrainfo;
+                appsTable.reportStatus("Error: App not stopped!", objId.intValue());
+            } else {
+                for (Long apid : apids) {
+                    appsTable.reportStatus("Error: App not stopped!", apid.intValue());
+                }
             }
+            LOGGER.log(Level.SEVERE, "The App was not stopped!", error);
         }
 
         @Override
@@ -440,9 +447,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
         ids.add(appId);
         try {
             int rowId = appsTable.findIndex(appId.intValue());
-            serviceSMAppsLauncher.getCOMServices().getArchiveService().getArchiveStub().retrieve(
-                    AppsLauncherServiceInfo.APP_OBJECT_TYPE, serviceSMAppsLauncher.getConnectionDetails().getDomain(), ids,
-                    new ArchiveAdapter() {
+            ArchiveAdapter adapter = new ArchiveAdapter() {
                 @Override
                 public void retrieveResponseReceived(MALMessageHeader msgHeader, ArchiveDetailsList objDetails,
                         HeterogeneousList objBodies, Map qosProperties) {
@@ -450,7 +455,12 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
                     appsTable.reportStatus((appIsRunning ? runningText : notRunningText), appId.intValue());
                     appsTable.switchEnabledstatus(appIsRunning, rowId);
                 }
-            });
+            };
+            serviceSMAppsLauncher.getCOMServices().getArchiveService().getArchiveStub().retrieve(
+                    AppsLauncherServiceInfo.APP_OBJECT_TYPE,
+                    serviceSMAppsLauncher.getConnectionDetails().getDomain(),
+                    ids,
+                    adapter);
         } catch (Exception ex) {
             LOGGER.log(Level.WARNING, null, ex);
         }

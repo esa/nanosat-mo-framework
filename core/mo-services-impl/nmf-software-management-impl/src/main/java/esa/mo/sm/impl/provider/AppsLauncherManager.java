@@ -43,6 +43,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.exec.environment.EnvironmentUtils;
+import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.structures.ObjectId;
@@ -51,7 +52,9 @@ import org.ccsds.moims.mo.common.directory.structures.AddressDetailsList;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
 import org.ccsds.moims.mo.common.directory.structures.ServiceCapabilityList;
 import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
@@ -554,8 +557,8 @@ public class AppsLauncherManager extends DefinitionsManager {
         pb.directory(appFolder);
         LOGGER.log(Level.INFO,
                 "Stopping ''{0}'' app in dir: {1}, using launcher command: {2}",
-                new Object[]{app.getName().getValue(), appFolder.getAbsolutePath(), Arrays.toString(
-                    appLauncherCommand)});
+                new Object[]{app.getName().getValue(), appFolder.getAbsolutePath(),
+                    Arrays.toString(appLauncherCommand)});
         final Process proc = pb.start();
         interaction.sendUpdate(appInstId);
         boolean exitCleanly = false;
@@ -597,7 +600,7 @@ public class AppsLauncherManager extends DefinitionsManager {
                     Level.SEVERE, "Could not connect to the app!");
         }
 
-        // Stop the app...
+        // Send Event to stop the app...
         ObjectType objType = AppsLauncherServiceInfo.STOPAPP_OBJECT_TYPE;
         Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO,
                 "Sending event to app: {0} (Name: ''{1}'')",
@@ -634,7 +637,10 @@ public class AppsLauncherManager extends DefinitionsManager {
                 } else {
                     LOGGER.log(Level.SEVERE,
                             "The App was not stopped: {0}", appDirectoryServiceName);
-
+                    if (interaction != null) {
+                        MOErrorException error = new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, appDirectoryServiceName);
+                        interaction.sendUpdateError(error);
+                    }
                 }
             } catch (InterruptedException ex) {
                 LOGGER.log(Level.WARNING, "The listener timedout!", ex);
@@ -666,7 +672,7 @@ public class AppsLauncherManager extends DefinitionsManager {
             File appsFolderPath = this.getAppsFolderPath(curr.getName());
             File stopScript = new File(appsFolderPath + File.separator + curr.getName().getValue()
                     + File.separator + "stop_" + curr.getName().getValue() + fileExt);
-            boolean stopExists = stopScript.exists();
+            boolean stopScriptExists = stopScript.exists();
             if (curr.getCategory().getValue().equalsIgnoreCase("NMF_App")) {
                 if (appDirectoryServiceNames.get(i) == null) {
                     LOGGER.log(Level.WARNING,
@@ -682,7 +688,7 @@ public class AppsLauncherManager extends DefinitionsManager {
                     this.stopNMFAppGracefully(appInstId, appDirectoryServiceNames.get(i),
                             appConnections.get(i), interaction);
                 }
-                if (stopExists) {
+                if (stopScriptExists) {
                     Map<String, String> env = assembleAppLauncherEnvironment("");
                     File appFolder = new File(appsFolderPath + File.separator + curr.getName().getValue());
                     String[] appLauncherCommand = assembleAppStopCommand(appFolder.getAbsolutePath(),
@@ -702,13 +708,15 @@ public class AppsLauncherManager extends DefinitionsManager {
                     }
                 }
             } else {
-                if (!stopExists) {
-                    LOGGER.log(Level.INFO, "No stop script present for app {0}. Killing the process.",
+                if (!stopScriptExists) {
+                    LOGGER.log(Level.INFO,
+                            "No stop script present for app {0}. Killing the process.",
                             curr.getName());
                     this.killAppProcess(appInstId, interaction.getInteraction());
                 } else {
                     try {
-                        LOGGER.log(Level.INFO, "Stop script present for app {0}. Invoking it.", curr.getName());
+                        LOGGER.log(Level.INFO,
+                                "Stop script present for app {0}. Invoking it.", curr.getName());
                         this.stopNativeApp(appInstId, interaction, false);
                     } catch (IOException ex) {
                         Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE,
