@@ -627,7 +627,15 @@ public class AppsLauncherManager extends DefinitionsManager {
         if (listener != null) {
             try {
                 listener.waitForAppClosing(APP_STOP_TIMEOUT);
-                this.setRunning(appInstId, false, malInt);
+                if (listener.isAppClosed()) {
+                    LOGGER.log(Level.INFO,
+                            "The App was closed successfully: {0}", appDirectoryServiceName);
+                    this.setRunning(appInstId, false, malInt);
+                } else {
+                    LOGGER.log(Level.SEVERE,
+                            "The App was not stopped: {0}", appDirectoryServiceName);
+
+                }
             } catch (InterruptedException ex) {
                 LOGGER.log(Level.WARNING, "The listener timedout!", ex);
             }
