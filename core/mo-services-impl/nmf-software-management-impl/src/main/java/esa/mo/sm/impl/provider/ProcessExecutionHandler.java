@@ -83,7 +83,7 @@ public class ProcessExecutionHandler {
 
     public void close() {
         timer.stopLast();
-        process.destroyForcibly();
+        process.destroy();
         try {
             process.getInputStream().close();
             process.getOutputStream().close();
@@ -92,6 +92,13 @@ public class ProcessExecutionHandler {
             Logger.getLogger(ProcessExecutionHandler.class.getName()).log(
                     Level.SEVERE, "One of the streams could not be closed...", ex);
         }
+
+        if (process.isAlive()) {
+            Logger.getLogger(ProcessExecutionHandler.class.getName()).log(
+                    Level.SEVERE, "The process is still alive...");
+            process.destroyForcibly();
+        }
+
         removeShutdownHook();
     }
 
