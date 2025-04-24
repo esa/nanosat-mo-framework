@@ -653,6 +653,9 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
         @Override
         public void processStopped(Long objId, int exitCode) {
+            LOGGER.log(Level.INFO,
+                    "The process exited with code {0} and objId: {1}",
+                    new Object[]{exitCode, objId});
             manager.setRunning(objId, false, null);
         }
     }

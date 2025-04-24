@@ -65,11 +65,11 @@ public class ProcessExecutionHandler {
     private Thread stderrReader;
     private Thread shutdownHook;
     private Process process = null;
-    private Callbacks cb = null;
+    private Callbacks callbacks = null;
     private static final Logger LOGGER = Logger.getLogger(ProcessExecutionHandler.class.getName());
 
-    public ProcessExecutionHandler(final Callbacks cb, final Long objId) {
-        this.cb = cb;
+    public ProcessExecutionHandler(final Callbacks callbacks, final Long objId) {
+        this.callbacks = callbacks;
         this.objId = objId;
     }
 
@@ -114,8 +114,8 @@ public class ProcessExecutionHandler {
             } else {
                 throw new IOException("Trying to resolve PID on an unsupported platform");
             }
-        } catch (IllegalAccessException | IllegalArgumentException | NoSuchFieldException
-                | SecurityException ex) {
+        } catch (IllegalAccessException | IllegalArgumentException
+                | NoSuchFieldException | SecurityException ex) {
             throw new IOException("Exception when trying to resolve PID", ex);
         }
         return pid;
@@ -127,11 +127,13 @@ public class ProcessExecutionHandler {
         final StringBuffer stdoutBuf = new StringBuffer();
         final StringBuffer stderrBuf = new StringBuffer();
         // Every PERIOD_PUB seconds, publish the String data
-        timer.scheduleTask(new TimerTaskImpl(stdoutBuf, stderrBuf), 0, PERIOD_PUB, TimeUnit.MILLISECONDS, false);
+        timer.scheduleTask(new TimerTaskImpl(stdoutBuf, stderrBuf), 0,
+                PERIOD_PUB, TimeUnit.MILLISECONDS, false);
         long pid;
         try {
             pid = ProcessExecutionHandler.getProcessPid(process);
         } catch (IOException ex) {
+            LOGGER.log(Level.WARNING, "PID not found!");
             pid = -1;
         }
         stdoutReader = createReaderThread(stdoutBuf, new BufferedReader(
@@ -143,13 +145,13 @@ public class ProcessExecutionHandler {
         new Thread(() -> {
             try {
                 int exitCode = process.waitFor();
-                if (cb != null) {
-                    cb.processStopped(objId, exitCode);
+                if (callbacks != null) {
+                    callbacks.processStopped(objId, exitCode);
                 }
             } catch (InterruptedException ex) {
                 // Thread interrupted, pretend the application exited succesfully
-                if (cb != null) {
-                    cb.processStopped(objId, 0);
+                if (callbacks != null) {
+                    callbacks.processStopped(objId, 0);
                 }
             }
         }).start();
@@ -168,7 +170,7 @@ public class ProcessExecutionHandler {
                     }
                 } catch (IOException ex) {
                     LOGGER.log(Level.INFO,
-                            "The stream of the process (objId: {0}) has been closed.", 
+                            "The stream of the process (objId: {0}) has been closed.",
                             new Object[]{objId});
                     close();
                 }
@@ -190,12 +192,12 @@ public class ProcessExecutionHandler {
         public void run() {
             String data = getBufferData(stdoutBuf);
             if (data != null) {
-                cb.flushStdout(objId, data);
+                callbacks.flushStdout(objId, data);
                 LOGGER.log(Level.FINE, data);
             }
             data = getBufferData(stderrBuf);
             if (data != null) {
-                cb.flushStderr(objId, data);
+                callbacks.flushStderr(objId, data);
                 LOGGER.log(Level.FINE, data);
             }
 
