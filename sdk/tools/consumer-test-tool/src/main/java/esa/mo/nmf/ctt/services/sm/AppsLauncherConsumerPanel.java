@@ -44,6 +44,7 @@ import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.NullableAttributeList;
 import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.mal.structures.Union;
+import org.ccsds.moims.mo.mal.structures.UpdateHeader;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherServiceInfo;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.consumer.AppsLauncherAdapter;
@@ -352,11 +353,9 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
     public class AppsLauncherConsumerAdapter extends AppsLauncherAdapter {
 
         @Override
-        public void monitorExecutionNotifyReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-                org.ccsds.moims.mo.mal.structures.Identifier subscriptionId,
-                org.ccsds.moims.mo.mal.structures.UpdateHeader updateHeader,
-                String outputStream,
-                java.util.Map qosProperties) {
+        public void monitorExecutionNotifyReceived(MALMessageHeader msgHeader,
+                Identifier subscriptionId, UpdateHeader updateHeader,
+                String outputStream, java.util.Map qosProperties) {
 
             final String out = outputStream;
             NullableAttributeList keyValues = updateHeader.getKeyValues();
@@ -382,22 +381,22 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
         }
 
         @Override
-        public void stopAppAckReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-                java.util.Map qosProperties) {
+        public void stopAppAckReceived(MALMessageHeader msgHeader, Map qosProperties) {
             for (Long apid : apids) {
                 appsTable.reportStatus("Stop ACK received...", apid.intValue());
             }
         }
 
         @Override
-        public void stopAppUpdateReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, Long appClosing,
-                java.util.Map qosProperties) {
+        public void stopAppUpdateReceived(MALMessageHeader msgHeader,
+                Long appClosing, Map qosProperties) {
             appsTable.reportStatus("Stopped!", appClosing.intValue());
+            appsTable.switchEnabledstatusForApp(false, appClosing.intValue());
         }
 
         @Override
-        public void stopAppAckErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-                org.ccsds.moims.mo.mal.MOErrorException error, java.util.Map qosProperties) {
+        public void stopAppAckErrorReceived(MALMessageHeader msgHeader,
+                org.ccsds.moims.mo.mal.MOErrorException error, Map qosProperties) {
             Object extrainfo = error.getExtraInformation();
             if (extrainfo != null) {
                 Long objId = (Long) extrainfo;
@@ -411,8 +410,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
         }
 
         @Override
-        public void stopAppResponseReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-                java.util.Map qosProperties) {
+        public void stopAppResponseReceived(MALMessageHeader msgHeader, Map qosProperties) {
             for (Long apid : apids) {
                 appsTable.reportStatus("Stop App Completed.", apid.intValue());
                 appsTable.switchEnabledstatusForApp(false, apid.intValue());
@@ -452,10 +450,11 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
             int rowId = appsTable.findIndex(appId.intValue());
             ArchiveAdapter adapter = new ArchiveAdapter() {
                 @Override
-                public void retrieveResponseReceived(MALMessageHeader msgHeader, ArchiveDetailsList objDetails,
-                        HeterogeneousList objBodies, Map qosProperties) {
+                public void retrieveResponseReceived(MALMessageHeader msgHeader,
+                        ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
                     boolean appIsRunning = ((AppDetails) objBodies.get(0)).getRunning();
-                    appsTable.reportStatus((appIsRunning ? runningText : notRunningText), appId.intValue());
+                    String text = appIsRunning ? runningText : notRunningText;
+                    appsTable.reportStatus(text, appId.intValue());
                     appsTable.switchEnabledstatus(appIsRunning, rowId);
                 }
             };
@@ -465,7 +464,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
                     ids,
                     adapter);
         } catch (Exception ex) {
-            LOGGER.log(Level.WARNING, null, ex);
+            LOGGER.log(Level.WARNING, "Something went wrong...", ex);
         }
     }
 
