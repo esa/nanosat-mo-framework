@@ -83,6 +83,8 @@ public class ProcessExecutionHandler {
 
     public void close() {
         timer.stopLast();
+        stdoutReader.interrupt();
+        stderrReader.interrupt();
         process.destroy();
         try {
             process.getInputStream().close();
