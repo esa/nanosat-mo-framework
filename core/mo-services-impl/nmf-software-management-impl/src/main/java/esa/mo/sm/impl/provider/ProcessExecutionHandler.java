@@ -84,6 +84,14 @@ public class ProcessExecutionHandler {
     public void close() {
         timer.stopLast();
         process.destroyForcibly();
+        try {
+            process.getInputStream().close();
+            process.getOutputStream().close();
+            process.getErrorStream().close();
+        } catch (IOException ex) {
+            Logger.getLogger(ProcessExecutionHandler.class.getName()).log(
+                    Level.SEVERE, "One of the streams could not be closed...", ex);
+        }
         removeShutdownHook();
     }
 
