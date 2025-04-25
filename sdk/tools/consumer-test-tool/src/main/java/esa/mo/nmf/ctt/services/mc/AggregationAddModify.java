@@ -57,7 +57,7 @@ public class AggregationAddModify extends javax.swing.JFrame {
      * @param aggregationService
      */
     public AggregationAddModify(final AggregationConsumerServiceImpl aggregationService,
-        final DefaultTableModel parameterTableData, final DefaultTableModel aggregationTableData) {
+            final DefaultTableModel parameterTableData, final DefaultTableModel aggregationTableData) {
         initComponents();
 
         this.aggregationService = aggregationService;
@@ -95,47 +95,47 @@ public class AggregationAddModify extends javax.swing.JFrame {
             if (aggregation.equals(name) && index <= aggregationService.getParameterSetsTableDataAll().get(i).getRowCount()) {
                 return getObjIdFromName(aggregationService.getParameterSetsTableDataAll().get(i).getValueAt(index, 0).toString());
             }
-            */
+             */
         }
         return null; // Not found (it shouldn't occur...)
     }
 
     public AggregationDefinitionDetails makeNewAggregationDefinition(final String description,
-        final AggregationCategory category, boolean generationEnabled, float updateInterval, boolean filterEnabled,
-        float filteredTimeout, AggregationParameterSetList parameterSets) {
-        AggregationDefinitionDetails aDef = new AggregationDefinitionDetails();
-        aDef.setDescription(description);
-        aDef.setCategory(new UOctet((short) category.getValue()));
-        aDef.setGenerationEnabled(generationEnabled);
-        aDef.setReportInterval(new Duration(updateInterval));
-        aDef.setFilterEnabled(filterEnabled);  // shall not matter, because when we add it it will be false!
-        aDef.setFilteredTimeout(new Duration(filteredTimeout));
-        aDef.setParameterSets(parameterSets);
-
-        return aDef;
+            final AggregationCategory category, boolean generationEnabled, float updateInterval, boolean filterEnabled,
+            float filteredTimeout, AggregationParameterSetList parameterSets) {
+        return new AggregationDefinitionDetails(
+                description,
+                new UOctet((short) category.getValue()),
+                new Duration(updateInterval),
+                null,
+                null,
+                filterEnabled,
+                new Duration(filteredTimeout),
+                generationEnabled,
+                parameterSets);
     }
 
     public AggregationParameterSetList makeNewAggregationParameterSetList() {
         AggregationParameterSetList aggRefList = new AggregationParameterSetList();
 
         for (int i = 0; i < parameterSetsTableData.getRowCount(); i++) {
-            AggregationParameterSet aggRef = new AggregationParameterSet();
-            aggRef.setDomain(aggregationService.getConnectionDetails().getDomain());
             LongList longList = new LongList();
             longList.add(getObjIdFromName(parameterSetsTableData.getValueAt(i, 0).toString()));
-            aggRef.setParameters(longList);
-            aggRef.setSampleInterval(new Duration(Float.parseFloat(parameterSetsTableData.getValueAt(i, 1)
-                .toString())));
-            if (parameterSetsTableData.getValueAt(i, 2).equals("-")) {
-                aggRef.setReportFilter(null);
-            } else {
-                ThresholdFilter periodicFilter = new ThresholdFilter();
-                periodicFilter.setThresholdType(ThresholdType.fromString(parameterSetsTableData.getValueAt(i, 2)
-                    .toString()));
-                periodicFilter.setThresholdValue(new Duration(Float.parseFloat(parameterSetsTableData.getValueAt(i, 3)
-                    .toString())));
-                aggRef.setReportFilter(periodicFilter);
+
+            ThresholdFilter periodicFilter = null;
+            if (!parameterSetsTableData.getValueAt(i, 2).equals("-")) {
+                periodicFilter = new ThresholdFilter(
+                        ThresholdType.fromString(parameterSetsTableData.getValueAt(i, 2).toString()),
+                        new Duration(Float.parseFloat(parameterSetsTableData.getValueAt(i, 3).toString())),
+                        null);
             }
+
+            AggregationParameterSet aggRef = new AggregationParameterSet(
+                    aggregationService.getConnectionDetails().getDomain(),
+                    longList,
+                    new Duration(Float.parseFloat(parameterSetsTableData.getValueAt(i, 1).toString())),
+                    periodicFilter);
+
             aggRefList.add(aggRef);
         }
 
@@ -156,7 +156,7 @@ public class AggregationAddModify extends javax.swing.JFrame {
         filterEnabledCB.setSelected(false);
 
         boolean curState = (aggregationTable.getValueAt(aggregationTable.getSelectedRow(), 4).toString().equals(
-            "true")); // String to Boolean conversion
+                "true")); // String to Boolean conversion
         generationEnabledCB.setSelected(curState);
         generationEnabledCB.setEnabled(true);
 
@@ -168,7 +168,7 @@ public class AggregationAddModify extends javax.swing.JFrame {
         parameterSetsTableData.setDataVector(aggregationService.getParameterSetsTableDataAll().get(aggregationDefinitionSelectedIndex).getDataVector(),
                 new Vector<String>(Arrays.asList(parameterSetsTableCol)));
         parameterSetsTable.setModel(parameterSetsTableData);
-        */
+         */
 
         refreshParametersComboBox();
         isAddDef = false;
@@ -471,7 +471,7 @@ public class AggregationAddModify extends javax.swing.JFrame {
     private void aggregateParameterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aggregateParameterButtonActionPerformed
         if (sampleIntervalTB.getText().equals("") || parameterCB.getSelectedIndex() == -1) {
             JOptionPane.showMessageDialog(null, "Please fill-in all the necessary fields!", "Warning!",
-                JOptionPane.PLAIN_MESSAGE);
+                    JOptionPane.PLAIN_MESSAGE);
             return;
         }
 
@@ -479,7 +479,7 @@ public class AggregationAddModify extends javax.swing.JFrame {
             Double.parseDouble(sampleIntervalTB.getText());  // Check if it is a number
         } catch (NumberFormatException nfe) {
             JOptionPane.showMessageDialog(null, "sampleInterval is not a number!", "Warning!",
-                JOptionPane.PLAIN_MESSAGE);
+                    JOptionPane.PLAIN_MESSAGE);
             return;
         }
 
@@ -488,7 +488,7 @@ public class AggregationAddModify extends javax.swing.JFrame {
         if (thresholdTypeCB.getSelectedIndex() != 0) {
             if (thresholdValueTB.getText().equals("")) {
                 JOptionPane.showMessageDialog(null, "Please enter a thresholdValue!", "Warning!",
-                    JOptionPane.PLAIN_MESSAGE);
+                        JOptionPane.PLAIN_MESSAGE);
                 return;
             }
 
@@ -496,7 +496,7 @@ public class AggregationAddModify extends javax.swing.JFrame {
                 thresholdValue = Double.parseDouble(thresholdValueTB.getText());  // Check if it is a number
             } catch (NumberFormatException nfe) {
                 JOptionPane.showMessageDialog(null, "thresholdValue is not a number!", "Warning!",
-                    JOptionPane.PLAIN_MESSAGE);
+                        JOptionPane.PLAIN_MESSAGE);
                 return;
             }
         }
@@ -512,10 +512,10 @@ public class AggregationAddModify extends javax.swing.JFrame {
     }//GEN-LAST:event_removeParameterActionPerformed
 
     private void submitButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButton1ActionPerformed
-        if (nameTF.getText().equals("") || descriptionTF.getText().equals("") || categoryCB.getSelectedIndex() == 0 ||
-            updateIntervalTF.getText().equals("") || filteredTimeoutTF.getText().equals("")) {
+        if (nameTF.getText().equals("") || descriptionTF.getText().equals("") || categoryCB.getSelectedIndex() == 0
+                || updateIntervalTF.getText().equals("") || filteredTimeoutTF.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Please fill-in all the necessary fields!", "Warning!",
-                JOptionPane.PLAIN_MESSAGE);
+                    JOptionPane.PLAIN_MESSAGE);
             return;
         }
         float updateInterval;
@@ -525,14 +525,14 @@ public class AggregationAddModify extends javax.swing.JFrame {
             filteredTimeout = Float.parseFloat(filteredTimeoutTF.getText());  // Check if it is a number
         } catch (NumberFormatException nfe) {
             JOptionPane.showMessageDialog(null, "updateInterval or filteredTimeout is not a number!", "Warning!",
-                JOptionPane.PLAIN_MESSAGE);
+                    JOptionPane.PLAIN_MESSAGE);
             return;
         }
 
         AggregationDefinitionDetails aDef;
         aDef = makeNewAggregationDefinition(descriptionTF.getText(), new AggregationCategory(categoryCB
-            .getSelectedIndex()), generationEnabledCB.isSelected(), updateInterval, filterEnabledCB.isSelected(),
-            filteredTimeout, makeNewAggregationParameterSetList());
+                .getSelectedIndex()), generationEnabledCB.isSelected(), updateInterval, filterEnabledCB.isSelected(),
+                filteredTimeout, makeNewAggregationParameterSetList());
 
         AggregationDefinitionDetailsList aDefs = new AggregationDefinitionDetailsList();
         aDefs.add(aDef);
@@ -568,7 +568,7 @@ public class AggregationAddModify extends javax.swing.JFrame {
             aggregationService.getParameterSetsTableDataAll().set(aggregationDefinitionSelectedIndex, tmp);
             Logger.getLogger(AggregationAddModify.class.getName()).log(Level.INFO, null, "updateDefinition executed (Aggregation)");
         }
-        */
+         */
     }//GEN-LAST:event_submitButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

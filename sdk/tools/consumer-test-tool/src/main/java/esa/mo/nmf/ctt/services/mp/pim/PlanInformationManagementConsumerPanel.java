@@ -720,10 +720,8 @@ public class PlanInformationManagementConsumerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_removeActivityDefinitionAllButtonActionPerformed
 
     private void addEventDefinitionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addEventDefinitionButtonActionPerformed
-        EventDefinitionDetails definition = new EventDefinitionDetails();
-
-        definition.setDescription("Test event definition");
-        definition.setVersion("Test version");
+        EventDefinitionDetails definition = new EventDefinitionDetails(null,
+                "Test event definition", null, null, "Test version");
 
         Identifier identity = new Identifier("Test event identity");
         MOWindow identityWindow = new MOWindow(identity, true);
@@ -752,15 +750,16 @@ public class PlanInformationManagementConsumerPanel extends javax.swing.JPanel {
             this.pimService.getPlanInformationManagementStub().asyncAddEventDef(identities, definitions,
                 new PlanInformationManagementAdapter() {
                     @Override
-                    public void addEventDefResponseReceived(MALMessageHeader msgHeader, ObjectInstancePairList objIds,
-                        Map qosProperties) {
+                    public void addEventDefResponseReceived(MALMessageHeader msgHeader,
+                            ObjectInstancePairList objIds, Map qosProperties) {
                         listEventDefinitionAllButtonActionPerformed(null);
                     }
 
                     @Override
-                    public void addEventDefErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
-                        Map qosProperties) {
-                        JOptionPane.showMessageDialog(null, "There was an error during the addEventDef operation.\n" +
+                    public void addEventDefErrorReceived(MALMessageHeader msgHeader,
+                            MOErrorException error, Map qosProperties) {
+                        JOptionPane.showMessageDialog(null,
+                                "There was an error during the addEventDef operation.\n" +
                             error.toString(), "Error", JOptionPane.PLAIN_MESSAGE);
                         LOGGER.log(Level.SEVERE, null, error);
                     }
@@ -774,7 +773,9 @@ public class PlanInformationManagementConsumerPanel extends javax.swing.JPanel {
 
     private void updateEventDefinitionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateEventDefinitionButtonActionPerformed
         if (eventDefTable.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(null, "Please select an event definition", "Info", JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(null,
+                    "Please select an event definition",
+                    "Info", JOptionPane.PLAIN_MESSAGE);
             return; // No rows selected
         }
 
@@ -796,17 +797,17 @@ public class PlanInformationManagementConsumerPanel extends javax.swing.JPanel {
             this.pimService.getPlanInformationManagementStub().asyncUpdateEventDef(identityIds, definitions,
                 new PlanInformationManagementAdapter() {
                     @Override
-                    public void updateEventDefResponseReceived(MALMessageHeader msgHeader, LongList defID,
-                        Map qosProperties) {
+                    public void updateEventDefResponseReceived(MALMessageHeader msgHeader,
+                            LongList defID, Map qosProperties) {
                         listEventDefinitionAllButtonActionPerformed(null);
                     }
 
                     @Override
-                    public void updateEventDefErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
-                        Map qosProperties) {
+                    public void updateEventDefErrorReceived(MALMessageHeader msgHeader,
+                            MOErrorException error, Map qosProperties) {
                         JOptionPane.showMessageDialog(null,
-                            "There was an error during the updateEventDef operation.\n" + error.toString(), "Error",
-                            JOptionPane.PLAIN_MESSAGE);
+                            "There was an error during the updateEventDef operation.\n" + error.toString(),
+                            "Error", JOptionPane.PLAIN_MESSAGE);
                         LOGGER.log(Level.SEVERE, null, error);
                     }
                 });
@@ -819,7 +820,8 @@ public class PlanInformationManagementConsumerPanel extends javax.swing.JPanel {
 
     private void removeEventDefinitionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeEventDefinitionButtonActionPerformed
         if (eventDefTable.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(null, "Please select an event definition", "Info", JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(null,
+                    "Please select an event definition", "Info", JOptionPane.PLAIN_MESSAGE);
             return; // No rows selected
         }
 
@@ -835,8 +837,8 @@ public class PlanInformationManagementConsumerPanel extends javax.swing.JPanel {
                     }
 
                     @Override
-                    public void removeEventDefErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
-                        Map qosProperties) {
+                    public void removeEventDefErrorReceived(MALMessageHeader msgHeader,
+                            MOErrorException error, Map qosProperties) {
                         JOptionPane.showMessageDialog(null,
                             "There was an error during the removeEventDef operation.\n" + error.toString(), "Error",
                             JOptionPane.PLAIN_MESSAGE);
@@ -860,10 +862,10 @@ public class PlanInformationManagementConsumerPanel extends javax.swing.JPanel {
                     @Override
                     public void listEventDefsResponseReceived(MALMessageHeader msgHeader,
                         ObjectInstancePairList defInstIds, Map qosProperties) {
-                        org.ccsds.moims.mo.mc.structures.ObjectInstancePairList ids = new org.ccsds.moims.mo.mc.structures.ObjectInstancePairList();
+                        ObjectInstancePairList ids = new ObjectInstancePairList();
                         for (ObjectInstancePair defId : defInstIds) {
-                            ids.add(new org.ccsds.moims.mo.mc.structures.ObjectInstancePair(defId
-                                .getObjectIdentityInstanceId(), defId.getObjectInstanceId()));
+                            ids.add(new ObjectInstancePair(defId.getObjectIdentityInstanceId(),
+                                    defId.getObjectInstanceId()));
                         }
                         eventDefTable.refreshTableWithIds(ids, pimService.getConnectionDetails().getDomain(),
                             PlanInformationManagementServiceInfo.EVENTDEFINITION_OBJECT_TYPE);

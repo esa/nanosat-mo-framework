@@ -235,8 +235,8 @@ public class PlanDistributionConsumerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_getPlanStatusButtonActionPerformed
 
     private void queryPlanButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_queryPlanButtonActionPerformed
-        PlanFilter filter = new PlanFilter();
-        filter.setReturnAll(true);
+        PlanFilter filter = new PlanFilter(true, null, null, null);
+
         try {
             this.planDistributionService.getPlanDistributionStub().asyncQueryPlan(filter,
                 new PlanDistributionAdapter() {

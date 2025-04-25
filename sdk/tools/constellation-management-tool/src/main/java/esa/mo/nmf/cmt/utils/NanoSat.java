@@ -87,10 +87,7 @@ public class NanoSat {
      */
     public void createGeofence(ArrayList<String[]> coordinates, String appName, boolean startOnEnter) {
         UInteger rawValue = new UInteger(4711);
-
-        ParameterRawValue value = new ParameterRawValue();
-        value.setParamInstId(10L);
-        value.setRawValue(rawValue);
+        ParameterRawValue value = new ParameterRawValue(10L, rawValue);
         ParameterGround.addParameter(this.groundAdapter, value);
     }
 

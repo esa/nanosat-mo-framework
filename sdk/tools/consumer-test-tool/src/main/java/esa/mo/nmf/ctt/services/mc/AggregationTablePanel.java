@@ -42,7 +42,7 @@ public class AggregationTablePanel extends SharedTablePanel {
     public void addEntry(final Identifier name, final ArchivePersistenceObject comObject) {
         if (comObject == null) {
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE,
-                "The table cannot process a null COM Object.");
+                    "The table cannot process a null COM Object.");
             return;
         }
 
@@ -56,14 +56,13 @@ public class AggregationTablePanel extends SharedTablePanel {
 
         tableData.addRow(new Object[]{comObject.getArchiveDetails().getDetails().getRelated(), name.toString(), pDef
             .getDescription(), pDef.getCategory().toString(), pDef.getGenerationEnabled(), pDef.getReportInterval()
-                .toString(), pDef.getFilterEnabled(), pDef.getFilteredTimeout().getValue()});
+            .toString(), pDef.getFilterEnabled(), pDef.getFilteredTimeout().getValue()});
 
         comObjects.add(comObject);
         semaphore.release();
     }
 
     public void switchEnabledstatus(boolean status) {
-
         try {
             semaphore.acquire();
         } catch (InterruptedException ex) {
@@ -75,11 +74,9 @@ public class AggregationTablePanel extends SharedTablePanel {
         ((AggregationDefinitionDetails) this.getSelectedCOMObject().getObject()).setGenerationEnabled(status);
 
         semaphore.release();
-
     }
 
     public void switchEnabledstatusAll(boolean status) {
-
         try {
             semaphore.acquire();
         } catch (InterruptedException ex) {
@@ -87,18 +84,15 @@ public class AggregationTablePanel extends SharedTablePanel {
         }
 
         // 4 because it is where generationEnabled is!
-
         for (int i = 0; i < this.getTable().getRowCount(); i++) {
             tableData.setValueAt(status, i, 4);
             ((AggregationDefinitionDetails) this.getCOMObjects().get(i).getObject()).setGenerationEnabled(status);
         }
 
         semaphore.release();
-
     }
 
     public void switchFilterEnabledstatus(boolean status) {
-
         try {
             semaphore.acquire();
         } catch (InterruptedException ex) {
@@ -110,11 +104,9 @@ public class AggregationTablePanel extends SharedTablePanel {
         ((AggregationDefinitionDetails) this.getSelectedCOMObject().getObject()).setFilterEnabled(status);
 
         semaphore.release();
-
     }
 
     public void switchFilterEnabledstatusAll(boolean status) {
-
         try {
             semaphore.acquire();
         } catch (InterruptedException ex) {
@@ -128,23 +120,21 @@ public class AggregationTablePanel extends SharedTablePanel {
         }
 
         semaphore.release();
-
     }
 
     @Override
     public void defineTableContent() {
-
-        String[] tableCol = new String[]{"Identity", "name", "description", "category", "generationEnabled",
-                                         "updateInterval", "filterEnabled"};
+        String[] tableCol = new String[]{"Identity", "name", "description",
+            "category", "generationEnabled", "updateInterval", "filterEnabled"};
 
         tableData = new javax.swing.table.DefaultTableModel(new Object[][]{}, tableCol) {
-            Class[] types = new Class[]{java.lang.Integer.class, java.lang.String.class, java.lang.String.class,
-                                        java.lang.String.class, java.lang.Boolean.class, java.lang.String.class,
-                                        java.lang.Boolean.class, java.lang.Double.class};
+            Class[] types = new Class[]{java.lang.Integer.class, java.lang.String.class,
+                java.lang.String.class, java.lang.String.class, java.lang.Boolean.class,
+                java.lang.String.class, java.lang.Boolean.class, java.lang.Double.class};
 
-            @Override               //all cells false
+            @Override
             public boolean isCellEditable(int row, int column) {
-                return false;
+                return false; //all cells false
             }
 
             @Override

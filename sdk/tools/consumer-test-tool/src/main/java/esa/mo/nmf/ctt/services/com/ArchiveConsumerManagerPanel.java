@@ -121,69 +121,37 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
     }
 
     public static AggregationDefinitionDetails generateAggregationDefinition(String name) {
-        // AgregationDefinition
-        AggregationDefinitionDetails aggDef = new AggregationDefinitionDetails();
-        aggDef.setDescription("This is a description");
-        aggDef.setCategory(new UOctet((short) 0));
-        aggDef.setReportInterval(new Duration(0));
-        aggDef.setSendUnchanged(Boolean.FALSE);
-        aggDef.setSendDefinitions(Boolean.FALSE);
-        aggDef.setFilterEnabled(Boolean.FALSE);
-        aggDef.setFilteredTimeout(new Duration(0));
-        aggDef.setGenerationEnabled(Boolean.FALSE);
-
-        AggregationParameterSetList aggParamSetList = new AggregationParameterSetList();
-        AggregationParameterSet aggParamSet = new AggregationParameterSet();
-        aggParamSet.setSampleInterval(new Duration(1));
         LongList objIdParams = new LongList();
         objIdParams.add(1L);
-        aggParamSet.setParameters(objIdParams);
-        aggParamSetList.add(aggParamSet);
-        aggDef.setParameterSets(aggParamSetList);
 
-        return aggDef;
+        AggregationParameterSetList aggParamSetList = new AggregationParameterSetList();
+        aggParamSetList.add(new AggregationParameterSet(objIdParams, new Duration(1)));
+
+        // AgregationDefinition
+        return new AggregationDefinitionDetails(
+                "This is a description",
+                new UOctet((short) 0),
+                new Duration(0),
+                Boolean.FALSE,
+                Boolean.FALSE,
+                Boolean.FALSE,
+                new Duration(0),
+                Boolean.FALSE,
+                aggParamSetList);
     }
 
     private LineConversionDetails generateLineConversionDetails() {
-        LineConversionDetails convDetails = new LineConversionDetails();
-
-        convDetails.setExtrapolate(true);
-
         PairList points = new PairList();
-
-        Pair pair0 = new Pair();
-        pair0.setFirst(new Union(1));
-        pair0.setSecond(new Union(33.8));
-        points.add(pair0);
-
-        Pair pair1 = new Pair();
-        pair1.setFirst(new Union(100));
-        pair1.setSecond(new Union(212));
-        points.add(pair1);
-
-        convDetails.setPoints(points);
-
-        return convDetails;
+        points.add(new Pair(new Union(1), new Union(33.8)));
+        points.add(new Pair(new Union(100), new Union(212)));
+        return new LineConversionDetails(true, points);
     }
 
     private PolyConversionDetails generatePolyConversionDetails() {
-        PolyConversionDetails convDetails = new PolyConversionDetails();
-
         PairList points = new PairList();
-
-        Pair pair0 = new Pair();
-        pair0.setFirst(new Union(0));
-        pair0.setSecond(new Union(32));
-        points.add(pair0);
-
-        Pair pair1 = new Pair();
-        pair1.setFirst(new Union(1));
-        pair1.setSecond(new Union(1.8));
-        points.add(pair1);
-
-        convDetails.setPoints(points);
-
-        return convDetails;
+        points.add(new Pair(new Union(0), new Union(32)));
+        points.add(new Pair(new Union(1),new Union(1.8)));
+        return new PolyConversionDetails(points);
     }
 
     private DiscreteConversionDetails generateDiscreteConversionDetails() {
@@ -213,23 +181,10 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
     }
 
     private RangeConversionDetails generateRangeConversionDetails() {
-        RangeConversionDetails convDetails = new RangeConversionDetails();
-
         PairList points = new PairList();
-
-        Pair pair0 = new Pair();
-        pair0.setFirst(new Union(0));
-        pair0.setSecond(new Union("Between 0-100"));
-        points.add(pair0);
-
-        Pair pair1 = new Pair();
-        pair1.setFirst(new Union(100));
-        pair1.setSecond(new Union("Between 100-inf"));
-        points.add(pair1);
-
-        convDetails.setPoints(points);
-
-        return convDetails;
+        points.add(new Pair(new Union(0), new Union("Between 0-100")));
+        points.add(new Pair(new Union(100), new Union("Between 100-inf")));
+        return new RangeConversionDetails(points);
     }
 
     protected class ArchiveConsumerAdapter extends ArchiveAdapter {

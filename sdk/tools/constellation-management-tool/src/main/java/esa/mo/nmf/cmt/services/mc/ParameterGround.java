@@ -14,19 +14,17 @@ import org.ccsds.moims.mo.mc.structures.ParameterExpression;
 
 public class ParameterGround {
     public static ParameterDefinitionDetails makeNewParameterDefinition(int rawType,
-                                                                 String rawUnit, String description, boolean generationEnabled, float interval,
-                                                                 ParameterExpression validityExpression, ParameterConversion conversion) {
-        ParameterDefinitionDetails PDef = new ParameterDefinitionDetails();
-        PDef.setDescription(description);
-        PDef.setRawType((byte) rawType);
-        PDef.setRawUnit(rawUnit);
-        PDef.setDescription(description);
-        PDef.setGenerationEnabled(generationEnabled);  // shall not matter, because when we add it it will be false!
-        PDef.setReportInterval(new Duration(interval));
-        PDef.setValidityExpression(validityExpression);
-        PDef.setConversion(conversion);
+        String rawUnit, String description, boolean generationEnabled, float interval,
+        ParameterExpression validityExpression, ParameterConversion conversion) {
 
-        return PDef;
+        return new ParameterDefinitionDetails(
+            description,
+            (byte) rawType,
+            rawUnit,
+            generationEnabled,
+            new Duration(interval),
+            validityExpression,
+            conversion);
     }
 
     public static void setValue(GroundMOAdapterImpl groundMOAdapter) {
@@ -85,9 +83,9 @@ public class ParameterGround {
                 parameterExpression,
                 parameterConversion);
 
-        ParameterCreationRequest request = new ParameterCreationRequest();
-        request.setName(new Identifier("GeoFence.testApp"));
-        request.setParamDefDetails(parDef);
+        ParameterCreationRequest request = new ParameterCreationRequest(
+                new Identifier("GeoFence.testApp"),
+                parDef);
 
         ParameterCreationRequestList requestList = new ParameterCreationRequestList();
         requestList.add(request);
