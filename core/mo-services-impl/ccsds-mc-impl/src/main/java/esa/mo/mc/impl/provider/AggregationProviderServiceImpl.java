@@ -33,8 +33,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.COMService;
+import org.ccsds.moims.mo.com.DuplicateException;
+import org.ccsds.moims.mo.com.InvalidException;
 import org.ccsds.moims.mo.com.structures.InstanceBooleanPair;
 import org.ccsds.moims.mo.com.structures.InstanceBooleanPairList;
 import org.ccsds.moims.mo.com.structures.ObjectId;
@@ -42,9 +43,8 @@ import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDet
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectSet;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectSetList;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.MOErrorException;
+import org.ccsds.moims.mo.mal.UnknownException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.helpertools.misc.TaskScheduler;
@@ -107,18 +107,21 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
      * @param parameterManager
      * @throws MALException On initialisation error.
      */
-    public synchronized void init(COMServicesProvider comServices, ParameterManager parameterManager) throws MALException {
+    public synchronized void init(COMServicesProvider comServices,
+            ParameterManager parameterManager) throws MALException {
         long timestamp = System.currentTimeMillis();
         publisher = createMonitorValuePublisher(ConfigurationProviderSingleton.getDomain(),
-            ConfigurationProviderSingleton.getNetwork(), SessionType.LIVE, ConfigurationProviderSingleton
-                .getSourceSessionName(), QoSLevel.BESTEFFORT, null, new UInteger(0));
+                ConfigurationProviderSingleton.getNetwork(), SessionType.LIVE,
+                ConfigurationProviderSingleton.getSourceSessionName(),
+                QoSLevel.BESTEFFORT, null, new UInteger(0));
 
         // Shut down old service transport
         if (null != aggregationServiceProvider) {
             connection.closeAll();
         }
 
-        aggregationServiceProvider = connection.startService(AggregationServiceInfo.AGGREGATION_SERVICE_NAME.toString(), 
+        aggregationServiceProvider = connection.startService(
+                AggregationServiceInfo.AGGREGATION_SERVICE_NAME.toString(),
                 AggregationHelper.AGGREGATION_SERVICE, this);
 
         running = true;
@@ -132,8 +135,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         storeAggregationsInCOMArchive = Boolean.parseBoolean(System.getProperty(MCServicesHelper.STORE_IN_ARCHIVE_PROPERTY, "true"));
         String msg = MessageFormat.format("{0} = {1}", MCServicesHelper.STORE_IN_ARCHIVE_PROPERTY, storeAggregationsInCOMArchive);
         Logger.getLogger(AggregationProviderServiceImpl.class.getName()).log(Level.FINE, msg);
-        */
-
+         */
         initialiased = true;
         timestamp = System.currentTimeMillis() - timestamp;
         Logger.getLogger(AggregationProviderServiceImpl.class.getName()).info(
@@ -175,7 +177,8 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
      * @return true if it was successfully published, false otherwise
      */
     private boolean publishPeriodicAggregationUpdate(final Long objId, final AggregationValue aVal) {
-        return publishAggregationUpdate(objId, aVal, null, null, storeAggregationsInCOMArchive); //requirement: 3.7.4.j
+        return publishAggregationUpdate(objId, aVal, null,
+                null, storeAggregationsInCOMArchive); //requirement: 3.7.4.j
     }
 
     /**
@@ -185,12 +188,12 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
      * @param aVal the value to be published
      * @param source the id of the object that caused the update to be generated
      * @param timestamp the timestamp of the update. if null a new timestamp
-     * @param storeInCOMArchive flag indicating whether or not the aggregation should be stored in the archive
-     * will be generated
+     * @param storeInCOMArchive flag indicating whether or not the aggregation
+     * should be stored in the archive will be generated
      * @return true if it was successfully published, false otherwise
      */
-    private boolean publishAggregationUpdate(final Long identityId, final AggregationValue aVal, final ObjectId source,
-        final Time timestamp, boolean storeInCOMArchive) {
+    private boolean publishAggregationUpdate(final Long identityId, final AggregationValue aVal,
+            final ObjectId source, final Time timestamp, boolean storeInCOMArchive) {
         try {
             synchronized (lock) {
                 if (!isRegistered) {
@@ -210,13 +213,8 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
             }
 
             Logger.getLogger(AggregationProviderServiceImpl.class.getName()).log(Level.FINER,
-                "Generating Aggregation update for the Aggregation Identity objId: {0} (Identifier: {1})", new Object[]{
-                                                                                                                        identityId,
-                                                                                                                        new Identifier(
-                                                                                                                            manager
-                                                                                                                                .getName(
-                                                                                                                                    identityId)
-                                                                                                                                .toString())});
+                    "Generating Aggregation update for the Aggregation Identity objId: {0} (Identifier: {1})",
+                    new Object[]{identityId, new Identifier(manager.getName(identityId).toString())});
 
             final Long definitionId = manager.getDefinitionId(identityId);
             Time time = timestamp;
@@ -228,8 +226,8 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
             Long aValObjId;
             if (storeInCOMArchive) {
                 //requirement 3.7.6.b
-                aValObjId = manager.storeAndGenerateAValobjId(aVal, definitionId, source, connection
-                    .getPrimaryConnectionDetails().getProviderURI(), time.toFineTime());
+                aValObjId = manager.storeAndGenerateAValobjId(aVal, definitionId, source,
+                        connection.getPrimaryConnectionDetails().getProviderURI(), time.toFineTime());
             } else {
                 aValObjId = aValUniqueObjId.incrementAndGet();
             }
@@ -240,25 +238,25 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
             keys.add(new Union(identityId));
             keys.add(new Union(definitionId));
             keys.add(new Union(aValObjId));
-            
+
             final AggregationValueList aValLst = new AggregationValueList(1);
 
             URI providerURI = connection.getConnectionDetails().getProviderURI();
-            UpdateHeader updateHeader = new UpdateHeader(new Identifier(providerURI.getValue()), 
+            UpdateHeader updateHeader = new UpdateHeader(new Identifier(providerURI.getValue()),
                     connection.getConnectionDetails().getDomain(), keys.getAsNullableAttributeList());
-            
+
             //requirement 3.7.7.2.h
             publisher.publish(updateHeader, source, aVal);
         } catch (IllegalArgumentException ex) {
-            Logger.getLogger(AggregationProviderServiceImpl.class.getName()).log(Level.WARNING, 
+            Logger.getLogger(AggregationProviderServiceImpl.class.getName()).log(Level.WARNING,
                     "Exception during publishing process on the provider {0}", ex);
             return false;
         } catch (MALException ex) {
-            Logger.getLogger(AggregationProviderServiceImpl.class.getName()).log(Level.WARNING, 
+            Logger.getLogger(AggregationProviderServiceImpl.class.getName()).log(Level.WARNING,
                     "Exception during publishing process on the provider {0}", ex);
             return false;
         } catch (MALInteractionException ex) {
-            Logger.getLogger(AggregationProviderServiceImpl.class.getName()).log(Level.WARNING, 
+            Logger.getLogger(AggregationProviderServiceImpl.class.getName()).log(Level.WARNING,
                     "Exception during publishing process on the provider {0}", ex);
             return false;
         }
@@ -287,8 +285,9 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
     }
 
     @Override
-    public AggregationValueDetailsList getValue(final LongList inIdentityIds, final MALInteraction interaction) 
-            throws MALException, MALInteractionException { // requirement 3.7.6.2.1
+    public AggregationValueDetailsList getValue(final LongList inIdentityIds,
+            final MALInteraction interaction) throws MALException, MALInteractionException {
+        // requirement 3.7.6.2.1
         UIntegerList unkIndexList = new UIntegerList();
 
         if (null == inIdentityIds) { // Is the input null?
@@ -314,14 +313,14 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
         // Errors
         if (!unkIndexList.isEmpty()) { // requirement: 3.7.8.3.1 a, b
-            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+            throw new MALInteractionException(new UnknownException(unkIndexList));
         }
 
         // requirement: 3.7.8.2.e
         AggregationValueDetailsList outList = new AggregationValueDetailsList(inIdentityIds.size());
 
         for (Long inIdentityId : inIdentityIds) {
-            outList.add(new AggregationValueDetails(inIdentityId,manager.getDefinitionId(inIdentityId),
+            outList.add(new AggregationValueDetails(inIdentityId, manager.getDefinitionId(inIdentityId),
                     Time.now(), manager.getValue(inIdentityId)));
         }
 
@@ -330,7 +329,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
     @Override
     public LongList enableGeneration(final Boolean isGroupIds, final InstanceBooleanPairList enableInstances,
-        final MALInteraction interaction) throws MALException, MALInteractionException {
+            final MALInteraction interaction) throws MALException, MALInteractionException {
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
         InstanceBooleanPair enableInstance;
@@ -370,7 +369,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
             } else { //the ids are group-identity-ids, req: 3.3.10.2.a, 3.9.4.g,h 
                 GroupRetrieval groupRetrievalInformation;
                 groupRetrievalInformation = new GroupRetrieval(unkIndexList, invIndexList, objIdToBeEnabled,
-                    valueToBeEnabled);
+                        valueToBeEnabled);
                 //get the group instances requirements: 3.7.9.2.g, h
                 groupRetrievalInformation = manager.getGroupInstancesForServiceOperation(enableInstances,
                         groupRetrievalInformation, AggregationServiceInfo.AGGREGATIONDEFINITION_OBJECT_TYPE,
@@ -386,10 +385,10 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
         // Errors
         if (!unkIndexList.isEmpty()) { // requirement: 3.7.9.3.1
-            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+            throw new MALInteractionException(new UnknownException(unkIndexList));
         }
         if (!invIndexList.isEmpty()) { // requirement: 3.7.9.3.2
-            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+            throw new MALInteractionException(new InvalidException(invIndexList));
         }
 
         LongList output = new LongList();
@@ -397,7 +396,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         // requirement: 3.7.9.2.i (This part of the code is not reached if an error is thrown)
         for (int index = 0; index < objIdToBeEnabled.size(); index++) {
             // requirement: 3.7.3.c, 3.7.9.2.f and 3.7.9.2.j, k
-            Long out = manager.setGenerationEnabled(objIdToBeEnabled.get(index), 
+            Long out = manager.setGenerationEnabled(objIdToBeEnabled.get(index),
                     valueToBeEnabled.get(index), source, connection.getConnectionDetails());
             output.add(out);
 
@@ -417,7 +416,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
     @Override
     public void enableFilter(final Boolean isGroupIds, final InstanceBooleanPairList enableInstances,
-        final MALInteraction interaction) throws MALException, MALInteractionException { // requirement: 3.7.10.2.a
+            final MALInteraction interaction) throws MALException, MALInteractionException { // requirement: 3.7.10.2.a
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
         InstanceBooleanPair enableInstance;
@@ -456,7 +455,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
                 }
             } else {//the ids are group-definition-ids, req: 3.7.10.2.a, 3.9.4.g,h
                 GroupRetrieval groupRetrievalInformation = new GroupRetrieval(unkIndexList, invIndexList,
-                    objIdToBeEnabled, valueToBeEnabled);
+                        objIdToBeEnabled, valueToBeEnabled);
 
                 //get the group instances requirements: 3.7.10.2.g, h
                 groupRetrievalInformation = manager.getGroupInstancesForServiceOperation(enableInstances,
@@ -473,16 +472,16 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
         // Errors
         if (!unkIndexList.isEmpty()) { // requirement: 3.7.10.3.1
-            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+            throw new MALInteractionException(new UnknownException(unkIndexList));
         }
         if (!invIndexList.isEmpty()) { // requirement: 3.7.10.3.2
-            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+            throw new MALInteractionException(new InvalidException(invIndexList));
         }
 
         // requirement: 3.7.10.2.i (This part of the code is not reached if an error is thrown)
         for (int index = 0; index < objIdToBeEnabled.size(); index++) {
             // requirement: 3.7.3.d, e, f; 3.7.10.2.f and 3.7.1.2.j, k
-            boolean changed = manager.setFilterEnabled(objIdToBeEnabled.get(index), 
+            boolean changed = manager.setFilterEnabled(objIdToBeEnabled.get(index),
                     valueToBeEnabled.get(index), source, connection.getConnectionDetails());
             //requirement: 3.7.10.2.e //periodic managers must be refreshed, as the change of the filterEnabled-value creates a new Definition object
             if (changed) {
@@ -497,7 +496,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
     }
 
     @Override
-    public ObjectInstancePairList listDefinition(final IdentifierList nameList, final MALInteraction interaction) 
+    public ObjectInstancePairList listDefinition(final IdentifierList nameList, final MALInteraction interaction)
             throws MALException, MALInteractionException { // requirement: 3.7.9.2.1
         ObjectInstancePairList outLongLst = new ObjectInstancePairList();
         UIntegerList unkIndexList = new UIntegerList();
@@ -528,9 +527,8 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
         // Errors
         //if there is one name unknown, fail with an unknown error and dont return the found entries.
-        if (!unkIndexList.isEmpty()) // requirement: 3.7.11.3.1
-        {
-            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+        if (!unkIndexList.isEmpty()) { // requirement: 3.7.11.3.1
+            throw new MALInteractionException(new UnknownException(unkIndexList));
         }
 
         return outLongLst;
@@ -538,7 +536,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
     @Override
     public ObjectInstancePairList addAggregation(final AggregationCreationRequestList aggrCreationReqList,
-        final MALInteraction interaction) throws MALException, MALInteractionException {
+            final MALInteraction interaction) throws MALException, MALInteractionException {
         ObjectInstancePairList outPairLst = new ObjectInstancePairList();
         UIntegerList invIndexList = new UIntegerList();
         UIntegerList dupIndexList = new UIntegerList();
@@ -563,24 +561,24 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
             //requirement: 3.7.10.2.c, 3.7.3.p requested intervals must be provided
             //updateInterval must be provided
-            if (aDef.getReportInterval().getValue() != 0 && aDef.getReportInterval().getValue() <
-                MIN_REPORTING_INTERVAL) {
+            if (aDef.getReportInterval().getValue() != 0
+                    && aDef.getReportInterval().getValue() < MIN_REPORTING_INTERVAL) {
                 invIndexList.add(new UInteger(index));
                 continue;
             }
             //requirement: 3.7.10.2.c, 3.7.3.p
             //sample-interval must be provided
             for (AggregationParameterSet parameterSet : parameterSets) {
-                if (parameterSet.getSampleInterval().getValue() != 0 && parameterSet.getSampleInterval().getValue() <
-                    MIN_REPORTING_INTERVAL) {
+                if (parameterSet.getSampleInterval().getValue() != 0
+                        && parameterSet.getSampleInterval().getValue() < MIN_REPORTING_INTERVAL) {
                     invIndexList.add(new UInteger(index));
                     break;
                 }
             }
             //requirement: 3.7.3.p
             //filteredTimeout-interval must be provided
-            if (aDef.getFilteredTimeout().getValue() != 0 && aDef.getFilteredTimeout().getValue() <
-                MIN_REPORTING_INTERVAL) {
+            if (aDef.getFilteredTimeout().getValue() != 0
+                    && aDef.getFilteredTimeout().getValue() < MIN_REPORTING_INTERVAL) {
                 invIndexList.add(new UInteger(index));
                 continue;
             }
@@ -595,12 +593,12 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         // Errors
         if (!invIndexList.isEmpty()) // requirement: 3.7.10.2.2
         {
-            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+            throw new MALInteractionException(new InvalidException(invIndexList));
         }
 
         if (!dupIndexList.isEmpty()) // requirement: 3.7.10.2.3
         {
-            throw new MALInteractionException(new MOErrorException(COMHelper.DUPLICATE_ERROR_NUMBER, dupIndexList));
+            throw new MALInteractionException(new DuplicateException(dupIndexList));
         }
 
         ObjectId source = manager.storeCOMOperationActivity(interaction); //requirement: 3.7.4.g, h
@@ -608,7 +606,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
             Identifier aggrName = aggrCreationRequest.getName();
             //requriement: 3.7.12.2.g , store the objects 
             outPairLst.add(manager.add(aggrName, aggrCreationRequest.getAggDefDetails(), source, connection
-                .getConnectionDetails())); //  requirement: 3.3.12.2.e
+                    .getConnectionDetails())); //  requirement: 3.3.12.2.e
             periodicReportingManager.refresh(outPairLst.get(0).getObjIdentityInstanceId()); // Refresh the Periodic Reporting Manager for the added Identities
             periodicSamplingManager.refresh(outPairLst.get(0).getObjIdentityInstanceId()); // Refresh the Periodic Sampling Manager for the added Identities
         }
@@ -622,12 +620,11 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
     @Override
     public LongList updateDefinition(LongList identityIds, AggregationDefinitionDetailsList aDefs,
-        MALInteraction interaction) throws MALInteractionException, MALException { // requirement: 3.7.13.2.a, 3.7.13.2.d
+            MALInteraction interaction) throws MALInteractionException, MALException { // requirement: 3.7.13.2.a, 3.7.13.2.d
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
 
-        if (null == aDefs || null == identityIds) // Are the inputs null?
-        {
+        if (null == aDefs || null == identityIds) { // Are the inputs null?
             throw new IllegalArgumentException("identityIds and aggDefDetails arguments must not be null");
         }
 
@@ -648,24 +645,24 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
             //requirement: 3.7.3.p, 3.7.13.2.f
             //TODO: check the updateInterval, filteredTimeout and sampleIntervals? -> issue #152
             //updateInterval must be provided
-            if (aDef.getReportInterval().getValue() != 0 && aDef.getReportInterval().getValue() <
-                MIN_REPORTING_INTERVAL) {
+            if (aDef.getReportInterval().getValue() != 0
+                    && aDef.getReportInterval().getValue() < MIN_REPORTING_INTERVAL) {
                 invIndexList.add(new UInteger(index));
                 continue;
             }
             //requirement: 3.7.3.p, 3.7.13.2.f
             //sample-interval must be provided
             for (AggregationParameterSet parameterSet : parameterSets) {
-                if (parameterSet.getSampleInterval().getValue() != 0 && parameterSet.getSampleInterval().getValue() <
-                    MIN_REPORTING_INTERVAL) {
+                if (parameterSet.getSampleInterval().getValue() != 0
+                        && parameterSet.getSampleInterval().getValue() < MIN_REPORTING_INTERVAL) {
                     invIndexList.add(new UInteger(index));
                     break;
                 }
             }
             //requirement: 3.7.3.p
             //filteredTimeout-interval must be provided
-            if (aDef.getFilteredTimeout().getValue() != 0 && aDef.getFilteredTimeout().getValue() <
-                MIN_REPORTING_INTERVAL) {
+            if (aDef.getFilteredTimeout().getValue() != 0
+                    && aDef.getFilteredTimeout().getValue() < MIN_REPORTING_INTERVAL) {
                 invIndexList.add(new UInteger(index));
                 continue;
             }
@@ -673,14 +670,12 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
         // requirement: 3.7.13.2.g is met because errors will be thrown before changes are made
         // Errors
-        if (!unkIndexList.isEmpty()) // requirement: 3.7.13.3.1
-        {
-            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+        if (!unkIndexList.isEmpty()) { // requirement: 3.7.13.3.1
+            throw new MALInteractionException(new UnknownException(unkIndexList));
         }
 
-        if (!invIndexList.isEmpty()) // requirement: 3.7.13.3.2
-        {
-            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+        if (!invIndexList.isEmpty()) { // requirement: 3.7.13.3.2
+            throw new MALInteractionException(new InvalidException(invIndexList));
         }
 
         LongList newDefIds = new LongList();
@@ -704,7 +699,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
     @Override
     public void removeAggregation(final LongList identityIds, final MALInteraction interaction) throws MALException,
-        MALInteractionException { // requirement: 3.7.12.2.1
+            MALInteractionException { // requirement: 3.7.12.2.1
         UIntegerList unkIndexList = new UIntegerList();
         Long identityId;
         LongList removalLst = new LongList();
@@ -734,7 +729,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         // Errors
         if (!unkIndexList.isEmpty()) // requirement: 3.3.14.3.1 (error: a, b)
         {
-            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+            throw new MALInteractionException(new UnknownException(unkIndexList));
         }
         // requirement: 3.7.14.2.f (Inserting the errors before this line guarantees that the requirement is met)
         for (Long removalItem : removalLst) {
@@ -774,7 +769,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         }
         //publish! requirement: 3.7.3.j
         if (!publishAggregationUpdate(identityId, manager.getAggregationValue(identityId, GenerationMode.ADHOC), source,
-            timestamp, storeAggregationsInCOMArchive)) {
+                timestamp, storeAggregationsInCOMArchive)) {
             return false;
         }
 
@@ -803,7 +798,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
      * @return Returns true if the push was successful. False otherwise.
      */
     public Boolean pushAggregationSetValue(final Long identityId, final AggregationSetValueList aSetVal,
-        final ObjectId source, final Time timestamp) { //requirement: 3.7.4.i
+            final ObjectId source, final Time timestamp) { //requirement: 3.7.4.i
 
         //check that the given aggregationSetValueList has the right amount of entries
         final AggregationDefinitionDetails aggrDef = manager.getAggregationDefinition(identityId);
@@ -816,7 +811,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         }
         //publish! requirement: 3.7.3.j
         if (!publishAggregationUpdate(identityId, manager.getAggregationValue(identityId, GenerationMode.ADHOC), source,
-            timestamp, storeAggregationsInCOMArchive)) {
+                timestamp, storeAggregationsInCOMArchive)) {
             return false;
         }
         //if the push value was published during a periodic update reset the timers //not standarized, impl. specific
@@ -857,7 +852,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
      * false if the filter is enabled but wasnt triggered with the new values.
      */
     private boolean checkFilterAndSampleParams(final Long identityId, boolean aggrExpired,
-        final AggregationSetValueList aSetVal) {
+            final AggregationSetValueList aSetVal) {
         //check if filter enabled
         AggregationDefinitionDetails aggrDef = manager.getAggregationDefinition(identityId);
         final AggregationParameterSetList parameterSets = aggrDef.getParameterSets();
@@ -910,30 +905,30 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
         @Override
         public void publishDeregisterAckReceived(final MALMessageHeader header, final Map qosProperties)
-            throws MALException {
+                throws MALException {
             Logger.getLogger(AggregationProviderServiceImpl.class.getName()).fine(
-                "PublishInteractionListener::publishDeregisterAckReceived");
+                    "PublishInteractionListener::publishDeregisterAckReceived");
         }
 
         @Override
         public void publishErrorReceived(final MALMessageHeader header, final MALErrorBody body,
-            final Map qosProperties) throws MALException {
+                final Map qosProperties) throws MALException {
             Logger.getLogger(AggregationProviderServiceImpl.class.getName()).fine(
-                "PublishInteractionListener::publishErrorReceived");
+                    "PublishInteractionListener::publishErrorReceived");
         }
 
         @Override
         public void publishRegisterAckReceived(final MALMessageHeader header, final Map qosProperties)
-            throws MALException {
+                throws MALException {
             Logger.getLogger(AggregationProviderServiceImpl.class.getName()).fine(
-                "PublishInteractionListener::publishRegisterAckReceived");
+                    "PublishInteractionListener::publishRegisterAckReceived");
         }
 
         @Override
         public void publishRegisterErrorReceived(final MALMessageHeader header, final MALErrorBody body,
-            final Map qosProperties) throws MALException {
+                final Map qosProperties) throws MALException {
             Logger.getLogger(AggregationProviderServiceImpl.class.getName()).fine(
-                "PublishInteractionListener::publishRegisterErrorReceived");
+                    "PublishInteractionListener::publishRegisterErrorReceived");
         }
     }
 
@@ -1059,12 +1054,12 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
                     synchronized (lock) {
                         if (!def.getFilterEnabled()) { // The Filter is not enabled? // requirement: 3.7.2.a.a,
                             publishPeriodicAggregationUpdate(identityId, manager.getAggregationValue(identityId,
-                                GenerationMode.PERIODIC)); //requirement: 3.7.3.h
+                                    GenerationMode.PERIODIC)); //requirement: 3.7.3.h
                             manager.resetAggregationSampleHelperVariables(identityId);
                         } else {  // requirement: 3.7.2.a.c,
                             if (manager.isFilterTriggered(identityId)) { // The Filter is on and triggered? requirement: 3.7.2.6
                                 publishPeriodicAggregationUpdate(identityId, manager.getAggregationValue(identityId,
-                                    GenerationMode.PERIODIC)); //requirement: 3.7.3.h
+                                        GenerationMode.PERIODIC)); //requirement: 3.7.3.h
                                 manager.resetAggregationSampleHelperVariables(identityId);
                                 resetFilterTimeoutTimer(identityId);        // Reset the timer
                             }
@@ -1099,13 +1094,13 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
                     manager.setFilterTriggered(identityId, true);
                     //get the new samples and update the aggregation in the internal list
                     for (int index = 0;
-                         index < manager.getAggregationDefinition(identityId).getParameterSets().size();
-                         index++) {
+                            index < manager.getAggregationDefinition(identityId).getParameterSets().size();
+                            index++) {
                         manager.sampleParam(identityId, index);
                     }
                     //publish the values in the internal list
                     publishPeriodicAggregationUpdate(identityId, manager.getAggregationValue(identityId,
-                        GenerationMode.FILTERED_TIMEOUT));
+                            GenerationMode.FILTERED_TIMEOUT));
                     manager.resetAggregationSampleHelperVariables(identityId);
                 }
             }), 0, (int) (interval.getValue() * 1000), TimeUnit.MILLISECONDS, true);
@@ -1216,8 +1211,8 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
         private void removePeriodicSampling(Long objId) {
             for (int index = aggregationObjIdList.indexOf(objId);
-                 index != -1;
-                 index = aggregationObjIdList.indexOf(objId)) {
+                    index != -1;
+                    index = aggregationObjIdList.indexOf(objId)) {
                 this.stopTimer(index);
                 aggregationObjIdList.remove(index);
                 sampleTimerList.remove(index);
@@ -1278,14 +1273,14 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
         // Confirm the domain
         if (!confSet0.getDomain().equals(ConfigurationProviderSingleton.getDomain()) || !confSet1.getDomain().equals(
-            ConfigurationProviderSingleton.getDomain())) {
+                ConfigurationProviderSingleton.getDomain())) {
             return false;
         }
 
         // If the list is empty, reconfigure the service with nothing...
         if (confSet0.getObjInstIds().isEmpty() && confSet1.getObjInstIds().isEmpty()) {
             manager.reconfigureDefinitions(new LongList(), new IdentifierList(), new LongList(),
-                new AggregationDefinitionDetailsList());   // Reconfigures the Manager
+                    new AggregationDefinitionDetailsList());   // Reconfigures the Manager
 
             return true;
         }
@@ -1312,7 +1307,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         periodicSamplingManager.pause();
 
         IdentifierList idents = new IdentifierList();
-        for(Element element : retrievedIdents) {
+        for (Element element : retrievedIdents) {
             idents.add((Identifier) element);
         }
         manager.reconfigureDefinitions(confSetIdents.getObjInstIds(), idents, confSetDefs.getObjInstIds(), pDefs);   // Reconfigures the Manager
@@ -1330,9 +1325,10 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
     @Override
     public ConfigurationObjectDetails getCurrentConfiguration() {
         // Needs the Common API here!
-        ConfigurationObjectSetList list = manager.getCurrentConfiguration();
-        list.get(0).setObjType(AggregationServiceInfo.AGGREGATIONIDENTITY_OBJECT_TYPE);
-        list.get(1).setObjType(AggregationServiceInfo.AGGREGATIONDEFINITION_OBJECT_TYPE);
+        ConfigurationObjectSetList list = manager.getCurrentConfiguration(
+                AggregationServiceInfo.AGGREGATIONIDENTITY_OBJECT_TYPE,
+                AggregationServiceInfo.AGGREGATIONDEFINITION_OBJECT_TYPE
+        );
 
         // Needs the Common API here!
         return new ConfigurationObjectDetails(list);

@@ -430,10 +430,11 @@ public final class StatisticManager {
             }
         }
 
-        statValue.setValue(values.get(maximum).getValue());
-        statValue.setValueTime(times.get(maximum));
-
-        return statValue;
+        return new StatisticValue(statValue.getParamDefInstId(),
+                statValue.getStartTime(),statValue.getEndTime(),
+                times.get(maximum),
+                values.get(maximum).getValue(),
+                statValue.getSampleCount());
     }
 
     private StatisticValue generateStatisticValueMinimum(long paramIdentityId, TimeList times,
@@ -460,10 +461,11 @@ public final class StatisticManager {
             }
         }
 
-        statValue.setValue(values.get(minimum).getValue());
-        statValue.setValueTime(times.get(minimum));
-
-        return statValue;
+        return new StatisticValue(statValue.getParamDefInstId(),
+                statValue.getStartTime(),statValue.getEndTime(),
+                times.get(minimum),
+                values.get(minimum).getValue(),
+                statValue.getSampleCount());
     }
 
     private StatisticValue generateStatisticValueMeanAverage(long paramIdentityId, TimeList times,
@@ -490,10 +492,11 @@ public final class StatisticManager {
         //----------------------------------------------------------------
 
         //requirement: 3.6.3.j report double value
-        statValue.setValue((Attribute) HelperAttributes.javaType2Attribute(mean));
-        statValue.setValueTime(null); // StatisticValue structure: "Shall be NULL if not applicable for cases such as 'mean average'."
-
-        return statValue;
+        // StatisticValue structure: "Shall be NULL if not applicable for cases such as 'mean average'."
+        return new StatisticValue(statValue.getParamDefInstId(),
+                statValue.getStartTime(),statValue.getEndTime(),
+                null, (Attribute) HelperAttributes.javaType2Attribute(mean),
+                statValue.getSampleCount());
     }
 
     private StatisticValue generateStatisticValueStandardDeviation(long paramIdentityId, TimeList times,
@@ -531,10 +534,11 @@ public final class StatisticManager {
         variance = Math.sqrt(variance);
 
         //requirement: 3.6.3.k report double value
-        statValue.setValue((Attribute) HelperAttributes.javaType2Attribute(variance));
-        statValue.setValueTime(null); // StatisticValue structure: "Shall be NULL if not applicable for cases such as 'mean average'."
-
-        return statValue;
+        // StatisticValue structure: "Shall be NULL if not applicable for cases such as 'mean average'."
+        return new StatisticValue(statValue.getParamDefInstId(),
+                statValue.getStartTime(),statValue.getEndTime(),
+                null, (Attribute) HelperAttributes.javaType2Attribute(variance),
+                statValue.getSampleCount());
     }
 
     private StatisticValue newStatisticValue(long paramIdentityId, TimeList times, AttributeValueList values) {
@@ -543,7 +547,7 @@ public final class StatisticManager {
         }
 
         // Different list sizes or zero elements?
-        if (times.size() != values.size() || values.size() == 0) {
+        if (times.size() != values.size() || values.isEmpty()) {
             return null;
         }
 

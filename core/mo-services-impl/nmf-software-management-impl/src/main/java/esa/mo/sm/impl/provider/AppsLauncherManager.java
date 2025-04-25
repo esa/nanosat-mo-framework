@@ -242,8 +242,7 @@ public class AppsLauncherManager extends DefinitionsManager {
             final URI uri, Long objId, Long related) throws MALException, MALInteractionException {
         HeterogeneousList defs = new HeterogeneousList();
         defs.add(definition);
-        final ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(related, source, uri);
-        archDetails.get(0).setInstId(objId);
+        ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(related, source, null, uri, objId);
 
         return super.getArchiveService().store(true, AppsLauncherServiceInfo.APP_OBJECT_TYPE,
                 ConfigurationProviderSingleton.getDomain(), archDetails, defs, null);
@@ -392,13 +391,14 @@ public class AppsLauncherManager extends DefinitionsManager {
 
     protected boolean isAppRunning(final Long appId) {
         // get it from the list of available apps
-        AppDetails app = (AppDetails) this.getDef(appId);
+        //AppDetails app = (AppDetails) this.getDef(appId);
         ProcessExecutionHandler handler = handlers.get(appId);
 
         if (handler == null) {
             LOGGER.log(Level.FINE, "The Process handler could not be found!");
 
-            app.setRunning(false);
+            //app.setRunning(false);
+            setRunning(appId, false, null);
             return false;
         }
 
@@ -522,14 +522,16 @@ public class AppsLauncherManager extends DefinitionsManager {
         if (handler == null) {
             LOGGER.log(Level.INFO,
                     "Handler of {0} app is null, setting running = false.", appName);
-            app.setRunning(false);
+            //app.setRunning(false);
+            setRunning(appInstId, false, interaction);
             return false;
         }
 
         if (handler.getProcess() == null) {
             LOGGER.log(Level.INFO,
                     "Process of {0} app is null, setting running = false.", appName);
-            app.setRunning(false);
+            //app.setRunning(false);
+            setRunning(appInstId, false, interaction);
             return true;
         }
 
@@ -725,8 +727,20 @@ public class AppsLauncherManager extends DefinitionsManager {
     }
 
     public void setRunning(Long appInstId, boolean running, MALInteraction interaction) {
-        this.get(appInstId).setRunning(running);
-        this.update(appInstId, this.get(appInstId), interaction); // Update the Archive
+        AppDetails oldAppDetails = this.get(appInstId);
+        AppDetails newAppDetails = new AppDetails(
+                oldAppDetails.getName(),
+                oldAppDetails.getDescription(),
+                oldAppDetails.getVersion(),
+                oldAppDetails.getCategory(),
+                oldAppDetails.getRunAtStartup(),
+                running,
+                oldAppDetails.getExtraInfo(),
+                oldAppDetails.getCopyright(),
+                oldAppDetails.getRunAs()
+        );
+
+        this.update(appInstId, newAppDetails, interaction); // Update the Archive
     }
 
     public static SingleConnectionDetails getSingleConnectionDetailsFromProviderSummaryList(

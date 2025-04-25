@@ -47,7 +47,10 @@ import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.provider.ArchiveProviderServiceImpl;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
+import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
+import org.ccsds.moims.mo.com.structures.ObjectDetails;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
+import org.ccsds.moims.mo.mal.structures.FineTime;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 
 /**
@@ -578,7 +581,7 @@ public class COMArchiveManager<IdentityT extends Element, IdentityListT extends 
         }
 
         HeterogeneousList configurationList = new HeterogeneousList();
-        ArchiveDetailsList archiveDetailsList = HelperArchive.generateArchiveDetailsList(objectIds.get(0), source, interaction);
+        ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList(); 
 
         for (int index = 0; index < relatedIds.size(); index++) {
             Long relatedId = relatedIds.get(index);
@@ -587,7 +590,13 @@ public class COMArchiveManager<IdentityT extends Element, IdentityListT extends 
             ObjectId configurationBody = getConfigurationBody(relatedId, relatedType);
             configurationList.add(configurationBody);
 
-            archiveDetailsList.get(index).setInstId(configurationId);
+            ArchiveDetails archiveDetails = new ArchiveDetails(
+                    configurationId,
+                new ObjectDetails(objectIds.get(0), source),
+                null,
+                FineTime.now(),
+                interaction.getMessageHeader().getFromURI());
+            archiveDetailsList.add(archiveDetails);
         }
 
         this.archiveService.update(configurationType, domain, archiveDetailsList, configurationList, interaction);

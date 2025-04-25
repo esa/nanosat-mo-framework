@@ -578,19 +578,17 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
         LongList currentObjIds = new LongList();
         currentObjIds.addAll(defObjs.keySet());
 
-        ConfigurationObjectSet objsSet = new ConfigurationObjectSet();
-        objsSet.setDomain(ConfigurationProviderSingleton.getDomain());
-        objsSet.setObjInstIds(currentObjIds);
-        objsSet.setObjType(GPSServiceInfo.NEARBYPOSITION_OBJECT_TYPE);
+        ConfigurationObjectSet objsSet = new ConfigurationObjectSet(
+            GPSServiceInfo.NEARBYPOSITION_OBJECT_TYPE,
+            ConfigurationProviderSingleton.getDomain(),
+            currentObjIds
+        );
 
         ConfigurationObjectSetList list = new ConfigurationObjectSetList();
         list.add(objsSet);
 
         // Needs the Common API here!
-        ConfigurationObjectDetails set = new ConfigurationObjectDetails();
-        set.setConfigObjects(list);
-
-        return set;
+        return new ConfigurationObjectDetails(list);
     }
 
     @Override

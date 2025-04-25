@@ -343,10 +343,13 @@ public abstract class MCManager {
     /**
      * Provides the current set of definitions available in the Manager.
      *
+     * @param objTypeIdents The object type of the identities.
+     * @param objTypeDef The object type of the definitions.
      * @return The definitions set and the corresponding object instance
      * identifiers.
      */
-    public synchronized ConfigurationObjectSetList getCurrentConfiguration() {
+    public synchronized ConfigurationObjectSetList getCurrentConfiguration(
+            ObjectType objTypeIdents, ObjectType objTypeDef) {
         LongList idObjIds = new LongList();
         LongList defObjIds = new LongList();
 
@@ -355,12 +358,12 @@ public abstract class MCManager {
             defObjIds.add(pair.getObjDefInstanceId());
         }
 
-        ConfigurationObjectSet idents = new ConfigurationObjectSet(null,
+        ConfigurationObjectSet idents = new ConfigurationObjectSet(objTypeIdents,
                 ConfigurationProviderSingleton.getDomain(), idObjIds);
 
         LongList currentObjIds1 = new LongList();
         currentObjIds1.addAll(defObjIds);
-        ConfigurationObjectSet defis = new ConfigurationObjectSet(null,
+        ConfigurationObjectSet defis = new ConfigurationObjectSet(objTypeDef,
                 ConfigurationProviderSingleton.getDomain(), currentObjIds1);
 
         ConfigurationObjectSetList list = new ConfigurationObjectSetList();

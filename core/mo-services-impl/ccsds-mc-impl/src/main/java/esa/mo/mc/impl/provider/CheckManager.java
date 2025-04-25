@@ -520,8 +520,8 @@ public final class CheckManager extends CheckLinksManager {
         checkLinkEvaluation.setLastCheckResultTime(new Time(System.currentTimeMillis()));
         //get the current parameter-definition-id if available and set the object
         final ObjectId sourceParam = super.getCheckLinkLinks(checkLinkId).getSource();
-        checkResult.setParamDefInstId(sourceParam == null ? null : parameterManager.getDefinitionId(sourceParam.getKey()
-            .getInstId()));
+        checkResult.setParamDefInstId(sourceParam == null ? null :
+                parameterManager.getDefinitionId(sourceParam.getKey().getInstId()));
 
         checkLinkEvaluation.setLastCheckResult(checkResult);
     }
@@ -579,16 +579,12 @@ public final class CheckManager extends CheckLinksManager {
 
     private CheckResult evaluatePreviousCheckResultFields(CheckResult prevResult, CheckResult newCheckResult) {
         //evaluate the previous fields
+        CheckState state = CheckState.UNCHECKED;
         if (prevResult != null) {
-            final CheckState prevCheckState = prevResult.getCurrentCheckState();
-            newCheckResult.setPreviousCheckState(prevCheckState);
+            state = prevResult.getCurrentCheckState();
             //When the previous state of the check is NOT_OK, this shall hold the previous check evaluation result. NULL if previous state is not NOT_OK.
-            //            if (prevCheckState == CheckState.NOT_OK) {
-            //                newCheckResult.setPreviousEvaluationResult(prevResult.getCurrentEvaluationResult());
-            //            }// else PreviousEvaluationResult = null;
-        } else { //UNCHECKED for the first transition of a check. 
-            newCheckResult.setPreviousCheckState(CheckState.UNCHECKED);
         }
+        newCheckResult.setPreviousCheckState(state);
         return newCheckResult;
     }
 

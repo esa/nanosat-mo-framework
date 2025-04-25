@@ -115,16 +115,15 @@ public class HelperGPS {
      * @throws java.io.IOException
      */
     public static Position gpgga2Position(String gpgga) throws IOException {
-        Position pos = new Position();
         String[] items = gpgga.split(",");
         try {
-            pos.setAltitude(Float.parseFloat(items[GPGGA_GEN_COL.ALTITUDE]));
-            pos.setLatitude(
+            Float altitude = Float.parseFloat(items[GPGGA_GEN_COL.ALTITUDE]);
+            Float latitude = 
                     degMinutes2Degrees(items[GPGGA_GEN_COL.LAT]) * ((items[GPGGA_GEN_COL.LAT_DIR]).equals("S")
-                    ? -1 : 1));
-            pos.setLongitude(
+                    ? -1 : 1);
+            Float longitude = 
                     degMinutes2Degrees(items[GPGGA_GEN_COL.LONG]) * ((items[GPGGA_GEN_COL.LONG_DIR]).equals(
-                    "W") ? -1 : 1));
+                    "W") ? -1 : 1);
 
             PositionExtraDetails posExtraDetails = new PositionExtraDetails();
             posExtraDetails.setPositionSource(PositionSourceType.GNSS);
@@ -187,8 +186,7 @@ public class HelperGPS {
 
             posExtraDetails.setUtc(new Time(cal.toInstant().toEpochMilli()));
 
-            pos.setExtraDetails(posExtraDetails);
-            return pos;
+            return new Position(latitude, longitude, altitude, posExtraDetails);
         } catch (NumberFormatException e) {
             throw new IOException(e);
         }
