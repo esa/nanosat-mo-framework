@@ -95,7 +95,7 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
         return table.getRowSorter().convertRowIndexToModel(table.getSelectedRow());
     }
 
-    public void refreshTableWithIds(ObjectInstancePairList pairs, IdentifierList domain, ObjectType objType) {
+    public void refreshTableWithIdsPairs(ObjectInstancePairList pairs, IdentifierList domain, ObjectType objType) {
         // RemoveAll
         this.removeAllEntries();
 
@@ -111,8 +111,8 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
         }
 
         // Retrieve from the archive all the objects
-        List<ArchivePersistenceObject> archiveCOMobjectList = HelperArchive.getArchiveCOMObjectList(archiveService
-            .getArchiveStub(), objType, domain, objIds);
+        List<ArchivePersistenceObject> archiveCOMobjectList = HelperArchive.getArchiveCOMObjectList(
+                archiveService.getArchiveStub(), objType, domain, objIds);
 
         if (archiveCOMobjectList == null) {
             return;
@@ -124,8 +124,8 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
 
         COMObject comObjectInfo = HelperCOM.objType2COMObject(archiveCOMobjectList.get(0).getObjectType());
 
-        List<ArchivePersistenceObject> comIdentityList = HelperArchive.getArchiveCOMObjectList(archiveService
-            .getArchiveStub(), comObjectInfo.getRelatedType(), domain, identities);
+        List<ArchivePersistenceObject> comIdentityList = HelperArchive.getArchiveCOMObjectList(
+                archiveService.getArchiveStub(), comObjectInfo.getRelatedType(), domain, identities);
 
         // Add them
         for (int i = 0; i < archiveCOMobjectList.size(); i++) {
@@ -138,8 +138,8 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
         this.removeAllEntries();
 
         // Retrieve from the archive all the objects
-        List<ArchivePersistenceObject> archiveCOMobjectList = HelperArchive.getArchiveCOMObjectList(archiveService
-            .getArchiveStub(), objType, domain, objIds);
+        List<ArchivePersistenceObject> archiveCOMobjectList = HelperArchive.getArchiveCOMObjectList(
+                archiveService.getArchiveStub(), objType, domain, objIds);
 
         if (archiveCOMobjectList == null) {
             return;

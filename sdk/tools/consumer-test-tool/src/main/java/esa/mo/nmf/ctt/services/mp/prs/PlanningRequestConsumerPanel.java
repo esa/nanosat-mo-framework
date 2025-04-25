@@ -516,7 +516,7 @@ public class PlanningRequestConsumerPanel extends javax.swing.JPanel {
                         ids.add(new org.ccsds.moims.mo.mc.structures.ObjectInstancePair(requestIdentityIds.get(index),
                             requestInstanceIds.get(index)));
                     }
-                    planningRequestTable.refreshTableWithIds(ids, planningRequestService.getConnectionDetails()
+                    planningRequestTable.refreshTableWithIdsPairs(ids, planningRequestService.getConnectionDetails()
                         .getDomain(), PlanningRequestServiceInfo.REQUESTVERSION_OBJECT_TYPE);
 
                     jScrollPane2.setViewportView(planningRequestTable);

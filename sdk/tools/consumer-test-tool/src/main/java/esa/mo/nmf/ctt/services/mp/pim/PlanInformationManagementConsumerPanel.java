@@ -20,6 +20,9 @@
  */
 package esa.mo.nmf.ctt.services.mp.pim;
 
+import esa.mo.com.impl.provider.ArchivePersistenceObject;
+import esa.mo.mp.impl.consumer.PlanInformationManagementConsumerServiceImpl;
+import esa.mo.tools.mowindow.MOWindow;
 import java.io.InterruptedIOException;
 import java.util.Map;
 import java.util.logging.Level;
@@ -33,7 +36,6 @@ import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.StringList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.mp.planinformationmanagement.PlanInformationManagementHelper;
 import org.ccsds.moims.mo.mp.planinformationmanagement.consumer.PlanInformationManagementAdapter;
 import org.ccsds.moims.mo.mp.structures.ActivityDefinitionDetails;
 import org.ccsds.moims.mo.mp.structures.ActivityDefinitionDetailsList;
@@ -44,8 +46,6 @@ import org.ccsds.moims.mo.mp.structures.EventDefinitionDetailsList;
 import org.ccsds.moims.mo.mp.structures.LogicOp;
 import org.ccsds.moims.mo.mp.structures.NumericArgDef;
 import org.ccsds.moims.mo.mp.structures.NumericResourceDefinitionDetails;
-import org.ccsds.moims.mo.mp.structures.ObjectInstancePair;
-import org.ccsds.moims.mo.mp.structures.ObjectInstancePairList;
 import org.ccsds.moims.mo.mp.structures.RequestTemplateDetails;
 import org.ccsds.moims.mo.mp.structures.RequestTemplateDetailsList;
 import org.ccsds.moims.mo.mp.structures.SimpleActivityDetails;
@@ -60,10 +60,9 @@ import org.ccsds.moims.mo.mp.structures.c_ArgDefList;
 import org.ccsds.moims.mo.mp.structures.c_ConstraintList;
 import org.ccsds.moims.mo.mp.structures.c_ResourceDefinitionDetails;
 import org.ccsds.moims.mo.mp.structures.c_ResourceDefinitionDetailsList;
-import esa.mo.com.impl.provider.ArchivePersistenceObject;
-import esa.mo.mp.impl.consumer.PlanInformationManagementConsumerServiceImpl;
-import esa.mo.tools.mowindow.MOWindow;
+import org.ccsds.moims.mo.mp.structures.ObjectInstancePairList;
 import org.ccsds.moims.mo.mp.planinformationmanagement.PlanInformationManagementServiceInfo;
+import org.ccsds.moims.mo.mp.structures.ObjectInstancePair;
 
 /**
  * PlanInformationManagementConsumerPanel
@@ -448,7 +447,7 @@ public class PlanInformationManagementConsumerPanel extends javax.swing.JPanel {
                             ids.add(new org.ccsds.moims.mo.mc.structures.ObjectInstancePair(defId
                                 .getObjectIdentityInstanceId(), defId.getObjectInstanceId()));
                         }
-                        requestDefTable.refreshTableWithIds(ids, pimService.getConnectionDetails().getDomain(),
+                        requestDefTable.refreshTableWithIdsPairs(ids, pimService.getConnectionDetails().getDomain(),
                             PlanInformationManagementServiceInfo.REQUESTTEMPLATE_OBJECT_TYPE);
                         jScrollPane2.setViewportView(requestDefTable);
                         LOGGER.log(Level.INFO, "listRequestDefinition(\"*\") returned {0} object instance identifiers",
@@ -658,7 +657,7 @@ public class PlanInformationManagementConsumerPanel extends javax.swing.JPanel {
                             ids.add(new org.ccsds.moims.mo.mc.structures.ObjectInstancePair(defId
                                 .getObjectIdentityInstanceId(), defId.getObjectInstanceId()));
                         }
-                        activityDefTable.refreshTableWithIds(ids, pimService.getConnectionDetails().getDomain(),
+                        activityDefTable.refreshTableWithIdsPairs(ids, pimService.getConnectionDetails().getDomain(),
                             PlanInformationManagementServiceInfo.ACTIVITYDEFINITION_OBJECT_TYPE);
                         jScrollPane2.setViewportView(activityDefTable);
                         LOGGER.log(Level.INFO, "listActivityDefinition(\"*\") returned {0} object instance identifiers",
@@ -862,12 +861,12 @@ public class PlanInformationManagementConsumerPanel extends javax.swing.JPanel {
                     @Override
                     public void listEventDefsResponseReceived(MALMessageHeader msgHeader,
                         ObjectInstancePairList defInstIds, Map qosProperties) {
-                        ObjectInstancePairList ids = new ObjectInstancePairList();
+                        org.ccsds.moims.mo.mc.structures.ObjectInstancePairList ids = new org.ccsds.moims.mo.mc.structures.ObjectInstancePairList();
                         for (ObjectInstancePair defId : defInstIds) {
-                            ids.add(new ObjectInstancePair(defId.getObjectIdentityInstanceId(),
+                            ids.add(new org.ccsds.moims.mo.mc.structures.ObjectInstancePair(defId.getObjectIdentityInstanceId(),
                                     defId.getObjectInstanceId()));
                         }
-                        eventDefTable.refreshTableWithIds(ids, pimService.getConnectionDetails().getDomain(),
+                        eventDefTable.refreshTableWithIdsPairs(ids, pimService.getConnectionDetails().getDomain(),
                             PlanInformationManagementServiceInfo.EVENTDEFINITION_OBJECT_TYPE);
                         jScrollPane2.setViewportView(eventDefTable);
                         LOGGER.log(Level.INFO, "listEventDefinition(\"*\") returned {0} object instance identifiers",
@@ -1085,7 +1084,7 @@ public class PlanInformationManagementConsumerPanel extends javax.swing.JPanel {
                             ids.add(new org.ccsds.moims.mo.mc.structures.ObjectInstancePair(defId
                                 .getObjectIdentityInstanceId(), defId.getObjectInstanceId()));
                         }
-                        resourceDefTable.refreshTableWithIds(ids, pimService.getConnectionDetails().getDomain(),
+                        resourceDefTable.refreshTableWithIdsPairs(ids, pimService.getConnectionDetails().getDomain(),
                             PlanInformationManagementServiceInfo.RESOURCEDEFINITION_OBJECT_TYPE);
                         jScrollPane2.setViewportView(resourceDefTable);
                         LOGGER.log(Level.INFO, "listResourceDefinition(\"*\") returned {0} object instance identifiers",

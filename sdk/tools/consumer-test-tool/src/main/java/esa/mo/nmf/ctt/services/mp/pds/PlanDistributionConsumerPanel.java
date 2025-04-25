@@ -149,7 +149,7 @@ public class PlanDistributionConsumerPanel extends javax.swing.JPanel {
                             ids.add(new org.ccsds.moims.mo.mc.structures.ObjectInstancePair(planIdentityIds.get(index),
                                 planVersionIds.get(index)));
                         }
-                        planVersionTable.refreshTableWithIds(ids, planDistributionService.getConnectionDetails()
+                        planVersionTable.refreshTableWithIdsPairs(ids, planDistributionService.getConnectionDetails()
                             .getDomain(), PlanDistributionServiceInfo.PLANVERSION_OBJECT_TYPE);
 
                         jScrollPane2.setViewportView(planVersionTable);

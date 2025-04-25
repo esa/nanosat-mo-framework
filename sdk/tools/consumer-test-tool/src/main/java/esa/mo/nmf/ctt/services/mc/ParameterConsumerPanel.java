@@ -204,9 +204,7 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
 
     private void addDefinitionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDefinitionButtonActionPerformed
         // Create and Show the Action Definition to the user
-        (String description, Byte rawType, String rawUnit, Boolean generationEnabled,
-                Duration reportInterval, ParameterExpression validityExpression, ParameterConversion conversion)
-                 ParameterDefinitionDetails parameterDefinition = new ParameterDefinitionDetails(
+        ParameterDefinitionDetails parameterDefinition = new ParameterDefinitionDetails(
                 "This Parameter Definition gives a simulated value of the GPS latitude.",
                 Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
                 "degrees",
@@ -335,7 +333,7 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
             this.serviceMCParameter.getParameterStub().asyncListDefinition(idList, new ParameterAdapter() {
                 @Override
                 public void listDefinitionResponseReceived(MALMessageHeader msgHeader, ObjectInstancePairList objInstIds, Map qosProperties) {
-                    parameterTable.refreshTableWithIds(objInstIds, serviceMCParameter.getConnectionDetails().getDomain(), ParameterServiceInfo.PARAMETERDEFINITION_OBJECT_TYPE);
+                    parameterTable.refreshTableWithIdsPairs(objInstIds, serviceMCParameter.getConnectionDetails().getDomain(), ParameterServiceInfo.PARAMETERDEFINITION_OBJECT_TYPE);
                     Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.INFO, "listDefinition(\"*\") returned {0} object instance identifiers", objInstIds.size());
                 }
 

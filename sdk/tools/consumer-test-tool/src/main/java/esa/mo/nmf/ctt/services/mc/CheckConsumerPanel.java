@@ -412,7 +412,7 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
                 objIds.add(output.getObjInstIds());
             }
 
-            checkDefsTable.refreshTableWithIds(objIds, serviceMCCheck.getConnectionDetails().getDomain(),
+            checkDefsTable.refreshTableWithIdsPairs(objIds, serviceMCCheck.getConnectionDetails().getDomain(),
                 objTypeCheckDefinition);
         } catch (MALInteractionException | MALException ex) {
             JOptionPane.showMessageDialog(null, "There was an error during the listDefinition operation.", "Error",

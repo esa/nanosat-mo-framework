@@ -433,7 +433,7 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
             this.serviceMCAction.getActionStub().asyncListDefinition(idList, new ActionAdapter() {
                 @Override
                 public void listDefinitionResponseReceived(MALMessageHeader msgHeader, ObjectInstancePairList actionInstIds, Map qosProperties) {
-                    actionTable.refreshTableWithIds(actionInstIds, serviceMCAction.getConnectionDetails().getDomain(),
+                    actionTable.refreshTableWithIdsPairs(actionInstIds, serviceMCAction.getConnectionDetails().getDomain(),
                             ActionServiceInfo.ACTIONDEFINITION_OBJECT_TYPE);
                     Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.INFO,
                             "listDefinition(\"*\") returned {0} object instance identifiers", actionInstIds.size());

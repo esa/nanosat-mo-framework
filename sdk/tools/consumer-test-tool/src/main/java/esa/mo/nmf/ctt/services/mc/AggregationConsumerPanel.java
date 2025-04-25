@@ -394,7 +394,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
             this.serviceMCAggregation.getAggregationStub().asyncListDefinition(idList, new AggregationAdapter() {
                 @Override
                 public void listDefinitionResponseReceived(MALMessageHeader msgHeader, ObjectInstancePairList objInstIds, Map qosProperties) {
-                    aggregationTable.refreshTableWithIds(objInstIds, serviceMCAggregation.getConnectionDetails().getDomain(), AggregationServiceInfo.AGGREGATIONDEFINITION_OBJECT_TYPE);
+                    aggregationTable.refreshTableWithIdsPairs(objInstIds, serviceMCAggregation.getConnectionDetails().getDomain(), AggregationServiceInfo.AGGREGATIONDEFINITION_OBJECT_TYPE);
                     Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.INFO, "listDefinition(\"*\") returned {0} object instance identifiers", objInstIds.size());
                 }
 
