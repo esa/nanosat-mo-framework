@@ -15,7 +15,7 @@ The Archive service interface includes a set of operations to retrieve, query, c
 
 There are optimizations on the MO Archive service interface layer. For example, the generation of the object instance identifier is actually faster than if a value is assigned directly because the service interface layer does not have to check in the database if it exists.
 
-SQLite is an in-process library that implements a self-contained, serverless, zero-configuration, transactional SQL database engine. SQLite is an embedded SQL database engine which means that unlike others, it does not have a separate server process. SQLite reads and writes directly to ordinary disk files, and for example, a complete SQL database with multiple tables, indices, triggers, and views, is contained in a single disk file. For the Archive service implementation, the filename is “comArchive.db”.
+SQLite is an in-process library that implements a self-contained, serverless, zero-configuration, transactional SQL database engine. SQLite is an embedded SQL database engine which means that unlike others, it does not have a separate server process. SQLite reads and writes directly to ordinary disk files, and for example, a complete SQL database with multiple tables, indices, triggers, and views, is contained in a single disk file.
 
 The COMObjectEntity table holds the COM Objects of the Archive service implementation. The table's primary key is composed by the fields: objectTypeId, objId, and domainId. It includes other fields such as network, objBody, providerURI, relatedLink, sourceLinkDomainId, sourceLinkObjId, sourceLinkObjectTypeId, timestampArchiveDetails. Some of these are linking to the remaining tables mentioned before.
 

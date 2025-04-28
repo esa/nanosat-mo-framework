@@ -44,7 +44,10 @@ public class DatabaseBackend {
 
     private static final String DATABASE_NAME = "sqlite"; // SQLite
 
-    private static final String DATABASE_LOCATION_NAME = "comArchive.db";
+    // This version is not necessarily following the version of the POM file
+    // The reason is that the MO APIs may remain the same between different versions
+    // When there are changes in any of the MO APIs, the version on this filename needs to be incremented!
+    private static final String DATABASE_LOCATION_NAME = "comArchive_v001.db";
 
     private static final String MEMORY_DB_OPTION = ":memory:";
 
