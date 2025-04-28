@@ -93,7 +93,7 @@ public class DatabaseBackend {
             }
             if (writableFs) {
                 LOGGER.info("DB file writable - defaulting to non-volatile COM Archive");
-                this.url = "jdbc:" + DATABASE_NAME + ":" + DATABASE_LOCATION_NAME;
+                this.url = "jdbc:" + DATABASE_NAME + ":" + dbFile.getAbsolutePath();
             } else {
                 LOGGER.info("DB file not writable - defaulting to in-memory COM Archive");
                 this.url = "jdbc:" + DATABASE_NAME + ":" + MEMORY_DB_OPTION;
