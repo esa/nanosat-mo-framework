@@ -38,6 +38,7 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MOErrorException;
+import org.ccsds.moims.mo.mal.UnknownException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.FineTime;
@@ -274,7 +275,7 @@ public class ParameterManager extends MCManager {
      */
     public ParameterValue getParameterValue(Long identityId, boolean aggrExpired) throws MALInteractionException {
         if (!this.existsIdentity(identityId)) {  // The Parameter does not exist
-            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, identityId));
+            throw new MALInteractionException(new UnknownException(identityId));
         }
 
         ParameterDefinitionDetails pDef = this.getParameterDefinition(identityId);

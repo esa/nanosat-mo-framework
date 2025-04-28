@@ -44,6 +44,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.exec.environment.EnvironmentUtils;
 import org.ccsds.moims.mo.com.COMHelper;
+import org.ccsds.moims.mo.com.InvalidException;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.structures.ObjectId;
@@ -637,7 +638,7 @@ public class AppsLauncherManager extends DefinitionsManager {
                     LOGGER.log(Level.SEVERE,
                             "The App was not stopped: {0}", appDirectoryServiceName);
                     if (interaction != null) {
-                        MOErrorException error = new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, appDirectoryServiceName);
+                        MOErrorException error = new InvalidException(appDirectoryServiceName);
                         interaction.sendUpdateError(error);
                     }
                 }

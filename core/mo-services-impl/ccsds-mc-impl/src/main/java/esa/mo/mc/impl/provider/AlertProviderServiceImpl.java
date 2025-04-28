@@ -66,6 +66,9 @@ import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 import org.ccsds.moims.mo.mc.structures.Severity;
 import esa.mo.reconfigurable.service.ReconfigurableService;
 import esa.mo.reconfigurable.service.ConfigurationChangeListener;
+import org.ccsds.moims.mo.com.DuplicateException;
+import org.ccsds.moims.mo.com.InvalidException;
+import org.ccsds.moims.mo.mal.UnknownException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.structures.Element;
@@ -227,11 +230,11 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
 
         // Errors
         if (!unkIndexList.isEmpty()) { // requirement: 3.4.8.3.1
-            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+            throw new MALInteractionException(new UnknownException(unkIndexList));
         }
 
         if (!invIndexList.isEmpty()) { // requirement: 3.4.8.3.2
-            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+            throw new MALInteractionException(new InvalidException(invIndexList));
         }
 
         LongList output = new LongList();
@@ -284,9 +287,8 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
             }
 
             // Errors
-            if (!unkIndexList.isEmpty()) // requirement: 3.4.9.3.1 (error: a and b)
-            {
-                throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+            if (!unkIndexList.isEmpty()) { // requirement: 3.4.9.3.1 (error: a and b)
+                throw new MALInteractionException(new UnknownException(unkIndexList));
             }
         }
 
@@ -322,13 +324,11 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
         }
         // Errors
         //requirement: 3.4.10.2.d -> returning errors before adding definitions assures that
-        if (!invIndexList.isEmpty()) // requirement: 3.4.10.3.2
-        {
-            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+        if (!invIndexList.isEmpty()) { // requirement: 3.4.10.3.2
+            throw new MALInteractionException(new InvalidException(invIndexList));
         }
-        if (!dupIndexList.isEmpty()) // requirement: 3.4.10.3.1
-        {
-            throw new MALInteractionException(new MOErrorException(COMHelper.DUPLICATE_ERROR_NUMBER, dupIndexList));
+        if (!dupIndexList.isEmpty()) { // requirement: 3.4.10.3.1
+            throw new MALInteractionException(new DuplicateException(dupIndexList));
         }
 
         ObjectInstancePairList outPairLst = new ObjectInstancePairList();
@@ -375,11 +375,11 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
         // Errors
         //requirement: 3.4.11.2.g -> returning errors before adding definitions assures that
         if (!invIndexList.isEmpty()) { // requirement: 3.4.11.3.1
-            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+            throw new MALInteractionException(new InvalidException(invIndexList));
         }
 
         if (!unkIndexList.isEmpty()) { // requirement: 3.4.11.3.2
-            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+            throw new MALInteractionException(new UnknownException(unkIndexList));
         }
 
         LongList outLst = new LongList();
@@ -427,7 +427,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
 
         // Errors
         if (!unkIndexList.isEmpty()) { // requirement: 3.4.12.3.1
-            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+            throw new MALInteractionException(new UnknownException(unkIndexList));
         }
 
         // requirement: 3.4.12.2.e (Inserting the errors before this line guarantees that the requirement is met)

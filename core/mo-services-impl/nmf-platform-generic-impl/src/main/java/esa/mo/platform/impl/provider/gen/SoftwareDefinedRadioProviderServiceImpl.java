@@ -26,11 +26,10 @@ import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.COMHelper;
+import org.ccsds.moims.mo.com.InvalidException;
+import org.ccsds.moims.mo.mal.InternalException;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
@@ -49,7 +48,7 @@ import org.ccsds.moims.mo.mal.structures.UpdateHeader;
 import org.ccsds.moims.mo.mal.structures.UpdateHeaderList;
 import org.ccsds.moims.mo.mal.transport.MALErrorBody;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.platform.PlatformHelper;
+import org.ccsds.moims.mo.platform.DeviceNotAvailableException;
 import org.ccsds.moims.mo.platform.softwaredefinedradio.SoftwareDefinedRadioHelper;
 import org.ccsds.moims.mo.platform.softwaredefinedradio.SoftwareDefinedRadioServiceInfo;
 import org.ccsds.moims.mo.platform.softwaredefinedradio.provider.SoftwareDefinedRadioInheritanceSkeleton;
@@ -164,11 +163,10 @@ public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadi
             sdrInUse = false;
         } else {
             if (!adapter.isUnitAvailable()) {
-                throw new MALInteractionException(new MOErrorException(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER,
-                    null));
+                throw new MALInteractionException(new DeviceNotAvailableException(null));
             }
             if (!adapter.setConfiguration(initialConfiguration)) {
-                throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, null));
+                throw new MALInteractionException(new InvalidException(null));
             }
             sdrInUse = true;
             int period = (int) (publishingPeriod.getValue() * 1000); // In milliseconds
@@ -186,7 +184,7 @@ public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadi
             }, period, period);
         }
         if (!adapter.enableSDR(enable)) {
-            throw new MALInteractionException(new MOErrorException(MALHelper.INTERNAL_ERROR_NUMBER, null));
+            throw new MALInteractionException(new InternalException(null));
         }
     }
 
@@ -194,11 +192,10 @@ public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadi
     public synchronized void updateConfiguration(final SDRConfiguration sdrConfiguration,
             final MALInteraction interaction) throws MALInteractionException, MALException {
         if (!adapter.isUnitAvailable()) {
-            throw new MALInteractionException(new MOErrorException(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER,
-                null));
+            throw new MALInteractionException(new DeviceNotAvailableException(null));
         }
         if (!adapter.setConfiguration(sdrConfiguration)) {
-            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, null));
+            throw new MALInteractionException(new InvalidException(null));
         }
     }
 

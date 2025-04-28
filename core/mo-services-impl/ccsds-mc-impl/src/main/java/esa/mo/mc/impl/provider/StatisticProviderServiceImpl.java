@@ -30,16 +30,15 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.COMHelper;
+import org.ccsds.moims.mo.com.InvalidException;
 import org.ccsds.moims.mo.com.structures.InstanceBooleanPair;
 import org.ccsds.moims.mo.com.structures.InstanceBooleanPairList;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.com.structures.ObjectKeyList;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.MOErrorException;
+import org.ccsds.moims.mo.mal.UnknownException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.helpertools.misc.TaskScheduler;
@@ -345,10 +344,10 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
 
         // Errors
         if (!unkIndexList.isEmpty()) { // requirement 3.6.7.3.1
-            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+            throw new MALInteractionException(new UnknownException(unkIndexList));
         }
         if (!invIndexList.isEmpty()) {// requirement 3.6.7.3.2
-            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+            throw new MALInteractionException(new InvalidException(invIndexList));
         }
 
         //find the statLinkIds that are to be reported
@@ -531,10 +530,10 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
 
         // Errors
         if (!unkIndexList.isEmpty()) { // requirement: 3.6.12.2.1
-            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+            throw new MALInteractionException(new UnknownException(unkIndexList));
         }
         if (!invIndexList.isEmpty()) { // requirement: 3.6.12.2.2
-            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+            throw new MALInteractionException(new InvalidException(invIndexList));
         }
 
         // requirement: 3.6.8.2.g (This part of the code is only reached if no error was raised)
@@ -681,10 +680,10 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
 
         // Errors
         if (!unkIndexList.isEmpty()) { // requirement: 3.6.12.2.1
-            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+            throw new MALInteractionException(new UnknownException(unkIndexList));
         }
         if (!invIndexList.isEmpty()) { // requirement: 3.6.12.2.2
-            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+            throw new MALInteractionException(new InvalidException(invIndexList));
         }
 
         // requirement: 3.6.12.2.i (This part of the code is only reached if no error was raised)
@@ -759,11 +758,11 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
 
         // Errors
         if (!invIndexList.isEmpty()) { // requirement: 3.6.14.3.2
-            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+            throw new MALInteractionException(new InvalidException(invIndexList));
         }
 
         if (!unkIndexList.isEmpty()) { // requirement: 3.6.14.3.1
-            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+            throw new MALInteractionException(new UnknownException(unkIndexList));
         }
 
         // If no errors, then add!  // requirement: 3.6.14.2.i
@@ -827,11 +826,11 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
         }
         // Errors
         if (!invIndexList.isEmpty()) { // requirement: 3.6.15.3.2
-            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+            throw new MALInteractionException(new InvalidException(invIndexList));
         }
 
         if (!unkIndexList.isEmpty()) { // requirement: 3.6.15.3.1
-            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+            throw new MALInteractionException(new UnknownException(unkIndexList));
         }
 
         LongList newDefIds = new LongList();
@@ -884,7 +883,7 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
 
         // Errors
         if (!unkIndexList.isEmpty()) { // requirement: 3.6.15.3 (error: a, b)
-            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+            throw new MALInteractionException(new UnknownException(unkIndexList));
         }
 
         // requirement: 3.6.15.3.e (Inserting the errors before this line guarantees that the requirement is met)
@@ -927,9 +926,8 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
             statLinkIds.addAll(manager.getStatisticLinksForFunction(statFuncId));
         }
         // Errors
-        if (!unkIndexList.isEmpty()) // requirement: 3.6.13.3.1 (error: a and b)
-        {
-            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+        if (!unkIndexList.isEmpty()) { // requirement: 3.6.13.3.1 (error: a and b)
+            throw new MALInteractionException(new UnknownException(unkIndexList));
         }
 
         StatisticLinkSummaryList statLinkSummaries = new StatisticLinkSummaryList(statLinkIds.size());
@@ -1037,8 +1035,7 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
         public void refresh(Long identityId) {
             //do the sampling from the first enabling to the removal of the statisticLink
             if (sampleTimerList.containsKey(identityId)) { // Does it exist in the PeriodicSamplingManager?
-                if (!manager.statLinkExists(identityId)) //Its in the list but doesnt exist anymore? -> remove 
-                {
+                if (!manager.statLinkExists(identityId)) { //Its in the list but doesnt exist anymore? -> remove 
                     removePeriodicReporting(identityId);
                 }
                 return;

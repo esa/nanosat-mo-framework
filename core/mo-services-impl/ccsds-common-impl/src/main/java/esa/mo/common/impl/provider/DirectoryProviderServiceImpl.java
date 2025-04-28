@@ -32,6 +32,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
+import org.ccsds.moims.mo.com.InvalidException;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
 import org.ccsds.moims.mo.com.structures.ObjectKey;
@@ -53,6 +54,7 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MOErrorException;
+import org.ccsds.moims.mo.mal.UnknownException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.helpertools.connections.ServicesConnectionDetails;
@@ -193,7 +195,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
             Identifier domainPart = inputDomain.get(i);
 
             if (domainPart.toString().equals("*") && i != (inputDomain.size() - 1)) {
-                throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, null));
+                throw new MALInteractionException(new InvalidException(null));
             }
         }
 
@@ -366,12 +368,12 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
 
             // Check if there are comServices...
             if (comServices == null) {
-                throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, null));
+                throw new MALInteractionException(new InvalidException(null));
             }
 
             // Check if the archive is available...
             if (comServices.getArchiveService() == null) {
-                throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, null));
+                throw new MALInteractionException(new InvalidException(null));
             }
 
             // Store in the Archive the ServiceProvider COM object and get an object instance identifier
@@ -384,7 +386,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
             if (!returnedServProvObjIds.isEmpty()) {
                 servProvObjId = returnedServProvObjIds.get(0);
             } else {  // Nothing was returned...
-                throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, null));
+                throw new MALInteractionException(new InvalidException(null));
             }
 
             // related contains the objId of the ServiceProvider object
@@ -412,7 +414,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
             MALInteraction interaction) throws MALInteractionException, MALException {
         synchronized (MUTEX) {
             if (!this.providersAvailable.containsKey(providerObjectKey)) { // The requested provider does not exist
-                throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, null));
+                throw new MALInteractionException(new UnknownException(null));
             }
 
             ArchiveManager manager = comServices.getArchiveService().getArchiveManager();

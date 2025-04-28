@@ -249,19 +249,20 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
     private static class GPSConsumerAdapter extends GPSAdapter {
 
         @Override
-        public void getNMEASentenceResponseErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
-            Map qosProperties) {
+        public void getNMEASentenceResponseErrorReceived(MALMessageHeader msgHeader,
+                MOErrorException error, Map qosProperties) {
             LOGGER.log(Level.WARNING, "Received response error");
         }
 
         @Override
-        public void getNMEASentenceAckErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
-            Map qosProperties) {
+        public void getNMEASentenceAckErrorReceived(MALMessageHeader msgHeader,
+                MOErrorException error, Map qosProperties) {
             LOGGER.log(Level.WARNING, "Received ACK error");
         }
 
         @Override
-        public void getNMEASentenceResponseReceived(MALMessageHeader msgHeader, String sentence, Map qosProperties) {
+        public void getNMEASentenceResponseReceived(MALMessageHeader msgHeader,
+                String sentence, Map qosProperties) {
             LOGGER.log(Level.INFO, "Received message " + sentence);
         }
 

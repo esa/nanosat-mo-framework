@@ -44,6 +44,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.structures.ObjectDetails;
+import org.ccsds.moims.mo.mal.UnknownException;
 import org.ccsds.moims.mo.mc.check.structures.CheckLinkDetails;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
 
@@ -262,7 +263,7 @@ public class CheckLinkEvaluationManager {
             }
             return CheckEvaluation.evaluateCompoundCheck(compoundCheckDef, currCheckLinkEvaluations, evaluationResult);
         }
-        throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER,
+        throw new MALInteractionException(new UnknownException(
                 "There is a problem with the checkDefinition referenced by the checkLink"));
     }
 

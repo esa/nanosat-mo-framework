@@ -50,7 +50,10 @@ import esa.mo.mp.impl.callback.MPServiceOperationHelper;
 import esa.mo.mp.impl.callback.MPServiceOperationManager;
 import esa.mo.mp.impl.com.COMObjectIdHelper;
 import esa.mo.mp.impl.util.MPFactory;
+import org.ccsds.moims.mo.com.DuplicateException;
+import org.ccsds.moims.mo.com.InvalidException;
 import org.ccsds.moims.mo.mal.MOErrorException;
+import org.ccsds.moims.mo.mal.UnknownException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mp.plandistribution.PlanDistributionServiceInfo;
 import org.ccsds.moims.mo.mp.planedit.PlanEditServiceInfo;
@@ -128,16 +131,17 @@ public class PlanEditProviderServiceImpl extends PlanEditInheritanceSkeleton {
         PlanVersionDetails planVersion = archiveManager.PLAN.getInstance(planVersionId);
 
         if (existsActivity(planVersion, activityInstance)) {
-            throw new MALInteractionException(new MOErrorException(COMHelper.DUPLICATE_ERROR_NUMBER, new Union(
+            throw new MALInteractionException(new DuplicateException(new Union(
                 "Given Activity already exists in the plan")));
         }
 
         // Validation callback
-        operationCallbackManager.notifyActivityValidation(MPServiceOperation.INSERT_ACTIVITY, planVersion,
-            activityInstance);
+        operationCallbackManager.notifyActivityValidation(
+                MPServiceOperation.INSERT_ACTIVITY, planVersion, activityInstance);
 
         // Add Activity
-        ObjectId activityId = archiveManager.ACTIVITY.addInstance(activityDefId, activityInstance, null, interaction);
+        ObjectId activityId = archiveManager.ACTIVITY.addInstance(activityDefId,
+                activityInstance, null, interaction);
 
         // Operation callback
         operationCallbackManager.notify(MPServiceOperation.INSERT_ACTIVITY, Arrays.asList(
@@ -169,13 +173,13 @@ public class PlanEditProviderServiceImpl extends PlanEditInheritanceSkeleton {
         // Check validity
         ActivityInstanceDetails activity = archiveManager.ACTIVITY.getInstance(activityId);
         if (activity == null || !existsActivity(planVersion, activity)) {
-            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, new Union(
+            throw new MALInteractionException(new InvalidException(new Union(
                 "Given Activity does not exist in the plan")));
         }
 
         // Validation callback
-        operationCallbackManager.notifyActivityValidation(MPServiceOperation.INSERT_ACTIVITY, planVersion,
-            activityInstance);
+        operationCallbackManager.notifyActivityValidation(
+                MPServiceOperation.INSERT_ACTIVITY, planVersion, activityInstance);
 
         // Update Activity
         ObjectId activityDefinitionId = archiveManager.ACTIVITY.getDefinitionIdByInstanceId(activityId);
@@ -211,7 +215,7 @@ public class PlanEditProviderServiceImpl extends PlanEditInheritanceSkeleton {
         // Check validity
         ActivityInstanceDetails activity = archiveManager.ACTIVITY.getInstance(activityId);
         if (activity == null || !existsActivity(planVersion, activity)) {
-            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, new Union(
+            throw new MALInteractionException(new InvalidException(new Union(
                 "Given Activity does not exist in the plan")));
         }
 
@@ -243,7 +247,7 @@ public class PlanEditProviderServiceImpl extends PlanEditInheritanceSkeleton {
 
         // Check for duplicate
         if (existsEvent(planVersion, eventInstance)) {
-            throw new MALInteractionException(new MOErrorException(COMHelper.DUPLICATE_ERROR_NUMBER, new Union(
+            throw new MALInteractionException(new DuplicateException(new Union(
                 "Given Event already exists in the plan")));
         }
 
@@ -321,7 +325,7 @@ public class PlanEditProviderServiceImpl extends PlanEditInheritanceSkeleton {
         // Check validity
         EventInstanceDetails event = archiveManager.EVENT.getInstance(eventId);
         if (event == null || !existsEvent(planVersion, event)) {
-            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, new Union(
+            throw new MALInteractionException(new InvalidException(new Union(
                 "Given Event does not exist in the plan")));
         }
 
@@ -365,7 +369,7 @@ public class PlanEditProviderServiceImpl extends PlanEditInheritanceSkeleton {
         ObjectId latestPlanVersionId = archiveManager.PLAN.getInstanceIdByIdentityId(planIdentityId);
 
         if (latestPlanVersionId == null) {
-            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, new Union(
+            throw new MALInteractionException(new UnknownException(new Union(
                 "Unknown Plan Identity Id")));
         }
 

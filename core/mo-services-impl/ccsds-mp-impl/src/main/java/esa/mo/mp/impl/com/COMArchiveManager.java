@@ -24,34 +24,34 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.COMHelper;
-import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
-import org.ccsds.moims.mo.com.structures.ObjectId;
-import org.ccsds.moims.mo.com.structures.ObjectIdList;
-import org.ccsds.moims.mo.com.structures.ObjectType;
-import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALHelper;
-import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.MOErrorException;
-import org.ccsds.moims.mo.mal.provider.MALInteraction;
-import org.ccsds.moims.mo.mal.structures.Element;
-import org.ccsds.moims.mo.mal.structures.ElementList;
-import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.structures.LongList;
-import org.ccsds.moims.mo.mal.structures.UInteger;
-import org.ccsds.moims.mo.mal.structures.UIntegerList;
-import org.ccsds.moims.mo.mp.structures.ObjectIdPair;
-import org.ccsds.moims.mo.mp.structures.ObjectIdPairList;
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.provider.ArchiveProviderServiceImpl;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
+import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
+import org.ccsds.moims.mo.com.DuplicateException;
+import org.ccsds.moims.mo.com.InvalidException;
 import org.ccsds.moims.mo.com.structures.ObjectDetails;
+import org.ccsds.moims.mo.com.structures.ObjectId;
+import org.ccsds.moims.mo.com.structures.ObjectIdList;
+import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
+import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.provider.MALInteraction;
+import org.ccsds.moims.mo.mal.structures.Element;
+import org.ccsds.moims.mo.mal.structures.ElementList;
 import org.ccsds.moims.mo.mal.structures.FineTime;
+import org.ccsds.moims.mo.mal.structures.Identifier;
+import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
+import org.ccsds.moims.mo.mal.structures.LongList;
+import org.ccsds.moims.mo.mal.structures.UInteger;
+import org.ccsds.moims.mo.mal.structures.UIntegerList;
+import org.ccsds.moims.mo.mal.UnknownException;
+import org.ccsds.moims.mo.mp.structures.ObjectIdPair;
+import org.ccsds.moims.mo.mp.structures.ObjectIdPairList;
 
 /**
  * Front-end to COM Archive. Delegates to ArchiveProviderServiceImpl.
@@ -640,7 +640,7 @@ public class COMArchiveManager<IdentityT extends Element, IdentityListT extends 
         }
 
         if (!invalidIndexList.isEmpty()) {
-            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, invalidIndexList));
+            throw new MALInteractionException(new InvalidException(invalidIndexList));
         }
     }
 
@@ -656,8 +656,7 @@ public class COMArchiveManager<IdentityT extends Element, IdentityListT extends 
         }
 
         if (!duplicateIndexList.isEmpty()) {
-            throw new MALInteractionException(new MOErrorException(COMHelper.DUPLICATE_ERROR_NUMBER,
-                duplicateIndexList));
+            throw new MALInteractionException(new DuplicateException(duplicateIndexList));
         }
     }
 
@@ -678,7 +677,7 @@ public class COMArchiveManager<IdentityT extends Element, IdentityListT extends 
         }
 
         if (!invalidIndexList.isEmpty()) {
-            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, invalidIndexList));
+            throw new MALInteractionException(new InvalidException(invalidIndexList));
         }
     }
 
@@ -705,7 +704,7 @@ public class COMArchiveManager<IdentityT extends Element, IdentityListT extends 
         }
 
         if (!unknownIndexList.isEmpty()) {
-            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, unknownIndexList));
+            throw new MALInteractionException(new UnknownException(unknownIndexList));
         }
     }
 

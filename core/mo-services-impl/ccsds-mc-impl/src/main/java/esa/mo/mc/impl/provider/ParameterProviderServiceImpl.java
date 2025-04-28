@@ -35,6 +35,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.COMService;
+import org.ccsds.moims.mo.com.DuplicateException;
+import org.ccsds.moims.mo.com.InvalidException;
 import org.ccsds.moims.mo.com.structures.InstanceBooleanPair;
 import org.ccsds.moims.mo.com.structures.InstanceBooleanPairList;
 import org.ccsds.moims.mo.com.structures.ObjectId;
@@ -46,6 +48,7 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MOErrorException;
+import org.ccsds.moims.mo.mal.UnknownException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.helpertools.misc.TaskScheduler;
@@ -78,6 +81,7 @@ import org.ccsds.moims.mo.mal.structures.UpdateHeaderList;
 import org.ccsds.moims.mo.mal.transport.MALErrorBody;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.MCHelper;
+import org.ccsds.moims.mo.mc.ReadonlyException;
 import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
 import org.ccsds.moims.mo.mc.parameter.ParameterServiceInfo;
 import org.ccsds.moims.mo.mc.parameter.provider.MonitorValuePublisher;
@@ -205,7 +209,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             }
             // Errors
             if (!unkIndexList.isEmpty()) { // requirement: 3.3.8.2.d
-                throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+                throw new MALInteractionException(new UnknownException(unkIndexList));
             }
         }
 
@@ -279,10 +283,10 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
         // Errors
         if (!unkIndexList.isEmpty()) { // requirement: 3.3.10.3.1
-            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+            throw new MALInteractionException(new UnknownException(unkIndexList));
         }
         if (!invIndexList.isEmpty()) { // requirement: 3.3.10.3.2
-            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+            throw new MALInteractionException(new InvalidException(invIndexList));
         }
 
         LongList output = new LongList();
@@ -349,17 +353,14 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         }
         // requirement: 3.3.9.2.g: before changes are made, possible errors are thrown
         // Errors
-        if (!invIndexList.isEmpty()) // requirement: 3.3.9.3.2 
-        {
-            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+        if (!invIndexList.isEmpty()) { // requirement: 3.3.9.3.2 
+            throw new MALInteractionException(new InvalidException(invIndexList));
         }
-        if (!unkIndexList.isEmpty()) // requirement: 3.3.9.3.1 (error: a and b)
-        {
-            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+        if (!unkIndexList.isEmpty()) { // requirement: 3.3.9.3.1 (error: a and b)
+            throw new MALInteractionException(new UnknownException(unkIndexList));
         }
-        if (!readOnlyIndexList.isEmpty()) // requirement: 3.3.9.3.3 
-        {
-            throw new MALInteractionException(new MOErrorException(MCHelper.READONLY_ERROR_NUMBER, readOnlyIndexList));
+        if (!readOnlyIndexList.isEmpty()) { // requirement: 3.3.9.3.3 
+            throw new MALInteractionException(new ReadonlyException(readOnlyIndexList));
         }
 
         //requirement 3.3.4.i   
@@ -439,7 +440,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             // Errors
             if (!unkIndexList.isEmpty()) // requirement: 3.3.11.3.1 (error: a and b)
             {
-                throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+                throw new MALInteractionException(new UnknownException(unkIndexList));
             }
         }
         return retDefinitions;
@@ -482,11 +483,11 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
         // Errors
         if (!invIndexList.isEmpty()) { // requirement: 3.3.12.2.b
-            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+            throw new MALInteractionException(new InvalidException(invIndexList));
         }
 
         if (!dupIndexList.isEmpty()) { // requirement: 3.3.12.2.c
-            throw new MALInteractionException(new MOErrorException(COMHelper.DUPLICATE_ERROR_NUMBER, dupIndexList));
+            throw new MALInteractionException(new DuplicateException(dupIndexList));
         }
 
         ObjectInstancePairList outPairLst = new ObjectInstancePairList();
@@ -551,8 +552,8 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             }
             //requirement: 3.3.3.h, 3.3.13.2.f
             final ParameterDefinitionDetails pDef = paramDefDetails.get(index);
-            if (pDef.getReportInterval().getValue() != 0 && pDef.getReportInterval().getValue()
-                    < MIN_REPORTING_INTERVAL) {
+            if (pDef.getReportInterval().getValue() != 0 &&
+                    pDef.getReportInterval().getValue() < MIN_REPORTING_INTERVAL) {
                 invIndexList.add(new UInteger(index));
                 continue;
             }
@@ -561,12 +562,12 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         // Errors
         if (!invIndexList.isEmpty()) // requirement: 3.3.13.3.1 (error: a)
         {
-            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+            throw new MALInteractionException(new InvalidException(invIndexList));
         }
 
         if (!unkIndexList.isEmpty()) // requirement: 3.3.13.3.2 (error: b)
         {
-            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+            throw new MALInteractionException(new UnknownException(unkIndexList));
         }
 
         //requirment 3.3.13.2.g: parameters shall only be updated if no error was raised
@@ -617,7 +618,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         // Errors
         if (!unkIndexList.isEmpty()) // requirement: 3.3.14.3.1 (error: a, b)
         {
-            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+            throw new MALInteractionException(new UnknownException(unkIndexList));
         }
 
         // requirement: 3.3.14.2.f (Inserting the errors before this line guarantees that the requirement is met)

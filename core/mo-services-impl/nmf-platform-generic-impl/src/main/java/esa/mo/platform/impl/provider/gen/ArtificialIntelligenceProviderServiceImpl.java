@@ -28,6 +28,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
+import org.ccsds.moims.mo.com.InvalidException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
@@ -133,9 +134,7 @@ public class ArtificialIntelligenceProviderServiceImpl extends ArtificialIntelli
 
         if (!inputTiles.exists()) {
             String msg = "The inputTilesPath does not exist in path: " + inputTilesPath;
-            throw new MALInteractionException(
-                    new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, msg)
-            );
+            throw new MALInteractionException(new InvalidException(msg));
         }
 
         String modelPath = modelPaths.get((int) (modelId - TIMESTAMP));
@@ -172,7 +171,8 @@ public class ArtificialIntelligenceProviderServiceImpl extends ArtificialIntelli
     }
 
     @Override
-    public void doComputerVision(String jsonPath, DoComputerVisionInteraction interaction) throws MALInteractionException, MALException {
+    public void doComputerVision(String jsonPath,
+            DoComputerVisionInteraction interaction) throws MALInteractionException, MALException {
         if (jsonPath == null) {
             throw new MALException("The jsonPath cannot be null!");
         }
@@ -185,9 +185,7 @@ public class ArtificialIntelligenceProviderServiceImpl extends ArtificialIntelli
 
         if (!path.exists()) {
             String msg = "The file does not exist in path: " + path;
-            throw new MALInteractionException(
-                    new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, msg)
-            );
+            throw new MALInteractionException(new InvalidException(msg));
         }
 
         if (interaction != null) {

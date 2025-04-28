@@ -25,16 +25,15 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.MOErrorException;
+import org.ccsds.moims.mo.mal.UnknownException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UIntegerList;
-import org.ccsds.moims.mo.platform.PlatformHelper;
+import org.ccsds.moims.mo.platform.DeviceNotAvailableException;
 import org.ccsds.moims.mo.platform.powercontrol.PowerControlHelper;
 import org.ccsds.moims.mo.platform.powercontrol.PowerControlServiceInfo;
 import org.ccsds.moims.mo.platform.powercontrol.provider.PowerControlInheritanceSkeleton;
@@ -70,7 +69,7 @@ public class PowerControlProviderServiceImpl extends PowerControlInheritanceSkel
 
         this.adapter = adapter;
         powerControlServiceProvider = connection.startService(PowerControlServiceInfo.POWERCONTROL_SERVICE_NAME.toString(),
-            PowerControlHelper.POWERCONTROL_SERVICE, this);
+                PowerControlHelper.POWERCONTROL_SERVICE, this);
 
         running = true;
         initialiased = true;
@@ -95,7 +94,7 @@ public class PowerControlProviderServiceImpl extends PowerControlInheritanceSkel
     }
 
     @Override
-    public DeviceList listDevices(IdentifierList names, MALInteraction interaction) 
+    public DeviceList listDevices(IdentifierList names, MALInteraction interaction)
             throws MALInteractionException, MALException {
         if (names == null) {
             throw new MALException("IdentifierList cannot be empty.");
@@ -117,7 +116,7 @@ public class PowerControlProviderServiceImpl extends PowerControlInheritanceSkel
             }
         }
         if (!unkIndexList.isEmpty()) {
-            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+            throw new MALInteractionException(new UnknownException(unkIndexList));
         }
         return ret;
     }
@@ -129,8 +128,7 @@ public class PowerControlProviderServiceImpl extends PowerControlInheritanceSkel
             adapter.enableDevices(devices);
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, "adapter.enableDevices failed", ex);
-            throw new MALInteractionException(new MOErrorException(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER,
-                null));
+            throw new MALInteractionException(new DeviceNotAvailableException(null));
         }
     }
 

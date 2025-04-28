@@ -31,16 +31,17 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.COMService;
+import org.ccsds.moims.mo.com.DuplicateException;
+import org.ccsds.moims.mo.com.InvalidException;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectSet;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectSetList;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MOErrorException;
+import org.ccsds.moims.mo.mal.UnknownException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
@@ -68,6 +69,7 @@ import org.ccsds.moims.mo.mal.structures.UpdateHeader;
 import org.ccsds.moims.mo.mal.structures.UpdateHeaderList;
 import org.ccsds.moims.mo.mal.transport.MALErrorBody;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
+import org.ccsds.moims.mo.platform.DeviceNotAvailableException;
 import org.ccsds.moims.mo.platform.PlatformHelper;
 import org.ccsds.moims.mo.platform.gps.GPSHelper;
 import org.ccsds.moims.mo.platform.gps.GPSServiceInfo;
@@ -188,13 +190,13 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
             }
 
             Logger.getLogger(GPSProviderServiceImpl.class.getName()).log(Level.FINER,
-                "Generating GPS Nearby Position update for: {0} (Identifier: {1})",
-                new Object[]{objId, new Identifier(manager.get(objId).getName().toString())});
+                    "Generating GPS Nearby Position update for: {0} (Identifier: {1})",
+                    new Object[]{objId, new Identifier(manager.get(objId).getName().toString())});
 
             final URI uri = connection.getConnectionDetails().getProviderURI();
             final Long pValObjId = manager.storeAndGenerateNearbyPositionAlertId(isInside, objId, uri);
 
-            AttributeList keys = new AttributeList(); 
+            AttributeList keys = new AttributeList();
             keys.add(new Identifier(manager.get(objId).getName().toString()));
             keys.addAsJavaType(objId);
             keys.addAsJavaType(pValObjId);
@@ -203,7 +205,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
 
             final UpdateHeaderList hdrlst = new UpdateHeaderList();
             URI source = connection.getConnectionDetails().getProviderURI();
-            UpdateHeader updateHeader = new UpdateHeader(new Identifier(source.getValue()), 
+            UpdateHeader updateHeader = new UpdateHeader(new Identifier(source.getValue()),
                     connection.getConnectionDetails().getDomain(), keys.getAsNullableAttributeList());
 
             BooleanList bools = new BooleanList();
@@ -232,8 +234,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
     public void getNMEASentence(String sentenceIdentifier, GetNMEASentenceInteraction interaction)
             throws MALInteractionException, MALException {
         if (!adapter.isUnitAvailable()) { // Is the unit available?
-            throw new MALInteractionException(
-                    new MOErrorException(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
+            throw new MALInteractionException(new DeviceNotAvailableException(null));
         }
 
         interaction.sendAcknowledgement();
@@ -243,7 +244,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
             interaction.sendResponse(nmeaSentence);
         } catch (IOException ex) {
             LOGGER.log(Level.FINE, "getNMEASentence error", ex);
-            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, null));
+            throw new MALInteractionException(new InvalidException(null));
         }
     }
 
@@ -259,7 +260,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
         }
 
         if (pos == null) { // We never got a position! So we don't know the position!
-            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, null));
+            throw new MALInteractionException(new UnknownException(null));
         }
 
         double elapsedTime = (System.currentTimeMillis() - startTime) / 1000; // convert from milli to
@@ -273,23 +274,21 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
         try {
             useTLEpropagation = useTLEPropagation();
         } catch (MALException | MALInteractionException e) {
-            throw new MALInteractionException(
-                    new MOErrorException(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
+            throw new MALInteractionException(new DeviceNotAvailableException(null));
         }
 
         interaction.sendAcknowledgement();
 
         Position position = updateCurrentPosition(useTLEpropagation);
         if (position == null) {
-            throw new MALInteractionException(
-                    new MOErrorException(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
+            throw new MALInteractionException(new DeviceNotAvailableException(null));
         }
         interaction.sendResponse(position);
     }
 
     @Override
     public void getSatellitesInfo(GetSatellitesInfoInteraction interaction) throws MALInteractionException,
-        MALException {
+            MALException {
         SatelliteInfoList infoList;
         // The useTLE check can throw a DEVICE_NOT_AVAILABLE
         if (useTLEPropagation()) {
@@ -300,8 +299,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
             interaction.sendAcknowledgement();
             infoList = adapter.getSatelliteInfoList();
             if (infoList == null) {
-                throw new MALInteractionException(new MOErrorException(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER,
-                    null));
+                throw new MALInteractionException(new DeviceNotAvailableException(null));
             }
         }
         interaction.sendResponse(infoList);
@@ -365,13 +363,11 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
 
         // Errors
         if (!dupIndexList.isEmpty()) { // requirement: 3.4.10.3.1
-            throw new MALInteractionException(
-                    new MOErrorException(COMHelper.DUPLICATE_ERROR_NUMBER, dupIndexList));
+            throw new MALInteractionException(new DuplicateException(dupIndexList));
         }
 
         if (!invIndexList.isEmpty()) { // requirement: 3.4.10.3.2
-            throw new MALInteractionException(
-                    new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+            throw new MALInteractionException(new InvalidException(invIndexList));
         }
 
         if (configurationAdapter != null) {
@@ -411,8 +407,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
 
         // Errors
         if (!unkIndexList.isEmpty()) {
-            throw new MALInteractionException(
-                    new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+            throw new MALInteractionException(new UnknownException(unkIndexList));
         }
 
         for (Long tempLong2 : tempLongLst) {
@@ -442,7 +437,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
         }
 
         if (position == null && positionDeviation == null && velocity == null && velocityDeviation == null) { // We never got the data! So we don't know the data!
-            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, null));
+            throw new MALInteractionException(new UnknownException(null));
         }
 
         double elapsedTime = (System.currentTimeMillis() - startTime) / 1000; // convert from milli to sec
@@ -458,15 +453,13 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
         try {
             useTLEpropagation = useTLEPropagation();
         } catch (MALException | MALInteractionException e) {
-            throw new MALInteractionException(
-                    new MOErrorException(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
+            throw new MALInteractionException(new DeviceNotAvailableException(null));
         }
         interaction.sendAcknowledgement();
         try {
             updateCurrentPositionAndVelocity(useTLEpropagation);
         } catch (IOException | NumberFormatException e) {
-            interaction
-                    .sendError(new MOErrorException(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
+            interaction.sendError(new DeviceNotAvailableException(null));
         }
         final VectorD3D position;
         final VectorF3D positionDeviation;
@@ -490,31 +483,27 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
     public static final class PublishInteractionListener implements MALPublishInteractionListener {
 
         @Override
-        public void publishDeregisterAckReceived(final MALMessageHeader header, final Map qosProperties)
-                throws MALException {
-            LOGGER
-                    .fine("PublishInteractionListener::publishDeregisterAckReceived");
-        }
-
-        @Override
-        public void publishErrorReceived(final MALMessageHeader header, final MALErrorBody body,
+        public void publishDeregisterAckReceived(final MALMessageHeader header,
                 final Map qosProperties) throws MALException {
-            LOGGER
-                    .warning("PublishInteractionListener::publishErrorReceived");
+            LOGGER.fine("PublishInteractionListener::publishDeregisterAckReceived");
         }
 
         @Override
-        public void publishRegisterAckReceived(final MALMessageHeader header, final Map qosProperties)
-                throws MALException {
-            LOGGER.log(Level.INFO,
-                    "Registration Ack: {0}", header.toString());
+        public void publishErrorReceived(final MALMessageHeader header,
+                final MALErrorBody body, final Map qosProperties) throws MALException {
+            LOGGER.warning("PublishInteractionListener::publishErrorReceived");
         }
 
         @Override
-        public void publishRegisterErrorReceived(final MALMessageHeader header, final MALErrorBody body,
+        public void publishRegisterAckReceived(final MALMessageHeader header,
                 final Map qosProperties) throws MALException {
-            LOGGER
-                    .warning("PublishInteractionListener::publishRegisterErrorReceived");
+            LOGGER.log(Level.INFO, "Registration Ack: {0}", header.toString());
+        }
+
+        @Override
+        public void publishRegisterErrorReceived(final MALMessageHeader header,
+                final MALErrorBody body, final Map qosProperties) throws MALException {
+            LOGGER.warning("PublishInteractionListener::publishRegisterErrorReceived");
         }
     }
 
@@ -579,9 +568,9 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
         currentObjIds.addAll(defObjs.keySet());
 
         ConfigurationObjectSet objsSet = new ConfigurationObjectSet(
-            GPSServiceInfo.NEARBYPOSITION_OBJECT_TYPE,
-            ConfigurationProviderSingleton.getDomain(),
-            currentObjIds
+                GPSServiceInfo.NEARBYPOSITION_OBJECT_TYPE,
+                ConfigurationProviderSingleton.getDomain(),
+                currentObjIds
         );
 
         ConfigurationObjectSetList list = new ConfigurationObjectSetList();

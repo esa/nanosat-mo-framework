@@ -301,8 +301,8 @@ public class MCCommands {
                     }
 
                     @Override
-                    public void monitorValueRegisterErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
-                        Map qosProperties) {
+                    public void monitorValueRegisterErrorReceived(MALMessageHeader msgHeader,
+                            MOErrorException error, Map qosProperties) {
                         LOGGER.log(Level.SEVERE, "Error during monitorValueRegister!", error);
                         synchronized (lock) {
                             lock.notifyAll();

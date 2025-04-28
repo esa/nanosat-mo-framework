@@ -113,8 +113,8 @@ public class Helper {
             }
 
             @Override
-            public void queryUpdateErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
-                    Map qosProperties) {
+            public void queryUpdateErrorReceived(MALMessageHeader msgHeader,
+                    MOErrorException error, Map qosProperties) {
                 LOGGER.log(Level.SEVERE, "Error during archive query!", error);
                 synchronized (lock) {
                     lock.notifyAll();
@@ -122,8 +122,8 @@ public class Helper {
             }
 
             @Override
-            public void queryResponseErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
-                    Map qosProperties) {
+            public void queryResponseErrorReceived(MALMessageHeader msgHeader,
+                    MOErrorException error, Map qosProperties) {
                 LOGGER.log(Level.SEVERE, "Error during archive query!", error);
                 synchronized (lock) {
                     lock.notifyAll();

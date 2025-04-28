@@ -24,7 +24,6 @@ import java.net.MalformedURLException;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectIdList;
 import org.ccsds.moims.mo.mal.MALException;
@@ -66,6 +65,7 @@ import esa.mo.mp.impl.callback.MPServiceOperation;
 import esa.mo.mp.impl.callback.MPServiceOperationHelper;
 import esa.mo.mp.impl.callback.MPServiceOperationManager;
 import esa.mo.mp.impl.com.COMObjectIdHelper;
+import org.ccsds.moims.mo.com.InvalidException;
 import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
@@ -333,7 +333,7 @@ public class PlanningRequestProviderServiceImpl extends PlanningRequestInheritan
         Long requestTemplateInstanceId = COMObjectIdHelper.getInstanceId(requestTemplateId);
         RequestTemplateDetails requestTemplate = archiveManager.REQUEST_TEMPLATE.getDefinition(requestTemplateId);
         if (requestTemplateInstanceId == 0L || requestTemplate == null) {
-            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, new Union(
+            throw new MALInteractionException(new InvalidException(new Union(
                 "Invalid Request Template Id")));
         }
     }

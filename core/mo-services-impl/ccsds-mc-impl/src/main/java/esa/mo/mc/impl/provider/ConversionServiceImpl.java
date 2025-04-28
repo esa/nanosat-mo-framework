@@ -32,6 +32,7 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MOErrorException;
+import org.ccsds.moims.mo.mal.UnknownException;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Element;
@@ -132,7 +133,7 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
         Boolean eval = this.evaluateParameterExpression(conditionalRef.getCondition());
 
         if (!eval) {  // Is the Parameter Expression Invalid?
-            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, null));
+            throw new MALInteractionException(new UnknownException(null));
         }
 
         //requirement: 3.8.4.g id references a ConversionDetails-object (not an identity)

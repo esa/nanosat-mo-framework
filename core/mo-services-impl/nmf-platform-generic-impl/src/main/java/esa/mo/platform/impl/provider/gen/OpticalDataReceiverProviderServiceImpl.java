@@ -22,7 +22,7 @@ package esa.mo.platform.impl.provider.gen;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.COMHelper;
+import org.ccsds.moims.mo.com.InvalidException;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MOErrorException;
@@ -31,7 +31,7 @@ import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.UInteger;
-import org.ccsds.moims.mo.platform.PlatformHelper;
+import org.ccsds.moims.mo.platform.DeviceNotAvailableException;
 import org.ccsds.moims.mo.platform.opticaldatareceiver.OpticalDataReceiverHelper;
 import org.ccsds.moims.mo.platform.opticaldatareceiver.OpticalDataReceiverServiceInfo;
 import org.ccsds.moims.mo.platform.opticaldatareceiver.provider.OpticalDataReceiverInheritanceSkeleton;
@@ -92,8 +92,7 @@ public class OpticalDataReceiverProviderServiceImpl extends OpticalDataReceiverI
             throws MALInteractionException, MALException {
         if (!adapter.isUnitAvailable()) {
             // TODO Add error code to the service spec
-            throw new MALInteractionException(new MOErrorException(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER,
-                null));
+            throw new MALInteractionException(new DeviceNotAvailableException(null));
         }
         if (recordingDuration == null || recordingDuration.getValue() == 0.0) {
             // TODO Add error code to the service spec
@@ -101,8 +100,7 @@ public class OpticalDataReceiverProviderServiceImpl extends OpticalDataReceiverI
             return;
         }
         if (recordingDuration.getValue() > MAX_RECORDING_DURATION) {
-            interaction.sendError(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, new Duration(
-                MAX_RECORDING_DURATION)));
+            interaction.sendError(new InvalidException(new Duration(MAX_RECORDING_DURATION)));
             return;
         }
         interaction.sendAcknowledgement();

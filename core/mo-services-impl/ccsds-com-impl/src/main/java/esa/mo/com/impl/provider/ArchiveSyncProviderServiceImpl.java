@@ -37,6 +37,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import org.ccsds.moims.mo.com.COMHelper;
+import org.ccsds.moims.mo.com.InvalidException;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
@@ -52,6 +53,7 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MOErrorException;
+import org.ccsds.moims.mo.mal.UnknownException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
@@ -251,7 +253,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
         final Dispatcher dispatcher = dispatchers.get(transactionTicket);
 
         if (null == dispatcher) {
-            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, null));
+            throw new MALInteractionException(new InvalidException(null));
         }
 
         TimerTask timerTask = timerTasks.get(transactionTicket);
@@ -331,8 +333,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
         final Dispatcher dispatcher = dispatchers.get(transactionTicket);
 
         if (null == dispatcher) {
-            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER,
-                "Can't find a dispatcher!"));
+            throw new MALInteractionException(new UnknownException("Can't find a dispatcher!"));
         }
 
         final TimerTask timerTask = timerTasks.get(transactionTicket);
@@ -346,8 +347,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
         Long lastSyncTime = syncTimes.get(transactionTicket);
 
         if (null == lastSyncTime) {
-            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER,
-                "Can't find a last sync time!"));
+            throw new MALInteractionException(new UnknownException("Can't find a last sync time!"));
         }
 
         lastSync.set(lastSyncTime);

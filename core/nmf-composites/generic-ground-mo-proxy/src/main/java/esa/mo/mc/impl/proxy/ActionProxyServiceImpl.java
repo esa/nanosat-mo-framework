@@ -27,14 +27,13 @@ import java.util.Map;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.COMHelper;
-import org.ccsds.moims.mo.common.CommonHelper;
+import org.ccsds.moims.mo.com.InvalidException;
 import org.ccsds.moims.mo.common.configuration.ConfigurationHelper;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MOErrorException;
+import org.ccsds.moims.mo.mal.UnknownException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
@@ -141,13 +140,13 @@ public class ActionProxyServiceImpl extends ActionInheritanceSkeleton {
     }
 
     @Override
-    public Boolean preCheckAction(ActionInstanceDetails actionDetails, MALInteraction interaction)
-        throws MALInteractionException, MALException {
+    public Boolean preCheckAction(ActionInstanceDetails actionDetails,
+            MALInteraction interaction) throws MALInteractionException, MALException {
         UIntegerList invIndexList = new UIntegerList();
 
         // 3.2.10.3.2
         if (!manager.existsDef(actionDetails.getDefInstId())) {
-            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, null));
+            throw new MALInteractionException(new UnknownException(null));
         }
 
         // 3.2.10.2.c
@@ -155,32 +154,33 @@ public class ActionProxyServiceImpl extends ActionInheritanceSkeleton {
 
         // Errors
         if (!invIndexList.isEmpty()) { // requirement: 3.2.9.3.1
-            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+            throw new MALInteractionException(new InvalidException(invIndexList));
         }
 
         return accepted;
     }
 
     @Override
-    public ObjectInstancePairList listDefinition(IdentifierList il, MALInteraction mali) throws MALInteractionException,
-        MALException {
+    public ObjectInstancePairList listDefinition(IdentifierList il,
+            MALInteraction mali) throws MALInteractionException, MALException {
         return actionConsumer.getActionStub().listDefinition(il);
     }
 
     @Override
-    public ObjectInstancePairList addAction(ActionCreationRequestList acrl, MALInteraction mali)
-        throws MALInteractionException, MALException {
+    public ObjectInstancePairList addAction(ActionCreationRequestList acrl,
+            MALInteraction mali) throws MALInteractionException, MALException {
         return actionConsumer.getActionStub().addAction(acrl);
     }
 
     @Override
-    public LongList updateDefinition(LongList ll, ActionDefinitionDetailsList addl, MALInteraction mali)
-        throws MALInteractionException, MALException {
+    public LongList updateDefinition(LongList ll, ActionDefinitionDetailsList addl,
+            MALInteraction mali) throws MALInteractionException, MALException {
         return actionConsumer.getActionStub().updateDefinition(ll, addl);
     }
 
     @Override
-    public void removeAction(LongList ll, MALInteraction mali) throws MALInteractionException, MALException {
+    public void removeAction(LongList ll,
+            MALInteraction mali) throws MALInteractionException, MALException {
         actionConsumer.getActionStub().removeAction(ll);
     }
 

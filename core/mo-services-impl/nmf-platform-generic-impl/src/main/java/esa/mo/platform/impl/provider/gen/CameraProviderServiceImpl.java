@@ -50,7 +50,8 @@ import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mal.structures.UpdateHeader;
 import org.ccsds.moims.mo.mal.transport.MALErrorBody;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.platform.PlatformHelper;
+import org.ccsds.moims.mo.platform.DeviceInUseException;
+import org.ccsds.moims.mo.platform.DeviceNotAvailableException;
 import org.ccsds.moims.mo.platform.camera.CameraHelper;
 import org.ccsds.moims.mo.platform.camera.CameraServiceInfo;
 import org.ccsds.moims.mo.platform.camera.body.GetPropertiesResponse;
@@ -194,11 +195,10 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
 
     private void isCapturePossible(final CameraSettings settings) throws MALInteractionException {
         if (!adapter.isUnitAvailable()) {
-            throw new MALInteractionException(new MOErrorException(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER,
-                null));
+            throw new MALInteractionException(new DeviceNotAvailableException(null));
         }
         if (cameraInUse) { // Is the Camera unit in use?
-            throw new MALInteractionException(new MOErrorException(PlatformHelper.DEVICE_IN_USE_ERROR_NUMBER, null));
+            throw new MALInteractionException(new DeviceInUseException(null));
         }
         final PixelResolutionList availableResolutions = adapter.getAvailableResolutions();
 
@@ -284,16 +284,14 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
     public Picture previewPicture(MALInteraction interaction)
             throws MALInteractionException, MALException {
         if (!adapter.isUnitAvailable()) {
-            throw new MALInteractionException(new MOErrorException(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER,
-                null));
+            throw new MALInteractionException(new DeviceNotAvailableException(null));
         }
         // Get some preview Picture from the camera...
         synchronized (lock) {
             try {
                 return adapter.getPicturePreview();
             } catch (IOException ex) {
-                throw new MALInteractionException(new MOErrorException(
-                        PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
+                throw new MALInteractionException(new DeviceNotAvailableException(null));
             }
         }
     }
@@ -311,7 +309,7 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
                 interaction.sendResponse(picture);
                 LOGGER.log(Level.INFO, "The picture has been sent!");
             } catch (IOException ex) {
-                interaction.sendError(new MOErrorException(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
+                interaction.sendError(new DeviceNotAvailableException(null));
             }
         }
     }
@@ -328,7 +326,7 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
                 interaction.sendResponse(picture);
                 LOGGER.log(Level.INFO, "The picture has been sent!");
             } catch (IOException ex) {
-                interaction.sendError(new MOErrorException(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
+                interaction.sendError(new DeviceNotAvailableException(null));
             }
         }
     }

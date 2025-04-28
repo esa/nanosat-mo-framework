@@ -31,6 +31,7 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.structures.Time;
+import org.ccsds.moims.mo.platform.DeviceNotAvailableException;
 import org.ccsds.moims.mo.platform.PlatformHelper;
 import org.ccsds.moims.mo.platform.gps.provider.GetTLEInteraction;
 import org.ccsds.moims.mo.platform.gps.structures.Position;
@@ -138,11 +139,9 @@ public class GPSProviderServiceWithTLEImpl extends GPSProviderServiceImpl {
   }
 
   @Override
-  public void getTLE(GetTLEInteraction interaction) throws MALInteractionException, MALException
-  {
+  public void getTLE(GetTLEInteraction interaction) throws MALInteractionException, MALException {
     if (!adapter.isUnitAvailable() && isTLEFallbackEnabled == false) { // Is the unit available?
-      throw new MALInteractionException(
-          new MOErrorException(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
+      throw new MALInteractionException(new DeviceNotAvailableException(null));
     }
     interaction.sendAcknowledgement();
     TLE tle = adapterCast.getTLE();
@@ -158,8 +157,7 @@ public class GPSProviderServiceWithTLEImpl extends GPSProviderServiceImpl {
             tle.getRevolutionNumberAtEpoch()));
   }
 
-  private Position getTLEPropagatedPosition()
-  {
+  private Position getTLEPropagatedPosition() {
     Calendar targetDate = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
     SpacecraftState state = getSpacecraftState(targetDate);
 
@@ -209,8 +207,7 @@ public class GPSProviderServiceWithTLEImpl extends GPSProviderServiceImpl {
         if(isTLEFallbackEnabled) {
             useTLEpropagation = true;
         } else {
-            throw new MALInteractionException(
-                new MOErrorException(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null)); 
+            throw new MALInteractionException(new DeviceNotAvailableException(null)); 
         }
     }
     else if(!isPositionFixed()){
@@ -226,8 +223,7 @@ public class GPSProviderServiceWithTLEImpl extends GPSProviderServiceImpl {
    * @return the updated position, or null if the methods that get latest position fail
    */
   @Override
-  public Position updateCurrentPosition(boolean useTLEpropagation)
-  {
+  public Position updateCurrentPosition(boolean useTLEpropagation) {
     Position position = useTLEpropagation ? getTLEPropagatedPosition() : adapter.getCurrentPosition();
     if (position == null) {
       return null;
@@ -250,8 +246,7 @@ public class GPSProviderServiceWithTLEImpl extends GPSProviderServiceImpl {
       if(adapter.getCurrentPosition().getExtraDetails().getFixQuality() > 0){
         isFixed = true;
       }
-    } catch (NullPointerException e)
-    {
+    } catch (NullPointerException e) {
       LOGGER.warning("Could not receive a fixed position: " + e.getMessage());
     }
     return isFixed;

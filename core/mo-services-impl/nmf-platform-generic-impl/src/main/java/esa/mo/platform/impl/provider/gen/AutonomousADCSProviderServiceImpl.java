@@ -26,7 +26,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.COMHelper;
+import org.ccsds.moims.mo.com.InvalidException;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
@@ -41,7 +41,8 @@ import org.ccsds.moims.mo.mal.provider.MALPublishInteractionListener;
 import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALErrorBody;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.platform.PlatformHelper;
+import org.ccsds.moims.mo.platform.DeviceInUseException;
+import org.ccsds.moims.mo.platform.DeviceNotAvailableException;
 import org.ccsds.moims.mo.platform.autonomousadcs.AutonomousADCSHelper;
 import org.ccsds.moims.mo.platform.autonomousadcs.AutonomousADCSServiceInfo;
 import org.ccsds.moims.mo.platform.autonomousadcs.body.GetStatusResponse;
@@ -183,13 +184,11 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
             return;
         }
         if (!adapter.isUnitAvailable()) {
-            throw new MALInteractionException(new MOErrorException(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER,
-                null));
+            throw new MALInteractionException(new DeviceNotAvailableException(null));
         }
         // Is the requested streaming rate less than the minimum period?
         if (monitoringInterval == null || monitoringInterval.getValue() < MINIMUM_MONITORING_PERIOD.getValue()) {
-            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER,
-                MINIMUM_MONITORING_PERIOD));
+            throw new MALInteractionException(new InvalidException(MINIMUM_MONITORING_PERIOD));
         }
 
         monitoringPeriod = (int) (monitoringInterval.getValue() * 1000); // In milliseconds
@@ -199,8 +198,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
     @Override
     public GetStatusResponse getStatus(MALInteraction interaction) throws MALInteractionException {
         if (!adapter.isUnitAvailable()) {
-            throw new MALInteractionException(new MOErrorException(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER,
-                null));
+            throw new MALInteractionException(new DeviceNotAvailableException(null));
         }
         try {
             final AttitudeTelemetry attitudeTelemetry = getAttitudeTelemetry();
@@ -212,8 +210,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
         } catch (IOException ex) {
             Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).log(Level.SEVERE,
                 "Error when producing getStatus response", ex);
-            throw new MALInteractionException(new MOErrorException(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER,
-                null));
+            throw new MALInteractionException(new DeviceNotAvailableException(null));
         }
 
     }
@@ -269,8 +266,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
     public synchronized void setDesiredAttitude(final Duration duration, AttitudeMode desiredAttitude,
             MALInteraction interaction) throws MALInteractionException, MALException {
         if (!adapter.isUnitAvailable()) {
-            throw new MALInteractionException(new MOErrorException(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER,
-                null));
+            throw new MALInteractionException(new DeviceNotAvailableException(null));
         }
 
         if (desiredAttitude == null) {
@@ -282,15 +278,14 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
             unsetAttitude();
         } else {
             if (adcsInUse) { // Is the ADCS unit in use?
-                throw new MALInteractionException(new MOErrorException(PlatformHelper.DEVICE_IN_USE_ERROR_NUMBER,
-                    getAttitudeControlRemainingDuration()));
+                throw new MALInteractionException(new DeviceInUseException(getAttitudeControlRemainingDuration()));
             }
 
             // Validate the attitude definition...
             String validationResult = adapter.validateAttitudeDescriptor(desiredAttitude);
 
             if (validationResult != null) {
-                throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER,
+                throw new MALInteractionException(new InvalidException(
                         Attribute.javaType2Attribute(validationResult)));
             }
 
@@ -376,8 +371,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
     public void setReactionWheelSpeed(ReactionWheelIdentifier wheel, Float speed,
             MALInteraction interaction) throws MALInteractionException, MALException {
         if (!adapter.isUnitAvailable()) {
-            throw new MALInteractionException(new MOErrorException(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER,
-                null));
+            throw new MALInteractionException(new DeviceNotAvailableException(null));
         }
 
         adapter.setReactionWheelSpeed(wheel, speed);
@@ -389,8 +383,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
             Float speedV, Float speedW, MALInteraction interaction) throws MALInteractionException,
             MALException {
         if (!adapter.isUnitAvailable()) {
-            throw new MALInteractionException(new MOErrorException(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER,
-                null));
+            throw new MALInteractionException(new DeviceNotAvailableException(null));
         }
         adapter.setAllReactionWheelSpeeds(speedX, speedY, speedZ, speedU, speedV, speedW);
     }
@@ -405,8 +398,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
     public void setAllMagnetorquersDipoleMoments(Float dipoleX, Float dipoleY, Float dipoleZ,
             MALInteraction interaction) throws MALInteractionException, MALException {
         if (!adapter.isUnitAvailable()) {
-            throw new MALInteractionException(new MOErrorException(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER,
-                null));
+            throw new MALInteractionException(new DeviceNotAvailableException(null));
         }
         adapter.setAllMagnetorquersDipoleMoments(dipoleX, dipoleY, dipoleZ);
     }
@@ -415,8 +407,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
     public ReactionWheelParameters getAllReactionWheelParameters(MALInteraction interaction) throws
             MALInteractionException, MALException {
         if (!adapter.isUnitAvailable()) {
-            throw new MALInteractionException(new MOErrorException(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER,
-                null));
+            throw new MALInteractionException(new DeviceNotAvailableException(null));
         }
         return adapter.getAllReactionWheelParameters();
     }

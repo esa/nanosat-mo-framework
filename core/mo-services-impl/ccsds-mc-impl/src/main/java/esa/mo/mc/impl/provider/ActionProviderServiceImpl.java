@@ -56,6 +56,9 @@ import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 import esa.mo.reconfigurable.service.ReconfigurableService;
 import esa.mo.reconfigurable.service.ConfigurationChangeListener;
+import org.ccsds.moims.mo.com.DuplicateException;
+import org.ccsds.moims.mo.com.InvalidException;
+import org.ccsds.moims.mo.mal.UnknownException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.structures.Element;
@@ -178,12 +181,12 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         // Errors
         if (!invIndexList.isEmpty()) { // requirement: 3.2.9.3.1
             manager.getActivityTrackingService().publishExecutionEventSubmitAck(interaction, false, saSource); // requirement: c
-            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+            throw new MALInteractionException(new InvalidException(invIndexList));
         }
 
         if (unknown) { // requirement: 3.2.9.3.2
             manager.getActivityTrackingService().publishExecutionEventSubmitAck(interaction, false, saSource); // requirement: c
-            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, null));
+            throw new MALInteractionException(new UnknownException(null));
         }
 
         // If it was accepted then execute the action!
@@ -200,7 +203,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
 
         // requirement: 3.2.10.3.2
         if (!manager.existsDef(actionDetails.getDefInstId())) {
-            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, null));
+            throw new MALInteractionException(new UnknownException(null));
         }
 
         // requirement: 3.2.10.2.a, 3.2.10.2.b
@@ -209,15 +212,15 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
 
         // Errors
         if (!invIndexList.isEmpty()) { // requirement: 3.2.10.3.1
-            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+            throw new MALInteractionException(new InvalidException(invIndexList));
         }
 
         return accepted;
     }
 
     @Override
-    public ObjectInstancePairList listDefinition(final IdentifierList actionNames, final MALInteraction interaction)
-            throws MALException, MALInteractionException {
+    public ObjectInstancePairList listDefinition(final IdentifierList actionNames,
+            final MALInteraction interaction) throws MALException, MALInteractionException {
         ObjectInstancePairList outPairLst = new ObjectInstancePairList();
 
         if (null == actionNames) { // Is the input null?
@@ -248,9 +251,8 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
             }
 
             // Errors
-            if (!unkIndexList.isEmpty()) // requirement: 3.2.11.3.1 (error: a and b)
-            {
-                throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+            if (!unkIndexList.isEmpty()) { // requirement: 3.2.11.3.1 (error: a and b)
+                throw new MALInteractionException(new UnknownException(unkIndexList));
             }
         }
 
@@ -288,18 +290,18 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         // Errors
         // returning errors before creating the object -> requirement: 3.2.12.2.d
         if (!invIndexList.isEmpty()) { // requirement: 3.2.12.3.1
-            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+            throw new MALInteractionException(new InvalidException(invIndexList));
         }
         if (!dupIndexList.isEmpty()) { // requirement: 3.2.12.3.2
-            throw new MALInteractionException(new MOErrorException(COMHelper.DUPLICATE_ERROR_NUMBER, dupIndexList));
+            throw new MALInteractionException(new DuplicateException(dupIndexList));
         }
 
         //add the definition
         for (int index = 0; index < actionCreationRequestList.size(); index++) { // requirement: 3.2.12.2.f (incremental "for cycle" guarantees that)
             ObjectId source;
             source = manager.storeCOMOperationActivity(interaction); // requirement: 3.2.4.e
-            newObjInstIds.add(manager.add(actionCreationRequestList.get(index), source, connection
-                    .getPrimaryConnectionDetails().getProviderURI())); //  requirement: 3.2.12.2.e, g
+            newObjInstIds.add(manager.add(actionCreationRequestList.get(index), source,
+                    connection.getPrimaryConnectionDetails().getProviderURI())); //  requirement: 3.2.12.2.e, g
         }
 
         if (configurationAdapter != null) {
@@ -338,11 +340,11 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         // Errors
         // returning errors before creating the object -> requirement: 3.2.13.2.g
         if (!invIndexList.isEmpty()) { // requirement: 3.2.13.2.1 (error: a)
-            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+            throw new MALInteractionException(new InvalidException(invIndexList));
         }
 
         if (!unkIndexList.isEmpty()) { // requirement: 3.2.13.2.2 (error: b)
-            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+            throw new MALInteractionException(new UnknownException(unkIndexList));
         }
         LongList newDefIds = new LongList();
         ObjectId source = manager.storeCOMOperationActivity(interaction); // requirement: 3.2.4.e
@@ -389,7 +391,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         // Errors
         // returning errors before removing the object -> requirement: 3.2.14.2.g
         if (!unkIndexList.isEmpty()) { // requirement: 3.2.14.3.1 (error: a, b)
-            throw new MALInteractionException(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+            throw new MALInteractionException(new UnknownException(unkIndexList));
         }
 
         for (Long tempIdentity2 : tempIdentityLst) {

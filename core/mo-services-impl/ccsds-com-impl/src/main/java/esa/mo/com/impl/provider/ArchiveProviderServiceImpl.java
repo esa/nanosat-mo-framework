@@ -153,12 +153,12 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             throw new MALInteractionException(new InvalidException(null));
         }
         if (ArchiveManager.objectTypeContainsWildcard(inObjectType)) {   // requirement: 3.4.3.2.2
-//            interaction.sendError(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, null));
+//            interaction.sendError(new InvalidException(null));
             throw new MALInteractionException(new InvalidException(null));
         }
 
         if (HelperCOM.domainContainsWildcard(inDomain)) {   // requirement: 3.4.3.2.4
-//            interaction.sendError(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, null));
+//            interaction.sendError(new InvalidException(null));
             throw new MALInteractionException(new InvalidException(null));
         }
 
