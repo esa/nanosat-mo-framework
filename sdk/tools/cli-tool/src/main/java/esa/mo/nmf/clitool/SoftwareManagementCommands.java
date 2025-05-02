@@ -334,16 +334,16 @@ public class SoftwareManagementCommands {
     }
 
     private static boolean checkProvider(Map<String, ProviderAppDetails> providers, String provider) {
-        if (!providers.containsKey(provider)) {
-            System.out.println("Could not find any apps matching provided name!");
-            System.out.println("Available apps:");
-            for (Map.Entry<String, ProviderAppDetails> entry : providers.entrySet()) {
-                System.out.println(entry.getKey() + " - Running: " + entry.getValue().appDetails.getRunning());
-            }
-            return false;
+        if (providers.containsKey(provider)) {
+            return true;
         }
 
-        return true;
+        System.out.println("Could not find any apps matching provided name!");
+        System.out.println("Available apps:");
+        for (Map.Entry<String, ProviderAppDetails> entry : providers.entrySet()) {
+            System.out.println(entry.getKey() + " - Running: " + entry.getValue().appDetails.getRunning());
+        }
+        return false;
     }
 
     private static Map<String, ProviderAppDetails> getProvidersDetails(ArchiveStub archive)
@@ -351,7 +351,8 @@ public class SoftwareManagementCommands {
         final Object lock = new Object();
 
         ArchiveQueryList queries = new ArchiveQueryList();
-        queries.add(new ArchiveQuery(BaseCommand.domain, null, null, 0L, null, null, null, null, null));
+        queries.add(new ArchiveQuery(BaseCommand.domain, null, null,
+                0L, null, null, null, null, null));
 
         Map<String, ProviderAppDetails> result = new HashMap<>();
         ObjectType appType = new ObjectType(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NUMBER,
