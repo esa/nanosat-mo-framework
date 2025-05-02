@@ -49,6 +49,7 @@ import picocli.CommandLine.*;
  * @author marcel.mikolajko
  */
 public class SoftwareManagementCommands {
+
     static Logger LOGGER = Logger.getLogger(SoftwareManagementCommands.class.getName());
 
     public static Identifier heartbeatSubscription;
@@ -64,6 +65,7 @@ public class SoftwareManagementCommands {
 
     @Command(name = "subscribe", description = "Subscribes to provider's heartbeat")
     public static class Beat extends BaseCommand implements Runnable {
+
         @Override
         public void run() {
             if (!super.initRemoteConsumer()) {
@@ -85,7 +87,7 @@ public class SoftwareManagementCommands {
                 heartbeat.beatRegister(subscription, new HeartbeatAdapter() {
                     @Override
                     public void beatNotifyReceived(MALMessageHeader msgHeader, Identifier identifier,
-                        UpdateHeader updateHeader, Map qosProperties) {
+                            UpdateHeader updateHeader, Map qosProperties) {
                         //long timestamp = updateHeader.getTimestamp().getValue();
                         System.out.println("Heartbeat received");
                     }
@@ -104,8 +106,9 @@ public class SoftwareManagementCommands {
 
     @Command(name = "subscribe", description = "Subscribes to app's stdout")
     public static class MonitorExecution extends BaseCommand implements Runnable {
+
         @Parameters(arity = "0..*", paramLabel = "<appNames>", index = "0",
-                    description = "Names of the apps to subscribe to. If non are specified subscribe to all.")
+                description = "Names of the apps to subscribe to. If non are specified subscribe to all.")
         List<String> appNames;
 
         @Override
@@ -150,7 +153,7 @@ public class SoftwareManagementCommands {
                         System.out.println("Available providers:");
                         for (Map.Entry<String, ProviderAppDetails> entry : providerNameToDetails.entrySet()) {
                             System.out.println(entry.getKey() + " - Running: " + entry.getValue().appDetails
-                                .getRunning());
+                                    .getRunning());
                         }
                         return;
                     }
@@ -166,7 +169,7 @@ public class SoftwareManagementCommands {
                 appsLauncher.monitorExecutionRegister(subscription, new AppsLauncherAdapter() {
                     @Override
                     public void monitorExecutionNotifyReceived(MALMessageHeader msgHeader, Identifier identifier,
-                        UpdateHeader updateHeader, String strings, Map qosProperties) {
+                            UpdateHeader updateHeader, String strings, Map qosProperties) {
                         String providerName = updateHeader.getKeyValues().get(0).getValue().toString();
                         String[] lines = strings.split("\n");
                         for (String line : lines) {
@@ -186,6 +189,7 @@ public class SoftwareManagementCommands {
 
     @Command(name = "run", description = "Runs the specified provider app")
     public static class RunApp extends BaseCommand implements Runnable {
+
         @Parameters(arity = "1", paramLabel = "<appName>", index = "0", description = "Name of the app to run.")
         String appName;
 
@@ -221,6 +225,7 @@ public class SoftwareManagementCommands {
 
     @Command(name = "stop", description = "Stops the specified provider app")
     public static class StopApp extends BaseCommand implements Runnable {
+
         @Parameters(arity = "1", paramLabel = "<appName>", index = "0", description = "Name of the app to stop.")
         String appName;
 
@@ -251,7 +256,8 @@ public class SoftwareManagementCommands {
                 ids.add(providerNameToDetails.get(appName).id);
                 appsLauncher.stopApp(ids, new AppsLauncherAdapter() {
                     @Override
-                    public void stopAppUpdateReceived(MALMessageHeader msgHeader, Long appClosing, Map qosProperties) {
+                    public void stopAppUpdateReceived(MALMessageHeader msgHeader,
+                            Long appClosing, Map qosProperties) {
                         for (ProviderAppDetails details : providerNameToDetails.values()) {
                             if (appClosing.equals(details.id)) {
                                 System.out.println(details.appDetails.getName() + " closing in progress...");
@@ -270,8 +276,8 @@ public class SoftwareManagementCommands {
                     }
 
                     @Override
-                    public void stopAppUpdateErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
-                        Map qosProperties) {
+                    public void stopAppUpdateErrorReceived(MALMessageHeader msgHeader,
+                            MOErrorException error, Map qosProperties) {
                         LOGGER.log(Level.SEVERE, "Error during stopApp!", error);
                         synchronized (lock) {
                             lock.notifyAll();
@@ -279,8 +285,8 @@ public class SoftwareManagementCommands {
                     }
 
                     @Override
-                    public void stopAppResponseErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
-                        Map qosProperties) {
+                    public void stopAppResponseErrorReceived(MALMessageHeader msgHeader,
+                            MOErrorException error, Map qosProperties) {
                         LOGGER.log(Level.SEVERE, "Error during stopApp!", error);
                         synchronized (lock) {
                             lock.notifyAll();
@@ -300,6 +306,7 @@ public class SoftwareManagementCommands {
 
     @Command(name = "kill", description = "Kills the specified provider app")
     public static class KillApp extends BaseCommand implements Runnable {
+
         @Parameters(arity = "1", paramLabel = "<appName>", index = "0", description = "Name of the app to kill.")
         String appName;
 
@@ -347,7 +354,7 @@ public class SoftwareManagementCommands {
     }
 
     private static Map<String, ProviderAppDetails> getProvidersDetails(ArchiveStub archive)
-        throws MALInteractionException, MALException, InterruptedException {
+            throws MALInteractionException, MALException, InterruptedException {
         final Object lock = new Object();
 
         ArchiveQueryList queries = new ArchiveQueryList();
@@ -356,27 +363,27 @@ public class SoftwareManagementCommands {
 
         Map<String, ProviderAppDetails> result = new HashMap<>();
         ObjectType appType = new ObjectType(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NUMBER,
-            AppsLauncherServiceInfo.APPSLAUNCHER_SERVICE_NUMBER, new UOctet((short) 0),
-            AppsLauncherServiceInfo.APP_OBJECT_NUMBER);
+                AppsLauncherServiceInfo.APPSLAUNCHER_SERVICE_NUMBER, new UOctet((short) 0),
+                AppsLauncherServiceInfo.APP_OBJECT_NUMBER);
         archive.query(true, appType, queries, null, new ArchiveAdapter() {
             @Override
             public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-                ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
+                    ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
                 for (int i = 0; i < objDetails.size(); ++i) {
                     AppDetails details = (AppDetails) objBodies.get(i);
                     result.put(details.getName().getValue(), new ProviderAppDetails(objDetails.get(i).getInstId(),
-                        details));
+                            details));
                 }
             }
 
             @Override
             public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-                ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
+                    ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
                 if (objDetails != null) {
                     for (int i = 0; i < objDetails.size(); ++i) {
                         AppDetails details = (AppDetails) objBodies.get(i);
                         result.put(details.getName().getValue(), new ProviderAppDetails(objDetails.get(i).getInstId(),
-                            details));
+                                details));
                     }
                 }
 
@@ -412,6 +419,7 @@ public class SoftwareManagementCommands {
     }
 
     private static class ProviderAppDetails {
+
         Long id;
         AppDetails appDetails;
 
