@@ -21,9 +21,9 @@ public class PlanStatusMonitor extends PlanDistributionAdapter {
     }
 
     @Override
-    public void monitorPlanStatusNotifyReceived(MALMessageHeader msgHeader, Identifier identifier,
-            UpdateHeader header, ObjectId planVersion, PlanUpdateDetails update,
-            Map qosProperties) {
+    public void monitorPlanStatusNotifyReceived(MALMessageHeader msgHeader,
+            Identifier identifier, UpdateHeader header, ObjectId planVersion,
+            PlanUpdateDetails update, Map qosProperties) {
         this.receivedPlanStatuses.add(update);
         synchronized (this) {
             this.notifyAll();
