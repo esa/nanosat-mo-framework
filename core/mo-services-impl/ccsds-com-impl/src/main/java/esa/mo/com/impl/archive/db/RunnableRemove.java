@@ -28,17 +28,15 @@ import java.util.logging.Level;
 import org.ccsds.moims.mo.mal.structures.LongList;
 
 final class RunnableRemove implements Runnable {
-    /**
-    *
-    */
+
     private final TransactionsProcessor transactionsProcessor;
     private final Runnable publishEvents;
     private final Integer objTypeId;
     private final Integer domainId;
     private final LongList objIds;
 
-    RunnableRemove(TransactionsProcessor transactionsProcessor, Runnable publishEvents, Integer objTypeId,
-        Integer domainId, LongList objIds) {
+    public RunnableRemove(TransactionsProcessor transactionsProcessor,
+            Runnable publishEvents, Integer objTypeId, Integer domainId, LongList objIds) {
         this.transactionsProcessor = transactionsProcessor;
         this.publishEvents = publishEvents;
         this.objTypeId = objTypeId;
@@ -59,7 +57,7 @@ final class RunnableRemove implements Runnable {
             c.setAutoCommit(false);
 
             PreparedStatement deleteStmt = transactionsProcessor.dbBackend.getPreparedStatements()
-                .getDeleteCOMObjects();
+                    .getDeleteCOMObjects();
 
             // Generate the object Ids if needed and the persistence objects to be removed
             for (int i = 0; i < objIds.size(); i++) {
@@ -71,7 +69,8 @@ final class RunnableRemove implements Runnable {
                 // Flush every 1k objects...
                 if (i != 0) {
                     if ((i % 1000) == 0) {
-                        TransactionsProcessor.LOGGER.log(Level.FINE, "Flushing the data after 1000 serial stores...");
+                        TransactionsProcessor.LOGGER.log(Level.FINE,
+                                "Flushing the data after 1000 serial stores...");
 
                         deleteStmt.executeBatch();
                         deleteStmt.clearBatch();
