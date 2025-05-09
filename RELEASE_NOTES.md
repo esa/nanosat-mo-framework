@@ -4,8 +4,8 @@ ESA NanoSat MO Framework - Release Notes
 These Release Notes include a short summary of the updates done for each version.
 The different versions and respective updates are the following:
 
-### Version 4.0 (April 2025)
-* Selects the MO services version 11.3
+### Version 4.0 (May 2025)
+* Selects the MO services version 12.0
 * Moves many of the Helper Tools classes to the MAL API
 * Updates the Orekit data
 * Removes unnecessary dummy/dumb auto-generated tests
