@@ -34,6 +34,7 @@ import java.util.logging.Logger;
  * Contains the set of different key fields that the database contains in its
  * dedicated table and avoids constant checking on it which makes things go much
  * faster.
+ * @param <T> The referenced type.
  */
 public abstract class FastIndex<T> {
 

@@ -84,7 +84,7 @@ final class RunnableRemove implements Runnable {
             TransactionsProcessor.LOGGER.log(Level.SEVERE, null, ex);
         }
 
-        this.transactionsProcessor.vacuum();
+        //this.transactionsProcessor.vacuum();
         this.transactionsProcessor.dbBackend.getAvailability().release();
         if (publishEvents != null) {
             this.transactionsProcessor.generalExecutor.submit(publishEvents);

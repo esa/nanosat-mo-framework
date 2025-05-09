@@ -55,21 +55,17 @@ public class ArchiveManagerTest {
 
         esa.mo.com.impl.provider.EventProviderServiceImpl eventProviderServiceImpl0 = null;
 
-        esa.mo.com.impl.provider.ArchiveManager archiveManager1 = new esa.mo.com.impl.provider.ArchiveManager(
-            eventProviderServiceImpl0);
+        esa.mo.com.impl.provider.ArchiveManager archiveManager1
+                = new esa.mo.com.impl.provider.ArchiveManager(eventProviderServiceImpl0);
 
         Date start = new Date();
-
         archiveManager1.init();
-
         Date stop = new Date();
 
         times.put("00. Init time : ", (stop.getTime() - start.getTime()));
 
         start = new Date();
-
         IdentifierList domain;
-
         long insertTime = 0;
 
         for (int i = 0; i < NUMBER_OF_OBJECTS; i++) {
@@ -102,8 +98,8 @@ public class ArchiveManagerTest {
 
         for (int i = 0; i < 10000; i++) {
             Date writeStart = new Date();
-            archiveManager1.getFastObjectType().getObjectTypeId(new ObjectType(new UShort(i), new UShort(i), new UOctet(
-                (short) (i % 255)), new UShort(i)));
+            archiveManager1.getFastObjectType().getObjectTypeId(new ObjectType(new UShort(i),
+                    new UShort(i), new UOctet((short) (i % 255)), new UShort(i)));
             Date writeStop = new Date();
 
             insertTime += (writeStop.getTime() - writeStart.getTime());
@@ -115,8 +111,8 @@ public class ArchiveManagerTest {
 
         for (int i = 0; i < NUMBER_OF_OBJECTS; i++) {
             Date writeStart = new Date();
-            archiveManager1.getFastProviderURI().getProviderURIId(new URI("maltcp://" + "test_1_" + i + ".test_2_" + i +
-                ".test_3_" + i));
+            URI uri = new URI("maltcp://" + "test_1_" + i + ".test_2_" + i + ".test_3_" + i);
+            archiveManager1.getFastProviderURI().getProviderURIId(uri);
             Date writeStop = new Date();
 
             insertTime += (writeStop.getTime() - writeStart.getTime());
@@ -162,8 +158,8 @@ public class ArchiveManagerTest {
 
         for (int i = 0; i < NUMBER_OF_OBJECTS; i++) {
             Date writeStart = new Date();
-            archiveManager1.getFastObjectType().getObjectTypeId(new ObjectType(new UShort(i), new UShort(i), new UOctet(
-                (short) (i % 255)), new UShort(i)));
+            archiveManager1.getFastObjectType().getObjectTypeId(new ObjectType(new UShort(i),
+                    new UShort(i), new UOctet((short) (i % 255)), new UShort(i)));
             Date writeStop = new Date();
 
             readTime += (writeStop.getTime() - writeStart.getTime());
@@ -175,8 +171,8 @@ public class ArchiveManagerTest {
 
         for (int i = 0; i < NUMBER_OF_OBJECTS; i++) {
             Date writeStart = new Date();
-            archiveManager1.getFastProviderURI().getProviderURIId(new URI("maltcp://" + "test_1_" + i + ".test_2_" + i +
-                ".test_3_" + i));
+            URI uri = new URI("maltcp://" + "test_1_" + i + ".test_2_" + i + ".test_3_" + i);
+            archiveManager1.getFastProviderURI().getProviderURIId(uri);
             Date writeStop = new Date();
 
             readTime += (writeStop.getTime() - writeStart.getTime());
@@ -192,15 +188,14 @@ public class ArchiveManagerTest {
 
         Set<Entry<String, Long>> set = times.entrySet();
         List<Entry<String, Long>> sorted = set.stream().sorted(Comparator.comparing(Entry<String, Long>::getKey))
-            .collect(Collectors.toList());
+                .collect(Collectors.toList());
 
         for (Entry<String, Long> e : sorted) {
             System.out.println(e.getKey() + e.getValue());
         }
 
-        System.out.println("ArchiveManager - Fast Objects test >> END << - time: " + (testEnd.getTime() - testBegin
-            .getTime()) + " ms");
+        System.out.println("ArchiveManager - Fast Objects test >> END << - time: "
+                + (testEnd.getTime() - testBegin.getTime()) + " ms");
 
     }
 }
-//------------------------------------------------------------------------------

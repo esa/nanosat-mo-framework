@@ -233,8 +233,8 @@ public class TestCOMArchiveManager {
         return addTestActivity(identityName, null);
     }
 
-    private ObjectIdPair addTestActivity(String identityName, ObjectId source) throws MALException,
-        MALInteractionException {
+    private ObjectIdPair addTestActivity(String identityName,
+            ObjectId source) throws MALException, MALInteractionException {
         Identifier identity = new Identifier(identityName);
         ActivityDefinitionDetails definition = MPFactory.createActivityDefinition("", null);
         return archiveManager.addCOMObject(identity, definition, source, interaction);

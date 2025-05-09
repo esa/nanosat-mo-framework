@@ -36,11 +36,17 @@ public class FastProviderURI extends FastIndex<String> {
     }
 
     public synchronized Integer getProviderURIId(final URI providerURI) {
+        if (providerURI == null) {
+            return 0;
+        }
         final Integer id = this.fastID.get(providerURI.getValue());
         return (id == null) ? this.addNewEntry(providerURI.getValue()) : id;
     }
 
     public synchronized URI getProviderURI(final Integer id) throws Exception {
+        if (id == 0) {
+            return null;
+        }
         final URI providerURI = new URI(this.fastIDreverse.get(id));
 
         if (providerURI == null) {

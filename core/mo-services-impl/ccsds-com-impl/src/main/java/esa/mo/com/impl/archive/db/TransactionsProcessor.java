@@ -21,7 +21,6 @@
 package esa.mo.com.impl.archive.db;
 
 import esa.mo.com.impl.archive.entities.COMObjectEntity;
-import esa.mo.com.impl.provider.ArchiveManager;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -190,7 +189,7 @@ public class TransactionsProcessor {
         try { // Insert into queue
             storeQueue.put(container);
         } catch (InterruptedException ex) {
-            Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, "Something went wrong...", ex);
+            Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, "Something went wrong...", ex);
         }
 
         dbTransactionsExecutor.execute(new RunnableInsert(this, publishEvents));

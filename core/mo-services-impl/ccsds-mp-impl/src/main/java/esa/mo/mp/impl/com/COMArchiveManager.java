@@ -562,8 +562,8 @@ public class COMArchiveManager<IdentityT extends Element, IdentityListT extends 
                 configurationList, interaction);
     }
 
-    private void updateConfiguration(LongList relatedIds, ObjectType relatedType, LongList objectIds, ObjectId source,
-        MALInteraction interaction) throws MALException, MALInteractionException {
+    private void updateConfiguration(LongList relatedIds, ObjectType relatedType, LongList objectIds,
+            ObjectId source, MALInteraction interaction) throws MALException, MALInteractionException {
         ObjectType configurationType = this.configuration.getConfigurationType(relatedType);
         IdentifierList domain = ConfigurationProviderSingleton.getDomain();
 

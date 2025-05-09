@@ -36,11 +36,18 @@ public class FastNetwork extends FastIndex<String> {
     }
 
     public synchronized Integer getNetworkId(final Identifier network) {
+        if (network == null) {
+            return 0;
+        }
         final Integer id = this.fastID.get(network.getValue());
         return (id == null) ? this.addNewEntry(network.getValue()) : id;
     }
 
     public synchronized Identifier getNetwork(final Integer id) throws Exception {
+        if (id == 0) {
+            return null;
+        }
+
         final String network = this.fastIDreverse.get(id);
 
         if (network == null) {

@@ -393,8 +393,11 @@ public class ArchiveManager {
 
         // Generate the object Ids if needed and the persistence objects to be stored
         for (int i = 0; i < lArchiveDetails.size(); i++) {
-            final Integer providerURIId = this.fastProviderURI.getProviderURIId(lArchiveDetails.get(i).getProvider());
-            final Integer networkId = this.fastNetwork.getNetworkId(lArchiveDetails.get(i).getNetwork());
+            final URI provider = lArchiveDetails.get(i).getProvider();
+            final Integer providerURIId = this.fastProviderURI.getProviderURIId(provider);
+
+            final Identifier network = lArchiveDetails.get(i).getNetwork();
+            final Integer networkId = this.fastNetwork.getNetworkId(network);
 
             // If there are no objects in the list, inject null...
             Object objBody = (objects == null) ? null : ((objects.get(i) == null) ? null : objects.get(i));
