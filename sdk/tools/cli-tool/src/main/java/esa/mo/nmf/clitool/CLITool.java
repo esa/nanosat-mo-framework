@@ -52,16 +52,16 @@ public class CLITool {
     private boolean helpRequested;
 
     public static void main(String[] args) {
-        System.out.println("(1) The application is running...");
+        System.out.println("(1) The CLI Tool is starting...");
         Runtime.getRuntime().addShutdownHook(new Thread(BaseCommand::closeConsumer));
-        System.out.println("(2) The application is running...");
+        System.out.println("(2) The CLI Tool is starting...");
         CLITool cliConsumer = new CLITool();
-        System.out.println("(3) The application is running...");
+        System.out.println("(3) The CLI Tool is starting...");
         CommandLine cmd = new CommandLine(cliConsumer);
-        System.out.println("(4) The application is running...");
+        System.out.println("(4) The CLI Tool is starting...");
         cmd.setUsageHelpAutoWidth(true);
         cmd.setUsageHelpLongOptionsMaxWidth(30);
-        System.out.println("(5) The application is running...");
+        System.out.println("(5) The CLI Tool is starting...");
 
         System.exit(cmd.execute(args));
     }
