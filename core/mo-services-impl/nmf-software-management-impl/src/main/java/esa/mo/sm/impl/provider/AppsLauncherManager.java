@@ -43,7 +43,6 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.exec.environment.EnvironmentUtils;
-import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.InvalidException;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
@@ -171,7 +170,7 @@ public class AppsLauncherManager extends DefinitionsManager {
             try { // Read the provider.properties of the app
                 objId = readAppObjectId(definition);
             } catch (IOException ex) {
-                LOGGER.log(Level.SEVERE, null, ex);
+                LOGGER.log(Level.SEVERE, "Something went wrong...", ex);
             }
         }
 
@@ -204,7 +203,7 @@ public class AppsLauncherManager extends DefinitionsManager {
                     return objIds.get(0);
                 }
             } catch (MALException | MALInteractionException ex) {
-                LOGGER.log(Level.SEVERE, null, ex);
+                LOGGER.log(Level.SEVERE, "Something went wrong...", ex);
             }
         }
 
@@ -257,7 +256,7 @@ public class AppsLauncherManager extends DefinitionsManager {
             try {
                 updateAppInArchive(objId, definition, interaction);
             } catch (MALException | MALInteractionException ex) {
-                LOGGER.log(Level.SEVERE, null, ex);
+                LOGGER.log(Level.SEVERE, "Something went wrong...", ex);
                 return false;
             }
         }
@@ -567,7 +566,7 @@ public class AppsLauncherManager extends DefinitionsManager {
         try {
             exitCleanly = proc.waitFor(APP_STOP_TIMEOUT, TimeUnit.MILLISECONDS);
         } catch (InterruptedException ex) {
-            LOGGER.log(Level.WARNING, null, ex);
+            LOGGER.log(Level.WARNING, "Something went wrong...", ex);
         }
         if (!exitCleanly) {
             LOGGER.log(Level.WARNING,
@@ -623,7 +622,7 @@ public class AppsLauncherManager extends DefinitionsManager {
                 super.getCOMServices().getEventService().publishEvent(uri,
                         objId, objType, appInstId, eventSource, appDirectoryServiceName);
             } catch (IOException ex) {
-                LOGGER.log(Level.SEVERE, null, ex);
+                LOGGER.log(Level.SEVERE, "Something went wrong...", ex);
             }
         }
 
@@ -825,7 +824,7 @@ public class AppsLauncherManager extends DefinitionsManager {
             return new AppDetails(myAppName, description, version, new Identifier(category),
                     false, false, HelperMisc.PROVIDER_PROPERTIES_FILE, copyright, user);
         } catch (IOException ex) {
-            LOGGER.log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, "Something went wrong...", ex);
         }
 
         return new AppDetails(myAppName, null, null, null, null, null);
