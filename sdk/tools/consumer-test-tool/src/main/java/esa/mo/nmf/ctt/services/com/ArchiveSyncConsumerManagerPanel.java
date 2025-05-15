@@ -52,7 +52,6 @@ import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.com.structures.ObjectTypeList;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.structures.ElementList;
 import org.ccsds.moims.mo.mal.structures.FineTime;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
@@ -418,12 +417,9 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
         ArchiveSyncTab newTab = new ArchiveSyncTab("Synchronized!");
 
         for (COMObjectStructure obj : objs) {
-            HeterogeneousList bodies = new HeterogeneousList();
-            bodies.addAll(obj.getObjects());
             ArchiveDetailsList archList = new ArchiveDetailsList();
             archList.add(obj.getArchiveDetails());
-
-            newTab.add(obj.getObjType(), obj.getDomain(), archList, bodies);
+            newTab.add(obj.getObjType(), obj.getDomain(), archList, obj.getObjectsHeterogeneousList());
         }
 
     }//GEN-LAST:event_retrieveAutoActionPerformed

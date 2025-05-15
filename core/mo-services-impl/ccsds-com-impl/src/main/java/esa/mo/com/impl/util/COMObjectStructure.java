@@ -25,10 +25,9 @@ import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.structures.ObjectDetails;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectType;
-import org.ccsds.moims.mo.mal.MALElementsRegistry;
 import org.ccsds.moims.mo.mal.structures.Element;
-import org.ccsds.moims.mo.mal.structures.ElementList;
 import org.ccsds.moims.mo.mal.structures.FineTime;
+import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.URI;
@@ -48,7 +47,7 @@ public class COMObjectStructure {
     private final Element object;
 
     public COMObjectStructure(final IdentifierList domain, final ObjectType objType,
-        final ArchiveDetails archiveDetails, final Element object) {
+            final ArchiveDetails archiveDetails, final Element object) {
         this.objType = objType;
         this.domain = domain;
         this.objId = archiveDetails.getInstId();
@@ -64,7 +63,7 @@ public class COMObjectStructure {
 
     public COMObjectStructure(final ArchivePersistenceObject archivePersistenceObject) {
         this(archivePersistenceObject.getDomain(), archivePersistenceObject.getObjectType(), archivePersistenceObject
-            .getArchiveDetails(), (Element) archivePersistenceObject.getObject());
+                .getArchiveDetails(), (Element) archivePersistenceObject.getObject());
     }
 
     public ObjectType getObjType() {
@@ -103,21 +102,15 @@ public class COMObjectStructure {
         return object;
     }
 
-    public ElementList getObjects() {
-        ElementList bodies;
-
-        try {
-            bodies = MALElementsRegistry.elementToElementList(object);
-            bodies.add(object);
-        } catch (Exception ex) {
-            bodies = null;
-        }
-
+    public HeterogeneousList getObjectsHeterogeneousList() {
+        HeterogeneousList bodies = new HeterogeneousList();
+        bodies.add(object);
         return bodies;
     }
 
     public ArchiveDetails getArchiveDetails() {
-        return new ArchiveDetails(objId, new ObjectDetails(relatedLink, sourceLink), network, timestamp, providerURI);
+        ObjectDetails objDetails = new ObjectDetails(relatedLink, sourceLink);
+        return new ArchiveDetails(objId, objDetails, network, timestamp, providerURI);
     }
 
 }
