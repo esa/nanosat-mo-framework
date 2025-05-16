@@ -102,9 +102,22 @@ public class ProcessExecutionHandler {
         }
 
         if (process.isAlive()) {
-            Logger.getLogger(ProcessExecutionHandler.class.getName()).log(
-                    Level.SEVERE, "The process is still alive...");
+            Logger.getLogger(ProcessExecutionHandler.class.getName()).log(Level.WARNING,
+                    "The process is still alive... Attempting to destroyForcibly()");
+            process.destroy();
             process.destroyForcibly();
+        }
+
+        try {
+            process.waitFor(1, TimeUnit.SECONDS);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(ProcessExecutionHandler.class.getName()).log(
+                    Level.SEVERE, "The thread was interrupted!", ex);
+        }
+
+        if (process.isAlive()) {
+            Logger.getLogger(ProcessExecutionHandler.class.getName()).log(
+                    Level.SEVERE, "The process is still alive...  :S");
         }
 
         timer.stopLast();
