@@ -94,6 +94,13 @@ public class ProcessExecutionHandler {
                     Level.SEVERE, "One of the streams could not be closed...", ex);
         }
 
+        try {
+            process.waitFor(1, TimeUnit.SECONDS);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(ProcessExecutionHandler.class.getName()).log(
+                    Level.SEVERE, "The thread was interrupted!", ex);
+        }
+
         if (process.isAlive()) {
             Logger.getLogger(ProcessExecutionHandler.class.getName()).log(
                     Level.SEVERE, "The process is still alive...");

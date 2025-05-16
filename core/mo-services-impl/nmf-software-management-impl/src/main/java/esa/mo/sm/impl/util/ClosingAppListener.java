@@ -23,6 +23,8 @@ package esa.mo.sm.impl.util;
 import esa.mo.com.impl.consumer.EventConsumerServiceImpl;
 import esa.mo.com.impl.util.EventCOMObject;
 import esa.mo.com.impl.util.EventReceivedListener;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
@@ -43,7 +45,7 @@ public class ClosingAppListener extends EventReceivedListener {
     private final EventConsumerServiceImpl eventService;
     private final Long objId;
     private boolean appClosed;
-    private final Object semaphore; // This should be done with a proper Semaphore... :/
+    private final CountDownLatch semaphore;
 
     public ClosingAppListener(final StopAppInteraction interaction,
             final EventConsumerServiceImpl eventService, final Long objId) {
@@ -51,7 +53,7 @@ public class ClosingAppListener extends EventReceivedListener {
         this.eventService = eventService;
         this.objId = objId;
         this.appClosed = false;
-        this.semaphore = new Object();
+        this.semaphore = new CountDownLatch(1);
     }
 
     @Override
@@ -72,13 +74,11 @@ public class ClosingAppListener extends EventReceivedListener {
                 LOGGER.log(Level.SEVERE, null, ex);
             }
 
-            // If so, then close the connection to the service
-            eventService.closeConnection();
-
-            synchronized (semaphore) {
-                this.appClosed = true;
-                semaphore.notifyAll();
-            }
+            this.appClosed = true;
+            semaphore.countDown();
+            // There is no need to cleanly close because this automatically
+            // handled by the transport when the client forcefully disconnects
+            // eventService.closeConnection();
         }
     }
 
@@ -86,11 +86,15 @@ public class ClosingAppListener extends EventReceivedListener {
         return this.appClosed;
     }
 
+    /**
+     * Waits until the App is closed or until the timeout is reached.
+     *
+     * @param timeout The timeout in ms.
+     * @throws InterruptedException if the thread is interrupted while waiting.
+     */
     public void waitForAppClosing(long timeout) throws InterruptedException {
-        synchronized (semaphore) {
-            if (!appClosed) {
-                semaphore.wait(timeout);
-            }
+        if (!appClosed) {
+            semaphore.await(timeout, TimeUnit.MILLISECONDS);
         }
     }
 }

@@ -74,12 +74,12 @@ public class EventConsumerServiceImpl extends ConsumerServiceImpl {
     }
 
     public EventConsumerServiceImpl(SingleConnectionDetails connectionDetails) throws MALException,
-        MALInteractionException, MalformedURLException {
+            MALInteractionException, MalformedURLException {
         this(connectionDetails, null, null);
     }
 
     public EventConsumerServiceImpl(SingleConnectionDetails connectionDetails, Blob authenticationId,
-        String localNamePrefix) throws MALException, MALInteractionException, MalformedURLException {
+            String localNamePrefix) throws MALException, MALInteractionException, MalformedURLException {
         this.connectionDetails = connectionDetails;
 
         // Close old connection
@@ -105,14 +105,14 @@ public class EventConsumerServiceImpl extends ConsumerServiceImpl {
         }
 
         tmConsumer = connection.startService(this.connectionDetails.getProviderURI(), this.connectionDetails
-            .getBrokerURI(), this.connectionDetails.getDomain(), EventHelper.EVENT_SERVICE, authenticationId,
-            localNamePrefix);
+                .getBrokerURI(), this.connectionDetails.getDomain(), EventHelper.EVENT_SERVICE, authenticationId,
+                localNamePrefix);
 
         this.eventService = new EventStub(tmConsumer);
     }
 
     public void addEventReceivedListener(final Subscription subscription,
-        final EventReceivedListener eventReceivedListener) {
+            final EventReceivedListener eventReceivedListener) {
 
         // Make the event adapter to call the eventReceivedListener when there's a new object available
         class EventReceivedAdapter extends EventAdapter {
@@ -123,57 +123,56 @@ public class EventConsumerServiceImpl extends ConsumerServiceImpl {
                     final ObjectDetails objectDetails, final Element element,
                     Map qosProperties) {
 
-                        /*
+                /*
                         Identifier entityKey1 = lUpdateHeaderList.get(i).getKey().getFirstSubKey();
                         Long entityKey2 = lUpdateHeaderList.get(i).getKey().getSecondSubKey();
                         Long entityKey3 = lUpdateHeaderList.get(i).getKey().getThirdSubKey();
                         Long entityKey4 = lUpdateHeaderList.get(i).getKey().getFourthSubKey(); // ObjType of the source
-                        */
-
-                        NullableAttributeList subkeys = lUpdateHeader.getKeyValues();
-                        Identifier entityKey1 = (Identifier) subkeys.get(0).getValue();
-                        Long entityKey2 = ((Union) subkeys.get(1).getValue()).getLongValue();
-                        Long entityKey3 = ((Union) subkeys.get(2).getValue()).getLongValue();
-                        Long entityKey4 = ((Union) subkeys.get(3).getValue()).getLongValue(); // ObjType of the source
-                        /*
+                 */
+                NullableAttributeList subkeys = lUpdateHeader.getKeyValues();
+                Identifier entityKey1 = (Identifier) subkeys.get(0).getValue();
+                Long entityKey2 = ((Union) subkeys.get(1).getValue()).getLongValue();
+                Long entityKey3 = ((Union) subkeys.get(2).getValue()).getLongValue();
+                Long entityKey4 = ((Union) subkeys.get(3).getValue()).getLongValue(); // ObjType of the source
+                /*
                         Long entityKey2 = (Long) Attribute.attribute2JavaType(subkeys.get(1).getValue());
                         Long entityKey3 = (Long) Attribute.attribute2JavaType(subkeys.get(2).getValue());
                         Long entityKey4 = (Long) Attribute.attribute2JavaType(subkeys.get(3).getValue()); // ObjType of the source
-                        */
-                        // (UShort area, UShort service, UOctet version, UShort number)
-                        // (UShort area, UShort service, UOctet version, 0)
-                        // ObjectType objType = HelperCOM.objectTypeId2objectType(entityKey2);
-                        //objType.setNumber(new UShort(Integer.parseInt(entityKey1.toString())));
+                 */
+                // (UShort area, UShort service, UOctet version, UShort number)
+                // (UShort area, UShort service, UOctet version, 0)
+                // ObjectType objType = HelperCOM.objectTypeId2objectType(entityKey2);
+                //objType.setNumber(new UShort(Integer.parseInt(entityKey1.toString())));
 
-                        final long unwrap = (long) entityKey2;
+                final long unwrap = (long) entityKey2;
 
-                        ObjectType objType = new ObjectType(new UShort((short) (unwrap >> 48)),
-                                new UShort((short) (unwrap >> 32)),
-                                new UOctet((byte) (unwrap >> 24)),
-                                new UShort(Integer.parseInt(entityKey1.toString())));
+                ObjectType objType = new ObjectType(new UShort((short) (unwrap >> 48)),
+                        new UShort((short) (unwrap >> 32)),
+                        new UOctet((byte) (unwrap >> 24)),
+                        new UShort(Integer.parseInt(entityKey1.toString())));
 
-                        Object nativeBody = element;
-                        Element body = (Element) Attribute.javaType2Attribute(nativeBody);
+                Object nativeBody = element;
+                Element body = (Element) Attribute.javaType2Attribute(nativeBody);
 
-                        // ----
-                        EventCOMObject newEvent = new EventCOMObject();
-                        //                        newEvent.setDomain(msgHeader.getDomain());
-                        newEvent.setDomain(connectionDetails.getDomain());
-                        newEvent.setObjType(objType);
-                        newEvent.setObjId(entityKey3);
+                // ----
+                EventCOMObject newEvent = new EventCOMObject();
+                //                        newEvent.setDomain(msgHeader.getDomain());
+                newEvent.setDomain(connectionDetails.getDomain());
+                newEvent.setObjType(objType);
+                newEvent.setObjId(entityKey3);
 
-                        newEvent.setSource(objectDetails.getSource());
-                        newEvent.setRelated(objectDetails.getRelated());
-                        newEvent.setBody(body);
+                newEvent.setSource(objectDetails.getSource());
+                newEvent.setRelated(objectDetails.getRelated());
+                newEvent.setBody(body);
 
-                        newEvent.setTimestamp(msgHeader.getTimestamp());
-                        newEvent.setSourceURI(msgHeader.getFromURI());
-                        //newEvent.setNetworkZone(msgHeader.getNetworkZone());
-                        // ----
+                newEvent.setTimestamp(msgHeader.getTimestamp());
+                newEvent.setSourceURI(msgHeader.getFromURI());
+                //newEvent.setNetworkZone(msgHeader.getNetworkZone());
+                // ----
 
-                        // Push the data to the listener
-                        eventReceivedListener.onDataReceived(newEvent);
-                    }
+                // Push the data to the listener
+                eventReceivedListener.onDataReceived(newEvent);
+            }
         }
 
         try {  // Register with the subscription key provided

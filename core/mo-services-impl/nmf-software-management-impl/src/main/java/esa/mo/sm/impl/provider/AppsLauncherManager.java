@@ -76,7 +76,7 @@ import org.ccsds.moims.mo.softwaremanagement.appslauncher.structures.AppDetailsL
  */
 public class AppsLauncherManager extends DefinitionsManager {
 
-    private static final int APP_STOP_TIMEOUT = 15000;
+    private static final int APP_STOP_TIMEOUT = 15000; // In ms
 
     private static final Logger LOGGER = Logger.getLogger(AppsLauncherManager.class.getName());
 
@@ -504,7 +504,7 @@ public class AppsLauncherManager extends DefinitionsManager {
 
         pb.directory(appFolder);
         LOGGER.log(Level.INFO,
-                "Initializing ''{0}'' app in dir: {1}, using launcher command: {2}",
+                "Initializing ''{0}'' App!\nIn directory: {1}\nUsing launcher command: {2}",
                 new Object[]{appName, appFolder.getAbsolutePath(), Arrays.toString(appLauncherCommand)});
         final Process proc = pb.start();
         handler.monitorProcess(proc);
@@ -598,29 +598,29 @@ public class AppsLauncherManager extends DefinitionsManager {
             eventServiceConsumer.addEventReceivedListener(eventSub, listener);
         } catch (MalformedURLException ex) {
             Logger.getLogger(AppsLauncherManager.class.getName()).log(
-                    Level.SEVERE, "Could not connect to the app!");
+                    Level.SEVERE, "Could not connect to the App!");
         }
 
         // Send Event to stop the app...
         ObjectType objType = AppsLauncherServiceInfo.STOPAPP_OBJECT_TYPE;
         Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO,
-                "Sending event to app: {0} (Name: ''{1}'')",
+                "Sending event to App: {0} (Name: ''{1}'')",
                 new Object[]{appInstId, appDirectoryServiceName});
         MALInteraction malInt = (interaction != null) ? interaction.getInteraction() : null;
-        ObjectId eventSource = super.getCOMServices().getActivityTrackingService()
-                .storeCOMOperationActivity(malInt, null);
+        COMServicesProvider com = super.getCOMServices();
+        ObjectId eventSource = com.getActivityTrackingService().storeCOMOperationActivity(malInt, null);
 
         // Generate, store and publish the events to stop the App...
-        Long objId = super.getCOMServices().getEventService()
-                .generateAndStoreEvent(objType, ConfigurationProviderSingleton.getDomain(),
-                        appDirectoryServiceName, appInstId, eventSource, malInt);
+        Long objId = com.getEventService().generateAndStoreEvent(
+                objType, ConfigurationProviderSingleton.getDomain(),
+                appDirectoryServiceName, appInstId, eventSource, malInt);
 
         URI uri = (malInt != null) ? malInt.getMessageHeader().getFromURI() : new URI("");
 
         if (appDirectoryServiceName != null) {
             try {
-                super.getCOMServices().getEventService().publishEvent(uri,
-                        objId, objType, appInstId, eventSource, appDirectoryServiceName);
+                com.getEventService().publishEvent(uri, objId, objType,
+                        appInstId, eventSource, appDirectoryServiceName);
             } catch (IOException ex) {
                 LOGGER.log(Level.SEVERE, "Something went wrong...", ex);
             }
@@ -675,12 +675,12 @@ public class AppsLauncherManager extends DefinitionsManager {
             if (curr.getCategory().getValue().equalsIgnoreCase("NMF_App")) {
                 if (appDirectoryServiceNames.get(i) == null) {
                     LOGGER.log(Level.WARNING,
-                            "appDirectoryServiceName null for ''{0}'' app, falling back to kill",
+                            "appDirectoryServiceName null for ''{0}'' App, falling back to kill",
                             new Object[]{curr.getName().getValue()});
                     this.killAppProcess(appInstId, interaction.getInteraction());
                 } else if (appConnections.get(i) == null) {
                     LOGGER.log(Level.WARNING,
-                            "appConnection null for ''{0}'' app, falling back to kill",
+                            "appConnection null for ''{0}'' App, falling back to kill",
                             new Object[]{curr.getName().getValue()});
                     this.killAppProcess(appInstId, interaction.getInteraction());
                 } else {
@@ -805,7 +805,7 @@ public class AppsLauncherManager extends DefinitionsManager {
     private AppDetails readAppDescriptor(final String appName, final File propertiesFile) {
         Identifier myAppName = new Identifier(appName);
 
-        try ( FileInputStream inputStream = new FileInputStream(propertiesFile)) {
+        try (FileInputStream inputStream = new FileInputStream(propertiesFile)) {
             Properties props = new Properties();
             props.load(inputStream);
 
