@@ -87,8 +87,9 @@ public class HelperArchive {
         }
 
         // Check for nulls
-        if (archiveDetails.getNetwork() == null || archiveDetails.getTimestamp() == null || archiveDetails
-                .getProvider() == null) {
+        if (archiveDetails.getNetwork() == null
+                || archiveDetails.getTimestamp() == null
+                || archiveDetails.getProvider() == null) {
             return true;
         }
 
@@ -218,7 +219,8 @@ public class HelperArchive {
      * @return The ArchiveDetailsList object
      */
     public static ArchiveDetailsList generateArchiveDetailsList(final Long related,
-            final ObjectId source, final Identifier network, final URI provider, final Long objId) {
+            final ObjectId source, Identifier network, final URI provider, final Long objId) {
+        network = (network == null) ? new Identifier("") : network;
         ArchiveDetails archiveDetails = new ArchiveDetails(objId,
                 new ObjectDetails(related, source),
                 network,
