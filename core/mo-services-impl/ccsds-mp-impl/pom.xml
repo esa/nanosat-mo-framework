@@ -74,6 +74,11 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>int.esa.ccsds.mo</groupId>
+      <artifactId>transport-tcpip</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <scope>test</scope>
