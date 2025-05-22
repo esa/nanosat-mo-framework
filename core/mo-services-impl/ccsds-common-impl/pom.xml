@@ -66,10 +66,6 @@
       <artifactId>com-nmf</artifactId>
     </dependency>
     <dependency>
-      <groupId>int.esa.nmf.core</groupId>
-      <artifactId>helper-tools</artifactId>
-    </dependency>
-    <dependency>
       <groupId>int.esa.nmf.core.moservices.impl</groupId>
       <artifactId>ccsds-com</artifactId>
     </dependency>

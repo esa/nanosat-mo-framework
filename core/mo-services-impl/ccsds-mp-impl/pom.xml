@@ -49,10 +49,6 @@
       <artifactId>com-nmf</artifactId>
     </dependency>
     <dependency>
-      <groupId>int.esa.nmf.core</groupId>
-      <artifactId>helper-tools</artifactId>
-    </dependency>
-    <dependency>
       <groupId>int.esa.nmf.core.moservices.impl</groupId>
       <artifactId>ccsds-com</artifactId>
     </dependency>
@@ -75,11 +71,6 @@
     <dependency>
       <groupId>int.esa.ccsds.mo</groupId>
       <artifactId>mal-impl</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>int.esa.ccsds.mo</groupId>
-      <artifactId>transport-tcpip</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
