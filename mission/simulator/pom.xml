@@ -49,6 +49,7 @@
     <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
   </properties>
   <modules>
+    <module>image-debayer</module>
     <module>orekit-resources</module>
     <module>opssat-gps-simulator</module>
     <module>opssat-spacecraft-simulator</module>
