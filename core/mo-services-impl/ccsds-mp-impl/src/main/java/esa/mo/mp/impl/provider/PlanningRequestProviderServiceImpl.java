@@ -66,7 +66,6 @@ import esa.mo.mp.impl.callback.MPServiceOperationHelper;
 import esa.mo.mp.impl.callback.MPServiceOperationManager;
 import esa.mo.mp.impl.com.COMObjectIdHelper;
 import org.ccsds.moims.mo.com.InvalidException;
-import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.structures.AttributeList;
