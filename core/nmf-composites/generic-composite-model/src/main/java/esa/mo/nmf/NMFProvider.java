@@ -132,14 +132,14 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
 
     @Override
     public void reportActionExecutionProgress(final boolean success, final int errorNumber, final int progressStage,
-        final int totalNumberOfProgressStages, final long actionInstId) throws NMFException {
+            final int totalNumberOfProgressStages, final long actionInstId) throws NMFException {
         if (this.getMCServices() == null) {
             throw new NMFException(MC_SERVICES_NOT_INITIALIZED);
         }
 
         try {
             this.getMCServices().getActionService().reportExecutionProgress(success, new UInteger(errorNumber),
-                progressStage, totalNumberOfProgressStages, actionInstId);
+                    progressStage, totalNumberOfProgressStages, actionInstId);
         } catch (IOException ex) {
             throw new NMFException("The action execution progress could not be reported!", ex);
         }
@@ -147,13 +147,13 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
 
     @Override
     public Long publishAlertEvent(final String alertDefinitionName, final AttributeValueList attributeValues)
-        throws NMFException {
+            throws NMFException {
         if (this.getMCServices() == null) {
             throw new NMFException(MC_SERVICES_NOT_INITIALIZED);
         }
 
         return this.getMCServices().getAlertService().publishAlertEvent(null, new Identifier(alertDefinitionName),
-            attributeValues, null, null);
+                attributeValues, null, null);
     }
 
     @Override
@@ -163,7 +163,7 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
 
     @Override
     public Boolean pushParameterValue(final String name, final Serializable content, final boolean storeIt)
-        throws NMFException {
+            throws NMFException {
         if (this.getMCServices() == null) {
             throw new NMFException(MC_SERVICES_NOT_INITIALIZED);
         }
@@ -187,7 +187,7 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
     }
 
     public Boolean pushMultipleParameterValues(final ArrayList<ParameterInstance> parameters, final boolean storeIt)
-        throws NMFException {
+            throws NMFException {
         if (this.getMCServices() == null) {
             throw new NMFException(MC_SERVICES_NOT_INITIALIZED);
         }
@@ -221,7 +221,6 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
 
         // Clean up idle threads after 2 seconds:  (does not seem to work)
         // System.setProperty("org.ccsds.moims.mo.mal.transport.gen.idleinputprocessors", "2");
-        
         // let's have a minimum of 2 threads:  (does not seem to work)
         // System.setProperty("org.ccsds.moims.mo.mal.transport.gen.mininputprocessors", "2");
     }
@@ -305,7 +304,7 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
                 }
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(NMFProvider.class.getName()).log(Level.WARNING, "The File {0} could not be found!",
-                    file.getPath());
+                        file.getPath());
                 return null;
             }
             return null;
@@ -334,7 +333,7 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
             wrt.write(centralDirectoryURI);
         } catch (IOException ex) {
             Logger.getLogger(NMFProvider.class.getName()).log(Level.WARNING,
-                "Unable to reset URI information from properties file {0}", ex);
+                    "Unable to reset URI information from properties file {0}", ex);
         }
     }
 
@@ -370,6 +369,20 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
         banner.append(" (version: ");
         banner.append(p.getProperty("java.runtime.version", "?"));
         banner.append(")\n");
+
+        // MO services version
+        banner.append("MO Services version: ");
+        Package moPack = MALContextFactory.class.getPackage();
+        String moVersion = moPack.getImplementationVersion();
+        banner.append(moVersion == null ? "?" : moVersion);
+        banner.append("\n");
+
+        // NMF version
+        banner.append("NMF version: ");
+        Package nmfPack = NMFProvider.class.getPackage();
+        String nmfVersion = nmfPack.getImplementationVersion();
+        banner.append(nmfVersion == null ? "?" : nmfVersion);
+        banner.append("\n");
 
         banner.append(SEPARATOR);
         return banner.toString();
