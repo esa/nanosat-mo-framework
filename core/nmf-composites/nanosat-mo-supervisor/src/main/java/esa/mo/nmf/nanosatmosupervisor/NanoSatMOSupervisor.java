@@ -88,9 +88,9 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
             PlatformServicesConsumer platformServices,
             PMBackend packageManagementBackend) {
         super.startTime = System.currentTimeMillis();
-        this.generateStartBanner();
+        LOGGER.log(Level.INFO, this.generateStartBanner());
         OneInstanceLock lock = new OneInstanceLock();
-        HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
+        //HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
         ConnectionProvider.resetURILinksFile();
 
         // Check if we are running as root when we have the NMF in Mode 2
