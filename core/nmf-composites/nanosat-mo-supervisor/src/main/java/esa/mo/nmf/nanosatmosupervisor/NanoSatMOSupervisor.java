@@ -45,7 +45,6 @@ import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.common.configuration.ConfigurationHelper;
 import org.ccsds.moims.mo.common.configuration.ConfigurationServiceInfo;
 import org.ccsds.moims.mo.mal.MALContextFactory;
-import org.ccsds.moims.mo.mal.MALElementsRegistry;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
@@ -90,7 +89,7 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
         super.startTime = System.currentTimeMillis();
         LOGGER.log(Level.INFO, this.generateStartBanner());
         OneInstanceLock lock = new OneInstanceLock();
-        //HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
+        HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
         ConnectionProvider.resetURILinksFile();
 
         // Check if we are running as root when we have the NMF in Mode 2
