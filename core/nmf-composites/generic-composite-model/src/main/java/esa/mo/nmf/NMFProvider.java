@@ -371,11 +371,13 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
         banner.append(")\n");
 
         // MO services version
+        /*
         banner.append("MO Services version: ");
         Package moPack = MALContextFactory.class.getPackage();
         String moVersion = moPack.getImplementationVersion();
         banner.append(moVersion == null ? "?" : moVersion);
         banner.append("\n");
+        */
 
         // NMF version
         banner.append("NMF version: ");
