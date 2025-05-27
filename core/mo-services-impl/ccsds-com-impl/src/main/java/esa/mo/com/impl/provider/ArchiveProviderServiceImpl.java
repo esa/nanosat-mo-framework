@@ -51,6 +51,7 @@ import org.ccsds.moims.mo.mal.UnknownException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
+import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
@@ -137,8 +138,9 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
     }
 
     @Override
-    public void retrieve(final ObjectType inObjectType, final IdentifierList inDomain, final LongList inObjIds,
-        final RetrieveInteraction interaction) throws MALInteractionException, MALException {
+    public void retrieve(final ObjectType inObjectType, final IdentifierList inDomain,
+            final LongList inObjIds, final RetrieveInteraction interaction)
+            throws MALInteractionException, MALException {
         interaction.sendAcknowledgement();  // "ok, it was received.."
         UIntegerList unkIndexList = new UIntegerList();
         LongList longList = new LongList();
@@ -203,10 +205,8 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                 try {
                     outMatchedObjects = new HeterogeneousList();
 
-                    if (outMatchedObjects != null) { // Was it created?
-                        for (int j = 0; j < index; j++) { // Insert the missing elements in the list
-                            outMatchedObjects.add(new UInteger());
-                        }
+                    for (int j = 0; j < index; j++) { // Insert the missing elements in the list
+                        outMatchedObjects.add(new UInteger());
                     }
                 } catch (Exception ex) {
                     Logger.getLogger(ArchiveProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -238,8 +238,8 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
 
     @Override
     public void query(Boolean returnObjBody, final ObjectType lObjectType, final ArchiveQueryList lArchiveQueryList,
-        final QueryFilterList queryFilterList, final QueryInteraction interaction) throws MALException,
-        MALInteractionException {
+            final QueryFilterList queryFilterList, final QueryInteraction interaction) throws MALException,
+            MALInteractionException {
         UIntegerList invIndexList = new UIntegerList();
 
         interaction.sendAcknowledgement();  // "ok, it was received.."
@@ -301,12 +301,13 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             }
 
             // requirement: 3.4.4.2.12  ("Gimme only the latest!")
-            if (tmpArchiveQuery.getEndTime() != null && tmpArchiveQuery.getStartTime() == null && perObjs.size() > 0) {
+            if (tmpArchiveQuery.getEndTime() != null && tmpArchiveQuery.getStartTime() == null && !perObjs.isEmpty()) {
                 ArchivePersistenceObject latestPerObj = perObjs.get(0);
 
                 for (ArchivePersistenceObject perObj : perObjs) {  // Cycle the perObjs to find the latest
-                    if (latestPerObj.getArchiveDetails().getTimestamp().getValue() < perObj.getArchiveDetails()
-                        .getTimestamp().getValue()) {
+                    long value1 = latestPerObj.getArchiveDetails().getTimestamp().getValue();
+                    long value2 = perObj.getArchiveDetails().getTimestamp().getValue();
+                    if (value1 < value2) {
                         latestPerObj = perObj; // It is newer than the current
                     }
                 }
@@ -317,8 +318,9 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             // Sort the objects
             if (tmpArchiveQuery.getSortOrder() != null) {
                 try { // requirement: 3.4.4.2.26
-                    perObjs = SortByField.sortPersistenceObjects(perObjs, tmpArchiveQuery.getSortFieldName(),
-                        tmpArchiveQuery.getSortOrder());
+                    perObjs = SortByField.sortPersistenceObjects(perObjs,
+                            tmpArchiveQuery.getSortFieldName(),
+                            tmpArchiveQuery.getSortOrder());
                 } catch (NoSuchFieldException ex) {
                     // requirement: 3.4.4.2.14
                     throw new MALInteractionException(new InvalidException(null));
@@ -346,7 +348,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
 
             // requirement: 3.4.4.2.18 and requirement 3.4.4.2.21
             if (ArchiveManager.objectTypeContainsWildcard(lObjectType) || HelperCOM.domainContainsWildcard(
-                lArchiveQueryList.get(index).getDomain())) {  // Any wilcards? if so, then send the updates separately
+                    lArchiveQueryList.get(index).getDomain())) {  // Any wilcards? if so, then send the updates separately
 
                 // Then we need to send data sequentially... object by object
                 for (int j = 0; j < perObjs.size(); j++) {
@@ -361,26 +363,26 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                         try {  // Let's try to generate the list...
                             outObjectList = new HeterogeneousList();
                         } catch (Exception ex) { // The list could not be generated
-                            Logger.getLogger(ArchiveProviderServiceImpl.class.getName()).log(Level.SEVERE,
-                                "The outObjectList could not be generated!", ex);
+                            Logger.getLogger(ArchiveProviderServiceImpl.class.getName()).log(
+                                    Level.SEVERE, "The outObjectList could not be generated!", ex);
                             continue;
                         }
 
-                        if (outObjectList != null) {
-                            outObjectList.add((Element) perObjs.get(j).getObject()); // requirement: 3.4.4.2.24
-                        }
+                        Element el = (Element) Attribute.javaType2Attribute(perObjs.get(j).getObject());
+                        outObjectList.add(el); // requirement: 3.4.4.2.24
                     }
 
                     // requirement: 3.4.4.2.19
-                    ObjectType objType = (ArchiveManager.objectTypeContainsWildcard(lObjectType)) ? perObjs.get(j)
-                        .getObjectType() : null;
-                    //                    ObjectType objType = (ArchiveManager.objectTypeContainsWildcard(lObjectType)) ? perObjs.get(j).getObjectType() : lObjectType;
+                    ObjectType objType = (ArchiveManager.objectTypeContainsWildcard(lObjectType)) ?
+                            perObjs.get(j).getObjectType() : null;
 
                     if (j != (perObjs.size() - 1) || index != (sizeArchiveQueryList - 1)) {
                         // requirement: 3.4.4.2.18
-                        interaction.sendUpdate(objType, perObjs.get(j).getDomain(), outArchDetLst, outObjectList); // requirement: 3.4.4.2.17 and 3.4.4.2.23
+                        interaction.sendUpdate(objType, perObjs.get(j).getDomain(),
+                                outArchDetLst, outObjectList); // requirement: 3.4.4.2.17 and 3.4.4.2.23
                     } else {
-                        interaction.sendResponse(objType, perObjs.get(j).getDomain(), outArchDetLst, outObjectList); // requirement: 3.4.4.2.17 and 3.4.4.2.23
+                        interaction.sendResponse(objType, perObjs.get(j).getDomain(),
+                                outArchDetLst, outObjectList); // requirement: 3.4.4.2.17 and 3.4.4.2.23
                     }
                 }
 
@@ -410,20 +412,20 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                 if (index != (sizeArchiveQueryList - 1)) {
                     // requirement: 3.4.4.2.19
                     interaction.sendUpdate(null, lArchiveQueryList.get(index).getDomain(), outArchiveDetailsList,
-                        outObjectList); // requirement: 3.4.4.2.17
+                            outObjectList); // requirement: 3.4.4.2.17
                 } else {
                     // requirement: 3.4.4.2.19
                     interaction.sendResponse(null, lArchiveQueryList.get(index).getDomain(), outArchiveDetailsList,
-                        outObjectList); // requirement: 3.4.4.2.17
+                            outObjectList); // requirement: 3.4.4.2.17
                 }
             }
         }
     }
 
     @Override
-    public void count(final ObjectType lObjectType, final ArchiveQueryList lArchiveQueryList,
-        final QueryFilterList queryFilterList, final CountInteraction interaction) throws MALException,
-        MALInteractionException { // requirement: 3.4.5.2.1
+    public void count(final ObjectType objType, final ArchiveQueryList lArchiveQueryList,
+            final QueryFilterList filters, final CountInteraction interaction) throws MALException,
+            MALInteractionException { // requirement: 3.4.5.2.1
         UIntegerList invIndexList = new UIntegerList();
         LongList outLong = new LongList();
         interaction.sendAcknowledgement();  // "ok, it was received.."
@@ -438,7 +440,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             return;
         }
 
-        if (lObjectType == null) {
+        if (objType == null) {
             throw new MALInteractionException(new InvalidException(null)); // requirement: 3.4.5.2.1
         }
 
@@ -446,9 +448,9 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             throw new MALInteractionException(new InvalidException(null)); // requirement: 3.4.5.2.1
         }
 
-        if (queryFilterList != null) { // requirement: 3.4.5.2.1
+        if (filters != null) { // requirement: 3.4.5.2.1
 
-            if (lArchiveQueryList.size() != queryFilterList.size()) { // requirement: 3.4.5.2.1
+            if (lArchiveQueryList.size() != filters.size()) { // requirement: 3.4.5.2.1
 //                interaction.sendError(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, null));
                 throw new MALInteractionException(new InvalidException(null));
             }
@@ -462,14 +464,14 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             tmpArchiveQuery = lArchiveQueryList.get(index);
             ArrayList<ArchivePersistenceObject> perObjs;
 
-            if (queryFilterList != null) {
-                tmpQueryFilter = (QueryFilter) queryFilterList.get(index);
+            if (filters != null) {
+                tmpQueryFilter = (QueryFilter) filters.get(index);
             }
 
             // Query the objects
-            perObjs = manager.query(lObjectType, tmpArchiveQuery, tmpQueryFilter);
+            perObjs = manager.query(objType, tmpArchiveQuery, tmpQueryFilter);
 
-            if (queryFilterList != null) {
+            if (filters != null) {
                 if (tmpQueryFilter instanceof CompositeFilterSet) {
                     try {
                         // requirement: 3.4.4.2.7
@@ -486,7 +488,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
 
                 for (ArchivePersistenceObject perObj : perObjs) {  // Cycle the perObjs to find the latest
                     if (latestPerObj.getArchiveDetails().getTimestamp().getValue() < perObj.getArchiveDetails()
-                        .getTimestamp().getValue()) {
+                            .getTimestamp().getValue()) {
                         latestPerObj = perObj; // It is newer than the current
                     }
                 }
@@ -498,7 +500,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             if (tmpArchiveQuery.getSortOrder() != null) {
                 try { // requirement: 3.4.4.2.26
                     perObjs = SortByField.sortPersistenceObjects(perObjs, tmpArchiveQuery.getSortFieldName(),
-                        tmpArchiveQuery.getSortOrder());
+                            tmpArchiveQuery.getSortOrder());
                 } catch (NoSuchFieldException ex) {
                     // requirement: 3.4.4.2.14
                     throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, null));
@@ -612,32 +614,32 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
     }
 
     @Override
-    public void update(final ObjectType lObjectType, final IdentifierList domain,
-            final ArchiveDetailsList lArchiveDetailsList, final HeterogeneousList lElementList,
+    public void update(final ObjectType objType, final IdentifierList domain,
+            final ArchiveDetailsList details, final HeterogeneousList objBodies,
             final MALInteraction interaction) throws MALException, MALInteractionException {
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
 
-        if (lObjectType == null) {
+        if (objType == null) {
             return; // requirement: 3.4.4.2.1
         }
         if (domain == null) {
             return; // requirement: 3.4.4.2.2
         }
-        if (lArchiveDetailsList == null) {
+        if (details == null) {
             return; // requirement: 3.4.4.2.3
         }
-        if (ArchiveManager.objectTypeContainsWildcard(lObjectType)
+        if (ArchiveManager.objectTypeContainsWildcard(objType)
                 || HelperCOM.domainContainsWildcard(domain)) {   // requirement: 3.4.7.2.8 (first part)
             throw new MALInteractionException(new InvalidException(null));
         }
 
-        if (null != lElementList && lArchiveDetailsList.size() != lElementList.size()) { // requirement: ------ (proposed, does not exist yet)
+        if (null != objBodies && details.size() != objBodies.size()) { // requirement: ------ (proposed, does not exist yet)
             UIntegerList error = new UIntegerList();
-            int size1 = (lArchiveDetailsList.size() < lElementList.size()) ? lArchiveDetailsList.size() : lElementList
-                .size();
-            int size2 = (lArchiveDetailsList.size() > lElementList.size()) ? lArchiveDetailsList.size() : lElementList
-                .size();
+            int size1 = (details.size() < objBodies.size()) ?
+                    details.size() : objBodies.size();
+            int size2 = (details.size() > objBodies.size()) ?
+                    details.size() : objBodies.size();
 
             for (int i = size1; i < size2; i++) { // make a list with the invalid indexes
                 error.add(new UInteger(i));
@@ -647,15 +649,15 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
         }
 
         synchronized (manager) {
-            for (int index = 0; index < lArchiveDetailsList.size(); index++) {
-                ArchiveDetails tmpArchiveDetails = lArchiveDetailsList.get(index);
+            for (int index = 0; index < details.size(); index++) {
+                ArchiveDetails tmpArchiveDetails = details.get(index);
 
                 if (tmpArchiveDetails.getInstId() == 0) { // requirement: 3.4.7.2.8 (second part)
                     invIndexList.add(new UInteger(index));
                     continue;
                 }
 
-                if (!manager.objIdExists(lObjectType, domain, tmpArchiveDetails.getInstId())) { // requirement: 3.4.7.2.4
+                if (!manager.objIdExists(objType, domain, tmpArchiveDetails.getInstId())) { // requirement: 3.4.7.2.4
                     unkIndexList.add(new UInteger(index)); // requirement: 3.4.7.2.5
                 }
             }
@@ -670,22 +672,22 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             }
 
             // The errors have to be before the update operation to fulfil requirement: 3.4.7.2.5 and 3.4.7.2.8 ("nothing will be updated")
-            manager.updateEntries(lObjectType, domain, lArchiveDetailsList, lElementList, interaction); // requirement: 3.4.7.2.6 and 3.4.7.2.7
+            manager.updateEntries(objType, domain, details, objBodies, interaction); // requirement: 3.4.7.2.6 and 3.4.7.2.7
         }
     }
 
     @Override
-    public LongList delete(final ObjectType lObjectType, final IdentifierList lIdentifierList, final LongList lLongList,
-        final MALInteraction interaction) throws MALException, MALInteractionException {
+    public LongList delete(final ObjectType objType, final IdentifierList domain, final LongList lLongList,
+            final MALInteraction interaction) throws MALException, MALInteractionException {
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
         LongList toBeDeleted = new LongList();
 
-        if (ArchiveManager.objectTypeContainsWildcard(lObjectType)) { // requirement: 3.4.8.2.1
+        if (ArchiveManager.objectTypeContainsWildcard(objType)) { // requirement: 3.4.8.2.1
             throw new MALInteractionException(new InvalidException(null)); // requirement: 3.4.8.2.3
         }
 
-        if (HelperCOM.domainContainsWildcard(lIdentifierList)) { // requirement: 3.4.8.2.2
+        if (HelperCOM.domainContainsWildcard(domain)) { // requirement: 3.4.8.2.2
             throw new MALInteractionException(new InvalidException(null)); // requirement: 3.4.8.2.3
         }
 
@@ -694,10 +696,10 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                 Long tempObjId = lLongList.get(index);
                 if (tempObjId == 0) {  // Is it the wildcard 0? requirement: 3.4.8.2.5
                     toBeDeleted.clear();  // if the wildcard is in the middle of the input list, we clear the list...
-                    toBeDeleted.addAll(manager.getAllObjIds(lObjectType, lIdentifierList)); // ... add all
+                    toBeDeleted.addAll(manager.getAllObjIds(objType, domain)); // ... add all
                     break;
                 }
-                if (!manager.objIdExists(lObjectType, lIdentifierList, tempObjId)) {
+                if (!manager.objIdExists(objType, domain, tempObjId)) {
                     unkIndexList.add(new UInteger(index)); // requirement: 3.4.8.2.6
                     continue;
                 }
@@ -715,7 +717,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             }
 
             // requirement: 3.4.8.2.4 and 3.4.8.2.7
-            return manager.removeEntries(lObjectType, lIdentifierList, toBeDeleted, interaction); // requirement: 3.4.8.2.8
+            return manager.removeEntries(objType, domain, toBeDeleted, interaction); // requirement: 3.4.8.2.8
         }
     }
 
