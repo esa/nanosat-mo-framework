@@ -98,8 +98,8 @@ public abstract class BaseCommand {
         localArchiveProvider = new ArchiveProviderServiceImpl();
         try {
             localArchiveProvider.init(null);
-            LOGGER.log(Level.INFO, String.format("ArchiveProvider initialized at %s with file %s", localArchiveProvider
-                    .getConnection().getConnectionDetails().getProviderURI(), databaseFile));
+            LOGGER.log(Level.INFO, String.format("ArchiveProvider initialized at %s with file %s",
+                    localArchiveProvider.getConnection().getConnectionDetails().getProviderURI(), databaseFile));
         } catch (MALException e) {
             LOGGER.log(Level.SEVERE, "Error initializing archiveProvider", e);
             return false;
@@ -192,16 +192,16 @@ public abstract class BaseCommand {
                 char[] password = System.console().readPassword("Password: ");
                 System.out.println();
 
-                LongList ids = consumer.getCommonServices().getLoginService().getLoginStub().listRoles(new Identifier(
-                        login), String.valueOf(password));
+                LongList ids = consumer.getCommonServices().getLoginService().getLoginStub().listRoles(
+                        new Identifier(login), String.valueOf(password));
 
                 List<Long> roleIds = new ArrayList<>();
                 List<String> roleNames = new ArrayList<>();
                 final Object lock = new Object();
                 ArchiveAdapter adapter = new ArchiveAdapter() {
                     @Override
-                    public void retrieveResponseReceived(MALMessageHeader msgHeader, ArchiveDetailsList objDetails,
-                        HeterogeneousList objBodies, Map qosProperties) {
+                    public void retrieveResponseReceived(MALMessageHeader msgHeader,
+                            ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
                         for (int i = 0; i < objDetails.size(); ++i) {
                             roleIds.add(objDetails.get(i).getInstId());
                             roleNames.add(objBodies.get(i).toString());
@@ -213,8 +213,8 @@ public abstract class BaseCommand {
                 };
 
                 consumer.getCOMServices().getArchiveService().getArchiveStub().retrieve(
-                    LoginServiceInfo.LOGINROLE_OBJECT_TYPE, consumer.getCommonServices().getLoginService()
-                        .getConnectionDetails().getDomain(), ids, adapter);
+                        LoginServiceInfo.LOGINROLE_OBJECT_TYPE, consumer.getCommonServices().getLoginService()
+                                .getConnectionDetails().getDomain(), ids, adapter);
 
                 synchronized (lock) {
                     lock.wait(10000);
@@ -307,8 +307,8 @@ public abstract class BaseCommand {
      * @param adapter Archive adapter receiving the query answer messages
      * @param queryStatusProvider Interface providing the status of the query
      */
-    public static void queryArchive(ObjectType objectsTypes, ArchiveQueryList archiveQueryList, ArchiveAdapter adapter,
-            QueryStatusProvider queryStatusProvider) {
+    public static void queryArchive(ObjectType objectsTypes, ArchiveQueryList archiveQueryList,
+            ArchiveAdapter adapter, QueryStatusProvider queryStatusProvider) {
         // run the query
         try {
             ArchiveStub archive = localArchive == null ? consumer.getCOMServices().getArchiveService()
@@ -339,8 +339,8 @@ public abstract class BaseCommand {
     public static ObjectId getAppObjectId(String appName, IdentifierList domain) {
         // SoftwareManagement.AppsLaunch.App object type
         ObjectType appType = new ObjectType(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NUMBER,
-            AppsLauncherServiceInfo.APPSLAUNCHER_SERVICE_NUMBER, new UOctet((short) 0),
-            AppsLauncherServiceInfo.APP_OBJECT_NUMBER);
+                AppsLauncherServiceInfo.APPSLAUNCHER_SERVICE_NUMBER, new UOctet((short) 0),
+                AppsLauncherServiceInfo.APP_OBJECT_NUMBER);
 
         // prepare domain filter
         ArchiveQueryList archiveQueryList = new ArchiveQueryList();

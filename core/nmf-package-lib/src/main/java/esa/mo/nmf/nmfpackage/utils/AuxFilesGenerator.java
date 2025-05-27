@@ -209,8 +209,7 @@ public class AuxFilesGenerator {
         }
 
         if (os.isWindows()) {
-            String content = generateWindowsStartAppScript(
-                    javaCMD, jarName, appDetails);
+            String content = generateWindowsStartAppScript(javaCMD, jarName, appDetails);
             File startApp = new File(appDir, "start_" + name + ".bat");
             writeFile(startApp, content);
         }
