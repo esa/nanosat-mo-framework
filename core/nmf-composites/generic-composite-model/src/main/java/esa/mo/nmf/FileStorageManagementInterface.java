@@ -23,9 +23,9 @@ package esa.mo.nmf;
 import java.util.ArrayList;
 
 /**
- * The FileManagementInterface interface provides a way to manage Files and 
+ * The FileManagementInterface interface provides a way to manage Files and
  * Folders in the system.
- * 
+ *
  */
 public interface FileStorageManagementInterface {
 
@@ -59,8 +59,8 @@ public interface FileStorageManagementInterface {
      * publish Alert events through the Alert service
      *
      * @param path The path of the folder to get the information
-     * @return Returns the object instance identifier of the published event.
-     * If there is any error, then a null shall be returned instead
+     * @return Returns the object instance identifier of the published event. If
+     * there is any error, then a null shall be returned instead
      */
     Long getFolderUsageStats(final String path);
 

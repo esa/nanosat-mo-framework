@@ -26,9 +26,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotates a Java method as an MC Action.
- * Every method annotated as an action has to have the following arguments before the
- * parameters (not annotated with @ActionParameter):
+ * Annotates a Java method as an MC Action. Every method annotated as an action
+ * has to have the following arguments before the parameters (not annotated with
+ * @ActionParameter):
  * <p>
  * <code>Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction</code>
  * <p>
@@ -45,12 +45,13 @@ import java.lang.annotation.Target;
  *     MALInteraction interaction,
  *     <b>&#64;ActionParameter(name = "delta", rawUnit = "milliseconds") Long delta</b>) {
  *   String str = (new SimpleDateFormat(DATE_PATTERN)).format(new Date(System.currentTimeMillis() + delta));
-
+ *
  *   ShellCommander shell = new ShellCommander();
  *   shell.runCommand("date -s \"" + str + " UTC\" | hwclock --systohc");
  *   return null;
  * }
  * </pre>
+ *
  * @author Kevin Otto
  */
 @Retention(RetentionPolicy.RUNTIME)

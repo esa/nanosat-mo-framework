@@ -20,7 +20,6 @@
  */
 package esa.mo.nmf;
 
-import java.util.logging.Logger;
 import esa.mo.mp.impl.api.MPArchiveManager;
 
 /**
@@ -28,8 +27,6 @@ import esa.mo.mp.impl.api.MPArchiveManager;
  *
  */
 public abstract class MissionPlanningNMFAdapter {
-
-    private static final java.util.logging.Logger LOGGER = Logger.getLogger(MissionPlanningNMFAdapter.class.getName());
 
     private MPArchiveManager archiveManager = null;
 

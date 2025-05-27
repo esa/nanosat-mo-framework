@@ -12,8 +12,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Describes an Aggregation of MC Parameters exposed by an MC adapter.
- * Multiple Aggregation annotations can be present for the same class.
+ * Describes an Aggregation of MC Parameters exposed by an MC adapter. Multiple
+ * Aggregation annotations can be present for the same class.
  *
  * <p>
  * Example:

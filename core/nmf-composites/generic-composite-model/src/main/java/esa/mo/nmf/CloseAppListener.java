@@ -23,10 +23,10 @@ package esa.mo.nmf;
 import java.util.EventListener;
 
 /**
- * The CloseAppListener provides a simple interface to be implemented by the
- * App developers in order to provide App-specific operations before closing 
- * the App.
- * 
+ * The CloseAppListener provides a simple interface to be implemented by the App
+ * developers in order to provide App-specific operations before closing the
+ * App.
+ *
  */
 public interface CloseAppListener extends EventListener {
 
@@ -34,7 +34,7 @@ public interface CloseAppListener extends EventListener {
      * The onClose signature shall be called when the app is requested to be
      * closed.
      *
-     * @return Returns true if everything was closed successfully, false 
+     * @return Returns true if everything was closed successfully, false
      * otherwise.
      */
     Boolean onClose();

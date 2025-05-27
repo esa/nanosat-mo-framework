@@ -238,8 +238,8 @@ public class NMFConsumer {
      * @throws org.ccsds.moims.mo.mal.MALInteractionException if it could not
      * reach the Directory service.
      */
-    public static final ProviderSummaryList retrieveProvidersFromDirectory(final URI directoryURI) throws MALException,
-        MalformedURLException, MALInteractionException {
+    public static final ProviderSummaryList retrieveProvidersFromDirectory(final URI directoryURI)
+            throws MALException, MalformedURLException, MALInteractionException {
         return NMFConsumer.retrieveProvidersFromDirectory(false, directoryURI);
     }
 
@@ -257,8 +257,8 @@ public class NMFConsumer {
      * reach the Directory service.
      */
     public static final ProviderSummaryList retrieveProvidersFromDirectory(final URI directoryURI,
-        final Blob authenticationId, final String localNamePrefix) throws MALException, MalformedURLException,
-        MALInteractionException {
+            final Blob authenticationId, final String localNamePrefix)
+            throws MALException, MalformedURLException, MALInteractionException {
         return NMFConsumer.retrieveProvidersFromDirectory(false, directoryURI, authenticationId, localNamePrefix);
     }
 
@@ -275,7 +275,7 @@ public class NMFConsumer {
      * reach the Directory service.
      */
     public static final ProviderSummaryList retrieveProvidersFromDirectory(final URI directoryURI,
-        final String localNamePrefix) throws MALException, MalformedURLException, MALInteractionException {
+            final String localNamePrefix) throws MALException, MalformedURLException, MALInteractionException {
         return NMFConsumer.retrieveProvidersFromDirectory(false, directoryURI, null, localNamePrefix);
     }
 
@@ -292,8 +292,8 @@ public class NMFConsumer {
      * @throws org.ccsds.moims.mo.mal.MALInteractionException if it could not
      * reach the Directory service.
      */
-    public static final ProviderSummaryList retrieveProvidersFromDirectory(final boolean isS2G, final URI directoryURI)
-        throws MALException, MalformedURLException, MALInteractionException {
+    public static final ProviderSummaryList retrieveProvidersFromDirectory(final boolean isS2G,
+            final URI directoryURI) throws MALException, MalformedURLException, MALInteractionException {
         return NMFConsumer.retrieveProvidersFromDirectory(isS2G, directoryURI, null, null);
     }
 
@@ -312,9 +312,9 @@ public class NMFConsumer {
      * @throws org.ccsds.moims.mo.mal.MALInteractionException if it could not
      * reach the Directory service.
      */
-    public static final ProviderSummaryList retrieveProvidersFromDirectory(final boolean isS2G, final URI directoryURI,
-        final Blob authenticationId, final String localNamePrefix) throws MALException, MalformedURLException,
-        MALInteractionException {
+    public static final ProviderSummaryList retrieveProvidersFromDirectory(final boolean isS2G,
+            final URI directoryURI, final Blob authenticationId, final String localNamePrefix)
+            throws MALException, MalformedURLException, MALInteractionException {
         // Starting the directory service consumer from static method.
         // The whole Common area should be registered to avoid errors during the initHelpers
         NMFConsumer.initHelpers();
@@ -328,8 +328,8 @@ public class NMFConsumer {
             Logger.getLogger(NMFConsumer.class.getName()).log(Level.FINE, null, ex);
         }
 
-        DirectoryConsumerServiceImpl directoryService = new DirectoryConsumerServiceImpl(directoryURI, authenticationId,
-            localNamePrefix);
+        DirectoryConsumerServiceImpl directoryService = new DirectoryConsumerServiceImpl(
+                directoryURI, authenticationId, localNamePrefix);
 
         IdentifierList wildcardList = new IdentifierList();
         wildcardList.add(new Identifier("*"));

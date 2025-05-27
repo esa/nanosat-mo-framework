@@ -55,13 +55,12 @@ public class MPRegistration {
     }
 
     /**
-     * The registerRequestTemplates operation registers a set of Request Templates
-     * in the Plan Information Management service. This abstracts the NMF developer from the
-     * low-level details of MO.
+     * The registerRequestTemplates operation registers a set of Request
+     * Templates in the Plan Information Management service. This abstracts the
+     * NMF developer from the low-level details of MO.
      *
      * @param requestTemplates
-     * @return The request template object ids of the
-     * RequestTemplate objects.
+     * @return The request template object ids of the RequestTemplate objects.
      */
     public ObjectIdList registerRequestTemplates(RequestTemplateDetailsList requestTemplates) {
         return new ObjectIdList();

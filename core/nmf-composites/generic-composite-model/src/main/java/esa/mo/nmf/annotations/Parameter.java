@@ -26,7 +26,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Declares a class field as a Parameter and exposes it on MC Parameter interface.
+ * Declares a class field as a Parameter and exposes it on MC Parameter
+ * interface.
  *
  * Parameters are not allowed to be null upon initialization.
  *
@@ -77,8 +78,9 @@ public @interface Parameter {
     /**
      * MAL Type of this parameter.
      *
-     * default: auto generated: only possible when directly using Attribute as field type (linke
-     * UInteger, Integer, UShort, ...) or build in java types (int, double, String ...)
+     * default: auto generated: only possible when directly using Attribute as
+     * field type (linke UInteger, Integer, UShort, ...) or build in java types
+     * (int, double, String ...)
      */
     String malType() default "";
 
@@ -104,23 +106,24 @@ public @interface Parameter {
     double reportIntervalSeconds() default 0.0;
 
     /**
-     * Name of the field containing a ParameterExpression instance containing the validity expression
-     * for this parameter
+     * Name of the field containing a ParameterExpression instance containing
+     * the validity expression for this parameter
      *
      * default: no validity check
      */
     String validityExpressionFieldName() default "";
 
     /**
-     * Name of the field containing a ParameterConversion instance containing the conversion for this
-     * parameter
+     * Name of the field containing a ParameterConversion instance containing
+     * the conversion for this parameter
      *
      * default: no conversion
      */
     String conversionFunctionName() default "";
 
     /**
-     * If this parameter should be read only. Parameters which are final are always read only!
+     * If this parameter should be read only. Parameters which are final are
+     * always read only!
      *
      * default: false
      */
@@ -134,11 +137,11 @@ public @interface Parameter {
     boolean restored() default true;
 
     /**
-     * The name of the function that will be called, every time the Parameter is get (before its value
-     * is read).
+     * The name of the function that will be called, every time the Parameter is
+     * get (before its value is read).
      *
-     * The functions is not allowed to have any parameters and all return statements are ignored. The
-     * function needs to be public!
+     * The functions is not allowed to have any parameters and all return
+     * statements are ignored. The function needs to be public!
      *
      * default: no function is called
      */

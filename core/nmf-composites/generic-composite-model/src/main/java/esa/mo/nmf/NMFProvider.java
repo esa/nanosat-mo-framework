@@ -131,29 +131,30 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
     }
 
     @Override
-    public void reportActionExecutionProgress(final boolean success, final int errorNumber, final int progressStage,
-            final int totalNumberOfProgressStages, final long actionInstId) throws NMFException {
+    public void reportActionExecutionProgress(final boolean success, final int errorNumber,
+            final int progressStage, final int totalNumberOfProgressStages,
+            final long actionInstId) throws NMFException {
         if (this.getMCServices() == null) {
             throw new NMFException(MC_SERVICES_NOT_INITIALIZED);
         }
 
         try {
-            this.getMCServices().getActionService().reportExecutionProgress(success, new UInteger(errorNumber),
-                    progressStage, totalNumberOfProgressStages, actionInstId);
+            this.getMCServices().getActionService().reportExecutionProgress(success,
+                    new UInteger(errorNumber), progressStage, totalNumberOfProgressStages, actionInstId);
         } catch (IOException ex) {
             throw new NMFException("The action execution progress could not be reported!", ex);
         }
     }
 
     @Override
-    public Long publishAlertEvent(final String alertDefinitionName, final AttributeValueList attributeValues)
-            throws NMFException {
+    public Long publishAlertEvent(final String alertDefinitionName,
+            final AttributeValueList attributeValues) throws NMFException {
         if (this.getMCServices() == null) {
             throw new NMFException(MC_SERVICES_NOT_INITIALIZED);
         }
 
-        return this.getMCServices().getAlertService().publishAlertEvent(null, new Identifier(alertDefinitionName),
-                attributeValues, null, null);
+        return this.getMCServices().getAlertService().publishAlertEvent(null,
+                new Identifier(alertDefinitionName), attributeValues, null, null);
     }
 
     @Override
@@ -162,8 +163,8 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
     }
 
     @Override
-    public Boolean pushParameterValue(final String name, final Serializable content, final boolean storeIt)
-            throws NMFException {
+    public Boolean pushParameterValue(final String name,
+            final Serializable content, final boolean storeIt) throws NMFException {
         if (this.getMCServices() == null) {
             throw new NMFException(MC_SERVICES_NOT_INITIALIZED);
         }
@@ -186,8 +187,8 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
         return this.getMCServices().getParameterService().pushMultipleParameterValues(parameters, storeIt);
     }
 
-    public Boolean pushMultipleParameterValues(final ArrayList<ParameterInstance> parameters, final boolean storeIt)
-            throws NMFException {
+    public Boolean pushMultipleParameterValues(final ArrayList<ParameterInstance> parameters,
+            final boolean storeIt) throws NMFException {
         if (this.getMCServices() == null) {
             throw new NMFException(MC_SERVICES_NOT_INITIALIZED);
         }
@@ -285,8 +286,8 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
                     + File.separator
                     + Const.FILENAME_CENTRAL_DIRECTORY_SERVICE;
             Logger.getLogger(NMFProvider.class.getName()).log(Level.INFO,
-                    "Property {0} not set. Falling back to reading from {1}.", new Object[]{
-                        Const.CENTRAL_DIRECTORY_URI_PROPERTY, path});
+                    "Property {0} not set. Falling back to reading from {1}.",
+                    new Object[]{Const.CENTRAL_DIRECTORY_URI_PROPERTY, path});
 
             File file = new File(path); // Select the file that we want to read from
 
@@ -300,11 +301,12 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
                     br.close();
                     return new URI(line);
                 } catch (IOException ex) {
-                    Logger.getLogger(NMFProvider.class.getName()).log(Level.SEVERE, "An error happened!", ex);
+                    Logger.getLogger(NMFProvider.class.getName()).log(
+                            Level.SEVERE, "An error happened!", ex);
                 }
             } catch (FileNotFoundException ex) {
-                Logger.getLogger(NMFProvider.class.getName()).log(Level.WARNING, "The File {0} could not be found!",
-                        file.getPath());
+                Logger.getLogger(NMFProvider.class.getName()).log(Level.WARNING,
+                        "The File {0} could not be found!", file.getPath());
                 return null;
             }
             return null;
@@ -377,8 +379,7 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
         String moVersion = moPack.getImplementationVersion();
         banner.append(moVersion == null ? "?" : moVersion);
         banner.append("\n");
-        */
-
+         */
         // NMF version
         banner.append("NMF version: ");
         Package nmfPack = NMFProvider.class.getPackage();
