@@ -21,7 +21,7 @@
     <groupId>int.esa.nmf.core.moservices.impl</groupId>
     <artifactId>ccsds-mp</artifactId>
     <packaging>jar</packaging>
-    <name>ESA NMF Core MO Services Implementation - Mission Planning</name>
+    <name>ESA NMF Core MO Services - Mission Planning</name>
     <description>The ESA implementation of the CCSDS Mission Operations Mission Planning services</description>
     <url>http://www.esa.int</url>
     <organization>

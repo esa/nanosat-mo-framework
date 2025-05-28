@@ -24,7 +24,7 @@
 
   <groupId>int.esa.nmf.sdk.examples.space</groupId>
   <artifactId>reactor</artifactId>
-  <name>ESA NMF SDK Reactor - Space Apps Examples</name>
+  <name>ESA NMF SDK - Space Apps Examples</name>
   <packaging>pom</packaging>
 
   <organization>

@@ -24,7 +24,7 @@
 
   <groupId>int.esa.nmf.sdk.examples</groupId>
   <artifactId>examples-reactor</artifactId>
-  <name>ESA NMF SDK Reactor - NMF Applications Examples</name>
+  <name>ESA NMF SDK - NMF Applications Examples</name>
   <packaging>pom</packaging>
 
   <organization>

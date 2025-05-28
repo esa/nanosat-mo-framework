@@ -20,7 +20,7 @@ under the License. -->
     <groupId>int.esa.nmf.core.moservices.api</groupId>
     <artifactId>com-nmf</artifactId>
     <packaging>jar</packaging>
-    <name>ESA NMF Core MO API - COM Services Java API for NMF</name>
+    <name>ESA NMF Core MO API - COM Services</name>
     <description>CCSDS COM for Java with NMF-specific customizations</description>
     <url>http://www.esa.int</url>
     <organization>

@@ -20,7 +20,7 @@ under the License. -->
     <groupId>int.esa.nmf.core.moservices.impl</groupId>
     <artifactId>ccsds-mc</artifactId>
     <packaging>jar</packaging>
-    <name>ESA NMF Core MO Services Implementation - ESA/DLR MC Services</name>
+    <name>ESA NMF Core MO Services - MC Services</name>
     <description>The ESA/TU Graz/DLR implementation of the CCSDS MO MC services</description>
     <url>http://www.esa.int</url>
     <organization>

@@ -22,7 +22,7 @@
     <groupId>int.esa.nmf.core.moservices.api</groupId>
     <artifactId>software-management</artifactId>
     <packaging>jar</packaging>
-    <name>ESA NMF Core MO API - Software Management Services Java API</name>
+    <name>ESA NMF Core MO API - Software Management Services</name>
     <description>The CCSDS Software Manager API for Java</description>
     <url>http://www.esa.int</url>
     <organization>

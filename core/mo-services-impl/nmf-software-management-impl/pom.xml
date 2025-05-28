@@ -20,7 +20,7 @@ under the License. -->
     <groupId>int.esa.nmf.core.moservices.impl</groupId>
     <artifactId>nmf-software-management</artifactId>
     <packaging>jar</packaging>
-    <name>ESA NMF Core MO Services Implementation - Software Management</name>
+    <name>ESA NMF Core MO Services - Software Management</name>
     <description>The ESA/TU Graz implementation of the CCSDS Mission Operations Software Management services</description>
     <url>http://www.esa.int</url>
     <organization>

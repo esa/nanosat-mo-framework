@@ -22,7 +22,7 @@
     <groupId>int.esa.nmf.core.moservices.impl</groupId>
     <artifactId>services-impl-reactor</artifactId>
     <packaging>pom</packaging>
-    <name>ESA NMF Core - MO Services Implementations</name>
+    <name>ESA NMF Core - MO Services</name>
     <organization>
         <name>ESA</name>
         <url>http://www.esa.int</url>

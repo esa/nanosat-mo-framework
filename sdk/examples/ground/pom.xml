@@ -24,7 +24,7 @@
 
   <groupId>int.esa.nmf.sdk.examples.ground</groupId>
   <artifactId>reactor</artifactId>
-  <name>ESA NMF SDK Reactor - Ground Applications Examples</name>
+  <name>ESA NMF SDK - Ground Applications Examples</name>
   <packaging>pom</packaging>
 
   <organization>
