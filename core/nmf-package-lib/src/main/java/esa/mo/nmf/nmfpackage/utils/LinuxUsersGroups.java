@@ -204,8 +204,16 @@ public class LinuxUsersGroups {
      * @throws IOException if the permissions could not be changed.
      */
     public static void chmod(boolean sudo, boolean recursive, String mode, String path) throws IOException {
-        String strRecursive = recursive ? "--recursive" : "";
-        //String[] cmd = {sudo ? "sudo" : "", "chmod", strRecursive, mode, path};
+        // First, we need to check if the "chmod" is from BusyBox or not
+        // Different Linux Systems have different syntaxes for the same command
+        // So we need to check if we are using the adduser from "BusyBox" or not
+        String[] cmd1 = {"sudo", "chmod"};
+        String out1 = runCommand(cmd1);
+        boolean isBusyBox = out1.contains("BusyBox");
+
+        String flag = (isBusyBox) ? "-R" : "--recursive";
+        String strRecursive = recursive ? flag : "";
+
         String[] cmd = sudo
                 ? new String[]{"sudo", "chmod", strRecursive, mode, path}
                 : new String[]{"chmod", strRecursive, mode, path};
