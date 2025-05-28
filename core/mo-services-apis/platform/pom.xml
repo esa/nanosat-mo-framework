@@ -22,7 +22,7 @@
     <groupId>int.esa.nmf.core.moservices.api</groupId>
     <artifactId>platform</artifactId>
     <packaging>jar</packaging>
-    <name>ESA NMF Core MO Services API - Platform Services Java API</name>
+    <name>ESA NMF Core MO API - Platform Services Java API</name>
     <description>The CCSDS PLATFORM API for Java</description>
     <url>http://www.esa.int</url>
     <organization>

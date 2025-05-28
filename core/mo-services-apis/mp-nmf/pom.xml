@@ -21,7 +21,7 @@
     <groupId>int.esa.nmf.core.moservices.api</groupId>
     <artifactId>mp-nmf</artifactId>
     <packaging>jar</packaging>
-    <name>ESA NMF Core MO Services API - Mission Planning Services Java API</name>
+    <name>ESA NMF Core MO API - Mission Planning Services Java API</name>
     <description>The CCSDS MISSION PLANNING API for Java</description>
     <url>http://www.esa.int</url>
     <organization>

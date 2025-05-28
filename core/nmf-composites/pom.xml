@@ -22,7 +22,7 @@
     <groupId>int.esa.nmf.core</groupId>
     <artifactId>nmf-composites-reactor</artifactId>
     <packaging>pom</packaging>
-    <name>ESA NMF Core Reactor - Composites</name>
+    <name>ESA NMF Core - Composites</name>
     <organization>
         <name>ESA</name>
         <url>http://www.esa.int</url>
