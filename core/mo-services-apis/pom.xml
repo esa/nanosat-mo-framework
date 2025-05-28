@@ -10,48 +10,49 @@
 
     See the License for the specific language governing permissions and limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>int.esa.nmf</groupId>
-    <artifactId>parent</artifactId>
-    <version>4.0-SNAPSHOT</version>
-    <relativePath>../../parent/pom.xml</relativePath>
-  </parent>
-  <groupId>int.esa.nmf.core</groupId>
-  <artifactId>mo-services-apis-reactor</artifactId>
-  <packaging>pom</packaging>
-  <name>ESA NMF Core Reactor - MO APIs</name>
-  <organization>
-    <name>ESA</name>
-    <url>http://www.esa.int</url>
-  </organization>
-  <licenses>
-    <license>
-      <name>European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4</name>
-      <url>https://raw.github.com/esa/nanosat-mo-framework/master/LICENCE.md</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
-  <scm>
-    <connection>scm:git:https://github.com/esa/nanosat-mo-framework.git</connection>
-    <url>https://github.com/esa/nanosat-mo-framework</url>
-  </scm>
-  <developers>
-    <developer>
-      <id>CesarCoelho</id>
-      <name>Cesar Coelho</name>
-      <url>https://github.com/CesarCoelho</url>
-    </developer>
-  </developers>
-  <properties>
-    <maven.deploy.skip>true</maven.deploy.skip>
-    <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
-  </properties>
-  <modules>
-    <module>com-nmf</module>
-    <module>platform</module>
-    <module>software-management</module>
-    <module>mp-nmf</module>
-  </modules>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>int.esa.nmf</groupId>
+        <artifactId>parent</artifactId>
+        <version>4.0-SNAPSHOT</version>
+        <relativePath>../../parent/pom.xml</relativePath>
+    </parent>
+    <groupId>int.esa.nmf.core</groupId>
+    <artifactId>mo-services-apis-reactor</artifactId>
+    <packaging>pom</packaging>
+    <name>ESA NMF Core Reactor - MO APIs</name>
+    <organization>
+        <name>ESA</name>
+        <url>http://www.esa.int</url>
+    </organization>
+    <licenses>
+        <license>
+            <name>European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4</name>
+            <url>https://raw.github.com/esa/nanosat-mo-framework/master/LICENCE.md</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <scm>
+        <connection>scm:git:https://github.com/esa/nanosat-mo-framework.git</connection>
+        <url>https://github.com/esa/nanosat-mo-framework</url>
+    </scm>
+    <developers>
+        <developer>
+            <id>CesarCoelho</id>
+            <name>Cesar Coelho</name>
+            <url>https://github.com/CesarCoelho</url>
+        </developer>
+    </developers>
+    <properties>
+        <maven.deploy.skip>true</maven.deploy.skip>
+        <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
+    </properties>
+    <modules>
+        <module>com-nmf</module>
+        <module>platform</module>
+        <module>software-management</module>
+        <module>mp-nmf</module>
+    </modules>
 </project>

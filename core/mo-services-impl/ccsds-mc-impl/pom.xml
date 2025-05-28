@@ -1,138 +1,138 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4 
-  You may not use this file except in compliance with the License. Except as 
-  expressly set forth in this License, the Software is provided to You on an 
-  "as is" basis and without warranties of any kind, including without limitation 
-  merchantability, fitness for a particular purpose, absence of defects or 
-  errors, accuracy or non-infringement of intellectual property rights. See 
-  the License for the specific language governing permissions and limitations 
-  under the License. -->
+You may not use this file except in compliance with the License. Except as 
+expressly set forth in this License, the Software is provided to You on an 
+"as is" basis and without warranties of any kind, including without limitation 
+merchantability, fitness for a particular purpose, absence of defects or 
+errors, accuracy or non-infringement of intellectual property rights. See 
+the License for the specific language governing permissions and limitations 
+under the License. -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>int.esa.nmf</groupId>
-    <artifactId>parent</artifactId>
-    <version>4.0-SNAPSHOT</version>
-    <relativePath>../../../parent/pom.xml</relativePath>
-  </parent>
-  <groupId>int.esa.nmf.core.moservices.impl</groupId>
-  <artifactId>ccsds-mc</artifactId>
-  <packaging>jar</packaging>
-  <name>ESA NMF Core MO Services Implementation - ESA/DLR MC Services</name>
-  <description>The ESA/TU Graz/DLR implementation of the CCSDS MO MC services</description>
-  <url>http://www.esa.int</url>
-  <organization>
-    <name>ESA</name>
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>int.esa.nmf</groupId>
+        <artifactId>parent</artifactId>
+        <version>4.0-SNAPSHOT</version>
+        <relativePath>../../../parent/pom.xml</relativePath>
+    </parent>
+    <groupId>int.esa.nmf.core.moservices.impl</groupId>
+    <artifactId>ccsds-mc</artifactId>
+    <packaging>jar</packaging>
+    <name>ESA NMF Core MO Services Implementation - ESA/DLR MC Services</name>
+    <description>The ESA/TU Graz/DLR implementation of the CCSDS MO MC services</description>
     <url>http://www.esa.int</url>
-  </organization>
-  <licenses>
-    <license>
-      <name>European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4</name>
-      <url>https://raw.github.com/esa/nanosat-mo-framework/master/LICENCE.md</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
-  <scm>
-    <connection>scm:git:https://github.com/esa/nanosat-mo-framework.git</connection>
-    <url>https://github.com/esa/nanosat-mo-framework</url>
-  </scm>
-  <developers>
-    <developer>
-      <id>CesarCoelho</id>
-      <name>César Coelho</name>
-      <url>https://github.com/CesarCoelho</url>
-    </developer>
-    <developer>
-      <id>SamCooper</id>
-      <name>Sam Cooper</name>
-      <email>sam.cooper@scisys.co.uk</email>
-      <url>https://github.com/SamCooper</url>
-    </developer>
-    <developer>
-      <id>NicolasVorwerg</id>
-      <name>Nicolas Vorwerg</name>
-      <email>Nicolas.Vorwerg@dlr.de</email>
-      <url>https://github.com/NicolasVorwerg</url>
-    </developer>
-  </developers>
-  <dependencies>
-    <dependency>
-      <groupId>int.esa.ccsds.mo</groupId>
-      <artifactId>api-area001-v003-mal</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>int.esa.ccsds.mo</groupId>
-      <artifactId>api-area004-v001-mc</artifactId>
-      <exclusions>
-        <exclusion>
-          <groupId>int.esa.ccsds.mo</groupId>
-          <artifactId>api-area002-v001-com</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>int.esa.ccsds.mo</groupId>
-      <artifactId>api-area003-v001-common</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>int.esa.nmf.core.moservices.api</groupId>
-      <artifactId>com-nmf</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>int.esa.nmf.core.moservices.impl</groupId>
-      <artifactId>ccsds-com</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
-  <build>
-    <resources></resources>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-enforcer-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>build-helper-maven-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-resources-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.8.7</version>
-        <executions>
-          <execution>
-            <id>jacoco-initialize</id>
-            <goals>
-              <goal>prepare-agent</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>jacoco-report</id>
-            <phase>test</phase>
-            <goals>
-              <goal>report</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
+    <organization>
+        <name>ESA</name>
+        <url>http://www.esa.int</url>
+    </organization>
+    <licenses>
+        <license>
+            <name>European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4</name>
+            <url>https://raw.github.com/esa/nanosat-mo-framework/master/LICENCE.md</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <scm>
+        <connection>scm:git:https://github.com/esa/nanosat-mo-framework.git</connection>
+        <url>https://github.com/esa/nanosat-mo-framework</url>
+    </scm>
+    <developers>
+        <developer>
+            <id>CesarCoelho</id>
+            <name>César Coelho</name>
+            <url>https://github.com/CesarCoelho</url>
+        </developer>
+        <developer>
+            <id>SamCooper</id>
+            <name>Sam Cooper</name>
+            <email>sam.cooper@scisys.co.uk</email>
+            <url>https://github.com/SamCooper</url>
+        </developer>
+        <developer>
+            <id>NicolasVorwerg</id>
+            <name>Nicolas Vorwerg</name>
+            <email>Nicolas.Vorwerg@dlr.de</email>
+            <url>https://github.com/NicolasVorwerg</url>
+        </developer>
+    </developers>
+    <dependencies>
+        <dependency>
+            <groupId>int.esa.ccsds.mo</groupId>
+            <artifactId>api-area001-v003-mal</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>int.esa.ccsds.mo</groupId>
+            <artifactId>api-area004-v001-mc</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>int.esa.ccsds.mo</groupId>
+                    <artifactId>api-area002-v001-com</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>int.esa.ccsds.mo</groupId>
+            <artifactId>api-area003-v001-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>int.esa.nmf.core.moservices.api</groupId>
+            <artifactId>com-nmf</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>int.esa.nmf.core.moservices.impl</groupId>
+            <artifactId>ccsds-com</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+    <build>
+        <resources></resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.7</version>
+                <executions>
+                    <execution>
+                        <id>jacoco-initialize</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>jacoco-report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

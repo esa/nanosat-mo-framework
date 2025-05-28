@@ -10,59 +10,60 @@
  
     See the License for the specific language governing permissions and limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>int.esa.nmf</groupId>
-    <artifactId>parent</artifactId>
-    <version>4.0-SNAPSHOT</version>
-    <relativePath>../../parent/pom.xml</relativePath>
-  </parent>
-  <groupId>int.esa.nmf.core.moservices</groupId>
-  <artifactId>xml</artifactId>
-  <packaging>jar</packaging>
-  <name>ESA NMF Core - MO Services XMLs</name>
-  <description>NMF CCSDS Mission Operations Services XML files, including tailored COM specification</description>
-  <url>http://www.ccsds.org</url>
-  <organization>
-    <name>CCSDS</name>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>int.esa.nmf</groupId>
+        <artifactId>parent</artifactId>
+        <version>4.0-SNAPSHOT</version>
+        <relativePath>../../parent/pom.xml</relativePath>
+    </parent>
+    <groupId>int.esa.nmf.core.moservices</groupId>
+    <artifactId>xml</artifactId>
+    <packaging>jar</packaging>
+    <name>ESA NMF Core - MO Services XMLs</name>
+    <description>NMF CCSDS Mission Operations Services XML files, including tailored COM specification</description>
     <url>http://www.ccsds.org</url>
-  </organization>
-  <licenses>
-    <license>
-      <name>European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4</name>
-      <url>https://raw.github.com/esa/nanosat-mo-framework/master/LICENCE.md</url>
-      <distribution>repo</distribution>
-      <comments>This license only applies to the POM file. The XML/Schema files are owned by CCSDS.</comments>
-    </license>
-  </licenses>
-  <scm>
-    <connection>scm:git:https://github.com/esa/nanosat-mo-framework.git</connection>
-    <url>https://github.com/esa/nanosat-mo-framework</url>
-  </scm>
-  <developers>
-    <developer>
-      <id>SamCooper</id>
-      <name>Sam Cooper</name>
-      <email>sam.cooper@scisys.co.uk</email>
-      <url>https://github.com/SamCooper</url>
-    </developer>
-  </developers>
-  <build>
-    <resources>
-      <resource>
-        <directory>src/main/resources</directory>
-      </resource>
-    </resources>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-enforcer-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-resources-plugin</artifactId>
-      </plugin>
-    </plugins>
-  </build>
+    <organization>
+        <name>CCSDS</name>
+        <url>http://www.ccsds.org</url>
+    </organization>
+    <licenses>
+        <license>
+            <name>European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4</name>
+            <url>https://raw.github.com/esa/nanosat-mo-framework/master/LICENCE.md</url>
+            <distribution>repo</distribution>
+            <comments>This license only applies to the POM file. The XML/Schema files are owned by CCSDS.</comments>
+        </license>
+    </licenses>
+    <scm>
+        <connection>scm:git:https://github.com/esa/nanosat-mo-framework.git</connection>
+        <url>https://github.com/esa/nanosat-mo-framework</url>
+    </scm>
+    <developers>
+        <developer>
+            <id>SamCooper</id>
+            <name>Sam Cooper</name>
+            <email>sam.cooper@scisys.co.uk</email>
+            <url>https://github.com/SamCooper</url>
+        </developer>
+    </developers>
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 </project>
