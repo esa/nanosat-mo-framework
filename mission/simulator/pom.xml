@@ -21,7 +21,7 @@
   <groupId>int.esa.nmf.mission.simulator</groupId>
   <artifactId>reactor</artifactId>
   <packaging>pom</packaging>
-  <name>ESA NMF Mission Simulator Reactor</name>
+  <name>ESA NMF Mission Simulator</name>
   <organization>
     <name>ESA</name>
     <url>http://www.esa.int</url>
