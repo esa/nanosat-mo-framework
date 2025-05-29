@@ -26,7 +26,7 @@ import esa.mo.mp.impl.util.MPFactory;
 import esa.mo.mp.impl.callback.MPServiceOperationArguments;
 import esa.mo.nmf.MPRegistration;
 import esa.mo.nmf.MissionPlanningNMFAdapter;
-
+import esa.mo.nmf.NMFInterface;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,6 +35,7 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Identifier;
+import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mp.structures.ActivityInstanceDetails;
 import org.ccsds.moims.mo.mp.structures.EventInstanceDetails;
 import org.ccsds.moims.mo.mp.structures.ObjectIdPair;
@@ -46,15 +47,13 @@ import org.ccsds.moims.mo.mp.structures.PlannedEvent;
 import org.ccsds.moims.mo.mp.structures.RequestStatus;
 import org.ccsds.moims.mo.mp.structures.RequestUpdateDetails;
 import org.ccsds.moims.mo.mp.structures.RequestVersionDetails;
-import esa.mo.nmf.NMFInterface;
-import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
 
 /**
- * The adapter for the NMF App
- * Demonstrates how to callback MP provider operations
- * and how to interact with COM Archive using MPArchiveManager
+ * The adapter for the NMF App Demonstrates how to callback MP provider
+ * operations and how to interact with COM Archive using MPArchiveManager
  */
 public class MPSpaceDemoAdapter extends MissionPlanningNMFAdapter {
+
     private static final java.util.logging.Logger LOGGER = Logger.getLogger(MPSpaceDemoAdapter.class.getName());
 
     private NMFInterface connector;
@@ -104,6 +103,7 @@ public class MPSpaceDemoAdapter extends MissionPlanningNMFAdapter {
     }
 
     class SubmitRequestVersionCallback extends MPServiceOperationCallback {
+
         @Override
         public void validate(RequestVersionDetails requestVersion) {
             // Request Version validation here
@@ -112,7 +112,7 @@ public class MPSpaceDemoAdapter extends MissionPlanningNMFAdapter {
 
         @Override
         public void onCallback(List<MPServiceOperationArguments> arguments) throws MALException,
-            MALInteractionException {
+                MALInteractionException {
             // Arguments contains Request Identity Id, Request Version Id and Request Status Update Id
             MPServiceOperationArguments requestArgument = arguments.get(0);
 
@@ -125,23 +125,23 @@ public class MPSpaceDemoAdapter extends MissionPlanningNMFAdapter {
             PlanVersionDetails currentPlan = getArchiveManager().PLAN.getInstanceByIdentityId(getPlanIdentityId());
 
             /* Insert some Mission Planning System here */
-
             // Save modified Plan Version
             PlanVersionDetails updatedPlan = currentPlan;
             ObjectId planVersionId = getArchiveManager().PLAN.updateInstanceByIdentityId(getPlanIdentityId(),
-                updatedPlan, null, requestArgument.getInteraction());
+                    updatedPlan, null, requestArgument.getInteraction());
             PlanUpdateDetails planUpdate = MPFactory.createPlanUpdate(PlanStatus.DRAFT, null);
             getArchiveManager().PLAN.addStatus(planVersionId, planUpdate, null, requestArgument.getInteraction());
 
             // Save updated Request Status
             RequestUpdateDetails newStatus = new RequestUpdateDetails(null, null, planVersionId,
-                    requestArgument.getInstanceId(), RequestStatus.PLANNED, HelperTime.getTimestampMillis());
+                    requestArgument.getInstanceId(), RequestStatus.PLANNED, Time.now());
             ObjectId statusId = getArchiveManager().REQUEST_VERSION.updateStatus(requestArgument.getInstanceId(),
-                newStatus, null, requestArgument.getInteraction());
+                    newStatus, null, requestArgument.getInteraction());
         }
     }
 
     static class UpdateRequestVersionCallback extends MPServiceOperationCallback {
+
         @Override
         public void validate(RequestVersionDetails requestVersion) {
             // Request Version validation here
@@ -150,16 +150,17 @@ public class MPSpaceDemoAdapter extends MissionPlanningNMFAdapter {
 
         @Override
         public void onCallback(List<MPServiceOperationArguments> arguments) throws MALException,
-            MALInteractionException {
+                MALInteractionException {
             LOGGER.info("Received UPDATE_REQUEST operation");
             // Override here
         }
     }
 
     static class CancelRequestVersionCallback extends MPServiceOperationCallback {
+
         @Override
         public void onCallback(List<MPServiceOperationArguments> arguments) throws MALException,
-            MALInteractionException {
+                MALInteractionException {
             LOGGER.info("Received CANCEL_REQUEST operation");
             // Override here
         }
@@ -174,7 +175,7 @@ public class MPSpaceDemoAdapter extends MissionPlanningNMFAdapter {
 
         @Override
         public void onCallback(List<MPServiceOperationArguments> arguments) throws MALException,
-            MALInteractionException {
+                MALInteractionException {
             LOGGER.info("Received INSERT_ACTIVITY operation");
             MPServiceOperationArguments planArgument = arguments.get(0);
             MPServiceOperationArguments activityArgument = arguments.get(1);
@@ -194,7 +195,7 @@ public class MPSpaceDemoAdapter extends MissionPlanningNMFAdapter {
             // Save modified Plan Version
             ObjectId planIdentityId = getArchiveManager().PLAN.getIdentityIdByInstanceId(planVersionId);
             getArchiveManager().PLAN.updateInstanceByIdentityId(planIdentityId, planVersion, null, planArgument
-                .getInteraction());
+                    .getInteraction());
         }
     }
 
@@ -207,7 +208,7 @@ public class MPSpaceDemoAdapter extends MissionPlanningNMFAdapter {
 
         @Override
         public void onCallback(List<MPServiceOperationArguments> arguments) throws MALException,
-            MALInteractionException {
+                MALInteractionException {
             LOGGER.info("Received INSERT_EVENT operation");
             MPServiceOperationArguments planArgument = arguments.get(0);
             MPServiceOperationArguments eventArgument = arguments.get(1);
@@ -227,7 +228,7 @@ public class MPSpaceDemoAdapter extends MissionPlanningNMFAdapter {
             // Save modified Plan Version
             ObjectId planIdentityId = getArchiveManager().PLAN.getIdentityIdByInstanceId(planVersionId);
             getArchiveManager().PLAN.updateInstanceByIdentityId(planIdentityId, planVersion, null, planArgument
-                .getInteraction());
+                    .getInteraction());
         }
     }
 }

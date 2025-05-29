@@ -64,20 +64,23 @@ public class EventConsumerPanel extends javax.swing.JPanel {
      * @param eventService
      * @param archiveService
      */
-    public EventConsumerPanel(EventConsumerServiceImpl eventService, final ArchiveConsumerServiceImpl archiveService) {
+    public EventConsumerPanel(EventConsumerServiceImpl eventService,
+            final ArchiveConsumerServiceImpl archiveService) {
         initComponents();
         serviceCOMEvent = eventService;
         comObjects = new ArrayList<>();
 
-        String[] parameterTableCol = new String[]{"Timestamp", "Source URI", "From Service", "Event name", "Domain",
-                                                  "ObjId", "Source objType", "Related: ObjDetails",
-                                                  "Source: ObjDetails", "Number of events"};
+        String[] parameterTableCol = new String[]{
+            "Timestamp", "Source URI", "From Service", "Event name", "Domain",
+            "ObjId", "Source objType", "Related: ObjDetails",
+            "Source: ObjDetails", "Number of events"};
 
         eventTableData = new javax.swing.table.DefaultTableModel(new Object[][]{}, parameterTableCol) {
-            Class[] types = new Class[]{java.lang.String.class, java.lang.String.class, java.lang.String.class,
-                                        java.lang.String.class, java.lang.String.class, java.lang.Long.class,
-                                        java.lang.String.class, java.lang.String.class, java.lang.String.class,
-                                        java.lang.Integer.class};
+            Class[] types = new Class[]{
+                java.lang.String.class, java.lang.String.class,
+                java.lang.String.class, java.lang.String.class, java.lang.String.class,
+                java.lang.Long.class, java.lang.String.class, java.lang.String.class,
+                java.lang.String.class, java.lang.Integer.class};
 
             @Override               //all cells false
             public boolean isCellEditable(int row, int column) {
@@ -99,8 +102,8 @@ public class EventConsumerPanel extends javax.swing.JPanel {
                     // Get from the list of objects the one we want and display
                     ArchivePersistenceObject comObject = comObjects.get(eventTable.getSelectedRow());
                     try {
-                        COMObjectWindow comObjectWindow = new COMObjectWindow(comObject, false, archiveService
-                            .getArchiveStub());
+                        COMObjectWindow comObjectWindow = new COMObjectWindow(comObject,
+                                false, archiveService.getArchiveStub());
                     } catch (IOException ex) {
                         Logger.getLogger(EventConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -123,38 +126,46 @@ public class EventConsumerPanel extends javax.swing.JPanel {
         public void onDataReceived(EventCOMObject eventCOMObject) {
 
             int n_events = 0;
-            Element object = null;
+            Element body = null;
 
             if (eventCOMObject.getBody() != null) {
-                object = (Element) HelperAttributes.javaType2Attribute(eventCOMObject.getBody());
+                body = (Element) HelperAttributes.javaType2Attribute(eventCOMObject.getBody());
             }
 
-            ObjectType objType2 = new ObjectType(eventCOMObject.getObjType().getArea(), eventCOMObject.getObjType()
-                .getService(), eventCOMObject.getObjType().getVersion(), new UShort(0));
+            ObjectType objType2 = new ObjectType(eventCOMObject.getObjType().getArea(),
+                    eventCOMObject.getObjType().getService(),
+                    eventCOMObject.getObjType().getVersion(), new UShort(0));
             String eKey2 = HelperCOM.objType2string(objType2);
-            String eKey4 = (eventCOMObject.getSource() != null) ? HelperCOM.objType2string(eventCOMObject.getSource()
-                .getType()) : "";
+            String eKey4 = (eventCOMObject.getSource() != null) ?
+                    HelperCOM.objType2string(eventCOMObject.getSource().getType()) : "";
             ObjectDetails objectDetails = new ObjectDetails(eventCOMObject.getRelated(), eventCOMObject.getSource());
 
-            String objDetailsRelated = (eventCOMObject.getRelated() != null) ? eventCOMObject.getRelated().toString() :
-                "null";
-            String objDetailsSource = (eventCOMObject.getSource() != null) ? eventCOMObject.getSource().getKey()
-                .getInstId().toString() : "null";
+            String objDetailsRelated = (eventCOMObject.getRelated() != null) ?
+                    eventCOMObject.getRelated().toString() : "null";
+            String objDetailsSource = (eventCOMObject.getSource() != null) ?
+                    eventCOMObject.getSource().getKey().getInstId().toString() : "null";
 
             String time = HelperTime.time2readableString(eventCOMObject.getTimestamp());
             String domainName = HelperDomain.domain2domainId(eventCOMObject.getDomain());
             String eventName = HelperCOM.objType2COMObject(eventCOMObject.getObjType()).getObjectName().toString();
 
             eventTableData.addRow(new Object[]{time, eventCOMObject.getSourceURI().toString(), eKey2, eventName,
-                                               domainName, eventCOMObject.getObjId(), eKey4, objDetailsRelated,
-                                               objDetailsSource, n_events});
+                domainName, eventCOMObject.getObjId(), eKey4, objDetailsRelated,
+                objDetailsSource, n_events});
 
-            ArchiveDetails archiveDetails = new ArchiveDetails(eventCOMObject.getObjId(), objectDetails, eventCOMObject
-                .getNetworkZone(), HelperTime.timeToFineTime(eventCOMObject.getTimestamp()), eventCOMObject
-                    .getSourceURI());
+            ArchiveDetails archiveDetails = new ArchiveDetails(
+                    eventCOMObject.getObjId(),
+                    objectDetails,
+                    eventCOMObject.getNetworkZone(),
+                    eventCOMObject.getTimestamp().toFineTime(),
+                    eventCOMObject.getSourceURI());
 
-            ArchivePersistenceObject comObject = new ArchivePersistenceObject(eventCOMObject.getObjType(),
-                eventCOMObject.getDomain(), eventCOMObject.getObjId(), archiveDetails, object);
+            ArchivePersistenceObject comObject = new ArchivePersistenceObject(
+                    eventCOMObject.getObjType(),
+                    eventCOMObject.getDomain(),
+                    eventCOMObject.getObjId(),
+                    archiveDetails,
+                    body);
 
             // Add to the table
             comObjects.add(comObject);

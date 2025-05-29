@@ -87,7 +87,7 @@ public class CameraSoftSimAdapter implements CameraAdapterInterface, SimulatorAd
         final PixelResolution resolution = new PixelResolution(
                 new UInteger(PREVIEW_WIDTH), new UInteger(PREVIEW_HEIGHT));
         final Duration exposureTime = new Duration(0.1);
-        final Time timestamp = HelperTime.getTimestampMillis();
+        final Time timestamp = Time.now();
         final byte[] data = instrumentsSimulator.getpCamera().takePicture(
                 (int) resolution.getWidth().getValue(),
                 (int) resolution.getHeight().getValue());
@@ -100,7 +100,7 @@ public class CameraSoftSimAdapter implements CameraAdapterInterface, SimulatorAd
     @Override
     public synchronized Picture takePicture(final CameraSettings settings) throws IOException {
         // Get a picture from the simulator...
-        final Time timestamp = HelperTime.getTimestampMillis();
+        final Time timestamp = Time.now();
         byte[] data = instrumentsSimulator.getpCamera().takePicture((int) settings.getResolution().getWidth()
             .getValue(), (int) settings.getResolution().getHeight().getValue());
 
