@@ -81,14 +81,19 @@ public class SimpleDemoPackageJavaCreation {
 
         while ((entry = tarInput.getNextTarEntry()) != null) {
             File newFile = new File(outputPath, entry.getName());
+            File canonicalNewFile = newFile.getCanonicalFile();
+            // Validate that the new file is within the output folder
+            if (!canonicalNewFile.getPath().startsWith(outputFolder.getCanonicalPath())) {
+                throw new IOException("Entry is outside the target directory: " + entry.getName());
+            }
 
-            //Create directories as required
+            // Create directories as required
             if (entry.isDirectory()) {
-                newFile.mkdirs();
+                canonicalNewFile.mkdirs();
             } else {
                 int count;
                 byte data[] = new byte[BUFFER_SIZE];
-                FileOutputStream fos = new FileOutputStream(newFile);
+                FileOutputStream fos = new FileOutputStream(canonicalNewFile);
                 BufferedOutputStream dest = new BufferedOutputStream(fos, BUFFER_SIZE);
                 while ((count = tarInput.read(data, 0, BUFFER_SIZE)) != -1) {
                     dest.write(data, 0, count);
