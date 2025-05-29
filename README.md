@@ -1,6 +1,6 @@
 <p align="left">
   <a href="https://github.com/esa/mo-services-java">
-      <img src="https://nanosat-mo-framework.github.io/img/NMF_logo_1124_63.png" alt="esa logo" title="esa" width="400"/>
+      <img src="https://nanosat-mo-framework.github.io/img/NMF_logo_1124_63.png" alt="esa logo" title="esa" width="600"/>
   </a>
 </p>
 
