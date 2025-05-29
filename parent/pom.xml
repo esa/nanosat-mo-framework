@@ -29,7 +29,7 @@
     increasing the patch version.
   -->
   <version>4.0-SNAPSHOT</version>
-  <name>ESA NMF - The Parent POM</name>
+  <name>ESA NMF Parent POM</name>
   <description>ESA parent POM for Nanosat MO Framework based artifacts</description>
   <url>https://nanosat-mo-framework.github.io</url>
   <organization>
