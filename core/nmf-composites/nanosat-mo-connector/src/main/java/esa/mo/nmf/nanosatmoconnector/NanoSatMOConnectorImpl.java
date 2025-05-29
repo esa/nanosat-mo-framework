@@ -145,6 +145,9 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
             t1.start();
         }
 
+        // Configure the property to select the database file in the right directory
+        this.configureCOMArchiveDatabaseLocation();
+
         try {
             comServices.init();
             comServices.initArchiveSync();
