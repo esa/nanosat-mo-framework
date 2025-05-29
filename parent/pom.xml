@@ -91,51 +91,6 @@
         <artifactId>api-area003-v001-common</artifactId>
         <version>${esa.mo.version}</version>
       </dependency>
-      <dependency>
-        <groupId>int.esa.ccsds.mo</groupId>
-        <artifactId>mal-impl</artifactId>
-        <version>${esa.mo.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>int.esa.ccsds.mo</groupId>
-        <artifactId>encoding-string</artifactId>
-        <version>${esa.mo.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>int.esa.ccsds.mo</groupId>
-        <artifactId>encoding-binary</artifactId>
-        <version>${esa.mo.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>int.esa.ccsds.mo</groupId>
-        <artifactId>transport-generic</artifactId>
-        <version>${esa.mo.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>int.esa.ccsds.mo</groupId>
-        <artifactId>transport-rmi</artifactId>
-        <version>${esa.mo.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>int.esa.ccsds.mo</groupId>
-        <artifactId>transport-tcpip</artifactId>
-        <version>${esa.mo.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>int.esa.ccsds.mo</groupId>
-        <artifactId>transport-jms</artifactId>
-        <version>${esa.mo.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>int.esa.ccsds.mo</groupId>
-        <artifactId>transport-activemq</artifactId>
-        <version>${esa.mo.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>int.esa.ccsds.mo</groupId>
-        <artifactId>transport-spp</artifactId>
-        <version>${esa.mo.version}</version>
-      </dependency>
       <!-- NMF Helper Tools -->
       <dependency>
         <groupId>int.esa.nmf.core</groupId>
