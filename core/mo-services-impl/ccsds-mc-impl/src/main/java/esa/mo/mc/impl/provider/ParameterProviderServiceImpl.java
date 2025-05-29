@@ -33,7 +33,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.COMService;
 import org.ccsds.moims.mo.com.DuplicateException;
 import org.ccsds.moims.mo.com.InvalidException;
@@ -45,9 +44,7 @@ import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDet
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectSet;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectSetList;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.UnknownException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
@@ -80,7 +77,6 @@ import org.ccsds.moims.mo.mal.structures.UpdateHeader;
 import org.ccsds.moims.mo.mal.structures.UpdateHeaderList;
 import org.ccsds.moims.mo.mal.transport.MALErrorBody;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.mc.MCHelper;
 import org.ccsds.moims.mo.mc.ReadonlyException;
 import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
 import org.ccsds.moims.mo.mc.parameter.ParameterServiceInfo;
@@ -996,12 +992,11 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
                             null);
 
                     ParameterCreationRequestList pDefCreationReqs = new ParameterCreationRequestList(1);
-                    ParameterCreationRequest pDefCreationReq = new ParameterCreationRequest(parameters.get(i).getName(),
-                            pDef);
-                    pDefCreationReqs.add(pDefCreationReq);
+                    pDefCreationReqs.add(new ParameterCreationRequest(parameters.get(i).getName(), pDef));
 
                     try {
-                        ObjectInstancePairList returnedObjIds = this.addParameter(pDefCreationReqs, null); // Enable the reporting for this Alert Definition 
+                        // Enable the reporting for this Alert Definition
+                        ObjectInstancePairList returnedObjIds = this.addParameter(pDefCreationReqs, null);
                         objId = returnedObjIds.get(0);
                     } catch (MALInteractionException | MALException ex) {
                         Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);

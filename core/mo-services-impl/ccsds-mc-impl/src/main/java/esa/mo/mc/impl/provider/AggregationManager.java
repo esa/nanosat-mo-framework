@@ -720,20 +720,17 @@ public final class AggregationManager extends MCManager {
      * @return
      */
     private AggregationParameterValueList getLastUpdateValue(Long identityId, int indexOfparameterSet) {
-        if (this.periodicAggregationValuesLast.get(identityId).getParameterSetValues() == null) // It was never sampled before?
-        {
+        AggregationSetValueList set = this.periodicAggregationValuesLast.get(identityId).getParameterSetValues();
+
+        if (set == null) { // It was never sampled before?
             return null;
         }
 
-        if (this.periodicAggregationValuesLast.get(identityId).getParameterSetValues().get(indexOfparameterSet)
-                .getValues() == null) // It was never sampled before?
-        {
+        if (set.get(indexOfparameterSet).getValues() == null) { // It was never sampled before?
             return null;
         }
 
-        return this.periodicAggregationValuesLast.get(identityId).getParameterSetValues().get(indexOfparameterSet)
-                .getValues();
-
+        return set.get(indexOfparameterSet).getValues();
     }
 
     /**
@@ -744,20 +741,17 @@ public final class AggregationManager extends MCManager {
      * @return
      */
     private AggregationParameterValueList getCurrentUpdateValue(Long identityId, int indexOfparameterSet) {
-        if (this.periodicAggregationValuesCurrent.get(identityId).getParameterSetValues() == null) // It was never sampled before?
-        {
+        AggregationSetValueList set = this.periodicAggregationValuesCurrent.get(identityId).getParameterSetValues();
+
+        if (set == null) { // It was never sampled before?
             return null;
         }
 
-        if (this.periodicAggregationValuesCurrent.get(identityId).getParameterSetValues().get(indexOfparameterSet)
-                .getValues() == null) // It was never sampled before?
-        {
+        if (set.get(indexOfparameterSet).getValues() == null) { // It was never sampled before?
             return null;
         }
 
-        return this.periodicAggregationValuesCurrent.get(identityId).getParameterSetValues().get(indexOfparameterSet)
-                .getValues();
-
+        return set.get(indexOfparameterSet).getValues();
     }
 
     /**
@@ -771,11 +765,11 @@ public final class AggregationManager extends MCManager {
      * @param newParamSample the new values that should be set
      * @return
      */
-    private AggregationParameterValueList setParameterSamplesInternally(Long identityId, int indexOfparameterSet,
-            AggregationParameterValueList newParamSample) {
+    private AggregationParameterValueList setParameterSamplesInternally(Long identityId,
+            int indexOfparameterSet, AggregationParameterValueList newParamSample) {
 
-        final AggregationParameterValueList currentParamValues = this.periodicAggregationValuesCurrent.get(identityId)
-                .getParameterSetValues().get(indexOfparameterSet).getValues();
+        final AggregationParameterValueList currentParamValues = this.periodicAggregationValuesCurrent
+                .get(identityId).getParameterSetValues().get(indexOfparameterSet).getValues();
         this.periodicAggregationValuesLast.get(identityId).getParameterSetValues()
                 .get(indexOfparameterSet).setValues(currentParamValues);
 
@@ -840,7 +834,6 @@ public final class AggregationManager extends MCManager {
         }
 
         //add to internal lists
-        //        this.addIdentityDefinition(newIdPair.getObjIdentityInstanceId(), name, newIdPair.getObjDefInstanceId(), definition);
         this.addIdentityDefinition(name, newIdPair, definition);
         final LongList identities = new LongList();
         identities.add(newIdPair.getObjIdentityInstanceId());
@@ -916,9 +909,14 @@ public final class AggregationManager extends MCManager {
         if (def.getGenerationEnabled().booleanValue() == status) { // Is it set with the requested value already?
             return identityId; // the value was not changed
         }
-        def.setGenerationEnabled(status);
+
+        AggregationDefinitionDetails newDef = new AggregationDefinitionDetails(
+                def.getDescription(), def.getCategory(), def.getReportInterval(),
+                def.getSendUnchanged(), def.getSendDefinitions(), def.getFilterEnabled(),
+                def.getFilteredTimeout(), status, def.getParameterSets());
+
         //requirement: 3.7.9.2.j, k
-        return this.update(identityId, def, source, connectionDetails);
+        return this.update(identityId, newDef, source, connectionDetails);
     }
 
     public void setGenerationEnabledAll(Boolean bool, ObjectId source, SingleConnectionDetails connectionDetails) {
@@ -927,8 +925,12 @@ public final class AggregationManager extends MCManager {
         for (Long identityId : identityIds) {
             AggregationDefinitionDetails def = this.getAggregationDefinition(identityId);
             if (def.getGenerationEnabled().booleanValue() != bool) {
-                def.setGenerationEnabled(bool);
-                this.update(identityId, def, source, connectionDetails);
+                AggregationDefinitionDetails newDef = new AggregationDefinitionDetails(
+                        def.getDescription(), def.getCategory(), def.getReportInterval(),
+                        def.getSendUnchanged(), def.getSendDefinitions(), def.getFilterEnabled(),
+                        def.getFilteredTimeout(), bool, def.getParameterSets());
+
+                this.update(identityId, newDef, source, connectionDetails);
             }
         }
     }
@@ -955,10 +957,14 @@ public final class AggregationManager extends MCManager {
         if (def.getFilterEnabled().booleanValue() == bool) {
             return false; // the value was not changed
         }
-        def.setFilterEnabled(bool);
+
+        AggregationDefinitionDetails newDef = new AggregationDefinitionDetails(
+                def.getDescription(), def.getCategory(), def.getReportInterval(),
+                def.getSendUnchanged(), def.getSendDefinitions(), def.getFilterEnabled(),
+                def.getFilteredTimeout(), bool, def.getParameterSets());
 
         //requirement: 3.7.10.2.j
-        this.update(identityId, def, source, connectionDetails);
+        this.update(identityId, newDef, source, connectionDetails);
         return true;
     }
 
@@ -968,8 +974,12 @@ public final class AggregationManager extends MCManager {
         for (Long identityId : identityIds) {
             AggregationDefinitionDetails def = this.getAggregationDefinition(identityId);
             if (def.getFilterEnabled().booleanValue() != bool) {
-                def.setFilterEnabled(bool);
-                this.update(identityId, def, source, connectionDetails);
+                AggregationDefinitionDetails newDef = new AggregationDefinitionDetails(
+                        def.getDescription(), def.getCategory(), def.getReportInterval(),
+                        def.getSendUnchanged(), def.getSendDefinitions(), def.getFilterEnabled(),
+                        def.getFilteredTimeout(), bool, def.getParameterSets());
+
+                this.update(identityId, newDef, source, connectionDetails);
             }
         }
     }

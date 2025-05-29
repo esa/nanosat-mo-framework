@@ -65,7 +65,7 @@ public final class AlertManager extends MCManager {
     }
 
     public ObjectInstancePair add(Identifier name, AlertDefinitionDetails definition, ObjectId source,
-        SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
+            SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
         ObjectInstancePair newIdPair = new ObjectInstancePair();
         if (super.getArchiveService() == null) {
             //add to providers local list
@@ -117,7 +117,7 @@ public final class AlertManager extends MCManager {
     }
 
     public Long update(final Long identityId, final AlertDefinitionDetails definition, final ObjectId source,
-        final SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
+            final SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
         Long newDefId = null;
 
         if (super.getArchiveService() == null) { //only update locally
@@ -150,31 +150,36 @@ public final class AlertManager extends MCManager {
         return this.deleteIdentity(objId);
     }
 
-    public Long setGenerationEnabled(final Long identityId, final Boolean bool, final ObjectId source,
-        final SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
+    public Long setGenerationEnabled(final Long identityId, final Boolean bool,
+            final ObjectId source, final SingleConnectionDetails connectionDetails) {
+        // requirement: 3.3.2.5
         AlertDefinitionDetails def = this.getAlertDefinitionFromIdentityId(identityId);
         if (def == null) {
             return null;
         }
 
-        if (def.getGenerationEnabled().booleanValue() == bool) { // Is it set with the requested value already?
+        // Is it set with the requested value already?
+        if (def.getGenerationEnabled().booleanValue() == bool) {
             return identityId; // the value was not changed
         }
 
-        def.setGenerationEnabled(bool);
+        AlertDefinitionDetails newDef = new AlertDefinitionDetails(
+                def.getDescription(), def.getSeverity(), bool, def.getArguments());
 
-        return this.update(identityId, def, source, connectionDetails);
+        return this.update(identityId, newDef, source, connectionDetails);
     }
 
     public void setGenerationEnabledAll(final Boolean bool, final ObjectId source,
-        final SingleConnectionDetails connectionDetails) {
+            final SingleConnectionDetails connectionDetails) {
         LongList identityIds = new LongList();
         identityIds.addAll(this.listAllIdentities());
 
         for (Long identityId : identityIds) {
             AlertDefinitionDetails def = this.getAlertDefinitionFromIdentityId(identityId);
-            def.setGenerationEnabled(bool);
-            this.update(identityId, def, source, connectionDetails);
+            AlertDefinitionDetails newDef = new AlertDefinitionDetails(
+                    def.getDescription(), def.getSeverity(), bool, def.getArguments());
+
+            this.update(identityId, newDef, source, connectionDetails);
         }
     }
 

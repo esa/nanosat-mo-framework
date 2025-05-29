@@ -64,7 +64,6 @@ import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
  */
 public final class StatisticManager {
 
-    private static final int SAVING_PERIOD = 20;  // Used to store the uniqueAValObjId only once every "SAVINGPERIOD" times
     private static final String STR_STAT_FUNC_NAME_MAXIMUM = "MAX";
     private static final String STR_STAT_FUNC_NAME_MINIMUM = "MIN";
     private static final String STR_STAT_FUNC_NAME_MEAN_AVERAGE = "MEAN";
@@ -84,7 +83,7 @@ public final class StatisticManager {
     private final transient ExternalStatisticFunctionsInterface externalStatFunctions;
 
     public StatisticManager(COMServicesProvider comServices, ParameterManager parameterManager,
-        ExternalStatisticFunctionsInterface externalStatFunctions) {
+            ExternalStatisticFunctionsInterface externalStatFunctions) {
         this.comServices = comServices;
         this.parameterManager = parameterManager;
         this.externalStatFunctions = externalStatFunctions;
@@ -136,7 +135,8 @@ public final class StatisticManager {
     public StatisticFunctionDetails getStatisticFunction(Long objIdFunc) {
         StatisticFunctionDetails fun = this.statFunctions.get(objIdFunc);
 
-        if (fun == null && externalStatFunctions != null) {  // Dind't find it? Maybe it is a custom function... requirement: 3.6.4.f
+        // Dind't find it? Maybe it is a custom function... requirement: 3.6.4.f
+        if (fun == null && externalStatFunctions != null) {
             fun = externalStatFunctions.getCustomStatisticFunction(objIdFunc);
         }
 
@@ -158,7 +158,8 @@ public final class StatisticManager {
     }
 
     public ParameterValue getParameterValue(Long statLinkId) throws MALInteractionException {
-        return this.parameterManager.getParameterValue(this.statLinks.get(statLinkId).getParameterId().getInstId());
+        Long instId = this.statLinks.get(statLinkId).getParameterId().getInstId();
+        return this.parameterManager.getParameterValue(instId);
     }
 
     protected LongList listAllLinks() {
@@ -168,24 +169,20 @@ public final class StatisticManager {
     }
 
     public Long storeAndGenerateStatValueInsobjId(StatisticValue sVal, Long related,
-        SingleConnectionDetails connectionDetails, ObjectId source) {
+            SingleConnectionDetails connectionDetails, ObjectId source) {
         if (comServices.getArchiveService() == null) {
             uniqueObjIdAIns++;
-            if (uniqueObjIdAIns % SAVING_PERIOD == 0) // It is used to avoid constant saving every time we generate a new obj Inst identifier.
-            {
-                //                this.save();
-            }
             return this.uniqueObjIdAIns;
         } else {
             HeterogeneousList sValList = new HeterogeneousList();
             sValList.add(sVal);
 
             try {
-                LongList objIds = comServices.getArchiveService().store( //requirement: 3.6.6.c
+                LongList objIds = comServices.getArchiveService().store(
                         true,
-                        StatisticServiceInfo.STATISTICVALUEINSTANCE_OBJECT_TYPE, //requirement: 3.6.4.i
+                        StatisticServiceInfo.STATISTICVALUEINSTANCE_OBJECT_TYPE,
                         ConfigurationProviderSingleton.getDomain(),
-                        HelperArchive.generateArchiveDetailsList(related, source, connectionDetails), //requirement: 3.6.4. , n, o 
+                        HelperArchive.generateArchiveDetailsList(related, source, connectionDetails),
                         sValList,
                         null);
 
@@ -202,15 +199,16 @@ public final class StatisticManager {
 
     }
 
-    protected boolean setReportingEnabled(Long objId, Boolean bool, SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
+    protected boolean setReportingEnabled(Long objId, Boolean bool,
+            SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
         StatisticCreationRequest link = this.getStatisticLink(objId);
 
         if (link == null) {
             return false;
         }
 
-        if (link.getLinkDetails().getReportingEnabled().booleanValue() == bool) // Is it set with the requested value already?
-        {
+        // Is it set with the requested value already?
+        if (link.getLinkDetails().getReportingEnabled().booleanValue() == bool) {
             return false; // the value was not changed
         }
         link.getLinkDetails().setReportingEnabled(bool);
@@ -239,23 +237,28 @@ public final class StatisticManager {
         return list;
     }
 
-    public ObjectInstancePair add(StatisticCreationRequest statLink, SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
+    public ObjectInstancePair add(StatisticCreationRequest statLink,
+            SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
         Long newLinkId;
         Long newLinkDefId;
 
         if (comServices.getArchiveService() == null) {
-            newLinkId = ++uniqueObjIdLink; // This line as to go before any writing (because it's initialized as zero and that's the wildcard)
+            // This line has to go before any writing
+            // (because it's initialized as zero and that's the wildcard)
+            newLinkId = ++uniqueObjIdLink;
             newLinkDefId = ++uniqueObjIdLinkDef;
         } else {
             try {
                 // store the StatisticLink object
                 ObjectId source = new ObjectId(ParameterServiceInfo.PARAMETERIDENTITY_OBJECT_TYPE,
                         statLink.getParameterId());
-                LongList linkIds = comServices.getArchiveService().store( //requirement: 3.6.6.b, 3.6.13.2.i
+
+                //requirement: 3.6.6.b, 3.6.13.2.i, 3.6.4.g, h, 3.6.4.j, k
+                LongList linkIds = comServices.getArchiveService().store(
                         true,
-                        StatisticServiceInfo.STATISTICLINK_OBJECT_TYPE, //requirement: 3.6.4.g, h
+                        StatisticServiceInfo.STATISTICLINK_OBJECT_TYPE,
                         ConfigurationProviderSingleton.getDomain(),
-                        HelperArchive.generateArchiveDetailsList(statLink.getStatFuncInstId(), source, connectionDetails), //requirement: 3.6.4.j, k
+                        HelperArchive.generateArchiveDetailsList(statLink.getStatFuncInstId(), source, connectionDetails),
                         null,
                         null);
 
@@ -265,16 +268,16 @@ public final class StatisticManager {
                 HeterogeneousList linkDetails = new HeterogeneousList();
                 linkDetails.add(statLink.getLinkDetails());
 
-                LongList linkDefIds = comServices.getArchiveService().store( //requirement: 3.6.6.b, 3.6.13.2.i
+                //requirement: 3.6.6.b, 3.6.13.2.i, 3.6.4.g, h, 3.6.4.j, k
+                LongList linkDefIds = comServices.getArchiveService().store(
                         true,
-                        StatisticServiceInfo.STATISTICLINKDEFINITION_OBJECT_TYPE, //requirement: 3.6.4.g, h
+                        StatisticServiceInfo.STATISTICLINKDEFINITION_OBJECT_TYPE,
                         ConfigurationProviderSingleton.getDomain(),
-                        HelperArchive.generateArchiveDetailsList(newLinkId, null, connectionDetails), //requirement: 3.6.4.j, k
+                        HelperArchive.generateArchiveDetailsList(newLinkId, null, connectionDetails),
                         linkDetails,
                         null);
 
                 newLinkDefId = linkDefIds.get(0);
-
             } catch (MALException | MALInteractionException ex) {
                 Logger.getLogger(StatisticManager.class.getName()).log(Level.SEVERE, null, ex);
                 return null;
@@ -286,17 +289,21 @@ public final class StatisticManager {
 
     }
 
-    public Long update(Long statLinkId, StatisticCreationRequest statLink, SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
+    public Long update(Long statLinkId, StatisticCreationRequest statLink,
+            SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
 
         Long newLinkDefId;
         if (comServices.getArchiveService() == null) {
-            newLinkDefId = ++uniqueObjIdLinkDef; // This line as to go before any writing (because it's initialized as zero and that's the wildcard)
+            // This line as to go before any writing
+            // (because it's initialized as zero and that's the wildcard)
+            newLinkDefId = ++uniqueObjIdLinkDef;
         } else {
             try {
                 HeterogeneousList links = new HeterogeneousList();
                 links.add(statLink.getLinkDetails());
 
-                LongList linkDefIds = comServices.getArchiveService().store( //requirement: 3.6.15.2.i
+                // requirement: 3.6.15.2.i
+                LongList linkDefIds = comServices.getArchiveService().store(
                         true,
                         StatisticServiceInfo.STATISTICLINKDEFINITION_OBJECT_TYPE,
                         ConfigurationProviderSingleton.getDomain(),
@@ -326,11 +333,11 @@ public final class StatisticManager {
     }
 
     protected ObjectId storeCOMOperationActivity(final MALInteraction interaction) {
-        if (comServices.getActivityTrackingService() != null) {
-            return comServices.getActivityTrackingService().storeCOMOperationActivity(interaction, null);
-        } else {
+        if (comServices.getActivityTrackingService() == null) {
             return null;
         }
+
+        return comServices.getActivityTrackingService().storeCOMOperationActivity(interaction, null);
     }
 
     protected StatisticEvaluationReport getStatisticEvaluationReport(Long statLinkId) {
@@ -346,8 +353,8 @@ public final class StatisticManager {
         this.statEvaluationReports.remove(statLinkId);
     }
 
-    protected StatisticValue generateStatisticValue(Long statFuncId, long paramIdentityId, TimeList times,
-        AttributeValueList values) {
+    protected StatisticValue generateStatisticValue(Long statFuncId,
+            long paramIdentityId, TimeList times, AttributeValueList values) {
         StatisticFunctionDetails statFunction = this.getStatisticFunction(statFuncId);
 
         if (statFunction == null) {
@@ -379,8 +386,8 @@ public final class StatisticManager {
         return null;
     }
 
-    private StatisticValue generateStatisticValueMaximum(long paramIdentityId, TimeList times,
-        AttributeValueList values) {
+    private StatisticValue generateStatisticValueMaximum(long paramIdentityId,
+            TimeList times, AttributeValueList values) {
         StatisticValue statValue = this.newStatisticValue(paramIdentityId, times, values);
 
         if (statValue == null) {
@@ -397,21 +404,24 @@ public final class StatisticManager {
 
             // Comparison must be done here
             //requirement: 3.6.3.h report first occurance of max value
-            if (HelperCOM.evaluateExpression(values.get(i).getValue(), ExpressionOperator.GREATER, values.get(maximum)
-                .getValue())) {
+            if (HelperCOM.evaluateExpression(
+                    values.get(i).getValue(),
+                    ExpressionOperator.GREATER,
+                    values.get(maximum).getValue())) {
                 maximum = i;
             }
         }
 
         return new StatisticValue(statValue.getParamDefInstId(),
-                statValue.getStartTime(),statValue.getEndTime(),
+                statValue.getStartTime(),
+                statValue.getEndTime(),
                 times.get(maximum),
                 values.get(maximum).getValue(),
                 statValue.getSampleCount());
     }
 
-    private StatisticValue generateStatisticValueMinimum(long paramIdentityId, TimeList times,
-        AttributeValueList values) {
+    private StatisticValue generateStatisticValueMinimum(long paramIdentityId,
+            TimeList times, AttributeValueList values) {
         StatisticValue statValue = this.newStatisticValue(paramIdentityId, times, values);
 
         if (statValue == null) {
@@ -428,21 +438,24 @@ public final class StatisticManager {
 
             // Comparison must be done here
             //requirement: 3.6.3.i report first occurance of min value
-            if (HelperCOM.evaluateExpression(values.get(i).getValue(), ExpressionOperator.LESS, values.get(minimum)
-                .getValue())) {
+            if (HelperCOM.evaluateExpression(
+                    values.get(i).getValue(),
+                    ExpressionOperator.LESS,
+                    values.get(minimum).getValue())) {
                 minimum = i;
             }
         }
 
         return new StatisticValue(statValue.getParamDefInstId(),
-                statValue.getStartTime(),statValue.getEndTime(),
+                statValue.getStartTime(),
+                statValue.getEndTime(),
                 times.get(minimum),
                 values.get(minimum).getValue(),
                 statValue.getSampleCount());
     }
 
-    private StatisticValue generateStatisticValueMeanAverage(long paramIdentityId, TimeList times,
-        AttributeValueList values) {
+    private StatisticValue generateStatisticValueMeanAverage(long paramIdentityId,
+            TimeList times, AttributeValueList values) {
         StatisticValue statValue = this.newStatisticValue(paramIdentityId, times, values);
 
         if (statValue == null) {
@@ -467,13 +480,13 @@ public final class StatisticManager {
         //requirement: 3.6.3.j report double value
         // StatisticValue structure: "Shall be NULL if not applicable for cases such as 'mean average'."
         return new StatisticValue(statValue.getParamDefInstId(),
-                statValue.getStartTime(),statValue.getEndTime(),
+                statValue.getStartTime(), statValue.getEndTime(),
                 null, (Attribute) HelperAttributes.javaType2Attribute(mean),
                 statValue.getSampleCount());
     }
 
-    private StatisticValue generateStatisticValueStandardDeviation(long paramIdentityId, TimeList times,
-        AttributeValueList values) {
+    private StatisticValue generateStatisticValueStandardDeviation(long paramIdentityId,
+            TimeList times, AttributeValueList values) {
         StatisticValue statValue = this.newStatisticValue(paramIdentityId, times, values);
 
         if (statValue == null) {
@@ -509,7 +522,7 @@ public final class StatisticManager {
         //requirement: 3.6.3.k report double value
         // StatisticValue structure: "Shall be NULL if not applicable for cases such as 'mean average'."
         return new StatisticValue(statValue.getParamDefInstId(),
-                statValue.getStartTime(),statValue.getEndTime(),
+                statValue.getStartTime(), statValue.getEndTime(),
                 null, (Attribute) HelperAttributes.javaType2Attribute(variance),
                 statValue.getSampleCount());
     }
@@ -525,7 +538,7 @@ public final class StatisticManager {
         }
 
         long paramDefInstId = parameterManager.getDefinitionId(paramIdentityId);
-        return new StatisticValue(paramDefInstId, times.get(0),times.get(times.size() - 1),
+        return new StatisticValue(paramDefInstId, times.get(0), times.get(times.size() - 1),
                 null, null, new UInteger(times.size()));
     }
 

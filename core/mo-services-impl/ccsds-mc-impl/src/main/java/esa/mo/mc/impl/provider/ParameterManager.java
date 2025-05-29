@@ -662,10 +662,14 @@ public class ParameterManager extends MCManager {
         if (def.getGenerationEnabled().booleanValue() == bool) { // Is it set with the requested value already?
             return identityId; // the value was not changed
         }
-        def.setGenerationEnabled(bool);
+
+        ParameterDefinitionDetails newDef = new ParameterDefinitionDetails(
+                def.getDescription(), def.getRawType(), def.getRawUnit(),
+                bool, def.getReportInterval(),
+                def.getValidityExpression(), def.getConversion());
 
         //requirement: 3.3.10.2.k
-        return this.update(identityId, def, source, connectionDetails);
+        return this.update(identityId, newDef, source, connectionDetails);
     }
 
     /**
@@ -726,8 +730,12 @@ public class ParameterManager extends MCManager {
 
         for (Long identityId : identitiyIds) {
             ParameterDefinitionDetails def = this.getParameterDefinition(identityId);
-            def.setGenerationEnabled(bool);
-            this.update(identityId, def, source, connectionDetails);
+            ParameterDefinitionDetails newDef = new ParameterDefinitionDetails(
+                    def.getDescription(), def.getRawType(), def.getRawUnit(),
+                    bool, def.getReportInterval(),
+                    def.getValidityExpression(), def.getConversion());
+
+            this.update(identityId, newDef, source, connectionDetails);
         }
     }
 
@@ -858,8 +866,11 @@ public class ParameterManager extends MCManager {
      */
     private Attribute getConvertedValue(final Attribute rawValue, final ParameterDefinitionDetails pDef) {
         // Is the Conversion service available for use?
-        return (conversionService != null) ? conversionService.generateConvertedValue(rawValue, pDef.getConversion())
-                : null;
+        if (conversionService == null) {
+            return null;
+        }
+
+        return conversionService.generateConvertedValue(rawValue, pDef.getConversion());
     }
 
 }
