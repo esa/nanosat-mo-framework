@@ -125,27 +125,33 @@ public class HelperGPS {
                     degMinutes2Degrees(items[GPGGA_GEN_COL.LONG]) * ((items[GPGGA_GEN_COL.LONG_DIR]).equals(
                     "W") ? -1 : 1);
 
-            PositionExtraDetails posExtraDetails = new PositionExtraDetails();
-            posExtraDetails.setPositionSource(PositionSourceType.GNSS);
+            org.ccsds.moims.mo.mal.structures.Time utc;
+            Integer fixQuality;
+            Integer numberOfSatellites;
+            Float hdop;
+            Float undulation;
+            org.ccsds.moims.mo.platform.gps.structures.PositionSourceType positionSource;
+            
+            positionSource = PositionSourceType.GNSS;
             if (items[GPGGA_GEN_COL.QUAL].length() != 0) {
-                posExtraDetails.setFixQuality(Integer.parseInt(items[GPGGA_GEN_COL.QUAL]));
+                fixQuality = Integer.parseInt(items[GPGGA_GEN_COL.QUAL]);
             } else {
-                posExtraDetails.setFixQuality(null);
-            }
-            if (items[GPGGA_GEN_COL.HDOP].length() != 0) {
-                posExtraDetails.setHdop(Float.parseFloat(items[GPGGA_GEN_COL.HDOP]));
-            } else {
-                posExtraDetails.setHdop(null);
+                fixQuality = null;
             }
             if (items[GPGGA_GEN_COL.SATS_IN_USE].length() != 0) {
-                posExtraDetails.setNumberOfSatellites(Integer.parseInt(items[GPGGA_GEN_COL.SATS_IN_USE]));
+                numberOfSatellites = Integer.parseInt(items[GPGGA_GEN_COL.SATS_IN_USE]);
             } else {
-                posExtraDetails.setNumberOfSatellites(null);
+                numberOfSatellites = null;
+            }
+            if (items[GPGGA_GEN_COL.HDOP].length() != 0) {
+                hdop = Float.parseFloat(items[GPGGA_GEN_COL.HDOP]);
+            } else {
+                hdop = null;
             }
             if (items[GPGGA_GEN_COL.UNDULATION].length() != 0) {
-                posExtraDetails.setUndulation(Float.parseFloat(items[GPGGA_GEN_COL.UNDULATION]));
+                undulation = Float.parseFloat(items[GPGGA_GEN_COL.UNDULATION]);
             } else {
-                posExtraDetails.setUndulation(null);
+                undulation = null;
             }
 
             /*
@@ -184,8 +190,10 @@ public class HelperGPS {
                 cal.set(Calendar.DAY_OF_YEAR, cal.get(Calendar.DAY_OF_YEAR) - 1);
             }
 
-            posExtraDetails.setUtc(new Time(cal.toInstant().toEpochMilli()));
+            utc = new Time(cal.toInstant().toEpochMilli());
 
+            PositionExtraDetails posExtraDetails = new PositionExtraDetails(utc,
+                    fixQuality, numberOfSatellites, hdop, undulation, positionSource);
             return new Position(latitude, longitude, altitude, posExtraDetails);
         } catch (NumberFormatException e) {
             throw new IOException(e);

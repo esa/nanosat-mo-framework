@@ -1013,16 +1013,17 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
                 ParameterDefinitionDetails pDef2 = (ParameterDefinitionDetails) manager.getDefinition(id);
                 if (pDef2.getGenerationEnabled()) {
                     outIds.add(objId); // Don't push the PVals that are not enabled...
+                    ParameterValue value = parameters.get(i).getParameterValue();
 
                     // If the conversion value was not provided, we can try to generate it
-                    if (parameters.get(i).getParameterValue().getConvertedValue() == null) {
+                    if (value.getConvertedValue() == null) {
                         ParameterValue newPVal = manager.generateNewParameterValue(
-                                parameters.get(i).getParameterValue().getRawValue(), pDef2, false);
-                        parameters.get(i).getParameterValue().setConvertedValue(newPVal.getConvertedValue());
-                        parameters.get(i).getParameterValue().setValidityState(newPVal.getValidityState());
+                                value.getRawValue(), pDef2, false);
+                        value.setConvertedValue(newPVal.getConvertedValue());
+                        value.setValidityState(newPVal.getValidityState());
                     }
 
-                    parameterValueList.add(parameters.get(i).getParameterValue());
+                    parameterValueList.add(value);
                     parameterInstances.add(parameters.get(i));
                 }
             }

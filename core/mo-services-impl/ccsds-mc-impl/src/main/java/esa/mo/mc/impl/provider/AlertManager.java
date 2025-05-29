@@ -44,7 +44,6 @@ public final class AlertManager extends MCManager {
 
     private Long uniqueObjIdIdentity;
     private Long uniqueObjIdDef; // Counter (different for every Definition)
-    private Long uniqueObjIdPVal;
 
     public AlertManager(COMServicesProvider comServices) {
         super(comServices);

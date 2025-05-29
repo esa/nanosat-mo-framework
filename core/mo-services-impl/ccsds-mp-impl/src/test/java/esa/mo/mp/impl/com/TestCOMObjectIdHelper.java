@@ -22,11 +22,11 @@ public class TestCOMObjectIdHelper {
         instanceId = COMObjectIdHelper.getInstanceId(objectId);
         assertNull(instanceId);
 
-        objectId.setKey(new ObjectKey());
+        objectId = new ObjectId(null, new ObjectKey());
         instanceId = COMObjectIdHelper.getInstanceId(objectId);
         assertNull(instanceId);
 
-        objectId.setKey(new ObjectKey(null, 1L));
+        objectId = new ObjectId(null, new ObjectKey(null, 1L));
         instanceId = COMObjectIdHelper.getInstanceId(objectId);
         assertEquals((Long) 1L, (Long) instanceId);
     }

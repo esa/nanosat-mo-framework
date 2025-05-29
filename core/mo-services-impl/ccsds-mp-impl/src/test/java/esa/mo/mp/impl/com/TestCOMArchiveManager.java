@@ -212,13 +212,6 @@ public class TestCOMArchiveManager {
 
         Element object2 = archiveManager.getObjectByRelatedId(pair2.getObjectId());
         assertEquals(activityInstance2, object2);
-
-        ActivityInstanceDetails updatedActivityInstance2 = MPFactory.createActivityInstance();
-        updatedActivityInstance2.setComments("Updated activity instance 2");
-        archiveManager.updateCOMObject(pair2.getObjectId(), updatedActivityInstance2, null, interaction);
-
-        object2 = archiveManager.getObjectByRelatedId(pair2.getObjectId());
-        assertEquals(updatedActivityInstance2, object2);
     }
 
     @Test

@@ -35,14 +35,14 @@ import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
 public interface ParameterStatusListener {
 
     /**
-     * Called by the NMF core whenever a parameter value needs to be propagated to the consumer,
-     * either through Aggregation or Parameter service.
+     * Called by the NMF core whenever a parameter value needs to be propagated
+     * to the consumer, either through Aggregation or Parameter service.
      *
-     * The user must implement this interface in order to acquire a certain parameter/rawType
-     * combination of a variable in the application.
+     * The user must implement this interface in order to acquire a certain
+     * parameter/rawType combination of a variable in the application.
      *
      * @param identifier Name of the Parameter
-     * @param rawType    Type of the requested parameter
+     * @param rawType Type of the requested parameter
      * @return The value of the parameter that was requested
      * @throws java.io.IOException if the parameter value could not be acquired
      */
@@ -52,11 +52,11 @@ public interface ParameterStatusListener {
     }
 
     /**
-     * Called by the NMF core whenever a parameter value needs to be propagated to the consumer,
-     * either through Aggregation or Parameter service.
+     * Called by the NMF core whenever a parameter value needs to be propagated
+     * to the consumer, either through Aggregation or Parameter service.
      *
-     * The user must implement this interface in order to acquire a certain parameter/rawType
-     * combination of a variable in the application.
+     * The user must implement this interface in order to acquire a certain
+     * parameter/rawType combination of a variable in the application.
      *
      * @param parameterID the ID of the parameter
      * @return The value of the parameter that was requested
@@ -67,11 +67,11 @@ public interface ParameterStatusListener {
     }
 
     /**
-     * The user must implement this interface in order to set a collection of parameter values to a
-     * set variables in the application logic.
+     * The user must implement this interface in order to set a collection of
+     * parameter values to a set variables in the application logic.
      *
      * @param identifiers Name of the Parameters
-     * @param values      The raw values to be set at the parameter
+     * @param values The raw values to be set at the parameter
      * @return True if the value was set successfully, false if not
      */
     @Deprecated
@@ -80,8 +80,8 @@ public interface ParameterStatusListener {
     }
 
     /**
-     * The user must implement this interface in order to set a collection of parameter values to a
-     * set variables in the application logic.
+     * The user must implement this interface in order to set a collection of
+     * parameter values to a set variables in the application logic.
      *
      * @param newRawValues The new values to be set at the parameter
      * @return True if the value was set successfully, false if not
@@ -91,15 +91,16 @@ public interface ParameterStatusListener {
     }
 
     /**
-     * This method allows to use implementation specific mechanisms to determine parameter validity.
-     * Also it supports the value to have deployment-specific validityStates.
+     * This method allows to use implementation specific mechanisms to determine
+     * parameter validity. Also it supports the value to have
+     * deployment-specific validityStates.
      *
      * @param rawValue The raw value to be set
-     * @param pDef     The parameter definition details of the parameter
+     * @param pDef The parameter definition details of the parameter
      *
-     * @return the validity state of the value. if it is deployment-specific then the values must be
-     * greater than 127. if null then there are no custom mechanisms and values, and the standard ones
-     * must be used
+     * @return the validity state of the value. if it is deployment-specific
+     * then the values must be greater than 127. if null then there are no
+     * custom mechanisms and values, and the standard ones must be used
      */
     ParameterValue getValueWithCustomValidityState(Attribute rawValue, ParameterDefinitionDetails pDef);
 
@@ -122,18 +123,4 @@ public interface ParameterStatusListener {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    /**
-     * Gets the intervals supported by the provider
-     *
-     * @return a list with the supported intervals as durations
-     */
-    //    public DurationList getProvidedIntervals();
-    /**
-     * The user must implement this interface in order to acquire a certain parameter values timestamp
-     * in the application.
-     *
-     * @param identifier Name of the Parameter
-     * @return The timestamp when the parameters value was set
-     */
-    //    public Long onGetValueTimestamp(Identifier identifier);
 }

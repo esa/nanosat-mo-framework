@@ -426,16 +426,18 @@ public final class AggregationManager extends MCManager {
         //requirement: 3.3.3.i (ParameterService-requirement)
         //if sendUnchanged is true: replace validity-state with an EXPIRED state
         //todo: try to let the ParameterService set the EXPIRED state and not the AggregationService
-        if (currentParamValues != null) {
-            for (int k = 0; k < currentParamValues.size(); k++) {
-                final ParameterDefinitionDetails paramDef = parameterManager.getParameterDefinition(aggrParamSet
-                        .getParameters().get(k));
-                if (paramDef.getGenerationEnabled() && paramDef.getReportInterval().getValue() != 0) {
-                    if (currentParamValues.get(k).getValue().getRawValue().equals(newParameterValueSamples.get(k)
-                            .getValue().getRawValue())) {
-                        newParameterValueSamples.get(k).getValue().setValidityState(
-                                new UOctet(Short.valueOf("" + ValidityState.EXPIRED_VALUE)));
-                    }
+        if (currentParamValues == null) {
+            return newParameterValueSamples;
+        }
+
+        for (int k = 0; k < currentParamValues.size(); k++) {
+            Long id = aggrParamSet.getParameters().get(k);
+            ParameterDefinitionDetails paramDef = parameterManager.getParameterDefinition(id);
+            if (paramDef.getGenerationEnabled() && paramDef.getReportInterval().getValue() != 0) {
+                if (currentParamValues.get(k).getValue().getRawValue().equals(newParameterValueSamples.get(k)
+                        .getValue().getRawValue())) {
+                    newParameterValueSamples.get(k).getValue().setValidityState(
+                            new UOctet(Short.valueOf("" + ValidityState.EXPIRED_VALUE)));
                 }
             }
         }
@@ -774,12 +776,12 @@ public final class AggregationManager extends MCManager {
 
         final AggregationParameterValueList currentParamValues = this.periodicAggregationValuesCurrent.get(identityId)
                 .getParameterSetValues().get(indexOfparameterSet).getValues();
-        this.periodicAggregationValuesLast.get(identityId).getParameterSetValues().get(indexOfparameterSet).setValues(
-                currentParamValues);
+        this.periodicAggregationValuesLast.get(identityId).getParameterSetValues()
+                .get(indexOfparameterSet).setValues(currentParamValues);
 
         //set the new ones to the current ones
-        this.periodicAggregationValuesCurrent.get(identityId).getParameterSetValues().get(indexOfparameterSet)
-                .setValues(newParamSample);
+        this.periodicAggregationValuesCurrent.get(identityId)
+                .getParameterSetValues().get(indexOfparameterSet).setValues(newParamSample);
         //sets the timestamp of the latest value of the set. needed for the calculation of the delta-time
         this.latestSampleTimeList.get(identityId).set(indexOfparameterSet, Time.now());
 
@@ -798,7 +800,8 @@ public final class AggregationManager extends MCManager {
 
         } else {
             try {
-                //requirement: 3.7.10.2.f: if a AggregationName ever existed before, use the old AggregationIdentity-Object by retrieving it from the archive
+                //requirement: 3.7.10.2.f: if a AggregationName ever existed before,
+                // use the old AggregationIdentity-Object by retrieving it from the archive
                 //check if the name existed before and retrieve id if found
                 Long identityId = retrieveIdentityIdByNameFromArchive(ConfigurationProviderSingleton.getDomain(),
                         name, AggregationServiceInfo.AGGREGATIONIDENTITY_OBJECT_TYPE);
@@ -891,7 +894,6 @@ public final class AggregationManager extends MCManager {
     }
 
     public boolean delete(Long identityId) {
-
         if (!this.deleteIdentity(identityId)) {
             return false;
         }
@@ -903,7 +905,7 @@ public final class AggregationManager extends MCManager {
         return true;
     }
 
-    public Long setGenerationEnabled(Long identityId, Boolean bool, ObjectId source,
+    public Long setGenerationEnabled(Long identityId, Boolean status, ObjectId source,
             SingleConnectionDetails connectionDetails) {
         AggregationDefinitionDetails def = this.getAggregationDefinition(identityId);
 
@@ -911,10 +913,10 @@ public final class AggregationManager extends MCManager {
             return null;
         }
         //requirement: 3.7.9.2.f    
-        if (def.getGenerationEnabled().booleanValue() == bool) { // Is it set with the requested value already?
+        if (def.getGenerationEnabled().booleanValue() == status) { // Is it set with the requested value already?
             return identityId; // the value was not changed
         }
-        def.setGenerationEnabled(bool);
+        def.setGenerationEnabled(status);
         //requirement: 3.7.9.2.j, k
         return this.update(identityId, def, source, connectionDetails);
     }
@@ -948,9 +950,9 @@ public final class AggregationManager extends MCManager {
         if (def == null) {
             return false;
         }
-        //requirement: 3.7.10.2.f    
-        if (def.getFilterEnabled().booleanValue() == bool) // Is it set with the requested value already?
-        {
+        //requirement: 3.7.10.2.f
+        // Is it set with the requested value already?
+        if (def.getFilterEnabled().booleanValue() == bool) {
             return false; // the value was not changed
         }
         def.setFilterEnabled(bool);

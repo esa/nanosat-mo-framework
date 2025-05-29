@@ -72,9 +72,7 @@ public class TestMPPolyFix {
 
     @Test
     public void testDecode() {
-        c_ArgDef argDef = new c_ArgDef();
-        argDef.setStringArgDef(new StringArgDef());
-
+        c_ArgDef argDef = new c_ArgDef(null, null, new StringArgDef(), null);
         StringArgDef stringDef = (StringArgDef) MPPolyFix.decode(argDef);
         assertNotNull(stringDef);
         assertEquals(new StringArgDef(), stringDef);
@@ -82,8 +80,7 @@ public class TestMPPolyFix {
 
     @Test
     public void testListDecode() {
-        c_ArgDef argDef = new c_ArgDef();
-        argDef.setStringArgDef(new StringArgDef());
+        c_ArgDef argDef = new c_ArgDef(null, null, new StringArgDef(), null);
         c_ArgDefList list = new c_ArgDefList();
         list.add(argDef);
 

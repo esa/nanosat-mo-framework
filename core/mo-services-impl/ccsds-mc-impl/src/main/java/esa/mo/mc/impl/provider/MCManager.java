@@ -307,8 +307,9 @@ public abstract class MCManager {
         this.objIdToDefMap.put(newDefId, newDefDetails);
 
         // Update the pair
-        pair.setObjDefInstanceId(newDefId);
-
+        //pair.setObjDefInstanceId(newDefId);
+        this.namesToPairsMap.put(name, new ObjectInstancePair(pair.getObjIdentityInstanceId(), newDefId));
+        
         return true;
     }
 

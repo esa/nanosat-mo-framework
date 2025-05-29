@@ -233,26 +233,6 @@ public final class StatisticManager {
         return statLinks.containsKey(input);
     }
 
-    /*
-     public Boolean resetEvaluation(Long objId) {
-     if (!this.statLinkExists(objId)) {
-     return false;
-     }
-    
-     StatisticValue statValue = new StatisticValue();
-     statValue.setStartTime(ConfigurationProvider.getTimestampMillis());
-     statValue.setSampleCount(new UInteger(0));
-    
-     StatisticEvaluationReport statEval = new StatisticEvaluationReport(); // Let's add a new one...
-     statEval.setLinkId(objId);
-     statEval.setValue(statValue);
-    
-     this.statEvaluations.put(objId, statEval);  // The old value is replaced
-    
-     return true;
-     }
-     */
-
     public StatisticFunctionDetailsList getAll() {
         StatisticFunctionDetailsList list = new StatisticFunctionDetailsList();
         list.addAll(this.statFunctions.values());
@@ -358,15 +338,8 @@ public final class StatisticManager {
     }
 
     protected void addStatisticValueToStatisticEvaluationReport(Long input, StatisticValue statisticValue) {
-        StatisticEvaluationReport report = this.statEvaluationReports.get(input);
-
-        if (report == null) { // No report
-            report = new StatisticEvaluationReport();
-            report.setLinkId(input);
-            this.statEvaluationReports.put(input, report);
-        }
-
-        report.setValue(statisticValue);
+        StatisticEvaluationReport report = new StatisticEvaluationReport(input, statisticValue);
+        this.statEvaluationReports.put(input, report);
     }
 
     protected void resetStatisticEvaluationReport(Long statLinkId) {
@@ -629,15 +602,7 @@ public final class StatisticManager {
         }
 
         public Integer getOldestIndex(Long objId, double oldestTimeInMs) {
-            // get index of oldestTimeInMs (or the next higher index, if oldestTimeInMs not in list)
-            TimeList allTimes = timeSets.get(objId);
-            if (allTimes == null) {
-                return null;
-            }
-            int i = 0;
-            for (; i < allTimes.size() && allTimes.get(i).getValue() < oldestTimeInMs; i++)
-                ;
-            return i;
+            return null;
         }
 
     }

@@ -840,8 +840,10 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
 
             // Get the Statistic Link
             StatisticCreationRequest editLink = manager.getStatisticLink(linkId);
-            editLink.setLinkDetails(newDetails.get(index)); // requirement: 3.6.15.2.e
-            Long newLinkDefId = manager.update(linkId, editLink, connection.getConnectionDetails()); // requirement: 3.6.15.2.i
+            // requirement: 3.6.15.2.e
+            StatisticCreationRequest newLink = new StatisticCreationRequest(
+                    editLink.getStatFuncInstId(), editLink.getParameterId(), newDetails.get(index));
+            Long newLinkDefId = manager.update(linkId, newLink, connection.getConnectionDetails()); // requirement: 3.6.15.2.i
 
             // Refresh the sampling
             this.periodicSamplingManager.update(linkId); // requirement: 3.6.15.2.j
