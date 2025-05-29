@@ -69,7 +69,7 @@ public class DatabaseBackend {
         if (null != urlP && !"".equals(urlP)) {
             this.url = urlP;
         } else {
-            File dbFile = new File(DATABASE_LOCATION_NAME);
+            File dbFile = getDatabaseFile();
             boolean writableFs = true;
             // Check if we are operating on Read-Only FS
             if (dbFile.exists()) {
@@ -98,6 +98,10 @@ public class DatabaseBackend {
         this.user = (null != userP && !"".equals(userP)) ? userP : null;
         String pass = System.getProperty("esa.nmf.archive.persistence.jdbc.password");
         this.password = (null != pass && !"".equals(pass)) ? pass : null;
+    }
+
+    private File getDatabaseFile() {
+        return new File(DATABASE_LOCATION_NAME);
     }
 
     public Semaphore getAvailability() {
@@ -157,7 +161,7 @@ public class DatabaseBackend {
         mig.execute("ALTER TABLE COMObjectEntity RENAME COLUMN OBJ TO objBody");
 
         Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.INFO,
-            "Migrating the database to new Table schemas...");
+                "Migrating the database to new Table schemas...");
         try {
             mig.execute("ALTER TABLE DomainHolderEntity RENAME COLUMN domainString TO value");
             mig.execute("ALTER TABLE DomainHolderEntity RENAME TO FastDomain");
@@ -181,7 +185,7 @@ public class DatabaseBackend {
             Statement statement = serverConnection.createStatement();
             statement.execute("CREATE INDEX IF NOT EXISTS index_related2 ON COMObjectEntity (relatedLink)");
             statement.execute(
-                "CREATE INDEX IF NOT EXISTS index_timestampArchiveDetails2 ON COMObjectEntity (timestampArchiveDetails)");
+                    "CREATE INDEX IF NOT EXISTS index_timestampArchiveDetails2 ON COMObjectEntity (timestampArchiveDetails)");
             indexCreated = true;
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseBackend.class.getName()).log(Level.SEVERE, null, ex);
@@ -201,8 +205,9 @@ public class DatabaseBackend {
         } catch (SQLException ex) {
             if (jdbcDriver.equals(DRIVER_CLASS_NAME)) {
                 LOGGER.log(Level.WARNING, "Unexpected exception ! ", ex);
-                LOGGER.log(Level.INFO, "There was an SQLException, maybe the " + DATABASE_LOCATION_NAME +
-                    " folder/file does not exist. Attempting to create it...");
+                String dbName = getDatabaseFile().getName();
+                LOGGER.log(Level.INFO, "There was an SQLException, maybe the " + dbName
+                        + " folder/file does not exist. Attempting to create it...");
                 try {
                     // Connect to the database but also create the database if it does not exist
                     serverConnection = DriverManager.getConnection(url2 + ";create=true");
@@ -210,8 +215,8 @@ public class DatabaseBackend {
                 } catch (SQLException ex2) {
                     LOGGER.log(Level.SEVERE, "Other connection already exists! Error: " + ex2.getMessage(), ex2);
                     LOGGER.log(Level.SEVERE,
-                        "Most likely there is another instance of the same application already running. " +
-                            "Two instances of the same application are not allowed. The application will exit.");
+                            "Most likely there is another instance of the same application already running. "
+                            + "Two instances of the same application are not allowed. The application will exit.");
                     System.exit(0);
                 }
             } else {

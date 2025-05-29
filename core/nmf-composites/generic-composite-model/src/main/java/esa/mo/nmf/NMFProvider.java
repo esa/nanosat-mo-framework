@@ -346,7 +346,14 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
     protected void configureCOMArchiveDatabaseLocation() {
         Package nmfPack = NMFProvider.class.getPackage();
         String nmfVersion = nmfPack.getImplementationVersion();
-        Integer version = nmfVersion == null ? 1 : Integer.valueOf(nmfVersion.split("\\.")[0]);
+
+        Integer version = 1;
+        if (nmfVersion != null) {
+            // The conversion to Integer is on deliberate because
+            // this way, no attempt of path injections can be made
+            version = Integer.valueOf(nmfVersion.split("\\.")[0]);
+        }
+
         File nmfDir = AppStorage.getAppNMFInternalDir();
         File dbFile = new File(nmfDir, "comArchive_v" + version + ".db");
         String path = "jdbc:sqlite:" + dbFile.getAbsolutePath();
