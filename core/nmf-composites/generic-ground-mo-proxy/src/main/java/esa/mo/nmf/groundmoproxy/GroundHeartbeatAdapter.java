@@ -39,7 +39,7 @@ public class GroundHeartbeatAdapter extends HeartbeatAdapter {
     protected final long period; // In seconds
     protected long lag; // In milliseconds
     protected final TaskScheduler timer;
-    protected Time lastBeatAt = HelperTime.getTimestampMillis();
+    protected Time lastBeatAt = Time.now();
     protected Time lastBeatOBT = null; // Last beat in On-Board timestamp
     protected final GroundMOProxy moProxy;
     protected final HeartbeatConsumerServiceImpl heartbeat;
@@ -73,7 +73,7 @@ public class GroundHeartbeatAdapter extends HeartbeatAdapter {
             org.ccsds.moims.mo.mal.structures.UpdateHeader updateHeader,
             java.util.Map qosProperties) {
         synchronized (timer) {
-            lastBeatAt = HelperTime.getTimestampMillis();
+            lastBeatAt = Time.now();
             lastBeatOBT = msgHeader.getTimestamp();
             final long iDiff = lastBeatAt.getValue() - lastBeatOBT.getValue();
             LOGGER.log(Level.INFO,
@@ -84,11 +84,11 @@ public class GroundHeartbeatAdapter extends HeartbeatAdapter {
     }
 
     public FineTime getLastBeat() {
-        return HelperTime.timeToFineTime(lastBeatAt);
+        return lastBeatAt.toFineTime();
     }
 
     public FineTime getLastBeatOBT() {
-        return HelperTime.timeToFineTime(lastBeatOBT);
+        return lastBeatOBT.toFineTime();
     }
 
     private class HeartbeatRefreshTask extends Thread {
@@ -108,7 +108,7 @@ public class GroundHeartbeatAdapter extends HeartbeatAdapter {
         @Override
         public void run() {
             synchronized (timer) {
-                final Time currentTime = HelperTime.getTimestampMillis();
+                final Time currentTime = Time.now();
                 // If the current time has passed the last beat + the beat period + a delta error
                 long threshold = lastBeatAt.getValue() + period + DELTA_ERROR;
                 if (currentTime.getValue() > threshold) {

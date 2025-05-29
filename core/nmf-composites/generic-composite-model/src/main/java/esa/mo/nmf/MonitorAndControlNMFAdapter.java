@@ -47,6 +47,7 @@ import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Duration;
+import org.ccsds.moims.mo.mal.structures.FineTime;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
@@ -299,7 +300,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
                     ArchiveQuery query = new ArchiveQuery(
                             archiveService.getConnection().getConnectionDetails().getDomain(),
                             null, null, id.getObjDefInstanceId(), null, null,
-                            HelperTime.getTimestamp(), false, null);
+                            FineTime.now(), false, null);
                     PaginationFilter filter = new PaginationFilter(new UInteger(1), new UInteger(0));
                     List<ArchivePersistenceObject> result = archiveService.getArchiveManager().query(
                             ParameterServiceInfo.PARAMETERVALUEINSTANCE_OBJECT_TYPE, query, filter);
