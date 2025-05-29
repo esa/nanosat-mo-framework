@@ -46,14 +46,11 @@ public class NMFPackagePMBackend implements PMBackend {
      * packages in the folder passed as argument.
      *
      * @param folder The folder to look for packages
+     * @param appsLauncherService The AppsLauncher service.
      */
     public NMFPackagePMBackend(String folder, AppsLauncherProviderServiceImpl appsLauncherService) {
         this.packagesFolder = new File(folder);
         this.manager = new NMFPackageManager(appsLauncherService);
-    }
-
-    public NMFPackagePMBackend(String folder) {
-        this(folder, null);
     }
 
     @Override

@@ -24,8 +24,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 /**
- * This class represents a simple quota mechanism. You can either right directly to the underlying
- * data structure or use the provided wrapper methods.
+ * This class represents a simple quota mechanism. You can either write directly
+ * to the underlying data structure or use the provided wrapper methods.
  *
  * @author yannick
  */
@@ -33,6 +33,7 @@ public class Quota extends HashMap<Long, Integer> {
 
     /**
      * This method resets the quota to 0 for all provided IDs.
+     *
      * @param ids The entities for which to reset the quotas.
      */
     public void clean(HashSet<Long> ids) {
@@ -45,8 +46,10 @@ public class Quota extends HashMap<Long, Integer> {
 
     /**
      * Increases the used quota for the provided entity.
+     *
      * @param id The entity for which to increase the utilization.
-     * @param increment The value by which the utilization should be incremented.
+     * @param increment The value by which the utilization should be
+     * incremented.
      */
     public void increase(Long id, int increment) {
         synchronized (this) {
@@ -57,6 +60,7 @@ public class Quota extends HashMap<Long, Integer> {
 
     /**
      * Retrieves the used quota for the provided ID or 0 if the ID is not used.
+     *
      * @param id The ID for which the quota shall be retrieved.
      * @return The quota iff id is already a key in the quota and 0 otherwise.
      */

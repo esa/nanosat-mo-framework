@@ -31,6 +31,7 @@ import esa.mo.nmf.NMFException;
 import esa.mo.nmf.NMFProvider;
 import esa.mo.nmf.OneInstanceLock;
 import esa.mo.nmf.nmfpackage.Deployment;
+import esa.mo.nmf.nmfpackage.NMFPackagePMBackend;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.reconfigurable.provider.PersistProviderConfiguration;
 import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl;
@@ -64,6 +65,7 @@ import org.ccsds.moims.mo.softwaremanagement.appslauncher.body.ListAppResponse;
 public abstract class NanoSatMOSupervisor extends NMFProvider {
 
     private static final Logger LOGGER = Logger.getLogger(NanoSatMOSupervisor.class.getName());
+    private static final String DIR_PACKAGES = "packages";
 
     private final PackageManagementProviderServiceImpl packageManagementService
             = new PackageManagementProviderServiceImpl();
@@ -92,6 +94,9 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
         HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
         ConnectionProvider.resetURILinksFile();
 
+        // Directory for COM Archive:
+        super.configureCOMArchiveDatabaseLocation();
+
         // Check if we are running as root when we have the NMF in Mode 2
         String user = System.getProperties().getProperty("user.name", "?");
         String mode = System.getProperties().getProperty(HelperMisc.PROP_WORK_DIR_STORAGE_MODE, "?");
@@ -115,6 +120,9 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
             this.directoryService.init(comServices);
             this.appsLauncherService.init(comServices, directoryService);
             this.commandExecutorService.init(comServices);
+            if (packageManagementBackend == null) {
+                packageManagementBackend = new NMFPackagePMBackend(DIR_PACKAGES, appsLauncherService);
+            }
             this.packageManagementService.init(comServices, packageManagementBackend);
             this.comServices.initArchiveSync();
             super.reconfigurableServices.add(this.appsLauncherService);
@@ -294,6 +302,6 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
     }
 
     public abstract void initPlatformServices(COMServicesProvider comServices);
-    
+
     protected abstract void startStatusTracking();
 }

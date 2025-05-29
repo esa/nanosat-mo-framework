@@ -265,7 +265,7 @@ public class NMFPackageManager {
         long timestamp = System.currentTimeMillis();
         System.out.printf(SEPARATOR);
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
-            "Reading the receipt file that includes the list of files to be upgraded...");
+                "Reading the receipt file that includes the list of files to be upgraded...");
 
         // Get the Package to be uninstalled
         NMFPackage newPack = new NMFPackage(packageLocation);
@@ -313,7 +313,7 @@ public class NMFPackageManager {
         }
 
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
-            "Copying the new files to the locations...");
+                "Copying the new files to the locations...");
 
         if (isApp) {
             MetadataApp appMetadata = newPackMetadata.castToApp();
@@ -578,9 +578,9 @@ public class NMFPackageManager {
             ListAppResponse response = appsLauncher.listApp(myApp, category, null);
             LongList runningApp = new LongList();
 
-            for (int i = 0; i < response.getBodyElement0().size(); i++) {
-                if (response.getBodyElement1().get(i)) {
-                    Long appId = response.getBodyElement0().get(i);
+            for (int i = 0; i < response.getAppInstIds().size(); i++) {
+                if (response.getRunning().get(i)) {
+                    Long appId = response.getAppInstIds().get(i);
                     runningApp.add(appId);
                 }
             }
