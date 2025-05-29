@@ -26,7 +26,6 @@ import esa.mo.nmf.NMFException;
 import esa.mo.nmf.commonmoadapter.SimpleDataReceivedListener;
 import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
 import esa.mo.nmf.spacemoadapter.SpaceMOApdapterImpl;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;

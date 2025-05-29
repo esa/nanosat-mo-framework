@@ -43,8 +43,8 @@ import org.ccsds.moims.mo.mp.structures.c_ResourceDefinitionDetails;
 import org.ccsds.moims.mo.mp.structures.c_ResourceDefinitionDetailsList;
 
 /**
- * Ground consumer: Mission Planning Services
- * Connects to MP provider and adds a single definition for Request, Activity, Event and Resource
+ * Ground consumer: Mission Planning Services Connects to MP provider and adds a
+ * single definition for Request, Activity, Event and Resource
  */
 public class MPGroundDemo {
 
@@ -70,7 +70,6 @@ public class MPGroundDemo {
      * Main command line entry point.
      *
      * @param args the command line arguments
-     * @throws java.lang.Exception If there is an error
      */
     public static void main(final String args[]) {
         MPGroundDemo test = new MPGroundDemo();

@@ -27,18 +27,17 @@ import com.restfb.Version;
 import com.restfb.types.FacebookType;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 import esa.mo.nmf.commonmoadapter.SimpleDataReceivedListener;
-import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
-import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
-import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.structures.URI;
-
 import java.io.File;
 import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
+import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
+import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.structures.URI;
 
 /**
  * Demo application pushing data into Facebook
@@ -96,8 +95,8 @@ public class Push2Facebook {
      * @throws MALInteractionException
      * @throws MALException
      */
-    private void registerDataListener(String directoryURI, String providerName) throws MalformedURLException,
-        MALInteractionException, MALException {
+    private void registerDataListener(String directoryURI, String providerName)
+            throws MalformedURLException, MALInteractionException, MALException {
 
         ProviderSummaryList providers = GroundMOAdapterImpl.retrieveProvidersFromDirectory(new URI(directoryURI));
 

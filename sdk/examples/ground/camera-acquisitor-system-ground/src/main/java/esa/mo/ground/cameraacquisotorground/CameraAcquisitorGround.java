@@ -93,9 +93,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Camera Acquisition System ground application. Handles communication between user front-end and
- * space application as well as all computationally expensive calculations.
- * This Demo should be used with Camera Acquisition System provider.
+ * Camera Acquisition System ground application. Handles communication between
+ * user front-end and space application as well as all computationally expensive
+ * calculations. This Demo should be used with Camera Acquisition System
+ * provider.
  */
 @RestController
 @SpringBootApplication
@@ -150,6 +151,7 @@ public class CameraAcquisitorGround {
      * class containing all parameters needed for the space application
      */
     private static class Parameter {
+
         private static final String GAIN_RED = "gainRed";
         private static final String GAIN_GREEN = "gainGreen";
         private static final String GAIN_BLUE = "gainBlue";
@@ -166,6 +168,7 @@ public class CameraAcquisitorGround {
      * Inner class for storing action progress (like current stage etc.)
      */
     private static class ActionReport {
+
         // number of the stage
         public int stage;
 
@@ -177,9 +180,10 @@ public class CameraAcquisitorGround {
 
         /**
          *
-         * @param stage   stage this report refers too.
+         * @param stage stage this report refers too.
          * @param success if the stage was executed successfully.
-         * @param error   the corresponding error message if it was not successful.
+         * @param error the corresponding error message if it was not
+         * successful.
          */
         public ActionReport(int stage, boolean success, String error) {
             this.stage = stage;
@@ -241,9 +245,9 @@ public class CameraAcquisitorGround {
         }
         try {
             Subscription subscription = HelperCOM.generateSubscriptionCOMEvent("ActivityTrackingListener",
-                ActivityTrackingServiceInfo.EXECUTION_OBJECT_TYPE);
+                    ActivityTrackingServiceInfo.EXECUTION_OBJECT_TYPE);
             gma.getCOMServices().getEventService().addEventReceivedListener(subscription,
-                new EventReceivedListenerAdapter());
+                    new EventReceivedListenerAdapter());
             setInitialParameters();
 
             // get previous requests
@@ -253,7 +257,7 @@ public class CameraAcquisitorGround {
 
             GetAllArchiveAdapter archiveAdapter = new GetAllArchiveAdapter();
             gma.getCOMServices().getArchiveService().getArchiveStub().query(true, new ObjectType(new UShort(0),
-                new UShort(0), new UOctet((short) 0), new UShort(0)), archiveQueryList, null, archiveAdapter);
+                    new UShort(0), new UOctet((short) 0), new UShort(0)), archiveQueryList, null, archiveAdapter);
 
             LOGGER.log(Level.INFO, "Finished getting archive entries!");
         } catch (MALException | MALInteractionException ex) {
@@ -263,8 +267,8 @@ public class CameraAcquisitorGround {
     }
 
     /**
-     * Exposes the Action status over the REST API returns the status of the action with the given
-     * actionID.
+     * Exposes the Action status over the REST API returns the status of the
+     * action with the given actionID.
      *
      * @param actionID the action id of the action to request status of.
      * @return the status of the action with the given actionID
@@ -277,15 +281,15 @@ public class CameraAcquisitorGround {
     /**
      * Schedules a photograph of the given target location at a given time.
      *
-     * @param latitude  latitude of the target location.
+     * @param latitude latitude of the target location.
      * @param longitude longitude of the target location.
      * @param timeStamp time at which the photograph should be taken.
      * @return the actionID that was assigned to space application action.
      */
     @PostMapping("/schedulePhotographPosition")
     public Long schedulePhotographPosition(@RequestParam(value = "latitude") double latitude, @RequestParam(
-                                                                                                            value = "longitude") double longitude,
-        @RequestParam(value = "timeStamp") String timeStamp) {
+            value = "longitude") double longitude,
+            @RequestParam(value = "timeStamp") String timeStamp) {
 
         AbsoluteDate scheduleDate = new AbsoluteDate(timeStamp, TimeScalesFactory.getUTC());
 
@@ -299,7 +303,7 @@ public class CameraAcquisitorGround {
                 idList.add(new Identifier(CameraAcquisitorSystemCameraTargetHandler.ACTION_PHOTOGRAPH_LOCATION));
 
                 ObjectInstancePairList objIds = gma.getMCServices().getActionService().getActionStub().listDefinition(
-                    idList);
+                        idList);
                 if (objIds == null) {
                     LOGGER.log(Level.SEVERE, "Action does not exist, please check if space application is running");
                 }
@@ -314,7 +318,7 @@ public class CameraAcquisitorGround {
                 } else {
                     LOGGER.log(Level.INFO, "new Action: {0}", actionID);
                     activeActions.put(actionID,
-                        new ActionReport[CameraAcquisitorSystemCameraTargetHandler.PHOTOGRAPH_LOCATION_STAGES]);
+                            new ActionReport[CameraAcquisitorSystemCameraTargetHandler.PHOTOGRAPH_LOCATION_STAGES]);
                 }
                 return actionID;
 
@@ -327,22 +331,24 @@ public class CameraAcquisitorGround {
     }
 
     /**
-     * calculates multiple time slots at which a photograph with the given parameters can be taken.
-     * Takes current schedule into account. Returns at most NUM_TRIES time slots. Returns less if
-     * MAX_SIM_RANGE is exceeded before NUM_TRIES slots have been found.
+     * calculates multiple time slots at which a photograph with the given
+     * parameters can be taken. Takes current schedule into account. Returns at
+     * most NUM_TRIES time slots. Returns less if MAX_SIM_RANGE is exceeded
+     * before NUM_TRIES slots have been found.
      *
-     * @param latitude  latitude of the target
+     * @param latitude latitude of the target
      * @param longitude longitude of the target
-     * @param maxAngle  maximum angle between target and satellite.
-     * @param timeMode  the time at which the photograph should be taken (ANY, DAY, NIGHT)
+     * @param maxAngle maximum angle between target and satellite.
+     * @param timeMode the time at which the photograph should be taken (ANY,
+     * DAY, NIGHT)
      * @return list of possible time slots
      */
     @GetMapping("/photographTime")
     public LinkedList<String> getTimeOfPhotograph(@RequestParam(value = "latitude") double latitude, @RequestParam(
-                                                                                                                   value = "longitude") double longitude,
-        @RequestParam(value = "maxAngle", defaultValue = "" + DEFAULT_MAX_ANGLE) double maxAngle, @RequestParam(
-                                                                                                                value = "timeMode",
-                                                                                                                defaultValue = "ANY") OrbitHandler.TimeModeEnum timeMode) {
+            value = "longitude") double longitude,
+            @RequestParam(value = "maxAngle", defaultValue = "" + DEFAULT_MAX_ANGLE) double maxAngle, @RequestParam(
+                    value = "timeMode",
+                    defaultValue = "ANY") OrbitHandler.TimeModeEnum timeMode) {
         // reset propagator state
         orbitHandler.reset();
         AbsoluteDate simTime = CameraAcquisitorSystemMCAdapter.getNow();
@@ -353,7 +359,7 @@ public class CameraAcquisitorGround {
         while (simTime.compareTo(simEnd) < 0 && results.size() <= NUM_TRIES) {
 
             Pass pass = orbitHandler.getPassTime(latitude, longitude, maxAngle, timeMode, simTime,
-                DEFAULT_WORST_CASE_ROTATION_TIME_SEC, MAX_SIM_RANGE);
+                    DEFAULT_WORST_CASE_ROTATION_TIME_SEC, MAX_SIM_RANGE);
             simTime = pass.getOptimalTime();
 
             // if timeslot available add to possible results
@@ -371,22 +377,25 @@ public class CameraAcquisitorGround {
     }
 
     /**
-     * calculates the ground track for the satellite and returns a list of locations and time stamps.
+     * calculates the ground track for the satellite and returns a list of
+     * locations and time stamps.
      *
-     * @param duration how far into the future the ground track should be calculated in seconds
-     * @param stepsize the amount of time between entries in the resulting list in seconds
+     * @param duration how far into the future the ground track should be
+     * calculated in seconds
+     * @param stepsize the amount of time between entries in the resulting list
+     * in seconds
      * @return
      */
     @GetMapping("/groundTrack")
-    public GroundTrack groundTrack(@RequestParam(value = "duration", defaultValue = "" +
-        DEFAULT_GROUND_TRACK_DURATION) long duration, @RequestParam(value = "stepsize", defaultValue = "" +
-            DEFAULT_STEPSIZE) long stepsize) {
+    public GroundTrack groundTrack(@RequestParam(value = "duration", defaultValue = ""
+            + DEFAULT_GROUND_TRACK_DURATION) long duration, @RequestParam(value = "stepsize", defaultValue = ""
+            + DEFAULT_STEPSIZE) long stepsize) {
         AbsoluteDate now = CameraAcquisitorSystemMCAdapter.getNow();
         AbsoluteDate endDate = now.shiftedBy(duration);
 
         //cache for one hour.
         if (cachedTrack.length > 1 && (now.durationFrom(cachedTrack[0].orekitDate) < HOUR_IN_SECONDS || endDate
-            .durationFrom(cachedTrack[cachedTrack.length - 1].orekitDate) < HOUR_IN_SECONDS)) {
+                .durationFrom(cachedTrack[cachedTrack.length - 1].orekitDate) < HOUR_IN_SECONDS)) {
             return new GroundTrack(counter.incrementAndGet(), cachedTrack);
         }
 
@@ -396,8 +405,8 @@ public class CameraAcquisitorGround {
     }
 
     /**
-     * Requests the current TLE if the cached TLE is older than 1 hour and caches it. Than Returns the
-     * cached TLE
+     * Requests the current TLE if the cached TLE is older than 1 hour and
+     * caches it. Than Returns the cached TLE
      *
      * @return Cached TLE
      */
@@ -444,9 +453,9 @@ public class CameraAcquisitorGround {
         AbsoluteDate after = schedule.ceiling(scheduleDate);
         System.out.println("before " + before);
         System.out.println("after " + after);
-        return (before == null || scheduleDate.durationFrom(before) > DEFAULT_WORST_CASE_ROTATION_TIME_SEC &&
-            scheduleDate.compareTo(before) != 0) && (after == null || after.durationFrom(scheduleDate) >
-                DEFAULT_WORST_CASE_ROTATION_TIME_SEC && scheduleDate.compareTo(after) != 0);
+        return (before == null || scheduleDate.durationFrom(before) > DEFAULT_WORST_CASE_ROTATION_TIME_SEC
+                && scheduleDate.compareTo(before) != 0) && (after == null || after.durationFrom(scheduleDate)
+                > DEFAULT_WORST_CASE_ROTATION_TIME_SEC && scheduleDate.compareTo(after) != 0);
     }
 
     /**
@@ -481,8 +490,9 @@ public class CameraAcquisitorGround {
             if (activeActions.containsKey(actionID)) {
                 synchronized (activeActions) {
                     // minus 2 because stage count starts at 1 and an extra stage (for message received) is added by the Framework
-                    if (executionStage > 1 && executionStage < 6)
+                    if (executionStage > 1 && executionStage < 6) {
                         activeActions.get(actionID)[executionStage - 1] = new ActionReport(executionStage, success, "");
+                    }
                     // if some other stage is successful, the command has also been transmitted to the satellite!
                     if (executionStage - 1 > 0 && executionStage != 7 && success) {
                         activeActions.get(actionID)[0] = new ActionReport(1, true, "");
@@ -492,10 +502,10 @@ public class CameraAcquisitorGround {
             }
             if (success) {
                 LOGGER.log(Level.INFO, "Action Update: ID={0}, Execution Stage={1}", new Object[]{actionID,
-                                                                                                  executionStage});
+                    executionStage});
             } else {
                 LOGGER.log(Level.WARNING, "Action Unsuccessful: ID={0}, Execution Stage={1}", new Object[]{actionID,
-                                                                                                           executionStage});
+                    executionStage});
             }
 
         } else if (type == AlertEventDetails.TYPE_ID.getSFP()) {
@@ -514,7 +524,7 @@ public class CameraAcquisitorGround {
                     for (int i = 0; i < attValues.size(); i++) {
                         AttributeValue attValue = attValues.get(i);
                         messageToDisplay.append("[").append(i).append("] ").append(attValue.getValue().toString())
-                            .append("\n");
+                                .append("\n");
                     }
                 }
             }
@@ -545,7 +555,7 @@ public class CameraAcquisitorGround {
 
         @Override
         public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-            ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
+                ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
             if (objBodies != null) {
                 int i = 0;
                 for (Object objBody : objBodies) {
@@ -554,19 +564,19 @@ public class CameraAcquisitorGround {
                         try {
                             IdentifierList idList = new IdentifierList();
                             idList.add(new Identifier(
-                                CameraAcquisitorSystemCameraTargetHandler.ACTION_PHOTOGRAPH_LOCATION));
+                                    CameraAcquisitorSystemCameraTargetHandler.ACTION_PHOTOGRAPH_LOCATION));
 
                             ObjectInstancePairList objIds = gma.getMCServices().getActionService().getActionStub()
-                                .listDefinition(idList);
+                                    .listDefinition(idList);
                             if (objIds.size() > 0 && objIds.get(0).getObjDefInstanceId().longValue() == instance
-                                .getDefInstId().longValue() && instance.getArgumentValues().size() == 3) {
+                                    .getDefInstId().longValue() && instance.getArgumentValues().size() == 3) {
 
                                 String timestamp = instance.getArgumentValues().get(2).getValue().toString();
                                 LOGGER.log(Level.INFO, "recovered action: " + timestamp + "\tID: " + objDetails.get(i)
-                                    .getInstId());
+                                        .getInstId());
 
                                 activeActions.put(objDetails.get(i).getInstId(),
-                                    new ActionReport[CameraAcquisitorSystemCameraTargetHandler.PHOTOGRAPH_LOCATION_STAGES]);
+                                        new ActionReport[CameraAcquisitorSystemCameraTargetHandler.PHOTOGRAPH_LOCATION_STAGES]);
 
                                 AbsoluteDate scheduleDate = new AbsoluteDate(timestamp, TimeScalesFactory.getUTC());
 
@@ -591,7 +601,7 @@ public class CameraAcquisitorGround {
 
         @Override
         public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-            ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
+                ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
             queryResponseReceived(msgHeader, objType, domain, objDetails, objBodies, qosProperties);
         }
 

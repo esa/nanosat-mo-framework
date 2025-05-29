@@ -25,7 +25,8 @@ import org.orekit.bodies.GeodeticPoint;
 import org.orekit.time.AbsoluteDate;
 
 /**
- * Class for containing geographical data and a corresponding date (used for ground track)
+ * Class for containing geographical data and a corresponding date (used for
+ * ground track)
  *
  * @author Kevin Otto
  */

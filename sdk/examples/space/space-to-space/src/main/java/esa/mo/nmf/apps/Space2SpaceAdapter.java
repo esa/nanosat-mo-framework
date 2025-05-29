@@ -81,7 +81,7 @@ public class Space2SpaceAdapter extends MonitorAndControlNMFAdapter {
             @Override
             public void onDataReceived(String parameterName, Serializable data) {
                 if (data == null) {
-                    LOGGER.log(Level.WARNING, String.format("Received null value for parameter %s", parameterName));
+                    LOGGER.log(Level.WARNING, "Received null value for parameter: {0}", parameterName);
                     return;
                 }
 

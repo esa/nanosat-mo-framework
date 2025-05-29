@@ -641,8 +641,8 @@ public class CommonMOAdapterImpl extends NMFConsumer implements SimpleCommanding
      * {@inheritDoc}
      */
     @Override
-    public void toggleParametersGeneration(List<String> parameterNames, boolean enableGeneration)
-            throws NMFException {
+    public void toggleParametersGeneration(List<String> parameterNames,
+            boolean enableGeneration) throws NMFException {
         // Nothing to do in those cases
         if (parameterNames == null) {
             LOGGER.log(Level.WARNING, "Provided parameterNames list is null");
