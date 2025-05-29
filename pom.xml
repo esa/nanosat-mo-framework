@@ -12,38 +12,39 @@
   See the License for the specific language governing permissions and limitations under the License.
 -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>int.esa.nmf</groupId>
+        <artifactId>parent</artifactId>
+        <version>4.0-SNAPSHOT</version>
+        <relativePath>parent/pom.xml</relativePath>
+    </parent>
     <groupId>int.esa.nmf</groupId>
-    <artifactId>parent</artifactId>
-    <version>4.0-SNAPSHOT</version>
-    <relativePath>parent/pom.xml</relativePath>
-  </parent>
-  <groupId>int.esa.nmf</groupId>
-  <artifactId>reactor</artifactId>
-  <name>ESA NMF Reactor</name>
-  <packaging>pom</packaging>
-  <description>Maven Reactor for ESA Nanosat MO Framework</description>
-  <organization>
-    <name>ESA</name>
-    <url>http://www.esa.int</url>
-  </organization>
-  <licenses>
-    <license>
-      <name>European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4</name>
-      <url>https://raw.github.com/esa/nanosat-mo-framework/master/LICENCE.md</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
-  <properties>
-    <maven.deploy.skip>true</maven.deploy.skip>
-    <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
-  </properties>
-  <modules>
-    <module>parent</module>
-    <module>core</module>
-    <module>mission/simulator</module>
-    <module>sdk</module>
-  </modules>
+    <artifactId>reactor</artifactId>
+    <name>ESA NMF Reactor</name>
+    <packaging>pom</packaging>
+    <description>Maven Reactor for ESA Nanosat MO Framework</description>
+    <organization>
+        <name>ESA</name>
+        <url>http://www.esa.int</url>
+    </organization>
+    <licenses>
+        <license>
+            <name>European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4</name>
+            <url>https://raw.github.com/esa/nanosat-mo-framework/master/LICENCE.md</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <properties>
+        <maven.deploy.skip>true</maven.deploy.skip>
+        <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
+    </properties>
+    <modules>
+        <module>parent</module>
+        <module>core</module>
+        <module>mission/simulator</module>
+        <module>sdk</module>
+    </modules>
 </project>
