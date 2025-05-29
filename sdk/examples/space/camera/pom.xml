@@ -27,7 +27,7 @@
     <artifactId>camera</artifactId>
     <packaging>jar</packaging>
 
-    <name>ESA NMF SDK App Example - Camera</name>
+    <name>ESA NMF SDK App - Camera</name>
     <description>A demo that takes pictures using Camera Platform Service and stores them as files.</description>
     <url>http://www.esa.int</url>
 

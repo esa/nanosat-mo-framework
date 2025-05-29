@@ -27,7 +27,7 @@
     <artifactId>facebook</artifactId>
     <packaging>jar</packaging>
 
-    <name>ESA NMF SDK Ground Example - Facebook</name>
+    <name>ESA NMF SDK Ground - Facebook</name>
     <description>A simple demo for the Ground part that publishes a post on facebook</description>
     <url>http://www.esa.int</url>
 

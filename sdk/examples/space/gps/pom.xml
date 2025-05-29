@@ -27,7 +27,7 @@
     <artifactId>gps</artifactId>
     <packaging>jar</packaging>
 
-    <name>ESA NMF SDK App Example - GPS</name>
+    <name>ESA NMF SDK App - GPS</name>
     <description>An app populating a set of parameters with data obtained from GPS Platform service.</description>
     <url>http://www.esa.int</url>
 

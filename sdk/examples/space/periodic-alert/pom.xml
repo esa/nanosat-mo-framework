@@ -27,7 +27,7 @@
     <artifactId>periodic-alert</artifactId>
     <packaging>jar</packaging>
 
-    <name>ESA NMF SDK App Example - Periodic Alert</name>
+    <name>ESA NMF SDK App - Periodic Alert</name>
     <description>The app publishes an Alert every 10 seconds.</description>
     <url>http://www.esa.int</url>
 

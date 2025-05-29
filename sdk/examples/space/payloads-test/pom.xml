@@ -27,7 +27,7 @@
     <artifactId>payloads-test</artifactId>
     <packaging>jar</packaging>
 
-    <name>ESA NMF SDK App Example - Payloads Test</name>
+    <name>ESA NMF SDK App - Payloads Test</name>
     <description>An app that allows invoking various platform services.</description>
     <url>http://www.esa.int</url>
 

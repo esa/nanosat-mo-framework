@@ -29,7 +29,7 @@
     <packaging>jar</packaging>
 
 
-    <name>ESA NMF SDK App Example - Space 2 Supervisor</name>
+    <name>ESA NMF SDK App - Space 2 Supervisor</name>
     <description>An app demonstrating how to consume the supervisor parameter service from space.</description>
     <url>http://www.esa.int</url>
 

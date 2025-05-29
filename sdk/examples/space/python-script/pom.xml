@@ -27,7 +27,7 @@
     <artifactId>python-script</artifactId>
     <packaging>jar</packaging>
 
-    <name>ESA NMF SDK App Example - Python Script</name>
+    <name>ESA NMF SDK App - Python Script</name>
     <description>A demo that call a simple python script.</description>
     <url>http://www.esa.int</url>
 

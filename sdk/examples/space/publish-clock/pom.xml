@@ -27,7 +27,7 @@
     <artifactId>publish-clock</artifactId>
     <packaging>jar</packaging>
 
-    <name>ESA NMF SDK App Example - Publish Clock</name>
+    <name>ESA NMF SDK App - Publish Clock</name>
     <description>An app that periodically publishes (pushes) the local clock to the subscribers (ground).</description>
     <url>http://www.esa.int</url>
 

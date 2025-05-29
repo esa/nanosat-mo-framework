@@ -27,7 +27,7 @@
     <artifactId>directory-consumer</artifactId>
     <packaging>jar</packaging>
 
-    <name>ESA NMF SDK Ground Example - Directory Service Consumer</name>
+    <name>ESA NMF SDK Ground - Directory Service Consumer</name>
     <description>Ground application using Directory Service to resolve the connection details of the Provider.</description>
     <url>http://www.esa.int</url>
 

@@ -27,7 +27,7 @@
     <artifactId>waveform</artifactId>
     <packaging>jar</packaging>
 
-    <name>ESA NMF SDK App Example - Waveform</name>
+    <name>ESA NMF SDK App - Waveform</name>
     <description>An app that regularly pushes values of a sine wave to the ground.</description>
     <url>http://www.esa.int</url>
 

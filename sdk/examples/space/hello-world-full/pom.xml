@@ -27,7 +27,7 @@
     <artifactId>hello-world-full</artifactId>
     <packaging>jar</packaging>
 
-    <name>ESA NMF SDK App Example - Hello World Full</name>
+    <name>ESA NMF SDK App - Hello World Full</name>
     <description>A simple app, exposing a R/W String parameter on MC Parameter service.</description>
     <url>http://www.esa.int</url>
 

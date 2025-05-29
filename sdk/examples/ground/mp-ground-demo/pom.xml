@@ -24,7 +24,7 @@
     <artifactId>mp-ground-demo</artifactId>
     <packaging>jar</packaging>
 
-    <name>ESA NMF SDK Ground Example - MP Services ground demo</name>
+    <name>ESA NMF SDK Ground - MP Services ground demo</name>
     <description>A mission planning services demo app</description>
 
     <scm>

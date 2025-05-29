@@ -27,7 +27,7 @@
     <artifactId>serialized-object</artifactId>
     <packaging>jar</packaging>
 
-    <name>ESA NMF SDK App Example - Serialized Object</name>
+    <name>ESA NMF SDK App - Serialized Object</name>
     <description>A demonstration of NMF capability to exchange a serializable Java object through a Blob Parameter.</description>
     <url>http://www.esa.int</url>
 

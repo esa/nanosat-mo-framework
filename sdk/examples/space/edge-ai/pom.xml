@@ -27,7 +27,7 @@
     <artifactId>edge-ai</artifactId>
     <packaging>jar</packaging>
 
-    <name>ESA NMF SDK App Example - Edge AI</name>
+    <name>ESA NMF SDK App - Edge AI</name>
     <description>A demo that performs AI directly on-board.</description>
     <url>http://www.esa.int</url>
 

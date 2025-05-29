@@ -27,7 +27,7 @@
     <artifactId>picture-processor</artifactId>
     <packaging>jar</packaging>
 
-    <name>ESA NMF SDK App Example - Picture Processor</name>
+    <name>ESA NMF SDK App - Picture Processor</name>
     <description>A demo that takes pictures using Camera Platform Service and process them through a python script.</description>
     <url>http://www.esa.int</url>
 

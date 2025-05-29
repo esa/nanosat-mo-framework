@@ -27,7 +27,7 @@
     <artifactId>EchoGround</artifactId>
     <packaging>jar</packaging>
 
-    <name>ESA NMF SDK Ground Example - Echo</name>
+    <name>ESA NMF SDK Ground - Echo</name>
     <description>Ground application using Directory Service to resolve the connection details of the Provider.</description>
     <url>http://www.esa.int</url>
 

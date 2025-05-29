@@ -23,7 +23,7 @@
     <artifactId>blank</artifactId>
     <packaging>jar</packaging>
 
-    <name>ESA NMF SDK App Example - Blank App</name>
+    <name>ESA NMF SDK App - Blank App</name>
     <description>A blank app to start new projects</description>
     <url>http://www.esa.int</url>
     <organization>

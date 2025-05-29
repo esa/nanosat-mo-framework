@@ -27,7 +27,7 @@
     <artifactId>set-and-command</artifactId>
     <packaging>jar</packaging>
 
-    <name>ESA NMF SDK Ground Example - Set and Command</name>
+    <name>ESA NMF SDK Ground - Set and Command</name>
     <description>A simple demo for the Ground part, setting a parameter and submitting an action to a provider</description>
     <url>http://www.esa.int</url>
 

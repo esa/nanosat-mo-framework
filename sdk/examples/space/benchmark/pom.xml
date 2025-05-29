@@ -19,10 +19,12 @@
         <version>4.0-SNAPSHOT</version>
         <relativePath>../../../../parent/pom.xml</relativePath>
     </parent>
+
     <groupId>int.esa.nmf.sdk.examples.space</groupId>
     <artifactId>benchmark</artifactId>
     <packaging>jar</packaging>
-    <name>ESA NMF SDK App Example - Benchmark App</name>
+
+    <name>ESA NMF SDK App - Benchmark App</name>
     <description>A simple demo to test the Archive</description>
     <url>http://www.esa.int</url>
     <organization>

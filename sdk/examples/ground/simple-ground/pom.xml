@@ -27,7 +27,7 @@
     <artifactId>simple-ground</artifactId>
     <packaging>jar</packaging>
 
-    <name>ESA NMF SDK Ground Example - Simple Ground</name>
+    <name>ESA NMF SDK Ground - Simple Ground</name>
     <description>A simple ground demo, instantiating a parameter service consumer, printing any received data.</description>
     <url>http://www.esa.int</url>
 
