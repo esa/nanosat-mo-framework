@@ -94,8 +94,8 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
         HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
         ConnectionProvider.resetURILinksFile();
 
-        // Directory for COM Archive:
-        super.configureCOMArchiveDatabaseLocation();
+        // Enforce the App Name property to be Const.NANOSAT_MO_SUPERVISOR_NAME
+        System.setProperty(HelperMisc.PROP_MO_APP_NAME, Const.NANOSAT_MO_SUPERVISOR_NAME);
 
         // Check if we are running as root when we have the NMF in Mode 2
         String user = System.getProperties().getProperty("user.name", "?");
@@ -105,8 +105,8 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
             throw new RuntimeException("Do not run the NanoSat MO Supervisor as root!");
         }
 
-        // Enforce the App Name property to be Const.NANOSAT_MO_SUPERVISOR_NAME
-        System.setProperty(HelperMisc.PROP_MO_APP_NAME, Const.NANOSAT_MO_SUPERVISOR_NAME);
+        // Directory for COM Archive:
+        super.configureCOMArchiveDatabaseLocation();
 
         // Provider name to be used on the Directory service...
         this.providerName = System.getProperty(HelperMisc.PROP_MO_APP_NAME);
