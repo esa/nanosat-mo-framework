@@ -30,7 +30,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
-import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Composite;
@@ -201,7 +200,7 @@ public class SortByField implements Comparator {
         }
 
         if (c1 instanceof Attribute) {
-            if (HelperMisc.isStringAttribute((Attribute) c1)) {
+            if (Attribute.isStringAttribute((Attribute) c1)) {
                 c1 = HelperAttributes.attribute2string(c1);
                 c2 = HelperAttributes.attribute2string(c2);
                 return ((String) c1).compareToIgnoreCase((String) c2);

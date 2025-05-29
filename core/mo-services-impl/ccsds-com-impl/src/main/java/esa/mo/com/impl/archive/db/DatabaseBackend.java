@@ -20,7 +20,6 @@
  */
 package esa.mo.com.impl.archive.db;
 
-import esa.mo.com.impl.provider.ArchiveManager;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
@@ -38,7 +37,7 @@ import java.util.logging.Logger;
  */
 public class DatabaseBackend {
 
-    public static final Logger LOGGER = Logger.getLogger(ArchiveManager.class.getName());
+    public static final Logger LOGGER = Logger.getLogger(DatabaseBackend.class.getName());
 
     private static final String DRIVER_CLASS_NAME = "org.sqlite.JDBC"; // SQLite JDBC Driver
 
@@ -53,19 +52,12 @@ public class DatabaseBackend {
 
     // true for fairness, because we want FIFO
     private final Semaphore availability = new Semaphore(0, true);
-
     private final String jdbcDriver;
-
     private final String url;
-
     private final String user;
-
     private final String password;
-
     private Connection serverConnection;
-
     private boolean indexCreated = false;
-
     public boolean isPostgres = false;
 
     // Prepared statements storage for currently active connection

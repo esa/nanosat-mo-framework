@@ -594,7 +594,7 @@ public class ArchiveManager {
                     continue;
                 }
 
-                Element leftHandSide = (Element) Attribute.javaType2Attribute(obj);
+                Attribute leftHandSide = (Attribute) Attribute.javaType2Attribute(obj);
                 Boolean evaluation = HelperCOM.evaluateExpression(leftHandSide, compositeFilter.getType(),
                         compositeFilter.getFieldValue());
 
