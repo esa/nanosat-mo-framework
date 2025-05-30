@@ -129,7 +129,12 @@ public class AppStorage {
         path.append(File.separator);
         path.append(FOLDER_USER_NMF_DIR);
         path.append(File.separator);
-        path.append(System.getProperty(HelperMisc.PROP_MO_APP_NAME));
+        String name = System.getProperty(HelperMisc.PROP_MO_APP_NAME);
+        if (name == null || name.equals("null")) {
+            throw new IllegalArgumentException("The App name property was not set! "
+                    + "Property: HelperMisc.PROP_MO_APP_NAME");
+        }
+        path.append(name);
         path.append(File.separator);
 
         // Create it if it does not exist...
