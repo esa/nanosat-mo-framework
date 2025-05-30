@@ -34,6 +34,7 @@ import esa.mo.nmf.MissionPlanningNMFAdapter;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
 import esa.mo.nmf.NMFProvider;
+import esa.mo.nmf.OneInstanceLock;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.reconfigurable.provider.PersistProviderConfiguration;
 import esa.mo.sm.impl.provider.AppsLauncherManager;
@@ -125,6 +126,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
         }
 
         this.providerName = AppsLauncherProviderServiceImpl.PROVIDER_PREFIX_NAME + appName;
+        OneInstanceLock lock = new OneInstanceLock();
 
         if (fast) {
             Thread t1 = new Thread(new Runnable() {
