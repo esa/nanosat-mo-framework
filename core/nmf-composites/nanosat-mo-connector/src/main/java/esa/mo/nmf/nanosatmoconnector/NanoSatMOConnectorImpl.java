@@ -82,12 +82,11 @@ import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherServiceInf
 public class NanoSatMOConnectorImpl extends NMFProvider {
 
     private static final Logger LOGGER = Logger.getLogger(NanoSatMOConnectorImpl.class.getName());
+    private static final boolean FAST = false; // To be enabled in a future NMF version
 
     private Long appDirectoryServiceId;
     private EventConsumerServiceImpl serviceCOMEvent;
     private Subscription subscription;
-
-    private final boolean fast = false;
 
     /**
      * Initializes the NanoSat MO Connector. The MonitorAndControlAdapter
@@ -128,7 +127,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
         this.providerName = AppsLauncherProviderServiceImpl.PROVIDER_PREFIX_NAME + appName;
         OneInstanceLock lock = new OneInstanceLock();
 
-        if (fast) {
+        if (FAST) {
             Thread t1 = new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -253,7 +252,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
 
         // Initialize the rest of the services
         try {
-            if (!fast) {
+            if (!FAST) {
                 if (mcAdapter != null) {
                     startMCServices(mcAdapter);
                 }
