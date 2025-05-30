@@ -585,6 +585,7 @@ public class AppsLauncherManager extends DefinitionsManager {
             final SingleConnectionDetails appConnection, final StopAppInteraction interaction)
             throws MALException, MALInteractionException {
         ClosingAppListener listener = null;
+        Process process = handlers.get(appInstId).getProcess();
         // Register on the Event service of the respective apps
         // Select all object numbers from the Apps Launcher service Events
         Subscription eventSub = HelperCOM.generateSubscriptionCOMEvent("ClosingAppEvents",
@@ -629,7 +630,10 @@ public class AppsLauncherManager extends DefinitionsManager {
         if (listener != null) {
             try {
                 listener.waitForAppClosing(APP_STOP_TIMEOUT);
-                if (listener.isAppClosed()) {
+                // Note that the Process may still be running even after the above line!
+                // The code must actually wait for completion of the Process itself:
+                boolean terminated = process.waitFor(1, TimeUnit.SECONDS);
+                if (listener.isAppClosed() && terminated) {
                     LOGGER.log(Level.INFO,
                             "The App was closed successfully: {0}", appDirectoryServiceName);
                     this.setRunning(appInstId, false, malInt);
@@ -702,8 +706,8 @@ public class AppsLauncherManager extends DefinitionsManager {
                     try {
                         this.stopNativeApp(appInstId, interaction, true);
                     } catch (IOException ex) {
-                        Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE,
-                                "Stopping native component failed", ex);
+                        Logger.getLogger(AppsLauncherManager.class.getName()).log(
+                                Level.SEVERE, "Stopping native component failed", ex);
                     }
                 }
             } else {
@@ -718,8 +722,8 @@ public class AppsLauncherManager extends DefinitionsManager {
                                 "Stop script present for app {0}. Invoking it.", curr.getName());
                         this.stopNativeApp(appInstId, interaction, false);
                     } catch (IOException ex) {
-                        Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE,
-                                "Stopping native app failed", ex);
+                        Logger.getLogger(AppsLauncherManager.class.getName()).log(
+                                Level.SEVERE, "Stopping native app failed", ex);
                     }
                 }
             }
@@ -727,17 +731,21 @@ public class AppsLauncherManager extends DefinitionsManager {
     }
 
     public void setRunning(Long appInstId, boolean running, MALInteraction interaction) {
-        AppDetails oldAppDetails = this.get(appInstId);
+        AppDetails previousAppDetails = this.get(appInstId);
+        if (previousAppDetails == null) {
+            LOGGER.log(Level.WARNING, "The App was not found! For id: {0}", appInstId);
+            return;
+        }
         AppDetails newAppDetails = new AppDetails(
-                oldAppDetails.getName(),
-                oldAppDetails.getDescription(),
-                oldAppDetails.getVersion(),
-                oldAppDetails.getCategory(),
-                oldAppDetails.getRunAtStartup(),
+                previousAppDetails.getName(),
+                previousAppDetails.getDescription(),
+                previousAppDetails.getVersion(),
+                previousAppDetails.getCategory(),
+                previousAppDetails.getRunAtStartup(),
                 running,
-                oldAppDetails.getExtraInfo(),
-                oldAppDetails.getCopyright(),
-                oldAppDetails.getRunAs()
+                previousAppDetails.getExtraInfo(),
+                previousAppDetails.getCopyright(),
+                previousAppDetails.getRunAs()
         );
 
         this.update(appInstId, newAppDetails, interaction); // Update the Archive

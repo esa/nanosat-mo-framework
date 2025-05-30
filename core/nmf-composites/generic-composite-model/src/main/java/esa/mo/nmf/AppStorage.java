@@ -143,31 +143,33 @@ public class AppStorage {
         return path;
     }
 
-    private static void mkDirAndSetPermissions(File directory) {
-        if (!directory.exists()) {
-            // If it does not exist, please check if the parent dir exists
-            // because if not, then we also want to create that directory
-            // and set the correct permissions
-            AppStorage.mkDirAndSetPermissions(directory.getParentFile());
+    private static void mkDirAndSetPermissions(File file) {
+        if (file.exists()) {
+            return;
+        }
 
-            // We want to give access to both the App itself and the nmf-admin group
-            Set<PosixFilePermission> posix = PosixFilePermissions.fromString("rwxrwx---");
-            FileAttribute<?> permissions = PosixFilePermissions.asFileAttribute(posix);
-            try {
-                Files.createDirectory(directory.toPath(), permissions);
-            } catch (UnsupportedOperationException ex1) {
-                // Probably we are on Windows... Let's create it with:
-                directory.mkdirs();
-                directory.setExecutable(false, false);
-                directory.setExecutable(true, true);
-                directory.setReadable(false, false);
-                directory.setReadable(true, true);
-                directory.setWritable(false, false);
-                directory.setWritable(true, true);
-            } catch (IOException ex2) {
-                Logger.getLogger(AppStorage.class.getName()).log(Level.SEVERE,
-                        "Something went wrong...", ex2);
-            }
+        // If it does not exist, please check if the parent dir exists
+        // because if not, then we also want to create that directory
+        // and set the correct permissions
+        AppStorage.mkDirAndSetPermissions(file.getParentFile());
+
+        // We want to give access to both the App itself and the nmf-admin group
+        Set<PosixFilePermission> posix = PosixFilePermissions.fromString("rwxrwx---");
+        FileAttribute<?> permissions = PosixFilePermissions.asFileAttribute(posix);
+        try {
+            Files.createDirectory(file.toPath(), permissions);
+        } catch (UnsupportedOperationException ex1) {
+            // Probably we are on Windows... Let's create it with:
+            file.mkdirs();
+            file.setExecutable(false, false);
+            file.setExecutable(true, true);
+            file.setReadable(false, false);
+            file.setReadable(true, true);
+            file.setWritable(false, false);
+            file.setWritable(true, true);
+        } catch (IOException ex2) {
+            Logger.getLogger(AppStorage.class.getName()).log(Level.SEVERE,
+                    "Something went wrong...", ex2);
         }
     }
 
