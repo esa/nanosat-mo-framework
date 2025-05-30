@@ -53,7 +53,7 @@ import org.ccsds.moims.mo.mc.structures.ConditionalConversionList;
  */
 public class MCAdapter extends MonitorAndControlNMFAdapter {
 
-    private final NMFInterface connector;
+    private final NanoSatMOConnectorImpl connector;
     //    private static int NUMBER_OF_OBJS = 5000;
     private static final int NUMBER_OF_OBJS = 10000;
     private static final String PARAMETER_PERIODIC = "Periodic_Parameter";
@@ -119,7 +119,7 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
         }
 
         if (PARAMETER_ARCHIVE_SIZE.equals(identifier.getValue())) {
-            File f = new File("comArchive.db");
+            File f = connector.getDatabaseLocationInUserDirectory();
             long size = f.length();
             return (Attribute) HelperAttributes.javaType2Attribute(size);
         }

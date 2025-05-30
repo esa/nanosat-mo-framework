@@ -347,6 +347,18 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
      * directory.
      */
     protected void configureCOMArchiveDatabaseLocation() {
+        File dbFile = getDatabaseLocationInUserDirectory();
+        String path = "jdbc:sqlite:" + dbFile.getAbsolutePath();
+        System.setProperty("esa.nmf.archive.persistence.jdbc.url", path);
+    }
+
+    /**
+     * Returns the COM Archive location for the database, inside the user
+     * directory for the App or the Supervisor.
+     *
+     * @return The location for the database.
+     */
+    public File getDatabaseLocationInUserDirectory() {
         Package nmfPack = NMFProvider.class.getPackage();
         String nmfVersion = nmfPack.getImplementationVersion();
 
@@ -358,9 +370,7 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
         }
 
         File nmfDir = AppStorage.getAppNMFInternalDir();
-        File dbFile = new File(nmfDir, "comArchive_v" + version + ".db");
-        String path = "jdbc:sqlite:" + dbFile.getAbsolutePath();
-        System.setProperty("esa.nmf.archive.persistence.jdbc.url", path);
+        return new File(nmfDir, "comArchive_v" + version + ".db");
     }
 
     /**
