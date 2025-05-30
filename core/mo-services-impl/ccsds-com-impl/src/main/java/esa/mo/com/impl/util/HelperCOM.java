@@ -30,10 +30,8 @@ import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.ServiceInfo;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
-import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Blob;
-import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.Enumeration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
@@ -56,8 +54,8 @@ public class HelperCOM {
      * @param rightHandSide The right hand side value of the expression
      * @return The boolean value of the evaluation. Null if not evaluated.
      */
-    public static Boolean evaluateExpression(Element leftHandSide, ExpressionOperator operator,
-        Attribute rightHandSide) {
+    public static Boolean evaluateExpression(Attribute leftHandSide,
+            ExpressionOperator operator, Attribute rightHandSide) {
 
         if (operator == null) {
             return null; // Operator cannot be null
@@ -95,8 +93,7 @@ public class HelperCOM {
         }
 
         // if one of the sides is string, then we shall do a comparison between strings:
-        boolean stringComparison = HelperMisc.isStringAttribute(rightHandSide) || HelperMisc.isStringAttribute(
-            rightHandSide);
+        boolean stringComparison = leftHandSide.isStringAttribute() || rightHandSide.isStringAttribute();
 
         String rightHandSideString = null;
         String leftHandSideString = null;
