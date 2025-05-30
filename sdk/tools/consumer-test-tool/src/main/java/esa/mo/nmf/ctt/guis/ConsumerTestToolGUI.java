@@ -21,6 +21,7 @@
 package esa.mo.nmf.ctt.guis;
 
 import esa.mo.nmf.ctt.utils.DirectoryConnectionConsumerPanel;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
@@ -56,6 +57,7 @@ public class ConsumerTestToolGUI extends javax.swing.JFrame {
 
         final String name = System.getProperty("application.name", "CTT: Consumer Test Tool");
         final ConsumerTestToolGUI gui = new ConsumerTestToolGUI(name);
+        gui.setSize(new Dimension(1280, 720));
         gui.insertDirectoryServiceTab("");
 
         EventQueue.invokeLater(() -> gui.setVisible(true));
@@ -88,11 +90,11 @@ public class ConsumerTestToolGUI extends javax.swing.JFrame {
     }
 
     public void insertDirectoryServiceTab(final String defaultURI, final boolean isS2G) {
-        final DirectoryConnectionConsumerPanel directoryTab = new DirectoryConnectionConsumerPanel(isS2G, connection,
-            tabs);
+        final DirectoryConnectionConsumerPanel directoryTab
+                = new DirectoryConnectionConsumerPanel(isS2G, connection, tabs);
 
-        tabs.insertTab("Communication Settings (Directory)", null, directoryTab, "Communications Tab (Directory)", tabs
-            .getTabCount());
+        tabs.insertTab("Communication Settings (Directory)", null, directoryTab,
+                "Communications Tab (Directory)", tabs.getTabCount());
 
         directoryTab.setURITextbox(defaultURI);
     }

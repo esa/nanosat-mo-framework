@@ -133,7 +133,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
                 String serviceURI = "";
                 String brokerURI = "";
 
-                if (service.getServiceAddresses().size() > 0) {
+                if (!service.getServiceAddresses().isEmpty()) {
                     serviceURI = service.getServiceAddresses().get(0).getServiceURI().toString();
                     // To avoid null pointers here...
                     brokerURI = (service.getServiceAddresses().get(0).getBrokerURI() == null)
@@ -198,6 +198,8 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
         providersList = new javax.swing.JList();
         jLabel1 = new javax.swing.JLabel();
 
+        setPreferredSize(new java.awt.Dimension(1280, 720));
+
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setText("Communication Settings");
@@ -214,13 +216,25 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
         jLabel29.setPreferredSize(new java.awt.Dimension(150, 14));
 
         uriServiceDirectory.setPreferredSize(new java.awt.Dimension(350, 20));
-        uriServiceDirectory.addActionListener(this::uriServiceDirectoryActionPerformed);
+        uriServiceDirectory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                uriServiceDirectoryActionPerformed(evt);
+            }
+        });
 
         load_URI_links1.setText("Fetch Information");
-        load_URI_links1.addActionListener(this::load_URI_links1ActionPerformed);
+        load_URI_links1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                load_URI_links1ActionPerformed(evt);
+            }
+        });
 
         connectButton.setText("Connect to Selected Provider");
-        connectButton.addActionListener(this::connectButtonActionPerformed);
+        connectButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                connectButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
@@ -234,7 +248,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(load_URI_links1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(connectButton, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE))
+                    .addComponent(connectButton, javax.swing.GroupLayout.PREFERRED_SIZE, 193, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel10Layout.setVerticalGroup(
@@ -250,7 +264,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
                             .addComponent(uriServiceDirectory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(load_URI_links1))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(connectButton, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE))
+                .addComponent(connectButton, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE))
         );
 
         jSplitPane1.setDividerLocation(280);
@@ -406,7 +420,8 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
         t1.start();
     }//GEN-LAST:event_connectButtonActionPerformed
 
-    public ProviderTabPanel createNewProviderTabPanel(final ProviderSummary providerSummary, Blob authenticationId, String localNamePrefix) {
+    public ProviderTabPanel createNewProviderTabPanel(ProviderSummary providerSummary,
+            Blob authenticationId, String localNamePrefix) {
         return new ProviderTabPanel(providerSummary, authenticationId, localNamePrefix);
     }
 
@@ -423,7 +438,6 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
     private void load_URI_links1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_load_URI_links1ActionPerformed
         try {
             summaryList = GroundMOAdapterImpl.retrieveProvidersFromDirectory(isS2G, this.getAddressToBeUsed());
-
             DefaultListModel listOfProviders = new DefaultListModel();
 
             for (ProviderSummary summary : summaryList) {
