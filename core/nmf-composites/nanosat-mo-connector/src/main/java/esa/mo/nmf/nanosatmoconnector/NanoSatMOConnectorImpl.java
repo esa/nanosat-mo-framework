@@ -127,6 +127,9 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
         this.providerName = AppsLauncherProviderServiceImpl.PROVIDER_PREFIX_NAME + appName;
         OneInstanceLock lock = new OneInstanceLock();
 
+        // Configure the property to select the database file in the right directory
+        this.configureCOMArchiveDatabaseLocation();
+
         if (FAST) {
             Thread t1 = new Thread(new Runnable() {
                 @Override
@@ -145,9 +148,6 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
             });
             t1.start();
         }
-
-        // Configure the property to select the database file in the right directory
-        this.configureCOMArchiveDatabaseLocation();
 
         try {
             comServices.init();
