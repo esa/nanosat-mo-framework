@@ -90,12 +90,11 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
             PMBackend packageManagementBackend) {
         super.startTime = System.currentTimeMillis();
         LOGGER.log(Level.INFO, this.generateStartBanner());
-        OneInstanceLock lock = new OneInstanceLock();
-        HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
-        ConnectionProvider.resetURILinksFile();
-
         // Enforce the App Name property to be Const.NANOSAT_MO_SUPERVISOR_NAME
         System.setProperty(HelperMisc.PROP_MO_APP_NAME, Const.NANOSAT_MO_SUPERVISOR_NAME);
+
+        HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
+        ConnectionProvider.resetURILinksFile();
 
         // Check if we are running as root when we have the NMF in Mode 2
         String user = System.getProperties().getProperty("user.name", "?");
@@ -110,6 +109,7 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
 
         // Provider name to be used on the Directory service...
         this.providerName = System.getProperty(HelperMisc.PROP_MO_APP_NAME);
+        OneInstanceLock lock = new OneInstanceLock();
 
         this.platformServices = platformServices;
 
