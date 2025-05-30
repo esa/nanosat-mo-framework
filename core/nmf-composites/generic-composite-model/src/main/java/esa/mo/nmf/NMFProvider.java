@@ -326,7 +326,10 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
     }
 
     public final void writeCentralDirectoryServiceURI(final String centralDirectoryURI, final String secondaryURI) {
-        try (BufferedWriter wrt = new BufferedWriter(new FileWriter(Const.FILENAME_CENTRAL_DIRECTORY_SERVICE, false))) { // Reset the file
+        String filename = Const.FILENAME_CENTRAL_DIRECTORY_SERVICE;
+
+        try (BufferedWriter wrt = new BufferedWriter(new FileWriter(filename, false))) {
+            // Reset the files
             if (secondaryURI != null) {
                 wrt.write(secondaryURI);
                 wrt.write("\n");
@@ -335,7 +338,7 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
             wrt.write(centralDirectoryURI);
         } catch (IOException ex) {
             Logger.getLogger(NMFProvider.class.getName()).log(Level.WARNING,
-                    "Unable to reset URI information from properties file {0}", ex);
+                    "Unable to reset URI information from properties file: " + filename, ex);
         }
     }
 
