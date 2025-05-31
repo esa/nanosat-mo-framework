@@ -25,11 +25,12 @@ import esa.mo.nmf.NMFProvider;
 import esa.mo.helpertools.misc.AppShutdownGuard;
 import esa.mo.helpertools.misc.Const;
 import esa.mo.nmf.MCRegistration;
-import esa.mo.nmf.MissionPlanningNMFAdapter;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
+import esa.mo.nmf.OneInstanceLock;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.reconfigurable.provider.PersistProviderConfiguration;
+import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -51,6 +52,7 @@ import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherServiceInf
  */
 public abstract class NanoSatMOMonolithic extends NMFProvider {
 
+    private static final Logger LOGGER = Logger.getLogger(NanoSatMOMonolithic.class.getName());
     private final static String PROVIDER_SUFFIX_NAME = " over NanoSat MO Monolithic";
 
     /**
@@ -65,11 +67,27 @@ public abstract class NanoSatMOMonolithic extends NMFProvider {
      */
     public void init(final MonitorAndControlNMFAdapter mcAdapter, final PlatformServicesConsumer platformServices) {
         super.startTime = System.currentTimeMillis();
-        HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
+        LOGGER.log(Level.INFO, this.generateStartBanner());
+
+        // Loads: provider.properties; settings.properties; transport.properties
+        HelperMisc.loadPropertiesFile();
         ConnectionProvider.resetURILinksFile();
+        NMFProvider.initHelpers();
 
         // Create provider name to be registerd on the Directory service...
-        super.providerName = System.getProperty(HelperMisc.PROP_MO_APP_NAME) + PROVIDER_SUFFIX_NAME;
+        String appName = "Unknown";
+        try { // Use the folder name
+            appName = (new File((new File("")).getCanonicalPath())).getName();
+            System.setProperty(HelperMisc.PROP_MO_APP_NAME, appName);
+        } catch (IOException ex) {
+            LOGGER.log(Level.SEVERE, "The NMF App name could not be established.");
+        }
+
+        super.providerName = appName + PROVIDER_SUFFIX_NAME;
+        OneInstanceLock lock = new OneInstanceLock();
+
+        // Configure the property to select the database file in the right directory
+        this.configureCOMArchiveDatabaseLocation();
 
         super.platformServices = platformServices;
 
