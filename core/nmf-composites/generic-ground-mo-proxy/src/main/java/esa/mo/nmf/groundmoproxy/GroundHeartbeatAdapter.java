@@ -44,8 +44,8 @@ public class GroundHeartbeatAdapter extends HeartbeatAdapter {
     protected final GroundMOProxy moProxy;
     protected final HeartbeatConsumerServiceImpl heartbeat;
 
-    public GroundHeartbeatAdapter(final HeartbeatConsumerServiceImpl heartbeat, final GroundMOProxy moProxy)
-            throws MALInteractionException, MALException {
+    public GroundHeartbeatAdapter(final HeartbeatConsumerServiceImpl heartbeat,
+            final GroundMOProxy moProxy) throws MALInteractionException, MALException {
         this.moProxy = moProxy;
         this.heartbeat = heartbeat;
         long timestamp = System.currentTimeMillis();

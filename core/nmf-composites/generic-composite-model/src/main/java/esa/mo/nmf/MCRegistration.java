@@ -29,6 +29,7 @@ import esa.mo.mc.impl.provider.ParameterProviderServiceImpl;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.structures.ObjectDetails;
 import org.ccsds.moims.mo.com.structures.ObjectId;
@@ -476,7 +477,7 @@ public class MCRegistration {
     private ObjectIdList registerConversionsGen(final ElementList conversions,
             final ObjectType objType) throws MALException, MALInteractionException {
         final IdentifierList domain = ConfigurationProviderSingleton.getDomain();
-        final ArchiveDetailsList archiveDetailsList = HelperArchive.generateArchiveDetailsList(
+        final ArchiveDetailsList metadata = HelperArchive.generateArchiveDetailsList(
                 null, null, PROVIDER_URI);
         final HeterogeneousList names = new HeterogeneousList();
 
@@ -487,29 +488,41 @@ public class MCRegistration {
         }
 
         for (int i = 1; i < conversions.size(); i++) { // There's already 1 object in the list
-            archiveDetailsList.add(archiveDetailsList.get(0));
+            metadata.add(metadata.get(0));
         }
 
-        final LongList conversionIdentityObjIds = comServices.getArchiveService().store(
-                true,
+        final LongList conversionIdentityObjIds = comServices.getArchiveService().store(true,
                 ConversionServiceInfo.CONVERSIONIDENTITY_OBJECT_TYPE,
                 domain,
-                archiveDetailsList,
+                metadata,
                 names,
                 null);
 
-        for (int i = 0; i < archiveDetailsList.size(); i++) {
-            archiveDetailsList.get(i).setDetails(new ObjectDetails(conversionIdentityObjIds.get(i), null));
+        /*
+        for (int i = 0; i < metadata.size(); i++) {
+            metadata.get(i).setDetails(new ObjectDetails(conversionIdentityObjIds.get(i), null));
         }
+         */
+        ArchiveDetailsList metadataConversions = new ArchiveDetailsList();
 
         HeterogeneousList myList = new HeterogeneousList();
         myList.addAll(conversions);
 
-        comServices.getArchiveService().store(
-                false,
+        for (int i = 0; i < myList.size(); i++) {
+            ArchiveDetails det = new ArchiveDetails(
+                    0L,
+                    new ObjectDetails(conversionIdentityObjIds.get(i), null),
+                    metadata.get(0).getNetwork(),
+                    metadata.get(0).getTimestamp(),
+                    metadata.get(0).getProvider()
+            );
+            metadataConversions.add(det);
+        }
+
+        comServices.getArchiveService().store(false,
                 objType,
                 domain,
-                archiveDetailsList,
+                metadataConversions,
                 myList,
                 null);
 

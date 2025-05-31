@@ -26,9 +26,10 @@ import esa.mo.nmf.NMFConsumer;
 import java.net.MalformedURLException;
 import java.util.Collection;
 import org.ccsds.moims.mo.com.COMHelper;
-import org.ccsds.moims.mo.com.archive.ArchiveHelper;
 import org.ccsds.moims.mo.com.archive.ArchiveServiceInfo;
 import org.ccsds.moims.mo.common.directory.structures.AddressDetails;
+import org.ccsds.moims.mo.common.directory.structures.AddressDetailsList;
+import org.ccsds.moims.mo.common.directory.structures.ProviderDetails;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
 import org.ccsds.moims.mo.common.directory.structures.PublishDetails;
@@ -42,7 +43,6 @@ import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.SessionType;
 import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mc.MCHelper;
-import org.ccsds.moims.mo.mc.action.ActionHelper;
 import org.ccsds.moims.mo.mc.action.ActionServiceInfo;
 
 /**
@@ -64,30 +64,30 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
      * @throws MALInteractionException
      */
     public ProviderSummaryList syncLocalDirectoryServiceWithCentral(final URI centralDirectoryServiceURI,
-        final URI routedURI) throws MALException, MalformedURLException, MALInteractionException {
+            final URI routedURI) throws MALException, MalformedURLException, MALInteractionException {
         ProviderSummaryList providers = NMFConsumer.retrieveProvidersFromDirectory(true, centralDirectoryServiceURI);
-        addProxyPrefix(providers, routedURI.getValue());
+        ProviderSummaryList updatedProviders = addProxyPrefix(providers, routedURI.getValue());
 
         // Clean the current list of provider that are available
         // on the Local Directory service
         this.withdrawAllProviders();
 
-        for (ProviderSummary provider : providers) {
+        for (ProviderSummary provider : updatedProviders) {
             PublishDetails pub = new PublishDetails(
-                provider.getProviderId(),
-                provider.getProviderKey().getDomain(),
-                SessionType.LIVE,
-                null,
-                new Identifier("not_available"),
-                provider.getProviderDetails(),
-                null);
+                    provider.getProviderId(),
+                    provider.getProviderKey().getDomain(),
+                    SessionType.LIVE,
+                    null,
+                    new Identifier("not_available"),
+                    provider.getProviderDetails(),
+                    null);
             this.publishProvider(pub, null);
         }
 
         // Make the Ground MO Proxy (itself) also available in the list of providers
         this.loadURIs(Const.NANOSAT_MO_GROUND_PROXY_NAME);
 
-        return providers;
+        return updatedProviders;
     }
 
     /**
@@ -95,29 +95,58 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
      *
      * @param providers List of providers
      * @param proxyURI The URI of the protocol bridge
+     * @return The updated providers list with the proxy prefix.
      * @throws IllegalArgumentException if the providers object is null
      */
-    public static void addProxyPrefix(final ProviderSummaryList providers, final String proxyURI)
-        throws IllegalArgumentException {
+    public static ProviderSummaryList addProxyPrefix(final ProviderSummaryList providers,
+            final String proxyURI) throws IllegalArgumentException {
         if (providers == null) {
             throw new IllegalArgumentException("The provider object cannot be null.");
         }
 
-        for (ProviderSummary provider : providers) {
-            final ServiceCapabilityList capabilities = provider.getProviderDetails().getServiceCapabilities();
+        ProviderSummaryList updatedProviders = new ProviderSummaryList();
+
+        for (ProviderSummary in : providers) {
+            ProviderDetails oldDetails = in.getProviderDetails();
+            final ServiceCapabilityList capabilities = oldDetails.getServiceCapabilities();
+            final ServiceCapabilityList newCapabilities = new ServiceCapabilityList();
 
             for (ServiceCapability capability : capabilities) {
+                AddressDetailsList newDets = new AddressDetailsList();
                 for (AddressDetails dets : capability.getServiceAddresses()) {
                     String serviceURI = proxyURI + "@" + dets.getServiceURI().getValue();
-                    dets.setServiceURI(new URI(serviceURI));
+                    URI brokerURI = null;
 
                     if (dets.getBrokerURI() != null) {
-                        String brokerURI = proxyURI + "@" + dets.getBrokerURI().getValue();
-                        dets.setBrokerURI(new URI(brokerURI));
+                        brokerURI = new URI(proxyURI + "@" + dets.getBrokerURI().getValue());
                     }
+
+                    AddressDetails addressDetails = new AddressDetails(
+                            dets.getSupportedLevels(),
+                            dets.getQoSproperties(),
+                            dets.getPriorityLevels(),
+                            new URI(serviceURI),
+                            brokerURI,
+                            dets.getBrokerProviderObjInstId());
+
+                    newDets.add(addressDetails);
                 }
+
+                newCapabilities.add(new ServiceCapability(
+                        capability.getServiceKey(),
+                        capability.getSupportedCapabilitySets(),
+                        capability.getServiceProperties(),
+                        newDets));
             }
+            ProviderDetails newDetails = new ProviderDetails(
+                    newCapabilities,
+                    oldDetails.getProviderAddresses()
+            );
+
+            updatedProviders.add(new ProviderSummary(in.getProviderKey(), in.getProviderId(), newDetails));
         }
+
+        return updatedProviders;
     }
 
     /**
