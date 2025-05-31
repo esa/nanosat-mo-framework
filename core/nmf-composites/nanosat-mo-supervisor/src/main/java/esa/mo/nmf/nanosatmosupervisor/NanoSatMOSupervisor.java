@@ -94,7 +94,7 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
         // Loads: provider.properties; settings.properties; transport.properties
         HelperMisc.loadPropertiesFile();
         ConnectionProvider.resetURILinksFile();
-        NMFProvider.initHelpers();
+        NMFProvider.loadMOElements();
 
         // Check if we are running as root when we have the NMF in Mode 2
         String user = System.getProperties().getProperty("user.name", "?");

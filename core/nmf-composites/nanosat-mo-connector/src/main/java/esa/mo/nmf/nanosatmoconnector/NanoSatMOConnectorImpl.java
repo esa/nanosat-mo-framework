@@ -113,7 +113,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
         // Loads: provider.properties; settings.properties; transport.properties
         HelperMisc.loadPropertiesFile();
         ConnectionProvider.resetURILinksFile();
-        NMFProvider.initHelpers();
+        NMFProvider.loadMOElements();
 
         // Create provider name to be registerd on the Directory service...
         String appName = "Unknown";

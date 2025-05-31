@@ -314,9 +314,9 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
     }
 
     /**
-     * Initializes the MAL Helpers for all the sets of services.
+     * Loads the MO Elements for all the sets of services.
      */
-    public static void initHelpers() {
+    public static void loadMOElements() {
         // Load the MAL factories for the supported services
         MALContextFactory.getElementsRegistry().loadFullArea(COMHelper.COM_AREA);
         MALContextFactory.getElementsRegistry().loadFullArea(MCHelper.MC_AREA);
