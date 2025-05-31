@@ -66,7 +66,8 @@
 
     <modules>
         <module>examples</module>
-        <module>tools</module>
+        <module>consumer-test-tool</module>
+        <module>cli-tool</module>
         <module>sdk-package</module>
     </modules>
 </project>
