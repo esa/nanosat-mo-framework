@@ -55,6 +55,7 @@
         <module>generic-nanosat-monolithic</module>
         <module>nanosat-mo-connector</module>
         <module>nanosat-mo-supervisor</module>
-        <module>nmf-mo-adapters</module>
+        <module>space-mo-adapter</module>
+        <module>ground-mo-adapter</module>
     </modules>
 </project>
