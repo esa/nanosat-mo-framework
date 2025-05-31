@@ -21,6 +21,12 @@
 package esa.mo.nmf.clitool.platform;
 
 import esa.mo.nmf.clitool.BaseCommand;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
@@ -39,13 +45,6 @@ import org.ccsds.moims.mo.platform.camera.structures.*;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSAdapter;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSStub;
 import picocli.CommandLine.*;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * @author marcel.mikolajko
@@ -112,11 +111,17 @@ public class PlatformCommands {
             }
 
             String[] res = resolution.split("x");
+            PixelResolution resolution = new PixelResolution(
+                    new UInteger(Integer.parseInt(res[0])),
+                    new UInteger(Integer.parseInt(res[1])));
+
             CameraSettings settings = new CameraSettings(
-                    new PixelResolution(new UInteger(Integer.parseInt(res[0])), new UInteger(Integer.parseInt(res[1]))),
+                    resolution,
                     PictureFormat.fromString(format.toUpperCase()),
                     new Duration(Double.parseDouble(exposure)),
-                    Float.parseFloat(gainRed), Float.parseFloat(gainGreen), Float.parseFloat(gainBlue),
+                    Float.parseFloat(gainRed),
+                    Float.parseFloat(gainGreen),
+                    Float.parseFloat(gainBlue),
                     null
             );
 
@@ -124,8 +129,8 @@ public class PlatformCommands {
             try {
                 camera.takePicture(settings, new CameraAdapter() {
                     @Override
-                    public void takePictureResponseReceived(MALMessageHeader msgHeader, Picture picture,
-                            Map qosProperties) {
+                    public void takePictureResponseReceived(MALMessageHeader msgHeader,
+                            Picture picture, Map qosProperties) {
                         System.out.println("Picture received: " + picture);
                         try {
                             filename = filename + "." + format.toLowerCase();
@@ -141,8 +146,8 @@ public class PlatformCommands {
                     }
 
                     @Override
-                    public void takePictureResponseErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
-                        Map qosProperties) {
+                    public void takePictureResponseErrorReceived(MALMessageHeader msgHeader,
+                            MOErrorException error, Map qosProperties) {
                         LOGGER.log(Level.SEVERE, "Error during takePicture!", error);
                         synchronized (lock) {
                             lock.notifyAll();
@@ -195,7 +200,7 @@ public class PlatformCommands {
 
             try {
                 GetStatusResponse response = adcs.getStatus();
-                AttitudeTelemetry telemetry = response.getBodyElement0();
+                AttitudeTelemetry telemetry = response.getAttitudeTelemetry();
                 System.out.println("Attitude telemetry:");
                 System.out.println("  attitude: " + telemetry.getAttitude());
                 System.out.println("  angular velocity: " + telemetry.getAngularVelocity());
@@ -203,16 +208,16 @@ public class PlatformCommands {
                 System.out.println("  magnetic field: " + telemetry.getMagneticField());
                 System.out.println("  state target: " + telemetry.getStateTarget());
 
-                ActuatorsTelemetry actuatorsTelemetry = response.getBodyElement1();
+                ActuatorsTelemetry actuatorsTelemetry = response.getActuatorsTelemetry();
                 System.out.println("Actuators telemetry:");
                 System.out.println("  target wheel speed: " + actuatorsTelemetry.getTargetWheelSpeed());
                 System.out.println("  current wheel speed: " + actuatorsTelemetry.getCurrentWheelSpeed());
                 System.out.println("  mtq dipole moment: " + actuatorsTelemetry.getMtqDipoleMoment());
                 System.out.println("  mtq state: " + actuatorsTelemetry.getMtqState());
-                System.out.println("Control duration: " + response.getBodyElement2());
-                System.out.println("Generation enabled: " + response.getBodyElement3());
-                System.out.println("Monitoring interval: " + response.getBodyElement4());
-                System.out.println("Active attitude mode: " + response.getBodyElement5());
+                System.out.println("Control duration: " + response.getControlDuration());
+                System.out.println("Generation enabled: " + response.getGenerationEnabled());
+                System.out.println("Monitoring interval: " + response.getMonitoringInterval());
+                System.out.println("Active attitude mode: " + response.getActiveAttitudeMode());
             } catch (MALInteractionException | MALException e) {
                 LOGGER.log(Level.SEVERE, "Error during getStatus!", e);
             }
@@ -246,8 +251,8 @@ public class PlatformCommands {
             try {
                 gps.getNMEASentence(sentenceId, new GPSAdapter() {
                     @Override
-                    public void getNMEASentenceResponseReceived(MALMessageHeader msgHeader, String sentence,
-                            Map qosProperties) {
+                    public void getNMEASentenceResponseReceived(MALMessageHeader msgHeader,
+                            String sentence, Map qosProperties) {
                         System.out.println("Sentence received: " + sentence);
 
                         synchronized (lock) {
@@ -256,8 +261,8 @@ public class PlatformCommands {
                     }
 
                     @Override
-                    public void getNMEASentenceResponseErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
-                        Map qosProperties) {
+                    public void getNMEASentenceResponseErrorReceived(MALMessageHeader msgHeader,
+                            MOErrorException error, Map qosProperties) {
                         LOGGER.log(Level.SEVERE, "Error during getNMEASentence!", error);
                         synchronized (lock) {
                             lock.notifyAll();

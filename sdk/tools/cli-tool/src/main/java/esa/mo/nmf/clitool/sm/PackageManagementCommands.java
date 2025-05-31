@@ -23,7 +23,6 @@ package esa.mo.nmf.clitool.sm;
 import esa.mo.nmf.clitool.BaseCommand;
 import static esa.mo.nmf.clitool.BaseCommand.consumer;
 import esa.mo.nmf.clitool.ExitCodes;
-
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -73,9 +72,9 @@ public class PackageManagementCommands {
                 IdentifierList names = new IdentifierList();
                 names.add(new Identifier(name));
                 FindPackageResponse response = packageManagement.findPackage(names);
-                for (int i = 0; i < response.getBodyElement0().size(); i++) {
-                    String packageName = response.getBodyElement0().get(i).getValue();
-                    Boolean isInstalled = response.getBodyElement1().get(i);
+                for (int i = 0; i < response.getNames().size(); i++) {
+                    String packageName = response.getNames().get(i).getValue();
+                    Boolean isInstalled = response.getInstalled().get(i);
                     String installedStr = isInstalled ? "  (installed)" : "";
                     System.out.println("Package name: " + packageName + installedStr);
                 }
@@ -110,9 +109,9 @@ public class PackageManagementCommands {
                 IdentifierList names = new IdentifierList();
                 names.add(new Identifier(name));
                 FindPackageResponse response = packageManagement.findPackage(names);
-                for (int i = 0; i < response.getBodyElement0().size(); i++) {
-                    String packageName = response.getBodyElement0().get(i).getValue();
-                    Boolean isInstalled = response.getBodyElement1().get(i);
+                for (int i = 0; i < response.getNames().size(); i++) {
+                    String packageName = response.getNames().get(i).getValue();
+                    Boolean isInstalled = response.getInstalled().get(i);
                     if (!isInstalled) {
                         packageManagement.install(names, new PackageManagementAdapter() {
                             @Override

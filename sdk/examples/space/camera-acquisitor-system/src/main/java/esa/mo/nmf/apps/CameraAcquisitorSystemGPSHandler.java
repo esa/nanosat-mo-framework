@@ -65,9 +65,9 @@ public class CameraAcquisitorSystemGPSHandler extends GPSAdapter {
             casMCAdapter.getConnector().getPlatformServices().getGPSService().getPosition(this);
             pos = casMCAdapter.getConnector().getPlatformServices().getGPSService().getLastKnownPosition();
             //get geographical position
-            float latitude = pos.getBodyElement0().getLatitude();
-            float longitude = pos.getBodyElement0().getLongitude();
-            float altitude = pos.getBodyElement0().getAltitude();
+            float latitude = pos.getPosition().getLatitude();
+            float longitude = pos.getPosition().getLongitude();
+            float altitude = pos.getPosition().getAltitude();
             return new GeodeticPoint(latitude, longitude, altitude);
 
         } catch (NMFException | IOException | MALInteractionException | MALException ex) {

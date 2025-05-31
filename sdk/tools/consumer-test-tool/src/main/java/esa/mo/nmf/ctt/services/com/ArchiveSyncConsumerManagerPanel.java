@@ -378,7 +378,7 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
             GetTimeResponse response = serviceCOMArchiveSync.getArchiveSyncStub().getTime();
             MOWindow genObjType = new MOWindow(response, false);
             Logger.getLogger(ArchiveSyncConsumerManagerPanel.class.getName()).log(Level.INFO, "Current time: " +
-                response.getBodyElement0() + " - Last sync: " + response.getBodyElement0());
+                response.getCurrentTime() + " - Last sync: " + response.getLastSyncTime());
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ArchiveSyncConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }

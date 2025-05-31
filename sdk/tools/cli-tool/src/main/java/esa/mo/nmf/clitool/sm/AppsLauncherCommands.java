@@ -32,17 +32,14 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MOErrorException;
-import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.structures.AttributeList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
-import org.ccsds.moims.mo.mal.structures.StringList;
 import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.mal.structures.SubscriptionFilter;
 import org.ccsds.moims.mo.mal.structures.SubscriptionFilterList;
 import org.ccsds.moims.mo.mal.structures.Union;
-import org.ccsds.moims.mo.mal.structures.UpdateHeaderList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.body.ListAppResponse;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.consumer.AppsLauncherAdapter;
@@ -95,7 +92,7 @@ public class AppsLauncherCommands {
 
                 appsLauncher.monitorExecutionRegister(subscription, new AppsLauncherAdapter() {
                     @Override
-                    public void monitorExecutionNotifyReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
+                    public void monitorExecutionNotifyReceived(MALMessageHeader msgHeader,
                             org.ccsds.moims.mo.mal.structures.Identifier subscriptionId,
                             org.ccsds.moims.mo.mal.structures.UpdateHeader updateHeader,
                             String outputStream,
@@ -123,7 +120,8 @@ public class AppsLauncherCommands {
     @CommandLine.Command(name = "run", description = "Runs the specified provider app")
     public static class RunApp extends BaseCommand implements Runnable {
 
-        @CommandLine.Parameters(arity = "1", paramLabel = "<appName>", index = "0", description = "Name of the app to run.")
+        @CommandLine.Parameters(arity = "1", paramLabel = "<appName>",
+                index = "0", description = "Name of the app to run.")
         String appName;
 
         @Override
@@ -142,7 +140,7 @@ public class AppsLauncherCommands {
                 IdentifierList appsToSearch = new IdentifierList();
                 appsToSearch.add(new Identifier(appName));
                 ListAppResponse response = appsLauncher.listApp(appsToSearch, null);
-                LongList appIds = response.getBodyElement0();
+                LongList appIds = response.getAppInstIds();
 
                 if (!Helper.checkProvider(appIds)) {
                     System.exit(ExitCodes.GENERIC_ERROR);
@@ -159,7 +157,8 @@ public class AppsLauncherCommands {
     @CommandLine.Command(name = "stop", description = "Stops the specified provider app")
     public static class StopApp extends BaseCommand implements Runnable {
 
-        @CommandLine.Parameters(arity = "1", paramLabel = "<appName>", index = "0", description = "Name of the app to stop.")
+        @CommandLine.Parameters(arity = "1", paramLabel = "<appName>",
+                index = "0", description = "Name of the app to stop.")
         String appName;
 
         @Override
@@ -178,7 +177,7 @@ public class AppsLauncherCommands {
                 IdentifierList appsToSearch = new IdentifierList();
                 appsToSearch.add(new Identifier(appName));
                 ListAppResponse response = appsLauncher.listApp(appsToSearch, null);
-                LongList appIds = response.getBodyElement0();
+                LongList appIds = response.getAppInstIds();
 
                 if (!Helper.checkProvider(appIds)) {
                     System.exit(ExitCodes.GENERIC_ERROR);
@@ -188,12 +187,14 @@ public class AppsLauncherCommands {
 
                 appsLauncher.stopApp(appIds, new AppsLauncherAdapter() {
                     @Override
-                    public void stopAppUpdateReceived(MALMessageHeader msgHeader, Long appClosing, Map qosProperties) {
+                    public void stopAppUpdateReceived(MALMessageHeader msgHeader,
+                            Long appClosing, Map qosProperties) {
                         System.out.println("Stopping App with id: " + appClosing);
                     }
 
                     @Override
-                    public void stopAppResponseReceived(MALMessageHeader msgHeader, Map qosProperties) {
+                    public void stopAppResponseReceived(MALMessageHeader msgHeader,
+                            Map qosProperties) {
                         System.out.println("App stopped!");
 
                         synchronized (lock) {
@@ -202,8 +203,8 @@ public class AppsLauncherCommands {
                     }
 
                     @Override
-                    public void stopAppUpdateErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
-                            Map qosProperties) {
+                    public void stopAppUpdateErrorReceived(MALMessageHeader msgHeader,
+                            MOErrorException error, Map qosProperties) {
                         LOGGER.log(Level.SEVERE, "Error during stopApp!", error);
                         synchronized (lock) {
                             lock.notifyAll();
@@ -211,8 +212,8 @@ public class AppsLauncherCommands {
                     }
 
                     @Override
-                    public void stopAppResponseErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
-                            Map qosProperties) {
+                    public void stopAppResponseErrorReceived(MALMessageHeader msgHeader,
+                            MOErrorException error, Map qosProperties) {
                         LOGGER.log(Level.SEVERE, "Error during stopApp!", error);
                         synchronized (lock) {
                             lock.notifyAll();
@@ -234,7 +235,8 @@ public class AppsLauncherCommands {
     @CommandLine.Command(name = "kill", description = "Kills the specified provider app")
     public static class KillApp extends BaseCommand implements Runnable {
 
-        @CommandLine.Parameters(arity = "1", paramLabel = "<appName>", index = "0", description = "Name of the app to kill.")
+        @CommandLine.Parameters(arity = "1", paramLabel = "<appName>",
+                index = "0", description = "Name of the app to kill.")
         String appName;
 
         @Override
@@ -253,7 +255,7 @@ public class AppsLauncherCommands {
                 IdentifierList appsToSearch = new IdentifierList();
                 appsToSearch.add(new Identifier(appName));
                 ListAppResponse response = appsLauncher.listApp(appsToSearch, null);
-                LongList appIds = response.getBodyElement0();
+                LongList appIds = response.getAppInstIds();
 
                 if (!Helper.checkProvider(appIds)) {
                     System.exit(ExitCodes.GENERIC_ERROR);

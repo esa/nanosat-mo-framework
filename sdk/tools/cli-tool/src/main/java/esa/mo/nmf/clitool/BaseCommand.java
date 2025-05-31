@@ -234,7 +234,7 @@ public abstract class BaseCommand {
 
                 LoginResponse response = consumer.getCommonServices().getLoginService().getLoginStub().login(
                         new Profile(new Identifier(login), roleId), String.valueOf(password));
-                consumer.setAuthenticationId(response.getBodyElement0());
+                consumer.setAuthenticationId(response.getAuthId());
                 System.out.println("Login successful!");
             }
         } catch (MALException | MalformedURLException | MALInteractionException | InterruptedException e) {
