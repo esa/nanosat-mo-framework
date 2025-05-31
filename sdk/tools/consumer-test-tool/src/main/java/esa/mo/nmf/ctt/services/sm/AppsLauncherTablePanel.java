@@ -65,12 +65,6 @@ public class AppsLauncherTablePanel extends SharedTablePanel {
         semaphore.release();
     }
 
-    /*
-    public void switchEnabledstatus(boolean status) {
-        switchEnabledstatus(status, this.getSelectedRow());
-    }
-    */
-
     public void switchEnabledstatusForApp(boolean status, int appId) {
         try {
             int index = this.findIndex(appId);
@@ -90,8 +84,8 @@ public class AppsLauncherTablePanel extends SharedTablePanel {
 
         // 4 because it is where generationEnabled is!
         tableData.setValueAt(status, rowId, 5);
-        AppDetails app = (AppDetails) this.getSelectedCOMObject().getObject();
-        app.setRunning(status);
+        //AppDetails app = (AppDetails) this.getSelectedCOMObject().getObject();
+        //app.setRunning(status);
 
         semaphore.release();
     }
@@ -106,8 +100,8 @@ public class AppsLauncherTablePanel extends SharedTablePanel {
         // 5 because it is where the flag is!
         for (int i = 0; i < this.getTable().getRowCount(); i++) {
             tableData.setValueAt(status, i, 5);
-            AppDetails app = (AppDetails) this.getCOMObjects().get(i).getObject();
-            app.setRunning(status);
+            //AppDetails app = (AppDetails) this.getCOMObjects().get(i).getObject();
+            //app.setRunning(status);
         }
 
         semaphore.release();

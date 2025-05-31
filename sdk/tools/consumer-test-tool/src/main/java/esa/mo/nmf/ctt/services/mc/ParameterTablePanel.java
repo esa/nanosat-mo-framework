@@ -44,7 +44,7 @@ public class ParameterTablePanel extends SharedTablePanel {
 
         if (comObject == null) {
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE,
-                "The table cannot process a null COM Object.");
+                    "The table cannot process a null COM Object.");
             return;
         }
 
@@ -56,9 +56,14 @@ public class ParameterTablePanel extends SharedTablePanel {
 
         ParameterDefinitionDetails pDef = (ParameterDefinitionDetails) comObject.getObject();
 
-        tableData.addRow(new Object[]{comObject.getArchiveDetails().getDetails().getRelated(), name.toString(), pDef
-            .getDescription(), HelperAttributes.typeShortForm2attributeName(pDef.getRawType().intValue()), pDef
-                .getRawUnit(), pDef.getGenerationEnabled(), pDef.getReportInterval().getValue()});
+        tableData.addRow(new Object[]{
+            comObject.getArchiveDetails().getDetails().getRelated(),
+            name.toString(),
+            pDef.getDescription(),
+            HelperAttributes.typeShortForm2attributeName(pDef.getRawType().intValue()),
+            pDef.getRawUnit(),
+            pDef.getGenerationEnabled(),
+            pDef.getReportInterval().getValue()});
 
         comObjects.add(comObject);
         semaphore.release();
@@ -74,7 +79,7 @@ public class ParameterTablePanel extends SharedTablePanel {
 
         // 5 because it is where generationEnabled is!
         tableData.setValueAt(status, this.getSelectedRow(), 5);
-        ((ParameterDefinitionDetails) this.getSelectedCOMObject().getObject()).setGenerationEnabled(status);
+        //((ParameterDefinitionDetails) this.getSelectedCOMObject().getObject()).setGenerationEnabled(status);
 
         semaphore.release();
     }
@@ -89,7 +94,7 @@ public class ParameterTablePanel extends SharedTablePanel {
         // 5 because it is where generationEnabled is!
         for (int i = 0; i < this.getTable().getRowCount(); i++) {
             tableData.setValueAt(status, i, 5);
-            ((ParameterDefinitionDetails) this.getCOMObjects().get(i).getObject()).setGenerationEnabled(status);
+            //((ParameterDefinitionDetails) this.getCOMObjects().get(i).getObject()).setGenerationEnabled(status);
         }
 
         semaphore.release();
@@ -97,13 +102,14 @@ public class ParameterTablePanel extends SharedTablePanel {
 
     @Override
     public void defineTableContent() {
-        String[] tableCol = new String[]{"Identity", "name", "description", "rawType", "rawUnit", "generationEnabled",
-                                         "updateInterval"};
+        String[] tableCol = new String[]{"Identity", "name", "description",
+            "rawType", "rawUnit", "generationEnabled", "updateInterval"};
 
         tableData = new javax.swing.table.DefaultTableModel(new Object[][]{}, tableCol) {
-            Class[] types = new Class[]{java.lang.Integer.class, java.lang.String.class, java.lang.String.class,
-                                        java.lang.Object.class, java.lang.String.class, java.lang.Boolean.class,
-                                        java.lang.Float.class};
+            Class[] types = new Class[]{java.lang.Integer.class,
+                java.lang.String.class, java.lang.String.class,
+                java.lang.Object.class, java.lang.String.class,
+                java.lang.Boolean.class, java.lang.Float.class};
 
             @Override               //all cells false
             public boolean isCellEditable(int row, int column) {

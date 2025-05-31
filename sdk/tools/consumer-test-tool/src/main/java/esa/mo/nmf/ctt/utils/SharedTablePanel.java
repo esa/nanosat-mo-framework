@@ -42,6 +42,7 @@ import javax.swing.table.TableRowSorter;
 import org.ccsds.moims.mo.com.COMObject;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.structures.Element;
+import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
@@ -79,7 +80,7 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
                     ArchivePersistenceObject comObject = comObjects.get(getSelectedRow());
                     try {
                         COMObjectWindow comObjectWindow = new COMObjectWindow(comObject, false, archiveService
-                            .getArchiveStub());
+                                .getArchiveStub());
                     } catch (IOException ex) {
                         Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -187,16 +188,16 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
     }
 
     public ArchivePersistenceObject getSourceFromFirstCOMObject() {
-        if (comObjects != null) {
-            if (!comObjects.isEmpty()) {
-
-                return HelperArchive.getArchiveCOMObject(archiveService, comObjects.get(0).getArchiveDetails()
-                    .getDetails().getSource().getType(), comObjects.get(0).getArchiveDetails().getDetails().getSource()
-                        .getKey().getDomain(), comObjects.get(0).getArchiveDetails().getDetails().getSource().getKey()
-                            .getInstId());
-            }
+        if (comObjects == null || comObjects.isEmpty()) {
+            return null;
         }
-        return null;
+
+        return HelperArchive.getArchiveCOMObject(
+                archiveService,
+                comObjects.get(0).getArchiveDetails().getDetails().getSource().getType(),
+                comObjects.get(0).getArchiveDetails().getDetails().getSource().getKey().getDomain(),
+                comObjects.get(0).getArchiveDetails().getDetails().getSource().getKey().getInstId()
+        );
     }
 
     public synchronized JTable getTable() {
@@ -225,12 +226,15 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
         }
 
         for (int i = 0; i < archiveObjectOutput.getArchiveDetailsList().size(); i++) {
-            Element objects = (archiveObjectOutput.getObjectBodies() == null) ? null : (Element) archiveObjectOutput
-                .getObjectBodies().get(i);
+            HeterogeneousList bodies = archiveObjectOutput.getObjectBodies();
+            Element objects = (bodies == null) ? null : (Element) bodies.get(i);
 
-            ArchivePersistenceObject comObject = new ArchivePersistenceObject(archiveObjectOutput.getObjectType(),
-                archiveObjectOutput.getDomain(), archiveObjectOutput.getArchiveDetailsList().get(i).getInstId(),
-                archiveObjectOutput.getArchiveDetailsList().get(i), objects);
+            ArchivePersistenceObject comObject = new ArchivePersistenceObject(
+                    archiveObjectOutput.getObjectType(),
+                    archiveObjectOutput.getDomain(),
+                    archiveObjectOutput.getArchiveDetailsList().get(i).getInstId(),
+                    archiveObjectOutput.getArchiveDetailsList().get(i),
+                    objects);
 
             addEntry(names.get(i), comObject);
         }
