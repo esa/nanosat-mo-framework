@@ -31,10 +31,8 @@ import esa.mo.nmf.ctt.services.common.ConfigurationConsumerPanel;
 import esa.mo.nmf.ctt.services.mc.ActionConsumerPanel;
 import esa.mo.nmf.ctt.services.mc.AggregationConsumerPanel;
 import esa.mo.nmf.ctt.services.mc.AlertConsumerPanel;
-import esa.mo.nmf.ctt.services.mc.CheckConsumerPanel;
 import esa.mo.nmf.ctt.services.mc.ParameterConsumerPanel;
 import esa.mo.nmf.ctt.services.mc.ParameterPublishedValues;
-import esa.mo.nmf.ctt.services.mc.StatisticConsumerPanel;
 import esa.mo.nmf.ctt.services.mp.pds.PlanDistributionConsumerPanel;
 import esa.mo.nmf.ctt.services.mp.pds.PublishedPlanStatusesPanel;
 import esa.mo.nmf.ctt.services.mp.pds.PublishedPlansPanel;
@@ -215,6 +213,7 @@ public class ProviderTabPanel extends javax.swing.JPanel {
                 panel.init();
             }
 
+            /*
             if (mc.getCheckService() != null) {
                 CheckConsumerPanel panel = new CheckConsumerPanel(mc.getCheckService());
                 int count = serviceTabs.getTabCount();
@@ -228,6 +227,7 @@ public class ProviderTabPanel extends javax.swing.JPanel {
                 int count = serviceTabs.getTabCount();
                 serviceTabs.insertTab("Statistic service", null, panel, "Statistic Tab", count);
             }
+            */
         }
 
         // MP

@@ -30,12 +30,10 @@ import esa.mo.nmf.ctt.services.mc.AggregationConsumerPanel;
 import esa.mo.nmf.ctt.services.mc.AlertConsumerPanel;
 import esa.mo.nmf.ctt.services.mc.ParameterConsumerPanel;
 import esa.mo.nmf.ctt.services.mc.ParameterPublishedValues;
-import esa.mo.nmf.ctt.services.mc.StatisticConsumerPanel;
 import esa.mo.mc.impl.consumer.ActionConsumerServiceImpl;
 import esa.mo.mc.impl.consumer.AggregationConsumerServiceImpl;
 import esa.mo.mc.impl.consumer.AlertConsumerServiceImpl;
 import esa.mo.mc.impl.consumer.ParameterConsumerServiceImpl;
-import esa.mo.mc.impl.consumer.StatisticConsumerServiceImpl;
 import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
@@ -662,7 +660,6 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
          return;
          }
          }
-         */
         if (checkBoxStatistic.isSelected()) {
             try {
                 details = connectionConsumer.getServicesDetails().get(StatisticServiceInfo.STATISTIC_SERVICE_NAME);
@@ -680,6 +677,7 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
                 return;
             }
         }
+         */
 /*
         try {
             details = connectionConsumer.getServicesDetails().get(ConfigurationHelper.CONFIGURATION_SERVICE_NAME);

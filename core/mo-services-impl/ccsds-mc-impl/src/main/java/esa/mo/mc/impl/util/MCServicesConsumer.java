@@ -24,9 +24,7 @@ import esa.mo.com.impl.util.COMServicesConsumer;
 import esa.mo.mc.impl.consumer.ActionConsumerServiceImpl;
 import esa.mo.mc.impl.consumer.AggregationConsumerServiceImpl;
 import esa.mo.mc.impl.consumer.AlertConsumerServiceImpl;
-import esa.mo.mc.impl.consumer.CheckConsumerServiceImpl;
 import esa.mo.mc.impl.consumer.ParameterConsumerServiceImpl;
-import esa.mo.mc.impl.consumer.StatisticConsumerServiceImpl;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -51,8 +49,6 @@ public class MCServicesConsumer {
     private ActionConsumerServiceImpl actionService;
     private ParameterConsumerServiceImpl parameterService;
     private AlertConsumerServiceImpl alertService;
-    private CheckConsumerServiceImpl checkService;
-    private StatisticConsumerServiceImpl statisticService;
     private AggregationConsumerServiceImpl aggregationService;
 
     /**
@@ -96,19 +92,6 @@ public class MCServicesConsumer {
                 alertService = new AlertConsumerServiceImpl(details, comServices, authenticationId, localNamePrefix);
             }
 
-            // Initialize the Check service
-            details = connectionConsumer.getServicesDetails().get(CheckServiceInfo.CHECK_SERVICE_NAME);
-            if (details != null) {
-                checkService = new CheckConsumerServiceImpl(details, comServices, authenticationId, localNamePrefix);
-            }
-
-            // Initialize the Statistic service
-            details = connectionConsumer.getServicesDetails().get(StatisticServiceInfo.STATISTIC_SERVICE_NAME);
-            if (details != null) {
-                statisticService = new StatisticConsumerServiceImpl(details, comServices, authenticationId,
-                    localNamePrefix);
-            }
-
             // Initialize the Aggregation service
             details = connectionConsumer.getServicesDetails().get(AggregationServiceInfo.AGGREGATION_SERVICE_NAME);
             if (details != null) {
@@ -132,26 +115,15 @@ public class MCServicesConsumer {
         return this.alertService;
     }
 
-    public CheckConsumerServiceImpl getCheckService() {
-        return this.checkService;
-    }
-
-    public StatisticConsumerServiceImpl getStatisticService() {
-        return this.statisticService;
-    }
-
     public AggregationConsumerServiceImpl getAggregationService() {
         return this.aggregationService;
     }
 
     public void setServices(ActionConsumerServiceImpl actionService, ParameterConsumerServiceImpl parameterService,
-        AlertConsumerServiceImpl alertService, CheckConsumerServiceImpl checkService,
-        StatisticConsumerServiceImpl statisticService, AggregationConsumerServiceImpl aggregationService) {
+        AlertConsumerServiceImpl alertService, AggregationConsumerServiceImpl aggregationService) {
         this.actionService = actionService;
         this.parameterService = parameterService;
         this.alertService = alertService;
-        this.checkService = checkService;
-        this.statisticService = statisticService;
         this.aggregationService = aggregationService;
     }
 
@@ -165,14 +137,6 @@ public class MCServicesConsumer {
 
     public void setAlertService(AlertConsumerServiceImpl alertService) {
         this.alertService = alertService;
-    }
-
-    public void setCheckService(CheckConsumerServiceImpl checkService) {
-        this.checkService = checkService;
-    }
-
-    public void setStatisticService(StatisticConsumerServiceImpl statisticService) {
-        this.statisticService = statisticService;
     }
 
     public void setAggregationService(AggregationConsumerServiceImpl aggregationService) {
@@ -196,14 +160,6 @@ public class MCServicesConsumer {
             this.alertService.closeConnection();
         }
 
-        if (this.checkService != null) {
-            this.checkService.closeConnection();
-        }
-
-        if (this.statisticService != null) {
-            this.statisticService.closeConnection();
-        }
-
         if (this.aggregationService != null) {
             this.aggregationService.closeConnection();
         }
@@ -220,14 +176,6 @@ public class MCServicesConsumer {
 
         if (this.alertService != null) {
             this.alertService.setAuthenticationId(authenticationId);
-        }
-
-        if (this.checkService != null) {
-            this.checkService.setAuthenticationId(authenticationId);
-        }
-
-        if (this.statisticService != null) {
-            this.statisticService.setAuthenticationId(authenticationId);
         }
 
         if (this.aggregationService != null) {
