@@ -157,25 +157,10 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
     private DiscreteConversionDetails generateDiscreteConversionDetails() {
         PairList mapping = new PairList();
 
-        Pair pair0 = new Pair();
-        pair0.setFirst(new Union(0));
-        pair0.setSecond(new Union("Mode 0"));
-        mapping.add(pair0);
-
-        Pair pair1 = new Pair();
-        pair1.setFirst(new Union(1));
-        pair1.setSecond(new Union("Mode 1"));
-        mapping.add(pair1);
-
-        Pair pair2 = new Pair();
-        pair2.setFirst(new Union(2));
-        pair2.setSecond(new Union("Mode 2"));
-        mapping.add(pair2);
-
-        Pair pair3 = new Pair();
-        pair3.setFirst(new Union(3));
-        pair3.setSecond(new Union("Mode 3"));
-        mapping.add(pair3);
+        mapping.add(new Pair(new Union(0), new Union("Mode 0")));
+        mapping.add(new Pair(new Union(1), new Union("Mode 1")));
+        mapping.add(new Pair(new Union(2), new Union("Mode 2")));
+        mapping.add(new Pair(new Union(3), new Union("Mode 3")));
 
         return new DiscreteConversionDetails(mapping);
     }

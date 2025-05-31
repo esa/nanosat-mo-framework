@@ -463,10 +463,9 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
             return;  // Well, then nothing to be done here folks!
         }
 
-        ParameterRawValue newValue = new ParameterRawValue();
-        newValue.setParamInstId(parameterTable.getSelectedIdentityObjId());
-
+        ParameterRawValue newValue = new ParameterRawValue(parameterTable.getSelectedIdentityObjId());
         MOWindow window = new MOWindow(newValue, true);
+
         try {
             newValue = (ParameterRawValue) window.getObject();
         } catch (InterruptedIOException ex) {
