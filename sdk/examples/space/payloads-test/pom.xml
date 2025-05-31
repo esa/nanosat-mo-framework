@@ -71,10 +71,6 @@
             <groupId>int.esa.nmf.core</groupId>
             <artifactId>nanosat-mo-connector</artifactId>
         </dependency>
-        <dependency>
-            <groupId>int.esa.nmf.core</groupId>
-            <artifactId>common-mo-adapter</artifactId>
-        </dependency>
     </dependencies>
 
     <build>

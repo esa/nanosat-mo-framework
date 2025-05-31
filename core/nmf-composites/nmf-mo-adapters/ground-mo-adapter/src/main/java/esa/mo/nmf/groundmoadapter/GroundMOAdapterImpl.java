@@ -31,6 +31,7 @@ import org.ccsds.moims.mo.mal.structures.Blob;
  * @author Cesar Coelho
  */
 public class GroundMOAdapterImpl extends CommonMOAdapterImpl {
+
     /**
      * The constructor of this class
      *
@@ -49,15 +50,15 @@ public class GroundMOAdapterImpl extends CommonMOAdapterImpl {
      * @param localNamePrefix the prefix for the local name of the consumer
      */
     public GroundMOAdapterImpl(final ConnectionConsumer connection, final Blob authenticationId,
-        final String localNamePrefix) {
+            final String localNamePrefix) {
         super(connection, authenticationId, localNamePrefix);
     }
 
     /**
      * The constructor of this class
      *
-     * @param providerDetails The Provider details. This object can be obtained from the Directory
-     *                        service
+     * @param providerDetails The Provider details. This object can be obtained
+     * from the Directory service
      */
     public GroundMOAdapterImpl(final ProviderSummary providerDetails) {
         super(providerDetails);
@@ -66,13 +67,13 @@ public class GroundMOAdapterImpl extends CommonMOAdapterImpl {
     /**
      * The constructor of this class
      *
-     * @param providerDetails The Provider details. This object can be obtained from the Directory
-     *                        service
+     * @param providerDetails The Provider details. This object can be obtained
+     * from the Directory service
      * @param authenticationId authenticationId of the logged in user
      * @param localNamePrefix the prefix for the local name of the consumer
      */
     public GroundMOAdapterImpl(final ProviderSummary providerDetails, final Blob authenticationId,
-        final String localNamePrefix) {
+            final String localNamePrefix) {
         super(providerDetails, authenticationId, localNamePrefix);
     }
 }
