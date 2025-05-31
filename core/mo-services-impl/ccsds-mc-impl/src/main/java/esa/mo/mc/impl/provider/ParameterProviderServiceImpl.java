@@ -852,7 +852,8 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
                         publishPeriodicParameterUpdate(identityId);
                     }
                 }
-            }), 0, (int) (interval.getValue() * 1000), TimeUnit.MILLISECONDS, true); // the time has to be converted to milliseconds by multiplying by 1000
+            }), 0, (int) (interval.getValue() * 1000), TimeUnit.MILLISECONDS, true);
+            // the time has to be converted to milliseconds by multiplying by 1000
         }
 
         private void stopTimer(final Long identityId) {
@@ -878,8 +879,8 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
      * notice that if no consumers are registered on the broker, then the value
      * of true will be returned because not error happened.
      */
-    public Boolean pushSingleParameterValueAttribute(final Identifier name, final Attribute value,
-            final ObjectId source, final Time timestamp) {
+    public Boolean pushSingleParameterValueAttribute(final Identifier name,
+            final Attribute value, final ObjectId source, final Time timestamp) {
         final ParameterValue parameterValue = new ParameterValue(new UOctet((short) 0), value, null);
         ArrayList<ParameterInstance> parameters = new ArrayList<>(1);
         parameters.add(new ParameterInstance(name, parameterValue, source, timestamp));
@@ -905,8 +906,8 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
      * of true will be returned because not error happened.
      */
     @Deprecated
-    public Boolean pushParameterValue(final Identifier name, final ParameterValue parameterValue, final ObjectId source,
-            final Time timestamp) {
+    public Boolean pushParameterValue(final Identifier name,
+            final ParameterValue parameterValue, final ObjectId source, final Time timestamp) {
         ParameterInstance instance = new ParameterInstance(name, parameterValue, source, timestamp);
         ArrayList<ParameterInstance> parameters = new ArrayList<>();
         parameters.add(instance);
@@ -967,19 +968,21 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             }
 
             final ObjectInstancePairList outIds = new ObjectInstancePairList(parameters.size());
-            final HeterogeneousList parameterValueList = new HeterogeneousList();
+            final HeterogeneousList pVals = new HeterogeneousList();
             final List<ParameterInstance> parameterInstances = new ArrayList<>(parameters.size());
 
             for (int i = 0; i < parameters.size(); i++) {
-                ObjectInstancePair objId = manager.getIdentityDefinition(parameters.get(i).getName());  // Does the submitted name exists in the manager? 
+                // Does the submitted name exists in the manager?
+                ParameterInstance parameter = parameters.get(i);
+                ObjectInstancePair objId = manager.getIdentityDefinition(parameter.getName());
 
                 if (objId == null) { // If the definition is not in the manager, then create it
-                    Byte rawType;
+                    Attribute rawValue = parameter.getParameterValue().getRawValue();
+                    Byte rawType = Union.DOUBLE_TYPE_SHORT_FORM.byteValue(); // Default
 
-                    if (parameters.get(i).getParameterValue().getRawValue() == null) {  // Well, let's then consider that it is a Double
-                        rawType = Union.DOUBLE_TYPE_SHORT_FORM.byteValue();
-                    } else {
-                        rawType = ((Integer) parameters.get(i).getParameterValue().getRawValue().getTypeId().getSFP()).byteValue(); // Check what is the type and stamp it
+                    if (rawValue != null) {
+                        // Check what is the type and stamp it
+                        rawType = ((Integer) rawValue.getTypeId().getSFP()).byteValue();
                     }
 
                     ParameterDefinitionDetails pDef = new ParameterDefinitionDetails(
@@ -992,7 +995,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
                             null);
 
                     ParameterCreationRequestList pDefCreationReqs = new ParameterCreationRequestList(1);
-                    pDefCreationReqs.add(new ParameterCreationRequest(parameters.get(i).getName(), pDef));
+                    pDefCreationReqs.add(new ParameterCreationRequest(parameter.getName(), pDef));
 
                     try {
                         // Enable the reporting for this Alert Definition
@@ -1008,22 +1011,24 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
                 ParameterDefinitionDetails pDef2 = (ParameterDefinitionDetails) manager.getDefinition(id);
                 if (pDef2.getGenerationEnabled()) {
                     outIds.add(objId); // Don't push the PVals that are not enabled...
-                    ParameterValue value = parameters.get(i).getParameterValue();
+                    ParameterValue value = parameter.getParameterValue();
+                    Attribute convertedValue = value.getConvertedValue();
+                    UOctet validityState = value.getValidityState();
 
                     // If the conversion value was not provided, we can try to generate it
-                    if (value.getConvertedValue() == null) {
+                    if (convertedValue == null) {
                         ParameterValue newPVal = manager.generateNewParameterValue(
                                 value.getRawValue(), pDef2, false);
-                        value.setConvertedValue(newPVal.getConvertedValue());
-                        value.setValidityState(newPVal.getValidityState());
+                        convertedValue = newPVal.getConvertedValue();
+                        validityState = newPVal.getValidityState();
                     }
 
-                    parameterValueList.add(value);
-                    parameterInstances.add(parameters.get(i));
+                    pVals.add(new ParameterValue(validityState, value.getRawValue(), convertedValue));
+                    parameterInstances.add(parameter);
                 }
             }
 
-            if (parameterValueList.isEmpty()) {
+            if (pVals.isEmpty()) {
                 return true; // No parameters values are going to be pushed
             }
 
@@ -1049,12 +1054,12 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             final LongList pValObjIds;
 
             if (storeIt) {
-                pValObjIds = manager.storeAndGenerateMultiplePValobjId(parameterValueList, relatedIds, sourceIds,
-                        connection.getConnectionDetails(), timestamps);
+                pValObjIds = manager.storeAndGenerateMultiplePValobjId(pVals, relatedIds,
+                        sourceIds, connection.getConnectionDetails(), timestamps);
             } else {
                 // Well, if we don't store it, then we shall use the local unique variable
-                pValObjIds = new LongList(parameterValueList.size());
-                for (Element parameterVal : parameterValueList) {
+                pValObjIds = new LongList(pVals.size());
+                for (Element parameterVal : pVals) {
                     pValObjIds.add(pValUniqueObjId.incrementAndGet());
                 }
             }

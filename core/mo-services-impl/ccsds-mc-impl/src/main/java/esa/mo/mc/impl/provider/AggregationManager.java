@@ -66,8 +66,8 @@ import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
 public final class AggregationManager extends MCManager {
 
     private final HashMap<Long, Boolean> isFilterTriggered; // IdentityId, Boolean Value that determines if the filter was triggered
-    private final HashMap<Long, AggregationValue> periodicAggregationValuesLast; // IdentityId, Aggregation Value List per definition
-    private final HashMap<Long, AggregationValue> periodicAggregationValuesCurrent; // IdentityId, Aggregation Value List per definition
+    private final HashMap<Long, AggregationValue> aggValuesLast; // IdentityId, Aggregation Value List per definition
+    private final HashMap<Long, AggregationValue> aggValuesCurrent; // IdentityId, Aggregation Value List per definition
     private final HashMap<Long, TimeList> latestSampleTimeList; // IdentityId, Time of the first sample of each ParameterSetValue
     private final HashMap<Long, ArrayList<Integer>> sampleCountList; //IdentityId, Amount of samples per parameterSetValue
 
@@ -81,8 +81,8 @@ public final class AggregationManager extends MCManager {
         this.parameterManager = parameterManager;
 
         this.isFilterTriggered = new HashMap<>();
-        this.periodicAggregationValuesLast = new HashMap<>();
-        this.periodicAggregationValuesCurrent = new HashMap<>();
+        this.aggValuesLast = new HashMap<>();
+        this.aggValuesCurrent = new HashMap<>();
         this.latestSampleTimeList = new HashMap<>();
         this.sampleCountList = new HashMap<>();
 
@@ -106,8 +106,8 @@ public final class AggregationManager extends MCManager {
      */
     protected void createAggregationValuesList(LongList identityIdList) {
         for (Long identityId : identityIdList) {
-            periodicAggregationValuesLast.put(identityId, new AggregationValue());
-            periodicAggregationValuesCurrent.put(identityId, new AggregationValue());
+            aggValuesLast.put(identityId, new AggregationValue());
+            aggValuesCurrent.put(identityId, new AggregationValue());
             isFilterTriggered.put(identityId, false);
             //initialize timList with the amount of parameterSets
             //final int parameterSetsCount = getAggregationDefinition(identityId).getParameterSets().size();
@@ -135,15 +135,25 @@ public final class AggregationManager extends MCManager {
             latestSampleTimeList.get(identityId).clear();
             sampleCountList.get(identityId).clear();
         }
-        //init the latest sample-time and the sample-counter, filtertriggered and latest and current aggregation-values
+        //init the latest sample-time and the sample-counter, filter
+        // triggered and latest and current aggregation-values
         for (int j = 0; j < paramSetSize; j++) {
             latestSampleTimeList.get(identityId).add(j, null);
             aggregationSetValueListLast.add(j, new AggregationSetValue());
             aggregationSetValueListCurrent.add(j, new AggregationSetValue());
             sampleCountList.get(identityId).add(j, 0);
         }
-        periodicAggregationValuesLast.get(identityId).setParameterSetValues(aggregationSetValueListLast);
-        periodicAggregationValuesCurrent.get(identityId).setParameterSetValues(aggregationSetValueListCurrent);
+
+        AggregationValue last = aggValuesLast.get(identityId);
+        AggregationValue current = aggValuesCurrent.get(identityId);
+
+        aggValuesLast.put(identityId,
+                new AggregationValue(last.getGenerationMode(), last.getFiltered(), aggregationSetValueListLast));
+        aggValuesCurrent.put(identityId,
+                new AggregationValue(current.getGenerationMode(), current.getFiltered(), aggregationSetValueListCurrent));
+
+        //aggValuesLast.get(identityId).setParameterSetValues(aggregationSetValueListLast);
+        //aggValuesCurrent.get(identityId).setParameterSetValues(aggregationSetValueListCurrent);
         this.setFilterTriggered(identityId, false);  // Reset the filter state
     }
 
@@ -182,8 +192,8 @@ public final class AggregationManager extends MCManager {
      * @param identityId The identity Id.
      */
     public void removeAggregationValues(Long identityId) {
-        periodicAggregationValuesLast.remove(identityId);
-        periodicAggregationValuesCurrent.remove(identityId);
+        aggValuesLast.remove(identityId);
+        aggValuesCurrent.remove(identityId);
         latestSampleTimeList.remove(identityId);
         isFilterTriggered.remove(identityId);
         sampleCountList.remove(identityId);
@@ -421,7 +431,7 @@ public final class AggregationManager extends MCManager {
      */
     private AggregationParameterValueList checkForExpiredValues(Long identityId, int indexOfparameterSet,
             AggregationParameterSet aggrParamSet, AggregationParameterValueList newParameterValueSamples) {
-        final AggregationParameterValueList currentParamValues = this.periodicAggregationValuesCurrent.get(identityId)
+        final AggregationParameterValueList currentParamValues = this.aggValuesCurrent.get(identityId)
                 .getParameterSetValues().get(indexOfparameterSet).getValues();
         //requirement: 3.3.3.i (ParameterService-requirement)
         //if sendUnchanged is true: replace validity-state with an EXPIRED state
@@ -433,11 +443,15 @@ public final class AggregationManager extends MCManager {
         for (int k = 0; k < currentParamValues.size(); k++) {
             Long id = aggrParamSet.getParameters().get(k);
             ParameterDefinitionDetails paramDef = parameterManager.getParameterDefinition(id);
+
             if (paramDef.getGenerationEnabled() && paramDef.getReportInterval().getValue() != 0) {
-                if (currentParamValues.get(k).getValue().getRawValue().equals(newParameterValueSamples.get(k)
-                        .getValue().getRawValue())) {
-                    newParameterValueSamples.get(k).getValue().setValidityState(
-                            new UOctet(Short.valueOf("" + ValidityState.EXPIRED_VALUE)));
+                AggregationParameterValue agg = newParameterValueSamples.get(k);
+                ParameterValue pVal = agg.getValue();
+                if (currentParamValues.get(k).getValue().getRawValue().equals(pVal.getRawValue())) {
+                    UOctet val = new UOctet(Short.valueOf("" + ValidityState.EXPIRED_VALUE));
+                    ParameterValue newValue = new ParameterValue(val, pVal.getRawValue(), pVal.getConvertedValue());
+                    newParameterValueSamples.add(k, new AggregationParameterValue(newValue, agg.getParamDefInstId()));
+                    //pVal.setValidityState(val);
                 }
             }
         }
@@ -607,7 +621,7 @@ public final class AggregationManager extends MCManager {
             int indexParameterSet, AggregationParameterValueList currentParamValues) { //requirement: 3.7.3.m
         AggregationParameterValueList retParamValues = new AggregationParameterValueList();
         if (currentParamValues == null) {
-            currentParamValues = this.periodicAggregationValuesCurrent.get(identityId).getParameterSetValues().get(
+            currentParamValues = this.aggValuesCurrent.get(identityId).getParameterSetValues().get(
                     indexParameterSet).getValues();
         }
         final AggregationParameterValueList lastParamValues = getLastUpdateValue(identityId, indexParameterSet);
@@ -720,7 +734,7 @@ public final class AggregationManager extends MCManager {
      * @return
      */
     private AggregationParameterValueList getLastUpdateValue(Long identityId, int indexOfparameterSet) {
-        AggregationSetValueList set = this.periodicAggregationValuesLast.get(identityId).getParameterSetValues();
+        AggregationSetValueList set = this.aggValuesLast.get(identityId).getParameterSetValues();
 
         if (set == null) { // It was never sampled before?
             return null;
@@ -741,7 +755,7 @@ public final class AggregationManager extends MCManager {
      * @return
      */
     private AggregationParameterValueList getCurrentUpdateValue(Long identityId, int indexOfparameterSet) {
-        AggregationSetValueList set = this.periodicAggregationValuesCurrent.get(identityId).getParameterSetValues();
+        AggregationSetValueList set = this.aggValuesCurrent.get(identityId).getParameterSetValues();
 
         if (set == null) { // It was never sampled before?
             return null;
@@ -767,15 +781,28 @@ public final class AggregationManager extends MCManager {
      */
     private AggregationParameterValueList setParameterSamplesInternally(Long identityId,
             int indexOfparameterSet, AggregationParameterValueList newParamSample) {
-
-        final AggregationParameterValueList currentParamValues = this.periodicAggregationValuesCurrent
+        final AggregationParameterValueList currentParamValues = this.aggValuesCurrent
                 .get(identityId).getParameterSetValues().get(indexOfparameterSet).getValues();
-        this.periodicAggregationValuesLast.get(identityId).getParameterSetValues()
+
+        AggregationSetValueList agg1 = this.aggValuesLast.get(identityId).getParameterSetValues();
+        AggregationSetValue set1 = agg1.get(indexOfparameterSet);
+        agg1.add(indexOfparameterSet, new AggregationSetValue(set1.getDeltaTime(), set1.getIntervalTime(), currentParamValues));
+
+        AggregationSetValueList agg2 = this.aggValuesCurrent.get(identityId).getParameterSetValues();
+        AggregationSetValue set2 = agg2.get(indexOfparameterSet);
+        agg2.add(indexOfparameterSet, new AggregationSetValue(set2.getDeltaTime(), set2.getIntervalTime(), newParamSample));
+
+        /* Previous Code
+        final AggregationParameterValueList currentParamValues = this.aggValuesCurrent
+                .get(identityId).getParameterSetValues().get(indexOfparameterSet).getValues();
+        
+        this.aggValuesLast.get(identityId).getParameterSetValues()
                 .get(indexOfparameterSet).setValues(currentParamValues);
 
         //set the new ones to the current ones
-        this.periodicAggregationValuesCurrent.get(identityId)
-                .getParameterSetValues().get(indexOfparameterSet).setValues(newParamSample);
+        this.aggValuesCurrent.get(identityId).getParameterSetValues()
+                .get(indexOfparameterSet).setValues(newParamSample);
+         */
         //sets the timestamp of the latest value of the set. needed for the calculation of the delta-time
         this.latestSampleTimeList.get(identityId).set(indexOfparameterSet, Time.now());
 
@@ -891,8 +918,8 @@ public final class AggregationManager extends MCManager {
             return false;
         }
 
-        periodicAggregationValuesLast.remove(identityId);
-        periodicAggregationValuesCurrent.remove(identityId);
+        aggValuesLast.remove(identityId);
+        aggValuesCurrent.remove(identityId);
         latestSampleTimeList.remove(identityId);
 
         return true;
