@@ -75,7 +75,7 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
     /**
      * The version of the NMF that the App was developed against
      */
-    @Parameter(property = "generate-nmf-package.nmfVersion", defaultValue = "${esa.nmf.version-qualifier}")
+    @Parameter(property = "generate-nmf-package.nmfVersion", defaultValue = "${esa.nmf.version}")
     private String nmfVersion;
 
     /**
