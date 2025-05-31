@@ -79,7 +79,7 @@ public class ParameterTablePanel extends SharedTablePanel {
 
         // 5 because it is where generationEnabled is!
         tableData.setValueAt(status, this.getSelectedRow(), 5);
-        //((ParameterDefinitionDetails) this.getSelectedCOMObject().getObject()).setGenerationEnabled(status);
+        ((ParameterDefinitionDetails) this.getSelectedCOMObject().getObject()).setGenerationEnabled(status);
 
         semaphore.release();
     }
@@ -94,7 +94,7 @@ public class ParameterTablePanel extends SharedTablePanel {
         // 5 because it is where generationEnabled is!
         for (int i = 0; i < this.getTable().getRowCount(); i++) {
             tableData.setValueAt(status, i, 5);
-            //((ParameterDefinitionDetails) this.getCOMObjects().get(i).getObject()).setGenerationEnabled(status);
+            ((ParameterDefinitionDetails) this.getCOMObjects().get(i).getObject()).setGenerationEnabled(status);
         }
 
         semaphore.release();

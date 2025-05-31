@@ -71,7 +71,7 @@ public class AggregationTablePanel extends SharedTablePanel {
 
         // 4 because it is where generationEnabled is!
         tableData.setValueAt(status, this.getSelectedRow(), 4);
-        //((AggregationDefinitionDetails) this.getSelectedCOMObject().getObject()).setGenerationEnabled(status);
+        ((AggregationDefinitionDetails) this.getSelectedCOMObject().getObject()).setGenerationEnabled(status);
 
         semaphore.release();
     }
@@ -86,7 +86,7 @@ public class AggregationTablePanel extends SharedTablePanel {
         // 4 because it is where generationEnabled is!
         for (int i = 0; i < this.getTable().getRowCount(); i++) {
             tableData.setValueAt(status, i, 4);
-            //((AggregationDefinitionDetails) this.getCOMObjects().get(i).getObject()).setGenerationEnabled(status);
+            ((AggregationDefinitionDetails) this.getCOMObjects().get(i).getObject()).setGenerationEnabled(status);
         }
 
         semaphore.release();
@@ -101,7 +101,7 @@ public class AggregationTablePanel extends SharedTablePanel {
 
         // 6 because it is where filter is!
         tableData.setValueAt(status, this.getSelectedRow(), 6);
-        //((AggregationDefinitionDetails) this.getSelectedCOMObject().getObject()).setFilterEnabled(status);
+        ((AggregationDefinitionDetails) this.getSelectedCOMObject().getObject()).setFilterEnabled(status);
 
         semaphore.release();
     }
@@ -116,7 +116,7 @@ public class AggregationTablePanel extends SharedTablePanel {
         // 6 because it is where filter is!
         for (int i = 0; i < this.getTable().getRowCount(); i++) {
             tableData.setValueAt(status, i, 6);
-            //((AggregationDefinitionDetails) this.getCOMObjects().get(i).getObject()).setFilterEnabled(status);
+            ((AggregationDefinitionDetails) this.getCOMObjects().get(i).getObject()).setFilterEnabled(status);
         }
 
         semaphore.release();

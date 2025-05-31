@@ -70,7 +70,7 @@ public class AlertTablePanel extends SharedTablePanel {
 
         // 4 because it is where generationEnabled is!
         tableData.setValueAt(status, this.getSelectedRow(), 4);
-        //((AlertDefinitionDetails) this.getSelectedCOMObject().getObject()).setGenerationEnabled(status);
+        ((AlertDefinitionDetails) this.getSelectedCOMObject().getObject()).setGenerationEnabled(status);
 
         semaphore.release();
     }
@@ -85,7 +85,7 @@ public class AlertTablePanel extends SharedTablePanel {
         // 4 because it is where generationEnabled is!
         for (int i = 0; i < this.getTable().getRowCount(); i++) {
             tableData.setValueAt(status, i, 4);
-            //((AlertDefinitionDetails) this.getCOMObjects().get(i).getObject()).setGenerationEnabled(status);
+            ((AlertDefinitionDetails) this.getCOMObjects().get(i).getObject()).setGenerationEnabled(status);
         }
 
         semaphore.release();
