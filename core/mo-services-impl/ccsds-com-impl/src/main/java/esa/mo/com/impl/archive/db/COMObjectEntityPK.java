@@ -49,8 +49,9 @@ public class COMObjectEntityPK implements Serializable {
         }
         COMObjectEntityPK input = (COMObjectEntityPK) other;
 
-        return (input.objectTypeId.equals(objectTypeId) && input.domainId.equals(domainId) && input.objId.equals(
-            objId));
+        return (input.objectTypeId.equals(objectTypeId)
+                && input.domainId.equals(domainId)
+                && input.objId.equals(objId));
     }
 
     @Override
@@ -62,23 +63,11 @@ public class COMObjectEntityPK implements Serializable {
         return objectTypeId;
     }
 
-    public void setObjectTypeId(Integer objectTypeId) {
-        this.objectTypeId = objectTypeId;
-    }
-
     public Integer getDomainId() {
         return domainId;
     }
 
-    public void setDomainId(Integer domainId) {
-        this.domainId = domainId;
-    }
-
     public Long getObjId() {
         return objId;
-    }
-
-    public void setObjId(Long objId) {
-        this.objId = objId;
     }
 }
