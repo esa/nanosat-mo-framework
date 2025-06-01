@@ -1,0 +1,888 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mal:specification xmlns:com="http://www.ccsds.org/schema/COMSchema"
+                   xmlns:svg="http://www.w3.org/2000/svg"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns:mal="http://www.ccsds.org/schema/ServiceSchema">
+  <mal:area name="Common" number="3" version="1"
+            comment="This section details the Common Services; the structures used by the services and operations are detailed in section 4. The services and structures are defined in terms of the MO Message Abstraction Layer (MAL) which is defined in reference [2], so it is possible to deploy them over any supported protocol and message transport.&#xA;The services defined here are also specified in terms of the COM which is defined in reference [3]. &#xA;To aid comprehension several tables are included for each service and operation definition. The table formats are the same as those used for the specification of the MO COM Services in reference [3]. The formats are fully described in reference [2] in section 2 and in reference [3] section 2, for COM usage.&#xA;All service specifications in this document are part of the Common Area.">
+    <mal:service xsi:type="com:ExtendedServiceType" name="Directory" number="1"
+                 comment="The Directory service allows service providers to publish information about which services they provide and consumers to discover service provider address and capability information.&#xA;Service provider information is made available using the Directory service publishProvider operation and removed using the withdrawProvider operation.&#xA;The lookupProvider operation provides the ability for consumers to query the directory service based on a filter such as required service capability.&#xA;Finally, a provider may supply its set of service specification XML files when publishing its capabilities. This allows consumers that are able to process MO service XML files obtain the files for further processing. It is expected that this would be used to either ensure that no modifications have been made by a provider to a standard service or, in the case of a consumer that is able to dynamically interact with new service specifications, obtain the service specification to allow interaction with that new service.">
+      <mal:documentation name="High Level Requirements" order="1">The directory service shall provide the capability:
+&lt;ol&gt;
+ &lt;li&gt;request service provider details based on a filter;&lt;/li&gt;
+ &lt;li&gt;publish new service provider details;&lt;/li&gt;
+ &lt;li&gt;withdraw service provider details;&lt;/li&gt;
+ &lt;li&gt;request any supplied service XML for a service provider.&lt;/li&gt;
+&lt;/ol&gt;</mal:documentation>
+      <mal:documentation name="Functional Requirements" order="2">A service provider shall use the publishProvider operation to make available the set of services and the capabilities of those services that it offers.
+The publish operation shall take a PublishDetails structure which defines the capabilities and addressing information of that service provider.
+It shall be possible for a provider to offer multiple service addresses and bindings to allows the provider to support multiple message transports and encodings.
+Each service address entry shall include the service interface binding signature description, interface address, MAL protocol mapping, message encoding, the supported QoS levels and associated QoS properties available for that connection.
+A service consumer indicates its required QoS level and priority by using these values in the lookupProvider operation.
+For services that have operations based on the publish and subscribe interaction pattern there may be required a separate URI for the broker component. To support this the directory service shall hold two URIs for each service, the URI of the primary interface and also a secondary one which, if present, is used for publish and subscribe-based operations.
+If a broker component is shared between more than one provider, known as a shared broker, the broker shall be published as a directory service entry without a primary interface URI.
+Providers that wish to use the shared broker shall reference it by using its object instance identifier in the 'brokerProviderObjInstId' field in their directory service entry.</mal:documentation>
+      <mal:capabilitySet number="1">
+        <mal:requestIP name="lookupProvider" number="1" supportInReplay="true"
+                       comment="The lookup operation allows a service consumer to query the directory service to return a list of service providers that match the requested criteria. If no match is found, then an empty list is returned.&#xA;&#xA;NOTE: The various filters that may be specified as part of this operation are combined using AND logic.">
+          <mal:messages>
+            <mal:request>
+              <mal:field name="filter"
+                         comment="The filter field shall define the lookup query and be used to match details previously published using the publishProvider operation, the specifics of the ServiceFilter fields are defined in the following requirements.&#xA;If the serviceProviderId field is NULL then all service provider identifiers shall be matched.&#xA;If the final identifier of the domain field of the filter is the wildcard '*', then all sub-domains shall be searched for matches. See R[2] section 3.5.6.5.g.&#xA;If the wildcard is used in any other part of the domain other than the final one then an INVALID error shall be returned.&#xA;If the domain field is NULL then all domains shall be matched.&#xA;If the network field is NULL then all networks shall be matched.&#xA;If the sessionType field is NULL then all session types shall be matched.&#xA;If the sessionName field is NULL then all session names shall be matched.&#xA;The serviceKey field shall be used to match against ServiceKey fields held in the PublishDetails used to publish a specific provider.&#xA;If the serviceKey field is NULL then all areas, services and versions shall be matched.&#xA;If the area field is the wildcard '0' then all areas names shall be matched.&#xA;If the service field is the wildcard '0' then all services shall be matched.&#xA;If the version field is the wildcard '0' then all area versions shall be matched.&#xA;If the requiredCapabilitySets field is NULL or an empty list then all service capability sets shall be matched.">
+                <mal:type name="ServiceFilter" service="Directory" area="Common"/>
+              </mal:field>
+            </mal:request>
+            <mal:response>
+              <mal:field name="matchingProviders"
+                         comment="The operation shall return a list of service providers that match the filter.&#xA;If no service providers match the supplied filter then an empty list shall be returned.">
+                <mal:type list="true" name="ProviderSummary" service="Directory" area="Common"/>
+              </mal:field>
+            </mal:response>
+          </mal:messages>
+          <mal:errors>
+            <mal:errorRef comment="Invalid domain filter value.">
+              <mal:type name="INVALID" area="COM"/>
+            </mal:errorRef>
+          </mal:errors>
+        </mal:requestIP>
+      </mal:capabilitySet>
+      <mal:capabilitySet number="2">
+        <mal:requestIP name="publishProvider" number="2" supportInReplay="false"
+                       comment="The publishProvider operation adds a new or updates an existing entry in the list of service providers held in the directory service.">
+          <mal:messages>
+            <mal:request>
+              <mal:field name="newProviderDetails"
+                         comment="The newProviderDetails field shall hold the provider details of the service to be added or updated in the directory service.&#xA;If any of the fields of the newProviderDetails domain/sessionName/network fields are either empty or contain the wildcard '*' an INVALID error shall be returned.&#xA;If the providerId field of the PublishDetails structure is empty or contains the wildcard '*' an INVALID error shall be returned.&#xA;For each contained ServiceKey structure if the area/service/version fields contain '0' then an INVALID error shall be returned.&#xA;For each contained supportedCapabilitySets list if the list is empty or contains '0' then an INVALID error shall be returned.&#xA;If the supportedLevels list is empty or the priorityLevels field is '0' for each contained AddressDetails structure found either within the ProviderDetails or the inner ServiceCapability structures then an INVALID error shall be returned.&#xA;If an error is being returned then no changes shall be made.">
+                <mal:type name="PublishDetails" service="Directory" area="Common"/>
+              </mal:field>
+            </mal:request>
+            <mal:response>
+              <mal:field name="providerObjId"
+                         comment="If the providerId field of the PublishDetails structure matches an existing ServiceProvider COM object, the operation shall update the existing details of that provider.&#xA;If the providerId field of the PublishDetails structure does not match an existing ServiceProvider COM object, then the operation shall create a new ServiceProvider COM object to represent the new service provider.&#xA;A new ProviderCapabilities COM object shall be created to store the capabilities of the provider.&#xA;The created objects should be stored in the COM archive by the directory service provider.&#xA;The operation shall return the COM object instance identifiers of the ServiceProvider and ProviderCapabilities COM objects representing the provider.">
+                <mal:type name="Long" area="MAL"/>
+              </mal:field>
+              <mal:field name="capabilitiesObjId">
+                <mal:type name="Long" area="MAL"/>
+              </mal:field>
+            </mal:response>
+          </mal:messages>
+          <mal:errors>
+            <mal:errorRef comment="Submitted values are invalid.">
+              <mal:type name="INVALID" area="COM"/>
+            </mal:errorRef>
+          </mal:errors>
+        </mal:requestIP>
+        <mal:submitIP name="withdrawProvider" number="3" supportInReplay="false"
+                      comment="The withdrawProvider operation removes an existing entry from the list of service providers held in the directory service. If no match is found for the withdraw request, then nothing is changed.">
+          <mal:messages>
+            <mal:submit>
+              <mal:field name="providerObjId"
+                         comment="The providerObjId field shall hold the object instance identifier for the ServiceProvider COM object to remove from the directory service.&#xA;If the supplied identifier is '0' an INVALID error shall be returned.&#xA;If the supplied identifier does not match an existing ServiceProvider COM object then an UNKNOWN error shall be returned.&#xA;If an error is being returned then no changes shall be made.&#xA;The matched provider shall be removed from the directory service.">
+                <mal:type name="Long" area="MAL"/>
+              </mal:field>
+            </mal:submit>
+          </mal:messages>
+          <mal:errors>
+            <mal:errorRef comment="Provider to withdraw was not found.">
+              <mal:type name="UNKNOWN" area="MAL"/>
+            </mal:errorRef>
+            <mal:errorRef comment="Submitted values are invalid.">
+              <mal:type name="INVALID" area="COM"/>
+            </mal:errorRef>
+          </mal:errors>
+        </mal:submitIP>
+      </mal:capabilitySet>
+      <mal:capabilitySet number="3">
+        <mal:requestIP name="getServiceXML" number="4" supportInReplay="false"
+                       comment="The getServiceXML operation returns the list of XML files that were submitted by the service provider by the publishProvider operation.&#xA;If no files were supplied then this operation returns an empty list.">
+          <mal:messages>
+            <mal:request>
+              <mal:field name="providerObjId"
+                         comment="The providerObjId field shall hold the COM object instance identifier for the ServiceProvider to obtain the service XML for.&#xA;If the supplied instance identifier is '0' an INVALID error shall be returned.&#xA;If the supplied identifier does not match an existing ServiceProvider COM object then an UNKNOWN error shall be returned.">
+                <mal:type name="Long" area="MAL"/>
+              </mal:field>
+            </mal:request>
+            <mal:response>
+              <mal:field name="xmlFiles"
+                         comment="The list of XML files supplied during the publishProvider operation for the matched provider shall be returned.&#xA;If no XML files were supplied by the provider then an empty list shall be returned.">
+                <mal:type list="true" name="File" area="MAL"/>
+              </mal:field>
+            </mal:response>
+          </mal:messages>
+          <mal:errors>
+            <mal:errorRef comment="Submitted values are invalid.">
+              <mal:type name="INVALID" area="COM"/>
+            </mal:errorRef>
+            <mal:errorRef comment="Provider was not found.">
+              <mal:type name="UNKNOWN" area="MAL"/>
+            </mal:errorRef>
+          </mal:errors>
+        </mal:requestIP>
+      </mal:capabilitySet>
+      <mal:dataTypes>
+        <mal:composite name="ProviderDetails" shortFormPart="1"
+                       comment="The ProviderDetails structure holds information about a provider of a service and its capabilities. The structure contains a list of AddressDetails structures which should be used when the individual services listed by the provider do not supply address information. A provider may support more than one transport technology and therefore can be reached using more than one address.">
+          <mal:extends>
+            <mal:type name="Composite" area="MAL"/>
+          </mal:extends>
+          <mal:field name="serviceCapabilities" canBeNull="false"
+                     comment="The service capabilities supported by this service provider">
+            <mal:type list="true" name="ServiceCapability" service="Directory" area="Common"/>
+          </mal:field>
+          <mal:field name="providerAddresses" canBeNull="false"
+                     comment="List of addresses for all services of this service provider unless service specific addresses are supplied in the serviceCapabilities field. If all address information is supplied in the serviceCapabilities field this list should be zero length.">
+            <mal:type list="true" name="AddressDetails" service="Directory" area="Common"/>
+          </mal:field>
+        </mal:composite>
+        <mal:composite name="ServiceCapability" shortFormPart="2"
+                       comment="The ServiceCapability structure holds information about a service and the capabilities offered by a provider.">
+          <mal:extends>
+            <mal:type name="Composite" area="MAL"/>
+          </mal:extends>
+          <mal:field name="serviceKey" canBeNull="false"
+                     comment="The area, service, and version fields.">
+            <mal:type name="ServiceKey" area="Common"/>
+          </mal:field>
+          <mal:field name="supportedCapabilitySets"
+                     comment="The supported capability set numbers for this service provider. If NULL then all capability sets supported.">
+            <mal:type list="true" name="UShort" area="MAL"/>
+          </mal:field>
+          <mal:field name="serviceProperties"
+                     comment="Allows the passing of deployment specific service properties.">
+            <mal:type list="true" name="NamedValue" area="MAL"/>
+          </mal:field>
+          <mal:field name="serviceAddresses"
+                     comment="Optional set of address details for this specific service which shall be used instead of the provider ones when accessing this service. If all address information is supplied in the containing ProviderDetails structure field this list should be replaced with a NULL.">
+            <mal:type list="true" name="AddressDetails" service="Directory" area="Common"/>
+          </mal:field>
+        </mal:composite>
+        <mal:composite name="AddressDetails" shortFormPart="4"
+                       comment="The AddressDetails structure holds all information required by the Directory service about a service providers URI and attributes relating to QoS.">
+          <mal:extends>
+            <mal:type name="Composite" area="MAL"/>
+          </mal:extends>
+          <mal:field name="supportedLevels" canBeNull="false"
+                     comment="The set of possible QoS levels this service can provide.">
+            <mal:type list="true" name="QoSLevel" area="MAL"/>
+          </mal:field>
+          <mal:field name="QoSproperties" canBeNull="false"
+                     comment="Any QoS properties relevant to this address URIs and the specified transport.">
+            <mal:type list="true" name="NamedValue" area="MAL"/>
+          </mal:field>
+          <mal:field name="priorityLevels" canBeNull="false"
+                     comment="The number of QoS priority levels that this provider supports.">
+            <mal:type name="UInteger" area="MAL"/>
+          </mal:field>
+          <mal:field name="serviceURI"
+                     comment="The Service URI that identifies the physical location of this service. NULL if represents a shared data provider (Broker).">
+            <mal:type name="URI" area="MAL"/>
+          </mal:field>
+          <mal:field name="brokerURI"
+                     comment="The broker URI that identifies the physical location of the publish and subscribe interface. NULL if service does not use publish and subscribe operations or if a shared broker is to be used.">
+            <mal:type name="URI" area="MAL"/>
+          </mal:field>
+          <mal:field name="brokerProviderObjInstId"
+                     comment="The object instance identifier of a ServiceProvider COM object that is the shared broker used by this provider.">
+            <mal:type name="Long" area="MAL"/>
+          </mal:field>
+        </mal:composite>
+        <mal:composite name="ProviderSummary" shortFormPart="5"
+                       comment="The ProviderSummary structure holds information about a provider of a service and its capabilities.">
+          <mal:extends>
+            <mal:type name="Composite" area="MAL"/>
+          </mal:extends>
+          <mal:field name="providerKey" canBeNull="false"
+                     comment="The COM object key of this service provider">
+            <mal:type name="ObjectKey" area="COM"/>
+          </mal:field>
+          <mal:field name="providerId" canBeNull="false" comment="The id of this service provider.">
+            <mal:type name="Identifier" area="MAL"/>
+          </mal:field>
+          <mal:field name="providerDetails" canBeNull="false"
+                     comment="The service capabilities supported by this provider">
+            <mal:type name="ProviderDetails" service="Directory" area="Common"/>
+          </mal:field>
+        </mal:composite>
+        <mal:composite name="PublishDetails" shortFormPart="6"
+                       comment="The PublishDetails structure holds all the required information to publish new service provider details.">
+          <mal:extends>
+            <mal:type name="Composite" area="MAL"/>
+          </mal:extends>
+          <mal:field name="providerId" canBeNull="false"
+                     comment="The unique service provider id; allows multiple service providers of the same service type to coexist in the directory service.">
+            <mal:type name="Identifier" area="MAL"/>
+          </mal:field>
+          <mal:field name="domain" canBeNull="false" comment="The domain of the provider.">
+            <mal:type list="true" name="Identifier" area="MAL"/>
+          </mal:field>
+          <mal:field name="sessionType" canBeNull="false"
+                     comment="The type of session of the provider.">
+            <mal:type name="SessionType" area="MAL"/>
+          </mal:field>
+          <mal:field name="sourceSessionName"
+                     comment="If this is part of a replay session, this field holds the session name of the source session. NULL otherwise">
+            <mal:type name="Identifier" area="MAL"/>
+          </mal:field>
+          <mal:field name="network" canBeNull="false" comment="The network of the provider.">
+            <mal:type name="Identifier" area="MAL"/>
+          </mal:field>
+          <mal:field name="providerDetails" canBeNull="false"
+                     comment="The new service provider details.">
+            <mal:type name="ProviderDetails" service="Directory" area="Common"/>
+          </mal:field>
+          <mal:field name="serviceXML"
+                     comment="The optional XML files to associate with this provider.">
+            <mal:type list="true" name="File" area="MAL"/>
+          </mal:field>
+        </mal:composite>
+        <mal:composite name="ServiceFilter" shortFormPart="7"
+                       comment="The ServiceFilter structure holds all information required by the Directory service for service lookup operation. The field filters are AND'd together.">
+          <mal:extends>
+            <mal:type name="Composite" area="MAL"/>
+          </mal:extends>
+          <mal:field name="serviceProviderId"
+                     comment="The required service provider. Can be NULL in which case matches all values.">
+            <mal:type name="Identifier" area="MAL"/>
+          </mal:field>
+          <mal:field name="domain"
+                     comment="The domain to query. Can be NULL in which case matches all values.">
+            <mal:type list="true" name="Identifier" area="MAL"/>
+          </mal:field>
+          <mal:field name="network"
+                     comment="The network to match. Can be NULL in which case matches all values.">
+            <mal:type name="Identifier" area="MAL"/>
+          </mal:field>
+          <mal:field name="sessionType"
+                     comment="The session type to match. Can be NULL in which case matches all values.">
+            <mal:type name="SessionType" area="MAL"/>
+          </mal:field>
+          <mal:field name="sessionName"
+                     comment="The session name to match. Can be NULL in which case matches all values.">
+            <mal:type name="Identifier" area="MAL"/>
+          </mal:field>
+          <mal:field name="serviceKey"
+                     comment="The service to filter on, values can be NULL which matches all values.">
+            <mal:type name="ServiceKey" area="Common"/>
+          </mal:field>
+          <mal:field name="requiredCapabilitySets"
+                     comment="List of required capability sets. If NULL then matches any.">
+            <mal:type list="true" name="UShort" area="MAL"/>
+          </mal:field>
+        </mal:composite>
+      </mal:dataTypes>
+      <com:features>
+        <com:objects comment="A ServiceProvider object represents a service provider. The COM object body shall hold the service provider id taken from the providerId field of the PublishDetails composite.&#xA;The ServiceProvider COM object related link shall not be used and therefore set to NULL.&#xA;The ServiceProvider COM object source link shall not be used and therefore shall be set to NULL.&#xA;A ProviderCapabilities object represents the supported capabilities of a service provider. The COM object body shall hold the provider details of the service provider.&#xA;The ProviderCapabilities COM object related link shall indicate which ServiceProvider COM object it links to.&#xA;The ProviderCapabilities COM object source link shall not be used and therefore set to NULL.&#xA;ServiceProvider and ProviderCapabilities objects shall be created by the publishService operation.&#xA;The object instance identifier for the ServiceProvider and ProviderCapabilities objects shall be populated by the provider of the directory service.&#xA;For the AddressDetails of a particular ProviderCapabilities object, if the brokerProviderObjInstId field contains a value and the brokerURI field is NULL, then the brokerURI value of the referenced provider shall be used.">
+          <com:object name="ServiceProvider" number="1">
+            <com:objectType>
+              <mal:type name="Identifier" area="MAL"/>
+            </com:objectType>
+          </com:object>
+          <com:object name="ProviderCapabilities" number="2">
+            <com:objectType>
+              <mal:type name="ProviderDetails" service="Directory" area="Common"/>
+            </com:objectType>
+            <com:relatedObject>
+              <com:objectType number="1" service="Directory" area="Common"/>
+            </com:relatedObject>
+          </com:object>
+        </com:objects>
+        <com:archiveUsage comment="All directory objects must be stored in the COM archive by the provider of the Directory service if the implementation of the Directory service uses a COM archive."/>
+      </com:features>
+    </mal:service>
+    <mal:service xsi:type="com:ExtendedServiceType" name="Login" number="2"
+                 comment="The Login service defines the primary mechanism for the submission of authentication credentials to a deployment specific security system. It supports operations to allow a user to login, logout, report available roles, and also handover the login to another user.&#xA;The service is closely tied to the Access Control aspect of the MAL where the returned authentication identifiers are used in the MAL message header to authenticate and authorise message via Access Control.&#xA;The login service supports the concept of roles, where users may log in with a specific role; the meaning of each role is mission-specific, however it is expected that a specific role allocates the user privileges to invoke operations on mission operation services.&#xA;The use of login roles is optional but if they are used then the role details are held in the COM archive and the COM archive operations are used to manage the role definitions. The responsibility for maintenance of the login roles is outside the scope of this specification as it is a deployment issue to define the possible roles and associate users to those roles.&#xA;The form in which the password is sent to the Login service provider must be agreed upon beforehand and is dependent on the security system deployed. For example, most security implementations do not recommend the use of plain text passwords but rather some encrypted version of the password. For this reason the contents of the messages sent between the login service consumer and provider during authentication handshaking are implementation-specific.&#xA;The authentication and authorisation concept of the MO services is covered in section 3.6 of the Reference Model (R2).&#xA;The Reference Model (R2) also provides sequence diagrams for security and login in sections 5.2 and 5.3.">
+      <mal:documentation name="High Level Requirements" order="1">The login service shall provide the capability:
+&lt;ol&gt;
+ &lt;li&gt;log in;&lt;/li&gt;
+ &lt;li&gt;log out;&lt;/li&gt;
+ &lt;li&gt;report the list of possible roles for a login profile;&lt;/li&gt;
+ &lt;li&gt;hand over an existing login from one user to another.&lt;/li&gt;
+&lt;/ol&gt;</mal:documentation>
+      <mal:capabilitySet number="1">
+        <mal:requestIP name="login" number="1" supportInReplay="false"
+                       comment="The login operation allows a user to log in to the system. A user can log in more than once by using a different role; however, a specific deployment may place limits on the number of users that may use a specific role, and in that case will fail the login operation with the TOO_MANY error.">
+          <mal:messages>
+            <mal:request>
+              <mal:field name="userDetails"
+                         comment="The authenticationId field of the REQUEST message must be NULL otherwise an INVALID error shall be returned.&#xA;The authenticationId field shall be checked before applying all other tests here.&#xA;The userDetails field shall contain the details of the new user and role combination.&#xA;If the username field of the supplied Profile structure is either the wildcard '*' or empty an INVALID error shall be returned.&#xA;If roles are required by the system and the role field of the supplied Profile structure is NULL then an INVALID error shall be returned.&#xA;If roles are not used by the system the role field of the supplied Profile structure shall be ignored and may be set to NULL.&#xA;An UNKNOWN error shall be returned if the username, password and role combination are not correct for the system i.e. unknown user/role or incorrect password.&#xA;A DUPLICATE error shall be returned if the username and role combination is currently in use.&#xA;A TOO_MANY error shall be returned if the username or role are already used and exceed (deployment dependent) maximum number of concurrent logins/roles.&#xA;If the login is successful the provider shall create a new LoginInstance COM object and store it in the COM archive.&#xA;The related link of the new LoginInstance COM object shall be set to the requested LoginRole COM object.&#xA;A LoginEvent COM event shall be generated at this point.">
+                <mal:type name="Profile" service="Login" area="Common"/>
+              </mal:field>
+              <mal:field name="password">
+                <mal:type name="String" area="MAL"/>
+              </mal:field>
+            </mal:request>
+            <mal:response>
+              <mal:field name="authId"
+                         comment="The returned authId field shall be used as the authenticationId field in future MAL messages by the consumer MAL for authentication. The token is specific to the user and role in use.">
+                <mal:type name="Blob" area="MAL"/>
+              </mal:field>
+              <mal:field name="objInstId"
+                         comment="The returned objInstId field shall contain the LoginInstance COM object instance identifier that was created by the login operation.">
+                <mal:type name="Long" area="MAL"/>
+              </mal:field>
+            </mal:response>
+          </mal:messages>
+          <mal:errors>
+            <mal:errorRef comment="Username/role combination currently in use.">
+              <mal:type name="DUPLICATE" area="COM"/>
+            </mal:errorRef>
+            <mal:errorRef comment="Submitted profile contains invalid values. No further information is provided as it may compromise security.">
+              <mal:type name="INVALID" area="COM"/>
+            </mal:errorRef>
+            <mal:errorRef comment="Role concurrent session limit count exceeded.">
+              <mal:type name="TOO_MANY" area="MAL"/>
+            </mal:errorRef>
+            <mal:errorRef comment="Unknown username/role/password combination.">
+              <mal:type name="UNKNOWN" area="MAL"/>
+            </mal:errorRef>
+          </mal:errors>
+        </mal:requestIP>
+        <mal:submitIP name="logout" number="2" supportInReplay="false"
+                      comment="The logout operation allows a user to log out from the system. No information is passed in the message as the MAL authentication Id is enough to identify the login.">
+          <mal:messages>
+            <mal:submit comment="Upon reception of the message the operation shall remove the matched user from the set of logged in users in the login service provider.&#xA;A logged in user shall be matched using the supplied authenticationId. &#xA;A LogoutEvent COM event shall be generated at this point.&#xA;No errors shall be returned by this operation."/>
+          </mal:messages>
+        </mal:submitIP>
+      </mal:capabilitySet>
+      <mal:capabilitySet number="2">
+        <mal:requestIP name="listRoles" number="3" supportInReplay="false"
+                       comment="The listRoles operation returns the list of available roles for a specific user. This operation is expected to be called before a user logs in so that the software can provide a list of possible roles.&#xA;It should be noted that this operation requires both a username and password field before returning any information, this is to ensure that it does not provide a security attack vector by allowing the discovery of valid usernames without first knowing the correct password.">
+          <mal:messages>
+            <mal:request>
+              <mal:field name="username"
+                         comment="The username field shall hold the details of the user.&#xA;If the username field is either the wildcard '*', NULL or empty an INVALID error shall be returned.">
+                <mal:type name="Identifier" area="MAL"/>
+              </mal:field>
+              <mal:field name="password"
+                         comment="An UNKNOWN error shall be returned if the username and password combination are not correct for the system i.e. unknown user or incorrect password.">
+                <mal:type name="String" area="MAL"/>
+              </mal:field>
+            </mal:request>
+            <mal:response>
+              <mal:field name="permittedRoles"
+                         comment="The operation shall return a list of LoginRole object instance identifiers that are permitted for the user or NULL if roles are not used by the system.">
+                <mal:type list="true" name="Long" area="MAL"/>
+              </mal:field>
+            </mal:response>
+          </mal:messages>
+          <mal:errors>
+            <mal:errorRef comment="Unknown username/password combination.">
+              <mal:type name="UNKNOWN" area="MAL"/>
+            </mal:errorRef>
+            <mal:errorRef comment="Submitted profile contains invalid values.">
+              <mal:type name="INVALID" area="COM"/>
+            </mal:errorRef>
+          </mal:errors>
+        </mal:requestIP>
+      </mal:capabilitySet>
+      <mal:capabilitySet number="3">
+        <mal:requestIP name="handover" number="4" supportInReplay="false"
+                       comment="The handover operation allows an existing login to be transferred to a new user. Two cases are expected here, the first is where the operation is used to change the user's current role, and the second is where an operations context is handed over to another user.">
+          <mal:messages>
+            <mal:request>
+              <mal:field name="newUserDetails"
+                         comment="The newUserDetails field shall contain the details of the new user and role combination.&#xA;If the username field of the supplied Profile structure is either NULL, the wildcard '*', or empty an INVALID error shall be returned.&#xA;If roles are required by the system and the role field of the supplied Profile structure is NULL then an INVALID error shall be returned.&#xA;The role field of the supplied Profile structure may be NULL if roles are not used by the system.&#xA;An UNKNOWN error shall be returned if the username, password and role combination are not correct for the system i.e. unknown user/role or incorrect password.&#xA;A DUPLICATE error shall be returned if the username and role combination is currently in use.&#xA;A TOO_MANY error shall be returned if the username or role are already used and exceed the permitted maximum usage value (deployment dependent).&#xA;The DUPLICATE and TOO_MANY checks shall take into account the fact that current operator/role combination will be logged out after the handover operation completes.&#xA;If the handover is successful the provider shall create a new LoginInstance COM object and store it in the COM archive.&#xA;The related link of the new LoginInstance COM object shall be set to the requested LoginRole COM object.&#xA;If an error is raised then the handover operation shall fail and the original login remain active.&#xA;The source link of the new LoginInstance COM object shall be set to the LoginInstance COM object that represents the previous login.&#xA;If the handover operation is successful a LogoutEvent COM event shall be generated for the previous login and a LoginEvent COM event shall be generated for the new login.">
+                <mal:type name="Profile" service="Login" area="Common"/>
+              </mal:field>
+              <mal:field name="newUserPassword">
+                <mal:type name="String" area="MAL"/>
+              </mal:field>
+            </mal:request>
+            <mal:response>
+              <mal:field name="newAuthId"
+                         comment="The returned newAuthId field shall be used as the authenticationId field in future MAL messages by the consumer MAL for authentication. The token is specific to the new user and role in use.">
+                <mal:type name="Blob" area="MAL"/>
+              </mal:field>
+              <mal:field name="newLoginInstId"
+                         comment="The returned newLoginInstId field shall contain the new LoginInstance COM object instance identifier that was created by the operation.">
+                <mal:type name="Long" area="MAL"/>
+              </mal:field>
+            </mal:response>
+          </mal:messages>
+          <mal:errors>
+            <mal:errorRef comment="Unknown username/role/password combination.">
+              <mal:type name="UNKNOWN" area="MAL"/>
+            </mal:errorRef>
+            <mal:errorRef comment="Submitted profile contains invalid values.">
+              <mal:type name="INVALID" area="COM"/>
+            </mal:errorRef>
+            <mal:errorRef comment="Role concurrent session limit count exceeded.">
+              <mal:type name="TOO_MANY" area="MAL"/>
+            </mal:errorRef>
+            <mal:errorRef comment="Username/role combination currently in use.">
+              <mal:type name="DUPLICATE" area="COM"/>
+            </mal:errorRef>
+          </mal:errors>
+        </mal:requestIP>
+      </mal:capabilitySet>
+      <mal:dataTypes>
+        <mal:composite name="Profile" shortFormPart="1"
+                       comment="The Profile structure contains details of the user who is logging on to take a specified role.">
+          <mal:extends>
+            <mal:type name="Composite" area="MAL"/>
+          </mal:extends>
+          <mal:field name="username" canBeNull="false" comment="The name of the user.">
+            <mal:type name="Identifier" area="MAL"/>
+          </mal:field>
+          <mal:field name="role"
+                     comment="The optional object instance identifier of the role required by the user.">
+            <mal:type name="Long" area="MAL"/>
+          </mal:field>
+        </mal:composite>
+      </mal:dataTypes>
+      <com:features>
+        <com:objects comment="Instances of a user login shall be represented as LoginInstance COM object.&#xA;Instances of a user role shall be represented as LoginRole COM object.&#xA;LoginInstance objects shall be created by the login and handover operations.&#xA;The object instance identifier for a LoginInstance object shall be populated by the provider of the Login service.&#xA;The LoginInstance object shall use the related link to indicate which LoginRole (if any) the login uses.&#xA;If a LoginInstance object was created during a login operation then the source link shall be set to NULL.&#xA;If a LoginInstance object was created during a handover operation it shall use the source link to indicate which LoginInstance the login was handed over from.">
+          <com:object name="LoginRole" number="1"
+                      comment="The body of the LoginRole object is the role name Identifier.">
+            <com:objectType>
+              <mal:type name="Identifier" area="MAL"/>
+            </com:objectType>
+          </com:object>
+          <com:object name="LoginInstance" number="2">
+            <com:objectType>
+              <mal:type name="Profile" service="Login" area="Common"/>
+            </com:objectType>
+            <com:relatedObject>
+              <com:objectType number="1" service="Login" area="Common"/>
+            </com:relatedObject>
+            <com:sourceObject>
+              <com:objectType number="2" service="Login" area="Common"/>
+            </com:sourceObject>
+          </com:object>
+        </com:objects>
+        <com:events comment="When a user logs in a LoginEvent COM event shall be generated.&#xA;When a user logs out a LogoutEvent COM event shall be generated.&#xA;When the handover operation is successful a LogoutEvent COM event shall be generated for the previous login and a LoginEvent COM event shall be generated for the new login.&#xA;The LoginEvent event shall use the related link to indicate which LoginInstance object is being logged in.&#xA;The LogoutEvent event shall use the related link to indicate which LoginInstance object is being logged out.&#xA;The LoginEvent event shall not use the COM object source link and shall set it to NULL.&#xA;The LogoutEvent event shall use the source link to indicate which LoginEvent event it is logging out.&#xA;The events shall be published using the COM event service.">
+          <com:event name="LoginEvent" number="3">
+            <com:relatedObject>
+              <com:objectType number="2" service="Login" area="Common"/>
+            </com:relatedObject>
+          </com:event>
+          <com:event name="LogoutEvent" number="4">
+            <com:relatedObject>
+              <com:objectType number="2" service="Login" area="Common"/>
+            </com:relatedObject>
+            <com:sourceObject>
+              <com:objectType number="3" service="Login" area="Common"/>
+            </com:sourceObject>
+          </com:event>
+        </com:events>
+        <com:archiveUsage comment="LoginInstance objects should be stored in the COM archive.&#xA;When a login service event is published, the event object should be stored in the COM archive by the Login service provider.&#xA;LoginRole objects should be stored in the COM archive.&#xA;The COM archive service should be used for maintaining the LoginRole objects."/>
+      </com:features>
+    </mal:service>
+    <mal:service xsi:type="com:ExtendedServiceType" name="Configuration" number="5"
+                 comment="The Configuration service allows a service consumer to activate pre-defined configurations of a service provider. &#xA;The service uses a COM object to represent the different configurations allowed by a service provider; a service consumer selects one configuration to activate using the Configuration service activate operation.&#xA;The contents of a configuration for a service provider is deployment specific however the management of these configurations, and the selection of a configuration for current use, is the purpose of this service.&#xA;Implementations of this service may also use bespoke methods for configuration representation (such as hard-coded configuration) which is outside the scope of this specification, however, the status and management of these configurations can still be managed with this service.&#xA;NOTE: This service uses the COM Event service to distribute changes in state, therefore participating service providers should ensure they are all using the same shared COM Event service if they wish to receive Configuration service events.">
+      <mal:documentation name="High Level Requirements" order="1">The configuration service shall provide the capability:
+&lt;ol&gt;
+ &lt;li&gt;activate a configuration;&lt;/li&gt;
+ &lt;li&gt;list available configurations;&lt;/li&gt;
+ &lt;li&gt;manage the available configurations;&lt;/li&gt;
+ &lt;li&gt;get and store the current configuration;&lt;/li&gt;
+ &lt;li&gt;import/export configurations from/to XML.&lt;/li&gt;
+&lt;/ol&gt;</mal:documentation>
+      <mal:capabilitySet number="1">
+        <mal:invokeIP name="activate" number="1" supportInReplay="false"
+                      comment="The activate operation instructs a service provider to make a specific configuration active. The operation returns once the new configuration is active or when the activation attempt has failed for some reason.&#xA;The requested configuration must have either already been added to the configuration service provider using the add operation or alternatively known to the configuration service by another implementation specific mechanism.&#xA;NOTE - The service is reconfigured for all service consumers not just the calling consumer.">
+          <mal:messages>
+            <mal:invoke>
+              <mal:field name="serviceProvider"
+                         comment="The serviceProvider field shall contain the domain and object instance identifier of the ServiceProvider COM object being (re)configured.&#xA;If the service provider referenced by the serviceProvider field is not known an UNKNOWN error shall be returned.">
+                <mal:type name="ObjectKey" area="COM"/>
+              </mal:field>
+              <mal:field name="configObjId"
+                         comment="The configObjId field shall hold the COM object identifier that identifies the configuration to activate.&#xA;The configObjId field shall reference either a ProviderConfiguration or ServiceConfiguration object.&#xA;An UNKNOWN error shall be returned if the object instance identifier held in the configObjId field does not match an existing configuration.&#xA;An INVALID error shall be returned if the object instance identifier held in the configObjId field does not reference either a ProviderConfiguration or ServiceConfiguration object.&#xA;If the object instance identifier held in the configObjId field does not reference a valid configuration for the service provider an INVALID error shall be returned. A valid configuration is one that is returned from the list operation for the matched service provider.">
+                <mal:type name="ObjectId" area="COM"/>
+              </mal:field>
+            </mal:invoke>
+            <mal:acknowledgement comment="A ConfigurationSwitch COM Event shall be published if no errors are being returned containing the ObjectId of the service or provider configuration to use, i.e. the contents of the configObjId field of this operation.&#xA;The acknowledgement message shall be sent at this point."/>
+            <mal:response>
+              <mal:field name="activationResult"
+                         comment="The service provider that implements the selected service shall, after the reception of the ConfigurationSwitch event, reconfigure itself and publish a ConfigurationSwitched COM event.&#xA;If the operation fails the previous configuration shall remain active.&#xA;In the case of a provider configuration, where multiple service configurations are being switched, the provider must switch all configurations successfully or roll back to the previous configuration. No partial reconfiguration is supported.&#xA;If a provider level configuration is successful, and a COM archive is being used, then the service provider that implements the selected service shall store in the COM archive a new ProviderConfigurationLink COM object that links its ServiceProvider object to the new activated ProviderConfiguration COM object.&#xA;The response message shall be sent when the configuration is either made active or fails.&#xA;If the activation was successful then the activationResult field shall be set to TRUE, otherwise FALSE for failure.">
+                <mal:type name="Boolean" area="MAL"/>
+              </mal:field>
+              <mal:field name="previousConfig"
+                         comment="The previousConfig field shall point to the previously active configuration or NULL if no configuration was previously active or the activationResult was FALSE for failure.&#xA;If a service configuration was requested, configObjId field shall referenced a ServiceConfiguration, the response shall contain a list of a single item of the previous ServiceConfiguration COM object.&#xA;If a provider configuration was requested, configObjId field shall referenced a ProviderConfiguration, the response shall contain a list of the previous ProviderConfiguration COM object followed by the list of previous ServiceConfiguration objects active for that provider.">
+                <mal:type list="true" name="ObjectId" area="COM"/>
+              </mal:field>
+            </mal:response>
+          </mal:messages>
+          <mal:errors>
+            <mal:errorRef comment="Requested configuration is unknown.">
+              <mal:type name="UNKNOWN" area="MAL"/>
+            </mal:errorRef>
+            <mal:errorRef comment="Requested configuration is invalid.">
+              <mal:type name="INVALID" area="COM"/>
+            </mal:errorRef>
+          </mal:errors>
+        </mal:invokeIP>
+      </mal:capabilitySet>
+      <mal:capabilitySet number="2">
+        <mal:requestIP name="list" number="2" supportInReplay="false"
+                       comment="The list operation returns list of configurations known to the configuration service provider for a certain configuration type in a specific domain.&#xA;To appear in the response from the list operation a configuration must have either been added to the configuration service provider using the add operation or alternatively known to the configuration service by another implementation specific mechanism.">
+          <mal:messages>
+            <mal:request>
+              <mal:field name="configurationType"
+                         comment="The configurationType argument shall hold the type of configuration to be listed.">
+                <mal:type name="ConfigurationType" service="Configuration" area="Common"/>
+              </mal:field>
+              <mal:field name="domain"
+                         comment="The domain request argument shall contain the domain of the configuration objects to return.&#xA;The domain field supports the wildcard value of '*' only in the last part of the domain, otherwise an INVALID error shall be returned. See section 3.5.6.5.g in R[2].">
+                <mal:type list="true" name="Identifier" area="MAL"/>
+              </mal:field>
+              <mal:field name="serviceKey"
+                         comment="If the request configuration type is SERVICE, then an optional filter may be supplied in the serviceKey field where the ServiceKey composite holds the service area, service, and version values to match on.&#xA;The filter shall be applied with a logical AND for each field of the service key.&#xA;Wildcard values of '0' are not accepted in the serviceKey fields, an INVALID error shall be returned in this case.&#xA;For other types of configuration the serviceKey field shall be ignored and may be set to NULL in the request.">
+                <mal:type name="ServiceKey" area="Common"/>
+              </mal:field>
+            </mal:request>
+            <mal:response>
+              <mal:field name="objInstIds"
+                         comment="The operation shall return the list of matched configuration objects known to the configuration service provider.&#xA;If no configurations matched then an empty list shall be returned.">
+                <mal:type list="true" name="ObjectId" area="COM"/>
+              </mal:field>
+            </mal:response>
+          </mal:messages>
+          <mal:errors>
+            <mal:errorRef comment="Requested configuration is not a valid configuration object type or wildcard values were specified in the service key filter.">
+              <mal:type name="INVALID" area="COM"/>
+            </mal:errorRef>
+          </mal:errors>
+        </mal:requestIP>
+        <mal:requestIP name="getCurrent" number="3" supportInReplay="false"
+                       comment="The getCurrent operation returns the currently selected configuration of a service provider, either of the complete provider (ProviderConfiguration) or a specific service (ServiceConfiguration) of that provider, as far as the Configuration Service provider is concerned.&#xA;This means that if the provider of a specific service has modified their configuration by some other means, and this has not been stored using the storeCurrent operation, then this operation will return the unmodified configuration.&#xA;If a provider level configuration is required by this operation, and service configurations different to the ones in the provider configuration have been activated by the activate operation, then this operation will return the ProviderConfiguration followed by the list of modified ServiceConfigurations.&#xA;The current configuration of a service provider is most likely the configuration that was last activated using the activate operation, however implementations of the configuration service may have other means (outside the scope of this service) of selecting the current configuration of a service provider.&#xA;The operation can also be used to determine the initial configuration of a service provider before it has been activated, it is therefore a useful operation to call by a service provider during start-up to determine its initial configuration. If this is the case a ConfigurationSwitched event should be published.">
+          <mal:messages>
+            <mal:request>
+              <mal:field name="serviceProvider"
+                         comment="The serviceProvider field shall contain the domain and object instance identifier of the ServiceProvider COM object being queried.">
+                <mal:type name="ObjectKey" area="COM"/>
+              </mal:field>
+              <mal:field name="serviceKey"
+                         comment="If the serviceKey field is not NULL, then the operation shall return the configuration of the selected service, as specified in the field.&#xA;For retrieval of the provider level configuration the serviceKey field shall be set to NULL in the request.&#xA;An UNKNOWN error shall be returned if the combination of service provider and service filter fields don't match an existing service provider, service key or configuration.&#xA;No wildcards are supported, an INVALID error must be returned in this case.">
+                <mal:type name="ServiceKey" area="Common"/>
+              </mal:field>
+            </mal:request>
+            <mal:response>
+              <mal:field name="objInstId"
+                         comment="If a service configuration was requested, serviceKey was not NULL, the response shall contain a list of a single item of the matched ServiceConfiguration COM object.&#xA;If a provider configuration was requested, serviceKey was NULL, the response shall contain a list of the matched ProviderConfiguration COM object followed by the list of active ServiceConfiguration objects active for that provider.">
+                <mal:type list="true" name="ObjectId" area="COM"/>
+              </mal:field>
+            </mal:response>
+          </mal:messages>
+          <mal:errors>
+            <mal:errorRef comment="The request contained one or more wildcards.">
+              <mal:type name="INVALID" area="COM"/>
+            </mal:errorRef>
+            <mal:errorRef comment="Requested service provider and service key combination is unknown.">
+              <mal:type name="UNKNOWN" area="MAL"/>
+            </mal:errorRef>
+          </mal:errors>
+        </mal:requestIP>
+      </mal:capabilitySet>
+      <mal:capabilitySet number="3">
+        <mal:requestIP name="exportXML" number="4" supportInReplay="false"
+                       comment="The exportXML operation returns the actual Configuration information in the XML format from the configuration object stored in the Archive.&#xA;The returned XML is in the standardised format and one of two levels of detail, compact or complete, can be selected. Compact contains just the COM object instance identifiers with the respective domains and object types whereas complete augments the compact with the additional set of values inside the respective service objects. &#xA;The XML standardised format is the XML representation of the referenced COM objects as defined by the XML encoding given in R[4]. Example XML documents can be found in an annex at the end of this specification.&#xA;If the implementation of the configuration service is not using a COM archive then an error is returned.&#xA;It should be noted that this operation only supports COM configurations.">
+          <mal:messages>
+            <mal:request>
+              <mal:field name="confObjId"
+                         comment="If the implementation of the configuration service is not using a COM archive then an UNSUPPORTED_OPERATION error shall be returned.&#xA;The confObjId argument shall contain the type, domain and COM object instance identifier of the configuration object to return the XML representation of.&#xA;An UNKNOWN error shall be returned if the confObjId field does not match an existing COM object.&#xA;An INVALID error shall be returned if the confObjId does not refer to either a ProviderConfiguration or a ServiceConfiguration object.&#xA;An INVALID error shall be returned if the confObjId refers to either a hard-coded or a non-COM configuration.">
+                <mal:type name="ObjectId" area="COM"/>
+              </mal:field>
+              <mal:field name="returnComplete"
+                         comment="The returnComplete Boolean shall be set to True if the returned XML is to be in the complete standardised format, otherwise it will be in the compact standardised format.">
+                <mal:type name="Boolean" area="MAL"/>
+              </mal:field>
+            </mal:request>
+            <mal:response>
+              <mal:field name="xmlConfiguration"
+                         comment="The returned File object shall contain the configuration XML.&#xA;The Configuration object shall not be deleted from the COM Archive.">
+                <mal:type name="File" area="MAL"/>
+              </mal:field>
+            </mal:response>
+          </mal:messages>
+          <mal:errors>
+            <mal:errorRef comment="Requested configuration is not a valid configuration object type.">
+              <mal:type name="INVALID" area="COM"/>
+            </mal:errorRef>
+            <mal:errorRef comment="Requested object is unknown.">
+              <mal:type name="UNKNOWN" area="MAL"/>
+            </mal:errorRef>
+            <mal:errorRef comment="The operation requires the use of a COM archive">
+              <mal:type name="UNSUPPORTED_OPERATION" area="MAL"/>
+            </mal:errorRef>
+          </mal:errors>
+        </mal:requestIP>
+      </mal:capabilitySet>
+      <mal:capabilitySet number="4">
+        <mal:submitIP name="add" number="5" supportInReplay="false"
+                      comment="The add operation makes a new Configuration available on the Configuration Service. The Configuration must already exist in the COM archive to be added to the Configuration Service.&#xA;If the implementation of the configuration service is not using a COM archive then an error is returned.&#xA;This operation can be used to add COM, non-COM and hard-coded configurations.">
+          <mal:messages>
+            <mal:submit>
+              <mal:field name="serviceProvider"
+                         comment="If the implementation of the configuration service is not using a COM archive then an UNSUPPORTED_OPERATION error shall be returned.&#xA;The first argument shall contain the domain and object identifier of the ServiceProvider COM object which the configurations are being added to.">
+                <mal:type name="ObjectKey" area="COM"/>
+              </mal:field>
+              <mal:field name="configObjIds"
+                         comment="The second argument shall contain a list of service and/or provider configurations to add to the list of configurations available for the specific service provider.&#xA;If either the service provider or the configuration objects are unknown then an UNKNOWN error shall be returned.&#xA;If any of the supplied configuration objects are not provider or service configuration objects then an INVALID error shall be returned.&#xA;If an error is raised then no new configurations shall be added as a result of this operation call.">
+                <mal:type list="true" name="ObjectId" area="COM"/>
+              </mal:field>
+            </mal:submit>
+          </mal:messages>
+          <mal:errors>
+            <mal:errorRef comment="One of the supplied configuration object instance identifiers is either not a Service or a Provider configuration object.">
+              <mal:type name="INVALID" area="COM"/>
+              <mal:extraInformation comment="The extra information field contains a list of the indexes of the erroneous values from the originating list supplied.">
+                <mal:type list="true" name="UInteger" area="MAL"/>
+              </mal:extraInformation>
+            </mal:errorRef>
+            <mal:errorRef comment="The operation requires the use of a COM archive">
+              <mal:type name="UNSUPPORTED_OPERATION" area="MAL"/>
+            </mal:errorRef>
+            <mal:errorRef comment="One of the supplied service or configuration object instance identifiers is unknown.">
+              <mal:type name="UNKNOWN" area="MAL"/>
+              <mal:extraInformation comment="A list of the indexes of the error values shall be contained in the extra information field.">
+                <mal:type list="true" name="UInteger" area="MAL"/>
+              </mal:extraInformation>
+            </mal:errorRef>
+          </mal:errors>
+        </mal:submitIP>
+        <mal:submitIP name="remove" number="6" supportInReplay="false"
+                      comment="The remove operation, removes a provider configuration from the list of configurations available for that provider in the configuration service. The operation does not remove the configuration objects from the COM archive, merely removes the objects from the configuration service provider.&#xA;If the implementation of the configuration service is not using a COM archive then an error is returned.&#xA;This operation can be used to remove COM, non-COM, and hard-coded configurations from a provider.">
+          <mal:messages>
+            <mal:submit>
+              <mal:field name="serviceProvider"
+                         comment="If the implementation of the configuration service is not using a COM archive then an UNSUPPORTED_OPERATION error shall be returned.&#xA;The first argument shall contain the domain and object identifier of the ServiceProvider COM object which the configurations are being removed from.">
+                <mal:type name="ObjectKey" area="COM"/>
+              </mal:field>
+              <mal:field name="configObjIds"
+                         comment="The second argument shall contain a list of service and/or provider configurations to remove from the list of configurations available for the specific service provider.&#xA;If either the service provider or a provided object identifier does not match an existing configuration object then this operation shall fail with an UNKNOWN error.&#xA;If any of the supplied configuration objects are not provider or service configuration objects then an INVALID error shall be returned.&#xA;If an error is raised then no configurations shall be removed as a result of this operation call.&#xA;Matched configuration objects shall not be removed from the COM archive only the list of configuration objects in the provider.">
+                <mal:type list="true" name="ObjectId" area="COM"/>
+              </mal:field>
+            </mal:submit>
+          </mal:messages>
+          <mal:errors>
+            <mal:errorRef comment="Either the service provider or one of the supplied configuration object instance identifiers is unknown.">
+              <mal:type name="UNKNOWN" area="MAL"/>
+              <mal:extraInformation comment="A list of the indexes of the error values shall be contained in the extra information field.">
+                <mal:type list="true" name="UInteger" area="MAL"/>
+              </mal:extraInformation>
+            </mal:errorRef>
+            <mal:errorRef comment="One of the supplied configuration object instance identifiers is either not a Service or a Provider configuration object.">
+              <mal:type name="INVALID" area="COM"/>
+              <mal:extraInformation comment="The extra information field contains a list of the indexes of the erroneous values from the originating list supplied.">
+                <mal:type list="true" name="UInteger" area="MAL"/>
+              </mal:extraInformation>
+            </mal:errorRef>
+            <mal:errorRef comment="The operation requires the use of a COM archive">
+              <mal:type name="UNSUPPORTED_OPERATION" area="MAL"/>
+            </mal:errorRef>
+          </mal:errors>
+        </mal:submitIP>
+      </mal:capabilitySet>
+      <mal:capabilitySet number="5">
+        <mal:invokeIP name="storeCurrent" number="7" supportInReplay="false"
+                      comment="The storeCurrent operation requests the creation of a new Configuration object containing the current Configuration of a specific Service or Provider configuration and stores the new Configuration object in the COM archive. Optionally the configuration can be added to the list of available configurations.&#xA;The actual service provider is responsible for the creation of the new Configuration objects in the COM archive as it is the provider that contains the configuration being stored.&#xA;This operation's expected use is for storing a configuration that has been modified &#34;on line&#34; in the service provider. For instance, a need to modify the thresholds of the parameter checks on ground can arise during operations. Before being &#34;officialised&#34;, the new thresholds are usually implemented locally and tested. If the modifications are deemed correct then the configuration may be stored in the archive and becomes a new official configuration of the relevant service. This configuration can then be used by other providers of the same service via the add and activate operations.&#xA;If the implementation of the configuration service is not using a COM archive then an error is returned.&#xA;This operation can be used to request the store of both COM and non-COM configurations. It does not make sense to support hard-coded configurations as by definition they are fixed in nature.">
+          <mal:messages>
+            <mal:invoke>
+              <mal:field name="serviceProvider"
+                         comment="If the implementation of the configuration service is not using a COM archive then an UNSUPPORTED_OPERATION error shall be returned.&#xA;The serviceProvider field shall contain the domain and object instance identifier of the ServiceProvider COM object that must store its current configuration.&#xA;If the service provider is not known an UNKNOWN error shall be returned.">
+                <mal:type name="ObjectKey" area="COM"/>
+              </mal:field>
+              <mal:field name="serviceKey"
+                         comment="If the serviceKey field is not NULL then only the specified service of the provider shall be stored.&#xA;Wildcard values of '0' are not accepted in the serviceKey fields, an INVALID error shall be returned in this case.&#xA;If the serviceKey field is not NULL and the referenced service is not supported by the service provider an UNKNOWN error shall be returned.&#xA;The operation shall publish a ConfigurationStore event containing the selected configuration to be stored.&#xA;The service provider that implements the selected service shall, after the reception of the event, store its current Configuration in the COM Archive.&#xA;Once the relevant service provider has finished storing its configuration it shall publish a ConfigurationStored event with the stored configuration's ObjectId as its body.&#xA;If the request is for a hard-coded configuration then the relevant service provider must fail the store request by returning a NULL as a response.">
+                <mal:type name="ServiceKey" area="Common"/>
+              </mal:field>
+              <mal:field name="autoAdd"
+                         comment="If the autoAdd field is set to TRUE then, once the stored event has been published, and if it indicates success, the configuration service provider shall add the new configuration to the list of available configurations for the selected service provider. In effect call the add operation.">
+                <mal:type name="Boolean" area="MAL"/>
+              </mal:field>
+            </mal:invoke>
+            <mal:acknowledgement/>
+            <mal:response>
+              <mal:field name="objInstId"
+                         comment="The response shall contain the object identifier of the new configuration object if successful or NULL if not.">
+                <mal:type name="ObjectId" area="COM"/>
+              </mal:field>
+            </mal:response>
+          </mal:messages>
+          <mal:errors>
+            <mal:errorRef comment="Not a valid Service or Provider object">
+              <mal:type name="INVALID" area="COM"/>
+            </mal:errorRef>
+            <mal:errorRef comment="The operation requires the use of a COM archive">
+              <mal:type name="UNSUPPORTED_OPERATION" area="MAL"/>
+            </mal:errorRef>
+            <mal:errorRef comment="The service provider referenced is not known or the referenced service is not known by the provider.">
+              <mal:type name="UNKNOWN" area="MAL"/>
+            </mal:errorRef>
+          </mal:errors>
+        </mal:invokeIP>
+      </mal:capabilitySet>
+      <mal:capabilitySet number="6">
+        <mal:requestIP name="importXML" number="8" supportInReplay="false"
+                       comment="The importXML generates a new Configuration object from a XML File and stores the Configuration in the COM archive. Afterwards, the configuration can be added to the list of available configurations using the add operation.&#xA;The operation is only for importing XML configurations that use the standardised format defined by the Configuration service.&#xA;If the implementation of the configuration service is not using a COM archive then an error is returned.&#xA;The importXML can only be used to import COM based configurations.">
+          <mal:messages>
+            <mal:request>
+              <mal:field name="xmlFile"
+                         comment="If the implementation of the configuration service is not using a COM archive then an UNSUPPORTED_OPERATION error shall be returned.&#xA;The supplied file contained in the xmlFile argument shall be read and converted to COM objects.&#xA;If there is a problem converting the XML then an INVALID error shall be returned.&#xA;For every object present within the XML file that does not exist in the COM Archive, the Configuration service shall create a new object with the same content and store the object in the COM Archive.&#xA;If the object already exists in the COM Archive, nothing shall be created.&#xA;If the object already exists in the COM Archive but contains a different content a DUPLICATE error shall be raised.&#xA;The newly generated Configuration object shall always reference existing objects in the Archive.&#xA;The newly generated Configuration object should be checked for consistency. An INVALID error shall be raised if the configuration is not valid.&#xA;If an error is raised then no objects shall be stored in the COM archive and operation shall end.">
+                <mal:type name="File" area="MAL"/>
+              </mal:field>
+            </mal:request>
+            <mal:response>
+              <mal:field name="objInstId"
+                         comment="The return response shall contain in the objInstId field the object identifier of the new configuration object.">
+                <mal:type name="ObjectId" area="COM"/>
+              </mal:field>
+            </mal:response>
+          </mal:messages>
+          <mal:errors>
+            <mal:errorRef comment="The operation requires the use of a COM archive">
+              <mal:type name="UNSUPPORTED_OPERATION" area="MAL"/>
+            </mal:errorRef>
+            <mal:errorRef comment="The supplied XML contains a duplicate object definition that is different to the one held in the COM Archive.">
+              <mal:type name="DUPLICATE" area="COM"/>
+            </mal:errorRef>
+            <mal:errorRef comment="The supplied XML was not valid.">
+              <mal:type name="INVALID" area="COM"/>
+            </mal:errorRef>
+          </mal:errors>
+        </mal:requestIP>
+      </mal:capabilitySet>
+      <mal:dataTypes>
+        <mal:enumeration name="ConfigurationType" shortFormPart="4"
+                         comment="The configuration type enumeration holds the possible types of a configuration.">
+          <mal:item value="PROVIDER" nvalue="1"
+                    comment="The configuration is a Provider configuration."/>
+          <mal:item value="SERVICE" nvalue="2"
+                    comment="The configuration is a Service configuration."/>
+        </mal:enumeration>
+        <mal:composite name="ConfigurationObjectSet" shortFormPart="1"
+                       comment="The configuration object set holds a set of object identifiers for a single COM object type in a single domain.">
+          <mal:field name="objType" canBeNull="false"
+                     comment="The COM object type of the configuration objects.">
+            <mal:type name="ObjectType" area="COM"/>
+          </mal:field>
+          <mal:field name="domain" canBeNull="false"
+                     comment="The domain of the configuration objects.">
+            <mal:type list="true" name="Identifier" area="MAL"/>
+          </mal:field>
+          <mal:field name="objInstIds" canBeNull="false"
+                     comment="The set of COM object identifiers that form this configuration set.">
+            <mal:type list="true" name="Long" area="MAL"/>
+          </mal:field>
+        </mal:composite>
+        <mal:composite name="ConfigurationObjectDetails" shortFormPart="2"
+                       comment="The ConfigurationObjectDetails composite holds a zero to many ConfigurationObjectSet structures. It allows a configuration to reference COM objects from more than one domain or of more than one COM object type.">
+          <mal:field name="configObjects" canBeNull="false"
+                     comment="The list of configuration objects.">
+            <mal:type list="true" name="ConfigurationObjectSet" service="Configuration" area="Common"/>
+          </mal:field>
+        </mal:composite>
+        <mal:composite name="ServiceConfigurationIdentifier" shortFormPart="3"
+                       comment="The ServiceConfigurationIdentifier structure holds the name and service key of a service configuration object.">
+          <mal:field name="configName" canBeNull="false" comment="">
+            <mal:type name="Identifier" area="MAL"/>
+          </mal:field>
+          <mal:field name="serviceKey" canBeNull="false" comment="">
+            <mal:type name="ServiceKey" area="Common"/>
+          </mal:field>
+        </mal:composite>
+      </mal:dataTypes>
+      <com:features>
+        <com:objects comment="A ProviderConfiguration COM object represents a single set of configuration details that may be used by multiple service providers. The object body shall hold an indentifier to identify the provider configuration.&#xA;The ProviderConfiguration COM object related link shall link to the ConfigurationObjects COM object that contains the objects that form the provider configuration.&#xA;If the ProviderConfiguration represents a Hard-coded configuration for a provider then the related link shall be set to NULL.&#xA;The ProviderConfiguration COM object source link should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.&#xA;A ServiceConfiguration COM object represents a single configuration of a service in a provider, multiple ProviderConfiguration COM objects may reference the same service configuration via its linked ConfigurationObjects COM object. The object body shall hold the service key that identifies the service it is a configuration of.&#xA;The ServiceConfiguration COM object related link shall link to the ConfigurationObjects COM object that contains the objects that form the service configuration.&#xA;If the ServiceConfiguration represents a Hard-coded configuration for a single service then the related link shall be set to NULL.&#xA;The ServiceConfiguration COM object source link should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.&#xA;A ConfigurationObjects COM object represents a set of links to a set of COM objects that form an actual configuration. The object body shall hold a configuration object details structure that links to the objects that form the configuration.&#xA;The ConfigurationObjects COM object related link shall be set to NULL.&#xA;The ConfigurationObjects COM object source link should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.&#xA;A ConfigurationFile COM object provides a mechanism for holding files that contain non-COM configuration information so that it can still be managed and referenced by the configuration service. The object body shall hold the configuration file.&#xA;The ConfigurationFile COM object related link shall be set to NULL.&#xA;The ConfigurationFile COM object source link should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.&#xA;A non-COM configuration shall be represented by linking from a ConfigurationObjects COM object to one or more ConfigurationFile COM objects.&#xA;A ProviderConfigurationLink COM object represents the use of a provider configuration by a specific service provider. The object body is not used and shall be NULL.&#xA;The ProviderConfigurationLink COM object related link shall link to the ServiceProvider COM object that represents the service provider in the Directory Service.&#xA;The ProviderConfigurationLink COM object source link shall link to the ProviderConfiguration COM object in use by the provider.">
+          <com:object name="ServiceConfiguration" number="1">
+            <com:objectType>
+              <mal:type name="ServiceConfigurationIdentifier" service="Configuration" area="Common"/>
+            </com:objectType>
+            <com:relatedObject>
+              <com:objectType number="3" service="Configuration" area="Common"/>
+            </com:relatedObject>
+            <com:sourceObject comment="The object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used."/>
+          </com:object>
+          <com:object name="ProviderConfiguration" number="2">
+            <com:objectType>
+              <mal:type name="Identifier" area="MAL"/>
+            </com:objectType>
+            <com:relatedObject>
+              <com:objectType number="3" service="Configuration" area="Common"/>
+            </com:relatedObject>
+            <com:sourceObject comment="The object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used."/>
+          </com:object>
+          <com:object name="ConfigurationObjects" number="3">
+            <com:objectType>
+              <mal:type name="ConfigurationObjectDetails" service="Configuration" area="Common"/>
+            </com:objectType>
+            <com:sourceObject comment="The object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used."/>
+          </com:object>
+          <com:object name="ConfigurationFile" number="4">
+            <com:objectType>
+              <mal:type name="File" area="MAL"/>
+            </com:objectType>
+            <com:sourceObject comment="The object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used."/>
+          </com:object>
+          <com:object name="ProviderConfigurationLink" number="5">
+            <com:relatedObject>
+              <com:objectType number="1" service="Directory" area="Common"/>
+            </com:relatedObject>
+            <com:sourceObject comment="The ProviderConfiguration COM object in use by the provider">
+              <com:objectType number="2" service="Configuration" area="Common"/>
+            </com:sourceObject>
+          </com:object>
+        </com:objects>
+        <com:events comment="A ConfigurationSwitch COM event shall represent a request change in active configuration.&#xA;The ConfigurationSwitch COM event body shall hold the configuration to be activated.&#xA;The ConfigurationSwitch COM event related link shall point to the COM ServiceProvider object that is required to attempt the configuration switch.&#xA;The ConfigurationSwitch COM event source link shall indicate the activate COM OperationActivity object that caused it to be created.&#xA;A ConfigurationSwitched COM event shall be raised when a configuration is made active.&#xA;The ConfigurationSwitched COM event body shall hold the result of the activation attempt.&#xA;If the activation was successful then the body of the ConfigurationSwitched event shall be set to TRUE, otherwise FALSE for failure.&#xA;The ConfigurationSwitched COM event related link shall point to the ConfigurationSwitch event that triggered the switch attempt.&#xA;The ConfigurationSwitched COM event source link shall point to the previous active configuration or be NULL if no configuration was previously active.&#xA;A ConfigurationStore COM event shall represent a request to store the current configuration.&#xA;The ConfigurationStore COM event body is may contain the ServiceKey of the service to store, it shall be NULL if the provider configuration is to be stored.&#xA;The ConfigurationStore COM event related link shall link to the ServiceProvider object that represents the provider that must store its configuration.&#xA;The ConfigurationStore COM event source link shall indicate the storeCurrent COM OperationActivity object that caused it to be created.&#xA;A ConfigurationStored COM event shall be raised when a configuration has been stored.&#xA;The ConfigurationStored COM event body shall hold the ObjectId of the new Configuration object if the store was successful, otherwise NULL for failure.&#xA;The ConfigurationStored COM event related link shall point to the ConfigurationStore event that triggered the store attempt.&#xA;The ConfigurationStored COM event source link shall be NULL.">
+          <com:event name="ConfigurationSwitch" number="6">
+            <com:objectType>
+              <mal:type name="ObjectId" area="COM"/>
+            </com:objectType>
+            <com:relatedObject>
+              <com:objectType number="1" service="Directory" area="Common"/>
+            </com:relatedObject>
+            <com:sourceObject comment="The source link of the event is the object that triggered the activation, most likely the activate operation."/>
+          </com:event>
+          <com:event name="ConfigurationSwitched" number="7">
+            <com:objectType>
+              <mal:type name="Boolean" area="MAL"/>
+            </com:objectType>
+            <com:relatedObject comment="The ConfigurationSwitch COM event that triggered the switch attempt.">
+              <com:objectType number="6" service="Configuration" area="Common"/>
+            </com:relatedObject>
+            <com:sourceObject comment="The previous active configuration or be NULL if no configuration was previously active."/>
+          </com:event>
+          <com:event name="ConfigurationStore" number="8">
+            <com:objectType>
+              <mal:type name="ServiceKey" area="Common"/>
+            </com:objectType>
+            <com:relatedObject>
+              <com:objectType number="1" service="Directory" area="Common"/>
+            </com:relatedObject>
+            <com:sourceObject comment="The source link of the event is the object that triggered the activation, most likely the storeCurrent operation."/>
+          </com:event>
+          <com:event name="ConfigurationStored" number="9">
+            <com:objectType>
+              <mal:type name="ObjectId" area="COM"/>
+            </com:objectType>
+            <com:relatedObject comment="The related link of the event is the ConfigurationStore COM object that triggered the storing.">
+              <com:objectType number="8" service="Configuration" area="Common"/>
+            </com:relatedObject>
+          </com:event>
+        </com:events>
+        <com:archiveUsage comment="Configuration definition objects (ServiceConfiguration, ProviderConfiguration, ProviderConfigurationLink, ConfigurationObjects, ConfigurationFile) must be stored in the COM archive by the provider of the Configuration service if the implementation of the Configuration service uses a COM archive.&#xA;The COM objects that hold the actual configuration definition details must be stored in the COM archive by the provider of the relevant service if the implementation of the Configuration service uses a COM archive.&#xA;When a configuration event (ConfigurationSwitch, ConfigurationSwitched, ConfigurationStore, ConfigurationStored) is published, the event objects should be stored in the COM archive."/>
+      </com:features>
+    </mal:service>
+    <mal:dataTypes>
+      <mal:composite name="ServiceKey" shortFormPart="1" comment="">
+        <mal:extends>
+          <mal:type name="Composite" area="MAL"/>
+        </mal:extends>
+        <mal:field name="keyArea" canBeNull="false"
+                   comment="The area of this service taken from the numeric Area identifier of the service specification.">
+          <mal:type name="UShort" area="MAL"/>
+        </mal:field>
+        <mal:field name="keyService" canBeNull="false"
+                   comment="The service taken from the numeric Service identifier of the service specification.">
+          <mal:type name="UShort" area="MAL"/>
+        </mal:field>
+        <mal:field name="keyAreaVersion" canBeNull="false"
+                   comment="The version of this service taken from the Area Version of the area specification.">
+          <mal:type name="UOctet" area="MAL"/>
+        </mal:field>
+      </mal:composite>
+    </mal:dataTypes>
+  </mal:area>
+</mal:specification>

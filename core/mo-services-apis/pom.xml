@@ -51,8 +51,10 @@
     </properties>
     <modules>
         <module>api-nmf-com</module>
-        <module>api-nmf-platform</module>
+        <module>api-nmf-common</module>
+        <module>api-nmf-mc</module>
         <module>api-nmf-sm</module>
+        <module>api-nmf-platform</module>
         <module>api-nmf-mp</module>
     </modules>
 </project>

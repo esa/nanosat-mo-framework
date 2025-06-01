@@ -76,16 +76,6 @@
                 <artifactId>api-area001-v003-mal</artifactId>
                 <version>${esa.mo.version}</version>
             </dependency>
-            <dependency>
-                <groupId>int.esa.ccsds.mo</groupId>
-                <artifactId>api-area004-v001-mc</artifactId>
-                <version>${esa.mo.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>int.esa.ccsds.mo</groupId>
-                <artifactId>api-area003-v001-common</artifactId>
-                <version>${esa.mo.version}</version>
-            </dependency>
             <!-- NMF Helper Tools -->
             <dependency>
                 <groupId>int.esa.nmf.core</groupId>
@@ -98,13 +88,22 @@
                 <artifactId>nmf-xmls</artifactId>
                 <version>${esa.nmf.version}</version>
             </dependency>
-            <!-- Customized COM, specific to NMF -->
+            <!-- MO service APIs specific to NMF -->
             <dependency>
                 <groupId>int.esa.nmf.core.moservices.api</groupId>
                 <artifactId>api-nmf-com</artifactId>
                 <version>${esa.nmf.version}</version>
             </dependency>
-            <!-- MO service APIs specific to NMF -->
+            <dependency>
+                <groupId>int.esa.nmf.core.moservices.api</groupId>
+                <artifactId>api-nmf-mc</artifactId>
+                <version>${esa.nmf.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>int.esa.nmf.core.moservices.api</groupId>
+                <artifactId>api-nmf-common</artifactId>
+                <version>${esa.nmf.version}</version>
+            </dependency>
             <dependency>
                 <groupId>int.esa.nmf.core.moservices.api</groupId>
                 <artifactId>api-nmf-platform</artifactId>
