@@ -18,7 +18,7 @@ the License. -->
     <groupId>int.esa.nmf.simulator</groupId>
     <artifactId>spacecraft-simulator</artifactId>
     <packaging>jar</packaging>
-    <name>ESA OPS-SAT - Spacecraft Simulator</name>
+    <name>ESA NMF Sim - Spacecraft Simulator</name>
     <description>A simple software simulator of OPS-SAT</description>
     <url>http://www.esa.int</url>
     <organization>

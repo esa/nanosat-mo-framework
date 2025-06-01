@@ -21,7 +21,7 @@ under the License. -->
     <groupId>int.esa.nmf.mission.simulator.moservices.impl</groupId>
     <artifactId>nmf-platform-impl-sim</artifactId>
     <packaging>jar</packaging>
-    <name>ESA NMF Mission Simulator - Platform Services Implementation</name>
+    <name>ESA NMF Sim - Platform Services Implementation</name>
     <description>The ESA/TU Graz implementation of the Platform services</description>
     <url>http://www.esa.int</url>
 

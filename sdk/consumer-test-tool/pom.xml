@@ -27,7 +27,7 @@
     <artifactId>consumer-test-tool</artifactId>
     <packaging>jar</packaging>
 
-    <name>ESA NMF SDK Tool - Consumer Test Tool (CTT)</name>
+    <name>ESA NMF SDK - Consumer Test Tool (CTT)</name>
     <description>An MO Consumer with a GUI to interact with NMF providers on a low level.</description>
     <url>http://www.esa.int</url>
 

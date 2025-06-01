@@ -15,7 +15,7 @@
     <artifactId>cli-tool</artifactId>
     <packaging>jar</packaging>
 
-    <name>ESA NMF SDK Tool - CLI Tool</name>
+    <name>ESA NMF SDK - CLI Tool</name>
     <description>Provides a way to use provider's services from the command line</description>
     <url>http://www.esa.int</url>
 
