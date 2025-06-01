@@ -113,7 +113,7 @@ public class AppsLauncherTablePanel extends SharedTablePanel {
         } catch (InterruptedException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
-        LOGGER.log(Level.INFO, "Updating test for appId {0}: ''{1}''", new Object[]{appId, text});
+        LOGGER.log(Level.INFO, "Updating test for appId {0}. Text: {1}", new Object[]{appId, text});
 
         try {
             int index = this.findIndex(appId);

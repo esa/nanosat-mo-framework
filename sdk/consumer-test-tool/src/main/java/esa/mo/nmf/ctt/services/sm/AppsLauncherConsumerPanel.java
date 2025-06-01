@@ -362,7 +362,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
             Identifier appName = (Identifier) keyValues.get(0).getValue();
             Union appObjId = (Union) keyValues.get(1).getValue();
             LOGGER.log(Level.WARNING,
-                    "Received output for App Name: '{0}' and appObjId: {1}",
+                    "Received output for App Name: {0} (appObjId: {1})",
                     new Object[]{appName.getValue(), appObjId.getLongValue()});
 
             StringBuffer stringBuf = outputBuffers.get(appObjId.getLongValue());
