@@ -50,9 +50,9 @@
         <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
     </properties>
     <modules>
-        <module>com-nmf</module>
-        <module>platform</module>
-        <module>software-management</module>
-        <module>mp-nmf</module>
+        <module>api-nmf-com</module>
+        <module>api-nmf-platform</module>
+        <module>api-nmf-sm</module>
+        <module>api-nmf-mp</module>
     </modules>
 </project>
