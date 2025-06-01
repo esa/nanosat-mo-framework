@@ -1,4 +1,4 @@
-name: Testbeds
+name: NMF
 on: [push]
 permissions:
   contents: read
@@ -20,7 +20,7 @@ jobs:
           java-version: '8'
           distribution: 'temurin'
       - name: Run Maven install
-        run: mvn --batch-mode --update-snapshots -P ESA -DskipTests clean install
+        run: mvn --batch-mode --update-snapshots -DskipTests clean install
       - name: Cache Maven local repository
         uses: actions/cache@v4
         with:
@@ -41,7 +41,7 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
       - name: Run Maven install
-        run: mvn --batch-mode --update-snapshots -P ESA -DskipTests clean install
+        run: mvn --batch-mode --update-snapshots -DskipTests clean install
       - name: Cache Maven local repository
         uses: actions/cache@v4
         with:
@@ -62,7 +62,7 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
       - name: Run Maven install
-        run: mvn --batch-mode --update-snapshots -P ESA -DskipTests clean install
+        run: mvn --batch-mode --update-snapshots -DskipTests clean install
       - name: Cache Maven local repository
         uses: actions/cache@v4
         with:
@@ -83,7 +83,7 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
       - name: Run Maven install
-        run: mvn --batch-mode --update-snapshots -P ESA -DskipTests install
+        run: mvn --batch-mode --update-snapshots -DskipTests install
       - name: Cache Maven local repository
         uses: actions/cache@v4
         with:
