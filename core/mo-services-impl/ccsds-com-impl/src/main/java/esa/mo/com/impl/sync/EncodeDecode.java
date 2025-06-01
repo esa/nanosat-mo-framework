@@ -25,16 +25,6 @@ import esa.mo.com.impl.archive.encoding.BinaryEncoder;
 import esa.mo.com.impl.archive.entities.COMObjectEntity;
 import esa.mo.com.impl.provider.ArchiveManager;
 import esa.mo.com.impl.util.COMObjectStructure;
-import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
-import org.ccsds.moims.mo.com.archivesync.consumer.ArchiveSyncStub;
-import org.ccsds.moims.mo.com.structures.ObjectDetails;
-import org.ccsds.moims.mo.com.structures.ObjectId;
-import org.ccsds.moims.mo.com.structures.ObjectKey;
-import org.ccsds.moims.mo.com.structures.ObjectType;
-import org.ccsds.moims.mo.mal.MALContextFactory;
-import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.structures.*;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -45,7 +35,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
+import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
+import org.ccsds.moims.mo.com.archivesync.consumer.ArchiveSyncStub;
+import org.ccsds.moims.mo.com.structures.ObjectDetails;
+import org.ccsds.moims.mo.com.structures.ObjectId;
+import org.ccsds.moims.mo.com.structures.ObjectKey;
+import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperDomain;
+import org.ccsds.moims.mo.mal.MALContextFactory;
+import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.mal.structures.*;
 
 /**
  * Encodes and decodes COM objects to and from bytes.
@@ -65,7 +64,7 @@ public class EncodeDecode {
      * @return The byte array holding the encoded COM object
      */
     public static byte[] encodeToByteArray(final COMObjectEntity entity, ArchiveManager manager,
-        Dictionary dictionary) {
+            Dictionary dictionary) {
         try {
             final ByteArrayOutputStream outputBytesStream = new ByteArrayOutputStream();
             final BinaryEncoder encoder = new BinaryEncoder(outputBytesStream);
@@ -88,12 +87,13 @@ public class EncodeDecode {
      *
      * @param chunks The list of byte arrays
      * @param dictionary Local dictionary mapping integers to strings
-     * @param archiveSyncService ArchiveSync provider to fetch strings missing in the local dictionary
+     * @param archiveSyncService ArchiveSync provider to fetch strings missing
+     * in the local dictionary
      * @param domain The domain of the COM objects to decode
      * @return The list of decoded COM objects
      */
-    public static ArrayList<COMObjectStructure> decodeFromByteArrayList(List<byte[]> chunks, Dictionary dictionary,
-        ArchiveSyncStub archiveSyncService, IdentifierList domain) {
+    public static ArrayList<COMObjectStructure> decodeFromByteArrayList(List<byte[]> chunks,
+            Dictionary dictionary, ArchiveSyncStub archiveSyncService, IdentifierList domain) {
         if (chunks.isEmpty()) {
             return null;
         }
@@ -111,8 +111,8 @@ public class EncodeDecode {
         return decodeFromByteArray(dictionary, archiveSyncService, domain, bytes);
     }
 
-    public static byte[] encodeToCompressedByteArray(final List<COMObjectEntity> entities, ArchiveManager manager,
-        Dictionary dictionary) {
+    public static byte[] encodeToCompressedByteArray(final List<COMObjectEntity> entities,
+            ArchiveManager manager, Dictionary dictionary) {
         if (entities.isEmpty()) {
             return new byte[0];
         }
@@ -152,7 +152,7 @@ public class EncodeDecode {
     }
 
     public static ArrayList<COMObjectStructure> decodeFromCompressedByteArrayList(List<byte[]> chunks,
-        Dictionary dictionary, ArchiveSyncStub archiveSyncService, IdentifierList domain) {
+            Dictionary dictionary, ArchiveSyncStub archiveSyncService, IdentifierList domain) {
         if (chunks.isEmpty()) {
             return new ArrayList<>();
         }
@@ -187,26 +187,22 @@ public class EncodeDecode {
         return decodeFromByteArray(dictionary, archiveSyncService, domain, bytes);
     }
 
-    private static void encodeEntity(COMObjectEntity entity, ArchiveManager manager, Dictionary dictionary,
-        BinaryEncoder encoder) throws Exception {
+    private static void encodeEntity(COMObjectEntity entity, ArchiveManager manager,
+            Dictionary dictionary, BinaryEncoder encoder) throws Exception {
         Identifier network = manager.getFastNetwork().getNetwork(entity.getNetwork());
         Integer networkId = dictionary.getWordId(network.getValue());
         encoder.encodeShort(networkId.shortValue());
         if (networkId.shortValue() != networkId) {
-            LOGGER.log(Level.SEVERE, "network {0} shortValue {1} mismatch networkId full {2}", new Object[]{network
-                .getValue(), networkId.shortValue(), networkId});
+            LOGGER.log(Level.SEVERE, "network {0} shortValue {1} mismatch networkId full {2}",
+                    new Object[]{network.getValue(), networkId.shortValue(), networkId});
         }
 
         URI providerURI = manager.getFastProviderURI().getProviderURI(entity.getProviderURI());
         Integer providerURIId = dictionary.getWordId(providerURI.getValue());
         encoder.encodeShort(providerURIId.shortValue());
         if (providerURIId.shortValue() != providerURIId) {
-            LOGGER.log(Level.SEVERE, "providerURI {0} shortValue {1} mismatch networkId full {2}", new Object[]{
-                                                                                                                providerURI
-                                                                                                                    .getValue(),
-                                                                                                                providerURIId
-                                                                                                                    .shortValue(),
-                                                                                                                providerURIId});
+            LOGGER.log(Level.SEVERE, "providerURI {0} shortValue {1} mismatch networkId full {2}",
+                    new Object[]{providerURI.getValue(), providerURIId.shortValue(), providerURIId});
         }
 
         ObjectType objType = manager.getFastObjectType().getObjectType(entity.getObjectTypeId());
@@ -221,15 +217,15 @@ public class EncodeDecode {
             encoder.encodeNullableShort(sourceDomainId.shortValue());
             if (sourceDomainId.shortValue() != sourceDomainId) {
                 LOGGER.log(Level.SEVERE, "providerURI {0} shortValue {1} mismatch networkId full {2}",
-                        new Object[]{HelperDomain.domain2domainId(sourceDomain), sourceDomainId.shortValue(), sourceDomainId});
+                        new Object[]{HelperDomain.domain2domainId(sourceDomain),
+                            sourceDomainId.shortValue(), sourceDomainId});
             }
         }
 
         if (entity.getSourceLink().getObjectTypeId() == null) {
             encoder.encodeNullableElement(null);
         } else {
-            ObjectType sourceObjType = manager.getFastObjectType().getObjectType(entity.getSourceLink()
-                .getObjectTypeId());
+            ObjectType sourceObjType = manager.getFastObjectType().getObjectType(entity.getSourceLink().getObjectTypeId());
             encoder.encodeNullableElement(sourceObjType);
         }
 
@@ -253,7 +249,7 @@ public class EncodeDecode {
     }
 
     private static ArrayList<COMObjectStructure> decodeFromByteArray(Dictionary dictionary,
-        ArchiveSyncStub archiveSyncService, IdentifierList domain, byte[] bytes) {
+            ArchiveSyncStub archiveSyncService, IdentifierList domain, byte[] bytes) {
         ArrayList<COMObjectStructure> objs = new ArrayList<>();
         final BinaryDecoder decoder = new BinaryDecoder(bytes);
         boolean stillDecoding = true;
@@ -281,14 +277,14 @@ public class EncodeDecode {
                         Element newEle = MALContextFactory.getElementsRegistry().createElement(sfp);
                         element = binDec.decodeNullableElement((Element) newEle);
                     } catch (MALException ex) {
-                        LOGGER.log(Level.SEVERE, "The object body could not be decoded! Usually happens when there's " +
-                            "an update in the APIs. (1) ", ex);
+                        LOGGER.log(Level.SEVERE, "The object body could not be decoded! "
+                                + "Usually happens when there's an update in the APIs. (1) ", ex);
                     } catch (IllegalArgumentException ex) {
-                        LOGGER.log(Level.SEVERE, "The object body could not be decoded! Usually happens when there's " +
-                            "an update in the APIs. (2) ", ex);
+                        LOGGER.log(Level.SEVERE, "The object body could not be decoded! "
+                                + "Usually happens when there's an update in the APIs. (2) ", ex);
                     } catch (Exception ex) {
-                        LOGGER.log(Level.SEVERE, "The object body could not be decoded! Usually happens when there's " +
-                            "an update in the APIs. (3) ", ex);
+                        LOGGER.log(Level.SEVERE, "The object body could not be decoded! "
+                                + "Usually happens when there's an update in the APIs. (3) ", ex);
                     }
                 }
 
@@ -330,8 +326,8 @@ public class EncodeDecode {
                     sourceDomain = null;
                 }
 
-                ObjectId objectId = (sourceObjType == null) ? null : new ObjectId(sourceObjType, new ObjectKey(
-                    sourceDomain, sourceObjId));
+                ObjectId objectId = (sourceObjType == null) ? null
+                        : new ObjectId(sourceObjType, new ObjectKey(sourceDomain, sourceObjId));
 
                 ObjectDetails objDetails = new ObjectDetails(relatedLink, objectId);
 
