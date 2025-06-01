@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<actions>
+    <actions>
         <action>
             <actionName>CUSTOM-Quick Build project</actionName>
             <displayName>Quick Build project</displayName>
