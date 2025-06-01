@@ -20,7 +20,7 @@
         <relativePath>../../../parent/pom.xml</relativePath>
     </parent>
     <groupId>int.esa.nmf.core.moservices.api</groupId>
-    <artifactId>software-management</artifactId>
+    <artifactId>api-nmf-sm</artifactId>
     <packaging>jar</packaging>
     <name>ESA NMF Core MO API - Software Management Services</name>
     <description>The CCSDS Software Manager API for Java</description>
@@ -66,7 +66,7 @@
         </dependency>
         <dependency>
             <groupId>int.esa.nmf.core.moservices.api</groupId>
-            <artifactId>com-nmf</artifactId>
+            <artifactId>api-nmf-com</artifactId>
         </dependency>
         <dependency>
             <groupId>int.esa.nmf.core.moservices</groupId>

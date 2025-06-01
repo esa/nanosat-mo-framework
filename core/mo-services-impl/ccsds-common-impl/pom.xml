@@ -63,7 +63,7 @@ under the License. -->
         </dependency>
         <dependency>
             <groupId>int.esa.nmf.core.moservices.api</groupId>
-            <artifactId>com-nmf</artifactId>
+            <artifactId>api-nmf-com</artifactId>
         </dependency>
         <dependency>
             <groupId>int.esa.nmf.core.moservices.impl</groupId>

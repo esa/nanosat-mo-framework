@@ -84,10 +84,6 @@
             <groupId>org.xerial</groupId>
             <artifactId>sqlite-jdbc</artifactId>
         </dependency>
-        <dependency>
-            <groupId>int.esa.nmf.core.moservices.api</groupId>
-            <artifactId>com-nmf</artifactId>
-        </dependency>
     </dependencies>
 
     <build>

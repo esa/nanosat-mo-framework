@@ -46,7 +46,7 @@
         </dependency>
         <dependency>
             <groupId>int.esa.nmf.core.moservices.api</groupId>
-            <artifactId>com-nmf</artifactId>
+            <artifactId>api-nmf-com</artifactId>
         </dependency>
         <dependency>
             <groupId>int.esa.nmf.core.moservices.impl</groupId>
@@ -59,7 +59,7 @@
         </dependency>
         <dependency>
             <groupId>int.esa.nmf.core.moservices.api</groupId>
-            <artifactId>mp-nmf</artifactId>
+            <artifactId>api-nmf-mp</artifactId>
             <version>4.0-SNAPSHOT</version>
         </dependency>
         <dependency>

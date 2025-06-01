@@ -101,18 +101,18 @@
             <!-- Customized COM, specific to NMF -->
             <dependency>
                 <groupId>int.esa.nmf.core.moservices.api</groupId>
-                <artifactId>com-nmf</artifactId>
+                <artifactId>api-nmf-com</artifactId>
                 <version>${esa.nmf.version}</version>
             </dependency>
             <!-- MO service APIs specific to NMF -->
             <dependency>
                 <groupId>int.esa.nmf.core.moservices.api</groupId>
-                <artifactId>platform</artifactId>
+                <artifactId>api-nmf-platform</artifactId>
                 <version>${esa.nmf.version}</version>
             </dependency>
             <dependency>
                 <groupId>int.esa.nmf.core.moservices.api</groupId>
-                <artifactId>software-management</artifactId>
+                <artifactId>api-nmf-sm</artifactId>
                 <version>${esa.nmf.version}</version>
             </dependency>
             <!-- Services Implementations -->

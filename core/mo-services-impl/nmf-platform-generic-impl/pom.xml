@@ -54,7 +54,7 @@
         </dependency>
         <dependency>
             <groupId>int.esa.nmf.core.moservices.api</groupId>
-            <artifactId>platform</artifactId>
+            <artifactId>api-nmf-platform</artifactId>
         </dependency>
         <dependency>
             <groupId>int.esa.nmf.core.moservices.impl</groupId>

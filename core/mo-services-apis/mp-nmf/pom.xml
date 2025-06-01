@@ -19,7 +19,7 @@
         <relativePath>../../../parent/pom.xml</relativePath>
     </parent>
     <groupId>int.esa.nmf.core.moservices.api</groupId>
-    <artifactId>mp-nmf</artifactId>
+    <artifactId>api-nmf-mp</artifactId>
     <packaging>jar</packaging>
     <name>ESA NMF Core MO API - Mission Planning Services</name>
     <description>The CCSDS MISSION PLANNING API for Java</description>
@@ -58,7 +58,7 @@
         </dependency>
         <dependency>
             <groupId>int.esa.nmf.core.moservices.api</groupId>
-            <artifactId>com-nmf</artifactId>
+            <artifactId>api-nmf-com</artifactId>
         </dependency>
         <dependency>
             <groupId>int.esa.nmf.core.moservices</groupId>
