@@ -78,7 +78,7 @@
             <!-- NMF Helper Tools -->
             <dependency>
                 <groupId>int.esa.nmf.core</groupId>
-                <artifactId>helper-tools</artifactId>
+                <artifactId>nmf-environment</artifactId>
                 <version>${esa.nmf.version}</version>
             </dependency>
             <!-- MO services XMLs attached to NMF -->

@@ -18,10 +18,10 @@ under the License. -->
         <relativePath>../../parent/pom.xml</relativePath>
     </parent>
     <groupId>int.esa.nmf.core</groupId>
-    <artifactId>helper-tools</artifactId>
+    <artifactId>nmf-environment</artifactId>
     <packaging>jar</packaging>
-    <name>ESA NMF Core - Helper Tools</name>
-    <description>Helper Tools for the NanoSat MO Framework, commonly used by all of the NMF components</description>
+    <name>ESA NMF Core - NMF Environment</name>
+    <description>Environment for the NanoSat MO Framework</description>
     <url>http://www.esa.int</url>
     <organization>
         <name>ESA</name>
