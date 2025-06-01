@@ -267,38 +267,40 @@
                 </plugins>
             </build>
         </profile>
-        <profile>
-            <id>gitlab-ci</id>
-            <repositories>
-                <repository>
-                    <id>gitlab-maven</id>
-                    <url>${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/maven</url>
-                </repository>
-            </repositories>
-            <distributionManagement>
-                <repository>
-                    <id>gitlab-maven</id>
-                    <url>${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/maven</url>
-                </repository>
-                <snapshotRepository>
-                    <id>gitlab-maven</id>
-                    <url>${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/maven</url>
-                </snapshotRepository>
-            </distributionManagement>
-            <build>
-                <pluginManagement>
-                    <plugins>
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-deploy-plugin</artifactId>
-                            <configuration>
-                                <!-- Enable Maven deployment for a Gitlab build -->
-                                <skip>false</skip>
-                            </configuration>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-            </build>
-        </profile>
+        <!-- This profile is planned to be removed because
+             the CI will be on GitHub instead of GitLab
+       <profile>
+           <id>gitlab-ci</id>
+           <repositories>
+               <repository>
+                   <id>gitlab-maven</id>
+                   <url>${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/maven</url>
+               </repository>
+           </repositories>
+           <distributionManagement>
+               <repository>
+                   <id>gitlab-maven</id>
+                   <url>${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/maven</url>
+               </repository>
+               <snapshotRepository>
+                   <id>gitlab-maven</id>
+                   <url>${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/maven</url>
+               </snapshotRepository>
+           </distributionManagement>
+           <build>
+               <pluginManagement>
+                   <plugins>
+                       <plugin>
+                           <groupId>org.apache.maven.plugins</groupId>
+                           <artifactId>maven-deploy-plugin</artifactId>
+                           <configuration>
+                               <skip>false</skip>
+                           </configuration>
+                       </plugin>
+                   </plugins>
+               </pluginManagement>
+           </build>
+       </profile>
+        -->
     </profiles>
 </project>
