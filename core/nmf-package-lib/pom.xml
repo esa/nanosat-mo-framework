@@ -51,7 +51,7 @@
     <dependencies>
         <dependency>
             <groupId>int.esa.nmf.core.moservices.impl</groupId>
-            <artifactId>nmf-software-management</artifactId>
+            <artifactId>nmf-services-sm</artifactId>
             <exclusions>
                 <exclusion>
                     <groupId>org.xerial</groupId>

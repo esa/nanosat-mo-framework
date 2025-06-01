@@ -19,7 +19,7 @@
         <relativePath>../../../parent/pom.xml</relativePath>
     </parent>
     <groupId>int.esa.nmf.core.moservices.impl</groupId>
-    <artifactId>ccsds-mp</artifactId>
+    <artifactId>nmf-services-mp</artifactId>
     <packaging>jar</packaging>
     <name>ESA NMF Core MO Services - Mission Planning</name>
     <description>The ESA implementation of the CCSDS Mission Operations Mission Planning services</description>
@@ -50,11 +50,11 @@
         </dependency>
         <dependency>
             <groupId>int.esa.nmf.core.moservices.impl</groupId>
-            <artifactId>ccsds-com</artifactId>
+            <artifactId>nmf-services-com</artifactId>
         </dependency>
         <dependency>
             <groupId>int.esa.nmf.core.moservices.impl</groupId>
-            <artifactId>ccsds-common</artifactId>
+            <artifactId>nmf-services-common</artifactId>
             <type>jar</type>
         </dependency>
         <dependency>

@@ -20,7 +20,7 @@
         <relativePath>../../../parent/pom.xml</relativePath>
     </parent>
     <groupId>int.esa.nmf.core.moservices.impl</groupId>
-    <artifactId>nmf-platform-generic</artifactId>
+    <artifactId>nmf-services-platform-generic</artifactId>
     <packaging>jar</packaging>
     <name>ESA NMF Core MO Services - Generic Platform Services</name>
     <description>The ESA/TU Graz implementation of the Platform services</description>
@@ -58,7 +58,7 @@
         </dependency>
         <dependency>
             <groupId>int.esa.nmf.core.moservices.impl</groupId>
-            <artifactId>ccsds-com</artifactId>
+            <artifactId>nmf-services-com</artifactId>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

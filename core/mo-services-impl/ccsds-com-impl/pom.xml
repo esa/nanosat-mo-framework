@@ -18,7 +18,7 @@ under the License. -->
         <relativePath>../../../parent/pom.xml</relativePath>
     </parent>
     <groupId>int.esa.nmf.core.moservices.impl</groupId>
-    <artifactId>ccsds-com</artifactId>
+    <artifactId>nmf-services-com</artifactId>
     <packaging>jar</packaging>
     <name>ESA NMF Core MO Services - COM Services</name>
     <description>The ESA/TU Graz implementation of the CCSDS Mission Operations COM services</description>

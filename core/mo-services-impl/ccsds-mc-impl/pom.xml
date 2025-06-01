@@ -18,7 +18,7 @@ under the License. -->
         <relativePath>../../../parent/pom.xml</relativePath>
     </parent>
     <groupId>int.esa.nmf.core.moservices.impl</groupId>
-    <artifactId>ccsds-mc</artifactId>
+    <artifactId>nmf-services-mc</artifactId>
     <packaging>jar</packaging>
     <name>ESA NMF Core MO Services - MC Services</name>
     <description>The ESA/TU Graz/DLR implementation of the CCSDS MO MC services</description>
@@ -82,7 +82,7 @@ under the License. -->
         </dependency>
         <dependency>
             <groupId>int.esa.nmf.core.moservices.impl</groupId>
-            <artifactId>ccsds-com</artifactId>
+            <artifactId>nmf-services-com</artifactId>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

@@ -50,11 +50,11 @@ under the License. -->
     <dependencies>
         <dependency>
             <groupId>int.esa.nmf.core.moservices.impl</groupId>
-            <artifactId>nmf-platform-generic</artifactId>
+            <artifactId>nmf-services-platform-generic</artifactId>
         </dependency>
         <dependency>
             <groupId>int.esa.nmf.core.moservices.impl</groupId>
-            <artifactId>ccsds-mc</artifactId>
+            <artifactId>nmf-services-mc</artifactId>
         </dependency>
         <dependency>
             <groupId>int.esa.nmf.simulator</groupId>
