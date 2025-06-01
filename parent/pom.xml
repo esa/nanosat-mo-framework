@@ -95,7 +95,7 @@
             <!-- MO services XMLs attached to NMF -->
             <dependency>
                 <groupId>int.esa.nmf.core.moservices</groupId>
-                <artifactId>xml</artifactId>
+                <artifactId>nmf-xmls</artifactId>
                 <version>${esa.nmf.version}</version>
             </dependency>
             <!-- Customized COM, specific to NMF -->
