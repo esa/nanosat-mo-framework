@@ -50,7 +50,7 @@
         <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
     </properties>
     <modules>
-        <module>helper-tools</module>
+        <module>nmf-environment</module>
         <module>mo-services-xml</module>
         <module>mo-services-apis</module>
         <module>mo-services-impl</module>
