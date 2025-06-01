@@ -142,4 +142,3 @@ public class ArchiveToBackupAdapter extends ArchiveAdapter implements QueryStatu
         return objectsToProcess;
     }
 }
-//------------------------------------------------------------------------------
