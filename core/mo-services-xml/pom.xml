@@ -20,7 +20,7 @@
         <relativePath>../../parent/pom.xml</relativePath>
     </parent>
     <groupId>int.esa.nmf.core.moservices</groupId>
-    <artifactId>xml</artifactId>
+    <artifactId>nmf-xmls</artifactId>
     <packaging>jar</packaging>
     <name>ESA NMF Core - MO Services XMLs</name>
     <description>NMF CCSDS Mission Operations Services XML files, including tailored COM specification</description>
@@ -43,10 +43,9 @@
     </scm>
     <developers>
         <developer>
-            <id>SamCooper</id>
-            <name>Sam Cooper</name>
-            <email>sam.cooper@scisys.co.uk</email>
-            <url>https://github.com/SamCooper</url>
+            <id>CesarCoelho</id>
+            <name>César Coelho</name>
+            <url>https://github.com/CesarCoelho</url>
         </developer>
     </developers>
     <build>

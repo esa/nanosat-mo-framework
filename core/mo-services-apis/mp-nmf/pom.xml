@@ -41,9 +41,9 @@
     </scm>
     <properties>
         <ccsds.specification.download.group>int.esa.nmf.core.moservices</ccsds.specification.download.group>
-        <ccsds.specification.download.artifact>xml</ccsds.specification.download.artifact>
+        <ccsds.specification.download.artifact>nmf-xmls</ccsds.specification.download.artifact>
         <ccsds.specification.download.ref-group>int.esa.nmf.core.moservices</ccsds.specification.download.ref-group>
-        <ccsds.specification.download.ref-artifact>xml</ccsds.specification.download.ref-artifact>
+        <ccsds.specification.download.ref-artifact>nmf-xmls</ccsds.specification.download.ref-artifact>
         <ccsds.specification.version>${project.version}</ccsds.specification.version>
         <ccsds.specification.download.skip>false</ccsds.specification.download.skip>
         <ccsds.specification.download.directory>${project.build.directory}</ccsds.specification.download.directory>
@@ -62,7 +62,7 @@
         </dependency>
         <dependency>
             <groupId>int.esa.nmf.core.moservices</groupId>
-            <artifactId>xml</artifactId>
+            <artifactId>nmf-xmls</artifactId>
         </dependency>
     </dependencies>
     <build>
