@@ -1,16 +1,23 @@
-//------------------------------------------------------------------------------
-//
-// System : ccsds-common
-//
-// Sub-System : esa.mo.nmf.comarchivetool.adapters
-//
-// File Name : ArchiveToBackupAdapter.java
-//
-// Author : marcel.mikolajko
-//
-// Creation Date : 05.10.2022
-//
-//------------------------------------------------------------------------------
+/* ----------------------------------------------------------------------------
+ * Copyright (C) 2022      European Space Agency
+ *                         European Space Operations Centre
+ *                         Darmstadt
+ *                         Germany
+ * ----------------------------------------------------------------------------
+ * System                : ESA NanoSat MO Framework
+ * ----------------------------------------------------------------------------
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
+ * You may not use this file except in compliance with the License.
+ *
+ * Except as expressly set forth in this License, the Software is provided to
+ * You on an "as is" basis and without warranties of any kind, including without
+ * limitation merchantability, fitness for a particular purpose, absence of
+ * defects or errors, accuracy or non-infringement of intellectual property rights.
+ * 
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ * ----------------------------------------------------------------------------
+ */
 package esa.mo.nmf.clitool.adapters;
 
 import esa.mo.com.impl.provider.ArchiveProviderServiceImpl;
@@ -49,7 +56,8 @@ public class ArchiveToBackupAdapter extends ArchiveAdapter implements QueryStatu
 
     /**
      * Creates a new instance of ToBackupArchiveAdapter.
-     * */
+     *
+     */
     public ArchiveToBackupAdapter() {
     }
 
@@ -58,7 +66,7 @@ public class ArchiveToBackupAdapter extends ArchiveAdapter implements QueryStatu
         for (ArchiveCOMObjectsOutput objects : objectsToProcess) {
             try {
                 archive.store(false, objects.getObjectType(), objects.getDomain(), objects.getArchiveDetailsList(),
-                    objects.getObjectBodies(), null);
+                        objects.getObjectBodies(), null);
             } catch (MALException | MALInteractionException e) {
                 LOGGER.log(Level.SEVERE, "Failed to store objects of type: " + objects.getObjectType(), e);
                 result = false;
@@ -69,7 +77,8 @@ public class ArchiveToBackupAdapter extends ArchiveAdapter implements QueryStatu
     }
 
     /**
-     * Dumps an archive objects output received from an archive query answer (update or response).
+     * Dumps an archive objects output received from an archive query answer
+     * (update or response).
      *
      * @param archiveObjectOutput the archive objects outputs
      */
@@ -84,14 +93,14 @@ public class ArchiveToBackupAdapter extends ArchiveAdapter implements QueryStatu
 
     @Override
     public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-        ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
+            ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
         dumpArchiveObjectsOutput(new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies));
         setIsQueryOver(true);
     }
 
     @Override
     public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-        ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
+            ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
         dumpArchiveObjectsOutput(new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies));
     }
 
@@ -113,7 +122,9 @@ public class ArchiveToBackupAdapter extends ArchiveAdapter implements QueryStatu
         setIsQueryOver(true);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public synchronized boolean isQueryOver() {
         return isQueryOver;
