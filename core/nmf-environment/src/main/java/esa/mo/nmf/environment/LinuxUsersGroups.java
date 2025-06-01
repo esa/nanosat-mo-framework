@@ -18,7 +18,7 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nmf.nmfpackage.utils;
+package esa.mo.nmf.environment;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -18,9 +18,8 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nmf.nmfpackage;
+package esa.mo.nmf.environment;
 
-import esa.mo.nmf.nmfpackage.utils.HelperNMFPackage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -149,12 +148,12 @@ public class Deployment {
      */
     public static String findJREPath(int recommended, int min, int max) {
         if (min < max) {
-            Logger.getLogger(HelperNMFPackage.class.getName()).log(Level.WARNING,
+            Logger.getLogger(Deployment.class.getName()).log(Level.WARNING,
                     "The JRE minimum version cannot be greater than the maximum!");
         }
 
         if (recommended < min || recommended > max) {
-            Logger.getLogger(HelperNMFPackage.class.getName()).log(Level.WARNING,
+            Logger.getLogger(Deployment.class.getName()).log(Level.WARNING,
                     "The JRE recommended version should be between the min and max!");
         }
 
@@ -179,7 +178,7 @@ public class Deployment {
                 File release = new File(dir, "release");
 
                 if (!release.exists()) {
-                    Logger.getLogger(HelperNMFPackage.class.getName()).log(
+                    Logger.getLogger(Deployment.class.getName()).log(
                             Level.WARNING, "The JRE release file does not "
                             + "exist in: " + release.getAbsolutePath());
                     continue;
@@ -190,7 +189,7 @@ public class Deployment {
                 String version = (String) props.get(VERSION_PROP);
 
                 if (version == null) {
-                    Logger.getLogger(HelperNMFPackage.class.getName()).log(
+                    Logger.getLogger(Deployment.class.getName()).log(
                             Level.WARNING, "The JAVA_VERSION property "
                             + "was not be found on release file: " + path);
                     continue;
@@ -199,7 +198,7 @@ public class Deployment {
                 String[] subs = version.replace("\"", "").split("\\.");
 
                 if (subs.length < 3) {
-                    Logger.getLogger(HelperNMFPackage.class.getName()).log(
+                    Logger.getLogger(Deployment.class.getName()).log(
                             Level.WARNING, "The JRE version '" + version
                             + "' could not be determined from the release file: "
                             + release.getAbsolutePath());
@@ -217,7 +216,7 @@ public class Deployment {
                 File jreExec = new File(jre);
 
                 if (!jreExec.exists()) {
-                    Logger.getLogger(HelperNMFPackage.class.getName()).log(
+                    Logger.getLogger(Deployment.class.getName()).log(
                             Level.WARNING,
                             "The JRE could not be found in directory: " + path);
                     continue;
@@ -228,7 +227,7 @@ public class Deployment {
 
                 if (java_version == recommended) {
                     // Perfect, just return it directly!
-                    Logger.getLogger(HelperNMFPackage.class.getName()).log(
+                    Logger.getLogger(Deployment.class.getName()).log(
                             Level.INFO, "The JRE version " + java_version
                             + " was successfully found in directory:"
                             + "\n          >> " + jre);
@@ -245,10 +244,10 @@ public class Deployment {
                 // The objective should be to return the
                 // highest available version within the choices
             } catch (FileNotFoundException ex) {
-                Logger.getLogger(HelperNMFPackage.class.getName()).log(
+                Logger.getLogger(Deployment.class.getName()).log(
                         Level.WARNING, "Something went wrong...", ex);
             } catch (IOException ex) {
-                Logger.getLogger(HelperNMFPackage.class.getName()).log(
+                Logger.getLogger(Deployment.class.getName()).log(
                         Level.WARNING, "Something went wrong...", ex);
             }
         }

@@ -18,7 +18,7 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nmf;
+package esa.mo.nmf.environment;
 
 import java.util.ArrayList;
 

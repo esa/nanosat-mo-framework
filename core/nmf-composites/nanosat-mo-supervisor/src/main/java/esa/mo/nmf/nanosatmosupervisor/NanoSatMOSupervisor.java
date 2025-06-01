@@ -30,7 +30,7 @@ import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
 import esa.mo.nmf.NMFProvider;
 import esa.mo.nmf.OneInstanceLock;
-import esa.mo.nmf.nmfpackage.Deployment;
+import esa.mo.nmf.environment.Deployment;
 import esa.mo.nmf.nmfpackage.NMFPackagePMBackend;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.reconfigurable.provider.PersistProviderConfiguration;

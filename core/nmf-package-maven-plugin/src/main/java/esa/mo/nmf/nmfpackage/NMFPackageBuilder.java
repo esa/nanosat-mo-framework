@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.nmfpackage;
 
+import esa.mo.nmf.environment.Deployment;
 import esa.mo.helpertools.misc.Const;
 import esa.mo.nmf.nmfpackage.metadata.Metadata;
 import esa.mo.nmf.nmfpackage.utils.HelperNMFPackage;
