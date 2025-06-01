@@ -47,7 +47,7 @@ public class Const {
     public static final String PLATFORM_GNSS_UTC_OFFSET_PROPERTY = "esa.mo.nmf.platform.gnss.utc.offset";
     public static final String PLATFORM_GNSS_UTC_OFFSET_DEFAULT = "-18.000";
     public static final String ARCHIVE_GENERATE_EVENTS_PROPERTY = "esa.mo.com.impl.provider.ArchiveManager.generateevents";
-    public static final String ARCHIVE_GENERATE_EVENTS_DEFAULT = "true";
+    public static final String ARCHIVE_GENERATE_EVENTS_DEFAULT = "false";
     public static final String ARCHIVESYNC_CHUNK_SIZE_PROPERTY = "esa.nmf.archive.sync.chunk.size";
     public static final String ARCHIVESYNC_CHUNK_SIZE_DEFAULT = "200";
     public static final String ARCHIVESYNC_OBJECTS_LIMIT_PROPERTY = "esa.nmf.archive.sync.objects.limit";
