@@ -65,8 +65,8 @@
     </properties>
 
     <modules>
-        <module>space</module>
-        <module>ground</module>
+        <module>examples-space</module>
+        <module>examples-ground</module>
         <module>consumer-test-tool</module>
         <module>cli-tool</module>
         <module>sdk-package</module>
