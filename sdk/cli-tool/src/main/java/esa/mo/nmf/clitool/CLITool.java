@@ -55,8 +55,8 @@ public class CLITool {
         // The startup time can be improved with the property below,
         // according to section "Picocli 4.7.0" in the Release Notes.
         // Link: https://github.com/MadFoal/picocli/blob/master/RELEASE-NOTES.md
-        // System.setProperty("picocli.disable.closures", "true");
-        // TO BE TESTED!
+        System.setProperty("picocli.disable.closures", "true");
+        // The property above, does not seem to improve the startup time...
 
         long startTime = System.currentTimeMillis();
         System.out.println("(1) The CLI Tool is starting...");
