@@ -32,13 +32,13 @@ import picocli.CommandLine.Option;
  */
 @Command(name = "esa.mo.nmf.clitool.CLITool",
         subcommands = {
-            MCCommands.Aggregation.class, 
-            MCCommands.Parameter.class, 
+            MCCommands.Aggregation.class,
+            MCCommands.Parameter.class,
             MCCommands.Action.class,
             SoftwareManagementCommands.AppsLauncher.class,
             SoftwareManagementCommands.SoftwareManagement.class,
             SoftwareManagementCommands.Heartbeat.class,
-            PlatformCommands.GPS.class, 
+            PlatformCommands.GPS.class,
             PlatformCommands.ADCS.class,
             PlatformCommands.Camera.class,
             ArchiveCommands.class,
@@ -52,6 +52,13 @@ public class CLITool {
     private boolean helpRequested;
 
     public static void main(String[] args) {
+        // The startup time can be improved with the property below,
+        // according to section "Picocli 4.7.0" in the Release Notes.
+        // Link: https://github.com/MadFoal/picocli/blob/master/RELEASE-NOTES.md
+        // System.setProperty("picocli.disable.closures", "true");
+        // TO BE TESTED!
+
+        long startTime = System.currentTimeMillis();
         System.out.println("(1) The CLI Tool is starting...");
         Runtime.getRuntime().addShutdownHook(new Thread(BaseCommand::closeConsumer));
         System.out.println("(2) The CLI Tool is starting...");
@@ -61,7 +68,8 @@ public class CLITool {
         System.out.println("(4) The CLI Tool is starting...");
         cmd.setUsageHelpAutoWidth(true);
         cmd.setUsageHelpLongOptionsMaxWidth(30);
-        System.out.println("(5) The CLI Tool is starting...");
+        long startupTime = System.currentTimeMillis() - startTime;
+        System.out.println("(5) The CLI Tool was started in: " + startupTime + " ms");
 
         System.exit(cmd.execute(args));
     }
