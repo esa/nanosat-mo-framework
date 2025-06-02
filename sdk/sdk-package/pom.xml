@@ -113,16 +113,6 @@
         </dependency>
         <dependency>
             <groupId>int.esa.nmf.sdk.examples.space</groupId>
-            <artifactId>mp-space-demo</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>int.esa.nmf.sdk.examples.ground</groupId>
-            <artifactId>mp-ground-demo</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>int.esa.nmf.sdk.examples.space</groupId>
             <artifactId>benchmark</artifactId>
             <version>${project.version}</version>
         </dependency>
