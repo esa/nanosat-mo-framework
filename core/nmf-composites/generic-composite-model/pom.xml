@@ -56,10 +56,6 @@ under the License. -->
         </dependency>
         <dependency>
             <groupId>int.esa.nmf.core.moservices.impl</groupId>
-            <artifactId>nmf-services-mp</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>int.esa.nmf.core.moservices.impl</groupId>
             <artifactId>nmf-services-sm</artifactId>
         </dependency>
         <dependency>

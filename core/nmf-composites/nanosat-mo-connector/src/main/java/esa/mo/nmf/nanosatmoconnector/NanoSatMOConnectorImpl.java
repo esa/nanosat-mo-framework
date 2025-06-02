@@ -29,8 +29,6 @@ import esa.mo.helpertools.clock.SystemClock;
 import esa.mo.helpertools.clock.PlatformClockCallback;
 import esa.mo.helpertools.misc.AppShutdownGuard;
 import esa.mo.nmf.MCRegistration;
-import esa.mo.nmf.MPRegistration;
-import esa.mo.nmf.MissionPlanningNMFAdapter;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
 import esa.mo.nmf.NMFProvider;
@@ -99,14 +97,6 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
      */
     @Override
     public void init(final MonitorAndControlNMFAdapter mcAdapter) {
-        init(mcAdapter, null);
-    }
-
-    public void init(final MissionPlanningNMFAdapter mpAdapter) {
-        init(null, mpAdapter);
-    }
-
-    public void init(final MonitorAndControlNMFAdapter mcAdapter, final MissionPlanningNMFAdapter mpAdapter) {
         super.startTime = System.currentTimeMillis();
         LOGGER.log(Level.INFO, this.generateStartBanner());
 
@@ -257,9 +247,6 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                     startMCServices(mcAdapter);
                 }
             }
-            if (mpAdapter != null) {
-                this.startMPServices(mpAdapter);
-            }
             directoryService.init(comServices);
             heartbeatService.init();
         } catch (MALException ex) {
@@ -318,12 +305,6 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                     mcServices.getAggregationService(), mcServices.getAlertService(), mcServices.getActionService());
             mcAdapter.initialRegistrations(registration);
             mcAdapter.restoreParameterValuesFromArchive();
-        }
-
-        if (mpAdapter != null) {
-            MPRegistration registration = new MPRegistration(comServices, mpServices.getOperationCallbackManager());
-            mpAdapter.setArchiveManager(mpServices.getArchiveManager());
-            mpAdapter.initialRegistrations(registration);
         }
 
         LOGGER.log(Level.INFO, "NanoSat MO Connector initialized in {0} seconds!",

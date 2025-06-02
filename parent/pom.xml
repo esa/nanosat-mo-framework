@@ -139,11 +139,6 @@
                 <artifactId>nmf-services-platform-generic</artifactId>
                 <version>${esa.nmf.version}</version>
             </dependency>
-            <dependency>
-                <groupId>int.esa.nmf.core.moservices.impl</groupId>
-                <artifactId>nmf-services-mp</artifactId>
-                <version>${esa.nmf.version}</version>
-            </dependency>
             <!-- NMF Composites -->
             <dependency>
                 <groupId>int.esa.nmf.core</groupId>

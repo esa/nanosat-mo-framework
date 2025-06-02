@@ -26,7 +26,6 @@ import esa.mo.common.impl.provider.DirectoryProviderServiceImpl;
 import esa.mo.common.impl.util.CommonServicesConsumer;
 import esa.mo.common.impl.util.HelperCommon;
 import esa.mo.mc.impl.util.MCServicesConsumer;
-import esa.mo.mp.impl.consumer.MPServicesConsumer;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.sm.impl.util.SMServicesConsumer;
 import java.io.IOException;
@@ -66,7 +65,6 @@ public class NMFConsumer {
 
     protected final COMServicesConsumer comServices = new COMServicesConsumer();
     protected final MCServicesConsumer mcServices = new MCServicesConsumer();
-    protected final MPServicesConsumer mpServices = new MPServicesConsumer();
     protected final PlatformServicesConsumer platformServices = new PlatformServicesConsumer();
     protected final CommonServicesConsumer commonServices = new CommonServicesConsumer();
     protected final SMServicesConsumer smServices = new SMServicesConsumer();
@@ -134,7 +132,6 @@ public class NMFConsumer {
 
         initCOMServices();
         initMCServices();
-        initMPServices();
         initSMServices();
         initPlatformServices();
         initCommonServices();
@@ -146,10 +143,6 @@ public class NMFConsumer {
 
     private void initMCServices() {
         mcServices.init(connection, comServices, authenticationId, localNamePrefix);
-    }
-
-    private void initMPServices() {
-        mpServices.init(connection, comServices);
     }
 
     private void initPlatformServices() {
@@ -180,15 +173,6 @@ public class NMFConsumer {
      */
     public MCServicesConsumer getMCServices() {
         return mcServices;
-    }
-
-    /**
-     * Requests the MP services.
-     *
-     * @return The MP services
-     */
-    public MPServicesConsumer getMPServices() {
-        return mpServices;
     }
 
     /**

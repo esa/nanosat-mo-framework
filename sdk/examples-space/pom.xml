@@ -84,7 +84,6 @@
         <module>python-script</module>
         <module>serialized-object</module>
         <module>waveform</module>
-        <module>mp-space-demo</module>
         <module>space-to-space</module>
         <module>space-to-space-supervisor</module>
     </modules>

@@ -55,6 +55,5 @@
         <module>nmf-services-mc</module>
         <module>nmf-services-sm</module>
         <module>nmf-services-platform-generic</module>
-        <module>nmf-services-mp</module>
     </modules>
 </project>

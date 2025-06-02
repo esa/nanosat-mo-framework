@@ -24,7 +24,6 @@ import esa.mo.com.impl.util.COMServicesConsumer;
 import esa.mo.helpertools.clock.PlatformClockCallback;
 import esa.mo.helpertools.clock.SystemClock;
 import esa.mo.mc.impl.util.MCServicesConsumer;
-import esa.mo.mp.impl.consumer.MPServicesConsumer;
 import esa.mo.nmf.ctt.services.com.ArchiveConsumerManagerPanel;
 import esa.mo.nmf.ctt.services.com.EventConsumerPanel;
 import esa.mo.nmf.ctt.services.common.ConfigurationConsumerPanel;
@@ -33,14 +32,6 @@ import esa.mo.nmf.ctt.services.mc.AggregationConsumerPanel;
 import esa.mo.nmf.ctt.services.mc.AlertConsumerPanel;
 import esa.mo.nmf.ctt.services.mc.ParameterConsumerPanel;
 import esa.mo.nmf.ctt.services.mc.ParameterPublishedValues;
-import esa.mo.nmf.ctt.services.mp.pds.PlanDistributionConsumerPanel;
-import esa.mo.nmf.ctt.services.mp.pds.PublishedPlanStatusesPanel;
-import esa.mo.nmf.ctt.services.mp.pds.PublishedPlansPanel;
-import esa.mo.nmf.ctt.services.mp.pec.PublishedActivityUpdatesPanel;
-import esa.mo.nmf.ctt.services.mp.ped.PlanEditConsumerPanel;
-import esa.mo.nmf.ctt.services.mp.pim.PlanInformationManagementConsumerPanel;
-import esa.mo.nmf.ctt.services.mp.prs.PlanningRequestConsumerPanel;
-import esa.mo.nmf.ctt.services.mp.prs.PublishedRequestsPanel;
 import esa.mo.nmf.ctt.services.platform.clock.ClockConsumerPanel;
 import esa.mo.nmf.ctt.services.sm.AppsLauncherConsumerPanel;
 import esa.mo.nmf.ctt.services.sm.CommandExecutorConsumerPanel;
@@ -228,68 +219,6 @@ public class ProviderTabPanel extends javax.swing.JPanel {
                 serviceTabs.insertTab("Statistic service", null, panel, "Statistic Tab", count);
             }
             */
-        }
-
-        // MP
-        if (services.getMPServices() != null) {
-            MPServicesConsumer mps = services.getMPServices();
-
-            if (mps.getPlanInformationManagementService() != null) {
-                PlanInformationManagementConsumerPanel consumerPanel = new PlanInformationManagementConsumerPanel(
-                        mps.getPlanInformationManagementService());
-                int count = serviceTabs.getTabCount();
-                serviceTabs.insertTab("Plan Information Management service", null, consumerPanel, "PIM Tab", count);
-                consumerPanel.init();
-            }
-
-            if (mps.getPlanningRequestService() != null) {
-                PlanningRequestConsumerPanel consumerPanel = new PlanningRequestConsumerPanel(mps.getPlanningRequestService());
-                PublishedRequestsPanel publishedPanel = new PublishedRequestsPanel(
-                        services.getCOMServices().getArchiveService(),
-                        mps.getPlanningRequestService()
-                );
-                int count = serviceTabs.getTabCount();
-                serviceTabs.insertTab("Planning Request service", null, consumerPanel, "PRS Tab", count);
-                serviceTabs.insertTab("Published planning requests", null, publishedPanel, "Published Requests Tab",
-                        count + 1);
-                consumerPanel.init();
-            }
-
-            if (mps.getPlanDistributionService() != null) {
-                PlanDistributionConsumerPanel consumerPanel = new PlanDistributionConsumerPanel(mps.getPlanDistributionService());
-                PublishedPlansPanel publishedPlansPanel = new PublishedPlansPanel(
-                        services.getCOMServices().getArchiveService(),
-                        mps.getPlanDistributionService()
-                );
-                PublishedPlanStatusesPanel publishedPlanStatusesPanel = new PublishedPlanStatusesPanel(
-                        services.getCOMServices().getArchiveService(),
-                        mps.getPlanDistributionService()
-                );
-                int count = serviceTabs.getTabCount();
-                serviceTabs.insertTab("Plan Distribution service", null, consumerPanel, "PDS Tab", count);
-                serviceTabs.insertTab("Published plan versions", null, publishedPlansPanel, "Published Plans Tab",
-                        count + 1);
-                serviceTabs.insertTab("Published plan statuses", null,
-                        publishedPlanStatusesPanel, "Published Plan Statuses Tab", count + 2);
-                consumerPanel.init();
-            }
-
-            if (mps.getPlanEditService() != null) {
-                PlanEditConsumerPanel consumerPanel = new PlanEditConsumerPanel(mps.getPlanEditService());
-                int count = serviceTabs.getTabCount();
-                serviceTabs.insertTab("Plan Edit service", null, consumerPanel, "PED Tab", count);
-                consumerPanel.init();
-            }
-
-            if (mps.getPlanExecutionControlService() != null) {
-                PublishedActivityUpdatesPanel publishedPanel = new PublishedActivityUpdatesPanel(
-                        services.getCOMServices().getArchiveService(),
-                        mps.getPlanExecutionControlService()
-                );
-                int count = serviceTabs.getTabCount();
-                serviceTabs.insertTab("Published activity updates", null, publishedPanel,
-                        "Published activity updates", count);
-            }
         }
 
         // Platform
