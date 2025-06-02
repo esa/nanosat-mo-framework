@@ -49,9 +49,7 @@ import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mc.action.ActionServiceInfo;
 import org.ccsds.moims.mo.mc.aggregation.AggregationServiceInfo;
 import org.ccsds.moims.mo.mc.alert.AlertServiceInfo;
-import org.ccsds.moims.mo.mc.check.CheckServiceInfo;
 import org.ccsds.moims.mo.mc.parameter.ParameterServiceInfo;
-import org.ccsds.moims.mo.mc.statistic.StatisticServiceInfo;
 
 /**
  *
@@ -904,7 +902,7 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
             this.connectionConsumer.getServicesDetails().get(AlertServiceInfo.ALERT_SERVICE_NAME).setProviderURI(uriServiceAlert.getText());
             this.connectionConsumer.getServicesDetails().get(AlertServiceInfo.ALERT_SERVICE_NAME).setBrokerURI(uriBrokerAlert.getText());
         }
-
+/*
         details = connectionConsumer.getServicesDetails().get(CheckServiceInfo.CHECK_SERVICE_NAME);
         if (details != null) {
             this.connectionConsumer.getServicesDetails().get(CheckServiceInfo.CHECK_SERVICE_NAME).setProviderURI(uriServiceCheck.getText());
@@ -916,7 +914,7 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
             this.connectionConsumer.getServicesDetails().get(StatisticServiceInfo.STATISTIC_SERVICE_NAME).setProviderURI(uriServiceStatistic.getText());
             this.connectionConsumer.getServicesDetails().get(StatisticServiceInfo.STATISTIC_SERVICE_NAME).setBrokerURI(uriBrokerStatistic.getText());
         }
-
+*/
         details = connectionConsumer.getServicesDetails().get(AggregationServiceInfo.AGGREGATION_SERVICE_NAME);
         if (details != null) {
             this.connectionConsumer.getServicesDetails().get(AggregationServiceInfo.AGGREGATION_SERVICE_NAME).setProviderURI(uriServiceAggregation.getText());
@@ -959,7 +957,7 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
             this.uriServiceAlert.setText(details.getProviderURI().toString());
             this.uriBrokerAlert.setText(details.getBrokerURI().toString());
         }
-
+/*
         details = connectionConsumer.getServicesDetails().get(CheckServiceInfo.CHECK_SERVICE_NAME);
         if (details != null) {
             this.uriServiceCheck.setText(details.getProviderURI().toString());
@@ -971,7 +969,7 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
             this.uriServiceStatistic.setText(details.getProviderURI().toString());
             this.uriBrokerStatistic.setText(details.getBrokerURI().toString());
         }
-
+*/
         details = connectionConsumer.getServicesDetails().get(AggregationServiceInfo.AGGREGATION_SERVICE_NAME);
         if (details != null) {
             this.uriServiceAggregation.setText(details.getProviderURI().toString());
