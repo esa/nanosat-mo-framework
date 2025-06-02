@@ -20,12 +20,12 @@
         <groupId>int.esa.nmf</groupId>
         <artifactId>parent</artifactId>
         <version>4.0-SNAPSHOT</version>
-        <relativePath>../parent/pom.xml</relativePath>
+        <relativePath>../../parent/pom.xml</relativePath>
     </parent>
 
-    <groupId>int.esa.nmf.sdk</groupId>
+    <groupId>int.esa.nmf.sdk.examples.ground</groupId>
     <artifactId>reactor</artifactId>
-    <name>ESA NMF SDK</name>
+    <name>ESA NMF SDK - Ground Applications Examples</name>
     <packaging>pom</packaging>
 
     <organization>
@@ -65,10 +65,13 @@
     </properties>
 
     <modules>
-        <module>space</module>
-        <module>ground</module>
-        <module>consumer-test-tool</module>
-        <module>cli-tool</module>
-        <module>sdk-package</module>
+        <module>simple-ground</module>
+        <module>directory-consumer</module>
+        <module>echo</module>
+        <module>set-and-command</module>
+        <module>facebook</module>
+        <module>camera-acquisitor-system-ground</module>
+        <module>mp-ground-demo</module>
     </modules>
+
 </project>

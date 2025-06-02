@@ -13,20 +13,23 @@
 -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>int.esa.nmf</groupId>
         <artifactId>parent</artifactId>
         <version>4.0-SNAPSHOT</version>
-        <relativePath>../parent/pom.xml</relativePath>
+        <relativePath>../../../parent/pom.xml</relativePath>
     </parent>
 
-    <groupId>int.esa.nmf.sdk</groupId>
-    <artifactId>reactor</artifactId>
-    <name>ESA NMF SDK</name>
-    <packaging>pom</packaging>
+    <groupId>int.esa.nmf.sdk.examples.ground</groupId>
+    <artifactId>directory-consumer</artifactId>
+    <packaging>jar</packaging>
+
+    <name>ESA NMF SDK Ground - Directory Service Consumer</name>
+    <description>Ground application using Directory Service to resolve the connection details of the Provider.</description>
+    <url>http://www.esa.int</url>
 
     <organization>
         <name>ESA</name>
@@ -59,16 +62,36 @@
         </developer>
     </developers>
 
-    <properties>
-        <maven.deploy.skip>true</maven.deploy.skip>
-        <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
-    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>int.esa.nmf.core</groupId>
+            <artifactId>ground-mo-adapter</artifactId>
+        </dependency>
+    </dependencies>
 
-    <modules>
-        <module>space</module>
-        <module>ground</module>
-        <module>consumer-test-tool</module>
-        <module>cli-tool</module>
-        <module>sdk-package</module>
-    </modules>
+    <build>
+        <resources></resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 </project>
