@@ -25,9 +25,10 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Date;
 import java.util.Random;
-import java.util.Timer;
 
 /**
+ * The GPS class represents a GPS that can return a position for a selected
+ * orbit.
  *
  * @author Cesar Coelho
  */
@@ -37,21 +38,19 @@ public class GPS {
     private Orbit.OrbitParameters Position;
     private final static int NUMERICAL_ERROR = 2;  // 2 meters
     private final static int POSITION_ERROR = 10;  // 10 meters
-    private static Random randomno = new Random();
-    // GPS characteristics
-    int SampleFrequency = 1 * 1000; //milliseconds (1 update per second)
+    private static final Random random = new Random();
 
     // Errors
-    Orbit.OrbitParameters numericalError;
-    Orbit.OrbitParameters positionError;
+    private final OrbitParameters positionError;
+    private OrbitParameters numericalError;
 
-    // Timer
-    Timer timer;
-    private final Object MUTEX = new Object();
-
+    /**
+     * Constructor for the GPS class.
+     *
+     * @param selectedOrbit The orbit to be used for generation of the gps data.
+     */
     public GPS(Orbit selectedOrbit) {
         this.orbit = selectedOrbit;
-        this.timer = new Timer();
 
         Position = orbit.getParameters();
 
@@ -63,49 +62,60 @@ public class GPS {
 
     }
 
+    /**
+     * Returns the position of the satellite.
+     *
+     * @return the position of the satellite.
+     */
     public OrbitParameters getPosition() {
         return this.getPosition(this.Position.gettime());
     }
 
-    public OrbitParameters getPosition(Date time) {
+    /**
+     * Returns the position of the satellite for a given time.
+     *
+     * @param time The time to be used for the calculation of the position.
+     * @return the position of the satellite for a given time.
+     */
+    public synchronized OrbitParameters getPosition(Date time) {
+        this.Position = orbit.getParameters(time);
 
-        OrbitParameters PositionWithErrors;
+        // Change the numericalError every: this.SampleFrequency
+        numericalError = GPS.this.generateError(NUMERICAL_ERROR, Position);
 
-        synchronized (MUTEX) {
-            this.Position = orbit.getParameters(time);
+        // The next line shouldn't be here, because if I request the Position from the GPS faster than
+        // the Samplefrequency of the GPS, then I shall get the same value
+        //this.Position = this.orbit.getParameters();
+        double latitude = truncateDecimal(this.Position.getlatitude() + this.positionError.getlatitude()
+                + this.numericalError.getlatitude(), 6).doubleValue();
+        double longitude = truncateDecimal(this.Position.getlongitude() + this.positionError.getlongitude()
+                + this.numericalError.getlongitude(), 6).doubleValue();
 
-            // Change the numericalError every: this.SampleFrequency
-            numericalError = GPS.this.generateError(NUMERICAL_ERROR, Position);
+        latitude = fixBoundaries(latitude, -90, 90);
+        longitude = fixBoundaries(longitude, -180, 180);
 
-            // The next line shouldn't be here, because if I request the Position from the GPS faster than
-            // the Samplefrequency of the GPS, then I shall get the same value
-            //this.Position = this.orbit.getParameters();
-            double latitude = truncateDecimal(this.Position.getlatitude() + this.positionError.getlatitude() +
-                this.numericalError.getlatitude(), 6).doubleValue();
-            double longitude = truncateDecimal(this.Position.getlongitude() + this.positionError.getlongitude() +
-                this.numericalError.getlongitude(), 6).doubleValue();
-
-            latitude = fixBoundaries(latitude, -90, 90);
-            longitude = fixBoundaries(longitude, -180, 180);
-
-            // No errors for the velocity vector were included
-            PositionWithErrors = new OrbitParameters(latitude, longitude, truncateDecimal(this.Position.geta() +
-                this.positionError.geta() + this.numericalError.geta(), 1).doubleValue(), new Vector(this.Position
-                    .getvelocity().x(), this.Position.getvelocity().y(), this.Position.getvelocity().z()), this.Position
-                        .gettime());
-
-        }
+        // No errors for the velocity vector were included
+        BigDecimal truncated = truncateDecimal(this.Position.geta()
+                + this.positionError.geta() + this.numericalError.geta(), 1);
+        Vector velocity = this.Position.getvelocity();
+        OrbitParameters PositionWithErrors = new OrbitParameters(latitude, longitude,
+                truncated.doubleValue(), velocity, this.Position.gettime());
 
         return PositionWithErrors;
     }
 
+    /**
+     * Truncates a double value to the defined number of decimals.
+     *
+     * @param x The double value to be truncated.
+     * @param numberofDecimals The number of decimals to truncate.
+     * @return The truncated number.
+     */
     public static BigDecimal truncateDecimal(double x, int numberofDecimals) {
         // From: http://stackoverflow.com/questions/7747469/how-can-i-truncate-a-double-to-only-two-decimal-places-in-java
-        if (x > 0) {
-            return new BigDecimal(String.valueOf(x)).setScale(numberofDecimals, RoundingMode.FLOOR);
-        } else {
-            return new BigDecimal(String.valueOf(x)).setScale(numberofDecimals, RoundingMode.CEILING);
-        }
+
+        RoundingMode rMode = (x > 0) ? RoundingMode.FLOOR : RoundingMode.CEILING;
+        return new BigDecimal(String.valueOf(x)).setScale(numberofDecimals, rMode);
     }
 
     private static double fixBoundaries(double input, double low_limit, double top_limit) {
@@ -130,8 +140,11 @@ public class GPS {
 
         // The values are divided by 3 to represent a 3 sigma confidence interval
         // The meters need to be converted to kilometers ("/ 1000")
-
-        return new OrbitParameters(factor * k / 3 * randomno.nextGaussian(), factor * k / 3 * randomno.nextGaussian(),
-            k / 1000 / 3 * randomno.nextGaussian(), new Vector(0, 0, 0), this.Position.gettime());
+        return new OrbitParameters(
+                factor * k / 3 * random.nextGaussian(),
+                factor * k / 3 * random.nextGaussian(),
+                k / 1000 / 3 * random.nextGaussian(),
+                new Vector(0, 0, 0),
+                this.Position.gettime());
     }
 }
