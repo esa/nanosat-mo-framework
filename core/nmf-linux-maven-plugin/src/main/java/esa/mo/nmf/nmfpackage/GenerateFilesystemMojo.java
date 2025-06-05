@@ -100,7 +100,7 @@ public class GenerateFilesystemMojo extends AbstractMojo {
                     + "<configuration> tag!\n");
         }
 
-        FilesystemBuilder filesystem = new FilesystemBuilder();
+        FilesystemGenerator filesystem = new FilesystemGenerator();
         filesystem.addResource(Deployment.DIR_ETC, "logging.properties");
         getLog().info("  >> Adding DIR_ETC: " + "logging.properties");
 

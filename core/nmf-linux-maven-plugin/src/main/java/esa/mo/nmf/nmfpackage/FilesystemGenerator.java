@@ -20,14 +20,12 @@
  */
 package esa.mo.nmf.nmfpackage;
 
-import esa.mo.nmf.nmfpackage.metadata.Metadata;
-import esa.mo.nmf.nmfpackage.utils.HelperNMFPackage;
+import esa.mo.nmf.environment.Deployment;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.maven.artifact.Artifact;
@@ -37,16 +35,16 @@ import org.apache.maven.artifact.Artifact;
  *
  * @author Cesar Coelho
  */
-public class FilesystemBuilder {
+public class FilesystemGenerator {
 
-    private final static File TARGET_FOLDER = new File("target");
-    private final ArrayList<String> inputFiles = new ArrayList<>();
-    private final ArrayList<String> locations = new ArrayList<>();
+    private final static File DIR_TARGET = new File("target");
+    private final static File DIR_FILESYSTEM = new File(DIR_TARGET, "space-filesystem");
+    private final static File DIR_NMF = new File(DIR_FILESYSTEM, Deployment.DIR_NMF);
 
     /**
      * The Constructor.
      */
-    public FilesystemBuilder() {
+    public FilesystemGenerator() {
     }
 
     /**
@@ -65,7 +63,14 @@ public class FilesystemBuilder {
                 addFileOrDirectory(n.getAbsolutePath(), nest);
             }
         } else {
-            inputFiles.add(f.getAbsolutePath());
+            File destination = new File(DIR_NMF, nest);
+            File newFile = new File(destination, f.getName());
+            try {
+                Files.copy(f.toPath(), newFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException ex) {
+                Logger.getLogger(FilesystemGenerator.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            System.out.println("File copied to: " + newFile.getAbsolutePath());
         }
     }
 
@@ -73,54 +78,9 @@ public class FilesystemBuilder {
         addFileOrDirectory(file.getAbsolutePath(), "");
     }
 
-    /**
-     * Creates the filesystem for the NanoSat MO Framework.
-     *
-     * @param destinationFolder The destination folder to create the Filesystem.
-     */
-    public void createFilesystem(File destinationFolder) {
-        String path = destinationFolder.getAbsolutePath();
-        create(inputFiles, locations, path);
-    }
-
-    private static boolean create(ArrayList<String> filesInput,
-            ArrayList<String> newLocationsInput, String destinationFolder) {
-        final ArrayList<String> files = new ArrayList<>(filesInput);
-        final ArrayList<String> newLocations = new ArrayList<>(newLocationsInput);
-        int size = newLocations.size();
-
-        for (int i = 0; i < size; i++) {
-            try {
-                String path = newLocations.get(i);
-                long crc = HelperNMFPackage.calculateCRCFromFile(files.get(i));
-                String index = "." + i;
-            } catch (IOException ex) {
-                Logger.getLogger(FilesystemBuilder.class.getName()).log(Level.SEVERE,
-                        "There was a problem during the CRC calculation.", ex);
-            }
-        }
-
-        // Generate metadata.properties
-        Logger.getLogger(FilesystemBuilder.class.getName()).log(
-                Level.INFO, "Generating metadata file...");
-
-        File metadataFile = new File(Metadata.FILENAME);
-
-        // Add the metadata file to the list of Files to be zipped
-        files.add(metadataFile.getPath());
-        newLocations.add(Metadata.FILENAME);
-        // -------------------------------------------------------------------
-
-        // Delete temporary files:
-        metadataFile.delete();
-        //digitalSignature.delete();
-
-        return true;
-    }
-
     public void addResource(String directory, String filename) {
         ClassLoader classLoader = GenerateFilesystemMojo.class.getClassLoader();
-        File destinationDirectory = new File(TARGET_FOLDER, directory);
+        File destinationDirectory = new File(DIR_NMF, directory);
         destinationDirectory.mkdirs();
         File destinationFile = new File(destinationDirectory, filename);
 
@@ -139,14 +99,14 @@ public class FilesystemBuilder {
 
     public void addArtifact(String directory, Artifact artifact) {
         File from = artifact.getFile();
-        File destinationDirectory = new File(TARGET_FOLDER, directory);
+        File destinationDirectory = new File(DIR_NMF, directory);
         destinationDirectory.mkdirs();
         File destinationFile = new File(destinationDirectory, from.getName());
 
         try {
             Files.copy(from.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException ex) {
-            Logger.getLogger(FilesystemBuilder.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FilesystemGenerator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
