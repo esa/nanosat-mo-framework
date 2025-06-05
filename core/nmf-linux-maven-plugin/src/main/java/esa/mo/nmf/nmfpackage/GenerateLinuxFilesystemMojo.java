@@ -20,8 +20,10 @@
  */
 package esa.mo.nmf.nmfpackage;
 
+import esa.mo.nmf.environment.Deployment;
 import java.io.File;
 import java.util.List;
+import org.apache.maven.model.Dependency;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
@@ -47,12 +49,6 @@ public class GenerateLinuxFilesystemMojo extends AbstractMojo {
     private MavenProject project;
 
     /**
-     * The App name of the NMF Package
-     */
-    @Parameter(property = "generate-linux-filesystem.name", defaultValue = "${project.artifactId}")
-    private String name;
-
-    /**
      * The version of the NMF Package
      */
     @Parameter(property = "generate-linux-filesystem.version", defaultValue = "${project.version}")
@@ -76,15 +72,6 @@ public class GenerateLinuxFilesystemMojo extends AbstractMojo {
     @Parameter(property = "generate-linux-filesystem.libs")
     private List<String> libs;
 
-    /**
-     * The set of privileges that an App can have
-     */
-    public enum Privilege {
-        normal,
-        admin,
-        root
-    }
-
     private final static File TARGET_FOLDER = new File("target");
 
     @Override
@@ -93,10 +80,9 @@ public class GenerateLinuxFilesystemMojo extends AbstractMojo {
 
         getLog().info("\n---------- NMF Linux - Filesystem Generator ----------\n");
         getLog().info("Input values:");
-        getLog().info(">> name = " + name);
-        getLog().info(">> version = " + version);
         getLog().info(">> mainClass = " + mainClass);
         getLog().info(">> nmfVersion = " + nmfVersion);
+        getLog().info(">> version = " + version);
 
         if (mainClass == null) {
             throw new MojoExecutionException("The mainClass tag is not defined!"
@@ -106,18 +92,23 @@ public class GenerateLinuxFilesystemMojo extends AbstractMojo {
                     + "-> \t\t</configuration>\n\n\n"
                     + "-> Or add to the <properties> tag the mainclass. Example:\n"
                     + "-> \t\t<properties>\n"
-                    + "-> \t\t\t<assembly.mainClass>esa.mo.nmf.apps.myapp.ExampleApp</assembly.mainClass>\n"
+                    + "-> \t\t\t<assembly.mainClass>esa.mo.nmf.mission.MissionSupervisor</assembly.mainClass>\n"
                     + "-> \t\t</properties>\n\n\n");
         }
 
-        if ("${esa.nmf.version-qualifier}".equals(nmfVersion)) {
+        if ("${esa.nmf.version}".equals(nmfVersion)) {
             throw new MojoExecutionException("The nmfVersion property needs to "
                     + "be defined!\nPlease use the <nmfVersion> tag inside the "
                     + "<configuration> tag!\n");
         }
 
-        File myAppFilename;
-        String mainJar;
+        FilesystemBuilder filesystem = new FilesystemBuilder();
+        filesystem.addResource(Deployment.DIR_ETC, "logging.properties");
+
+        for (Object aaa : project.getDependencies()) {
+            Dependency dependency = (Dependency) aaa;
+            getLog().info(">> Dependency = " + dependency.toString());
+        }
 
     }
 }

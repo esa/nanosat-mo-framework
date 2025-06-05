@@ -226,6 +226,11 @@
                     <version>${esa.nmf.version}</version>
                 </plugin>
                 <plugin>
+                    <groupId>int.esa.nmf.core</groupId>
+                    <artifactId>nmf-linux-maven-plugin</artifactId>
+                    <version>${esa.nmf.version}</version>
+                </plugin>
+                <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-assembly-plugin</artifactId>
                     <version>3.6.0</version>

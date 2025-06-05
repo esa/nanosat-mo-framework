@@ -55,6 +55,10 @@
 
     <dependencies>
         <dependency>
+            <groupId>int.esa.nmf.core</groupId>
+            <artifactId>nmf-package-lib</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-plugin-api</artifactId>
         </dependency>
@@ -71,6 +75,11 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
