@@ -18,7 +18,7 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nmf.nmfpackage;
+package esa.mo.nmf.filesystem;
 
 import esa.mo.nmf.environment.Deployment;
 import java.io.File;
