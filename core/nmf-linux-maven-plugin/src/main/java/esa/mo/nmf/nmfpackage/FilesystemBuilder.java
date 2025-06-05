@@ -30,6 +30,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.maven.artifact.Artifact;
 
 /**
  * The FilesystemBuilder class.
@@ -38,6 +39,7 @@ import java.util.logging.Logger;
  */
 public class FilesystemBuilder {
 
+    private final static File TARGET_FOLDER = new File("target");
     private final ArrayList<String> inputFiles = new ArrayList<>();
     private final ArrayList<String> locations = new ArrayList<>();
 
@@ -116,9 +118,11 @@ public class FilesystemBuilder {
         return true;
     }
 
-    public void addResource(String etc, String filename) {
-        ClassLoader classLoader = GenerateLinuxFilesystemMojo.class.getClassLoader();
-        File destinationFile = new File("target", filename);
+    public void addResource(String directory, String filename) {
+        ClassLoader classLoader = GenerateFilesystemMojo.class.getClassLoader();
+        File destinationDirectory = new File(TARGET_FOLDER, directory);
+        destinationDirectory.mkdirs();
+        File destinationFile = new File(destinationDirectory, filename);
 
         try (InputStream inputStream = classLoader.getResourceAsStream(filename)) {
             if (inputStream == null) {
@@ -129,7 +133,20 @@ public class FilesystemBuilder {
             Files.copy(inputStream, destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
             System.out.println("Resource copied to: " + destinationFile.getAbsolutePath());
         } catch (IOException ex) {
-            Logger.getLogger(GenerateLinuxFilesystemMojo.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GenerateFilesystemMojo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void addArtifact(String directory, Artifact artifact) {
+        File from = artifact.getFile();
+        File destinationDirectory = new File(TARGET_FOLDER, directory);
+        destinationDirectory.mkdirs();
+        File destinationFile = new File(destinationDirectory, from.getName());
+
+        try {
+            Files.copy(from.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException ex) {
+            Logger.getLogger(FilesystemBuilder.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

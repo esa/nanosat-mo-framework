@@ -21,8 +21,8 @@
 package esa.mo.nmf.nmfpackage;
 
 import esa.mo.nmf.environment.Deployment;
-import java.io.File;
 import java.util.List;
+import org.apache.maven.artifact.Artifact;
 import org.apache.maven.model.Dependency;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -33,46 +33,44 @@ import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.apache.maven.project.MavenProject;
 
 /**
- * Generates the NanoSat MO Framework filesystem structure for a Linux system
+ * Generates the NanoSat MO Framework filesystem structure for a Linux system.
  *
  * @author Cesar Coelho
  */
-@Mojo(name = "generate-linux-filesystem", defaultPhase = LifecyclePhase.PROCESS_RESOURCES,
+@Mojo(name = "generate-filesystem", defaultPhase = LifecyclePhase.PROCESS_RESOURCES,
         requiresDependencyCollection = ResolutionScope.COMPILE_PLUS_RUNTIME,
         requiresDependencyResolution = ResolutionScope.COMPILE_PLUS_RUNTIME)
-public class GenerateLinuxFilesystemMojo extends AbstractMojo {
+public class GenerateFilesystemMojo extends AbstractMojo {
 
     /**
-     * The project that the NMF Package is referring to
+     * The project that the NMF Package is referring to.
      */
     @Parameter(defaultValue = "${project}")
     private MavenProject project;
 
     /**
-     * The version of the NMF Package
+     * The version of the NMF Package.
      */
-    @Parameter(property = "generate-linux-filesystem.version", defaultValue = "${project.version}")
+    @Parameter(property = "generate-filesystem.version", defaultValue = "${project.version}")
     private String version;
 
     /**
-     * The App main class
+     * The App main class.
      */
-    @Parameter(property = "generate-linux-filesystem.mainClass", defaultValue = "${assembly.mainClass}")
+    @Parameter(property = "generate-filesystem.mainClass", defaultValue = "${assembly.mainClass}")
     private String mainClass;
 
     /**
-     * The version of the NMF that the App was developed against
+     * The version of the NMF that the App was developed against.
      */
-    @Parameter(property = "generate-linux-filesystem.nmfVersion", defaultValue = "${esa.nmf.version}")
+    @Parameter(property = "generate-filesystem.nmfVersion", defaultValue = "${esa.nmf.version}")
     private String nmfVersion;
 
     /**
-     * The set of libraries to be added to the .nmfpack
+     * The set of libraries to be added
      */
-    @Parameter(property = "generate-linux-filesystem.libs")
+    @Parameter(property = "generate-filesystem.libs")
     private List<String> libs;
-
-    private final static File TARGET_FOLDER = new File("target");
 
     @Override
     public void execute() throws MojoExecutionException {
@@ -104,11 +102,44 @@ public class GenerateLinuxFilesystemMojo extends AbstractMojo {
 
         FilesystemBuilder filesystem = new FilesystemBuilder();
         filesystem.addResource(Deployment.DIR_ETC, "logging.properties");
+        getLog().info("  >> Adding DIR_ETC: " + "logging.properties");
 
         for (Object aaa : project.getDependencies()) {
             Dependency dependency = (Dependency) aaa;
             getLog().info(">> Dependency = " + dependency.toString());
+
+            // Go inside each dependency and check if it is default!
         }
 
+        for (Object unresolvedArtifact : this.project.getArtifacts()) {
+            Artifact artifact = (Artifact) unresolvedArtifact;
+            String artifactId = artifact.getGroupId();
+
+            boolean isMO = artifactId.contains("int.esa.ccsds.mo");
+            boolean isNMFCore = artifactId.contains("int.esa.nmf.core");
+
+            boolean fromConnector = false; // Resolves dependencies like sqlite
+            List<String> trail = artifact.getDependencyTrail();
+            if (trail != null && trail.size() > 2) {
+                fromConnector = trail.get(1).contains("nanosat-mo-connector");
+            }
+
+            if (isMO || isNMFCore || fromConnector) {
+                StringBuilder str = new StringBuilder();
+                str.append(artifact.getGroupId()).append(":");
+                str.append(artifact.getArtifactId()).append(":");
+                str.append(artifact.getVersion());
+                getLog().info("  >> Adding DIR_JARS_NMF: " + artifact.toString());
+                filesystem.addArtifact(Deployment.DIR_JARS_NMF, artifact);
+            } else {
+                getLog().info("---\nFor dependency:");
+                getLog().info("  >> GroupId = " + artifact.getGroupId());
+                getLog().info("  >> ArtifactId = " + artifact.getArtifactId());
+                getLog().info("  >> Version = " + artifact.getVersion());
+                //dependencies.add(packageJarDependency(artifact));
+                getLog().info("  >> Adding DIR_JARS_MISSION: " + artifact.toString());
+                filesystem.addArtifact(Deployment.DIR_JARS_MISSION, artifact);
+            }
+        }
     }
 }
