@@ -45,7 +45,6 @@ public class FieldsHandler {
     }
 
     public static Field[] getDeclaredFields(Object obj) {
-
         Field[] fields = obj.getClass().getDeclaredFields();
 
         // Does it have a super class?
@@ -80,7 +79,6 @@ public class FieldsHandler {
     }
 
     public static Object generateFieldObject(Field field, Object obj) {
-
         Object rawObj = null;
         Attribute secondObj = null;
         field.setAccessible(true);
@@ -110,53 +108,52 @@ public class FieldsHandler {
     private static Object generateFieldObjectFromField(Object rawObj, Field field) {
         if (rawObj != null) {
             return FieldsHandler.filterRawObject(rawObj);
-        } else {
-            Constructor[] constructors = field.getType().getDeclaredConstructors();
-            if (constructors.length == 0) {
-                return null;
-            }
+        }
 
-            // Enumeration case...
-            if (constructors.length == 1) {
-                Constructor constructor = constructors[0];  // Use the first constructor
-                constructor.setAccessible(true);
-                try {
-                    return (Enumeration) constructor.newInstance(0);
-                } catch (InstantiationException |
-                         InvocationTargetException |
-                         IllegalArgumentException |
-                         IllegalAccessException ex) {
-                    Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex);
+        Constructor[] constructors = field.getType().getDeclaredConstructors();
+        if (constructors.length == 0) {
+            return null;
+        }
+
+        // Enumeration case...
+        if (constructors.length == 1) {
+            Constructor constructor = constructors[0];  // Use the first constructor
+            constructor.setAccessible(true);
+            try {
+                return (Enumeration) constructor.newInstance(0);
+            } catch (InstantiationException
+                    | InvocationTargetException
+                    | IllegalArgumentException
+                    | IllegalAccessException ex) {
+                Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        // Octet case...
+        if (constructors.length == 2) {
+            Constructor constructor = constructors[0];  // Use the first constructor
+            constructor.setAccessible(true);
+            String name = constructor.getName();
+            try {
+                if (name.equals("java.lang.Boolean")) {
+                    return HelperAttributes.javaType2Attribute(constructor.newInstance(true));
                 }
-            }
 
-            // Octet case...
-            if (constructors.length == 2) {
-                Constructor constructor = constructors[0];  // Use the first constructor
-                constructor.setAccessible(true);
-                String name = constructor.getName();
-                try {
-                    if (name.equals("java.lang.Boolean")) {
-                        return HelperAttributes.javaType2Attribute(constructor.newInstance(true));
-                    }
-
-                    if (name.equals("java.lang.String")) {
-                        return HelperAttributes.javaType2Attribute(constructor.newInstance(""));
-                    }
-
-                    if (name.equals("java.lang.Byte")) {
-                        return HelperAttributes.javaType2Attribute(constructor.newInstance((byte) 1));
-                    }
-
-                    return HelperAttributes.javaType2Attribute(constructor.newInstance(1));
-                } catch (InstantiationException |
-                         InvocationTargetException |
-                         IllegalArgumentException |
-                         IllegalAccessException ex) {
-                    Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex);
+                if (name.equals("java.lang.String")) {
+                    return HelperAttributes.javaType2Attribute(constructor.newInstance(""));
                 }
-            }
 
+                if (name.equals("java.lang.Byte")) {
+                    return HelperAttributes.javaType2Attribute(constructor.newInstance((byte) 1));
+                }
+
+                return HelperAttributes.javaType2Attribute(constructor.newInstance(1));
+            } catch (InstantiationException
+                    | InvocationTargetException
+                    | IllegalArgumentException
+                    | IllegalAccessException ex) {
+                Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
 
         return null;

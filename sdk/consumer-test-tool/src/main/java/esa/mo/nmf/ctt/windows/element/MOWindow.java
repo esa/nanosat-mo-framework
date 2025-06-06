@@ -45,6 +45,7 @@ import org.ccsds.moims.mo.mal.structures.Union;
  */
 public final class MOWindow extends javax.swing.JDialog {
 
+    private static int START_INDEX = 3;
     private final Object receivedObj;
     private final boolean editable;
     private boolean closeButtonPressed = false;
@@ -102,12 +103,7 @@ public final class MOWindow extends javax.swing.JDialog {
             objIdentification.setText(string);
         }
 
-        if (editable) {
-            this.button.setText("Submit");
-        } else {
-            this.button.setText("Close");
-        }
-
+        this.button.setText(editable ? "Submit" : "Close");
         this.interpretReceivedObj(obj, editable);
 
         this.refreshVerticalSize();
@@ -167,46 +163,48 @@ public final class MOWindow extends javax.swing.JDialog {
         if (obj instanceof Composite) { // Is Composite...
             Field[] fields = FieldsHandler.getDeclaredFields(obj);
 
-            if (fields.length < 6) {
+            if (fields.length < START_INDEX) {
                 return;
             }
 
-            for (int i = 6; i < fields.length; i++) {
+            for (int i = START_INDEX; i < fields.length; i++) {
                 boolean fieldObjectIsNull = FieldsHandler.isFieldNull(fields[i], obj);
                 Object fieldObject = FieldsHandler.generateFieldObject(fields[i], obj);
+                String name = fields[i].getName();
 
                 // If another Composite add a button to create another MOWindow
                 if (fieldObject instanceof Composite) {
-                    MOcomposite moComposite = new MOcomposite(fields[i].getName(), (Element) fieldObject, editable,
-                            fieldObjectIsNull);
+                    MOcomposite moComposite = new MOcomposite(name,
+                            (Element) fieldObject, editable, fieldObjectIsNull);
                     componentsPanel.add(moComposite);
                     continue;
                 }
 
                 if (fieldObject instanceof Attribute) {
-                    MOattribute moField = new MOattribute(fields[i].getName(), fieldObject, editable,
-                            fieldObjectIsNull);
+                    MOattribute moField = new MOattribute(name,
+                            fieldObject, editable, fieldObjectIsNull);
                     componentsPanel.add(moField);
                     continue;
                 }
 
                 if (fieldObject instanceof Enumeration) {
-                    MOenumeration moField = new MOenumeration(fields[i].getName(), (Element) fieldObject, editable,
-                            fieldObjectIsNull);
+                    MOenumeration moField = new MOenumeration(name,
+                            (Element) fieldObject, editable, fieldObjectIsNull);
                     componentsPanel.add(moField);
                     continue;
                 }
 
                 if (fieldObject == null) {  // It is unknown or type "Attribute"
-                    MOattribute moField = new MOattribute(fields[i].getName(), fieldObject, editable,
-                            fieldObjectIsNull);
+                    MOattribute moField = new MOattribute(name,
+                            fieldObject, editable, fieldObjectIsNull);
                     componentsPanel.add(moField);
                     continue;
                 }
 
                 if (!(fieldObject instanceof Element)) {
-                    MOattribute moField = new MOattribute(fields[i].getName(), FieldsHandler.filterRawObject(
-                            fieldObject), editable, fieldObjectIsNull);
+                    MOattribute moField = new MOattribute(name,
+                            FieldsHandler.filterRawObject(fieldObject),
+                            editable, fieldObjectIsNull);
                     componentsPanel.add(moField);
                     continue;
                 }
@@ -231,7 +229,6 @@ public final class MOWindow extends javax.swing.JDialog {
     }
 
     public void refreshHorizontalSize() {
-
         for (int i = 0; i < componentsPanel.getComponentCount(); i++) {
             String paramType = ((MOelement) componentsPanel.getComponent(i)).getFieldTypeString();
 
@@ -245,7 +242,6 @@ public final class MOWindow extends javax.swing.JDialog {
                 this.repaint();
             }
         }
-
     }
 
     public javax.swing.JPanel getComponentsPanel() {
@@ -402,13 +398,13 @@ public final class MOWindow extends javax.swing.JDialog {
         if (this.receivedObj instanceof Composite && !(this.receivedObj instanceof ElementList)) {
             Field[] fields = FieldsHandler.getDeclaredFields(this.receivedObj);
 
-            if (fields.length < 6) {
+            if (fields.length < START_INDEX) {
                 return null;
             }
 
             for (int i = 0; i < componentsPanel.getComponentCount(); i++) {
-
-                fields[i + 6].setAccessible(true);
+                Field field = fields[i + START_INDEX];
+                field.setAccessible(true);
                 MOelement element = ((MOelement) componentsPanel.getComponent(i));
                 Object object = element.getObject();
 
@@ -417,12 +413,11 @@ public final class MOWindow extends javax.swing.JDialog {
                         Field fieldUnion = object.getClass().getDeclaredField("value");
                         fieldUnion.setAccessible(true);
 
-                        if (fields[i + 6].getType().getSimpleName().equals("Attribute")) {
-                            fields[i + 6].set(this.receivedObj, object);
+                        if (field.getType().getSimpleName().equals("Attribute")) {
+                            field.set(this.receivedObj, object);
                         } else {
-                            fields[i + 6].set(this.receivedObj, fieldUnion.get(object));
+                            field.set(this.receivedObj, fieldUnion.get(object));
                         }
-
                     } catch (NoSuchFieldException
                             | IllegalAccessException
                             | IllegalArgumentException
@@ -431,7 +426,7 @@ public final class MOWindow extends javax.swing.JDialog {
                     }
                 } else {
                     try {
-                        fields[i + 6].set(this.receivedObj, object);
+                        field.set(this.receivedObj, object);
                     } catch (IllegalArgumentException | IllegalAccessException ex) {
                         Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -441,11 +436,13 @@ public final class MOWindow extends javax.swing.JDialog {
             return this.receivedObj;
         }
 
+        MOattribute moAttribute = (MOattribute) componentsPanel.getComponent(0);
+
         if (this.receivedObj instanceof Attribute && !(this.receivedObj instanceof ElementList)) {
-            return ((MOattribute) componentsPanel.getComponent(0)).getObject();
+            return moAttribute.getObject();
         }
 
-        return ((MOattribute) componentsPanel.getComponent(0)).getObject();
+        return moAttribute.getObject();
     }
 
 }
