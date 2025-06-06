@@ -20,41 +20,64 @@
  */
 package esa.mo.nmf.ctt.windows.element;
 
+import java.io.InterruptedIOException;
+import org.ccsds.moims.mo.mal.structures.Element;
+
 /**
  *
  * @author Cesar Coelho
  */
-public class MOelementListBlank extends MOelement {
+public class CompositeEntry extends Entry {
 
-    private final javax.swing.JToggleButton buttonAdd;
+    private final javax.swing.JToggleButton button;
 
-    public MOelementListBlank(java.awt.event.ActionListener actionListener, boolean editable) {
-        super("", null, editable, false);
-
-        this.editable = editable;
-        super.fieldName.setText("");
-        super.fieldType.setText("");
-        super.nullCB.setVisible(false);
-        super.fieldSelectableAttribute.setVisible(false);
+    public CompositeEntry(String fieldNameIn, Element obj, boolean editable, boolean objIsNull) {
+        super(fieldNameIn, obj, editable, objIsNull);
 
         // Make a button and put it in the middle Panel
-        buttonAdd = new javax.swing.JToggleButton();
-        buttonAdd.setText("Add");
-        buttonAdd.addActionListener(actionListener);
-        super.mainPanel.add(buttonAdd);
+        button = new javax.swing.JToggleButton();
+        button.addActionListener(this::buttonActionPerformed);
 
-        if (!editable) {
-            this.buttonAdd.setEnabled(false);
-        }
+        super.middlePanel.add(button);
 
         // Set the text
+        if (editable) {
+            this.button.setText("Edit");
+        } else {
+            this.button.setText("View");
+        }
+
+        if (objIsNull) {
+            super.makeFieldNull();
+            this.button.setText("Add");
+        }
+
         this.setVisible(true);
     }
 
     @Override
     public Object getObject() {
-        // Not used
-        return null;
+        if (nullCB.isSelected()) {
+            return null;
+        }
+
+        return object;
+    }
+
+    private void buttonActionPerformed(java.awt.event.ActionEvent evt) {
+        MOWindow genericObj = new MOWindow(object, this.editable);
+
+        try {
+            this.object = genericObj.getObject();
+        } catch (InterruptedIOException ex) {
+            return;
+        }
+
+        // Set text
+        if (editable) {
+            this.button.setText("Edit");
+        }
+
     }
 
 }

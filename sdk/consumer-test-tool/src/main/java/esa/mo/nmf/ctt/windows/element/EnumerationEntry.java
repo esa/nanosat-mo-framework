@@ -30,11 +30,11 @@ import org.ccsds.moims.mo.mal.structures.Enumeration;
  *
  * @author Cesar Coelho
  */
-public class MOenumeration extends MOelement {
+public class EnumerationEntry extends Entry {
 
     private javax.swing.JComboBox comboBox;
 
-    public MOenumeration(String fieldNameIn, Element obj, boolean editable, boolean objIsNull) {
+    public EnumerationEntry(String fieldNameIn, Element obj, boolean editable, boolean objIsNull) {
         super(fieldNameIn, obj, editable, objIsNull);
 
         comboBox = new javax.swing.JComboBox();
@@ -58,7 +58,7 @@ public class MOenumeration extends MOelement {
             this.comboBox.setSelectedItem(enumeration.toString());
 
         } catch (IllegalArgumentException | IllegalAccessException ex) {
-            Logger.getLogger(MOenumeration.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EnumerationEntry.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         if (objIsNull) {
@@ -85,7 +85,7 @@ public class MOenumeration extends MOelement {
         try {
             return field.get(object);
         } catch (IllegalArgumentException | IllegalAccessException ex) {
-            Logger.getLogger(MOenumeration.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EnumerationEntry.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return null;

@@ -30,13 +30,13 @@ import org.ccsds.moims.mo.mal.structures.Union;
  *
  * @author Cesar Coelho
  */
-public abstract class MOelement extends javax.swing.JPanel {
+public abstract class Entry extends javax.swing.JPanel {
 
     Object object = null;
     boolean editable;
 
     @SuppressWarnings("unchecked")
-    public MOelement(String fieldName, Object obj, boolean editable, boolean objIsNull) {
+    public Entry(String fieldName, Object obj, boolean editable, boolean objIsNull) {
         initComponents();
 
         this.fieldName.setText(fieldName);
@@ -65,7 +65,7 @@ public abstract class MOelement extends javax.swing.JPanel {
                 className = HelperAttributes.typeShortForm2attributeName(typeShortForm);
 
             } catch (IllegalArgumentException | SecurityException | NoSuchFieldException | IllegalAccessException ex) {
-                Logger.getLogger(MOelement.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Entry.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 

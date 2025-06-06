@@ -32,11 +32,11 @@ import org.ccsds.moims.mo.mal.structures.Element;
  *
  * @author Cesar Coelho
  */
-public class MOattribute extends MOelement {
+public class AttributeEntry extends Entry {
 
     private final javax.swing.JTextField fieldValue;
 
-    public MOattribute(String fieldName, Object obj, boolean editable, boolean objIsNull) {
+    public AttributeEntry(String fieldName, Object obj, boolean editable, boolean objIsNull) {
         super(fieldName, obj, editable, objIsNull);
 
         fieldValue = new javax.swing.JTextField();
@@ -65,7 +65,7 @@ public class MOattribute extends MOelement {
             try {
                 super.object = (Element) MALContextFactory.getElementsRegistry().createElement(shortForm);
             } catch (Exception ex) {
-                Logger.getLogger(MOattribute.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(AttributeEntry.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 

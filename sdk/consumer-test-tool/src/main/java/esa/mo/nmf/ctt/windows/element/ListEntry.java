@@ -29,13 +29,13 @@ import org.ccsds.moims.mo.mal.structures.ElementList;
  *
  * @author Cesar Coelho
  */
-public class MOelementList extends MOelement {
+public class ListEntry extends Entry {
 
     private javax.swing.JToggleButton buttonEdit;
     private final javax.swing.JToggleButton buttonRemove;
     private javax.swing.JTextField fieldValue;
 
-    public MOelementList(final MOWindow previousWindow, String fieldNameIn,
+    public ListEntry(final MOWindow previousWindow, String fieldNameIn,
             Object obj, boolean editable, boolean objIsNull) {
         super(fieldNameIn, obj, true, objIsNull);
 
@@ -44,14 +44,14 @@ public class MOelementList extends MOelement {
         // Make the remove button
         buttonRemove = new javax.swing.JToggleButton();
         buttonRemove.setText("Remove");
-        final MOelementList temp = this;
+        final ListEntry temp = this;
         java.awt.event.ActionListener actionListenerRemove = evt -> {
             JPanel panel = previousWindow.getComponentsPanel();
             panel.remove(temp);
 
             // Fix the indexes
             for (int i = 0; i < panel.getComponentCount() - 1; i++) {
-                MOelement component = (MOelement) panel.getComponent(i);
+                Entry component = (Entry) panel.getComponent(i);
                 component.getFieldNameLabel().setText(String.valueOf(i));
             }
 

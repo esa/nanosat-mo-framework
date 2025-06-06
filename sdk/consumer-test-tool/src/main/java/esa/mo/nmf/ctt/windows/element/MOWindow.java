@@ -131,7 +131,7 @@ public final class MOWindow extends javax.swing.JDialog {
                     if (list.get(i) == null) {
                         try {
                             Element something = MALElementsRegistry.elementToElementList(list);
-                            MOelementList moElementList = new MOelementList(this,
+                            ListEntry moElementList = new ListEntry(this,
                                     fieldName, something, editable, true);
                             componentsPanel.add(moElementList);
                         } catch (Exception ex) {
@@ -139,14 +139,14 @@ public final class MOWindow extends javax.swing.JDialog {
                         }
 
                     } else {
-                        MOelementList moElementList = new MOelementList(this,
+                        ListEntry moElementList = new ListEntry(this,
                                 fieldName,
                                 FieldsHandler.filterRawObject(list.get(i)), editable,
                                 (list.get(i) == null));
                         componentsPanel.add(moElementList);
                     }
                 } else {
-                    MOelementList moElementList = new MOelementList(this,
+                    ListEntry moElementList = new ListEntry(this,
                             fieldName,
                             list.get(i), editable, (list.get(i) == null));
                     componentsPanel.add(moElementList);
@@ -156,7 +156,7 @@ public final class MOWindow extends javax.swing.JDialog {
 
             java.awt.event.ActionListener actionListener = this::buttonAddActionPerformed;
 
-            MOelementListBlank moElementListBlank = new MOelementListBlank(actionListener, editable);
+            BlankListEntry moElementListBlank = new BlankListEntry(actionListener, editable);
             componentsPanel.add(moElementListBlank);
             return;
 
@@ -177,42 +177,42 @@ public final class MOWindow extends javax.swing.JDialog {
 
                 // If another Composite add a button to create another MOWindow
                 if (fieldObject instanceof Composite) {
-                    MOcomposite moComposite = new MOcomposite(name,
+                    CompositeEntry moComposite = new CompositeEntry(name,
                             (Element) fieldObject, editable, fieldObjectIsNull);
                     componentsPanel.add(moComposite);
                     continue;
                 }
 
                 if (fieldObject instanceof Attribute) {
-                    MOattribute moField = new MOattribute(name,
+                    AttributeEntry moField = new AttributeEntry(name,
                             fieldObject, editable, fieldObjectIsNull);
                     componentsPanel.add(moField);
                     continue;
                 }
 
                 if (fieldObject instanceof Enumeration) {
-                    MOenumeration moField = new MOenumeration(name,
+                    EnumerationEntry moField = new EnumerationEntry(name,
                             (Element) fieldObject, editable, fieldObjectIsNull);
                     componentsPanel.add(moField);
                     continue;
                 }
 
                 if (fieldObject instanceof List) {
-                    MOelementList moField = new MOelementList(this, name,
+                    ListEntry moField = new ListEntry(this, name,
                             fieldObject, editable, fieldObjectIsNull);
                     componentsPanel.add(moField);
                     continue;
                 }
 
                 if (fieldObject == null) {  // It is unknown or type "Attribute"
-                    MOattribute moField = new MOattribute(name,
+                    AttributeEntry moField = new AttributeEntry(name,
                             fieldObject, editable, fieldObjectIsNull);
                     componentsPanel.add(moField);
                     continue;
                 }
 
                 if (!(fieldObject instanceof Element)) {
-                    MOattribute moField = new MOattribute(name,
+                    AttributeEntry moField = new AttributeEntry(name,
                             FieldsHandler.filterRawObject(fieldObject),
                             editable, fieldObjectIsNull);
                     componentsPanel.add(moField);
@@ -223,7 +223,7 @@ public final class MOWindow extends javax.swing.JDialog {
             return;
         }
 
-        MOattribute field = new MOattribute("value", obj, editable, false);
+        AttributeEntry field = new AttributeEntry("value", obj, editable, false);
         componentsPanel.add(field);
 
     }
@@ -240,7 +240,7 @@ public final class MOWindow extends javax.swing.JDialog {
 
     public void refreshHorizontalSize() {
         for (int i = 0; i < componentsPanel.getComponentCount(); i++) {
-            String paramType = ((MOelement) componentsPanel.getComponent(i)).getFieldTypeString();
+            String paramType = ((Entry) componentsPanel.getComponent(i)).getFieldTypeString();
 
             // Calculate the size we want...
             int horizontalSize = paramType.length() * 8 + 450;
@@ -373,7 +373,7 @@ public final class MOWindow extends javax.swing.JDialog {
     private void buttonAddActionPerformed(java.awt.event.ActionEvent evt) {
         try {
             Element element = MALElementsRegistry.elementToElementList((ElementList) this.receivedObj);
-            MOelementList moElementList = new MOelementList(this,
+            ListEntry moElementList = new ListEntry(this,
                     String.valueOf(componentsPanel.getComponentCount() - 1),
                     element, this.editable, (this.receivedObj == null));
             componentsPanel.add(moElementList, componentsPanel.getComponentCount() - 1);
@@ -397,7 +397,7 @@ public final class MOWindow extends javax.swing.JDialog {
             ElementList list = (ElementList) ((ElementList) this.receivedObj).createElement();
 
             for (int i = 0; i < componentsPanel.getComponentCount() - 1; i++) {
-                MOelementList lst = (MOelementList) componentsPanel.getComponent(i);
+                ListEntry lst = (ListEntry) componentsPanel.getComponent(i);
                 list.add(lst.getObject());
             }
 
@@ -415,7 +415,7 @@ public final class MOWindow extends javax.swing.JDialog {
             for (int i = 0; i < componentsPanel.getComponentCount(); i++) {
                 Field field = fields[i + START_INDEX];
                 field.setAccessible(true);
-                MOelement element = ((MOelement) componentsPanel.getComponent(i));
+                Entry element = ((Entry) componentsPanel.getComponent(i));
                 Object object = element.getObject();
 
                 if (object instanceof Union) {
@@ -446,7 +446,7 @@ public final class MOWindow extends javax.swing.JDialog {
             return this.receivedObj;
         }
 
-        MOattribute moAttribute = (MOattribute) componentsPanel.getComponent(0);
+        AttributeEntry moAttribute = (AttributeEntry) componentsPanel.getComponent(0);
 
         if (this.receivedObj instanceof Attribute && !(this.receivedObj instanceof ElementList)) {
             return moAttribute.getObject();
