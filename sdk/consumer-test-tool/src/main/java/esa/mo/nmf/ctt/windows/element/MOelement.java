@@ -52,10 +52,6 @@ public abstract class MOelement extends javax.swing.JPanel {
             for (int index = 0; index < 18; index++) {
                 this.fieldSelectableAttribute.addItem(HelperAttributes.typeShortForm2attributeName(index));
             }
-
-            //            String asfgsf = (String)  this.fieldSelectableAttribute.getItemAt(1);
-            //            asfgsf = "dsdcs";
-
         }
 
         if (obj instanceof Union) {

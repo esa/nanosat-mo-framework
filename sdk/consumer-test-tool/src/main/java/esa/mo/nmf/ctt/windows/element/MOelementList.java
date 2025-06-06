@@ -21,6 +21,7 @@
 package esa.mo.nmf.ctt.windows.element;
 
 import java.io.InterruptedIOException;
+import javax.swing.JPanel;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.structures.ElementList;
 
@@ -34,8 +35,8 @@ public class MOelementList extends MOelement {
     private final javax.swing.JToggleButton buttonRemove;
     private javax.swing.JTextField fieldValue;
 
-    public MOelementList(final MOWindow previousWindow, String fieldNameIn, Object obj, boolean editable,
-        boolean objIsNull) {
+    public MOelementList(final MOWindow previousWindow, String fieldNameIn,
+            Object obj, boolean editable, boolean objIsNull) {
         super(fieldNameIn, obj, true, objIsNull);
 
         this.editable = editable;
@@ -45,12 +46,13 @@ public class MOelementList extends MOelement {
         buttonRemove.setText("Remove");
         final MOelementList temp = this;
         java.awt.event.ActionListener actionListenerRemove = evt -> {
-            previousWindow.getComponentsPanel().remove(temp);
+            JPanel panel = previousWindow.getComponentsPanel();
+            panel.remove(temp);
 
             // Fix the indexes
-            for (int i = 0; i < previousWindow.getComponentsPanel().getComponentCount() - 1; i++) {
-                ((MOelement) previousWindow.getComponentsPanel().getComponent(i)).getFieldNameLabel().setText(String
-                    .valueOf(i));
+            for (int i = 0; i < panel.getComponentCount() - 1; i++) {
+                MOelement component = (MOelement) panel.getComponent(i);
+                component.getFieldNameLabel().setText(String.valueOf(i));
             }
 
             previousWindow.refreshVerticalSize();
@@ -77,7 +79,6 @@ public class MOelementList extends MOelement {
             // Make a button and put it in the middle Panel
             buttonEdit = new javax.swing.JToggleButton();
             buttonEdit.addActionListener(this::buttonEditActionPerformed);
-
             super.middlePanel.add(buttonEdit);
 
             // Set the text
@@ -88,7 +89,6 @@ public class MOelementList extends MOelement {
                 this.buttonRemove.setEnabled(false);
                 this.nullCB.setEnabled(false);
             }
-
         }
 
         super.middlePanel.add(buttonRemove);
@@ -104,13 +104,13 @@ public class MOelementList extends MOelement {
     public Object getObject() {
         if (nullCB.isSelected()) {
             return null;
-        } else {
-            // Is it an Attribute?
-            boolean isAttribute = (HelperAttributes.attributeName2typeShortForm(this.object.getClass()
-                .getSimpleName()) != null);
-            return (isAttribute) ? HelperAttributes.string2attribute(this.object, this.fieldValue.getText()) :
-                HelperAttributes.attribute2JavaType(this.object);
         }
+
+        // Is it an Attribute?
+        String name = this.object.getClass().getSimpleName();
+        boolean isAttribute = (HelperAttributes.attributeName2typeShortForm(name) != null);
+        return (isAttribute) ? HelperAttributes.string2attribute(this.object, this.fieldValue.getText())
+                : HelperAttributes.attribute2JavaType(this.object);
     }
 
     private void buttonEditActionPerformed(java.awt.event.ActionEvent evt) {

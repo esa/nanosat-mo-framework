@@ -22,6 +22,7 @@ package esa.mo.nmf.ctt.windows.element;
 
 import java.io.InterruptedIOException;
 import java.lang.reflect.Field;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BoxLayout;
@@ -124,12 +125,14 @@ public final class MOWindow extends javax.swing.JDialog {
             ElementList list = (ElementList) obj;
 
             for (int i = 0; i < list.size(); i++) {
+                String fieldName = String.valueOf(componentsPanel.getComponentCount());
+
                 if (!(list.get(i) instanceof Element)) {
                     if (list.get(i) == null) {
                         try {
                             Element something = MALElementsRegistry.elementToElementList(list);
                             MOelementList moElementList = new MOelementList(this,
-                                    String.valueOf(componentsPanel.getComponentCount()), something, editable, true);
+                                    fieldName, something, editable, true);
                             componentsPanel.add(moElementList);
                         } catch (Exception ex) {
                             Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex);
@@ -137,14 +140,14 @@ public final class MOWindow extends javax.swing.JDialog {
 
                     } else {
                         MOelementList moElementList = new MOelementList(this,
-                                String.valueOf(componentsPanel.getComponentCount()),
+                                fieldName,
                                 FieldsHandler.filterRawObject(list.get(i)), editable,
                                 (list.get(i) == null));
                         componentsPanel.add(moElementList);
                     }
                 } else {
                     MOelementList moElementList = new MOelementList(this,
-                            String.valueOf(componentsPanel.getComponentCount()),
+                            fieldName,
                             list.get(i), editable, (list.get(i) == null));
                     componentsPanel.add(moElementList);
                 }
@@ -190,6 +193,13 @@ public final class MOWindow extends javax.swing.JDialog {
                 if (fieldObject instanceof Enumeration) {
                     MOenumeration moField = new MOenumeration(name,
                             (Element) fieldObject, editable, fieldObjectIsNull);
+                    componentsPanel.add(moField);
+                    continue;
+                }
+
+                if (fieldObject instanceof List) {
+                    MOelementList moField = new MOelementList(this, name,
+                            fieldObject, editable, fieldObjectIsNull);
                     componentsPanel.add(moField);
                     continue;
                 }
