@@ -23,7 +23,7 @@ package esa.mo.nmf.ctt.services.mc;
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.mc.impl.consumer.AggregationConsumerServiceImpl;
-import esa.mo.tools.mowindow.MOWindow;
+import esa.mo.nmf.ctt.windows.element.MOWindow;
 import java.io.InterruptedIOException;
 import java.util.Map;
 import java.util.logging.Level;

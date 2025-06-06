@@ -26,7 +26,7 @@ import esa.mo.com.impl.consumer.ArchiveSyncGenAdapter;
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.ArchiveCOMObjectsOutput;
 import esa.mo.com.impl.util.COMObjectStructure;
-import esa.mo.tools.mowindow.MOWindow;
+import esa.mo.nmf.ctt.windows.element.MOWindow;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagConstraints;

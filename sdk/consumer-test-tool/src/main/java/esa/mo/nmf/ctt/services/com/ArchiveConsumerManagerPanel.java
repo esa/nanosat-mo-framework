@@ -25,7 +25,7 @@ import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.ArchiveCOMObjectsOutput;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
-import esa.mo.tools.mowindow.MOWindow;
+import esa.mo.nmf.ctt.windows.element.MOWindow;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagConstraints;

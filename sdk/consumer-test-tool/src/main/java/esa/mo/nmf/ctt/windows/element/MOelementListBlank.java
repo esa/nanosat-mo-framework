@@ -18,7 +18,7 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.tools.mowindow;
+package esa.mo.nmf.ctt.windows.element;
 
 /**
  *

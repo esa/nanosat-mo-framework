@@ -25,7 +25,7 @@ import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.mc.impl.consumer.ActionConsumerServiceImpl;
 import esa.mo.nmf.NMFException;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
-import esa.mo.tools.mowindow.MOWindow;
+import esa.mo.nmf.ctt.windows.element.MOWindow;
 import java.io.InterruptedIOException;
 import java.util.Map;
 import java.util.logging.Level;

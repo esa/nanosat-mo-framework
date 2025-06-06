@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.ctt.utils;
 
+import esa.mo.nmf.ctt.windows.com.COMObjectWindow;
 import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.ArchiveCOMObjectsOutput;

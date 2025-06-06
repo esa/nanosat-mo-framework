@@ -25,7 +25,7 @@ import esa.mo.com.impl.consumer.EventConsumerServiceImpl;
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.EventCOMObject;
 import esa.mo.com.impl.util.HelperCOM;
-import esa.mo.nmf.ctt.utils.COMObjectWindow;
+import esa.mo.nmf.ctt.windows.com.COMObjectWindow;
 import esa.mo.com.impl.util.EventReceivedListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;

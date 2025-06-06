@@ -18,12 +18,12 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nmf.ctt.utils;
+package esa.mo.nmf.ctt.windows.com;
 
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.com.impl.util.HelperCOM;
-import esa.mo.tools.mowindow.MOWindow;
+import esa.mo.nmf.ctt.windows.element.MOWindow;
 import java.awt.Dimension;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -236,8 +236,6 @@ public final class COMObjectWindow extends javax.swing.JDialog {
         setMinimumSize(null);
         setResizable(false);
 
-        topPanel.setPreferredSize(null);
-
         objIdentification.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         objIdentification.setText("Domain:");
         objIdentification.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -318,7 +316,6 @@ public final class COMObjectWindow extends javax.swing.JDialog {
 
         componentsPanel.setMinimumSize(new java.awt.Dimension(0, 0));
         componentsPanel.setName(""); // NOI18N
-        componentsPanel.setPreferredSize(null);
 
         objectBodyButton.setText("View Object Body");
         objectBodyButton.addActionListener(new java.awt.event.ActionListener() {
@@ -547,7 +544,6 @@ public final class COMObjectWindow extends javax.swing.JDialog {
         getContentPane().add(componentsPanel, java.awt.BorderLayout.CENTER);
 
         bottomPanel.setName(""); // NOI18N
-        bottomPanel.setPreferredSize(null);
 
         button.setText("Submit");
         button.addActionListener(new java.awt.event.ActionListener() {

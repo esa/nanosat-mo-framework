@@ -18,7 +18,7 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.tools.mowindow;
+package esa.mo.nmf.ctt.windows.element;
 
 import java.lang.reflect.Field;
 import java.util.logging.Level;
@@ -120,27 +120,40 @@ public abstract class MOelement extends javax.swing.JPanel {
         fieldType.setText("jLabel1");
         mainPanel.add(fieldType);
 
-        fieldSelectableAttribute.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Item 1", "Item 2",
-                                                                                            "Item 3", "Item 4"}));
-        fieldSelectableAttribute.addActionListener(this::fieldSelectableAttributeActionPerformed);
+        fieldSelectableAttribute.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        fieldSelectableAttribute.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fieldSelectableAttributeActionPerformed(evt);
+            }
+        });
         mainPanel.add(fieldSelectableAttribute);
 
         middlePanel.setLayout(new java.awt.GridLayout(1, 0));
         mainPanel.add(middlePanel);
 
         nullCB.setText("null");
-        nullCB.addActionListener(this::nullCBActionPerformed);
+        nullCB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nullCBActionPerformed(evt);
+            }
+        });
         mainPanel.add(nullCB);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
-        layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout
-            .createSequentialGroup().addContainerGap().addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE,
-                580, Short.MAX_VALUE).addContainerGap()));
-        layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-            javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup().addGap(0, 0, 0).addComponent(
-                mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
-                Short.MAX_VALUE)));
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 580, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
     }// </editor-fold>//GEN-END:initComponents
 
     private void nullCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nullCBActionPerformed
