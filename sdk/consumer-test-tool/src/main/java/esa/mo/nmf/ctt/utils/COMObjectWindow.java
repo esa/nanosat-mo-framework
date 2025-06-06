@@ -57,8 +57,8 @@ public final class COMObjectWindow extends javax.swing.JDialog {
      * @param archiveService
      * @throws java.io.IOException
      */
-    public COMObjectWindow(final ArchivePersistenceObject comObject, final boolean editable,
-        final ArchiveStub archiveService) throws IOException {
+    public COMObjectWindow(final ArchivePersistenceObject comObject,
+            final boolean editable, final ArchiveStub archiveService) throws IOException {
         initComponents();
 
         if (comObject == null) {
@@ -166,15 +166,12 @@ public final class COMObjectWindow extends javax.swing.JDialog {
             }
         }
 
-        if (editable) {
-            this.button.setText("Submit");
-        } else {
-            this.button.setText("Close");
-        }
+        this.button.setText(editable ? "Submit" : "Close");
 
         componentsPanel.revalidate();
         componentsPanel.repaint();
-        this.setPreferredSize(new Dimension(800,670));
+        this.setPreferredSize(new Dimension(700, 600));
+        this.pack();
         this.setVisible(true);
     }
 
@@ -236,8 +233,10 @@ public final class COMObjectWindow extends javax.swing.JDialog {
         button = new javax.swing.JToggleButton();
 
         setTitle("COM Object");
-        setMinimumSize(new java.awt.Dimension(650, 550));
+        setMinimumSize(null);
         setResizable(false);
+
+        topPanel.setPreferredSize(null);
 
         objIdentification.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         objIdentification.setText("Domain:");
@@ -319,7 +318,7 @@ public final class COMObjectWindow extends javax.swing.JDialog {
 
         componentsPanel.setMinimumSize(new java.awt.Dimension(0, 0));
         componentsPanel.setName(""); // NOI18N
-        componentsPanel.setPreferredSize(new java.awt.Dimension(575, 200));
+        componentsPanel.setPreferredSize(null);
 
         objectBodyButton.setText("View Object Body");
         objectBodyButton.addActionListener(new java.awt.event.ActionListener() {
@@ -547,9 +546,8 @@ public final class COMObjectWindow extends javax.swing.JDialog {
 
         getContentPane().add(componentsPanel, java.awt.BorderLayout.CENTER);
 
-        bottomPanel.setMaximumSize(new java.awt.Dimension(30, 32767));
         bottomPanel.setName(""); // NOI18N
-        bottomPanel.setPreferredSize(new java.awt.Dimension(575, 40));
+        bottomPanel.setPreferredSize(null);
 
         button.setText("Submit");
         button.addActionListener(new java.awt.event.ActionListener() {
