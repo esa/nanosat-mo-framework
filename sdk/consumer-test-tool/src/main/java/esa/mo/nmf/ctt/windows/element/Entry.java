@@ -23,6 +23,7 @@ package esa.mo.nmf.ctt.windows.element;
 import java.lang.reflect.Field;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JLabel;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.structures.Union;
 
@@ -32,8 +33,8 @@ import org.ccsds.moims.mo.mal.structures.Union;
  */
 public abstract class Entry extends javax.swing.JPanel {
 
-    Object object = null;
-    boolean editable;
+    protected Object object = null;
+    protected boolean editable;
 
     @SuppressWarnings("unchecked")
     public Entry(String fieldName, Object obj, boolean editable, boolean objIsNull) {
@@ -63,7 +64,6 @@ public abstract class Entry extends javax.swing.JPanel {
 
                 Integer typeShortForm = (Integer) fieldTypeShortForm.get(obj);
                 className = HelperAttributes.typeShortForm2attributeName(typeShortForm);
-
             } catch (IllegalArgumentException | SecurityException | NoSuchFieldException | IllegalAccessException ex) {
                 Logger.getLogger(Entry.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -105,15 +105,19 @@ public abstract class Entry extends javax.swing.JPanel {
 
         setPreferredSize(new java.awt.Dimension(600, 35));
 
-        mainPanel.setPreferredSize(new java.awt.Dimension(153, 23));
+        mainPanel.setMaximumSize(new java.awt.Dimension(2000, 2000));
         mainPanel.setLayout(new java.awt.GridLayout(1, 1, 15, 0));
 
         fieldName.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         fieldName.setText("jLabel1");
+        fieldName.setMaximumSize(new java.awt.Dimension(1800, 19));
+        fieldName.setName(""); // NOI18N
+        fieldName.setPreferredSize(null);
         mainPanel.add(fieldName);
 
         fieldType.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         fieldType.setText("jLabel1");
+        fieldType.setMaximumSize(new java.awt.Dimension(800, 19));
         mainPanel.add(fieldType);
 
         fieldSelectableAttribute.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -139,10 +143,7 @@ public abstract class Entry extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 580, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 593, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -173,8 +174,12 @@ public abstract class Entry extends javax.swing.JPanel {
         this.fieldSelectableAttribute.setEnabled(false);
     }
 
-    public javax.swing.JLabel getFieldNameLabel() {
+    public JLabel getFieldName() {
         return fieldName;
+    }
+
+    public JLabel getFieldType() {
+        return fieldType;
     }
 
     public String getFieldTypeString() {

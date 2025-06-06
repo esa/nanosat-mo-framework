@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.ctt.windows.element;
 
+import java.io.IOException;
 import java.io.InterruptedIOException;
 import java.lang.reflect.Field;
 import java.util.List;
@@ -121,7 +122,6 @@ public final class MOWindow extends javax.swing.JDialog {
     private void interpretReceivedObj(Object obj, boolean editable) {
         // Is the object a List?
         if (obj instanceof ElementList) {
-
             ElementList list = (ElementList) obj;
 
             for (int i = 0; i < list.size(); i++) {
@@ -137,7 +137,6 @@ public final class MOWindow extends javax.swing.JDialog {
                         } catch (Exception ex) {
                             Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex);
                         }
-
                     } else {
                         ListEntry moElementList = new ListEntry(this,
                                 fieldName,
@@ -171,55 +170,15 @@ public final class MOWindow extends javax.swing.JDialog {
             }
 
             for (int i = START_INDEX; i < fields.length; i++) {
-                boolean fieldObjectIsNull = FieldsHandler.isFieldNull(fields[i], obj);
-                Object fieldObject = FieldsHandler.generateFieldObject(fields[i], obj);
-                String name = fields[i].getName();
-
-                // If another Composite add a button to create another MOWindow
-                if (fieldObject instanceof Composite) {
-                    CompositeEntry moComposite = new CompositeEntry(name,
-                            (Element) fieldObject, editable, fieldObjectIsNull);
-                    componentsPanel.add(moComposite);
-                    continue;
-                }
-
-                if (fieldObject instanceof Attribute) {
-                    AttributeEntry moField = new AttributeEntry(name,
-                            fieldObject, editable, fieldObjectIsNull);
-                    componentsPanel.add(moField);
-                    continue;
-                }
-
-                if (fieldObject instanceof Enumeration) {
-                    EnumerationEntry moField = new EnumerationEntry(name,
-                            (Element) fieldObject, editable, fieldObjectIsNull);
-                    componentsPanel.add(moField);
-                    continue;
-                }
-
-                if (fieldObject instanceof List) {
-                    ListEntry moField = new ListEntry(this, name,
-                            fieldObject, editable, fieldObjectIsNull);
-                    componentsPanel.add(moField);
-                    continue;
-                }
-
-                if (fieldObject == null) {  // It is unknown or type "Attribute"
-                    AttributeEntry moField = new AttributeEntry(name,
-                            fieldObject, editable, fieldObjectIsNull);
-                    componentsPanel.add(moField);
-                    continue;
-                }
-
-                if (!(fieldObject instanceof Element)) {
-                    AttributeEntry moField = new AttributeEntry(name,
-                            FieldsHandler.filterRawObject(fieldObject),
-                            editable, fieldObjectIsNull);
-                    componentsPanel.add(moField);
-                    continue;
+                try {
+                    Entry entry = generateEntry(fields[i], (Composite) obj);
+                    componentsPanel.add(entry);
+                } catch (IOException ex) {
+                    Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
 
+            refreshHorizontalSize();
             return;
         }
 
@@ -228,11 +187,45 @@ public final class MOWindow extends javax.swing.JDialog {
 
     }
 
+    private Entry generateEntry(Field field, Composite obj) throws IOException {
+        boolean fieldObjectIsNull = FieldsHandler.isFieldNull(field, obj);
+        Object fieldObject = FieldsHandler.generateFieldObject(field, obj);
+        String name = field.getName();
+        // If another Composite add a button to create another MOWindow
+        if (fieldObject instanceof Composite) {
+            return new CompositeEntry(name, (Element) fieldObject, editable, fieldObjectIsNull);
+        }
+
+        if (fieldObject instanceof Attribute) {
+            return new AttributeEntry(name, fieldObject, editable, fieldObjectIsNull);
+        }
+
+        if (fieldObject instanceof Enumeration) {
+            return new EnumerationEntry(name, (Element) fieldObject, editable, fieldObjectIsNull);
+        }
+
+        if (fieldObject instanceof List) {
+            return new ListEntry(this, name, fieldObject, editable, fieldObjectIsNull);
+        }
+
+        if (fieldObject == null) {  // It is unknown or type "Attribute"
+            return new AttributeEntry(name, fieldObject, editable, fieldObjectIsNull);
+        }
+
+        if (!(fieldObject instanceof Element)) {
+            return new AttributeEntry(name,
+                    FieldsHandler.filterRawObject(fieldObject),
+                    editable, fieldObjectIsNull);
+        }
+
+        throw new IOException("Weird!");
+    }
+
     public void refreshVerticalSize() {
         // This is needed for screens that have the zoom property set
         // sizeFactor used to be a static 23
-        int sizeFactor = (new javax.swing.JTextField()).getPreferredSize().height + 5;
-        this.setSize(this.getWidth(), componentsPanel.getComponentCount() * sizeFactor + 110);
+        int sizeFactor = (new javax.swing.JTextField()).getPreferredSize().height + 6;
+        this.setSize(this.getWidth(), componentsPanel.getComponentCount() * sizeFactor + 115);
 
         this.validate();
         this.repaint();
@@ -240,7 +233,8 @@ public final class MOWindow extends javax.swing.JDialog {
 
     public void refreshHorizontalSize() {
         for (int i = 0; i < componentsPanel.getComponentCount(); i++) {
-            String paramType = ((Entry) componentsPanel.getComponent(i)).getFieldTypeString();
+            Entry entry = (Entry) componentsPanel.getComponent(i);
+            String paramType = entry.getFieldTypeString();
 
             // Calculate the size we want...
             int horizontalSize = paramType.length() * 8 + 450;
@@ -248,10 +242,43 @@ public final class MOWindow extends javax.swing.JDialog {
             // Is the value greater than the current one?
             if (horizontalSize > this.getWidth()) {
                 this.setSize(horizontalSize, this.getHeight());
-                this.validate();
-                this.repaint();
             }
         }
+
+        this.validate();
+        this.repaint();
+        /*
+        double maxFieldName = 0;
+        double maxFieldType = 0;
+
+        for (int i = 0; i < componentsPanel.getComponentCount(); i++) {
+            Entry entry = (Entry) componentsPanel.getComponent(i);
+            double width1 = entry.getFieldName().getSize().getWidth();
+            maxFieldName = (width1 > maxFieldName) ? width1 : maxFieldName;
+
+            double width2 = entry.getFieldType().getSize().getWidth();
+            maxFieldType = (width2 > maxFieldType) ? width2 : maxFieldType;
+        }
+
+        for (int i = 0; i < componentsPanel.getComponentCount(); i++) {
+            Entry entry = (Entry) componentsPanel.getComponent(i);
+            
+            Dimension dimName = entry.getFieldName().getSize();
+            Dimension newDimName = new Dimension();
+            newDimName.setSize(maxFieldName, dimName.getHeight());
+            entry.getFieldName().setPreferredSize(newDimName);
+            entry.getFieldName().setSize(newDimName);
+            
+            Dimension dimType = entry.getFieldType().getSize();
+            Dimension newDimType = new Dimension();
+            newDimType.setSize(maxFieldType, dimType.getHeight());
+            entry.getFieldType().setPreferredSize(newDimType);
+            entry.getFieldType().setSize(newDimType);
+        }
+        
+        this.validate();
+        this.repaint();
+         */
     }
 
     public javax.swing.JPanel getComponentsPanel() {
@@ -287,7 +314,7 @@ public final class MOWindow extends javax.swing.JDialog {
             }
         });
 
-        topPanel.setPreferredSize(new java.awt.Dimension(78, 40));
+        topPanel.setPreferredSize(new java.awt.Dimension(500, 40));
 
         objIdentification.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         objIdentification.setText("objIdentification");
@@ -309,15 +336,15 @@ public final class MOWindow extends javax.swing.JDialog {
 
         getContentPane().add(topPanel, java.awt.BorderLayout.PAGE_START);
 
-        componentsPanel.setMinimumSize(new java.awt.Dimension(550, 100));
+        componentsPanel.setMinimumSize(new java.awt.Dimension(500, 100));
         componentsPanel.setName(""); // NOI18N
-        componentsPanel.setPreferredSize(new java.awt.Dimension(550, 200));
+        componentsPanel.setPreferredSize(null);
         componentsPanel.setLayout(new java.awt.GridLayout(1, 0, 0, 15));
         getContentPane().add(componentsPanel, java.awt.BorderLayout.CENTER);
 
         bottomPanel.setMaximumSize(new java.awt.Dimension(30, 32767));
         bottomPanel.setName(""); // NOI18N
-        bottomPanel.setPreferredSize(new java.awt.Dimension(452, 40));
+        bottomPanel.setPreferredSize(new java.awt.Dimension(500, 40));
 
         button.setText("Submit");
         button.addActionListener(new java.awt.event.ActionListener() {

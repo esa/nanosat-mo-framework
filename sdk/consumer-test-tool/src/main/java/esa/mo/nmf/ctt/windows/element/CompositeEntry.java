@@ -31,21 +31,14 @@ public class CompositeEntry extends Entry {
 
     private final javax.swing.JToggleButton button;
 
-    public CompositeEntry(String fieldNameIn, Element obj, boolean editable, boolean objIsNull) {
-        super(fieldNameIn, obj, editable, objIsNull);
+    public CompositeEntry(String fieldName, Element obj, boolean editable, boolean objIsNull) {
+        super(fieldName, obj, editable, objIsNull);
 
         // Make a button and put it in the middle Panel
         button = new javax.swing.JToggleButton();
         button.addActionListener(this::buttonActionPerformed);
-
+        button.setText(editable ? "Edit" : "View"); // Set the text
         super.middlePanel.add(button);
-
-        // Set the text
-        if (editable) {
-            this.button.setText("Edit");
-        } else {
-            this.button.setText("View");
-        }
 
         if (objIsNull) {
             super.makeFieldNull();
@@ -77,7 +70,5 @@ public class CompositeEntry extends Entry {
         if (editable) {
             this.button.setText("Edit");
         }
-
     }
-
 }

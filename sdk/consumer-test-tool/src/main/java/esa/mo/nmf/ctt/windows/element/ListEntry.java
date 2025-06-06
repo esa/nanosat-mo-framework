@@ -45,6 +45,7 @@ public class ListEntry extends Entry {
         buttonRemove = new javax.swing.JToggleButton();
         buttonRemove.setText("Remove");
         final ListEntry temp = this;
+
         java.awt.event.ActionListener actionListenerRemove = evt -> {
             JPanel panel = previousWindow.getComponentsPanel();
             panel.remove(temp);
@@ -52,7 +53,7 @@ public class ListEntry extends Entry {
             // Fix the indexes
             for (int i = 0; i < panel.getComponentCount() - 1; i++) {
                 Entry component = (Entry) panel.getComponent(i);
-                component.getFieldNameLabel().setText(String.valueOf(i));
+                component.getFieldName().setText(String.valueOf(i));
             }
 
             previousWindow.refreshVerticalSize();
@@ -74,7 +75,6 @@ public class ListEntry extends Entry {
             if (!editable) {
                 this.buttonRemove.setEnabled(false);
             }
-
         } else {
             // Make a button and put it in the middle Panel
             buttonEdit = new javax.swing.JToggleButton();
@@ -90,8 +90,9 @@ public class ListEntry extends Entry {
                 this.nullCB.setEnabled(false);
             }
         }
-
-        super.middlePanel.add(buttonRemove);
+        if (editable) {
+            super.middlePanel.add(buttonRemove);
+        }
 
         if (objIsNull) {
             super.makeFieldNull();
