@@ -125,7 +125,8 @@ public class FieldsHandler {
                     | InvocationTargetException
                     | IllegalArgumentException
                     | IllegalAccessException ex) {
-                Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE,
+                        "Could not instantiate a new Object for class: " + constructor.getName(), ex);
             }
         }
 
@@ -147,12 +148,18 @@ public class FieldsHandler {
                     return HelperAttributes.javaType2Attribute(constructor.newInstance((byte) 1));
                 }
 
-                return HelperAttributes.javaType2Attribute(constructor.newInstance(1));
+                if (name.equals("java.lang.Long")) {
+                    return HelperAttributes.javaType2Attribute(0L);
+                }
+
+                Object newObj = constructor.newInstance(1);
+                return HelperAttributes.javaType2Attribute(newObj);
             } catch (InstantiationException
                     | InvocationTargetException
                     | IllegalArgumentException
                     | IllegalAccessException ex) {
-                Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE,
+                        "Could not instantiate a new Object for class: " + name, ex);
             }
         }
 

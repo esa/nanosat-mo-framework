@@ -23,6 +23,7 @@ package esa.mo.nmf.ctt.windows.element;
 import java.lang.reflect.Field;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.structures.Union;
@@ -39,6 +40,7 @@ public abstract class Entry extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     public Entry(String fieldName, Object obj, boolean editable, boolean objIsNull) {
         initComponents();
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         this.fieldName.setText(fieldName);
         String className = "--";

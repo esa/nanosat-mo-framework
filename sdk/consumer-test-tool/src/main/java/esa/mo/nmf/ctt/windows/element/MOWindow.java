@@ -73,7 +73,7 @@ public final class MOWindow extends javax.swing.JDialog {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setModal(true);
-        componentsPanel.setLayout(new BoxLayout(componentsPanel, BoxLayout.PAGE_AXIS));
+        componentsPanel.setLayout(new BoxLayout(componentsPanel, BoxLayout.Y_AXIS));
 
         if (title != null && !title.trim().isEmpty()) {
             this.setTitle(title);
@@ -120,15 +120,19 @@ public final class MOWindow extends javax.swing.JDialog {
     }
 
     private void interpretReceivedObj(Object obj, boolean editable) {
-        // Is the object a List?
-        if (obj instanceof ElementList) {
+        if (obj instanceof ElementList) { // Is the object a List?
             ElementList list = (ElementList) obj;
 
             for (int i = 0; i < list.size(); i++) {
                 String fieldName = String.valueOf(componentsPanel.getComponentCount());
+                boolean isNull = (list.get(i) == null);
 
-                if (!(list.get(i) instanceof Element)) {
-                    if (list.get(i) == null) {
+                if (list.get(i) instanceof Element) {
+                    ListEntry moElementList = new ListEntry(this,
+                            fieldName, list.get(i), editable, isNull);
+                    componentsPanel.add(moElementList);
+                } else {
+                    if (isNull) {
                         try {
                             Element something = MALElementsRegistry.elementToElementList(list);
                             ListEntry moElementList = new ListEntry(this,
@@ -138,19 +142,12 @@ public final class MOWindow extends javax.swing.JDialog {
                             Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     } else {
-                        ListEntry moElementList = new ListEntry(this,
-                                fieldName,
+                        ListEntry moElementList = new ListEntry(this, fieldName,
                                 FieldsHandler.filterRawObject(list.get(i)), editable,
-                                (list.get(i) == null));
+                                isNull);
                         componentsPanel.add(moElementList);
                     }
-                } else {
-                    ListEntry moElementList = new ListEntry(this,
-                            fieldName,
-                            list.get(i), editable, (list.get(i) == null));
-                    componentsPanel.add(moElementList);
                 }
-
             }
 
             java.awt.event.ActionListener actionListener = this::buttonAddActionPerformed;
@@ -237,7 +234,7 @@ public final class MOWindow extends javax.swing.JDialog {
             String paramType = entry.getFieldTypeString();
 
             // Calculate the size we want...
-            int horizontalSize = paramType.length() * 8 + 450;
+            int horizontalSize = paramType.length() * 12 + 450;
 
             // Is the value greater than the current one?
             if (horizontalSize > this.getWidth()) {
@@ -247,38 +244,6 @@ public final class MOWindow extends javax.swing.JDialog {
 
         this.validate();
         this.repaint();
-        /*
-        double maxFieldName = 0;
-        double maxFieldType = 0;
-
-        for (int i = 0; i < componentsPanel.getComponentCount(); i++) {
-            Entry entry = (Entry) componentsPanel.getComponent(i);
-            double width1 = entry.getFieldName().getSize().getWidth();
-            maxFieldName = (width1 > maxFieldName) ? width1 : maxFieldName;
-
-            double width2 = entry.getFieldType().getSize().getWidth();
-            maxFieldType = (width2 > maxFieldType) ? width2 : maxFieldType;
-        }
-
-        for (int i = 0; i < componentsPanel.getComponentCount(); i++) {
-            Entry entry = (Entry) componentsPanel.getComponent(i);
-            
-            Dimension dimName = entry.getFieldName().getSize();
-            Dimension newDimName = new Dimension();
-            newDimName.setSize(maxFieldName, dimName.getHeight());
-            entry.getFieldName().setPreferredSize(newDimName);
-            entry.getFieldName().setSize(newDimName);
-            
-            Dimension dimType = entry.getFieldType().getSize();
-            Dimension newDimType = new Dimension();
-            newDimType.setSize(maxFieldType, dimType.getHeight());
-            entry.getFieldType().setPreferredSize(newDimType);
-            entry.getFieldType().setSize(newDimType);
-        }
-        
-        this.validate();
-        this.repaint();
-         */
     }
 
     public javax.swing.JPanel getComponentsPanel() {
