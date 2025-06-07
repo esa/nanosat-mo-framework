@@ -23,7 +23,7 @@
     <groupId>int.esa.nmf</groupId>
     <artifactId>parent</artifactId>
     <packaging>pom</packaging>
-    <version>4.0-SNAPSHOT</version>
+    <version>4.0</version>
     <name>ESA NMF Parent POM</name>
     <description>ESA parent POM for Nanosat MO Framework based artifacts</description>
     <url>https://nanosat-mo-framework.github.io</url>
@@ -62,7 +62,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <!-- NMF general properties -->
-        <esa.nmf.version>4.0-SNAPSHOT</esa.nmf.version>
+        <esa.nmf.version>4.0</esa.nmf.version>
         <esa.nmf.maximum-version>4.100</esa.nmf.maximum-version>
         <!-- Automatically use the latest patch of each component for the current major.minor version -->
         <esa.nmf.version-qualifier>[${esa.nmf.version},${esa.nmf.maximum-version}]</esa.nmf.version-qualifier>
