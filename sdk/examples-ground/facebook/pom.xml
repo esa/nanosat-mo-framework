@@ -70,7 +70,7 @@
         <dependency>
             <groupId>com.restfb</groupId>
             <artifactId>restfb</artifactId>
-            <version>1.14.0</version>
+            <version>1.21.1</version>
         </dependency>
     </dependencies>
 
