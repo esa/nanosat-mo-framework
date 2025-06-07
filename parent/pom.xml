@@ -69,12 +69,7 @@
     </properties>
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>int.esa.ccsds.mo</groupId>
-                <artifactId>api-area001-v003-mal</artifactId>
-                <version>${esa.mo.version}</version>
-            </dependency>
-            <!-- NMF Helper Tools -->
+            <!-- NMF Environment -->
             <dependency>
                 <groupId>int.esa.nmf.core</groupId>
                 <artifactId>nmf-environment</artifactId>
