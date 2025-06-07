@@ -17,7 +17,7 @@ under the License. -->
         <version>4.0</version>
         <relativePath>../../../parent/pom.xml</relativePath>
     </parent>
-    <groupId>int.esa.nmf.core.moservices.impl</groupId>
+    <groupId>int.esa.nmf.core</groupId>
     <artifactId>nmf-services-sm</artifactId>
     <packaging>jar</packaging>
     <name>ESA NMF Core MO Services - Software Management</name>
@@ -51,19 +51,19 @@ under the License. -->
             <artifactId>api-area001-v003-mal</artifactId>
         </dependency>
         <dependency>
-            <groupId>int.esa.nmf.core.moservices.api</groupId>
+            <groupId>int.esa.nmf.core</groupId>
             <artifactId>api-nmf-com</artifactId>
         </dependency>
         <dependency>
-            <groupId>int.esa.nmf.core.moservices.api</groupId>
+            <groupId>int.esa.nmf.core</groupId>
             <artifactId>api-nmf-sm</artifactId>
         </dependency>
         <dependency>
-            <groupId>int.esa.nmf.core.moservices.impl</groupId>
+            <groupId>int.esa.nmf.core</groupId>
             <artifactId>nmf-services-com</artifactId>
         </dependency>
         <dependency>
-            <groupId>int.esa.nmf.core.moservices.impl</groupId>
+            <groupId>int.esa.nmf.core</groupId>
             <artifactId>nmf-services-common</artifactId>
             <type>jar</type>
         </dependency>

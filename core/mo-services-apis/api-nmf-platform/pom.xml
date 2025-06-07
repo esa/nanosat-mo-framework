@@ -19,7 +19,7 @@
         <version>4.0</version>
         <relativePath>../../../parent/pom.xml</relativePath>
     </parent>
-    <groupId>int.esa.nmf.core.moservices.api</groupId>
+    <groupId>int.esa.nmf.core</groupId>
     <artifactId>api-nmf-platform</artifactId>
     <packaging>jar</packaging>
     <name>ESA NMF Core MO API - Platform Services</name>
@@ -48,9 +48,9 @@
         </developer>
     </developers>
     <properties>
-        <ccsds.specification.download.group>int.esa.nmf.core.moservices</ccsds.specification.download.group>
+        <ccsds.specification.download.group>int.esa.nmf.core</ccsds.specification.download.group>
         <ccsds.specification.download.artifact>nmf-xmls</ccsds.specification.download.artifact>
-        <ccsds.specification.download.ref-group>int.esa.nmf.core.moservices</ccsds.specification.download.ref-group>
+        <ccsds.specification.download.ref-group>int.esa.nmf.core</ccsds.specification.download.ref-group>
         <ccsds.specification.download.ref-artifact>nmf-xmls</ccsds.specification.download.ref-artifact>
         <ccsds.specification.version>${project.version}</ccsds.specification.version>
         <ccsds.specification.download.skip>false</ccsds.specification.download.skip>
@@ -65,11 +65,11 @@
             <artifactId>api-area001-v003-mal</artifactId>
         </dependency>
         <dependency>
-            <groupId>int.esa.nmf.core.moservices.api</groupId>
+            <groupId>int.esa.nmf.core</groupId>
             <artifactId>api-nmf-com</artifactId>
         </dependency>
         <dependency>
-            <groupId>int.esa.nmf.core.moservices</groupId>
+            <groupId>int.esa.nmf.core</groupId>
             <artifactId>nmf-xmls</artifactId>
         </dependency>
     </dependencies>

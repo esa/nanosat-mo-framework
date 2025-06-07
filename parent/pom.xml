@@ -82,59 +82,59 @@
             </dependency>
             <!-- MO services XMLs attached to NMF -->
             <dependency>
-                <groupId>int.esa.nmf.core.moservices</groupId>
+                <groupId>int.esa.nmf.core</groupId>
                 <artifactId>nmf-xmls</artifactId>
                 <version>${esa.nmf.version}</version>
             </dependency>
             <!-- MO service APIs specific to NMF -->
             <dependency>
-                <groupId>int.esa.nmf.core.moservices.api</groupId>
+                <groupId>int.esa.nmf.core</groupId>
                 <artifactId>api-nmf-com</artifactId>
                 <version>${esa.nmf.version}</version>
             </dependency>
             <dependency>
-                <groupId>int.esa.nmf.core.moservices.api</groupId>
+                <groupId>int.esa.nmf.core</groupId>
                 <artifactId>api-nmf-common</artifactId>
                 <version>${esa.nmf.version}</version>
             </dependency>
             <dependency>
-                <groupId>int.esa.nmf.core.moservices.api</groupId>
+                <groupId>int.esa.nmf.core</groupId>
                 <artifactId>api-nmf-mc</artifactId>
                 <version>${esa.nmf.version}</version>
             </dependency>
             <dependency>
-                <groupId>int.esa.nmf.core.moservices.api</groupId>
+                <groupId>int.esa.nmf.core</groupId>
                 <artifactId>api-nmf-sm</artifactId>
                 <version>${esa.nmf.version}</version>
             </dependency>
             <dependency>
-                <groupId>int.esa.nmf.core.moservices.api</groupId>
+                <groupId>int.esa.nmf.core</groupId>
                 <artifactId>api-nmf-platform</artifactId>
                 <version>${esa.nmf.version}</version>
             </dependency>
             <!-- Services Implementations -->
             <dependency>
-                <groupId>int.esa.nmf.core.moservices.impl</groupId>
+                <groupId>int.esa.nmf.core</groupId>
                 <artifactId>nmf-services-com</artifactId>
                 <version>${esa.nmf.version}</version>
             </dependency>
             <dependency>
-                <groupId>int.esa.nmf.core.moservices.impl</groupId>
+                <groupId>int.esa.nmf.core</groupId>
                 <artifactId>nmf-services-common</artifactId>
                 <version>${esa.nmf.version}</version>
             </dependency>
             <dependency>
-                <groupId>int.esa.nmf.core.moservices.impl</groupId>
+                <groupId>int.esa.nmf.core</groupId>
                 <artifactId>nmf-services-mc</artifactId>
                 <version>${esa.nmf.version}</version>
             </dependency>
             <dependency>
-                <groupId>int.esa.nmf.core.moservices.impl</groupId>
+                <groupId>int.esa.nmf.core</groupId>
                 <artifactId>nmf-services-sm</artifactId>
                 <version>${esa.nmf.version}</version>
             </dependency>
             <dependency>
-                <groupId>int.esa.nmf.core.moservices.impl</groupId>
+                <groupId>int.esa.nmf.core</groupId>
                 <artifactId>nmf-services-platform-generic</artifactId>
                 <version>${esa.nmf.version}</version>
             </dependency>

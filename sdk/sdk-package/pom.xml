@@ -130,7 +130,7 @@
 
         <!-- Needed as the transitive dependency is not resolved properly -->
         <dependency>
-            <groupId>int.esa.nmf.core.moservices.impl</groupId>
+            <groupId>int.esa.nmf.core</groupId>
             <artifactId>nmf-services-com</artifactId>
             <version>${project.version}</version>
         </dependency>

@@ -49,11 +49,11 @@ under the License. -->
     </developers>
     <dependencies>
         <dependency>
-            <groupId>int.esa.nmf.core.moservices.impl</groupId>
+            <groupId>int.esa.nmf.core</groupId>
             <artifactId>nmf-services-platform-generic</artifactId>
         </dependency>
         <dependency>
-            <groupId>int.esa.nmf.core.moservices.impl</groupId>
+            <groupId>int.esa.nmf.core</groupId>
             <artifactId>nmf-services-mc</artifactId>
         </dependency>
         <dependency>

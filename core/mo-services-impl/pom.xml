@@ -19,7 +19,7 @@
         <version>4.0</version>
         <relativePath>../../parent/pom.xml</relativePath>
     </parent>
-    <groupId>int.esa.nmf.core.moservices.impl</groupId>
+    <groupId>int.esa.nmf.core</groupId>
     <artifactId>services-impl-reactor</artifactId>
     <packaging>pom</packaging>
     <name>ESA NMF Core - MO Services</name>

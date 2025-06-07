@@ -53,7 +53,7 @@
     </developers>
     <dependencies>
         <dependency>
-            <groupId>int.esa.nmf.core.moservices.impl</groupId>
+            <groupId>int.esa.nmf.core</groupId>
             <artifactId>nmf-services-sm</artifactId>
             <exclusions>
                 <exclusion>

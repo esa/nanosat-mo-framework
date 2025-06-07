@@ -21,15 +21,18 @@
         <version>4.0</version>
         <relativePath>parent/pom.xml</relativePath>
     </parent>
+
     <groupId>int.esa.nmf</groupId>
     <artifactId>reactor</artifactId>
     <name>ESA NanoSat MO Framework</name>
     <packaging>pom</packaging>
     <description>Maven Reactor for ESA Nanosat MO Framework</description>
+
     <organization>
         <name>ESA</name>
         <url>http://www.esa.int</url>
     </organization>
+
     <licenses>
         <license>
             <name>European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4</name>
@@ -37,9 +40,11 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+
     <properties>
         <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
+
     <modules>
         <module>parent</module>
         <module>core</module>
