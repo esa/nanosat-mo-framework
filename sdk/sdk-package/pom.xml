@@ -62,6 +62,7 @@
     <properties>
         <esa.nmf.sdk.assembly.outputdir>${project.build.directory}/nmf-sdk-${esa.nmf.version}</esa.nmf.sdk.assembly.outputdir>
         <esa.nmf.sdk.assembly.quickbuild>false</esa.nmf.sdk.assembly.quickbuild>
+        <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
     </properties>
     <dependencies>
         <!-- NOTE: Imprecise version resolution using ${esa.nmf.version-qualifier} cannot be used here,
