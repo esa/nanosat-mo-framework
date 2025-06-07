@@ -18,7 +18,7 @@ under the License. -->
         <relativePath>../../../parent/pom.xml</relativePath>
     </parent>
 
-    <groupId>int.esa.nmf.mission.simulator.moservices.impl</groupId>
+    <groupId>int.esa.nmf.simulator</groupId>
     <artifactId>nmf-platform-impl-sim</artifactId>
     <packaging>jar</packaging>
     <name>ESA NMF Sim - Platform Services Implementation</name>

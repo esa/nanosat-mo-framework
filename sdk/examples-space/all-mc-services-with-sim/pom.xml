@@ -68,14 +68,14 @@
 
     <dependencies>
         <dependency>
-            <groupId>int.esa.nmf.mission.simulator</groupId>
+            <groupId>int.esa.nmf.simulator</groupId>
             <artifactId>nanosat-monolithic</artifactId>
-            <version>${esa.nmf.version-qualifier}</version>
+            <version>${esa.nmf.version}</version>
         </dependency>
         <dependency>
             <groupId>int.esa.nmf.sdk</groupId>
             <artifactId>all-mc-services</artifactId>
-            <version>${esa.nmf.version-qualifier}</version>
+            <version>${esa.nmf.version}</version>
         </dependency>
     </dependencies>
 

@@ -19,7 +19,7 @@
         <version>4.0</version>
         <relativePath>../../parent/pom.xml</relativePath>
     </parent>
-    <groupId>int.esa.nmf.mission.simulator</groupId>
+    <groupId>int.esa.nmf.simulator</groupId>
     <artifactId>reactor</artifactId>
     <packaging>pom</packaging>
     <name>ESA NMF Mission Simulator</name>

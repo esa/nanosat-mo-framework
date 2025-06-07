@@ -19,7 +19,7 @@
         <version>4.0</version>
         <relativePath>../../../parent/pom.xml</relativePath>
     </parent>
-    <groupId>int.esa.nmf.mission.simulator</groupId>
+    <groupId>int.esa.nmf.simulator</groupId>
     <artifactId>nanosat-monolithic</artifactId>
     <packaging>jar</packaging>
     <name>ESA NMF Sim - NanoSat MO Monolithic</name>
@@ -56,7 +56,7 @@
             <artifactId>generic-nanosat-monolithic</artifactId>
         </dependency>
         <dependency>
-            <groupId>int.esa.nmf.mission.simulator.moservices.impl</groupId>
+            <groupId>int.esa.nmf.simulator</groupId>
             <artifactId>nmf-platform-impl-sim</artifactId>
             <version>${esa.nmf.version-qualifier}</version>
         </dependency>

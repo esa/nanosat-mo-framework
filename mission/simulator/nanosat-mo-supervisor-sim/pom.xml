@@ -19,7 +19,7 @@
         <version>4.0</version>
         <relativePath>../../../parent/pom.xml</relativePath>
     </parent>
-    <groupId>int.esa.nmf.mission.simulator.moservices.impl</groupId>
+    <groupId>int.esa.nmf.simulator</groupId>
     <artifactId>nanosat-mo-supervisor-sim</artifactId>
     <packaging>jar</packaging>
     <name>ESA NMF Sim - NanoSat MO Supervisor for Simulator</name>
@@ -57,7 +57,7 @@
             <type>jar</type>
         </dependency>
         <dependency>
-            <groupId>int.esa.nmf.mission.simulator.moservices.impl</groupId>
+            <groupId>int.esa.nmf.simulator</groupId>
             <artifactId>nmf-platform-impl-sim</artifactId>
             <version>4.0</version>
             <type>jar</type>
