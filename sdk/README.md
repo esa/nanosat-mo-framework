@@ -161,7 +161,7 @@ Simply add a pluginExecution for the corresponding plugin.
 sdk-package project represents a self-contained reference execution environment for space and ground applications. In order to add your own application to it, follow these steps:
 
 1. Make sure that the application is being built and installed in your local maven repository. Note that the app can be built and maintained outside of the NMF source tree.
-2. Open the POM file of int.esa.nmf.sdk.package project (under sdk-package directory)
+2. Open the POM file of the sdk-package directory (in the SDK)
 3. Add your application to the list of dependencies. E.g:
 
 ```xml
