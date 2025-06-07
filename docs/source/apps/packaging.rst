@@ -18,7 +18,7 @@ The first file we have to change is the ``pom.xml`` in the folder ``sdk/sdk-pack
    :linenos:
 
    <dependency>
-     <groupId>int.esa.nmf.sdk.examples.space</groupId>
+     <groupId>int.esa.nmf.sdk</groupId>
      <artifactId>sobel</artifactId>
      <version>${project.version}</version>
    </dependency>

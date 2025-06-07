@@ -19,7 +19,7 @@
         <version>4.0</version>
         <relativePath>../../../parent/pom.xml</relativePath>
     </parent>
-    <groupId>int.esa.nmf.sdk.examples.space</groupId>
+    <groupId>int.esa.nmf.sdk</groupId>
     <artifactId>blank</artifactId>
     <packaging>jar</packaging>
 

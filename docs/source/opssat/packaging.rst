@@ -39,7 +39,7 @@ In short, you will need to: clone a repository, change some configuration files,
     </properties>
     <dependencies>
       <dependency>
-        <groupId>int.esa.nmf.sdk.examples.space</groupId>
+        <groupId>int.esa.nmf.sdk</groupId>
         <artifactId>payloads-test</artifactId>
         <version>${expVersion}</version>
       </dependency>
@@ -54,7 +54,7 @@ In short, you will need to: clone a repository, change some configuration files,
    <artifactItems>
       <artifactItem>
         <!-- Change the following 3 properties to locate JAR your app needs -->
-        <groupId>int.esa.nmf.sdk.examples.space</groupId>
+        <groupId>int.esa.nmf.sdk</groupId>
         <artifactId>payloads-test</artifactId>
         <version>${expVersion}</version>
         <!-- Do not change the following -->

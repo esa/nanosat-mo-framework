@@ -23,7 +23,7 @@
         <relativePath>../../../parent/pom.xml</relativePath>
     </parent>
 
-    <groupId>int.esa.nmf.sdk.examples.space</groupId>
+    <groupId>int.esa.nmf.sdk</groupId>
     <artifactId>EchoSpace</artifactId>
     <packaging>jar</packaging>
 

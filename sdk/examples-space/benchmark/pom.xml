@@ -20,7 +20,7 @@
         <relativePath>../../../parent/pom.xml</relativePath>
     </parent>
 
-    <groupId>int.esa.nmf.sdk.examples.space</groupId>
+    <groupId>int.esa.nmf.sdk</groupId>
     <artifactId>benchmark</artifactId>
     <packaging>jar</packaging>
 

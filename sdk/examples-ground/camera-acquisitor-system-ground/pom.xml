@@ -23,7 +23,7 @@
         <relativePath>../../../parent/pom.xml</relativePath>
     </parent>
 
-    <groupId>int.esa.nmf.sdk.examples.ground</groupId>
+    <groupId>int.esa.nmf.sdk</groupId>
     <artifactId>camera-acquisitor-system-ground</artifactId>
     <packaging>jar</packaging>
 
@@ -91,7 +91,7 @@
             <type>jar</type>
         </dependency>
         <dependency>
-            <groupId>int.esa.nmf.sdk.examples.space</groupId>
+            <groupId>int.esa.nmf.sdk</groupId>
             <artifactId>camera-acquisitor-system</artifactId>
             <version>${project.version}</version>
         </dependency>

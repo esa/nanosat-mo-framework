@@ -23,7 +23,7 @@
         <relativePath>../../../parent/pom.xml</relativePath>
     </parent>
 
-    <groupId>int.esa.nmf.sdk.examples.ground</groupId>
+    <groupId>int.esa.nmf.sdk</groupId>
     <artifactId>facebook</artifactId>
     <packaging>jar</packaging>
 

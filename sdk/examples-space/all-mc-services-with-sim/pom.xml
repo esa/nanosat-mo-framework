@@ -23,7 +23,7 @@
         <relativePath>../../../parent/pom.xml</relativePath>
     </parent>
 
-    <groupId>int.esa.nmf.sdk.examples.space</groupId>
+    <groupId>int.esa.nmf.sdk</groupId>
     <artifactId>all-mc-services-with-sim</artifactId>
     <packaging>jar</packaging>
 
@@ -73,7 +73,7 @@
             <version>${esa.nmf.version-qualifier}</version>
         </dependency>
         <dependency>
-            <groupId>int.esa.nmf.sdk.examples.space</groupId>
+            <groupId>int.esa.nmf.sdk</groupId>
             <artifactId>all-mc-services</artifactId>
             <version>${esa.nmf.version-qualifier}</version>
         </dependency>
