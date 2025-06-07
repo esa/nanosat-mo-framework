@@ -1,5 +1,5 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2022      European Space Agency
+ * Copyright (C) 2025      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
@@ -31,7 +31,7 @@ import java.util.logging.Logger;
 import org.apache.maven.artifact.Artifact;
 
 /**
- * The FilesystemBuilder class.
+ * The FilesystemGenerator class.
  *
  * @author Cesar Coelho
  */
@@ -48,7 +48,7 @@ public class FilesystemGenerator {
     }
 
     /**
-     * Adds a File or Directory to the builder.
+     * Adds a File or Directory.
      *
      * @param path The path to the file or directory.
      * @param nest The nest of the file or directory.
