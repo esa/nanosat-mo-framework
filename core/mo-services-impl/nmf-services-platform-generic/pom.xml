@@ -22,7 +22,7 @@
     <groupId>int.esa.nmf.core.moservices.impl</groupId>
     <artifactId>nmf-services-platform-generic</artifactId>
     <packaging>jar</packaging>
-    <name>ESA NMF Core MO Services - Platform Services (Generic)</name>
+    <name>ESA NMF Core MO Services - Platform Services</name>
     <description>The ESA/TU Graz implementation of the Platform services</description>
     <url>http://www.esa.int</url>
     <organization>
