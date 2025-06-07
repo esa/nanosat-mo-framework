@@ -23,8 +23,8 @@
         <relativePath>../../parent/pom.xml</relativePath>
     </parent>
 
-    <groupId>int.esa.nmf.sdk.examples.ground</groupId>
-    <artifactId>reactor</artifactId>
+    <groupId>int.esa.nmf.sdk</groupId>
+    <artifactId>examples-ground</artifactId>
     <name>ESA NMF SDK - Ground Applications Examples</name>
     <packaging>pom</packaging>
 

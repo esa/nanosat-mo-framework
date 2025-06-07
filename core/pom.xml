@@ -20,7 +20,7 @@
         <relativePath>../parent/pom.xml</relativePath>
     </parent>
     <groupId>int.esa.nmf.core</groupId>
-    <artifactId>reactor</artifactId>
+    <artifactId>core</artifactId>
     <name>ESA NMF Core</name>
     <packaging>pom</packaging>
     <organization>

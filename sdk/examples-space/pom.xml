@@ -23,8 +23,8 @@
         <relativePath>../../parent/pom.xml</relativePath>
     </parent>
 
-    <groupId>int.esa.nmf.sdk.examples.space</groupId>
-    <artifactId>reactor</artifactId>
+    <groupId>int.esa.nmf.sdk</groupId>
+    <artifactId>examples-apps</artifactId>
     <name>ESA NMF SDK - Space Apps Examples</name>
     <packaging>pom</packaging>
 
