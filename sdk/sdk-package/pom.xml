@@ -72,8 +72,8 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>int.esa.nmf.core</groupId>
-            <artifactId>nanosat-mo-supervisor</artifactId>
+            <groupId>int.esa.nmf.mission.simulator.moservices.impl</groupId>
+            <artifactId>nanosat-mo-supervisor-sim</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

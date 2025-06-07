@@ -19,10 +19,10 @@
         <version>4.0-SNAPSHOT</version>
         <relativePath>../../../parent/pom.xml</relativePath>
     </parent>
-    <groupId>int.esa.nmf.core</groupId>
-    <artifactId>nanosat-mo-supervisor</artifactId>
+    <groupId>int.esa.nmf.mission.simulator.moservices.impl</groupId>
+    <artifactId>nanosat-mo-supervisor-sim</artifactId>
     <packaging>jar</packaging>
-    <name>ESA NMF Core Composite - NanoSat MO Supervisor</name>
+    <name>ESA NMF Sim - NanoSat MO Supervisor for Simulator</name>
     <description>NanoSat MO Supervisor</description>
     <url>http://www.esa.int</url>
     <organization>
@@ -53,11 +53,13 @@
     <dependencies>
         <dependency>
             <groupId>int.esa.nmf.core</groupId>
-            <artifactId>generic-composite-model</artifactId>
+            <artifactId>nanosat-mo-supervisor</artifactId>
+            <type>jar</type>
         </dependency>
         <dependency>
-            <groupId>int.esa.nmf.core</groupId>
-            <artifactId>nmf-package-lib</artifactId>
+            <groupId>int.esa.nmf.mission.simulator.moservices.impl</groupId>
+            <artifactId>nmf-platform-impl-sim</artifactId>
+            <version>4.0-SNAPSHOT</version>
             <type>jar</type>
         </dependency>
         <dependency>

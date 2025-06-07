@@ -64,7 +64,7 @@
 
   <target name="emit-space-supervisor">
     <ant antfile="antpkg/build_shell_script.xml">
-      <property name="mainClass" value="esa.mo.nmf.nanosatmosupervisor.NanosatMOSupervisorBasicImpl"/>
+      <property name="mainClass" value="esa.mo.nmf.sim.supervisor.NanosatMOSupervisorBasicImpl"/>
       <property name="id" value="nanosat-mo-supervisor-sim"/>
       <property name="binDir" value="nmf/nanosat-mo-supervisor-sim"/>
       <property name="platform" value="esa.mo.platform.impl.util.PlatformServicesProviderSoftSim"/>
@@ -73,7 +73,7 @@
       <property name="nmf_lib" value="`cd ../lib > /dev/null; pwd`"/>
     </ant>
     <ant antfile="antpkg/build_batch_script.xml">
-      <property name="mainClass" value="esa.mo.nmf.nanosatmosupervisor.NanosatMOSupervisorBasicImpl"/>
+      <property name="mainClass" value="esa.mo.nmf.sim.supervisor.NanosatMOSupervisorBasicImpl"/>
       <property name="id" value="nanosat-mo-supervisor-sim"/>
       <property name="binDir" value="nmf/nanosat-mo-supervisor-sim"/>
       <property name="platform" value="esa.mo.platform.impl.util.PlatformServicesProviderSoftSim"/>

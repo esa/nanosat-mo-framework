@@ -18,11 +18,13 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nmf.nanosatmosupervisor;
+package esa.mo.nmf.sim.supervisor;
 
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
+import esa.mo.nmf.nanosatmosupervisor.MCSupervisorBasicAdapter;
+import esa.mo.nmf.nanosatmosupervisor.NanoSatMOSupervisor;
 import esa.mo.nmf.nmfpackage.NMFPackagePMBackend;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.platform.impl.util.PlatformServicesProviderInterface;
