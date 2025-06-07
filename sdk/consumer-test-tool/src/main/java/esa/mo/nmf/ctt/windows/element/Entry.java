@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.ctt.windows.element;
 
+import java.awt.Component;
 import java.lang.reflect.Field;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -157,7 +158,8 @@ public abstract class Entry extends javax.swing.JPanel {
 
     private void nullCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nullCBActionPerformed
         for (int i = 0; i < this.middlePanel.getComponentCount(); i++) {
-            this.middlePanel.getComponent(i).setEnabled(!this.middlePanel.getComponent(i).isEnabled());
+            Component component = this.middlePanel.getComponent(i);
+            component.setEnabled(!component.isEnabled());
         }
 
         this.fieldSelectableAttribute.setEnabled(!this.fieldSelectableAttribute.isEnabled());

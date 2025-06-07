@@ -44,14 +44,14 @@ public class EnumerationEntry extends Entry {
         Enumeration enumeration = (Enumeration) obj;
         Field[] fields = enumeration.getClass().getDeclaredFields();
 
-        Field field = fields[fields.length - 2]; // Get the string enumerations
+        Field field = fields[fields.length - 1]; // Get the string enumerations
         field.setAccessible(true);
 
         try {
-            String[] enumerationStrings = (String[]) field.get(enumeration);
+            Enumeration[] enumerationStrings = (Enumeration[]) field.get(enumeration);
 
-            for (String enumerationString : enumerationStrings) {
-                this.comboBox.addItem(enumerationString); // Set the text
+            for (Enumeration e : enumerationStrings) {
+                this.comboBox.addItem(e.toString()); // Set the text
             }
 
             // Set the selected index;
@@ -79,7 +79,7 @@ public class EnumerationEntry extends Entry {
 
         int index = this.comboBox.getSelectedIndex();
 
-        Field field = fields[8 + index * 3];  // Calculation to get the correct enumeration
+        Field field = fields[4 + index * 2];  // Calculation to get the correct enumeration
         field.setAccessible(true);
 
         try {
