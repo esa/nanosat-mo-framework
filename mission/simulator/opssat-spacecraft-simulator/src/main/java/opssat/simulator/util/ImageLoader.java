@@ -3,16 +3,13 @@ package opssat.simulator.util;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
-
-//import esa.opssat.camera.processing.OPSSATCameraDebayering;
 
 /**
  * Utility class to load different image types and convert them to the IMS-100
  * bayer pattern (RGGB) for use in the simulator. This class also takes care of
  * re-scaling the loaded image.
- * 
+ *
  * @author Yannick Lavan
  *
  */
@@ -22,18 +19,18 @@ public class ImageLoader {
     public static final int RESOLUTION_HEIGHT = 1944;
 
     /**
-     * Scales a BufferedImage to the wanted target resolution. This can be up-scaled
-     * or down-scaled.
-     * 
-     * @param targetWidth  The final width for the output image.
+     * Scales a BufferedImage to the wanted target resolution. This can be
+     * up-scaled or down-scaled.
+     *
+     * @param targetWidth The final width for the output image.
      * @param targetHeight The final height for the output image.
-     * @param input        The image to rescale.
+     * @param input The image to rescale.
      * @return BufferedImage with the resolution targetWidth x targetHeight
-     * @throws IllegalArgumentException Iff targetWidth <= 0 || targetHeight <= 0 ||
-     *                                  input == null.
+     * @throws IllegalArgumentException Iff targetWidth &lt;= 0 || targetHeight
+     * &lt;= 0 || input == null.
      */
     public static BufferedImage rescale(int targetWidth, int targetHeight, BufferedImage input)
-        throws IllegalArgumentException {
+            throws IllegalArgumentException {
         if (targetWidth <= 0 || targetHeight <= 0) {
             throw new IllegalArgumentException("The target dimensions must be positive.");
         }
@@ -59,10 +56,10 @@ public class ImageLoader {
 
     /**
      * Converts a buffered image to the IMS-100 Bayer pattern.
-     * 
+     *
      * @param input The RGB image to transform.
      * @return The byte array containing the pattern with 12 bits per pixel and
-     *         pattern RGGB.
+     * pattern RGGB.
      * @throws IllegalArgumentException Iff input == null.
      */
     public static byte[] convertToBayerPattern(BufferedImage input) throws IllegalArgumentException {
@@ -94,7 +91,7 @@ public class ImageLoader {
                     }
                 }
                 output[k++] = 0; // The channel value 0xAB is mapped to the bytes
-                                // 0x00 0xAB (little-endian)
+                // 0x00 0xAB (little-endian)
                 output[k++] = col;
             }
         }
@@ -115,12 +112,12 @@ public class ImageLoader {
      * Loads images with another extension than .raw, re-scales them to fit the
      * IMS-100 resolution of 2048 x 1944 pixels and transforms them into the raw
      * Bayer pattern.
-     * 
+     *
      * @param path Absolute path to the image.
      * @return Byte array containing the Bayer pattern data of the image.
      * @throws IllegalArgumentException Iff path == null.
-     * @throws IOException              Iff something unexpected occurs while
-     *                                  reading the file.
+     * @throws IOException Iff something unexpected occurs while reading the
+     * file.
      */
     public static byte[] loadNonRawImage(String path) throws IllegalArgumentException, IOException {
         if (path == null) {

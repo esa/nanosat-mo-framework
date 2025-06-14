@@ -43,7 +43,6 @@ import org.ccsds.moims.mo.com.archive.structures.PaginationFilter;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
-import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Duration;
@@ -267,8 +266,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
      * annotation.
      *
      * For the parameter to be restored it has to be registered with the
-     *
-     * @Parameter annotation.
+     * "Parameter" annotation.
      */
     public void restoreParameterValuesFromArchive() {
         if (archiveService != null && parameterService != null) {

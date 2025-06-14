@@ -28,11 +28,11 @@ import java.lang.annotation.Target;
 /**
  * Annotates a Java method as an MC Action. Every method annotated as an action
  * has to have the following arguments before the parameters (not annotated with
- * @ActionParameter):
+ * ActionParameter):
  * <p>
  * <code>Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction</code>
  * <p>
- * Every argument after these, has to be annotated with @ActionParameter
+ * Every argument after these, has to be annotated with ActionParameter
  *
  * <p>
  * Example:
