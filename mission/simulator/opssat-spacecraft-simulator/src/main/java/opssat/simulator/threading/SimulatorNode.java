@@ -1440,9 +1440,11 @@ public class SimulatorNode extends TaskNode {
                     buffer.append(",");
                 }
                 Object value = Array.get(o, i);
-                if (value.getClass().isPrimitive() || value.getClass() == java.lang.Long.class || value.getClass()
-                        == java.lang.String.class || value.getClass() == java.lang.Integer.class || value.getClass()
-                        == java.lang.Boolean.class) {
+                if (value.getClass().isPrimitive()
+                        || value.getClass() == java.lang.Long.class
+                        || value.getClass() == java.lang.String.class
+                        || value.getClass() == java.lang.Integer.class
+                        || value.getClass() == java.lang.Boolean.class) {
                     buffer.append(value);
                 } else {
                     buffer.append(dump(value, callCount));
@@ -1454,6 +1456,7 @@ public class SimulatorNode extends TaskNode {
             buffer.append("\n");
             buffer.append(tabs.toString());
             buffer.append("{\n");
+
             while (oClass != null) {
                 Field[] fields = oClass.getDeclaredFields();
                 for (int i = 0; i < fields.length; i++) {
@@ -1464,8 +1467,10 @@ public class SimulatorNode extends TaskNode {
                     try {
                         Object value = fields[i].get(o);
                         if (value != null) {
-                            if (value.getClass().isPrimitive() || value.getClass() == java.lang.Long.class || value
-                                    .getClass() == java.lang.String.class || value.getClass() == java.lang.Integer.class
+                            if (value.getClass().isPrimitive()
+                                    || value.getClass() == java.lang.Long.class
+                                    || value.getClass() == java.lang.String.class
+                                    || value.getClass() == java.lang.Integer.class
                                     || value.getClass() == java.lang.Boolean.class) {
                                 buffer.append(value);
                             } else {
@@ -1632,10 +1637,8 @@ public class SimulatorNode extends TaskNode {
             }
         }
         if (super.getTimers().get(TIMER_DEVICE_DATA).isElapsed()) {
-
             this.hMapSDData.get(DevDatPBind.Camera_CameraBuffer).setType(this.cameraBuffer.getDataBufferAsString());
-            this.hMapSDData.get(DevDatPBind.Camera_CameraBufferOperatingIndex).setType(this.cameraBuffer
-                    .getOperatingIndex());
+            this.hMapSDData.get(DevDatPBind.Camera_CameraBufferOperatingIndex).setType(this.cameraBuffer.getOperatingIndex());
             SimulatorSpacecraftState simulatorSpacecraftState = getSpacecraftState();
             float[] p = new float[3];
             float[] v = new float[3];
@@ -1643,39 +1646,34 @@ public class SimulatorNode extends TaskNode {
             p = simulatorSpacecraftState.getR();
             v = simulatorSpacecraftState.getV();
             q = simulatorSpacecraftState.getQ();
-            this.hMapSDData.get(DevDatPBind.FineADCS_ModeOperation).setType(simulatorSpacecraftState
-                    .getModeOperation());
+            this.hMapSDData.get(DevDatPBind.FineADCS_ModeOperation).setType(simulatorSpacecraftState.getModeOperation());
             this.hMapSDData.get(DevDatPBind.FineADCS_PositionInertial).setType(p);
             this.hMapSDData.get(DevDatPBind.FineADCS_VelocityInertial).setType(v);
             this.hMapSDData.get(DevDatPBind.FineADCS_Q1).setType(String.valueOf(q[0]));
             this.hMapSDData.get(DevDatPBind.FineADCS_Q2).setType(String.valueOf(q[1]));
             this.hMapSDData.get(DevDatPBind.FineADCS_Q3).setType(String.valueOf(q[2]));
             this.hMapSDData.get(DevDatPBind.FineADCS_Q4).setType(String.valueOf(q[3]));
-            this.hMapSDData.get(DevDatPBind.FineADCS_MagneticField).setType(String.valueOf(simulatorSpacecraftState
-                    .getMagField()));
+            this.hMapSDData.get(DevDatPBind.FineADCS_MagneticField).setType(String.valueOf(simulatorSpacecraftState.getMagField()));
             this.hMapSDData.get(DevDatPBind.FineADCS_Rotation).setType(simulatorSpacecraftState.getRotationAsString());
-            this.hMapSDData.get(DevDatPBind.FineADCS_Magnetometer).setType(String.valueOf(simulatorSpacecraftState
-                    .getMagnetometerAsString()));
-            this.hMapSDData.get(DevDatPBind.FineADCS_SunVector).setType(String.valueOf(simulatorSpacecraftState
-                    .getSunVectorAsString()));
+            this.hMapSDData.get(DevDatPBind.FineADCS_Magnetometer).setType(String.valueOf(simulatorSpacecraftState.getMagnetometerAsString()));
+            this.hMapSDData.get(DevDatPBind.FineADCS_SunVector).setType(String.valueOf(simulatorSpacecraftState.getSunVectorAsString()));
 
             this.hMapSDData.get(DevDatPBind.GPS_Latitude).setType(simulatorSpacecraftState.getLatitude());
             this.hMapSDData.get(DevDatPBind.GPS_Longitude).setType(simulatorSpacecraftState.getLongitude());
-            this.hMapSDData.get(DevDatPBind.GPS_Altitude).setType(String.valueOf(simulatorSpacecraftState
-                    .getAltitude()));
+            this.hMapSDData.get(DevDatPBind.GPS_Altitude).setType(String.valueOf(simulatorSpacecraftState.getAltitude()));
+
             if (simulatorHeader.isUseOrekitPropagator()) {
                 this.hMapSDData.get(DevDatPBind.GPS_GS_Elevation).setType(orekitCore.getCurrentGSElevation());
                 this.hMapSDData.get(DevDatPBind.GPS_GS_Azimuth).setType(orekitCore.getCurrentGSAzimuth());
                 this.hMapSDData.get(DevDatPBind.GPS_SatsInView).setType(String.valueOf(orekitCore.getSatsInView()));
             }
-            this.hMapSDData.get(DevDatPBind.GPS_Altitude).setType(String.valueOf(simulatorSpacecraftState
-                    .getAltitude()));
-            this.hMapSDData.get(DevDatPBind.OpticalReceiver_OperatingBuffer).setType(this.opticalReceiverModel
-                    .getSingleStreamOperatingBuffer().getDataBufferAsString());
-            this.hMapSDData.get(DevDatPBind.OpticalReceiver_OperatingBufferIndex).setType(this.opticalReceiverModel
-                    .getSingleStreamOperatingBuffer().getOperatingIndex());
-            this.hMapSDData.get(DevDatPBind.OpticalReceiver_DegradationRate).setType(this.opticalReceiverModel
-                    .getDegradationRate());
+            this.hMapSDData.get(DevDatPBind.GPS_Altitude).setType(String.valueOf(simulatorSpacecraftState.getAltitude()));
+            this.hMapSDData.get(DevDatPBind.OpticalReceiver_OperatingBuffer)
+                    .setType(this.opticalReceiverModel.getSingleStreamOperatingBuffer().getDataBufferAsString());
+            this.hMapSDData.get(DevDatPBind.OpticalReceiver_OperatingBufferIndex)
+                    .setType(this.opticalReceiverModel.getSingleStreamOperatingBuffer().getOperatingIndex());
+            this.hMapSDData.get(DevDatPBind.OpticalReceiver_DegradationRate)
+                    .setType(this.opticalReceiverModel.getDegradationRate());
 
             this.hMapSDData.get(DevDatPBind.SDR_OperatingBuffer).setType(this.sdrBuffer.getDataBufferAsString());
             this.hMapSDData.get(DevDatPBind.SDR_OperatingBufferIndex).setType(this.sdrBuffer.getOperatingIndex());
@@ -1696,10 +1694,12 @@ public class SimulatorNode extends TaskNode {
     public SimulatorSpacecraftState getSpacecraftState() {
         if (this.simulatorHeader.isUseOrekitPropagator()) {
             GeodeticPoint result = this.orekitCore.getGeodeticPoint();
-            SimulatorSpacecraftState data = new SimulatorSpacecraftState(toDegrees(result.getLatitude()), toDegrees(
-                    result.getLongitude()), result.getAltitude());
-            data.setRv(this.orekitCore.getOrbit().getPVCoordinates().getPosition(), this.orekitCore.getOrbit()
-                    .getPVCoordinates().getVelocity());
+            SimulatorSpacecraftState data = new SimulatorSpacecraftState(
+                    toDegrees(result.getLatitude()),
+                    toDegrees(result.getLongitude()),
+                    result.getAltitude());
+            data.setRv(this.orekitCore.getOrbit().getPVCoordinates().getPosition(),
+                    this.orekitCore.getOrbit().getPVCoordinates().getVelocity());
             float[] q = new float[4];
             orekitCore.putQuaternionsInVector(q);
             data.setQ(q);
@@ -1739,15 +1739,17 @@ public class SimulatorNode extends TaskNode {
 
         } else {
             Orbit.OrbitParameters orbitData = this.gps.getPosition(simulatorData.getCurrentTime());
-            return new SimulatorSpacecraftState(orbitData.getlatitude(), orbitData.getlongitude(), orbitData
-                    .getGPSaltitude() * 1000);
+            return new SimulatorSpacecraftState(
+                    orbitData.getlatitude(),
+                    orbitData.getlongitude(),
+                    orbitData.getGPSaltitude() * 1000);
         }
     }
 
     // Globals
     public Object runGenericMethod(int internalID, ArrayList<Object> argObject) {
-        CommandDescriptor c = new CommandDescriptor("external", "external", "external", internalID,
-                super.getLogObject());
+        CommandDescriptor c = new CommandDescriptor("external", "external",
+                "external", internalID, super.getLogObject());
         c.setInputArgsFromArrayList(argObject);
         CommandResult r = runGenericMethodForCommand(c);
         return r.getOutput();
@@ -2103,8 +2105,8 @@ public class SimulatorNode extends TaskNode {
                 case 1055: {// Origin [IFineADCS] Method [byte[] MTQXGetDipoleMoment();//1055//High level
                     // command to interact with FineADCS]
                     byte[] result = new byte[2];
-                    result = FWRefFineADCS.int16_2ByteArray(this.hMapSDData.get(DevDatPBind.FineADCS_Magnetorquer)
-                            .getTypeAsIntByIndex(0));
+                    result = FWRefFineADCS.int16_2ByteArray(
+                            this.hMapSDData.get(DevDatPBind.FineADCS_Magnetorquer).getTypeAsIntByIndex(0));
                     globalResult = result;
                     break;
                 }
@@ -2715,12 +2717,12 @@ public class SimulatorNode extends TaskNode {
                     byte[] result = new byte[25];
                     SimulatorSpacecraftState spacecraftState = getSpacecraftState();
                     double[] sunVector = spacecraftState.getSunVector();
-                    FWRefFineADCS.putFloatInByteArray((float) sunVector[0], FWRefFineADCS.SUNPOINTSTAT_IDX.SUN_VECTOR_X,
-                            result);
-                    FWRefFineADCS.putFloatInByteArray((float) sunVector[1], FWRefFineADCS.SUNPOINTSTAT_IDX.SUN_VECTOR_Y,
-                            result);
-                    FWRefFineADCS.putFloatInByteArray((float) sunVector[2], FWRefFineADCS.SUNPOINTSTAT_IDX.SUN_VECTOR_Z,
-                            result);
+                    FWRefFineADCS.putFloatInByteArray((float) sunVector[0],
+                            FWRefFineADCS.SUNPOINTSTAT_IDX.SUN_VECTOR_X, result);
+                    FWRefFineADCS.putFloatInByteArray((float) sunVector[1],
+                            FWRefFineADCS.SUNPOINTSTAT_IDX.SUN_VECTOR_Y, result);
+                    FWRefFineADCS.putFloatInByteArray((float) sunVector[2],
+                            FWRefFineADCS.SUNPOINTSTAT_IDX.SUN_VECTOR_Z, result);
                     FWRefFineADCS.putFloatInByteArray(this.hMapSDData.get(DevDatPBind.FineADCS_ReactionWheels)
                             .getTypeAsIntByIndex(0), FWRefFineADCS.SUNPOINTSTAT_IDX.ACTUATOR_X, result);
                     FWRefFineADCS.putFloatInByteArray(this.hMapSDData.get(DevDatPBind.FineADCS_ReactionWheels)
@@ -2737,8 +2739,8 @@ public class SimulatorNode extends TaskNode {
                     long[] times = (long[]) argObject.get(1);
                     float[] targetVector = (float[]) argObject.get(2);
                     if (simulatorHeader.isUseOrekitPropagator()) {
-                        this.orekitCore.changeAttitudeLof(targetVector[0], targetVector[1], targetVector[2],
-                                targetVector[6]);
+                        this.orekitCore.changeAttitudeLof(targetVector[0],
+                                targetVector[1], targetVector[2], targetVector[6]);
                     }
                     break;
                 }
@@ -2749,18 +2751,18 @@ public class SimulatorNode extends TaskNode {
                     double[] sunVector = spacecraftState.getSunVector();
                     float[] magneticField = spacecraftState.getMagnetometer();
                     float[] quaternions = spacecraftState.getQ();
-                    FWRefFineADCS.putFloatInByteArray((float) sunVector[0], FWRefFineADCS.SPINMODESTAT_IDX.SUN_VECTOR_X,
-                            result);
-                    FWRefFineADCS.putFloatInByteArray((float) sunVector[1], FWRefFineADCS.SPINMODESTAT_IDX.SUN_VECTOR_Y,
-                            result);
-                    FWRefFineADCS.putFloatInByteArray((float) sunVector[2], FWRefFineADCS.SPINMODESTAT_IDX.SUN_VECTOR_Z,
-                            result);
-                    FWRefFineADCS.putFloatInByteArray(magneticField[0], FWRefFineADCS.SPINMODESTAT_IDX.MAGNETOMETER_X,
-                            result);
-                    FWRefFineADCS.putFloatInByteArray(magneticField[1], FWRefFineADCS.SPINMODESTAT_IDX.MAGNETOMETER_Y,
-                            result);
-                    FWRefFineADCS.putFloatInByteArray(magneticField[2], FWRefFineADCS.SPINMODESTAT_IDX.MAGNETOMETER_Z,
-                            result);
+                    FWRefFineADCS.putFloatInByteArray((float) sunVector[0],
+                            FWRefFineADCS.SPINMODESTAT_IDX.SUN_VECTOR_X, result);
+                    FWRefFineADCS.putFloatInByteArray((float) sunVector[1],
+                            FWRefFineADCS.SPINMODESTAT_IDX.SUN_VECTOR_Y, result);
+                    FWRefFineADCS.putFloatInByteArray((float) sunVector[2],
+                            FWRefFineADCS.SPINMODESTAT_IDX.SUN_VECTOR_Z, result);
+                    FWRefFineADCS.putFloatInByteArray(magneticField[0],
+                            FWRefFineADCS.SPINMODESTAT_IDX.MAGNETOMETER_X, result);
+                    FWRefFineADCS.putFloatInByteArray(magneticField[1],
+                            FWRefFineADCS.SPINMODESTAT_IDX.MAGNETOMETER_Y, result);
+                    FWRefFineADCS.putFloatInByteArray(magneticField[2],
+                            FWRefFineADCS.SPINMODESTAT_IDX.MAGNETOMETER_Z, result);
                     FWRefFineADCS.putFloatInByteArray(quaternions[0], FWRefFineADCS.SPINMODESTAT_IDX.Q1, result);
                     FWRefFineADCS.putFloatInByteArray(quaternions[1], FWRefFineADCS.SPINMODESTAT_IDX.Q2, result);
                     FWRefFineADCS.putFloatInByteArray(quaternions[2], FWRefFineADCS.SPINMODESTAT_IDX.Q3, result);
@@ -2827,20 +2829,23 @@ public class SimulatorNode extends TaskNode {
                     FWRefFineADCS.putFloatInByteArray(quaternions[1], FWRefFineADCS.NADIR_TGTTRACKSTAT_IDX.Q2, result);
                     FWRefFineADCS.putFloatInByteArray(quaternions[2], FWRefFineADCS.NADIR_TGTTRACKSTAT_IDX.Q3, result);
                     FWRefFineADCS.putFloatInByteArray(quaternions[3], FWRefFineADCS.NADIR_TGTTRACKSTAT_IDX.Q4, result);
-                    FWRefFineADCS.putFloatInByteArray(quaternions[0], FWRefFineADCS.NADIR_TGTTRACKSTAT_IDX.TGT_Q1,
-                            result);
-                    FWRefFineADCS.putFloatInByteArray(quaternions[1], FWRefFineADCS.NADIR_TGTTRACKSTAT_IDX.TGT_Q2,
-                            result);
-                    FWRefFineADCS.putFloatInByteArray(quaternions[2], FWRefFineADCS.NADIR_TGTTRACKSTAT_IDX.TGT_Q3,
-                            result);
-                    FWRefFineADCS.putFloatInByteArray(quaternions[3], FWRefFineADCS.NADIR_TGTTRACKSTAT_IDX.TGT_Q4,
-                            result);
+                    FWRefFineADCS.putFloatInByteArray(quaternions[0],
+                            FWRefFineADCS.NADIR_TGTTRACKSTAT_IDX.TGT_Q1, result);
+                    FWRefFineADCS.putFloatInByteArray(quaternions[1],
+                            FWRefFineADCS.NADIR_TGTTRACKSTAT_IDX.TGT_Q2, result);
+                    FWRefFineADCS.putFloatInByteArray(quaternions[2],
+                            FWRefFineADCS.NADIR_TGTTRACKSTAT_IDX.TGT_Q3, result);
+                    FWRefFineADCS.putFloatInByteArray(quaternions[3],
+                            FWRefFineADCS.NADIR_TGTTRACKSTAT_IDX.TGT_Q4, result);
                     FWRefFineADCS.putFloatInByteArray(this.hMapSDData.get(DevDatPBind.FineADCS_ReactionWheels)
-                            .getTypeAsIntByIndex(0), FWRefFineADCS.NADIR_TGTTRACKSTAT_IDX.RW_SPEED_X, result);
+                            .getTypeAsIntByIndex(0),
+                            FWRefFineADCS.NADIR_TGTTRACKSTAT_IDX.RW_SPEED_X, result);
                     FWRefFineADCS.putFloatInByteArray(this.hMapSDData.get(DevDatPBind.FineADCS_ReactionWheels)
-                            .getTypeAsIntByIndex(1), FWRefFineADCS.NADIR_TGTTRACKSTAT_IDX.RW_SPEED_Y, result);
+                            .getTypeAsIntByIndex(1),
+                            FWRefFineADCS.NADIR_TGTTRACKSTAT_IDX.RW_SPEED_Y, result);
                     FWRefFineADCS.putFloatInByteArray(this.hMapSDData.get(DevDatPBind.FineADCS_ReactionWheels)
-                            .getTypeAsIntByIndex(2), FWRefFineADCS.NADIR_TGTTRACKSTAT_IDX.RW_SPEED_Z, result);
+                            .getTypeAsIntByIndex(2),
+                            FWRefFineADCS.NADIR_TGTTRACKSTAT_IDX.RW_SPEED_Z, result);
                     globalResult = result;
                     break;
                 }
@@ -2888,28 +2893,31 @@ public class SimulatorNode extends TaskNode {
                             .getTypeAsFloatByIndex(1), FWRefFineADCS.FIXWGS84_TGTTRACKSTAT_IDX.ANG_VEL_Y, result);
                     FWRefFineADCS.putFloatInByteArray(this.hMapSDData.get(DevDatPBind.FineADCS_AngularVelocity)
                             .getTypeAsFloatByIndex(2), FWRefFineADCS.FIXWGS84_TGTTRACKSTAT_IDX.ANG_VEL_Z, result);
-                    FWRefFineADCS.putFloatInByteArray(quaternions[0], FWRefFineADCS.FIXWGS84_TGTTRACKSTAT_IDX.Q1,
-                            result);
-                    FWRefFineADCS.putFloatInByteArray(quaternions[1], FWRefFineADCS.FIXWGS84_TGTTRACKSTAT_IDX.Q2,
-                            result);
-                    FWRefFineADCS.putFloatInByteArray(quaternions[2], FWRefFineADCS.FIXWGS84_TGTTRACKSTAT_IDX.Q3,
-                            result);
-                    FWRefFineADCS.putFloatInByteArray(quaternions[3], FWRefFineADCS.FIXWGS84_TGTTRACKSTAT_IDX.Q4,
-                            result);
-                    FWRefFineADCS.putFloatInByteArray(quaternions[0], FWRefFineADCS.FIXWGS84_TGTTRACKSTAT_IDX.TGT_Q1,
-                            result);
-                    FWRefFineADCS.putFloatInByteArray(quaternions[1], FWRefFineADCS.FIXWGS84_TGTTRACKSTAT_IDX.TGT_Q2,
-                            result);
-                    FWRefFineADCS.putFloatInByteArray(quaternions[2], FWRefFineADCS.FIXWGS84_TGTTRACKSTAT_IDX.TGT_Q3,
-                            result);
-                    FWRefFineADCS.putFloatInByteArray(quaternions[3], FWRefFineADCS.FIXWGS84_TGTTRACKSTAT_IDX.TGT_Q4,
-                            result);
+                    FWRefFineADCS.putFloatInByteArray(quaternions[0],
+                            FWRefFineADCS.FIXWGS84_TGTTRACKSTAT_IDX.Q1, result);
+                    FWRefFineADCS.putFloatInByteArray(quaternions[1],
+                            FWRefFineADCS.FIXWGS84_TGTTRACKSTAT_IDX.Q2, result);
+                    FWRefFineADCS.putFloatInByteArray(quaternions[2],
+                            FWRefFineADCS.FIXWGS84_TGTTRACKSTAT_IDX.Q3, result);
+                    FWRefFineADCS.putFloatInByteArray(quaternions[3],
+                            FWRefFineADCS.FIXWGS84_TGTTRACKSTAT_IDX.Q4, result);
+                    FWRefFineADCS.putFloatInByteArray(quaternions[0],
+                            FWRefFineADCS.FIXWGS84_TGTTRACKSTAT_IDX.TGT_Q1, result);
+                    FWRefFineADCS.putFloatInByteArray(quaternions[1],
+                            FWRefFineADCS.FIXWGS84_TGTTRACKSTAT_IDX.TGT_Q2, result);
+                    FWRefFineADCS.putFloatInByteArray(quaternions[2],
+                            FWRefFineADCS.FIXWGS84_TGTTRACKSTAT_IDX.TGT_Q3, result);
+                    FWRefFineADCS.putFloatInByteArray(quaternions[3],
+                            FWRefFineADCS.FIXWGS84_TGTTRACKSTAT_IDX.TGT_Q4, result);
                     FWRefFineADCS.putFloatInByteArray(this.hMapSDData.get(DevDatPBind.FineADCS_ReactionWheels)
-                            .getTypeAsIntByIndex(0), FWRefFineADCS.FIXWGS84_TGTTRACKSTAT_IDX.RW_SPEED_X, result);
+                            .getTypeAsIntByIndex(0),
+                            FWRefFineADCS.FIXWGS84_TGTTRACKSTAT_IDX.RW_SPEED_X, result);
                     FWRefFineADCS.putFloatInByteArray(this.hMapSDData.get(DevDatPBind.FineADCS_ReactionWheels)
-                            .getTypeAsIntByIndex(1), FWRefFineADCS.FIXWGS84_TGTTRACKSTAT_IDX.RW_SPEED_Y, result);
+                            .getTypeAsIntByIndex(1),
+                            FWRefFineADCS.FIXWGS84_TGTTRACKSTAT_IDX.RW_SPEED_Y, result);
                     FWRefFineADCS.putFloatInByteArray(this.hMapSDData.get(DevDatPBind.FineADCS_ReactionWheels)
-                            .getTypeAsIntByIndex(2), FWRefFineADCS.FIXWGS84_TGTTRACKSTAT_IDX.RW_SPEED_Z, result);
+                            .getTypeAsIntByIndex(2),
+                            FWRefFineADCS.FIXWGS84_TGTTRACKSTAT_IDX.RW_SPEED_Z, result);
                     globalResult = result;
                     break;
                 }
@@ -3625,8 +3633,7 @@ public class SimulatorNode extends TaskNode {
                     double lat = Math.toRadians(simulatorSpacecraftState.getLatitude());
                     double lon = Math.toRadians(simulatorSpacecraftState.getLongitude());
                     double alt = simulatorSpacecraftState.getAltitude() / 1000.0;
-                    double e = Math.sqrt(1.0 - (EARTH_RADIUS_POLAR * EARTH_RADIUS_POLAR) / (EARTH_RADIUS_EQUATOR
-                            * EARTH_RADIUS_EQUATOR));
+                    double e = Math.sqrt(1.0 - (EARTH_RADIUS_POLAR * EARTH_RADIUS_POLAR) / (EARTH_RADIUS_EQUATOR * EARTH_RADIUS_EQUATOR));
                     double e_sqr = e * e;
                     double sinLat = Math.sin(lat);
                     double cosLat = Math.cos(lat);
