@@ -50,10 +50,13 @@ public class FilesystemGenerator {
     /**
      * Adds a File or Directory.
      *
-     * @param path The path to the file or directory.
-     * @param nest The nest of the file or directory.
+     * @param from The path from the file or directory to be added.
      */
-    public void addFileOrDirectory(String path, String nest) {
+    public void addFileOrDirectory(File from) {
+        addFileOrDirectory(from.getAbsolutePath(), "");
+    }
+
+    private void addFileOrDirectory(String path, String nest) {
         File f = new File(path);
 
         if (f.isDirectory()) {
@@ -74,13 +77,15 @@ public class FilesystemGenerator {
         }
     }
 
-    public void addFileOrDirectory(File file) {
-        addFileOrDirectory(file.getAbsolutePath(), "");
-    }
-
-    public void addResource(String directory, String filename) {
+    /**
+     *
+     * @param directoryName The name of the directory inside the NMF.
+     * @param filename The filename of the file in the resources of the project
+     * to be copied.
+     */
+    public void addResource(String directoryName, String filename) {
         ClassLoader classLoader = GenerateFilesystemMojo.class.getClassLoader();
-        File destinationDirectory = new File(DIR_NMF, directory);
+        File destinationDirectory = new File(DIR_NMF, directoryName);
         destinationDirectory.mkdirs();
         File destinationFile = new File(destinationDirectory, filename);
 
@@ -97,9 +102,22 @@ public class FilesystemGenerator {
         }
     }
 
-    public void addArtifact(String directory, Artifact artifact) {
+    public void addArtifactNMF(Artifact artifact, String nmfVersion) {
+        this.addArtifact(Deployment.DIR_JARS_NMF, artifact, nmfVersion);
+    }
+
+    public void addArtifactMission(Artifact artifact, String missionVersion) {
+        this.addArtifact(Deployment.DIR_JARS_MISSION, artifact, missionVersion);
+    }
+
+    private void addArtifact(String directory, Artifact artifact, String version) {
         File from = artifact.getFile();
         File destinationDirectory = new File(DIR_NMF, directory);
+
+        if (version != null) {
+            destinationDirectory = new File(destinationDirectory, version);
+        }
+
         destinationDirectory.mkdirs();
         File destinationFile = new File(destinationDirectory, from.getName());
 

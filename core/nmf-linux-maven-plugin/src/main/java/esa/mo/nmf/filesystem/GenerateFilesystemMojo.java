@@ -49,16 +49,16 @@ public class GenerateFilesystemMojo extends AbstractMojo {
     private MavenProject project;
 
     /**
-     * The version of the NMF Package.
+     * The version of the mission.
      */
-    @Parameter(property = "generate-filesystem.version", defaultValue = "${project.version}")
-    private String version;
+    @Parameter(property = "generate-filesystem.missionVersion", defaultValue = "${project.version}")
+    private String missionVersion;
 
     /**
-     * The App main class.
+     * The main class for the supervisor.
      */
-    @Parameter(property = "generate-filesystem.mainClass", defaultValue = "${assembly.mainClass}")
-    private String mainClass;
+    @Parameter(property = "generate-filesystem.supervisorMainClass", defaultValue = "${supervisorMainClass}")
+    private String supervisorMainClass;
 
     /**
      * The version of the NMF that the App was developed against.
@@ -78,19 +78,19 @@ public class GenerateFilesystemMojo extends AbstractMojo {
 
         getLog().info("\n---------- NMF Linux - Filesystem Generator ----------\n");
         getLog().info("Input values:");
-        getLog().info(">> mainClass = " + mainClass);
+        getLog().info(">> mainClass = " + supervisorMainClass);
         getLog().info(">> nmfVersion = " + nmfVersion);
-        getLog().info(">> version = " + version);
+        getLog().info(">> version = " + missionVersion);
 
-        if (mainClass == null) {
-            throw new MojoExecutionException("The mainClass tag is not defined!"
+        if (supervisorMainClass == null) {
+            throw new MojoExecutionException("The supervisorMainClass tag is not defined!"
                     + " Please include in the <configuration> tag:\n"
                     + "-> \t\t<configuration>\n"
-                    + "-> \t\t\t<mainClass>${assembly.mainClass}</mainClass>\n"
+                    + "-> \t\t\t<supervisorMainClass>${assembly.mainClass}</supervisorMainClass>\n"
                     + "-> \t\t</configuration>\n\n\n"
                     + "-> Or add to the <properties> tag the mainclass. Example:\n"
                     + "-> \t\t<properties>\n"
-                    + "-> \t\t\t<assembly.mainClass>esa.mo.nmf.mission.MissionSupervisor</assembly.mainClass>\n"
+                    + "-> \t\t\t<supervisorMainClass>esa.mo.nmf.mission.MissionSupervisor</supervisorMainClass>\n"
                     + "-> \t\t</properties>\n\n\n");
         }
 
@@ -130,15 +130,14 @@ public class GenerateFilesystemMojo extends AbstractMojo {
                 str.append(artifact.getArtifactId()).append(":");
                 str.append(artifact.getVersion());
                 getLog().info("  >> Adding DIR_JARS_NMF: " + artifact.toString());
-                filesystem.addArtifact(Deployment.DIR_JARS_NMF, artifact);
+                filesystem.addArtifactNMF(artifact, nmfVersion);
             } else {
                 getLog().info("---\nFor dependency:");
                 getLog().info("  >> GroupId = " + artifact.getGroupId());
                 getLog().info("  >> ArtifactId = " + artifact.getArtifactId());
                 getLog().info("  >> Version = " + artifact.getVersion());
-                //dependencies.add(packageJarDependency(artifact));
                 getLog().info("  >> Adding DIR_JARS_MISSION: " + artifact.toString());
-                filesystem.addArtifact(Deployment.DIR_JARS_MISSION, artifact);
+                filesystem.addArtifactMission(artifact, artifact.getVersion());
             }
         }
     }
