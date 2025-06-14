@@ -33,8 +33,8 @@ import org.ccsds.moims.mo.platform.softwaredefinedradio.SoftwareDefinedRadioHelp
 import org.ccsds.moims.mo.platform.softwaredefinedradio.consumer.SoftwareDefinedRadioStub;
 
 /**
- *
- * @author Cesar Coelho
+ * The SoftwareDefinedRadioConsumerServiceImpl class implements the service
+ * consumer for the Software Defined Radio service.
  */
 public class SoftwareDefinedRadioConsumerServiceImpl extends ConsumerServiceImpl {
 

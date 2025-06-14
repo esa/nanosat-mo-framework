@@ -41,8 +41,7 @@ import org.ccsds.moims.mo.platform.powercontrol.structures.Device;
 import org.ccsds.moims.mo.platform.powercontrol.structures.DeviceList;
 
 /**
- *
- * @author Cesar Coelho
+ * Power Control service Provider.
  */
 public class PowerControlProviderServiceImpl extends PowerControlInheritanceSkeleton {
 

@@ -54,8 +54,8 @@ import org.ccsds.moims.mo.platform.softwaredefinedradio.SoftwareDefinedRadioServ
 import org.ccsds.moims.mo.platform.softwaredefinedradio.consumer.SoftwareDefinedRadioStub;
 
 /**
- *
- *
+ * The PlatformServicesConsumer class holds all the consumers for the Platform
+ * services.
  */
 public class PlatformServicesConsumer implements PlatformServicesConsumerInterface {
 
@@ -108,7 +108,7 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
 
             // Initialize the Optical Data Receiver service
             details = connectionConsumer.getServicesDetails().get(
-                OpticalDataReceiverServiceInfo.OPTICALDATARECEIVER_SERVICE_NAME);
+                    OpticalDataReceiverServiceInfo.OPTICALDATARECEIVER_SERVICE_NAME);
 
             if (details != null) {
                 odrService = new OpticalDataReceiverConsumerServiceImpl(details,
@@ -117,7 +117,7 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
 
             // Initialize the Software Defined Radio service
             details = connectionConsumer.getServicesDetails().get(
-                SoftwareDefinedRadioServiceInfo.SOFTWAREDEFINEDRADIO_SERVICE_NAME);
+                    SoftwareDefinedRadioServiceInfo.SOFTWAREDEFINEDRADIO_SERVICE_NAME);
 
             if (details != null) {
                 sdrService = new SoftwareDefinedRadioConsumerServiceImpl(details,

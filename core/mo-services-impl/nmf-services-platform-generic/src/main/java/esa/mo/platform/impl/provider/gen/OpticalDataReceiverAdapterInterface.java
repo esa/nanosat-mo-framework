@@ -23,8 +23,8 @@ package esa.mo.platform.impl.provider.gen;
 import org.ccsds.moims.mo.mal.structures.Duration;
 
 /**
- *
- * @author Cesar Coelho
+ * The OpticalDataReceiverAdapterInterface is an interface to create adapters
+ * for the Optical Data Receiver service.
  */
 public interface OpticalDataReceiverAdapterInterface {
 

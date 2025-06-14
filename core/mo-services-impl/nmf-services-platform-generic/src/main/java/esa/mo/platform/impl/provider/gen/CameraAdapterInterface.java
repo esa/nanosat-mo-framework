@@ -29,8 +29,8 @@ import org.ccsds.moims.mo.platform.camera.structures.PictureFormatList;
 import org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList;
 
 /**
- *
- * @author Cesar Coelho
+ * The CameraAdapterInterface is an interface to create adapters for the Camera
+ * service.
  */
 public interface CameraAdapterInterface {
 

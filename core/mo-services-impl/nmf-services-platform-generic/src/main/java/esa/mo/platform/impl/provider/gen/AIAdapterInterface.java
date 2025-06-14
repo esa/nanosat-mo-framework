@@ -22,6 +22,10 @@ package esa.mo.platform.impl.provider.gen;
 
 import java.io.IOException;
 
+/**
+ * The AIAdapterInterface is an interface to create adapters for the Artificial
+ * Intelligence service for different AI devices.
+ */
 public interface AIAdapterInterface {
 
     /**

@@ -22,6 +22,10 @@ package esa.mo.platform.impl.provider.gen;
 
 import org.ccsds.moims.mo.mal.structures.Time;
 
+/**
+ * The ClockAdapterInterface is an interface to create adapters for the Clock
+ * service.
+ */
 public interface ClockAdapterInterface {
 
     public Time getTime();

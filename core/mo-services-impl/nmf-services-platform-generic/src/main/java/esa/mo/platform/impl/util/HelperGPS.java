@@ -216,11 +216,20 @@ public class HelperGPS {
                 int count = words.length;
                 int sentenceSatCount = (count - 5) / 4;
                 if (sentenceSatCount <= 0 || sentenceSatCount > 4) {
-                    throw new IOException("Sentence [" + sentence + "] has calculated [" + sentenceSatCount + "] sat count");
+                    throw new IOException("Sentence ["
+                            + sentence
+                            + "] has calculated ["
+                            + sentenceSatCount 
+                            + "] sat count");
                 }
                 int expectedSize = sentenceSatCount * 4 + 5;
                 if (count != expectedSize) {
-                    throw new IOException("Sentence [" + sentence + "] has wrong GPS sentence size [" + count + "], expected minimum [" + expectedSize + "]");
+                    throw new IOException("Sentence ["
+                            + sentence
+                            + "] has wrong GPS sentence size ["
+                            + count 
+                            + "], expected minimum [" 
+                            + expectedSize + "]");
 
                 }
                 if (!"$GPGSV".equals(words[GPGSV_COL.HEADER])) {
@@ -292,7 +301,7 @@ public class HelperGPS {
     }
 
     /**
-     * Removes details from the NMEA log like <OK [COM1]
+     * Removes details from the NMEA log like &lt;OK [COM1]
      *
      * @param log NMEA log string
      * @return sanitized NMEA log string

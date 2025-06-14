@@ -33,8 +33,8 @@ import org.ccsds.moims.mo.platform.opticaldatareceiver.OpticalDataReceiverHelper
 import org.ccsds.moims.mo.platform.opticaldatareceiver.consumer.OpticalDataReceiverStub;
 
 /**
- *
- * @author Cesar Coelho
+ * The OpticalDataReceiverConsumerServiceImpl class implements the service
+ * consumer for the Optical Data Receiver service.
  */
 public class OpticalDataReceiverConsumerServiceImpl extends ConsumerServiceImpl {
 

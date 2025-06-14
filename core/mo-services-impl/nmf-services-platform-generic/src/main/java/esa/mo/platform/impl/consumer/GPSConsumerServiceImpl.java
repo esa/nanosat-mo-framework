@@ -33,8 +33,8 @@ import org.ccsds.moims.mo.platform.gps.GPSHelper;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSStub;
 
 /**
- *
- * @author Cesar Coelho
+ * The GPSConsumerServiceImpl class implements the service consumer for the GPS
+ * service.
  */
 public class GPSConsumerServiceImpl extends ConsumerServiceImpl {
 

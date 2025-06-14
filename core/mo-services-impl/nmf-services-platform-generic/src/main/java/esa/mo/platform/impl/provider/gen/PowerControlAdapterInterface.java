@@ -28,6 +28,10 @@ import org.ccsds.moims.mo.platform.powercontrol.structures.Device;
 import org.ccsds.moims.mo.platform.powercontrol.structures.DeviceList;
 import org.ccsds.moims.mo.platform.powercontrol.structures.DeviceType;
 
+/**
+ * The PowerControlAdapterInterface is an interface to create adapters for the
+ * Power Control service.
+ */
 public interface PowerControlAdapterInterface {
 
     Map<Identifier, Device> getDeviceMap();

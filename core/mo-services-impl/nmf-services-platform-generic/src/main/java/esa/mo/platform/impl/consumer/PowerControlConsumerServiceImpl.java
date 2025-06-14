@@ -33,8 +33,8 @@ import org.ccsds.moims.mo.platform.powercontrol.PowerControlHelper;
 import org.ccsds.moims.mo.platform.powercontrol.consumer.PowerControlStub;
 
 /**
- *
- * @author Cesar Coelho
+ * The PowerControlConsumerServiceImpl class implements the service
+ * consumer for the Power Control service.
  */
 public class PowerControlConsumerServiceImpl extends ConsumerServiceImpl {
 

@@ -41,8 +41,8 @@ import org.ccsds.moims.mo.platform.gps.structures.NearbyPositionDefinition;
 import org.ccsds.moims.mo.platform.gps.structures.NearbyPositionDefinitionList;
 
 /**
- *
- * @author Cesar Coelho
+ * The GPSManager class is the manager of the GPS definitions and also holds the
+ * previous status of the isInside flag for each of the definitions.
  */
 public final class GPSManager extends DefinitionsManager {
 
@@ -93,7 +93,7 @@ public final class GPSManager extends DefinitionsManager {
             uniqueObjIdDef++; // This line as to go before any writing (because it's initialized as zero and that's the wildcard)
             this.addDef(uniqueObjIdDef, definition);
             return uniqueObjIdDef;
-        }else{
+        } else {
             HeterogeneousList defs = new HeterogeneousList();
             defs.add(definition);
 

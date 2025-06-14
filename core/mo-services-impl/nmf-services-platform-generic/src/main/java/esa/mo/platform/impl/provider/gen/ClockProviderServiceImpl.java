@@ -32,6 +32,9 @@ import org.ccsds.moims.mo.platform.clock.ClockHelper;
 import org.ccsds.moims.mo.platform.clock.ClockServiceInfo;
 import org.ccsds.moims.mo.platform.clock.provider.ClockInheritanceSkeleton;
 
+/**
+ * The ClockProviderServiceImpl class implements the Clock service provider.
+ */
 public class ClockProviderServiceImpl extends ClockInheritanceSkeleton {
 
     private static final Logger LOGGER = Logger.getLogger(ClockProviderServiceImpl.class.getName());

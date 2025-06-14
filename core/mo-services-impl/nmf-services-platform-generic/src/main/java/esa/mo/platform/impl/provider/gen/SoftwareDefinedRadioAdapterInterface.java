@@ -24,8 +24,8 @@ import org.ccsds.moims.mo.platform.softwaredefinedradio.structures.IQComponents;
 import org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration;
 
 /**
- *
- * @author Cesar Coelho
+ * The SoftwareDefinedRadioAdapterInterface is an interface to create adapters
+ * for the Software Defined Radio service.
  */
 public interface SoftwareDefinedRadioAdapterInterface {
 

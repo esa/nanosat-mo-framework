@@ -31,15 +31,15 @@ import org.ccsds.moims.mo.platform.powercontrol.consumer.PowerControlStub;
 import org.ccsds.moims.mo.platform.softwaredefinedradio.consumer.SoftwareDefinedRadioStub;
 
 /**
- *
- * @author Cesar Coelho
+ * The Platform services consumer interface. Allows the retrieval of the default
+ * set of services that are part of the Platform services.
  */
 public interface PlatformServicesConsumerInterface {
 
     ArtificialIntelligenceStub getAIService() throws IOException;
 
     AutonomousADCSStub getAutonomousADCSService() throws IOException;
-    
+
     CameraStub getCameraService() throws IOException;
 
     GPSStub getGPSService() throws IOException;

@@ -35,7 +35,7 @@ import java.io.InputStreamReader;
 import java.util.concurrent.TimeUnit;
 
 /**
- * The Artificial Intelligence adapter for the Intel Movidius Neural Compute
+ * The AIMovidiusAdapter adapter for the Intel Movidius Neural Compute
  * Stick via a python file. Note that this code was not developed for the Intel
  * Movidius Neural Compute Stick 2 and therefore will only work with the first
  * Intel Movidius Neural Compute Stick.

@@ -29,8 +29,8 @@ import org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed;
 import org.ccsds.moims.mo.platform.structures.VectorF3D;
 
 /**
- *
- * @author Cesar Coelho
+ * The HelperIADCS100 is an helper class to facilitate the computations related
+ * with the ADCS.
  */
 public class HelperIADCS100 {
 

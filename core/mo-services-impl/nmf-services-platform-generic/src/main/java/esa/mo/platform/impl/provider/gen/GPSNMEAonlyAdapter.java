@@ -29,8 +29,8 @@ import org.ccsds.moims.mo.platform.gps.structures.Position;
 import org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList;
 
 /**
- *
- * @author Cesar Coelho
+ * The GPSNMEAonlyAdapter is an abstract GPS adapter that implements parts of
+ * the GPSAdapterInterface.
  */
 public abstract class GPSNMEAonlyAdapter implements GPSAdapterInterface {
 
@@ -51,11 +51,11 @@ public abstract class GPSNMEAonlyAdapter implements GPSAdapterInterface {
         if (System.currentTimeMillis() - lastPositionTime < resultCacheValidityMs) {
             return lastPosition;
         }
-        String nmeaLog = "";
+
         try {
             lastPosition = null;
             String fullNmeaResponse = this.getNMEASentence("LOG GPGGALONG\r\n");
-            nmeaLog = HelperGPS.sanitizeNMEALog(fullNmeaResponse.trim());
+            String nmeaLog = HelperGPS.sanitizeNMEALog(fullNmeaResponse.trim());
             if (!nmeaLog.startsWith("$GPGGA")) {
                 LOGGER.log(Level.SEVERE, "Unexpected response format: {0}", nmeaLog);
             } else {

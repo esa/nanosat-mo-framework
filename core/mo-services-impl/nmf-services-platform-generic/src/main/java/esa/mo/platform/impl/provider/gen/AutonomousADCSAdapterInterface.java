@@ -28,8 +28,8 @@ import org.ccsds.moims.mo.platform.autonomousadcs.structures.ReactionWheelIdenti
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.ReactionWheelParameters;
 
 /**
- *
- * @author Cesar Coelho
+ * The AutonomousADCSAdapterInterface is an interface to create adapters for the
+ * AutonomousADCS service.
  */
 public interface AutonomousADCSAdapterInterface {
 
