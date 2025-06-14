@@ -29,14 +29,17 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
- * @author Cesar Coelho
+ * The ShellCommander class allows a simple mechanism to run commands on the
+ * shell. It supports Linux, Mac, and Windows.
  */
 public class ShellCommander {
 
     private final OSValidator osValidator = new OSValidator();
     private final static int DEATH_TIMEOUT = 2000;
 
+    /**
+     * Constructor.
+     */
     public ShellCommander() {
     }
 
@@ -124,8 +127,8 @@ public class ShellCommander {
             } else if (osValidator.isWindows()) {
                 return Runtime.getRuntime().exec(new String[]{"cmd", "/c", cmd}, null, dirPath);
             } else {
-                Logger.getLogger(ShellCommander.class.getName()).log(Level.SEVERE, 
-                        "The command could not be executed! Unknown OS: {0}", 
+                Logger.getLogger(ShellCommander.class.getName()).log(Level.SEVERE,
+                        "The command could not be executed! Unknown OS: {0}",
                         osValidator.getOS());
                 return null;
             }
@@ -143,13 +146,13 @@ public class ShellCommander {
         private String type = null;
         private String message = "<Nothing>";
 
-        public String getMessage() {
-            return message;
-        }
-
         StreamWrapper(InputStream is, String type) {
             this.is = is;
             this.type = type;
+        }
+
+        public String getMessage() {
+            return message;
         }
 
         @Override

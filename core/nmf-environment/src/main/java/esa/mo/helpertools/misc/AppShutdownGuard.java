@@ -18,7 +18,6 @@
  * limitations under the License.
  * ----------------------------------------------------------------------------
  */
-
 package esa.mo.helpertools.misc;
 
 import java.lang.management.ManagementFactory;
@@ -28,7 +27,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Helper class to ensure the application terminates even if one of the handlers takes time
+ * The AppShutdownGuard class ensures that the application terminates even if
+ * one of the handlers takes time.
  */
 public class AppShutdownGuard {
 
@@ -37,6 +37,9 @@ public class AppShutdownGuard {
     private AppShutdownGuard() {
     }
 
+    /**
+     * Starts the ShutdownGuardThread.
+     */
     public static void start() {
         (new Thread("ShutdownGuardThread") {
             @Override
@@ -48,8 +51,9 @@ public class AppShutdownGuard {
                     return;
                 }
                 LOGGER.log(Level.WARNING,
-                    "The application failed to exit gracefully within predefined {0} ms. Performing a thread dump...",
-                    Const.APP_SHUTDOWN_GUARD_MS);
+                        "The application failed to exit gracefully within "
+                        + "predefined {0} ms. Performing a thread dump...",
+                        Const.APP_SHUTDOWN_GUARD_MS);
                 LOGGER.log(Level.WARNING, threadDump(true, true));
                 LOGGER.log(Level.WARNING, "Forcing exit with code -1");
                 System.exit(-1);

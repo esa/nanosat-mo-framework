@@ -21,7 +21,6 @@
 package esa.mo.platform.impl.consumer;
 
 import esa.mo.com.impl.util.COMServicesConsumer;
-import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
@@ -34,13 +33,43 @@ import org.ccsds.moims.mo.platform.autonomousadcs.AutonomousADCSHelper;
 import org.ccsds.moims.mo.platform.autonomousadcs.consumer.AutonomousADCSStub;
 
 /**
- *
- * @author Cesar Coelho
+ * The AutonomousADCSConsumerServiceImpl class implements the service consumer
+ * for the AutonomousADCS service.
  */
 public class AutonomousADCSConsumerServiceImpl extends ConsumerServiceImpl {
 
     private AutonomousADCSStub autonomousADCSService = null;
     private COMServicesConsumer comServices;
+
+    public AutonomousADCSConsumerServiceImpl(SingleConnectionDetails connectionDetails,
+            COMServicesConsumer comServices) throws MALException, MALInteractionException {
+        this(connectionDetails, comServices, null, null);
+    }
+
+    public AutonomousADCSConsumerServiceImpl(SingleConnectionDetails connectionDetails,
+            COMServicesConsumer comServices, Blob authenticationID,
+            String localNamePrefix) throws MALException, MALInteractionException {
+        this.connectionDetails = connectionDetails;
+        this.comServices = comServices;
+
+        // Close old connection
+        if (tmConsumer != null) {
+            try {
+                tmConsumer.close();
+            } catch (MALException ex) {
+                Logger.getLogger(AutonomousADCSConsumerServiceImpl.class.getName()).log(
+                        Level.SEVERE, "The consumer connection could not be closed!", ex);
+            }
+        }
+
+        tmConsumer = connection.startService(
+                this.connectionDetails,
+                AutonomousADCSHelper.AUTONOMOUSADCS_SERVICE,
+                authenticationID,
+                localNamePrefix);
+
+        this.autonomousADCSService = new AutonomousADCSStub(tmConsumer);
+    }
 
     public COMServicesConsumer getCOMServices() {
         return comServices;
@@ -58,40 +87,6 @@ public class AutonomousADCSConsumerServiceImpl extends ConsumerServiceImpl {
     @Override
     public Object generateServiceStub(MALConsumer tmConsumer) {
         return new AutonomousADCSStub(tmConsumer);
-    }
-
-    public AutonomousADCSConsumerServiceImpl(SingleConnectionDetails connectionDetails,
-            COMServicesConsumer comServices) throws MALException, MalformedURLException,
-            MALInteractionException {
-        this(connectionDetails, comServices, null, null);
-    }
-
-    public AutonomousADCSConsumerServiceImpl(SingleConnectionDetails connectionDetails,
-            COMServicesConsumer comServices,
-            Blob authenticationID,
-            String localNamePrefix) throws MALException, MalformedURLException,
-            MALInteractionException {
-        this.connectionDetails = connectionDetails;
-        this.comServices = comServices;
-
-        // Close old connection
-        if (tmConsumer != null) {
-            try {
-                tmConsumer.close();
-            } catch (MALException ex) {
-                Logger.getLogger(AutonomousADCSConsumerServiceImpl.class.getName()).log(
-                        Level.SEVERE, null, ex);
-            }
-        }
-
-        tmConsumer = connection.startService(
-                this.connectionDetails.getProviderURI(),
-                this.connectionDetails.getBrokerURI(),
-                this.connectionDetails.getDomain(),
-                AutonomousADCSHelper.AUTONOMOUSADCS_SERVICE,
-                authenticationID, localNamePrefix);
-
-        this.autonomousADCSService = new AutonomousADCSStub(tmConsumer);
     }
 
 }

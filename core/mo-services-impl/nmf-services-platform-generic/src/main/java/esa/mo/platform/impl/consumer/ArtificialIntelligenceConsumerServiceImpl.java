@@ -21,7 +21,6 @@
 package esa.mo.platform.impl.consumer;
 
 import esa.mo.com.impl.util.COMServicesConsumer;
-import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
@@ -34,13 +33,43 @@ import org.ccsds.moims.mo.platform.artificialintelligence.ArtificialIntelligence
 import org.ccsds.moims.mo.platform.artificialintelligence.consumer.ArtificialIntelligenceStub;
 
 /**
- *
- * @author Cesar Coelho
+ * The ArtificialIntelligenceConsumerServiceImpl class implements the service
+ * consumer for the Artificial Intelligence service.
  */
 public class ArtificialIntelligenceConsumerServiceImpl extends ConsumerServiceImpl {
 
     private ArtificialIntelligenceStub aiService = null;
     private COMServicesConsumer comServices;
+
+    public ArtificialIntelligenceConsumerServiceImpl(SingleConnectionDetails connectionDetails,
+            COMServicesConsumer comServices) throws MALException, MALInteractionException {
+        this(connectionDetails, comServices, null, null);
+    }
+
+    public ArtificialIntelligenceConsumerServiceImpl(SingleConnectionDetails connectionDetails,
+            COMServicesConsumer comServices, Blob authenticationId,
+            String localNamePrefix) throws MALException, MALInteractionException {
+        this.connectionDetails = connectionDetails;
+        this.comServices = comServices;
+
+        // Close old connection
+        if (tmConsumer != null) {
+            try {
+                tmConsumer.close();
+            } catch (MALException ex) {
+                Logger.getLogger(ArtificialIntelligenceConsumerServiceImpl.class.getName()).log(
+                        Level.SEVERE, "The consumer connection could not be closed!", ex);
+            }
+        }
+
+        tmConsumer = connection.startService(
+                this.connectionDetails,
+                ArtificialIntelligenceHelper.ARTIFICIALINTELLIGENCE_SERVICE,
+                authenticationId,
+                localNamePrefix);
+
+        this.aiService = new ArtificialIntelligenceStub(tmConsumer);
+    }
 
     public COMServicesConsumer getCOMServices() {
         return comServices;
@@ -58,39 +87,6 @@ public class ArtificialIntelligenceConsumerServiceImpl extends ConsumerServiceIm
     @Override
     public Object generateServiceStub(MALConsumer tmConsumer) {
         return new ArtificialIntelligenceStub(tmConsumer);
-    }
-
-    public ArtificialIntelligenceConsumerServiceImpl(SingleConnectionDetails connectionDetails,
-            COMServicesConsumer comServices)
-            throws MALException, MalformedURLException, MALInteractionException {
-        this(connectionDetails, comServices, null, null);
-    }
-
-    public ArtificialIntelligenceConsumerServiceImpl(SingleConnectionDetails connectionDetails,
-            COMServicesConsumer comServices, Blob authenticationId,
-            String localNamePrefix) throws MALException, MalformedURLException,
-            MALInteractionException {
-        this.connectionDetails = connectionDetails;
-        this.comServices = comServices;
-
-        // Close old connection
-        if (tmConsumer != null) {
-            try {
-                tmConsumer.close();
-            } catch (MALException ex) {
-                Logger.getLogger(ArtificialIntelligenceConsumerServiceImpl.class.getName()).log(Level.SEVERE,
-                        "The consumer connection could not be closed!", ex);
-            }
-        }
-
-        tmConsumer = connection.startService(
-                this.connectionDetails.getProviderURI(),
-                this.connectionDetails.getBrokerURI(),
-                this.connectionDetails.getDomain(),
-                ArtificialIntelligenceHelper.ARTIFICIALINTELLIGENCE_SERVICE,
-                authenticationId, localNamePrefix);
-
-        this.aiService = new ArtificialIntelligenceStub(tmConsumer);
     }
 
 }

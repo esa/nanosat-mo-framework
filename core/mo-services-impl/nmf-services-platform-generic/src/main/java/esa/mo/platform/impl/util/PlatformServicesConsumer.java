@@ -30,7 +30,6 @@ import esa.mo.platform.impl.consumer.OpticalDataReceiverConsumerServiceImpl;
 import esa.mo.platform.impl.consumer.PowerControlConsumerServiceImpl;
 import esa.mo.platform.impl.consumer.SoftwareDefinedRadioConsumerServiceImpl;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
@@ -138,7 +137,7 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
             if (details != null) {
                 clockService = new ClockConsumerServiceImpl(details, comServices);
             }
-        } catch (MALException | MALInteractionException | MalformedURLException ex) {
+        } catch (MALException | MALInteractionException ex) {
             Logger.getLogger(COMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

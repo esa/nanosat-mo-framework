@@ -59,6 +59,11 @@ public class Deployment {
 
     private static File pathNMF = null;
 
+    /**
+     * Returns the NMF root directory.
+     *
+     * @return The NMF root directory.
+     */
     public synchronized static File getNMFRootDir() {
         if (pathNMF != null) {
             return pathNMF;
@@ -77,18 +82,38 @@ public class Deployment {
         return folder;
     }
 
+    /**
+     * Returns the directory for Apps.
+     *
+     * @return The directory for Apps.
+     */
     public static File getAppsDir() {
         return new File(getNMFRootDir(), DIR_APPS);
     }
 
+    /**
+     * Returns the directory for Drivers.
+     *
+     * @return The directory for Drivers.
+     */
     public static File getDriversDir() {
         return new File(getNMFRootDir(), DIR_DRIVERS);
     }
 
+    /**
+     * Returns the directory for diverse static files.
+     *
+     * @return The directory for diverse static files.
+     */
     public static File getEtcDir() {
         return new File(getNMFRootDir(), DIR_ETC);
     }
 
+    /**
+     * Returns the directory for NMF jar files.
+     *
+     * @return The directory for NMF jar files.
+     */
     public static File getJarsNMFDir() {
         File newFolder = new File(getNMFRootDir(), DIR_JARS_NMF);
 
@@ -100,30 +125,66 @@ public class Deployment {
         return new File(getNMFRootDir(), DIR_JARS_NMF_OLD);
     }
 
+    /**
+     * Returns the directory for shared jar files.
+     *
+     * @return The directory for shared jar files.
+     */
     public static File getJarsSharedDir() {
         return new File(getNMFRootDir(), DIR_JARS_SHARED);
     }
 
+    /**
+     * Returns the directory for mission jar files.
+     *
+     * @return The directory for mission jar files.
+     */
     public static File getJarsMissionDir() {
         return new File(getNMFRootDir(), DIR_JARS_MISSION);
     }
 
+    /**
+     * Returns the directory for JRE installations.
+     *
+     * @return The directory for JRE installations.
+     */
     public static File getJavaDir() {
         return new File(getNMFRootDir(), DIR_JAVA);
     }
 
+    /**
+     * Returns the directory for logs.
+     *
+     * @return The directory for logs.
+     */
     public static File getLogsDir() {
         return new File(getNMFRootDir(), DIR_LOGS);
     }
 
+    /**
+     * Returns the directory for logs of a certain App.
+     *
+     * @param appName The name of the App.
+     * @return The directory for logs of a certain App.
+     */
     public static File getLogsDirForApp(String appName) {
         return new File(getLogsDir(), "app_" + appName);
     }
 
+    /**
+     * Returns the transport.properties file.
+     *
+     * @return The transport.properties file.
+     */
     public static File getTransportFile() {
         return new File(getEtcDir(), HelperMisc.TRANSPORT_PROPERTIES_FILE);
     }
 
+    /**
+     * Returns the directory for tracking the installations of Apps.
+     *
+     * @return The directory for tracking the installations of Apps.
+     */
     public static File getInstallationsTrackerDir() {
         // Default location of the folder
         File folder = new File(getEtcDir(), DIR_INSTALLATIONS_TRACKER);
