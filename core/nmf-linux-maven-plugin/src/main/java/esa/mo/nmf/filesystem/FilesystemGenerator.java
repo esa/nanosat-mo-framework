@@ -39,12 +39,22 @@ public class FilesystemGenerator {
 
     private final static File DIR_TARGET = new File("target");
     private final static File DIR_FILESYSTEM = new File(DIR_TARGET, "space-filesystem");
-    private final static File DIR_NMF = new File(DIR_FILESYSTEM, Deployment.DIR_NMF);
+    private final File dir_nmf;
+
+    /**
+     * The Constructor.
+     *
+     * @param directory The directory to output the generated filesystem.
+     */
+    public FilesystemGenerator(File directory) {
+        dir_nmf = new File(directory, Deployment.DIR_NMF);
+    }
 
     /**
      * The Constructor.
      */
     public FilesystemGenerator() {
+        this(DIR_FILESYSTEM);
     }
 
     /**
@@ -66,7 +76,7 @@ public class FilesystemGenerator {
                 addFileOrDirectory(n.getAbsolutePath(), nest);
             }
         } else {
-            File destination = new File(DIR_NMF, nest);
+            File destination = new File(dir_nmf, nest);
             File newFile = new File(destination, f.getName());
             try {
                 Files.copy(f.toPath(), newFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
@@ -85,7 +95,7 @@ public class FilesystemGenerator {
      */
     public void addResource(String directoryName, String filename) {
         ClassLoader classLoader = GenerateFilesystemMojo.class.getClassLoader();
-        File destinationDirectory = new File(DIR_NMF, directoryName);
+        File destinationDirectory = new File(dir_nmf, directoryName);
         destinationDirectory.mkdirs();
         File destinationFile = new File(destinationDirectory, filename);
 
@@ -112,7 +122,7 @@ public class FilesystemGenerator {
 
     private void addArtifact(String directory, Artifact artifact, String version) {
         File from = artifact.getFile();
-        File destinationDirectory = new File(DIR_NMF, directory);
+        File destinationDirectory = new File(dir_nmf, directory);
 
         if (version != null) {
             destinationDirectory = new File(destinationDirectory, version);
