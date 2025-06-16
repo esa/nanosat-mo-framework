@@ -80,7 +80,7 @@ public class NMFPackage {
         }
 
         long crc;
-        try (InputStream zis = zipFile.getInputStream(entry)) {
+        try ( InputStream zis = zipFile.getInputStream(entry)) {
             crc = HelperNMFPackage.calculateCRCFromInputStream(zis);
         }
 
@@ -107,7 +107,7 @@ public class NMFPackage {
      * Verifies the package integrity. Checks if the CRCs of the files match.
      * This prevents package tainting.
      *
-     * @throws IOException
+     * @throws IOException If the integrity check fails.
      */
     public void verifyPackageIntegrity() throws IOException {
         ArrayList<NMFPackageFile> files = this.getMetadata().getFiles();

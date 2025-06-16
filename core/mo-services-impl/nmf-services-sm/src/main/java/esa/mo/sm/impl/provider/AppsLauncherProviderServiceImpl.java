@@ -96,11 +96,11 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
     private Quota stdQuota = new Quota();
 
     /**
-     * Initializes the Event service provider
+     * Initializes the Apps Launcher service provider.
      *
-     * @param comServices
-     * @param directoryService
-     * @throws MALException On initialization error.
+     * @param comServices The COM services.
+     * @param directoryService The central Directory service.
+     * @throws MALException If the service could not be initialized.
      */
     public synchronized void init(final COMServicesProvider comServices,
             final DirectoryProviderServiceImpl directoryService) throws MALException {
@@ -125,8 +125,8 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         this.comServices = comServices;
         this.directoryService = directoryService;
         manager = new AppsLauncherManager(comServices);
-        appsLauncherServiceProvider = connection.startService(AppsLauncherServiceInfo.APPSLAUNCHER_SERVICE_NAME.toString(),
-                AppsLauncherHelper.APPSLAUNCHER_SERVICE, this);
+        appsLauncherServiceProvider = connection.startService(
+                AppsLauncherHelper.APPSLAUNCHER_SERVICE, true, this);
         running = true;
         initialiased = true;
         timestamp = System.currentTimeMillis() - timestamp;

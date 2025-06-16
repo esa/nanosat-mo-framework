@@ -870,15 +870,15 @@ public final class AggregationManager extends MCManager {
     }
 
     /**
-     * updates an existing aggregation-definition with the given
+     * Updates an existing aggregation-definition with the given
      * definition-details.
      *
-     * @param identityId the id of the identity the definition belongs to
-     * @param definition the new definition-details
-     * @param source the ObjectId of the source-object that cause the update to
+     * @param identityId The id of the identity the definition belongs to
+     * @param definition The new definition-details
+     * @param source The ObjectId of the source-object that cause the update to
      * be created
-     * @param connectionDetails
-     * @return the id of the new definition
+     * @param connectionDetails The connection details.
+     * @return The id of the new definition.
      */
     public Long update(Long identityId, AggregationDefinitionDetails definition, ObjectId source,
             SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5

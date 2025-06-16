@@ -42,11 +42,6 @@ public class PowerControlConsumerServiceImpl extends ConsumerServiceImpl {
     private COMServicesConsumer comServices;
 
     public PowerControlConsumerServiceImpl(SingleConnectionDetails connectionDetails,
-            COMServicesConsumer comServices) throws MALException, MALInteractionException {
-        this(connectionDetails, comServices, null, null);
-    }
-
-    public PowerControlConsumerServiceImpl(SingleConnectionDetails connectionDetails,
             COMServicesConsumer comServices, Blob authenticationId, String localNamePrefix)
             throws MALException, MALInteractionException {
         this.connectionDetails = connectionDetails;
@@ -69,6 +64,11 @@ public class PowerControlConsumerServiceImpl extends ConsumerServiceImpl {
                 localNamePrefix);
 
         this.powerControlStub = new PowerControlStub(tmConsumer);
+    }
+
+    public PowerControlConsumerServiceImpl(SingleConnectionDetails connectionDetails,
+            COMServicesConsumer comServices) throws MALException, MALInteractionException {
+        this(connectionDetails, comServices, null, null);
     }
 
     public COMServicesConsumer getCOMServices() {

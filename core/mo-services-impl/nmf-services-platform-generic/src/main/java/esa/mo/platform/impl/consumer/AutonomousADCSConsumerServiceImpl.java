@@ -42,11 +42,6 @@ public class AutonomousADCSConsumerServiceImpl extends ConsumerServiceImpl {
     private COMServicesConsumer comServices;
 
     public AutonomousADCSConsumerServiceImpl(SingleConnectionDetails connectionDetails,
-            COMServicesConsumer comServices) throws MALException, MALInteractionException {
-        this(connectionDetails, comServices, null, null);
-    }
-
-    public AutonomousADCSConsumerServiceImpl(SingleConnectionDetails connectionDetails,
             COMServicesConsumer comServices, Blob authenticationID,
             String localNamePrefix) throws MALException, MALInteractionException {
         this.connectionDetails = connectionDetails;
@@ -69,6 +64,11 @@ public class AutonomousADCSConsumerServiceImpl extends ConsumerServiceImpl {
                 localNamePrefix);
 
         this.autonomousADCSService = new AutonomousADCSStub(tmConsumer);
+    }
+
+    public AutonomousADCSConsumerServiceImpl(SingleConnectionDetails connectionDetails,
+            COMServicesConsumer comServices) throws MALException, MALInteractionException {
+        this(connectionDetails, comServices, null, null);
     }
 
     public COMServicesConsumer getCOMServices() {

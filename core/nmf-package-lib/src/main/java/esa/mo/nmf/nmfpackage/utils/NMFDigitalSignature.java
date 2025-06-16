@@ -74,11 +74,11 @@ public class NMFDigitalSignature {
             bufin.close();
 
             return dsa.sign(); // Returns the signature
-        } catch (NoSuchProviderException |
-                 SignatureException |
-                 InvalidKeyException |
-                 NoSuchAlgorithmException |
-                 IOException ex) {
+        } catch (NoSuchProviderException
+                | SignatureException
+                | InvalidKeyException
+                | NoSuchAlgorithmException
+                | IOException ex) {
             Logger.getLogger(NMFDigitalSignature.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -91,7 +91,7 @@ public class NMFDigitalSignature {
      * @param publicKey The public key
      * @param signatureToVerify The signature to verify
      * @param file The signed file
-     * @return
+     * @return True if the digital signature is valid.
      */
     public static boolean verifyDigitalSignature(PublicKey publicKey, byte[] signatureToVerify, String file) {
         // https://docs.oracle.com/javase/tutorial/security/apisign/vstep4.html
@@ -112,11 +112,11 @@ public class NMFDigitalSignature {
             bufin.close();
 
             return sig.verify(signatureToVerify);
-        } catch (NoSuchProviderException |
-                 InvalidKeyException |
-                 NoSuchAlgorithmException |
-                 SignatureException |
-                 IOException ex) {
+        } catch (NoSuchProviderException
+                | InvalidKeyException
+                | NoSuchAlgorithmException
+                | SignatureException
+                | IOException ex) {
             Logger.getLogger(NMFDigitalSignature.class.getName()).log(Level.SEVERE, null, ex);
         }
 

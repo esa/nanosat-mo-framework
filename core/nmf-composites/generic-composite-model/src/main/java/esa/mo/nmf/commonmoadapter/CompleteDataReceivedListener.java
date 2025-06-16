@@ -32,9 +32,9 @@ public abstract class CompleteDataReceivedListener implements DataReceivedListen
 
     /**
      * This interface must be implemented in order to receive the parameter
-     * content from the Parameter service coming via the monitorValue operation
+     * content from the Parameter service coming via the monitorValue operation.
      *
-     * @param parameterInstance
+     * @param parameterInstance The parameter instance.
      */
     public abstract void onDataReceived(ParameterInstance parameterInstance);
 

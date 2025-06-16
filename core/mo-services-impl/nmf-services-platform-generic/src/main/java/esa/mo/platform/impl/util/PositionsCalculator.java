@@ -50,9 +50,9 @@ public class PositionsCalculator {
      * Positions contains a 0, then the altitude won't be considered when
      * calculating the distance.
      *
-     * @param p1 Position 1
-     * @param p2 Position 2
-     * @return
+     * @param p1 The Position 1.
+     * @param p2 The Position 2.
+     * @return The distance between two positions.
      * @throws IOException
      */
     public static double deltaDistanceFrom2Points(Position p1, Position p2) throws IOException {

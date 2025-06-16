@@ -117,11 +117,11 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
     protected long timeOfCurrentPositionAndVelocity;
 
     /**
-     * creates the MAL objects, the publisher used to create updates and starts
-     * the publishing thread
+     * Creates the MAL objects, the publisher used to create updates and starts
+     * the publishing thread.
      *
-     * @param comServices
-     * @param adapter
+     * @param comServices The COM services.
+     * @param adapter The GPS adapter object to retrieve the information from.
      * @throws MALException On initialisation error.
      */
     public synchronized void init(final COMServicesProvider comServices,
@@ -650,8 +650,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
                                 manager.setPreviousStatus(objId, isInside);
                             }
                         } catch (IOException ex) {
-                            LOGGER.log(Level.SEVERE,
-                                    ex.getMessage());
+                            LOGGER.log(Level.SEVERE, ex.getMessage());
                         }
                     }
                 }
@@ -698,9 +697,12 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
     }
 
     /**
-     * Updates the current position/velocity
+     * Updates the current position/velocity.
      *
-     * @param useTLEpropagation
+     * @param useTLEpropagation A boolean that defines if the TLE propagation is
+     * to be used.
+     * @throws IOException If the current position or velocity could not be
+     * updated.
      */
     public void updateCurrentPositionAndVelocity(boolean useTLEpropagation)
             throws IOException, NumberFormatException {
@@ -755,7 +757,8 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
      * Updates the current position using TLE if useTLEpropagation is true, or
      * the GPS adapter if useTLEpropagation is false
      *
-     * @param useTLEpropagation
+     * @param useTLEpropagation A boolean that defines if the TLE propagation is
+     * to be used.
      * @return the updated position, or null if the methods that get latest
      * position fail
      */

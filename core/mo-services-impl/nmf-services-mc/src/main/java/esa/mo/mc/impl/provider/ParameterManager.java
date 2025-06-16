@@ -286,25 +286,12 @@ public class ParameterManager extends MCManager {
     }
 
     /**
-     * Creates a new ParameterValue object with the given value for the
-     * parameter with the given id.
-     *
-     * @param name of the parameter the value should be set to
-     * @param rawValue the value to be set at the new ParameterValue
-     * @return a new ParameterValue object
-     */
-    /*
-    public ParameterValue createParameterValue(Identifier name, Attribute rawValue) {
-        final ParameterDefinitionDetails pDef = this.getParameterDefinition(getIdentity(name));
-        // Generate final Parameter Value
-        return generateNewParameterValue(rawValue, pDef, false);
-    }
-     */
-    /**
      * Wrapper function for calling onGetValue without breaking backwards
-     * compatibility
+     * compatibility.
      *
-     * @return
+     * @param paramIdentityId The Parameter identity.
+     * @return The attribute value for the parameter.
+     * @throws IOException If the value could not be retrieved.
      */
     public Attribute getValue(Long paramIdentityId) throws IOException {
         // check if new interface method is implemented, if yes, call it

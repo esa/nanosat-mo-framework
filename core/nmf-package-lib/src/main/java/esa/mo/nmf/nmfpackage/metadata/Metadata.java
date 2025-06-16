@@ -172,7 +172,7 @@ public class Metadata {
             new File(parent).mkdirs();
         }
 
-        try (FileOutputStream sigfos = new FileOutputStream(file)) {
+        try ( FileOutputStream sigfos = new FileOutputStream(file)) {
             this.store(sigfos);
         }
     }
@@ -183,6 +183,7 @@ public class Metadata {
      *
      * @param zipFile The zip file with the receipt file.
      * @return The metadata of the NMF Package.
+     * @throws IOException If the file cannot be parsed.
      */
     public static Metadata parseZipFile(final ZipFile zipFile) throws IOException {
         ZipEntry receipt = zipFile.getEntry(FILENAME);
@@ -202,7 +203,7 @@ public class Metadata {
 
         // Try to open the the receipt file inside the Zip file
         // and parse it into a Metadata object
-        try (InputStream stream = zipFile.getInputStream(receipt)) {
+        try ( InputStream stream = zipFile.getInputStream(receipt)) {
             return Metadata.load(stream);
         }
     }
@@ -215,7 +216,7 @@ public class Metadata {
 
     public static Metadata load(File file) throws IOException {
         Metadata loadedMetadata;
-        try (InputStream stream = new FileInputStream(file)) {
+        try ( InputStream stream = new FileInputStream(file)) {
             loadedMetadata = Metadata.load(stream);
         }
         return loadedMetadata;

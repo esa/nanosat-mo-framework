@@ -21,7 +21,6 @@
 package esa.mo.sm.impl.consumer;
 
 import esa.mo.com.impl.util.COMServicesConsumer;
-import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
@@ -42,6 +41,34 @@ public class PackageManagementConsumerServiceImpl extends ConsumerServiceImpl {
     private PackageManagementStub packageManagementService = null;
     private COMServicesConsumer comServices;
 
+    public PackageManagementConsumerServiceImpl(SingleConnectionDetails connectionDetails,
+            COMServicesConsumer comServices, Blob authenticationId, String localNamePrefix)
+            throws MALException, MALInteractionException {
+        this.connectionDetails = connectionDetails;
+        this.comServices = comServices;
+
+        // Close old connection
+        if (tmConsumer != null) {
+            try {
+                tmConsumer.close();
+            } catch (MALException ex) {
+                Logger.getLogger(PackageManagementConsumerServiceImpl.class.getName()).log(
+                        Level.SEVERE, null, ex);
+            }
+        }
+
+        tmConsumer = connection.startService(this.connectionDetails,
+                PackageManagementHelper.PACKAGEMANAGEMENT_SERVICE,
+                authenticationId, localNamePrefix);
+
+        this.packageManagementService = new PackageManagementStub(tmConsumer);
+    }
+
+    public PackageManagementConsumerServiceImpl(SingleConnectionDetails connectionDetails,
+            COMServicesConsumer comServices) throws MALException, MALInteractionException {
+        this(connectionDetails, comServices, null, null);
+    }
+
     public COMServicesConsumer getCOMServices() {
         return comServices;
     }
@@ -59,33 +86,4 @@ public class PackageManagementConsumerServiceImpl extends ConsumerServiceImpl {
     public Object generateServiceStub(MALConsumer tmConsumer) {
         return new PackageManagementStub(tmConsumer);
     }
-
-    public PackageManagementConsumerServiceImpl(SingleConnectionDetails connectionDetails, 
-            COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
-        this(connectionDetails, comServices, null, null);
-    }
-
-    public PackageManagementConsumerServiceImpl(SingleConnectionDetails connectionDetails,
-        COMServicesConsumer comServices, Blob authenticationId, String localNamePrefix) throws MALException,
-        MalformedURLException, MALInteractionException {
-        this.connectionDetails = connectionDetails;
-        this.comServices = comServices;
-
-        // Close old connection
-        if (tmConsumer != null) {
-            try {
-                tmConsumer.close();
-            } catch (MALException ex) {
-                Logger.getLogger(PackageManagementConsumerServiceImpl.class.getName()).log(
-                        Level.SEVERE, null, ex);
-            }
-        }
-
-        tmConsumer = connection.startService(this.connectionDetails.getProviderURI(), this.connectionDetails
-            .getBrokerURI(), this.connectionDetails.getDomain(), PackageManagementHelper.PACKAGEMANAGEMENT_SERVICE,
-            authenticationId, localNamePrefix);
-
-        this.packageManagementService = new PackageManagementStub(tmConsumer);
-    }
-
 }

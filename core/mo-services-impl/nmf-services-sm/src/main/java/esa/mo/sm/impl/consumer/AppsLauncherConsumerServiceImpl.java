@@ -42,6 +42,34 @@ public class AppsLauncherConsumerServiceImpl extends ConsumerServiceImpl {
     private AppsLauncherStub appLauncherService = null;
     private COMServicesConsumer comServices;
 
+    public AppsLauncherConsumerServiceImpl(final SingleConnectionDetails connectionDetails,
+            final COMServicesConsumer comServices, final Blob authenticationId,
+            final String localNamePrefix) throws MALException, MALInteractionException {
+        this.connectionDetails = connectionDetails;
+        this.comServices = comServices;
+
+        // Close old connection
+        if (tmConsumer != null) {
+            try {
+                tmConsumer.close();
+            } catch (MALException ex) {
+                Logger.getLogger(AppsLauncherConsumerServiceImpl.class.getName()).log(
+                        Level.SEVERE, null, ex);
+            }
+        }
+
+        tmConsumer = connection.startService(this.connectionDetails,
+                AppsLauncherHelper.APPSLAUNCHER_SERVICE,
+                authenticationId, localNamePrefix);
+
+        this.appLauncherService = new AppsLauncherStub(tmConsumer);
+    }
+
+    public AppsLauncherConsumerServiceImpl(final SingleConnectionDetails connectionDetails,
+            final COMServicesConsumer comServices) throws MALException, MALInteractionException {
+        this(connectionDetails, comServices, null, null);
+    }
+
     public COMServicesConsumer getCOMServices() {
         return comServices;
     }
@@ -58,34 +86,6 @@ public class AppsLauncherConsumerServiceImpl extends ConsumerServiceImpl {
     @Override
     public Object generateServiceStub(MALConsumer tmConsumer) {
         return new AppsLauncherStub(tmConsumer);
-    }
-
-    public AppsLauncherConsumerServiceImpl(final SingleConnectionDetails connectionDetails,
-        final COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
-        this(connectionDetails, comServices, null, null);
-    }
-
-    public AppsLauncherConsumerServiceImpl(final SingleConnectionDetails connectionDetails,
-        final COMServicesConsumer comServices, final Blob authenticationId, final String localNamePrefix)
-        throws MALException, MalformedURLException, MALInteractionException {
-        this.connectionDetails = connectionDetails;
-        this.comServices = comServices;
-
-        // Close old connection
-        if (tmConsumer != null) {
-            try {
-                tmConsumer.close();
-            } catch (MALException ex) {
-                Logger.getLogger(AppsLauncherConsumerServiceImpl.class.getName()).log(
-                        Level.SEVERE, null, ex);
-            }
-        }
-
-        tmConsumer = connection.startService(this.connectionDetails.getProviderURI(), this.connectionDetails
-            .getBrokerURI(), this.connectionDetails.getDomain(), AppsLauncherHelper.APPSLAUNCHER_SERVICE,
-            authenticationId, localNamePrefix);
-
-        this.appLauncherService = new AppsLauncherStub(tmConsumer);
     }
 
 }

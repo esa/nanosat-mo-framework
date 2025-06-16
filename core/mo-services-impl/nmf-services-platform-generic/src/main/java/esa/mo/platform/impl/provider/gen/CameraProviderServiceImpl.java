@@ -89,10 +89,10 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
     private PictureFormatList availableFormats;
 
     /**
-     * creates the MAL objects, the publisher used to create updates and starts
+     * Creates the MAL objects, the publisher used to create updates and starts
      * the publishing thread
      *
-     * @param comServices
+     * @param comServices The COM services.
      * @param adapter The Camera adapter
      * @throws MALException On initialisation error.
      */
@@ -113,8 +113,7 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
 
         this.adapter = adapter;
         minimumPeriod = this.adapter.getMinimumPeriod();
-        cameraServiceProvider = connection.startService(CameraServiceInfo.CAMERA_SERVICE_NAME.toString(),
-            CameraHelper.CAMERA_SERVICE, this);
+        cameraServiceProvider = connection.startService(CameraHelper.CAMERA_SERVICE, true, this);
 
         availableFormats = adapter.getAvailableFormats();
         running = true;
@@ -175,14 +174,14 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
             } else {
                 LOGGER.log(Level.FINER, "Generating streaming Picture update with objId: {0}", objId);
 
-                AttributeList keys = new AttributeList(); 
+                AttributeList keys = new AttributeList();
                 keys.add(firstEntityKey);
                 keys.addAsJavaType(objId);
                 keys.addAsJavaType(settings.getResolution().getWidth().getValue());
                 keys.addAsJavaType(settings.getResolution().getHeight().getValue());
 
                 URI source = connection.getConnectionDetails().getProviderURI();
-                UpdateHeader updateHeader = new UpdateHeader(new Identifier(source.getValue()), 
+                UpdateHeader updateHeader = new UpdateHeader(new Identifier(source.getValue()),
                         connection.getConnectionDetails().getDomain(), keys.getAsNullableAttributeList());
 
                 publisher.publish(updateHeader, picture);
@@ -216,7 +215,7 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
             // If not, then send the available resolutions to the consumer so they can pick...
             if (!isResolutionAvailable) {
                 throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER,
-                    availableResolutions));
+                        availableResolutions));
             }
         }
 
@@ -255,13 +254,13 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
             if (streamingRate.getValue() < serviceLowestMinimumPeriod.getValue()) {
                 // This is a protection to avoid having crazy implementations with super low streaming rates!
                 throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER,
-                    serviceLowestMinimumPeriod));
+                        serviceLowestMinimumPeriod));
             }
 
             isCapturePossible(settings);
 
             if (firstEntityKey.getValue() == null || "*".equals(firstEntityKey.getValue()) || "".equals(firstEntityKey
-                .getValue())) {
+                    .getValue())) {
                 throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, null));
             }
 

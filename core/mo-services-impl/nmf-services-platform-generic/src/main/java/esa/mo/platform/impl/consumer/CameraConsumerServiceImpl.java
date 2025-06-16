@@ -42,11 +42,6 @@ public class CameraConsumerServiceImpl extends ConsumerServiceImpl {
     private COMServicesConsumer comServices;
 
     public CameraConsumerServiceImpl(SingleConnectionDetails connectionDetails,
-            COMServicesConsumer comServices) throws MALException, MALInteractionException {
-        this(connectionDetails, comServices, null, null);
-    }
-
-    public CameraConsumerServiceImpl(SingleConnectionDetails connectionDetails,
             COMServicesConsumer comServices, Blob authenticationId,
             String localNamePrefix) throws MALException, MALInteractionException {
         this.connectionDetails = connectionDetails;
@@ -69,6 +64,11 @@ public class CameraConsumerServiceImpl extends ConsumerServiceImpl {
                 localNamePrefix);
 
         this.cameraService = new CameraStub(tmConsumer);
+    }
+
+    public CameraConsumerServiceImpl(SingleConnectionDetails connectionDetails,
+            COMServicesConsumer comServices) throws MALException, MALInteractionException {
+        this(connectionDetails, comServices, null, null);
     }
 
     public COMServicesConsumer getCOMServices() {

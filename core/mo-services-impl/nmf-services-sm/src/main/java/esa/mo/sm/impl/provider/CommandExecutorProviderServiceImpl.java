@@ -58,7 +58,6 @@ import org.ccsds.moims.mo.softwaremanagement.commandexecutor.CommandExecutorHelp
 import org.ccsds.moims.mo.softwaremanagement.commandexecutor.CommandExecutorServiceInfo;
 import org.ccsds.moims.mo.softwaremanagement.commandexecutor.provider.CommandExecutorInheritanceSkeleton;
 import org.ccsds.moims.mo.softwaremanagement.commandexecutor.structures.CommandDetails;
-import org.ccsds.moims.mo.softwaremanagement.commandexecutor.structures.CommandDetailsList;
 
 /**
  * Command Executor service Provider.
@@ -76,9 +75,9 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
     private final Map<Long, CommandDetails> cachedCommandDetails = new HashMap<>();
 
     /**
-     * Initializes the service provider
+     * Initializes the service provider.
      *
-     * @param comServices
+     * @param comServices The COM services.
      * @throws MALException On initialization error.
      */
     public synchronized void init(final COMServicesProvider comServices) throws MALException {

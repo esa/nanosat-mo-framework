@@ -42,11 +42,6 @@ public class SoftwareDefinedRadioConsumerServiceImpl extends ConsumerServiceImpl
     private COMServicesConsumer comServices;
 
     public SoftwareDefinedRadioConsumerServiceImpl(SingleConnectionDetails connectionDetails,
-            COMServicesConsumer comServices) throws MALException, MALInteractionException {
-        this(connectionDetails, comServices, null, null);
-    }
-
-    public SoftwareDefinedRadioConsumerServiceImpl(SingleConnectionDetails connectionDetails,
             COMServicesConsumer comServices, Blob authenticationId, String localNamePrefix)
             throws MALException, MALInteractionException {
         this.connectionDetails = connectionDetails;
@@ -69,6 +64,11 @@ public class SoftwareDefinedRadioConsumerServiceImpl extends ConsumerServiceImpl
                 localNamePrefix);
 
         this.softwareDefinedRadioService = new SoftwareDefinedRadioStub(tmConsumer);
+    }
+
+    public SoftwareDefinedRadioConsumerServiceImpl(SingleConnectionDetails connectionDetails,
+            COMServicesConsumer comServices) throws MALException, MALInteractionException {
+        this(connectionDetails, comServices, null, null);
     }
 
     public COMServicesConsumer getCOMServices() {

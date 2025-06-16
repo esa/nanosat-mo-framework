@@ -47,32 +47,9 @@ public class HeartbeatConsumerServiceImpl extends ConsumerServiceImpl {
     private COMServicesConsumer comServices;
     private Subscription heartbeatSubscription = null;
 
-    public COMServicesConsumer getCOMServices() {
-        return comServices;
-    }
-
-    @Override
-    public Object getStub() {
-        return this.getHeartbeatStub();
-    }
-
-    public HeartbeatStub getHeartbeatStub() {
-        return this.heartbeatService;
-    }
-
-    @Override
-    public Object generateServiceStub(MALConsumer tmConsumer) {
-        return new HeartbeatStub(tmConsumer);
-    }
-
-    public HeartbeatConsumerServiceImpl(SingleConnectionDetails connectionDetails, 
-            COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
-        this(connectionDetails, comServices, null, null);
-    }
-
-    public HeartbeatConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices,
-        Blob authenticationId, String localNamePrefix) throws MALException, MalformedURLException,
-        MALInteractionException {
+    public HeartbeatConsumerServiceImpl(SingleConnectionDetails connectionDetails,
+            COMServicesConsumer comServices, Blob authenticationId,
+            String localNamePrefix) throws MALException, MALInteractionException {
         this.connectionDetails = connectionDetails;
         this.comServices = comServices;
 
@@ -86,11 +63,16 @@ public class HeartbeatConsumerServiceImpl extends ConsumerServiceImpl {
             }
         }
 
-        tmConsumer = connection.startService(this.connectionDetails.getProviderURI(), this.connectionDetails
-            .getBrokerURI(), this.connectionDetails.getDomain(), HeartbeatHelper.HEARTBEAT_SERVICE, authenticationId,
-            localNamePrefix);
+        tmConsumer = connection.startService(this.connectionDetails,
+                HeartbeatHelper.HEARTBEAT_SERVICE,
+                authenticationId, localNamePrefix);
 
         this.heartbeatService = new HeartbeatStub(tmConsumer);
+    }
+
+    public HeartbeatConsumerServiceImpl(SingleConnectionDetails connectionDetails,
+            COMServicesConsumer comServices) throws MALException, MALInteractionException {
+        this(connectionDetails, comServices, null, null);
     }
 
     /**
@@ -99,7 +81,7 @@ public class HeartbeatConsumerServiceImpl extends ConsumerServiceImpl {
      * registrations, the developer is advised to use its own registration
      * mechanisms to the provider.
      *
-     * @param adapter
+     * @param adapter The adapter for the heartbeats.
      */
     public void startListening(final HeartbeatAdapter adapter) {
         if (heartbeatSubscription == null) {
@@ -133,4 +115,21 @@ public class HeartbeatConsumerServiceImpl extends ConsumerServiceImpl {
         }
     }
 
+    public COMServicesConsumer getCOMServices() {
+        return comServices;
+    }
+
+    @Override
+    public Object getStub() {
+        return this.getHeartbeatStub();
+    }
+
+    public HeartbeatStub getHeartbeatStub() {
+        return this.heartbeatService;
+    }
+
+    @Override
+    public Object generateServiceStub(MALConsumer tmConsumer) {
+        return new HeartbeatStub(tmConsumer);
+    }
 }

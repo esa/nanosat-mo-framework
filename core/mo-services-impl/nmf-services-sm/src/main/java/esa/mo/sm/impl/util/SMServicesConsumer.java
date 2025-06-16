@@ -50,23 +50,22 @@ public class SMServicesConsumer {
     private HeartbeatConsumerServiceImpl heartbeatService;
 
     /**
-     * Initializes the Package Management service and the Applications Manager
-     * service
+     * Initializes the Software Management services.
      *
-     * @param connectionConsumer Connection details
-     * @param comServices COM services
+     * @param connectionConsumer The connection details.
+     * @param comServices The COM services.
      */
     public void init(ConnectionConsumer connectionConsumer, COMServicesConsumer comServices) {
         init(connectionConsumer, comServices, null, null);
     }
 
     /**
-     * Initializes the Package Management service and the Applications Manager
-     * service
+     * Initializes the Software Management services.
      *
-     * @param connectionConsumer Connection details
-     * @param comServices COM services
-     * @param authenticationId authenticationId of the logged in user
+     * @param connectionConsumer The connection details.
+     * @param comServices The COM services.
+     * @param authenticationId The authenticationId of the logged in user.
+     * @param localNamePrefix The local name prefix.
      */
     public void init(ConnectionConsumer connectionConsumer, COMServicesConsumer comServices,
             Blob authenticationId, String localNamePrefix) {
@@ -99,7 +98,7 @@ public class SMServicesConsumer {
             if (details != null) {
                 heartbeatService = new HeartbeatConsumerServiceImpl(details, comServices);
             }
-        } catch (MALException | MalformedURLException | MALInteractionException ex) {
+        } catch (MALException | MALInteractionException ex) {
             Logger.getLogger(SMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -121,12 +120,12 @@ public class SMServicesConsumer {
     }
 
     /**
-     * Sets manually all the COM consumer services
+     * Sets manually all the COM consumer services.
      *
-     * @param packageManagementService Package Management service consumer
-     * @param appsLauncherService Applications Manager service consumer
-     * @param heartbeatService Heartbeat service consumer
-     * @param commandExecutorService Command Executor Service consumer
+     * @param packageManagementService Package Management service consumer.
+     * @param appsLauncherService Applications Manager service consumer.
+     * @param heartbeatService Heartbeat service consumer.
+     * @param commandExecutorService Command Executor Service consumer.
      */
     public void setServices(PackageManagementConsumerServiceImpl packageManagementService,
             AppsLauncherConsumerServiceImpl appsLauncherService, HeartbeatConsumerServiceImpl heartbeatService,

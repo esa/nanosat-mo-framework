@@ -42,11 +42,6 @@ public class ArtificialIntelligenceConsumerServiceImpl extends ConsumerServiceIm
     private COMServicesConsumer comServices;
 
     public ArtificialIntelligenceConsumerServiceImpl(SingleConnectionDetails connectionDetails,
-            COMServicesConsumer comServices) throws MALException, MALInteractionException {
-        this(connectionDetails, comServices, null, null);
-    }
-
-    public ArtificialIntelligenceConsumerServiceImpl(SingleConnectionDetails connectionDetails,
             COMServicesConsumer comServices, Blob authenticationId,
             String localNamePrefix) throws MALException, MALInteractionException {
         this.connectionDetails = connectionDetails;
@@ -69,6 +64,11 @@ public class ArtificialIntelligenceConsumerServiceImpl extends ConsumerServiceIm
                 localNamePrefix);
 
         this.aiService = new ArtificialIntelligenceStub(tmConsumer);
+    }
+
+    public ArtificialIntelligenceConsumerServiceImpl(SingleConnectionDetails connectionDetails,
+            COMServicesConsumer comServices) throws MALException, MALInteractionException {
+        this(connectionDetails, comServices, null, null);
     }
 
     public COMServicesConsumer getCOMServices() {

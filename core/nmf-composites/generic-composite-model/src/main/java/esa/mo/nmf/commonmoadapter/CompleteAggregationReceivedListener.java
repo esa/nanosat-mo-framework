@@ -32,9 +32,10 @@ public interface CompleteAggregationReceivedListener extends DataReceivedListene
 
     /**
      * This interface must be implemented in order to receive the parameter
-     * content from the Aggregation service coming via the monitorValue operation
+     * content from the Aggregation service coming via the monitorValue
+     * operation.
      *
-     * @param aggregationInstance
+     * @param aggregationInstance The aggregation instance.
      */
     void onDataReceived(AggregationInstance aggregationInstance);
 

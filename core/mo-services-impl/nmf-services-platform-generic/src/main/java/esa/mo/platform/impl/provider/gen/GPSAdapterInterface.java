@@ -43,38 +43,38 @@ public interface GPSAdapterInterface {
      * Request a NMEA sentence from a GPS unit.
      *
      * @param identifier The NMEA Identifier
-     * @return
-     * @throws java.io.IOException
+     * @return The NMEA sentence.
+     * @throws IOException If the request fails.
      */
     String getNMEASentence(final String identifier) throws IOException;
 
     /**
-     * Request the current position from the GPS
+     * Request the current position from the GPS.
      *
-     * @return The Position or null in case of error
+     * @return The Position or null in case of error.
      */
     Position getCurrentPosition();
 
     /**
      * Requests the information of the satellites in view.
      *
-     * @return The list of Satellites Information or null in case of error
+     * @return The list of Satellites Information or null in case of error.
      */
     SatelliteInfoList getSatelliteInfoList();
 
     /**
      * Requests the BESTXYZ NMEA sentence
      *
-     * @return BESTXYZ response
-     * @throws IOException if the request fails
+     * @return BESTXYZ response.
+     * @throws IOException If the request fails.
      */
     String getBestXYZSentence() throws IOException;
 
     /**
      * Requests the TIMEA NMEA sentence
      *
-     * @return TIMEA response
-     * @throws IOException if the request fails
+     * @return TIMEA response.
+     * @throws IOException If the request fails.
      */
     String getTIMEASentence() throws IOException;
 

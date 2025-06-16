@@ -655,12 +655,12 @@ public class AppsLauncherManager extends DefinitionsManager {
      * Stops multiple apps. Blocks until all applications exit or waiting for
      * them times out.
      *
-     * @param appInstIds Applications IDs
-     * @param appDirectoryServiceNames Directory service app name
-     * @param appConnections Application connection handlers (for NMF apps only)
-     * @param interaction Source interaction
-     * @throws MALException
-     * @throws MALInteractionException
+     * @param appInstIds Applications IDs.
+     * @param appDirectoryServiceNames Directory service app name.
+     * @param appConnections Application connection handlers (for NMF apps only).
+     * @param interaction Source interaction.
+     * @throws MALException If the App could not be stopped.
+     * @throws MALInteractionException If the Event service could not be reached.
      */
     protected void stopApps(final LongList appInstIds, final IdentifierList appDirectoryServiceNames,
             final ArrayList<SingleConnectionDetails> appConnections,

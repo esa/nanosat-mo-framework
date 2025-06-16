@@ -76,15 +76,6 @@ public class NMFConsumer {
      * The constructor of this class
      *
      * @param connection The connection details of the provider
-     */
-    public NMFConsumer(final ConnectionConsumer connection) {
-        this(connection, null, null);
-    }
-
-    /**
-     * The constructor of this class
-     *
-     * @param connection The connection details of the provider
      * @param authenticationId authenticationId of the logged in user
      * @param localNamePrefix the prefix for the local name of the consumer
      */
@@ -93,6 +84,15 @@ public class NMFConsumer {
         this.authenticationId = authenticationId;
         this.localNamePrefix = localNamePrefix;
         NMFConsumer.initHelpers();
+    }
+
+    /**
+     * The constructor of this class
+     *
+     * @param connection The connection details of the provider
+     */
+    public NMFConsumer(final ConnectionConsumer connection) {
+        this(connection, null, null);
     }
 
     /**
@@ -160,7 +160,7 @@ public class NMFConsumer {
     /**
      * Requests the COM services.
      *
-     * @return The COM services
+     * @return The COM services.
      */
     public COMServicesConsumer getCOMServices() {
         return comServices;
@@ -169,7 +169,7 @@ public class NMFConsumer {
     /**
      * Requests the MC services.
      *
-     * @return The MC services
+     * @return The MC services.
      */
     public MCServicesConsumer getMCServices() {
         return mcServices;
@@ -178,7 +178,7 @@ public class NMFConsumer {
     /**
      * Requests the Platform services.
      *
-     * @return The Platform services
+     * @return The Platform services.
      */
     public PlatformServicesConsumer getPlatformServices() {
         return platformServices;
@@ -187,7 +187,7 @@ public class NMFConsumer {
     /**
      * Requests the Common services.
      *
-     * @return The Common services
+     * @return The Common services.
      */
     public CommonServicesConsumer getCommonServices() {
         return commonServices;
@@ -205,7 +205,7 @@ public class NMFConsumer {
     /**
      * Requests the Connection Consumer object.
      *
-     * @return The Connection Consumer object
+     * @return The Connection Consumer object.
      */
     public ConnectionConsumer getConnectionConsumer() {
         return connection;
@@ -215,8 +215,8 @@ public class NMFConsumer {
      * Retrieves the complete list of Providers available on the Directory
      * service.
      *
-     * @param directoryURI The Directory service URI
-     * @return The list of providers
+     * @param directoryURI The Directory service URI.
+     * @return The list of providers.
      * @throws org.ccsds.moims.mo.mal.MALException if there is a MAL exception.
      * @throws java.net.MalformedURLException if the URI is incorrect.
      * @throws org.ccsds.moims.mo.mal.MALInteractionException if it could not
@@ -231,7 +231,7 @@ public class NMFConsumer {
      * Retrieves the complete list of Providers available on the Directory
      * service.
      *
-     * @param directoryURI The Directory service URI
+     * @param directoryURI The Directory service URI.
      * @param authenticationId
      * @param localNamePrefix
      * @return The list of providers
@@ -250,9 +250,9 @@ public class NMFConsumer {
      * Retrieves the complete list of Providers available on the Directory
      * service.
      *
-     * @param directoryURI The Directory service URI
+     * @param directoryURI The Directory service URI.
      * @param localNamePrefix
-     * @return The list of providers
+     * @return The list of providers.
      * @throws org.ccsds.moims.mo.mal.MALException if there is a MAL exception.
      * @throws java.net.MalformedURLException if the URI is incorrect.
      * @throws org.ccsds.moims.mo.mal.MALInteractionException if it could not
@@ -269,8 +269,8 @@ public class NMFConsumer {
      *
      * @param isS2G If true, then the method will only request for SPP
      * connections.
-     * @param directoryURI The Directory service URI
-     * @return The list of providers
+     * @param directoryURI The Directory service URI.
+     * @return The list of providers.
      * @throws org.ccsds.moims.mo.mal.MALException if there is a MAL exception.
      * @throws java.net.MalformedURLException if the URI is incorrect.
      * @throws org.ccsds.moims.mo.mal.MALInteractionException if it could not

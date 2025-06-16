@@ -42,6 +42,34 @@ public class CommandExecutorConsumerServiceImpl extends ConsumerServiceImpl {
     private CommandExecutorStub commandExecutorService = null;
     private COMServicesConsumer comServices;
 
+    public CommandExecutorConsumerServiceImpl(final SingleConnectionDetails connectionDetails,
+            final COMServicesConsumer comServices, final Blob authenticationId, final String localNamePrefix)
+            throws MALException, MALInteractionException {
+        this.connectionDetails = connectionDetails;
+        this.comServices = comServices;
+
+        // Close old connection
+        if (tmConsumer != null) {
+            try {
+                tmConsumer.close();
+            } catch (MALException ex) {
+                Logger.getLogger(CommandExecutorConsumerServiceImpl.class.getName()).log(
+                        Level.SEVERE, null, ex);
+            }
+        }
+
+        tmConsumer = connection.startService(this.connectionDetails,
+                CommandExecutorHelper.COMMANDEXECUTOR_SERVICE,
+                authenticationId, localNamePrefix);
+
+        this.commandExecutorService = new CommandExecutorStub(tmConsumer);
+    }
+
+    public CommandExecutorConsumerServiceImpl(final SingleConnectionDetails connectionDetails,
+            final COMServicesConsumer comServices) throws MALException, MALInteractionException {
+        this(connectionDetails, comServices, null, null);
+    }
+
     public COMServicesConsumer getCOMServices() {
         return comServices;
     }
@@ -58,33 +86,6 @@ public class CommandExecutorConsumerServiceImpl extends ConsumerServiceImpl {
     @Override
     public Object generateServiceStub(MALConsumer tmConsumer) {
         return new CommandExecutorStub(tmConsumer);
-    }
-
-    public CommandExecutorConsumerServiceImpl(final SingleConnectionDetails connectionDetails,
-        final COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
-        this(connectionDetails, comServices, null, null);
-    }
-
-    public CommandExecutorConsumerServiceImpl(final SingleConnectionDetails connectionDetails,
-        final COMServicesConsumer comServices, final Blob authenticationId, final String localNamePrefix)
-        throws MALException, MalformedURLException, MALInteractionException {
-        this.connectionDetails = connectionDetails;
-        this.comServices = comServices;
-
-        // Close old connection
-        if (tmConsumer != null) {
-            try {
-                tmConsumer.close();
-            } catch (MALException ex) {
-                Logger.getLogger(CommandExecutorConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-
-        tmConsumer = connection.startService(this.connectionDetails.getProviderURI(), this.connectionDetails
-            .getBrokerURI(), this.connectionDetails.getDomain(), CommandExecutorHelper.COMMANDEXECUTOR_SERVICE,
-            authenticationId, localNamePrefix);
-
-        this.commandExecutorService = new CommandExecutorStub(tmConsumer);
     }
 
 }

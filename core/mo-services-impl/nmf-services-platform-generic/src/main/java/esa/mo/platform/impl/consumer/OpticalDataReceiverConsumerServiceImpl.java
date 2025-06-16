@@ -42,11 +42,6 @@ public class OpticalDataReceiverConsumerServiceImpl extends ConsumerServiceImpl 
     private COMServicesConsumer comServices;
 
     public OpticalDataReceiverConsumerServiceImpl(SingleConnectionDetails connectionDetails,
-            COMServicesConsumer comServices) throws MALException, MALInteractionException {
-        this(connectionDetails, comServices, null, null);
-    }
-
-    public OpticalDataReceiverConsumerServiceImpl(SingleConnectionDetails connectionDetails,
             COMServicesConsumer comServices, Blob authenticationId, String localNamePrefix)
             throws MALException, MALInteractionException {
         this.connectionDetails = connectionDetails;
@@ -69,6 +64,11 @@ public class OpticalDataReceiverConsumerServiceImpl extends ConsumerServiceImpl 
                 localNamePrefix);
 
         this.opticalDataReceiverService = new OpticalDataReceiverStub(tmConsumer);
+    }
+
+    public OpticalDataReceiverConsumerServiceImpl(SingleConnectionDetails connectionDetails,
+            COMServicesConsumer comServices) throws MALException, MALInteractionException {
+        this(connectionDetails, comServices, null, null);
     }
 
     public COMServicesConsumer getCOMServices() {

@@ -43,10 +43,10 @@ public class GroupServiceImpl extends ConversionInheritanceSkeleton {
     private boolean initialiased = false;
 
     /**
-     * Initialises the Group service.
+     * Initializes the Group service.
      *
      * @param archiveService The Archive service.
-     * @throws org.ccsds.moims.mo.mal.MALException
+     * @throws MALException If the Group service could not be initialized.
      */
     protected synchronized void init(ArchiveProviderServiceImpl archiveService) throws MALException {
         this.archiveService = archiveService;

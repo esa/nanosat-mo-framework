@@ -365,7 +365,7 @@ public abstract class GroundMOProxy {
             } catch (MALTransmitErrorException ex) {
                 LOGGER.log(Level.WARNING,
                         "Failed to start directory service sync. Check the link to the spacecraft.");
-            } catch (MALException | MalformedURLException | MALInteractionException ex) {
+            } catch (MALException | MALInteractionException ex) {
                 LOGGER.log(Level.SEVERE, "Error when initialising link to the NMS.", ex);
             }
         }

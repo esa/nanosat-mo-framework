@@ -21,31 +21,31 @@
 package esa.mo.sm.impl.provider;
 
 import esa.mo.com.impl.util.COMServicesProvider;
+import esa.mo.sm.impl.util.PMBackend;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.com.InvalidException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
+import org.ccsds.moims.mo.mal.structures.BooleanList;
+import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
+import org.ccsds.moims.mo.mal.structures.StringList;
+import org.ccsds.moims.mo.mal.structures.UInteger;
+import org.ccsds.moims.mo.mal.structures.UIntegerList;
+import org.ccsds.moims.mo.mal.UnknownException;
 import org.ccsds.moims.mo.softwaremanagement.packagemanagement.PackageManagementHelper;
 import org.ccsds.moims.mo.softwaremanagement.packagemanagement.body.CheckPackageIntegrityResponse;
+import org.ccsds.moims.mo.softwaremanagement.packagemanagement.body.FindPackageResponse;
+import org.ccsds.moims.mo.softwaremanagement.packagemanagement.PackageManagementServiceInfo;
 import org.ccsds.moims.mo.softwaremanagement.packagemanagement.provider.InstallInteraction;
 import org.ccsds.moims.mo.softwaremanagement.packagemanagement.provider.PackageManagementInheritanceSkeleton;
 import org.ccsds.moims.mo.softwaremanagement.packagemanagement.provider.UninstallInteraction;
 import org.ccsds.moims.mo.softwaremanagement.packagemanagement.provider.UpgradeInteraction;
-import esa.mo.sm.impl.util.PMBackend;
-import java.io.IOException;
-import org.ccsds.moims.mo.com.InvalidException;
-import org.ccsds.moims.mo.mal.UnknownException;
-import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
-import org.ccsds.moims.mo.mal.structures.BooleanList;
-import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.StringList;
-import org.ccsds.moims.mo.mal.structures.UInteger;
-import org.ccsds.moims.mo.mal.structures.UIntegerList;
-import org.ccsds.moims.mo.softwaremanagement.packagemanagement.PackageManagementServiceInfo;
-import org.ccsds.moims.mo.softwaremanagement.packagemanagement.body.FindPackageResponse;
 
 /**
  * Package Management service Provider.
@@ -60,19 +60,19 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
     private PMBackend backend;
 
     /**
-     * Initializes the service
+     * Initializes the Package Management service provider.
      *
-     * @param comServices
-     * @param backend
-     * @throws MALException On initialization error.
+     * @param comServices The COM services.
+     * @param backend The backend to the package manager.
+     * @throws MALException if the service could not be initialized.
      */
     public synchronized void init(final COMServicesProvider comServices,
             final PMBackend backend) throws MALException {
         long timestamp = System.currentTimeMillis();
-        
+
         if (backend == null) {
             Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).severe(
-                "Package Management service could not be initialized! " + "The backend object cannot be null.");
+                    "Package Management service could not be initialized! " + "The backend object cannot be null.");
             return;
         }
 
@@ -108,13 +108,13 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
             running = false;
         } catch (MALException ex) {
             Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(Level.WARNING,
-                "Exception during close down of the provider {0}", ex);
+                    "Exception during close down of the provider {0}", ex);
         }
     }
 
     @Override
     public FindPackageResponse findPackage(IdentifierList names, MALInteraction interaction)
-        throws MALInteractionException, MALException {
+            throws MALInteractionException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         FindPackageResponse outList;
 
@@ -161,7 +161,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
             outList = new FindPackageResponse(packages, installed);
         } catch (IOException ex) {
             Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(Level.SEVERE,
-                "The list of packages could not be retrieved!", ex);
+                    "The list of packages could not be retrieved!", ex);
 
             // Just return empty lists
             outList = new FindPackageResponse(new IdentifierList(), new BooleanList());
@@ -177,7 +177,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
     @Override
     public void install(final IdentifierList names, final InstallInteraction interaction)
-        throws MALInteractionException, MALException {
+            throws MALInteractionException, MALException {
         interaction.sendAcknowledgement(null);
 
         UIntegerList unkIndexList = new UIntegerList();
@@ -223,7 +223,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
         for (Identifier packageName : names) {
             Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(Level.INFO, "Installing: {0}",
-                packageName.getValue());
+                    packageName.getValue());
 
             backend.install(packageName.getValue());
         }
@@ -233,7 +233,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
     @Override
     public void uninstall(final IdentifierList names, final BooleanList keepConfigurations,
-        final UninstallInteraction interaction) throws MALInteractionException, MALException {
+            final UninstallInteraction interaction) throws MALInteractionException, MALException {
         interaction.sendAcknowledgement();
 
         UIntegerList unkIndexList = new UIntegerList();
@@ -274,7 +274,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
             }
         } catch (IOException ex) {
             Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(Level.SEVERE,
-                "The list of packages could not be retrieved!", ex);
+                    "The list of packages could not be retrieved!", ex);
         }
 
         // Errors
@@ -299,7 +299,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
     }
 
     @Override
-    public void upgrade(final IdentifierList names, 
+    public void upgrade(final IdentifierList names,
             final UpgradeInteraction interaction) throws MALInteractionException, MALException {
         interaction.sendAcknowledgement();
 

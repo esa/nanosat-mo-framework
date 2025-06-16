@@ -42,11 +42,6 @@ public class GPSConsumerServiceImpl extends ConsumerServiceImpl {
     private COMServicesConsumer comServices;
 
     public GPSConsumerServiceImpl(SingleConnectionDetails connectionDetails,
-            COMServicesConsumer comServices) throws MALException, MALInteractionException {
-        this(connectionDetails, comServices, null, null);
-    }
-
-    public GPSConsumerServiceImpl(SingleConnectionDetails connectionDetails,
             COMServicesConsumer comServices,
             Blob authenticationId,
             String localNamePrefix) throws MALException, MALInteractionException {
@@ -70,6 +65,11 @@ public class GPSConsumerServiceImpl extends ConsumerServiceImpl {
                 localNamePrefix);
 
         this.gpsService = new GPSStub(tmConsumer);
+    }
+
+    public GPSConsumerServiceImpl(SingleConnectionDetails connectionDetails,
+            COMServicesConsumer comServices) throws MALException, MALInteractionException {
+        this(connectionDetails, comServices, null, null);
     }
 
     public COMServicesConsumer getCOMServices() {

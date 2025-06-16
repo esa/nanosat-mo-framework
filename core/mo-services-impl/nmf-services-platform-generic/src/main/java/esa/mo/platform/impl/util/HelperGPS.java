@@ -100,8 +100,8 @@ public class HelperGPS {
      * Converts a GPGGA NMEA sentence into a Position object.
      *
      * @param gpgga GPGGA NMEA sentence
-     * @return Position object
-     * @throws java.io.IOException
+     * @return The Position object.
+     * @throws IOException If the NMEA sentence could not be parsed correctly.
      */
     public static Position gpggalong2Position(String gpgga) throws IOException {
         return gpgga2Position(gpgga);
@@ -110,19 +110,19 @@ public class HelperGPS {
     /**
      * Converts a GPGGA NMEA sentence into a Position object.
      *
-     * @param gpgga GPGGA NMEA sentence
-     * @return Position object
-     * @throws java.io.IOException
+     * @param gpgga GPGGA NMEA sentence.
+     * @return The Position object.
+     * @throws IOException If the NMEA sentence could not be parsed correctly.
      */
     public static Position gpgga2Position(String gpgga) throws IOException {
         String[] items = gpgga.split(",");
         try {
             Float altitude = Float.parseFloat(items[GPGGA_GEN_COL.ALTITUDE]);
-            Float latitude = 
-                    degMinutes2Degrees(items[GPGGA_GEN_COL.LAT]) * ((items[GPGGA_GEN_COL.LAT_DIR]).equals("S")
+            Float latitude
+                    = degMinutes2Degrees(items[GPGGA_GEN_COL.LAT]) * ((items[GPGGA_GEN_COL.LAT_DIR]).equals("S")
                     ? -1 : 1);
-            Float longitude = 
-                    degMinutes2Degrees(items[GPGGA_GEN_COL.LONG]) * ((items[GPGGA_GEN_COL.LONG_DIR]).equals(
+            Float longitude
+                    = degMinutes2Degrees(items[GPGGA_GEN_COL.LONG]) * ((items[GPGGA_GEN_COL.LONG_DIR]).equals(
                     "W") ? -1 : 1);
 
             org.ccsds.moims.mo.mal.structures.Time utc;
@@ -131,7 +131,7 @@ public class HelperGPS {
             Float hdop;
             Float undulation;
             org.ccsds.moims.mo.platform.gps.structures.PositionSourceType positionSource;
-            
+
             positionSource = PositionSourceType.GNSS;
             if (items[GPGGA_GEN_COL.QUAL].length() != 0) {
                 fixQuality = Integer.parseInt(items[GPGGA_GEN_COL.QUAL]);
@@ -203,9 +203,9 @@ public class HelperGPS {
     /**
      * Converts a GPGSV NMEA sentence into a SatelliteInfoList object.
      *
-     * @param gpgsv GPGSV NMEA sentence
-     * @return SatelliteInfoList object
-     * @throws java.io.IOException
+     * @param gpgsv The GPGSV NMEA sentence.
+     * @return The SatelliteInfoList object.
+     * @throws IOException If the NMEA sentence could not be parsed correctly.
      */
     public static SatelliteInfoList gpgsv2SatelliteInfoList(final String gpgsv) throws IOException {
         try {
@@ -219,7 +219,7 @@ public class HelperGPS {
                     throw new IOException("Sentence ["
                             + sentence
                             + "] has calculated ["
-                            + sentenceSatCount 
+                            + sentenceSatCount
                             + "] sat count");
                 }
                 int expectedSize = sentenceSatCount * 4 + 5;
@@ -227,8 +227,8 @@ public class HelperGPS {
                     throw new IOException("Sentence ["
                             + sentence
                             + "] has wrong GPS sentence size ["
-                            + count 
-                            + "], expected minimum [" 
+                            + count
+                            + "], expected minimum ["
                             + expectedSize + "]");
 
                 }
@@ -249,7 +249,7 @@ public class HelperGPS {
                         snr = null; // Workaround for OEM615 not sending SNR of some sats
                     }
                     if (prn > 0) {
-                        sats.add(new SatelliteInfo(azimuth, elevation, prn, 
+                        sats.add(new SatelliteInfo(azimuth, elevation, prn,
                                 null, null, null, null, null, snr, null, null));
                     }
                 }

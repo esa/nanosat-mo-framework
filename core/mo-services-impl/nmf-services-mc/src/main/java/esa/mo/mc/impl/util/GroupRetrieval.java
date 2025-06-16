@@ -77,9 +77,9 @@ public class GroupRetrieval {
     }
 
     /**
-     * adds the index to the list, ONLY IF it is not contained in the list yet.
+     * Adds the index to the list, ONLY IF it is not contained in the list yet.
      *
-     * @param index
+     * @param index The index for the Invalid MO Error.
      */
     public void addInvIndex(UInteger index) {
         if (!this.invIndexList.contains(index)) {
