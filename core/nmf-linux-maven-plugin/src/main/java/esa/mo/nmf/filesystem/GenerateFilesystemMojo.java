@@ -137,7 +137,7 @@ public class GenerateFilesystemMojo extends AbstractMojo {
                 getLog().info("  >> ArtifactId = " + artifact.getArtifactId());
                 getLog().info("  >> Version = " + artifact.getVersion());
                 getLog().info("  >> Adding DIR_JARS_MISSION: " + artifact.toString());
-                filesystem.addArtifactMission(artifact, artifact.getVersion());
+                filesystem.addArtifactMission(artifact, missionVersion);
             }
         }
     }
