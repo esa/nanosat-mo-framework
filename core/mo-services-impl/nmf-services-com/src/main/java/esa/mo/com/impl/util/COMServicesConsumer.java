@@ -59,11 +59,12 @@ public class COMServicesConsumer {
      * Initializes all the COM services consumer side automatically from the
      * connectionConsumer holding the details of the connections.
      *
-     * @param connectionConsumer Connection details
-     * @param authenticationId authenticationId of the logged in user
+     * @param connectionConsumer The connection details.
+     * @param authenticationId The authenticationId of the logged-in user.
+     * @param localNamePrefix The local name prefix.
      */
-    public void init(final ConnectionConsumer connectionConsumer, final Blob authenticationId,
-        final String localNamePrefix) {
+    public void init(final ConnectionConsumer connectionConsumer,
+            final Blob authenticationId, final String localNamePrefix) {
         SingleConnectionDetails details;
 
         try {
@@ -117,6 +118,7 @@ public class COMServicesConsumer {
      *
      * @param eventService Event service consumer
      */
+    @Deprecated
     public void setEventService(EventConsumerServiceImpl eventService) {
         this.eventService = eventService;
     }
@@ -126,6 +128,7 @@ public class COMServicesConsumer {
      *
      * @param archiveService Archive service consumer
      */
+    @Deprecated
     public void setArchiveService(ArchiveConsumerServiceImpl archiveService) {
         this.archiveService = archiveService;
     }

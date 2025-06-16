@@ -22,15 +22,19 @@ package esa.mo.mc.impl.interfaces;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 
 /**
+ * The AggregationTriggerListener interface allows the creation of listeners for
+ * the Aggregation service.
  *
  * @author Vorwerg
  */
 public interface AggregationTriggerListener {
 
     /**
-     * triggers an aggregation update, that will be published as an adhoc-update.
-     * 
-     * @param name the name of the aggregation the update should be triggered of
+     * Triggers an aggregation update, that will be published as an
+     * adhoc-update.
+     *
+     * @param name The name of the aggregation the update should be triggered
+     * for.
      */
     void triggerAggregationUpdate(Identifier name);
 

@@ -47,8 +47,8 @@ public class ShellCommander {
      * Runs a command on the OS shell. Note that the input is not being
      * sanitized and therefore, this method should not have any user inputs!
      *
-     * @param cmd The command to run
-     * @return The Process
+     * @param cmd The command to run.
+     * @return The Process object from the command.
      */
     public Process runCommand(String cmd) {
         return this.runCommand(cmd, null);
@@ -58,8 +58,8 @@ public class ShellCommander {
      * Runs a command on the OS shell. Note that the input is not being
      * sanitized and therefore, this method should not have any user inputs!
      *
-     * @param cmd The command to run
-     * @return The output
+     * @param cmd The command to run.
+     * @return The output from the executed command.
      */
     public String runCommandAndGetOutputMessage(String cmd) {
         try {
@@ -86,7 +86,7 @@ public class ShellCommander {
      * Runs a command on the OS shell. Note that the input is not being
      * sanitized and therefore, this method should not have any user inputs!
      *
-     * @param cmd The command to run
+     * @param cmd The command to run.
      * @return The output from the command
      */
     public String runCommandAndGetOutputMessageAndError(String cmd) {
@@ -114,9 +114,9 @@ public class ShellCommander {
      * Runs a command on the OS shell. Note that the input is not being
      * sanitized and therefore, this method should not have any user inputs!
      *
-     * @param cmd The command to run
-     * @param dirPath The working directory of the process
-     * @return
+     * @param cmd The command to run.
+     * @param dirPath The working directory for the process.
+     * @return The Process object from the command.
      */
     public Process runCommand(String cmd, File dirPath) {
         try {

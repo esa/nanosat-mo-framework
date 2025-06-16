@@ -29,8 +29,8 @@ import org.ccsds.moims.mo.mc.action.structures.ActionInstanceDetails;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 
 /**
- *
- *
+ * The ActionInvocationListener interface allows the creation of listeners for
+ * the Action service.
  */
 public interface ActionInvocationListener {
 
@@ -47,14 +47,17 @@ public interface ActionInvocationListener {
      * @return Returns null if the Action was successful. If not null, then the
      * returned value should hold the error number
      */
-    UInteger actionArrived(Identifier identifier, AttributeValueList attributeValues, Long actionInstanceObjId,
-        boolean reportProgress, MALInteraction interaction);
+    UInteger actionArrived(Identifier identifier, AttributeValueList attributeValues,
+            Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction);
 
+    /**
+     * The user must implement this interface in order to pre-check actions.
+     *
+     * @param defDetails The Action definition.
+     * @param instDetails The Action instance.
+     * @param errorList The list of errors.
+     * @return True if passes, false otherwise.
+     */
     boolean preCheck(ActionDefinitionDetails defDetails, ActionInstanceDetails instDetails, UIntegerList errorList);
-    //	public void setForcePreCheckInvalidException(boolean force);
-    //	public void setForcePreCheckInvalidExceptionExtra(UIntegerList extra);
-    //	public void setForcePreCheckFailure(boolean force);
-    //	public void setFailureStage(UInteger stage, UInteger failureCode);
-    //	public int getFailureStage();
-    //	public UInteger getFailureCode();
+
 }

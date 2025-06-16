@@ -29,8 +29,8 @@ import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
 
 /**
- *
- *
+ * The ParameterStatusListener interface allows the creation of listeners for
+ * the Parameter service.
  */
 public interface ParameterStatusListener {
 

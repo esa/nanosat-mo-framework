@@ -92,19 +92,44 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
     protected final Object MUTEX = new Object();
     private COMServicesProvider comServices;
 
+    /**
+     * Creates the MAL objects, the publisher used to create updates and starts
+     * the publishing thread
+     *
+     * @param comServices The COM services.
+     * @throws MALException On initialisation error.
+     */
+    public synchronized void init(COMServicesProvider comServices) throws MALException {
+        long timestamp = System.currentTimeMillis();
+        this.comServices = comServices;
+
+        // shut down old service transport
+        if (null != directoryServiceProvider) {
+            connection.closeAll();
+        }
+
+        directoryServiceProvider = connection.startService(
+                DirectoryServiceInfo.DIRECTORY_SERVICE_NAME.toString(),
+                DirectoryHelper.DIRECTORY_SERVICE, false, this);
+
+        running = true;
+        initialiased = true;
+        LOGGER.info("Directory service READY");
+    }
+
     private static AddressDetails getServiceAddressDetails(final SingleConnectionDetails conn) {
         QoSLevelList qos = new QoSLevelList();
         qos.add(QoSLevel.ASSURED);
         NamedValueList qosProperties = new NamedValueList();  // Nothing here for now...
 
         AddressDetails serviceAddress = new AddressDetails(qos, qosProperties,
-            new UInteger(1), conn.getProviderURI(), conn.getBrokerURI(), null);
+                new UInteger(1), conn.getProviderURI(), conn.getBrokerURI(), null);
 
         return serviceAddress;
     }
 
     private static AddressDetailsList findAddressDetailsListOfService(final ServiceKey key,
-        final ServiceCapabilityList capabilities) {
+            final ServiceCapabilityList capabilities) {
         if (key == null) {
             return null;
         }
@@ -123,42 +148,6 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
 
     public static ServiceKey generateServiceKey(final IntegerList keys) {
         return new ServiceKey(new UShort(keys.get(0)), new UShort(keys.get(1)), new UOctet(keys.get(2).shortValue()));
-    }
-
-    /*
-    public HashMap<Long, PublishDetails> getListOfProviders() {
-    final HashMap<Long, PublishDetails> list = new HashMap<Long, PublishDetails>();
-    
-    synchronized (MUTEX) {
-    list.putAll(providersAvailable);
-    }
-    
-    return list;
-    }
-     */
-    /**
-     * creates the MAL objects, the publisher used to create updates and starts
-     * the publishing thread
-     *
-     * @param comServices
-     * @throws MALException On initialisation error.
-     */
-    public synchronized void init(COMServicesProvider comServices) throws MALException {
-        long timestamp = System.currentTimeMillis();
-        this.comServices = comServices;
-
-        // shut down old service transport
-        if (null != directoryServiceProvider) {
-            connection.closeAll();
-        }
-
-        directoryServiceProvider = connection.startService(
-        DirectoryServiceInfo.DIRECTORY_SERVICE_NAME.toString(),
-        DirectoryHelper.DIRECTORY_SERVICE, false, this);
-
-        running = true;
-        initialiased = true;
-        LOGGER.info("Directory service READY");
     }
 
     /**
@@ -378,8 +367,8 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
 
             // Store in the Archive the ServiceProvider COM object and get an object instance identifier
             final LongList returnedServProvObjIds = comServices.getArchiveService().store(true,
-                DirectoryServiceInfo.SERVICEPROVIDER_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(), archDetails,
-                objBodies, null);
+                    DirectoryServiceInfo.SERVICEPROVIDER_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(), archDetails,
+                    objBodies, null);
 
             Long servProvObjId;
 
@@ -400,7 +389,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
 
             // Store in the Archive the ProviderCapabilities COM object
             comServices.getArchiveService().store(false, DirectoryServiceInfo.PROVIDERCAPABILITIES_OBJECT_TYPE,
-                ConfigurationProviderSingleton.getDomain(), archDetails1, capabilities, null);
+                    ConfigurationProviderSingleton.getDomain(), archDetails1, capabilities, null);
 
             this.providersAvailable.put(servProvObjId, newProviderDetails);
             response = new PublishProviderResponse(servProvObjId, null);
@@ -421,7 +410,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
             IdentifierList domain = ConfigurationProviderSingleton.getDomain();
             ArchiveQuery query = new ArchiveQuery(domain, null, null, providerObjectKey, null, null, null, null, null);
             List<ArchivePersistenceObject> result = manager.query(DirectoryServiceInfo.PROVIDERCAPABILITIES_OBJECT_TYPE,
-                query, null);
+                    query, null);
             Long capabilityId = result.get(0).getArchiveDetails().getInstId(); // there should be only one object in the query result
             LongList providerIds = new LongList();
             providerIds.add(providerObjectKey);

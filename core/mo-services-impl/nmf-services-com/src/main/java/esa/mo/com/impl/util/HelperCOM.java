@@ -414,7 +414,7 @@ public class HelperCOM {
      * @param identifier A name identifier for the subscription
      * @param objType The object type containing the area, service, and version
      * of the service to be selected.
-     * @return
+     * @return The subscription for PUB-SUB.
      */
     public static Subscription generateSubscriptionCOMEvent(String identifier, ObjectType objType) {
         final Long secondEntityKey = 0xFFFFFFFFFF000000L & HelperCOM.generateSubKey(objType);
@@ -430,7 +430,7 @@ public class HelperCOM {
      * @param identifier A name identifier for the subscription
      * @param sourceType The source type containing the area, service, and version
      * of the source to be selected.
-     * @return
+     * @return The subscription for PUB-SUB.
      */
     public static Subscription generateCOMEventSubscriptionBySourceType(String identifier, ObjectType sourceType) {
         final Long fourthEntityKey = 0xFFFFFFFFFFFFFFFFL & HelperCOM.generateSubKey(sourceType);
