@@ -53,7 +53,6 @@ import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.platform.DeviceInUseException;
 import org.ccsds.moims.mo.platform.DeviceNotAvailableException;
 import org.ccsds.moims.mo.platform.camera.CameraHelper;
-import org.ccsds.moims.mo.platform.camera.CameraServiceInfo;
 import org.ccsds.moims.mo.platform.camera.body.GetPropertiesResponse;
 import org.ccsds.moims.mo.platform.camera.provider.CameraInheritanceSkeleton;
 import org.ccsds.moims.mo.platform.camera.provider.PicturesStreamPublisher;
@@ -214,8 +213,7 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
 
             // If not, then send the available resolutions to the consumer so they can pick...
             if (!isResolutionAvailable) {
-                throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER,
-                        availableResolutions));
+                throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, availableResolutions));
             }
         }
 
@@ -259,8 +257,9 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
 
             isCapturePossible(settings);
 
-            if (firstEntityKey.getValue() == null || "*".equals(firstEntityKey.getValue()) || "".equals(firstEntityKey
-                    .getValue())) {
+            if (firstEntityKey.getValue() == null
+                    || "*".equals(firstEntityKey.getValue())
+                    || "".equals(firstEntityKey.getValue())) {
                 throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, null));
             }
 
