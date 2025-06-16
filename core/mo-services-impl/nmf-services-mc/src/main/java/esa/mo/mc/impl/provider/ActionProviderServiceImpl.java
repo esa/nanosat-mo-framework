@@ -26,7 +26,6 @@ import esa.mo.mc.impl.interfaces.ActionInvocationListener;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.COMService;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectKey;
@@ -34,9 +33,7 @@ import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDet
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectSet;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectSetList;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.structures.Identifier;
@@ -79,25 +76,25 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
     private ConfigurationChangeListener configurationAdapter;
 
     /**
-     * creates the MAL objects, the publisher used to create updates and starts
+     * cCreates the MAL objects, the publisher used to create updates and starts
      * the publishing thread
      *
-     * @param comServices
-     * @param actions
+     * @param comServices The COM services.
+     * @param actionListener The action listener.
      * @throws MALException On initialisation error.
      */
     public synchronized void init(COMServicesProvider comServices,
-            ActionInvocationListener actions) throws MALException {
+            ActionInvocationListener actionListener) throws MALException {
         long timestamp = System.currentTimeMillis();
         // Shut down old service transport
         if (null != actionServiceProvider) {
             connection.closeAll();
         }
 
-        actionServiceProvider = connection.startService(ActionServiceInfo.ACTION_SERVICE_NAME.toString(), ActionHelper.ACTION_SERVICE, false, this);
+        actionServiceProvider = connection.startService(ActionHelper.ACTION_SERVICE, false, this);
 
         running = true;
-        manager = new ActionManager(comServices, actions);
+        manager = new ActionManager(comServices, actionListener);
 
         initialiased = true;
         timestamp = System.currentTimeMillis() - timestamp;

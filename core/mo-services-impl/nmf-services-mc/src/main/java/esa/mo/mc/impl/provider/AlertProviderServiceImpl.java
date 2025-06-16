@@ -90,10 +90,10 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
     private ConfigurationChangeListener configurationAdapter;
 
     /**
-     * creates the MAL objects, the publisher used to create updates and starts
+     * Creates the MAL objects, the publisher used to create updates and starts
      * the publishing thread
      *
-     * @param comServices
+     * @param comServices The COM services.
      * @throws MALException On initialisation error.
      */
     public synchronized void init(COMServicesProvider comServices) throws MALException {

@@ -117,31 +117,30 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
     private ConfigurationChangeListener configurationAdapter;
 
     /**
-     * creates the MAL objects, the publisher used to create updates and starts
-     * the publishing thread
+     * Creates the MAL objects, the publisher used to create updates and starts
+     * the publishing thread.
      *
-     * @param parameterManager
-     * @throws MALException On initialisation error.
+     * @param parameterManager The Parameter Manager.
+     * @throws MALException if there is an initialisation error.
      */
     public synchronized void init(ParameterManager parameterManager) throws MALException {
         long timestamp = System.currentTimeMillis();
         publisher = createMonitorValuePublisher(ConfigurationProviderSingleton.getDomain(),
-                ConfigurationProviderSingleton.getNetwork(), SessionType.LIVE, ConfigurationProviderSingleton
-                .getSourceSessionName(), QoSLevel.BESTEFFORT, null, new UInteger(0));
+                ConfigurationProviderSingleton.getNetwork(),
+                SessionType.LIVE, ConfigurationProviderSingleton.getSourceSessionName(),
+                QoSLevel.BESTEFFORT, null, new UInteger(0));
 
         // shut down old service transport
-        if (null != parameterServiceProvider) {
+        if (parameterServiceProvider != null) {
             connection.closeAll();
         }
 
-        parameterServiceProvider = connection.startService(ParameterServiceInfo.PARAMETER_SERVICE_NAME.toString(),
-                ParameterHelper.PARAMETER_SERVICE, this);
+        parameterServiceProvider = connection.startService(ParameterHelper.PARAMETER_SERVICE, true, this);
 
         running = true;
         manager = parameterManager;
         periodicReportingManager = new PeriodicReportingManager();
         periodicReportingManager.init(); // Initialize the Periodic Reporting Manager
-
         groupService.init(manager.getArchiveService());
 
         /*
@@ -177,9 +176,9 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
     }
 
     @Override
-    public ParameterValueDetailsList getValue(final LongList inIdentityIds, final MALInteraction interaction)
-            throws MALException, MALInteractionException { // requirement 3.3.6.2.1
-        if (null == inIdentityIds) { // Is the input null?
+    public ParameterValueDetailsList getValue(final LongList inIdentityIds,
+            final MALInteraction interaction) throws MALException, MALInteractionException { // requirement 3.3.6.2.1
+        if (inIdentityIds == null) { // Is the input null?
             throw new IllegalArgumentException("LongList argument must not be null");
         }
         // requirement: 3.3.8.2.c : check for wildcard first
@@ -290,7 +289,8 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         // requirement: 3.3.10.2.i (This part of the code is only reached if no error was raised)
         for (int index = 0; index < objIdToBeEnabled.size(); index++) {
             // requirement: 3.3.10.2.e, 3.3.10.2.f, 3.3.10.2.j and 3.3.10.2.k
-            Long out = manager.setGenerationEnabled(objIdToBeEnabled.get(index), valueToBeEnabled.get(index), source,
+            Long out = manager.setGenerationEnabled(objIdToBeEnabled.get(index),
+                    valueToBeEnabled.get(index), source,
                     connection.getConnectionDetails());
             output.add(out);
 
@@ -548,8 +548,8 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             }
             //requirement: 3.3.3.h, 3.3.13.2.f
             final ParameterDefinitionDetails pDef = paramDefDetails.get(index);
-            if (pDef.getReportInterval().getValue() != 0 &&
-                    pDef.getReportInterval().getValue() < MIN_REPORTING_INTERVAL) {
+            if (pDef.getReportInterval().getValue() != 0
+                    && pDef.getReportInterval().getValue() < MIN_REPORTING_INTERVAL) {
                 invIndexList.add(new UInteger(index));
                 continue;
             }
@@ -924,7 +924,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
      * Parameter service. The parameter value will not be stored in the COM
      * Archive.
      *
-     * @param parameters
+     * @param parameters The list of parameter instances.
      * @return Returns true if the push was successful. False otherwise. Please
      * notice that if no consumers are registered on the broker, then the value
      * of true will be returned because no error happened.
@@ -939,9 +939,9 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
      * Parameter values through the monitorValue operation of the Parameter
      * service. If there is no parameter definition with the submitted name, the
      * method shall automatically create the parameter definition in the
-     * Parameter service
+     * Parameter service.
      *
-     * @param parameters
+     * @param parameters The list of parameter instances to be pushed.
      * @param storeIt A flag that defines if the Parameters are going to be
      * stored in the COM Archive
      * @return Returns true if the push was successful. False otherwise. Please

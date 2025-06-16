@@ -43,8 +43,9 @@ public class GroupServiceImpl extends ConversionInheritanceSkeleton {
     private boolean initialiased = false;
 
     /**
+     * Initialises the Group service.
      *
-     * @param archiveService
+     * @param archiveService The Archive service.
      * @throws org.ccsds.moims.mo.mal.MALException
      */
     protected synchronized void init(ArchiveProviderServiceImpl archiveService) throws MALException {
@@ -56,9 +57,9 @@ public class GroupServiceImpl extends ConversionInheritanceSkeleton {
     /**
      * TODO: make the method more efficient, by querying the archive
      *
-     * @param domain
-     * @param groupIdentityId
-     * @return
+     * @param domain The domain to be retrieved.
+     * @param groupIdentityId The group identity id.
+     * @return The definition instance id.
      */
     protected Long retrieveLatestGroupDefinitionIdForIdentityFromArchive(IdentifierList domain, Long groupIdentityId) {
         if (archiveService == null) { // If there's no archive...
@@ -67,7 +68,7 @@ public class GroupServiceImpl extends ConversionInheritanceSkeleton {
         //get the latest group-definition, referencing the group-identity
         LongList groupDefIds = new LongList();
         groupDefIds.add(0L);
-        final ArchiveDetailsList groupDetailsList = HelperArchive.getArchiveDetailsListFromArchive(archiveService, 
+        final ArchiveDetailsList groupDetailsList = HelperArchive.getArchiveDetailsListFromArchive(archiveService,
                 GroupServiceInfo.GROUPDEFINITION_OBJECT_TYPE, domain, groupDefIds);
         ArchiveDetailsList groupDefsReferencingGroupIdentity = new ArchiveDetailsList();
         //get ALL group-definitions, referencing the current group-identity
@@ -100,12 +101,11 @@ public class GroupServiceImpl extends ConversionInheritanceSkeleton {
      * Retrieves the groupDetails of the latest group-definition of the given
      * group-identity
      *
-     * @param domain
-     * @param groupIdentityId the id of the group-identity
-     * @return
+     * @param domain The domain of the group to be retrieved.
+     * @param groupIdentityId The id of the group-identity.
+     * @return The group details.
      */
     protected GroupDetails retrieveGroupDetailsFromArchive(IdentifierList domain, Long groupIdentityId) {
-
         if (archiveService == null) { // If there's no archive...
             return null;
         }
@@ -116,16 +116,16 @@ public class GroupServiceImpl extends ConversionInheritanceSkeleton {
         }
         //get the group-definitions-body
         //requirement: 3.9.4.g instances of a group will be referenced by the id of the GroupDefinition-object
-        return (GroupDetails) HelperArchive.getObjectBodyFromArchive(archiveService, 
+        return (GroupDetails) HelperArchive.getObjectBodyFromArchive(archiveService,
                 GroupServiceInfo.GROUPDEFINITION_OBJECT_TYPE, domain, latestGroupDefId);
     }
 
     /**
      * Retrieves the groupDetails from the given GroupDefinition
      *
-     * @param domain
-     * @param groupDefId the id of the group-definition
-     * @return
+     * @param domain The domain of the group to be retrieved.
+     * @param groupDefId The id of the group definition.
+     * @return The group details.
      */
     protected GroupDetails retrieveGroupDetailsOfDefinitionFromArchive(IdentifierList domain, Long groupDefId) {
 
@@ -135,7 +135,7 @@ public class GroupServiceImpl extends ConversionInheritanceSkeleton {
 
         //get the group-definitions-body
         //requirement: 3.9.4.g instances of a group will be referenced by the id of the GroupDefinition-object
-        return (GroupDetails) HelperArchive.getObjectBodyFromArchive(archiveService, 
+        return (GroupDetails) HelperArchive.getObjectBodyFromArchive(archiveService,
                 GroupServiceInfo.GROUPDEFINITION_OBJECT_TYPE, domain, groupDefId);
     }
 
@@ -145,14 +145,14 @@ public class GroupServiceImpl extends ConversionInheritanceSkeleton {
      * they are from different object-types. the service should check for
      * itself, if they are different
      *
-     * @param groupIdentityId the id of this group-identity
-     * @param group the details of the group
-     * @param previousGroupInstances groups that shouldnt be checked
-     * @return the identity-ids of the other services objects (e.g.
+     * @param groupIdentityId The id of this group-identity
+     * @param group The details of the group.
+     * @param previousGroupInstances The groups that shouldn't be checked.
+     * @return The identity-ids of the other services objects (e.g.
      * parameter-identity-ids, action-identity-ids,...)
      */
-    protected IdObjectTypeList getGroupObjectIdsFromGroup(Long groupIdentityId, GroupDetails group,
-        LongList previousGroupInstances) {
+    protected IdObjectTypeList getGroupObjectIdsFromGroup(Long groupIdentityId,
+            GroupDetails group, LongList previousGroupInstances) {
         //dont check the parent group later again
         previousGroupInstances.add(groupIdentityId);
         //get all referenced instances
@@ -186,7 +186,7 @@ public class GroupServiceImpl extends ConversionInheritanceSkeleton {
                     // requirement: 3.9.4.h
                     GroupDetails nextGroupInstance = retrieveGroupDetailsFromArchive(group.getDomain(), groupInstance);
                     idObjectTypeList.addAll(this.getGroupObjectIdsFromGroupRecursive(nextGroupInstance,
-                        newPreviousGroupInstances));
+                            newPreviousGroupInstances));
                 }
             }
             return idObjectTypeList;
@@ -195,8 +195,8 @@ public class GroupServiceImpl extends ConversionInheritanceSkeleton {
     }
 
     /**
-     * helper class, that allows to store many IdObjectType-objects (stores an
-     * id and its object-type) in one list
+     * Helper class that allows to store many IdObjectType-objects (stores an id
+     * and its object-type) in one list.
      */
     protected static class IdObjectTypeList extends java.util.ArrayList<IdObjectType> {
 
@@ -211,8 +211,8 @@ public class GroupServiceImpl extends ConversionInheritanceSkeleton {
     }
 
     /**
-     * helper class, that allows to store definition or identity-ids and its
-     * object-type in one object
+     * Helper class, that allows to store definition or identity-ids and its
+     * object-type in one object.
      */
     protected static class IdObjectType {
 

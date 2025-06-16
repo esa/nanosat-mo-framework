@@ -64,9 +64,10 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
     private boolean initialiased = false;
 
     /**
+     * Initializes the service.
      *
-     * @param archiveService
-     * @throws org.ccsds.moims.mo.mal.MALException
+     * @param archiveService The Archive service.
+     * @throws MALException if the service could not be started.
      */
     protected synchronized void init(ArchiveProviderServiceImpl archiveService) throws MALException {
         this.archiveService = archiveService;

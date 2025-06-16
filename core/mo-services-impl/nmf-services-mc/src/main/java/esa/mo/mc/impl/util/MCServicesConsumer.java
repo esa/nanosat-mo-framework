@@ -39,7 +39,7 @@ import org.ccsds.moims.mo.mc.alert.AlertServiceInfo;
 import org.ccsds.moims.mo.mc.parameter.ParameterServiceInfo;
 
 /**
- *
+ * The MCServicesConsumer holds the MC service consumers.
  *
  */
 public class MCServicesConsumer {
@@ -50,24 +50,25 @@ public class MCServicesConsumer {
     private AggregationConsumerServiceImpl aggregationService;
 
     /**
-     * Initializes the Monitor and Control services
+     * Initializes the Monitor and Control services.
      *
-     * @param connectionConsumer Connection details
-     * @param comServices COM services
+     * @param connectionConsumer The Connection details.
+     * @param comServices The COM services.
      */
     public void init(ConnectionConsumer connectionConsumer, COMServicesConsumer comServices) {
         init(connectionConsumer, comServices, null, null);
     }
 
     /**
-     * Initializes the Monitor and Control services
+     * Initializes the Monitor and Control services.
      *
-     * @param connectionConsumer Connection details
-     * @param comServices COM services
-     * @param authenticationId authenticationId of the logged in user
+     * @param connectionConsumer The Connection details
+     * @param comServices The COM services
+     * @param authenticationId The authenticationId of the logged in user.
+     * @param localNamePrefix The local name prefix.
      */
-    public void init(ConnectionConsumer connectionConsumer, COMServicesConsumer comServices, Blob authenticationId,
-        String localNamePrefix) {
+    public void init(ConnectionConsumer connectionConsumer,
+            COMServicesConsumer comServices, Blob authenticationId, String localNamePrefix) {
         SingleConnectionDetails details;
 
         try {
@@ -125,18 +126,22 @@ public class MCServicesConsumer {
         this.aggregationService = aggregationService;
     }
 
+    @Deprecated
     public void setActionService(ActionConsumerServiceImpl actionService) {
         this.actionService = actionService;
     }
 
+    @Deprecated
     public void setParameterService(ParameterConsumerServiceImpl parameterService) {
         this.parameterService = parameterService;
     }
 
+    @Deprecated
     public void setAlertService(AlertConsumerServiceImpl alertService) {
         this.alertService = alertService;
     }
 
+    @Deprecated
     public void setAggregationService(AggregationConsumerServiceImpl aggregationService) {
         this.aggregationService = aggregationService;
     }

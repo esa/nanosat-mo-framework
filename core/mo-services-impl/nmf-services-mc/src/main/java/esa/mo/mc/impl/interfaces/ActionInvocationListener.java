@@ -38,11 +38,11 @@ public interface ActionInvocationListener {
      * The user must implement this interface in order to link a certain action
      * Identifier to the method on the application
      *
-     * @param identifier Name of the Parameter
-     * @param attributeValues
-     * @param actionInstanceObjId
+     * @param identifier Name of the Parameter.
+     * @param attributeValues The attribute values for the action.
+     * @param actionInstanceObjId The action instance id.
      * @param reportProgress Determines if it is necessary to report the
-     * execution
+     * execution.
      * @param interaction The interaction object progress of the action
      * @return Returns null if the Action was successful. If not null, then the
      * returned value should hold the error number

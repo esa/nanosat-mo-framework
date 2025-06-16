@@ -11,7 +11,6 @@ import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.ULong;
-import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.mc.MCHelper;
@@ -103,38 +102,6 @@ public class MCServicesHelper {
         //    iKey = iKey | (long) AlertTestHelper._ALERTTEST_SERVICE_NUMBER << 32;
         //    iKey = iKey | (long) MCPrototypeHelper._MCPROTOTYPE_AREA_VERSION << 24;
         return iKey;
-    }
-
-    /**
-     * Generate a EntityKey sub key using fields as specified in COM STD
-     * 3.2.4.2b
-     *
-     * @param area
-     * @param service
-     * @param version
-     * @param objectNumber
-     * @return
-     */
-    static public Long generateSubKey(int area, int service, int version, int objectNumber) {
-        long subkey = objectNumber;
-        subkey = subkey | (((long) version) << 24);
-        subkey = subkey | ((long) service << 32);
-        subkey = subkey | ((long) area << 48);
-
-        return subkey;
-    }
-
-    /**
-     * Generate a sub key from an ObjectType, optionally including the object
-     * number.
-     *
-     * @param objectType
-     * @param includeObjectNumber
-     * @return
-     */
-    static public Long generateSubKey(ObjectType objectType, boolean includeObjectNumber) {
-        return generateSubKey(objectType.getArea().getValue(), objectType.getService().getValue(), objectType
-            .getVersion().getValue(), includeObjectNumber ? objectType.getNumber().getValue() : 0);
     }
 
     public static class KeyParts {

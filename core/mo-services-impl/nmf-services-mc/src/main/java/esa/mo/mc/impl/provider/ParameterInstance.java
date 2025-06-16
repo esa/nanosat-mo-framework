@@ -28,8 +28,7 @@ import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
 
 /**
- *
- * @author Cesar Coelho
+ * The ParameterInstance class is a container for an instance of a parameter.
  */
 public class ParameterInstance {
 
@@ -38,20 +37,17 @@ public class ParameterInstance {
     private final ObjectId source;
     private final Time timestamp;
 
-    public ParameterInstance(final Identifier name, final Attribute value, final ObjectId source,
-        final Time timestamp) {
-        this.name = name;
-        this.parameterValue = new ParameterValue(new UOctet((short) 0), value, null);
-        this.source = source;
-        this.timestamp = timestamp;
-    }
-
-    public ParameterInstance(final Identifier name, final ParameterValue pValue, final ObjectId source,
-        final Time timestamp) {
+    public ParameterInstance(final Identifier name, final ParameterValue pValue,
+            final ObjectId source, final Time timestamp) {
         this.name = name;
         this.parameterValue = pValue;
         this.source = source;
         this.timestamp = timestamp;
+    }
+
+    public ParameterInstance(final Identifier name, final Attribute value,
+            final ObjectId source, final Time timestamp) {
+        this(name, new ParameterValue(new UOctet((short) 0), value, null), source, timestamp);
     }
 
     public Identifier getName() {

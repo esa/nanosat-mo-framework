@@ -28,7 +28,7 @@ import org.ccsds.moims.mo.mal.structures.UIntegerList;
  * This is a helper model-class, for the retrieval of group-instances by a
  * Service-Operation. It is mainly used in the implementation of the
  * enableGeneration-operations by all services. It contains the information
- * where unknown/invalid errors occured and which instances should be
+ * where unknown/invalid errors occurred and which instances should be
  * enabled/disabled (information contained in the "values" parameter) after
  * getting all instances recursively referenced in the group.
  *
@@ -36,27 +36,27 @@ import org.ccsds.moims.mo.mal.structures.UIntegerList;
  */
 public class GroupRetrieval {
 
-    public GroupRetrieval(UIntegerList unkIndexList, UIntegerList invIndexList, LongList objIdToBeEnabled,
-        BooleanList valueToBeEnabled) {
+    private UIntegerList unkIndexList;
+    private UIntegerList invIndexList;
+    private LongList objIdToBeEnabled;
+    private BooleanList valueToBeEnabled;
+
+    public GroupRetrieval(UIntegerList unkIndexList, UIntegerList invIndexList,
+            LongList objIdToBeEnabled, BooleanList valueToBeEnabled) {
         this.unkIndexList = unkIndexList;
         this.invIndexList = invIndexList;
         this.objIdToBeEnabled = objIdToBeEnabled;
         this.valueToBeEnabled = valueToBeEnabled;
     }
 
-    UIntegerList unkIndexList;
-    UIntegerList invIndexList;
-    LongList objIdToBeEnabled;
-    BooleanList valueToBeEnabled;
-
     public UIntegerList getUnkIndexList() {
         return unkIndexList;
     }
 
     /**
-     * adds the index to the list, ONLY IF it is not contained in the list yet.
+     * Adds the index to the list, ONLY IF it is not contained in the list yet.
      *
-     * @param index
+     * @param index The index of the
      */
     public void addUnkIndex(UInteger index) {
         if (!this.unkIndexList.contains(index)) {

@@ -100,11 +100,11 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
     private final AtomicLong aValUniqueObjId = new AtomicLong(System.currentTimeMillis());
 
     /**
-     * creates the MAL objects, the publisher used to create updates and starts
+     * Creates the MAL objects, the publisher used to create updates and starts
      * the publishing thread
      *
-     * @param comServices
-     * @param parameterManager
+     * @param comServices The COM services.
+     * @param parameterManager The Parameter Manager.
      * @throws MALException On initialisation error.
      */
     public synchronized void init(COMServicesProvider comServices,
@@ -337,7 +337,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         LongList objIdToBeEnabled = new LongList();
         BooleanList valueToBeEnabled = new BooleanList();
 
-        if (null == isGroupIds || null == enableInstances) { // Are the inputs null?
+        if (isGroupIds == null || enableInstances == null) { // Are the inputs null?
             throw new IllegalArgumentException("isGroupIds and enableInstances arguments must not be null");
         }
 
@@ -346,7 +346,8 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         ObjectId source = manager.storeCOMOperationActivity(interaction); // requirement: 3.7.4.h
         for (InstanceBooleanPair instance : enableInstances) {  // requirement: 3.7.9.2.d
             if (instance.getId() == 0) {  // Is it the wildcard '0'? requirement: 3.7.9.2.c
-                manager.setGenerationEnabledAll(instance.getValue(), source, connection.getConnectionDetails());
+                manager.setGenerationEnabledAll(instance.getValue(),
+                        source, connection.getConnectionDetails());
                 periodicReportingManager.refreshAll();
                 periodicSamplingManager.refreshAll();
                 foundWildcard = true;
@@ -541,8 +542,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         UIntegerList invIndexList = new UIntegerList();
         UIntegerList dupIndexList = new UIntegerList();
 
-        if (null == aggrCreationReqList) // Is the input null?
-        {
+        if (aggrCreationReqList == null) { // Is the input null?
             throw new IllegalArgumentException("AggregationDefinitionList argument must not be null");
         }
 
@@ -551,7 +551,8 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
             final Identifier aggrName = aggrCreationReq.getName();
 
             // Check if the name field of the AggregationDefinition is invalid.
-            if (aggrName.equals(new Identifier("*")) || aggrName.equals(new Identifier(""))) { // requirement: 3.7.10.2.2
+            if (aggrName.equals(new Identifier("*"))
+                    || aggrName.equals(new Identifier(""))) { // requirement: 3.7.10.2.2
                 invIndexList.add(new UInteger(index));
                 continue;
             }
@@ -591,13 +592,11 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
         // requirement: 3.7.10.2.e is met because the errors will be thrown before something changes
         // Errors
-        if (!invIndexList.isEmpty()) // requirement: 3.7.10.2.2
-        {
+        if (!invIndexList.isEmpty()) { // requirement: 3.7.10.2.2
             throw new MALInteractionException(new InvalidException(invIndexList));
         }
 
-        if (!dupIndexList.isEmpty()) // requirement: 3.7.10.2.3
-        {
+        if (!dupIndexList.isEmpty()) { // requirement: 3.7.10.2.3
             throw new MALInteractionException(new DuplicateException(dupIndexList));
         }
 
@@ -698,13 +697,13 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
     }
 
     @Override
-    public void removeAggregation(final LongList identityIds, final MALInteraction interaction) throws MALException,
-            MALInteractionException { // requirement: 3.7.12.2.1
+    public void removeAggregation(final LongList identityIds, final MALInteraction interaction)
+            throws MALException, MALInteractionException { // requirement: 3.7.12.2.1
         UIntegerList unkIndexList = new UIntegerList();
         Long identityId;
         LongList removalLst = new LongList();
 
-        if (null == identityIds) { // Is the input null?
+        if (identityIds == null) { // Is the input null?
             throw new IllegalArgumentException("LongList argument must not be null");
         }
 
@@ -727,8 +726,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         }
 
         // Errors
-        if (!unkIndexList.isEmpty()) // requirement: 3.3.14.3.1 (error: a, b)
-        {
+        if (!unkIndexList.isEmpty()) { // requirement: 3.3.14.3.1 (error: a, b)
             throw new MALInteractionException(new UnknownException(unkIndexList));
         }
         // requirement: 3.7.14.2.f (Inserting the errors before this line guarantees that the requirement is met)
@@ -768,8 +766,9 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
             return false;
         }
         //publish! requirement: 3.7.3.j
-        if (!publishAggregationUpdate(identityId, manager.getAggregationValue(identityId, GenerationMode.ADHOC), source,
-                timestamp, storeAggregationsInCOMArchive)) {
+        if (!publishAggregationUpdate(identityId,
+                manager.getAggregationValue(identityId, GenerationMode.ADHOC),
+                source, timestamp, storeAggregationsInCOMArchive)) {
             return false;
         }
 
@@ -829,7 +828,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
      * sets them to the internal list if it was triggered or if no filter is
      * enabled
      *
-     * @param identityId
+     * @param identityId The identity of the aggregation definition.
      * @param aggrExpired should be set to true, if the aggregation that is
      * sampling the parameter is periodic and the aggregation period is up.
      * @return true if the values were successfully saved to the internal list.
@@ -840,19 +839,19 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
     }
 
     /**
-     * gets new parameterValues, checks if the filter is triggered and sets
-     * these to the internal list if the filter was triggered or if no filter is
-     * enabled
+     * Returns the new parameterValues, checks if the filter is triggered and
+     * sets these to the internal list if the filter was triggered or if no
+     * filter is enabled
      *
-     * @param identityId
+     * @param identityId The identity of the aggregation definition.
      * @param aggrExpired should be set to true, if the aggregation that is
      * sampling the parameter is periodic and the aggregation period is up.
      * @param aSetVal the new parameter values to be set
      * @return true if the values were successfully saved to the internal list.
      * false if the filter is enabled but wasnt triggered with the new values.
      */
-    private boolean checkFilterAndSampleParams(final Long identityId, boolean aggrExpired,
-            final AggregationSetValueList aSetVal) {
+    private boolean checkFilterAndSampleParams(final Long identityId,
+            boolean aggrExpired, final AggregationSetValueList aSetVal) {
         //check if filter enabled
         AggregationDefinitionDetails aggrDef = manager.getAggregationDefinition(identityId);
         final AggregationParameterSetList parameterSets = aggrDef.getParameterSets();
@@ -1129,9 +1128,9 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
      */
     private class PeriodicSamplingManager { // requirement: 3.7.2.1a
 
-        private List<TaskScheduler> sampleTimerList; // Timer List. One timer for each parameterSet of each aggregation that needs to be sampled
-        private LongList aggregationObjIdList; // ids of the aggregations whiches parameterSet started the timer above. first index here belongs to the first timer abode. 
-        private List<Integer> parameterSetIndexList; // index of the parameter set in the aggregation above, that belongs to the timer. first index here belngs to the first  aggregation id above and belongs to the first timer above.
+        private final List<TaskScheduler> sampleTimerList; // Timer List. One timer for each parameterSet of each aggregation that needs to be sampled
+        private final LongList aggregationObjIdList; // ids of the aggregations whiches parameterSet started the timer above. first index here belongs to the first timer abode. 
+        private final List<Integer> parameterSetIndexList; // index of the parameter set in the aggregation above, that belongs to the timer. first index here belngs to the first  aggregation id above and belongs to the first timer above.
         private boolean active = false; // Flag that determines if the Manager is on or off
 
         public PeriodicSamplingManager() {
@@ -1272,8 +1271,8 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         }
 
         // Confirm the domain
-        if (!confSet0.getDomain().equals(ConfigurationProviderSingleton.getDomain()) || !confSet1.getDomain().equals(
-                ConfigurationProviderSingleton.getDomain())) {
+        if (!confSet0.getDomain().equals(ConfigurationProviderSingleton.getDomain())
+                || !confSet1.getDomain().equals(ConfigurationProviderSingleton.getDomain())) {
             return false;
         }
 
