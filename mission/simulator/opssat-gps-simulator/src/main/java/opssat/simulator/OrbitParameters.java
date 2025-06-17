@@ -1,5 +1,5 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2021      European Space Agency
+ * Copyright (C) 2025      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
@@ -20,33 +20,58 @@
  */
 package opssat.simulator;
 
+import java.util.Date;
+
 /**
- * The FineADCS class includes the simulation of a Magnetometer on a selected
- * orbit.
  *
+ * @author Cesar.Coelho
  */
-public class FineADCS {
+public class OrbitParameters {
 
-    private final Orbit orbit;
-    private final Magnetometer magnetometer;
-
-    /**
-     * The FineADCS class constructor.
-     *
-     * @param orbit The orbit to be used for simulation of the FineADCS.
-     */
-    public FineADCS(Orbit orbit) {
-        this.orbit = orbit;
-        magnetometer = new Magnetometer(orbit);
-    }
+    private final double longitude;
+    private final double latitude;
+    private final double a;
+    private final Date time;
+    private final Vector velocity;
 
     /**
-     * A getter for the Magnetometer class.
+     * Constructor.
      *
-     * @return The Magnetometer of the simulated FineADCS.
+     * @param latitude The latitude of the orbit.
+     * @param longitude The longitude of the orbit.
+     * @param a Semi-major axis in Km.
+     * @param velocity The velocity.
+     * @param time The time.
      */
-    public Magnetometer getMagnetometer() {
-        return this.magnetometer;
+    public OrbitParameters(double latitude, double longitude, double a, Vector velocity, Date time) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.a = a;
+        this.velocity = velocity;
+        this.time = time;
     }
 
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public double getA() {
+        return a;
+    }
+
+    public double getAltitude() {
+        return a - Orbit.EARTH_RADIUS;
+    }
+
+    public Date getTime() {
+        return time;
+    }
+
+    public Vector getVelocity() {
+        return velocity;
+    }
 }

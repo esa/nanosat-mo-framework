@@ -46,7 +46,9 @@ import org.ccsds.moims.mo.mc.MCHelper;
 import org.ccsds.moims.mo.mc.action.ActionServiceInfo;
 
 /**
- *
+ * The DirectoryProxyServiceImpl class extends the DirectoryProviderServiceImpl
+ * class in order to allow the routing of the communications to other ground
+ * systems.
  */
 public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
 
@@ -55,13 +57,15 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
      * Directory service with the local one. Returns the list of remote
      * providers.
      *
-     * @param centralDirectoryServiceURI
-     * @param routedURI
+     * @param centralDirectoryServiceURI The URI of the central Directory
+     * service.
+     * @param routedURI The routed URI.
      * @return The list of the providers from the remote Central Directory
      * service
-     * @throws MALException
-     * @throws MalformedURLException
-     * @throws MALInteractionException
+     * @throws org.ccsds.moims.mo.mal.MALException if there is a MAL exception.
+     * @throws java.net.MalformedURLException if the URI is incorrect.
+     * @throws org.ccsds.moims.mo.mal.MALInteractionException if it could not
+     * reach the Directory service.
      */
     public ProviderSummaryList syncLocalDirectoryServiceWithCentral(final URI centralDirectoryServiceURI,
             final URI routedURI) throws MALException, MalformedURLException, MALInteractionException {

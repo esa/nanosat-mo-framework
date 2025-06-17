@@ -67,6 +67,7 @@ import java.util.zip.CRC32;
 import java.util.zip.Checksum;
 import opssat.simulator.GPS;
 import opssat.simulator.Orbit;
+import opssat.simulator.OrbitParameters;
 import opssat.simulator.celestia.CelestiaData;
 import opssat.simulator.interfaces.ISimulatorDeviceData;
 import opssat.simulator.interfaces.InternalData;
@@ -438,7 +439,7 @@ public class SimulatorNode extends TaskNode {
 
         }
         this.darkDusk = new Orbit(OPS_SAT_A, OPS_SAT_ORBIT_I * (Math.PI / 180), (OPS_SAT_RAAN) * (Math.PI / 180),
-                (OPS_SAT_ARG_PER) * (Math.PI / 180), OPS_SAT_TRUE_ANOMALY, simulatorHeader.getStartDateString());
+                (OPS_SAT_ARG_PER) * (Math.PI / 180), 0, OPS_SAT_TRUE_ANOMALY, simulatorHeader.getStartDateString());
         this.gps = new GPS(darkDusk);
 
         if (this.simulatorHeader.isUseOrekitPropagator()) {
@@ -1738,11 +1739,11 @@ public class SimulatorNode extends TaskNode {
             return data;
 
         } else {
-            Orbit.OrbitParameters orbitData = this.gps.getPosition(simulatorData.getCurrentTime());
+            OrbitParameters orbitData = this.gps.getPosition(simulatorData.getCurrentTime());
             return new SimulatorSpacecraftState(
-                    orbitData.getlatitude(),
-                    orbitData.getlongitude(),
-                    orbitData.getGPSaltitude() * 1000);
+                    orbitData.getLatitude(),
+                    orbitData.getLongitude(),
+                    orbitData.getAltitude() * 1000);
         }
     }
 

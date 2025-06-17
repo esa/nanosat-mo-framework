@@ -53,7 +53,7 @@ public class PositionsCalculator {
      * @param p1 The Position 1.
      * @param p2 The Position 2.
      * @return The distance between two positions.
-     * @throws IOException
+     * @throws IOException If the position is not valid.
      */
     public static double deltaDistanceFrom2Points(Position p1, Position p2) throws IOException {
         if (p1 == null || p2 == null) {
@@ -83,12 +83,12 @@ public class PositionsCalculator {
         double alt = p.getAltitude();
 
         double meanSeaLevel = Math.atan((1 - f) * (1 - f) * Math.tan(lat));
-        double rs = Math.sqrt(R * R / ((1 + (1 / ((1 - f) * (1 - f)) - 1) * Math.sin(meanSeaLevel) * Math.sin(
-            meanSeaLevel))));
+        double rs = Math.sqrt(R * R / ((1 + (1 / ((1 - f) * (1 - f)) - 1)
+                * Math.sin(meanSeaLevel) * Math.sin(meanSeaLevel))));
 
-        return new ECEFVector(rs * Math.cos(meanSeaLevel) * Math.cos(lon) + alt * Math.cos(lat) * Math.cos(lon), rs *
-            Math.cos(meanSeaLevel) * Math.sin(lon) + alt * Math.cos(lat) * Math.sin(lon), rs * Math.sin(meanSeaLevel) +
-                alt * Math.sin(lat));
+        return new ECEFVector(rs * Math.cos(meanSeaLevel) * Math.cos(lon) + alt * Math.cos(lat) * Math.cos(lon), rs
+                * Math.cos(meanSeaLevel) * Math.sin(lon) + alt * Math.cos(lat) * Math.sin(lon), rs * Math.sin(meanSeaLevel)
+                + alt * Math.sin(lat));
     }
 
 }

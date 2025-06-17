@@ -20,43 +20,50 @@
  */
 package opssat.simulator;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  *
  * @author Cesar Coelho
  */
-public class Magnetometer {
+public class RunForISS {
 
-    private final Orbit orbit;
+    private static final String EPOCH_DEFAULT = "2025:06:17 11:16:37 UTC";
 
-    private static final double B_0 = 3.12E-5; // Tesla
-    private static final double R_e = 6370; //km
+    private final Orbit orbit = new Orbit(
+            6787,
+            51.6391 * (Math.PI / 180),
+            (305.6704) * (Math.PI / 180),
+            (257.2132) * (Math.PI / 180),
+            0.0001085,
+            0,
+            EPOCH_DEFAULT);
 
-    public Magnetometer(Orbit received) {
-        this.orbit = received;
-    }
-
-    /**
-     * Getter for the Magnetic field on the r axis
-     *
-     * @return Magnetic field on the r axis measured in Tesla
-     */
-    public double getB_r() {
-        // From: http://en.wikipedia.org/wiki/Dipole_model_of_the_Earth%27s_magnetic_field
-        OrbitParameters param = orbit.getParametersForLatestDate();
-        double theta = Math.PI - param.getLatitude() * Math.PI / 180;
-        return -2 * B_0 * Math.pow(R_e / param.getA(), 3) * Math.cos(theta);
-    }
+    public final InstrumentsSimulator app = new InstrumentsSimulator(orbit);
 
     /**
-     * Getter for the Magnetic field on the theta axis
+     * Main command line entry point.
      *
-     * @return Magnetic field on the theta axis measured in Tesla
+     * @param args the command line arguments
      */
-    public double getB_theta() {
-        // From: http://en.wikipedia.org/wiki/Dipole_model_of_the_Earth%27s_magnetic_field
-        OrbitParameters param = orbit.getParametersForLatestDate();
-        double theta = Math.PI - param.getLatitude() * Math.PI / 180;
-        return -B_0 * Math.pow(R_e / param.getA(), 3) * Math.sin(theta);
+    public static void main(final String[] args) {
+        RunForISS demo = new RunForISS();
+    }
+
+    public RunForISS() {
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                GPS gps = app.getGPS();
+                OrbitParameters position = gps.getPositionNow();
+                System.out.printf("\nLatitude: %f\nLongitude: %f\nAltitude: %f\nTime: %s\n",
+                        position.getLatitude(), position.getLongitude(),
+                        position.getAltitude(), position.getTime().toString());
+            }
+        }, 0, 3000);
+
     }
 
 }

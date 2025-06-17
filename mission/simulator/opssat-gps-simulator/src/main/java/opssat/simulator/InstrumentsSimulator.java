@@ -28,34 +28,52 @@ import java.util.Date;
  */
 public class InstrumentsSimulator {
 
-    private final Orbit darkDusk;
+    private final Orbit orbit;
     private final GPS gps;
     private final FineADCS fineADCS;
     private int mode = 0;
     private double temperature = 0;
-    private byte[] picture = null;
 
     /**
-     * Constructor for the Instruments Simulator Block
+     * Constructor for the Instruments Simulator.
+     *
+     * @param orbit The orbit for the instruments simulator.
+     */
+    public InstrumentsSimulator(Orbit orbit) {
+        this.orbit = orbit;
+        this.gps = new GPS(orbit);
+        this.fineADCS = new FineADCS(orbit);
+    }
+
+    /**
+     * Constructor for the Instruments Simulator. Starts with a dark dust orbit.
      */
     public InstrumentsSimulator() {
-        // TODO code application logic here
-
-        // Values from the OPS-SAT document: a = 6371+650= 7021 km ; i = 98.05 deg  (orbital period: 1.63 hours)
+        // Values from the OPS-SAT document:
+        // a = 6371+650= 7021 km
+        // i = 98.05 deg  (orbital period: 1.63 hours)
         // (double a, double i, double RAAN, double arg_per, double true_anomaly)
-        this.darkDusk = new Orbit(7021, 98.05 * (Math.PI / 180), (340) * (Math.PI / 180), (0) * (Math.PI / 180), 0);
-
-        this.gps = new GPS(darkDusk);
-        this.fineADCS = new FineADCS(darkDusk);
-
+        this(new Orbit(
+                6779,
+                98.05 * (Math.PI / 180),
+                (340) * (Math.PI / 180),
+                (0) * (Math.PI / 180),
+                0,
+                0));
     }
 
     public void printRealPosition() {
-        Orbit.OrbitParameters param = this.darkDusk.getParameters();
-        System.out.printf("\n\nLatitude, Longitude: %f, %f\nAltitude: %f\nTime: %s\n\n\n", param.getlatitude(), param
-            .getlongitude(), param.geta(), param.gettime().toString());
+        OrbitParameters param = orbit.getParametersForLatestDate();
+        System.out.printf("\n\nLatitude: %f\nLongitude: %f\nAltitude: %f\nTime: %s\n\n\n",
+                param.getLatitude(), param.getLongitude(),
+                param.getA(), param.getTime().toString());
     }
 
+    public GPS getGPS() {
+        return this.gps;
+    }
+
+    /*
     public double getGPSlatitude() {
         return this.gps.getPosition().getlatitude();
     }
@@ -71,7 +89,7 @@ public class InstrumentsSimulator {
     public Date getGPStime() {
         return this.gps.getPosition().gettime();
     }
-
+*/
     public double getFineADCSmagnetometerBr() {
         return fineADCS.getMagnetometer().getB_r();
     }

@@ -39,9 +39,9 @@ public class OPSSATCameraDebayering {
     /**
      * The method converts a byte array coming from OPS-SAT's Camera using the
      * "Replication" algorithm and returns a BufferedImage.
-     * 
-     * @param data
-     * @return
+     *
+     * @param data The data of the image to be debayered.
+     * @return The debayered image in the BufferedImage format.
      */
     public static BufferedImage getDebayeredImage(byte[] data) {
         return OPSSATCameraDebayering.getDebayeredImage(data, 0);
@@ -50,15 +50,16 @@ public class OPSSATCameraDebayering {
     /**
      * The method converts a byte array coming from OPS-SAT's Camera using the
      * selected algorithm and returns a BufferedImage.
-     * 
+     *
      * The available algorithms are:
-     * 0: "Replication"
-     * 1: "Bilinear" 
-     * 2: "Smooth Hue"
-     * 3: "Adaptive Smooth Hue"
-     * 
-     * @param data
-     * @param algorithm
+     * <br>
+     * 0: "Replication"<br>
+     * 1: "Bilinear" <br>
+     * 2: "Smooth Hue"<br>
+     * 3: "Adaptive Smooth Hue"<br>
+     *
+     * @param data The data of the image to be debayered.
+     * @param algorithm The algorithm to use for the debayering.
      * @return
      */
     public static BufferedImage getDebayeredImage(byte[] data, int algorithm) {
@@ -87,7 +88,6 @@ public class OPSSATCameraDebayering {
 
         ImagePlus outImage = OPSSATCameraDebayering.processImage(imp, algorithm);
         //        outImage.show();
-
         return outImage.getBufferedImage();
     }
 

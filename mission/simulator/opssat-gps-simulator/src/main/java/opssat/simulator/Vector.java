@@ -30,6 +30,13 @@ public class Vector {
     private final double y;
     private final double z;
 
+    /**
+     * Constructor.
+     *
+     * @param x The X component.
+     * @param y The Y component.
+     * @param z The Z component.
+     */
     public Vector(double x, double y, double z) {
         this.x = x;
         this.y = y;

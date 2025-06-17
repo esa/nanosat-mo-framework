@@ -31,7 +31,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.InvalidException;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
@@ -51,9 +50,7 @@ import org.ccsds.moims.mo.common.directory.structures.ServiceCapabilityList;
 import org.ccsds.moims.mo.common.directory.structures.ServiceFilter;
 import org.ccsds.moims.mo.common.structures.ServiceKey;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.UnknownException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
@@ -166,6 +163,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
         }
     }
 
+    @Override
     public ConnectionProvider getConnection() {
         return this.connection;
     }
@@ -242,12 +240,10 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
 
             // Set the Provider Details structure
             ServiceCapabilityList outCap = new ServiceCapabilityList();
+            ProviderDetails pDetails = provider.getProviderDetails();
 
-            // Check each service
-            for (int j = 0; j < provider.getProviderDetails().getServiceCapabilities().size(); j++) { // Go through all the services
-                ServiceCapability serviceCapability
-                        = provider.getProviderDetails().getServiceCapabilities().get(j);
-
+            // Go through all the services and check each service
+            for (ServiceCapability serviceCapability : pDetails.getServiceCapabilities()) {
                 // Check service key - area field
                 if (filter.getServiceKey().getKeyArea().getValue() != 0) {
                     if (!serviceCapability.getServiceKey().getKeyArea().equals(filter.getServiceKey().getKeyArea())) {
@@ -317,7 +313,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
 
             // It passed all the tests!
             final ObjectKey objKey = new ObjectKey(provider.getDomain(), keys.get(i));
-            ProviderDetails outProvDetails = new ProviderDetails(outCap, provider.getProviderDetails().getProviderAddresses());
+            ProviderDetails outProvDetails = new ProviderDetails(outCap, pDetails.getProviderAddresses());
             outputList.add(new ProviderSummary(objKey, provider.getProviderId(), outProvDetails));
         }
 

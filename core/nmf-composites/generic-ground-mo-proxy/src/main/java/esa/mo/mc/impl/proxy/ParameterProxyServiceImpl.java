@@ -36,13 +36,13 @@ import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
-import org.ccsds.moims.mo.mc.parameter.ParameterServiceInfo;
 import org.ccsds.moims.mo.mc.parameter.provider.ParameterInheritanceSkeleton;
 import org.ccsds.moims.mo.mc.parameter.structures.*;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 
 /**
- *
+ * The ParameterProxyServiceImpl class extends the ParameterInheritanceSkeleton
+ * class in order to allow the retrieval of parameters to be queued.
  */
 public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
 
@@ -58,10 +58,10 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
     private final ConnectionProvider connection = new ConnectionProvider();
 
     /**
-     * creates the MAL objects, the publisher used to create updates and starts
+     * Creates the MAL objects, the publisher used to create updates and starts
      * the publishing thread
      *
-     * @param adaptersList
+     * @param adaptersList The list of consumer adapters.
      */
     public synchronized void initProxy(HashMap<String, NMFConsumer> adaptersList) throws MALException {
         // One should initialize the Consumer first...
@@ -76,25 +76,22 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
                 QoSLevel.BESTEFFORT,
                 null,
                 new UInteger(0));
-        */
+         */
         // shut down old service transport
         if (null != parameterServiceProvider) {
             connection.close();
         }
 
-        parameterServiceProvider = connection.startService(ParameterServiceInfo.PARAMETER_SERVICE_NAME.toString(),
-                ParameterHelper.PARAMETER_SERVICE, this);
-
+        parameterServiceProvider = connection.startService(ParameterHelper.PARAMETER_SERVICE, true, this);
         running = true;
-
         proxyInitialiased = true;
         Logger.getLogger(ParameterProxyServiceImpl.class.getName()).info("Parameter service READY");
 
     }
 
     @Override
-    public ParameterValueDetailsList getValue(LongList ll, MALInteraction interaction) throws MALInteractionException,
-        MALException {
+    public ParameterValueDetailsList getValue(LongList ll, MALInteraction interaction)
+            throws MALInteractionException, MALException {
         // In this case, the object this.consumer represents the connection 
         // between the consumer part of the proxy to the provider on Space
 
@@ -107,7 +104,6 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
         // Select the right provider from a List of providers based on the 
         // uriOfSpaceProvider. If it does not exist, then initialize the 
         // connection to it.
-
         boolean weCareAboutConnectionAvailableToGS = true; // Will be a future property that can be set
         boolean weHaveQueueing = true;                     // Will be a future property that can be set
         boolean isConnectionAvailable = true;              // Proxy needs to periodically check the connection for this var
@@ -126,7 +122,6 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
         //----------------------------------------------------
 
         // Publish RECEPTION Event success back to the consumer
-
         try {
             if (weHaveQueueing) {
                 queueSemaphore.acquire(); // Put it waiting in the queue list
@@ -147,10 +142,8 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
                 }
 
                 // Publish FORWARD Event back to the consumer (runs inside a thread)
-
                 // Makes a call to the provider on Space
                 //                GetValueResponse response = this.consumer.getParameterStub().getValue(lLongList);
-
                 // returns the answer to the connected consumer
                 //                return response;
                 return null;
@@ -161,7 +154,7 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
 
     @Override
     public LongList enableGeneration(final Boolean isGroupIds, final InstanceBooleanPairList enableInstances,
-        final MALInteraction interaction) throws MALException, MALInteractionException {
+            final MALInteraction interaction) throws MALException, MALInteractionException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -176,7 +169,7 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
 
     @Override
     public ObjectInstancePairList addParameter(ParameterCreationRequestList pcrl, MALInteraction mali)
-        throws MALInteractionException, MALException {
+            throws MALInteractionException, MALException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -187,13 +180,13 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
 
     @Override
     public ObjectInstancePairList listDefinition(IdentifierList il, MALInteraction mali) throws MALInteractionException,
-        MALException {
+            MALException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public LongList updateDefinition(LongList ll, ParameterDefinitionDetailsList pddl, MALInteraction mali)
-        throws MALInteractionException, MALException {
+            throws MALInteractionException, MALException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

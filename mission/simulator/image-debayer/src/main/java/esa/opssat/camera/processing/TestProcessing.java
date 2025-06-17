@@ -20,22 +20,23 @@
  */
 package esa.opssat.camera.processing;
 
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import java.awt.image.BufferedImage;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
 /**
+ * Tests the processing of an image.
  *
  * @author César Coelho
  */
 public class TestProcessing {
+
+    public static final String RAW_PATH = "../../../payloads-test/toGround/img_msec_1633341865066_50.ims_rgb";
 
     public static void main(String[] args) {
         try {
@@ -44,8 +45,6 @@ public class TestProcessing {
             Logger.getLogger(TestProcessing.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-    public static final String RAW_PATH = "../../../payloads-test/toGround/img_msec_1633341865066_50.ims_rgb";
 
     public static void testDebayer() throws IOException {
         byte[] inBytes = Files.readAllBytes(Paths.get(RAW_PATH));

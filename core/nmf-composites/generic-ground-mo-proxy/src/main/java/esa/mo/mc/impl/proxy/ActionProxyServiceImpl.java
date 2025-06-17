@@ -52,7 +52,8 @@ import org.ccsds.moims.mo.mc.action.structures.ActionInstanceDetails;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 
 /**
- *
+ * The ActionProxyServiceImpl class extends the ActionInheritanceSkeleton class
+ * in order to allow actions to be pre-checked by ground systems.
  */
 public class ActionProxyServiceImpl extends ActionInheritanceSkeleton {
 
@@ -67,8 +68,8 @@ public class ActionProxyServiceImpl extends ActionInheritanceSkeleton {
      * creates the MAL objects, the publisher used to create updates and starts
      * the publishing thread
      *
-     * @param localCOMServices
-     * @param actionConsumer
+     * @param localCOMServices The local COM services.
+     * @param actionConsumer The consumer for the Actin service.
      * @throws MALException On initialisation error.
      */
     public synchronized void init(COMServicesProvider localCOMServices,
@@ -106,7 +107,7 @@ public class ActionProxyServiceImpl extends ActionInheritanceSkeleton {
             running = false;
         } catch (MALException ex) {
             Logger.getLogger(ActionProxyServiceImpl.class.getName()).log(Level.WARNING,
-                "Exception during close down of the provider {0}", ex);
+                    "Exception during close down of the provider {0}", ex);
         }
     }
 
@@ -116,10 +117,10 @@ public class ActionProxyServiceImpl extends ActionInheritanceSkeleton {
 
     @Override
     public void submitAction(Long actionInstId, ActionInstanceDetails actionDetails, MALInteraction interaction)
-        throws MALInteractionException, MALException {
+            throws MALInteractionException, MALException {
         // Publish Activity Tracking event: Reception Event
         manager.getCOMServices().getActivityTrackingService().publishReceptionEvent(interaction, true, new Duration(0),
-            actionConsumer.getConnectionDetails().getProviderURI(), null);
+                actionConsumer.getConnectionDetails().getProviderURI(), null);
 
         actionConsumer.getActionStub().asyncSubmitAction(actionInstId, actionDetails, new ActionAdapter() {
             @Override
@@ -130,13 +131,13 @@ public class ActionProxyServiceImpl extends ActionInheritanceSkeleton {
             @Override
             public void submitActionErrorReceived(MALMessageHeader msgHeader, MOErrorException error, Map qosProperties) {
                 Logger.getLogger(ActionProxyServiceImpl.class.getName()).log(Level.WARNING,
-                    "The Action could not be submitted to the provider. {0}", error);
+                        "The Action could not be submitted to the provider. {0}", error);
             }
         });
 
         // Publish Activity Tracking event: Forward Event
         manager.getCOMServices().getActivityTrackingService().publishForwardEvent(interaction, true, new Duration(0),
-            actionConsumer.getConnectionDetails().getProviderURI(), null);
+                actionConsumer.getConnectionDetails().getProviderURI(), null);
     }
 
     @Override

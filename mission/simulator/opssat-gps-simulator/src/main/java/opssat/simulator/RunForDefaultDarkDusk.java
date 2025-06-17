@@ -27,7 +27,7 @@ import java.util.TimerTask;
  *
  * @author Cesar Coelho
  */
-public class TestClass {
+public class RunForDefaultDarkDusk {
 
     public final InstrumentsSimulator app = new InstrumentsSimulator();
 
@@ -37,17 +37,19 @@ public class TestClass {
      * @param args the command line arguments
      */
     public static void main(final String[] args) {
-        TestClass demo = new TestClass();
+        RunForDefaultDarkDusk demo = new RunForDefaultDarkDusk();
     }
 
-    public TestClass() {
+    public RunForDefaultDarkDusk() {
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                System.out.printf("\nLatitude, Longitude: %f, %f\nAltitude: %f\nTime: %s\n", app.getGPSlatitude(), app
-                    .getGPSlongitude(), app.getGPSaltitude(), app.getGPStime().toString());
-
+                GPS gps = app.getGPS();
+                OrbitParameters position = gps.getPositionNow();
+                System.out.printf("\nLatitude: %f\nLongitude: %f\nAltitude: %f\nTime: %s\n",
+                        position.getLatitude(), position.getLongitude(),
+                        position.getAltitude(), position.getTime().toString());
             }
         }, 0, 3000);
 

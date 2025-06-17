@@ -232,9 +232,9 @@ public class NMFConsumer {
      * service.
      *
      * @param directoryURI The Directory service URI.
-     * @param authenticationId
-     * @param localNamePrefix
-     * @return The list of providers
+     * @param authenticationId The authenticationId.
+     * @param localNamePrefix The local name prefix.
+     * @return The list of providers.
      * @throws org.ccsds.moims.mo.mal.MALException if there is a MAL exception.
      * @throws java.net.MalformedURLException if the URI is incorrect.
      * @throws org.ccsds.moims.mo.mal.MALInteractionException if it could not
@@ -251,7 +251,7 @@ public class NMFConsumer {
      * service.
      *
      * @param directoryURI The Directory service URI.
-     * @param localNamePrefix
+     * @param localNamePrefix The local name prefix.
      * @return The list of providers.
      * @throws org.ccsds.moims.mo.mal.MALException if there is a MAL exception.
      * @throws java.net.MalformedURLException if the URI is incorrect.
@@ -288,8 +288,8 @@ public class NMFConsumer {
      * @param isS2G If true, then the method will only request for SPP
      * connections.
      * @param directoryURI The Directory service URI
-     * @param authenticationId
-     * @param localNamePrefix
+     * @param authenticationId The authenticationId.
+     * @param localNamePrefix The local name prefix.
      * @return The list of providers
      * @throws org.ccsds.moims.mo.mal.MALException if there is a MAL exception.
      * @throws java.net.MalformedURLException if the URI is incorrect.
