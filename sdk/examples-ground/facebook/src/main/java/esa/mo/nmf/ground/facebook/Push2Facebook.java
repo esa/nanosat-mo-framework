@@ -46,16 +46,13 @@ import org.ccsds.moims.mo.mal.structures.URI;
 public class Push2Facebook {
 
     private static final Logger LOGGER = Logger.getLogger(Push2Facebook.class.getName());
-
     private static final String APP_PREFIX = "App: ";
     private static final String TOKEN_FILENAME = "token.properties";
     private final String ACCESS_TOKEN;
 
     public Push2Facebook(String directoryURI, String providerName) {
-
         try {
             registerDataListener(directoryURI, providerName);
-
             final java.util.Properties sysProps = System.getProperties();
 
             // Load the properties out of the file
@@ -74,7 +71,7 @@ public class Push2Facebook {
      * Main command line entry point.
      *
      * @param args the command line arguments
-     * @throws java.lang.Exception
+     * @throws Exception If the App was not able to run.
      */
     public static void main(final String[] args) throws Exception {
         if (args.length != 2) {

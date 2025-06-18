@@ -180,9 +180,8 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
             stepCount = CameraAcquisitorSystemCameraTargetHandler.PHOTOGRAPH_LOCATION_STAGES,
             name = CameraAcquisitorSystemCameraTargetHandler.ACTION_PHOTOGRAPH_LOCATION)
     public UInteger photographLocation(Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction,
-        @ActionParameter(name = "targetLatitude", rawUnit = "degree") Double targetLatitude, @ActionParameter(
-                                                                                                              name = "targetLongitude",
-                                                                                                              rawUnit = "degree") Double targetLongitude,
+        @ActionParameter(name = "targetLatitude", rawUnit = "degree") Double targetLatitude,
+        @ActionParameter(name = "targetLongitude", rawUnit = "degree") Double targetLongitude,
         @ActionParameter(name = "timeStamp") String timeStamp) {
         LOGGER.log(Level.SEVERE, "" + targetLatitude + " " + targetLongitude + " " + timeStamp);
         return this.cameraTargetHandler.photographLocation(targetLatitude, targetLongitude, timeStamp,
@@ -205,8 +204,8 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
         TimeScale utc = TimeScalesFactory.getUTC();
         LocalDateTime time = LocalDateTime.ofInstant(instant, ZoneId.of("UTC"));
 
-        return new AbsoluteDate(time.getYear(), time.getMonthValue(), time.getDayOfMonth(), time.getHour(), time
-            .getMinute(), time.getSecond(), utc);
+        return new AbsoluteDate(time.getYear(), time.getMonthValue(), time.getDayOfMonth(),
+                time.getHour(), time.getMinute(), time.getSecond(), utc);
     }
 
     double getAttitudeSafetyMarginSeconds() {

@@ -49,15 +49,16 @@ public class CameraAcquisitorSystemGPSHandler extends GPSAdapter {
         this.casMCAdapter = casMCAdapter;
     }
 
-    public UInteger actionArrived(Identifier name, AttributeValueList attributeValues, Long actionInstanceObjId,
-        boolean reportProgress, MALInteraction interaction) {
+    public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,
+            Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
         return new UInteger(0); // error code 0 - unknown error
     }
 
     /**
-     * gets the current geographical position of the Satellite (longitude, latitude, altitude)
+     * gets the current geographical position of the Satellite (longitude,
+     * latitude, altitude).
      *
-     * @return
+     * @return The current position.
      */
     public GeodeticPoint getCurrentPosition() {
         GetLastKnownPositionResponse pos;

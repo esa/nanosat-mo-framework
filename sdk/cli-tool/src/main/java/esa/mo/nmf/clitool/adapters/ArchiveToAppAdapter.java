@@ -71,7 +71,7 @@ public class ArchiveToAppAdapter extends ArchiveAdapter implements QueryStatusPr
     /**
      * Creates a new instance of ArchiveToAppAdapter.
      * 
-     * @param appName
+     * @param appName The name of the App.
      */
     public ArchiveToAppAdapter(String appName) {
         this.appName = appName;
@@ -80,7 +80,7 @@ public class ArchiveToAppAdapter extends ArchiveAdapter implements QueryStatusPr
     /**
      * Processes archive objects output received from an archive query answer (update or response).
      *
-     * @param archiveObjectOutput the archive objects outputs
+     * @param archiveObjectOutput the archive objects outputs.
      */
     private synchronized void ProcessArchiveObjectsOutput(ArchiveCOMObjectsOutput archiveObjectOutput) {
         // empty comType means query returned nothing

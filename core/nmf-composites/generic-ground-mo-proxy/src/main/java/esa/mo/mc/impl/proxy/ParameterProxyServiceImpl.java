@@ -62,6 +62,7 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
      * the publishing thread
      *
      * @param adaptersList The list of consumer adapters.
+     * @throws MALException If the service could not be started.
      */
     public synchronized void initProxy(HashMap<String, NMFConsumer> adaptersList) throws MALException {
         // One should initialize the Consumer first...

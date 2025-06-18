@@ -73,7 +73,7 @@ public class CameraAcquisitorSystemCameraTargetHandler {
         this.casMCAdapter = casMCAdapter;
     }
 
-    UInteger photographLocation(AttributeValueList attributeValues,
+    private UInteger photographLocation(AttributeValueList attributeValues,
             Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
         // get parameters
         Double latitude = HelperAttributes.attribute2double(attributeValues.get(0).getValue());
@@ -83,7 +83,7 @@ public class CameraAcquisitorSystemCameraTargetHandler {
         return photographLocation(latitude, longitude, timeStamp, actionInstanceObjId, reportProgress, interaction);
     }
 
-    UInteger photographLocation(double latitude, double longitude, String timeStamp,
+    public UInteger photographLocation(double latitude, double longitude, String timeStamp,
             Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
         AbsoluteDate targetDate = new AbsoluteDate(timeStamp, TimeScalesFactory.getUTC());
 
@@ -111,8 +111,8 @@ public class CameraAcquisitorSystemCameraTargetHandler {
 
                 try {
                     casMCAdapter.getConnector().getPlatformServices().getAutonomousADCSService().setDesiredAttitude(
-                        new Duration(timeTillPhotograph.getValue() + casMCAdapter.getAttitudeSafetyMarginSeconds()),
-                        desiredAttitude);
+                            new Duration(timeTillPhotograph.getValue() + casMCAdapter.getAttitudeSafetyMarginSeconds()),
+                            desiredAttitude);
 
                     casMCAdapter.getConnector().reportActionExecutionProgress(true, 0,
                             STAGE_ATTITUDE_CORECTION, PHOTOGRAPH_LOCATION_STAGES, actionInstanceObjId);
@@ -135,7 +135,8 @@ public class CameraAcquisitorSystemCameraTargetHandler {
 
                 try {
                     casMCAdapter.getConnector().reportActionExecutionProgress(true, 0,
-                            STAGE_WAIT_FOR_OPTIMAL_PASS, PHOTOGRAPH_LOCATION_STAGES, actionInstanceObjId);
+                            STAGE_WAIT_FOR_OPTIMAL_PASS,
+                            PHOTOGRAPH_LOCATION_STAGES, actionInstanceObjId);
                     LOGGER.log(Level.INFO, "Finished waiting for Pass");
 
                     // trigger photograph
@@ -157,10 +158,10 @@ public class CameraAcquisitorSystemCameraTargetHandler {
     }
 
     /**
-     * recovers all scheduled photographs in case of a crash or a reboot of the
+     * Recovers all scheduled photographs in case of a crash or a reboot of the
      * system.
      */
-    void recoverLastState() {
+    public void recoverLastState() {
         // get previous requests
         ArchiveQueryList archiveQueryList = new ArchiveQueryList();
         ArchiveQuery archiveQuery = new ArchiveQuery(0L);
@@ -197,7 +198,7 @@ public class CameraAcquisitorSystemCameraTargetHandler {
 
         @Override
         public MALMessage sendResponse(ObjectType objType, IdentifierList domain, ArchiveDetailsList objDetails,
-            HeterogeneousList objBodies) throws MALInteractionException, MALException {
+                HeterogeneousList objBodies) throws MALInteractionException, MALException {
             if (objBodies != null) {
                 int i = 0;
                 for (Object objBody : objBodies) {
@@ -237,8 +238,8 @@ public class CameraAcquisitorSystemCameraTargetHandler {
         public MALMessage sendUpdate(ObjectType objType, IdentifierList domain,
                 ArchiveDetailsList objDetails, HeterogeneousList objBodies)
                 throws MALInteractionException, MALException {
-          sendResponse(objType, domain, objDetails, objBodies);
-          return null;
+            sendResponse(objType, domain, objDetails, objBodies);
+            return null;
         }
     }
 }

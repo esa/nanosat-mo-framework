@@ -57,6 +57,6 @@
         <module>nmf-package-lib</module>
         <module>nmf-package-maven-plugin</module>
         <module>nmf-composites</module>
-        <module>nmf-linux-maven-plugin</module>
+        <!-- <module>nmf-linux-maven-plugin</module> -->
     </modules>
 </project>

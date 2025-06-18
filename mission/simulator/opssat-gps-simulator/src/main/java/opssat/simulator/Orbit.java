@@ -82,11 +82,8 @@ public class Orbit {
      * @param arg_per The argument of perigee.
      * @param eccentricity The eccentricity o the orbit.
      * @param true_anomaly The true anomaly.
+     * @param initialEpoch The initial epoch.
      */
-    public Orbit(double a, double i, double raan, double arg_per, double eccentricity, double true_anomaly) {
-        this(a, i, raan, arg_per, eccentricity, true_anomaly, EPOCH_DEFAULT);
-    }
-
     public Orbit(double a, double i, double raan, double arg_per,
             double eccentricity, double true_anomaly, String initialEpoch) {
         SimpleDateFormat df = new SimpleDateFormat(DATEFORMATSTRING);//DateFormat.getInstance();    
@@ -102,11 +99,23 @@ public class Orbit {
         this.init_raan = raan;
         this.init_arg_perigee = arg_per;
         this.true_anomaly = true_anomaly;
-        //Eccentricity set to zero:
         this.e = eccentricity;
-
         this.Period = 2 * Math.PI * Math.sqrt(Math.pow(a, 3) / (G * EARTH_MASS));
         this.calculateMeanMotion();
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param a The semi-major axis.
+     * @param i The inclination of the orbit.
+     * @param raan The right ascension of the ascending node.
+     * @param arg_per The argument of perigee.
+     * @param eccentricity The eccentricity o the orbit.
+     * @param true_anomaly The true anomaly.
+     */
+    public Orbit(double a, double i, double raan, double arg_per, double eccentricity, double true_anomaly) {
+        this(a, i, raan, arg_per, eccentricity, true_anomaly, EPOCH_DEFAULT);
     }
 
     public OrbitParameters getParametersForLatestDate() {

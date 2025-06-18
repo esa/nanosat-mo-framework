@@ -38,6 +38,7 @@ import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.platform.camera.consumer.CameraAdapter;
+import org.ccsds.moims.mo.platform.camera.consumer.CameraStub;
 import org.ccsds.moims.mo.platform.camera.structures.CameraSettings;
 import org.ccsds.moims.mo.platform.camera.structures.PictureFormat;
 import org.ccsds.moims.mo.platform.camera.structures.PixelResolution;
@@ -75,8 +76,8 @@ public class CameraAcquisitorSystemCameraHandler {
     public CameraAcquisitorSystemCameraHandler(CameraAcquisitorSystemMCAdapter casMCAdapter) {
         this.casMCAdapter = casMCAdapter;
         this.defaultCameraResolution
-                = new PixelResolution(new UInteger(defaultPictureWidth), new UInteger(
-                        defaultPictureHeight));
+                = new PixelResolution(new UInteger(defaultPictureWidth),
+                        new UInteger(defaultPictureHeight));
     }
 
     /**
@@ -95,8 +96,8 @@ public class CameraAcquisitorSystemCameraHandler {
         class AdapterImpl extends GPSAdapter {
 
             @Override
-            public void getTLEResponseReceived(MALMessageHeader msgHeader, TwoLineElementSet tle,
-                    Map qosProperties) {
+            public void getTLEResponseReceived(MALMessageHeader msgHeader,
+                    TwoLineElementSet tle, Map qosProperties) {
                 LOGGER.log(Level.INFO, "TLE: {0}", tle);
             }
 
@@ -108,9 +109,7 @@ public class CameraAcquisitorSystemCameraHandler {
         }
 
         try {
-            this.casMCAdapter.getConnector().getPlatformServices().getGPSService().getTLE(
-                    new AdapterImpl());
-
+            this.casMCAdapter.getConnector().getPlatformServices().getGPSService().getTLE(new AdapterImpl());
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "[TLE TEST]", e);
         }
@@ -135,8 +134,8 @@ public class CameraAcquisitorSystemCameraHandler {
         private final CameraAcquisitorSystemMCAdapter casMCAdapter;
         private final String fileName;
 
-        CameraDataHandler(Long actionInstanceObjId, int stageOffset, int totalStages, String fileName,
-                CameraAcquisitorSystemMCAdapter casMCAdapter) {
+        CameraDataHandler(Long actionInstanceObjId, int stageOffset, int totalStages,
+                String fileName, CameraAcquisitorSystemMCAdapter casMCAdapter) {
             this.actionInstanceObjId = actionInstanceObjId;
             this.stageOffset = stageOffset;
             this.totalStage = totalStages + PHOTOGRAPH_NOW_STAGES;
@@ -158,7 +157,6 @@ public class CameraAcquisitorSystemCameraHandler {
                 LOGGER.log(Level.SEVERE, null,
                         ex);
             }
-            //
 
             // create photos folder
             final String folder = "toGround";
@@ -223,7 +221,7 @@ public class CameraAcquisitorSystemCameraHandler {
 
         @Override
         public void takePictureAckErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-            org.ccsds.moims.mo.mal.MOErrorException error, java.util.Map qosProperties) {
+                org.ccsds.moims.mo.mal.MOErrorException error, java.util.Map qosProperties) {
             try {
                 this.casMCAdapter.getConnector().reportActionExecutionProgress(false, 1,
                         STAGE_RECIVED + this.stageOffset,
@@ -239,7 +237,7 @@ public class CameraAcquisitorSystemCameraHandler {
 
         @Override
         public void takePictureResponseErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-            org.ccsds.moims.mo.mal.MOErrorException error, java.util.Map qosProperties) {
+                org.ccsds.moims.mo.mal.MOErrorException error, java.util.Map qosProperties) {
             try {
                 this.casMCAdapter.getConnector().reportActionExecutionProgress(false, 1,
                         STAGE_RECIVED + this.stageOffset,
@@ -265,17 +263,13 @@ public class CameraAcquisitorSystemCameraHandler {
      * for a photograph)
      * @param fileName a text that is added at the end of the filename (before
      * the file ending)
-     * @throws NMFException
-     * @throws IOException
-     * @throws MALInteractionException
-     * @throws MALException
+     * @throws NMFException If the Platform services are not available.
+     * @throws IOException If the Camera services could not be reached.
+     * @throws MALInteractionException If the picture could not be taken.
+     * @throws MALException If something went wrong.
      */
     public void takePhotograph(long actionInstanceObjId, int stageOffset, int totalStages,
-            String fileName) throws
-            NMFException,
-            IOException,
-            MALInteractionException,
-            MALException {
+            String fileName) throws NMFException, IOException, MALInteractionException, MALException {
         PixelResolution resolution = new PixelResolution(
                 new UInteger(casMCAdapter.getPictureWidth()),
                 new UInteger(casMCAdapter.getPictureHeight()));
@@ -293,14 +287,14 @@ public class CameraAcquisitorSystemCameraHandler {
                 casMCAdapter.getGainBlue(),
                 null);
 
+        CameraStub camera = this.casMCAdapter.getConnector().getPlatformServices().getCameraService();
+
         if (casMCAdapter.getExposureType() == CameraAcquisitorSystemMCAdapter.ExposureTypeModeEnum.AUTOMATIC) {
             LOGGER.log(Level.INFO, "Taking Photograph with automatic exposure");
-            this.casMCAdapter.getConnector().getPlatformServices().getCameraService()
-                    .takeAutoExposedPicture(settings, adapter);
+            camera.takeAutoExposedPicture(settings, adapter);
         } else {
             LOGGER.log(Level.INFO, "Taking Photograph with manual exposure");
-            this.casMCAdapter.getConnector().getPlatformServices().getCameraService()
-                    .takePicture(settings, adapter);
+            camera.takePicture(settings, adapter);
         }
     }
 }

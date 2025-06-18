@@ -450,14 +450,14 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
      * Identifier to the method on the application
      *
      * @param name Name of the Parameter
-     * @param attributeValues
-     * @param actionInstanceObjId
+     * @param attributeValues The attribute values.
+     * @param actionInstanceObjId The action instance id.
      * @param reportProgress Determines if it is necessary to report the
-     * execution
-     * @param interaction The interaction object progress of the action
+     * execution.
+     * @param interaction The interaction object progress of the action.
      *
      * @return Returns null if the Action was successful. If not null, then the
-     * returned value should hold the error number
+     * returned value should hold the error number.
      */
     @Override
     public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,

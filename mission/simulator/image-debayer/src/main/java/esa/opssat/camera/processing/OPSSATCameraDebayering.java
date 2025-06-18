@@ -60,7 +60,7 @@ public class OPSSATCameraDebayering {
      *
      * @param data The data of the image to be debayered.
      * @param algorithm The algorithm to use for the debayering.
-     * @return
+     * @return The debayered image in the BufferedImage format.
      */
     public static BufferedImage getDebayeredImage(byte[] data, int algorithm) {
         FileInfo fi = new FileInfo();

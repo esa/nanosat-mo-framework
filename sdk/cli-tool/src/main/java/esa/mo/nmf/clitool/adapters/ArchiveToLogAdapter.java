@@ -18,7 +18,6 @@
  * limitations under the License.
  * ----------------------------------------------------------------------------
  */
-
 package esa.mo.nmf.clitool.adapters;
 
 import esa.mo.com.impl.util.ArchiveCOMObjectsOutput;
@@ -29,12 +28,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
-import org.ccsds.moims.mo.mal.MOErrorException;
-import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.com.structures.ObjectType;
+import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
 import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.FineTime;
+import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
@@ -42,8 +41,9 @@ import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherServiceInf
 import org.ccsds.moims.mo.softwaremanagement.commandexecutor.CommandExecutorServiceInfo;
 
 /**
- * Archive adapter that dumps to a LOG file StandardOutput and StandardError events body of the
- * CommandExecutor service of the SoftwareManagement received from an archive query.
+ * Archive adapter that dumps to a LOG file StandardOutput and StandardError
+ * events body of the CommandExecutor service of the SoftwareManagement received
+ * from an archive query.
  *
  * @author Tanguy Soto
  */
@@ -74,8 +74,10 @@ public class ArchiveToLogAdapter extends ArchiveAdapter implements QueryStatusPr
 
     /**
      * Creates a new instance of ArchiveToLogAdapter.
-     * 
-     * @param logFilePath Path of destination LOG file where we dump the String objects
+     *
+     * @param logFilePath Path of destination LOG file where we dump the String
+     * objects
+     * @param addTimestamps True to add the timestamps to the log.
      */
     public ArchiveToLogAdapter(String logFilePath, boolean addTimestamps) {
         this.addTimestamps = addTimestamps;
@@ -90,7 +92,8 @@ public class ArchiveToLogAdapter extends ArchiveAdapter implements QueryStatusPr
     }
 
     /**
-     * Dumps an archive objects output received from an archive query answer (update or response).
+     * Dumps an archive objects output received from an archive query answer
+     * (update or response).
      */
     public synchronized void dumpArchiveObjectsOutput() {
         openLogFile(logFilePath);
@@ -100,8 +103,8 @@ public class ArchiveToLogAdapter extends ArchiveAdapter implements QueryStatusPr
             return;
         }
 
-        queryResults.sort(Comparator.comparingLong(com -> com.getArchiveDetailsList() != null ? com
-            .getArchiveDetailsList().get(0).getTimestamp().getValue() : 0));
+        queryResults.sort(Comparator.comparingLong(com -> com.getArchiveDetailsList() != null
+                ? com.getArchiveDetailsList().get(0).getTimestamp().getValue() : 0));
 
         for (ArchiveCOMObjectsOutput archiveObjectOutput : queryResults) {
             // empty comType means query returned nothing
@@ -116,8 +119,8 @@ public class ArchiveToLogAdapter extends ArchiveAdapter implements QueryStatusPr
             }
 
             // if somehow we have no object bodies, stop
-            if (comType.getService().equals(CommandExecutorServiceInfo.COMMANDEXECUTOR_SERVICE_NUMBER) && archiveObjectOutput
-                .getObjectBodies() == null) {
+            if (comType.getService().equals(CommandExecutorServiceInfo.COMMANDEXECUTOR_SERVICE_NUMBER)
+                    && archiveObjectOutput.getObjectBodies() == null) {
                 return;
             }
 
@@ -163,7 +166,7 @@ public class ArchiveToLogAdapter extends ArchiveAdapter implements QueryStatusPr
 
     /**
      * Opens the LOG file.
-     * 
+     *
      * @param logFilePath to the LOG file to open/create
      */
     private void openLogFile(String logFilePath) {
@@ -190,14 +193,14 @@ public class ArchiveToLogAdapter extends ArchiveAdapter implements QueryStatusPr
 
     @Override
     public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-        ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
+            ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
         queryResults.add(new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies));
         setIsQueryOver(true);
     }
 
     @Override
     public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-        ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
+            ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
         queryResults.add(new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies));
     }
 
@@ -226,7 +229,9 @@ public class ArchiveToLogAdapter extends ArchiveAdapter implements QueryStatusPr
         this.isQueryOver = false;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public synchronized boolean isQueryOver() {
         return isQueryOver;
