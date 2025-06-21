@@ -29,6 +29,7 @@ import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Element;
 
 /**
+ * The AttributeEntry class holds an entry for an MO Attribute type.
  *
  * @author Cesar Coelho
  */

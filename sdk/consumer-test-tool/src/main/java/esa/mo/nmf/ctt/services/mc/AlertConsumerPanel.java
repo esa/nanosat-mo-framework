@@ -51,6 +51,8 @@ import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 import org.ccsds.moims.mo.mc.structures.Severity;
 
 /**
+ * The AlertConsumerPanel class holds a panel to interact with an Alert
+ * service.
  *
  * @author Cesar Coelho
  */

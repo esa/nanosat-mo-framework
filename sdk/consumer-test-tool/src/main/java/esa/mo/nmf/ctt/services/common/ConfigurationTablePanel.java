@@ -48,8 +48,9 @@ public class ConfigurationTablePanel extends SharedTablePanel {
 
         ActionDefinitionDetails pDef = (ActionDefinitionDetails) comObject.getObject();
 
-        tableData.addRow(new Object[]{comObject.getArchiveDetails().getInstId(), "Dummy name...", pDef.getDescription(),
-                                      "Severity removed...", pDef.getProgressStepCount().toString()});
+        tableData.addRow(new Object[]{comObject.getArchiveDetails().getInstId(),
+            "Dummy name...", pDef.getDescription(), "Severity removed...",
+            pDef.getProgressStepCount().toString()});
 
         comObjects.add(comObject);
         semaphore.release();

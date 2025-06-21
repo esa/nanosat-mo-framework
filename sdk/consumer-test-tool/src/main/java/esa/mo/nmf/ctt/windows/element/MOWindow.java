@@ -42,6 +42,7 @@ import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.mal.structures.Union;
 
 /**
+ * The MOWindow class displays an MO Element and its fields if any.
  *
  * @author Cesar Coelho
  */

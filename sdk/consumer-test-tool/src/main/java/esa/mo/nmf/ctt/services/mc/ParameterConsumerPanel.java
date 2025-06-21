@@ -58,6 +58,8 @@ import org.ccsds.moims.mo.mc.parameter.structures.ParameterValueDetailsList;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 
 /**
+ * The ParameterConsumerPanel class holds a panel to interact with a Parameter
+ * service.
  *
  * @author Cesar Coelho
  */

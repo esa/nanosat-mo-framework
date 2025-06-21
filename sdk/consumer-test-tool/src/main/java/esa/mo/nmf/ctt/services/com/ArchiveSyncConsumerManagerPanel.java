@@ -61,6 +61,8 @@ import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.UShort;
 
 /**
+ * The ArchiveSyncConsumerManagerPanel class holds a panel to interact with an
+ * Archive Sync service.
  *
  * @author Cesar Coelho
  */

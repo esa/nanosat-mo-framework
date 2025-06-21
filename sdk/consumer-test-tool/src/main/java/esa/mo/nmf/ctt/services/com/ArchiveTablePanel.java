@@ -36,6 +36,7 @@ import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+import org.ccsds.moims.mo.com.structures.ObjectDetails;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperDomain;
@@ -59,17 +60,19 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
      * @param archiveService
      */
     public ArchiveTablePanel(ArchiveCOMObjectsOutput archiveObjectOutput,
-        final ArchiveConsumerServiceImpl archiveService) {
+            final ArchiveConsumerServiceImpl archiveService) {
         initComponents();
 
         comObjects = new ArrayList<>();
 
-        String[] archiveTableCol = new String[]{"Domain", "Object Type", "Object Instance Identifier", "Timestamp",
-                                                "Source", "Related"};
+        String[] archiveTableCol = new String[]{"Domain", "Object Type",
+            "Object Instance Identifier", "Timestamp", "Source", "Related"};
 
         archiveTableData = new javax.swing.table.DefaultTableModel(new Object[][]{}, archiveTableCol) {
-            Class[] types = new Class[]{java.lang.String.class, java.lang.String.class, java.lang.Integer.class,
-                                        java.lang.String.class, java.lang.String.class, java.lang.String.class};
+            Class[] types = new Class[]{
+                java.lang.String.class, java.lang.String.class,
+                java.lang.Integer.class, java.lang.String.class,
+                java.lang.String.class, java.lang.String.class};
 
             @Override               //all cells false
             public boolean isCellEditable(int row, int column) {
@@ -91,8 +94,8 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
                     // Get from the list of objects the one we want and display
                     ArchivePersistenceObject comObject = getSelectedCOMObject();
                     try {
-                        COMObjectWindow comObjectWindow = new COMObjectWindow(comObject, false, archiveService
-                            .getArchiveStub());
+                        COMObjectWindow comObjectWindow = new COMObjectWindow(
+                                comObject, false, archiveService.getArchiveStub());
                     } catch (IOException ex) {
                         Logger.getLogger(ArchiveTablePanel.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -127,11 +130,14 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
         }
 
         for (int i = 0; i < archiveObjectOutput.getArchiveDetailsList().size(); i++) {
-            Element objects = (archiveObjectOutput.getObjectBodies() == null) ? null : (Element) HelperAttributes
-                .javaType2Attribute(archiveObjectOutput.getObjectBodies().get(i));
-            ArchivePersistenceObject comObject = new ArchivePersistenceObject(archiveObjectOutput.getObjectType(),
-                archiveObjectOutput.getDomain(), archiveObjectOutput.getArchiveDetailsList().get(i).getInstId(),
-                archiveObjectOutput.getArchiveDetailsList().get(i), objects);
+            Element objects = (archiveObjectOutput.getObjectBodies() == null) ? null
+                    : (Element) HelperAttributes.javaType2Attribute(archiveObjectOutput.getObjectBodies().get(i));
+            ArchivePersistenceObject comObject = new ArchivePersistenceObject(
+                    archiveObjectOutput.getObjectType(),
+                    archiveObjectOutput.getDomain(),
+                    archiveObjectOutput.getArchiveDetailsList().get(i).getInstId(),
+                    archiveObjectOutput.getArchiveDetailsList().get(i),
+                    objects);
 
             addEntry(comObject);
         }
@@ -154,14 +160,15 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
             objType = HelperCOM.objType2string(objTypeType);
         }
 
-        if (comObject.getArchiveDetails().getDetails().getSource() != null) {
-            source = HelperCOM.objType2string(comObject.getArchiveDetails().getDetails().getSource().getType());
-            source += " (objId: " + comObject.getArchiveDetails().getDetails().getSource().getKey().getInstId()
-                .toString() + ")";
+        ObjectDetails details = comObject.getArchiveDetails().getDetails();
+
+        if (details.getSource() != null) {
+            source = HelperCOM.objType2string(details.getSource().getType());
+            source += " (objId: " + details.getSource().getKey().getInstId().toString() + ")";
         }
 
-        if (comObject.getArchiveDetails().getDetails().getRelated() != null) {
-            related = comObject.getArchiveDetails().getDetails().getRelated().toString();
+        if (details.getRelated() != null) {
+            related = details.getRelated().toString();
         }
 
         if (comObject.getArchiveDetails().getTimestamp() != null) {
@@ -174,8 +181,8 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
             Logger.getLogger(ArchiveTablePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        archiveTableData.addRow(new Object[]{domain, objType, comObject.getArchiveDetails().getInstId(), timestamp,
-                                             source, related});
+        archiveTableData.addRow(new Object[]{domain, objType,
+            comObject.getArchiveDetails().getInstId(), timestamp, source, related});
 
         comObjects.add(comObject);
         semaphore.release();

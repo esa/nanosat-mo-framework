@@ -30,6 +30,7 @@ import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Enumeration;
 
 /**
+ * The FieldsHandler class includes a set of static method to handle fields.
  *
  * @author Cesar Coelho
  */

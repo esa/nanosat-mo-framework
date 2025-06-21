@@ -57,6 +57,8 @@ import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 
 /**
+ * The ActionConsumerPanel class holds a panel to interact with an Action
+ * service.
  *
  * @author Cesar Coelho
  */
@@ -234,7 +236,7 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
                 }
 
                 String attributeName = HelperAttributes.typeShortForm2attributeName(arguments.get(i).getRawType()
-                    .intValue());
+                        .intValue());
                 Object aaa = HelperAttributes.attributeName2object(attributeName);
                 Attribute elem = (Attribute) HelperAttributes.javaType2Attribute(aaa);
                 argumentValueList.add(new AttributeValue(elem));
@@ -252,30 +254,32 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
 
         try {
             Long definitionObjId = actionTable.getSelectedDefinitionObjId();
-            Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.INFO, 
+            Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.INFO,
                     "Triggering action with id: " + definitionObjId);
-            
+
             gma.launchAction(definitionObjId, argumentValueList, new ActionAdapter() {
                 @Override
                 public void submitActionAckReceived(MALMessageHeader msgHeader, Map qosProperties) {
                     super.submitActionAckReceived(msgHeader, qosProperties);
-                    JOptionPane.showMessageDialog(null, "The action instance was successfully submitted.", "Success",
-                        JOptionPane.PLAIN_MESSAGE);
+                    JOptionPane.showMessageDialog(null,
+                            "The action instance was successfully submitted.",
+                            "Success",
+                            JOptionPane.PLAIN_MESSAGE);
                 }
 
                 @Override
-                public void submitActionErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
-                    Map qosProperties) {
+                public void submitActionErrorReceived(MALMessageHeader msgHeader,
+                        MOErrorException error, Map qosProperties) {
                     super.submitActionErrorReceived(msgHeader, error, qosProperties);
                     JOptionPane.showMessageDialog(
-                            null, 
-                            "The submitted action failed: " + error.toString(), 
+                            null,
+                            "The submitted action failed: " + error.toString(),
                             "Error", JOptionPane.PLAIN_MESSAGE);
                 }
             });
         } catch (NMFException ex) {
             JOptionPane.showMessageDialog(null, "There was an error with the submitted action.", "Error",
-                JOptionPane.PLAIN_MESSAGE);
+                    JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -288,8 +292,7 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
         try {
             ObjectInstancePairList objIds;
             try {
-                objIds = this.serviceMCAction.getActionStub().listDefinition((IdentifierList) actionNamesWindow
-                    .getObject());
+                objIds = this.serviceMCAction.getActionStub().listDefinition((IdentifierList) actionNamesWindow.getObject());
             } catch (InterruptedIOException ex) {
                 return;
             }
@@ -298,12 +301,12 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
             if (objIds != null) {
                 for (ObjectInstancePair objId : objIds) {
                     str.append("ObjId Def: ").append(objId.getObjDefInstanceId().toString()).append(" Identity: ")
-                        .append(objId.getObjIdentityInstanceId().toString()).append("\n");
+                            .append(objId.getObjIdentityInstanceId().toString()).append("\n");
                 }
             }
 
             JOptionPane.showMessageDialog(null, str.toString(), "Returned List from the Provider",
-                JOptionPane.PLAIN_MESSAGE);
+                    JOptionPane.PLAIN_MESSAGE);
 
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -313,12 +316,12 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
 
     private void addDefinitionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDefinitionButtonActionPerformed
         ArgumentDefinitionDetails details = new ArgumentDefinitionDetails(
-            new Identifier("0"),
-            (byte) 1);
+                new Identifier("0"),
+                (byte) 1);
 
         ArgumentDefinitionDetailsList detailsList = new ArgumentDefinitionDetailsList();
         detailsList.add(null);
-        
+
         // Create and Show the Action Definition to the user
         ActionDefinitionDetails actionDefinition = new ActionDefinitionDetails(
                 "The action takes a picture and saves it in the 'picture' parameter.",
@@ -327,8 +330,8 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
                 detailsList);
 
         ActionCreationRequest creation = new ActionCreationRequest(
-            new Identifier("Take_Picture"),
-            actionDefinition);
+                new Identifier("Take_Picture"),
+                actionDefinition);
         MOWindow actionDefinitionWindow = new MOWindow(creation, true);
 
         ActionCreationRequestList requestList = new ActionCreationRequestList();
@@ -349,15 +352,19 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
 
             Thread.sleep(500);
             // Get the stored Action Definition from the Archive
-            ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(this.serviceMCAction.getCOMServices()
-                .getArchiveService().getArchiveStub(), ActionServiceInfo.ACTIONDEFINITION_OBJECT_TYPE, serviceMCAction
-                    .getConnectionDetails().getDomain(), objIds.get(0).getObjDefInstanceId());
+            ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(
+                    this.serviceMCAction.getCOMServices().getArchiveService().getArchiveStub(),
+                    ActionServiceInfo.ACTIONDEFINITION_OBJECT_TYPE,
+                    serviceMCAction.getConnectionDetails().getDomain(),
+                    objIds.get(0).getObjDefInstanceId());
 
             // Add the Action Definition to the table
             actionTable.addEntry(requestList.get(0).getName(), comObject);
         } catch (MALInteractionException | MALException ex) {
-            JOptionPane.showMessageDialog(null, "There was an error with the submitted action instance.", "Error",
-                JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(null,
+                    "There was an error with the submitted action instance.",
+                    "Error",
+                    JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InterruptedException ex) {
             Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -428,21 +435,25 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
         }
         
         Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.INFO, "listDefinition(\"*\") returned {0} object instance identifiers", output.size());
-        */
+         */
         try {
             this.serviceMCAction.getActionStub().asyncListDefinition(idList, new ActionAdapter() {
                 @Override
-                public void listDefinitionResponseReceived(MALMessageHeader msgHeader, ObjectInstancePairList actionInstIds, Map qosProperties) {
-                    actionTable.refreshTableWithIdsPairs(actionInstIds, serviceMCAction.getConnectionDetails().getDomain(),
+                public void listDefinitionResponseReceived(MALMessageHeader msgHeader,
+                        ObjectInstancePairList actionInstIds, Map qosProperties) {
+                    actionTable.refreshTableWithIdsPairs(actionInstIds,
+                            serviceMCAction.getConnectionDetails().getDomain(),
                             ActionServiceInfo.ACTIONDEFINITION_OBJECT_TYPE);
                     Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.INFO,
                             "listDefinition(\"*\") returned {0} object instance identifiers", actionInstIds.size());
                 }
 
                 @Override
-                public void listDefinitionErrorReceived(MALMessageHeader msgHeader, MOErrorException error, Map qosProperties) {
+                public void listDefinitionErrorReceived(MALMessageHeader msgHeader,
+                        MOErrorException error, Map qosProperties) {
                     JOptionPane.showMessageDialog(null,
-                            "There was an error during the listDefinition operation.", "Error", JOptionPane.PLAIN_MESSAGE);
+                            "There was an error during the listDefinition operation.",
+                            "Error", JOptionPane.PLAIN_MESSAGE);
                     Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, error);
                 }
             });
@@ -481,13 +492,15 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCAction.getActionStub().preCheckAction(actionInstanceDetails);
         } catch (MALInteractionException | MALException ex) {
-            JOptionPane.showMessageDialog(null, "There was an error with the submitted action instance.", "Error",
-                JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(null,
+                    "There was an error with the submitted action instance.", "Error",
+                    JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        JOptionPane.showMessageDialog(null, "The action instance pre-check has passed successfully.", "Success",
-            JOptionPane.PLAIN_MESSAGE);
+        JOptionPane.showMessageDialog(null,
+                "The action instance pre-check has passed successfully.", "Success",
+                JOptionPane.PLAIN_MESSAGE);
     }//GEN-LAST:event_preCheckActionButtonActionPerformed
 
     private void actionDefinitionsTableComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_actionDefinitionsTableComponentAdded

@@ -27,6 +27,7 @@ import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.Enumeration;
 
 /**
+ * The EnumerationEntry class holds an entry for an MO Enumeration.
  *
  * @author Cesar Coelho
  */

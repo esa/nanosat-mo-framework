@@ -35,7 +35,6 @@ import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
 import org.ccsds.moims.mo.common.structures.ServiceKey;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationConsumer;
 import org.ccsds.moims.mo.mal.structures.File;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
@@ -51,23 +50,23 @@ import org.ccsds.moims.mo.mc.parameter.ParameterServiceInfo;
  */
 public class ConfigurationConsumerPanel extends javax.swing.JPanel {
 
-    private ConfigurationConsumerServiceImpl serviceMCConfiguration;
-    private ConfigurationTablePanel configurationTable;
-    private ConfigurationConsumer configuration = new ConfigurationConsumer();
+    private final ConfigurationConsumerServiceImpl serviceConfiguration;
+    private final ConfigurationTablePanel configurationTable;
+    private final ProviderSummary providerSummary;
     private File file;
-    private ProviderSummary providerSummary;
 
     /**
      * Creates new formAddModifyParameter ConsumerPanelArchive
      *
-     * @param serviceMCConfiguration
+     * @param serviceConfiguration The Configuration service consumer.
+     * @param providerSummary The provider summary.
      */
-    public ConfigurationConsumerPanel(ConfigurationConsumerServiceImpl serviceMCConfiguration,
-        ProviderSummary providerSummary) {
+    public ConfigurationConsumerPanel(ConfigurationConsumerServiceImpl serviceConfiguration,
+            ProviderSummary providerSummary) {
         initComponents();
         this.providerSummary = providerSummary;
-        this.serviceMCConfiguration = serviceMCConfiguration;
-        configurationTable = new ConfigurationTablePanel(serviceMCConfiguration.getCOMServices().getArchiveService());
+        this.serviceConfiguration = serviceConfiguration;
+        configurationTable = new ConfigurationTablePanel(serviceConfiguration.getCOMServices().getArchiveService());
         jScrollPane2.setViewportView(configurationTable);
 
         this.listAllButtonActionPerformed(null);
@@ -199,7 +198,6 @@ public class ConfigurationConsumerPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void activateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_activateButtonActionPerformed
-
         if (configurationTable.getSelectedRow() == -1) { // The row is not selected?
             return;  // Well, then nothing to be done here folks!
         }
@@ -211,12 +209,12 @@ public class ConfigurationConsumerPanel extends javax.swing.JPanel {
             ConfigurationAdapter adapter = new ConfigurationAdapter() {
                 @Override
                 public void activateResponseReceived(MALMessageHeader msgHeader, Boolean activationResult,
-                    ObjectIdList previousConfig, Map qosProperties) {
+                        ObjectIdList previousConfig, Map qosProperties) {
                     super.activateResponseReceived(msgHeader, activationResult, previousConfig, qosProperties);
                     result[0] = activationResult;
                 }
             };
-            this.serviceMCConfiguration.getConfigurationStub().activate(providerSummary.getProviderKey(), objIdDef, adapter);
+            this.serviceConfiguration.getConfigurationStub().activate(providerSummary.getProviderKey(), objIdDef, adapter);
         } catch (MALInteractionException ex) {
             Logger.getLogger(ConfigurationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MALException ex) {
@@ -225,11 +223,13 @@ public class ConfigurationConsumerPanel extends javax.swing.JPanel {
         }
 
         if (result[0]) {
-            JOptionPane.showMessageDialog(null, "The configuration was successfully activated.", "Success",
-                JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(null,
+                    "The configuration was successfully activated.", "Success",
+                    JOptionPane.PLAIN_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(null, "The configuration activation failed.", "Failure",
-                JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(null,
+                    "The configuration activation failed.", "Failure",
+                    JOptionPane.PLAIN_MESSAGE);
         }
 
     }//GEN-LAST:event_activateButtonActionPerformed
@@ -243,7 +243,6 @@ public class ConfigurationConsumerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_updateButtonActionPerformed
 
     private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
-
         if (configurationTable.getSelectedRow() == -1) { // The row is not selected?
             return;  // Well, then nothing to be done here folks!
         }
@@ -253,7 +252,7 @@ public class ConfigurationConsumerPanel extends javax.swing.JPanel {
         oil.add(objIdDef);
 
         try {
-            this.serviceMCConfiguration.getConfigurationStub().remove(providerSummary.getProviderKey(), oil);
+            this.serviceConfiguration.getConfigurationStub().remove(providerSummary.getProviderKey(), oil);
             configurationTable.removeSelectedEntry();
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ConfigurationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -262,7 +261,6 @@ public class ConfigurationConsumerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_removeButtonActionPerformed
 
     private void listAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listAllButtonActionPerformed
-
         IdentifierList idList = new IdentifierList();
         idList.add(new Identifier("*")); // Wildcard
 
@@ -270,20 +268,23 @@ public class ConfigurationConsumerPanel extends javax.swing.JPanel {
 
         ObjectIdList output;
         try {
-            output = this.serviceMCConfiguration.getConfigurationStub().list(ConfigurationType.SERVICE, idList, key);
-//            configurationTable.refreshTableWithIds(output, serviceMCConfiguration.getConnectionDetails().getDomain(), ActionHelper.ACTIONDEFINITION_OBJECT_TYPE);
+            output = this.serviceConfiguration.getConfigurationStub().list(ConfigurationType.SERVICE, idList, key);
         } catch (MALInteractionException ex) {
-            JOptionPane.showMessageDialog(null, "There was an error during the listDefinition operation.", "Error", JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(null,
+                    "There was an error during the listDefinition operation.",
+                    "Error", JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(ConfigurationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
             return;
         } catch (MALException ex) {
-            JOptionPane.showMessageDialog(null, "There was an error during the listDefinition operation.", "Error", JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(null,
+                    "There was an error during the listDefinition operation.",
+                    "Error", JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(ConfigurationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
             return;
         }
 
         Logger.getLogger(ConfigurationConsumerPanel.class.getName()).log(Level.INFO,
-            "listDefinition(\"*\") returned {0} object instance identifiers", output.size());
+                "listDefinition(\"*\") returned {0} object instance identifiers", output.size());
 
     }//GEN-LAST:event_listAllButtonActionPerformed
 
@@ -298,7 +299,7 @@ public class ConfigurationConsumerPanel extends javax.swing.JPanel {
         oil.add(objIdDef);
 
         try {
-            this.serviceMCConfiguration.getConfigurationStub().remove(providerSummary.getProviderKey(), oil);
+            this.serviceConfiguration.getConfigurationStub().remove(providerSummary.getProviderKey(), oil);
             configurationTable.removeAllEntries();
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ConfigurationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -321,26 +322,27 @@ public class ConfigurationConsumerPanel extends javax.swing.JPanel {
     private void storeCurrentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_storeCurrentButtonActionPerformed
 
         ServiceKey key = new ServiceKey(
-            new UShort(MCHelper._MC_AREA_NUMBER),
-            new UShort(ParameterServiceInfo._PARAMETER_SERVICE_NUMBER),
-            new UOctet(MCHelper._MC_AREA_VERSION));
+                new UShort(MCHelper._MC_AREA_NUMBER),
+                new UShort(ParameterServiceInfo._PARAMETER_SERVICE_NUMBER),
+                new UOctet(MCHelper._MC_AREA_VERSION));
 
-        ObjectKey prov = new ObjectKey(this.serviceMCConfiguration.getConnectionDetails().getDomain(), 0L);
+        ObjectKey prov = new ObjectKey(this.serviceConfiguration.getConnectionDetails().getDomain(), 0L);
 
         class ConfigAdapter extends ConfigurationAdapter {
+
             @Override
-            public void storeCurrentResponseReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-                org.ccsds.moims.mo.com.structures.ObjectId objInstId, java.util.Map qosProperties) {
+            public void storeCurrentResponseReceived(MALMessageHeader msgHeader,
+                    ObjectId objInstId, java.util.Map qosProperties) {
                 String str = "Object instance identifiers on the provider: \n";
                 str += objInstId.toString();
                 JOptionPane.showMessageDialog(null, str, "Returned ObjectId from the Provider",
-                    JOptionPane.PLAIN_MESSAGE);
+                        JOptionPane.PLAIN_MESSAGE);
             }
         }
 
         try {
-            this.serviceMCConfiguration.getConfigurationStub().storeCurrent(providerSummary.getProviderKey(), key, true,
-                new ConfigAdapter());
+            this.serviceConfiguration.getConfigurationStub().storeCurrent(providerSummary.getProviderKey(), key, true,
+                    new ConfigAdapter());
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ConfigurationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -349,11 +351,11 @@ public class ConfigurationConsumerPanel extends javax.swing.JPanel {
 
     private void exportXMLButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportXMLButtonActionPerformed
         ObjectId confObjId = new ObjectId(
-            ConfigurationServiceInfo.CONFIGURATIONOBJECTS_OBJECT_TYPE,
-            new ObjectKey(this.serviceMCConfiguration.getConnectionDetails().getDomain(), (long) 7));
+                ConfigurationServiceInfo.CONFIGURATIONOBJECTS_OBJECT_TYPE,
+                new ObjectKey(this.serviceConfiguration.getConnectionDetails().getDomain(), (long) 7));
 
         try {
-            file = this.serviceMCConfiguration.getConfigurationStub().exportXML(confObjId, Boolean.TRUE);
+            file = this.serviceConfiguration.getConfigurationStub().exportXML(confObjId, Boolean.TRUE);
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ConfigurationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -362,7 +364,7 @@ public class ConfigurationConsumerPanel extends javax.swing.JPanel {
     private void importXMLButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importXMLButtonActionPerformed
 
         try {
-            this.serviceMCConfiguration.getConfigurationStub().importXML(file);
+            this.serviceConfiguration.getConfigurationStub().importXML(file);
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ConfigurationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }

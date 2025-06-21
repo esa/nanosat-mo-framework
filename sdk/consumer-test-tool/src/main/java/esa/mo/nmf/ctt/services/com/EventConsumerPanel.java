@@ -49,6 +49,7 @@ import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.mal.structures.UShort;
 
 /**
+ * The EventConsumerPanel class holds a panel to interact with an Event service.
  *
  * @author Cesar Coelho
  */
@@ -136,14 +137,14 @@ public class EventConsumerPanel extends javax.swing.JPanel {
                     eventCOMObject.getObjType().getService(),
                     eventCOMObject.getObjType().getVersion(), new UShort(0));
             String eKey2 = HelperCOM.objType2string(objType2);
-            String eKey4 = (eventCOMObject.getSource() != null) ?
-                    HelperCOM.objType2string(eventCOMObject.getSource().getType()) : "";
+            String eKey4 = (eventCOMObject.getSource() != null)
+                    ? HelperCOM.objType2string(eventCOMObject.getSource().getType()) : "";
             ObjectDetails objectDetails = new ObjectDetails(eventCOMObject.getRelated(), eventCOMObject.getSource());
 
-            String objDetailsRelated = (eventCOMObject.getRelated() != null) ?
-                    eventCOMObject.getRelated().toString() : "null";
-            String objDetailsSource = (eventCOMObject.getSource() != null) ?
-                    eventCOMObject.getSource().getKey().getInstId().toString() : "null";
+            String objDetailsRelated = (eventCOMObject.getRelated() != null)
+                    ? eventCOMObject.getRelated().toString() : "null";
+            String objDetailsSource = (eventCOMObject.getSource() != null)
+                    ? eventCOMObject.getSource().getKey().getInstId().toString() : "null";
 
             String time = HelperTime.time2readableString(eventCOMObject.getTimestamp());
             String domainName = HelperDomain.domain2domainId(eventCOMObject.getDomain());

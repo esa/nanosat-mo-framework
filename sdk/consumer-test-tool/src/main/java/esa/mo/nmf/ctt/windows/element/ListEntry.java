@@ -26,6 +26,7 @@ import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.structures.ElementList;
 
 /**
+ * The ListEntry class holds an entry for a list of objects.
  *
  * @author Cesar Coelho
  */

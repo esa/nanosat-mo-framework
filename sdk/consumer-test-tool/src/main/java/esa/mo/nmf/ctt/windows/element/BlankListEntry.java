@@ -21,6 +21,7 @@
 package esa.mo.nmf.ctt.windows.element;
 
 /**
+ * The BlankListEntry class holds an entry for an MO empty list.
  *
  * @author Cesar Coelho
  */

@@ -50,12 +50,12 @@ public final class COMObjectWindow extends javax.swing.JDialog {
     private final ArchiveStub archiveService;
 
     /**
-     * Creates new form MOWindow
+     * Constructor for MOWindow.
      *
-     * @param comObject
-     * @param editable
-     * @param archiveService
-     * @throws java.io.IOException
+     * @param comObject The COM Object to display.
+     * @param editable Flag that defines if it is editable.
+     * @param archiveService The Archive service.
+     * @throws java.io.IOException If the window could not be displayed.
      */
     public COMObjectWindow(final ArchivePersistenceObject comObject,
             final boolean editable, final ArchiveStub archiveService) throws IOException {

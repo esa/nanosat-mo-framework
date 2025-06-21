@@ -51,6 +51,8 @@ import org.ccsds.moims.mo.softwaremanagement.appslauncher.consumer.AppsLauncherA
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.structures.AppDetails;
 
 /**
+ * The AppsLauncherConsumerPanel class holds a panel to interact with an Apps
+ * Launcher service.
  *
  * @author Cesar Coelho
  */

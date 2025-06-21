@@ -24,6 +24,7 @@ import java.io.InterruptedIOException;
 import org.ccsds.moims.mo.mal.structures.Element;
 
 /**
+ * The CompositeEntry class holds an entry for an MO Composite.
  *
  * @author Cesar Coelho
  */

@@ -30,6 +30,7 @@ import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.structures.Union;
 
 /**
+ * The Entry class holds an entry to be displayed.
  *
  * @author Cesar Coelho
  */
