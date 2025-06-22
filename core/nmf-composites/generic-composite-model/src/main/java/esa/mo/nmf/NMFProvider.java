@@ -22,12 +22,13 @@ package esa.mo.nmf;
 
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.common.impl.provider.DirectoryProviderServiceImpl;
-import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.helpertools.misc.Const;
 import esa.mo.mc.impl.provider.ParameterInstance;
-import esa.mo.mp.impl.provider.MPServicesProvider;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.reconfigurable.provider.PersistProviderConfiguration;
+import esa.mo.reconfigurable.provider.ReconfigurableProvider;
+import esa.mo.reconfigurable.service.ConfigurationChangeListener;
+import esa.mo.reconfigurable.service.ReconfigurableService;
 import esa.mo.sm.impl.provider.HeartbeatProviderServiceImpl;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -42,17 +43,21 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.Properties;
+import org.ccsds.moims.mo.com.COMHelper;
+import org.ccsds.moims.mo.common.CommonHelper;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails;
+import org.ccsds.moims.mo.mal.MALContextFactory;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.URI;
+import org.ccsds.moims.mo.mc.MCHelper;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
-import esa.mo.reconfigurable.service.ReconfigurableService;
-import esa.mo.reconfigurable.service.ConfigurationChangeListener;
-import esa.mo.reconfigurable.provider.ReconfigurableProvider;
-import java.util.Properties;
+import org.ccsds.moims.mo.platform.PlatformHelper;
+import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
 
 /**
  * The generic NMF Provider. Includes a Heartbeat service and a Directory
@@ -70,7 +75,6 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
     protected final HeartbeatProviderServiceImpl heartbeatService = new HeartbeatProviderServiceImpl();
     protected final DirectoryProviderServiceImpl directoryService = new DirectoryProviderServiceImpl();
     protected MCServicesProviderNMF mcServices;
-    protected MPServicesProvider mpServices;
     protected PlatformServicesConsumer platformServices;
     protected CloseAppListener closeAppAdapter = null;
     protected ConfigurationChangeListener providerConfigurationAdapter = null;
@@ -107,15 +111,6 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
     }
 
     @Override
-    public MPServicesProvider getMPServices() throws NMFException {
-        if (this.mpServices == null) {
-            throw new NMFException("The Mission Planning services are not available.");
-        }
-
-        return mpServices;
-    }
-
-    @Override
     public PlatformServicesConsumer getPlatformServices() throws NMFException {
         if (this.platformServices == null) {
             throw new NMFException("The Platform services are not available.");
@@ -125,29 +120,30 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
     }
 
     @Override
-    public void reportActionExecutionProgress(final boolean success, final int errorNumber, final int progressStage,
-        final int totalNumberOfProgressStages, final long actionInstId) throws NMFException {
+    public void reportActionExecutionProgress(final boolean success, final int errorNumber,
+            final int progressStage, final int totalNumberOfProgressStages,
+            final long actionInstId) throws NMFException {
         if (this.getMCServices() == null) {
             throw new NMFException(MC_SERVICES_NOT_INITIALIZED);
         }
 
         try {
-            this.getMCServices().getActionService().reportExecutionProgress(success, new UInteger(errorNumber),
-                progressStage, totalNumberOfProgressStages, actionInstId);
+            this.getMCServices().getActionService().reportExecutionProgress(success,
+                    new UInteger(errorNumber), progressStage, totalNumberOfProgressStages, actionInstId);
         } catch (IOException ex) {
             throw new NMFException("The action execution progress could not be reported!", ex);
         }
     }
 
     @Override
-    public Long publishAlertEvent(final String alertDefinitionName, final AttributeValueList attributeValues)
-        throws NMFException {
+    public Long publishAlertEvent(final String alertDefinitionName,
+            final AttributeValueList attributeValues) throws NMFException {
         if (this.getMCServices() == null) {
             throw new NMFException(MC_SERVICES_NOT_INITIALIZED);
         }
 
-        return this.getMCServices().getAlertService().publishAlertEvent(null, new Identifier(alertDefinitionName),
-            attributeValues, null, null);
+        return this.getMCServices().getAlertService().publishAlertEvent(null,
+                new Identifier(alertDefinitionName), attributeValues, null, null);
     }
 
     @Override
@@ -156,8 +152,8 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
     }
 
     @Override
-    public Boolean pushParameterValue(final String name, final Serializable content, final boolean storeIt)
-        throws NMFException {
+    public Boolean pushParameterValue(final String name,
+            final Serializable content, final boolean storeIt) throws NMFException {
         if (this.getMCServices() == null) {
             throw new NMFException(MC_SERVICES_NOT_INITIALIZED);
         }
@@ -180,8 +176,8 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
         return this.getMCServices().getParameterService().pushMultipleParameterValues(parameters, storeIt);
     }
 
-    public Boolean pushMultipleParameterValues(final ArrayList<ParameterInstance> parameters, final boolean storeIt)
-        throws NMFException {
+    public Boolean pushMultipleParameterValues(final ArrayList<ParameterInstance> parameters,
+            final boolean storeIt) throws NMFException {
         if (this.getMCServices() == null) {
             throw new NMFException(MC_SERVICES_NOT_INITIALIZED);
         }
@@ -200,13 +196,6 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
         }
     }
 
-    public final void startMPServices(MissionPlanningNMFAdapter mpAdapter) throws MALException {
-        if (mpAdapter != null) {
-            this.mpServices = new MPServicesProvider();
-            this.mpServices.init(comServices);
-        }
-    }
-
     /**
      * Sets the transport dispatcher executor threads configurations.
      */
@@ -215,7 +204,6 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
 
         // Clean up idle threads after 2 seconds:  (does not seem to work)
         // System.setProperty("org.ccsds.moims.mo.mal.transport.gen.idleinputprocessors", "2");
-        
         // let's have a minimum of 2 threads:  (does not seem to work)
         // System.setProperty("org.ccsds.moims.mo.mal.transport.gen.mininputprocessors", "2");
     }
@@ -280,8 +268,8 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
                     + File.separator
                     + Const.FILENAME_CENTRAL_DIRECTORY_SERVICE;
             Logger.getLogger(NMFProvider.class.getName()).log(Level.INFO,
-                    "Property {0} not set. Falling back to reading from {1}.", new Object[]{
-                        Const.CENTRAL_DIRECTORY_URI_PROPERTY, path});
+                    "Property {0} not set. Falling back to reading from {1}.",
+                    new Object[]{Const.CENTRAL_DIRECTORY_URI_PROPERTY, path});
 
             File file = new File(path); // Select the file that we want to read from
 
@@ -295,19 +283,35 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
                     br.close();
                     return new URI(line);
                 } catch (IOException ex) {
-                    Logger.getLogger(NMFProvider.class.getName()).log(Level.SEVERE, "An error happened!", ex);
+                    Logger.getLogger(NMFProvider.class.getName()).log(
+                            Level.SEVERE, "An error happened!", ex);
                 }
             } catch (FileNotFoundException ex) {
-                Logger.getLogger(NMFProvider.class.getName()).log(Level.WARNING, "The File {0} could not be found!",
-                    file.getPath());
+                Logger.getLogger(NMFProvider.class.getName()).log(Level.WARNING,
+                        "The File {0} could not be found!", file.getPath());
                 return null;
             }
             return null;
         }
     }
 
+    /**
+     * Loads the MO Elements for all the sets of services.
+     */
+    public static void loadMOElements() {
+        // Load the MAL factories for the supported services
+        MALContextFactory.getElementsRegistry().loadFullArea(COMHelper.COM_AREA);
+        MALContextFactory.getElementsRegistry().loadFullArea(MCHelper.MC_AREA);
+        MALContextFactory.getElementsRegistry().loadFullArea(CommonHelper.COMMON_AREA);
+        MALContextFactory.getElementsRegistry().loadFullArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA);
+        MALContextFactory.getElementsRegistry().loadFullArea(PlatformHelper.PLATFORM_AREA);
+    }
+
     public final void writeCentralDirectoryServiceURI(final String centralDirectoryURI, final String secondaryURI) {
-        try (BufferedWriter wrt = new BufferedWriter(new FileWriter(Const.FILENAME_CENTRAL_DIRECTORY_SERVICE, false))) { // Reset the file
+        String filename = Const.FILENAME_CENTRAL_DIRECTORY_SERVICE;
+
+        try (BufferedWriter wrt = new BufferedWriter(new FileWriter(filename, false))) {
+            // Reset the files
             if (secondaryURI != null) {
                 wrt.write(secondaryURI);
                 wrt.write("\n");
@@ -316,8 +320,39 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
             wrt.write(centralDirectoryURI);
         } catch (IOException ex) {
             Logger.getLogger(NMFProvider.class.getName()).log(Level.WARNING,
-                "Unable to reset URI information from properties file {0}", ex);
+                    "Unable to reset URI information from properties file: " + filename, ex);
         }
+    }
+
+    /**
+     * Configures the COM Archive Database property to point to the correct
+     * directory.
+     */
+    protected void configureCOMArchiveDatabaseLocation() {
+        File dbFile = getDatabaseLocationInUserDirectory();
+        String path = "jdbc:sqlite:" + dbFile.getAbsolutePath();
+        System.setProperty("esa.nmf.archive.persistence.jdbc.url", path);
+    }
+
+    /**
+     * Returns the COM Archive location for the database, inside the user
+     * directory for the App or the Supervisor.
+     *
+     * @return The location for the database.
+     */
+    public File getDatabaseLocationInUserDirectory() {
+        Package nmfPack = NMFProvider.class.getPackage();
+        String nmfVersion = nmfPack.getImplementationVersion();
+
+        Integer version = 1;
+        if (nmfVersion != null) {
+            // The conversion to Integer is on deliberate because
+            // this way, no attempt of path injections can be made
+            version = Integer.valueOf(nmfVersion.split("\\.")[0]);
+        }
+
+        File nmfDir = AppStorage.getAppNMFInternalDir();
+        return new File(nmfDir, "comArchive_v" + version + ".db");
     }
 
     /**
@@ -352,6 +387,21 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
         banner.append(" (version: ");
         banner.append(p.getProperty("java.runtime.version", "?"));
         banner.append(")\n");
+
+        // MO services version
+        /*
+        banner.append("MO Services version: ");
+        Package moPack = MALContextFactory.class.getPackage();
+        String moVersion = moPack.getImplementationVersion();
+        banner.append(moVersion == null ? "?" : moVersion);
+        banner.append("\n");
+         */
+        // NMF version
+        banner.append("NMF version: ");
+        Package nmfPack = NMFProvider.class.getPackage();
+        String nmfVersion = nmfPack.getImplementationVersion();
+        banner.append(nmfVersion == null ? "?" : nmfVersion);
+        banner.append("\n");
 
         banner.append(SEPARATOR);
         return banner.toString();

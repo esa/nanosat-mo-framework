@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft â€“ v2.4
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft - v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -20,13 +20,13 @@
  */
 package esa.mo.nmf.nmfpackage.utils;
 
-import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.misc.OSValidator;
-import esa.mo.nmf.nmfpackage.Deployment;
+import esa.mo.nmf.environment.Deployment;
 import esa.mo.nmf.nmfpackage.metadata.MetadataApp;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
 
 /**
  * Generates the necessary auxiliary files.
@@ -209,8 +209,7 @@ public class AuxFilesGenerator {
         }
 
         if (os.isWindows()) {
-            String content = generateWindowsStartAppScript(
-                    javaCMD, jarName, appDetails);
+            String content = generateWindowsStartAppScript(javaCMD, jarName, appDetails);
             File startApp = new File(appDir, "start_" + name + ".bat");
             writeFile(startApp, content);
         }

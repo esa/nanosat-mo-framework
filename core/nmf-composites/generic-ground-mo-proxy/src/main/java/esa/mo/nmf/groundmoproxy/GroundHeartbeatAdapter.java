@@ -20,14 +20,14 @@
  */
 package esa.mo.nmf.groundmoproxy;
 
-import esa.mo.helpertools.helpers.HelperTime;
-import esa.mo.helpertools.misc.TaskScheduler;
 import esa.mo.sm.impl.consumer.HeartbeatConsumerServiceImpl;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
+import org.ccsds.moims.mo.mal.helpertools.misc.TaskScheduler;
 import org.ccsds.moims.mo.mal.structures.FineTime;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.softwaremanagement.heartbeat.consumer.HeartbeatAdapter;
@@ -39,13 +39,13 @@ public class GroundHeartbeatAdapter extends HeartbeatAdapter {
     protected final long period; // In seconds
     protected long lag; // In milliseconds
     protected final TaskScheduler timer;
-    protected Time lastBeatAt = HelperTime.getTimestampMillis();
+    protected Time lastBeatAt = Time.now();
     protected Time lastBeatOBT = null; // Last beat in On-Board timestamp
     protected final GroundMOProxy moProxy;
     protected final HeartbeatConsumerServiceImpl heartbeat;
 
-    public GroundHeartbeatAdapter(final HeartbeatConsumerServiceImpl heartbeat, final GroundMOProxy moProxy)
-        throws MALInteractionException, MALException {
+    public GroundHeartbeatAdapter(final HeartbeatConsumerServiceImpl heartbeat,
+            final GroundMOProxy moProxy) throws MALInteractionException, MALException {
         this.moProxy = moProxy;
         this.heartbeat = heartbeat;
         long timestamp = System.currentTimeMillis();
@@ -56,7 +56,6 @@ public class GroundHeartbeatAdapter extends HeartbeatAdapter {
         moProxy.setNmsAliveStatus(true);
         timer = new TaskScheduler(1);
         startHeartbeatRefreshTask();
-
     }
 
     public void startHeartbeatRefreshTask() {
@@ -68,25 +67,28 @@ public class GroundHeartbeatAdapter extends HeartbeatAdapter {
     }
 
     @Override
-    public synchronized void beatNotifyReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-        org.ccsds.moims.mo.mal.structures.Identifier _Identifier0,
-        org.ccsds.moims.mo.mal.structures.UpdateHeaderList _UpdateHeaderList1, java.util.Map qosProperties) {
+    public synchronized void beatNotifyReceived(
+            org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
+            org.ccsds.moims.mo.mal.structures.Identifier _Identifier0,
+            org.ccsds.moims.mo.mal.structures.UpdateHeader updateHeader,
+            java.util.Map qosProperties) {
         synchronized (timer) {
-            lastBeatAt = HelperTime.getTimestampMillis();
+            lastBeatAt = Time.now();
             lastBeatOBT = msgHeader.getTimestamp();
             final long iDiff = lastBeatAt.getValue() - lastBeatOBT.getValue();
-            LOGGER.log(Level.INFO, "(Clocks diff: {0} ms | Round-Trip Delay time: {1} ms | Last beat received at: {2})",
-                new Object[]{iDiff, lag, HelperTime.time2readableString(lastBeatAt)});
+            LOGGER.log(Level.INFO,
+                    "(Clocks diff: {0} ms | Round-Trip Delay time: {1} ms | Last beat received at: {2})",
+                    new Object[]{iDiff, lag, HelperTime.time2readableString(lastBeatAt)});
             moProxy.setNmsAliveStatus(true);
         }
     }
 
     public FineTime getLastBeat() {
-        return HelperTime.timeToFineTime(lastBeatAt);
+        return lastBeatAt.toFineTime();
     }
 
     public FineTime getLastBeatOBT() {
-        return HelperTime.timeToFineTime(lastBeatOBT);
+        return lastBeatOBT.toFineTime();
     }
 
     private class HeartbeatRefreshTask extends Thread {
@@ -106,7 +108,7 @@ public class GroundHeartbeatAdapter extends HeartbeatAdapter {
         @Override
         public void run() {
             synchronized (timer) {
-                final Time currentTime = HelperTime.getTimestampMillis();
+                final Time currentTime = Time.now();
                 // If the current time has passed the last beat + the beat period + a delta error
                 long threshold = lastBeatAt.getValue() + period + DELTA_ERROR;
                 if (currentTime.getValue() > threshold) {
@@ -115,7 +117,7 @@ public class GroundHeartbeatAdapter extends HeartbeatAdapter {
                     LOGGER.log(Level.FINE, "The heartbeat message from the provider was not received.");
                     if (!lostHeartbeat) {
                         LOGGER.log(Level.INFO, "Lost heartbeat from remote provider. Remote URI: {}, Routed URI: {}.",
-                            new Object[]{moProxy.getRemoteCentralDirectoryServiceURI(), moProxy.getRoutedURI()});
+                                new Object[]{moProxy.getRemoteCentralDirectoryServiceURI(), moProxy.getRoutedURI()});
                         lostHeartbeat = true;
                     }
                     // Next time the heartbeat comes, trigger the lag measurement
@@ -123,7 +125,7 @@ public class GroundHeartbeatAdapter extends HeartbeatAdapter {
                 } else {
                     if (lostHeartbeat) {
                         LOGGER.log(Level.INFO, "The heartbeat has recovered. Remote URI: {}, Routed URI: {}.",
-                            new Object[]{moProxy.getRemoteCentralDirectoryServiceURI(), moProxy.getRoutedURI()});
+                                new Object[]{moProxy.getRemoteCentralDirectoryServiceURI(), moProxy.getRoutedURI()});
                         lostHeartbeat = false;
                     }
                     if (attemptCounter >= LAG_MEASUREMENT_INTERVAL) {

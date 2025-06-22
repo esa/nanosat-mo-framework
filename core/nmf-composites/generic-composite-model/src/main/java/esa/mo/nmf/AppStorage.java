@@ -20,7 +20,6 @@
  */
 package esa.mo.nmf;
 
-import esa.mo.helpertools.helpers.HelperMisc;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -30,6 +29,7 @@ import java.nio.file.attribute.PosixFilePermissions;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
 
 /**
  * The {@code AppStorage} class allows the retrieval of directory paths to store
@@ -129,7 +129,12 @@ public class AppStorage {
         path.append(File.separator);
         path.append(FOLDER_USER_NMF_DIR);
         path.append(File.separator);
-        path.append(System.getProperty(HelperMisc.PROP_MO_APP_NAME));
+        String name = System.getProperty(HelperMisc.PROP_MO_APP_NAME);
+        if (name == null || "null".equals(name)) {
+            throw new IllegalArgumentException("The App name property was not set! "
+                    + "Property: HelperMisc.PROP_MO_APP_NAME");
+        }
+        path.append(name);
         path.append(File.separator);
 
         // Create it if it does not exist...
@@ -138,31 +143,33 @@ public class AppStorage {
         return path;
     }
 
-    private static void mkDirAndSetPermissions(File directory) {
-        if (!directory.exists()) {
-            // If it does not exist, please check if the parent dir exists
-            // because if not, then we also want to create that directory
-            // and set the correct permissions
-            AppStorage.mkDirAndSetPermissions(directory.getParentFile());
+    private static void mkDirAndSetPermissions(File file) {
+        if (file.exists()) {
+            return;
+        }
 
-            // We want to give access to both the App itself and the nmf-admin group
-            Set<PosixFilePermission> posix = PosixFilePermissions.fromString("rwxrwx---");
-            FileAttribute<?> permissions = PosixFilePermissions.asFileAttribute(posix);
-            try {
-                Files.createDirectory(directory.toPath(), permissions);
-            } catch (UnsupportedOperationException ex1) {
-                // Probably we are on Windows... Let's create it with:
-                directory.mkdirs();
-                directory.setExecutable(false, false);
-                directory.setExecutable(true, true);
-                directory.setReadable(false, false);
-                directory.setReadable(true, true);
-                directory.setWritable(false, false);
-                directory.setWritable(true, true);
-            } catch (IOException ex2) {
-                Logger.getLogger(AppStorage.class.getName()).log(Level.SEVERE,
-                        "Something went wrong...", ex2);
-            }
+        // If it does not exist, please check if the parent dir exists
+        // because if not, then we also want to create that directory
+        // and set the correct permissions
+        AppStorage.mkDirAndSetPermissions(file.getParentFile());
+
+        // We want to give access to both the App itself and the nmf-admin group
+        Set<PosixFilePermission> posix = PosixFilePermissions.fromString("rwxrwx---");
+        FileAttribute<?> permissions = PosixFilePermissions.asFileAttribute(posix);
+        try {
+            Files.createDirectory(file.toPath(), permissions);
+        } catch (UnsupportedOperationException ex1) {
+            // Probably we are on Windows... Let's create it with:
+            file.mkdirs();
+            file.setExecutable(false, false);
+            file.setExecutable(true, true);
+            file.setReadable(false, false);
+            file.setReadable(true, true);
+            file.setWritable(false, false);
+            file.setWritable(true, true);
+        } catch (IOException ex2) {
+            Logger.getLogger(AppStorage.class.getName()).log(Level.SEVERE,
+                    "Something went wrong...", ex2);
         }
     }
 

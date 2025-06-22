@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft â€“ v2.4
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft - v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -20,9 +20,9 @@
  */
 package esa.mo.nmf.nmfpackage;
 
-import esa.mo.nmf.nmfpackage.utils.LinuxUsersGroups;
+import esa.mo.nmf.environment.Deployment;
+import esa.mo.nmf.environment.LinuxUsersGroups;
 import esa.mo.nmf.nmfpackage.utils.HelperNMFPackage;
-import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.misc.Const;
 import esa.mo.helpertools.misc.OSValidator;
 import esa.mo.nmf.nmfpackage.metadata.Metadata;
@@ -38,6 +38,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
@@ -265,7 +266,7 @@ public class NMFPackageManager {
         long timestamp = System.currentTimeMillis();
         System.out.printf(SEPARATOR);
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
-            "Reading the receipt file that includes the list of files to be upgraded...");
+                "Reading the receipt file that includes the list of files to be upgraded...");
 
         // Get the Package to be uninstalled
         NMFPackage newPack = new NMFPackage(packageLocation);
@@ -313,7 +314,7 @@ public class NMFPackageManager {
         }
 
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
-            "Copying the new files to the locations...");
+                "Copying the new files to the locations...");
 
         if (isApp) {
             MetadataApp appMetadata = newPackMetadata.castToApp();
@@ -578,9 +579,9 @@ public class NMFPackageManager {
             ListAppResponse response = appsLauncher.listApp(myApp, category, null);
             LongList runningApp = new LongList();
 
-            for (int i = 0; i < response.getBodyElement0().size(); i++) {
-                if (response.getBodyElement1().get(i)) {
-                    Long appId = response.getBodyElement0().get(i);
+            for (int i = 0; i < response.getAppInstIds().size(); i++) {
+                if (response.getRunning().get(i)) {
+                    Long appId = response.getAppInstIds().get(i);
                     runningApp.add(appId);
                 }
             }

@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft â€“ v2.4
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft - v2.4
  * You may not use this zipFile except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -80,7 +80,7 @@ public class NMFPackage {
         }
 
         long crc;
-        try (InputStream zis = zipFile.getInputStream(entry)) {
+        try ( InputStream zis = zipFile.getInputStream(entry)) {
             crc = HelperNMFPackage.calculateCRCFromInputStream(zis);
         }
 
@@ -107,7 +107,7 @@ public class NMFPackage {
      * Verifies the package integrity. Checks if the CRCs of the files match.
      * This prevents package tainting.
      *
-     * @throws IOException
+     * @throws IOException If the integrity check fails.
      */
     public void verifyPackageIntegrity() throws IOException {
         ArrayList<NMFPackageFile> files = this.getMetadata().getFiles();
@@ -154,8 +154,15 @@ public class NMFPackage {
             ZipEntry entry = this.getZipFileEntry(file.getPath());
 
             String path = HelperNMFPackage.sanitizePath(entry.getName());
-            newFile = new File(toFolder.getCanonicalPath() + File.separator + path);
+            //newFile = new File(toFolder.getCanonicalPath() + File.separator + path);
+            //File parent = newFile.getParentFile();
+
+            newFile = new File(toFolder, path).getCanonicalFile();
             File parent = newFile.getParentFile();
+            // Validate that the new file resides within the intended directory
+            if (!newFile.getPath().startsWith(toFolder.getCanonicalPath() + File.separator)) {
+                throw new IOException("Invalid zip entry: " + entry.getName());
+            }
 
             if (!parent.exists()) {
                 parent.mkdirs();

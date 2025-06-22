@@ -43,10 +43,10 @@ public class MetadataApp extends Metadata {
      *
      * @param packageName The name of the package.
      * @param version The version of the package.
-     * @param timestamp The timestamp of the package.
      * @param mainclass The mainclass of the package.
      * @param mainJar The main jar of the package.
      * @param maxHeap The Maximum Heap of the package.
+     * @param minHeap The Minimum Heap of the package.
      * @param dependencies The jar filenames dependencies of the App.
      */
     public MetadataApp(final String packageName, final String version,

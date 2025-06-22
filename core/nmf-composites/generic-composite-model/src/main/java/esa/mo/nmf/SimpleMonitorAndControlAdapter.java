@@ -20,11 +20,11 @@
  */
 package esa.mo.nmf;
 
-import esa.mo.helpertools.helpers.HelperAttributes;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Blob;
@@ -45,11 +45,11 @@ import org.ccsds.moims.mo.mc.structures.AttributeValueList;
  *
  */
 public abstract class SimpleMonitorAndControlAdapter extends MonitorAndControlNMFAdapter implements
-    SimpleMonitorAndControlListener {
+        SimpleMonitorAndControlListener {
 
     @Override
-    public UInteger actionArrived(Identifier identifier, AttributeValueList attributeValues, Long actionInstanceObjId,
-        boolean reportProgress, MALInteraction interaction) {
+    public UInteger actionArrived(Identifier identifier, AttributeValueList attributeValues,
+            Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
         Serializable[] values = new Serializable[attributeValues.size()];
 
         for (int i = 0; i < attributeValues.size(); i++) {
@@ -67,12 +67,7 @@ public abstract class SimpleMonitorAndControlAdapter extends MonitorAndControlNM
         }
 
         final boolean success = this.actionArrivedSimple(identifier.getValue(), values, actionInstanceObjId);
-
-        if (success) {
-            return new UInteger(0);
-        } else {
-            return new UInteger(1);
-        }
+        return success ? new UInteger(0) : new UInteger(1);
     }
 
     @Override
@@ -89,10 +84,11 @@ public abstract class SimpleMonitorAndControlAdapter extends MonitorAndControlNM
                 return (Attribute) moType;
             }
 
-            try { // Thy to serialize the object and put it inside a Blob
+            try { // Try to serialize the object and put it inside a Blob
                 return HelperAttributes.serialObject2blobAttribute(ret);
             } catch (IOException ex) {
-                Logger.getLogger(SimpleMonitorAndControlAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(SimpleMonitorAndControlAdapter.class.getName()).log(
+                        Level.SEVERE, "The object could not be serialized!", ex);
             }
         }
 
@@ -125,7 +121,7 @@ public abstract class SimpleMonitorAndControlAdapter extends MonitorAndControlNM
         return this.onSetValueSimple(identifier.getValue(), obj);
 
         /* If we ever change the interface to support a boolean list, then use the code below */
-        /*
+ /*
         final BooleanList output = new BooleanList();
         
         if (identifiers.isEmpty() || values.isEmpty()) { // Validation
@@ -158,7 +154,7 @@ public abstract class SimpleMonitorAndControlAdapter extends MonitorAndControlNM
         return output;
         
         
-        */
+         */
     }
 
 }

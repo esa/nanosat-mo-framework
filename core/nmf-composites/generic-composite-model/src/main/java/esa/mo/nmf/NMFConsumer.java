@@ -23,12 +23,9 @@ package esa.mo.nmf;
 import esa.mo.com.impl.util.COMServicesConsumer;
 import esa.mo.common.impl.consumer.DirectoryConsumerServiceImpl;
 import esa.mo.common.impl.provider.DirectoryProviderServiceImpl;
-import esa.mo.helpertools.connections.ConnectionConsumer;
-import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.common.impl.util.CommonServicesConsumer;
 import esa.mo.common.impl.util.HelperCommon;
 import esa.mo.mc.impl.util.MCServicesConsumer;
-import esa.mo.mp.impl.consumer.MPServicesConsumer;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.sm.impl.util.SMServicesConsumer;
 import java.io.IOException;
@@ -45,9 +42,16 @@ import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.structures.*;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
+import org.ccsds.moims.mo.mal.structures.Blob;
+import org.ccsds.moims.mo.mal.structures.Identifier;
+import org.ccsds.moims.mo.mal.structures.IdentifierList;
+import org.ccsds.moims.mo.mal.structures.UOctet;
+import org.ccsds.moims.mo.mal.structures.URI;
+import org.ccsds.moims.mo.mal.structures.UShort;
+import org.ccsds.moims.mo.mal.structures.UShortList;
 import org.ccsds.moims.mo.mc.MCHelper;
-import org.ccsds.moims.mo.mp.MPHelper;
 import org.ccsds.moims.mo.platform.PlatformHelper;
 import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
 
@@ -61,22 +65,12 @@ public class NMFConsumer {
 
     protected final COMServicesConsumer comServices = new COMServicesConsumer();
     protected final MCServicesConsumer mcServices = new MCServicesConsumer();
-    protected final MPServicesConsumer mpServices = new MPServicesConsumer();
     protected final PlatformServicesConsumer platformServices = new PlatformServicesConsumer();
     protected final CommonServicesConsumer commonServices = new CommonServicesConsumer();
     protected final SMServicesConsumer smServices = new SMServicesConsumer();
     private final ConnectionConsumer connection;
     private final Blob authenticationId;
     private final String localNamePrefix;
-
-    /**
-     * The constructor of this class
-     *
-     * @param connection The connection details of the provider
-     */
-    public NMFConsumer(final ConnectionConsumer connection) {
-        this(connection, null, null);
-    }
 
     /**
      * The constructor of this class
@@ -90,6 +84,15 @@ public class NMFConsumer {
         this.authenticationId = authenticationId;
         this.localNamePrefix = localNamePrefix;
         NMFConsumer.initHelpers();
+    }
+
+    /**
+     * The constructor of this class
+     *
+     * @param connection The connection details of the provider
+     */
+    public NMFConsumer(final ConnectionConsumer connection) {
+        this(connection, null, null);
     }
 
     /**
@@ -129,7 +132,6 @@ public class NMFConsumer {
 
         initCOMServices();
         initMCServices();
-        initMPServices();
         initSMServices();
         initPlatformServices();
         initCommonServices();
@@ -141,10 +143,6 @@ public class NMFConsumer {
 
     private void initMCServices() {
         mcServices.init(connection, comServices, authenticationId, localNamePrefix);
-    }
-
-    private void initMPServices() {
-        mpServices.init(connection, comServices);
     }
 
     private void initPlatformServices() {
@@ -162,7 +160,7 @@ public class NMFConsumer {
     /**
      * Requests the COM services.
      *
-     * @return The COM services
+     * @return The COM services.
      */
     public COMServicesConsumer getCOMServices() {
         return comServices;
@@ -171,25 +169,16 @@ public class NMFConsumer {
     /**
      * Requests the MC services.
      *
-     * @return The MC services
+     * @return The MC services.
      */
     public MCServicesConsumer getMCServices() {
         return mcServices;
     }
 
     /**
-     * Requests the MP services.
-     *
-     * @return The MP services
-     */
-    public MPServicesConsumer getMPServices() {
-        return mpServices;
-    }
-
-    /**
      * Requests the Platform services.
      *
-     * @return The Platform services
+     * @return The Platform services.
      */
     public PlatformServicesConsumer getPlatformServices() {
         return platformServices;
@@ -198,7 +187,7 @@ public class NMFConsumer {
     /**
      * Requests the Common services.
      *
-     * @return The Common services
+     * @return The Common services.
      */
     public CommonServicesConsumer getCommonServices() {
         return commonServices;
@@ -216,7 +205,7 @@ public class NMFConsumer {
     /**
      * Requests the Connection Consumer object.
      *
-     * @return The Connection Consumer object
+     * @return The Connection Consumer object.
      */
     public ConnectionConsumer getConnectionConsumer() {
         return connection;
@@ -226,15 +215,15 @@ public class NMFConsumer {
      * Retrieves the complete list of Providers available on the Directory
      * service.
      *
-     * @param directoryURI The Directory service URI
-     * @return The list of providers
+     * @param directoryURI The Directory service URI.
+     * @return The list of providers.
      * @throws org.ccsds.moims.mo.mal.MALException if there is a MAL exception.
      * @throws java.net.MalformedURLException if the URI is incorrect.
      * @throws org.ccsds.moims.mo.mal.MALInteractionException if it could not
      * reach the Directory service.
      */
-    public static final ProviderSummaryList retrieveProvidersFromDirectory(final URI directoryURI) throws MALException,
-        MalformedURLException, MALInteractionException {
+    public static final ProviderSummaryList retrieveProvidersFromDirectory(final URI directoryURI)
+            throws MALException, MalformedURLException, MALInteractionException {
         return NMFConsumer.retrieveProvidersFromDirectory(false, directoryURI);
     }
 
@@ -242,18 +231,18 @@ public class NMFConsumer {
      * Retrieves the complete list of Providers available on the Directory
      * service.
      *
-     * @param directoryURI The Directory service URI
-     * @param authenticationId
-     * @param localNamePrefix
-     * @return The list of providers
+     * @param directoryURI The Directory service URI.
+     * @param authenticationId The authenticationId.
+     * @param localNamePrefix The local name prefix.
+     * @return The list of providers.
      * @throws org.ccsds.moims.mo.mal.MALException if there is a MAL exception.
      * @throws java.net.MalformedURLException if the URI is incorrect.
      * @throws org.ccsds.moims.mo.mal.MALInteractionException if it could not
      * reach the Directory service.
      */
     public static final ProviderSummaryList retrieveProvidersFromDirectory(final URI directoryURI,
-        final Blob authenticationId, final String localNamePrefix) throws MALException, MalformedURLException,
-        MALInteractionException {
+            final Blob authenticationId, final String localNamePrefix)
+            throws MALException, MalformedURLException, MALInteractionException {
         return NMFConsumer.retrieveProvidersFromDirectory(false, directoryURI, authenticationId, localNamePrefix);
     }
 
@@ -261,16 +250,16 @@ public class NMFConsumer {
      * Retrieves the complete list of Providers available on the Directory
      * service.
      *
-     * @param directoryURI The Directory service URI
-     * @param localNamePrefix
-     * @return The list of providers
+     * @param directoryURI The Directory service URI.
+     * @param localNamePrefix The local name prefix.
+     * @return The list of providers.
      * @throws org.ccsds.moims.mo.mal.MALException if there is a MAL exception.
      * @throws java.net.MalformedURLException if the URI is incorrect.
      * @throws org.ccsds.moims.mo.mal.MALInteractionException if it could not
      * reach the Directory service.
      */
     public static final ProviderSummaryList retrieveProvidersFromDirectory(final URI directoryURI,
-        final String localNamePrefix) throws MALException, MalformedURLException, MALInteractionException {
+            final String localNamePrefix) throws MALException, MalformedURLException, MALInteractionException {
         return NMFConsumer.retrieveProvidersFromDirectory(false, directoryURI, null, localNamePrefix);
     }
 
@@ -280,15 +269,15 @@ public class NMFConsumer {
      *
      * @param isS2G If true, then the method will only request for SPP
      * connections.
-     * @param directoryURI The Directory service URI
-     * @return The list of providers
+     * @param directoryURI The Directory service URI.
+     * @return The list of providers.
      * @throws org.ccsds.moims.mo.mal.MALException if there is a MAL exception.
      * @throws java.net.MalformedURLException if the URI is incorrect.
      * @throws org.ccsds.moims.mo.mal.MALInteractionException if it could not
      * reach the Directory service.
      */
-    public static final ProviderSummaryList retrieveProvidersFromDirectory(final boolean isS2G, final URI directoryURI)
-        throws MALException, MalformedURLException, MALInteractionException {
+    public static final ProviderSummaryList retrieveProvidersFromDirectory(final boolean isS2G,
+            final URI directoryURI) throws MALException, MalformedURLException, MALInteractionException {
         return NMFConsumer.retrieveProvidersFromDirectory(isS2G, directoryURI, null, null);
     }
 
@@ -299,22 +288,20 @@ public class NMFConsumer {
      * @param isS2G If true, then the method will only request for SPP
      * connections.
      * @param directoryURI The Directory service URI
-     * @param authenticationId
-     * @param localNamePrefix
+     * @param authenticationId The authenticationId.
+     * @param localNamePrefix The local name prefix.
      * @return The list of providers
      * @throws org.ccsds.moims.mo.mal.MALException if there is a MAL exception.
      * @throws java.net.MalformedURLException if the URI is incorrect.
      * @throws org.ccsds.moims.mo.mal.MALInteractionException if it could not
      * reach the Directory service.
      */
-    public static final ProviderSummaryList retrieveProvidersFromDirectory(final boolean isS2G, final URI directoryURI,
-        final Blob authenticationId, final String localNamePrefix) throws MALException, MalformedURLException,
-        MALInteractionException {
+    public static final ProviderSummaryList retrieveProvidersFromDirectory(final boolean isS2G,
+            final URI directoryURI, final Blob authenticationId, final String localNamePrefix)
+            throws MALException, MalformedURLException, MALInteractionException {
         // Starting the directory service consumer from static method.
         // The whole Common area should be registered to avoid errors during the initHelpers
-        if (MALContextFactory.lookupArea(CommonHelper.COMMON_AREA_NAME, CommonHelper.COMMON_AREA_VERSION) == null) {
-            CommonHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
-        }
+        NMFConsumer.initHelpers();
 
         try {
             HelperMisc.loadConsumerProperties();
@@ -325,27 +312,19 @@ public class NMFConsumer {
             Logger.getLogger(NMFConsumer.class.getName()).log(Level.FINE, null, ex);
         }
 
-        DirectoryConsumerServiceImpl directoryService = new DirectoryConsumerServiceImpl(directoryURI, authenticationId,
-            localNamePrefix);
+        DirectoryConsumerServiceImpl directoryService = new DirectoryConsumerServiceImpl(
+                directoryURI, authenticationId, localNamePrefix);
 
         IdentifierList wildcardList = new IdentifierList();
         wildcardList.add(new Identifier("*"));
 
-        ServiceFilter filter = new ServiceFilter();
-        filter.setDomain(wildcardList);
-        filter.setNetwork(new Identifier("*"));
-        filter.setSessionType(null);
-
         // Additional logic to save bandwidth in the Space2Ground link
-        if (isS2G) {
-            filter.setSessionName(new Identifier(DirectoryProviderServiceImpl.CHAR_S2G));
-        } else {
-            filter.setSessionName(new Identifier("*"));
-        }
-
-        filter.setServiceKey(new ServiceKey(new UShort((short) 0), new UShort((short) 0), new UOctet((short) 0)));
-        filter.setRequiredCapabilitySets(new UShortList());
-        filter.setServiceProviderId(new Identifier("*"));
+        ServiceFilter filter = new ServiceFilter(new Identifier("*"),
+                wildcardList, new Identifier("*"), null,
+                new Identifier(isS2G ? DirectoryProviderServiceImpl.CHAR_S2G : "*"),
+                new ServiceKey(new UShort((short) 0), new UShort((short) 0), new UOctet((short) 0)),
+                new UShortList()
+        );
 
         ProviderSummaryList summaryList;
         // Do the lookup
@@ -354,7 +333,7 @@ public class NMFConsumer {
         } catch (MALException | MALInteractionException e) {
             throw e;
         } finally {
-            directoryService.close();  // close the connection
+            directoryService.closeConnection();  // close the connection
         }
 
         return summaryList;
@@ -365,37 +344,12 @@ public class NMFConsumer {
      */
     public static void initHelpers() {
         // Load the MAL factories for the supported services
-        try {
-            MALHelper.init(MALContextFactory.getElementFactoryRegistry());
-
-            if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION) == null) {
-                COMHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION) == null) {
-                MCHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(MPHelper.MP_AREA_NAME, MPHelper.MP_AREA_VERSION) == null) {
-                MPHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(CommonHelper.COMMON_AREA_NAME, CommonHelper.COMMON_AREA_VERSION) == null) {
-                CommonHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME,
-                SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) == null) {
-                SoftwareManagementHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(PlatformHelper.PLATFORM_AREA_NAME, PlatformHelper.PLATFORM_AREA_VERSION) ==
-                null) {
-                PlatformHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
-            }
-        } catch (MALException ex) {
-            Logger.getLogger(NMFConsumer.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        MALContextFactory.getElementsRegistry().loadFullArea(MALHelper.MAL_AREA);
+        MALContextFactory.getElementsRegistry().loadFullArea(COMHelper.COM_AREA);
+        MALContextFactory.getElementsRegistry().loadFullArea(MCHelper.MC_AREA);
+        MALContextFactory.getElementsRegistry().loadFullArea(CommonHelper.COMMON_AREA);
+        MALContextFactory.getElementsRegistry().loadFullArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA);
+        MALContextFactory.getElementsRegistry().loadFullArea(PlatformHelper.PLATFORM_AREA);
     }
 
     public void setAuthenticationId(Blob authenticationId) {

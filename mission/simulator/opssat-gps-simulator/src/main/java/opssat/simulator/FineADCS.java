@@ -31,9 +31,9 @@ public class FineADCS {
     private final Magnetometer magnetometer;
 
     /**
-     * The FineADCS class constructor
+     * The FineADCS class constructor.
      *
-     * @param orbit
+     * @param orbit The orbit to be used for simulation of the FineADCS.
      */
     public FineADCS(Orbit orbit) {
         this.orbit = orbit;
@@ -41,9 +41,9 @@ public class FineADCS {
     }
 
     /**
-     * A getter for the Magnetometer class
+     * A getter for the Magnetometer class.
      *
-     * @return
+     * @return The Magnetometer of the simulated FineADCS.
      */
     public Magnetometer getMagnetometer() {
         return this.magnetometer;

@@ -29,9 +29,8 @@ import java.util.Calendar;
 import java.util.TimeZone;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.MALStandardError;
 import org.ccsds.moims.mo.mal.structures.Time;
-import org.ccsds.moims.mo.platform.PlatformHelper;
+import org.ccsds.moims.mo.platform.DeviceNotAvailableException;
 import org.ccsds.moims.mo.platform.gps.provider.GetTLEInteraction;
 import org.ccsds.moims.mo.platform.gps.structures.Position;
 import org.ccsds.moims.mo.platform.gps.structures.PositionExtraDetails;
@@ -59,201 +58,196 @@ import org.orekit.utils.IERSConventions;
  */
 public class GPSProviderServiceWithTLEImpl extends GPSProviderServiceImpl {
 
-  private final Boolean isTLEFallbackEnabled =
-          Boolean.parseBoolean(System.getProperty(Const.PLATFORM_GNSS_FALLBACK_TO_TLE_PROPERTY,
-          Const.PLATFORM_GNSS_FALLBACK_TO_TLE_DEFAULT));
+    private final Boolean isTLEFallbackEnabled
+            = Boolean.parseBoolean(System.getProperty(Const.PLATFORM_GNSS_FALLBACK_TO_TLE_PROPERTY,
+                    Const.PLATFORM_GNSS_FALLBACK_TO_TLE_DEFAULT));
 
-  private static boolean isOrekitDataInitialized = false;
-  
-  private final GPSSoftSimAdapter adapterCast = (GPSSoftSimAdapter) adapter;
-    
-  /**
-   * Updates the current position/velocity
-   * @param useTLEpropagation
-   */
-  @Override
-  public void updateCurrentPositionAndVelocity(boolean useTLEpropagation)
-    throws IOException, NumberFormatException
-  {
-    try {
-      final VectorD3D position;
-      final VectorF3D positionDeviation;
-      final VectorD3D velocity;
-      final VectorF3D velocityDeviation;
+    private static boolean isOrekitDataInitialized = false;
 
-      if(useTLEpropagation)
-      {
-        Calendar targetDate = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        SpacecraftState state = getSpacecraftState(targetDate);
-        Vector3D pos = state.getPVCoordinates().getPosition();
-        position = new VectorD3D(pos.getX(), pos.getY(), pos.getZ());
+    private final GPSSoftSimAdapter adapterCast = (GPSSoftSimAdapter) adapter;
 
-        positionDeviation = new VectorF3D(0f, 0f, 0f);
+    /**
+     * Updates the current position/velocity.
+     *
+     * @param useTLEpropagation The flag that defines if the propagation is to
+     * be performed with the TLE.
+     */
+    @Override
+    public void updateCurrentPositionAndVelocity(boolean useTLEpropagation)
+            throws IOException, NumberFormatException {
+        try {
+            final VectorD3D position;
+            final VectorF3D positionDeviation;
+            final VectorD3D velocity;
+            final VectorF3D velocityDeviation;
 
-        Vector3D velocity3D = state.getPVCoordinates().getVelocity();
-        velocity = new VectorD3D(velocity3D.getX(), velocity3D.getY(), velocity3D.getZ());
+            if (useTLEpropagation) {
+                Calendar targetDate = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+                SpacecraftState state = getSpacecraftState(targetDate);
+                Vector3D pos = state.getPVCoordinates().getPosition();
+                position = new VectorD3D(pos.getX(), pos.getY(), pos.getZ());
+                positionDeviation = new VectorF3D(0f, 0f, 0f);
+                Vector3D velocity3D = state.getPVCoordinates().getVelocity();
+                velocity = new VectorD3D(velocity3D.getX(), velocity3D.getY(), velocity3D.getZ());
+                velocityDeviation = new VectorF3D(0f, 0f, 0f);
+            } else {
+                String bestxyz = adapter.getBestXYZSentence();
+                String[] fields = HelperGPS.getDataFieldsFromBestXYZ(bestxyz);
 
-        velocityDeviation = new VectorF3D(0f, 0f, 0f);
-      }
-      else {
-        String bestxyz = adapter.getBestXYZSentence();
+                position = new VectorD3D(
+                        Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.PX]),
+                        Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.PY]),
+                        Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.PZ])
+                );
 
-        String[] fields = HelperGPS.getDataFieldsFromBestXYZ(bestxyz);
+                positionDeviation = new VectorF3D(
+                        Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.PX_DEVIATION]),
+                        Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.PY_DEVIATION]),
+                        Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.PZ_DEVIATION])
+                );
 
-        position = new VectorD3D(
-                Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.PX]),
-                Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.PY]),
-                Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.PZ])
-        );
+                velocity = new VectorD3D(
+                        Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.VX]),
+                        Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.VY]),
+                        Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.VZ])
+                );
 
-        positionDeviation = new VectorF3D(
-                Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.PX_DEVIATION]),
-                Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.PY_DEVIATION]),
-                Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.PZ_DEVIATION])
-        );
-
-        velocity = new VectorD3D(
-                Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.VX]),
-                Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.VY]),
-                Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.VZ])
-        );
-
-        velocityDeviation = new VectorF3D(
-                Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.VX_DEVIATION]),
-                Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.VY_DEVIATION]),
-                Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.VZ_DEVIATION])
-        );
-      }
-      synchronized (MUTEX) { // Store the latest Position
-        currentCartesianPosition = position;
-        currentCartesianPositionDeviation = positionDeviation;
-        currentCartesianVelocity = velocity;
-        currentCartesianVelocityDeviation = velocityDeviation;
-        timeOfCurrentPositionAndVelocity = System.currentTimeMillis();
-      }
-    } catch (IOException | NumberFormatException e) {
-      e.printStackTrace();
-      throw e;
-    }
-  }
-
-  @Override
-  public void getTLE(GetTLEInteraction interaction) throws MALInteractionException, MALException
-  {
-    if (!adapter.isUnitAvailable() && isTLEFallbackEnabled == false) { // Is the unit available?
-      throw new MALInteractionException(
-          new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
-    }
-    interaction.sendAcknowledgement();
-    TLE tle = adapterCast.getTLE();
-
-    interaction.sendResponse(new TwoLineElementSet(tle.getSatelliteNumber(), "" + tle.getClassification(),
-            tle.getLaunchYear(), tle.getLaunchNumber(), tle.getLaunchPiece(),
-            tle.getDate().getComponents(0).getDate().getYear(),
-            tle.getDate().getComponents(0).getDate().getDayOfYear(),
-            tle.getDate().getComponents(0).getTime().getSecondsInUTCDay(),
-            tle.getMeanMotionFirstDerivative(), tle.getMeanMotionSecondDerivative(),
-            tle.getBStar(), tle.getElementNumber(), tle.getI(), tle.getRaan(), tle.getE(),
-            tle.getPerigeeArgument(), tle.getMeanAnomaly(), tle.getMeanMotion(),
-            tle.getRevolutionNumberAtEpoch()));
-  }
-
-  private Position getTLEPropagatedPosition()
-  {
-    Calendar targetDate = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-    SpacecraftState state = getSpacecraftState(targetDate);
-
-    // Converting to geodetic lat/lon/alt
-    Frame ecf = FramesFactory.getITRF(IERSConventions.IERS_2010,true);
-    OneAxisEllipsoid earth = new OneAxisEllipsoid(Constants.WGS84_EARTH_EQUATORIAL_RADIUS, Constants.WGS84_EARTH_FLATTENING, ecf);
-    GeodeticPoint satLatLonAlt = earth.transform(state.getPVCoordinates().getPosition(), FramesFactory.getEME2000(),
-            state.getDate());
-
-    PositionExtraDetails extraDetails = new PositionExtraDetails(new Time(targetDate.getTimeInMillis()),
-            0, 0, 0.0f,0.0f, PositionSourceType.TLE);
-
-    return new Position((float) FastMath.toDegrees(satLatLonAlt.getLatitude()), (float) FastMath.toDegrees(satLatLonAlt.getLongitude()),
-            (float) satLatLonAlt.getAltitude(), extraDetails);
-  }
-
-  private SpacecraftState getSpacecraftState(Calendar targetDate) {
-
-    if(!isOrekitDataInitialized) {
-      //setup orekit if not yet initialized
-      DataProvidersManager manager = DataProvidersManager.getInstance();
-      if(manager.getProviders().isEmpty())
-      {
-        manager.addProvider(OrekitResources.getOrekitData());
-      }
-      isOrekitDataInitialized = true;
-    }
-
-    TLE tle = adapterCast.getTLE();
-    TLEPropagator propagator = TLEPropagator.selectExtrapolator(tle);
-
-    return propagator.propagate(new AbsoluteDate(targetDate.get(Calendar.YEAR),
-            targetDate.get(Calendar.MONTH) + 1,
-            targetDate.get(Calendar.DAY_OF_MONTH), targetDate.get(Calendar.HOUR_OF_DAY), targetDate.get(Calendar.MINUTE),
-            targetDate.get(Calendar.SECOND), TimeScalesFactory.getUTC()));
-  }    
-
-  /**
-   * Checks if TLE propagation should be used
-   * @return true if TLE propagation should be used, false otherwise
-   */
-  @Override
-  public boolean useTLEPropagation() throws MALInteractionException, MALException {
-    boolean useTLEpropagation = false;
-    if (!adapter.isUnitAvailable()) {
-        if(isTLEFallbackEnabled) {
-            useTLEpropagation = true;
-        } else {
-            throw new MALInteractionException(
-                new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null)); 
+                velocityDeviation = new VectorF3D(
+                        Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.VX_DEVIATION]),
+                        Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.VY_DEVIATION]),
+                        Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.VZ_DEVIATION])
+                );
+            }
+            synchronized (MUTEX) { // Store the latest Position
+                currentCartesianPosition = position;
+                currentCartesianPositionDeviation = positionDeviation;
+                currentCartesianVelocity = velocity;
+                currentCartesianVelocityDeviation = velocityDeviation;
+                timeOfCurrentPositionAndVelocity = System.currentTimeMillis();
+            }
+        } catch (IOException | NumberFormatException e) {
+            e.printStackTrace();
+            throw e;
         }
     }
-    else if(!isPositionFixed()){
-      useTLEpropagation = true;
-    }
-    return useTLEpropagation;
-  }
 
-  /**
-   * Updates the current position using TLE if useTLEpropagation is true,
-   * or the GPS adapter if useTLEpropagation is false
-   * @param useTLEpropagation
-   * @return the updated position, or null if the methods that get latest position fail
-   */
-  @Override
-  public Position updateCurrentPosition(boolean useTLEpropagation)
-  {
-    Position position = useTLEpropagation ? getTLEPropagatedPosition() : adapter.getCurrentPosition();
-    if (position == null) {
-      return null;
+    @Override
+    public void getTLE(GetTLEInteraction interaction) throws MALInteractionException, MALException {
+        if (!adapter.isUnitAvailable() && isTLEFallbackEnabled == false) { // Is the unit available?
+            throw new MALInteractionException(new DeviceNotAvailableException(null));
+        }
+        interaction.sendAcknowledgement();
+        TLE tle = adapterCast.getTLE();
+
+        interaction.sendResponse(new TwoLineElementSet(tle.getSatelliteNumber(), "" + tle.getClassification(),
+                tle.getLaunchYear(), tle.getLaunchNumber(), tle.getLaunchPiece(),
+                tle.getDate().getComponents(0).getDate().getYear(),
+                tle.getDate().getComponents(0).getDate().getDayOfYear(),
+                tle.getDate().getComponents(0).getTime().getSecondsInUTCDay(),
+                tle.getMeanMotionFirstDerivative(), tle.getMeanMotionSecondDerivative(),
+                tle.getBStar(), tle.getElementNumber(), tle.getI(), tle.getRaan(), tle.getE(),
+                tle.getPerigeeArgument(), tle.getMeanAnomaly(), tle.getMeanMotion(),
+                tle.getRevolutionNumberAtEpoch()));
     }
 
-    synchronized (MUTEX) { // Store the latest Position
-      currentPosition = position;
-      timeOfCurrentPosition = System.currentTimeMillis();
-    }
-    return position;
-  }
+    private Position getTLEPropagatedPosition() {
+        Calendar targetDate = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        SpacecraftState state = getSpacecraftState(targetDate);
 
-  /**
-   * Checks the fixQquality on the GNSS position.
-   * @return true if a fixed position has been established, false otherwise
-   */
-  private boolean isPositionFixed() {
-    boolean isFixed = false;
-    try {
-      if(adapter.getCurrentPosition().getExtraDetails().getFixQuality() > 0){
-        isFixed = true;
-      }
-    } catch (NullPointerException e)
-    {
-      LOGGER.warning("Could not receive a fixed position: " + e.getMessage());
+        // Converting to geodetic lat/lon/alt
+        Frame ecf = FramesFactory.getITRF(IERSConventions.IERS_2010, true);
+        OneAxisEllipsoid earth = new OneAxisEllipsoid(Constants.WGS84_EARTH_EQUATORIAL_RADIUS, Constants.WGS84_EARTH_FLATTENING, ecf);
+        GeodeticPoint satLatLonAlt = earth.transform(state.getPVCoordinates().getPosition(), FramesFactory.getEME2000(),
+                state.getDate());
+
+        PositionExtraDetails extraDetails = new PositionExtraDetails(new Time(targetDate.getTimeInMillis()),
+                0, 0, 0.0f, 0.0f, PositionSourceType.TLE);
+
+        return new Position((float) FastMath.toDegrees(satLatLonAlt.getLatitude()),
+                (float) FastMath.toDegrees(satLatLonAlt.getLongitude()),
+                (float) satLatLonAlt.getAltitude(), extraDetails);
     }
-    return isFixed;
-  }
-  
+
+    private SpacecraftState getSpacecraftState(Calendar targetDate) {
+        if (!isOrekitDataInitialized) {
+            //setup orekit if not yet initialized
+            //DataProvidersManager manager = DataProvidersManager.getInstance();
+            DataProvidersManager manager = new DataProvidersManager();
+            if (manager.getProviders().isEmpty()) {
+                manager.addProvider(OrekitResources.getOrekitData());
+            }
+            isOrekitDataInitialized = true;
+        }
+
+        TLE tle = adapterCast.getTLE();
+        TLEPropagator propagator = TLEPropagator.selectExtrapolator(tle);
+
+        return propagator.propagate(new AbsoluteDate(targetDate.get(Calendar.YEAR),
+                targetDate.get(Calendar.MONTH) + 1,
+                targetDate.get(Calendar.DAY_OF_MONTH), targetDate.get(Calendar.HOUR_OF_DAY), targetDate.get(Calendar.MINUTE),
+                targetDate.get(Calendar.SECOND), TimeScalesFactory.getUTC()));
+    }
+
+    /**
+     * Checks if TLE propagation should be used
+     *
+     * @return true if TLE propagation should be used, false otherwise
+     * @throws MALInteractionException If the TLE fallback is not enabled.
+     * @throws MALException If something else goes wrong.
+     */
+    @Override
+    public boolean useTLEPropagation() throws MALInteractionException, MALException {
+        boolean useTLEpropagation = false;
+        if (!adapter.isUnitAvailable()) {
+            if (isTLEFallbackEnabled) {
+                useTLEpropagation = true;
+            } else {
+                throw new MALInteractionException(new DeviceNotAvailableException(null));
+            }
+        } else if (!isPositionFixed()) {
+            useTLEpropagation = true;
+        }
+        return useTLEpropagation;
+    }
+
+    /**
+     * Updates the current position using TLE if useTLEpropagation is true, or
+     * the GPS adapter if useTLEpropagation is false
+     *
+     * @param useTLEpropagation The flag that defines if the propagation is to
+     * be performed with the TLE.
+     * @return The updated position, or null if the methods that get latest
+     * position fail
+     */
+    @Override
+    public Position updateCurrentPosition(boolean useTLEpropagation) {
+        Position position = useTLEpropagation ? getTLEPropagatedPosition() : adapter.getCurrentPosition();
+        if (position == null) {
+            return null;
+        }
+
+        synchronized (MUTEX) { // Store the latest Position
+            currentPosition = position;
+            timeOfCurrentPosition = System.currentTimeMillis();
+        }
+        return position;
+    }
+
+    /**
+     * Checks the fixQquality on the GNSS position.
+     *
+     * @return True if a fixed position has been established, false otherwise.
+     */
+    private boolean isPositionFixed() {
+        boolean isFixed = false;
+        try {
+            if (adapter.getCurrentPosition().getExtraDetails().getFixQuality() > 0) {
+                isFixed = true;
+            }
+        } catch (NullPointerException e) {
+            LOGGER.warning("Could not receive a fixed position: " + e.getMessage());
+        }
+        return isFixed;
+    }
+
 }

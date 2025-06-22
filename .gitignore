@@ -1,5 +1,6 @@
 **/comArchive.db
 **/comArchive.db-journal
+**/comArchive*
 **/target/
 **/bin/
 **/libs/
@@ -15,3 +16,4 @@
 **/build/
 **/.factorypath
 **/centralDirectoryService.uri
+**/.logs.temp

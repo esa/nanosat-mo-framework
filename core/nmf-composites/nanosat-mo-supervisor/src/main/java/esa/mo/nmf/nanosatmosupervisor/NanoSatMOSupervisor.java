@@ -22,35 +22,38 @@ package esa.mo.nmf.nanosatmosupervisor;
 
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.Quota;
-import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
-import esa.mo.nmf.NMFProvider;
-import esa.mo.helpertools.connections.ConnectionProvider;
-import esa.mo.helpertools.connections.SingleConnectionDetails;
-import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.misc.AppShutdownGuard;
 import esa.mo.helpertools.misc.Const;
-import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.CloseAppListener;
 import esa.mo.nmf.MCRegistration;
+import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
+import esa.mo.nmf.NMFProvider;
 import esa.mo.nmf.OneInstanceLock;
-import esa.mo.nmf.nmfpackage.Deployment;
+import esa.mo.nmf.environment.Deployment;
+import esa.mo.nmf.nmfpackage.NMFPackagePMBackend;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.reconfigurable.provider.PersistProviderConfiguration;
 import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl;
 import esa.mo.sm.impl.provider.CommandExecutorProviderServiceImpl;
-import esa.mo.sm.impl.util.PMBackend;
 import esa.mo.sm.impl.provider.PackageManagementProviderServiceImpl;
+import esa.mo.sm.impl.util.PMBackend;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.common.configuration.ConfigurationHelper;
+import org.ccsds.moims.mo.common.configuration.ConfigurationServiceInfo;
+import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
+import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
 import org.ccsds.moims.mo.mal.structures.*;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
+import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherServiceInfo;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.body.ListAppResponse;
 
 /**
@@ -62,6 +65,7 @@ import org.ccsds.moims.mo.softwaremanagement.appslauncher.body.ListAppResponse;
 public abstract class NanoSatMOSupervisor extends NMFProvider {
 
     private static final Logger LOGGER = Logger.getLogger(NanoSatMOSupervisor.class.getName());
+    private static final String DIR_PACKAGES = "packages";
 
     private final PackageManagementProviderServiceImpl packageManagementService
             = new PackageManagementProviderServiceImpl();
@@ -85,10 +89,12 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
             PlatformServicesConsumer platformServices,
             PMBackend packageManagementBackend) {
         super.startTime = System.currentTimeMillis();
-        this.generateStartBanner();
-        OneInstanceLock lock = new OneInstanceLock();
-        HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
-        ConnectionProvider.resetURILinks();
+        LOGGER.log(Level.INFO, this.generateStartBanner());
+
+        // Loads: provider.properties; settings.properties; transport.properties
+        HelperMisc.loadPropertiesFile();
+        ConnectionProvider.resetURILinksFile();
+        NMFProvider.loadMOElements();
 
         // Check if we are running as root when we have the NMF in Mode 2
         String user = System.getProperties().getProperty("user.name", "?");
@@ -103,6 +109,10 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
 
         // Provider name to be used on the Directory service...
         this.providerName = System.getProperty(HelperMisc.PROP_MO_APP_NAME);
+        OneInstanceLock lock = new OneInstanceLock();
+
+        // Directory for COM Archive:
+        super.configureCOMArchiveDatabaseLocation();
 
         this.platformServices = platformServices;
 
@@ -113,6 +123,9 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
             this.directoryService.init(comServices);
             this.appsLauncherService.init(comServices, directoryService);
             this.commandExecutorService.init(comServices);
+            if (packageManagementBackend == null) {
+                packageManagementBackend = new NMFPackagePMBackend(DIR_PACKAGES, appsLauncherService);
+            }
             this.packageManagementService.init(comServices, packageManagementBackend);
             this.comServices.initArchiveSync();
             super.reconfigurableServices.add(this.appsLauncherService);
@@ -142,9 +155,9 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
                     ListAppResponse response = appsLauncherService.listApp(allApps, new Identifier("*"), null);
                     LongList runningApps = new LongList();
 
-                    for (int i = 0; i < response.getBodyElement0().size(); i++) {
-                        Long appId = response.getBodyElement0().get(i);
-                        if (response.getBodyElement1().get(i)) {
+                    for (int i = 0; i < response.getAppInstIds().size(); i++) {
+                        Long appId = response.getAppInstIds().get(i);
+                        if (response.getRunning().get(i)) {
                             runningApps.add(appId);
                         }
                     }
@@ -169,9 +182,10 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
         // Are the dynamic changes enabled?
         if ("true".equals(System.getProperty(Const.DYNAMIC_CHANGES_PROPERTY))) {
             LOGGER.log(Level.INFO, "Loading previous configurations...");
+            MALContextFactory.getElementsRegistry().loadServiceAndAreaElements(ConfigurationHelper.CONFIGURATION_SERVICE);
 
             // Activate the previous configuration
-            final ObjectId confId = new ObjectId(ConfigurationHelper.PROVIDERCONFIGURATION_OBJECT_TYPE,
+            final ObjectId confId = new ObjectId(ConfigurationServiceInfo.PROVIDERCONFIGURATION_OBJECT_TYPE,
                     new ObjectKey(ConfigurationProviderSingleton.getDomain(),
                             DEFAULT_PROVIDER_CONFIGURATION_OBJID));
 
@@ -233,7 +247,7 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
 
             // Acknowledge the reception of the request to close (Closing...)
             Long eventId = this.getCOMServices().getEventService().generateAndStoreEvent(
-                    AppsLauncherHelper.STOPPING_OBJECT_TYPE,
+                    AppsLauncherServiceInfo.STOPPING_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(),
                     null,
                     null,
@@ -245,7 +259,7 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
 
             try {
                 this.getCOMServices().getEventService().publishEvent(uri, eventId,
-                        AppsLauncherHelper.STOPPING_OBJECT_TYPE, null, source, null);
+                        AppsLauncherServiceInfo.STOPPING_OBJECT_TYPE, null, source, null);
             } catch (IOException ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
             }
@@ -259,7 +273,7 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
             }
 
             Long eventId2 = this.getCOMServices().getEventService().generateAndStoreEvent(
-                    AppsLauncherHelper.STOPPED_OBJECT_TYPE,
+                    AppsLauncherServiceInfo.STOPPED_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(),
                     null,
                     null,
@@ -268,7 +282,7 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
 
             try {
                 this.getCOMServices().getEventService().publishEvent(uri, eventId2,
-                        AppsLauncherHelper.STOPPED_OBJECT_TYPE, null, source, null);
+                        AppsLauncherServiceInfo.STOPPED_OBJECT_TYPE, null, source, null);
             } catch (IOException ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
             }
@@ -292,4 +306,5 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
 
     public abstract void initPlatformServices(COMServicesProvider comServices);
 
+    protected abstract void startStatusTracking();
 }

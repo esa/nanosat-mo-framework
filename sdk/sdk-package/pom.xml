@@ -12,427 +12,340 @@
     See the License for the specific language governing permissions and limitations under the License.
 -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>int.esa.nmf</groupId>
-    <artifactId>parent</artifactId>
-    <version>3.0.0</version>
-    <relativePath>../../parent/pom.xml</relativePath>
-  </parent>
+    <parent>
+        <groupId>int.esa.nmf</groupId>
+        <artifactId>parent</artifactId>
+        <version>4.0</version>
+        <relativePath>../../parent/pom.xml</relativePath>
+    </parent>
 
-  <groupId>int.esa.nmf.sdk</groupId>
-  <artifactId>package</artifactId>
-  <name>ESA NMF SDK Package Assembly</name>
-  <packaging>jar</packaging>
+    <groupId>int.esa.nmf.sdk</groupId>
+    <artifactId>package</artifactId>
+    <name>ESA NMF SDK - Package Assembly</name>
+    <packaging>jar</packaging>
 
-  <organization>
-    <name>ESA</name>
-    <url>http://www.esa.int</url>
-  </organization>
+    <organization>
+        <name>ESA</name>
+        <url>http://www.esa.int</url>
+    </organization>
 
-  <licenses>
-    <license>
-      <name>European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4</name>
-      <url>https://raw.github.com/esa/nanosat-mo-framework/master/LICENCE.md</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
+    <licenses>
+        <license>
+            <name>European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4</name>
+            <url>https://raw.github.com/esa/nanosat-mo-framework/master/LICENCE.md</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 
-  <scm>
-    <connection>scm:git:https://github.com/esa/nanosat-mo-framework.git</connection>
-    <url>https://github.com/esa/nanosat-mo-framework</url>
-  </scm>
+    <scm>
+        <connection>scm:git:https://github.com/esa/nanosat-mo-framework.git</connection>
+        <url>https://github.com/esa/nanosat-mo-framework</url>
+    </scm>
 
-  <issueManagement>
-    <system>Gitlab</system>
-    <url>https://gitlab.com/esa/NMF/nmf-issues/-/issues</url>
-  </issueManagement>
+    <issueManagement>
+        <system>Gitlab</system>
+        <url>https://gitlab.com/esa/NMF/nmf-issues/-/issues</url>
+    </issueManagement>
 
-  <developers>
-    <developer>
-      <id>CesarCoelho</id>
-      <name>César Coelho</name>
-      <url>https://github.com/CesarCoelho</url>
-    </developer>
-  </developers>
+    <developers>
+        <developer>
+            <id>CesarCoelho</id>
+            <name>César Coelho</name>
+            <url>https://github.com/CesarCoelho</url>
+        </developer>
+    </developers>
 
-  <properties>
-    <esa.nmf.sdk.assembly.outputdir>${project.build.directory}/nmf-sdk-${esa.nmf.version}</esa.nmf.sdk.assembly.outputdir>
-    <esa.nmf.sdk.assembly.quickbuild>false</esa.nmf.sdk.assembly.quickbuild>
-  </properties>
-  <dependencies>
-    <!-- NOTE: Imprecise version resolution using ${esa.nmf.version-qualifier} cannot be used here,
-    as maven-dependency-plugin:copy does not support it. -->
-    <dependency>
-      <groupId>int.esa.nmf.sdk</groupId>
-      <artifactId>orekit-resources</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>int.esa.nmf.core</groupId>
-      <artifactId>nanosat-mo-supervisor</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>int.esa.nmf.sdk</groupId>
-      <artifactId>consumer-test-tool</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>int.esa.nmf.sdk</groupId>
-      <artifactId>cli-tool</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>int.esa.nmf.sdk.examples.space</groupId>
-      <artifactId>waveform</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>int.esa.nmf.sdk.examples.space</groupId>
-      <artifactId>all-mc-services</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>int.esa.nmf.sdk.examples.space</groupId>
-      <artifactId>camera</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>int.esa.nmf.sdk.examples.space</groupId>
-      <artifactId>payloads-test</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>int.esa.nmf.sdk.examples.space</groupId>
-      <artifactId>publish-clock</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>int.esa.nmf.sdk.examples.space</groupId>
-      <artifactId>mp-space-demo</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>int.esa.nmf.sdk.examples.ground</groupId>
-      <artifactId>mp-ground-demo</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>int.esa.nmf.sdk.examples.space</groupId>
-      <artifactId>benchmark</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>int.esa.nmf.sdk.examples.space</groupId>
-      <artifactId>camera-acquisitor-system</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>int.esa.nmf.sdk.examples.space</groupId>
-      <artifactId>picture-processor</artifactId>
-      <version>${project.version}</version>
-    </dependency>
+    <properties>
+        <esa.nmf.sdk.assembly.outputdir>${project.build.directory}/nmf-sdk-${esa.nmf.version}</esa.nmf.sdk.assembly.outputdir>
+        <esa.nmf.sdk.assembly.quickbuild>false</esa.nmf.sdk.assembly.quickbuild>
+        <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
+    </properties>
+    <dependencies>
+        <!-- NOTE: Imprecise version resolution using ${esa.nmf.version-qualifier} cannot be used here,
+        as maven-dependency-plugin:copy does not support it. -->
+        <dependency>
+            <groupId>int.esa.nmf.sdk</groupId>
+            <artifactId>orekit-resources</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>int.esa.nmf.simulator</groupId>
+            <artifactId>nanosat-mo-supervisor-sim</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>int.esa.nmf.sdk</groupId>
+            <artifactId>consumer-test-tool</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>int.esa.nmf.sdk</groupId>
+            <artifactId>cli-tool</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>int.esa.nmf.sdk</groupId>
+            <artifactId>waveform</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>int.esa.nmf.sdk</groupId>
+            <artifactId>all-mc-services</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>int.esa.nmf.sdk</groupId>
+            <artifactId>camera</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>int.esa.nmf.sdk</groupId>
+            <artifactId>payloads-test</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>int.esa.nmf.sdk</groupId>
+            <artifactId>publish-clock</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>int.esa.nmf.sdk</groupId>
+            <artifactId>benchmark</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>int.esa.nmf.sdk</groupId>
+            <artifactId>camera-acquisitor-system</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>int.esa.nmf.sdk</groupId>
+            <artifactId>picture-processor</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
-    <!-- Needed as the transitive dependency is not resolved properly -->
-    <dependency>
-      <groupId>int.esa.nmf.core.moservices.impl</groupId>
-      <artifactId>ccsds-com</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-  </dependencies>
-  <build>
-    <plugins>
-      <!-- disable JAR assembly -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <version>2.4</version>
-        <executions>
-          <execution>
-            <id>default-jar</id>
-            <phase/>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-enforcer-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <version>3.1.0</version>
-        <executions>
-          <execution>
-            <id>copy-dependencies</id>
-            <phase>package</phase>
-            <goals>
-              <goal>copy-dependencies</goal>
-            </goals>
-            <configuration>
-              <outputDirectory>${esa.nmf.sdk.assembly.outputdir}/home/nmf/lib</outputDirectory>
-              <overWriteReleases>false</overWriteReleases>
-              <overWriteSnapshots>false</overWriteSnapshots>
-              <overWriteIfNewer>true</overWriteIfNewer>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>build-helper-maven-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-resources-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>com.googlecode.maven-download-plugin</groupId>
-        <artifactId>download-maven-plugin</artifactId>
-        <version>1.4.0</version>
-        <executions>
-          <execution>
-            <id>get-mal-spec</id>
-            <phase>process-resources</phase>
-            <goals>
-              <goal>wget</goal>
-            </goals>
-            <configuration>
-              <url>https://public.ccsds.org/Pubs/521x0b3.pdf</url>
-              <outputFileName>CCSDS_MO_MAL_521x0b3.pdf</outputFileName>
-              <outputDirectory>${esa.nmf.sdk.assembly.outputdir}/docs/MO_Services</outputDirectory>
-            </configuration>
-          </execution>
-          <execution>
-            <id>get-mal-java-api-spec</id>
-            <phase>process-resources</phase>
-            <goals>
-              <goal>wget</goal>
-            </goals>
-            <configuration>
-              <url>https://public.ccsds.org/Pubs/523x1m1.pdf</url>
-              <outputFileName>CCSDS_MO_MAL_Java_API_523x1m1.pdf</outputFileName>
-              <outputDirectory>${esa.nmf.sdk.assembly.outputdir}/docs/MO_Services</outputDirectory>
-            </configuration>
-          </execution>
-          <execution>
-            <id>get-mo-services-concept</id>
-            <phase>process-resources</phase>
-            <goals>
-              <goal>wget</goal>
-            </goals>
-            <configuration>
-              <url>https://public.ccsds.org/Pubs/520x0g3.pdf</url>
-              <outputFileName>CCSDS_MO_Services_Concept_520x0g3.pdf</outputFileName>
-              <outputDirectory>${esa.nmf.sdk.assembly.outputdir}/docs/MO_Services</outputDirectory>
-            </configuration>
-          </execution>
-          <execution>
-            <id>get-com-spec</id>
-            <phase>process-resources</phase>
-            <goals>
-              <goal>wget</goal>
-            </goals>
-            <configuration>
-              <url>https://public.ccsds.org/Pubs/521x1b1.pdf</url>
-              <outputFileName>CCSDS_MO_COM_521x1b1.pdf</outputFileName>
-              <outputDirectory>${esa.nmf.sdk.assembly.outputdir}/docs/MO_Services</outputDirectory>
-            </configuration>
-          </execution>
-          <execution>
-            <id>get-mc-spec</id>
-            <phase>process-resources</phase>
-            <goals>
-              <goal>wget</goal>
-            </goals>
-            <configuration>
-              <url>https://public.ccsds.org/Pubs/522x1b1.pdf</url>
-              <outputFileName>CCSDS_MO_MC_522x1b1.pdf</outputFileName>
-              <outputDirectory>${esa.nmf.sdk.assembly.outputdir}/docs/MO_Services</outputDirectory>
-            </configuration>
-          </execution>
-          <execution>
-            <id>get-common-spec</id>
-            <phase>process-resources</phase>
-            <goals>
-              <goal>wget</goal>
-            </goals>
-            <configuration>
-              <url>https://public.ccsds.org/Lists/CCSDS%205220R1/522x0r1.pdf</url>
-              <outputFileName>CCSDS_MO_Common_Draft_522x0r1.pdf</outputFileName>
-              <outputDirectory>${esa.nmf.sdk.assembly.outputdir}/docs/MO_Services</outputDirectory>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <artifactId>maven-install-plugin</artifactId>
-        <version>2.5.2</version>
-        <configuration>
-          <skip>${esa.nmf.sdk.assembly.quickbuild}</skip>
-        </configuration>
-      </plugin>
-      <plugin>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <configuration combine.self="override">
-          <skipAssembly>${esa.nmf.sdk.assembly.quickbuild}</skipAssembly>
-          <finalName>nmf-sdk-${git.commit.id.describe}</finalName>
-          <appendAssemblyId>false</appendAssemblyId>
-          <descriptors>
-            <descriptor>${basedir}/src/main/assembly/zip.xml</descriptor>
-          </descriptors>
-        </configuration>
-        <executions>
-          <execution>
-            <id>make-assembly</id>
-            <phase>package</phase>
-            <goals>
-              <goal>single</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <artifactId>maven-antrun-plugin</artifactId>
-        <version>1.8</version>
-        <executions>
-          <execution>
-            <phase>process-resources</phase>
-            <goals>
-              <goal>run</goal>
-            </goals>
-            <configuration>
-              <target>
-                <copy file="${basedir}/../../logging.properties" todir="${esa.nmf.sdk.assembly.outputdir}/home/nmf"/>
-                <ant antfile="antpkg/build.xml"/>
-                <copy todir="${esa.nmf.sdk.assembly.outputdir}/docs">
-                  <fileset dir="${basedir}/src/main/resources/docs">
-                    <exclude name="**/*.docx"/>
-                    <exclude name="**/*.doc"/>
-                  </fileset>
-                </copy>
-                <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/nmf/consumer-test-tool">
-                  <fileset dir="${basedir}/src/main/resources/ground-consumer-root"/>
-                </copy>
-                <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/nmf/cli-tool">
-                  <fileset dir="${basedir}/src/main/resources/ground-consumer-root"/>
-                  <fileset dir="${basedir}/src/main/resources/space-common"/>
-                  <fileset dir="${basedir}/src/main/resources/space-supervisor-root"/>
-                </copy>
-                <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/nmf/nanosat-mo-supervisor-sim">
-                  <fileset dir="${basedir}/src/main/resources/space-common"/>
-                  <fileset dir="${basedir}/src/main/resources/space-supervisor-root"/>
-                  <file file="${basedir}/../../mission/simulator/opssat-spacecraft-simulator/platformsim.properties"/>
-                </copy>
-                <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/all-mc-services">
-                  <fileset dir="${basedir}/src/main/resources/space-common"/>
-                  <fileset dir="${basedir}/src/main/resources/space-app-root"/>
-                </copy>
-                <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/publish-clock">
-                  <fileset dir="${basedir}/src/main/resources/space-common"/>
-                  <fileset dir="${basedir}/src/main/resources/space-app-root"/>
-                </copy>
-                <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/camera">
-                  <fileset dir="${basedir}/src/main/resources/space-common"/>
-                  <fileset dir="${basedir}/src/main/resources/space-app-root"/>
-                </copy>
-                <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/benchmark">
-                  <fileset dir="${basedir}/src/main/resources/space-common"/>
-                  <fileset dir="${basedir}/src/main/resources/space-app-root"/>
-                </copy>
-                <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/payloads-test">
-                  <fileset dir="${basedir}/src/main/resources/space-common"/>
-                  <fileset dir="${basedir}/src/main/resources/space-app-root"/>
-                </copy>
-                <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/waveform">
-                  <fileset dir="${basedir}/src/main/resources/space-common"/>
-                  <fileset dir="${basedir}/src/main/resources/space-app-root"/>
-                </copy>
-                <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/camera-acquisitor-system">
-                  <fileset dir="${basedir}/src/main/resources/space-common"/>
-                  <fileset dir="${basedir}/src/main/resources/space-app-root"/>
-                </copy>
-                <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/picture-processor">
-                  <fileset dir="${basedir}/src/main/resources/space-common"/>
-                  <fileset dir="${basedir}/src/main/resources/space-app-root"/>
-                  <fileset dir="${basedir}/../examples/space/picture-processor/src/main/resources/scripts/imageEditor"/>
-                </copy>
-                <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/mp-demo">
-                  <fileset dir="${basedir}/src/main/resources/space-common"/>
-                  <fileset dir="${basedir}/src/main/resources/space-app-root"/>
-                  <fileset dir="${basedir}/src/main/resources/ground-consumer-root"/>
-                </copy>
-              </target>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>pl.project13.maven</groupId>
-        <artifactId>git-commit-id-plugin</artifactId>
-        <version>4.9.10</version>
-        <executions>
-          <execution>
-            <id>get-the-git-infos</id>
-            <goals>
-              <goal>revision</goal>
-            </goals>
-            <phase>initialize</phase>
-          </execution>
-        </executions>
-        <configuration>
-          <failOnNoGitDirectory>false</failOnNoGitDirectory>
-          <commitIdGenerationMode>full</commitIdGenerationMode>
-          <gitDescribe>
-            <tags>true</tags>
-            <forceLongFormat>true</forceLongFormat>
-          </gitDescribe>
-        </configuration>
-      </plugin>
-    </plugins>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.eclipse.m2e</groupId>
-          <artifactId>lifecycle-mapping</artifactId>
-          <version>1.0.0</version>
-          <configuration>
-            <lifecycleMappingMetadata>
-              <pluginExecutions>
-                <pluginExecution>
-                  <pluginExecutionFilter>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-antrun-plugin</artifactId>
-                    <versionRange>1.8</versionRange>
-                    <goals>
-                      <goal>run</goal>
-                    </goals>
-                  </pluginExecutionFilter>
-                  <action>
-                    <execute/>
-                  </action>
-                </pluginExecution>
-                <pluginExecution>
-                  <pluginExecutionFilter>
-                    <groupId>com.googlecode.maven-download-plugin</groupId>
-                    <artifactId>download-maven-plugin</artifactId>
-                    <versionRange>1.4.0</versionRange>
-                    <goals>
-                      <goal>wget</goal>
-                    </goals>
-                  </pluginExecutionFilter>
-                  <action>
-                    <execute/>
-                  </action>
-                </pluginExecution>
-              </pluginExecutions>
-            </lifecycleMappingMetadata>
-          </configuration>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-  </build>
+        <!-- Needed as the transitive dependency is not resolved properly -->
+        <dependency>
+            <groupId>int.esa.nmf.core</groupId>
+            <artifactId>nmf-services-com</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <!-- disable JAR assembly -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.4</version>
+                <executions>
+                    <execution>
+                        <id>default-jar</id>
+                        <phase/>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${esa.nmf.sdk.assembly.outputdir}/home/nmf/lib</outputDirectory>
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>false</overWriteSnapshots>
+                            <overWriteIfNewer>true</overWriteIfNewer>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>2.5.2</version>
+                <configuration>
+                    <skip>${esa.nmf.sdk.assembly.quickbuild}</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration combine.self="override">
+                    <skipAssembly>${esa.nmf.sdk.assembly.quickbuild}</skipAssembly>
+                    <finalName>nmf-sdk-playground</finalName>
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <descriptors>
+                        <descriptor>${basedir}/src/main/assembly/zip.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <executions>
+                    <execution>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <copy file="${basedir}/../../logging.properties" todir="${esa.nmf.sdk.assembly.outputdir}/home/nmf"/>
+                                <ant antfile="antpkg/build.xml"/>
+                                <copy todir="${esa.nmf.sdk.assembly.outputdir}/docs">
+                                    <fileset dir="${basedir}/src/main/resources/docs">
+                                        <exclude name="**/*.docx"/>
+                                        <exclude name="**/*.doc"/>
+                                    </fileset>
+                                </copy>
+                                <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/nmf/consumer-test-tool">
+                                    <fileset dir="${basedir}/src/main/resources/ground-consumer-root"/>
+                                </copy>
+                                <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/nmf/cli-tool">
+                                    <fileset dir="${basedir}/src/main/resources/ground-consumer-root"/>
+                                    <fileset dir="${basedir}/src/main/resources/space-common"/>
+                                    <fileset dir="${basedir}/src/main/resources/space-supervisor-root"/>
+                                </copy>
+                                <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/nmf/nanosat-mo-supervisor-sim">
+                                    <fileset dir="${basedir}/src/main/resources/space-common"/>
+                                    <fileset dir="${basedir}/src/main/resources/space-supervisor-root"/>
+                                    <file file="${basedir}/../../mission/simulator/opssat-spacecraft-simulator/platformsim.properties"/>
+                                </copy>
+                                <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/all-mc-services">
+                                    <fileset dir="${basedir}/src/main/resources/space-common"/>
+                                    <fileset dir="${basedir}/src/main/resources/space-app-root"/>
+                                </copy>
+                                <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/publish-clock">
+                                    <fileset dir="${basedir}/src/main/resources/space-common"/>
+                                    <fileset dir="${basedir}/src/main/resources/space-app-root"/>
+                                </copy>
+                                <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/camera">
+                                    <fileset dir="${basedir}/src/main/resources/space-common"/>
+                                    <fileset dir="${basedir}/src/main/resources/space-app-root"/>
+                                </copy>
+                                <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/benchmark">
+                                    <fileset dir="${basedir}/src/main/resources/space-common"/>
+                                    <fileset dir="${basedir}/src/main/resources/space-app-root"/>
+                                </copy>
+                                <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/payloads-test">
+                                    <fileset dir="${basedir}/src/main/resources/space-common"/>
+                                    <fileset dir="${basedir}/src/main/resources/space-app-root"/>
+                                </copy>
+                                <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/waveform">
+                                    <fileset dir="${basedir}/src/main/resources/space-common"/>
+                                    <fileset dir="${basedir}/src/main/resources/space-app-root"/>
+                                </copy>
+                                <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/camera-acquisitor-system">
+                                    <fileset dir="${basedir}/src/main/resources/space-common"/>
+                                    <fileset dir="${basedir}/src/main/resources/space-app-root"/>
+                                </copy>
+                                <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/picture-processor">
+                                    <fileset dir="${basedir}/src/main/resources/space-common"/>
+                                    <fileset dir="${basedir}/src/main/resources/space-app-root"/>
+                                    <fileset dir="${basedir}/../examples-space/picture-processor/src/main/resources/scripts/imageEditor"/>
+                                </copy>
+                                <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/mp-demo">
+                                    <fileset dir="${basedir}/src/main/resources/space-common"/>
+                                    <fileset dir="${basedir}/src/main/resources/space-app-root"/>
+                                    <fileset dir="${basedir}/src/main/resources/ground-consumer-root"/>
+                                </copy>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>pl.project13.maven</groupId>
+                <artifactId>git-commit-id-plugin</artifactId>
+                <version>4.9.10</version>
+                <executions>
+                    <execution>
+                        <id>get-the-git-infos</id>
+                        <goals>
+                            <goal>revision</goal>
+                        </goals>
+                        <phase>initialize</phase>
+                    </execution>
+                </executions>
+                <configuration>
+                    <failOnNoGitDirectory>false</failOnNoGitDirectory>
+                    <commitIdGenerationMode>full</commitIdGenerationMode>
+                    <gitDescribe>
+                        <tags>true</tags>
+                        <forceLongFormat>true</forceLongFormat>
+                    </gitDescribe>
+                </configuration>
+            </plugin>
+        </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.eclipse.m2e</groupId>
+                    <artifactId>lifecycle-mapping</artifactId>
+                    <version>1.0.0</version>
+                    <configuration>
+                        <lifecycleMappingMetadata>
+                            <pluginExecutions>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>org.apache.maven.plugins</groupId>
+                                        <artifactId>maven-antrun-plugin</artifactId>
+                                        <versionRange>1.8</versionRange>
+                                        <goals>
+                                            <goal>run</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <execute/>
+                                    </action>
+                                </pluginExecution>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>com.googlecode.maven-download-plugin</groupId>
+                                        <artifactId>download-maven-plugin</artifactId>
+                                        <versionRange>1.4.0</versionRange>
+                                        <goals>
+                                            <goal>wget</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <execute/>
+                                    </action>
+                                </pluginExecution>
+                            </pluginExecutions>
+                        </lifecycleMappingMetadata>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 </project>

@@ -20,12 +20,14 @@
  */
 package esa.mo.platform.impl.provider.softsim;
 
+import esa.mo.platform.impl.provider.gen.CameraAdapterInterface;
+import esa.mo.platform.impl.provider.gen.PowerControlAdapterInterface;
+import esa.opssat.camera.processing.OPSSATCameraDebayering;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-
-import esa.mo.platform.impl.provider.gen.PowerControlAdapterInterface;
+import opssat.simulator.main.ESASimulator;
 import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Time;
@@ -36,11 +38,8 @@ import org.ccsds.moims.mo.platform.camera.structures.PictureFormat;
 import org.ccsds.moims.mo.platform.camera.structures.PictureFormatList;
 import org.ccsds.moims.mo.platform.camera.structures.PixelResolution;
 import org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList;
-import esa.mo.helpertools.helpers.HelperTime;
-import esa.mo.platform.impl.provider.gen.CameraAdapterInterface;
-import esa.opssat.camera.processing.OPSSATCameraDebayering;
-import opssat.simulator.main.ESASimulator;
 import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
 import org.ccsds.moims.mo.platform.powercontrol.structures.DeviceType;
 
 /**
@@ -85,25 +84,23 @@ public class CameraSoftSimAdapter implements CameraAdapterInterface, SimulatorAd
 
     @Override
     public synchronized Picture getPicturePreview() {
-        final PixelResolution resolution = new PixelResolution(new UInteger(PREVIEW_WIDTH), new UInteger(
-            PREVIEW_HEIGHT));
+        final PixelResolution resolution = new PixelResolution(
+                new UInteger(PREVIEW_WIDTH), new UInteger(PREVIEW_HEIGHT));
         final Duration exposureTime = new Duration(0.1);
-        final Time timestamp = HelperTime.getTimestampMillis();
-        final byte[] data = instrumentsSimulator.getpCamera().takePicture((int) resolution.getWidth().getValue(),
-            (int) resolution.getHeight().getValue());
+        final Time timestamp = Time.now();
+        final byte[] data = instrumentsSimulator.getpCamera().takePicture(
+                (int) resolution.getWidth().getValue(),
+                (int) resolution.getHeight().getValue());
 
-        CameraSettings pictureSettings = new CameraSettings();
-        pictureSettings.setResolution(resolution);
-        pictureSettings.setFormat(PictureFormat.RAW);
-        pictureSettings.setExposureTime(exposureTime);
-
+        CameraSettings pictureSettings = new CameraSettings(resolution,
+                PictureFormat.RAW, exposureTime, null, null, null);
         return new Picture(timestamp, pictureSettings, new Blob(data));
     }
 
     @Override
     public synchronized Picture takePicture(final CameraSettings settings) throws IOException {
         // Get a picture from the simulator...
-        final Time timestamp = HelperTime.getTimestampMillis();
+        final Time timestamp = Time.now();
         byte[] data = instrumentsSimulator.getpCamera().takePicture((int) settings.getResolution().getWidth()
             .getValue(), (int) settings.getResolution().getHeight().getValue());
 
@@ -111,13 +108,13 @@ public class CameraSoftSimAdapter implements CameraAdapterInterface, SimulatorAd
             data = convertImage(data, settings.getFormat());
         }
 
-        CameraSettings pictureSettings = new CameraSettings();
-        pictureSettings.setResolution(settings.getResolution());
-        pictureSettings.setFormat(settings.getFormat());
-        pictureSettings.setExposureTime(settings.getExposureTime());
-        pictureSettings.setGainRed(settings.getGainRed());
-        pictureSettings.setGainGreen(settings.getGainGreen());
-        pictureSettings.setGainBlue(settings.getGainBlue());
+        CameraSettings pictureSettings = new CameraSettings(
+                settings.getResolution(),
+                settings.getFormat(),
+                settings.getExposureTime(),
+                settings.getGainRed(),
+                settings.getGainGreen(),
+                settings.getGainBlue());
         return new Picture(timestamp, pictureSettings, new Blob(data));
     }
 

@@ -27,14 +27,14 @@ In case you need to build the source, use the following commands:
 
 Start MPSpaceDemo
 -----------------
-	$ cd <nmf_src>/sdk/sdk-package/target/nmf-sdk-2.0.0-SNAPSHOT/home/mp-demo
+	$ cd <nmf_src>/sdk/sdk-package/target/nmf-sdk-4.0/home/mp-demo
 
 	$ ./start_mp_space_demo.sh
 
 Start CTT
 ---------
 
-	$ cd <nmf_src>/sdk/sdk-package/target/nmf-sdk-2.0.0-SNAPSHOT/home/nmf/consumer-test-tool
+	$ cd <nmf_src>/sdk/sdk-package/target/nmf-sdk-4.0/home/nmf/consumer-test-tool
 
 	$ ./consumer-test-tool.sh
 
@@ -50,7 +50,7 @@ Go to “Plan Information Management service” tab. Press the listRequestDefs b
 
 Start MPGroundDemo
 ------------------
-	$ cd <nmf_src>/sdk/sdk-package/target/nmf-sdk-2.0.0-SNAPSHOT/home/mp-demo
+	$ cd <nmf_src>/sdk/sdk-package/target/nmf-sdk-4.0/home/mp-demo
 
 	$ ./ start_mp_ground_demo.sh
 

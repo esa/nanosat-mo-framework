@@ -12,8 +12,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Describes an Aggregation of MC Parameters exposed by an MC adapter.
- * Multiple Aggregation annotations can be present for the same class.
+ * Describes an Aggregation of MC Parameters exposed by an MC adapter. Multiple
+ * Aggregation annotations can be present for the same class.
  *
  * <p>
  * Example:
@@ -56,49 +56,79 @@ import java.lang.annotation.Target;
 public @interface Aggregation {
 
     /**
-     * unique id (name) of the Aggregation
+     * Unique id (name) of the Aggregation.
      *
-     * @return
+     * @return The id of the Aggregation.
      */
     String id();
 
     /**
-     * description of the Aggregation. Defaults to ""
+     * Description of the Aggregation. Defaults to "".
      *
-     * @return
+     * @return The description of the Aggregation.
      */
     String description() default "";
 
     /**
-     * category of the Aggregation. Defaults to GENERAL
+     * Category of the Aggregation. Defaults to GENERAL.
      *
-     * @return
+     * @return The category of the Aggregation.
      */
     int category() default 0;
 
     /**
-     * Report interval in seconds. Defaults to 0 (non periodic)
+     * Report interval in seconds. Defaults to 0 (non periodic).
      *
-     * @return
+     * @return The reporting interval of the Aggregation.
      */
     double reportInterval() default 0;
 
+    /**
+     * The flag stating if the sending shall be done if the value was unchanged.
+     *
+     * @return The status flag.
+     */
     boolean sendUnchanged() default false;
 
+    /**
+     * The flag stating if the definitions shall be sent.
+     *
+     * @return The status flag.
+     */
     boolean sendDefinitions() default false;
 
+    /**
+     * The flag stating if the filter is enabled.
+     *
+     * @return The status flag.
+     */
     boolean filterEnabled() default false;
 
+    /**
+     * The timeout of the filter.
+     *
+     * @return The timeout of the filter.
+     */
     int filterTimeout() default 0;
 
+    /**
+     * The flag stating if the generation is enabled.
+     *
+     * @return The status flag.
+     */
     boolean generationEnabled() default false;
 
     /**
-     * Field of type ThresholdFilter
+     * Field of type ThresholdFilter.
      *
-     * @return
+     * @return The threshold filter field name of the Aggregation.
      */
     String thresholdFilterFieldName() default "";
 
+    /**
+     * The sampling interval of the Aggregation.
+     *
+     * @return The sampling interval.
+     */
     double sampleInterval() default 0;
 }

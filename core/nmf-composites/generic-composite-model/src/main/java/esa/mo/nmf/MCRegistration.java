@@ -22,7 +22,6 @@ package esa.mo.nmf;
 
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
-import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.mc.impl.provider.ActionProviderServiceImpl;
 import esa.mo.mc.impl.provider.AggregationProviderServiceImpl;
 import esa.mo.mc.impl.provider.AlertProviderServiceImpl;
@@ -30,6 +29,7 @@ import esa.mo.mc.impl.provider.ParameterProviderServiceImpl;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.structures.ObjectDetails;
 import org.ccsds.moims.mo.com.structures.ObjectId;
@@ -38,7 +38,9 @@ import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.structures.ElementList;
+import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
@@ -53,7 +55,7 @@ import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetails
 import org.ccsds.moims.mo.mc.alert.structures.AlertCreationRequest;
 import org.ccsds.moims.mo.mc.alert.structures.AlertCreationRequestList;
 import org.ccsds.moims.mo.mc.alert.structures.AlertDefinitionDetailsList;
-import org.ccsds.moims.mo.mc.conversion.ConversionHelper;
+import org.ccsds.moims.mo.mc.conversion.ConversionServiceInfo;
 import org.ccsds.moims.mo.mc.conversion.structures.DiscreteConversionDetailsList;
 import org.ccsds.moims.mo.mc.conversion.structures.LineConversionDetailsList;
 import org.ccsds.moims.mo.mc.conversion.structures.PolyConversionDetailsList;
@@ -88,9 +90,11 @@ public class MCRegistration {
     public final AlertProviderServiceImpl alertService;
     public final ActionProviderServiceImpl actionService;
 
-    public MCRegistration(COMServicesProvider comServices, ParameterProviderServiceImpl parameterService,
-        AggregationProviderServiceImpl aggregationService, AlertProviderServiceImpl alertService,
-        ActionProviderServiceImpl actionService) {
+    public MCRegistration(COMServicesProvider comServices,
+            ParameterProviderServiceImpl parameterService,
+            AggregationProviderServiceImpl aggregationService,
+            AlertProviderServiceImpl alertService,
+            ActionProviderServiceImpl actionService) {
         this.comServices = comServices;
         this.parameterService = parameterService;
         this.aggregationService = aggregationService;
@@ -193,7 +197,7 @@ public class MCRegistration {
      * AggregationIdentity objects.
      */
     public LongList registerAggregations(final IdentifierList names,
-        final AggregationDefinitionDetailsList definitions) {
+            final AggregationDefinitionDetailsList definitions) {
         // Some validation
         if (names == null || definitions == null) {
             return null;
@@ -433,30 +437,30 @@ public class MCRegistration {
      * @throws org.ccsds.moims.mo.mal.MALInteractionException if there is a
      * problem while storing the registrations in the COM Archive.
      */
-    public ObjectIdList registerConversions(ElementList conversions) throws NMFException, MALException,
-        MALInteractionException {
+    public ObjectIdList registerConversions(ElementList conversions)
+            throws NMFException, MALException, MALInteractionException {
         if (conversions == null) {
             throw new NMFException("The conversions object cannot be null!");
         }
 
         // Discrete Conversion:
         if (conversions instanceof DiscreteConversionDetailsList) {
-            return this.registerConversionsGen(conversions, ConversionHelper.DISCRETECONVERSION_OBJECT_TYPE);
+            return this.registerConversionsGen(conversions, ConversionServiceInfo.DISCRETECONVERSION_OBJECT_TYPE);
         }
 
         // Line Conversion:
         if (conversions instanceof LineConversionDetailsList) {
-            return this.registerConversionsGen(conversions, ConversionHelper.LINECONVERSION_OBJECT_TYPE);
+            return this.registerConversionsGen(conversions, ConversionServiceInfo.LINECONVERSION_OBJECT_TYPE);
         }
 
         // Polynomial Conversion:
         if (conversions instanceof PolyConversionDetailsList) {
-            return this.registerConversionsGen(conversions, ConversionHelper.POLYCONVERSION_OBJECT_TYPE);
+            return this.registerConversionsGen(conversions, ConversionServiceInfo.POLYCONVERSION_OBJECT_TYPE);
         }
 
         // Range Conversion:
         if (conversions instanceof RangeConversionDetailsList) {
-            return this.registerConversionsGen(conversions, ConversionHelper.RANGECONVERSION_OBJECT_TYPE);
+            return this.registerConversionsGen(conversions, ConversionServiceInfo.RANGECONVERSION_OBJECT_TYPE);
         }
 
         throw new NMFException("The conversion object didn't match any type of Conversion.");
@@ -470,12 +474,12 @@ public class MCRegistration {
      * @param objType The Object Type of the conversions
      * @return The list of ObjIds of the Identity objects of the conversions.
      */
-    private ObjectIdList registerConversionsGen(final ElementList conversions, final ObjectType objType)
-        throws MALException, MALInteractionException {
+    private ObjectIdList registerConversionsGen(final ElementList conversions,
+            final ObjectType objType) throws MALException, MALInteractionException {
         final IdentifierList domain = ConfigurationProviderSingleton.getDomain();
-        final ArchiveDetailsList archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null,
-            PROVIDER_URI);
-        final IdentifierList names = new IdentifierList();
+        final ArchiveDetailsList metadata = HelperArchive.generateArchiveDetailsList(
+                null, null, PROVIDER_URI);
+        final HeterogeneousList names = new HeterogeneousList();
 
         Random rand = new Random();
 
@@ -484,17 +488,43 @@ public class MCRegistration {
         }
 
         for (int i = 1; i < conversions.size(); i++) { // There's already 1 object in the list
-            archiveDetailsList.add(archiveDetailsList.get(0));
+            metadata.add(metadata.get(0));
         }
 
         final LongList conversionIdentityObjIds = comServices.getArchiveService().store(true,
-            ConversionHelper.CONVERSIONIDENTITY_OBJECT_TYPE, domain, archiveDetailsList, names, null);
+                ConversionServiceInfo.CONVERSIONIDENTITY_OBJECT_TYPE,
+                domain,
+                metadata,
+                names,
+                null);
 
-        for (int i = 0; i < archiveDetailsList.size(); i++) {
-            archiveDetailsList.get(i).setDetails(new ObjectDetails(conversionIdentityObjIds.get(i), null));
+        /*
+        for (int i = 0; i < metadata.size(); i++) {
+            metadata.get(i).setDetails(new ObjectDetails(conversionIdentityObjIds.get(i), null));
+        }
+         */
+        ArchiveDetailsList metadataConversions = new ArchiveDetailsList();
+
+        HeterogeneousList myList = new HeterogeneousList();
+        myList.addAll(conversions);
+
+        for (int i = 0; i < myList.size(); i++) {
+            ArchiveDetails det = new ArchiveDetails(
+                    0L,
+                    new ObjectDetails(conversionIdentityObjIds.get(i), null),
+                    metadata.get(0).getNetwork(),
+                    metadata.get(0).getTimestamp(),
+                    metadata.get(0).getProvider()
+            );
+            metadataConversions.add(det);
         }
 
-        comServices.getArchiveService().store(false, objType, domain, archiveDetailsList, conversions, null);
+        comServices.getArchiveService().store(false,
+                objType,
+                domain,
+                metadataConversions,
+                myList,
+                null);
 
         ObjectIdList output = new ObjectIdList();
 

@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft â€“ v2.4
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft - v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.nmfpackage;
 
+import esa.mo.nmf.environment.Deployment;
 import esa.mo.helpertools.misc.Const;
 import esa.mo.nmf.nmfpackage.metadata.Metadata;
 import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl;
@@ -46,14 +47,11 @@ public class NMFPackagePMBackend implements PMBackend {
      * packages in the folder passed as argument.
      *
      * @param folder The folder to look for packages
+     * @param appsLauncherService The AppsLauncher service.
      */
     public NMFPackagePMBackend(String folder, AppsLauncherProviderServiceImpl appsLauncherService) {
         this.packagesFolder = new File(folder);
         this.manager = new NMFPackageManager(appsLauncherService);
-    }
-
-    public NMFPackagePMBackend(String folder) {
-        this(folder, null);
     }
 
     @Override

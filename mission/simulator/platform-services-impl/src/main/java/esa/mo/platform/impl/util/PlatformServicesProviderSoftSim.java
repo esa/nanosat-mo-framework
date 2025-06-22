@@ -28,13 +28,6 @@ import java.util.Arrays;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import esa.mo.helpertools.connections.ConnectionConsumer;
-import esa.mo.platform.impl.provider.softsim.*;
-import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.platform.opticaldatareceiver.provider.OpticalDataReceiverInheritanceSkeleton;
-import org.ccsds.moims.mo.platform.softwaredefinedradio.provider.SoftwareDefinedRadioInheritanceSkeleton;
-
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.platform.impl.provider.adapters.AIMovidiusAdapter;
 import esa.mo.platform.impl.provider.gen.ArtificialIntelligenceProviderServiceImpl;
@@ -52,8 +45,13 @@ import esa.mo.platform.impl.provider.gen.PowerControlAdapterInterface;
 import esa.mo.platform.impl.provider.gen.PowerControlProviderServiceImpl;
 import esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface;
 import esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioProviderServiceImpl;
+import esa.mo.platform.impl.provider.softsim.*;
 import opssat.simulator.main.ESASimulator;
 import org.ccsds.moims.mo.platform.artificialintelligence.provider.ArtificialIntelligenceInheritanceSkeleton;
+import org.ccsds.moims.mo.platform.opticaldatareceiver.provider.OpticalDataReceiverInheritanceSkeleton;
+import org.ccsds.moims.mo.platform.softwaredefinedradio.provider.SoftwareDefinedRadioInheritanceSkeleton;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
+import org.ccsds.moims.mo.mal.MALException;
 
 /**
  *
@@ -117,8 +115,8 @@ public class PlatformServicesProviderSoftSim implements PlatformServicesProvider
                         Constructor constructor = Class.forName(camAdapterName).getConstructor(PowerControlAdapterInterface.class);
                         camAdapter = (CameraAdapterInterface) constructor.newInstance(pcAdapter);
                     }
-                } catch (InstantiationException | IllegalAccessException | 
-                        ClassNotFoundException | NoSuchMethodException | InvocationTargetException e) {
+                } catch (InstantiationException | IllegalAccessException
+                        | ClassNotFoundException | NoSuchMethodException | InvocationTargetException e) {
                     Logger.getLogger(PlatformServicesProviderSoftSim.class.getName()).log(Level.WARNING,
                             "Failed to instantiate the camera adapter. Falling back to default CameraSoftSimAdapter.", e);
                     camAdapter = new CameraSoftSimAdapter(instrumentsSimulator, pcAdapter);

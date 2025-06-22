@@ -1,0 +1,92 @@
+name: NMF
+on: [push]
+permissions:
+  contents: read
+jobs:
+
+  build-jdk8:
+    runs-on: ubuntu-latest
+    env:
+      DATE_FILE: ./date.txt
+    steps:
+      - name: Get Date
+        id: get-date
+        run: |
+          echo "date=$(/bin/date -u "+%Y-week-%U")" >> $GITHUB_OUTPUT
+        shell: bash
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '8'
+          distribution: 'temurin'
+      - name: Run Maven install
+        run: mvn --batch-mode --update-snapshots -DskipTests clean install
+      - name: Cache Maven local repository
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-mo-services-java-jdk8-${{ steps.get-date.outputs.date }}
+
+  build-jdk11:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Date
+        id: get-date
+        run: |
+          echo "date=$(/bin/date -u "+%Y-week-%U")" >> $GITHUB_OUTPUT
+        shell: bash
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+      - name: Run Maven install
+        run: mvn --batch-mode --update-snapshots -DskipTests clean install
+      - name: Cache Maven local repository
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-mo-services-java-jdk11-${{ steps.get-date.outputs.date }}
+
+  build-jdk17:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Date
+        id: get-date
+        run: |
+         echo "date=$(/bin/date -u "+%Y-week-%U")" >> $GITHUB_OUTPUT
+        shell: bash
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - name: Run Maven install
+        run: mvn --batch-mode --update-snapshots -DskipTests clean install
+      - name: Cache Maven local repository
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-mo-services-java-jdk17-${{ steps.get-date.outputs.date }}
+
+  build-jdk21:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Date
+        id: get-date
+        run: |
+         echo "date=$(/bin/date -u "+%Y-week-%U")" >> $GITHUB_OUTPUT
+        shell: bash
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+      - name: Run Maven install
+        run: mvn --batch-mode --update-snapshots -DskipTests install
+      - name: Cache Maven local repository
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-mo-services-java-jdk21-${{ steps.get-date.outputs.date }}
+

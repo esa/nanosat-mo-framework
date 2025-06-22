@@ -33,13 +33,13 @@ In short, you will need to: clone a repository, change some configuration files,
       <expId>000</expId>
       <expApid>1024</expApid>
       <expMainClass>esa.mo.nmf.apps.PayloadsTestApp</expMainClass>
-      <expVersion>3.0.0</expVersion>
+      <expVersion>4.0</expVersion>
       <!-- Do not change the following -->
       <esa.nmf.mission.opssat.assembly.outputdir>${project.build.directory}/experiment-package</esa.nmf.mission.opssat.assembly.outputdir>
     </properties>
     <dependencies>
       <dependency>
-        <groupId>int.esa.nmf.sdk.examples.space</groupId>
+        <groupId>int.esa.nmf.sdk</groupId>
         <artifactId>payloads-test</artifactId>
         <version>${expVersion}</version>
       </dependency>
@@ -54,7 +54,7 @@ In short, you will need to: clone a repository, change some configuration files,
    <artifactItems>
       <artifactItem>
         <!-- Change the following 3 properties to locate JAR your app needs -->
-        <groupId>int.esa.nmf.sdk.examples.space</groupId>
+        <groupId>int.esa.nmf.sdk</groupId>
         <artifactId>payloads-test</artifactId>
         <version>${expVersion}</version>
         <!-- Do not change the following -->

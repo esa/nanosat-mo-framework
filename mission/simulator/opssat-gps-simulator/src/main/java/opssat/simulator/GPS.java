@@ -20,92 +20,79 @@
  */
 package opssat.simulator;
 
-import opssat.simulator.Orbit.OrbitParameters;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Date;
-import java.util.Random;
-import java.util.Timer;
 
 /**
+ * The GPS class represents a GPS that can return a position for a selected
+ * orbit.
  *
  * @author Cesar Coelho
  */
 public class GPS {
 
     private final Orbit orbit;
-    private Orbit.OrbitParameters Position;
-    private final static int NUMERICAL_ERROR = 2;  // 2 meters
-    private final static int POSITION_ERROR = 10;  // 10 meters
-    private static Random randomno = new Random();
-    // GPS characteristics
-    int SampleFrequency = 1 * 1000; //milliseconds (1 update per second)
+    private OrbitParameters position;
 
-    // Errors
-    Orbit.OrbitParameters numericalError;
-    Orbit.OrbitParameters positionError;
-
-    // Timer
-    Timer timer;
-    private final Object MUTEX = new Object();
-
+    /**
+     * Constructor for the GPS class.
+     *
+     * @param selectedOrbit The orbit to be used for generation of the gps data.
+     */
     public GPS(Orbit selectedOrbit) {
         this.orbit = selectedOrbit;
-        this.timer = new Timer();
-
-        Position = orbit.getParameters();
-
-        // Generate a POSITION_ERROR position error
-        positionError = GPS.this.generateError(POSITION_ERROR, Position);
-
-        // Generate a NUMERICAL_ERROR numerical error
-        numericalError = GPS.this.generateError(NUMERICAL_ERROR, Position);
-
+        position = orbit.getParametersForLatestDate();
     }
 
-    public OrbitParameters getPosition() {
-        return this.getPosition(this.Position.gettime());
+    /**
+     * Returns the latest position of the satellite.
+     *
+     * @return the latest position of the satellite.
+     */
+    public OrbitParameters getPositionNow() {
+        return this.getPosition(new Date());
     }
 
-    public OrbitParameters getPosition(Date time) {
+    /**
+     * Returns the position of the satellite for a given time.
+     *
+     * @param time The time to be used for the calculation of the position.
+     * @return the position of the satellite for a given time.
+     */
+    public synchronized OrbitParameters getPosition(Date time) {
+        this.position = orbit.getParametersForDate(time);
 
-        OrbitParameters PositionWithErrors;
+        // The next line shouldn't be here, because if I request the Position from the GPS faster than
+        // the Samplefrequency of the GPS, then I shall get the same value
+        //this.Position = this.orbit.getParameters();
+        double latitude = truncateDecimal(this.position.getLatitude(), 6).doubleValue();
+        double longitude = truncateDecimal(this.position.getLongitude(), 6).doubleValue();
 
-        synchronized (MUTEX) {
-            this.Position = orbit.getParameters(time);
+        latitude = fixBoundaries(latitude, -90, 90);
+        longitude = fixBoundaries(longitude, -180, 180);
 
-            // Change the numericalError every: this.SampleFrequency
-            numericalError = GPS.this.generateError(NUMERICAL_ERROR, Position);
+        // No errors for the velocity vector were included
+        BigDecimal truncated = truncateDecimal(this.position.getA(), 1);
+        Vector velocity = this.position.getVelocity();
+        OrbitParameters newPosition = new OrbitParameters(latitude, longitude,
+                truncated.doubleValue(), velocity, this.position.getTime());
 
-            // The next line shouldn't be here, because if I request the Position from the GPS faster than
-            // the Samplefrequency of the GPS, then I shall get the same value
-            //this.Position = this.orbit.getParameters();
-            double latitude = truncateDecimal(this.Position.getlatitude() + this.positionError.getlatitude() +
-                this.numericalError.getlatitude(), 6).doubleValue();
-            double longitude = truncateDecimal(this.Position.getlongitude() + this.positionError.getlongitude() +
-                this.numericalError.getlongitude(), 6).doubleValue();
-
-            latitude = fixBoundaries(latitude, -90, 90);
-            longitude = fixBoundaries(longitude, -180, 180);
-
-            // No errors for the velocity vector were included
-            PositionWithErrors = new OrbitParameters(latitude, longitude, truncateDecimal(this.Position.geta() +
-                this.positionError.geta() + this.numericalError.geta(), 1).doubleValue(), new Vector(this.Position
-                    .getvelocity().x(), this.Position.getvelocity().y(), this.Position.getvelocity().z()), this.Position
-                        .gettime());
-
-        }
-
-        return PositionWithErrors;
+        return newPosition;
     }
 
+    /**
+     * Truncates a double value to the defined number of decimals.
+     *
+     * @param x The double value to be truncated.
+     * @param numberofDecimals The number of decimals to truncate.
+     * @return The truncated number.
+     */
     public static BigDecimal truncateDecimal(double x, int numberofDecimals) {
         // From: http://stackoverflow.com/questions/7747469/how-can-i-truncate-a-double-to-only-two-decimal-places-in-java
-        if (x > 0) {
-            return new BigDecimal(String.valueOf(x)).setScale(numberofDecimals, RoundingMode.FLOOR);
-        } else {
-            return new BigDecimal(String.valueOf(x)).setScale(numberofDecimals, RoundingMode.CEILING);
-        }
+
+        RoundingMode rMode = (x > 0) ? RoundingMode.FLOOR : RoundingMode.CEILING;
+        return new BigDecimal(String.valueOf(x)).setScale(numberofDecimals, rMode);
     }
 
     private static double fixBoundaries(double input, double low_limit, double top_limit) {
@@ -118,20 +105,5 @@ public class GPS {
         }
 
         return input;  // nothing to be fixed
-    }
-
-    // k is the constant and it's the error in meters
-    private OrbitParameters generateError(double k, OrbitParameters param) {
-        // Generate errors
-        //    System.out.printf("Time: %s\n", RealPosition.time.toString());
-
-        // Factor to convert the k from meters to degrees
-        double factor = 360 / (2 * Math.PI * param.geta());
-
-        // The values are divided by 3 to represent a 3 sigma confidence interval
-        // The meters need to be converted to kilometers ("/ 1000")
-
-        return new OrbitParameters(factor * k / 3 * randomno.nextGaussian(), factor * k / 3 * randomno.nextGaussian(),
-            k / 1000 / 3 * randomno.nextGaussian(), new Vector(0, 0, 0), this.Position.gettime());
     }
 }

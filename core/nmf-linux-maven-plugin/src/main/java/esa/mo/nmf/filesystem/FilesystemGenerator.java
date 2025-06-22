@@ -1,0 +1,141 @@
+/* ----------------------------------------------------------------------------
+ * Copyright (C) 2025      European Space Agency
+ *                         European Space Operations Centre
+ *                         Darmstadt
+ *                         Germany
+ * ----------------------------------------------------------------------------
+ * System                : ESA NanoSat MO Framework
+ * ----------------------------------------------------------------------------
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
+ * You may not use this file except in compliance with the License.
+ *
+ * Except as expressly set forth in this License, the Software is provided to
+ * You on an "as is" basis and without warranties of any kind, including without
+ * limitation merchantability, fitness for a particular purpose, absence of
+ * defects or errors, accuracy or non-infringement of intellectual property rights.
+ * 
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ * ----------------------------------------------------------------------------
+ */
+package esa.mo.nmf.filesystem;
+
+import esa.mo.nmf.environment.Deployment;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.apache.maven.artifact.Artifact;
+
+/**
+ * The FilesystemGenerator class.
+ *
+ * @author Cesar Coelho
+ */
+public class FilesystemGenerator {
+
+    private final static File DIR_TARGET = new File("target");
+    private final static File DIR_FILESYSTEM = new File(DIR_TARGET, "space-filesystem");
+    private final File dir_nmf;
+
+    /**
+     * The Constructor.
+     *
+     * @param directory The directory to output the generated filesystem.
+     */
+    public FilesystemGenerator(File directory) {
+        dir_nmf = new File(directory, Deployment.DIR_NMF);
+    }
+
+    /**
+     * The Constructor.
+     */
+    public FilesystemGenerator() {
+        this(DIR_FILESYSTEM);
+    }
+
+    /**
+     * Adds a File or Directory.
+     *
+     * @param from The path from the file or directory to be added.
+     */
+    public void addFileOrDirectory(File from) {
+        addFileOrDirectory(from.getAbsolutePath(), "");
+    }
+
+    private void addFileOrDirectory(String path, String nest) {
+        File f = new File(path);
+
+        if (f.isDirectory()) {
+            nest += f.getName() + File.separator;
+
+            for (File n : f.listFiles()) {
+                addFileOrDirectory(n.getAbsolutePath(), nest);
+            }
+        } else {
+            File destination = new File(dir_nmf, nest);
+            File newFile = new File(destination, f.getName());
+            try {
+                Files.copy(f.toPath(), newFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException ex) {
+                Logger.getLogger(FilesystemGenerator.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            System.out.println("File copied to: " + newFile.getAbsolutePath());
+        }
+    }
+
+    /**
+     *
+     * @param directoryName The name of the directory inside the NMF.
+     * @param filename The filename of the file in the resources of the project
+     * to be copied.
+     */
+    public void addResource(String directoryName, String filename) {
+        ClassLoader classLoader = GenerateFilesystemMojo.class.getClassLoader();
+        File destinationDirectory = new File(dir_nmf, directoryName);
+        destinationDirectory.mkdirs();
+        File destinationFile = new File(destinationDirectory, filename);
+
+        try (InputStream inputStream = classLoader.getResourceAsStream(filename)) {
+            if (inputStream == null) {
+                System.out.println("Resource not found.");
+                return;
+            }
+
+            Files.copy(inputStream, destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            System.out.println("Resource copied to: " + destinationFile.getAbsolutePath());
+        } catch (IOException ex) {
+            Logger.getLogger(GenerateFilesystemMojo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void addArtifactNMF(Artifact artifact, String nmfVersion) {
+        this.addArtifact(Deployment.DIR_JARS_NMF, artifact, nmfVersion);
+    }
+
+    public void addArtifactMission(Artifact artifact, String missionVersion) {
+        this.addArtifact(Deployment.DIR_JARS_MISSION, artifact, missionVersion);
+    }
+
+    private void addArtifact(String directory, Artifact artifact, String version) {
+        File from = artifact.getFile();
+        File destinationDirectory = new File(dir_nmf, directory);
+
+        if (version != null) {
+            destinationDirectory = new File(destinationDirectory, version);
+        }
+
+        destinationDirectory.mkdirs();
+        File destinationFile = new File(destinationDirectory, from.getName());
+
+        try {
+            Files.copy(from.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException ex) {
+            Logger.getLogger(FilesystemGenerator.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+}

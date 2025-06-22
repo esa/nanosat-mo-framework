@@ -69,6 +69,7 @@ public class NMFPackageDescriptor {
      *
      * @param stream The input stream of the file.
      * @return The descriptor of the NMF Package.
+     * @throws IOException If the input could not be parsed.
      */
     public static NMFPackageDescriptor parseInputStream(final InputStream stream) throws IOException {
         NMFPackageDescriptor newDescriptor = null;
@@ -99,8 +100,9 @@ public class NMFPackageDescriptor {
      * Parses a ZipFile, finds the receipt file and generated the respective
      * NMFPackageDescriptor.
      *
-     * @param zipFile The zip file with the receipt file.
+     * @param zipFile The zip file with the receipt file.0
      * @return The descriptor of the NMF Package.
+     * @throws IOException If the input could not be parsed.
      */
     public static NMFPackageDescriptor parseZipFile(final ZipFile zipFile) throws IOException {
         ZipEntry receipt = zipFile.getEntry(HelperNMFPackage.RECEIPT_FILENAME);

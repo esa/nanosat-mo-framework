@@ -1,0 +1,142 @@
+/* ----------------------------------------------------------------------------
+ * Copyright (C) 2021      European Space Agency
+ *                         European Space Operations Centre
+ *                         Darmstadt
+ *                         Germany
+ * ----------------------------------------------------------------------------
+ * System                : ESA NanoSat MO Framework
+ * ----------------------------------------------------------------------------
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
+ * You may not use this file except in compliance with the License.
+ *
+ * Except as expressly set forth in this License, the Software is provided to
+ * You on an "as is" basis and without warranties of any kind, including without
+ * limitation merchantability, fitness for a particular purpose, absence of
+ * defects or errors, accuracy or non-infringement of intellectual property rights.
+ *
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ----------------------------------------------------------------------------
+ */
+package esa.mo.reconfigurable.service;
+
+import esa.mo.com.impl.provider.ArchivePersistenceObject;
+import esa.mo.com.impl.util.HelperArchive;
+import java.util.concurrent.ExecutorService;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.ccsds.moims.mo.com.archive.provider.ArchiveInheritanceSkeleton;
+import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
+import org.ccsds.moims.mo.common.configuration.ConfigurationServiceInfo;
+import org.ccsds.moims.mo.common.structures.ServiceKey;
+import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
+import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
+import org.ccsds.moims.mo.mal.structures.LongList;
+import org.ccsds.moims.mo.mal.structures.URI;
+
+/**
+ * An adapter that implements the ConfigurationNotificationInterface and
+ * persists the configuration of the current service state.
+ *
+ * @author Cesar Coelho
+ */
+public class PersistLatestServiceConfigurationAdapter implements ConfigurationChangeListener {
+
+    private final ArchiveInheritanceSkeleton archiveService;
+
+    private final Long serviceConfigObjId;
+
+    private final ExecutorService executor;
+
+    private Long configObjectsObjId = null;
+
+    public PersistLatestServiceConfigurationAdapter(final ReconfigurableService service, final Long serviceConfigObjId,
+            final ArchiveInheritanceSkeleton archiveService, final ExecutorService executor) {
+        this.archiveService = archiveService;
+        this.serviceConfigObjId = serviceConfigObjId;
+        this.executor = executor;
+    }
+
+    public Long getConfigurationObjectInstId() {
+        return this.serviceConfigObjId;
+    }
+
+    @Override
+    public void onConfigurationChanged(final ReconfigurableService serviceImpl) {
+        // Submit the task to update the configuration in the COM Archive
+        executor.execute(() -> {
+            if (configObjectsObjId == null) {
+                // Retrieve the COM object of the service
+                ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(archiveService,
+                        ConfigurationServiceInfo.SERVICECONFIGURATION_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(),
+                        serviceConfigObjId);
+
+                if (comObject == null) {
+                    Logger.getLogger(PersistLatestServiceConfigurationAdapter.class.getName()).log(Level.SEVERE,
+                            serviceImpl.getCOMService().getName()
+                            + " service: The service configuration object could not be found! objectId: "
+                            + serviceConfigObjId);
+
+                    // Todo: Maybe we can use storeDefaultServiceConfiguration() here!? To handle better the error...
+                    return;
+                }
+
+                configObjectsObjId = comObject.getArchiveDetails().getDetails().getRelated();
+            }
+
+            // Stuff to feed the update operation from the Archive...
+            ArchiveDetailsList details = HelperArchive.generateArchiveDetailsList(null, null,
+                    ConfigurationProviderSingleton.getNetwork(), new URI(""), configObjectsObjId);
+            HeterogeneousList confObjsList = new HeterogeneousList();
+            confObjsList.add(serviceImpl.getCurrentConfiguration());
+
+            try {
+                archiveService.update(ConfigurationServiceInfo.CONFIGURATIONOBJECTS_OBJECT_TYPE,
+                        ConfigurationProviderSingleton.getDomain(), details, confObjsList, null);
+            } catch (MALException ex) {
+                Logger.getLogger(PersistLatestServiceConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (MALInteractionException ex) {
+                Logger.getLogger(PersistLatestServiceConfigurationAdapter.class.getName()).log(Level.SEVERE, serviceImpl
+                        .getCOMService().getName() + " service: The configuration could not be updated! objectId: "
+                        + serviceConfigObjId, ex);
+            }
+        });
+    }
+
+    public final void storeDefaultServiceConfiguration(final Long defaultObjId, final ReconfigurableService service) {
+        try {
+            // Store the Service Configuration objects
+            HeterogeneousList archObj1 = new HeterogeneousList();
+            archObj1.add(service.getCurrentConfiguration());
+
+            LongList objIds1 = archiveService.store(
+                    true,
+                    ConfigurationServiceInfo.CONFIGURATIONOBJECTS_OBJECT_TYPE,
+                    ConfigurationProviderSingleton.getDomain(),
+                    HelperArchive.generateArchiveDetailsList(null, null,
+                            ConfigurationProviderSingleton.getNetwork(), new URI("")),
+                    archObj1,
+                    null);
+
+            // Store the Service Configuration
+            HeterogeneousList serviceKeyList = new HeterogeneousList();
+            serviceKeyList.add(new ServiceKey(service.getCOMService().getAreaNumber(),
+                    service.getCOMService().getServiceNumber(), service.getCOMService().getServiceVersion()));
+
+            archiveService.store(
+                    false,
+                    ConfigurationServiceInfo.SERVICECONFIGURATION_OBJECT_TYPE,
+                    ConfigurationProviderSingleton.getDomain(),
+                    HelperArchive.generateArchiveDetailsList(objIds1.get(0), null,
+                            ConfigurationProviderSingleton.getNetwork(), new URI(""), defaultObjId),
+                    serviceKeyList,
+                    null);
+        } catch (MALException ex) {
+            Logger.getLogger(PersistLatestServiceConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MALInteractionException ex) {
+            Logger.getLogger(PersistLatestServiceConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+}

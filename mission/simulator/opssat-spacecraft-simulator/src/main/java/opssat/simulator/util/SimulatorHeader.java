@@ -29,7 +29,6 @@ import java.util.Date;
 import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import opssat.simulator.gui.GuiSimulatorHeaderEdit;
 import opssat.simulator.threading.SimulatorNode;
 
@@ -58,6 +57,23 @@ public class SimulatorHeader implements Serializable {
     private final int MAX_TIME_FACTOR = 1000;
     private final int MIN_DATE_YEAR = 2016;
     private final int MAX_DATE_YEAR = 2030;
+
+    public SimulatorHeader() {
+        this.autoStartSystem = true;
+        this.autoStartTime = true;
+        this.startDate = new Date();
+        this.endDate = new Date();
+        this.useOrekitPropagator = true;
+        this.celestiaPort = 5909;
+        this.useCelestia = false;
+    }
+
+    public SimulatorHeader(boolean autoStart, Date startDate, Date endDate) {
+        this.autoStartSystem = autoStart;
+
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
 
     public Date parseStringIntoDate(String fieldValue) {
         Date result = null;
@@ -111,28 +127,28 @@ public class SimulatorHeader implements Serializable {
 
     public String toFileString() {
         SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
-        return "#Run the processing of internal models\n" + "startModels=" + autoStartSystem + "\n" +
-            "#Increment the simulated time (depends on startModels)\n" + "startTime=" + autoStartTime + "\n" +
-            "#Speed up of time factor\n" + "timeFactor=" + timeFactor + "\n" +
-            "#Kepler elements for orbit A[km];E;i[deg];RAAN[deg];ARG_PER[deg];TRUE_A[deg] 7021.0;0.0;98.05;340.0;0.0;0.0\n" +
-            "keplerElements=" + SimulatorNode.DEFAULT_OPS_SAT_A + ";" + SimulatorNode.DEFAULT_OPS_SAT_E + ";" +
-            SimulatorNode.DEFAULT_OPS_SAT_ORBIT_I + ";" + SimulatorNode.DEFAULT_OPS_SAT_RAAN + ";" +
-            SimulatorNode.DEFAULT_OPS_SAT_ARG_PER + ";" + SimulatorNode.DEFAULT_OPS_SAT_TRUE_ANOMALY + "\n" +
-            "#Enable the Orekit library for orbital and attitude simulation\n" + "orekit=" + useOrekitPropagator +
-            "\n" + "#Enable updates from Internet (used for gps constellation TLEs)\n" + "updateFromInternet=" +
-            updateInternet + "\n" + "#Configuration of the Celestia server\n" + "celestia=" + useCelestia + "\n" +
-            "celestiaPort=" + celestiaPort + "\n" + "#Start and end dates of simulation\n" + "startDate=" + dateFormat
-                .format(startDate) + "\n" + "endDate=" + dateFormat.format(endDate) + "\n" +
-            "#Logging level to files found in $USER_HOME/.ops-sat-simulator/\n" +
-            "#Possible values SEVERE,INFO,FINE,FINER,FINEST,ALL\n" + "centralLogLevel=INFO\n" +
-            "simulatorLogLevel=INFO\n" + "consoleLogLevel=INFO";
+        return "#Run the processing of internal models\n" + "startModels=" + autoStartSystem + "\n"
+                + "#Increment the simulated time (depends on startModels)\n" + "startTime=" + autoStartTime + "\n"
+                + "#Speed up of time factor\n" + "timeFactor=" + timeFactor + "\n"
+                + "#Kepler elements for orbit A[km];E;i[deg];RAAN[deg];ARG_PER[deg];TRUE_A[deg] 7021.0;0.0;98.05;340.0;0.0;0.0\n"
+                + "keplerElements=" + SimulatorNode.DEFAULT_OPS_SAT_A + ";" + SimulatorNode.DEFAULT_OPS_SAT_E + ";"
+                + SimulatorNode.DEFAULT_OPS_SAT_ORBIT_I + ";" + SimulatorNode.DEFAULT_OPS_SAT_RAAN + ";"
+                + SimulatorNode.DEFAULT_OPS_SAT_ARG_PER + ";" + SimulatorNode.DEFAULT_OPS_SAT_TRUE_ANOMALY + "\n"
+                + "#Enable the Orekit library for orbital and attitude simulation\n" + "orekit=" + useOrekitPropagator
+                + "\n" + "#Enable updates from Internet (used for gps constellation TLEs)\n" + "updateFromInternet="
+                + updateInternet + "\n" + "#Configuration of the Celestia server\n" + "celestia=" + useCelestia + "\n"
+                + "celestiaPort=" + celestiaPort + "\n" + "#Start and end dates of simulation\n" + "startDate=" + dateFormat
+                        .format(startDate) + "\n" + "endDate=" + dateFormat.format(endDate) + "\n"
+                + "#Logging level to files found in $USER_HOME/.ops-sat-simulator/\n"
+                + "#Possible values SEVERE,INFO,FINE,FINER,FINEST,ALL\n" + "centralLogLevel=INFO\n"
+                + "simulatorLogLevel=INFO\n" + "consoleLogLevel=INFO";
 
     }
 
     @Override
     public String toString() {
-        return "SimulatorHeader{" + "autoStartSystem=" + autoStartSystem + ", autoStartTime=" + autoStartTime +
-            ", timeFactor=" + timeFactor + ", startDate=" + startDate + ", endDate=" + endDate + '}';
+        return "SimulatorHeader{" + "autoStartSystem=" + autoStartSystem + ", autoStartTime=" + autoStartTime
+                + ", timeFactor=" + timeFactor + ", startDate=" + startDate + ", endDate=" + endDate + '}';
     }
 
     public boolean isAutoStartSystem() {
@@ -188,23 +204,6 @@ public class SimulatorHeader implements Serializable {
     public boolean checkStartBeforeEnd() {
         return endDate.compareTo(startDate) >= 0;
 
-    }
-
-    public SimulatorHeader() {
-        this.autoStartSystem = true;
-        this.autoStartTime = true;
-        this.startDate = new Date();
-        this.endDate = new Date();
-        this.useOrekitPropagator = true;
-        this.celestiaPort = 5909;
-        this.useCelestia = false;
-    }
-
-    public SimulatorHeader(boolean autoStart, Date startDate, Date endDate) {
-        this.autoStartSystem = autoStart;
-
-        this.startDate = startDate;
-        this.endDate = endDate;
     }
 
     public int getYearStartDate() {

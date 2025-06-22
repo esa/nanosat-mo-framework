@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft â€“ v2.4
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft - v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -49,7 +49,7 @@ public class NMFDigitalSignature {
         try {
             KeyPairGenerator keyGen = KeyPairGenerator.getInstance("DSA", "SUN");
             SecureRandom random = SecureRandom.getInstance("SHA1PRNG", "SUN");
-            keyGen.initialize(1024, random);
+            keyGen.initialize(2048, random);
 
             return keyGen.generateKeyPair();
         } catch (NoSuchAlgorithmException | NoSuchProviderException ex) {
@@ -74,11 +74,11 @@ public class NMFDigitalSignature {
             bufin.close();
 
             return dsa.sign(); // Returns the signature
-        } catch (NoSuchProviderException |
-                 SignatureException |
-                 InvalidKeyException |
-                 NoSuchAlgorithmException |
-                 IOException ex) {
+        } catch (NoSuchProviderException
+                | SignatureException
+                | InvalidKeyException
+                | NoSuchAlgorithmException
+                | IOException ex) {
             Logger.getLogger(NMFDigitalSignature.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -91,7 +91,7 @@ public class NMFDigitalSignature {
      * @param publicKey The public key
      * @param signatureToVerify The signature to verify
      * @param file The signed file
-     * @return
+     * @return True if the digital signature is valid.
      */
     public static boolean verifyDigitalSignature(PublicKey publicKey, byte[] signatureToVerify, String file) {
         // https://docs.oracle.com/javase/tutorial/security/apisign/vstep4.html
@@ -112,11 +112,11 @@ public class NMFDigitalSignature {
             bufin.close();
 
             return sig.verify(signatureToVerify);
-        } catch (NoSuchProviderException |
-                 InvalidKeyException |
-                 NoSuchAlgorithmException |
-                 SignatureException |
-                 IOException ex) {
+        } catch (NoSuchProviderException
+                | InvalidKeyException
+                | NoSuchAlgorithmException
+                | SignatureException
+                | IOException ex) {
             Logger.getLogger(NMFDigitalSignature.class.getName()).log(Level.SEVERE, null, ex);
         }
 

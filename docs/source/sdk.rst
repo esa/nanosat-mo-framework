@@ -58,9 +58,9 @@ You can run a CubeSat simulator to try out your app in a playground environment 
 
 In order to do this, Please do the following:
 
-1. Run the Supervisor, go to **sdk/sdk-package/target/nmf-sdk-3.0.0/home/nmf/nanosat-mo-supervisor-sim/** and run **nanosat-mo-supervisor-sim.sh**.
+1. Run the Supervisor, go to **sdk/sdk-package/target/nmf-sdk-4.0/home/nmf/nanosat-mo-supervisor-sim/** and run **nanosat-mo-supervisor-sim.sh**.
 
-2. Run the CTT, go to **sdk/sdk-package/target/nmf-sdk-3.0.0/home/nmf/consumer-test-tool/** and run **consumer-test-tool.sh**.
+2. Run the CTT, go to **sdk/sdk-package/target/nmf-sdk-4.0/home/nmf/consumer-test-tool/** and run **consumer-test-tool.sh**.
 
 Connecting to the Supervisor using CTT
 ---------------------------------------

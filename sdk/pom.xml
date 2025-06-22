@@ -12,60 +12,63 @@
     See the License for the specific language governing permissions and limitations under the License.
 -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>int.esa.nmf</groupId>
-    <artifactId>parent</artifactId>
-    <version>3.0.0</version>
-    <relativePath>../parent/pom.xml</relativePath>
-  </parent>
+    <parent>
+        <groupId>int.esa.nmf</groupId>
+        <artifactId>parent</artifactId>
+        <version>4.0</version>
+        <relativePath>../parent/pom.xml</relativePath>
+    </parent>
 
-  <groupId>int.esa.nmf.sdk</groupId>
-  <artifactId>reactor</artifactId>
-  <name>ESA NMF SDK Reactor</name>
-  <packaging>pom</packaging>
+    <groupId>int.esa.nmf.sdk</groupId>
+    <artifactId>reactor</artifactId>
+    <name>ESA NMF SDK</name>
+    <packaging>pom</packaging>
 
-  <organization>
-    <name>ESA</name>
-    <url>http://www.esa.int</url>
-  </organization>
+    <organization>
+        <name>ESA</name>
+        <url>http://www.esa.int</url>
+    </organization>
 
-  <licenses>
-    <license>
-      <name>European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4</name>
-      <url>https://raw.github.com/esa/nanosat-mo-framework/master/LICENCE.md</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
+    <licenses>
+        <license>
+            <name>European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4</name>
+            <url>https://raw.github.com/esa/nanosat-mo-framework/master/LICENCE.md</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 
-  <scm>
-    <connection>scm:git:https://github.com/esa/nanosat-mo-framework.git</connection>
-    <url>https://github.com/esa/nanosat-mo-framework</url>
-  </scm>
+    <scm>
+        <connection>scm:git:https://github.com/esa/nanosat-mo-framework.git</connection>
+        <url>https://github.com/esa/nanosat-mo-framework</url>
+    </scm>
 
-  <issueManagement>
-    <system>Gitlab</system>
-    <url>https://gitlab.com/esa/NMF/nmf-issues/-/issues</url>
-  </issueManagement>
+    <issueManagement>
+        <system>Gitlab</system>
+        <url>https://gitlab.com/esa/NMF/nmf-issues/-/issues</url>
+    </issueManagement>
 
-  <developers>
-    <developer>
-      <id>CesarCoelho</id>
-      <name>César Coelho</name>
-      <url>https://github.com/CesarCoelho</url>
-    </developer>
-  </developers>
+    <developers>
+        <developer>
+            <id>CesarCoelho</id>
+            <name>César Coelho</name>
+            <url>https://github.com/CesarCoelho</url>
+        </developer>
+    </developers>
 
-  <properties>
-    <maven.deploy.skip>true</maven.deploy.skip>
-    <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
-  </properties>
+    <properties>
+        <maven.deploy.skip>true</maven.deploy.skip>
+        <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
+    </properties>
 
-  <modules>
-    <module>examples</module>
-    <module>tools</module>
-    <module>sdk-package</module>
-  </modules>
+    <modules>
+        <module>examples-space</module>
+        <module>examples-ground</module>
+        <module>consumer-test-tool</module>
+        <module>cli-tool</module>
+        <module>sdk-package</module>
+    </modules>
 </project>

@@ -21,27 +21,28 @@
 package esa.mo.nmf.nanosatmomonolithic;
 
 import esa.mo.com.impl.util.COMServicesProvider;
-import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.nmf.NMFProvider;
-import esa.mo.helpertools.connections.ConnectionProvider;
-import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.misc.AppShutdownGuard;
 import esa.mo.helpertools.misc.Const;
 import esa.mo.nmf.MCRegistration;
-import esa.mo.nmf.MissionPlanningNMFAdapter;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
+import esa.mo.nmf.OneInstanceLock;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.reconfigurable.provider.PersistProviderConfiguration;
+import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectKey;
-import org.ccsds.moims.mo.common.configuration.ConfigurationHelper;
+import org.ccsds.moims.mo.common.configuration.ConfigurationServiceInfo;
 import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
 import org.ccsds.moims.mo.mal.structures.URI;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
+import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherServiceInfo;
 
 /**
  * The implementation of the NanoSat MO Monolithic that can be extended by
@@ -51,6 +52,7 @@ import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
  */
 public abstract class NanoSatMOMonolithic extends NMFProvider {
 
+    private static final Logger LOGGER = Logger.getLogger(NanoSatMOMonolithic.class.getName());
     private final static String PROVIDER_SUFFIX_NAME = " over NanoSat MO Monolithic";
 
     /**
@@ -65,11 +67,27 @@ public abstract class NanoSatMOMonolithic extends NMFProvider {
      */
     public void init(final MonitorAndControlNMFAdapter mcAdapter, final PlatformServicesConsumer platformServices) {
         super.startTime = System.currentTimeMillis();
-        HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
-        ConnectionProvider.resetURILinks();
+        LOGGER.log(Level.INFO, this.generateStartBanner());
+
+        // Loads: provider.properties; settings.properties; transport.properties
+        HelperMisc.loadPropertiesFile();
+        ConnectionProvider.resetURILinksFile();
+        NMFProvider.loadMOElements();
 
         // Create provider name to be registerd on the Directory service...
-        super.providerName = System.getProperty(HelperMisc.PROP_MO_APP_NAME) + PROVIDER_SUFFIX_NAME;
+        String appName = "Unknown";
+        try { // Use the folder name
+            appName = (new File((new File("")).getCanonicalPath())).getName();
+            System.setProperty(HelperMisc.PROP_MO_APP_NAME, appName);
+        } catch (IOException ex) {
+            LOGGER.log(Level.SEVERE, "The NMF App name could not be established.");
+        }
+
+        super.providerName = appName + PROVIDER_SUFFIX_NAME;
+        OneInstanceLock lock = new OneInstanceLock();
+
+        // Configure the property to select the database file in the right directory
+        this.configureCOMArchiveDatabaseLocation();
 
         super.platformServices = platformServices;
 
@@ -99,8 +117,13 @@ public abstract class NanoSatMOMonolithic extends NMFProvider {
             Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.INFO, "Loading previous configurations...");
 
             // Activate the previous configuration
-            final ObjectId confId = new ObjectId(ConfigurationHelper.PROVIDERCONFIGURATION_OBJECT_TYPE, new ObjectKey(
-                ConfigurationProviderSingleton.getDomain(), DEFAULT_PROVIDER_CONFIGURATION_OBJID));
+            final ObjectId confId = new ObjectId(
+                    ConfigurationServiceInfo.PROVIDERCONFIGURATION_OBJECT_TYPE,
+                    new ObjectKey(
+                            ConfigurationProviderSingleton.getDomain(),
+                            DEFAULT_PROVIDER_CONFIGURATION_OBJID
+                    )
+            );
 
             super.providerConfiguration = new PersistProviderConfiguration(this, confId, comServices
                 .getArchiveService());
@@ -137,15 +160,19 @@ public abstract class NanoSatMOMonolithic extends NMFProvider {
 
             // Acknowledge the reception of the request to close (Closing...)
             Long eventId = this.getCOMServices().getEventService().generateAndStoreEvent(
-                AppsLauncherHelper.STOPPING_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(), null, null, source,
-                null);
+                    AppsLauncherServiceInfo.STOPPING_OBJECT_TYPE,
+                    ConfigurationProviderSingleton.getDomain(),
+                    null,
+                    null,
+                    source,
+                    null);
 
             final URI uri = this.getCOMServices().getEventService().getConnectionProvider().getConnectionDetails()
                 .getProviderURI();
 
             try {
                 this.getCOMServices().getEventService().publishEvent(uri, eventId,
-                    AppsLauncherHelper.STOPPING_OBJECT_TYPE, null, source, null);
+                        AppsLauncherServiceInfo.STOPPING_OBJECT_TYPE, null, source, null);
             } catch (IOException ex) {
                 Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -159,12 +186,16 @@ public abstract class NanoSatMOMonolithic extends NMFProvider {
             }
 
             Long eventId2 = this.getCOMServices().getEventService().generateAndStoreEvent(
-                AppsLauncherHelper.STOPPED_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(), null, null, source,
-                null);
+                    AppsLauncherServiceInfo.STOPPED_OBJECT_TYPE,
+                    ConfigurationProviderSingleton.getDomain(),
+                    null,
+                    null,
+                    source,
+                    null);
 
             try {
                 this.getCOMServices().getEventService().publishEvent(uri, eventId2,
-                    AppsLauncherHelper.STOPPED_OBJECT_TYPE, null, source, null);
+                        AppsLauncherServiceInfo.STOPPED_OBJECT_TYPE, null, source, null);
             } catch (IOException ex) {
                 Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.SEVERE, null, ex);
             }

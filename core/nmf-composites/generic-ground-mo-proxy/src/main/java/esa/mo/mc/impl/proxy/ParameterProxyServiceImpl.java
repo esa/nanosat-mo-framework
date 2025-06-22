@@ -20,34 +20,29 @@
  */
 package esa.mo.mc.impl.proxy;
 
-import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.mc.impl.consumer.ParameterConsumerServiceImpl;
 import esa.mo.nmf.NMFConsumer;
 import java.util.HashMap;
 import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.structures.InstanceBooleanPairList;
-import org.ccsds.moims.mo.common.CommonHelper;
-import org.ccsds.moims.mo.common.configuration.ConfigurationHelper;
-import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.URI;
-import org.ccsds.moims.mo.mc.MCHelper;
 import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
 import org.ccsds.moims.mo.mc.parameter.provider.ParameterInheritanceSkeleton;
 import org.ccsds.moims.mo.mc.parameter.structures.*;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 
 /**
- *
+ * The ParameterProxyServiceImpl class extends the ParameterInheritanceSkeleton
+ * class in order to allow the retrieval of parameters to be queued.
  */
 public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
 
@@ -63,41 +58,13 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
     private final ConnectionProvider connection = new ConnectionProvider();
 
     /**
-     * creates the MAL objects, the publisher used to create updates and starts
+     * Creates the MAL objects, the publisher used to create updates and starts
      * the publishing thread
      *
-     * @param adaptersList
+     * @param adaptersList The list of consumer adapters.
+     * @throws MALException If the service could not be started.
      */
     public synchronized void initProxy(HashMap<String, NMFConsumer> adaptersList) throws MALException {
-        if (!proxyInitialiased) {
-            if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
-                MALHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION) == null) {
-                COMHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION) == null) {
-                MCHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(CommonHelper.COMMON_AREA_NAME, CommonHelper.COMMON_AREA_VERSION) == null) {
-                CommonHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(CommonHelper.COMMON_AREA_NAME, CommonHelper.COMMON_AREA_VERSION)
-                .getServiceByName(ConfigurationHelper.CONFIGURATION_SERVICE_NAME) == null) {
-                ConfigurationHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-            if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION).getServiceByName(
-                ParameterHelper.PARAMETER_SERVICE_NAME) == null) {
-                ParameterHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-
-        }
-
         // One should initialize the Consumer first...
         // Maybe we can use the Ground MO Adapter and pass it during initialization... ;)
         this.consumer = adaptersList.get("lalalalla").getMCServices().getParameterService();
@@ -110,30 +77,27 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
                 QoSLevel.BESTEFFORT,
                 null,
                 new UInteger(0));
-        */
+         */
         // shut down old service transport
         if (null != parameterServiceProvider) {
             connection.close();
         }
 
-        parameterServiceProvider = connection.startService(ParameterHelper.PARAMETER_SERVICE_NAME.toString(),
-            ParameterHelper.PARAMETER_SERVICE, this);
-
+        parameterServiceProvider = connection.startService(ParameterHelper.PARAMETER_SERVICE, true, this);
         running = true;
-
         proxyInitialiased = true;
         Logger.getLogger(ParameterProxyServiceImpl.class.getName()).info("Parameter service READY");
 
     }
 
     @Override
-    public ParameterValueDetailsList getValue(LongList ll, MALInteraction interaction) throws MALInteractionException,
-        MALException {
+    public ParameterValueDetailsList getValue(LongList ll, MALInteraction interaction)
+            throws MALInteractionException, MALException {
         // In this case, the object this.consumer represents the connection 
         // between the consumer part of the proxy to the provider on Space
 
         //  Check the interaction object to know to whom the message should be forwarded to...
-        URI uriTo = interaction.getMessageHeader().getURITo();
+        URI uriTo = interaction.getMessageHeader().getToURI();
 
         // Remove the first part of the uriTo
         URI uriOfSpaceProvider = this.removePrefix(uriTo);
@@ -141,7 +105,6 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
         // Select the right provider from a List of providers based on the 
         // uriOfSpaceProvider. If it does not exist, then initialize the 
         // connection to it.
-
         boolean weCareAboutConnectionAvailableToGS = true; // Will be a future property that can be set
         boolean weHaveQueueing = true;                     // Will be a future property that can be set
         boolean isConnectionAvailable = true;              // Proxy needs to periodically check the connection for this var
@@ -160,7 +123,6 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
         //----------------------------------------------------
 
         // Publish RECEPTION Event success back to the consumer
-
         try {
             if (weHaveQueueing) {
                 queueSemaphore.acquire(); // Put it waiting in the queue list
@@ -181,10 +143,8 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
                 }
 
                 // Publish FORWARD Event back to the consumer (runs inside a thread)
-
                 // Makes a call to the provider on Space
                 //                GetValueResponse response = this.consumer.getParameterStub().getValue(lLongList);
-
                 // returns the answer to the connected consumer
                 //                return response;
                 return null;
@@ -195,7 +155,7 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
 
     @Override
     public LongList enableGeneration(final Boolean isGroupIds, final InstanceBooleanPairList enableInstances,
-        final MALInteraction interaction) throws MALException, MALInteractionException {
+            final MALInteraction interaction) throws MALException, MALInteractionException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -210,7 +170,7 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
 
     @Override
     public ObjectInstancePairList addParameter(ParameterCreationRequestList pcrl, MALInteraction mali)
-        throws MALInteractionException, MALException {
+            throws MALInteractionException, MALException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -221,13 +181,13 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
 
     @Override
     public ObjectInstancePairList listDefinition(IdentifierList il, MALInteraction mali) throws MALInteractionException,
-        MALException {
+            MALException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public LongList updateDefinition(LongList ll, ParameterDefinitionDetailsList pddl, MALInteraction mali)
-        throws MALInteractionException, MALException {
+            throws MALInteractionException, MALException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

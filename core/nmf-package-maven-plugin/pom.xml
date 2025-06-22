@@ -10,18 +10,20 @@
 
     See the License for the specific language governing permissions and limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>int.esa.nmf</groupId>
         <artifactId>parent</artifactId>
-        <version>3.0.0</version>
+        <version>4.0</version>
         <relativePath>../../parent/pom.xml</relativePath>
     </parent>
 
     <groupId>int.esa.nmf.core</groupId>
     <artifactId>nmf-package-maven-plugin</artifactId>
     <packaging>maven-plugin</packaging>
+
     <name>ESA NMF Core - NMF Package Maven Plugin</name>
     <description>Maven Plugin to generate NMF Packages</description>
     <url>http://www.esa.int</url>
@@ -59,7 +61,6 @@
         <dependency>
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-plugin-api</artifactId>
-            <version>3.6.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.maven</groupId>
@@ -70,12 +71,11 @@
         <dependency>
             <groupId>org.apache.maven.plugin-tools</groupId>
             <artifactId>maven-plugin-annotations</artifactId>
-            <version>3.6.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-compress</artifactId>
-            <version>1.19</version>
+            <version>1.27.0</version>
             <type>jar</type>
         </dependency>
     </dependencies>

@@ -4,8 +4,7 @@
   <target name="build"
     depends="emit-ctt, emit-cli-tool, emit-simulator-gui, emit-space-supervisor, emit-space-app-all-mc-services,
   emit-space-app-publish-clock, emit-space-app-camera, emit-space-app-benchmark, emit-space-app-payloads-test,
-  emit-space-app-waveform, emit-space-app-camera-acquisitor-system, emit-space-app-picture-processor,
-  emit-space-app-mp-demo, emit-ground-app-mp-demo">
+  emit-space-app-waveform, emit-space-app-camera-acquisitor-system, emit-space-app-picture-processor">
     <!--This
     empty target is used as the top level target. Add your app targets to the depends attribute! -->
   </target>
@@ -65,7 +64,7 @@
 
   <target name="emit-space-supervisor">
     <ant antfile="antpkg/build_shell_script.xml">
-      <property name="mainClass" value="esa.mo.nmf.nanosatmosupervisor.NanosatMOSupervisorBasicImpl"/>
+      <property name="mainClass" value="esa.mo.nmf.sim.supervisor.NanosatMOSupervisorBasicImpl"/>
       <property name="id" value="nanosat-mo-supervisor-sim"/>
       <property name="binDir" value="nmf/nanosat-mo-supervisor-sim"/>
       <property name="platform" value="esa.mo.platform.impl.util.PlatformServicesProviderSoftSim"/>
@@ -74,7 +73,7 @@
       <property name="nmf_lib" value="`cd ../lib > /dev/null; pwd`"/>
     </ant>
     <ant antfile="antpkg/build_batch_script.xml">
-      <property name="mainClass" value="esa.mo.nmf.nanosatmosupervisor.NanosatMOSupervisorBasicImpl"/>
+      <property name="mainClass" value="esa.mo.nmf.sim.supervisor.NanosatMOSupervisorBasicImpl"/>
       <property name="id" value="nanosat-mo-supervisor-sim"/>
       <property name="binDir" value="nmf/nanosat-mo-supervisor-sim"/>
       <property name="platform" value="esa.mo.platform.impl.util.PlatformServicesProviderSoftSim"/>
@@ -182,31 +181,6 @@
       <property name="mainClass" value="esa.mo.nmf.apps.pictureprocessor.PictureProcessorApp"/>
       <property name="id" value="start_picture-processor"/>
       <property name="binDir" value="picture-processor"/>
-    </ant>
-  </target>
-  <target name="emit-space-app-mp-demo">
-    <ant antfile="antpkg/build_shell_script.xml">
-      <property name="mainClass" value="esa.mo.nmf.apps.MPSpaceDemo"/>
-      <property name="id" value="start_mp-demo"/>
-      <property name="binDir" value="mp-demo"/>
-    </ant>
-    <ant antfile="antpkg/build_batch_script.xml">
-      <property name="mainClass" value="esa.mo.nmf.apps.MPSpaceDemo"/>
-      <property name="id" value="start_mp-demo"/>
-      <property name="binDir" value="mp-demo"/>
-    </ant>
-  </target>
-
-  <target name="emit-ground-app-mp-demo">
-    <ant antfile="antpkg/build_shell_script.xml">
-      <property name="mainClass" value="esa.mo.ground.mp.MPGroundDemo"/>
-      <property name="id" value="start_mp-ground-demo"/>
-      <property name="binDir" value="mp-ground-demo"/>
-    </ant>
-    <ant antfile="antpkg/build_batch_script.xml">
-      <property name="mainClass" value="esa.mo.ground.mp.MPGroundDemo"/>
-      <property name="id" value="start_mp-ground-demo"/>
-      <property name="binDir" value="mp-ground-demo"/>
     </ant>
   </target>
 </project>

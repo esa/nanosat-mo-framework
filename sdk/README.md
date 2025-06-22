@@ -89,9 +89,9 @@ The parameters for the SupervisorSimulator should be:
 
 | Parameter Name  | Value                                                                                                |
 |-----------------|------------------------------------------------------------------------------------------------------|
-| exec.args       | esa.mo.nmf.nanosatmosupervisor.NanosatMOSupervisorBasicImpl                                          |
+| exec.args       | esa.mo.nmf.sim.supervisor.NanosatMOSupervisorBasicImpl                                               |
 | exec.executable | PATH\_TO\_YOUR\_JAVA\_BIN\_DIRECTORY/java                                                            |
-| exec.workingdir | PATH\_TO\_THE\_NMF/sdk/sdk-package/target/nmf-sdk-3.0.0/bin/space/nanosat-mo-supervisor-sim |
+| exec.workingdir | PATH\_TO\_THE\_NMF/sdk/sdk-package/target/nmf-sdk-4.0/bin/space/nanosat-mo-supervisor-sim |
 
 The parameters for the CTT should be:
 
@@ -99,11 +99,11 @@ The parameters for the CTT should be:
 |-----------------|-----------------------------------------------------------------------------------------------|
 | exec.args       | -classpath %classpath esa.mo.nmf.ctt.guis.ConsumerTestToolGUI                                 |
 | exec.executable | PATH\_TO\_YOUR\_JAVA\_BIN\_DIRECTORY/java                                                     |
-| exec.workingdir | PATH\_TO\_THE\_NMF/sdk/sdk-package/target/nmf-sdk-3.0.0/bin/tools/consumer-test-tool |
+| exec.workingdir | PATH\_TO\_THE\_NMF/sdk/sdk-package/target/nmf-sdk-4.0/bin/tools/consumer-test-tool   |
 
 You are now able to run the SupervisorSimulator and the CTT.
 
-You can apply the above parameters for your ground software and also for your space apps. Just make sure to enter the correct main classes and the working directories of the compiled apps (e.g. `sdk-package/target/nmf-sdk-3.0.0/bin/space/apps/APPNAME`).
+You can apply the above parameters for your ground software and also for your space apps. Just make sure to enter the correct main classes and the working directories of the compiled apps (e.g. `sdk-package/target/nmf-sdk-4.0/bin/space/apps/APPNAME`).
 
 ### Fixing the "Plugin execution not covered by lifecycle configuration" message
 
@@ -161,7 +161,7 @@ Simply add a pluginExecution for the corresponding plugin.
 sdk-package project represents a self-contained reference execution environment for space and ground applications. In order to add your own application to it, follow these steps:
 
 1. Make sure that the application is being built and installed in your local maven repository. Note that the app can be built and maintained outside of the NMF source tree.
-2. Open the POM file of int.esa.nmf.sdk.package project (under sdk-package directory)
+2. Open the POM file of the sdk-package directory (in the SDK)
 3. Add your application to the list of dependencies. E.g:
 
 ```xml

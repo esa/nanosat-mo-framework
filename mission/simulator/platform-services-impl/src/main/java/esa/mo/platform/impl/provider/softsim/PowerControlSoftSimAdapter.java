@@ -20,7 +20,6 @@
  */
 package esa.mo.platform.impl.provider.softsim;
 
-import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.platform.impl.provider.gen.PowerControlAdapterInterface;
 import java.io.IOException;
 import java.util.HashMap;
@@ -28,6 +27,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.platform.powercontrol.structures.Device;
 import org.ccsds.moims.mo.platform.powercontrol.structures.DeviceList;
@@ -126,7 +126,6 @@ public class PowerControlSoftSimAdapter implements PowerControlAdapterInterface,
 
     @Override
     public boolean isDeviceEnabled(DeviceType deviceType) {
-
         Device device = findByType(deviceType);
         return device == null ? false : device.getEnabled();
     }
@@ -138,7 +137,10 @@ public class PowerControlSoftSimAdapter implements PowerControlAdapterInterface,
 
     private void switchDevice(SimPayloadDevice device, Boolean enabled) throws IOException {
         LOGGER.log(Level.INFO, "Switching device {0} to enabled: {1}", new Object[]{device, enabled});
-        deviceByType.get(device).setEnabled(enabled);
+        Device d = deviceByType.get(device);
+        Device newDevice = new Device(enabled, d.getUnitObjInstId(), d.getName(), d.getDeviceType());
+        deviceByType.put(device, newDevice);
+        //deviceByType.get(device).setEnabled(enabled);
     }
 
 }

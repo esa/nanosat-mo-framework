@@ -49,7 +49,7 @@ import org.apache.maven.project.MavenProject;
 public class GenerateNMFPackageMojo extends AbstractMojo {
 
     /**
-     * The App name of the NMF Package
+     * The project that the NMF Package is referring to
      */
     @Parameter(defaultValue = "${project}")
     private MavenProject project;
@@ -75,7 +75,7 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
     /**
      * The version of the NMF that the App was developed against
      */
-    @Parameter(property = "generate-nmf-package.nmfVersion", defaultValue = "${esa.nmf.version-qualifier}")
+    @Parameter(property = "generate-nmf-package.nmfVersion", defaultValue = "${esa.nmf.version}")
     private String nmfVersion;
 
     /**
