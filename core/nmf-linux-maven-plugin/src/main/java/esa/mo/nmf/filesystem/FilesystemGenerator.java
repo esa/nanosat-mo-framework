@@ -88,27 +88,28 @@ public class FilesystemGenerator {
     }
 
     /**
+     * Adds a file from the resource directory into the NMF selected directory.
      *
-     * @param directoryName The name of the directory inside the NMF.
+     * @param destination The name of the directory inside the NMF.
      * @param filename The filename of the file in the resources of the project
      * to be copied.
+     * @throws IOException If the resource could not be found.
      */
-    public void addResource(String directoryName, String filename) {
+    public void addResource(String destination, String filename) throws IOException {
         ClassLoader classLoader = GenerateFilesystemMojo.class.getClassLoader();
-        File destinationDirectory = new File(dir_nmf, directoryName);
+        File destinationDirectory = new File(dir_nmf, destination);
         destinationDirectory.mkdirs();
         File destinationFile = new File(destinationDirectory, filename);
 
         try (InputStream inputStream = classLoader.getResourceAsStream(filename)) {
             if (inputStream == null) {
-                System.out.println("Resource not found.");
-                return;
+                throw new IOException("Resource not found: " + filename);
             }
 
             Files.copy(inputStream, destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
             System.out.println("Resource copied to: " + destinationFile.getAbsolutePath());
         } catch (IOException ex) {
-            Logger.getLogger(GenerateFilesystemMojo.class.getName()).log(Level.SEVERE, null, ex);
+            throw ex;
         }
     }
 

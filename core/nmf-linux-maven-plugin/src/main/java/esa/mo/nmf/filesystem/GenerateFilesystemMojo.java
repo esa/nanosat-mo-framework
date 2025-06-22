@@ -21,6 +21,7 @@
 package esa.mo.nmf.filesystem;
 
 import esa.mo.nmf.environment.Deployment;
+import java.io.IOException;
 import java.util.List;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.model.Dependency;
@@ -76,7 +77,7 @@ public class GenerateFilesystemMojo extends AbstractMojo {
     public void execute() throws MojoExecutionException {
         getLog().info("Generating Linux Filesystem...");
 
-        getLog().info("\n---------- NMF Linux - Filesystem Generator ----------\n");
+        getLog().info("\n--------- NMF Linux - Filesystem Generator ---------\n");
         getLog().info("Input values:");
         getLog().info(">> mainClass = " + supervisorMainClass);
         getLog().info(">> nmfVersion = " + nmfVersion);
@@ -101,8 +102,17 @@ public class GenerateFilesystemMojo extends AbstractMojo {
         }
 
         FilesystemGenerator filesystem = new FilesystemGenerator();
-        filesystem.addResource(Deployment.DIR_ETC, "logging.properties");
-        getLog().info("  >> Adding DIR_ETC: " + "logging.properties");
+
+        try {
+            String file_logging = "logging.properties";
+            getLog().info("  >> Adding DIR_ETC: " + file_logging);
+            filesystem.addResource(Deployment.DIR_ETC, file_logging);
+            String file_install = "fresh_install.sh";
+            getLog().info("  >> Adding DIR_ETC: " + file_install);
+            filesystem.addResource("", file_install);
+        } catch (IOException ex) {
+            throw new MojoExecutionException(ex);
+        }
 
         for (Object aaa : project.getDependencies()) {
             Dependency dependency = (Dependency) aaa;
@@ -118,13 +128,13 @@ public class GenerateFilesystemMojo extends AbstractMojo {
             boolean isMO = artifactId.contains("int.esa.ccsds.mo");
             boolean isNMFCore = artifactId.contains("int.esa.nmf.core");
 
-            boolean fromConnector = false; // Resolves dependencies like sqlite
+            boolean fromComposites = false; // Resolves dependencies like sqlite
             List<String> trail = artifact.getDependencyTrail();
             if (trail != null && trail.size() > 2) {
-                fromConnector = trail.get(1).contains("nmf-composites");
+                fromComposites = trail.get(1).contains("nmf-composites");
             }
 
-            if (isMO || isNMFCore || fromConnector) {
+            if (isMO || isNMFCore || fromComposites) {
                 StringBuilder str = new StringBuilder();
                 str.append(artifact.getGroupId()).append(":");
                 str.append(artifact.getArtifactId()).append(":");
