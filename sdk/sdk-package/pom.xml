@@ -19,7 +19,7 @@
     <parent>
         <groupId>int.esa.nmf</groupId>
         <artifactId>parent</artifactId>
-        <version>4.0</version>
+        <version>5.0-SNAPSHOT</version>
         <relativePath>../../parent/pom.xml</relativePath>
     </parent>
 
@@ -65,8 +65,6 @@
         <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
     </properties>
     <dependencies>
-        <!-- NOTE: Imprecise version resolution using ${esa.nmf.version-qualifier} cannot be used here,
-        as maven-dependency-plugin:copy does not support it. -->
         <dependency>
             <groupId>int.esa.nmf.sdk</groupId>
             <artifactId>orekit-resources</artifactId>

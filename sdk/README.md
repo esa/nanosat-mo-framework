@@ -91,7 +91,7 @@ The parameters for the SupervisorSimulator should be:
 |-----------------|------------------------------------------------------------------------------------------------------|
 | exec.args       | esa.mo.nmf.sim.supervisor.NanosatMOSupervisorBasicImpl                                               |
 | exec.executable | PATH\_TO\_YOUR\_JAVA\_BIN\_DIRECTORY/java                                                            |
-| exec.workingdir | PATH\_TO\_THE\_NMF/sdk/sdk-package/target/nmf-sdk-4.0/bin/space/nanosat-mo-supervisor-sim |
+| exec.workingdir | PATH\_TO\_THE\_NMF/sdk/sdk-package/target/nmf-sdk-XX.Y/bin/space/nanosat-mo-supervisor-sim           |
 
 The parameters for the CTT should be:
 
@@ -99,11 +99,12 @@ The parameters for the CTT should be:
 |-----------------|-----------------------------------------------------------------------------------------------|
 | exec.args       | -classpath %classpath esa.mo.nmf.ctt.guis.ConsumerTestToolGUI                                 |
 | exec.executable | PATH\_TO\_YOUR\_JAVA\_BIN\_DIRECTORY/java                                                     |
-| exec.workingdir | PATH\_TO\_THE\_NMF/sdk/sdk-package/target/nmf-sdk-4.0/bin/tools/consumer-test-tool   |
+| exec.workingdir | PATH\_TO\_THE\_NMF/sdk/sdk-package/target/nmf-sdk-XX.Y/bin/tools/consumer-test-tool           |
 
 You are now able to run the SupervisorSimulator and the CTT.
 
-You can apply the above parameters for your ground software and also for your space apps. Just make sure to enter the correct main classes and the working directories of the compiled apps (e.g. `sdk-package/target/nmf-sdk-4.0/bin/space/apps/APPNAME`).
+You can apply the above parameters for your ground software and also for your space apps.
+Just make sure to enter the correct main classes and the working directories of the compiled apps (e.g. `sdk-package/target/nmf-sdk-XX.Y/bin/space/apps/APPNAME`).
 
 ### Fixing the "Plugin execution not covered by lifecycle configuration" message
 

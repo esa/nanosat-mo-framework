@@ -139,7 +139,7 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
                     + "-> \t\t</properties>\n\n\n");
         }
 
-        if ("${esa.nmf.version-qualifier}".equals(nmfVersion)) {
+        if ("null".equals(nmfVersion)) {
             throw new MojoExecutionException("The nmfVersion property needs to "
                     + "be defined!\nPlease use the <nmfVersion> tag inside the "
                     + "<configuration> tag!\n");
