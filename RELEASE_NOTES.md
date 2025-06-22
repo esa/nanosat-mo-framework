@@ -12,7 +12,7 @@ The different versions and respective updates are the following:
 * Removes unnecessary dummy/dumb auto-generated tests
 * Removes the Mission Planning services
 
-### Version 3.0.0 (July 2024)
+### Version 3.0.0 (30 July 2024)
 * Adds the new Artificial Intelligence service
 * Includes all updates for the OPS-SAT mission
 * Includes all updates for the Phi-Sat-2 mission
