@@ -68,7 +68,7 @@
     <dependencies>
         <dependency>
             <groupId>int.esa.nmf.core</groupId>
-            <artifactId>nanosat-mo-connector</artifactId>
+            <artifactId>nmf-composites</artifactId>
         </dependency>
     </dependencies>
 

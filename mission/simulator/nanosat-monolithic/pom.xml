@@ -53,7 +53,7 @@
     <dependencies>
         <dependency>
             <groupId>int.esa.nmf.core</groupId>
-            <artifactId>generic-nanosat-monolithic</artifactId>
+            <artifactId>nmf-composites</artifactId>
         </dependency>
         <dependency>
             <groupId>int.esa.nmf.simulator</groupId>

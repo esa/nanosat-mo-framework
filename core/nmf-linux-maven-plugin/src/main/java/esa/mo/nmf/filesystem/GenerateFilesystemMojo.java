@@ -121,7 +121,7 @@ public class GenerateFilesystemMojo extends AbstractMojo {
             boolean fromConnector = false; // Resolves dependencies like sqlite
             List<String> trail = artifact.getDependencyTrail();
             if (trail != null && trail.size() > 2) {
-                fromConnector = trail.get(1).contains("nanosat-mo-connector");
+                fromConnector = trail.get(1).contains("nmf-composites");
             }
 
             if (isMO || isNMFCore || fromConnector) {

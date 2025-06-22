@@ -53,7 +53,7 @@
     <dependencies>
         <dependency>
             <groupId>int.esa.nmf.core</groupId>
-            <artifactId>nanosat-mo-supervisor</artifactId>
+            <artifactId>nmf-composites</artifactId>
             <type>jar</type>
         </dependency>
         <dependency>

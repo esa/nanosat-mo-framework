@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-    Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
-    You may not use this file except in compliance with the License.
-
-    Except as expressly set forth in this License, the Software is provided to
-    You on an "as is" basis and without warranties of any kind, including without
-    limitation merchantability, fitness for a particular purpose, absence of
-    defects or errors, accuracy or non-infringement of intellectual property rights.
-
-    See the License for the specific language governing permissions and limitations under the License.
--->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<!-- Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4 
+You may not use this file except in compliance with the License. Except as 
+expressly set forth in this License, the Software is provided to You on an 
+"as is" basis and without warranties of any kind, including without limitation 
+merchantability, fitness for a particular purpose, absence of defects or 
+errors, accuracy or non-infringement of intellectual property rights. See 
+the License for the specific language governing permissions and limitations 
+under the License. -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>int.esa.nmf</groupId>
@@ -20,9 +18,11 @@
         <relativePath>../../parent/pom.xml</relativePath>
     </parent>
     <groupId>int.esa.nmf.core</groupId>
-    <artifactId>nmf-composites-reactor</artifactId>
-    <packaging>pom</packaging>
-    <name>ESA NMF Core - Composites</name>
+    <artifactId>nmf-composites</artifactId>
+    <packaging>jar</packaging>
+    <name>NMF Composites</name>
+    <description>NanoSat MO Framework Composites</description>
+    <url>http://www.esa.int</url>
     <organization>
         <name>ESA</name>
         <url>http://www.esa.int</url>
@@ -41,21 +41,89 @@
     <developers>
         <developer>
             <id>CesarCoelho</id>
-            <name>Cesar Coelho</name>
+            <name>César Coelho</name>
             <url>https://github.com/CesarCoelho</url>
         </developer>
     </developers>
-    <properties>
-        <maven.deploy.skip>true</maven.deploy.skip>
-        <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
-    </properties>
-    <modules>
-        <module>generic-composite-model</module>
-        <module>generic-ground-mo-proxy</module>
-        <module>generic-nanosat-monolithic</module>
-        <module>nanosat-mo-connector</module>
-        <module>nanosat-mo-supervisor</module>
-        <module>space-mo-adapter</module>
-        <module>ground-mo-adapter</module>
-    </modules>
+    <dependencies>
+        <!-- Services -->
+        <dependency>
+            <groupId>int.esa.nmf.core</groupId>
+            <artifactId>nmf-services-com</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>int.esa.nmf.core</groupId>
+            <artifactId>nmf-services-mc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>int.esa.nmf.core</groupId>
+            <artifactId>nmf-services-sm</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>int.esa.nmf.core</groupId>
+            <artifactId>nmf-services-platform-generic</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>int.esa.nmf.core</groupId>
+            <artifactId>nmf-services-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>int.esa.ccsds.mo</groupId>
+            <artifactId>mal-impl</artifactId>
+        </dependency>
+        <!-- Encodings -->
+        <dependency>
+            <groupId>int.esa.ccsds.mo</groupId>
+            <artifactId>encoding-string</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>int.esa.ccsds.mo</groupId>
+            <artifactId>encoding-binary</artifactId>
+        </dependency>
+        <!-- Transports -->
+        <dependency>
+            <groupId>int.esa.ccsds.mo</groupId>
+            <artifactId>transport-rmi</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>int.esa.ccsds.mo</groupId>
+            <artifactId>transport-tcpip</artifactId>
+        </dependency>
+        <!-- Others -->
+        <dependency>
+            <groupId>int.esa.nmf.core</groupId>
+            <artifactId>nmf-package-lib</artifactId>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+    <build>
+        <resources></resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 </project>
