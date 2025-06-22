@@ -24,7 +24,7 @@
     <artifactId>nmf-linux-maven-plugin</artifactId>
     <packaging>maven-plugin</packaging>
 
-    <name>ESA NMF Core - NMF Linux Maven Plugin (EXPERIMENTAL)</name>
+    <name>ESA NMF Core - NMF Linux Maven Plugin</name>
     <description>Maven Plugin to generate the NMF filesystem for a Linux environment</description>
     <url>http://www.esa.int</url>
 
