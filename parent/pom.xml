@@ -133,46 +133,9 @@
             <!-- NMF Composites -->
             <dependency>
                 <groupId>int.esa.nmf.core</groupId>
-                <artifactId>generic-composite-model</artifactId>
-                <version>${esa.nmf.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>int.esa.nmf.core</groupId>
-                <artifactId>generic-nanosat-monolithic</artifactId>
-                <version>${esa.nmf.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>int.esa.nmf.core</groupId>
                 <artifactId>nmf-composites</artifactId>
                 <version>${esa.nmf.version}</version>
             </dependency>
-            <!--
-            <dependency>
-                <groupId>int.esa.nmf.core</groupId>
-                <artifactId>nanosat-mo-connector</artifactId>
-                <version>${esa.nmf.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>int.esa.nmf.core</groupId>
-                <artifactId>nanosat-mo-supervisor</artifactId>
-                <version>${esa.nmf.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>int.esa.nmf.core</groupId>
-                <artifactId>ground-mo-adapter</artifactId>
-                <version>${esa.nmf.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>int.esa.nmf.core</groupId>
-                <artifactId>space-mo-adapter</artifactId>
-                <version>${esa.nmf.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>int.esa.nmf.core</groupId>
-                <artifactId>generic-ground-mo-proxy</artifactId>
-                <version>${esa.nmf.version}</version>
-            </dependency>
-            -->
             <dependency>
                 <groupId>int.esa.nmf.core</groupId>
                 <artifactId>nmf-package-lib</artifactId>
