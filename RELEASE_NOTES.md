@@ -4,7 +4,7 @@ ESA NanoSat MO Framework - Release Notes
 These Release Notes include a short summary of the updates done for each version.
 The different versions and respective updates are the following:
 
-### Version 4.0 (May 2025)
+### Version 4.0 (22 June 2025)
 * Significantly improves the codebase of the NanoSat MO Framework
 * Uses MO services v12.1
 * Moves many of the Helper Tools classes to the MAL API
