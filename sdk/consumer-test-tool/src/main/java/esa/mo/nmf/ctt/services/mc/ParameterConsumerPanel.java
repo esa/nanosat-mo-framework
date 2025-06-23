@@ -21,7 +21,6 @@
 package esa.mo.nmf.ctt.services.mc;
 
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
-import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.mc.impl.consumer.ParameterConsumerServiceImpl;
 import esa.mo.nmf.ctt.windows.element.MOWindow;
 import java.io.IOException;
@@ -39,17 +38,13 @@ import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Blob;
-import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.UOctet;
-import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.parameter.ParameterServiceInfo;
 import org.ccsds.moims.mo.mc.parameter.consumer.ParameterAdapter;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterCreationRequest;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterCreationRequestList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValue;
@@ -78,6 +73,9 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
         this.serviceMCParameter = serviceMCParameter;
         parameterTable = new ParameterTablePanel(serviceMCParameter.getCOMServices().getArchiveService());
         jScrollPane2.setViewportView(parameterTable);
+        this.addDefinitionButton.setVisible(false);
+        this.removeDefinitionButton.setVisible(false);
+        this.removeDefinitionAllButton.setVisible(false);
     }
 
     public void init() {
@@ -206,6 +204,7 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
 
     private void addDefinitionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDefinitionButtonActionPerformed
         // Create and Show the Action Definition to the user
+        /*
         ParameterDefinitionDetails parameterDefinition = new ParameterDefinitionDetails(
                 "This Parameter Definition gives a simulated value of the GPS latitude.",
                 Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
@@ -264,6 +263,7 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
         } catch (InterruptedException ex) {
             Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
+        */
     }//GEN-LAST:event_addDefinitionButtonActionPerformed
 
     private void updateDefinitionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateDefinitionButtonActionPerformed
@@ -293,6 +293,7 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_updateDefinitionButtonActionPerformed
 
     private void removeDefinitionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeDefinitionButtonActionPerformed
+        /*
         if (parameterTable.getSelectedRow() == -1) { // The row is not selected?
             return;  // Well, then nothing to be done here folks!
         }
@@ -307,6 +308,7 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
+        */
     }//GEN-LAST:event_removeDefinitionButtonActionPerformed
 
     private void listDefinitionAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listDefinitionAllButtonActionPerformed
@@ -352,6 +354,7 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_listDefinitionAllButtonActionPerformed
 
     private void removeDefinitionAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeDefinitionAllButtonActionPerformed
+        /*
         Long objId = (long) 0;
         LongList longlist = new LongList();
         longlist.add(objId);
@@ -362,6 +365,7 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
+        */
     }//GEN-LAST:event_removeDefinitionAllButtonActionPerformed
 
     private void actionDefinitionsTableComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_actionDefinitionsTableComponentAdded

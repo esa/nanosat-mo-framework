@@ -170,6 +170,7 @@ public class CommonMOAdapterImpl extends NMFConsumer implements SimpleCommanding
             ObjectInstancePairList objIds = parameterService.listDefinition(parameters);
 
             if (objIds == null) {
+                LOGGER.log(Level.SEVERE, "The Parameter was not found: " + parameterName);
                 return;  // something went wrong... Connection problem?
             }
 
@@ -177,6 +178,9 @@ public class CommonMOAdapterImpl extends NMFConsumer implements SimpleCommanding
 
             // If the definition does not exist, then create it automatically for the user
             if (objId == null) {
+                LOGGER.log(Level.SEVERE, "The Parameter was not found: " + parameterName);
+                return;
+                /*
                 // Well, then let's create a new Parameter Definition and add it on the provider...
                 Byte rawType = HelperAttributes.SERIAL_OBJECT_RAW_TYPE;
 
@@ -198,6 +202,7 @@ public class CommonMOAdapterImpl extends NMFConsumer implements SimpleCommanding
 
                 // Now, add the definition to the service provider
                 objIds = parameterService.addParameter(request);
+                */
             }
 
             // Continues here...

@@ -116,7 +116,6 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
             // Is the connection to the GS available?
             if (!isConnectionAvailable) {
                 // Publish RECEPTION Event failure back to the consumer
-
                 throw new MALException("The connection to the Ground Station is not available...");
             }
         }
@@ -130,7 +129,6 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
 
             // Make each telecommand wait TIME_BETWEEN_COMMANDS milliseconds before the previous
             Thread.sleep(TIME_BETWEEN_COMMANDS);
-
         } catch (InterruptedException ex) {
             Logger.getLogger(ParameterProxyServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -165,17 +163,6 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
 
     @Override
     public void setValue(ParameterRawValueList prvl, MALInteraction mali) throws MALInteractionException, MALException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public ObjectInstancePairList addParameter(ParameterCreationRequestList pcrl, MALInteraction mali)
-            throws MALInteractionException, MALException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void removeParameter(LongList ll, MALInteraction mali) throws MALInteractionException, MALException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

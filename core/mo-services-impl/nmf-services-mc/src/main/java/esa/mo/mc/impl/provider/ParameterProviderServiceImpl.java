@@ -442,7 +442,6 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         return retDefinitions;
     }
 
-    @Override
     public ObjectInstancePairList addParameter(final ParameterCreationRequestList paramCreationReqList,
             final MALInteraction interaction) throws MALException, MALInteractionException {
         UIntegerList invIndexList = new UIntegerList();
@@ -584,7 +583,6 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
     }
 
-    @Override
     public void removeParameter(final LongList identityIds, final MALInteraction interaction) throws MALException,
             MALInteractionException { // requirement: 3.3.11.2.1
         UIntegerList unkIndexList = new UIntegerList();

@@ -48,7 +48,6 @@ import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.structures.ConditionalConversion;
 import org.ccsds.moims.mo.mc.structures.ConditionalConversionList;
-import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 import org.ccsds.moims.mo.mc.structures.ParameterExpression;
 
 /**
@@ -74,9 +73,10 @@ public class ParameterAddModify extends javax.swing.JFrame {
      * Creates new form ParameterAddModify
      *
      * @param parameterService
+     * @param parameterTableData
      */
     public ParameterAddModify(final ParameterConsumerServiceImpl parameterService,
-        final DefaultTableModel parameterTableData) {
+            final DefaultTableModel parameterTableData) {
         initComponents();
 
         this.serviceMCParameter = parameterService;
@@ -103,28 +103,20 @@ public class ParameterAddModify extends javax.swing.JFrame {
         this.parameterDefinitionSelectedIndex = in;
     }
 
-    public ParameterDefinitionDetails makeNewParameterDefinition(int rawType, String rawUnit, String description,
-        boolean generationEnabled, float interval, ParameterExpression validityExpression,
-        ParameterConversion conversion) {
+    public ParameterDefinitionDetails makeNewParameterDefinition(int rawType,
+            String rawUnit, String description, boolean generationEnabled, float interval,
+            ParameterExpression validityExpression, ParameterConversion conversion) {
         return new ParameterDefinitionDetails(description, (Byte) ((byte) rawType), rawUnit,
-                generationEnabled, makeDuration(interval), validityExpression, conversion);
+                generationEnabled, new Duration(interval), validityExpression, conversion);
     }
 
-    public ParameterExpression makeNewParameterExpression(Long instId, int operator, Boolean useConverted,
-        String value) {
+    public ParameterExpression makeNewParameterExpression(Long instId,
+            int operator, Boolean useConverted, String value) {
         return new ParameterExpression(
                 new ObjectKey(serviceMCParameter.getConnectionDetails().getDomain(), instId),
                 new ExpressionOperator(operator),
                 useConverted,
                 new Union(value));
-    }
-
-    public Duration makeDuration(float input) {
-        //        Duration durationOne = new Duration(1);
-        //        Object value = durationOne.getValue();
-
-        //      return new Duration((int) Math.round(input));  // Then it is an int! (round the number before)
-        return new Duration(input);
     }
 
     public void refreshParametersComboBox() {
@@ -500,12 +492,14 @@ public class ParameterAddModify extends javax.swing.JFrame {
     }//GEN-LAST:event_conversionCBActionPerformed
 
     private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
-
-        if (nameTF.getText().equals("") || descriptionTF.getText().equals("") || descriptionTF.getText().equals("") ||
-            rawTypeCB.getSelectedIndex() == 0 || rawUnitTF.getText().equals("") || updateIntervalTF.getText().equals(
-                "")) {
+        if (nameTF.getText().equals("")
+                || descriptionTF.getText().equals("")
+                || descriptionTF.getText().equals("")
+                || rawTypeCB.getSelectedIndex() == 0
+                || rawUnitTF.getText().equals("")
+                || updateIntervalTF.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Please fill-in all the necessary fields!", "Warning!",
-                JOptionPane.PLAIN_MESSAGE);
+                    JOptionPane.PLAIN_MESSAGE);
             return;
         }
 
@@ -513,7 +507,7 @@ public class ParameterAddModify extends javax.swing.JFrame {
             Double.parseDouble(updateIntervalTF.getText());  // Check if it is a number
         } catch (NumberFormatException nfe) {
             JOptionPane.showMessageDialog(null, "updateInterval is not a number!", "Warning!",
-                JOptionPane.PLAIN_MESSAGE);
+                    JOptionPane.PLAIN_MESSAGE);
             return;
         }
 
@@ -523,10 +517,10 @@ public class ParameterAddModify extends javax.swing.JFrame {
             if (validity2.getSelectedIndex() != -1 && !validity3.getText().equals("")) {
                 Long instId = Long.valueOf(parameterTableData.getValueAt(validity1.getSelectedIndex(), 0).toString());
                 PExp = makeNewParameterExpression(instId, validity2.getSelectedIndex(), validity4.isSelected(),
-                    validity3.getText());
+                        validity3.getText());
             } else {
                 JOptionPane.showMessageDialog(null, "Please select an operator and a value!", "Warning!",
-                    JOptionPane.PLAIN_MESSAGE);
+                        JOptionPane.PLAIN_MESSAGE);
                 return;
             }
         } else {
@@ -555,9 +549,9 @@ public class ParameterAddModify extends javax.swing.JFrame {
             }
 
             // Reference to the conversion Object
-            ObjectId referenceId = new ObjectId(type, 
-                    new ObjectKey(serviceMCParameter.getConnectionDetails().getDomain(), Long.valueOf(
-                referenceObjIdTF.getText())));  // Get the first objId
+            ObjectId referenceId = new ObjectId(type,
+                    new ObjectKey(serviceMCParameter.getConnectionDetails().getDomain(),
+                            Long.valueOf(referenceObjIdTF.getText())));  // Get the first objId
 
             ConditionalConversionList conversionConditions = new ConditionalConversionList();
             ConditionalConversion conversionCondition = new ConditionalConversion(referenceId.getKey());
@@ -567,7 +561,7 @@ public class ParameterAddModify extends javax.swing.JFrame {
 
         ParameterDefinitionDetails Pdef;
         Pdef = makeNewParameterDefinition(rawTypeCB.getSelectedIndex(), rawUnitTF.getText(), descriptionTF.getText(),
-            generationEnabledCB.isSelected(), Float.parseFloat(updateIntervalTF.getText()), PExp, pConv);
+                generationEnabledCB.isSelected(), Float.parseFloat(updateIntervalTF.getText()), PExp, pConv);
 
         ParameterDefinitionDetailsList PDefs = new ParameterDefinitionDetailsList();
         PDefs.add(Pdef);
@@ -579,6 +573,7 @@ public class ParameterAddModify extends javax.swing.JFrame {
         this.setVisible(false);
 
         if (isAddDef) {
+            /*
             try {
                 // Are we adding a new definition?
                 Logger.getLogger(ParameterAddModify.class.getName()).info("addDefinition started");
@@ -592,6 +587,7 @@ public class ParameterAddModify extends javax.swing.JFrame {
             } catch (MALInteractionException | MALException ex) {
                 Logger.getLogger(ParameterAddModify.class.getName()).log(Level.SEVERE, null, ex);
             }
+             */
         } else {
             try {
                 // Well, then we are updating a previous selected definition
@@ -600,17 +596,11 @@ public class ParameterAddModify extends javax.swing.JFrame {
                 objIds.add(Long.valueOf(parameterTableData.getValueAt(parameterDefinitionSelectedIndex, 0).toString()));
                 serviceMCParameter.getParameterStub().updateDefinition(objIds, PDefs);
                 parameterTableData.removeRow(parameterDefinitionSelectedIndex);
-                parameterTableData.insertRow(parameterDefinitionSelectedIndex, new Object[]{objIds.get(0).intValue(),
-                                                                                            request.getName()
-                                                                                                .toString(), Pdef
-                                                                                                    .getDescription(),
-                                                                                            rawTypeCB.getItemAt(Pdef
-                                                                                                .getRawType())
-                                                                                                .toString(), Pdef
-                                                                                                    .getRawUnit(), Pdef
-                                                                                                        .getGenerationEnabled(),
-                                                                                            Pdef.getReportInterval()
-                                                                                                .getValue()});
+                parameterTableData.insertRow(parameterDefinitionSelectedIndex,
+                        new Object[]{objIds.get(0).intValue(), request.getName().toString(),
+                            Pdef.getDescription(), rawTypeCB.getItemAt(Pdef.getRawType()).toString(),
+                            Pdef.getRawUnit(), Pdef.getGenerationEnabled(),
+                            Pdef.getReportInterval().getValue()});
                 Logger.getLogger(ParameterAddModify.class.getName()).info("updateDefinition executed");
             } catch (MALInteractionException | MALException ex) {
                 Logger.getLogger(ParameterAddModify.class.getName()).log(Level.SEVERE, null, ex);

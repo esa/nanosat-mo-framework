@@ -584,37 +584,6 @@
                 </mal:requestIP>
             </mal:capabilitySet>
             <mal:capabilitySet number="6">
-                <mal:requestIP name="addParameter" number="6" supportInReplay="false"
-                               comment="The addParameter operation allows a consumer to define one or more parameters that do not currently exist.&#xA;The new ParameterIdentity and ParameterDefinition objects are expected to be stored in the COM archive by the provider of the parameter service.">
-                    <mal:messages>
-                        <mal:request>
-                            <mal:field name="paramDefDetails"
-                                       comment="The paramDefDetails field shall hold the name and the ParameterDefinitionDetails to be added.&#xA;The name field must not be the wildcard '*', or empty (an INVALID error shall be returned in this case).&#xA;If the supplied reportInterval value is not supported by the provider then an INVALID error shall be returned.&#xA;The supplied name must be unique among all ParameterIdentity objects for the domain of the provider otherwise a DUPLICATE error shall be raised.&#xA;If an error is raised then no new identities and definitions shall be added as a result of this operation call.&#xA;If the supplied name matches an existing, but removed, ParameterIdentity then that ParameterIdentity shall be reused otherwise a new ParameterIdentity shall be created.&#xA;The provider shall create a new ParameterDefinition object and store it, and any new ParameterIdentity objects, in the COM archive.">
-                                <mal:type list="true" name="ParameterCreationRequest" service="Parameter" area="MC"/>
-                            </mal:field>
-                        </mal:request>
-                        <mal:response>
-                            <mal:field name="newObjInstIds"
-                                       comment="The response shall contain the list of object instance identifiers for the ParameterIdentity and new ParameterDefinition objects.&#xA;The returned list shall maintain the same order as the submitted definitions.">
-                                <mal:type list="true" name="ObjectInstancePair" area="MC"/>
-                            </mal:field>
-                        </mal:response>
-                    </mal:messages>
-                    <mal:errors>
-                        <mal:errorRef comment="One of the supplied ParameterIdentity objects contains an invalid name or a supplied interval is not supported by the provider.">
-                            <mal:type name="INVALID" area="COM"/>
-                            <mal:extraInformation comment="The extra information field contains a list of the indexes of the erroneous values from the originating list supplied.">
-                                <mal:type list="true" name="UInteger" area="MAL"/>
-                            </mal:extraInformation>
-                        </mal:errorRef>
-                        <mal:errorRef comment="One or more of the ParameterIdentity objects being added has supplied a parameter name that is already in use in the domain.">
-                            <mal:type name="DUPLICATE" area="COM"/>
-                            <mal:extraInformation comment="The extra information field contains a list of the indexes of the erroneous values from the originating request list.">
-                                <mal:type list="true" name="UInteger" area="MAL"/>
-                            </mal:extraInformation>
-                        </mal:errorRef>
-                    </mal:errors>
-                </mal:requestIP>
                 <mal:requestIP name="updateDefinition" number="7" supportInReplay="false"
                                comment="The updateDefinition operation allows a consumer to update a definition for one or more parameters.&#xA;This differs from deleting an existing parameter and adding a new definition with the same parameter name in the fact that the ParameterIdentity object is not changed between the two definitions.&#xA;The replacement definition should be stored in the COM archive by the service provider. The operation does not remove the previous object from the COM archive, merely removes the object from the provider.">
                     <mal:messages>
@@ -650,25 +619,6 @@
                         </mal:errorRef>
                     </mal:errors>
                 </mal:requestIP>
-                <mal:submitIP name="removeParameter" number="8" supportInReplay="false"
-                              comment="The removeParameter operation allows a consumer to remove one or more parameters from the list of parameters supported by the parameter provider.&#xA;The operation does not remove the ParameterIdentity or ParameterDefinition objects from the COM archive, merely removes the objects from the provider. This permits existing parameter values to continue to reference the correct ParameterIdentity and ParameterDefinition objects in the COM archive.">
-                    <mal:messages>
-                        <mal:submit>
-                            <mal:field name="paramInstIds"
-                                       comment="The paramInstIds field shall hold the object instance identifiers of the ParameterIdentity objects to be removed from the provider.&#xA;The list may contain the wildcard value of '0'.&#xA;The wildcard value should be checked for first, if found no other checks of supplied object instance identifiers shall be made.&#xA;If a provided ParameterIdentity object instance identifier does not include a wildcard and does not match an existing parameter identity object then this operation shall fail with an UNKNOWN error.&#xA;Matched ParameterIdentity and ParameterDefinition objects shall not be removed from the COM archive only the list of ParameterIdentity and ParameterDefinition objects from the provider.&#xA;If an error is raised then no parameters shall be removed as a result of this operation call.&#xA;If the operation succeeds then the provider shall not publish parameter values for the deleted ParameterIdentity objects anymore.">
-                                <mal:type list="true" name="Long" area="MAL"/>
-                            </mal:field>
-                        </mal:submit>
-                    </mal:messages>
-                    <mal:errors>
-                        <mal:errorRef comment="One of the supplied ParameterIdentity object instance identifiers is unknown.">
-                            <mal:type name="UNKNOWN" area="MAL"/>
-                            <mal:extraInformation comment="A list of the indexes of the error values shall be contained in the extra information field.">
-                                <mal:type list="true" name="UInteger" area="MAL"/>
-                            </mal:extraInformation>
-                        </mal:errorRef>
-                    </mal:errors>
-                </mal:submitIP>
             </mal:capabilitySet>
             <mal:dataTypes>
                 <mal:enumeration name="ValidityState" shortFormPart="4"
