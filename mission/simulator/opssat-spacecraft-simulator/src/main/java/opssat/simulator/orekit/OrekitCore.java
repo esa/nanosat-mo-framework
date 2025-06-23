@@ -740,8 +740,8 @@ public class OrekitCore {
 
     public void changeAttitudeVectorTarget(float x, float y, float z, float margin) {
         this.vectorPointing.update(this.spacecraftState);
-        logger.log(Level.INFO, "changeAttitudeVectorTarget vector: [{0}, {1}, {2}] margin [{3}]", new Object[]{x, y, z,
-                                                                                                               margin});
+        logger.log(Level.INFO, "changeAttitudeVectorTarget vector: [{0}, {1}, {2}] margin [{3}]",
+                new Object[]{x, y, z, margin});
 
         this.vectorPointing.start(x, y, z, margin);
         this.attitudeMode = ATTITUDE_MODE.VECTOR_POINTING;

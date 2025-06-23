@@ -79,8 +79,8 @@ public class DemoGroundDirectory {
 
         @Override
         public void onDataReceived(String parameterName, Serializable data) {
-            LOGGER.log(Level.INFO, "\nParameter name: {0}" + "\n" + "Data content:\n{1}", new Object[]{parameterName,
-                                                                                                       data.toString()});
+            LOGGER.log(Level.INFO, "\nParameter name: {0}" + "\n" + "Data content:\n{1}",
+                    new Object[]{parameterName, data.toString()});
         }
     }
 
@@ -88,12 +88,9 @@ public class DemoGroundDirectory {
 
         @Override
         public void onDataReceived(ParameterInstance parameterInstance) {
-            LOGGER.log(Level.INFO, "\nParameter name: {0}" + "\n" + "Parameter Value: {1}", new Object[]{
-                                                                                                         parameterInstance
-                                                                                                             .getName(),
-                                                                                                         parameterInstance
-                                                                                                             .getParameterValue()
-                                                                                                             .toString()});
+            LOGGER.log(Level.INFO, "\nParameter name: {0}" + "\n" + "Parameter Value: {1}",
+                    new Object[]{parameterInstance.getName(),
+                        parameterInstance.getParameterValue().toString()});
         }
     }
 }

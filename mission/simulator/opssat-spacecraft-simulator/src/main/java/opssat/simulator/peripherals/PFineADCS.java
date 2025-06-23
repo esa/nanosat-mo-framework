@@ -1224,8 +1224,8 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     }
 
     @Override
-    @InternalData(internalID = 1130, commandIDs = {"0x31", "0x15"}, argNames = {""}, description = "MyCustom\n" + "" +
-        "Again")
+    @InternalData(internalID = 1130, commandIDs = {"0x31", "0x15"}, argNames = {""},
+            description = "MyCustom\n" + "" + "Again")
     public byte[] controlLoopsGetTargetMTWDipoleMoment3D() {
         ArrayList<Object> argObject = null;
         return (byte[]) super.getSimulatorNode().runGenericMethod(1130, argObject);
@@ -1258,8 +1258,8 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     }
 
     @Override
-    @InternalData(internalID = 1134, commandIDs = {"0x31", "0x60"}, argNames = {"axis", "controlRegister",
-                                                                                "targetAngle"})
+    @InternalData(internalID = 1134, commandIDs = {"0x31", "0x60"},
+            argNames = {"axis", "controlRegister", "targetAngle"})
     public void singleAxisStartControlLoop(byte axis, int controlRegister, float[] targetAngle) {
         ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(axis);
@@ -1379,9 +1379,8 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     }
 
     @Override
-    @InternalData(internalID = 1149, commandIDs = {"0x31", "0x90"}, argNames = {"targetBodyAxis",
-                                                                                "targetAngularVelocityMagnitude",
-                                                                                "inertialTargetVector"})
+    @InternalData(internalID = 1149, commandIDs = {"0x31", "0x90"},
+            argNames = {"targetBodyAxis", "targetAngularVelocityMagnitude", "inertialTargetVector"})
     public void singleSpinningStartControlLoop(float[] targetBodyAxis, float targetAngularVelocityMagnitude,
         float[] inertialTargetVector) {
         ArrayList<Object> argObject = new ArrayList<>();
@@ -1600,8 +1599,8 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     }
 
     @Override
-    @InternalData(internalID = 1176, commandIDs = {"0x36", "0x0D"}, argNames = {"mode", "times",
-                                                                                "quaternionCoefficients"})
+    @InternalData(internalID = 1176, commandIDs = {"0x36", "0x0D"},
+            argNames = {"mode", "times", "quaternionCoefficients"})
     public void opModeSetStandardTargetTracking(byte mode, long[] times, float[] quaternionCoefficients) {
         ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(mode);

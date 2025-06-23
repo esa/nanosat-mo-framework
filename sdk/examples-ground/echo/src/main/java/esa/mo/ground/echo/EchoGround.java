@@ -36,8 +36,8 @@ import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.URI;
 
 /**
- * Demo application using the Directory service
- * This demo should be used with the echo-space.
+ * Demo application using the Directory service This demo should be used with
+ * the echo-space.
  *
  * @author Cesar Coelho
  */
@@ -73,8 +73,8 @@ public class EchoGround {
                 gma.setParameter("Data", new Blob("Hello".getBytes()));
                 gma.setParameter("Data", new Blob("OPS-SAT".getBytes()));
             } else {
-                LOGGER.log(Level.SEVERE, "Failed to connect to the provider. No such provider found - " +
-                    ECHO_SPACE_PROVIDER);
+                LOGGER.log(Level.SEVERE, "Failed to connect to the provider. No such provider found - "
+                        + ECHO_SPACE_PROVIDER);
             }
         } catch (MALException | MalformedURLException | MALInteractionException | InterruptedException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
@@ -102,8 +102,8 @@ public class EchoGround {
 
         @Override
         public void onDataReceived(String parameterName, Serializable data) {
-            LOGGER.log(Level.INFO, "\nParameter name: {0}" + "\n" + "Data content:\n{1}", new Object[]{parameterName,
-                                                                                                       data.toString()});
+            LOGGER.log(Level.INFO, "\nParameter name: {0}" + "\n" + "Data content:\n{1}",
+                    new Object[]{parameterName, data.toString()});
         }
     }
 
@@ -111,12 +111,9 @@ public class EchoGround {
 
         @Override
         public void onDataReceived(ParameterInstance parameterInstance) {
-            LOGGER.log(Level.INFO, "\nParameter name: {0}" + "\n" + "Parameter Value: {1}\nSource: {2}", new Object[]{
-                                                                                                                      parameterInstance
-                                                                                                                          .getName(),
-                                                                                                                      parameterInstance
-                                                                                                                          .getParameterValue()
-                                                                                                                          .getRawValue(),});
+            LOGGER.log(Level.INFO, "\nParameter name: {0}" + "\nParameter Value: {1}",
+                    new Object[]{parameterInstance.getName(),
+                        parameterInstance.getParameterValue().getRawValue()});
         }
     }
 }
