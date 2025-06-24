@@ -167,22 +167,4 @@ public class ActionProxyServiceImpl extends ActionInheritanceSkeleton {
         return actionConsumer.getActionStub().listDefinition(il);
     }
 
-    @Override
-    public ObjectInstancePairList addAction(ActionCreationRequestList acrl,
-            MALInteraction mali) throws MALInteractionException, MALException {
-        return actionConsumer.getActionStub().addAction(acrl);
-    }
-
-    @Override
-    public LongList updateDefinition(LongList ll, ActionDefinitionDetailsList addl,
-            MALInteraction mali) throws MALInteractionException, MALException {
-        return actionConsumer.getActionStub().updateDefinition(ll, addl);
-    }
-
-    @Override
-    public void removeAction(LongList ll,
-            MALInteraction mali) throws MALInteractionException, MALException {
-        actionConsumer.getActionStub().removeAction(ll);
-    }
-
 }

@@ -23,26 +23,36 @@ package esa.mo.mc.impl.provider;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.mc.impl.interfaces.ActionInvocationListener;
+import esa.mo.reconfigurable.service.ReconfigurableService;
+import esa.mo.reconfigurable.service.ConfigurationChangeListener;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMService;
+import org.ccsds.moims.mo.com.DuplicateException;
+import org.ccsds.moims.mo.com.InvalidException;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectSet;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectSetList;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
+import org.ccsds.moims.mo.mal.structures.Element;
+import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UIntegerList;
 import org.ccsds.moims.mo.mal.structures.UShort;
+import org.ccsds.moims.mo.mal.UnknownException;
 import org.ccsds.moims.mo.mc.action.ActionHelper;
+import org.ccsds.moims.mo.mc.action.ActionServiceInfo;
 import org.ccsds.moims.mo.mc.action.provider.ActionInheritanceSkeleton;
 import org.ccsds.moims.mo.mc.action.structures.ActionCreationRequestList;
 import org.ccsds.moims.mo.mc.action.structures.ActionCreationRequest;
@@ -51,16 +61,6 @@ import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.action.structures.ActionInstanceDetails;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
-import esa.mo.reconfigurable.service.ReconfigurableService;
-import esa.mo.reconfigurable.service.ConfigurationChangeListener;
-import org.ccsds.moims.mo.com.DuplicateException;
-import org.ccsds.moims.mo.com.InvalidException;
-import org.ccsds.moims.mo.mal.UnknownException;
-import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
-import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
-import org.ccsds.moims.mo.mal.structures.Element;
-import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
-import org.ccsds.moims.mo.mc.action.ActionServiceInfo;
 
 /**
  * Action service Provider.
@@ -256,7 +256,6 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         return outPairLst;  // requirement: 3.4.9.2.d
     }
 
-    @Override
     public ObjectInstancePairList addAction(ActionCreationRequestList actionCreationRequestList,
             MALInteraction interaction) throws MALInteractionException, MALException {
         ObjectInstancePairList newObjInstIds = new ObjectInstancePairList();
@@ -308,7 +307,6 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         return newObjInstIds; // requirement: 3.2.12.2.f
     }
 
-    @Override
     public LongList updateDefinition(LongList actionDefInstIds, ActionDefinitionDetailsList actionDefDetails,
             MALInteraction interaction) throws MALInteractionException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
@@ -357,9 +355,8 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         return newDefIds;
     }
 
-    @Override
-    public void removeAction(final LongList actionInstIds, final MALInteraction interaction) throws MALException,
-            MALInteractionException { // requirement: 3.7.12.2.1
+    public void removeAction(final LongList actionInstIds, final MALInteraction interaction)
+            throws MALException, MALInteractionException { // requirement: 3.7.12.2.1
         UIntegerList unkIndexList = new UIntegerList();
         Long tempIdentity;
         LongList tempIdentityLst = new LongList();

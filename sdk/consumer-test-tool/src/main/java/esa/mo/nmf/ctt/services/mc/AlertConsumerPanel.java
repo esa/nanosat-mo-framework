@@ -389,8 +389,7 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
 
         String str;
         if (alertTable.getSelectedRow() == -1) {  // Used to avoid problems if no row is selected
-            AlertDefinitionDetails alertDefinition = (AlertDefinitionDetails) alertTable.getFirstCOMObject()
-                .getObject();
+            AlertDefinitionDetails alertDefinition = (AlertDefinitionDetails) alertTable.getFirstCOMObject().getObject();
             if (alertDefinition != null) {
                 curState = alertDefinition.getGenerationEnabled();
             } else {

@@ -365,6 +365,9 @@ public class CommonMOAdapterImpl extends NMFConsumer implements SimpleCommanding
 
             // If the definition does not exist, then create it automatically for the user
             if (objId == null) {
+                LOGGER.log(Level.SEVERE, "The Action was not found: " + actionName);
+                return -1L;
+                /*
                 ArgumentDefinitionDetailsList argList = new ArgumentDefinitionDetailsList(objects.length);
 
                 for (Serializable object : objects) {
@@ -402,6 +405,7 @@ public class CommonMOAdapterImpl extends NMFConsumer implements SimpleCommanding
 
                 objIds = actionService.addAction(acrl);
                 objId = objIds.get(0);
+                */
             }
 
             AttributeValueList argValues = new AttributeValueList();
