@@ -72,6 +72,9 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
         this.serviceMCAlert = serviceMCAlert;
         alertTable = new AlertTablePanel(serviceMCAlert.getCOMServices().getArchiveService());
         jScrollPane2.setViewportView(alertTable);
+        addDefinitionButton.setVisible(false);
+        removeDefinitionButton.setVisible(false);
+        removeDefinitionAllButton.setVisible(false);
     }
 
     public void init() {
@@ -220,6 +223,7 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_listDefinitionButtonActionPerformed
 
     private void addDefinitionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDefinitionButtonActionPerformed
+        /*
         ArgumentDefinitionDetails details = new ArgumentDefinitionDetails(
             new Identifier("0"),
             (byte) 1);
@@ -272,6 +276,7 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
         } catch (InterruptedException ex) {
             Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
+        */
     }//GEN-LAST:event_addDefinitionButtonActionPerformed
 
     private void updateDefinitionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateDefinitionButtonActionPerformed
@@ -301,6 +306,7 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_updateDefinitionButtonActionPerformed
 
     private void removeDefinitionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeDefinitionButtonActionPerformed
+        /*
         if (alertTable.getSelectedRow() == -1) { // The row is not selected?
             return;  // Well, then nothing to be done here folks!
         }
@@ -315,6 +321,7 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
+        */
     }//GEN-LAST:event_removeDefinitionButtonActionPerformed
 
     private void listDefinitionAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listDefinitionAllButtonActionPerformed
@@ -360,6 +367,7 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_listDefinitionAllButtonActionPerformed
 
     private void removeDefinitionAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeDefinitionAllButtonActionPerformed
+        /*
         LongList longlist = new LongList();
         longlist.add((long) 0);
 
@@ -369,6 +377,7 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
+        */
     }//GEN-LAST:event_removeDefinitionAllButtonActionPerformed
 
     private void actionDefinitionsTableComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_actionDefinitionsTableComponentAdded

@@ -26,7 +26,6 @@ import esa.mo.com.impl.util.HelperArchive;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.COMService;
 import org.ccsds.moims.mo.com.structures.InstanceBooleanPair;
 import org.ccsds.moims.mo.com.structures.InstanceBooleanPairList;
@@ -35,9 +34,7 @@ import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDet
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectSet;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectSetList;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.structures.BooleanList;
@@ -161,7 +158,8 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
         ObjectId source = manager.storeCOMOperationActivity(interaction); // requirement: 3.4.4.h
         for (InstanceBooleanPair instance : enableInstances) {  // requirement: 3.4.8.2.d
             if (instance.getId() == 0) {  // Is it the wildcard '0'? requirement: 3.3.8.2.c
-                manager.setGenerationEnabledAll(instance.getValue(), source, connection.getConnectionDetails());
+                manager.setGenerationEnabledAll(instance.getValue(), source,
+                        connection.getConnectionDetails());
                 foundWildcard = true;
                 break;
             }
@@ -295,14 +293,12 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
         return outPairLst;  // requirement: 3.4.9.2.d
     }
 
-    @Override
-    public ObjectInstancePairList addAlert(AlertCreationRequestList alertCreationRequests, MALInteraction interaction)
-            throws MALInteractionException, MALException {
+    public ObjectInstancePairList addAlert(AlertCreationRequestList alertCreationRequests,
+            MALInteraction interaction) throws MALInteractionException, MALException {
         UIntegerList invIndexList = new UIntegerList();
         UIntegerList dupIndexList = new UIntegerList();
 
-        if (null == alertCreationRequests) // Is the input null?
-        {
+        if (null == alertCreationRequests) { // Is the input null?
             throw new IllegalArgumentException("AlertCreationRequestList argument must not be null");
         }
 
@@ -398,9 +394,8 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
         return outLst; //requirement: 3.4.11.2.i
     }
 
-    @Override
-    public void removeAlert(LongList alertIdentityIds, MALInteraction interaction) throws MALInteractionException,
-            MALException {
+    public void removeAlert(LongList alertIdentityIds,
+            MALInteraction interaction) throws MALInteractionException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         LongList removalLst = new LongList();
 
