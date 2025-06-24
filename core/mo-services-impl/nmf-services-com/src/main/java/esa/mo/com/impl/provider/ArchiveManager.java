@@ -126,7 +126,7 @@ public class ArchiveManager {
             synchronized (manager) {
                 long timestamp = System.currentTimeMillis();
                 Logger.getLogger(ArchiveManager.class.getName()).log(
-                        Level.INFO, "Starting Archive Backend...");
+                        Level.INFO, "Starting Archive Backend in a dedicated thread...");
                 this.dbBackend.startBackendDatabase(this.dbProcessor);
                 timestamp = System.currentTimeMillis() - timestamp;
                 Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO,
