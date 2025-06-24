@@ -35,6 +35,11 @@ import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
  */
 public class ParameterTablePanel extends SharedTablePanel {
 
+    /**
+     * Constructor.
+     *
+     * @param archiveService The Archive service consumer.
+     */
     public ParameterTablePanel(ArchiveConsumerServiceImpl archiveService) {
         super(archiveService);
     }

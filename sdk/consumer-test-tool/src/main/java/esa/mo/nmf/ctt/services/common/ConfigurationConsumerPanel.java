@@ -56,7 +56,7 @@ public class ConfigurationConsumerPanel extends javax.swing.JPanel {
     private File file;
 
     /**
-     * Creates new formAddModifyParameter ConsumerPanelArchive
+     * Constructor.
      *
      * @param serviceConfiguration The Configuration service consumer.
      * @param providerSummary The provider summary.

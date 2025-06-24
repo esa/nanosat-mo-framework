@@ -67,8 +67,9 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
     private IdentifierList launchAppEventListenerIds = new IdentifierList();
 
     /**
+     * Constructor.
      *
-     * @param serviceSMAppsLauncher
+     * @param serviceSMAppsLauncher The Apps Launcher service consumer.
      */
     public AppsLauncherConsumerPanel(AppsLauncherConsumerServiceImpl serviceSMAppsLauncher) {
         initComponents();

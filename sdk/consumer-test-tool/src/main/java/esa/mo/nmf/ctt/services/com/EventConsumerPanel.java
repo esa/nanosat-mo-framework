@@ -60,10 +60,10 @@ public class EventConsumerPanel extends javax.swing.JPanel {
     private final DefaultTableModel eventTableData;
 
     /**
-     * Creates new form ArchiveConsumerPanel
+     * Constructor.
      *
-     * @param eventService
-     * @param archiveService
+     * @param eventService The Event service.
+     * @param archiveService The Archive service.
      */
     public EventConsumerPanel(EventConsumerServiceImpl eventService,
             final ArchiveConsumerServiceImpl archiveService) {
@@ -106,7 +106,8 @@ public class EventConsumerPanel extends javax.swing.JPanel {
                         COMObjectWindow comObjectWindow = new COMObjectWindow(comObject,
                                 false, archiveService.getArchiveStub());
                     } catch (IOException ex) {
-                        Logger.getLogger(EventConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(EventConsumerPanel.class.getName()).log(
+                                Level.SEVERE, null, ex);
                     }
                 }
             }
@@ -171,7 +172,6 @@ public class EventConsumerPanel extends javax.swing.JPanel {
             // Add to the table
             comObjects.add(comObject);
         }
-
     }
 
     /**

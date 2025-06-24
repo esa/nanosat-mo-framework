@@ -34,6 +34,11 @@ import org.ccsds.moims.mo.mc.alert.structures.AlertDefinitionDetails;
  */
 public class AlertTablePanel extends SharedTablePanel {
 
+    /**
+     * Constructor.
+     *
+     * @param archiveService The Archive service consumer.
+     */
     public AlertTablePanel(ArchiveConsumerServiceImpl archiveService) {
         super(archiveService);
     }

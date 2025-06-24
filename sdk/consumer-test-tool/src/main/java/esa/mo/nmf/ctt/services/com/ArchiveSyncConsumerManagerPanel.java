@@ -72,16 +72,16 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
     private final ArchiveSyncConsumerServiceImpl serviceCOMArchiveSync;
 
     /**
-     * Creates new form ArchiveConsumerPanel
+     * Constructor.
      *
-     * @param serviceCOMArchive
-     * @param serviceCOMArchiveSync
+     * @param archiveService The Archive service.
+     * @param archiveSyncService The Archive Sync service.
      */
-    public ArchiveSyncConsumerManagerPanel(ArchiveConsumerServiceImpl serviceCOMArchive,
-        ArchiveSyncConsumerServiceImpl serviceCOMArchiveSync) {
+    public ArchiveSyncConsumerManagerPanel(ArchiveConsumerServiceImpl archiveService,
+            ArchiveSyncConsumerServiceImpl archiveSyncService) {
         initComponents();
-        this.serviceCOMArchive = serviceCOMArchive;
-        this.serviceCOMArchiveSync = serviceCOMArchiveSync;
+        this.serviceCOMArchive = archiveService;
+        this.serviceCOMArchiveSync = archiveSyncService;
     }
 
     protected class ArchiveSyncTab {
@@ -106,8 +106,8 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
         }
 
         private void refreshTabCounter() {
-            JLabel label = new JLabel(functionName + " (" + dateFormat.format(date) + ")" + " (" + n_objs_counter +
-                ")");
+            JLabel label = new JLabel(functionName + " (" + dateFormat.format(date) + ")" + " (" + n_objs_counter
+                    + ")");
             JLabel closeLabel = new JLabel("x");
             closeLabel.addMouseListener(new CloseMouseHandler(this));
             closeLabel.setFont(closeLabel.getFont().deriveFont(closeLabel.getFont().getStyle() | Font.BOLD));
@@ -137,7 +137,8 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
             try {
                 this.finalize();
             } catch (Throwable ex) {
-                Logger.getLogger(ArchiveSyncConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ArchiveSyncConsumerManagerPanel.class.getName()).log(
+                        Level.SEVERE, null, ex);
             }
         }
 
@@ -161,10 +162,10 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
             return this.domain;
         }
 
-        public synchronized void add(ObjectType objType, IdentifierList domain, ArchiveDetailsList objDetails,
-            HeterogeneousList objBodies) {
-            ArchiveCOMObjectsOutput archiveObjectOutput = new ArchiveCOMObjectsOutput(domain, objType, objDetails,
-                objBodies);
+        public synchronized void add(ObjectType objType, IdentifierList domain,
+                ArchiveDetailsList objDetails, HeterogeneousList objBodies) {
+            ArchiveCOMObjectsOutput archiveObjectOutput = new ArchiveCOMObjectsOutput(
+                    domain, objType, objDetails, objBodies);
             archiveTablePanel.addEntries(archiveObjectOutput);
             n_objs_counter = n_objs_counter + objDetails.size();
             refreshTabCounter();
@@ -175,7 +176,8 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
             try {
                 isOver.acquire();
             } catch (InterruptedException ex) {
-                Logger.getLogger(ArchiveSyncConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ArchiveSyncConsumerManagerPanel.class.getName()).log(
+                        Level.SEVERE, null, ex);
             }
 
             List<ArchivePersistenceObject> comObjects = archiveTablePanel.getAllCOMObjects();
@@ -222,7 +224,8 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
                     try {
                         super.finalize();
                     } catch (Throwable ex) {
-                        Logger.getLogger(ArchiveSyncConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(ArchiveSyncConsumerManagerPanel.class.getName()).log(
+                                Level.SEVERE, null, ex);
                     }
                     return;
                 }
@@ -379,8 +382,8 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
         try {
             GetTimeResponse response = serviceCOMArchiveSync.getArchiveSyncStub().getTime();
             MOWindow genObjType = new MOWindow(response, false);
-            Logger.getLogger(ArchiveSyncConsumerManagerPanel.class.getName()).log(Level.INFO, "Current time: " +
-                response.getCurrentTime() + " - Last sync: " + response.getLastSyncTime());
+            Logger.getLogger(ArchiveSyncConsumerManagerPanel.class.getName()).log(Level.INFO, "Current time: "
+                    + response.getCurrentTime() + " - Last sync: " + response.getLastSyncTime());
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ArchiveSyncConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -482,7 +485,7 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
 
         try {
             serviceCOMArchiveSync.getArchiveSyncStub().retrieveRange(from, until, objTypes, new Identifier(""),
-                adapter);
+                    adapter);
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ArchiveSyncConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -691,24 +694,24 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
     public static ArchiveQuery generateArchiveQuery() {
         // ArchiveDetails
         ArchiveQuery archiveQuery = new ArchiveQuery(
-          null,
-          null,
-          null,
-          new Long(0),
-          null,
-          null,
-          null,
-          null,
-          null);
+                null,
+                null,
+                null,
+                new Long(0),
+                null,
+                null,
+                null,
+                null,
+                null);
 
         return archiveQuery;
     }
 
     public static CompositeFilter generateCompositeFilter() {
         return new CompositeFilter(
-            "name",
-            ExpressionOperator.EQUAL,
-            new Identifier("AggregationUpdate"));
+                "name",
+                ExpressionOperator.EQUAL,
+                new Identifier("AggregationUpdate"));
     }
 
     private void test_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_test_buttonActionPerformed

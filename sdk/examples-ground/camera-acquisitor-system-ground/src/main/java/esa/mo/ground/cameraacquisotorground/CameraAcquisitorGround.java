@@ -384,7 +384,7 @@ public class CameraAcquisitorGround {
      * calculated in seconds
      * @param stepsize the amount of time between entries in the resulting list
      * in seconds
-     * @return
+     * @return The GroundTrack object.
      */
     @GetMapping("/groundTrack")
     public GroundTrack groundTrack(@RequestParam(value = "duration", defaultValue = ""

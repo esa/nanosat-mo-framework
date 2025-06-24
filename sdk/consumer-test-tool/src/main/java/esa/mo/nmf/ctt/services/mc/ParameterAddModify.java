@@ -70,10 +70,10 @@ public class ParameterAddModify extends javax.swing.JFrame {
     public static transient ObjectType OBJ_TYPE_CS_RANGECONVERSION;
 
     /**
-     * Creates new form ParameterAddModify
+     * Constructor.
      *
-     * @param parameterService
-     * @param parameterTableData
+     * @param parameterService The Parameter service.
+     * @param parameterTableData The parameter table data.
      */
     public ParameterAddModify(final ParameterConsumerServiceImpl parameterService,
             final DefaultTableModel parameterTableData) {
@@ -96,7 +96,6 @@ public class ParameterAddModify extends javax.swing.JFrame {
         OBJ_TYPE_CS_LINECONVERSION = HelperCOM.generateCOMObjectType(service, new UShort(2));
         OBJ_TYPE_CS_POLYCONVERSION = HelperCOM.generateCOMObjectType(service, new UShort(3));
         OBJ_TYPE_CS_RANGECONVERSION = HelperCOM.generateCOMObjectType(service, new UShort(4));
-
     }
 
     public void setParameterDefinitionSelectedIndex(int in) {

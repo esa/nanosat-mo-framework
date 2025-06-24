@@ -54,10 +54,10 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
     private Semaphore semaphore = new Semaphore(1);
 
     /**
-     * Creates new form ObjectsDisplay
+     * Constructor.
      *
-     * @param archiveObjectOutput
-     * @param archiveService
+     * @param archiveObjectOutput The output list with Archive data.
+     * @param archiveService The Archive service.
      */
     public ArchiveTablePanel(ArchiveCOMObjectsOutput archiveObjectOutput,
             final ArchiveConsumerServiceImpl archiveService) {
@@ -141,7 +141,6 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
 
             addEntry(comObject);
         }
-
     }
 
     private void addEntry(final ArchivePersistenceObject comObject) {

@@ -71,7 +71,7 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
     /**
      * Creates new formAddModifyParameter ConsumerPanelArchive
      *
-     * @param groundMOAdapter
+     * @param groundMOAdapter The Ground MO Adapter.
      */
     public ActionConsumerPanel(GroundMOAdapterImpl groundMOAdapter) {
         initComponents();
@@ -84,7 +84,7 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
     /**
      * Creates new formAddModifyParameter ConsumerPanelArchive
      *
-     * @param serviceMCAction
+     * @param serviceMCAction The Action service consumer.
      */
     public ActionConsumerPanel(ActionConsumerServiceImpl serviceMCAction) {
         initComponents();

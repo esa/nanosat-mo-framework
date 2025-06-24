@@ -40,6 +40,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import org.ccsds.moims.mo.com.COMObject;
+import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
@@ -61,9 +62,9 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
     protected final ArchiveConsumerServiceImpl archiveService;
 
     /**
-     * Creates new form ObjectsDisplay
+     * Constructor.
      *
-     * @param archiveService
+     * @param archiveService The Archive service consumer.
      */
     public SharedTablePanel(final ArchiveConsumerServiceImpl archiveService) {
         initComponents();
@@ -192,11 +193,12 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
             return null;
         }
 
+        ObjectId source = comObjects.get(0).getArchiveDetails().getDetails().getSource();
         return HelperArchive.getArchiveCOMObject(
                 archiveService,
-                comObjects.get(0).getArchiveDetails().getDetails().getSource().getType(),
-                comObjects.get(0).getArchiveDetails().getDetails().getSource().getKey().getDomain(),
-                comObjects.get(0).getArchiveDetails().getDetails().getSource().getKey().getInstId()
+                source.getType(),
+                source.getKey().getDomain(),
+                source.getKey().getInstId()
         );
     }
 

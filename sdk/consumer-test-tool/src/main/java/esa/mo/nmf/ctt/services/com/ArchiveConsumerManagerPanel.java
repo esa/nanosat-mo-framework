@@ -97,9 +97,9 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
     private GroundMOAdapterImpl services;
 
     /**
-     * Creates new form ArchiveConsumerPanel
+     * Constructor.
      *
-     * @param archiveService
+     * @param archiveService The Archive service.
      */
     public ArchiveConsumerManagerPanel(ArchiveConsumerServiceImpl archiveService) {
         initComponents();
@@ -296,15 +296,18 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         }
 
         @Override
-        public synchronized void queryAckErrorReceived(MALMessageHeader msgHeader, MOErrorException error, Map qosProperties) {
-            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, "queryAckErrorReceived", error);
+        public synchronized void queryAckErrorReceived(MALMessageHeader msgHeader,
+                MOErrorException error, Map qosProperties) {
+            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(
+                    Level.SEVERE, "queryAckErrorReceived", error);
         }
 
         protected void deleteAllInTable() {
             try {
                 isOver.acquire();
             } catch (InterruptedException ex) {
-                Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(
+                        Level.SEVERE, null, ex);
             }
 
             List<ArchivePersistenceObject> comObjects = archiveTablePanel.getAllCOMObjects();
@@ -315,7 +318,8 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
                 try {
                     serviceCOMArchive.getArchiveStub().delete(comObject.getObjectType(), comObject.getDomain(), objIds);
                 } catch (MALInteractionException | MALException ex) {
-                    Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(
+                            Level.SEVERE, null, ex);
                 }
             }
         }
@@ -347,7 +351,8 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
                     try {
                         super.finalize();
                     } catch (Throwable ex) {
-                        Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(
+                                Level.SEVERE, null, ex);
                     }
                     return;
                 }
@@ -514,11 +519,13 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         try {
             LongList outObjId = serviceCOMArchive.getArchiveStub().store(Boolean.TRUE,
                     AggregationServiceInfo.AGGREGATIONDEFINITION_OBJECT_TYPE,
-                    serviceCOMArchive.getConnectionDetails().getDomain(), archiveDetailsList, objList);
+                    serviceCOMArchive.getConnectionDetails().getDomain(),
+                    archiveDetailsList, objList);
             Long received = outObjId.get(0);
             TBoxStore.setText(received.toString());
         } catch (MALInteractionException | MALException ex) {
-            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(
+                    Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButtonStoreAggregationActionPerformed
 
@@ -544,9 +551,11 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         archiveQueryList.add(archiveQuery);
 
         try {
-            serviceCOMArchive.getArchiveStub().query(Boolean.TRUE, objType, archiveQueryList, null, adapter);
+            serviceCOMArchive.getArchiveStub().query(Boolean.TRUE, objType,
+                    archiveQueryList, null, adapter);
         } catch (MALInteractionException | MALException ex) {
-            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(
+                    Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButtonGetAllActionPerformed
 
@@ -605,9 +614,11 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         objIds.add(comObject.getObjectId());
 
         try {
-            serviceCOMArchive.getArchiveStub().delete(comObject.getObjectType(), comObject.getDomain(), objIds);
+            serviceCOMArchive.getArchiveStub().delete(comObject.getObjectType(),
+                    comObject.getDomain(), objIds);
         } catch (MALInteractionException | MALException ex) {
-            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(
+                    Level.SEVERE, null, ex);
         }
 
         ((ArchiveTablePanel) tabs.getSelectedComponent()).removeSelectedEntry();
@@ -645,7 +656,8 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         try {
             serviceCOMArchive.getArchiveStub().retrieve(objType, domain, objIds, adapter);
         } catch (MALInteractionException | MALException ex) {
-            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(
+                    Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_jButtonRetrieveActionPerformed
@@ -666,11 +678,13 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
                 serviceCOMArchive.getArchiveStub().update(comObject.getObjectType(),
                         comObject.getDomain(), archiveDetailsList, finalObject);
             } catch (MALInteractionException | MALException ex) {
-                Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(
+                        Level.SEVERE, null, ex);
             }
 
         } catch (Exception ex) {
-            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(
+                    Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_jButtonUpdateActionPerformed
@@ -716,7 +730,8 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         try {
             serviceCOMArchive.getArchiveStub().count(objType, archiveQueryList, compositeFilters, adapter);
         } catch (MALInteractionException | MALException ex) {
-            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(
+                    Level.SEVERE, null, ex);
         }
 
         JDialog frame = new JDialog();
@@ -728,7 +743,8 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
             try {
                 serviceCOMArchive.getArchiveStub().query(true, objType, archiveQueryList, compositeFilters, adapter);
             } catch (MALInteractionException | MALException ex) {
-                Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(
+                        Level.SEVERE, null, ex);
             }
         }
 
@@ -750,9 +766,11 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
             outObjId = serviceCOMArchive.getArchiveStub().store(Boolean.TRUE, objType,
                     serviceCOMArchive.getConnectionDetails().getDomain(), archiveDetailsList, objList1);
         } catch (MALInteractionException ex) {
-            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(
+                    Level.SEVERE, null, ex);
         } catch (MALException ex) {
-            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(
+                    Level.SEVERE, null, ex);
         }
 
 //        archiveDetailsList = new ArchiveDetailsList();
@@ -766,9 +784,11 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
             outObjId = serviceCOMArchive.getArchiveStub().store(Boolean.TRUE, objType,
                     serviceCOMArchive.getConnectionDetails().getDomain(), archiveDetailsList, objList2);
         } catch (MALInteractionException ex) {
-            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(
+                    Level.SEVERE, null, ex);
         } catch (MALException ex) {
-            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(
+                    Level.SEVERE, null, ex);
         }
 
 //        archiveDetailsList = new ArchiveDetailsList();
@@ -782,7 +802,8 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
             outObjId = serviceCOMArchive.getArchiveStub().store(Boolean.TRUE, objType, serviceCOMArchive
                     .getConnectionDetails().getDomain(), archiveDetailsList, objList3);
         } catch (MALInteractionException | MALException ex) {
-            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(
+                    Level.SEVERE, null, ex);
         }
 
         archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive.getConnectionDetails());
@@ -794,7 +815,8 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
             outObjId = serviceCOMArchive.getArchiveStub().store(Boolean.TRUE, objType, serviceCOMArchive
                     .getConnectionDetails().getDomain(), archiveDetailsList, objList4);
         } catch (MALInteractionException | MALException ex) {
-            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(
+                    Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_jButtonStoreConversionsActionPerformed
@@ -835,7 +857,8 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         try {
             serviceCOMArchive.getArchiveStub().query(Boolean.TRUE, objType, archiveQueryList, list, adapter);
         } catch (MALInteractionException | MALException ex) {
-            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(
+                    Level.SEVERE, null, ex);
         }
 
         /*
@@ -909,7 +932,8 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
     private void jButtonStoreGroupsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStoreGroupsActionPerformed
 
         // Object Type
-        ObjectType objType = new ObjectType(new UShort(4), new UShort(8), new UOctet((short) 1), new UShort(1));
+        ObjectType objType = new ObjectType(new UShort(4), new UShort(8),
+                new UOctet((short) 1), new UShort(1));
 
         // Domain
         IdentifierList domain = serviceCOMArchive.getConnectionDetails().getDomain();
@@ -926,7 +950,8 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
 
         HeterogeneousList groupList = new HeterogeneousList();
 
-        ObjectType objTypeParameterDef = new ObjectType(new UShort(4), new UShort(2), new UOctet((short) 1), new UShort(1));
+        ObjectType objTypeParameterDef = new ObjectType(new UShort(4),
+                new UShort(2), new UOctet((short) 1), new UShort(1));
         LongList objIds = new LongList();
         objIds.add(1L);
         objIds.add(2L);
@@ -944,7 +969,8 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         try {
             serviceCOMArchive.getArchiveStub().store(false, objType, domain, archiveDetailsList, groupList);
         } catch (MALInteractionException | MALException ex) {
-            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(
+                    Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_jButtonStoreGroupsActionPerformed
@@ -982,7 +1008,8 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
             serviceCOMArchive.getArchiveStub().query(Boolean.TRUE, objType, archiveQueryList, null, adapter);
             adapter.deleteAllInTable();  // Deletes all the objects in the table
         } catch (MALInteractionException | MALException ex) {
-            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(
+                    Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_jButtonDeleteAllActionPerformed

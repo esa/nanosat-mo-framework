@@ -69,11 +69,11 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
     private static Preferences prefs = Preferences.userNodeForPackage(DirectoryConnectionConsumerPanel.class);
 
     /**
-     * Creates new form ConsumerPanelArchive
+     * Constructor.
      *
-     * @param isS2G Flag that defines if it is a Space to Ground link
-     * @param connectionConsumer
-     * @param tabs
+     * @param isS2G Flag that defines if it is a Space to Ground link.
+     * @param connectionConsumer The consumer connections.
+     * @param tabs The tabs object.
      */
     public DirectoryConnectionConsumerPanel(final boolean isS2G,
             final ConnectionConsumer connectionConsumer, final JTabbedPane tabs) {
@@ -124,8 +124,10 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
 
                 String serviceName;
                 try {
-                    serviceName = HelperMisc.serviceKey2name(service.getServiceKey().getKeyArea(),
-                            service.getServiceKey().getKeyAreaVersion(), service.getServiceKey().getKeyService());
+                    serviceName = HelperMisc.serviceKey2name(
+                            service.getServiceKey().getKeyArea(),
+                            service.getServiceKey().getKeyAreaVersion(),
+                            service.getServiceKey().getKeyService());
                 } catch (MALException ex) {
                     serviceName = "<Unknown service>";
                 }
@@ -350,16 +352,16 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
                 this.setName("ConnectButtonActionThread");
 
                 ServiceKey loginServiceKey = new ServiceKey(LoginHelper.LOGIN_SERVICE.getArea().getNumber(),
-                    LoginHelper.LOGIN_SERVICE.getServiceNumber(), LoginHelper.LOGIN_SERVICE.getArea().getVersion());
+                        LoginHelper.LOGIN_SERVICE.getServiceNumber(), LoginHelper.LOGIN_SERVICE.getArea().getVersion());
                 ServiceCapability loginService = summary.getProviderDetails().getServiceCapabilities().stream().filter(
-                    serviceCapability -> serviceCapability.getServiceKey().equals(loginServiceKey)).findFirst().orElse(
-                        null);
+                        serviceCapability -> serviceCapability.getServiceKey().equals(loginServiceKey)).findFirst().orElse(
+                                null);
 
                 ServiceKey archiveServiceKey = new ServiceKey(ArchiveHelper.ARCHIVE_SERVICE.getArea().getNumber(),
-                    ArchiveHelper.ARCHIVE_SERVICE.getServiceNumber(), ArchiveHelper.ARCHIVE_SERVICE.getArea().getVersion());
+                        ArchiveHelper.ARCHIVE_SERVICE.getServiceNumber(), ArchiveHelper.ARCHIVE_SERVICE.getArea().getVersion());
                 ServiceCapability archiveService = summary.getProviderDetails().getServiceCapabilities().stream()
-                    .filter(serviceCapability -> serviceCapability.getServiceKey().equals(archiveServiceKey))
-                    .findFirst().orElse(null);
+                        .filter(serviceCapability -> serviceCapability.getServiceKey().equals(archiveServiceKey))
+                        .findFirst().orElse(null);
 
                 Blob authenticationId = null;
                 String localNamePrefix = null;
@@ -426,8 +428,10 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
     }
 
     private void errorConnectionProvider(String service, Throwable ex) {
-        JOptionPane.showMessageDialog(null, "Could not connect to " + service + " service provider!"
-                + "\nException:\n" + ex + "\n" + ex.getMessage(), "Error!", JOptionPane.PLAIN_MESSAGE);
+        JOptionPane.showMessageDialog(null,
+                "Could not connect to " + service + " service provider!"
+                + "\nException:\n" + ex + "\n" + ex.getMessage(),
+                "Error!", JOptionPane.PLAIN_MESSAGE);
     }
 
     private void uriServiceDirectoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uriServiceDirectoryActionPerformed
@@ -457,7 +461,8 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
             errorConnectionProvider("Directory", ex);
             providersList.setModel(new DefaultListModel());
             connectButton.setEnabled(false);
-            Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(
+                    Level.SEVERE, null, ex);
             cleanTableData();
         }
     }//GEN-LAST:event_load_URI_links1ActionPerformed
@@ -485,11 +490,33 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
     private void initTextBoxAddress() {  // runs during the init of the app
         // Common services
         SingleConnectionDetails details = connectionConsumer.getServicesDetails().get(
-            DirectoryServiceInfo.DIRECTORY_SERVICE_NAME);
+                DirectoryServiceInfo.DIRECTORY_SERVICE_NAME);
 
         if (details != null) {
             this.uriServiceDirectory.setText(details.getProviderURI().toString());
         }
+    }
+
+    private void closeProvider(ProviderTabPanel providerPanel) {
+        try {
+            if (providerPanel.getServices().getAuthenticationId() != null) {
+                try {
+                    providerPanel.getServices().getCommonServices().getLoginService().getLoginStub().logout();
+                    providerPanel.getServices().setAuthenticationId(null);
+                    Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName())
+                            .log(Level.INFO, "Logged out successfully");
+                } catch (MALInteractionException | MALException e) {
+                    Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName())
+                            .log(Level.SEVERE, "Unexpected exception during logout!", e);
+                }
+            }
+            providerPanel.getServices().closeConnections();
+        } catch (Exception ex) {
+            Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(
+                    Level.WARNING,
+                    "The connection was not closed correctly. Maybe the provider was unreachable!");
+        }
+
     }
 
     public class CloseMouseHandler implements MouseListener {
@@ -516,24 +543,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
                         @Override
                         public void run() {
                             this.setName("CloseButtonTabThread");
-
-                            try {
-                                if (providerPanel.getServices().getAuthenticationId() != null) {
-                                    try {
-                                        providerPanel.getServices().getCommonServices().getLoginService().getLoginStub().logout();
-                                        providerPanel.getServices().setAuthenticationId(null);
-                                        Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName())
-                                                .log(Level.INFO, "Logged out successfully");
-                                    } catch (MALInteractionException | MALException e) {
-                                        Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName())
-                                                .log(Level.SEVERE, "Unexpected exception during logout!", e);
-                                    }
-                                }
-                                providerPanel.getServices().closeConnections();
-                            } catch (Exception ex) {
-                                Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.WARNING,
-                                        "The connection was not closed correctly. Maybe the provider was unreachable!");
-                            }
+                            closeProvider(providerPanel);
                         }
                     };
 

@@ -72,8 +72,9 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
     private Subscription subscription;
 
     /**
+     * Constructor.
      *
-     * @param serviceMCAggregation
+     * @param serviceMCAggregation The Aggregation service consumer.
      */
     public AggregationConsumerPanel(AggregationConsumerServiceImpl serviceMCAggregation) {
         initComponents();

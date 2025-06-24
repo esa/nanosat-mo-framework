@@ -52,9 +52,11 @@ public class AggregationAddModify extends javax.swing.JFrame {
     private String[] parameterSetsTableCol = new String[]{"Parameter", "sampleInterval", "th-type", "th-value"};
 
     /**
-     * Creates new form ParameterAddModify
+     * Constructor.
      *
-     * @param aggregationService
+     * @param aggregationService The Aggregation service consumer.
+     * @param parameterTableData The parameter table data.
+     * @param aggregationTableData The aggregation table data.
      */
     public AggregationAddModify(final AggregationConsumerServiceImpl aggregationService,
             final DefaultTableModel parameterTableData, final DefaultTableModel aggregationTableData) {

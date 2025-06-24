@@ -192,8 +192,9 @@ public abstract class Entry extends javax.swing.JPanel {
     }
 
     /**
+     * Returns the Object that is being displayed by this entry.
      *
-     * @return
+     * @return The Object that is being displayed by this entry.
      */
     abstract public Object getObject();
 

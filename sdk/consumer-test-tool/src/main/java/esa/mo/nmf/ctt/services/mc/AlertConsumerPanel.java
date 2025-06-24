@@ -62,8 +62,9 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
     private final AlertTablePanel alertTable;
 
     /**
+     * Constructor.
      *
-     * @param serviceMCAlert
+     * @param serviceMCAlert The Alert service consumer.
      */
     public AlertConsumerPanel(AlertConsumerServiceImpl serviceMCAlert) {
         initComponents();

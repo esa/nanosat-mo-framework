@@ -64,8 +64,9 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
     private final ParameterTablePanel parameterTable;
 
     /**
+     * Constructor.
      *
-     * @param serviceMCParameter
+     * @param serviceMCParameter The Parameter service consumer.
      */
     public ParameterConsumerPanel(ParameterConsumerServiceImpl serviceMCParameter) {
         initComponents();

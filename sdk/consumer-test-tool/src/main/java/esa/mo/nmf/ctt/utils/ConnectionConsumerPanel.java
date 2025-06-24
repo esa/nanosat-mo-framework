@@ -62,10 +62,10 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
     private static final Logger LOGGER = Logger.getLogger(ConnectionConsumerPanel.class.getName());
 
     /**
-     * Creates new form ConsumerPanelArchive
+     * Constructor.
      *
-     * @param connectionConsumer
-     * @param tabs
+     * @param connectionConsumer The consumer connections.
+     * @param tabs The tabs object.
      */
     public ConnectionConsumerPanel(ConnectionConsumer connectionConsumer, JTabbedPane tabs) {
         initComponents();

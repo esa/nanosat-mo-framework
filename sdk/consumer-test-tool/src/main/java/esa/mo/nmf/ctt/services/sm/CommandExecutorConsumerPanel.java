@@ -61,8 +61,9 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel {
     private final HashMap<Long, StringBuffer> outputBuffers = new HashMap<>();
 
     /**
+     * Constructor.
      *
-     * @param serviceSMCommandExecutor
+     * @param serviceSMCommandExecutor The Command Executor service consumer.
      */
     public CommandExecutorConsumerPanel(CommandExecutorConsumerServiceImpl serviceSMCommandExecutor) {
         initComponents();
