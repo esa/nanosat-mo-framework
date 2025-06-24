@@ -35,7 +35,6 @@ import org.ccsds.moims.mo.mal.structures.UShort;
  * This class is deprecated. It is only here for backward compatibility with the
  * old MAL.
  */
-@Deprecated
 public abstract class COMService extends ServiceInfo {
 
     private final Map<Integer, COMObject> objectsByNumber = new HashMap<>();

@@ -49,7 +49,7 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Blob;
-import org.ccsds.moims.mo.mal.structures.Duration;
+import org.ccsds.moims.mo.mal.structures.FineTime;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
@@ -72,9 +72,6 @@ import org.ccsds.moims.mo.mc.aggregation.structures.AggregationSetValue;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationValue;
 import org.ccsds.moims.mo.mc.parameter.consumer.ParameterAdapter;
 import org.ccsds.moims.mo.mc.parameter.consumer.ParameterStub;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterCreationRequest;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterCreationRequestList;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValue;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetails;
@@ -202,7 +199,7 @@ public class CommonMOAdapterImpl extends NMFConsumer implements SimpleCommanding
 
                 // Now, add the definition to the service provider
                 objIds = parameterService.addParameter(request);
-                */
+                 */
             }
 
             // Continues here...
@@ -558,7 +555,15 @@ public class CommonMOAdapterImpl extends NMFConsumer implements SimpleCommanding
 
             if (objIdActionInstances.size() == 1) {
                 instanceObjId = objIdActionInstances.get(0);
-                archiveDetailsListActionInstance.get(0).setInstId(instanceObjId);
+                //archiveDetailsListActionInstance.get(0).setInstId(instanceObjId);
+                archiveDetailsListActionInstance = HelperArchive.generateArchiveDetailsList(
+                        related,
+                        source,
+                        archiveDetailsListActionInstance.get(0).getNetwork(),
+                        archiveDetailsListActionInstance.get(0).getProvider(),
+                        FineTime.now(),
+                        instanceObjId
+                );
             } else {
                 throw new NMFException("Failed to store new Action Instance in COM Archive");
             }
@@ -582,13 +587,15 @@ public class CommonMOAdapterImpl extends NMFConsumer implements SimpleCommanding
             related = null;
             source = null;          // the object that caused this to be created
 
+            Long transId = msg.getHeader().getTransactionId(); // requirement: 3.5.2.4
             ArchiveDetailsList archiveDetailsListOp = HelperArchive.generateArchiveDetailsList(
                     related,
                     source,
-                    actionConnection.getProviderURI());
-
-            Long transId = msg.getHeader().getTransactionId();
-            archiveDetailsListOp.get(0).setInstId(transId); // requirement: 3.5.2.4
+                    archiveDetailsListActionInstance.get(0).getNetwork(),
+                    actionConnection.getProviderURI(),
+                    FineTime.now(),
+                    transId
+            );
 
             try {
                 returnObjInstIds = false;
@@ -613,12 +620,20 @@ public class CommonMOAdapterImpl extends NMFConsumer implements SimpleCommanding
             ObjectId source2 = new ObjectId(ActivityTrackingServiceInfo.OPERATIONACTIVITY_OBJECT_TYPE,
                     new ObjectKey(actionConnection.getDomain(), transId));
             ObjectDetails details = new ObjectDetails(defInstId, source2);
-            archiveDetailsListActionInstance.get(0).setDetails(details);
+            //archiveDetailsListActionInstance.get(0).setDetails(details);
+            ArchiveDetailsList detailsInstance = HelperArchive.generateArchiveDetailsList(
+                    defInstId,
+                    source2,
+                    archiveDetailsListActionInstance.get(0).getNetwork(),
+                    actionConnection.getProviderURI(),
+                    FineTime.now(),
+                    transId
+            );
 
             super.getCOMServices().getArchiveService().getArchiveStub().update(
                     ActionServiceInfo.ACTIONINSTANCE_OBJECT_TYPE,
                     actionConnection.getDomain(),
-                    archiveDetailsListActionInstance,
+                    detailsInstance,
                     instanceDetailsList);
         } catch (MALInteractionException | MALException | NMFException ex) {
             throw new NMFException("Failed to execute Action " + defInstId, ex);

@@ -23,6 +23,7 @@ package esa.mo.common.impl.proxy;
 import esa.mo.common.impl.provider.DirectoryProviderServiceImpl;
 import esa.mo.helpertools.misc.Const;
 import esa.mo.nmf.NMFConsumer;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Collection;
 import org.ccsds.moims.mo.com.COMHelper;
@@ -175,8 +176,9 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
                         if (COMHelper._COM_AREA_NUMBER == key.getKeyArea().getValue()
                                 && ArchiveServiceInfo._ARCHIVE_SERVICE_NUMBER == key.getKeyService().getValue()
                                 && COMHelper._COM_AREA_VERSION == key.getKeyAreaVersion().getValue()) {
-                            AddressDetails details = capability.getServiceAddresses().get(0);
-                            details.setServiceURI(to);
+                            //AddressDetails details = capability.getServiceAddresses().get(0);
+                            //details.setServiceURI(to);
+                            throw new RuntimeException("This feature was disabled. Please update the code here!");
                         }
                     }
                 }
@@ -206,8 +208,9 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
                         if (MCHelper._MC_AREA_NUMBER == key.getKeyArea().getValue()
                                 && ActionServiceInfo._ACTION_SERVICE_NUMBER == key.getKeyService().getValue()
                                 && MCHelper._MC_AREA_VERSION == key.getKeyAreaVersion().getValue()) {
-                            AddressDetails details = capability.getServiceAddresses().get(0);
-                            details.setServiceURI(to);
+                            //AddressDetails details = capability.getServiceAddresses().get(0);
+                            //details.setServiceURI(to);
+                            throw new RuntimeException("This feature was disabled. Please update the code here!");
                         }
                     }
                 }

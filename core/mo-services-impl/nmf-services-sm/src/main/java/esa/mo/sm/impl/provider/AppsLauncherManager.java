@@ -59,6 +59,7 @@ import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.ElementList;
+import org.ccsds.moims.mo.mal.structures.FineTime;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
@@ -242,7 +243,8 @@ public class AppsLauncherManager extends DefinitionsManager {
             final URI uri, Long objId, Long related) throws MALException, MALInteractionException {
         HeterogeneousList defs = new HeterogeneousList();
         defs.add(definition);
-        ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(related, source, null, uri, objId);
+        ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(
+                related, source, null, uri, FineTime.now(), objId);
 
         return super.getArchiveService().store(true, AppsLauncherServiceInfo.APP_OBJECT_TYPE,
                 ConfigurationProviderSingleton.getDomain(), archDetails, defs, null);
@@ -657,10 +659,12 @@ public class AppsLauncherManager extends DefinitionsManager {
      *
      * @param appInstIds Applications IDs.
      * @param appDirectoryServiceNames Directory service app name.
-     * @param appConnections Application connection handlers (for NMF apps only).
+     * @param appConnections Application connection handlers (for NMF apps
+     * only).
      * @param interaction Source interaction.
      * @throws MALException If the App could not be stopped.
-     * @throws MALInteractionException If the Event service could not be reached.
+     * @throws MALInteractionException If the Event service could not be
+     * reached.
      */
     protected void stopApps(final LongList appInstIds, final IdentifierList appDirectoryServiceNames,
             final ArrayList<SingleConnectionDetails> appConnections,
@@ -813,7 +817,7 @@ public class AppsLauncherManager extends DefinitionsManager {
     private AppDetails readAppDescriptor(final String appName, final File propertiesFile) {
         Identifier myAppName = new Identifier(appName);
 
-        try (FileInputStream inputStream = new FileInputStream(propertiesFile)) {
+        try ( FileInputStream inputStream = new FileInputStream(propertiesFile)) {
             Properties props = new Properties();
             props.load(inputStream);
 

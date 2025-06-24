@@ -48,6 +48,7 @@ import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Duration;
+import org.ccsds.moims.mo.mal.structures.FineTime;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.UInteger;
@@ -316,7 +317,7 @@ public class ActivityTrackingProviderServiceImpl {
         final Long objId = interaction.getMessageHeader().getTransactionId();
         final ArchiveDetailsList archiveDetails = HelperArchive.generateArchiveDetailsList(null,
                 source, ConfigurationProviderSingleton.getNetwork(),
-                interaction.getMessageHeader().getFromURI(), objId);
+                interaction.getMessageHeader().getFromURI(), FineTime.now(), objId);
         //archiveDetails.get(0).setInstId(objId); // requirement: 3.5.2.4
         //archiveDetails.get(0).setNetwork(interaction.getMessageHeader().getNetworkZone());  // RID raised to create this requirement!
         //archiveDetails.get(0).setProvider(interaction.getMessageHeader().getFromURI());     // RID raised to create this requirement!

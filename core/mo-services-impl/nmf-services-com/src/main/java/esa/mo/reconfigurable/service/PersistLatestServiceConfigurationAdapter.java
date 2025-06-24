@@ -32,6 +32,7 @@ import org.ccsds.moims.mo.common.structures.ServiceKey;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
+import org.ccsds.moims.mo.mal.structures.FineTime;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.URI;
@@ -88,7 +89,7 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationCh
 
             // Stuff to feed the update operation from the Archive...
             ArchiveDetailsList details = HelperArchive.generateArchiveDetailsList(null, null,
-                    ConfigurationProviderSingleton.getNetwork(), new URI(""), configObjectsObjId);
+                    ConfigurationProviderSingleton.getNetwork(), new URI(""), FineTime.now(), configObjectsObjId);
             HeterogeneousList confObjsList = new HeterogeneousList();
             confObjsList.add(serviceImpl.getCurrentConfiguration());
 
@@ -130,7 +131,7 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationCh
                     ConfigurationServiceInfo.SERVICECONFIGURATION_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(),
                     HelperArchive.generateArchiveDetailsList(objIds1.get(0), null,
-                            ConfigurationProviderSingleton.getNetwork(), new URI(""), defaultObjId),
+                            ConfigurationProviderSingleton.getNetwork(), new URI(""), FineTime.now(), defaultObjId),
                     serviceKeyList,
                     null);
         } catch (MALException ex) {

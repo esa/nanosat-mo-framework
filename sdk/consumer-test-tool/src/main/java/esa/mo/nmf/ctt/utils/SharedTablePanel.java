@@ -39,7 +39,6 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-
 import org.ccsds.moims.mo.com.COMObject;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.structures.Element;
@@ -80,10 +79,11 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
                     // Get from the list of objects the one we want and display
                     ArchivePersistenceObject comObject = comObjects.get(getSelectedRow());
                     try {
-                        COMObjectWindow comObjectWindow = new COMObjectWindow(comObject, false, archiveService
-                                .getArchiveStub());
+                        COMObjectWindow comObjectWindow = new COMObjectWindow(comObject,
+                                false, archiveService.getArchiveStub());
                     } catch (IOException ex) {
-                        Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(SharedTablePanel.class.getName()).log(
+                                Level.SEVERE, null, ex);
                     }
                 }
             }
@@ -98,9 +98,7 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
     }
 
     public void refreshTableWithIdsPairs(ObjectInstancePairList pairs, IdentifierList domain, ObjectType objType) {
-        // RemoveAll
-        this.removeAllEntries();
-
+        this.removeAllEntries(); // RemoveAll
         LongList objIds = new LongList();
         LongList identities = new LongList();
 
@@ -127,7 +125,8 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
         COMObject comObjectInfo = HelperCOM.objType2COMObject(archiveCOMobjectList.get(0).getObjectType());
 
         List<ArchivePersistenceObject> comIdentityList = HelperArchive.getArchiveCOMObjectList(
-                archiveService.getArchiveStub(), comObjectInfo.getRelatedType(), domain, identities);
+                archiveService.getArchiveStub(), comObjectInfo.getRelatedType(),
+                domain, identities);
 
         // Add them
         for (int i = 0; i < archiveCOMobjectList.size(); i++) {

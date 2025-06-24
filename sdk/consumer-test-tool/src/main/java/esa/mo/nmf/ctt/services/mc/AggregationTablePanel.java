@@ -71,7 +71,10 @@ public class AggregationTablePanel extends SharedTablePanel {
 
         // 4 because it is where generationEnabled is!
         tableData.setValueAt(status, this.getSelectedRow(), 4);
-        ((AggregationDefinitionDetails) this.getSelectedCOMObject().getObject()).setGenerationEnabled(status);
+        //((AggregationDefinitionDetails) this.getSelectedCOMObject().getObject()).setGenerationEnabled(status);
+        AggregationDefinitionDetails def = (AggregationDefinitionDetails) this.getSelectedCOMObject().getObject();
+        AggregationDefinitionDetails newDef = this.generateNewAggregationDef(def, def.getFilterEnabled(), status);
+        this.getSelectedCOMObject().setObject(newDef);
 
         semaphore.release();
     }
@@ -86,13 +89,16 @@ public class AggregationTablePanel extends SharedTablePanel {
         // 4 because it is where generationEnabled is!
         for (int i = 0; i < this.getTable().getRowCount(); i++) {
             tableData.setValueAt(status, i, 4);
-            ((AggregationDefinitionDetails) this.getCOMObjects().get(i).getObject()).setGenerationEnabled(status);
+            //((AggregationDefinitionDetails) this.getCOMObjects().get(i).getObject()).setGenerationEnabled(status);
+            AggregationDefinitionDetails def = (AggregationDefinitionDetails) this.getCOMObjects().get(i).getObject();
+            AggregationDefinitionDetails newDef = this.generateNewAggregationDef(def, def.getFilterEnabled(), status);
+            this.getCOMObjects().get(i).setObject(newDef);
         }
 
         semaphore.release();
     }
 
-    public void switchFilterEnabledstatus(boolean status) {
+    public void switchFilterEnabledStatus(boolean status) {
         try {
             semaphore.acquire();
         } catch (InterruptedException ex) {
@@ -101,7 +107,10 @@ public class AggregationTablePanel extends SharedTablePanel {
 
         // 6 because it is where filter is!
         tableData.setValueAt(status, this.getSelectedRow(), 6);
-        ((AggregationDefinitionDetails) this.getSelectedCOMObject().getObject()).setFilterEnabled(status);
+        //((AggregationDefinitionDetails) this.getSelectedCOMObject().getObject()).setFilterEnabled(status);
+        AggregationDefinitionDetails def = (AggregationDefinitionDetails) this.getSelectedCOMObject().getObject();
+        AggregationDefinitionDetails newDef = this.generateNewAggregationDef(def, status, def.getGenerationEnabled());
+        this.getSelectedCOMObject().setObject(newDef);
 
         semaphore.release();
     }
@@ -116,10 +125,27 @@ public class AggregationTablePanel extends SharedTablePanel {
         // 6 because it is where filter is!
         for (int i = 0; i < this.getTable().getRowCount(); i++) {
             tableData.setValueAt(status, i, 6);
-            ((AggregationDefinitionDetails) this.getCOMObjects().get(i).getObject()).setFilterEnabled(status);
+            //((AggregationDefinitionDetails) this.getCOMObjects().get(i).getObject()).setFilterEnabled(status);
+            AggregationDefinitionDetails def = (AggregationDefinitionDetails) this.getCOMObjects().get(i).getObject();
+            AggregationDefinitionDetails newDef = this.generateNewAggregationDef(def, status, def.getGenerationEnabled());
+            this.getCOMObjects().get(i).setObject(newDef);
         }
 
         semaphore.release();
+    }
+
+    public AggregationDefinitionDetails generateNewAggregationDef(
+            AggregationDefinitionDetails def, boolean filter, boolean generation) {
+        return new AggregationDefinitionDetails(
+                def.getDescription(),
+                def.getCategory(),
+                def.getReportInterval(),
+                def.getSendUnchanged(),
+                def.getSendDefinitions(),
+                filter,
+                def.getFilteredTimeout(),
+                generation,
+                def.getParameterSets());
     }
 
     @Override

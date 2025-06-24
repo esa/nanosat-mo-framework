@@ -70,7 +70,10 @@ public class AlertTablePanel extends SharedTablePanel {
 
         // 4 because it is where generationEnabled is!
         tableData.setValueAt(status, this.getSelectedRow(), 4);
-        ((AlertDefinitionDetails) this.getSelectedCOMObject().getObject()).setGenerationEnabled(status);
+        //((AlertDefinitionDetails) this.getSelectedCOMObject().getObject()).setGenerationEnabled(status);
+        AlertDefinitionDetails def = (AlertDefinitionDetails) this.getSelectedCOMObject().getObject();
+        AlertDefinitionDetails newDef = this.generateNewAlertDef(def, status);
+        this.getSelectedCOMObject().setObject(newDef);
 
         semaphore.release();
     }
@@ -85,10 +88,20 @@ public class AlertTablePanel extends SharedTablePanel {
         // 4 because it is where generationEnabled is!
         for (int i = 0; i < this.getTable().getRowCount(); i++) {
             tableData.setValueAt(status, i, 4);
-            ((AlertDefinitionDetails) this.getCOMObjects().get(i).getObject()).setGenerationEnabled(status);
+            //((AlertDefinitionDetails) this.getCOMObjects().get(i).getObject()).setGenerationEnabled(status);
+            AlertDefinitionDetails def = (AlertDefinitionDetails) this.getCOMObjects().get(i).getObject();
+            AlertDefinitionDetails newDef = this.generateNewAlertDef(def, status);
+            this.getCOMObjects().get(i).setObject(newDef);
         }
 
         semaphore.release();
+    }
+
+    public AlertDefinitionDetails generateNewAlertDef(AlertDefinitionDetails def, boolean generation) {
+        return new AlertDefinitionDetails(def.getDescription(),
+                def.getSeverity(),
+                generation,
+                def.getArguments());
     }
 
     @Override

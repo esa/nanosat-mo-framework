@@ -35,7 +35,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.exec.environment.EnvironmentUtils;
-import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectKey;
@@ -47,6 +46,7 @@ import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.structures.Element;
+import org.ccsds.moims.mo.mal.structures.FineTime;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.IntegerList;
@@ -96,7 +96,7 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
         }
 
         commandExecutorServiceProvider = connection.startService(CommandExecutorServiceInfo.COMMANDEXECUTOR_SERVICE_NAME
-            .toString(), CommandExecutorHelper.COMMANDEXECUTOR_SERVICE, this);
+                .toString(), CommandExecutorHelper.COMMANDEXECUTOR_SERVICE, this);
 
         initialiased = true;
         timestamp = System.currentTimeMillis() - timestamp;
@@ -128,11 +128,11 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
         // Source could be mapped to an OperationActivity associated with this transaction, but for now
         // we don't need such fine tracking...
         final ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(null, null, connection
-            .getPrimaryConnectionDetails().getProviderURI());
+                .getPrimaryConnectionDetails().getProviderURI());
         final HeterogeneousList objBodies = new HeterogeneousList();
         objBodies.add(command);
         LongList objIds = archiveService.store(true, CommandExecutorServiceInfo.COMMAND_OBJECT_TYPE, connection
-            .getPrimaryConnectionDetails().getDomain(), archDetails, objBodies, null);
+                .getPrimaryConnectionDetails().getDomain(), archDetails, objBodies, null);
 
         if (objIds.size() == 1) {
             storedCommandObject = objIds.get(0);
@@ -202,12 +202,15 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
         Element eventBody = new Union(exitCode);
         IntegerList eventBodyList = new IntegerList(1);
         eventBodyList.add(exitCode);
-        final Long eventObjId = eventService.generateAndStoreEvent(CommandExecutorServiceInfo.EXECUTIONFINISHED_OBJECT_TYPE,
-            domain, eventBody, null, source, connection.getPrimaryConnectionDetails().getProviderURI(), null);
+        final Long eventObjId = eventService.generateAndStoreEvent(
+                CommandExecutorServiceInfo.EXECUTIONFINISHED_OBJECT_TYPE,
+                domain, eventBody, null, source,
+                connection.getPrimaryConnectionDetails().getProviderURI(), null);
         if (eventObjId != null) {
             try {
-                eventService.publishEvent(sourceURI, eventObjId, CommandExecutorServiceInfo.EXECUTIONFINISHED_OBJECT_TYPE,
-                    null, source, eventBodyList);
+                eventService.publishEvent(sourceURI, eventObjId,
+                        CommandExecutorServiceInfo.EXECUTIONFINISHED_OBJECT_TYPE,
+                        null, source, eventBodyList);
             } catch (IOException ex) {
                 LOGGER.log(Level.SEVERE, "Could not publish command exit event", ex);
             }
@@ -228,7 +231,7 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
             return cachedCommandDetails.get(objId);
         } else {
             Element retrievedObject = HelperArchive.getObjectBodyFromArchive(archiveService,
-                CommandExecutorServiceInfo.COMMAND_OBJECT_TYPE, connection.getPrimaryConnectionDetails().getDomain(), objId);
+                    CommandExecutorServiceInfo.COMMAND_OBJECT_TYPE, connection.getPrimaryConnectionDetails().getDomain(), objId);
             if (retrievedObject == null) {
                 throw new IOException("Could not retrieve Command object for objId: " + objId);
             }
@@ -240,14 +243,17 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
 
     private void updateCommandDetails(Long objId, CommandDetails command) {
         cachedCommandDetails.put(objId, command);
-        final ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(null, null,
-            ConfigurationProviderSingleton.getNetwork(), connection.getPrimaryConnectionDetails().getProviderURI(),
-            objId);
+        final ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(
+                null, null,
+                ConfigurationProviderSingleton.getNetwork(),
+                connection.getPrimaryConnectionDetails().getProviderURI(),
+                FineTime.now(),
+                objId);
         final HeterogeneousList objBodies = new HeterogeneousList();
         objBodies.add(command);
         try {
             archiveService.update(CommandExecutorServiceInfo.COMMAND_OBJECT_TYPE, connection.getPrimaryConnectionDetails()
-                .getDomain(), archDetails, objBodies, null);
+                    .getDomain(), archDetails, objBodies, null);
         } catch (MALException | MALInteractionException ex) {
             Logger.getLogger(CommandExecutorProviderServiceImpl.class.getName()).log(Level.SEVERE,
                     "Could not update COM Command object", ex);

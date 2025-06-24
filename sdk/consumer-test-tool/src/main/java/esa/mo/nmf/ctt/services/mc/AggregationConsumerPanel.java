@@ -560,7 +560,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
 
         try {
             serviceMCAggregation.getAggregationStub().enableFilter(false, boolPairList);
-            aggregationTable.switchFilterEnabledstatus(!curState);
+            aggregationTable.switchFilterEnabledStatus(!curState);
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }

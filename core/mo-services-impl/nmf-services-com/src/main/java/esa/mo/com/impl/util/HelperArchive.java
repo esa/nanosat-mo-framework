@@ -69,8 +69,9 @@ public class HelperArchive {
      */
     public static Boolean archiveDetailsContainsNull(ArchiveDetails archiveDetails) {
         // Check if null
-        return archiveDetails.getNetwork().getValue() == null || archiveDetails.getTimestamp() == null || archiveDetails
-                .getProvider().getValue() == null;
+        return archiveDetails.getNetwork().getValue() == null
+                || archiveDetails.getTimestamp() == null
+                || archiveDetails.getProvider().getValue() == null;
     }
 
     /**
@@ -139,8 +140,8 @@ public class HelperArchive {
      * @return The ArchiveDetailsList object
      */
     @Deprecated
-    public static ArchiveDetailsList generateArchiveDetailsList(final Long related, final ObjectId source,
-            final SingleConnectionDetails connectionDetails) {
+    public static ArchiveDetailsList generateArchiveDetailsList(final Long related,
+            final ObjectId source, final SingleConnectionDetails connectionDetails) {
         return generateArchiveDetailsList(related, source, connectionDetails.getProviderURI());
     }
 
@@ -173,36 +174,11 @@ public class HelperArchive {
      * @param provider Provider URI field
      * @return The ArchiveDetailsList object
      */
-    public static ArchiveDetailsList generateArchiveDetailsList(final Long related, final ObjectId source,
-            final Identifier network, final URI provider) {
-        return generateArchiveDetailsList(related, source,
-                ConfigurationProviderSingleton.getNetwork(), provider, FineTime.now());
-    }
-
-    /**
-     * Generates a ArchiveDetailsList structure with one ArchiveDetails object.
-     * The object instance identifier will be set as 0. The operation will use
-     * the submitted related, source, network and provider fields to fill-in the
-     * object. The fields network and provider are not set.
-     *
-     * @param related Related field
-     * @param source Source field
-     * @param network Network field
-     * @param provider Provider URI field
-     * @param timestamp Timestamp field
-     * @return The ArchiveDetailsList object
-     */
     public static ArchiveDetailsList generateArchiveDetailsList(final Long related,
-            final ObjectId source, final Identifier network, final URI provider, final FineTime timestamp) {
-        final ArchiveDetails archiveDetails = new ArchiveDetails(Long.valueOf(0),
-                new ObjectDetails(related, source),
-                network,
-                timestamp,
-                provider);
-
-        final ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
-        archiveDetailsList.add(archiveDetails);
-        return archiveDetailsList;
+            final ObjectId source, final Identifier network, final URI provider) {
+        return generateArchiveDetailsList(related, source,
+                ConfigurationProviderSingleton.getNetwork(),
+                provider, FineTime.now(), 0L);
     }
 
     /**
@@ -215,16 +191,18 @@ public class HelperArchive {
      * @param source Source field
      * @param network Network field
      * @param provider Provider field
+     * @param timestamp Timestamp field
      * @param objId Object instance identifier field
      * @return The ArchiveDetailsList object
      */
     public static ArchiveDetailsList generateArchiveDetailsList(final Long related,
-            final ObjectId source, Identifier network, final URI provider, final Long objId) {
+            final ObjectId source, Identifier network, final URI provider,
+            final FineTime timestamp, final Long objId) {
         network = (network == null) ? new Identifier("") : network;
         ArchiveDetails archiveDetails = new ArchiveDetails(objId,
                 new ObjectDetails(related, source),
                 network,
-                FineTime.now(),
+                timestamp,
                 provider);
 
         final ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
@@ -242,8 +220,8 @@ public class HelperArchive {
      * @return The object body of the retrieved COM object or null if no object
      * was returned
      */
-    public static Element getObjectBodyFromArchive(final Object archiveService, final ObjectType objType,
-            final IdentifierList domain, final Long objId) {
+    public static Element getObjectBodyFromArchive(final Object archiveService,
+            final ObjectType objType, final IdentifierList domain, final Long objId) {
         final LongList objIds = new LongList();
         objIds.add(objId);
         final ElementList objs = (ElementList) getFromArchive(archiveService, objType, domain, objIds,
@@ -269,8 +247,8 @@ public class HelperArchive {
      * no object was returned
      */
     @Deprecated
-    public static HeterogeneousList getObjectBodyListFromArchive(Object archiveService, final ObjectType objType,
-            final IdentifierList domain, final LongList objIds) {
+    public static HeterogeneousList getObjectBodyListFromArchive(Object archiveService,
+            final ObjectType objType, final IdentifierList domain, final LongList objIds) {
         return (HeterogeneousList) getFromArchive(archiveService, objType, domain, objIds, ToBeReturned.OBJECT_BODY, true);
     }
 
@@ -330,8 +308,8 @@ public class HelperArchive {
      * or null if no object was returned
      */
     @Deprecated
-    public static ArchiveDetailsList getArchiveDetailsListFromArchive(Object archiveService, final ObjectType objType,
-            final IdentifierList domain, final LongList objIds) {
+    public static ArchiveDetailsList getArchiveDetailsListFromArchive(Object archiveService,
+            final ObjectType objType, final IdentifierList domain, final LongList objIds) {
         return (ArchiveDetailsList) getFromArchive(archiveService, objType, domain, objIds,
                 ToBeReturned.ARCHIVE_DETAILS, true);
     }
@@ -346,8 +324,8 @@ public class HelperArchive {
      * retrieved
      * @return The COM object or null if no object was returned
      */
-    public static ArchivePersistenceObject getArchiveCOMObject(Object archiveService, final ObjectType objType,
-            final IdentifierList domain, final Long objId) {
+    public static ArchivePersistenceObject getArchiveCOMObject(Object archiveService,
+            final ObjectType objType, final IdentifierList domain, final Long objId) {
         LongList objIds = new LongList();
         objIds.add(objId);
 
@@ -426,8 +404,9 @@ public class HelperArchive {
                 ((ArchiveStub) archiveService).retrieve(objType, domain, objIds,
                         (HelperRemoteArchiveRetrieveAdapter) adapter);
             } else {
-                LOGGER.log(Level.SEVERE, "The Archive service provided ({0}) is not a supported class!", archiveService
-                        .getClass().toString());
+                LOGGER.log(Level.SEVERE,
+                        "The Archive service provided ({0}) is not a supported class!",
+                        archiveService.getClass().toString());
                 return null;
             }
         } catch (MALInteractionException ex) {

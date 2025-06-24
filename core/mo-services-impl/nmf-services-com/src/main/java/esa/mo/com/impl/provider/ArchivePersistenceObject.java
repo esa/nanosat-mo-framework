@@ -32,7 +32,8 @@ import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.URI;
 
 /**
- * This class used to be a direct Entity for the db, now it is just a COM Object carrier.
+ * This class used to be a direct Entity for the db, now it is just a COM Object
+ * carrier.
  *
  * @author Cesar Coelho
  */
@@ -51,10 +52,10 @@ public class ArchivePersistenceObject implements Serializable {
     //    private final Element obj;
 
     // The Element wrapping was removed!
-    private final Object object;
+    private Object object;
 
-    public ArchivePersistenceObject(final ObjectType objectType, final IdentifierList domain, final Long objId,
-        final ArchiveDetails archiveDetails, final Object object) {
+    public ArchivePersistenceObject(final ObjectType objectType, final IdentifierList domain,
+            final Long objId, final ArchiveDetails archiveDetails, final Object object) {
         this.objectType = objectType;
         this.domainId = domain;
         this.objId = objId;
@@ -62,7 +63,7 @@ public class ArchivePersistenceObject implements Serializable {
         this.providerURI = (archiveDetails.getProvider() != null) ? archiveDetails.getProvider().getValue() : null;
         this.network = (archiveDetails.getNetwork() != null) ? archiveDetails.getNetwork().getValue() : null;
         this.timestampArchiveDetails = (archiveDetails.getTimestamp() != null) ? archiveDetails.getTimestamp()
-            .getValue() : 0;
+                .getValue() : 0;
 
         this.sourceLink = archiveDetails.getDetails().getSource();
         this.relatedLink = archiveDetails.getDetails().getRelated();
@@ -89,13 +90,16 @@ public class ArchivePersistenceObject implements Serializable {
     public ArchiveDetails getArchiveDetails() {
         final Identifier net = (this.network == null) ? null : new Identifier(network);
         final URI uri = (this.providerURI == null) ? null : new URI(providerURI);
-        return new ArchiveDetails(objId, new ObjectDetails(relatedLink, sourceLink), net, new FineTime(
-            timestampArchiveDetails), uri);
+        return new ArchiveDetails(objId, new ObjectDetails(relatedLink, sourceLink),
+                net, new FineTime(timestampArchiveDetails), uri);
     }
 
     public Object getObject() {
-        //        return HelperAttributes.attribute2JavaType(obj);
         return this.object;
+    }
+
+    public void setObject(Object obj) {
+        this.object = obj;
     }
 
 }

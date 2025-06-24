@@ -20,7 +20,7 @@ under the License. -->
     <groupId>int.esa.nmf.core</groupId>
     <artifactId>nmf-composites</artifactId>
     <packaging>jar</packaging>
-    <name>NMF Composites</name>
+    <name>ESA NMF Core - NMF Composites</name>
     <description>NanoSat MO Framework Composites</description>
     <url>http://www.esa.int</url>
     <organization>

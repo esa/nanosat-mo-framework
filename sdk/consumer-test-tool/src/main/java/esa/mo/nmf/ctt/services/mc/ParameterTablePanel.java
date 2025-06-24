@@ -41,7 +41,6 @@ public class ParameterTablePanel extends SharedTablePanel {
 
     @Override
     public void addEntry(final Identifier name, final ArchivePersistenceObject comObject) {
-
         if (comObject == null) {
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE,
                     "The table cannot process a null COM Object.");
@@ -79,7 +78,10 @@ public class ParameterTablePanel extends SharedTablePanel {
 
         // 5 because it is where generationEnabled is!
         tableData.setValueAt(status, this.getSelectedRow(), 5);
-        ((ParameterDefinitionDetails) this.getSelectedCOMObject().getObject()).setGenerationEnabled(status);
+        //((ParameterDefinitionDetails) this.getSelectedCOMObject().getObject()).setGenerationEnabled(status);
+        ParameterDefinitionDetails def = (ParameterDefinitionDetails) this.getSelectedCOMObject().getObject();
+        ParameterDefinitionDetails newDef = this.generateNewParameterDef(def, status);
+        this.getSelectedCOMObject().setObject(newDef);
 
         semaphore.release();
     }
@@ -94,10 +96,23 @@ public class ParameterTablePanel extends SharedTablePanel {
         // 5 because it is where generationEnabled is!
         for (int i = 0; i < this.getTable().getRowCount(); i++) {
             tableData.setValueAt(status, i, 5);
-            ((ParameterDefinitionDetails) this.getCOMObjects().get(i).getObject()).setGenerationEnabled(status);
+            //((ParameterDefinitionDetails) this.getCOMObjects().get(i).getObject()).setGenerationEnabled(status);
+            ParameterDefinitionDetails def = (ParameterDefinitionDetails) this.getCOMObjects().get(i).getObject();
+            ParameterDefinitionDetails newDef = this.generateNewParameterDef(def, status);
+            this.getCOMObjects().get(i).setObject(newDef);
         }
 
         semaphore.release();
+    }
+
+    public ParameterDefinitionDetails generateNewParameterDef(ParameterDefinitionDetails def, boolean generation) {
+        return new ParameterDefinitionDetails(def.getDescription(),
+                def.getRawType(),
+                def.getRawUnit(),
+                generation,
+                def.getReportInterval(),
+                def.getValidityExpression(),
+                def.getConversion());
     }
 
     @Override

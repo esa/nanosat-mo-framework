@@ -199,8 +199,8 @@ public final class AggregationManager extends MCManager {
         sampleCountList.remove(identityId);
     }
 
-    public Long storeAndGenerateAValobjId(AggregationValue aVal, Long related, ObjectId source, URI uri,
-            FineTime timestamp) {
+    public Long storeAndGenerateAValobjId(AggregationValue aVal, Long related,
+            ObjectId source, URI uri, FineTime timestamp) {
         if (super.getArchiveService() == null) {
             uniqueObjIdAVal++;
             return this.uniqueObjIdAVal;
@@ -219,7 +219,8 @@ public final class AggregationManager extends MCManager {
                                 source,
                                 ConfigurationProviderSingleton.getNetwork(),
                                 uri,
-                                timestamp), //requirement: 3.7.4.e
+                                timestamp,
+                                0L),
                         aValList,
                         null);
 
@@ -232,7 +233,6 @@ public final class AggregationManager extends MCManager {
 
             return null;
         }
-
     }
 
     /**
