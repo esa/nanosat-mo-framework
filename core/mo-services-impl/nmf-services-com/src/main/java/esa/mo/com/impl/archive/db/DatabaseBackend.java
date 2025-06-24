@@ -128,12 +128,6 @@ public class DatabaseBackend {
         startDatabaseDriver(this.url, this.user, this.password);
 
         try {
-            checkIfMigrationNeeded();
-        } catch (SQLException ex) {
-            Logger.getLogger(DatabaseBackend.class.getName()).log(Level.FINE, "Migration not needed...");
-        }
-
-        try {
             String blobType = "BLOB";
             if (this.url.contains("postgresql")) {
                 blobType = "bytea";
@@ -153,28 +147,6 @@ public class DatabaseBackend {
             System.exit(0);
         }
 
-    }
-
-    private void checkIfMigrationNeeded() throws SQLException {
-        Statement mig = serverConnection.createStatement();
-        // The first query will throw exception to the outside
-        mig.execute("ALTER TABLE COMObjectEntity RENAME COLUMN OBJ TO objBody");
-
-        Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.INFO,
-                "Migrating the database to new Table schemas...");
-        try {
-            mig.execute("ALTER TABLE DomainHolderEntity RENAME COLUMN domainString TO value");
-            mig.execute("ALTER TABLE DomainHolderEntity RENAME TO FastDomain");
-            mig.execute("ALTER TABLE NetworkHolderEntity RENAME COLUMN networkString TO value");
-            mig.execute("ALTER TABLE NetworkHolderEntity RENAME TO FastNetwork");
-            mig.execute("ALTER TABLE ObjectTypeHolderEntity RENAME COLUMN objectType TO value");
-            mig.execute("ALTER TABLE ObjectTypeHolderEntity RENAME TO FastObjectType");
-            mig.execute("ALTER TABLE ProviderURIHolderEntity RENAME COLUMN providerURIString TO value");
-            mig.execute("ALTER TABLE ProviderURIHolderEntity RENAME TO FastProviderURI");
-        } catch (SQLException ex1) {
-            Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex1);
-        }
-        Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.INFO, "Database migrated successfully!");
     }
 
     public void createIndexesIfFirstTime() {
