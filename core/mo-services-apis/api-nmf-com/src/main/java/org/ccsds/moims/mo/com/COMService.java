@@ -59,7 +59,6 @@ public abstract class COMService extends ServiceInfo {
      * @param object The new object to add.
      * @throws java.lang.IllegalArgumentException If the argument is null.
      */
-    @Proposed
     public void addCOMObject(COMObject object) throws java.lang.IllegalArgumentException {
         if (object == null) {
             throw new IllegalArgumentException("object must not be null.");
