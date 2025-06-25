@@ -88,7 +88,6 @@ public class HeartbeatProviderServiceImpl extends HeartbeatInheritanceSkeleton {
 
         running = true;
         initialiased = true;
-        LOGGER.info("Heartbeat service READY");
 
         // Start the timer to publish the heartbeat
         timer = new Timer("HeartbeatThread");
