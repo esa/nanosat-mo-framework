@@ -92,15 +92,15 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
         LOGGER.log(Level.INFO, this.generateStartBanner());
 
         // Loads: provider.properties; settings.properties; transport.properties
+        NMFProvider.loadMOElements();
         HelperMisc.loadPropertiesFile();
         ConnectionProvider.resetURILinksFile();
-        NMFProvider.loadMOElements();
 
         // Check if we are running as root when we have the NMF in Mode 2
         String user = System.getProperties().getProperty("user.name", "?");
-        String mode = System.getProperties().getProperty(HelperMisc.PROP_WORK_DIR_STORAGE_MODE, "?");
+        //String mode = System.getProperties().getProperty(HelperMisc.PROP_WORK_DIR_STORAGE_MODE, "?");
 
-        if ("root".equals(user) && mode.equals("2")) {
+        if ("root".equals(user)) {
             throw new RuntimeException("Do not run the NanoSat MO Supervisor as root!");
         }
 

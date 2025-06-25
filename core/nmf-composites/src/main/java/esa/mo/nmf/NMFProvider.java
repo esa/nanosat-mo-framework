@@ -299,12 +299,23 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
      * Loads the MO Elements for all the sets of services.
      */
     public static void loadMOElements() {
-        // Load the MAL factories for the supported services
-        MALContextFactory.getElementsRegistry().loadFullArea(COMHelper.COM_AREA);
-        MALContextFactory.getElementsRegistry().loadFullArea(MCHelper.MC_AREA);
-        MALContextFactory.getElementsRegistry().loadFullArea(CommonHelper.COMMON_AREA);
-        MALContextFactory.getElementsRegistry().loadFullArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA);
-        MALContextFactory.getElementsRegistry().loadFullArea(PlatformHelper.PLATFORM_AREA);
+        Thread t1 = new Thread() {
+            @Override
+            public void run() {
+                long duration = System.currentTimeMillis();
+                // Load the MAL factories for the supported services
+                MALContextFactory.getElementsRegistry().loadFullArea(COMHelper.COM_AREA);
+                MALContextFactory.getElementsRegistry().loadFullArea(MCHelper.MC_AREA);
+                MALContextFactory.getElementsRegistry().loadFullArea(CommonHelper.COMMON_AREA);
+                MALContextFactory.getElementsRegistry().loadFullArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA);
+                MALContextFactory.getElementsRegistry().loadFullArea(PlatformHelper.PLATFORM_AREA);
+
+                duration = System.currentTimeMillis() - duration;
+                Logger.getLogger(NMFProvider.class.getName()).log(Level.INFO,
+                        "The MO Areas were loaded in: {0} ms", duration);
+            }
+        };
+        t1.start();
     }
 
     public final void writeCentralDirectoryServiceURI(final String centralDirectoryURI, final String secondaryURI) {
