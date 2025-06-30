@@ -14,7 +14,7 @@ This will build all examples and put them into a zip release and a folder which 
 
 Space app examples
 ------------------
-In the folder `sdk/examples/space <https://github.com/esa/nanosat-mo-framework/tree/master/sdk/examples/space>`_ you will find several completely implemented apps which can run on any cubesat running the NMF.
+In the folder `sdk/examples-space <https://github.com/esa/nanosat-mo-framework/tree/master/sdk/examples-space>`_ you will find several completely implemented apps which can run on any cubesat running the NMF.
 These examples are also a great starting point when you begin to develop your own apps.
 
 The examples include:
@@ -34,7 +34,7 @@ The examples include:
 
 Ground application examples
 ---------------------------
-In the folder `sdk/examples/ground <https://github.com/esa/nanosat-mo-framework/tree/master/sdk/examples/ground>`_ you will find several completely implemented ground applications which can run on ground and connect to remote NMF Apps.
+In the folder `sdk/examples-ground <https://github.com/esa/nanosat-mo-framework/tree/master/sdk/examples-ground>`_ you will find several completely implemented ground applications which can run on ground and connect to remote NMF Apps.
 
 ESA has developed a generic M&C system which can already connect to any NMF App. This software is known as EUD4MO.
 
