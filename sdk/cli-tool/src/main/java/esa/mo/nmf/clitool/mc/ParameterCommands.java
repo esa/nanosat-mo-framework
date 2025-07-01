@@ -52,7 +52,7 @@ import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.MCHelper;
 import org.ccsds.moims.mo.mc.aggregation.AggregationServiceInfo;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetails;
+import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinition;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSet;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterValue;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationSetValue;
@@ -279,7 +279,7 @@ public class ParameterCommands {
                     for (Map.Entry<Long, List<TimestampedAggregationValue>> entry : aggregationValuesMap.get(domainKey)
                             .entrySet()) {
                         Long definitionId = entry.getKey();
-                        AggregationDefinitionDetails definition = aggregationsAdapter.getAggregationDefinitions().get(
+                        AggregationDefinition definition = aggregationsAdapter.getAggregationDefinitions().get(
                                 domainKey).get(definitionId);
 
                         for (TimestampedAggregationValue aggregationValue : entry.getValue()) {

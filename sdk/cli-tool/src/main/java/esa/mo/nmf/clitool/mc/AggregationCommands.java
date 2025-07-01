@@ -57,7 +57,7 @@ import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.aggregation.AggregationServiceInfo;
 import org.ccsds.moims.mo.mc.aggregation.consumer.AggregationAdapter;
 import org.ccsds.moims.mo.mc.aggregation.consumer.AggregationStub;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetails;
+import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinition;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSet;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterValue;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterValueList;
@@ -243,7 +243,7 @@ public class AggregationCommands {
                     public void retrieveResponseReceived(MALMessageHeader msgHeader, ArchiveDetailsList objDetails,
                             HeterogeneousList objBodies, Map qosProperties) {
                         for (int i = 0; i < objDetails.size(); ++i) {
-                            AggregationDefinitionDetails details = (AggregationDefinitionDetails) objBodies.get(i);
+                            AggregationDefinition details = (AggregationDefinition) objBodies.get(i);
                             if (details.getGenerationEnabled()) {
                                 for (AggregationParameterSet set : details.getParameterSets()) {
                                     parameterIds.addAll(set.getParameters());

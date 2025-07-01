@@ -32,8 +32,8 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.Union;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinition;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 
@@ -69,10 +69,10 @@ public class DemoHelloWorldFull {
             registrationObject.setMode(RegistrationMode.DONT_UPDATE_IF_EXISTS);
 
             // ------------------ Parameters ------------------
-            final ParameterDefinitionDetailsList defs = new ParameterDefinitionDetailsList();
+            final ParameterDefinitionList defs = new ParameterDefinitionList();
             final IdentifierList names = new IdentifierList();
 
-            defs.add(new ParameterDefinitionDetails(PARAMETER_DESCRIPTION, Union.STRING_SHORT_FORM.byteValue(), "",
+            defs.add(new ParameterDefinition(PARAMETER_DESCRIPTION, Union.STRING_SHORT_FORM.byteValue(), "",
                 false, new Duration(3), null, null));
             names.add(new Identifier(PARAMETER_NAME));
             registrationObject.registerParameters(names, defs);

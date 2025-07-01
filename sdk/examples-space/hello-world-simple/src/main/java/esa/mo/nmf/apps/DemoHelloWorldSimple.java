@@ -29,12 +29,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.ccsds.moims.mo.mal.structures.*;
-import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetails;
-import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetailsList;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetailsList;
-import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetails;
-import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.action.structures.ActionDefinition;
+import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionList;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinition;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionList;
+import org.ccsds.moims.mo.mc.structures.ArgumentDefinition;
+import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionList;
 import org.ccsds.moims.mo.mc.structures.ConditionalConversionList;
 
 /**
@@ -70,19 +70,19 @@ public class DemoHelloWorldSimple {
             registrationObject.setMode(RegistrationMode.DONT_UPDATE_IF_EXISTS);
 
             // ------------------ Parameters ------------------
-            final ParameterDefinitionDetailsList defs = new ParameterDefinitionDetailsList();
+            final ParameterDefinitionList defs = new ParameterDefinitionList();
             final IdentifierList names = new IdentifierList();
 
-            defs.add(new ParameterDefinitionDetails(PARAMETER_DESCRIPTION, Union.STRING_SHORT_FORM.byteValue(), "",
+            defs.add(new ParameterDefinition(PARAMETER_DESCRIPTION, Union.STRING_SHORT_FORM.byteValue(), "",
                 false, new Duration(3), null, null));
             names.add(new Identifier(PARAMETER_NAME));
             registrationObject.registerParameters(names, defs);
 
             // ------------------ Actions ------------------
-            ActionDefinitionDetailsList actionDefs = new ActionDefinitionDetailsList();
+            ActionDefinitionList actionDefs = new ActionDefinitionList();
             IdentifierList actionNames = new IdentifierList();
 
-            ArgumentDefinitionDetailsList arguments1 = new ArgumentDefinitionDetailsList();
+            ArgumentDefinitionList arguments1 = new ArgumentDefinitionList();
             {
                 Byte rawType = Attribute._DOUBLE_TYPE_SHORT_FORM;
                 String rawUnit = "-";
@@ -90,11 +90,11 @@ public class DemoHelloWorldSimple {
                 Byte convertedType = null;
                 String convertedUnit = null;
 
-                arguments1.add(new ArgumentDefinitionDetails(new Identifier("1"), null, rawType, rawUnit,
+                arguments1.add(new ArgumentDefinition(new Identifier("1"), null, rawType, rawUnit,
                     conditionalConversions, convertedType, convertedUnit));
             }
 
-            actionDefs.add(new ActionDefinitionDetails("Simple Go action with double value.", new UOctet((short) 0),
+            actionDefs.add(new ActionDefinition("Simple Go action with double value.", new UOctet((short) 0),
                 new UShort(3), arguments1));
             actionNames.add(new Identifier(ACTION_GO));
 

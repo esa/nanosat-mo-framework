@@ -48,13 +48,13 @@ import org.ccsds.moims.mo.mal.structures.UIntegerList;
 import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mc.action.structures.ActionCreationRequest;
 import org.ccsds.moims.mo.mc.action.structures.ActionCreationRequestList;
-import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionList;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationCreationRequest;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationCreationRequestList;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionList;
 import org.ccsds.moims.mo.mc.alert.structures.AlertCreationRequest;
 import org.ccsds.moims.mo.mc.alert.structures.AlertCreationRequestList;
-import org.ccsds.moims.mo.mc.alert.structures.AlertDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.alert.structures.AlertDefinitionList;
 import org.ccsds.moims.mo.mc.conversion.ConversionServiceInfo;
 import org.ccsds.moims.mo.mc.conversion.structures.DiscreteConversionDetailsList;
 import org.ccsds.moims.mo.mc.conversion.structures.LineConversionDetailsList;
@@ -62,7 +62,7 @@ import org.ccsds.moims.mo.mc.conversion.structures.PolyConversionDetailsList;
 import org.ccsds.moims.mo.mc.conversion.structures.RangeConversionDetailsList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterCreationRequest;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterCreationRequestList;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionList;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 
@@ -116,7 +116,7 @@ public class MCRegistration {
      * @return The parameter object instance identifiers of the
      * ParameterIdentity objects.
      */
-    public LongList registerParameters(final IdentifierList names, final ParameterDefinitionDetailsList definitions) {
+    public LongList registerParameters(final IdentifierList names, final ParameterDefinitionList definitions) {
         // Some validation
         if (names == null || definitions == null) {
             return null;
@@ -128,7 +128,7 @@ public class MCRegistration {
 
         try {
             ObjectInstancePairList duplicateIds = new ObjectInstancePairList();
-            ParameterDefinitionDetailsList duplicateDefs = new ParameterDefinitionDetailsList();
+            ParameterDefinitionList duplicateDefs = new ParameterDefinitionList();
             duplicateDefs.addAll(definitions);
 
             try {
@@ -197,7 +197,7 @@ public class MCRegistration {
      * AggregationIdentity objects.
      */
     public LongList registerAggregations(final IdentifierList names,
-            final AggregationDefinitionDetailsList definitions) {
+            final AggregationDefinitionList definitions) {
         // Some validation
         if (names == null || definitions == null) {
             return null;
@@ -209,7 +209,7 @@ public class MCRegistration {
 
         try {
             ObjectInstancePairList duplicateIds = new ObjectInstancePairList();
-            AggregationDefinitionDetailsList duplicateDefs = new AggregationDefinitionDetailsList();
+            AggregationDefinitionList duplicateDefs = new AggregationDefinitionList();
             duplicateDefs.addAll(definitions);
 
             try {
@@ -277,7 +277,7 @@ public class MCRegistration {
      * @return The aggregation object instance identifiers of the AlertIdentity
      * objects.
      */
-    public LongList registerAlerts(final IdentifierList names, final AlertDefinitionDetailsList definitions) {
+    public LongList registerAlerts(final IdentifierList names, final AlertDefinitionList definitions) {
         // Some validation
         if (names == null || definitions == null) {
             return null;
@@ -289,7 +289,7 @@ public class MCRegistration {
 
         try {
             ObjectInstancePairList duplicateIds = new ObjectInstancePairList();
-            AlertDefinitionDetailsList duplicateDefs = new AlertDefinitionDetailsList();
+            AlertDefinitionList duplicateDefs = new AlertDefinitionList();
             duplicateDefs.addAll(definitions);
 
             try {
@@ -357,7 +357,7 @@ public class MCRegistration {
      * @return The aggregation object instance identifiers of the ActionIdentity
      * objects.
      */
-    public LongList registerActions(final IdentifierList names, final ActionDefinitionDetailsList definitions) {
+    public LongList registerActions(final IdentifierList names, final ActionDefinitionList definitions) {
         // Some validation
         if (names == null || definitions == null) {
             return null;
@@ -369,7 +369,7 @@ public class MCRegistration {
 
         try {
             ObjectInstancePairList duplicateIds = new ObjectInstancePairList();
-            ActionDefinitionDetailsList duplicateDefs = new ActionDefinitionDetailsList();
+            ActionDefinitionList duplicateDefs = new ActionDefinitionList();
             duplicateDefs.addAll(definitions);
 
             try {

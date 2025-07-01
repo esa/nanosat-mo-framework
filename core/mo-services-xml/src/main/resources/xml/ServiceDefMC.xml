@@ -115,8 +115,8 @@
                     <mal:item value="HIPRIORITY" nvalue="2" comment="Category for high priority actions"/>
                     <mal:item value="CRITICAL" nvalue="3" comment="Category for critical actions"/>
                 </mal:enumeration>
-                <mal:composite name="ActionDefinitionDetails" shortFormPart="1"
-                               comment="The ActionDefinitionDetails structure holds the definition information of an action.">
+                <mal:composite name="ActionDefinition" shortFormPart="1"
+                               comment="The ActionDefinition structure holds the definition information of an action.">
                     <mal:extends>
                         <mal:type name="Composite" area="MAL"/>
                     </mal:extends>
@@ -133,7 +133,7 @@
                     </mal:field>
                     <mal:field name="arguments"
                                comment="The list of argument definitions. If no arguments are defined, then the complete list is replaced with a NULL.">
-                        <mal:type list="true" name="ArgumentDefinitionDetails" area="MC"/>
+                        <mal:type list="true" name="ArgumentDefinition" area="MC"/>
                     </mal:field>
                 </mal:composite>
                 <mal:composite name="ActionInstanceDetails" shortFormPart="2"
@@ -181,7 +181,7 @@
                     </mal:field>
                     <mal:field name="actionDefDetails" canBeNull="false"
                                comment="The action definition details.">
-                        <mal:type name="ActionDefinitionDetails" service="Action" area="MC"/>
+                        <mal:type name="ActionDefinition" service="Action" area="MC"/>
                     </mal:field>
                 </mal:composite>
             </mal:dataTypes>
@@ -215,7 +215,7 @@
                                   alignment-baseline="middle">2</svg:text>
                         <svg:text x="88.5" y="234" font-family="Verdana" font-size="12" fill="navy"
                                   text-anchor="middle"
-                                  alignment-baseline="middle">ActionDefinitionDetails</svg:text>
+                                  alignment-baseline="middle">ActionDefinition</svg:text>
                         <svg:rect x="290" y="310" fill="#FCF2E3" stroke="black" stroke-width="2" width="137"
                                   height="60"/>
                         <svg:text x="358.5" y="328" font-family="Verdana" font-size="12" fill="navy"
@@ -283,7 +283,7 @@
                     </com:object>
                     <com:object name="ActionDefinition" number="2">
                         <com:objectType>
-                            <mal:type name="ActionDefinitionDetails" service="Action" area="MC"/>
+                            <mal:type name="ActionDefinition" service="Action" area="MC"/>
                         </com:objectType>
                         <com:relatedObject>
                             <com:objectType number="1" service="Action" area="MC"/>
@@ -337,9 +337,9 @@
                 The validity of parameter shall be calculated against validity criteria in the parameter definition.
                 It shall be possible to update, delete, and add parameter definitions.
                 The list of the parameters definitions may be requested.</mal:documentation>
-            <mal:documentation name="Functional Requirements" order="2">The generation of reports of the parameter shall be controlled by the generationEnabled Boolean value in the ParameterDefinitionDetails.
+            <mal:documentation name="Functional Requirements" order="2">The generation of reports of the parameter shall be controlled by the generationEnabled Boolean value in the ParameterDefinition.
                 Setting the generationEnabled field to TRUE shall enable generation of reports for a specific parameter.
-                If a parameter is required to send periodic reports then the time between these reports shall be controlled using the reportInterval Duration value in the ParameterDefinitionDetails.
+                If a parameter is required to send periodic reports then the time between these reports shall be controlled using the reportInterval Duration value in the ParameterDefinition.
                 A reportInterval value of '0' shall mean no periodic reports shall be sent; reports must be triggered by another implementation-specific mechanism in this case.
                 The generationEnabled values can be set by using the enableGeneration operation.
                 The generationEnabled and reportInterval values can be set by using the updateDefinition operation.
@@ -347,12 +347,12 @@
                 If an interval that is not supported by the provider is requested, then an INVALID error shall be returned, and the change rejected.
                 If the parameter is periodic and reported via a periodic aggregation, and a new report has not been received in the aggregation period, then the validity shall be set to EXPIRED by setting the ParameterValue validityState field to '1'.
                 If the parameter raw value cannot be obtained, or calculated for synthetic parameters, then the validity state shall be INVALID_RAW by setting the ParameterValue validityState field to '2' and the rawValue set to NULL.
-                If the validityExpression field is NULL, or the validity expression evaluates to TRUE, and the ParameterDefinitionDetails either does not contain a conversion or the conversion is successful, then the validity state shall be set to VALID by setting the ParameterValue validityState field to '0'.
+                If the validityExpression field is NULL, or the validity expression evaluates to TRUE, and the ParameterDefinition either does not contain a conversion or the conversion is successful, then the validity state shall be set to VALID by setting the ParameterValue validityState field to '0'.
                 If the validityExpression field is NULL, or the validity expression evaluates to TRUE, and the conversion of the parameter value fails (for example an unexpected value for a discrete conversion), then the validity state shall be INVALID_CONVERSION by setting the ParameterValue validityState field to '3'.
                 If the validityExpression field is not NULL and the parameters used to determine the expression are not VALID, then the validity state shall be set to UNVERIFIED by setting the ParameterValue validityState field to '4'.
                 If the validityExpression field is not NULL and the validity expression evaluates to FALSE, then the validity state shall be set to INVALID by setting the ParameterValue validityState field to '5'.
                 If the validity of the parameter is INVALID_CONVERSION then the convertedValue of the ParameterValue shall be set to NULL.
-                If the validity of the parameter is either UNVERIFIED or INVALID and the ParameterDefinitionDetails contains a conversion, then the convertedValue of the ParameterValue shall contain the converted value.
+                If the validity of the parameter is either UNVERIFIED or INVALID and the ParameterDefinition contains a conversion, then the convertedValue of the ParameterValue shall contain the converted value.
                 It is supported that other, implementation specific, mechanisms may be used to determine parameter validity.
                 It is supported that other, deployment specific, validityState values be used however the meaning of those values is deployment specific and outside the scope of this standard. They must use values greater than 127.</mal:documentation>
             <mal:capabilitySet number="1">
@@ -506,8 +506,8 @@
                                 <mal:type list="true" name="Long" area="MAL"/>
                             </mal:field>
                             <mal:field name="paramDefDetails"
-                                       comment="The paramDefDetails field shall contain the replacement ParameterDefinitionDetails.&#xA;The two lists shall be ordered the same.&#xA;The number of entries in the two lists shall be the same size otherwise an INVALID error shall be returned.&#xA;If the supplied reportInterval value is not supported by the provider then an INVALID error shall be returned.&#xA;If an error is raised then no definitions shall be updated as a result of this operation call.&#xA;The provider shall create a new ParameterDefinition object and store it in the COM archive.&#xA;The new ParameterDefinition object shall be the current ParameterDefinition used for the specific ParameterIdentity.">
-                                <mal:type list="true" name="ParameterDefinitionDetails" service="Parameter" area="MC"/>
+                                       comment="The paramDefDetails field shall contain the replacement ParameterDefinition.&#xA;The two lists shall be ordered the same.&#xA;The number of entries in the two lists shall be the same size otherwise an INVALID error shall be returned.&#xA;If the supplied reportInterval value is not supported by the provider then an INVALID error shall be returned.&#xA;If an error is raised then no definitions shall be updated as a result of this operation call.&#xA;The provider shall create a new ParameterDefinition object and store it in the COM archive.&#xA;The new ParameterDefinition object shall be the current ParameterDefinition used for the specific ParameterIdentity.">
+                                <mal:type list="true" name="ParameterDefinition" service="Parameter" area="MC"/>
                             </mal:field>
                         </mal:request>
                         <mal:response>
@@ -548,8 +548,8 @@
                     <mal:item value="INVALID" nvalue="5"
                               comment="The validity expression has been evaluated to FALSE"/>
                 </mal:enumeration>
-                <mal:composite name="ParameterDefinitionDetails" shortFormPart="1"
-                               comment="The ParameterDefinitionDetails structure holds a parameter definition. The conversion field defines the conditions where the relevant conversion is applied. For onboard parameters, the report interval should be a multiple of the minimum sampling interval of that parameter.">
+                <mal:composite name="ParameterDefinition" shortFormPart="1"
+                               comment="The ParameterDefinition structure holds a parameter definition. The conversion field defines the conditions where the relevant conversion is applied. For onboard parameters, the report interval should be a multiple of the minimum sampling interval of that parameter.">
                     <mal:extends>
                         <mal:type name="Composite" area="MAL"/>
                     </mal:extends>
@@ -627,7 +627,7 @@
                     </mal:field>
                     <mal:field name="paramDefDetails" canBeNull="false"
                                comment="The parameter definition details.">
-                        <mal:type name="ParameterDefinitionDetails" service="Parameter" area="MC"/>
+                        <mal:type name="ParameterDefinition" service="Parameter" area="MC"/>
                     </mal:field>
                 </mal:composite>
                 <mal:composite name="ParameterRawValue" shortFormPart="6"
@@ -692,7 +692,7 @@
                                   alignment-baseline="middle">2</svg:text>
                         <svg:text x="105" y="234" font-family="Verdana" font-size="12" fill="navy"
                                   text-anchor="middle"
-                                  alignment-baseline="middle">ParameterDefinitionDetails</svg:text>
+                                  alignment-baseline="middle">ParameterDefinition</svg:text>
                         <svg:rect x="20" y="310" fill="#FCF2E3" stroke="black" stroke-width="2" width="170"
                                   height="70"/>
                         <svg:text x="105" y="328" font-family="Verdana" font-size="12" fill="navy"
@@ -732,7 +732,7 @@
                     </com:object>
                     <com:object name="ParameterDefinition" number="2">
                         <com:objectType>
-                            <mal:type name="ParameterDefinitionDetails" service="Parameter" area="MC"/>
+                            <mal:type name="ParameterDefinition" service="Parameter" area="MC"/>
                         </com:objectType>
                         <com:relatedObject>
                             <com:objectType number="1" service="Parameter" area="MC"/>
@@ -763,7 +763,7 @@
                 The alert reporting service shall provide the capability to enable and disable the generation of alert reports.
                 It shall be possible to update, delete, and add alert definitions.
                 The list of the alert definitions may be requested.</mal:documentation>
-            <mal:documentation name="Functional Requirements" order="2">The generation of alerts shall be controlled by the generationEnabled Boolean value in the AlertDefinitionDetails.
+            <mal:documentation name="Functional Requirements" order="2">The generation of alerts shall be controlled by the generationEnabled Boolean value in the AlertDefinition.
                 Setting the generationEnabled field to TRUE shall enable generation of instances of that alert.
                 The generationEnabled value can be set by using either the enableGeneration or updateDefinition operations.
                 The alert instances shall be published as events using the COM event operations.</mal:documentation>
@@ -840,8 +840,8 @@
                                 <mal:type list="true" name="Long" area="MAL"/>
                             </mal:field>
                             <mal:field name="alertDefDetails"
-                                       comment="The alertDefDetails field shall contain the replacement AlertDefinitionDetails.&#xA;The two lists shall be ordered the same.&#xA;The number of entries in the two lists shall be the same size otherwise an INVALID error shall be returned.&#xA;If an error is raised then no definitions shall be updated as a result of this operation call.&#xA;The provider shall create a new AlertDefinition object and store it in the COM archive.&#xA;The new AlertDefinition object shall be the current AlertDefinition used for the specific AlertIdentity.">
-                                <mal:type list="true" name="AlertDefinitionDetails" service="Alert" area="MC"/>
+                                       comment="The alertDefDetails field shall contain the replacement AlertDefinition.&#xA;The two lists shall be ordered the same.&#xA;The number of entries in the two lists shall be the same size otherwise an INVALID error shall be returned.&#xA;If an error is raised then no definitions shall be updated as a result of this operation call.&#xA;The provider shall create a new AlertDefinition object and store it in the COM archive.&#xA;The new AlertDefinition object shall be the current AlertDefinition used for the specific AlertIdentity.">
+                                <mal:type list="true" name="AlertDefinition" service="Alert" area="MC"/>
                             </mal:field>
                         </mal:request>
                         <mal:response>
@@ -868,8 +868,8 @@
                 </mal:requestIP>
             </mal:capabilitySet>
             <mal:dataTypes>
-                <mal:composite name="AlertDefinitionDetails" shortFormPart="1"
-                               comment="The AlertDefinitionDetails provides the definition of an alert including any argument definitions.">
+                <mal:composite name="AlertDefinition" shortFormPart="1"
+                               comment="The AlertDefinition provides the definition of an alert including any argument definitions.">
                     <mal:extends>
                         <mal:type name="Composite" area="MAL"/>
                     </mal:extends>
@@ -884,7 +884,7 @@
                         <mal:type name="Boolean" area="MAL"/>
                     </mal:field>
                     <mal:field name="arguments" canBeNull="false" comment="The list of argument definitions.">
-                        <mal:type list="true" name="ArgumentDefinitionDetails" area="MC"/>
+                        <mal:type list="true" name="ArgumentDefinition" area="MC"/>
                     </mal:field>
                 </mal:composite>
                 <mal:composite name="AlertEventDetails" shortFormPart="2"
@@ -912,7 +912,7 @@
                     </mal:field>
                     <mal:field name="alertDefDetails" canBeNull="false"
                                comment="The alert definition details.">
-                        <mal:type name="AlertDefinitionDetails" service="Alert" area="MC"/>
+                        <mal:type name="AlertDefinition" service="Alert" area="MC"/>
                     </mal:field>
                 </mal:composite>
             </mal:dataTypes>
@@ -932,7 +932,7 @@
                                   alignment-baseline="middle">2</svg:text>
                         <svg:text x="88.5" y="214" font-family="Verdana" font-size="12" fill="navy"
                                   text-anchor="middle"
-                                  alignment-baseline="middle">AlertDefinitionDetails</svg:text>
+                                  alignment-baseline="middle">AlertDefinition</svg:text>
                         <svg:rect x="310" y="140" fill="#FCF2E3" stroke="black" stroke-width="2" width="190"
                                   height="80"/>
                         <svg:text x="405" y="158" font-family="Verdana" font-size="12" fill="navy"
@@ -986,7 +986,7 @@
                     </com:object>
                     <com:object name="AlertDefinition" number="2">
                         <com:objectType>
-                            <mal:type name="AlertDefinitionDetails" service="Alert" area="MC"/>
+                            <mal:type name="AlertDefinition" service="Alert" area="MC"/>
                         </com:objectType>
                         <com:relatedObject>
                             <com:objectType number="1" service="Alert" area="MC"/>
@@ -1024,13 +1024,13 @@
  &lt;li&gt;Ad-hoc reports for aggregations shall be triggered by some other deployment-specific means.&lt;/li&gt;
  &lt;li&gt;Filtered reports for aggregations shall be generated only when the value of one or more parameters in the aggregation has changed by more than a given threshold since the previous generation or when a timeout expires.&lt;/li&gt;
 &lt;/ol&gt;</mal:documentation>
-            <mal:documentation name="Functional Requirements" order="2">The generation of reports for an aggregation shall be controlled by the generationEnabled Boolean value in the AggregationDefinitionDetails structure.
+            <mal:documentation name="Functional Requirements" order="2">The generation of reports for an aggregation shall be controlled by the generationEnabled Boolean value in the AggregationDefinition structure.
                 Setting the generationEnabled field to TRUE shall enable generation of reports for a specific aggregation.
                 The generationEnabled values can be set by using the enableGeneration operation.
-                The filtering of reports for an aggregation shall be controlled by the filterEnabled Boolean value in the AggregationDefinitionDetails structure.
+                The filtering of reports for an aggregation shall be controlled by the filterEnabled Boolean value in the AggregationDefinition structure.
                 Setting the filterEnabled field to TRUE shall enable filtering of reports for a specific aggregation.
                 The filterEnabled values can be set by using the enableFilter operation.
-                If an aggregation is required to send periodic reports, then the time between these reports shall be controlled using the reportInterval Duration value in the AggregationDefinitionDetails structure.
+                If an aggregation is required to send periodic reports, then the time between these reports shall be controlled using the reportInterval Duration value in the AggregationDefinition structure.
                 Periodic reports for aggregations shall set the generationMode field of the AggregationValueInstance to PERIODIC.
                 No periodic reports shall be generated when the reportInterval field is set to '0' and reports will be triggered by another ad-hoc implementation-specific mechanism in this case.
                 Ad-hoc reports for aggregations shall set the generationMode field of the AggregationValueInstance to ADHOC.
@@ -1041,7 +1041,7 @@
                 The generationEnabled, filterEnabled, filteredTimeout, sendUnchanged and reportInterval values of an AggregationDefinition object can be set by using the updateDefinition operation.
                 If the filteredTimeout interval, reportInterval or one or more of the sampleIntervals requested are not supported by the provider then an INVALID error shall be returned and the creation or change rejected.
                 If the sendUnchanged field in the AggregationDefinition object is FALSE then parameter values that have not changed since the previous report shall be replaced by a NULL in the values list of the AggregationSetValue composite.
-                The ordering of the values in the AggregationValueInstance object shall match the ordering of parameters in the AggregationDefinitionDetails structure.</mal:documentation>
+                The ordering of the values in the AggregationValueInstance object shall match the ordering of parameters in the AggregationDefinition structure.</mal:documentation>
             <mal:capabilitySet number="1">
                 <mal:pubsubIP name="monitorValue" number="1" supportInReplay="true"
                               comment="The monitorValue operation allows a consumer to subscribe for aggregation value reports.">
@@ -1184,7 +1184,7 @@
                     <mal:messages>
                         <mal:request>
                             <mal:field name="aggDefDetails"
-                                       comment="The aggDefDetails field shall hold the name and the AggregationDefinitionDetails to be added.&#xA;The name field must not be the wildcard '*', or empty (an INVALID error shall be returned in this case).&#xA;If the supplied reportInterval or sampleInterval values are not supported by the provider then an INVALID error shall be returned.&#xA;The supplied name must be unique among all AggregationIdentity objects for the domain of the provider otherwise a DUPLICATE error shall be raised.&#xA;If an error is raised then no new identities and definitions shall be added as a result of this operation call.&#xA;If the supplied name matches an existing, but removed, AggregationIdentity then that AggregationIdentity shall be reused otherwise a new AggregationIdentity shall be created.&#xA;The provider shall create a new AggregationDefinition object and store it, and any new AggregationIdentity objects, in the COM archive.">
+                                       comment="The aggDefDetails field shall hold the name and the AggregationDefinition to be added.&#xA;The name field must not be the wildcard '*', or empty (an INVALID error shall be returned in this case).&#xA;If the supplied reportInterval or sampleInterval values are not supported by the provider then an INVALID error shall be returned.&#xA;The supplied name must be unique among all AggregationIdentity objects for the domain of the provider otherwise a DUPLICATE error shall be raised.&#xA;If an error is raised then no new identities and definitions shall be added as a result of this operation call.&#xA;If the supplied name matches an existing, but removed, AggregationIdentity then that AggregationIdentity shall be reused otherwise a new AggregationIdentity shall be created.&#xA;The provider shall create a new AggregationDefinition object and store it, and any new AggregationIdentity objects, in the COM archive.">
                                 <mal:type list="true" name="AggregationCreationRequest" service="Aggregation" area="MC"/>
                             </mal:field>
                         </mal:request>
@@ -1219,8 +1219,8 @@
                                 <mal:type list="true" name="Long" area="MAL"/>
                             </mal:field>
                             <mal:field name="aggDefDetails"
-                                       comment="The aggDefDetails field shall contain the replacement AggregationDefinitionDetails.&#xA;The two lists shall be ordered the same.&#xA;The number of entries in the two lists shall be the same size otherwise an INVALID error shall be returned.&#xA;If the supplied reportInterval or sampleInterval values are not supported by the provider then an INVALID error shall be returned.&#xA;If an error is raised then no definitions shall be updated as a result of this operation call.&#xA;The provider shall create a new AggregationDefinition object and store it in the COM archive.&#xA;The new AggregationDefinition object shall be the current AggregationDefinition used for the specific AggregationIdentity.">
-                                <mal:type list="true" name="AggregationDefinitionDetails" service="Aggregation" area="MC"/>
+                                       comment="The aggDefDetails field shall contain the replacement AggregationDefinition.&#xA;The two lists shall be ordered the same.&#xA;The number of entries in the two lists shall be the same size otherwise an INVALID error shall be returned.&#xA;If the supplied reportInterval or sampleInterval values are not supported by the provider then an INVALID error shall be returned.&#xA;If an error is raised then no definitions shall be updated as a result of this operation call.&#xA;The provider shall create a new AggregationDefinition object and store it in the COM archive.&#xA;The new AggregationDefinition object shall be the current AggregationDefinition used for the specific AggregationIdentity.">
+                                <mal:type list="true" name="AggregationDefinition" service="Aggregation" area="MC"/>
                             </mal:field>
                         </mal:request>
                         <mal:response>
@@ -1285,8 +1285,8 @@
                     <mal:item value="FILTERED_TIMEOUT" nvalue="3"
                               comment="The item is filtered but it exceeded its timeout value."/>
                 </mal:enumeration>
-                <mal:composite name="AggregationDefinitionDetails" shortFormPart="1"
-                               comment="The AggregationDefinitionDetails structure holds definition details of an aggregation.">
+                <mal:composite name="AggregationDefinition" shortFormPart="1"
+                               comment="The AggregationDefinition structure holds definition details of an aggregation.">
                     <mal:extends>
                         <mal:type name="Composite" area="MAL"/>
                     </mal:extends>
@@ -1350,7 +1350,7 @@
                     </mal:field>
                 </mal:composite>
                 <mal:composite name="AggregationValue" shortFormPart="3"
-                               comment="The AggregationValue structure holds the values for one or more sets of parameter values. The value sets must be held in the same order as that defined in the matching AggregationDefinitionDetails.">
+                               comment="The AggregationValue structure holds the values for one or more sets of parameter values. The value sets must be held in the same order as that defined in the matching AggregationDefinition.">
                     <mal:extends>
                         <mal:type name="Composite" area="MAL"/>
                     </mal:extends>
@@ -1368,7 +1368,7 @@
                     </mal:field>
                 </mal:composite>
                 <mal:composite name="AggregationSetValue" shortFormPart="4"
-                               comment="The AggregationSetValue structure holds the values for one set of parameter values. If the definition sendUnchanged field is set to FALSE parameter values that are unchanged since the previous report are replaced by a NULL in this list. The parameter values must be held in the same order as that defined in the matching AggregationDefinitionDetails.">
+                               comment="The AggregationSetValue structure holds the values for one set of parameter values. If the definition sendUnchanged field is set to FALSE parameter values that are unchanged since the previous report are replaced by a NULL in this list. The parameter values must be held in the same order as that defined in the matching AggregationDefinition.">
                     <mal:extends>
                         <mal:type name="Composite" area="MAL"/>
                     </mal:extends>
@@ -1394,7 +1394,7 @@
                         <mal:type name="ParameterValue" service="Parameter" area="MC"/>
                     </mal:field>
                     <mal:field name="paramDefInstId"
-                               comment="The object instance identifier of the ParameterDefinition. NULL if sendDefinitions in the AggregationDefinitionDetails is FALSE.">
+                               comment="The object instance identifier of the ParameterDefinition. NULL if sendDefinitions in the AggregationDefinition is FALSE.">
                         <mal:type name="Long" area="MAL"/>
                     </mal:field>
                 </mal:composite>
@@ -1423,7 +1423,7 @@
                     </mal:field>
                     <mal:field name="aggDefDetails" canBeNull="false"
                                comment="The aggregation definition details.">
-                        <mal:type name="AggregationDefinitionDetails" service="Aggregation" area="MC"/>
+                        <mal:type name="AggregationDefinition" service="Aggregation" area="MC"/>
                     </mal:field>
                 </mal:composite>
                 <mal:composite name="AggregationValueDetails" shortFormPart="11"
@@ -1461,7 +1461,7 @@
                                   alignment-baseline="middle">2</svg:text>
                         <svg:text x="110" y="224" font-family="Verdana" font-size="12" fill="navy"
                                   text-anchor="middle"
-                                  alignment-baseline="middle">AggregationDefinitionDetails</svg:text>
+                                  alignment-baseline="middle">AggregationDefinition</svg:text>
                         <svg:rect x="340" y="160" fill="#FCF2E3" stroke="black" stroke-width="2" width="190"
                                   height="80"/>
                         <svg:text x="435" y="178" font-family="Verdana" font-size="12" fill="navy"
@@ -1515,7 +1515,7 @@
                     </com:object>
                     <com:object name="AggregationDefinition" number="2">
                         <com:objectType>
-                            <mal:type name="AggregationDefinitionDetails" service="Aggregation" area="MC"/>
+                            <mal:type name="AggregationDefinition" service="Aggregation" area="MC"/>
                         </com:objectType>
                         <com:relatedObject>
                             <com:objectType number="1" service="Aggregation" area="MC"/>
@@ -1840,8 +1840,8 @@
                 <mal:item value="CRITICAL" nvalue="5"
                           comment="Indicates behaviour with mission threatening consequences. Requires operator attention."/>
             </mal:enumeration>
-            <mal:composite name="ArgumentDefinitionDetails" shortFormPart="1"
-                           comment="The ArgumentDefinitionDetails structure holds the details of an argument definition with a set of associated attributes, such as conversion used. The conditionalConversions define the conditions where a referenced conversion is applied. Only the first TRUE conversion should be applied.">
+            <mal:composite name="ArgumentDefinition" shortFormPart="1"
+                           comment="The ArgumentDefinition structure holds the details of an argument definition with a set of associated attributes, such as conversion used. The conditionalConversions define the conditions where a referenced conversion is applied. Only the first TRUE conversion should be applied.">
                 <mal:extends>
                     <mal:type name="Composite" area="MAL"/>
                 </mal:extends>

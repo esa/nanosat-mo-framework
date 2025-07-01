@@ -47,10 +47,10 @@ import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.UShort;
-import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetails;
-import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetailsList;
-import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetails;
-import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.action.structures.ActionDefinition;
+import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionList;
+import org.ccsds.moims.mo.mc.structures.ArgumentDefinition;
+import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionList;
 import org.ccsds.moims.mo.mc.structures.AttributeValue;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.platform.camera.structures.CameraSettings;
@@ -80,7 +80,7 @@ public class PictureProcessorMCAdapter extends MonitorAndControlNMFAdapter imple
         registration.setMode(MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS);
 
         // ------------------ Actions ------------------
-        ActionDefinitionDetailsList actionDefs = new ActionDefinitionDetailsList();
+        ActionDefinitionList actionDefs = new ActionDefinitionList();
         IdentifierList actionNames = new IdentifierList();
 
         regiserActionTakeAndProcessPicture(actionDefs, actionNames);
@@ -112,41 +112,41 @@ public class PictureProcessorMCAdapter extends MonitorAndControlNMFAdapter imple
         publishParameter(id.toString(), exitCode);
     }
 
-    private void regiserActionTakeAndProcessPicture(ActionDefinitionDetailsList actionDefs,
+    private void regiserActionTakeAndProcessPicture(ActionDefinitionList actionDefs,
         IdentifierList actionNames) {
-        ArgumentDefinitionDetailsList arguments = new ArgumentDefinitionDetailsList();
+        ArgumentDefinitionList arguments = new ArgumentDefinitionList();
         {
             Byte rawType = Attribute._INTEGER_TYPE_SHORT_FORM;
-            arguments.add(new ArgumentDefinitionDetails(
+            arguments.add(new ArgumentDefinition(
                     new Identifier("min process duration"),
                     "minimum picture processing duration",
                     rawType, "seconds", null, null, null));
         }
         {
             Byte rawType = Attribute._INTEGER_TYPE_SHORT_FORM;
-            arguments.add(new ArgumentDefinitionDetails(
+            arguments.add(new ArgumentDefinition(
                     new Identifier("max process duration"),
                     "max picture processing duration",
                     rawType, "seconds", null, null, null));
         }
 
-        actionDefs.add(new ActionDefinitionDetails(
+        actionDefs.add(new ActionDefinition(
             "Uses the NMF Camera to take a picture and process it through a python script", new UOctet((short) 0),
             new UShort(TOTAL_STAGES), arguments));
         actionNames.add(new Identifier(ACTION_TAKE_AND_PROCESS_PICTURE));
     }
 
-    private void regiserActionDestroyProcess(ActionDefinitionDetailsList actionDefs, IdentifierList actionNames) {
-        ArgumentDefinitionDetailsList arguments = new ArgumentDefinitionDetailsList();
+    private void regiserActionDestroyProcess(ActionDefinitionList actionDefs, IdentifierList actionNames) {
+        ArgumentDefinitionList arguments = new ArgumentDefinitionList();
         {
             Byte rawType = Attribute._LONG_TYPE_SHORT_FORM;
-            arguments.add(new ArgumentDefinitionDetails(
+            arguments.add(new ArgumentDefinition(
                     new Identifier("process id"),
                     "process id",
                     rawType, "", null, null, null));
         }
 
-        actionDefs.add(new ActionDefinitionDetails(
+        actionDefs.add(new ActionDefinition(
                 "Destroy a process",
                 new UOctet((short) 0),
                 new UShort(1),

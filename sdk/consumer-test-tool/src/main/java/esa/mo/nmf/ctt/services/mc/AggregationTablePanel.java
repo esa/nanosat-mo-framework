@@ -26,7 +26,7 @@ import esa.mo.nmf.ctt.utils.SharedTablePanel;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetails;
+import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinition;
 
 /**
  *
@@ -52,7 +52,7 @@ public class AggregationTablePanel extends SharedTablePanel {
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        AggregationDefinitionDetails pDef = (AggregationDefinitionDetails) comObject.getObject();
+        AggregationDefinition pDef = (AggregationDefinition) comObject.getObject();
 
         tableData.addRow(new Object[]{comObject.getArchiveDetails().getDetails().getRelated(), name.toString(), pDef
             .getDescription(), pDef.getCategory().toString(), pDef.getGenerationEnabled(), pDef.getReportInterval()
@@ -71,9 +71,9 @@ public class AggregationTablePanel extends SharedTablePanel {
 
         // 4 because it is where generationEnabled is!
         tableData.setValueAt(status, this.getSelectedRow(), 4);
-        //((AggregationDefinitionDetails) this.getSelectedCOMObject().getObject()).setGenerationEnabled(status);
-        AggregationDefinitionDetails def = (AggregationDefinitionDetails) this.getSelectedCOMObject().getObject();
-        AggregationDefinitionDetails newDef = this.generateNewAggregationDef(def, def.getFilterEnabled(), status);
+        //((AggregationDefinition) this.getSelectedCOMObject().getObject()).setGenerationEnabled(status);
+        AggregationDefinition def = (AggregationDefinition) this.getSelectedCOMObject().getObject();
+        AggregationDefinition newDef = this.generateNewAggregationDef(def, def.getFilterEnabled(), status);
         this.getSelectedCOMObject().setObject(newDef);
 
         semaphore.release();
@@ -89,9 +89,9 @@ public class AggregationTablePanel extends SharedTablePanel {
         // 4 because it is where generationEnabled is!
         for (int i = 0; i < this.getTable().getRowCount(); i++) {
             tableData.setValueAt(status, i, 4);
-            //((AggregationDefinitionDetails) this.getCOMObjects().get(i).getObject()).setGenerationEnabled(status);
-            AggregationDefinitionDetails def = (AggregationDefinitionDetails) this.getCOMObjects().get(i).getObject();
-            AggregationDefinitionDetails newDef = this.generateNewAggregationDef(def, def.getFilterEnabled(), status);
+            //((AggregationDefinition) this.getCOMObjects().get(i).getObject()).setGenerationEnabled(status);
+            AggregationDefinition def = (AggregationDefinition) this.getCOMObjects().get(i).getObject();
+            AggregationDefinition newDef = this.generateNewAggregationDef(def, def.getFilterEnabled(), status);
             this.getCOMObjects().get(i).setObject(newDef);
         }
 
@@ -107,9 +107,9 @@ public class AggregationTablePanel extends SharedTablePanel {
 
         // 6 because it is where filter is!
         tableData.setValueAt(status, this.getSelectedRow(), 6);
-        //((AggregationDefinitionDetails) this.getSelectedCOMObject().getObject()).setFilterEnabled(status);
-        AggregationDefinitionDetails def = (AggregationDefinitionDetails) this.getSelectedCOMObject().getObject();
-        AggregationDefinitionDetails newDef = this.generateNewAggregationDef(def, status, def.getGenerationEnabled());
+        //((AggregationDefinition) this.getSelectedCOMObject().getObject()).setFilterEnabled(status);
+        AggregationDefinition def = (AggregationDefinition) this.getSelectedCOMObject().getObject();
+        AggregationDefinition newDef = this.generateNewAggregationDef(def, status, def.getGenerationEnabled());
         this.getSelectedCOMObject().setObject(newDef);
 
         semaphore.release();
@@ -125,18 +125,18 @@ public class AggregationTablePanel extends SharedTablePanel {
         // 6 because it is where filter is!
         for (int i = 0; i < this.getTable().getRowCount(); i++) {
             tableData.setValueAt(status, i, 6);
-            //((AggregationDefinitionDetails) this.getCOMObjects().get(i).getObject()).setFilterEnabled(status);
-            AggregationDefinitionDetails def = (AggregationDefinitionDetails) this.getCOMObjects().get(i).getObject();
-            AggregationDefinitionDetails newDef = this.generateNewAggregationDef(def, status, def.getGenerationEnabled());
+            //((AggregationDefinition) this.getCOMObjects().get(i).getObject()).setFilterEnabled(status);
+            AggregationDefinition def = (AggregationDefinition) this.getCOMObjects().get(i).getObject();
+            AggregationDefinition newDef = this.generateNewAggregationDef(def, status, def.getGenerationEnabled());
             this.getCOMObjects().get(i).setObject(newDef);
         }
 
         semaphore.release();
     }
 
-    public AggregationDefinitionDetails generateNewAggregationDef(
-            AggregationDefinitionDetails def, boolean filter, boolean generation) {
-        return new AggregationDefinitionDetails(
+    public AggregationDefinition generateNewAggregationDef(
+            AggregationDefinition def, boolean filter, boolean generation) {
+        return new AggregationDefinition(
                 def.getDescription(),
                 def.getCategory(),
                 def.getReportInterval(),

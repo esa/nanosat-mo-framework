@@ -48,8 +48,8 @@ import org.ccsds.moims.mo.mc.aggregation.AggregationServiceInfo;
 import org.ccsds.moims.mo.mc.aggregation.consumer.AggregationAdapter;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationCreationRequest;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationCreationRequestList;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetails;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinition;
+import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionList;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSet;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSetList;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationSetValue;
@@ -286,7 +286,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         aggSetList.add(aggSet);
 
         // Create and Show the Action Definition to the user
-        AggregationDefinitionDetails aggregationDefinition = new AggregationDefinitionDetails(
+        AggregationDefinition aggregationDefinition = new AggregationDefinition(
                 "A aggregation of 2 parameters.",
                 new UOctet((short) 0),
                 new Duration(2),
@@ -341,9 +341,9 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         LongList objIds = new LongList();
         objIds.add(aggregationTable.getSelectedIdentityObjId());
 
-        AggregationDefinitionDetailsList defs = new AggregationDefinitionDetailsList();
+        AggregationDefinitionList defs = new AggregationDefinitionList();
         try {
-            defs.add((AggregationDefinitionDetails) moObject.getObject());
+            defs.add((AggregationDefinition) moObject.getObject());
         } catch (InterruptedIOException ex) {
             return;
         }
@@ -434,7 +434,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         Boolean curState;
 
         if (aggregationTable.getSelectedRow() == -1) {  // Used to avoid problems if no row is selected
-            AggregationDefinitionDetails aggregationDefinition = (AggregationDefinitionDetails) aggregationTable
+            AggregationDefinition aggregationDefinition = (AggregationDefinition) aggregationTable
                     .getFirstCOMObject().getObject();
             if (aggregationDefinition != null) {
                 curState = aggregationDefinition.getGenerationEnabled();
@@ -442,7 +442,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
                 curState = true;
             }
         } else {
-            curState = ((AggregationDefinitionDetails) aggregationTable.getSelectedCOMObject().getObject())
+            curState = ((AggregationDefinition) aggregationTable.getSelectedCOMObject().getObject())
                     .getGenerationEnabled();
         }
 
@@ -463,7 +463,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
             return;  // Well, then nothing to be done here folks!
         }
 
-        Boolean curState = ((AggregationDefinitionDetails) aggregationTable.getSelectedCOMObject().getObject())
+        Boolean curState = ((AggregationDefinition) aggregationTable.getSelectedCOMObject().getObject())
                 .getGenerationEnabled();
         InstanceBooleanPairList BoolPairList = new InstanceBooleanPairList();
         BoolPairList.add(new InstanceBooleanPair(aggregationTable.getSelectedIdentityObjId(), !curState));  // Zero is the wildcard
@@ -531,7 +531,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
 
         String str;
         if (aggregationTable.getSelectedRow() == -1) {  // Used to avoid problems if no row is selected
-            str = ((AggregationDefinitionDetails) aggregationTable.getSelectedCOMObject().getObject())
+            str = ((AggregationDefinition) aggregationTable.getSelectedCOMObject().getObject())
                     .getFilterEnabled().toString(); // Get the status from selection
         } else {
             str = "true";
@@ -554,7 +554,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         }
 
         Long objId = aggregationTable.getSelectedCOMObject().getArchiveDetails().getInstId();
-        Boolean curState = ((AggregationDefinitionDetails) aggregationTable.getSelectedCOMObject().getObject())
+        Boolean curState = ((AggregationDefinition) aggregationTable.getSelectedCOMObject().getObject())
                 .getFilterEnabled(); // String to Boolean conversion
         InstanceBooleanPairList boolPairList = new InstanceBooleanPairList();
         boolPairList.add(new InstanceBooleanPair(objId, !curState));

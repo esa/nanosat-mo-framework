@@ -33,11 +33,11 @@ import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.UShort;
-import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetails;
-import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.action.structures.ActionDefinition;
+import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
-import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetails;
-import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.structures.ArgumentDefinition;
+import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.mc.structures.ConditionalConversionList;
 
@@ -70,10 +70,10 @@ public class FiveStagesAction {
 
         @Override
         public void initialRegistrations(MCRegistration registrationObject) {
-            ActionDefinitionDetailsList actionDefs = new ActionDefinitionDetailsList();
+            ActionDefinitionList actionDefs = new ActionDefinitionList();
             IdentifierList names = new IdentifierList();
 
-            ArgumentDefinitionDetailsList argDef = new ArgumentDefinitionDetailsList();
+            ArgumentDefinitionList argDef = new ArgumentDefinitionList();
             {
                 Byte rawType = Attribute._DURATION_TYPE_SHORT_FORM;
                 String rawUnit = "seconds";
@@ -81,11 +81,11 @@ public class FiveStagesAction {
                 Byte convertedType = null;
                 String convertedUnit = null;
 
-                argDef.add(new ArgumentDefinitionDetails(new Identifier("1"), null, rawType, rawUnit,
+                argDef.add(new ArgumentDefinition(new Identifier("1"), null, rawType, rawUnit,
                     conditionalConversions, convertedType, convertedUnit));
             }
 
-            ActionDefinitionDetails actionDef1 = new ActionDefinitionDetails("Example of an Action with 5 stages.",
+            ActionDefinition actionDef1 = new ActionDefinition("Example of an Action with 5 stages.",
                 new UOctet((short) 0), new UShort(5), argDef);
             names.add(new Identifier(ACTION5STAGES));
             actionDefs.add(actionDef1);

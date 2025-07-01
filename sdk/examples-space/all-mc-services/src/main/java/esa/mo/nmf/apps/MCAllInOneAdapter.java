@@ -54,21 +54,21 @@ import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.mal.structures.UpdateHeader;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetails;
-import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.action.structures.ActionDefinition;
+import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionList;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationCategory;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetails;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinition;
+import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionList;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSet;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSetList;
 import org.ccsds.moims.mo.mc.conversion.structures.DiscreteConversionDetails;
 import org.ccsds.moims.mo.mc.conversion.structures.DiscreteConversionDetailsList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterConversion;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinition;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
-import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetails;
-import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.structures.ArgumentDefinition;
+import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionList;
 import org.ccsds.moims.mo.mc.structures.AttributeValue;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.mc.structures.ConditionalConversion;
@@ -209,48 +209,48 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
         }
 
         // ------------------ Parameters ------------------
-        ParameterDefinitionDetailsList defsOther = new ParameterDefinitionDetailsList();
+        ParameterDefinitionList defsOther = new ParameterDefinitionList();
         IdentifierList paramOtherNames = new IdentifierList();
-        ParameterDefinitionDetailsList defsGPS = new ParameterDefinitionDetailsList();
+        ParameterDefinitionList defsGPS = new ParameterDefinitionList();
         IdentifierList paramGPSNames = new IdentifierList();
-        ParameterDefinitionDetailsList defsMag = new ParameterDefinitionDetailsList();
+        ParameterDefinitionList defsMag = new ParameterDefinitionList();
         IdentifierList paramMagNames = new IdentifierList();
 
-        defsOther.add(new ParameterDefinitionDetails("The ADCS mode of operation", Union.UOCTET_SHORT_FORM.byteValue(),
+        defsOther.add(new ParameterDefinition("The ADCS mode of operation", Union.UOCTET_SHORT_FORM.byteValue(),
                 "", false, new Duration(0), null, paramConversion));
         paramOtherNames.add(new Identifier(PARAMETER_ADCS_MODE));
 
-        defsOther.add(new ParameterDefinitionDetails("The number of satellites in view of GPS receiver.",
+        defsOther.add(new ParameterDefinition("The number of satellites in view of GPS receiver.",
                 Union.INTEGER_SHORT_FORM.byteValue(), "sats", false, new Duration(4), null, null));
         paramOtherNames.add(new Identifier(PARAMETER_GPS_N_SATS_IN_VIEW));
 
         // Create the GPS.Latitude
-        defsGPS.add(new ParameterDefinitionDetails("The GPS Latitude",
+        defsGPS.add(new ParameterDefinition("The GPS Latitude",
                 Union.DOUBLE_TYPE_SHORT_FORM.byteValue(), "degrees", false, new Duration(2), null, null));
         paramGPSNames.add(new Identifier(PARAMETER_GPS_LATITUDE));
 
         // Create the GPS.Longitude
-        defsGPS.add(new ParameterDefinitionDetails("The GPS Longitude",
+        defsGPS.add(new ParameterDefinition("The GPS Longitude",
                 Union.DOUBLE_TYPE_SHORT_FORM.byteValue(), "degrees", false, new Duration(2), null, null));
         paramGPSNames.add(new Identifier(PARAMETER_GPS_LONGITUDE));
 
         // Create the GPS.Altitude
-        defsGPS.add(new ParameterDefinitionDetails("The GPS Altitude",
+        defsGPS.add(new ParameterDefinition("The GPS Altitude",
                 Union.DOUBLE_TYPE_SHORT_FORM.byteValue(), "meters", false, new Duration(2), null, null));
         paramGPSNames.add(new Identifier(PARAMETER_GPS_ALTITUDE));
 
         // Create the Magnetometer.X
-        defsMag.add(new ParameterDefinitionDetails("The Magnetometer X component",
+        defsMag.add(new ParameterDefinition("The Magnetometer X component",
                 Union.DOUBLE_TYPE_SHORT_FORM.byteValue(), "microTesla", false, new Duration(2), null, null));
         paramMagNames.add(new Identifier(PARAMETER_MAG_X));
 
         // Create the Magnetometer.Y
-        defsMag.add(new ParameterDefinitionDetails("The Magnetometer Y component",
+        defsMag.add(new ParameterDefinition("The Magnetometer Y component",
                 Union.DOUBLE_TYPE_SHORT_FORM.byteValue(), "microTesla", false, new Duration(2), null, null));
         paramMagNames.add(new Identifier(PARAMETER_MAG_Y));
 
         // Create the Magnetometer.Z
-        defsMag.add(new ParameterDefinitionDetails("The Magnetometer Z component",
+        defsMag.add(new ParameterDefinition("The Magnetometer Z component",
                 Union.DOUBLE_TYPE_SHORT_FORM.byteValue(), "microTesla", false, new Duration(2), null, null));
         paramMagNames.add(new Identifier(PARAMETER_MAG_Z));
 
@@ -259,11 +259,11 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
         LongList parameterObjIdsMag = registration.registerParameters(paramMagNames, defsMag);
 
         // ------------------ Aggregations ------------------
-        AggregationDefinitionDetailsList aggs = new AggregationDefinitionDetailsList();
+        AggregationDefinitionList aggs = new AggregationDefinitionList();
         IdentifierList aggNames = new IdentifierList();
 
         // Create the Aggregation GPS
-        AggregationDefinitionDetails defGPSAgg = new AggregationDefinitionDetails(
+        AggregationDefinition defGPSAgg = new AggregationDefinition(
                 "Aggregates: GPS Latitude, GPS Longitude, GPS Altitude.",
                 new UOctet((short) AggregationCategory.GENERAL.getValue()),
                 new Duration(10), true, false, false, new Duration(20), false,
@@ -273,7 +273,7 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
         defGPSAgg.getParameterSets().add(new AggregationParameterSet(null, parameterObjIdsGPS, new Duration(3), null));
 
         // Create the Aggregation Magnetometer
-        AggregationDefinitionDetails defMagAgg = new AggregationDefinitionDetails(
+        AggregationDefinition defMagAgg = new AggregationDefinition(
                 "Aggregates Magnetometer components: X, Y, Z.",
                 new UOctet((short) AggregationCategory.GENERAL.getValue()),
                 new Duration(10), true, false, false, new Duration(20), false,
@@ -287,10 +287,10 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
         registration.registerAggregations(aggNames, aggs);
 
         // ------------------ Actions ------------------
-        ActionDefinitionDetailsList actionDefs = new ActionDefinitionDetailsList();
+        ActionDefinitionList actionDefs = new ActionDefinitionList();
         IdentifierList actionNames = new IdentifierList();
 
-        ArgumentDefinitionDetailsList arguments1 = new ArgumentDefinitionDetailsList();
+        ArgumentDefinitionList arguments1 = new ArgumentDefinitionList();
         {
             Byte rawType = Attribute._DURATION_TYPE_SHORT_FORM;
             String rawUnit = "seconds";
@@ -298,28 +298,28 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
             Byte convertedType = null;
             String convertedUnit = null;
 
-            arguments1.add(new ArgumentDefinitionDetails(new Identifier("0"), null, rawType, rawUnit,
+            arguments1.add(new ArgumentDefinition(new Identifier("0"), null, rawType, rawUnit,
                     conditionalConversions, convertedType, convertedUnit));
         }
 
-        ActionDefinitionDetails actionDef1 = new ActionDefinitionDetails(
+        ActionDefinition actionDef1 = new ActionDefinition(
                 "Changes the spacecraft's attitude to sun pointing mode.",
                 new UOctet((short) 0), new UShort(0), arguments1);
         actionNames.add(new Identifier(ACTION_SUN_POINTING_MODE));
 
-        ActionDefinitionDetails actionDef2 = new ActionDefinitionDetails(
+        ActionDefinition actionDef2 = new ActionDefinition(
                 "Changes the spacecraft's attitude to nadir pointing mode.",
                 new UOctet((short) 0), new UShort(0), arguments1);
         actionNames.add(new Identifier(ACTION_NADIR_POINTING_MODE));
 
-        ActionDefinitionDetails actionDef3 = new ActionDefinitionDetails(
+        ActionDefinition actionDef3 = new ActionDefinition(
                 "Unsets the spacecraft's attitude.",
-                new UOctet((short) 0), new UShort(0), new ArgumentDefinitionDetailsList());
+                new UOctet((short) 0), new UShort(0), new ArgumentDefinitionList());
         actionNames.add(new Identifier(ACTION_UNSET));
 
-        ActionDefinitionDetails actionDef4 = new ActionDefinitionDetails(
+        ActionDefinition actionDef4 = new ActionDefinition(
                 "Example of an Action with 5 stages.",
-                new UOctet((short) 0), new UShort(5), new ArgumentDefinitionDetailsList());
+                new UOctet((short) 0), new UShort(5), new ArgumentDefinitionList());
         actionNames.add(new Identifier(ACTION_5_STAGES));
 
         actionDefs.add(actionDef1);

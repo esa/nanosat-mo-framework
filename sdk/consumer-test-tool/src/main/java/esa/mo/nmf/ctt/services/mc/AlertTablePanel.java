@@ -26,7 +26,7 @@ import esa.mo.nmf.ctt.utils.SharedTablePanel;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mc.alert.structures.AlertDefinitionDetails;
+import org.ccsds.moims.mo.mc.alert.structures.AlertDefinition;
 
 /**
  *
@@ -57,7 +57,7 @@ public class AlertTablePanel extends SharedTablePanel {
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        AlertDefinitionDetails pDef = (AlertDefinitionDetails) comObject.getObject();
+        AlertDefinition pDef = (AlertDefinition) comObject.getObject();
 
         tableData.addRow(new Object[]{comObject.getArchiveDetails().getDetails().getRelated(),
             name.toString(), pDef.getDescription(), pDef.getSeverity().toString(), pDef.getGenerationEnabled()});
@@ -75,9 +75,9 @@ public class AlertTablePanel extends SharedTablePanel {
 
         // 4 because it is where generationEnabled is!
         tableData.setValueAt(status, this.getSelectedRow(), 4);
-        //((AlertDefinitionDetails) this.getSelectedCOMObject().getObject()).setGenerationEnabled(status);
-        AlertDefinitionDetails def = (AlertDefinitionDetails) this.getSelectedCOMObject().getObject();
-        AlertDefinitionDetails newDef = this.generateNewAlertDef(def, status);
+        //((AlertDefinition) this.getSelectedCOMObject().getObject()).setGenerationEnabled(status);
+        AlertDefinition def = (AlertDefinition) this.getSelectedCOMObject().getObject();
+        AlertDefinition newDef = this.generateNewAlertDef(def, status);
         this.getSelectedCOMObject().setObject(newDef);
 
         semaphore.release();
@@ -93,17 +93,17 @@ public class AlertTablePanel extends SharedTablePanel {
         // 4 because it is where generationEnabled is!
         for (int i = 0; i < this.getTable().getRowCount(); i++) {
             tableData.setValueAt(status, i, 4);
-            //((AlertDefinitionDetails) this.getCOMObjects().get(i).getObject()).setGenerationEnabled(status);
-            AlertDefinitionDetails def = (AlertDefinitionDetails) this.getCOMObjects().get(i).getObject();
-            AlertDefinitionDetails newDef = this.generateNewAlertDef(def, status);
+            //((AlertDefinition) this.getCOMObjects().get(i).getObject()).setGenerationEnabled(status);
+            AlertDefinition def = (AlertDefinition) this.getCOMObjects().get(i).getObject();
+            AlertDefinition newDef = this.generateNewAlertDef(def, status);
             this.getCOMObjects().get(i).setObject(newDef);
         }
 
         semaphore.release();
     }
 
-    public AlertDefinitionDetails generateNewAlertDef(AlertDefinitionDetails def, boolean generation) {
-        return new AlertDefinitionDetails(def.getDescription(),
+    public AlertDefinition generateNewAlertDef(AlertDefinition def, boolean generation) {
+        return new AlertDefinition(def.getDescription(),
                 def.getSeverity(),
                 generation,
                 def.getArguments());

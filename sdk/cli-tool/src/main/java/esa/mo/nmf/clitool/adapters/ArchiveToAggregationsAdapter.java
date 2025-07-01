@@ -8,7 +8,7 @@ import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetails;
+import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinition;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationValue;
 
 import java.util.ArrayList;
@@ -30,13 +30,13 @@ public class ArchiveToAggregationsAdapter extends ArchiveAdapter implements Quer
     private boolean isQueryOver = false;
 
     private final Map<IdentifierList, Map<Long, List<TimestampedAggregationValue>>> aggregationValues = new HashMap<>();
-    private final Map<IdentifierList, Map<Long, AggregationDefinitionDetails>> aggregationDefinitions = new HashMap<>();
+    private final Map<IdentifierList, Map<Long, AggregationDefinition>> aggregationDefinitions = new HashMap<>();
 
     public Map<IdentifierList, Map<Long, List<TimestampedAggregationValue>>> getAggregationValues() {
         return aggregationValues;
     }
 
-    public Map<IdentifierList, Map<Long, AggregationDefinitionDetails>> getAggregationDefinitions() {
+    public Map<IdentifierList, Map<Long, AggregationDefinition>> getAggregationDefinitions() {
         return aggregationDefinitions;
     }
 
@@ -104,7 +104,7 @@ public class ArchiveToAggregationsAdapter extends ArchiveAdapter implements Quer
         } else if (AggregationServiceInfo.AGGREGATIONDEFINITION_OBJECT_TYPE.equals(type)) {
             for (int i = 0; i < detailsList.size(); ++i) {
                 aggregationDefinitions.get(domain).put(detailsList.get(i).getInstId(),
-                        (AggregationDefinitionDetails) bodiesList.get(i));
+                        (AggregationDefinition) bodiesList.get(i));
             }
         }
     }

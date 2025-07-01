@@ -46,12 +46,12 @@ import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationCategory;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetails;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinition;
+import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionList;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSet;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSetList;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinition;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.platform.gps.body.GetLastKnownPositionResponse;
@@ -112,36 +112,36 @@ public class DemoGPSData {
             registrationObject.setMode(RegistrationMode.DONT_UPDATE_IF_EXISTS);
 
             // ------------------ Parameters ------------------
-            ParameterDefinitionDetailsList parDef = new ParameterDefinitionDetailsList();
+            ParameterDefinitionList parDef = new ParameterDefinitionList();
             IdentifierList paramNames = new IdentifierList();
 
             // Create the GPS.Latitude
-            parDef.add(new ParameterDefinitionDetails("The GPS Latitude", Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
+            parDef.add(new ParameterDefinition("The GPS Latitude", Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
                     "degrees", false, new Duration(2), null, null));
             paramNames.add(new Identifier(PARAMETER_GPS_LATITUDE));
 
             // Create the GPS.Longitude
-            parDef.add(new ParameterDefinitionDetails("The GPS Longitude", Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
+            parDef.add(new ParameterDefinition("The GPS Longitude", Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
                     "degrees", false, new Duration(2), null, null));
             paramNames.add(new Identifier(PARAMETER_GPS_LONGITUDE));
 
             // Create the GPS.Altitude
-            parDef.add(new ParameterDefinitionDetails("The GPS Altitude", Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
+            parDef.add(new ParameterDefinition("The GPS Altitude", Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
                     "meters", false, new Duration(2), null, null));
             paramNames.add(new Identifier(PARAMETER_GPS_ALTITUDE));
 
-            parDef.add(new ParameterDefinitionDetails("The number of satellites in view of GPS receiver.",
+            parDef.add(new ParameterDefinition("The number of satellites in view of GPS receiver.",
                     Union.INTEGER_SHORT_FORM.byteValue(), "sats", false, new Duration(4), null, null));
             paramNames.add(new Identifier(PARAMETER_GPS_N_SATS_IN_VIEW));
 
             LongList parameterObjIdsGPS = registrationObject.registerParameters(paramNames, parDef);
 
             // ------------------ Aggregations ------------------
-            AggregationDefinitionDetailsList aggDef = new AggregationDefinitionDetailsList();
+            AggregationDefinitionList aggDef = new AggregationDefinitionList();
             IdentifierList aggNames = new IdentifierList();
 
             // Create the Aggregation GPS
-            AggregationDefinitionDetails defGPSAgg = new AggregationDefinitionDetails(
+            AggregationDefinition defGPSAgg = new AggregationDefinition(
                     "Aggregates: GPS Latitude, GPS Longitude, GPS Altitude, GPS.NumberOfSatellitesInView.", new UOctet(
                             (short) AggregationCategory.GENERAL.getValue()), new Duration(10), true, false, false,
                     new Duration(20), true, new AggregationParameterSetList());

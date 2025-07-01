@@ -45,8 +45,8 @@ import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.parameter.ParameterServiceInfo;
 import org.ccsds.moims.mo.mc.parameter.consumer.ParameterAdapter;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinition;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValue;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterValueDetailsList;
@@ -206,7 +206,7 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
     private void addDefinitionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDefinitionButtonActionPerformed
         // Create and Show the Action Definition to the user
         /*
-        ParameterDefinitionDetails parameterDefinition = new ParameterDefinitionDetails(
+        ParameterDefinition parameterDefinition = new ParameterDefinition(
                 "This Parameter Definition gives a simulated value of the GPS latitude.",
                 Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
                 "degrees",
@@ -278,9 +278,9 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
         LongList objIds = new LongList();
         objIds.add(parameterTable.getSelectedIdentityObjId());
 
-        ParameterDefinitionDetailsList defs = new ParameterDefinitionDetailsList();
+        ParameterDefinitionList defs = new ParameterDefinitionList();
         try {
-            defs.add((ParameterDefinitionDetails) moObject.getObject());
+            defs.add((ParameterDefinition) moObject.getObject());
         } catch (InterruptedIOException ex) {
             return;
         }
@@ -377,7 +377,7 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
         Boolean curState;
 
         if (parameterTable.getSelectedRow() == -1) {  // Used to avoid problems if no row is selected
-            ParameterDefinitionDetails parameterDefinition = (ParameterDefinitionDetails) parameterTable
+            ParameterDefinition parameterDefinition = (ParameterDefinition) parameterTable
                     .getFirstCOMObject().getObject();
             if (parameterDefinition != null) {
                 curState = parameterDefinition.getGenerationEnabled();
@@ -385,7 +385,7 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
                 curState = true;
             }
         } else {
-            curState = ((ParameterDefinitionDetails) parameterTable.getSelectedCOMObject().getObject())
+            curState = ((ParameterDefinition) parameterTable.getSelectedCOMObject().getObject())
                     .getGenerationEnabled();
         }
 
@@ -405,7 +405,7 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
             return;  // Well, then nothing to be done here folks!
         }
 
-        Boolean curState = ((ParameterDefinitionDetails) parameterTable.getSelectedCOMObject().getObject())
+        Boolean curState = ((ParameterDefinition) parameterTable.getSelectedCOMObject().getObject())
                 .getGenerationEnabled();
         InstanceBooleanPairList BoolPairList = new InstanceBooleanPairList();
         BoolPairList.add(new InstanceBooleanPair(parameterTable.getSelectedIdentityObjId(), !curState));  // Zero is the wildcard

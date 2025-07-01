@@ -36,8 +36,8 @@ import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinition;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 
@@ -78,10 +78,10 @@ public class EchoSpace {
 
         @Override
         public void initialRegistrations(MCRegistration registrationObject) {
-            ParameterDefinitionDetailsList pddl = new ParameterDefinitionDetailsList();
+            ParameterDefinitionList pddl = new ParameterDefinitionList();
             IdentifierList names = new IdentifierList();
 
-            pddl.add(new ParameterDefinitionDetails("The sent data", (byte) 1, null, true, new Duration(), null, null));
+            pddl.add(new ParameterDefinition("The sent data", (byte) 1, null, true, new Duration(), null, null));
             names.add(new Identifier("Data"));
             registrationObject.registerParameters(names, pddl);
         }

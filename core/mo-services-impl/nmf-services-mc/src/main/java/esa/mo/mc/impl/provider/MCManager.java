@@ -268,7 +268,7 @@ public abstract class MCManager {
      *
      * @param name the name of the Identity.
      * @param pair The object instance pair.
-     * @param defDetails the definitionDetails.
+     * @param defDetails the Definition.
      * @return True if successful. False otherwise.
      */
     protected synchronized Boolean addIdentityDefinition(final Identifier name,

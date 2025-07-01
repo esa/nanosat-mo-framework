@@ -14,17 +14,17 @@ Registering the action
 Just like parameters, actions need to be registered to the NMF. So, when we connect to the app it can tell us which actions it provides.
 To register an action, we have to revisit the ``initialRegistrations`` method where we also registered the parameters.
 
-To register actions, we again need an **IdentifierList** and additionally an **ActionDefinitionDetailsList** (see the pattern here?).
-The **IdentifierList** again contains the names of the actions we want to provide. The **ActionDefinitionDetailsList** contains information for each action, like a description, its category, the number of progress stages and information on expected arguments. 
+To register actions, we again need an **IdentifierList** and additionally an **ActionDefinitionList** (see the pattern here?).
+The **IdentifierList** again contains the names of the actions we want to provide. The **ActionDefinitionList** contains information for each action, like a description, its category, the number of progress stages and information on expected arguments. 
 
 .. code-block:: java
    :linenos:
 
-   ActionDefinitionDetailsList actionDefs = new ActionDefinitionDetailsList();
+   ActionDefinitionList actionDefs = new ActionDefinitionList();
    IdentifierList actionNames = new IdentifierList();
 
-   actionDefs.add(new ActionDefinitionDetails("Uses the NMF Camera service to take a sobel filtered picture.",
-       new UOctet((short) 0), new UShort(TOTAL_STAGES), new ArgumentDefinitionDetailsList()));
+   actionDefs.add(new ActionDefinition("Uses the NMF Camera service to take a sobel filtered picture.",
+       new UOctet((short) 0), new UShort(TOTAL_STAGES), new ArgumentDefinitionList()));
    actionNames.add(new Identifier(ACTION_TAKE_SOBEL));
 
 We can then register our action by calling ``registration.registerActions(actionNames, actionDefs)``.
@@ -32,7 +32,7 @@ Note the following things:
 
 1. The category 0 is the default value. Other ActionCategory possibilities are ActionCategory.CRITICAL and ActionCategory.HIPRIORITY.
 2. The next supplied value is the number of stages that our action consists of. Our stages are: take picture, grayscaling, filtering, so TOTAL_STAGES is equal to 3.
-3. If your action does not need any arguments, provide an empty **ArgumentDefinitionDetailsList**. Providing null in its place will result in an exception later on.
+3. If your action does not need any arguments, provide an empty **ArgumentDefinitionList**. Providing null in its place will result in an exception later on.
 
 Now that our action is registered, we need to make sure that it does something sensible when it's called!
 

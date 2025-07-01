@@ -29,10 +29,10 @@ import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.UShort;
-import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetails;
-import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetailsList;
-import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetails;
-import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.action.structures.ActionDefinition;
+import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionList;
+import org.ccsds.moims.mo.mc.structures.ArgumentDefinition;
+import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
@@ -67,27 +67,27 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
         registration.setMode(MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS);
 
         // ------------------ Actions ------------------
-        ActionDefinitionDetailsList actionDefs = new ActionDefinitionDetailsList();
+        ActionDefinitionList actionDefs = new ActionDefinitionList();
         IdentifierList actionNames = new IdentifierList();
 
-        ArgumentDefinitionDetailsList arguments1 = new ArgumentDefinitionDetailsList();
-        actionDefs.add(new ActionDefinitionDetails(
+        ArgumentDefinitionList arguments1 = new ArgumentDefinitionList();
+        actionDefs.add(new ActionDefinition(
                 "Starts the AI inference using the AI service",
                 new UOctet((short) 0),
                 new UShort(TOTAL_STAGES),
                 arguments1));
         actionNames.add(new Identifier(ACTION_START_AI));
         
-        ArgumentDefinitionDetailsList arguments2 = new ArgumentDefinitionDetailsList();
+        ArgumentDefinitionList arguments2 = new ArgumentDefinitionList();
         {
             Byte rawType = Attribute._LONG_TYPE_SHORT_FORM;
-            arguments2.add(new ArgumentDefinitionDetails(
+            arguments2.add(new ArgumentDefinition(
                     new Identifier("process id"),
                     "process id",
                     rawType, "", null, null, null));
         }
 
-        actionDefs.add(new ActionDefinitionDetails(
+        actionDefs.add(new ActionDefinition(
                 "Cancel the AI processing",
                 new UOctet((short) 0),
                 new UShort(1),

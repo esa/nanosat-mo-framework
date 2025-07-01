@@ -27,7 +27,7 @@ import java.io.IOException;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValue;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
 import org.junit.Test;
@@ -87,7 +87,7 @@ public class ParameterTest {
 
         @Override
         public LongList registerParameters(final IdentifierList names,
-            final ParameterDefinitionDetailsList definitions) {
+            final ParameterDefinitionList definitions) {
             LongList ids = new LongList(names.size());
             ids.add(ID1);
             ids.add(ID2);

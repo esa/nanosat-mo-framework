@@ -48,10 +48,10 @@ import org.ccsds.moims.mo.mal.structures.UIntegerList;
 import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mc.action.ActionServiceInfo;
 import org.ccsds.moims.mo.mc.action.structures.ActionCreationRequest;
-import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetails;
+import org.ccsds.moims.mo.mc.action.structures.ActionDefinition;
 import org.ccsds.moims.mo.mc.action.structures.ActionInstanceDetails;
-import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetails;
-import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.structures.ArgumentDefinition;
+import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionList;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
 
 /**
@@ -91,12 +91,12 @@ public final class ActionManager extends MCManager {
     }
 
     // We could use generics to avoid doing this...
-    public ActionDefinitionDetails getActionDefinitionFromIdentityId(Long identityId) {
-        return (ActionDefinitionDetails) this.getDefinition(identityId);
+    public ActionDefinition getActionDefinitionFromIdentityId(Long identityId) {
+        return (ActionDefinition) this.getDefinition(identityId);
     }
 
-    public ActionDefinitionDetails getActionDefinitionFromDefId(Long defId) {
-        return (ActionDefinitionDetails) this.getDefinitionFromObjId(defId);
+    public ActionDefinition getActionDefinitionFromDefId(Long defId) {
+        return (ActionDefinition) this.getDefinitionFromObjId(defId);
     }
 
     public Long storeAndGenerateAInsobjId(ActionInstanceDetails aIns, Long related, final URI uri) {
@@ -130,13 +130,13 @@ public final class ActionManager extends MCManager {
 
     }
 
-    //    public ActionDefinitionDetailsList getAll(){
-    //        return (ActionDefinitionDetailsList) this.listgetAllDefs();
+    //    public ActionDefinitionList getAll(){
+    //        return (ActionDefinitionList) this.listgetAllDefs();
     //    }
     public ObjectInstancePair add(ActionCreationRequest creationRequest, ObjectId source, URI uri) { // requirement: 3.3.2.5
         ObjectInstancePair newIdPair = new ObjectInstancePair();
         final Identifier name = creationRequest.getName();
-        final ActionDefinitionDetails actionDefDetails = creationRequest.getActionDefDetails();
+        final ActionDefinition actionDefDetails = creationRequest.getActionDefDetails();
 
         if (super.getArchiveService() == null) {
             //add to providers local list
@@ -187,7 +187,7 @@ public final class ActionManager extends MCManager {
         return newIdPair;
     }
 
-    public Long update(Long identityId, ActionDefinitionDetails definition, ObjectId source, URI uri) { // requirement: 3.3.2.5
+    public Long update(Long identityId, ActionDefinition definition, ObjectId source, URI uri) { // requirement: 3.3.2.5
         Long newDefId = null;
 
         if (super.getArchiveService() == null) { //only update locally
@@ -224,7 +224,7 @@ public final class ActionManager extends MCManager {
         return this.deleteIdentity(objId);
     }
 
-    protected boolean isActionDefinitionValid(ActionDefinitionDetails oldDef, ActionDefinitionDetails newDef) {
+    protected boolean isActionDefinitionValid(ActionDefinition oldDef, ActionDefinition newDef) {
 
         if (//!oldDef.getName().equals(newDef.getName()) ||
         !oldDef.getCategory().equals(newDef.getCategory()) || !oldDef.getProgressStepCount().equals(newDef
@@ -232,16 +232,16 @@ public final class ActionManager extends MCManager {
             return false;
         }
 
-        final ArgumentDefinitionDetailsList oldArguments = oldDef.getArguments();
-        final ArgumentDefinitionDetailsList newArguments = newDef.getArguments();
+        final ArgumentDefinitionList oldArguments = oldDef.getArguments();
+        final ArgumentDefinitionList newArguments = newDef.getArguments();
 
         if (oldArguments.size() != newArguments.size()) {
             return false;
         }
 
         for (int index = 0; index < oldArguments.size(); index++) {
-            ArgumentDefinitionDetails oldArgument = oldArguments.get(index);
-            ArgumentDefinitionDetails newArgument = newArguments.get(index);
+            ArgumentDefinition oldArgument = oldArguments.get(index);
+            ArgumentDefinition newArgument = newArguments.get(index);
 
             if (oldArgument == null || newArgument == null) {  // cannot compare, check next
                 continue;
@@ -294,7 +294,7 @@ public final class ActionManager extends MCManager {
 
     public boolean checkActionInstanceDetails(ActionInstanceDetails actionInstance, UIntegerList errorList) {
         //TODO extend this method to support the external verification. create a new Interface -> actionservice
-        ActionDefinitionDetails actionDef = this.getActionDefinitionFromDefId(actionInstance.getDefInstId());
+        ActionDefinition actionDef = this.getActionDefinitionFromDefId(actionInstance.getDefInstId());
 
         if (errorList != null) {
             errorList.clear();
@@ -429,7 +429,7 @@ public final class ActionManager extends MCManager {
         final Identifier name = this.getNameFromObjId(actionDetails.getDefInstId());
 
         actionsExecutor.execute(() -> {
-            final ActionDefinitionDetails actionDefinition = getActionDefinitionFromDefId(actionDetails.getDefInstId());
+            final ActionDefinition actionDefinition = getActionDefinitionFromDefId(actionDetails.getDefInstId());
 
             //from here on: requirement 3.2.8.b
             // Publish Event stating that the execution was initialized

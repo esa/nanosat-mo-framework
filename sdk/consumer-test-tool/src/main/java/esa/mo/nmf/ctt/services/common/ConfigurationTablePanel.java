@@ -26,7 +26,7 @@ import esa.mo.nmf.ctt.utils.SharedTablePanel;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetails;
+import org.ccsds.moims.mo.mc.action.structures.ActionDefinition;
 
 /**
  *
@@ -46,7 +46,7 @@ public class ConfigurationTablePanel extends SharedTablePanel {
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        ActionDefinitionDetails pDef = (ActionDefinitionDetails) comObject.getObject();
+        ActionDefinition pDef = (ActionDefinition) comObject.getObject();
 
         tableData.addRow(new Object[]{comObject.getArchiveDetails().getInstId(),
             "Dummy name...", pDef.getDescription(), "Severity removed...",

@@ -30,8 +30,8 @@ import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationCategory;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetails;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinition;
+import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionList;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSet;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSetList;
 import org.ccsds.moims.mo.mc.aggregation.structures.ThresholdFilter;
@@ -102,10 +102,10 @@ public class AggregationAddModify extends javax.swing.JFrame {
         return null; // Not found (it shouldn't occur...)
     }
 
-    public AggregationDefinitionDetails makeNewAggregationDefinition(final String description,
+    public AggregationDefinition makeNewAggregationDefinition(final String description,
             final AggregationCategory category, boolean generationEnabled, float updateInterval, boolean filterEnabled,
             float filteredTimeout, AggregationParameterSetList parameterSets) {
-        return new AggregationDefinitionDetails(
+        return new AggregationDefinition(
                 description,
                 new UOctet((short) category.getValue()),
                 new Duration(updateInterval),
@@ -531,12 +531,12 @@ public class AggregationAddModify extends javax.swing.JFrame {
             return;
         }
 
-        AggregationDefinitionDetails aDef;
+        AggregationDefinition aDef;
         aDef = makeNewAggregationDefinition(descriptionTF.getText(), new AggregationCategory(categoryCB
                 .getSelectedIndex()), generationEnabledCB.isSelected(), updateInterval, filterEnabledCB.isSelected(),
                 filteredTimeout, makeNewAggregationParameterSetList());
 
-        AggregationDefinitionDetailsList aDefs = new AggregationDefinitionDetailsList();
+        AggregationDefinitionList aDefs = new AggregationDefinitionList();
         aDefs.add(aDef);
         this.setVisible(false);
 

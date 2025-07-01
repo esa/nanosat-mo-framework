@@ -56,8 +56,8 @@ import org.ccsds.moims.mo.mc.action.ActionServiceInfo;
 import org.ccsds.moims.mo.mc.action.provider.ActionInheritanceSkeleton;
 import org.ccsds.moims.mo.mc.action.structures.ActionCreationRequestList;
 import org.ccsds.moims.mo.mc.action.structures.ActionCreationRequest;
-import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetails;
-import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.action.structures.ActionDefinition;
+import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionList;
 import org.ccsds.moims.mo.mc.action.structures.ActionInstanceDetails;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
@@ -307,7 +307,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         return newObjInstIds; // requirement: 3.2.12.2.f
     }
 
-    public LongList updateDefinition(LongList actionDefInstIds, ActionDefinitionDetailsList actionDefDetails,
+    public LongList updateDefinition(LongList actionDefInstIds, ActionDefinitionList actionDefDetails,
             MALInteraction interaction) throws MALInteractionException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
@@ -325,8 +325,8 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
                 invIndexList.add(new UInteger(index));
                 continue;
             }
-            ActionDefinitionDetails actionDefinitionDetails = manager.getActionDefinitionFromIdentityId(identityId);  // requirement: 3.2.13.2.a
-            if (actionDefinitionDetails == null) { // The object instance identifier could not be found? // requirement: 3.2.13.2.b
+            ActionDefinition actionDefinition = manager.getActionDefinitionFromIdentityId(identityId);  // requirement: 3.2.13.2.a
+            if (actionDefinition == null) { // The object instance identifier could not be found? // requirement: 3.2.13.2.b
                 unkIndexList.add(new UInteger(index));
                 continue;
             }
@@ -422,7 +422,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
 
         if (actionInstance != null) {
             // Aditional validation can be performed!
-            final ActionDefinitionDetails actionDefinition = manager.getActionDefinitionFromDefId(actionInstance
+            final ActionDefinition actionDefinition = manager.getActionDefinitionFromDefId(actionInstance
                     .getDefInstId());
 
             if (actionDefinition == null) {
@@ -487,7 +487,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         // If the list is empty, reconfigure the service with nothing...
         if (confSet0.getObjInstIds().isEmpty() && confSet1.getObjInstIds().isEmpty()) {
             manager.reconfigureDefinitions(new LongList(), new IdentifierList(), new LongList(),
-                    new ActionDefinitionDetailsList());  // Reconfigures the Manager
+                    new ActionDefinitionList());  // Reconfigures the Manager
 
             return true;
         }

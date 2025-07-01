@@ -44,13 +44,13 @@ import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.mal.structures.Union;
-import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetails;
-import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetailsList;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.action.structures.ActionDefinition;
+import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionList;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinition;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
-import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetails;
-import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.structures.ArgumentDefinition;
+import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.mc.structures.ConditionalConversionList;
 import org.ccsds.moims.mo.platform.camera.consumer.CameraAdapter;
@@ -87,10 +87,10 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
         registration.setMode(MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS);
 
         // ------------------ Parameters ------------------
-        ParameterDefinitionDetailsList defs = new ParameterDefinitionDetailsList();
+        ParameterDefinitionList defs = new ParameterDefinitionList();
         IdentifierList paramNames = new IdentifierList();
 
-        defs.add(new ParameterDefinitionDetails(
+        defs.add(new ParameterDefinition(
                 "The number of snaps taken.",
                 Union.STRING_SHORT_FORM.byteValue(),
                 "",
@@ -103,10 +103,10 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
         registration.registerParameters(paramNames, defs);
 
         // ------------------ Actions ------------------
-        ActionDefinitionDetailsList actionDefs = new ActionDefinitionDetailsList();
+        ActionDefinitionList actionDefs = new ActionDefinitionList();
         IdentifierList actionNames = new IdentifierList();
 
-        ArgumentDefinitionDetailsList arguments1 = new ArgumentDefinitionDetailsList();
+        ArgumentDefinitionList arguments1 = new ArgumentDefinitionList();
         {
             Byte rawType = Attribute._INTEGER_TYPE_SHORT_FORM;
             String rawUnit = "Image Format";
@@ -114,11 +114,11 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
             Byte convertedType = null;
             String convertedUnit = null;
 
-            arguments1.add(new ArgumentDefinitionDetails(new Identifier("1"), null,
+            arguments1.add(new ArgumentDefinition(new Identifier("1"), null,
                     rawType, rawUnit, conditionalConversions, convertedType, convertedUnit));
         }
 
-        actionDefs.add(new ActionDefinitionDetails(
+        actionDefs.add(new ActionDefinition(
                 "Uses the NMF Camera service to take a picture.",
                 new UOctet((short) 0),
                 new UShort(TOTAL_STAGES),
@@ -126,7 +126,7 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
         ));
         actionNames.add(new Identifier(ACTION_TAKE_PICTURE_RAW));
 
-        actionDefs.add(new ActionDefinitionDetails(
+        actionDefs.add(new ActionDefinition(
                 "Uses the NMF Camera service to take a picture.",
                 new UOctet((short) 0),
                 new UShort(TOTAL_STAGES),

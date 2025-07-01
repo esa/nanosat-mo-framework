@@ -73,7 +73,7 @@ import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.aggregation.AggregationServiceInfo;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetails;
+import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinition;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSet;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSetList;
 import org.ccsds.moims.mo.mc.conversion.ConversionServiceInfo;
@@ -112,7 +112,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         this.services = services;
     }
 
-    public static AggregationDefinitionDetails generateAggregationDefinition(String name) {
+    public static AggregationDefinition generateAggregationDefinition(String name) {
         LongList objIdParams = new LongList();
         objIdParams.add(1L);
 
@@ -120,7 +120,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         aggParamSetList.add(new AggregationParameterSet(objIdParams, new Duration(1)));
 
         // AgregationDefinition
-        return new AggregationDefinitionDetails(
+        return new AggregationDefinition(
                 "This is a description",
                 new UOctet((short) 0),
                 new Duration(0),
@@ -878,29 +878,29 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
             return;
         }
         
-        ActionDefinitionDetails actionDefinition = new ActionDefinitionDetails();
+        ActionDefinition actionDefinition = new ActionDefinition();
         //        actionDefinition.setName(new Identifier("Take_Picture"));
         actionDefinition.setDescription("The action takes a picture and stores it in a the 'picture' parameter.");
         actionDefinition.setProgressStepCount(new UShort(1));
         
-        ArgumentDefinitionDetails argument = new ArgumentDefinitionDetails();
+        ArgumentDefinition argument = new ArgumentDefinition();
         argument.setRawType(Duration.DURATION_TYPE_SHORT_FORM.byteValue());
         
-        ArgumentDefinitionDetailsList arguments = new ArgumentDefinitionDetailsList();
+        ArgumentDefinitionList arguments = new ArgumentDefinitionList();
         arguments.add(argument);
         
         actionDefinition.setArguments(arguments);
         actionDefinition.setArgumentIds(null);
         
-        ActionDefinitionDetails actionDefinition1 = new ActionDefinitionDetails();
+        ActionDefinition actionDefinition1 = new ActionDefinition();
         //        actionDefinition1.setName(new Identifier("Take_Picture"));
         actionDefinition1.setDescription("The action takes a picture and stores it in a the 'picture' parameter.");
         actionDefinition1.setProgressStepCount(new UShort(1));
         
-        ArgumentDefinitionDetails argument1 = new ArgumentDefinitionDetails();
+        ArgumentDefinition argument1 = new ArgumentDefinition();
         argument1.setRawType(Duration.DURATION_TYPE_SHORT_FORM.byteValue());
         
-        ArgumentDefinitionDetailsList arguments1 = new ArgumentDefinitionDetailsList();
+        ArgumentDefinitionList arguments1 = new ArgumentDefinitionList();
         arguments1.add(argument1);
         
         actionDefinition1.setArguments(arguments1);
@@ -908,12 +908,12 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         
         MOWindow genActionDefinition = new MOWindow(actionDefinition, true);
         try {
-            actionDefinition = (ActionDefinitionDetails) genActionDefinition.getObject();
+            actionDefinition = (ActionDefinition) genActionDefinition.getObject();
         } catch (InterruptedIOException ex) {
             return;
         }
         
-        ActionDefinitionDetailsList actionDefinitionList = new ActionDefinitionDetailsList();
+        ActionDefinitionList actionDefinitionList = new ActionDefinitionList();
         actionDefinitionList.add(actionDefinition);
         actionDefinitionList.add(actionDefinition1);
         

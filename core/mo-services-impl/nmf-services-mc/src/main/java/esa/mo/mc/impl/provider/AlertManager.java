@@ -33,7 +33,7 @@ import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mc.alert.AlertServiceInfo;
-import org.ccsds.moims.mo.mc.alert.structures.AlertDefinitionDetails;
+import org.ccsds.moims.mo.mc.alert.structures.AlertDefinition;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
 
 /**
@@ -56,15 +56,15 @@ public final class AlertManager extends MCManager {
 
     }
 
-    public AlertDefinitionDetails getAlertDefinitionFromIdentityId(Long identityId) {
-        return (AlertDefinitionDetails) this.getDefinition(identityId);
+    public AlertDefinition getAlertDefinitionFromIdentityId(Long identityId) {
+        return (AlertDefinition) this.getDefinition(identityId);
     }
 
-    public AlertDefinitionDetails getAlertDefinitionFromDefId(Long defId) {
-        return (AlertDefinitionDetails) this.getDefinitionFromObjId(defId);
+    public AlertDefinition getAlertDefinitionFromDefId(Long defId) {
+        return (AlertDefinition) this.getDefinitionFromObjId(defId);
     }
 
-    public ObjectInstancePair add(Identifier name, AlertDefinitionDetails definition, ObjectId source,
+    public ObjectInstancePair add(Identifier name, AlertDefinition definition, ObjectId source,
             SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
         ObjectInstancePair newIdPair = new ObjectInstancePair();
         if (super.getArchiveService() == null) {
@@ -116,7 +116,7 @@ public final class AlertManager extends MCManager {
         return newIdPair;
     }
 
-    public Long update(final Long identityId, final AlertDefinitionDetails definition, final ObjectId source,
+    public Long update(final Long identityId, final AlertDefinition definition, final ObjectId source,
             final SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
         Long newDefId = null;
 
@@ -153,7 +153,7 @@ public final class AlertManager extends MCManager {
     public Long setGenerationEnabled(final Long identityId, final Boolean bool,
             final ObjectId source, final SingleConnectionDetails connectionDetails) {
         // requirement: 3.3.2.5
-        AlertDefinitionDetails def = this.getAlertDefinitionFromIdentityId(identityId);
+        AlertDefinition def = this.getAlertDefinitionFromIdentityId(identityId);
         if (def == null) {
             return null;
         }
@@ -163,7 +163,7 @@ public final class AlertManager extends MCManager {
             return identityId; // the value was not changed
         }
 
-        AlertDefinitionDetails newDef = new AlertDefinitionDetails(
+        AlertDefinition newDef = new AlertDefinition(
                 def.getDescription(), def.getSeverity(), bool, def.getArguments());
 
         return this.update(identityId, newDef, source, connectionDetails);
@@ -175,8 +175,8 @@ public final class AlertManager extends MCManager {
         identityIds.addAll(this.listAllIdentities());
 
         for (Long identityId : identityIds) {
-            AlertDefinitionDetails def = this.getAlertDefinitionFromIdentityId(identityId);
-            AlertDefinitionDetails newDef = new AlertDefinitionDetails(
+            AlertDefinition def = this.getAlertDefinitionFromIdentityId(identityId);
+            AlertDefinition newDef = new AlertDefinition(
                     def.getDescription(), def.getSeverity(), bool, def.getArguments());
 
             this.update(identityId, newDef, source, connectionDetails);

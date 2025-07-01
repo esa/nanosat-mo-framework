@@ -41,7 +41,7 @@ import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mc.alert.AlertServiceInfo;
-import org.ccsds.moims.mo.mc.alert.structures.AlertDefinitionDetails;
+import org.ccsds.moims.mo.mc.alert.structures.AlertDefinition;
 import org.ccsds.moims.mo.mc.alert.structures.AlertEventDetails;
 import org.ccsds.moims.mo.mc.alert.consumer.AlertStub;
 import org.ccsds.moims.mo.mc.structures.AttributeValue;
@@ -124,7 +124,7 @@ public class AlertTest2 {
 
                 Long alertDefObjId = eventCOMObject.getRelated();
 
-                AlertDefinitionDetails details = null;  // TBD - look this up in list of 
+                AlertDefinition details = null;  // TBD - look this up in list of 
                 //Severity severity = details.getSeverity();
                 //String messageToDisplay = details.getName().getValue() + " ";
                 final StringBuilder messageToDisplay = new StringBuilder("<TEST-MSG>" + " ");

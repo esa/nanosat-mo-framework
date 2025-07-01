@@ -173,7 +173,7 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
     }
 
     @Override
-    public LongList updateDefinition(LongList ll, ParameterDefinitionDetailsList pddl, MALInteraction mali)
+    public LongList updateDefinition(LongList ll, ParameterDefinitionList pddl, MALInteraction mali)
             throws MALInteractionException, MALException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

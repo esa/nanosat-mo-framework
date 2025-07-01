@@ -37,41 +37,41 @@ The first thing you should do in ``initialRegistrations`` is setting the registr
 The default value is **DONT_UPDATE_IF_EXISTS**, but it could change in between, so it makes sense to set it explicitly to that value. The other option would be **UPDATE_IF_EXISTS**.
 So, all you need to do for now is ``registration.setMode(MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS);``
 
-Now, let's actually register our parameters. To define our parameters, we need two things: a **ParameterDefinitionDetailsList** and an **IdentifierList**.
-The **ParameterDefinitionDetailsList** contains all the details of our parameters, except for the name. 
-The parameter names are provided in the **IdentifierList** in the same order, as the corresponding **ParameterDefinitionDetails** are passed to the other list. 
+Now, let's actually register our parameters. To define our parameters, we need two things: a **ParameterDefinitionList** and an **IdentifierList**.
+The **ParameterDefinitionList** contains all the details of our parameters, except for the name. 
+The parameter names are provided in the **IdentifierList** in the same order, as the corresponding **ParameterDefinition** are passed to the other list. 
 So, if we supplied the details in the order gainR, gainG, gainB, exposureTime, then the **IdentifierList** would contain the **Identifiers** for "GainRed", "GainGreen", "GainBlue" and "ExposureTime" in that order.
-**ParameterDefinitionDetails** contain basic information about your parameter. This information is a short description (**String**) which can be displayed in the CTT, its raw type (**Byte**), if the parameter value is sent to the NMF on a regular basis (**Boolean**), the delay between parameter updates (**Duration**), an expression to check if the current parameter value is valid (**ParameterExpression**) and finally a **ParameterConversion** if the parameter has a converted type.
+**ParameterDefinition** contain basic information about your parameter. This information is a short description (**String**) which can be displayed in the CTT, its raw type (**Byte**), if the parameter value is sent to the NMF on a regular basis (**Boolean**), the delay between parameter updates (**Duration**), an expression to check if the current parameter value is valid (**ParameterExpression**) and finally a **ParameterConversion** if the parameter has a converted type.
 The last two values can be null, if they are not needed.
 However, the other values should be set. Otherwise, NullPointerExceptions will occur.
 
-To create the ParameterDefinitionDetails for a parameter, we just have to create instances of the **ParameterDefinitionDetails** class. So, let's do that!
+To create the ParameterDefinition for a parameter, we just have to create instances of the **ParameterDefinition** class. So, let's do that!
 
 .. code-block:: java
    :linenos:
 
-   ParameterDefinitionDetailsList defs = new ParameterDefinitionDetailsList();
+   ParameterDefinitionList defs = new ParameterDefinitionList();
    IdentifierList paramNames = new IdentifierList();
 
-   ParameterDefinitionDetails detailsGainR = new ParameterDefinitionDetails(
+   ParameterDefinition detailsGainR = new ParameterDefinition(
        "The red channel gain", Union.FLOAT_TYPE_SHORT_FORM.byteValue(), "", false, new Duration(0), null,
        null);
-   ParameterDefinitionDetails detailsGainG = new ParameterDefinitionDetails(
+   ParameterDefinition detailsGainG = new ParameterDefinition(
        "The green channel gain", Union.FLOAT_TYPE_SHORT_FORM.byteValue(), "", false, new Duration(0), null,
        null);
-   ParameterDefinitionDetails detailsGainB = new ParameterDefinitionDetails(
+   ParameterDefinition detailsGainB = new ParameterDefinition(
        "The blue channel gain", Union.FLOAT_TYPE_SHORT_FORM.byteValue(), "", false, new Duration(0), null,
        null);
-   ParameterDefinitionDetails detailsExpTime = new ParameterDefinitionDetails(
+   ParameterDefinition detailsExpTime = new ParameterDefinition(
        "The camera's exposure time", Union.FLOAT_TYPE_SHORT_FORM.byteValue(), "", false, new Duration(0),
        null, null);
 
-And add them to the **ParameterDefinitionDetailsList** and set the **Identifiers**:
+And add them to the **ParameterDefinitionList** and set the **Identifiers**:
 
 .. code-block:: java
    :linenos:
 
-   defs.addAll(Arrays.asList(new ParameterDefinitionDetails[] { detailsGainR, detailsGainG,
+   defs.addAll(Arrays.asList(new ParameterDefinition[] { detailsGainR, detailsGainG,
         detailsGainB, detailsExpTime }));
    paramNames.add(new Identifier(GR));
    paramNames.add(new Identifier(GG));

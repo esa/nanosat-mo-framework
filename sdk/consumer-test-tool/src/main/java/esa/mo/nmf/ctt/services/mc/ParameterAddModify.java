@@ -44,8 +44,8 @@ import org.ccsds.moims.mo.mc.conversion.ConversionHelper;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterConversion;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterCreationRequest;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterCreationRequestList;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinition;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionList;
 import org.ccsds.moims.mo.mc.structures.ConditionalConversion;
 import org.ccsds.moims.mo.mc.structures.ConditionalConversionList;
 import org.ccsds.moims.mo.mc.structures.ParameterExpression;
@@ -102,10 +102,10 @@ public class ParameterAddModify extends javax.swing.JFrame {
         this.parameterDefinitionSelectedIndex = in;
     }
 
-    public ParameterDefinitionDetails makeNewParameterDefinition(int rawType,
+    public ParameterDefinition makeNewParameterDefinition(int rawType,
             String rawUnit, String description, boolean generationEnabled, float interval,
             ParameterExpression validityExpression, ParameterConversion conversion) {
-        return new ParameterDefinitionDetails(description, (Byte) ((byte) rawType), rawUnit,
+        return new ParameterDefinition(description, (Byte) ((byte) rawType), rawUnit,
                 generationEnabled, new Duration(interval), validityExpression, conversion);
     }
 
@@ -558,11 +558,11 @@ public class ParameterAddModify extends javax.swing.JFrame {
             pConv = new ParameterConversion((byte) rawTypeCB.getSelectedIndex(), convertedUnit.getText(), conversionConditions);
         }
 
-        ParameterDefinitionDetails Pdef;
+        ParameterDefinition Pdef;
         Pdef = makeNewParameterDefinition(rawTypeCB.getSelectedIndex(), rawUnitTF.getText(), descriptionTF.getText(),
                 generationEnabledCB.isSelected(), Float.parseFloat(updateIntervalTF.getText()), PExp, pConv);
 
-        ParameterDefinitionDetailsList PDefs = new ParameterDefinitionDetailsList();
+        ParameterDefinitionList PDefs = new ParameterDefinitionList();
         PDefs.add(Pdef);
 
         ParameterCreationRequest request = new ParameterCreationRequest(new Identifier(nameTF.getText()), Pdef);

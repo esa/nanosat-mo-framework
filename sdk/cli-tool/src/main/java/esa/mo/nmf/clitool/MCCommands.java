@@ -407,7 +407,7 @@ public class MCCommands {
                         public void retrieveResponseReceived(MALMessageHeader msgHeader, ArchiveDetailsList objDetails,
                             HeterogeneousList objBodies, Map qosProperties) {
                             for (int i = 0; i < objDetails.size(); ++i) {
-                                AggregationDefinitionDetails details = (AggregationDefinitionDetails) objBodies.get(i);
+                                AggregationDefinition details = (AggregationDefinition) objBodies.get(i);
                                 if (details.getGenerationEnabled()) {
                                     for (AggregationParameterSet set : details.getParameterSets()) {
                                         parameterIds.addAll(set.getParameters());
@@ -677,7 +677,7 @@ public class MCCommands {
                     for (Map.Entry<Long, List<TimestampedAggregationValue>> entry : aggregationValuesMap.get(domainKey)
                         .entrySet()) {
                         Long definitionId = entry.getKey();
-                        AggregationDefinitionDetails definition = aggregationsAdapter.getAggregationDefinitions().get(
+                        AggregationDefinition definition = aggregationsAdapter.getAggregationDefinitions().get(
                             domainKey).get(definitionId);
 
                         for (TimestampedAggregationValue aggregationValue : entry.getValue()) {

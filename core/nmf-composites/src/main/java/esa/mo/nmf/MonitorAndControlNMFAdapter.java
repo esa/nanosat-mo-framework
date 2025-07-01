@@ -54,18 +54,18 @@ import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UIntegerList;
 import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.UShort;
-import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetails;
-import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.action.structures.ActionDefinition;
+import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionList;
 import org.ccsds.moims.mo.mc.action.structures.ActionInstanceDetails;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetails;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinition;
+import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionList;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSet;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSetList;
 import org.ccsds.moims.mo.mc.aggregation.structures.ThresholdFilter;
 import org.ccsds.moims.mo.mc.parameter.ParameterServiceInfo;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterConversion;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinition;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValue;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
@@ -106,7 +106,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
     private void registerParameters(MCRegistration registration) {
         LOGGER.log(Level.INFO, "Registering Parameters:");
         IdentifierList parameterNames = new IdentifierList();
-        ParameterDefinitionDetailsList definitions = new ParameterDefinitionDetailsList();
+        ParameterDefinitionList definitions = new ParameterDefinitionList();
         LinkedList<Field> parameters = new LinkedList<>();
 
         // get all fields
@@ -130,7 +130,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
                 LOGGER.log(Level.INFO, "Parameter registered: {0}", annotation.name());
             }
 
-            //----------------collect ParameterDefinitionDetails----------------
+            //----------------collect ParameterDefinition----------------
             String description = annotation.description();
             byte rawType;
             if (annotation.malType().equals("")) {
@@ -181,7 +181,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
                 }
             }
 
-            definitions.add(new ParameterDefinitionDetails(description, rawType, rawUnit,
+            definitions.add(new ParameterDefinition(description, rawType, rawUnit,
                     generationEnabled, reportInterval, validityExpression, conversion));
         }
 
@@ -208,7 +208,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
                 Aggregation[] aggregations = aggregationList[0].value();
 
                 IdentifierList aggregationNames = new IdentifierList();
-                AggregationDefinitionDetailsList aggregationDetails = new AggregationDefinitionDetailsList();
+                AggregationDefinitionList aggregationDetails = new AggregationDefinitionList();
 
                 for (Aggregation aggregation : aggregations) {
                     if (aggregationMapping.containsKey(aggregation.id())) {
@@ -234,7 +234,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
                                 new Duration(aggregation.sampleInterval()), filter));
 
                         // Create the Aggregation
-                        AggregationDefinitionDetails aggregationDetail = new AggregationDefinitionDetails(
+                        AggregationDefinition aggregationDetail = new AggregationDefinition(
                                 aggregation.description(), new UOctet((short) aggregation.category()),
                                 new Duration(aggregation.reportInterval()), aggregation.sendUnchanged(),
                                 aggregation.sendDefinitions(), aggregation.filterEnabled(),
@@ -329,7 +329,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
      * @param registration
      */
     private void registerActions(MCRegistration registration) {
-        ActionDefinitionDetailsList actionDefs = new ActionDefinitionDetailsList();
+        ActionDefinitionList actionDefs = new ActionDefinitionList();
         IdentifierList actionNames = new IdentifierList();
         LinkedList<Method> actionFunctions = new LinkedList<>();
 
@@ -364,7 +364,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
 
                 actionFunctions.add(method);
 
-                ArgumentDefinitionDetailsList arguments = new ArgumentDefinitionDetailsList();
+                ArgumentDefinitionList arguments = new ArgumentDefinitionList();
 
                 java.lang.reflect.Parameter[] parameters = Arrays.copyOfRange(
                         method.getParameters(), 3, method.getParameters().length);
@@ -408,7 +408,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
                             }
                         }
                     }
-                    arguments.add(new ArgumentDefinitionDetails(identifier, description,
+                    arguments.add(new ArgumentDefinition(identifier, description,
                             rawType, rawUnit, conditionalConversions, convertedType, convertedUnit));
                 }
 
@@ -418,7 +418,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
 
                 LOGGER.log(Level.INFO, "Action registered: {0}", actionId);
                 actionNames.add(actionId);
-                actionDefs.add(new ActionDefinitionDetails(annotation.description(),
+                actionDefs.add(new ActionDefinition(annotation.description(),
                         new UOctet(annotation.category()),
                         new UShort(annotation.stepCount()), arguments));
             }
@@ -561,13 +561,13 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
     }
 
     @Override
-    public boolean preCheck(ActionDefinitionDetails defDetails,
+    public boolean preCheck(ActionDefinition defDetails,
             ActionInstanceDetails instDetails, UIntegerList errorList) {
         return true;
     }
 
     @Override
-    public ParameterValue getValueWithCustomValidityState(Attribute rawValue, ParameterDefinitionDetails pDef) {
+    public ParameterValue getValueWithCustomValidityState(Attribute rawValue, ParameterDefinition pDef) {
         return null; // Return null to work normally...
     }
 

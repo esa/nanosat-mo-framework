@@ -49,7 +49,7 @@ import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
 import org.ccsds.moims.mo.mc.parameter.ParameterServiceInfo;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterConversion;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinition;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValue;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
@@ -274,7 +274,7 @@ public class ParameterManager extends MCManager {
             throw new MALInteractionException(new UnknownException(identityId));
         }
 
-        ParameterDefinitionDetails pDef = this.getParameterDefinition(identityId);
+        ParameterDefinition pDef = this.getParameterDefinition(identityId);
 
         try {
             Attribute rawValue = getRawValue(identityId, pDef);
@@ -305,7 +305,7 @@ public class ParameterManager extends MCManager {
         }
 
         // else use old procedure:
-        ParameterDefinitionDetails pDef = this.getParameterDefinition(paramIdentityId);
+        ParameterDefinition pDef = this.getParameterDefinition(paramIdentityId);
         Attribute value;
 
         return parametersMonitoring.onGetValue(super.getName(paramIdentityId), pDef.getRawType());
@@ -318,8 +318,8 @@ public class ParameterManager extends MCManager {
      * @param identityId the id of the identity you want the details from
      * @return the definition-details. Or Null if not found.
      */
-    public ParameterDefinitionDetails getParameterDefinition(Long identityId) {
-        return (ParameterDefinitionDetails) this.getDefinition(identityId);
+    public ParameterDefinition getParameterDefinition(Long identityId) {
+        return (ParameterDefinition) this.getDefinition(identityId);
     }
 
     /**
@@ -336,7 +336,7 @@ public class ParameterManager extends MCManager {
 
         //TODO: contains the expression defintion or identity-id? -> issue #132, #179
         final Long paramIdentityId = expression.getParameterId().getInstId();
-        ParameterDefinitionDetails pDef = this.getParameterDefinition(paramIdentityId);
+        ParameterDefinition pDef = this.getParameterDefinition(paramIdentityId);
         Attribute value;
         try {
 
@@ -372,7 +372,7 @@ public class ParameterManager extends MCManager {
      * will be expired.
      * @return the validityState
      */
-    protected UOctet generateValidityState(final ParameterDefinitionDetails pDef, final Attribute rawValue,
+    protected UOctet generateValidityState(final ParameterDefinition pDef, final Attribute rawValue,
             final Attribute convertedValue, final boolean aggrExpired) {
 
         //parameter-aggregation has a timeout that is expired
@@ -444,7 +444,7 @@ public class ParameterManager extends MCManager {
             Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             return getAsUOctet(ValidityState.INVALID_RAW);
         }
-        final ParameterDefinitionDetails expPDef = getParameterDefinition(expPIdentityId);
+        final ParameterDefinition expPDef = getParameterDefinition(expPIdentityId);
         return generateValidityState(this.getParameterDefinition(expPIdentityId), expParamValue, getConvertedValue(
                 expParamValue, expPDef), aggrExpired);
     }
@@ -522,18 +522,18 @@ public class ParameterManager extends MCManager {
                     i++;
                 }
 
-                ArchiveDetailsList definitionDetails = new ArchiveDetailsList();
+                ArchiveDetailsList Definition = new ArchiveDetailsList();
 
                 for (Long idId : identityIds) {
                     ArchiveDetailsList defDetails = HelperArchive.generateArchiveDetailsList(
                             idId, source, connectionDetails.getProviderURI());
 
-                    definitionDetails.add(defDetails.get(0));
+                    Definition.add(defDetails.get(0));
                 }
 
                 //not matter if the parameter was created or loaded, a new definition will be created
                 LongList defIds = super.getArchiveService().store(true, ParameterServiceInfo.PARAMETERDEFINITION_OBJECT_TYPE,
-                        ConfigurationProviderSingleton.getDomain(), definitionDetails, definitions, null);
+                        ConfigurationProviderSingleton.getDomain(), Definition, definitions, null);
 
                 i = 0;
                 //add to providers local list
@@ -558,7 +558,7 @@ public class ParameterManager extends MCManager {
         return newIdPairList;
     }
 
-    protected ObjectInstancePair add(Identifier name, ParameterDefinitionDetails definition,
+    protected ObjectInstancePair add(Identifier name, ParameterDefinition definition,
             ObjectId source, SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
         ObjectInstancePair newIdPair;
 
@@ -630,7 +630,7 @@ public class ParameterManager extends MCManager {
      */
     protected Long setGenerationEnabled(Long identityId, Boolean bool, ObjectId source,
             SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.a.c
-        ParameterDefinitionDetails def = this.getParameterDefinition(identityId);
+        ParameterDefinition def = this.getParameterDefinition(identityId);
 
         if (def == null) {
             return null;
@@ -641,7 +641,7 @@ public class ParameterManager extends MCManager {
             return identityId; // the value was not changed
         }
 
-        ParameterDefinitionDetails newDef = new ParameterDefinitionDetails(
+        ParameterDefinition newDef = new ParameterDefinition(
                 def.getDescription(), def.getRawType(), def.getRawUnit(),
                 bool, def.getReportInterval(),
                 def.getValidityExpression(), def.getConversion());
@@ -661,7 +661,7 @@ public class ParameterManager extends MCManager {
      * @param connectionDetails the given connectionDetails
      * @return the object instance identifier of the new parameter-definition
      */
-    protected Long update(Long identityId, ParameterDefinitionDetails definition,
+    protected Long update(Long identityId, ParameterDefinition definition,
             ObjectId source, SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.d
         Long newDefId = null;
 
@@ -707,8 +707,8 @@ public class ParameterManager extends MCManager {
         identitiyIds.addAll(this.listAllIdentities());
 
         for (Long identityId : identitiyIds) {
-            ParameterDefinitionDetails def = this.getParameterDefinition(identityId);
-            ParameterDefinitionDetails newDef = new ParameterDefinitionDetails(
+            ParameterDefinition def = this.getParameterDefinition(identityId);
+            ParameterDefinition newDef = new ParameterDefinition(
                     def.getDescription(), def.getRawType(), def.getRawUnit(),
                     bool, def.getReportInterval(),
                     def.getValidityExpression(), def.getConversion());
@@ -782,7 +782,7 @@ public class ParameterManager extends MCManager {
      * @return a filled ParameterValue
      */
     public ParameterValue generateNewParameterValue(Attribute rawValue,
-            final ParameterDefinitionDetails pDef, final boolean aggrExpired) {
+            final ParameterDefinition pDef, final boolean aggrExpired) {
         ParameterValue newPValue;
 
         //requirement: 3.3.3.q, 3.3.3.r
@@ -817,7 +817,7 @@ public class ParameterManager extends MCManager {
      * @param pDef The definition of the parameter.
      * @return The raw value. null if there is no parametersMonitoring.
      */
-    private Attribute getRawValue(Long identityId, ParameterDefinitionDetails pDef) throws IOException {
+    private Attribute getRawValue(Long identityId, ParameterDefinition pDef) throws IOException {
         if (parametersMonitoring == null) {
             return null;
         }
@@ -841,7 +841,7 @@ public class ParameterManager extends MCManager {
      * @param pDef The definition it should get the conversion from.
      * @return The converted value. null if no Conversion service is available.
      */
-    private Attribute getConvertedValue(final Attribute rawValue, final ParameterDefinitionDetails pDef) {
+    private Attribute getConvertedValue(final Attribute rawValue, final ParameterDefinition pDef) {
         // Is the Conversion service available for use?
         if (conversionService == null) {
             return null;

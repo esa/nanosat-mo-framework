@@ -37,13 +37,13 @@ import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.mal.structures.Union;
-import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetails;
-import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetailsList;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.action.structures.ActionDefinition;
+import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionList;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinition;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
-import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetails;
-import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.structures.ArgumentDefinition;
+import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.mc.structures.ConditionalConversionList;
 
@@ -70,26 +70,26 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
         registration.setMode(MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS);
 
         // ------------------ Parameters ------------------
-        ParameterDefinitionDetailsList parDef = new ParameterDefinitionDetailsList();
+        ParameterDefinitionList parDef = new ParameterDefinitionList();
         IdentifierList paramNames = new IdentifierList();
 
         // Creates a periodic parameter
-        parDef.add(new ParameterDefinitionDetails("A periodic parameter with a double value.",
+        parDef.add(new ParameterDefinition("A periodic parameter with a double value.",
             Union.DOUBLE_TYPE_SHORT_FORM.byteValue(), "unit", false, new Duration(1), null, null));
         paramNames.add(new Identifier(PARAMETER_PERIODIC));
 
         // Creates a periodic parameter
-        parDef.add(new ParameterDefinitionDetails("The COM Archive size.", Union.LONG_TYPE_SHORT_FORM.byteValue(),
+        parDef.add(new ParameterDefinition("The COM Archive size.", Union.LONG_TYPE_SHORT_FORM.byteValue(),
             "bytes", false, new Duration(0), null, null));
         paramNames.add(new Identifier(PARAMETER_ARCHIVE_SIZE));
 
         registration.registerParameters(paramNames, parDef);
 
         // ------------------ Actions ------------------
-        ActionDefinitionDetailsList actionDefs = new ActionDefinitionDetailsList();
+        ActionDefinitionList actionDefs = new ActionDefinitionList();
         IdentifierList actionNames = new IdentifierList();
 
-        ArgumentDefinitionDetailsList arguments1 = new ArgumentDefinitionDetailsList();
+        ArgumentDefinitionList arguments1 = new ArgumentDefinitionList();
         {
             Byte rawType = Attribute._INTEGER_TYPE_SHORT_FORM;
             String rawUnit = "-";
@@ -97,15 +97,15 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
             Byte convertedType = null;
             String convertedUnit = null;
 
-            arguments1.add(new ArgumentDefinitionDetails(new Identifier("1"), "", rawType, rawUnit,
+            arguments1.add(new ArgumentDefinition(new Identifier("1"), "", rawType, rawUnit,
                 conditionalConversions, convertedType, convertedUnit));
         }
 
-        actionDefs.add(new ActionDefinitionDetails("Stores " + NUMBER_OF_OBJS +
+        actionDefs.add(new ActionDefinition("Stores " + NUMBER_OF_OBJS +
             " aggregation definition objects in the COM Archive.", new UOctet((short) 0), new UShort(0), arguments1));
         actionNames.add(new Identifier(ACTION_STORE_AGGS));
 
-        actionDefs.add(new ActionDefinitionDetails("Stores " + NUMBER_OF_OBJS +
+        actionDefs.add(new ActionDefinition("Stores " + NUMBER_OF_OBJS +
             " parameter value objects in the COM Archive.", new UOctet((short) 0), new UShort(0), arguments1));
         actionNames.add(new Identifier(ACTION_STORE_PARS));
 

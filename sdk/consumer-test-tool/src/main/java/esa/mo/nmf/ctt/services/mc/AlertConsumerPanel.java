@@ -42,10 +42,10 @@ import org.ccsds.moims.mo.mc.alert.AlertServiceInfo;
 import org.ccsds.moims.mo.mc.alert.consumer.AlertAdapter;
 import org.ccsds.moims.mo.mc.alert.structures.AlertCreationRequest;
 import org.ccsds.moims.mo.mc.alert.structures.AlertCreationRequestList;
-import org.ccsds.moims.mo.mc.alert.structures.AlertDefinitionDetails;
-import org.ccsds.moims.mo.mc.alert.structures.AlertDefinitionDetailsList;
-import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetails;
-import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.alert.structures.AlertDefinition;
+import org.ccsds.moims.mo.mc.alert.structures.AlertDefinitionList;
+import org.ccsds.moims.mo.mc.structures.ArgumentDefinition;
+import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionList;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 import org.ccsds.moims.mo.mc.structures.Severity;
@@ -224,14 +224,14 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
 
     private void addDefinitionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDefinitionButtonActionPerformed
         /*
-        ArgumentDefinitionDetails details = new ArgumentDefinitionDetails(
+        ArgumentDefinition details = new ArgumentDefinition(
             new Identifier("0"),
             (byte) 1);
 
-        ArgumentDefinitionDetailsList detailsList = new ArgumentDefinitionDetailsList();
+        ArgumentDefinitionList detailsList = new ArgumentDefinitionList();
         detailsList.add(details);
         // Create and Show the Action Definition to the user
-        AlertDefinitionDetails alertDefinition = new AlertDefinitionDetails(
+        AlertDefinition alertDefinition = new AlertDefinition(
                 "This Alert is generated 10 seconds after taking the picture.",
                 Severity.INFORMATIONAL,
                 true,
@@ -290,9 +290,9 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
         LongList objIds = new LongList();
         objIds.add(alertTable.getSelectedIdentityObjId());
 
-        AlertDefinitionDetailsList defs = new AlertDefinitionDetailsList();
+        AlertDefinitionList defs = new AlertDefinitionList();
         try {
-            defs.add((AlertDefinitionDetails) moObject.getObject());
+            defs.add((AlertDefinition) moObject.getObject());
         } catch (InterruptedIOException ex) {
             return;
         }
@@ -389,14 +389,14 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
 
         String str;
         if (alertTable.getSelectedRow() == -1) {  // Used to avoid problems if no row is selected
-            AlertDefinitionDetails alertDefinition = (AlertDefinitionDetails) alertTable.getFirstCOMObject().getObject();
+            AlertDefinition alertDefinition = (AlertDefinition) alertTable.getFirstCOMObject().getObject();
             if (alertDefinition != null) {
                 curState = alertDefinition.getGenerationEnabled();
             } else {
                 curState = true;
             }
         } else {
-            curState = ((AlertDefinitionDetails) alertTable.getSelectedCOMObject().getObject()).getGenerationEnabled();
+            curState = ((AlertDefinition) alertTable.getSelectedCOMObject().getObject()).getGenerationEnabled();
         }
 
         InstanceBooleanPairList BoolPairList = new InstanceBooleanPairList();
@@ -419,7 +419,7 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
         LongList longlist = new LongList();
         longlist.add(objId);
         */
-        Boolean curState = ((AlertDefinitionDetails) alertTable.getSelectedCOMObject().getObject())
+        Boolean curState = ((AlertDefinition) alertTable.getSelectedCOMObject().getObject())
             .getGenerationEnabled();
         InstanceBooleanPairList BoolPairList = new InstanceBooleanPairList();
         BoolPairList.add(new InstanceBooleanPair((long) 0, !curState));  // Zero is the wildcard

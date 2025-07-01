@@ -24,7 +24,7 @@ import java.io.IOException;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinition;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
 
@@ -102,7 +102,7 @@ public interface ParameterStatusListener {
      * then the values must be greater than 127. if null then there are no
      * custom mechanisms and values, and the standard ones must be used
      */
-    ParameterValue getValueWithCustomValidityState(Attribute rawValue, ParameterDefinitionDetails pDef);
+    ParameterValue getValueWithCustomValidityState(Attribute rawValue, ParameterDefinition pDef);
 
     /**
      * Checks if a Parameter is read-only

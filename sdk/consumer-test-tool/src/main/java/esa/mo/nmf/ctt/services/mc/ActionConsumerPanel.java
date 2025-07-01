@@ -46,11 +46,11 @@ import org.ccsds.moims.mo.mc.action.ActionServiceInfo;
 import org.ccsds.moims.mo.mc.action.consumer.ActionAdapter;
 import org.ccsds.moims.mo.mc.action.structures.ActionCreationRequest;
 import org.ccsds.moims.mo.mc.action.structures.ActionCreationRequestList;
-import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetails;
-import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.action.structures.ActionDefinition;
+import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionList;
 import org.ccsds.moims.mo.mc.action.structures.ActionInstanceDetails;
-import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetails;
-import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.structures.ArgumentDefinition;
+import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionList;
 import org.ccsds.moims.mo.mc.structures.AttributeValue;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
@@ -228,9 +228,9 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
         ArchivePersistenceObject comObject = actionTable.getSelectedCOMObject();
         Long objIdDef = comObject.getObjectId();
 
-        ActionDefinitionDetails actDef = (ActionDefinitionDetails) comObject.getObject();
+        ActionDefinition actDef = (ActionDefinition) comObject.getObject();
         AttributeValueList argumentValueList = new AttributeValueList();
-        ArgumentDefinitionDetailsList arguments = actDef.getArguments();
+        ArgumentDefinitionList arguments = actDef.getArguments();
 
         if (arguments != null) {
             for (int i = 0; i < arguments.size(); i++) {
@@ -318,15 +318,15 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
 
     private void addDefinitionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDefinitionButtonActionPerformed
         /*
-        ArgumentDefinitionDetails details = new ArgumentDefinitionDetails(
+        ArgumentDefinition details = new ArgumentDefinition(
                 new Identifier("0"),
                 (byte) 1);
 
-        ArgumentDefinitionDetailsList detailsList = new ArgumentDefinitionDetailsList();
+        ArgumentDefinitionList detailsList = new ArgumentDefinitionList();
         detailsList.add(null);
 
         // Create and Show the Action Definition to the user
-        ActionDefinitionDetails actionDefinition = new ActionDefinitionDetails(
+        ActionDefinition actionDefinition = new ActionDefinition(
                 "The action takes a picture and saves it in the 'picture' parameter.",
                 new UOctet((short) 0),
                 new UShort(1),
@@ -387,9 +387,9 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
         LongList objIds = new LongList();
         objIds.add(actionTable.getSelectedIdentityObjId());
 
-        ActionDefinitionDetailsList defs = new ActionDefinitionDetailsList();
+        ActionDefinitionList defs = new ActionDefinitionList();
         try {
-            defs.add((ActionDefinitionDetails) moObject.getObject());
+            defs.add((ActionDefinition) moObject.getObject());
         } catch (InterruptedIOException ex) {
             return;
         }

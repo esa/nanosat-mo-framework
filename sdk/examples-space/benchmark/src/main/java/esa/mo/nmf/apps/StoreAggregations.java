@@ -34,8 +34,8 @@ import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mc.aggregation.AggregationServiceInfo;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetails;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinition;
+import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionList;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSet;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSetList;
 
@@ -47,7 +47,7 @@ public class StoreAggregations {
 
     public static void storeAggregations(int numberOfObjs, NMFInterface connector) {
         try {
-            AggregationDefinitionDetailsList defs = new AggregationDefinitionDetailsList();
+            AggregationDefinitionList defs = new AggregationDefinitionList();
             AggregationParameterSetList aaa = new AggregationParameterSetList();
             LongList lissssst = new LongList();
             lissssst.add(new Long(65));
@@ -57,7 +57,7 @@ public class StoreAggregations {
                 new Duration(43),
                 null);
             aaa.add(aa);
-            AggregationDefinitionDetails def = new AggregationDefinitionDetails(
+            AggregationDefinition def = new AggregationDefinition(
                 "dfvgdf",
                 new UOctet((short) 1),
                 new Duration(45),

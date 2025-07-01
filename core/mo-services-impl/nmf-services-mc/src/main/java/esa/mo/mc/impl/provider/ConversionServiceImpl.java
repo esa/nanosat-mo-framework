@@ -191,26 +191,26 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
         Element conversionDetails;
         //Search in PolyConversions:
         ObjectType convType = ConversionServiceInfo.POLYCONVERSION_OBJECT_TYPE;
-        conversionDetails = getDefinitionDetailsFromIdentityIdFromArchive(convType, domain, identityId);
+        conversionDetails = getDefinitionFromIdentityIdFromArchive(convType, domain, identityId);
 
         if (conversionDetails == null) {
             //Search in DiscreteConversions
             convType = ConversionServiceInfo.DISCRETECONVERSION_OBJECT_TYPE;
-            conversionDetails = getDefinitionDetailsFromIdentityIdFromArchive(convType, domain, identityId);
+            conversionDetails = getDefinitionFromIdentityIdFromArchive(convType, domain, identityId);
         } else {
             return conversionDetails;
         }
         if (conversionDetails == null) {
             //Search in LineConversions
             convType = ConversionServiceInfo.LINECONVERSION_OBJECT_TYPE;
-            conversionDetails = getDefinitionDetailsFromIdentityIdFromArchive(convType, domain, identityId);
+            conversionDetails = getDefinitionFromIdentityIdFromArchive(convType, domain, identityId);
         } else {
             return conversionDetails;
         }
         if (conversionDetails == null) {
             //Search in RangeConversions
             convType = ConversionServiceInfo.RANGECONVERSION_OBJECT_TYPE;
-            conversionDetails = getDefinitionDetailsFromIdentityIdFromArchive(convType, domain, identityId);
+            conversionDetails = getDefinitionFromIdentityIdFromArchive(convType, domain, identityId);
         }
         return conversionDetails;
     }
@@ -227,10 +227,10 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
      * @param domain the domain to look at in the archive
      * @param identityId the identity id the searched object has a source-link
      * to
-     * @return The DefinitionDetails-Object with the newest timestamp or null if
+     * @return The Definition-Object with the newest timestamp or null if
      * no object of the given objectType references the given identity.
      */
-    private Element getDefinitionDetailsFromIdentityIdFromArchive(ObjectType objType, final IdentifierList domain,
+    private Element getDefinitionFromIdentityIdFromArchive(ObjectType objType, final IdentifierList domain,
         Long identityId) {
         //retrieve all existing conversion-objects
         LongList defIds = new LongList();

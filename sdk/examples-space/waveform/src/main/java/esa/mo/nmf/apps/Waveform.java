@@ -40,13 +40,13 @@ import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.mal.structures.Union;
-import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetails;
-import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetailsList;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.action.structures.ActionDefinition;
+import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionList;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinition;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
-import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetails;
-import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetailsList;
+import org.ccsds.moims.mo.mc.structures.ArgumentDefinition;
+import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.mc.structures.ConditionalConversionList;
 
@@ -113,16 +113,16 @@ public class Waveform {
             registrationObject.setMode(MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS);
 
             // ------------------ Parameters ------------------
-            final ParameterDefinitionDetailsList defs = new ParameterDefinitionDetailsList();
+            final ParameterDefinitionList defs = new ParameterDefinitionList();
             final IdentifierList names = new IdentifierList();
 
-            defs.add(new ParameterDefinitionDetails("Amplitude of the wave", Union.DOUBLE_SHORT_FORM.byteValue(), "",
+            defs.add(new ParameterDefinition("Amplitude of the wave", Union.DOUBLE_SHORT_FORM.byteValue(), "",
                 true, new Duration(3), null, null));
-            defs.add(new ParameterDefinitionDetails("Frequency of the wave", Union.DOUBLE_SHORT_FORM.byteValue(), "",
+            defs.add(new ParameterDefinition("Frequency of the wave", Union.DOUBLE_SHORT_FORM.byteValue(), "",
                 true, new Duration(3), null, null));
-            defs.add(new ParameterDefinitionDetails("Result of the wave", Union.DOUBLE_SHORT_FORM.byteValue(), "", true,
+            defs.add(new ParameterDefinition("Result of the wave", Union.DOUBLE_SHORT_FORM.byteValue(), "", true,
                 new Duration(), null, null));
-            defs.add(new ParameterDefinitionDetails("Refreshrate for publishing the result", Union.LONG_SHORT_FORM
+            defs.add(new ParameterDefinition("Refreshrate for publishing the result", Union.LONG_SHORT_FORM
                 .byteValue(), "us", true, new Duration(), null, null));
             names.add(new Identifier("Amplitude"));
             names.add(new Identifier("Frequency"));
@@ -130,44 +130,44 @@ public class Waveform {
             names.add(new Identifier("Refresh"));
             registrationObject.registerParameters(names, defs);
             IdentifierList actionNames = new IdentifierList();
-            ActionDefinitionDetailsList actionDefs = new ActionDefinitionDetailsList();
-            ActionDefinitionDetails actionDef1 = new ActionDefinitionDetails("Start the plotter.", new UOctet(
-                (short) 0), new UShort(0), new ArgumentDefinitionDetailsList());
+            ActionDefinitionList actionDefs = new ActionDefinitionList();
+            ActionDefinition actionDef1 = new ActionDefinition("Start the plotter.", new UOctet(
+                (short) 0), new UShort(0), new ArgumentDefinitionList());
             actionNames.add(new Identifier("start"));
             actionDefs.add(actionDef1);
-            ActionDefinitionDetails actionDef2 = new ActionDefinitionDetails("Stop the plotter.", new UOctet((short) 0),
-                new UShort(0), new ArgumentDefinitionDetailsList());
+            ActionDefinition actionDef2 = new ActionDefinition("Stop the plotter.", new UOctet((short) 0),
+                new UShort(0), new ArgumentDefinitionList());
             actionNames.add(new Identifier("stop"));
             actionDefs.add(actionDef2);
 
-            ArgumentDefinitionDetailsList argDef1 = new ArgumentDefinitionDetailsList();
+            ArgumentDefinitionList argDef1 = new ArgumentDefinitionList();
             {
                 Byte rawType = Attribute.DOUBLE_SHORT_FORM.byteValue();
                 String rawUnit = "Units";
                 ConditionalConversionList conditionalConversions = null;
                 Byte convertedType = null;
                 String convertedUnit = null;
-                argDef1.add(new ArgumentDefinitionDetails(new Identifier("Amplitude"), null, rawType, rawUnit,
+                argDef1.add(new ArgumentDefinition(new Identifier("Amplitude"), null, rawType, rawUnit,
                     conditionalConversions, convertedType, convertedUnit));
             }
 
-            ActionDefinitionDetails actionDef3 = new ActionDefinitionDetails("Update the Amplitude", new UOctet(
+            ActionDefinition actionDef3 = new ActionDefinition("Update the Amplitude", new UOctet(
                 (short) 0), new UShort(0), argDef1);
             actionNames.add(new Identifier("updateAmplitude"));
             actionDefs.add(actionDef3);
 
-            ArgumentDefinitionDetailsList argDef2 = new ArgumentDefinitionDetailsList();
+            ArgumentDefinitionList argDef2 = new ArgumentDefinitionList();
             {
                 Byte rawType = Attribute.DOUBLE_SHORT_FORM.byteValue();
                 String rawUnit = "Hz";
                 ConditionalConversionList conditionalConversions = null;
                 Byte convertedType = null;
                 String convertedUnit = null;
-                argDef2.add(new ArgumentDefinitionDetails(new Identifier("Frequency"), null, rawType, rawUnit,
+                argDef2.add(new ArgumentDefinition(new Identifier("Frequency"), null, rawType, rawUnit,
                     conditionalConversions, convertedType, convertedUnit));
             }
 
-            ActionDefinitionDetails actionDef4 = new ActionDefinitionDetails("Update the Frequency", new UOctet(
+            ActionDefinition actionDef4 = new ActionDefinition("Update the Frequency", new UOctet(
                 (short) 0), new UShort(0), argDef2);
             actionNames.add(new Identifier("updateFrequency"));
             actionDefs.add(actionDef4);

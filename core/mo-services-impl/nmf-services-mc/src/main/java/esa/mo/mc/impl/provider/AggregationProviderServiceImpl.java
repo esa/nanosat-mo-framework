@@ -274,7 +274,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
      */
     private void publishImmediatePeriodicUpdate(Long identityId) {
         //get the parameter-values of each parameter-set
-        final AggregationDefinitionDetails aggrDefinition = manager.getAggregationDefinition(identityId);
+        final AggregationDefinition aggrDefinition = manager.getAggregationDefinition(identityId);
         final AggregationParameterSetList parameterSets = aggrDefinition.getParameterSets();
         for (int i = 0; i < parameterSets.size(); i++) {
             manager.sampleParam(identityId, i);
@@ -557,7 +557,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
                 continue;
             }
 
-            final AggregationDefinitionDetails aDef = aggrCreationReq.getAggDefDetails();
+            final AggregationDefinition aDef = aggrCreationReq.getAggDefDetails();
             final AggregationParameterSetList parameterSets = aDef.getParameterSets();
 
             //requirement: 3.7.10.2.c, 3.7.3.p requested intervals must be provided
@@ -618,7 +618,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
     }
 
     @Override
-    public LongList updateDefinition(LongList identityIds, AggregationDefinitionDetailsList aDefs,
+    public LongList updateDefinition(LongList identityIds, AggregationDefinitionList aDefs,
             MALInteraction interaction) throws MALInteractionException, MALException { // requirement: 3.7.13.2.a, 3.7.13.2.d
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
@@ -639,7 +639,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
                 continue;
             }
 
-            final AggregationDefinitionDetails aDef = aDefs.get(index);
+            final AggregationDefinition aDef = aDefs.get(index);
             final AggregationParameterSetList parameterSets = aDef.getParameterSets();
             //requirement: 3.7.3.p, 3.7.13.2.f
             //TODO: check the updateInterval, filteredTimeout and sampleIntervals? -> issue #152
@@ -800,7 +800,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
             final ObjectId source, final Time timestamp) { //requirement: 3.7.4.i
 
         //check that the given aggregationSetValueList has the right amount of entries
-        final AggregationDefinitionDetails aggrDef = manager.getAggregationDefinition(identityId);
+        final AggregationDefinition aggrDef = manager.getAggregationDefinition(identityId);
         if (aSetVal.size() != aggrDef.getParameterSets().size()) {
             return false;
         }
@@ -853,7 +853,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
     private boolean checkFilterAndSampleParams(final Long identityId,
             boolean aggrExpired, final AggregationSetValueList aSetVal) {
         //check if filter enabled
-        AggregationDefinitionDetails aggrDef = manager.getAggregationDefinition(identityId);
+        AggregationDefinition aggrDef = manager.getAggregationDefinition(identityId);
         final AggregationParameterSetList parameterSets = aggrDef.getParameterSets();
         //requirement: 3.7.3.d, e
         if (aggrDef.getFilterEnabled()) {
@@ -888,7 +888,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
      * sampling the parameter is periodic and the aggregation period is up.
      */
     private void checkSampleIntervalAndSampleParam(Long identityId, boolean aggrExpired) {
-        final AggregationDefinitionDetails def = manager.getAggregationDefinition(identityId);
+        final AggregationDefinition def = manager.getAggregationDefinition(identityId);
         //check the sampleInterval
         final AggregationParameterSetList parameterSets = def.getParameterSets();
         for (int i = 0; i < parameterSets.size(); i++) {
@@ -961,7 +961,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
         public void refresh(Long identityId) {
             // get Aggregation Definition
-            AggregationDefinitionDetails aDef = manager.getAggregationDefinition(identityId);
+            AggregationDefinition aDef = manager.getAggregationDefinition(identityId);
 
             if (updateTimerList.containsKey(identityId)) { // Does it exist in the Periodic Reporting Manager?
                 this.removePeriodicReporting(identityId);
@@ -1009,7 +1009,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
             TaskScheduler timer = new TaskScheduler(1);
             updateTimerList.put(identityId, timer);
 
-            final AggregationDefinitionDetails aggrDef = manager.getAggregationDefinition(identityId);
+            final AggregationDefinition aggrDef = manager.getAggregationDefinition(identityId);
             this.startUpdatesTimer(identityId, aggrDef.getReportInterval());  // requirement 3.7.3.c
 
         }
@@ -1020,7 +1020,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
          * @param identityId
          */
         private void addFilteredTimeoutReporting(Long identityId) {
-            final AggregationDefinitionDetails aggrDef = manager.getAggregationDefinition(identityId);
+            final AggregationDefinition aggrDef = manager.getAggregationDefinition(identityId);
             // Is the filter enabled? If so, do we have a filter Timeout set?
             //            if (aggrDef.getFilterEnabled() && aggrDef.getFilteredTimeout().getValue() != 0) { // requirement 3.7.2.12
             TaskScheduler timer2 = new TaskScheduler(1);
@@ -1046,7 +1046,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
             // the time is being converted to milliseconds by multiplying by 1000
             updateTimerList.get(identityId).scheduleTask(new Thread(() -> {  // requirement: 3.7.3.c
                 if (active) {
-                    AggregationDefinitionDetails def = manager.getAggregationDefinition(identityId);
+                    AggregationDefinition def = manager.getAggregationDefinition(identityId);
                     checkSampleIntervalAndSampleParam(identityId, true);
 
                     // To prevent race conditions with the other timer
@@ -1182,7 +1182,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         }
 
         private void addPeriodicSampling(Long identityId) {
-            final AggregationDefinitionDetails aggrDef = manager.getAggregationDefinition(identityId);
+            final AggregationDefinition aggrDef = manager.getAggregationDefinition(identityId);
             if (!aggrDef.getGenerationEnabled()) {
                 return; // Periodic Sampling shall not occur if the generation is not enabled at the definition level
             }
@@ -1279,7 +1279,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         // If the list is empty, reconfigure the service with nothing...
         if (confSet0.getObjInstIds().isEmpty() && confSet1.getObjInstIds().isEmpty()) {
             manager.reconfigureDefinitions(new LongList(), new IdentifierList(), new LongList(),
-                    new AggregationDefinitionDetailsList());   // Reconfigures the Manager
+                    new AggregationDefinitionList());   // Reconfigures the Manager
 
             return true;
         }

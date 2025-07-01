@@ -27,7 +27,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinition;
 
 /**
  *
@@ -58,7 +58,7 @@ public class ParameterTablePanel extends SharedTablePanel {
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        ParameterDefinitionDetails pDef = (ParameterDefinitionDetails) comObject.getObject();
+        ParameterDefinition pDef = (ParameterDefinition) comObject.getObject();
 
         tableData.addRow(new Object[]{
             comObject.getArchiveDetails().getDetails().getRelated(),
@@ -83,9 +83,9 @@ public class ParameterTablePanel extends SharedTablePanel {
 
         // 5 because it is where generationEnabled is!
         tableData.setValueAt(status, this.getSelectedRow(), 5);
-        //((ParameterDefinitionDetails) this.getSelectedCOMObject().getObject()).setGenerationEnabled(status);
-        ParameterDefinitionDetails def = (ParameterDefinitionDetails) this.getSelectedCOMObject().getObject();
-        ParameterDefinitionDetails newDef = this.generateNewParameterDef(def, status);
+        //((ParameterDefinition) this.getSelectedCOMObject().getObject()).setGenerationEnabled(status);
+        ParameterDefinition def = (ParameterDefinition) this.getSelectedCOMObject().getObject();
+        ParameterDefinition newDef = this.generateNewParameterDef(def, status);
         this.getSelectedCOMObject().setObject(newDef);
 
         semaphore.release();
@@ -101,17 +101,17 @@ public class ParameterTablePanel extends SharedTablePanel {
         // 5 because it is where generationEnabled is!
         for (int i = 0; i < this.getTable().getRowCount(); i++) {
             tableData.setValueAt(status, i, 5);
-            //((ParameterDefinitionDetails) this.getCOMObjects().get(i).getObject()).setGenerationEnabled(status);
-            ParameterDefinitionDetails def = (ParameterDefinitionDetails) this.getCOMObjects().get(i).getObject();
-            ParameterDefinitionDetails newDef = this.generateNewParameterDef(def, status);
+            //((ParameterDefinition) this.getCOMObjects().get(i).getObject()).setGenerationEnabled(status);
+            ParameterDefinition def = (ParameterDefinition) this.getCOMObjects().get(i).getObject();
+            ParameterDefinition newDef = this.generateNewParameterDef(def, status);
             this.getCOMObjects().get(i).setObject(newDef);
         }
 
         semaphore.release();
     }
 
-    public ParameterDefinitionDetails generateNewParameterDef(ParameterDefinitionDetails def, boolean generation) {
-        return new ParameterDefinitionDetails(def.getDescription(),
+    public ParameterDefinition generateNewParameterDef(ParameterDefinition def, boolean generation) {
+        return new ParameterDefinition(def.getDescription(),
                 def.getRawType(),
                 def.getRawUnit(),
                 generation,
