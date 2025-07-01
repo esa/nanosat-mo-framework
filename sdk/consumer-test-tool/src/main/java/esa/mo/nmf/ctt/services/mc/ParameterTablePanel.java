@@ -64,7 +64,7 @@ public class ParameterTablePanel extends SharedTablePanel {
             comObject.getArchiveDetails().getDetails().getRelated(),
             name.toString(),
             pDef.getDescription(),
-            HelperAttributes.typeShortForm2attributeName(pDef.getRawType().intValue()),
+            HelperAttributes.typeShortForm2attributeName(pDef.getRawType().getValue()),
             pDef.getRawUnit(),
             pDef.getGenerationEnabled(),
             pDef.getReportInterval().getValue()});

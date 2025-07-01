@@ -559,7 +559,7 @@
                     </mal:field>
                     <mal:field name="rawType" canBeNull="false"
                                comment="Holds the attribute short form part of the raw type of the parameter, e.g., for a MAL::String parameter it shall hold 15.">
-                        <mal:type name="Octet" area="MAL"/>
+                        <mal:type name="AttributeType" area="MAL"/>
                     </mal:field>
                     <mal:field name="rawUnit"
                                comment="The unit for the raw value. If NULL then raw type has no unit.">

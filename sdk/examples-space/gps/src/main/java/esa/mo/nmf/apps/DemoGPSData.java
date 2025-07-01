@@ -35,6 +35,7 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
+import org.ccsds.moims.mo.mal.structures.AttributeType;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
@@ -43,7 +44,6 @@ import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UOctet;
-import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationCategory;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinition;
@@ -116,22 +116,22 @@ public class DemoGPSData {
             IdentifierList paramNames = new IdentifierList();
 
             // Create the GPS.Latitude
-            parDef.add(new ParameterDefinition("The GPS Latitude", Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
+            parDef.add(new ParameterDefinition("The GPS Latitude", AttributeType.DOUBLE,
                     "degrees", false, new Duration(2), null, null));
             paramNames.add(new Identifier(PARAMETER_GPS_LATITUDE));
 
             // Create the GPS.Longitude
-            parDef.add(new ParameterDefinition("The GPS Longitude", Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
+            parDef.add(new ParameterDefinition("The GPS Longitude", AttributeType.DOUBLE,
                     "degrees", false, new Duration(2), null, null));
             paramNames.add(new Identifier(PARAMETER_GPS_LONGITUDE));
 
             // Create the GPS.Altitude
-            parDef.add(new ParameterDefinition("The GPS Altitude", Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
+            parDef.add(new ParameterDefinition("The GPS Altitude", AttributeType.DOUBLE,
                     "meters", false, new Duration(2), null, null));
             paramNames.add(new Identifier(PARAMETER_GPS_ALTITUDE));
 
             parDef.add(new ParameterDefinition("The number of satellites in view of GPS receiver.",
-                    Union.INTEGER_SHORT_FORM.byteValue(), "sats", false, new Duration(4), null, null));
+                    AttributeType.INTEGER, "sats", false, new Duration(4), null, null));
             paramNames.add(new Identifier(PARAMETER_GPS_N_SATS_IN_VIEW));
 
             LongList parameterObjIdsGPS = registrationObject.registerParameters(paramNames, parDef);
@@ -155,7 +155,7 @@ public class DemoGPSData {
         }
 
         @Override
-        public Attribute onGetValue(Identifier identifier, Byte rawType) {
+        public Attribute onGetValue(Identifier identifier, AttributeType rawType) {
             try {
                 if (connector == null) {  // The framework is still not available
                     return null;

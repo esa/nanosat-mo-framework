@@ -31,6 +31,7 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.helpertools.misc.TaskScheduler;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
+import org.ccsds.moims.mo.mal.structures.AttributeType;
 import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
@@ -81,19 +82,20 @@ public class EchoSpace {
             ParameterDefinitionList pddl = new ParameterDefinitionList();
             IdentifierList names = new IdentifierList();
 
-            pddl.add(new ParameterDefinition("The sent data", (byte) 1, null, true, new Duration(), null, null));
+            pddl.add(new ParameterDefinition("The sent data", new AttributeType(1),
+                    null, true, new Duration(), null, null));
             names.add(new Identifier("Data"));
             registrationObject.registerParameters(names, pddl);
         }
 
         @Override
-        public UInteger actionArrived(Identifier idntfr, AttributeValueList avl, Long l, boolean bln,
-            MALInteraction mali) {
+        public UInteger actionArrived(Identifier idntfr, AttributeValueList avl,
+                Long l, boolean bln, MALInteraction mali) {
             throw new UnsupportedOperationException("Not supported.");
         }
 
         @Override
-        public Attribute onGetValue(Identifier idntfr, Byte b) {
+        public Attribute onGetValue(Identifier idntfr, AttributeType b) {
             throw new UnsupportedOperationException("Not supported.");
         }
 

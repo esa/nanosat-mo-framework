@@ -208,7 +208,7 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
         /*
         ParameterDefinition parameterDefinition = new ParameterDefinition(
                 "This Parameter Definition gives a simulated value of the GPS latitude.",
-                Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
+                AttributeType.DOUBLE,
                 "degrees",
                 false,
                 new Duration(2),

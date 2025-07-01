@@ -41,6 +41,7 @@ import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.helpertools.misc.TaskScheduler;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
+import org.ccsds.moims.mo.mal.structures.AttributeType;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
@@ -216,42 +217,42 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
         ParameterDefinitionList defsMag = new ParameterDefinitionList();
         IdentifierList paramMagNames = new IdentifierList();
 
-        defsOther.add(new ParameterDefinition("The ADCS mode of operation", Union.UOCTET_SHORT_FORM.byteValue(),
+        defsOther.add(new ParameterDefinition("The ADCS mode of operation", AttributeType.UOCTET,
                 "", false, new Duration(0), null, paramConversion));
         paramOtherNames.add(new Identifier(PARAMETER_ADCS_MODE));
 
         defsOther.add(new ParameterDefinition("The number of satellites in view of GPS receiver.",
-                Union.INTEGER_SHORT_FORM.byteValue(), "sats", false, new Duration(4), null, null));
+                AttributeType.INTEGER, "sats", false, new Duration(4), null, null));
         paramOtherNames.add(new Identifier(PARAMETER_GPS_N_SATS_IN_VIEW));
 
         // Create the GPS.Latitude
         defsGPS.add(new ParameterDefinition("The GPS Latitude",
-                Union.DOUBLE_TYPE_SHORT_FORM.byteValue(), "degrees", false, new Duration(2), null, null));
+                AttributeType.DOUBLE, "degrees", false, new Duration(2), null, null));
         paramGPSNames.add(new Identifier(PARAMETER_GPS_LATITUDE));
 
         // Create the GPS.Longitude
         defsGPS.add(new ParameterDefinition("The GPS Longitude",
-                Union.DOUBLE_TYPE_SHORT_FORM.byteValue(), "degrees", false, new Duration(2), null, null));
+                AttributeType.DOUBLE, "degrees", false, new Duration(2), null, null));
         paramGPSNames.add(new Identifier(PARAMETER_GPS_LONGITUDE));
 
         // Create the GPS.Altitude
         defsGPS.add(new ParameterDefinition("The GPS Altitude",
-                Union.DOUBLE_TYPE_SHORT_FORM.byteValue(), "meters", false, new Duration(2), null, null));
+                AttributeType.DOUBLE, "meters", false, new Duration(2), null, null));
         paramGPSNames.add(new Identifier(PARAMETER_GPS_ALTITUDE));
 
         // Create the Magnetometer.X
         defsMag.add(new ParameterDefinition("The Magnetometer X component",
-                Union.DOUBLE_TYPE_SHORT_FORM.byteValue(), "microTesla", false, new Duration(2), null, null));
+                AttributeType.DOUBLE, "microTesla", false, new Duration(2), null, null));
         paramMagNames.add(new Identifier(PARAMETER_MAG_X));
 
         // Create the Magnetometer.Y
         defsMag.add(new ParameterDefinition("The Magnetometer Y component",
-                Union.DOUBLE_TYPE_SHORT_FORM.byteValue(), "microTesla", false, new Duration(2), null, null));
+                AttributeType.DOUBLE, "microTesla", false, new Duration(2), null, null));
         paramMagNames.add(new Identifier(PARAMETER_MAG_Y));
 
         // Create the Magnetometer.Z
         defsMag.add(new ParameterDefinition("The Magnetometer Z component",
-                Union.DOUBLE_TYPE_SHORT_FORM.byteValue(), "microTesla", false, new Duration(2), null, null));
+                AttributeType.DOUBLE, "microTesla", false, new Duration(2), null, null));
         paramMagNames.add(new Identifier(PARAMETER_MAG_Z));
 
         registration.registerParameters(paramOtherNames, defsOther);
@@ -330,7 +331,7 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
     }
 
     @Override
-    public Attribute onGetValue(Identifier identifier, Byte rawType) throws IOException {
+    public Attribute onGetValue(Identifier identifier, AttributeType rawType) throws IOException {
         // Translates NMF core calls for parameter values into calls to the underlying HW
         // exposed as Platform services
         // TODO: Optimise the number of calls through a cache

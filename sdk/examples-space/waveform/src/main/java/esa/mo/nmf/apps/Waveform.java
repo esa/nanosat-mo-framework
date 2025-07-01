@@ -33,6 +33,7 @@ import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.helpertools.misc.TaskScheduler;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
+import org.ccsds.moims.mo.mal.structures.AttributeType;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
@@ -116,14 +117,14 @@ public class Waveform {
             final ParameterDefinitionList defs = new ParameterDefinitionList();
             final IdentifierList names = new IdentifierList();
 
-            defs.add(new ParameterDefinition("Amplitude of the wave", Union.DOUBLE_SHORT_FORM.byteValue(), "",
+            defs.add(new ParameterDefinition("Amplitude of the wave", AttributeType.DOUBLE, "",
                 true, new Duration(3), null, null));
-            defs.add(new ParameterDefinition("Frequency of the wave", Union.DOUBLE_SHORT_FORM.byteValue(), "",
+            defs.add(new ParameterDefinition("Frequency of the wave", AttributeType.DOUBLE, "",
                 true, new Duration(3), null, null));
-            defs.add(new ParameterDefinition("Result of the wave", Union.DOUBLE_SHORT_FORM.byteValue(), "", true,
+            defs.add(new ParameterDefinition("Result of the wave", AttributeType.DOUBLE, "", true,
                 new Duration(), null, null));
-            defs.add(new ParameterDefinition("Refreshrate for publishing the result", Union.LONG_SHORT_FORM
-                .byteValue(), "us", true, new Duration(), null, null));
+            defs.add(new ParameterDefinition("Refreshrate for publishing the result",
+                    AttributeType.LONG, "us", true, new Duration(), null, null));
             names.add(new Identifier("Amplitude"));
             names.add(new Identifier("Frequency"));
             names.add(new Identifier("Sine"));
@@ -219,7 +220,7 @@ public class Waveform {
         }
 
         @Override
-        public Attribute onGetValue(Identifier idntfr, Byte b) {
+        public Attribute onGetValue(Identifier idntfr, AttributeType b) {
             if (idntfr.getValue().equals("Amplitude")) {
                 return (Attribute) HelperAttributes.javaType2Attribute(amplitude);
             }

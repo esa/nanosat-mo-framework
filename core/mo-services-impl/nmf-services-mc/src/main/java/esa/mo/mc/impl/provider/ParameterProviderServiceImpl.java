@@ -342,7 +342,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             }
 
             // requirement: 3.3.9.2.f the new rawValues type and its definitions rawType must be the same
-            if (!((Integer) newValue.getRawValue().getTypeId().getSFP()).equals(Integer.valueOf(pDef.getRawType()))) {
+            if (!((Integer) newValue.getRawValue().getTypeId().getSFP()).equals(pDef.getRawType().getValue())) {
                 invIndexList.add(new UInteger(index));
                 continue;
             }
@@ -976,11 +976,11 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
                 if (objId == null) { // If the definition is not in the manager, then create it
                     Attribute rawValue = parameter.getParameterValue().getRawValue();
-                    Byte rawType = Union.DOUBLE_TYPE_SHORT_FORM.byteValue(); // Default
+                    AttributeType rawType = AttributeType.DOUBLE; // Default
 
                     if (rawValue != null) {
                         // Check what is the type and stamp it
-                        rawType = ((Integer) rawValue.getTypeId().getSFP()).byteValue();
+                        rawType = new AttributeType((Integer) rawValue.getTypeId().getSFP());
                     }
 
                     ParameterDefinition pDef = new ParameterDefinition(

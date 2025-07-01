@@ -27,6 +27,7 @@ import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
+import org.ccsds.moims.mo.mal.structures.AttributeType;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
@@ -72,14 +73,14 @@ public class DemoHelloWorldFull {
             final ParameterDefinitionList defs = new ParameterDefinitionList();
             final IdentifierList names = new IdentifierList();
 
-            defs.add(new ParameterDefinition(PARAMETER_DESCRIPTION, Union.STRING_SHORT_FORM.byteValue(), "",
+            defs.add(new ParameterDefinition(PARAMETER_DESCRIPTION, AttributeType.STRING, "",
                 false, new Duration(3), null, null));
             names.add(new Identifier(PARAMETER_NAME));
             registrationObject.registerParameters(names, defs);
         }
 
         @Override
-        public Attribute onGetValue(Identifier identifier, Byte rawType) {
+        public Attribute onGetValue(Identifier identifier, AttributeType rawType) {
             if (PARAMETER_NAME.equals(identifier.getValue())) {
                 return (Attribute) HelperAttributes.javaType2Attribute(var);
             }

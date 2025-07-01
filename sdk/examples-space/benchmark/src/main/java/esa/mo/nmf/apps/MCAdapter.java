@@ -29,6 +29,7 @@ import java.io.IOException;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
+import org.ccsds.moims.mo.mal.structures.AttributeType;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
@@ -75,11 +76,11 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
 
         // Creates a periodic parameter
         parDef.add(new ParameterDefinition("A periodic parameter with a double value.",
-            Union.DOUBLE_TYPE_SHORT_FORM.byteValue(), "unit", false, new Duration(1), null, null));
+            AttributeType.DOUBLE, "unit", false, new Duration(1), null, null));
         paramNames.add(new Identifier(PARAMETER_PERIODIC));
 
         // Creates a periodic parameter
-        parDef.add(new ParameterDefinition("The COM Archive size.", Union.LONG_TYPE_SHORT_FORM.byteValue(),
+        parDef.add(new ParameterDefinition("The COM Archive size.", AttributeType.DOUBLE,
             "bytes", false, new Duration(0), null, null));
         paramNames.add(new Identifier(PARAMETER_ARCHIVE_SIZE));
 
@@ -113,7 +114,7 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
     }
 
     @Override
-    public Attribute onGetValue(Identifier identifier, Byte rawType) throws IOException {
+    public Attribute onGetValue(Identifier identifier, AttributeType rawType) throws IOException {
         if (PARAMETER_PERIODIC.equals(identifier.getValue())) {
             return (Attribute) HelperAttributes.javaType2Attribute(123.456);
         }

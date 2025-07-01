@@ -24,6 +24,7 @@ import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.SimpleMonitorAndControlAdapter;
 import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
 import java.io.Serializable;
+import org.ccsds.moims.mo.mal.structures.AttributeType;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
@@ -66,7 +67,7 @@ public class DemoSerialObject {
             final ParameterDefinitionList defsOther = new ParameterDefinitionList();
             final IdentifierList names = new IdentifierList();
 
-            defsOther.add(new ParameterDefinition("A single parameter.", Union.STRING_SHORT_FORM.byteValue(), "",
+            defsOther.add(new ParameterDefinition("A single parameter.", AttributeType.STRING, "",
                 true, new Duration(0), null, null));
             names.add(new Identifier(PARAMETER));
 

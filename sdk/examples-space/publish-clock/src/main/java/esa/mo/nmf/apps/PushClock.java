@@ -34,6 +34,7 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.helpertools.misc.TaskScheduler;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
+import org.ccsds.moims.mo.mal.structures.AttributeType;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
@@ -120,7 +121,7 @@ public class PushClock {
         }
 
         @Override
-        public Attribute onGetValue(Identifier idntfr, Byte b) {
+        public Attribute onGetValue(Identifier idntfr, AttributeType b) {
             throw new UnsupportedOperationException("Not supported.");
         }
 

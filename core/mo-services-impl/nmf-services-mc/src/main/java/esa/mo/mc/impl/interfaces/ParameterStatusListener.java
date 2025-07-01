@@ -22,6 +22,7 @@ package esa.mo.mc.impl.interfaces;
 
 import java.io.IOException;
 import org.ccsds.moims.mo.mal.structures.Attribute;
+import org.ccsds.moims.mo.mal.structures.AttributeType;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinition;
@@ -47,7 +48,7 @@ public interface ParameterStatusListener {
      * @throws java.io.IOException if the parameter value could not be acquired
      */
     @Deprecated
-    default Attribute onGetValue(Identifier identifier, Byte rawType) throws IOException {
+    default Attribute onGetValue(Identifier identifier, AttributeType rawType) throws IOException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

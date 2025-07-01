@@ -57,6 +57,7 @@ import org.ccsds.moims.mo.platform.camera.consumer.CameraAdapter;
 import org.ccsds.moims.mo.platform.camera.structures.PictureFormat;
 import org.ccsds.moims.mo.platform.camera.structures.PixelResolution;
 import esa.mo.nmf.NMFInterface;
+import org.ccsds.moims.mo.mal.structures.AttributeType;
 import org.ccsds.moims.mo.platform.camera.structures.CameraSettings;
 
 /**
@@ -92,7 +93,7 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
 
         defs.add(new ParameterDefinition(
                 "The number of snaps taken.",
-                Union.STRING_SHORT_FORM.byteValue(),
+                AttributeType.STRING,
                 "",
                 false,
                 new Duration(10),
@@ -138,7 +139,7 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
     }
 
     @Override
-    public Attribute onGetValue(Identifier identifier, Byte rawType) {
+    public Attribute onGetValue(Identifier identifier, AttributeType rawType) {
         if (connector == null) {
             return null;
         }

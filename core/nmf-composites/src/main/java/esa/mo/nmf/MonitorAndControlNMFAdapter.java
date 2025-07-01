@@ -45,6 +45,7 @@ import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
+import org.ccsds.moims.mo.mal.structures.AttributeType;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.FineTime;
 import org.ccsds.moims.mo.mal.structures.Identifier;
@@ -132,18 +133,18 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
 
             //----------------collect ParameterDefinition----------------
             String description = annotation.description();
-            byte rawType;
+            int rawType;
             if (annotation.malType().equals("")) {
                 try {
                     Object att = HelperAttributes.javaType2Attribute(field.get(this));
-                    rawType = ((Integer) ((Attribute) att).getTypeId().getSFP()).byteValue();
+                    rawType = (Integer) ((Attribute) att).getTypeId().getSFP();
                 } catch (IllegalArgumentException | IllegalAccessException ex) {
                     LOGGER.log(Level.SEVERE, "Unable to register parameter! "
                             + "Please try setting malType in @Parameter. {0}", ex);
                     continue;
                 }
             } else {
-                rawType = HelperAttributes.attributeName2typeShortForm(annotation.malType()).byteValue();
+                rawType = HelperAttributes.attributeName2typeShortForm(annotation.malType());
             }
 
             String rawUnit = annotation.rawUnit();
@@ -181,7 +182,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
                 }
             }
 
-            definitions.add(new ParameterDefinition(description, rawType, rawUnit,
+            definitions.add(new ParameterDefinition(description, new AttributeType(rawType), rawUnit,
                     generationEnabled, reportInterval, validityExpression, conversion));
         }
 

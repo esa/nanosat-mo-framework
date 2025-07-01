@@ -35,6 +35,7 @@ import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.structures.AttributeType;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.LongList;
@@ -105,7 +106,7 @@ public class ParameterAddModify extends javax.swing.JFrame {
     public ParameterDefinition makeNewParameterDefinition(int rawType,
             String rawUnit, String description, boolean generationEnabled, float interval,
             ParameterExpression validityExpression, ParameterConversion conversion) {
-        return new ParameterDefinition(description, (Byte) ((byte) rawType), rawUnit,
+        return new ParameterDefinition(description, new AttributeType(rawType), rawUnit,
                 generationEnabled, new Duration(interval), validityExpression, conversion);
     }
 
@@ -558,14 +559,14 @@ public class ParameterAddModify extends javax.swing.JFrame {
             pConv = new ParameterConversion((byte) rawTypeCB.getSelectedIndex(), convertedUnit.getText(), conversionConditions);
         }
 
-        ParameterDefinition Pdef;
-        Pdef = makeNewParameterDefinition(rawTypeCB.getSelectedIndex(), rawUnitTF.getText(), descriptionTF.getText(),
+        ParameterDefinition pDef;
+        pDef = makeNewParameterDefinition(rawTypeCB.getSelectedIndex(), rawUnitTF.getText(), descriptionTF.getText(),
                 generationEnabledCB.isSelected(), Float.parseFloat(updateIntervalTF.getText()), PExp, pConv);
 
-        ParameterDefinitionList PDefs = new ParameterDefinitionList();
-        PDefs.add(Pdef);
+        ParameterDefinitionList pDefs = new ParameterDefinitionList();
+        pDefs.add(pDef);
 
-        ParameterCreationRequest request = new ParameterCreationRequest(new Identifier(nameTF.getText()), Pdef);
+        ParameterCreationRequest request = new ParameterCreationRequest(new Identifier(nameTF.getText()), pDef);
         ParameterCreationRequestList requestList = new ParameterCreationRequestList();
         requestList.add(request);
 
@@ -593,13 +594,13 @@ public class ParameterAddModify extends javax.swing.JFrame {
                 Logger.getLogger(ParameterAddModify.class.getName()).info("updateDefinition started");
                 LongList objIds = new LongList();
                 objIds.add(Long.valueOf(parameterTableData.getValueAt(parameterDefinitionSelectedIndex, 0).toString()));
-                serviceMCParameter.getParameterStub().updateDefinition(objIds, PDefs);
+                serviceMCParameter.getParameterStub().updateDefinition(objIds, pDefs);
                 parameterTableData.removeRow(parameterDefinitionSelectedIndex);
                 parameterTableData.insertRow(parameterDefinitionSelectedIndex,
                         new Object[]{objIds.get(0).intValue(), request.getName().toString(),
-                            Pdef.getDescription(), rawTypeCB.getItemAt(Pdef.getRawType()).toString(),
-                            Pdef.getRawUnit(), Pdef.getGenerationEnabled(),
-                            Pdef.getReportInterval().getValue()});
+                            pDef.getDescription(), rawTypeCB.getItemAt(pDef.getRawType().getValue()).toString(),
+                            pDef.getRawUnit(), pDef.getGenerationEnabled(),
+                            pDef.getReportInterval().getValue()});
                 Logger.getLogger(ParameterAddModify.class.getName()).info("updateDefinition executed");
             } catch (MALInteractionException | MALException ex) {
                 Logger.getLogger(ParameterAddModify.class.getName()).log(Level.SEVERE, null, ex);

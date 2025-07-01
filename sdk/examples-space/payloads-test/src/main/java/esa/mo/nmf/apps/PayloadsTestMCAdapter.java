@@ -58,6 +58,7 @@ import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
+import org.ccsds.moims.mo.mal.structures.AttributeType;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
@@ -367,7 +368,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
         IdentifierList paramOtherNames = new IdentifierList();
 
         defsOther.add(new ParameterDefinition("The ADCS mode of operation",
-                Union.UOCTET_SHORT_FORM.byteValue(), "", false, new Duration(0), null, paramConversion));
+                AttributeType.UOCTET, "", false, new Duration(0), null, paramConversion));
         paramOtherNames.add(new Identifier(PARAMETER_ADCS_MODE));
 
         registration.registerParameters(paramOtherNames, defsOther);
