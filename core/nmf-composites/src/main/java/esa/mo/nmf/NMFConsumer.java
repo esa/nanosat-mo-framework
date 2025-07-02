@@ -37,20 +37,13 @@ import org.ccsds.moims.mo.common.CommonHelper;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
 import org.ccsds.moims.mo.common.directory.structures.ServiceFilter;
-import org.ccsds.moims.mo.common.structures.ServiceKey;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
-import org.ccsds.moims.mo.mal.structures.Blob;
-import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.structures.UOctet;
-import org.ccsds.moims.mo.mal.structures.URI;
-import org.ccsds.moims.mo.mal.structures.UShort;
-import org.ccsds.moims.mo.mal.structures.UShortList;
+import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mc.MCHelper;
 import org.ccsds.moims.mo.platform.PlatformHelper;
 import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
@@ -322,7 +315,7 @@ public class NMFConsumer {
         ServiceFilter filter = new ServiceFilter(new Identifier("*"),
                 wildcardList, new Identifier("*"), null,
                 new Identifier(isS2G ? DirectoryProviderServiceImpl.CHAR_S2G : "*"),
-                new ServiceKey(new UShort((short) 0), new UShort((short) 0), new UOctet((short) 0)),
+                new ServiceId(new UShort((short) 0), new UShort((short) 0), new UOctet((short) 0)),
                 new UShortList()
         );
 

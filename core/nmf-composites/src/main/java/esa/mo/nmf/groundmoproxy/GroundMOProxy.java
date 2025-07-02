@@ -45,9 +45,9 @@ import org.ccsds.moims.mo.common.directory.DirectoryServiceInfo;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
 import org.ccsds.moims.mo.common.directory.structures.ServiceFilter;
-import org.ccsds.moims.mo.common.structures.ServiceKey;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.ServiceKey;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
@@ -55,6 +55,7 @@ import org.ccsds.moims.mo.mal.structures.FineTime;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
+import org.ccsds.moims.mo.mal.structures.ServiceId;
 import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.URI;
@@ -115,11 +116,10 @@ public abstract class GroundMOProxy {
     }
 
     private SingleConnectionDetails cdFromService(COMService service) {
-        final ServiceKey serviceKey = new ServiceKey(service.getserviceKey().getAreaNumber(),
-                service.getserviceKey().getServiceNumber(), service.getserviceKey().getAreaVersion());
-
         try {
-            ProviderSummaryList list = getRemoteNMSProviderSpecificService(serviceKey);
+            ServiceKey key = service.getserviceKey();
+            ServiceId serviceId = new ServiceId(key.getAreaNumber(), key.getServiceNumber(), key.getAreaVersion());
+            ProviderSummaryList list = getRemoteNMSProviderSpecificService(serviceId);
             if (list.isEmpty() || list.get(0).getProviderDetails().getServiceCapabilities().isEmpty()) {
                 return null;
             }
@@ -132,11 +132,11 @@ public abstract class GroundMOProxy {
 
     public ProviderSummaryList getRemoteNMSProvider() throws MALInteractionException, MALException {
         return getRemoteNMSProviderSpecificService(
-                new ServiceKey(new UShort((short) 0), new UShort((short) 0), new UOctet((short) 0))
+                new ServiceId(new UShort((short) 0), new UShort((short) 0), new UOctet((short) 0))
         );
     }
 
-    public ProviderSummaryList getRemoteNMSProviderSpecificService(ServiceKey key)
+    public ProviderSummaryList getRemoteNMSProviderSpecificService(ServiceId key)
             throws MALInteractionException, MALException {
         IdentifierList wildcardList = new IdentifierList();
         wildcardList.add(new Identifier("*"));

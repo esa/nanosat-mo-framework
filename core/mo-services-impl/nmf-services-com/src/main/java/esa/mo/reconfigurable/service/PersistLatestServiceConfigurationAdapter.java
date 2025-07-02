@@ -28,14 +28,10 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.provider.ArchiveInheritanceSkeleton;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.common.configuration.ConfigurationServiceInfo;
-import org.ccsds.moims.mo.common.structures.ServiceKey;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
-import org.ccsds.moims.mo.mal.structures.FineTime;
-import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
-import org.ccsds.moims.mo.mal.structures.LongList;
-import org.ccsds.moims.mo.mal.structures.URI;
+import org.ccsds.moims.mo.mal.structures.*;
 
 /**
  * An adapter that implements the ConfigurationNotificationInterface and
@@ -123,7 +119,7 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationCh
 
             // Store the Service Configuration
             HeterogeneousList serviceKeyList = new HeterogeneousList();
-            serviceKeyList.add(new ServiceKey(service.getCOMService().getAreaNumber(),
+            serviceKeyList.add(new ServiceId(service.getCOMService().getAreaNumber(),
                     service.getCOMService().getServiceNumber(), service.getCOMService().getServiceVersion()));
 
             archiveService.store(

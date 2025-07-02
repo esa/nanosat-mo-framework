@@ -23,7 +23,6 @@ package esa.mo.common.impl.proxy;
 import esa.mo.common.impl.provider.DirectoryProviderServiceImpl;
 import esa.mo.helpertools.misc.Const;
 import esa.mo.nmf.NMFConsumer;
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Collection;
 import org.ccsds.moims.mo.com.COMHelper;
@@ -36,11 +35,11 @@ import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
 import org.ccsds.moims.mo.common.directory.structures.PublishDetails;
 import org.ccsds.moims.mo.common.directory.structures.ServiceCapability;
 import org.ccsds.moims.mo.common.directory.structures.ServiceCapabilityList;
-import org.ccsds.moims.mo.common.structures.ServiceKey;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
+import org.ccsds.moims.mo.mal.structures.ServiceId;
 import org.ccsds.moims.mo.mal.structures.SessionType;
 import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mc.MCHelper;
@@ -138,7 +137,7 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
                 }
 
                 newCapabilities.add(new ServiceCapability(
-                        capability.getServiceKey(),
+                        capability.getServiceId(),
                         capability.getSupportedCapabilitySets(),
                         capability.getServiceProperties(),
                         newDets));
@@ -171,7 +170,7 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
 
                     // Find the Archive service
                     for (ServiceCapability capability : capabilities) {
-                        ServiceKey key = capability.getServiceKey();
+                        ServiceId key = capability.getServiceId();
 
                         if (COMHelper._COM_AREA_NUMBER == key.getKeyArea().getValue()
                                 && ArchiveServiceInfo._ARCHIVE_SERVICE_NUMBER == key.getKeyService().getValue()
@@ -203,7 +202,7 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
 
                     // Find the Archive service
                     for (ServiceCapability capability : capabilities) {
-                        ServiceKey key = capability.getServiceKey();
+                        ServiceId key = capability.getServiceId();
 
                         if (MCHelper._MC_AREA_NUMBER == key.getKeyArea().getValue()
                                 && ActionServiceInfo._ACTION_SERVICE_NUMBER == key.getKeyService().getValue()

@@ -21,7 +21,6 @@
 package esa.mo.nmf.ctt.services.mc;
 
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
-import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.nmf.ctt.windows.element.MOWindow;
 import esa.mo.mc.impl.consumer.AlertConsumerServiceImpl;
 import java.io.InterruptedIOException;
@@ -40,15 +39,10 @@ import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.alert.AlertServiceInfo;
 import org.ccsds.moims.mo.mc.alert.consumer.AlertAdapter;
-import org.ccsds.moims.mo.mc.alert.structures.AlertCreationRequest;
-import org.ccsds.moims.mo.mc.alert.structures.AlertCreationRequestList;
 import org.ccsds.moims.mo.mc.alert.structures.AlertDefinition;
 import org.ccsds.moims.mo.mc.alert.structures.AlertDefinitionList;
-import org.ccsds.moims.mo.mc.structures.ArgumentDefinition;
-import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionList;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
-import org.ccsds.moims.mo.mc.structures.Severity;
 
 /**
  * The AlertConsumerPanel class holds a panel to interact with an Alert

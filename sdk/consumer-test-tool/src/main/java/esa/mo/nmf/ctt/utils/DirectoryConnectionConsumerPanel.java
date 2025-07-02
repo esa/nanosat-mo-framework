@@ -44,7 +44,6 @@ import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
 import org.ccsds.moims.mo.common.directory.structures.ServiceCapability;
 import org.ccsds.moims.mo.common.directory.structures.ServiceCapabilityList;
 import org.ccsds.moims.mo.common.login.LoginHelper;
-import org.ccsds.moims.mo.common.structures.ServiceKey;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
@@ -52,6 +51,7 @@ import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
 import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
+import org.ccsds.moims.mo.mal.structures.ServiceId;
 import org.ccsds.moims.mo.mal.structures.URI;
 
 /**
@@ -125,9 +125,9 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
                 String serviceName;
                 try {
                     serviceName = HelperMisc.serviceKey2name(
-                            service.getServiceKey().getKeyArea(),
-                            service.getServiceKey().getKeyAreaVersion(),
-                            service.getServiceKey().getKeyService());
+                            service.getServiceId().getKeyArea(),
+                            service.getServiceId().getKeyAreaVersion(),
+                            service.getServiceId().getKeyService());
                 } catch (MALException ex) {
                     serviceName = "<Unknown service>";
                 }
@@ -351,16 +351,16 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
             public void run() {
                 this.setName("ConnectButtonActionThread");
 
-                ServiceKey loginServiceKey = new ServiceKey(LoginHelper.LOGIN_SERVICE.getArea().getNumber(),
+                ServiceId loginServiceId = new ServiceId(LoginHelper.LOGIN_SERVICE.getArea().getNumber(),
                         LoginHelper.LOGIN_SERVICE.getServiceNumber(), LoginHelper.LOGIN_SERVICE.getArea().getVersion());
                 ServiceCapability loginService = summary.getProviderDetails().getServiceCapabilities().stream().filter(
-                        serviceCapability -> serviceCapability.getServiceKey().equals(loginServiceKey)).findFirst().orElse(
+                        serviceCapability -> serviceCapability.getServiceId().equals(loginServiceId)).findFirst().orElse(
                                 null);
 
-                ServiceKey archiveServiceKey = new ServiceKey(ArchiveHelper.ARCHIVE_SERVICE.getArea().getNumber(),
+                ServiceId archiveServiceId = new ServiceId(ArchiveHelper.ARCHIVE_SERVICE.getArea().getNumber(),
                         ArchiveHelper.ARCHIVE_SERVICE.getServiceNumber(), ArchiveHelper.ARCHIVE_SERVICE.getArea().getVersion());
                 ServiceCapability archiveService = summary.getProviderDetails().getServiceCapabilities().stream()
-                        .filter(serviceCapability -> serviceCapability.getServiceKey().equals(archiveServiceKey))
+                        .filter(serviceCapability -> serviceCapability.getServiceId().equals(loginServiceId))
                         .findFirst().orElse(null);
 
                 Blob authenticationId = null;

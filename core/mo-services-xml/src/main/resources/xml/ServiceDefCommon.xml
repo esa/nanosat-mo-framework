@@ -28,7 +28,7 @@
                     <mal:messages>
                         <mal:request>
                             <mal:field name="filter"
-                                       comment="The filter field shall define the lookup query and be used to match details previously published using the publishProvider operation, the specifics of the ServiceFilter fields are defined in the following requirements.&#xA;If the serviceProviderId field is NULL then all service provider identifiers shall be matched.&#xA;If the final identifier of the domain field of the filter is the wildcard '*', then all sub-domains shall be searched for matches. See R[2] section 3.5.6.5.g.&#xA;If the wildcard is used in any other part of the domain other than the final one then an INVALID error shall be returned.&#xA;If the domain field is NULL then all domains shall be matched.&#xA;If the network field is NULL then all networks shall be matched.&#xA;If the sessionType field is NULL then all session types shall be matched.&#xA;If the sessionName field is NULL then all session names shall be matched.&#xA;The serviceKey field shall be used to match against ServiceKey fields held in the PublishDetails used to publish a specific provider.&#xA;If the serviceKey field is NULL then all areas, services and versions shall be matched.&#xA;If the area field is the wildcard '0' then all areas names shall be matched.&#xA;If the service field is the wildcard '0' then all services shall be matched.&#xA;If the version field is the wildcard '0' then all area versions shall be matched.&#xA;If the requiredCapabilitySets field is NULL or an empty list then all service capability sets shall be matched.">
+                                       comment="The filter field shall define the lookup query and be used to match details previously published using the publishProvider operation, the specifics of the ServiceFilter fields are defined in the following requirements.&#xA;If the serviceProviderId field is NULL then all service provider identifiers shall be matched.&#xA;If the final identifier of the domain field of the filter is the wildcard '*', then all sub-domains shall be searched for matches. See R[2] section 3.5.6.5.g.&#xA;If the wildcard is used in any other part of the domain other than the final one then an INVALID error shall be returned.&#xA;If the domain field is NULL then all domains shall be matched.&#xA;If the network field is NULL then all networks shall be matched.&#xA;If the sessionType field is NULL then all session types shall be matched.&#xA;If the sessionName field is NULL then all session names shall be matched.&#xA;The ServiceId field shall be used to match against ServiceId fields held in the PublishDetails used to publish a specific provider.&#xA;If the ServiceId field is NULL then all areas, services and versions shall be matched.&#xA;If the area field is the wildcard '0' then all areas names shall be matched.&#xA;If the service field is the wildcard '0' then all services shall be matched.&#xA;If the version field is the wildcard '0' then all area versions shall be matched.&#xA;If the requiredCapabilitySets field is NULL or an empty list then all service capability sets shall be matched.">
                                 <mal:type name="ServiceFilter" service="Directory" area="Common"/>
                             </mal:field>
                         </mal:request>
@@ -52,7 +52,7 @@
                     <mal:messages>
                         <mal:request>
                             <mal:field name="newProviderDetails"
-                                       comment="The newProviderDetails field shall hold the provider details of the service to be added or updated in the directory service.&#xA;If any of the fields of the newProviderDetails domain/sessionName/network fields are either empty or contain the wildcard '*' an INVALID error shall be returned.&#xA;If the providerId field of the PublishDetails structure is empty or contains the wildcard '*' an INVALID error shall be returned.&#xA;For each contained ServiceKey structure if the area/service/version fields contain '0' then an INVALID error shall be returned.&#xA;For each contained supportedCapabilitySets list if the list is empty or contains '0' then an INVALID error shall be returned.&#xA;If the supportedLevels list is empty or the priorityLevels field is '0' for each contained AddressDetails structure found either within the ProviderDetails or the inner ServiceCapability structures then an INVALID error shall be returned.&#xA;If an error is being returned then no changes shall be made.">
+                                       comment="The newProviderDetails field shall hold the provider details of the service to be added or updated in the directory service.&#xA;If any of the fields of the newProviderDetails domain/sessionName/network fields are either empty or contain the wildcard '*' an INVALID error shall be returned.&#xA;If the providerId field of the PublishDetails structure is empty or contains the wildcard '*' an INVALID error shall be returned.&#xA;For each contained ServiceId structure if the area/service/version fields contain '0' then an INVALID error shall be returned.&#xA;For each contained supportedCapabilitySets list if the list is empty or contains '0' then an INVALID error shall be returned.&#xA;If the supportedLevels list is empty or the priorityLevels field is '0' for each contained AddressDetails structure found either within the ProviderDetails or the inner ServiceCapability structures then an INVALID error shall be returned.&#xA;If an error is being returned then no changes shall be made.">
                                 <mal:type name="PublishDetails" service="Directory" area="Common"/>
                             </mal:field>
                         </mal:request>
@@ -139,9 +139,9 @@
                     <mal:extends>
                         <mal:type name="Composite" area="MAL"/>
                     </mal:extends>
-                    <mal:field name="serviceKey" canBeNull="false"
+                    <mal:field name="ServiceId" canBeNull="false"
                                comment="The area, service, and version fields.">
-                        <mal:type name="ServiceKey" area="Common"/>
+                        <mal:type name="ServiceId" area="MAL"/>
                     </mal:field>
                     <mal:field name="supportedCapabilitySets"
                                comment="The supported capability set numbers for this service provider. If NULL then all capability sets supported.">
@@ -260,9 +260,9 @@
                                comment="The session name to match. Can be NULL in which case matches all values.">
                         <mal:type name="Identifier" area="MAL"/>
                     </mal:field>
-                    <mal:field name="serviceKey"
+                    <mal:field name="ServiceId"
                                comment="The service to filter on, values can be NULL which matches all values.">
-                        <mal:type name="ServiceKey" area="Common"/>
+                        <mal:type name="ServiceId" area="MAL"/>
                     </mal:field>
                     <mal:field name="requiredCapabilitySets"
                                comment="List of required capability sets. If NULL then matches any.">
@@ -527,9 +527,9 @@
                                        comment="The domain request argument shall contain the domain of the configuration objects to return.&#xA;The domain field supports the wildcard value of '*' only in the last part of the domain, otherwise an INVALID error shall be returned. See section 3.5.6.5.g in R[2].">
                                 <mal:type list="true" name="Identifier" area="MAL"/>
                             </mal:field>
-                            <mal:field name="serviceKey"
-                                       comment="If the request configuration type is SERVICE, then an optional filter may be supplied in the serviceKey field where the ServiceKey composite holds the service area, service, and version values to match on.&#xA;The filter shall be applied with a logical AND for each field of the service key.&#xA;Wildcard values of '0' are not accepted in the serviceKey fields, an INVALID error shall be returned in this case.&#xA;For other types of configuration the serviceKey field shall be ignored and may be set to NULL in the request.">
-                                <mal:type name="ServiceKey" area="Common"/>
+                            <mal:field name="ServiceId"
+                                       comment="If the request configuration type is SERVICE, then an optional filter may be supplied in the ServiceId field where the ServiceId composite holds the service area, service, and version values to match on.&#xA;The filter shall be applied with a logical AND for each field of the service key.&#xA;Wildcard values of '0' are not accepted in the ServiceId fields, an INVALID error shall be returned in this case.&#xA;For other types of configuration the ServiceId field shall be ignored and may be set to NULL in the request.">
+                                <mal:type name="ServiceId" area="MAL"/>
                             </mal:field>
                         </mal:request>
                         <mal:response>
@@ -553,14 +553,14 @@
                                        comment="The serviceProvider field shall contain the domain and object instance identifier of the ServiceProvider COM object being queried.">
                                 <mal:type name="ObjectKey" area="COM"/>
                             </mal:field>
-                            <mal:field name="serviceKey"
-                                       comment="If the serviceKey field is not NULL, then the operation shall return the configuration of the selected service, as specified in the field.&#xA;For retrieval of the provider level configuration the serviceKey field shall be set to NULL in the request.&#xA;An UNKNOWN error shall be returned if the combination of service provider and service filter fields don't match an existing service provider, service key or configuration.&#xA;No wildcards are supported, an INVALID error must be returned in this case.">
-                                <mal:type name="ServiceKey" area="Common"/>
+                            <mal:field name="ServiceId"
+                                       comment="If the ServiceId field is not NULL, then the operation shall return the configuration of the selected service, as specified in the field.&#xA;For retrieval of the provider level configuration the ServiceId field shall be set to NULL in the request.&#xA;An UNKNOWN error shall be returned if the combination of service provider and service filter fields don't match an existing service provider, service key or configuration.&#xA;No wildcards are supported, an INVALID error must be returned in this case.">
+                                <mal:type name="ServiceId" area="MAL"/>
                             </mal:field>
                         </mal:request>
                         <mal:response>
                             <mal:field name="objInstId"
-                                       comment="If a service configuration was requested, serviceKey was not NULL, the response shall contain a list of a single item of the matched ServiceConfiguration COM object.&#xA;If a provider configuration was requested, serviceKey was NULL, the response shall contain a list of the matched ProviderConfiguration COM object followed by the list of active ServiceConfiguration objects active for that provider.">
+                                       comment="If a service configuration was requested, ServiceId was not NULL, the response shall contain a list of a single item of the matched ServiceConfiguration COM object.&#xA;If a provider configuration was requested, ServiceId was NULL, the response shall contain a list of the matched ProviderConfiguration COM object followed by the list of active ServiceConfiguration objects active for that provider.">
                                 <mal:type list="true" name="ObjectId" area="COM"/>
                             </mal:field>
                         </mal:response>
@@ -684,9 +684,9 @@
                                        comment="If the implementation of the configuration service is not using a COM archive then an UNSUPPORTED_OPERATION error shall be returned.&#xA;The serviceProvider field shall contain the domain and object instance identifier of the ServiceProvider COM object that must store its current configuration.&#xA;If the service provider is not known an UNKNOWN error shall be returned.">
                                 <mal:type name="ObjectKey" area="COM"/>
                             </mal:field>
-                            <mal:field name="serviceKey"
-                                       comment="If the serviceKey field is not NULL then only the specified service of the provider shall be stored.&#xA;Wildcard values of '0' are not accepted in the serviceKey fields, an INVALID error shall be returned in this case.&#xA;If the serviceKey field is not NULL and the referenced service is not supported by the service provider an UNKNOWN error shall be returned.&#xA;The operation shall publish a ConfigurationStore event containing the selected configuration to be stored.&#xA;The service provider that implements the selected service shall, after the reception of the event, store its current Configuration in the COM Archive.&#xA;Once the relevant service provider has finished storing its configuration it shall publish a ConfigurationStored event with the stored configuration's ObjectId as its body.&#xA;If the request is for a hard-coded configuration then the relevant service provider must fail the store request by returning a NULL as a response.">
-                                <mal:type name="ServiceKey" area="Common"/>
+                            <mal:field name="ServiceId"
+                                       comment="If the ServiceId field is not NULL then only the specified service of the provider shall be stored.&#xA;Wildcard values of '0' are not accepted in the ServiceId fields, an INVALID error shall be returned in this case.&#xA;If the ServiceId field is not NULL and the referenced service is not supported by the service provider an UNKNOWN error shall be returned.&#xA;The operation shall publish a ConfigurationStore event containing the selected configuration to be stored.&#xA;The service provider that implements the selected service shall, after the reception of the event, store its current Configuration in the COM Archive.&#xA;Once the relevant service provider has finished storing its configuration it shall publish a ConfigurationStored event with the stored configuration's ObjectId as its body.&#xA;If the request is for a hard-coded configuration then the relevant service provider must fail the store request by returning a NULL as a response.">
+                                <mal:type name="ServiceId" area="MAL"/>
                             </mal:field>
                             <mal:field name="autoAdd"
                                        comment="If the autoAdd field is set to TRUE then, once the stored event has been published, and if it indicates success, the configuration service provider shall add the new configuration to the list of available configurations for the selected service provider. In effect call the add operation.">
@@ -779,8 +779,8 @@
                     <mal:field name="configName" canBeNull="false" comment="">
                         <mal:type name="Identifier" area="MAL"/>
                     </mal:field>
-                    <mal:field name="serviceKey" canBeNull="false" comment="">
-                        <mal:type name="ServiceKey" area="Common"/>
+                    <mal:field name="ServiceId" canBeNull="false" comment="">
+                        <mal:type name="ServiceId" area="MAL"/>
                     </mal:field>
                 </mal:composite>
             </mal:dataTypes>
@@ -825,7 +825,7 @@
                         </com:sourceObject>
                     </com:object>
                 </com:objects>
-                <com:events comment="A ConfigurationSwitch COM event shall represent a request change in active configuration.&#xA;The ConfigurationSwitch COM event body shall hold the configuration to be activated.&#xA;The ConfigurationSwitch COM event related link shall point to the COM ServiceProvider object that is required to attempt the configuration switch.&#xA;The ConfigurationSwitch COM event source link shall indicate the activate COM OperationActivity object that caused it to be created.&#xA;A ConfigurationSwitched COM event shall be raised when a configuration is made active.&#xA;The ConfigurationSwitched COM event body shall hold the result of the activation attempt.&#xA;If the activation was successful then the body of the ConfigurationSwitched event shall be set to TRUE, otherwise FALSE for failure.&#xA;The ConfigurationSwitched COM event related link shall point to the ConfigurationSwitch event that triggered the switch attempt.&#xA;The ConfigurationSwitched COM event source link shall point to the previous active configuration or be NULL if no configuration was previously active.&#xA;A ConfigurationStore COM event shall represent a request to store the current configuration.&#xA;The ConfigurationStore COM event body is may contain the ServiceKey of the service to store, it shall be NULL if the provider configuration is to be stored.&#xA;The ConfigurationStore COM event related link shall link to the ServiceProvider object that represents the provider that must store its configuration.&#xA;The ConfigurationStore COM event source link shall indicate the storeCurrent COM OperationActivity object that caused it to be created.&#xA;A ConfigurationStored COM event shall be raised when a configuration has been stored.&#xA;The ConfigurationStored COM event body shall hold the ObjectId of the new Configuration object if the store was successful, otherwise NULL for failure.&#xA;The ConfigurationStored COM event related link shall point to the ConfigurationStore event that triggered the store attempt.&#xA;The ConfigurationStored COM event source link shall be NULL.">
+                <com:events comment="A ConfigurationSwitch COM event shall represent a request change in active configuration.&#xA;The ConfigurationSwitch COM event body shall hold the configuration to be activated.&#xA;The ConfigurationSwitch COM event related link shall point to the COM ServiceProvider object that is required to attempt the configuration switch.&#xA;The ConfigurationSwitch COM event source link shall indicate the activate COM OperationActivity object that caused it to be created.&#xA;A ConfigurationSwitched COM event shall be raised when a configuration is made active.&#xA;The ConfigurationSwitched COM event body shall hold the result of the activation attempt.&#xA;If the activation was successful then the body of the ConfigurationSwitched event shall be set to TRUE, otherwise FALSE for failure.&#xA;The ConfigurationSwitched COM event related link shall point to the ConfigurationSwitch event that triggered the switch attempt.&#xA;The ConfigurationSwitched COM event source link shall point to the previous active configuration or be NULL if no configuration was previously active.&#xA;A ConfigurationStore COM event shall represent a request to store the current configuration.&#xA;The ConfigurationStore COM event body is may contain the ServiceId of the service to store, it shall be NULL if the provider configuration is to be stored.&#xA;The ConfigurationStore COM event related link shall link to the ServiceProvider object that represents the provider that must store its configuration.&#xA;The ConfigurationStore COM event source link shall indicate the storeCurrent COM OperationActivity object that caused it to be created.&#xA;A ConfigurationStored COM event shall be raised when a configuration has been stored.&#xA;The ConfigurationStored COM event body shall hold the ObjectId of the new Configuration object if the store was successful, otherwise NULL for failure.&#xA;The ConfigurationStored COM event related link shall point to the ConfigurationStore event that triggered the store attempt.&#xA;The ConfigurationStored COM event source link shall be NULL.">
                     <com:event name="ConfigurationSwitch" number="6">
                         <com:objectType>
                             <mal:type name="ObjectId" area="COM"/>
@@ -846,7 +846,7 @@
                     </com:event>
                     <com:event name="ConfigurationStore" number="8">
                         <com:objectType>
-                            <mal:type name="ServiceKey" area="Common"/>
+                            <mal:type name="ServiceId" area="MAL"/>
                         </com:objectType>
                         <com:relatedObject>
                             <com:objectType number="1" service="Directory" area="Common"/>
@@ -866,23 +866,6 @@
             </com:features>
         </mal:service>
         <mal:dataTypes>
-            <mal:composite name="ServiceKey" shortFormPart="1" comment="">
-                <mal:extends>
-                    <mal:type name="Composite" area="MAL"/>
-                </mal:extends>
-                <mal:field name="keyArea" canBeNull="false"
-                           comment="The area of this service taken from the numeric Area identifier of the service specification.">
-                    <mal:type name="UShort" area="MAL"/>
-                </mal:field>
-                <mal:field name="keyService" canBeNull="false"
-                           comment="The service taken from the numeric Service identifier of the service specification.">
-                    <mal:type name="UShort" area="MAL"/>
-                </mal:field>
-                <mal:field name="keyAreaVersion" canBeNull="false"
-                           comment="The version of this service taken from the Area Version of the area specification.">
-                    <mal:type name="UOctet" area="MAL"/>
-                </mal:field>
-            </mal:composite>
         </mal:dataTypes>
     </mal:area>
 </mal:specification>

@@ -29,13 +29,13 @@ import org.ccsds.moims.mo.common.directory.structures.ProviderDetails;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
 import org.ccsds.moims.mo.common.directory.structures.ServiceCapability;
 import org.ccsds.moims.mo.common.directory.structures.ServiceCapabilityList;
-import org.ccsds.moims.mo.common.structures.ServiceKey;
 import org.ccsds.moims.mo.mal.MALArea;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.ServiceInfo;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.helpertools.connections.ServicesConnectionDetails;
 import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
+import org.ccsds.moims.mo.mal.structures.ServiceId;
 import org.ccsds.moims.mo.mal.structures.StringList;
 
 /**
@@ -62,7 +62,7 @@ public class HelperCommon {
 
         // Cycle all the services in the provider and put them in the serviceDetails object
         for (ServiceCapability serviceInfo : provider.getProviderDetails().getServiceCapabilities()) {
-            ServiceKey key = serviceInfo.getServiceKey();
+            ServiceId key = serviceInfo.getServiceId();
             AddressDetails addressDetails;
 
             // If there are no address info we cannot connect...
@@ -140,7 +140,7 @@ public class HelperCommon {
                         "The best IPC service address index could not be determined!", ex);
             }
             ServiceCapability cap = new ServiceCapability(
-                    oldCapabilities.get(i).getServiceKey(),
+                    oldCapabilities.get(i).getServiceId(),
                     oldCapabilities.get(i).getSupportedCapabilitySets(),
                     oldCapabilities.get(i).getServiceProperties(),
                     serviceAddresses);

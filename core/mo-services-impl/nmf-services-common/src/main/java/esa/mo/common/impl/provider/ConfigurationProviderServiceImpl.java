@@ -44,7 +44,6 @@ import org.ccsds.moims.mo.common.configuration.provider.ConfigurationInheritance
 import org.ccsds.moims.mo.common.configuration.provider.StoreCurrentInteraction;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationType;
-import org.ccsds.moims.mo.common.structures.ServiceKey;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
@@ -52,12 +51,7 @@ import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
-import org.ccsds.moims.mo.mal.structures.Element;
-import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.structures.Subscription;
-import org.ccsds.moims.mo.mal.structures.UShort;
-import org.ccsds.moims.mo.mal.structures.UpdateHeader;
+import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 
 /**
@@ -150,7 +144,7 @@ public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSk
     }
 
     @Override
-    public ObjectIdList getCurrent(ObjectKey serviceProvider, ServiceKey serviceKey, MALInteraction interaction) throws MALInteractionException, MALException {
+    public ObjectIdList getCurrent(ObjectKey serviceProvider, ServiceId serviceKey, MALInteraction interaction) throws MALInteractionException, MALException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -160,7 +154,7 @@ public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSk
     }
 
     @Override
-    public void storeCurrent(ObjectKey serviceProvider, ServiceKey serviceKey, Boolean autoAdd, StoreCurrentInteraction interaction) throws MALInteractionException, MALException {
+    public void storeCurrent(ObjectKey serviceProvider, ServiceId serviceKey, Boolean autoAdd, StoreCurrentInteraction interaction) throws MALInteractionException, MALException {
 //    public void storeCurrent(ServiceProviderKey service, ConfigurationType type, Boolean autoAdd, 
 //            StoreCurrentInteraction interaction) throws MALInteractionException, MALException {
         interaction.sendAcknowledgement();
@@ -300,7 +294,7 @@ public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSk
     }
 
     @Override
-    public ObjectIdList list(ConfigurationType type, IdentifierList domain, ServiceKey serviceKey,
+    public ObjectIdList list(ConfigurationType type, IdentifierList domain, ServiceId serviceKey,
             MALInteraction interaction) throws MALInteractionException, MALException {
         // Select the right type of Configuration
         HashMap<ObjectId, ConfigurationObjectDetails> configurations = null;

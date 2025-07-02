@@ -48,7 +48,6 @@ import org.ccsds.moims.mo.common.directory.structures.PublishDetails;
 import org.ccsds.moims.mo.common.directory.structures.ServiceCapability;
 import org.ccsds.moims.mo.common.directory.structures.ServiceCapabilityList;
 import org.ccsds.moims.mo.common.directory.structures.ServiceFilter;
-import org.ccsds.moims.mo.common.structures.ServiceKey;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.UnknownException;
@@ -58,18 +57,7 @@ import org.ccsds.moims.mo.mal.helpertools.connections.ServicesConnectionDetails;
 import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
-import org.ccsds.moims.mo.mal.structures.FileList;
-import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
-import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.structures.IntegerList;
-import org.ccsds.moims.mo.mal.structures.LongList;
-import org.ccsds.moims.mo.mal.structures.NamedValueList;
-import org.ccsds.moims.mo.mal.structures.QoSLevel;
-import org.ccsds.moims.mo.mal.structures.QoSLevelList;
-import org.ccsds.moims.mo.mal.structures.UInteger;
-import org.ccsds.moims.mo.mal.structures.UOctet;
-import org.ccsds.moims.mo.mal.structures.UShort;
+import org.ccsds.moims.mo.mal.structures.*;
 
 /**
  * Directory service Provider.
@@ -125,7 +113,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
         return serviceAddress;
     }
 
-    private static AddressDetailsList findAddressDetailsListOfService(final ServiceKey key,
+    private static AddressDetailsList findAddressDetailsListOfService(final ServiceId key,
             final ServiceCapabilityList capabilities) {
         if (key == null) {
             return null;
@@ -134,7 +122,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
         // Iterate all capabilities until you find the serviceName
         for (ServiceCapability capability : capabilities) {
             if (capability != null) {
-                if (key.equals(capability.getServiceKey())) {
+                if (key.equals(capability.getServiceId())) {
                     return capability.getServiceAddresses();
                 }
             }
@@ -143,8 +131,8 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
         return null; // Not found!
     }
 
-    public static ServiceKey generateServiceKey(final IntegerList keys) {
-        return new ServiceKey(new UShort(keys.get(0)), new UShort(keys.get(1)), new UOctet(keys.get(2).shortValue()));
+    public static ServiceId generateServiceKey(final IntegerList keys) {
+        return new ServiceId(new UShort(keys.get(0)), new UShort(keys.get(1)), new UOctet(keys.get(2).shortValue()));
     }
 
     /**
@@ -245,24 +233,24 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
             // Go through all the services and check each service
             for (ServiceCapability serviceCapability : pDetails.getServiceCapabilities()) {
                 // Check service key - area field
-                if (filter.getServiceKey().getKeyArea().getValue() != 0) {
-                    if (!serviceCapability.getServiceKey().getKeyArea().equals(filter.getServiceKey().getKeyArea())) {
+                if (filter.getServiceId().getKeyArea().getValue() != 0) {
+                    if (!serviceCapability.getServiceId().getKeyArea().equals(filter.getServiceId().getKeyArea())) {
                         continue;
                     }
                 }
 
                 // Check service key - service field
-                if (filter.getServiceKey().getKeyService().getValue() != 0) {
-                    if (!serviceCapability.getServiceKey().getKeyService().equals(
-                            filter.getServiceKey().getKeyService())) {
+                if (filter.getServiceId().getKeyService().getValue() != 0) {
+                    if (!serviceCapability.getServiceId().getKeyService().equals(
+                            filter.getServiceId().getKeyService())) {
                         continue;
                     }
                 }
 
                 // Check service key - version field
-                if (filter.getServiceKey().getKeyAreaVersion().getValue() != 0) {
-                    if (!serviceCapability.getServiceKey().getKeyAreaVersion().equals(
-                            filter.getServiceKey().getKeyAreaVersion())) {
+                if (filter.getServiceId().getKeyAreaVersion().getValue() != 0) {
+                    if (!serviceCapability.getServiceId().getKeyAreaVersion().equals(
+                            filter.getServiceId().getKeyAreaVersion())) {
                         continue;
                     }
                 }
@@ -287,7 +275,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
                 }
 
                 ServiceCapability newServiceCapability = new ServiceCapability(
-                        serviceCapability.getServiceKey(),
+                        serviceCapability.getServiceId(),
                         serviceCapability.getSupportedCapabilitySets(),
                         serviceCapability.getServiceProperties(),
                         new AddressDetailsList()
@@ -443,7 +431,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
             AddressDetails serviceAddress = DirectoryProviderServiceImpl.getServiceAddressDetails(conn);
             AddressDetailsList serviceAddresses = new AddressDetailsList();
             serviceAddresses.add(serviceAddress);
-            ServiceKey key = DirectoryProviderServiceImpl.generateServiceKey(conn.getServiceKey());
+            ServiceId key = DirectoryProviderServiceImpl.generateServiceKey(conn.getServiceKey());
             // "If NULL then all capabilities supported."
             ServiceCapability capability = new ServiceCapability(key, null, new NamedValueList(), serviceAddresses);
             capabilities.add(capability);
@@ -457,7 +445,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
             for (Object serviceName : serviceNames) {
                 SingleConnectionDetails conn2 = connsMap.get((String) serviceName);
                 AddressDetails serviceAddress = DirectoryProviderServiceImpl.getServiceAddressDetails(conn2);
-                ServiceKey key2 = DirectoryProviderServiceImpl.generateServiceKey(conn2.getServiceKey());
+                ServiceId key2 = DirectoryProviderServiceImpl.generateServiceKey(conn2.getServiceKey());
                 AddressDetailsList serviceAddresses
                         = DirectoryProviderServiceImpl.findAddressDetailsListOfService(key2, capabilities);
                 ServiceCapability capability;

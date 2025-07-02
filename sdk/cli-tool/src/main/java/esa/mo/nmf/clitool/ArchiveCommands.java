@@ -44,7 +44,6 @@ import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQueryList;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.common.directory.structures.*;
-import org.ccsds.moims.mo.common.structures.ServiceKey;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
@@ -63,15 +62,16 @@ import picocli.CommandLine.Parameters;
  * @author Marcel Mikołajko
  */
 @Command(name = "archive", subcommands = {ArchiveCommands.DumpRawArchive.class,
-                                          ArchiveCommands.DumpFormattedArchive.class,
-                                          ArchiveCommands.ListArchiveProviders.class,
-                                          ArchiveCommands.BackupProvider.class})
+    ArchiveCommands.DumpFormattedArchive.class,
+    ArchiveCommands.ListArchiveProviders.class,
+    ArchiveCommands.BackupProvider.class})
 public class ArchiveCommands {
 
     private static final Logger LOGGER = Logger.getLogger(ArchiveCommands.class.getName());
 
     @Command(name = "dump_raw", description = "Dumps to a JSON file the raw tables content of a local COM archive")
     public static class DumpRawArchive extends BaseCommand implements Runnable {
+
         @Parameters(arity = "1", paramLabel = "<jsonFile>", description = "target JSON file")
         String jsonFile;
 
@@ -81,7 +81,7 @@ public class ArchiveCommands {
             File temp = new File(databaseFile);
             if (!temp.exists() || temp.isDirectory()) {
                 LOGGER.log(Level.SEVERE, String.format("Provided database file %s doesn't exist or is a directory",
-                    databaseFile));
+                        databaseFile));
                 return;
             }
 
@@ -89,7 +89,7 @@ public class ArchiveCommands {
             JSONArray tables = new JSONArray();
 
             // parse DB
-            try (Connection conn = DriverManager.getConnection("jdbc:sqlite:" + databaseFile)) {
+            try ( Connection conn = DriverManager.getConnection("jdbc:sqlite:" + databaseFile)) {
                 // for each table
                 ResultSet tablesNamesRs = conn.getMetaData().getTables(null, null, null, null);
                 while (tablesNamesRs.next()) {
@@ -123,7 +123,7 @@ public class ArchiveCommands {
             }
 
             // write JSON file
-            try (FileWriter file = new FileWriter(jsonFile)) {
+            try ( FileWriter file = new FileWriter(jsonFile)) {
                 Gson gson = new GsonBuilder().setPrettyPrinting().create();
                 String prettyJsonString = gson.toJson(tables);
                 file.write(prettyJsonString);
@@ -136,29 +136,30 @@ public class ArchiveCommands {
 
     @Command(name = "dump", description = "Dumps to a JSON file the formatted content of a local or remote COM archive")
     public static class DumpFormattedArchive extends BaseCommand implements Runnable {
+
         @Parameters(arity = "1", paramLabel = "<jsonFile>", description = "target JSON file")
         String jsonFile;
 
         @Option(names = {"-d", "--domain"}, paramLabel = "<domainId>",
-                description = "Restricts the dump to objects in a specific domain\n" +
-                    "  - format: key1.key2.[...].keyN.\n" + "  - example: esa.NMF_SDK.nanosat-mo-supervisor")
+                description = "Restricts the dump to objects in a specific domain\n"
+                + "  - format: key1.key2.[...].keyN.\n" + "  - example: esa.NMF_SDK.nanosat-mo-supervisor")
         String domainId;
 
         @Option(names = {"-t", "--type"}, paramLabel = "<comType>",
-                description = "Restricts the dump to objects that are instances of <comType>\n" +
-                    "  - format: areaNumber.serviceNumber.areaVersion.objectNumber.\n" +
-                    "  - examples (0=wildcard): 4.2.1.1, 4.2.1.0 ")
+                description = "Restricts the dump to objects that are instances of <comType>\n"
+                + "  - format: areaNumber.serviceNumber.areaVersion.objectNumber.\n"
+                + "  - examples (0=wildcard): 4.2.1.1, 4.2.1.0 ")
         String comType;
 
         @Option(names = {"-s", "--start"}, paramLabel = "<startTime>",
-                description = "Restricts the dump to objects created after the given time\n" +
-                    "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n" + "  - example: \"2021-03-04 08:37:58.482\"")
+                description = "Restricts the dump to objects created after the given time\n"
+                + "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n" + "  - example: \"2021-03-04 08:37:58.482\"")
         String startTime;
 
         @Option(names = {"-e", "--end"}, paramLabel = "<endTime>",
-                description = "Restricts the dump to objects created before the given time. " +
-                    "If this option is provided without the -s option, returns the single object that has the closest timestamp to, but not greater than <endTime>\n" +
-                    "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n" + "  - example: \"2021-03-05 12:05:45.271\"")
+                description = "Restricts the dump to objects created before the given time. "
+                + "If this option is provided without the -s option, returns the single object that has the closest timestamp to, but not greater than <endTime>\n"
+                + "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n" + "  - example: \"2021-03-05 12:05:45.271\"")
         String endTime;
 
         @Override
@@ -178,12 +179,12 @@ public class ArchiveCommands {
                     objectNumber = Integer.parseInt(subTypes[3]);
                 } else {
                     LOGGER.log(Level.WARNING, String.format("Error parsing comType \"%s\", filter will be ignored",
-                        comType));
+                            comType));
                 }
             }
 
             ObjectType objectsTypes = new ObjectType(new UShort(areaNumber), new UShort(serviceNumber), new UOctet(
-                (short) areaVersion), new UShort(objectNumber));
+                    (short) areaVersion), new UShort(objectNumber));
 
             // prepare domain and time filters
             ArchiveQueryList archiveQueryList = new ArchiveQueryList();
@@ -191,7 +192,7 @@ public class ArchiveCommands {
             FineTime startTimeF = startTime == null ? null : HelperTime.readableString2FineTime(startTime);
             FineTime endTimeF = endTime == null ? null : HelperTime.readableString2FineTime(endTime);
             ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, null, 0L, null, startTimeF, endTimeF, null,
-                null);
+                    null);
             archiveQueryList.add(archiveQuery);
 
             boolean consumerCreated = false;
@@ -213,8 +214,9 @@ public class ArchiveCommands {
 
     @Command(name = "list", description = "Lists the COM archive providers URIs found in a central directory")
     public static class ListArchiveProviders extends BaseCommand implements Runnable {
+
         @Parameters(arity = "1", paramLabel = "<centralDirectoryURI>",
-                    description = "URI of the central directory to use")
+                description = "URI of the central directory to use")
         String centralDirectoryURI;
 
         /**
@@ -227,7 +229,7 @@ public class ArchiveCommands {
             // No provider found warning
             if (archiveProviderURIs.size() <= 0) {
                 LOGGER.log(Level.WARNING, String.format("No COM archive provider found in central directory at %s",
-                    centralDirectoryURI));
+                        centralDirectoryURI));
                 return;
             }
 
@@ -240,8 +242,8 @@ public class ArchiveCommands {
     }
 
     /**
-     * Look up the central directory to find the list of providers that provides a COM archive
-     * service.
+     * Look up the central directory to find the list of providers that provides
+     * a COM archive service.
      *
      * @param centralDirectoryServiceURI URI of the central directory to use
      * @return The list of providers
@@ -252,10 +254,10 @@ public class ArchiveCommands {
         // Create archive provider filter
         IdentifierList domain = new IdentifierList();
         domain.add(new Identifier("*"));
-        ServiceKey sk = new ServiceKey(COMHelper.COM_AREA_NUMBER, ArchiveServiceInfo.ARCHIVE_SERVICE_NUMBER, new UOctet(
-            (short) 0));
+        ServiceId sk = new ServiceId(COMHelper.COM_AREA_NUMBER, ArchiveServiceInfo.ARCHIVE_SERVICE_NUMBER, new UOctet(
+                (short) 0));
         ServiceFilter sf2 = new ServiceFilter(new Identifier("*"), domain, new Identifier("*"), null, new Identifier(
-            "*"), sk, new UShortList());
+                "*"), sk, new UShortList());
 
         // Query directory service with filter
         try {
@@ -288,12 +290,13 @@ public class ArchiveCommands {
 
     @Command(name = "backup_and_clean", description = "Backups the data for a specific provider")
     public static class BackupProvider extends BaseCommand implements Runnable {
+
         @Option(names = {"-o", "--output"}, paramLabel = "<filename>", description = "target file name")
         String filename;
 
         @Parameters(arity = "1", index = "0", paramLabel = "<domainId>",
-                    description = "Restricts the dump to objects in a specific domain\n" +
-                        "  - format: key1.key2.[...].keyN.\n" + "  - example: esa.NMF_SDK.nanosat-mo-supervisor")
+                description = "Restricts the dump to objects in a specific domain\n"
+                + "  - format: key1.key2.[...].keyN.\n" + "  - example: esa.NMF_SDK.nanosat-mo-supervisor")
         String domainId;
 
         @Override
@@ -302,10 +305,11 @@ public class ArchiveCommands {
                 return;
             }
             ObjectType objectsTypes = new ObjectType(new UShort(0), new UShort(0), new UOctet((short) 0), new UShort(
-                0));
+                    0));
             ArchiveQueryList archiveQueryList = new ArchiveQueryList();
             IdentifierList domain = domainId == null ? null : HelperDomain.domainId2domain(domainId);
-            ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, null, 0L, null, null, null, null, null);
+            ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, null,
+                    0L, null, null, null, null, null);
             archiveQueryList.add(archiveQuery);
 
             if (filename != null) {
@@ -351,7 +355,7 @@ public class ArchiveCommands {
                 System.out.println("Deleting objects from provider finished.\n");
             } else {
                 System.out.println(
-                    "\nThere were errors when saving data. Not deleting objects from provider archive.\n");
+                        "\nThere were errors when saving data. Not deleting objects from provider archive.\n");
             }
         }
     }

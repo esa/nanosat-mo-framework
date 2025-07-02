@@ -32,12 +32,12 @@ import org.ccsds.moims.mo.common.configuration.ConfigurationServiceInfo;
 import org.ccsds.moims.mo.common.configuration.consumer.ConfigurationAdapter;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationType;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
-import org.ccsds.moims.mo.common.structures.ServiceKey;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.File;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
+import org.ccsds.moims.mo.mal.structures.ServiceId;
 import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
@@ -264,7 +264,7 @@ public class ConfigurationConsumerPanel extends javax.swing.JPanel {
         IdentifierList idList = new IdentifierList();
         idList.add(new Identifier("*")); // Wildcard
 
-        ServiceKey key = new ServiceKey(new UShort(0), new UShort(0), new UOctet((byte) 0)); // Wildcards
+        ServiceId key = new ServiceId(new UShort(0), new UShort(0), new UOctet((byte) 0)); // Wildcards
 
         ObjectIdList output;
         try {
@@ -321,7 +321,7 @@ public class ConfigurationConsumerPanel extends javax.swing.JPanel {
 
     private void storeCurrentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_storeCurrentButtonActionPerformed
 
-        ServiceKey key = new ServiceKey(
+        ServiceId key = new ServiceId(
                 new UShort(MCHelper._MC_AREA_NUMBER),
                 new UShort(ParameterServiceInfo._PARAMETER_SERVICE_NUMBER),
                 new UOctet(MCHelper._MC_AREA_VERSION));

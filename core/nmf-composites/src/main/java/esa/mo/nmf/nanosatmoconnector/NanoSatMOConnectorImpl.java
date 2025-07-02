@@ -52,7 +52,6 @@ import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
 import org.ccsds.moims.mo.common.directory.structures.PublishDetails;
 import org.ccsds.moims.mo.common.directory.structures.ServiceFilter;
-import org.ccsds.moims.mo.common.structures.ServiceKey;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
@@ -63,6 +62,7 @@ import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
 import org.ccsds.moims.mo.mal.helpertools.misc.Const;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
+import org.ccsds.moims.mo.mal.structures.ServiceId;
 import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.UOctet;
@@ -174,12 +174,12 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                 IdentifierList domain = new IdentifierList();
                 domain.add(new Identifier("*"));
                 COMService eventCOM = EventHelper.EVENT_SERVICE; // Filter for the Event service of the Supervisor
-                final ServiceKey serviceKey = new ServiceKey(eventCOM.getAreaNumber(),
+                final ServiceId serviceId = new ServiceId(eventCOM.getAreaNumber(),
                         eventCOM.getServiceNumber(), eventCOM.getServiceVersion());
                 final ServiceFilter sf = new ServiceFilter(
                         new Identifier(Const.NANOSAT_MO_SUPERVISOR_NAME),
                         domain, new Identifier("*"), null, new Identifier("*"),
-                        serviceKey, new UShortList());
+                        serviceId, new UShortList());
                 final ProviderSummaryList supervisorEventServiceConnectionDetails
                         = centralDirectory.getDirectoryStub().lookupProvider(sf);
 
@@ -207,7 +207,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                 }
 
                 // Lookup for the Platform services on the NanoSat MO Supervisor
-                final ServiceKey sk = new ServiceKey(PlatformHelper.PLATFORM_AREA_NUMBER,
+                final ServiceId sk = new ServiceId(PlatformHelper.PLATFORM_AREA_NUMBER,
                         new UShort(0), new UOctet((short) 0));
                 final ServiceFilter sf2 = new ServiceFilter(new Identifier(Const.NANOSAT_MO_SUPERVISOR_NAME),
                         domain, new Identifier("*"), null, new Identifier("*"), sk, new UShortList());

@@ -125,13 +125,6 @@
             <artifactId>picture-processor</artifactId>
             <version>${project.version}</version>
         </dependency>
-
-        <!-- Needed as the transitive dependency is not resolved properly -->
-        <dependency>
-            <groupId>int.esa.nmf.core</groupId>
-            <artifactId>nmf-services-com</artifactId>
-            <version>${project.version}</version>
-        </dependency>
     </dependencies>
     <build>
         <plugins>

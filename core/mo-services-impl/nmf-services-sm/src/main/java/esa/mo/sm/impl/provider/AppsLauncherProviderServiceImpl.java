@@ -43,7 +43,6 @@ import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectSet
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectSetList;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
 import org.ccsds.moims.mo.common.directory.structures.ServiceFilter;
-import org.ccsds.moims.mo.common.structures.ServiceKey;
 import org.ccsds.moims.mo.mal.InternalException;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
@@ -410,10 +409,10 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             final IdentifierList domain = new IdentifierList();
             domain.add(new Identifier("*"));
             final COMService eventCOM = EventHelper.EVENT_SERVICE;
-            ServiceKey serviceKey = new ServiceKey(eventCOM.getAreaNumber(),
+            ServiceId serviceId = new ServiceId(eventCOM.getAreaNumber(),
                     eventCOM.getServiceNumber(), eventCOM.getServiceVersion());
             ServiceFilter sf = new ServiceFilter(serviceProviderName, domain,
-                    new Identifier("*"), null, new Identifier("*"), serviceKey, new UShortList());
+                    new Identifier("*"), null, new Identifier("*"), serviceId, new UShortList());
 
             if (app.getCategory().getValue().equalsIgnoreCase("NMF_App")) {
                 // Do a lookup on the Central Drectory service for the app that we want

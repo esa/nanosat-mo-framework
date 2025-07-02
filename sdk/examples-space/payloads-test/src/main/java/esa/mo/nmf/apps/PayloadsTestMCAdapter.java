@@ -49,29 +49,16 @@ import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectIdList;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
 import org.ccsds.moims.mo.common.directory.structures.ServiceFilter;
-import org.ccsds.moims.mo.common.structures.ServiceKey;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.ServiceInfo;
+import org.ccsds.moims.mo.mal.ServiceKey;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
-import org.ccsds.moims.mo.mal.structures.Attribute;
-import org.ccsds.moims.mo.mal.structures.AttributeType;
-import org.ccsds.moims.mo.mal.structures.Duration;
-import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.structures.Pair;
-import org.ccsds.moims.mo.mal.structures.PairList;
-import org.ccsds.moims.mo.mal.structures.Subscription;
-import org.ccsds.moims.mo.mal.structures.UInteger;
-import org.ccsds.moims.mo.mal.structures.UIntegerList;
-import org.ccsds.moims.mo.mal.structures.UOctet;
-import org.ccsds.moims.mo.mal.structures.URI;
-import org.ccsds.moims.mo.mal.structures.UShortList;
-import org.ccsds.moims.mo.mal.structures.Union;
-import org.ccsds.moims.mo.mal.structures.UpdateHeader;
+import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.conversion.structures.DiscreteConversionDetails;
 import org.ccsds.moims.mo.mc.conversion.structures.DiscreteConversionDetailsList;
@@ -428,11 +415,12 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
 
                 IdentifierList domain = new IdentifierList();
                 domain.add(new Identifier("*"));
-                COMService parameterCOM = ParameterHelper.PARAMETER_SERVICE;
-                final ServiceKey serviceKey = new ServiceKey(parameterCOM.getserviceKey().getAreaNumber(),
-                        parameterCOM.getserviceKey().getServiceNumber(), parameterCOM.getserviceKey().getAreaVersion());
+                ServiceInfo parameterCOM = ParameterHelper.PARAMETER_SERVICE;
+                ServiceKey key = parameterCOM.getserviceKey();
+                final ServiceId serviceId = new ServiceId(key.getAreaNumber(),
+                        key.getServiceNumber(), key.getAreaVersion());
                 final ServiceFilter sf = new ServiceFilter(new Identifier(Const.NANOSAT_MO_SUPERVISOR_NAME), domain,
-                        new Identifier("*"), null, new Identifier("*"), serviceKey, new UShortList());
+                        new Identifier("*"), null, new Identifier("*"), serviceId, new UShortList());
                 final ProviderSummaryList supervisorParameterServiceConnectionDetails = centralDirectory
                         .getDirectoryStub().lookupProvider(sf);
 

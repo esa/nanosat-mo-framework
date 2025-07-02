@@ -39,6 +39,7 @@ import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.UnknownException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.structures.Attribute;
+import org.ccsds.moims.mo.mal.structures.AttributeType;
 import org.ccsds.moims.mo.mal.structures.FineTime;
 import org.ccsds.moims.mo.mal.structures.FineTimeList;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
@@ -104,7 +105,7 @@ public class ParameterManager extends MCManager {
     public boolean isReadOnly(Long identityId) {
         Class cla;
         try {
-            cla = parametersMonitoring.getClass().getMethod("onGetValue", Identifier.class, Byte.class)
+            cla = parametersMonitoring.getClass().getMethod("onGetValue", Identifier.class, AttributeType.class)
                     .getDeclaringClass();
             if (cla == ParameterStatusListener.class) {
                 return parametersMonitoring.isReadOnly(identityId);
@@ -296,7 +297,7 @@ public class ParameterManager extends MCManager {
     public Attribute getValue(Long paramIdentityId) throws IOException {
         // check if new interface method is implemented, if yes, call it
         try {
-            Class cla = parametersMonitoring.getClass().getMethod("onGetValue", Identifier.class, Byte.class)
+            Class cla = parametersMonitoring.getClass().getMethod("onGetValue", Identifier.class, AttributeType.class)
                     .getDeclaringClass();
             if (cla == ParameterStatusListener.class) {
                 return parametersMonitoring.onGetValue(paramIdentityId);
@@ -340,7 +341,7 @@ public class ParameterManager extends MCManager {
         Attribute value;
         try {
 
-            Class cla = parametersMonitoring.getClass().getMethod("onGetValue", Identifier.class, Byte.class)
+            Class cla = parametersMonitoring.getClass().getMethod("onGetValue", Identifier.class, AttributeType.class)
                     .getDeclaringClass();
             if (cla == ParameterStatusListener.class) {
                 value = parametersMonitoring.onGetValue(paramIdentityId);
@@ -432,7 +433,7 @@ public class ParameterManager extends MCManager {
         final Long expPIdentityId = validityExpression.getParameterId().getInstId();
         final Attribute expParamValue;
         try {
-            Class cla = parametersMonitoring.getClass().getMethod("onGetValue", Identifier.class, Byte.class)
+            Class cla = parametersMonitoring.getClass().getMethod("onGetValue", Identifier.class, AttributeType.class)
                     .getDeclaringClass();
             if (cla == ParameterStatusListener.class) {
                 expParamValue = parametersMonitoring.onGetValue(expPIdentityId);
@@ -821,8 +822,9 @@ public class ParameterManager extends MCManager {
         if (parametersMonitoring == null) {
             return null;
         }
+
         try {
-            Class cla = parametersMonitoring.getClass().getMethod("onGetValue", Identifier.class, Byte.class)
+            Class cla = parametersMonitoring.getClass().getMethod("onGetValue", Identifier.class, AttributeType.class)
                     .getDeclaringClass();
             if (cla == ParameterStatusListener.class) {
                 return parametersMonitoring.onGetValue(identityId);
@@ -831,7 +833,6 @@ public class ParameterManager extends MCManager {
             Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         return parametersMonitoring.onGetValue(this.getName(identityId), pDef.getRawType());
-
     }
 
     /**

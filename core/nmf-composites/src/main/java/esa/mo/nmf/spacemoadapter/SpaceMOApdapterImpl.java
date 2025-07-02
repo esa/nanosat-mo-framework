@@ -30,7 +30,6 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
 import org.ccsds.moims.mo.common.directory.structures.ServiceFilter;
-import org.ccsds.moims.mo.common.structures.ServiceKey;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
@@ -128,7 +127,7 @@ public class SpaceMOApdapterImpl extends CommonMOAdapterImpl {
         // Create supervisor provider filter
         IdentifierList domain = new IdentifierList();
         domain.add(new Identifier("*"));
-        ServiceKey sk = new ServiceKey(new UShort(0), new UShort(0), new UOctet((short) 0));
+        ServiceId sk = new ServiceId(new UShort(0), new UShort(0), new UOctet((short) 0));
         ServiceFilter sf2 = new ServiceFilter(new Identifier(providerName),
                 domain, new Identifier("*"), null,
                 new Identifier("*"), sk, new UShortList());
