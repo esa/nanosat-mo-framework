@@ -154,13 +154,10 @@ public class NMFPackage {
             ZipEntry entry = this.getZipFileEntry(file.getPath());
 
             String path = HelperNMFPackage.sanitizePath(entry.getName());
-            //newFile = new File(toFolder.getCanonicalPath() + File.separator + path);
-            //File parent = newFile.getParentFile();
-
             newFile = new File(toFolder, path).getCanonicalFile();
             File parent = newFile.getParentFile();
             // Validate that the new file resides within the intended directory
-            if (!newFile.getPath().startsWith(toFolder.getCanonicalPath() + File.separator)) {
+            if (!newFile.toPath().normalize().startsWith(toFolder.toPath().normalize())) {
                 throw new IOException("Invalid zip entry: " + entry.getName());
             }
 
