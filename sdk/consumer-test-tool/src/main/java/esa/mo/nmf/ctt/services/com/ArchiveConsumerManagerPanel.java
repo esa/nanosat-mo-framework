@@ -73,6 +73,7 @@ import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.aggregation.AggregationServiceInfo;
+import org.ccsds.moims.mo.mc.aggregation.structures.AggregationCategory;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinition;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSet;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSetList;
@@ -122,7 +123,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         // AgregationDefinition
         return new AggregationDefinition(
                 "This is a description",
-                new UOctet((short) 0),
+                new AggregationCategory(),
                 new Duration(0),
                 Boolean.FALSE,
                 Boolean.FALSE,

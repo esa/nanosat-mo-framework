@@ -43,7 +43,6 @@ import org.ccsds.moims.mo.mal.structures.IntegerList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.UInteger;
-import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationCategory;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinition;
@@ -142,8 +141,9 @@ public class DemoGPSData {
 
             // Create the Aggregation GPS
             AggregationDefinition defGPSAgg = new AggregationDefinition(
-                    "Aggregates: GPS Latitude, GPS Longitude, GPS Altitude, GPS.NumberOfSatellitesInView.", new UOctet(
-                            (short) AggregationCategory.GENERAL.getValue()), new Duration(10), true, false, false,
+                    "Aggregates: GPS Latitude, GPS Longitude, GPS Altitude, GPS.NumberOfSatellitesInView.",
+                            AggregationCategory.GENERAL,
+                            new Duration(10), true, false, false,
                     new Duration(20), true, new AggregationParameterSetList());
             aggNames.add(new Identifier(AGGREGATION_GPS));
 

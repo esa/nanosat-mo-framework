@@ -266,7 +266,7 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
         // Create the Aggregation GPS
         AggregationDefinition defGPSAgg = new AggregationDefinition(
                 "Aggregates: GPS Latitude, GPS Longitude, GPS Altitude.",
-                new UOctet((short) AggregationCategory.GENERAL.getValue()),
+                AggregationCategory.GENERAL,
                 new Duration(10), true, false, false, new Duration(20), false,
                 new AggregationParameterSetList());
         aggNames.add(new Identifier(AGGREGATION_GPS));
@@ -276,7 +276,7 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
         // Create the Aggregation Magnetometer
         AggregationDefinition defMagAgg = new AggregationDefinition(
                 "Aggregates Magnetometer components: X, Y, Z.",
-                new UOctet((short) AggregationCategory.GENERAL.getValue()),
+                AggregationCategory.GENERAL,
                 new Duration(10), true, false, false, new Duration(20), false,
                 new AggregationParameterSetList());
         aggNames.add(new Identifier(AGGREGATION_MAG));
@@ -548,7 +548,8 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
         UInteger errorNumber = null;
 
         for (int stage = 1; stage < totalNumberOfStages + 1; stage++) {
-            nmf.reportActionExecutionProgress(true, 0, stage, totalNumberOfStages, actionInstanceObjId);
+            nmf.reportActionExecutionProgress(true, 0, stage,
+                    totalNumberOfStages, actionInstanceObjId);
 
             try {
                 Thread.sleep(sleepTime * 1000); //1000 milliseconds multiplier.

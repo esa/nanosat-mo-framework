@@ -46,6 +46,7 @@ import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.aggregation.AggregationServiceInfo;
 import org.ccsds.moims.mo.mc.aggregation.consumer.AggregationAdapter;
+import org.ccsds.moims.mo.mc.aggregation.structures.AggregationCategory;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationCreationRequest;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationCreationRequestList;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinition;
@@ -288,7 +289,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         // Create and Show the Action Definition to the user
         AggregationDefinition aggregationDefinition = new AggregationDefinition(
                 "A aggregation of 2 parameters.",
-                new UOctet((short) 0),
+                new AggregationCategory(),
                 new Duration(2),
                 false,
                 false,

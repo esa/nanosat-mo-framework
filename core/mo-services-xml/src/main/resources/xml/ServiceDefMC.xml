@@ -1296,7 +1296,7 @@
                     </mal:field>
                     <mal:field name="category" canBeNull="false"
                                comment="Category of the aggregation. Value taken from AggregationCategory enumeration, although the use of a UOctet allows deployment specific extension. Extensions must use values greater than 127.">
-                        <mal:type name="UOctet" area="MAL"/>
+                        <mal:type name="AggregationCategory" service="Aggregation" area="MC"/>
                     </mal:field>
                     <mal:field name="reportInterval" canBeNull="false"
                                comment="The interval between periodic reports on this aggregation. If this aggregation is not periodic, this field must be '0'.">

@@ -32,8 +32,8 @@ import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.LongList;
-import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mc.aggregation.AggregationServiceInfo;
+import org.ccsds.moims.mo.mc.aggregation.structures.AggregationCategory;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinition;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionList;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSet;
@@ -59,7 +59,7 @@ public class StoreAggregations {
             aaa.add(aa);
             AggregationDefinition def = new AggregationDefinition(
                 "dfvgdf",
-                new UOctet((short) 1),
+                AggregationCategory.GENERAL,
                 new Duration(45),
                 false,
                 false,

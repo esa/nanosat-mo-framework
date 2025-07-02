@@ -58,6 +58,7 @@ import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinition;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionList;
 import org.ccsds.moims.mo.mc.action.structures.ActionInstanceDetails;
+import org.ccsds.moims.mo.mc.aggregation.structures.AggregationCategory;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinition;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionList;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSet;
@@ -236,7 +237,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
 
                         // Create the Aggregation
                         AggregationDefinition aggregationDetail = new AggregationDefinition(
-                                aggregation.description(), new UOctet((short) aggregation.category()),
+                                aggregation.description(), new AggregationCategory(aggregation.category()),
                                 new Duration(aggregation.reportInterval()), aggregation.sendUnchanged(),
                                 aggregation.sendDefinitions(), aggregation.filterEnabled(),
                                 new Duration(aggregation.filterTimeout()),

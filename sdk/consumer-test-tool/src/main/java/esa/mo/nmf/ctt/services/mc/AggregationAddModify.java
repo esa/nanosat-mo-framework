@@ -107,7 +107,7 @@ public class AggregationAddModify extends javax.swing.JFrame {
             float filteredTimeout, AggregationParameterSetList parameterSets) {
         return new AggregationDefinition(
                 description,
-                new UOctet((short) category.getValue()),
+                new AggregationCategory(category.getValue()),
                 new Duration(updateInterval),
                 null,
                 null,
