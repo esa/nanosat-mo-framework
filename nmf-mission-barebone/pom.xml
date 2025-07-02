@@ -50,6 +50,6 @@
         <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
     </properties>
     <modules>
-        <!-- <module>supervisor</module> -->
+        <module>barebone-nanosat-mo-supervisor</module>
     </modules>
 </project>
