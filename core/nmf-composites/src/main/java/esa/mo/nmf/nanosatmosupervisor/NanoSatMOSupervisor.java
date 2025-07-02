@@ -305,6 +305,4 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
     }
 
     public abstract void initPlatformServices(COMServicesProvider comServices);
-
-    protected abstract void startStatusTracking();
 }

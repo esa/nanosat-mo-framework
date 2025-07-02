@@ -67,9 +67,4 @@ public class NanosatMOSupervisorBasicImpl extends NanoSatMOSupervisor {
         // The Barebone implementation does not have Platform services
     }
 
-    @Override
-    protected void startStatusTracking() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
 }
