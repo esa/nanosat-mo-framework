@@ -23,7 +23,6 @@ package esa.mo.nmf.apps;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
-import esa.mo.nmf.NMFInterface;
 import java.io.File;
 import java.io.IOException;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
@@ -35,9 +34,8 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
-import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.UShort;
-import org.ccsds.moims.mo.mal.structures.Union;
+import org.ccsds.moims.mo.mc.action.structures.ActionCategory;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinition;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinition;
@@ -76,12 +74,12 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
 
         // Creates a periodic parameter
         parDef.add(new ParameterDefinition("A periodic parameter with a double value.",
-            AttributeType.DOUBLE, "unit", false, new Duration(1), null, null));
+                AttributeType.DOUBLE, "unit", false, new Duration(1), null, null));
         paramNames.add(new Identifier(PARAMETER_PERIODIC));
 
         // Creates a periodic parameter
         parDef.add(new ParameterDefinition("The COM Archive size.", AttributeType.DOUBLE,
-            "bytes", false, new Duration(0), null, null));
+                "bytes", false, new Duration(0), null, null));
         paramNames.add(new Identifier(PARAMETER_ARCHIVE_SIZE));
 
         registration.registerParameters(paramNames, parDef);
@@ -98,16 +96,18 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
             AttributeType convertedType = null;
             String convertedUnit = null;
 
-            arguments1.add(new ArgumentDefinition(new Identifier("1"), "", rawType, rawUnit,
-                conditionalConversions, convertedType, convertedUnit));
+            arguments1.add(new ArgumentDefinition(new Identifier("1"), "",
+                    rawType, rawUnit, conditionalConversions, convertedType, convertedUnit));
         }
 
-        actionDefs.add(new ActionDefinition("Stores " + NUMBER_OF_OBJS +
-            " aggregation definition objects in the COM Archive.", new UOctet((short) 0), new UShort(0), arguments1));
+        actionDefs.add(new ActionDefinition("Stores " + NUMBER_OF_OBJS
+                + " aggregation definition objects in the COM Archive.",
+                ActionCategory.DEFAULT, new UShort(0), arguments1));
         actionNames.add(new Identifier(ACTION_STORE_AGGS));
 
-        actionDefs.add(new ActionDefinition("Stores " + NUMBER_OF_OBJS +
-            " parameter value objects in the COM Archive.", new UOctet((short) 0), new UShort(0), arguments1));
+        actionDefs.add(new ActionDefinition("Stores " + NUMBER_OF_OBJS
+                + " parameter value objects in the COM Archive.",
+                ActionCategory.DEFAULT, new UShort(0), arguments1));
         actionNames.add(new Identifier(ACTION_STORE_PARS));
 
         LongList actionObjIds = registration.registerActions(actionNames, actionDefs);
@@ -134,8 +134,8 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
     }
 
     @Override
-    public UInteger actionArrived(Identifier name, AttributeValueList attributeValues, Long actionInstanceObjId,
-        boolean reportProgress, MALInteraction interaction) {
+    public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,
+            Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
         if (ACTION_STORE_AGGS.equals(name.getValue())) {
             StoreAggregations.storeAggregations(NUMBER_OF_OBJS, connector);
         }

@@ -36,8 +36,8 @@ import org.ccsds.moims.mo.mal.structures.AttributeType;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
-import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.UShort;
+import org.ccsds.moims.mo.mc.action.structures.ActionCategory;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinition;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionList;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinition;
@@ -73,7 +73,7 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
         ArgumentDefinitionList arguments1 = new ArgumentDefinitionList();
         actionDefs.add(new ActionDefinition(
                 "Starts the AI inference using the AI service",
-                new UOctet((short) 0),
+                ActionCategory.DEFAULT,
                 new UShort(TOTAL_STAGES),
                 arguments1));
         actionNames.add(new Identifier(ACTION_START_AI));
@@ -89,7 +89,7 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
 
         actionDefs.add(new ActionDefinition(
                 "Cancel the AI processing",
-                new UOctet((short) 0),
+                ActionCategory.DEFAULT,
                 new UShort(1),
                 arguments2));
         actionNames.add(new Identifier(ACTION_CANCEL_AI));

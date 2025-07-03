@@ -53,8 +53,8 @@ import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UIntegerList;
-import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.UShort;
+import org.ccsds.moims.mo.mc.action.structures.ActionCategory;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinition;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionList;
 import org.ccsds.moims.mo.mc.action.structures.ActionInstanceDetails;
@@ -422,7 +422,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
                 LOGGER.log(Level.INFO, "Action registered: {0}", actionId);
                 actionNames.add(actionId);
                 actionDefs.add(new ActionDefinition(annotation.description(),
-                        new UOctet(annotation.category()),
+                        new ActionCategory(annotation.category()),
                         new UShort(annotation.stepCount()), arguments));
             }
         }

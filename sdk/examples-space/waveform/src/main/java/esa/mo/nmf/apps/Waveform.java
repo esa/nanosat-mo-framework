@@ -38,9 +38,8 @@ import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
-import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.UShort;
-import org.ccsds.moims.mo.mal.structures.Union;
+import org.ccsds.moims.mo.mc.action.structures.ActionCategory;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinition;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinition;
@@ -52,8 +51,8 @@ import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.mc.structures.ConditionalConversionList;
 
 /**
- * This NMF App is a simple clock. It pushes the day of the week, the hours, the minutes and the
- * seconds.
+ * This NMF App is a simple clock. It pushes the day of the week, the hours, the
+ * minutes and the seconds.
  *
  */
 public class Waveform {
@@ -87,8 +86,9 @@ public class Waveform {
     }
 
     public void startWave() {
-        if (started)
+        if (started) {
             return;
+        }
         started = true;
         Logger.getLogger(Waveform.class.getName()).log(Level.FINE, "Starting wave");
         this.tasker.scheduleTask(new Thread(() -> {
@@ -101,8 +101,9 @@ public class Waveform {
     }
 
     public void stopWave() {
-        if (!started)
+        if (!started) {
             return;
+        }
         tasker.stopLast();
         started = false;
     }
@@ -118,11 +119,11 @@ public class Waveform {
             final IdentifierList names = new IdentifierList();
 
             defs.add(new ParameterDefinition("Amplitude of the wave", AttributeType.DOUBLE, "",
-                true, new Duration(3), null, null));
+                    true, new Duration(3), null, null));
             defs.add(new ParameterDefinition("Frequency of the wave", AttributeType.DOUBLE, "",
-                true, new Duration(3), null, null));
+                    true, new Duration(3), null, null));
             defs.add(new ParameterDefinition("Result of the wave", AttributeType.DOUBLE, "", true,
-                new Duration(), null, null));
+                    new Duration(), null, null));
             defs.add(new ParameterDefinition("Refreshrate for publishing the result",
                     AttributeType.LONG, "us", true, new Duration(), null, null));
             names.add(new Identifier("Amplitude"));
@@ -132,12 +133,12 @@ public class Waveform {
             registrationObject.registerParameters(names, defs);
             IdentifierList actionNames = new IdentifierList();
             ActionDefinitionList actionDefs = new ActionDefinitionList();
-            ActionDefinition actionDef1 = new ActionDefinition("Start the plotter.", new UOctet(
-                (short) 0), new UShort(0), new ArgumentDefinitionList());
+            ActionDefinition actionDef1 = new ActionDefinition("Start the plotter.",
+                    ActionCategory.DEFAULT, new UShort(0), new ArgumentDefinitionList());
             actionNames.add(new Identifier("start"));
             actionDefs.add(actionDef1);
-            ActionDefinition actionDef2 = new ActionDefinition("Stop the plotter.", new UOctet((short) 0),
-                new UShort(0), new ArgumentDefinitionList());
+            ActionDefinition actionDef2 = new ActionDefinition("Stop the plotter.",
+                    ActionCategory.DEFAULT, new UShort(0), new ArgumentDefinitionList());
             actionNames.add(new Identifier("stop"));
             actionDefs.add(actionDef2);
 
@@ -149,11 +150,11 @@ public class Waveform {
                 AttributeType convertedType = null;
                 String convertedUnit = null;
                 argDef1.add(new ArgumentDefinition(new Identifier("Amplitude"), null, rawType, rawUnit,
-                    conditionalConversions, convertedType, convertedUnit));
+                        conditionalConversions, convertedType, convertedUnit));
             }
 
-            ActionDefinition actionDef3 = new ActionDefinition("Update the Amplitude", new UOctet(
-                (short) 0), new UShort(0), argDef1);
+            ActionDefinition actionDef3 = new ActionDefinition("Update the Amplitude",
+                    ActionCategory.DEFAULT, new UShort(0), argDef1);
             actionNames.add(new Identifier("updateAmplitude"));
             actionDefs.add(actionDef3);
 
@@ -165,11 +166,11 @@ public class Waveform {
                 AttributeType convertedType = null;
                 String convertedUnit = null;
                 argDef2.add(new ArgumentDefinition(new Identifier("Frequency"), null, rawType, rawUnit,
-                    conditionalConversions, convertedType, convertedUnit));
+                        conditionalConversions, convertedType, convertedUnit));
             }
 
-            ActionDefinition actionDef4 = new ActionDefinition("Update the Frequency", new UOctet(
-                (short) 0), new UShort(0), argDef2);
+            ActionDefinition actionDef4 = new ActionDefinition("Update the Frequency",
+                    ActionCategory.DEFAULT, new UShort(0), argDef2);
             actionNames.add(new Identifier("updateFrequency"));
             actionDefs.add(actionDef4);
 
@@ -178,14 +179,15 @@ public class Waveform {
 
         @Override
         public UInteger actionArrived(Identifier idntfr, AttributeValueList avl, Long l, boolean bln,
-            MALInteraction mali) {
+                MALInteraction mali) {
             if (idntfr.getValue().equals("start")) {
                 Logger.getLogger(Waveform.class.getName()).log(Level.FINER, "Started wave");
                 startWave();
                 Enumeration<String> loggers = LogManager.getLogManager().getLoggerNames();
                 StringBuilder sb = new StringBuilder();
-                while (loggers.hasMoreElements())
+                while (loggers.hasMoreElements()) {
                     sb.append("- " + loggers.nextElement() + "\n");
+                }
                 Logger.getLogger(Waveform.class.getName()).log(Level.INFO, sb.toString());
                 return new UInteger(0);
             }
@@ -195,8 +197,9 @@ public class Waveform {
                 return new UInteger(0);
             }
             if (idntfr.getValue().equals("updateAmplitude")) {
-                if (avl == null)
+                if (avl == null) {
                     return new UInteger(1);
+                }
                 if (avl.isEmpty()) {
                     return new UInteger(0);
                 }
@@ -206,8 +209,9 @@ public class Waveform {
                 }
             }
             if (idntfr.getValue().equals("updateFrequency")) {
-                if (avl == null)
+                if (avl == null) {
                     return new UInteger(1);
+                }
                 if (avl.isEmpty()) {
                     return new UInteger(0);
                 }

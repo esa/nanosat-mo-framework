@@ -28,6 +28,7 @@ import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.structures.*;
+import org.ccsds.moims.mo.mc.action.structures.ActionCategory;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinition;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinition;
@@ -93,8 +94,8 @@ public class DemoHelloWorldSimple {
                     conditionalConversions, convertedType, convertedUnit));
             }
 
-            actionDefs.add(new ActionDefinition("Simple Go action with double value.", new UOctet((short) 0),
-                new UShort(3), arguments1));
+            actionDefs.add(new ActionDefinition("Simple Go action with double value.",
+                    ActionCategory.DEFAULT, new UShort(3), arguments1));
             actionNames.add(new Identifier(ACTION_GO));
 
             registrationObject.registerActions(actionNames, actionDefs);

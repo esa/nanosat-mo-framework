@@ -328,7 +328,7 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
         // Create and Show the Action Definition to the user
         ActionDefinition actionDefinition = new ActionDefinition(
                 "The action takes a picture and saves it in the 'picture' parameter.",
-                new UOctet((short) 0),
+                ActionCategory.DEFAULT,
                 new UShort(1),
                 detailsList);
 

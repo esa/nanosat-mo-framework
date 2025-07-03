@@ -40,14 +40,13 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
-import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.AttributeType;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
-import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.UShort;
+import org.ccsds.moims.mo.mc.action.structures.ActionCategory;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinition;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionList;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinition;
@@ -93,7 +92,7 @@ public class PictureProcessorMCAdapter extends MonitorAndControlNMFAdapter imple
 
     @Override
     public UInteger actionArrived(Identifier name, AttributeValueList attributeValues, Long actionInstanceObjId,
-        boolean reportProgress, MALInteraction interaction) {
+            boolean reportProgress, MALInteraction interaction) {
 
         if (ACTION_TAKE_AND_PROCESS_PICTURE.equals(name.getValue())) {
             takeAndProcessPicture(actionInstanceObjId, attributeValues);
@@ -114,7 +113,7 @@ public class PictureProcessorMCAdapter extends MonitorAndControlNMFAdapter imple
     }
 
     private void regiserActionTakeAndProcessPicture(ActionDefinitionList actionDefs,
-        IdentifierList actionNames) {
+            IdentifierList actionNames) {
         ArgumentDefinitionList arguments = new ArgumentDefinitionList();
         {
             AttributeType rawType = AttributeType.INTEGER;
@@ -132,8 +131,8 @@ public class PictureProcessorMCAdapter extends MonitorAndControlNMFAdapter imple
         }
 
         actionDefs.add(new ActionDefinition(
-            "Uses the NMF Camera to take a picture and process it through a python script", new UOctet((short) 0),
-            new UShort(TOTAL_STAGES), arguments));
+                "Uses the NMF Camera to take a picture and process it through a python script",
+                ActionCategory.DEFAULT, new UShort(TOTAL_STAGES), arguments));
         actionNames.add(new Identifier(ACTION_TAKE_AND_PROCESS_PICTURE));
     }
 
@@ -149,7 +148,7 @@ public class PictureProcessorMCAdapter extends MonitorAndControlNMFAdapter imple
 
         actionDefs.add(new ActionDefinition(
                 "Destroy a process",
-                new UOctet((short) 0),
+                ActionCategory.DEFAULT,
                 new UShort(1),
                 arguments));
         actionNames.add(new Identifier(ACTION_DESTROY_PROCESS));
@@ -167,7 +166,7 @@ public class PictureProcessorMCAdapter extends MonitorAndControlNMFAdapter imple
         File userdata = AppStorage.getAppUserdataDir();
         String path = userdata + File.separator + "pictures";
         Path outputFolder = createDirectoriesIfNotExist(Paths.get(path));
-        
+
         PictureReceivedAdapter adapter = new PictureReceivedAdapter(
                 this,
                 actionInstanceObjId,
@@ -211,7 +210,7 @@ public class PictureProcessorMCAdapter extends MonitorAndControlNMFAdapter imple
         final PixelResolution resolution = new PixelResolution(new UInteger(2048), new UInteger(1944));
         final Duration exposureTime = new Duration(0.200);
 
-        return new CameraSettings(resolution, PictureFormat.JPG, 
+        return new CameraSettings(resolution, PictureFormat.JPG,
                 exposureTime, gainR, gainG, gainB, null);
     }
 

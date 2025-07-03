@@ -41,7 +41,6 @@ import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
-import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinition;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionList;
@@ -57,6 +56,7 @@ import org.ccsds.moims.mo.platform.camera.structures.PictureFormat;
 import org.ccsds.moims.mo.platform.camera.structures.PixelResolution;
 import esa.mo.nmf.NMFInterface;
 import org.ccsds.moims.mo.mal.structures.AttributeType;
+import org.ccsds.moims.mo.mc.action.structures.ActionCategory;
 import org.ccsds.moims.mo.platform.camera.structures.CameraSettings;
 
 /**
@@ -120,7 +120,7 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
 
         actionDefs.add(new ActionDefinition(
                 "Uses the NMF Camera service to take a picture.",
-                new UOctet((short) 0),
+                ActionCategory.DEFAULT,
                 new UShort(TOTAL_STAGES),
                 arguments1
         ));
@@ -128,7 +128,7 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
 
         actionDefs.add(new ActionDefinition(
                 "Uses the NMF Camera service to take a picture.",
-                new UOctet((short) 0),
+                ActionCategory.DEFAULT,
                 new UShort(TOTAL_STAGES),
                 arguments1
         ));

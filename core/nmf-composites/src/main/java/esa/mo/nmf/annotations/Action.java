@@ -62,7 +62,7 @@ public @interface Action {
 
     String description() default "";
 
-    short category() default 0;
+    int category() default 0;
 
     int stepCount() default 0;
 

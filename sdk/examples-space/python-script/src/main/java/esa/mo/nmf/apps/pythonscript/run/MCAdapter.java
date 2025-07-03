@@ -31,13 +31,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
-import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.AttributeType;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
-import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.UShort;
+import org.ccsds.moims.mo.mc.action.structures.ActionCategory;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinition;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionList;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinition;
@@ -118,7 +117,7 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
 
         actionDefs.add(new ActionDefinition(
                 "Runs a python script",
-                new UOctet((short) 0),
+                ActionCategory.DEFAULT,
                 new UShort(TOTAL_STAGES),
                 arguments));
         actionNames.add(new Identifier(ACTION_RUN_PYTHON_SCRIPT));
@@ -136,7 +135,7 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
 
         actionDefs.add(new ActionDefinition(
                 "Destroy a process",
-                new UOctet((short) 0),
+                ActionCategory.DEFAULT,
                 new UShort(1),
                 arguments));
         actionNames.add(new Identifier(ACTION_DESTROY_PROCESS));

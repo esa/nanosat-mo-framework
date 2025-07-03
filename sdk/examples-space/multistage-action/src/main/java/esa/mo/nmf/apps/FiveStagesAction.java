@@ -32,8 +32,8 @@ import org.ccsds.moims.mo.mal.structures.AttributeType;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
-import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.UShort;
+import org.ccsds.moims.mo.mc.action.structures.ActionCategory;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinition;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
@@ -87,7 +87,7 @@ public class FiveStagesAction {
             }
 
             ActionDefinition actionDef1 = new ActionDefinition("Example of an Action with 5 stages.",
-                new UOctet((short) 0), new UShort(5), argDef);
+                ActionCategory.DEFAULT, new UShort(5), argDef);
             names.add(new Identifier(ACTION5STAGES));
             actionDefs.add(actionDef1);
             registrationObject.registerActions(names, actionDefs);

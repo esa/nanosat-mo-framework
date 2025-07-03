@@ -55,6 +55,7 @@ import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.mal.structures.UpdateHeader;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
+import org.ccsds.moims.mo.mc.action.structures.ActionCategory;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinition;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionList;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationCategory;
@@ -305,22 +306,22 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
 
         ActionDefinition actionDef1 = new ActionDefinition(
                 "Changes the spacecraft's attitude to sun pointing mode.",
-                new UOctet((short) 0), new UShort(0), arguments1);
+                ActionCategory.DEFAULT, new UShort(0), arguments1);
         actionNames.add(new Identifier(ACTION_SUN_POINTING_MODE));
 
         ActionDefinition actionDef2 = new ActionDefinition(
                 "Changes the spacecraft's attitude to nadir pointing mode.",
-                new UOctet((short) 0), new UShort(0), arguments1);
+                ActionCategory.DEFAULT, new UShort(0), arguments1);
         actionNames.add(new Identifier(ACTION_NADIR_POINTING_MODE));
 
         ActionDefinition actionDef3 = new ActionDefinition(
                 "Unsets the spacecraft's attitude.",
-                new UOctet((short) 0), new UShort(0), new ArgumentDefinitionList());
+                ActionCategory.DEFAULT, new UShort(0), new ArgumentDefinitionList());
         actionNames.add(new Identifier(ACTION_UNSET));
 
         ActionDefinition actionDef4 = new ActionDefinition(
                 "Example of an Action with 5 stages.",
-                new UOctet((short) 0), new UShort(5), new ArgumentDefinitionList());
+                ActionCategory.DEFAULT, new UShort(5), new ArgumentDefinitionList());
         actionNames.add(new Identifier(ACTION_5_STAGES));
 
         actionDefs.add(actionDef1);
