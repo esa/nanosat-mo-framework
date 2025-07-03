@@ -32,6 +32,7 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
+import org.ccsds.moims.mo.mal.structures.AttributeType;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
@@ -101,14 +102,14 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
     private void registerActionRunPython(ActionDefinitionList actionDefs, IdentifierList actionNames) {
         ArgumentDefinitionList arguments = new ArgumentDefinitionList();
         {
-            Byte rawType = Attribute._INTEGER_TYPE_SHORT_FORM;
+            AttributeType rawType = AttributeType.INTEGER;
             arguments.add(new ArgumentDefinition(
                     new Identifier("Min Process duration"),
                     "Minimum Process duration",
                     rawType, "seconds", null, null, null));
         }
         {
-            Byte rawType = Attribute._INTEGER_TYPE_SHORT_FORM;
+            AttributeType rawType = AttributeType.INTEGER;
             arguments.add(new ArgumentDefinition(
                     new Identifier("Max Process duration"),
                     "Max Picture processing duration",
@@ -126,7 +127,7 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
     private void registerActionDestroyProcess(ActionDefinitionList actionDefs, IdentifierList actionNames) {
         ArgumentDefinitionList arguments = new ArgumentDefinitionList();
         {
-            Byte rawType = Attribute._LONG_TYPE_SHORT_FORM;
+            AttributeType rawType = AttributeType.LONG;
             arguments.add(new ArgumentDefinition(
                     new Identifier("process id"),
                     "process id",

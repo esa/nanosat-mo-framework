@@ -239,8 +239,8 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
                     continue;
                 }
 
-                String attributeName = HelperAttributes.typeShortForm2attributeName(arguments.get(i).getRawType()
-                        .intValue());
+                int type = arguments.get(i).getRawType().getValue();
+                String attributeName = HelperAttributes.typeShortForm2attributeName(type);
                 Object aaa = HelperAttributes.attributeName2object(attributeName);
                 Attribute elem = (Attribute) HelperAttributes.javaType2Attribute(aaa);
                 argumentValueList.add(new AttributeValue(elem));

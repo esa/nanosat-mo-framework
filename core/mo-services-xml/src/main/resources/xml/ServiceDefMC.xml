@@ -1854,7 +1854,7 @@
                 </mal:field>
                 <mal:field name="rawType" canBeNull="false"
                            comment="Holds the attribute short form part of the raw type of the argument, e.g., for a MAL::String argument it shall hold 15.">
-                    <mal:type name="Octet" area="MAL"/>
+                    <mal:type name="AttributeType" area="MAL"/>
                 </mal:field>
                 <mal:field name="rawUnit" comment="The unit for the raw value.">
                     <mal:type name="String" area="MAL"/>
@@ -1865,7 +1865,7 @@
                 </mal:field>
                 <mal:field name="convertedType"
                            comment="Holds the attribute short form part of the converted type of the argument, e.g., for a MAL::String argument it shall hold 15. Must not be NULL if a conversion condition is supplied.">
-                    <mal:type name="Octet" area="MAL"/>
+                    <mal:type name="AttributeType" area="MAL"/>
                 </mal:field>
                 <mal:field name="convertedUnit" comment="The converted argument units.">
                     <mal:type name="String" area="MAL"/>

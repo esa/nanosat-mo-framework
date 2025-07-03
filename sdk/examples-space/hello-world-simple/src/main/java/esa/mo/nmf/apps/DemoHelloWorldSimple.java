@@ -27,7 +27,6 @@ import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinition;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionList;
@@ -84,10 +83,10 @@ public class DemoHelloWorldSimple {
 
             ArgumentDefinitionList arguments1 = new ArgumentDefinitionList();
             {
-                Byte rawType = Attribute._DOUBLE_TYPE_SHORT_FORM;
+                AttributeType rawType = AttributeType.DOUBLE;
                 String rawUnit = "-";
                 ConditionalConversionList conditionalConversions = null;
-                Byte convertedType = null;
+                AttributeType convertedType = null;
                 String convertedUnit = null;
 
                 arguments1.add(new ArgumentDefinition(new Identifier("1"), null, rawType, rawUnit,

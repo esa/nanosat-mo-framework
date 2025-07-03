@@ -32,8 +32,7 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.UShort;
 
 /**
- * This class is deprecated. It is only here for backward compatibility with the
- * old MAL.
+ * This class extends the normal ServiceInfo class.
  */
 public abstract class COMService extends ServiceInfo {
 

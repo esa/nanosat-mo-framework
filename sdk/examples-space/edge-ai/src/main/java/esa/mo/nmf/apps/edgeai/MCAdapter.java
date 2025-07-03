@@ -20,10 +20,19 @@
  */
 package esa.mo.nmf.apps.edgeai;
 
+import esa.mo.nmf.MCRegistration;
+import esa.mo.nmf.MonitorAndControlNMFAdapter;
+import esa.mo.nmf.NMFException;
+import esa.mo.nmf.NMFInterface;
+import esa.mo.nmf.NMFProvider;
+import java.io.File;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
-import org.ccsds.moims.mo.mal.structures.Attribute;
+import org.ccsds.moims.mo.mal.structures.AttributeType;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
@@ -34,15 +43,6 @@ import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionList;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinition;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
-import esa.mo.nmf.MCRegistration;
-import esa.mo.nmf.MonitorAndControlNMFAdapter;
-import esa.mo.nmf.NMFException;
-import esa.mo.nmf.NMFInterface;
-import esa.mo.nmf.NMFProvider;
-import java.io.File;
-import java.io.IOException;
-import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.platform.artificialintelligence.consumer.ArtificialIntelligenceStub;
 
 /**
@@ -80,7 +80,7 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
         
         ArgumentDefinitionList arguments2 = new ArgumentDefinitionList();
         {
-            Byte rawType = Attribute._LONG_TYPE_SHORT_FORM;
+            AttributeType rawType = AttributeType.LONG;
             arguments2.add(new ArgumentDefinition(
                     new Identifier("process id"),
                     "process id",
@@ -100,7 +100,7 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
     @Override
     public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,
             Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
-        LOG.log(Level.INFO, "Action arrived, with name: " + name.getValue());
+        LOG.log(Level.INFO, "Action arrived, with name: {0}", name.getValue());
         
         if (ACTION_START_AI.equals(name.getValue())) {
             triggerAIInference(actionInstanceObjId, attributeValues);

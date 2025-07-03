@@ -43,7 +43,6 @@ import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.UShort;
-import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinition;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinition;
@@ -109,10 +108,10 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
 
         ArgumentDefinitionList arguments1 = new ArgumentDefinitionList();
         {
-            Byte rawType = Attribute._INTEGER_TYPE_SHORT_FORM;
+            AttributeType rawType = AttributeType.INTEGER;
             String rawUnit = "Image Format";
             ConditionalConversionList conditionalConversions = null;
-            Byte convertedType = null;
+            AttributeType convertedType = null;
             String convertedUnit = null;
 
             arguments1.add(new ArgumentDefinition(new Identifier("1"), null,

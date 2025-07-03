@@ -76,10 +76,10 @@ public class FiveStagesAction {
 
             ArgumentDefinitionList argDef = new ArgumentDefinitionList();
             {
-                Byte rawType = Attribute._DURATION_TYPE_SHORT_FORM;
+                AttributeType rawType = AttributeType.DURATION;
                 String rawUnit = "seconds";
                 ConditionalConversionList conditionalConversions = null;
-                Byte convertedType = null;
+                AttributeType convertedType = null;
                 String convertedUnit = null;
 
                 argDef.add(new ArgumentDefinition(new Identifier("1"), null, rawType, rawUnit,

@@ -68,6 +68,7 @@ import org.ccsds.moims.mo.com.InvalidException;
 import org.ccsds.moims.mo.mal.UnknownException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
+import org.ccsds.moims.mo.mal.structures.AttributeType;
 import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mc.alert.AlertServiceInfo;
@@ -530,19 +531,20 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
         if (argumentValues != null) {
             for (int i = 0; i < argumentValues.size(); i++) {  // Go one by one and figure it out what they are
                 AttributeValue argumentValue = argumentValues.get(i);
-                Byte rawType;
+                int rawType;
 
                 if (argumentValue.getValue() == null) {  // Well, let's then consider it is a Double
-                    rawType = Union.DOUBLE_TYPE_SHORT_FORM.byteValue();
+                    rawType = AttributeType.DOUBLE_VALUE;
                 } else {
-                    rawType = ((Integer) argumentValue.getValue().getTypeId().getSFP()).byteValue(); // Check what is the type and stamp it
+                    // Check what is the type and stamp it
+                    rawType = argumentValue.getValue().getTypeId().getSFP();
                 }
 
                 // Generate the Argument Definition
                 ArgumentDefinition arg = new ArgumentDefinition(
                         new Identifier(String.valueOf(i)),
                         "",
-                        rawType,
+                        new AttributeType(rawType),
                         null,
                         null,
                         null,

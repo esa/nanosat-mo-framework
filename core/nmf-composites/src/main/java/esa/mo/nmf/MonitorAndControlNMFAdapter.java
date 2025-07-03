@@ -373,7 +373,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
                 for (java.lang.reflect.Parameter param : parameters) {
                     Identifier identifier = new Identifier(method.getName() + "_" + param.getName());
                     String description = null;
-                    Byte rawType = getTypeShortForm(param.getType());
+                    Integer rawType = getTypeShortForm(param.getType());
                     if (rawType == null) {
                         LOGGER.log(Level.SEVERE,
                                 "Unable to register action Parameter of type {0}. Only MAL Types are allowed!",
@@ -382,7 +382,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
                     }
                     String rawUnit = "";
                     ConditionalConversionList conditionalConversions = null;
-                    Byte convertedType = null;
+                    Integer convertedType = null;
                     String convertedUnit = null;
                     ActionParameter paramAnnotation = param.getAnnotation(ActionParameter.class);
                     if (paramAnnotation != null) {
@@ -411,7 +411,8 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
                         }
                     }
                     arguments.add(new ArgumentDefinition(identifier, description,
-                            rawType, rawUnit, conditionalConversions, convertedType, convertedUnit));
+                            new AttributeType(rawType), rawUnit, conditionalConversions,
+                            new AttributeType(convertedType), convertedUnit));
                 }
 
                 // use fallback name if no name was given
@@ -573,22 +574,22 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
         return null; // Return null to work normally...
     }
 
-    private Byte getTypeShortForm(Class<?> type) {
+    private Integer getTypeShortForm(Class<?> type) {
         Integer helperValue = HelperAttributes.attributeName2typeShortForm(type.getSimpleName());
         if (helperValue != null) {
-            return helperValue.byteValue();
+            return helperValue;
         }
 
         if (type.equals(boolean.class)) {
-            return HelperAttributes.attributeName2typeShortForm("Boolean").byteValue();
+            return HelperAttributes.attributeName2typeShortForm("Boolean");
         } else if (type.equals(float.class)) {
-            return HelperAttributes.attributeName2typeShortForm("Float").byteValue();
+            return HelperAttributes.attributeName2typeShortForm("Float");
         } else if (type.equals(double.class)) {
-            return HelperAttributes.attributeName2typeShortForm("Double").byteValue();
+            return HelperAttributes.attributeName2typeShortForm("Double");
         } else if (type.equals(int.class)) {
-            return HelperAttributes.attributeName2typeShortForm("Integer").byteValue();
+            return HelperAttributes.attributeName2typeShortForm("Integer");
         } else if (type.equals(long.class)) {
-            return HelperAttributes.attributeName2typeShortForm("Long").byteValue();
+            return HelperAttributes.attributeName2typeShortForm("Long");
         }
         return null;
     }

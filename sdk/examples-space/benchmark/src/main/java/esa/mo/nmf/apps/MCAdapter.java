@@ -92,10 +92,10 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
 
         ArgumentDefinitionList arguments1 = new ArgumentDefinitionList();
         {
-            Byte rawType = Attribute._INTEGER_TYPE_SHORT_FORM;
+            AttributeType rawType = AttributeType.INTEGER;
             String rawUnit = "-";
             ConditionalConversionList conditionalConversions = null;
-            Byte convertedType = null;
+            AttributeType convertedType = null;
             String convertedUnit = null;
 
             arguments1.add(new ArgumentDefinition(new Identifier("1"), "", rawType, rawUnit,

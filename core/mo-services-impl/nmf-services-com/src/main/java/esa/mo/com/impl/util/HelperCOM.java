@@ -26,6 +26,7 @@ import org.ccsds.moims.mo.com.COMObject;
 import org.ccsds.moims.mo.com.COMService;
 import org.ccsds.moims.mo.com.archive.structures.ExpressionOperator;
 import org.ccsds.moims.mo.com.structures.ObjectType;
+import org.ccsds.moims.mo.mal.MALArea;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.ServiceInfo;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
@@ -189,7 +190,7 @@ public class HelperCOM {
         }
 
         COMService service = (COMService) MALContextFactory.lookupArea(objType.getArea(), objType.getVersion())
-            .getServiceByNumber(objType.getService());
+                .getServiceByNumber(objType.getService());
 
         if (service == null || objType.getNumber().getValue() == 0) {  // Special case for the event service...
             return null;
@@ -219,10 +220,9 @@ public class HelperCOM {
     public static String objType2string(final ObjectType objType) {
         final COMObject comObject = HelperCOM.objType2COMObject(objType);
 
-        String string = MALContextFactory.lookupArea(objType.getArea(), objType.getVersion()).getName().toString();
-
-        string += " - " + MALContextFactory.lookupArea(objType.getArea(), objType.getVersion()).getServiceByNumber(
-            objType.getService()).getName().toString();
+        MALArea area = MALContextFactory.lookupArea(objType.getArea(), objType.getVersion());
+        String string = area.getName().toString();
+        string += " - " + area.getServiceByNumber(objType.getService()).getName().toString();
 
         if (comObject != null) {
             string += ": " + comObject.getObjectName().getValue();
@@ -303,25 +303,6 @@ public class HelperCOM {
     }
 
     /**
-     * Generates a COM ObjectType object from the area, service, version and
-     * object number. Deprecated because this used to be needed when the
-     * services didn't provide the static COM Objects ObjectType. This can now
-     * be found in the service Helper. For example, for the Parameter service,
-     * the parameter definition can be found in:
-     * ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE
-     *
-     * @param area Area number
-     * @param service Service number
-     * @param version Version number
-     * @param number Object number
-     * @return The ObjectType object
-     */
-    @Deprecated
-    public static ObjectType generateCOMObjectType(int area, int service, int version, int number) {
-        return new ObjectType(new UShort(area), new UShort(service), new UOctet((short) version), new UShort(number));
-    }
-
-    /**
      * Generates a Long subkey from the ObjectType object object number
      *
      * @param objectType Object type object
@@ -350,8 +331,10 @@ public class HelperCOM {
     public static ObjectType objectTypeId2objectType(Long subkey) {
         final long unwrap = subkey;
 
-        return new ObjectType(new UShort((short) (unwrap >> 48)), new UShort((short) (unwrap >> 32)), new UOctet(
-            (byte) (unwrap >> 24)), new UShort((short) (unwrap)));
+        return new ObjectType(new UShort((short) (unwrap >> 48)),
+                new UShort((short) (unwrap >> 32)),
+                new UOctet((byte) (unwrap >> 24)),
+                new UShort((short) (unwrap)));
     }
 
     /*
@@ -392,8 +375,8 @@ public class HelperCOM {
         return obj;
     }
 
-    private static Object getObjectInsideObject(final String fieldName, final Object obj) throws NoSuchFieldException,
-        IllegalArgumentException, IllegalAccessException {
+    private static Object getObjectInsideObject(final String fieldName,
+            final Object obj) throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
         if (obj == null) {
             throw new NoSuchFieldException();
         }
@@ -419,8 +402,8 @@ public class HelperCOM {
     public static Subscription generateSubscriptionCOMEvent(String identifier, ObjectType objType) {
         final Long secondEntityKey = 0xFFFFFFFFFF000000L & HelperCOM.generateSubKey(objType);
         final Random random = new Random();
-        return ConnectionConsumer.subscriptionKeys(new Identifier(identifier + random.nextInt()), new Identifier("*"),
-            secondEntityKey, 0L, 0L);
+        return ConnectionConsumer.subscriptionKeys(new Identifier(identifier + random.nextInt()),
+                new Identifier("*"), secondEntityKey, 0L, 0L);
     }
 
     /**
@@ -428,14 +411,14 @@ public class HelperCOM {
      * selects all the COM Events of a certain source.
      *
      * @param identifier A name identifier for the subscription
-     * @param sourceType The source type containing the area, service, and version
-     * of the source to be selected.
+     * @param sourceType The source type containing the area, service, and
+     * version of the source to be selected.
      * @return The subscription for PUB-SUB.
      */
     public static Subscription generateCOMEventSubscriptionBySourceType(String identifier, ObjectType sourceType) {
         final Long fourthEntityKey = 0xFFFFFFFFFFFFFFFFL & HelperCOM.generateSubKey(sourceType);
         final Random random = new Random();
-        return ConnectionConsumer.subscriptionKeys(new Identifier(identifier + random.nextInt()), new Identifier("*"),
-            Long.valueOf(0), Long.valueOf(0), fourthEntityKey);
+        return ConnectionConsumer.subscriptionKeys(new Identifier(identifier + random.nextInt()),
+                new Identifier("*"), Long.valueOf(0), Long.valueOf(0), fourthEntityKey);
     }
 }

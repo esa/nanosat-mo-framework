@@ -38,13 +38,13 @@ public @interface ActionParameter {
 
     String description() default "";
 
-    byte rawType() default 0;
+    int rawType() default 0;
 
     String rawUnit() default "";
 
     String conditionalConversionFieldName() default "";
 
-    byte convertedType() default -1;
+    int convertedType() default -1;
 
     String convertedUnit() default "";
 }

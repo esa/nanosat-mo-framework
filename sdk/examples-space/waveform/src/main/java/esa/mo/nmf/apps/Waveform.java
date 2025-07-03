@@ -143,10 +143,10 @@ public class Waveform {
 
             ArgumentDefinitionList argDef1 = new ArgumentDefinitionList();
             {
-                Byte rawType = Attribute.DOUBLE_SHORT_FORM.byteValue();
+                AttributeType rawType = AttributeType.DOUBLE;
                 String rawUnit = "Units";
                 ConditionalConversionList conditionalConversions = null;
-                Byte convertedType = null;
+                AttributeType convertedType = null;
                 String convertedUnit = null;
                 argDef1.add(new ArgumentDefinition(new Identifier("Amplitude"), null, rawType, rawUnit,
                     conditionalConversions, convertedType, convertedUnit));
@@ -159,10 +159,10 @@ public class Waveform {
 
             ArgumentDefinitionList argDef2 = new ArgumentDefinitionList();
             {
-                Byte rawType = Attribute.DOUBLE_SHORT_FORM.byteValue();
+                AttributeType rawType = AttributeType.DOUBLE;
                 String rawUnit = "Hz";
                 ConditionalConversionList conditionalConversions = null;
-                Byte convertedType = null;
+                AttributeType convertedType = null;
                 String convertedUnit = null;
                 argDef2.add(new ArgumentDefinition(new Identifier("Frequency"), null, rawType, rawUnit,
                     conditionalConversions, convertedType, convertedUnit));

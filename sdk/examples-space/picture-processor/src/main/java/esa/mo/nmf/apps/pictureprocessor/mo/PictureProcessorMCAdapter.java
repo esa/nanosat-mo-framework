@@ -41,6 +41,7 @@ import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
+import org.ccsds.moims.mo.mal.structures.AttributeType;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
@@ -116,14 +117,14 @@ public class PictureProcessorMCAdapter extends MonitorAndControlNMFAdapter imple
         IdentifierList actionNames) {
         ArgumentDefinitionList arguments = new ArgumentDefinitionList();
         {
-            Byte rawType = Attribute._INTEGER_TYPE_SHORT_FORM;
+            AttributeType rawType = AttributeType.INTEGER;
             arguments.add(new ArgumentDefinition(
                     new Identifier("min process duration"),
                     "minimum picture processing duration",
                     rawType, "seconds", null, null, null));
         }
         {
-            Byte rawType = Attribute._INTEGER_TYPE_SHORT_FORM;
+            AttributeType rawType = AttributeType.INTEGER;
             arguments.add(new ArgumentDefinition(
                     new Identifier("max process duration"),
                     "max picture processing duration",
@@ -139,7 +140,7 @@ public class PictureProcessorMCAdapter extends MonitorAndControlNMFAdapter imple
     private void regiserActionDestroyProcess(ActionDefinitionList actionDefs, IdentifierList actionNames) {
         ArgumentDefinitionList arguments = new ArgumentDefinitionList();
         {
-            Byte rawType = Attribute._LONG_TYPE_SHORT_FORM;
+            AttributeType rawType = AttributeType.LONG;
             arguments.add(new ArgumentDefinition(
                     new Identifier("process id"),
                     "process id",
