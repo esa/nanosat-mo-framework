@@ -44,7 +44,6 @@ import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinition;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
-import org.ccsds.moims.mo.mc.structures.ConditionalConversionList;
 
 /**
  *
@@ -92,12 +91,8 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
         {
             AttributeType rawType = AttributeType.INTEGER;
             String rawUnit = "-";
-            ConditionalConversionList conditionalConversions = null;
-            AttributeType convertedType = null;
-            String convertedUnit = null;
 
-            arguments1.add(new ArgumentDefinition(new Identifier("1"), "",
-                    rawType, rawUnit, conditionalConversions, convertedType, convertedUnit));
+            arguments1.add(new ArgumentDefinition(new Identifier("1"), "", rawType, rawUnit));
         }
 
         actionDefs.add(new ActionDefinition("Stores " + NUMBER_OF_OBJS

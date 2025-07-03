@@ -81,10 +81,8 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
         ArgumentDefinitionList arguments2 = new ArgumentDefinitionList();
         {
             AttributeType rawType = AttributeType.LONG;
-            arguments2.add(new ArgumentDefinition(
-                    new Identifier("process id"),
-                    "process id",
-                    rawType, "", null, null, null));
+            arguments2.add(new ArgumentDefinition( new Identifier("process id"),
+                    "process id", rawType, ""));
         }
 
         actionDefs.add(new ActionDefinition(

@@ -225,7 +225,6 @@ public final class ActionManager extends MCManager {
     }
 
     protected boolean isActionDefinitionValid(ActionDefinition oldDef, ActionDefinition newDef) {
-
         if (//!oldDef.getName().equals(newDef.getName()) ||
                 !oldDef.getCategory().equals(newDef.getCategory())
                 || !oldDef.getProgressStepCount().equals(newDef.getProgressStepCount())) {
@@ -249,18 +248,6 @@ public final class ActionManager extends MCManager {
 
             if (oldArgument.getRawType() != null && newArgument.getRawType() != null) {
                 if (!oldArgument.getRawType().equals(newArgument.getRawType())) {
-                    return false;
-                }
-            }
-
-            if (oldArgument.getConditionalConversions() != null && newArgument.getConditionalConversions() != null) {
-                if (!oldArgument.getConditionalConversions().equals(newArgument.getConditionalConversions())) {
-                    return false;
-                }
-            }
-
-            if (oldArgument.getConvertedType() != null && newArgument.getConvertedType() != null) {
-                if (!oldArgument.getConvertedType().equals(newArgument.getConvertedType())) {
                     return false;
                 }
             }
@@ -357,11 +344,10 @@ public final class ActionManager extends MCManager {
             // Are the argument types the same?
             for (int index = 0; index < sizeDefArgIds; index++) {
                 int defRawType = args.get(index).getRawType().getValue();
-                int defConvType = args.get(index).getConvertedType().getValue();
                 int instType = actionInstance.getArgumentValues().get(index).getValue().getTypeId().getSFP();
                 boolean isRawValue = (actionInstance.getIsRawValue() == null) || (actionInstance.getIsRawValue().get(
                         index) == null) || (actionInstance.getIsRawValue().get(index));
-                if ((isRawValue && (defRawType != instType)) || (!isRawValue && (defConvType != instType))) {
+                if ((isRawValue && (defRawType != instType)) || (!isRawValue)) {
                     errorList.add(new UInteger(index));
                 }
                 if (!errorList.isEmpty()) {

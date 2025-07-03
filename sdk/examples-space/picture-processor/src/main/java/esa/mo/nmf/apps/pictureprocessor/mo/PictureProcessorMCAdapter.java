@@ -120,14 +120,14 @@ public class PictureProcessorMCAdapter extends MonitorAndControlNMFAdapter imple
             arguments.add(new ArgumentDefinition(
                     new Identifier("min process duration"),
                     "minimum picture processing duration",
-                    rawType, "seconds", null, null, null));
+                    rawType, "seconds"));
         }
         {
             AttributeType rawType = AttributeType.INTEGER;
             arguments.add(new ArgumentDefinition(
                     new Identifier("max process duration"),
                     "max picture processing duration",
-                    rawType, "seconds", null, null, null));
+                    rawType, "seconds"));
         }
 
         actionDefs.add(new ActionDefinition(
@@ -143,7 +143,7 @@ public class PictureProcessorMCAdapter extends MonitorAndControlNMFAdapter imple
             arguments.add(new ArgumentDefinition(
                     new Identifier("process id"),
                     "process id",
-                    rawType, "", null, null, null));
+                    rawType, ""));
         }
 
         actionDefs.add(new ActionDefinition(

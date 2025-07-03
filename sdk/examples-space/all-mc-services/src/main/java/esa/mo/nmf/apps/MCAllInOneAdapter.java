@@ -296,12 +296,8 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
         {
             AttributeType rawType = AttributeType.DURATION;
             String rawUnit = "seconds";
-            ConditionalConversionList conditionalConversions = null;
-            AttributeType convertedType = null;
-            String convertedUnit = null;
 
-            arguments1.add(new ArgumentDefinition(new Identifier("0"), null, rawType, rawUnit,
-                    conditionalConversions, convertedType, convertedUnit));
+            arguments1.add(new ArgumentDefinition(new Identifier("0"), null, rawType, rawUnit));
         }
 
         ActionDefinition actionDef1 = new ActionDefinition(

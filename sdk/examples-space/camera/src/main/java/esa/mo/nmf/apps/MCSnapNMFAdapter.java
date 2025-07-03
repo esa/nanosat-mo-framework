@@ -50,7 +50,6 @@ import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinition;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
-import org.ccsds.moims.mo.mc.structures.ConditionalConversionList;
 import org.ccsds.moims.mo.platform.camera.consumer.CameraAdapter;
 import org.ccsds.moims.mo.platform.camera.structures.PictureFormat;
 import org.ccsds.moims.mo.platform.camera.structures.PixelResolution;
@@ -110,12 +109,8 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
         {
             AttributeType rawType = AttributeType.INTEGER;
             String rawUnit = "Image Format";
-            ConditionalConversionList conditionalConversions = null;
-            AttributeType convertedType = null;
-            String convertedUnit = null;
 
-            arguments1.add(new ArgumentDefinition(new Identifier("1"), null,
-                    rawType, rawUnit, conditionalConversions, convertedType, convertedUnit));
+            arguments1.add(new ArgumentDefinition(new Identifier("1"), null, rawType, rawUnit));
         }
 
         actionDefs.add(new ActionDefinition(

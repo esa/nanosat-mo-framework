@@ -41,10 +41,4 @@ public @interface ActionParameter {
     int rawType() default 0;
 
     String rawUnit() default "";
-
-    String conditionalConversionFieldName() default "";
-
-    int convertedType() default -1;
-
-    String convertedUnit() default "";
 }

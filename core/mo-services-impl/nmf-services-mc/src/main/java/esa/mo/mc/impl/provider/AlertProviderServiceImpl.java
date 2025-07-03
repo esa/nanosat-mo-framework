@@ -544,9 +544,6 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
                         new Identifier(String.valueOf(i)),
                         "",
                         new AttributeType(rawType),
-                        null,
-                        null,
-                        null,
                         null
                 );
 

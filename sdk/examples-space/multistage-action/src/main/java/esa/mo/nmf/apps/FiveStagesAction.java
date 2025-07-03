@@ -40,7 +40,6 @@ import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinition;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
-import org.ccsds.moims.mo.mc.structures.ConditionalConversionList;
 
 /**
  * A simple NMF App demo that reports 5 stages of an Action every 2 seconds
@@ -78,12 +77,8 @@ public class FiveStagesAction {
             {
                 AttributeType rawType = AttributeType.DURATION;
                 String rawUnit = "seconds";
-                ConditionalConversionList conditionalConversions = null;
-                AttributeType convertedType = null;
-                String convertedUnit = null;
 
-                argDef.add(new ArgumentDefinition(new Identifier("1"), null, rawType, rawUnit,
-                    conditionalConversions, convertedType, convertedUnit));
+                argDef.add(new ArgumentDefinition(new Identifier("1"), null, rawType, rawUnit));
             }
 
             ActionDefinition actionDef1 = new ActionDefinition("Example of an Action with 5 stages.",

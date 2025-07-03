@@ -381,9 +381,6 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
                         continue;
                     }
                     String rawUnit = "";
-                    ConditionalConversionList conditionalConversions = null;
-                    Integer convertedType = null;
-                    String convertedUnit = null;
                     ActionParameter paramAnnotation = param.getAnnotation(ActionParameter.class);
                     if (paramAnnotation != null) {
                         if (!paramAnnotation.name().equals("")) { // if user given name exist, use it
@@ -395,24 +392,9 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
                         }
 
                         rawUnit = paramAnnotation.rawUnit();
-                        String condName = paramAnnotation.conditionalConversionFieldName();
-                        // if converted unit exists, set variables accordingly
-                        if (!condName.equals("")) {
-                            try {
-                                conditionalConversions = (ConditionalConversionList) this.getClass().getDeclaredField(condName).get(this);
-                                convertedType = paramAnnotation.convertedType();
-                                convertedUnit = paramAnnotation.convertedUnit();
-                            } catch (NoSuchFieldException
-                                    | SecurityException
-                                    | IllegalArgumentException
-                                    | IllegalAccessException ex) {
-                                LOGGER.log(Level.SEVERE, ex.getMessage());
-                            }
-                        }
                     }
                     arguments.add(new ArgumentDefinition(identifier, description,
-                            new AttributeType(rawType), rawUnit, conditionalConversions,
-                            new AttributeType(convertedType), convertedUnit));
+                            new AttributeType(rawType), rawUnit));
                 }
 
                 // use fallback name if no name was given

@@ -48,7 +48,6 @@ import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinition;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
-import org.ccsds.moims.mo.mc.structures.ConditionalConversionList;
 
 /**
  * This NMF App is a simple clock. It pushes the day of the week, the hours, the
@@ -146,11 +145,7 @@ public class Waveform {
             {
                 AttributeType rawType = AttributeType.DOUBLE;
                 String rawUnit = "Units";
-                ConditionalConversionList conditionalConversions = null;
-                AttributeType convertedType = null;
-                String convertedUnit = null;
-                argDef1.add(new ArgumentDefinition(new Identifier("Amplitude"), null, rawType, rawUnit,
-                        conditionalConversions, convertedType, convertedUnit));
+                argDef1.add(new ArgumentDefinition(new Identifier("Amplitude"), null, rawType, rawUnit));
             }
 
             ActionDefinition actionDef3 = new ActionDefinition("Update the Amplitude",
@@ -162,11 +157,7 @@ public class Waveform {
             {
                 AttributeType rawType = AttributeType.DOUBLE;
                 String rawUnit = "Hz";
-                ConditionalConversionList conditionalConversions = null;
-                AttributeType convertedType = null;
-                String convertedUnit = null;
-                argDef2.add(new ArgumentDefinition(new Identifier("Frequency"), null, rawType, rawUnit,
-                        conditionalConversions, convertedType, convertedUnit));
+                argDef2.add(new ArgumentDefinition(new Identifier("Frequency"), null, rawType, rawUnit));
             }
 
             ActionDefinition actionDef4 = new ActionDefinition("Update the Frequency",

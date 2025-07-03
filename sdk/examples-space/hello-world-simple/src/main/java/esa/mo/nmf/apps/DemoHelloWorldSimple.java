@@ -35,7 +35,6 @@ import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinition;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionList;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinition;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionList;
-import org.ccsds.moims.mo.mc.structures.ConditionalConversionList;
 
 /**
  * This class provides a simple Hello World demo cli provider
@@ -86,12 +85,8 @@ public class DemoHelloWorldSimple {
             {
                 AttributeType rawType = AttributeType.DOUBLE;
                 String rawUnit = "-";
-                ConditionalConversionList conditionalConversions = null;
-                AttributeType convertedType = null;
-                String convertedUnit = null;
 
-                arguments1.add(new ArgumentDefinition(new Identifier("1"), null, rawType, rawUnit,
-                    conditionalConversions, convertedType, convertedUnit));
+                arguments1.add(new ArgumentDefinition(new Identifier("1"), null, rawType, rawUnit));
             }
 
             actionDefs.add(new ActionDefinition("Simple Go action with double value.",

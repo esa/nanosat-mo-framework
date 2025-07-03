@@ -105,14 +105,14 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
             arguments.add(new ArgumentDefinition(
                     new Identifier("Min Process duration"),
                     "Minimum Process duration",
-                    rawType, "seconds", null, null, null));
+                    rawType, "seconds"));
         }
         {
             AttributeType rawType = AttributeType.INTEGER;
             arguments.add(new ArgumentDefinition(
                     new Identifier("Max Process duration"),
                     "Max Picture processing duration",
-                    rawType, "seconds", null, null, null));
+                    rawType, "seconds"));
         }
 
         actionDefs.add(new ActionDefinition(
@@ -130,7 +130,7 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
             arguments.add(new ArgumentDefinition(
                     new Identifier("process id"),
                     "process id",
-                    rawType, "", null, null, null));
+                    rawType, ""));
         }
 
         actionDefs.add(new ActionDefinition(
