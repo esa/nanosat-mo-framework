@@ -162,8 +162,7 @@ public class DemoGPSData {
                 }
 
                 try {
-                    GetLastKnownPositionResponse pos = connector.getPlatformServices().getGPSService()
-                            .getLastKnownPosition();
+                    GetLastKnownPositionResponse pos = connector.getPlatformServices().getGPSService().getLastKnownPosition();
 
                     if (PARAMETER_GPS_LATITUDE.equals(identifier.getValue())) {
                         return (Attribute) Attribute.javaType2Attribute(pos.getPosition().getLatitude());

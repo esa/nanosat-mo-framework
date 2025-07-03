@@ -340,8 +340,9 @@ public final class AggregationManager extends MCManager {
         }
         //        //check for expired values if the aggregation-period was expired
         if (aggrExpired) {
-            newAggrParameterValueSamples = checkForExpiredValues(identityId, indexOfparameterSet, aggrDef
-                    .getParameterSets().get(indexOfparameterSet), newAggrParameterValueSamples);
+            newAggrParameterValueSamples = checkForExpiredValues(identityId, indexOfparameterSet,
+                    aggrDef.getParameterSets().get(indexOfparameterSet),
+                    newAggrParameterValueSamples);
         }
         //increment the number of samples for this ParameterSet
         this.sampleCountList.get(identityId).set(indexOfparameterSet, this.sampleCountList.get(identityId).get(
@@ -386,8 +387,8 @@ public final class AggregationManager extends MCManager {
             //not using the aggrExpired value here but the "false" value, is because the actual 
             //check for expired value will be done a bit furhter down this code. Ther ParameterService 
             //should still hold the "interface" to manually check for the expired value
-            newParameterValueSamples = this.sampleParameters(aggrParamSet.getParameters(), false, aggrDef
-                    .getSendDefinitions());
+            newParameterValueSamples = this.sampleParameters(aggrParamSet.getParameters(),
+                    false, aggrDef.getSendDefinitions());
         }
         //increment the number of samples for this ParameterSet
         this.sampleCountList.get(identityId).set(indexOfparameterSet, this.sampleCountList.get(identityId).get(
@@ -395,8 +396,8 @@ public final class AggregationManager extends MCManager {
 
         //        //check for expired values if the aggregation-period was expired
         if (aggrExpired) {
-            newParameterValueSamples = checkForExpiredValues(identityId, indexOfparameterSet, aggrParamSet,
-                    newParameterValueSamples);
+            newParameterValueSamples = checkForExpiredValues(identityId,
+                    indexOfparameterSet, aggrParamSet, newParameterValueSamples);
         }
         //no samples saved yet
         if (currentUpdateValues == null) {
@@ -495,8 +496,9 @@ public final class AggregationManager extends MCManager {
 
         //fill AggregationSetValue-objects for each parameterSet
         for (int j = 0; j < parameterSets.size(); j++) {   //Cycle through the parameterSets (requirement: 3.7.3.n)
-            AggregationParameterValueList sampleParameters = this.sampleParameters(aggrDef.getParameterSets().get(j)
-                    .getParameters(), false, aggrDef.getSendDefinitions());
+            AggregationParameterValueList sampleParameters = this.sampleParameters(
+                    aggrDef.getParameterSets().get(j).getParameters(),
+                    false, aggrDef.getSendDefinitions());
             AggregationSetValue aggrSetValue = new AggregationSetValue(null, null, sampleParameters);
             parameterSetValues.add(aggrSetValue);
         }

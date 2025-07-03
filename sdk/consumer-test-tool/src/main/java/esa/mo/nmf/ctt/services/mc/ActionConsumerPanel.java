@@ -303,8 +303,11 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
             StringBuilder str = new StringBuilder("Object instance identifiers on the provider: \n");
             if (objIds != null) {
                 for (ObjectInstancePair objId : objIds) {
-                    str.append("ObjId Def: ").append(objId.getObjDefInstanceId().toString()).append(" Identity: ")
-                            .append(objId.getObjIdentityInstanceId().toString()).append("\n");
+                    str.append("ObjId Def: ")
+                            .append(objId.getObjDefInstanceId().toString())
+                            .append(" Identity: ")
+                            .append(objId.getObjIdentityInstanceId().toString())
+                            .append("\n");
                 }
             }
 

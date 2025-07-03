@@ -80,8 +80,7 @@ public class SFTPBrowser extends JFrame implements Comparator<ChannelSftp.LsEntr
                 Component component = super.prepareRenderer(renderer, row, column);
                 int rendererWidth = component.getPreferredSize().width;
                 TableColumn tableColumn = getColumnModel().getColumn(column);
-                tableColumn.setPreferredWidth(Math.max(rendererWidth + getIntercellSpacing().width + 20, tableColumn
-                    .getPreferredWidth()));
+                tableColumn.setPreferredWidth(Math.max(rendererWidth + getIntercellSpacing().width + 20, tableColumn.getPreferredWidth()));
                 return component;
             }
         };
@@ -189,8 +188,7 @@ public class SFTPBrowser extends JFrame implements Comparator<ChannelSftp.LsEntr
             } else {
                 predicate = x -> x.getAttrs().isDir();
             }
-            List<ChannelSftp.LsEntry> filteredFiles = files.stream().filter(predicate).sorted(this).collect(Collectors
-                .toList());
+            List<ChannelSftp.LsEntry> filteredFiles = files.stream().filter(predicate).sorted(this).collect(Collectors.toList());
             for (ChannelSftp.LsEntry e : filteredFiles) {
                 String key = e.getFilename();
                 dtm.addRow(new String[]{key});

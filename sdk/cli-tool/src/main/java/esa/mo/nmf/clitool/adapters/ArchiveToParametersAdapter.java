@@ -98,8 +98,7 @@ public class ArchiveToParametersAdapter extends ArchiveAdapter implements QueryS
 
             Map<Long, List<TimestampedParameterValue>> parameters = valuesMap.get(domainKey);
             for (Map.Entry<Long, List<TimestampedParameterValue>> entry : parameters.entrySet()) {
-                Identifier identity = identitiesMap.get(domainKey).get(definitionsMap.get(domainKey).get(entry
-                    .getKey()));
+                Identifier identity = identitiesMap.get(domainKey).get(definitionsMap.get(domainKey).get(entry.getKey()));
                 parameterValues.get(domainKey).put(identity, entry.getValue());
             }
         }
@@ -150,12 +149,10 @@ public class ArchiveToParametersAdapter extends ArchiveAdapter implements QueryS
             for (int i = 0; i < detailsList.size(); ++i) {
                 if (valuesMap.get(domain).containsKey(detailsList.get(i).getDetails().getRelated())) {
                     valuesMap.get(domain).get(detailsList.get(i).getDetails().getRelated()).add(
-                        new TimestampedParameterValue((ParameterValue) bodiesList.get(i), detailsList.get(i)
-                            .getTimestamp()));
+                        new TimestampedParameterValue((ParameterValue) bodiesList.get(i), detailsList.get(i).getTimestamp()));
                 } else {
                     List<TimestampedParameterValue> values = new ArrayList<>();
-                    values.add(new TimestampedParameterValue((ParameterValue) bodiesList.get(i), detailsList.get(i)
-                        .getTimestamp()));
+                    values.add(new TimestampedParameterValue((ParameterValue) bodiesList.get(i), detailsList.get(i).getTimestamp()));
                     valuesMap.get(domain).put(detailsList.get(i).getDetails().getRelated(), values);
                 }
             }

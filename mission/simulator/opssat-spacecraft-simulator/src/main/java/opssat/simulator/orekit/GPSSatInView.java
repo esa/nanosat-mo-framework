@@ -72,9 +72,10 @@ public class GPSSatInView {
 
     @Override
     public String toString() {
-        return "GPSSatInView{" + "name=" + name + ", distance=" + String.format(Locale.ROOT, "%.2f", distance /
-            1000.0) + "[km], azimuth=" + String.format(Locale.ROOT, "%.2f", azimuth) + "[deg], elevation=" + String
-                .format(Locale.ROOT, "%.2f", elevation) + "[deg]}";
+        return "GPSSatInView{" + "name=" + name + ", distance="
+                + String.format(Locale.ROOT, "%.2f", distance / 1000.0)
+                + "[km], azimuth=" + String.format(Locale.ROOT, "%.2f", azimuth)
+                + "[deg], elevation=" + String.format(Locale.ROOT, "%.2f", elevation) + "[deg]}";
     }
 
 }

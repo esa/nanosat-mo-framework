@@ -354,8 +354,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
 
             if (manager.list(name) == null) { // Is the supplied name unique?
                 ObjectId source = manager.storeCOMOperationActivity(interaction);
-                outLongLst
-                        .add(manager.add(def, source, connection.getConnectionDetails().getProviderURI()));
+                outLongLst.add(manager.add(def, source, connection.getConnectionDetails().getProviderURI()));
             } else {
                 dupIndexList.add(new UInteger(index)); // requirement: 3.4.10.2.c
             }
@@ -662,15 +661,13 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
     public void getBestXYZSentence(GetBestXYZSentenceInteraction interaction)
             throws MALInteractionException, MALException {
         if (!adapter.isUnitAvailable()) { // Is the unit available?
-            throw new MALInteractionException(
-                    new MOErrorException(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
+            throw new MALInteractionException(new DeviceNotAvailableException(null));
         }
         interaction.sendAcknowledgement();
         try {
             interaction.sendResponse(adapter.getBestXYZSentence());
         } catch (IOException e) {
-            interaction
-                    .sendError(new MOErrorException(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
+            interaction.sendError(new DeviceNotAvailableException(null));
             LOGGER.log(Level.SEVERE, e.getMessage());
         }
     }
@@ -679,15 +676,13 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
     public void getTIMEASentence(GetTIMEASentenceInteraction interaction)
             throws MALInteractionException, MALException {
         if (!adapter.isUnitAvailable()) { // Is the unit available?
-            throw new MALInteractionException(
-                    new MOErrorException(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
+            throw new MALInteractionException(new DeviceNotAvailableException(null));
         }
         interaction.sendAcknowledgement();
         try {
             interaction.sendResponse(adapter.getTIMEASentence());
         } catch (IOException e) {
-            interaction
-                    .sendError(new MOErrorException(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
+            interaction.sendError(new DeviceNotAvailableException(null));
             LOGGER.log(Level.SEVERE, e.getMessage());
         }
     }

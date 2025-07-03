@@ -352,8 +352,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                     source,
                     null);
 
-            final URI uri = this.getCOMServices().getEventService().getConnectionProvider().getIPCConnectionDetails()
-                    .getProviderURI();
+            final URI uri = this.getCOMServices().getEventService().getConnectionProvider().getIPCConnectionDetails().getProviderURI();
 
             LOGGER.log(Level.INFO, "Publishing event to uri: {0}", uri);
 

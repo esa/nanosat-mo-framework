@@ -73,8 +73,8 @@ public abstract class CallableGenericQuery<T> implements Callable<T> {
         this.transactionsProcessor.dbBackend.createIndexesIfFirstTime();
 
         if (!sourceContainsWildcard) {
-            sourceObjIdContainsWildcard = (archiveQuery.getSource().getKey().getInstId() == null || archiveQuery
-                .getSource().getKey().getInstId() == 0);
+            sourceObjIdContainsWildcard = (archiveQuery.getSource().getKey().getInstId() == null
+                    || archiveQuery.getSource().getKey().getInstId() == 0);
         }
 
         // Generate the query string
@@ -88,18 +88,16 @@ public abstract class CallableGenericQuery<T> implements Callable<T> {
         queryString += CallableGenericQuery.generateQueryStringFromLists("objectTypeId", objTypeIds);
 
         queryString += (relatedContainsWildcard) ? "" : "relatedLink=" + archiveQuery.getRelated() + " AND ";
-        queryString += (startTimeContainsWildcard) ? "" : "timestampArchiveDetails>=" + archiveQuery.getStartTime()
-            .getValue() + " AND ";
-        queryString += (endTimeContainsWildcard) ? "" : "timestampArchiveDetails<=" + archiveQuery.getEndTime()
-            .getValue() + " AND ";
+        queryString += (startTimeContainsWildcard) ? "" :
+                "timestampArchiveDetails>=" + archiveQuery.getStartTime().getValue() + " AND ";
+        queryString += (endTimeContainsWildcard) ? "" :
+                "timestampArchiveDetails<=" + archiveQuery.getEndTime().getValue() + " AND ";
         queryString += (providerURIContainsWildcard) ? "" : "providerURI=" + providerURIId + " AND ";
         queryString += (networkContainsWildcard) ? "" : "network=" + networkId + " AND ";
 
         if (!sourceContainsWildcard) {
-            queryString += CallableGenericQuery.generateQueryStringFromLists("sourceLinkObjectTypeId", sourceLink
-                .getObjectTypeIds());
-            queryString += CallableGenericQuery.generateQueryStringFromLists("sourceLinkDomainId", sourceLink
-                .getDomainIds());
+            queryString += generateQueryStringFromLists("sourceLinkObjectTypeId", sourceLink.getObjectTypeIds());
+            queryString += generateQueryStringFromLists("sourceLinkDomainId", sourceLink.getDomainIds());
             queryString += (sourceObjIdContainsWildcard) ? "" : "sourceLinkObjId=" + sourceLink.getObjId() + " AND ";
         }
 
@@ -113,13 +111,14 @@ public abstract class CallableGenericQuery<T> implements Callable<T> {
 
                 // Double check if the filter fields are really not null
                 if (pfilter.getLimit() != null && pfilter.getOffset() != null) {
-                    String sortOrder = "ASC ";
+                    String sortOrder = "ASC";
                     if (archiveQuery.getSortOrder() != null) {
-                        sortOrder = (archiveQuery.getSortOrder()) ? "ASC " : "DESC ";
+                        sortOrder = (archiveQuery.getSortOrder()) ? "ASC" : "DESC";
                     }
 
-                    queryString += "ORDER BY timestampArchiveDetails " + sortOrder + "LIMIT " + pfilter.getLimit()
-                        .getValue() + " OFFSET " + pfilter.getOffset().getValue();
+                    queryString += "ORDER BY timestampArchiveDetails " + sortOrder
+                            + " LIMIT " + pfilter.getLimit().getValue()
+                            + " OFFSET " + pfilter.getOffset().getValue();
                 }
             }
         }

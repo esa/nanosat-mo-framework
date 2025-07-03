@@ -443,8 +443,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
                 curState = true;
             }
         } else {
-            curState = ((AggregationDefinition) aggregationTable.getSelectedCOMObject().getObject())
-                    .getGenerationEnabled();
+            curState = ((AggregationDefinition) aggregationTable.getSelectedCOMObject().getObject()).getGenerationEnabled();
         }
 
         InstanceBooleanPairList BoolPairList = new InstanceBooleanPairList();
@@ -464,8 +463,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
             return;  // Well, then nothing to be done here folks!
         }
 
-        Boolean curState = ((AggregationDefinition) aggregationTable.getSelectedCOMObject().getObject())
-                .getGenerationEnabled();
+        Boolean curState = ((AggregationDefinition) aggregationTable.getSelectedCOMObject().getObject()).getGenerationEnabled();
         InstanceBooleanPairList BoolPairList = new InstanceBooleanPairList();
         BoolPairList.add(new InstanceBooleanPair(aggregationTable.getSelectedIdentityObjId(), !curState));  // Zero is the wildcard
 
@@ -501,18 +499,29 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
                             continue;
                         }
 
-                        ParameterValue paramValue = value.getValue().getParameterSetValues().get(i).getValues().get(j)
-                                .getValue();
-                        str.append("(parameterSetValue index: ").append(i).append(") ").append("validityState: ")
-                                .append(paramValue.getValidityState().toString()).append("\n");
+                        ParameterValue paramValue = value.getValue().getParameterSetValues().get(i).getValues().get(j).getValue();
+                        str.append("(parameterSetValue index: ")
+                                .append(i)
+                                .append(") ")
+                                .append("validityState: ")
+                                .append(paramValue.getValidityState().toString())
+                                .append("\n");
 
                         if (paramValue.getRawValue() != null) {
-                            str.append("(parameterSetValue index: ").append(i).append(") ").append("rawValue: ").append(
-                                    paramValue.getRawValue().toString()).append("\n");
+                            str.append("(parameterSetValue index: ")
+                                    .append(i)
+                                    .append(") ")
+                                    .append("rawValue: ")
+                                    .append(paramValue.getRawValue().toString())
+                                    .append("\n");
                         }
                         if (paramValue.getConvertedValue() != null) {
-                            str.append("(parameterSetValue index: ").append(i).append(") ").append("convertedValue: ")
-                                    .append(paramValue.getConvertedValue().toString()).append("\n");
+                            str.append("(parameterSetValue index: ")
+                                    .append(i)
+                                    .append(") ")
+                                    .append("convertedValue: ")
+                                    .append(paramValue.getConvertedValue().toString())
+                                    .append("\n");
                         }
                         str.append("\n");
                     }
@@ -532,8 +541,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
 
         String str;
         if (aggregationTable.getSelectedRow() == -1) {  // Used to avoid problems if no row is selected
-            str = ((AggregationDefinition) aggregationTable.getSelectedCOMObject().getObject())
-                    .getFilterEnabled().toString(); // Get the status from selection
+            str = ((AggregationDefinition) aggregationTable.getSelectedCOMObject().getObject()).getFilterEnabled().toString(); // Get the status from selection
         } else {
             str = "true";
         }
@@ -593,17 +601,25 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
                             continue;
                         }
 
-                        ParameterValue paramValue = value.getValue().getParameterSetValues().get(i).getValues().get(j)
-                                .getValue();
-                        str.append("(parameterSetValue index: ").append(i).append(") ").append("validityState: ")
+                        ParameterValue paramValue = value.getValue().getParameterSetValues().get(i).getValues().get(j).getValue();
+                        str.append("(parameterSetValue index: ")
+                                .append(i)
+                                .append(") ")
+                                .append("validityState: ")
                                 .append(paramValue.getValidityState().toString()).append("\n");
 
                         if (paramValue.getRawValue() != null) {
-                            str.append("(parameterSetValue index: ").append(i).append(") ").append("rawValue: ").append(
-                                    paramValue.getRawValue().toString()).append("\n");
+                            str.append("(parameterSetValue index: ")
+                                    .append(i)
+                                    .append(") ")
+                                    .append("rawValue: ")
+                                    .append(paramValue.getRawValue().toString()).append("\n");
                         }
                         if (paramValue.getConvertedValue() != null) {
-                            str.append("(parameterSetValue index: ").append(i).append(") ").append("convertedValue: ")
+                            str.append("(parameterSetValue index: ")
+                                    .append(i)
+                                    .append(") ")
+                                    .append("convertedValue: ")
                                     .append(paramValue.getConvertedValue().toString()).append("\n");
                         }
                         str.append("\n");

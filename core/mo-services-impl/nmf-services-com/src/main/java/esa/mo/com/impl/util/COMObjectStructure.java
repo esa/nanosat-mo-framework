@@ -62,8 +62,10 @@ public class COMObjectStructure {
     }
 
     public COMObjectStructure(final ArchivePersistenceObject archivePersistenceObject) {
-        this(archivePersistenceObject.getDomain(), archivePersistenceObject.getObjectType(), archivePersistenceObject
-                .getArchiveDetails(), (Element) archivePersistenceObject.getObject());
+        this(archivePersistenceObject.getDomain(),
+                archivePersistenceObject.getObjectType(),
+                archivePersistenceObject.getArchiveDetails(),
+                (Element) archivePersistenceObject.getObject());
     }
 
     public ObjectType getObjType() {

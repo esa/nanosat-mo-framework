@@ -20,6 +20,8 @@
  */
 package esa.mo.nmf.apps.pictureprocessor.mo;
 
+import esa.mo.nmf.apps.pictureprocessor.process.PictureProcessingExecutor;
+import esa.mo.nmf.apps.pictureprocessor.process.ProcessEventListener;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -28,21 +30,15 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.platform.camera.consumer.CameraAdapter;
 import org.ccsds.moims.mo.platform.camera.structures.Picture;
-
-import esa.mo.nmf.apps.pictureprocessor.process.PictureProcessingExecutor;
-import esa.mo.nmf.apps.pictureprocessor.process.ProcessEventListener;
 
 public class PictureReceivedAdapter extends CameraAdapter {
 
     public static final Long INIFINTE_TIMEOUT = null;
 
-    private static final DateTimeFormatter DATETIME_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss_SSSS")
-        .withZone(ZoneId.systemDefault());
+    private static final DateTimeFormatter DATETIME_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss_SSSS").withZone(ZoneId.systemDefault());
 
     private final Path outputFolder;
     private final PictureProcessingExecutor executor;

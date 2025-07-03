@@ -28,7 +28,6 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.event.EventHelper;
-import org.ccsds.moims.mo.com.event.EventServiceInfo;
 import org.ccsds.moims.mo.com.event.provider.EventInheritanceSkeleton;
 import org.ccsds.moims.mo.com.event.provider.MonitorEventPublisher;
 import org.ccsds.moims.mo.com.structures.ObjectDetails;
@@ -89,15 +88,16 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
         this.archiveService = archiveService;
 
         publisher = createMonitorEventPublisher(ConfigurationProviderSingleton.getDomain(),
-                ConfigurationProviderSingleton.getNetwork(), SessionType.LIVE, ConfigurationProviderSingleton
-                .getSourceSessionName(), QoSLevel.BESTEFFORT, null, new UInteger(0));
+                ConfigurationProviderSingleton.getNetwork(), SessionType.LIVE,
+                ConfigurationProviderSingleton.getSourceSessionName(),
+                QoSLevel.BESTEFFORT, null, new UInteger(0));
 
         // shut down old service transport
         if (null != eventServiceProvider) {
             connection.closeAll();
         }
 
-        eventServiceProvider = connection.startService(EventServiceInfo.EVENT_SERVICE_NAME.toString(), EventHelper.EVENT_SERVICE, this);
+        eventServiceProvider = connection.startService(EventHelper.EVENT_SERVICE, true, this);
         running = true;
         initialiased = true;
         timestamp = System.currentTimeMillis() - timestamp;
@@ -431,29 +431,29 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
     public static final class PublishInteractionListener implements MALPublishInteractionListener {
 
         @Override
-        public void publishDeregisterAckReceived(final MALMessageHeader header, final Map qosProperties)
-                throws MALException {
+        public void publishDeregisterAckReceived(final MALMessageHeader header,
+                final Map qosProperties) throws MALException {
             Logger.getLogger(EventProviderServiceImpl.class.getName()).fine(
                     "PublishInteractionListener::publishDeregisterAckReceived");
         }
 
         @Override
-        public void publishErrorReceived(final MALMessageHeader header, final MALErrorBody body,
-                final Map qosProperties) throws MALException {
+        public void publishErrorReceived(final MALMessageHeader header,
+                final MALErrorBody body, final Map qosProperties) throws MALException {
             Logger.getLogger(EventProviderServiceImpl.class.getName()).warning(
                     "PublishInteractionListener::publishErrorReceived");
         }
 
         @Override
-        public void publishRegisterAckReceived(final MALMessageHeader header, final Map qosProperties)
-                throws MALException {
+        public void publishRegisterAckReceived(final MALMessageHeader header,
+                final Map qosProperties) throws MALException {
             Logger.getLogger(EventProviderServiceImpl.class.getName()).fine(
                     "PublishInteractionListener::publishRegisterAckReceived");
         }
 
         @Override
-        public void publishRegisterErrorReceived(final MALMessageHeader header, final MALErrorBody body,
-                final Map qosProperties) throws MALException {
+        public void publishRegisterErrorReceived(final MALMessageHeader header,
+                final MALErrorBody body, final Map qosProperties) throws MALException {
             Logger.getLogger(EventProviderServiceImpl.class.getName()).warning(
                     "PublishInteractionListener::publishRegisterErrorReceived");
         }

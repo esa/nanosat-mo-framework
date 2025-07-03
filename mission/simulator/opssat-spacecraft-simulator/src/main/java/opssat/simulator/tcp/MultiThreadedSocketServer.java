@@ -90,8 +90,8 @@ public class MultiThreadedSocketServer extends Thread {
                 logger.log(Level.ALL, "Put data [" + data.getClass().getName() + "] for client [" + s.toString() + "]");
                 if (data instanceof LinkedList) {
                     if (((LinkedList) data).size() > 0) {
-                        logger.log(Level.ALL, "Put list of [" + ((LinkedList) data).get(0).getClass().getName() +
-                            "] for client [" + s.toString() + "]");
+                        logger.log(Level.ALL, "Put list of [" + ((LinkedList) data).get(0).getClass().getName()
+                                + "] for client [" + s.toString() + "]");
                         /*
                          * if (!s.isListSent() && ((LinkedList) data).get(0) instanceof
                          * CommandDescriptor) { logger.log(Level.ALL, "Set list to true");
@@ -107,12 +107,14 @@ public class MultiThreadedSocketServer extends Thread {
                         LinkedList<String> tempList = this.hMapManualCommandsList.get(s);
                         String testString = ((CommandResult) data).getCommandDescriptor().getMethodBody();
                         hasBeenRequested = tempList.contains(testString);
-                        if (hasBeenRequested)
+                        if (hasBeenRequested) {
                             tempList.remove(testString);
+                        }
                         doSendData = hasBeenRequested;
                     }
-                    if (doSendData)
+                    if (doSendData) {
                         s.putDataToClient(data);
+                    }
                 }
             } else {
                 clientSockets.remove(s);
@@ -143,8 +145,8 @@ public class MultiThreadedSocketServer extends Thread {
             }
         }
         if (currentTries >= MAX_PORTS_OPEN) {
-            logger.log(Level.SEVERE, "Could not create server socket from port [" + DEFAULT_SOCKET_PORT +
-                "] up to port [" + targetPort + "]. Total tries [" + currentTries + "]. Quitting.");
+            logger.log(Level.SEVERE, "Could not create server socket from port [" + DEFAULT_SOCKET_PORT
+                    + "] up to port [" + targetPort + "]. Total tries [" + currentTries + "]. Quitting.");
             System.exit(-1);
         }
         Calendar now = Calendar.getInstance();
@@ -225,8 +227,8 @@ public class MultiThreadedSocketServer extends Thread {
         }
 
         public void run() {
-            Thread.currentThread().setName("sim-" + this.getClass().getSimpleName() + "-" + myClientSocket
-                .getInetAddress().getHostName());
+            Thread.currentThread().setName("sim-" + this.getClass().getSimpleName()
+                    + "-" + myClientSocket.getInetAddress().getHostName());
 
             // Obtain the input stream and the output stream for the socket
             // A good practice is to encapsulate them with a BufferedReader
@@ -248,8 +250,8 @@ public class MultiThreadedSocketServer extends Thread {
                         // read incoming stream
                         clientCommand = in.readObject();
                     } catch (EOFException | SocketException ex) {
-                        logger.log(Level.INFO, "Disconnected Client Address - " + myClientSocket.getInetAddress()
-                            .getHostName());
+                        logger.log(Level.INFO, "Disconnected Client Address - "
+                                + myClientSocket.getInetAddress().getHostName());
                         m_bRunThread = false;
                     }
                     if (clientCommand != null) {
@@ -262,8 +264,8 @@ public class MultiThreadedSocketServer extends Thread {
                                     parent.parent.getParentSimulator().getSimulatorNode().updatePlatformConfig();
                                     continue;
                                 }
-                                this.parent.putDataOnForAllClients("OnServer;UserInput;" + CommandDescriptor
-                                    .makeConsoleDescriptionForObj(clientCommand));
+                                this.parent.putDataOnForAllClients("OnServer;UserInput;"
+                                        + CommandDescriptor.makeConsoleDescriptionForObj(clientCommand));
                                 if (clientCommand instanceof CommandDescriptor) {
 
                                     this.listCommands.add(((CommandDescriptor) clientCommand).getMethodBody());
@@ -351,17 +353,17 @@ public class MultiThreadedSocketServer extends Thread {
         }
 
         public void run() {
-            Thread.currentThread().setName("sim-" + this.getClass().getSimpleName() + "-" + myClientSocket
-                .getInetAddress().getHostName());
+            Thread.currentThread().setName("sim-" + this.getClass().getSimpleName()
+                    + "-" + myClientSocket.getInetAddress().getHostName());
 
             // Obtain the input stream and the output stream for the socket
             // A good practice is to encapsulate them with a BufferedReader
             // and a PrintWriter as shown below.
-
             ObjectOutputStream out = null;
 
             // Print out details of this connection
-            logger.log(Level.FINE, "Sender Accepted Client Address - " + myClientSocket.getInetAddress().getHostName());
+            logger.log(Level.FINE, "Sender Accepted Client Address - "
+                    + myClientSocket.getInetAddress().getHostName());
 
             try {
                 out = new ObjectOutputStream(myClientSocket.getOutputStream());
@@ -402,7 +404,5 @@ public class MultiThreadedSocketServer extends Thread {
                 }
             }
         }
-
     }
-
 }

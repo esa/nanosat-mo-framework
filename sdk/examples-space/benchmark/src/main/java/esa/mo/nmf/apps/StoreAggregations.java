@@ -70,8 +70,8 @@ public class StoreAggregations {
             for (int i = 0; i < numberOfObjs; i++) {
                 defs.add(def);
             }
-            ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(null, null, connector
-                .getMCServices().getActionService().getConnectionProvider().getConnectionDetails());
+            ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(null, null,
+                    connector.getMCServices().getActionService().getConnectionProvider().getConnectionDetails());
             for (int i = 0; i < numberOfObjs - 1; i++) {
                 archDetails.add(archDetails.get(0));
             }

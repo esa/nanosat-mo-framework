@@ -323,44 +323,34 @@ public class SimulatorNode extends TaskNode {
     private void makeSimulatorDeviceBindings() {
         hMapSDData = new HashMap<>();
         int i = 0;
-        this.hMapSDData.put(DevDatPBind.Camera_CameraBuffer, simulatorDevices.get(INTERFACE_CAMERA).getDataList().get(
-                i++));
-        this.hMapSDData.put(DevDatPBind.Camera_CameraBufferOperatingIndex, simulatorDevices.get(INTERFACE_CAMERA)
-                .getDataList().get(i++));
+        this.hMapSDData.put(DevDatPBind.Camera_CameraBuffer,
+                simulatorDevices.get(INTERFACE_CAMERA).getDataList().get(i++));
+        this.hMapSDData.put(DevDatPBind.Camera_CameraBufferOperatingIndex,
+                simulatorDevices.get(INTERFACE_CAMERA).getDataList().get(i++));
         i = 0;
-        this.hMapSDData.put(DevDatPBind.FineADCS_ModeOperation, simulatorDevices.get(INTERFACE_FINEADCS).getDataList()
-                .get(i++));
-        this.hMapSDData.put(DevDatPBind.FineADCS_PositionInertial, simulatorDevices.get(INTERFACE_FINEADCS)
-                .getDataList().get(i++));
-        this.hMapSDData.put(DevDatPBind.FineADCS_VelocityInertial, simulatorDevices.get(INTERFACE_FINEADCS)
-                .getDataList().get(i++));
-        this.hMapSDData.put(DevDatPBind.FineADCS_Q1, simulatorDevices.get(INTERFACE_FINEADCS).getDataList().get(i++));
+        this.hMapSDData.put(DevDatPBind.FineADCS_ModeOperation,
+                simulatorDevices.get(INTERFACE_FINEADCS).getDataList().get(i++));
+        this.hMapSDData.put(DevDatPBind.FineADCS_PositionInertial,
+                simulatorDevices.get(INTERFACE_FINEADCS).getDataList().get(i++));
+        this.hMapSDData.put(DevDatPBind.FineADCS_VelocityInertial,
+                simulatorDevices.get(INTERFACE_FINEADCS).getDataList().get(i++));
+        this.hMapSDData.put(DevDatPBind.FineADCS_Q1,
+                simulatorDevices.get(INTERFACE_FINEADCS).getDataList().get(i++));
 
         this.hMapSDData.put(DevDatPBind.FineADCS_Q2, simulatorDevices.get(INTERFACE_FINEADCS).getDataList().get(i++));
         this.hMapSDData.put(DevDatPBind.FineADCS_Q3, simulatorDevices.get(INTERFACE_FINEADCS).getDataList().get(i++));
         this.hMapSDData.put(DevDatPBind.FineADCS_Q4, simulatorDevices.get(INTERFACE_FINEADCS).getDataList().get(i++));
-        this.hMapSDData.put(DevDatPBind.FineADCS_MagneticField, simulatorDevices.get(INTERFACE_FINEADCS).getDataList()
-                .get(i++));
-        this.hMapSDData.put(DevDatPBind.FineADCS_Rotation, simulatorDevices.get(INTERFACE_FINEADCS).getDataList().get(
-                i++));
-        this.hMapSDData.put(DevDatPBind.FineADCS_Magnetometer, simulatorDevices.get(INTERFACE_FINEADCS).getDataList()
-                .get(i++));
-        this.hMapSDData.put(DevDatPBind.FineADCS_SunVector, simulatorDevices.get(INTERFACE_FINEADCS).getDataList().get(
-                i++));
-        this.hMapSDData.put(DevDatPBind.FineADCS_ReactionWheels, simulatorDevices.get(INTERFACE_FINEADCS).getDataList()
-                .get(i++));
-        this.hMapSDData.put(DevDatPBind.FineADCS_Accelerometer, simulatorDevices.get(INTERFACE_FINEADCS).getDataList()
-                .get(i++));
-        this.hMapSDData.put(DevDatPBind.FineADCS_Gyro1, simulatorDevices.get(INTERFACE_FINEADCS).getDataList().get(
-                i++));
-        this.hMapSDData.put(DevDatPBind.FineADCS_Gyro2, simulatorDevices.get(INTERFACE_FINEADCS).getDataList().get(
-                i++));
-        this.hMapSDData.put(DevDatPBind.FineADCS_Magnetorquer, simulatorDevices.get(INTERFACE_FINEADCS).getDataList()
-                .get(i++));
-        this.hMapSDData.put(DevDatPBind.FineADCS_AngularMomentum, simulatorDevices.get(INTERFACE_FINEADCS).getDataList()
-                .get(i++));
-        this.hMapSDData.put(DevDatPBind.FineADCS_AngularVelocity, simulatorDevices.get(INTERFACE_FINEADCS).getDataList()
-                .get(i++));
+        this.hMapSDData.put(DevDatPBind.FineADCS_MagneticField, simulatorDevices.get(INTERFACE_FINEADCS).getDataList().get(i++));
+        this.hMapSDData.put(DevDatPBind.FineADCS_Rotation, simulatorDevices.get(INTERFACE_FINEADCS).getDataList().get(i++));
+        this.hMapSDData.put(DevDatPBind.FineADCS_Magnetometer, simulatorDevices.get(INTERFACE_FINEADCS).getDataList().get(i++));
+        this.hMapSDData.put(DevDatPBind.FineADCS_SunVector, simulatorDevices.get(INTERFACE_FINEADCS).getDataList().get(i++));
+        this.hMapSDData.put(DevDatPBind.FineADCS_ReactionWheels, simulatorDevices.get(INTERFACE_FINEADCS).getDataList().get(i++));
+        this.hMapSDData.put(DevDatPBind.FineADCS_Accelerometer, simulatorDevices.get(INTERFACE_FINEADCS).getDataList().get(i++));
+        this.hMapSDData.put(DevDatPBind.FineADCS_Gyro1, simulatorDevices.get(INTERFACE_FINEADCS).getDataList().get(i++));
+        this.hMapSDData.put(DevDatPBind.FineADCS_Gyro2, simulatorDevices.get(INTERFACE_FINEADCS).getDataList().get(i++));
+        this.hMapSDData.put(DevDatPBind.FineADCS_Magnetorquer, simulatorDevices.get(INTERFACE_FINEADCS).getDataList().get(i++));
+        this.hMapSDData.put(DevDatPBind.FineADCS_AngularMomentum, simulatorDevices.get(INTERFACE_FINEADCS).getDataList().get(i++));
+        this.hMapSDData.put(DevDatPBind.FineADCS_AngularVelocity, simulatorDevices.get(INTERFACE_FINEADCS).getDataList().get(i++));
 
         i = 0;
         this.hMapSDData.put(DevDatPBind.GPS_Latitude, simulatorDevices.get(INTERFACE_GPS).getDataList().get(i++));
@@ -371,19 +361,18 @@ public class SimulatorNode extends TaskNode {
         this.hMapSDData.put(DevDatPBind.GPS_SatsInView, simulatorDevices.get(INTERFACE_GPS).getDataList().get(i++));
 
         i = 0;
-        this.hMapSDData.put(DevDatPBind.OpticalReceiver_OperatingBuffer, simulatorDevices.get(INTERFACE_OPTICALRECEIVER)
-                .getDataList().get(i++));
-        this.hMapSDData.put(DevDatPBind.OpticalReceiver_OperatingBufferIndex, simulatorDevices.get(
-                INTERFACE_OPTICALRECEIVER).getDataList().get(i++));
-        this.hMapSDData.put(DevDatPBind.OpticalReceiver_DegradationRate, simulatorDevices.get(INTERFACE_OPTICALRECEIVER)
-                .getDataList().get(i++));
+        this.hMapSDData.put(DevDatPBind.OpticalReceiver_OperatingBuffer,
+                simulatorDevices.get(INTERFACE_OPTICALRECEIVER).getDataList().get(i++));
+        this.hMapSDData.put(DevDatPBind.OpticalReceiver_OperatingBufferIndex,
+                simulatorDevices.get(INTERFACE_OPTICALRECEIVER).getDataList().get(i++));
+        this.hMapSDData.put(DevDatPBind.OpticalReceiver_DegradationRate,
+                simulatorDevices.get(INTERFACE_OPTICALRECEIVER).getDataList().get(i++));
 
         i = 0;
-        this.hMapSDData.put(DevDatPBind.SDR_OperatingBuffer, simulatorDevices.get(INTERFACE_SDR).getDataList().get(
-                i++));
-        this.hMapSDData.put(DevDatPBind.SDR_OperatingBufferIndex, simulatorDevices.get(INTERFACE_SDR).getDataList().get(
-                i++));
-
+        this.hMapSDData.put(DevDatPBind.SDR_OperatingBuffer,
+                simulatorDevices.get(INTERFACE_SDR).getDataList().get(i++));
+        this.hMapSDData.put(DevDatPBind.SDR_OperatingBufferIndex,
+                simulatorDevices.get(INTERFACE_SDR).getDataList().get(i++));
     }
 
     private synchronized void initModels() {

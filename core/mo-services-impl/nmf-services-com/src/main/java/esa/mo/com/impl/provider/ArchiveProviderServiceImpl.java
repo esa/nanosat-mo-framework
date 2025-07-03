@@ -487,8 +487,8 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                 ArchivePersistenceObject latestPerObj = perObjs.get(0);
 
                 for (ArchivePersistenceObject perObj : perObjs) {  // Cycle the perObjs to find the latest
-                    if (latestPerObj.getArchiveDetails().getTimestamp().getValue() < perObj.getArchiveDetails()
-                            .getTimestamp().getValue()) {
+                    if (latestPerObj.getArchiveDetails().getTimestamp().getValue() < 
+                            perObj.getArchiveDetails().getTimestamp().getValue()) {
                         latestPerObj = perObj; // It is newer than the current
                     }
                 }

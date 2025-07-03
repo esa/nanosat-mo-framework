@@ -95,8 +95,7 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
             connection.closeAll();
         }
 
-        commandExecutorServiceProvider = connection.startService(CommandExecutorServiceInfo.COMMANDEXECUTOR_SERVICE_NAME
-                .toString(), CommandExecutorHelper.COMMANDEXECUTOR_SERVICE, this);
+        commandExecutorServiceProvider = connection.startService(CommandExecutorHelper.COMMANDEXECUTOR_SERVICE, true, this);
 
         initialiased = true;
         timestamp = System.currentTimeMillis() - timestamp;
@@ -127,12 +126,12 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
 
         // Source could be mapped to an OperationActivity associated with this transaction, but for now
         // we don't need such fine tracking...
-        final ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(null, null, connection
-                .getPrimaryConnectionDetails().getProviderURI());
+        final ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(null,
+                null, connection.getPrimaryConnectionDetails().getProviderURI());
         final HeterogeneousList objBodies = new HeterogeneousList();
         objBodies.add(command);
-        LongList objIds = archiveService.store(true, CommandExecutorServiceInfo.COMMAND_OBJECT_TYPE, connection
-                .getPrimaryConnectionDetails().getDomain(), archDetails, objBodies, null);
+        LongList objIds = archiveService.store(true, CommandExecutorServiceInfo.COMMAND_OBJECT_TYPE,
+                connection.getPrimaryConnectionDetails().getDomain(), archDetails, objBodies, null);
 
         if (objIds.size() == 1) {
             storedCommandObject = objIds.get(0);
@@ -252,8 +251,9 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
         final HeterogeneousList objBodies = new HeterogeneousList();
         objBodies.add(command);
         try {
-            archiveService.update(CommandExecutorServiceInfo.COMMAND_OBJECT_TYPE, connection.getPrimaryConnectionDetails()
-                    .getDomain(), archDetails, objBodies, null);
+            archiveService.update(CommandExecutorServiceInfo.COMMAND_OBJECT_TYPE,
+                    connection.getPrimaryConnectionDetails().getDomain(),
+                    archDetails, objBodies, null);
         } catch (MALException | MALInteractionException ex) {
             Logger.getLogger(CommandExecutorProviderServiceImpl.class.getName()).log(Level.SEVERE,
                     "Could not update COM Command object", ex);

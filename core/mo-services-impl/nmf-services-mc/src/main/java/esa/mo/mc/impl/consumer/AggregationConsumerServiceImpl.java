@@ -61,13 +61,13 @@ public class AggregationConsumerServiceImpl extends ConsumerServiceImpl {
     }
 
     public AggregationConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices)
-        throws MALException, MalformedURLException, MALInteractionException {
+            throws MALException, MalformedURLException, MALInteractionException {
         this(connectionDetails, comServices, null, null);
     }
 
-    public AggregationConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices,
-        Blob authenticationId, String localNamePrefix) throws MALException, MalformedURLException,
-        MALInteractionException {
+    public AggregationConsumerServiceImpl(SingleConnectionDetails connectionDetails,
+            COMServicesConsumer comServices, Blob authenticationId, String localNamePrefix)
+            throws MALException, MalformedURLException, MALInteractionException {
         this.connectionDetails = connectionDetails;
         this.comServices = comServices;
 
@@ -80,9 +80,11 @@ public class AggregationConsumerServiceImpl extends ConsumerServiceImpl {
             }
         }
 
-        tmConsumer = connection.startService(this.connectionDetails.getProviderURI(), this.connectionDetails
-            .getBrokerURI(), this.connectionDetails.getDomain(), AggregationHelper.AGGREGATION_SERVICE,
-            authenticationId, localNamePrefix);
+        tmConsumer = connection.startService(this.connectionDetails.getProviderURI(),
+                this.connectionDetails.getBrokerURI(),
+                this.connectionDetails.getDomain(),
+                AggregationHelper.AGGREGATION_SERVICE,
+                authenticationId, localNamePrefix);
 
         this.aggregationService = new AggregationStub(tmConsumer);
     }

@@ -197,8 +197,7 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
         try {
             ObjectInstancePairList objIds;
             try {
-                objIds = this.serviceMCAlert.getAlertStub().listDefinition((IdentifierList) actionNamesWindow
-                    .getObject());
+                objIds = this.serviceMCAlert.getAlertStub().listDefinition((IdentifierList) actionNamesWindow.getObject());
             } catch (InterruptedIOException ex) {
                 return;
             }
@@ -413,8 +412,7 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
         LongList longlist = new LongList();
         longlist.add(objId);
         */
-        Boolean curState = ((AlertDefinition) alertTable.getSelectedCOMObject().getObject())
-            .getGenerationEnabled();
+        Boolean curState = ((AlertDefinition) alertTable.getSelectedCOMObject().getObject()).getGenerationEnabled();
         InstanceBooleanPairList BoolPairList = new InstanceBooleanPairList();
         BoolPairList.add(new InstanceBooleanPair((long) 0, !curState));  // Zero is the wildcard
 

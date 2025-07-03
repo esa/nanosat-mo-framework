@@ -421,12 +421,12 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
                         key.getServiceNumber(), key.getAreaVersion());
                 final ServiceFilter sf = new ServiceFilter(new Identifier(Const.NANOSAT_MO_SUPERVISOR_NAME), domain,
                         new Identifier("*"), null, new Identifier("*"), serviceId, new UShortList());
-                final ProviderSummaryList supervisorParameterServiceConnectionDetails = centralDirectory
-                        .getDirectoryStub().lookupProvider(sf);
+                final ProviderSummaryList supervisorParameterServiceConnectionDetails
+                        = centralDirectory.getDirectoryStub().lookupProvider(sf);
 
                 try {
-                    final SingleConnectionDetails connectionDetails = AppsLauncherManager
-                            .getSingleConnectionDetailsFromProviderSummaryList(supervisorParameterServiceConnectionDetails);
+                    final SingleConnectionDetails connectionDetails 
+                            = AppsLauncherManager.getSingleConnectionDetailsFromProviderSummaryList(supervisorParameterServiceConnectionDetails);
                     ParameterConsumerServiceImpl supervisorParameterService = new ParameterConsumerServiceImpl(
                             connectionDetails, null);
 
@@ -442,8 +442,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
 
                     Map<String, Long> nameToId = new HashMap<>();
                     for (int i = 0; i < eclipsedParameters.size(); ++i) {
-                        nameToId.put(eclipsedParameters.get(i).getValue(), payloadsTestIds.get(i)
-                                .getObjIdentityInstanceId());
+                        nameToId.put(eclipsedParameters.get(i).getValue(), payloadsTestIds.get(i).getObjIdentityInstanceId());
                     }
 
                     String parametersProp = System.getProperty(SUPERVISOR_PARAMETER_PROXY_PROP, null);

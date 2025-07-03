@@ -22,6 +22,7 @@ package esa.mo.common.impl.provider;
 
 import esa.mo.com.impl.consumer.EventConsumerServiceImpl;
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
+import esa.mo.com.impl.provider.EventProviderServiceImpl;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.com.impl.util.HelperCOM;
@@ -158,17 +159,17 @@ public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSk
 //    public void storeCurrent(ServiceProviderKey service, ConfigurationType type, Boolean autoAdd, 
 //            StoreCurrentInteraction interaction) throws MALInteractionException, MALException {
         interaction.sendAcknowledgement();
+        EventProviderServiceImpl eventService = this.comServices.getEventService();
 
-        if (this.comServices.getEventService() == null) {  // If there is no event service then we can't really do anything...
+        if (eventService == null) {  // If there is no event service then we can't really do anything...
             interaction.sendError(null);
         }
 
         Long related = null;
-        ObjectId source = this.comServices.getActivityTrackingService().storeCOMOperationActivity(interaction
-            .getInteraction(), null);
+        ObjectId source = this.comServices.getActivityTrackingService().storeCOMOperationActivity(interaction.getInteraction(), null);
 
         // Store Event in the Archive
-        Long objId = this.comServices.getEventService().generateAndStoreEvent(
+        Long objId = eventService.generateAndStoreEvent(
                 ConfigurationServiceInfo.CONFIGURATIONSTORE_OBJECT_TYPE,
                 ConfigurationProviderSingleton.getDomain(),
                 null,
@@ -178,8 +179,7 @@ public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSk
 
         // Create the Adapter which will wait for the callback of the service
         try {  // Consumer of Events for the configurations
-            EventConsumerServiceImpl eventServiceConsumer = new EventConsumerServiceImpl(comServices.getEventService()
-                .getConnectionProvider().getConnectionDetails());
+            EventConsumerServiceImpl eventServiceConsumer = new EventConsumerServiceImpl(comServices.getEventService().getConnectionProvider().getConnectionDetails());
 
             // Listen only to Configuration events
             ObjectType original = ConfigurationServiceInfo.CONFIGURATIONOBJECTS_OBJECT_TYPE;
@@ -200,7 +200,7 @@ public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSk
 
             try {
                 // Send Store event
-                this.comServices.getEventService().publishEvent(interaction.getInteraction(), objId,
+                eventService.publishEvent(interaction.getInteraction(), objId,
                         ConfigurationServiceInfo.CONFIGURATIONSTORE_OBJECT_TYPE, related, source, null);
             } catch (IOException ex) {
                 Logger.getLogger(ConfigurationProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);

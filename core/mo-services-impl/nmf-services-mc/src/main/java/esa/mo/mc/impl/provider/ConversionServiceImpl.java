@@ -113,8 +113,8 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
             return true;  // No test is required
         }
         ParameterValue parameterValue = manager.getParameterValue(expression.getParameterId().getInstId());
-        Attribute param = expression.getUseConverted() ? parameterValue.getConvertedValue() : parameterValue
-            .getRawValue();
+        Attribute param = expression.getUseConverted() ?
+                parameterValue.getConvertedValue() : parameterValue.getRawValue();
 
         return HelperCOM.evaluateExpression(param, expression.getOperator(), expression.getValue());
     }

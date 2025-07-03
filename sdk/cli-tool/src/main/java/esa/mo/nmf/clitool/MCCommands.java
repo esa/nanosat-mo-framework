@@ -65,26 +65,27 @@ import picocli.CommandLine.*;
  * @author marcel.mikolajko
  */
 public class MCCommands {
+
     static Logger LOGGER = Logger.getLogger(MCCommands.class.getName());
 
     public static Identifier parameterSubscription;
     public static Identifier aggregationSubscription;
 
     @Command(name = "parameter", subcommands = {MCCommands.ParameterMonitorValue.class,
-                                                MCCommands.ParameterEnableGeneration.class,
-                                                MCCommands.ParameterDisableGeneration.class,
-                                                MCCommands.GetParameters.class, MCCommands.ListParameters.class})
+        MCCommands.ParameterEnableGeneration.class,
+        MCCommands.ParameterDisableGeneration.class,
+        MCCommands.GetParameters.class, MCCommands.ListParameters.class})
     public static class Parameter {
     }
 
     @Command(name = "aggregation", subcommands = {MCCommands.AggregationMonitorValue.class,
-                                                  MCCommands.AggregationEnableGeneration.class,
-                                                  MCCommands.AggregationDisableGeneration.class})
+        MCCommands.AggregationEnableGeneration.class,
+        MCCommands.AggregationDisableGeneration.class})
     public static class Aggregation {
     }
 
     public static void enableOrDisableParameterGeneration(ParameterStub parameterService, List<String> parameters,
-        boolean enable) {
+            boolean enable) {
         IdentifierList request = new IdentifierList();
         if (parameters == null || parameters.isEmpty()) {
             request.add(new Identifier("*"));
@@ -121,8 +122,9 @@ public class MCCommands {
 
     @Command(name = "enable", description = "Enables generation of specified parameters")
     public static class ParameterEnableGeneration extends BaseCommand implements Runnable {
+
         @Parameters(arity = "0..*", paramLabel = "<parameterNames>", index = "0",
-                    description = "Names of the parameters to enable. If non are specified enable all")
+                description = "Names of the parameters to enable. If non are specified enable all")
         List<String> parameterNames;
 
         @Override
@@ -136,14 +138,15 @@ public class MCCommands {
                 return;
             }
             enableOrDisableParameterGeneration(consumer.getMCServices().getParameterService().getParameterStub(),
-                parameterNames, true);
+                    parameterNames, true);
         }
     }
 
     @Command(name = "disable", description = "Disables generation of specified parameters")
     public static class ParameterDisableGeneration extends BaseCommand implements Runnable {
+
         @Parameters(arity = "0..*", paramLabel = "<parameterNames>", index = "0",
-                    description = "Names of the parameters to disable. If non are specified disable all")
+                description = "Names of the parameters to disable. If non are specified disable all")
         List<String> parameterNames;
 
         @Override
@@ -157,12 +160,12 @@ public class MCCommands {
                 return;
             }
             enableOrDisableParameterGeneration(consumer.getMCServices().getParameterService().getParameterStub(),
-                parameterNames, false);
+                    parameterNames, false);
         }
     }
 
     public static void enableOrDisableAggregationGeneration(AggregationStub aggregationService,
-        List<String> aggregations, boolean enable) {
+            List<String> aggregations, boolean enable) {
         IdentifierList request = new IdentifierList();
         if (aggregations == null || aggregations.isEmpty()) {
             request.add(new Identifier("*"));
@@ -199,8 +202,9 @@ public class MCCommands {
 
     @Command(name = "enable", description = "Enables generation of specified aggregations")
     public static class AggregationEnableGeneration extends BaseCommand implements Runnable {
+
         @Parameters(arity = "0..*", paramLabel = "<aggregationNames>", index = "0",
-                    description = "Names of the aggregations to enable. If non are specified enable all")
+                description = "Names of the aggregations to enable. If non are specified enable all")
         List<String> aggregationNames;
 
         @Override
@@ -214,14 +218,15 @@ public class MCCommands {
                 return;
             }
             enableOrDisableAggregationGeneration(consumer.getMCServices().getAggregationService().getAggregationStub(),
-                aggregationNames, true);
+                    aggregationNames, true);
         }
     }
 
     @Command(name = "disable", description = "Disables generation of specified aggregations")
     public static class AggregationDisableGeneration extends BaseCommand implements Runnable {
+
         @Parameters(arity = "0..*", paramLabel = "<aggregationNames>", index = "0",
-                    description = "Names of the aggregations to disable. If non are specified disable all")
+                description = "Names of the aggregations to disable. If non are specified disable all")
         List<String> aggregationNames;
 
         @Override
@@ -235,15 +240,16 @@ public class MCCommands {
                 return;
             }
             enableOrDisableAggregationGeneration(consumer.getMCServices().getAggregationService().getAggregationStub(),
-                aggregationNames, false);
+                    aggregationNames, false);
         }
     }
 
     @Command(name = "subscribe", description = "Subscribes to specified parameters")
     public static class ParameterMonitorValue extends BaseCommand implements Runnable {
+
         @Parameters(arity = "0..*", paramLabel = "<parameterNames>", index = "0",
-                    description = "Names of the parameters to subscribe to. If non are specified subscribe to all.\n" +
-                        " - examples: param1 or param1 param2")
+                description = "Names of the parameters to subscribe to. If non are specified subscribe to all.\n"
+                + " - examples: param1 or param1 param2")
         List<String> parameterNames;
 
         @Override
@@ -272,7 +278,7 @@ public class MCCommands {
             EntityRequest entity = new EntityRequest(null, false, false, false, false, entityKeys);
             EntityRequestList entities = new EntityRequestList();
             entities.add(entity);
-            */
+             */
             SubscriptionFilterList filters = new SubscriptionFilterList();
             if (parameterNames == null || parameterNames.isEmpty()) {
             } else {
@@ -289,10 +295,9 @@ public class MCCommands {
                 stub.monitorValueRegister(subscription, new ParameterAdapter() {
                     @Override
                     public void monitorValueNotifyReceived(MALMessageHeader msgHeader, Identifier identifier,
-                        UpdateHeader updateHeader, ObjectId objectId,
-                        ParameterValue parameterValue, Map qosProperties) {
-                        String parameterName = updateHeader.getKeyValues().get(0).getValue().toString()
-                            .toLowerCase();
+                            UpdateHeader updateHeader, ObjectId objectId,
+                            ParameterValue parameterValue, Map qosProperties) {
+                        String parameterName = updateHeader.getKeyValues().get(0).getValue().toString().toLowerCase();
                         //long timestamp = updateHeader.getTimestamp().getValue();
                         String value = parameterValue.getRawValue().toString();
 
@@ -325,9 +330,10 @@ public class MCCommands {
 
     @Command(name = "subscribe", description = "Subscribes to specified aggregations")
     public static class AggregationMonitorValue extends BaseCommand implements Runnable {
+
         @Parameters(arity = "0..*", paramLabel = "<parameterNames>", index = "0",
-                    description = "Names of the aggregations to subscribe to. If non are specified subscribe to all.\n" +
-                        " - examples: aggregation1 or aggregation1 aggregation2")
+                description = "Names of the aggregations to subscribe to. If non are specified subscribe to all.\n"
+                + " - examples: aggregation1 or aggregation1 aggregation2")
         List<String> aggregationNames;
 
         @Override
@@ -371,29 +377,29 @@ public class MCCommands {
 
                 Map<Long, String> aggregationIdentities = new HashMap<>();
                 archive.retrieve(AggregationServiceInfo.AGGREGATIONIDENTITY_OBJECT_TYPE, domain, aggregationIdentitiesIds,
-                    new ArchiveAdapter() {
-                        @Override
-                        public void retrieveResponseReceived(MALMessageHeader msgHeader, ArchiveDetailsList objDetails,
-                            HeterogeneousList objBodies, Map qosProperties) {
-                            for (int i = 0; i < objDetails.size(); ++i) {
-                                aggregationIdentities.put(objDetails.get(i).getInstId(), ((Identifier) objBodies.get(i))
-                                    .getValue());
-                            }
-
-                            synchronized (lock) {
-                                lock.notifyAll();
-                            }
+                        new ArchiveAdapter() {
+                    @Override
+                    public void retrieveResponseReceived(MALMessageHeader msgHeader,
+                            ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
+                        for (int i = 0; i < objDetails.size(); ++i) {
+                            aggregationIdentities.put(objDetails.get(i).getInstId(),
+                                    ((Identifier) objBodies.get(i)).getValue());
                         }
 
-                        @Override
-                        public void retrieveResponseErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
+                        synchronized (lock) {
+                            lock.notifyAll();
+                        }
+                    }
+
+                    @Override
+                    public void retrieveResponseErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
                             Map qosProperties) {
-                            LOGGER.log(Level.SEVERE, "Error during archive retrieve!", error);
-                            synchronized (lock) {
-                                lock.notifyAll();
-                            }
+                        LOGGER.log(Level.SEVERE, "Error during archive retrieve!", error);
+                        synchronized (lock) {
+                            lock.notifyAll();
                         }
-                    });
+                    }
+                });
 
                 synchronized (lock) {
                     lock.wait();
@@ -402,43 +408,43 @@ public class MCCommands {
                 //                System.out.println("Aggregation ids");
                 //                System.out.println(aggregationDefinitionsIds.stream().map(Object::toString).collect(Collectors.joining(", ")));
                 archive.retrieve(AggregationServiceInfo.AGGREGATIONDEFINITION_OBJECT_TYPE, domain, aggregationDefinitionsIds,
-                    new ArchiveAdapter() {
-                        @Override
-                        public void retrieveResponseReceived(MALMessageHeader msgHeader, ArchiveDetailsList objDetails,
+                        new ArchiveAdapter() {
+                    @Override
+                    public void retrieveResponseReceived(MALMessageHeader msgHeader, ArchiveDetailsList objDetails,
                             HeterogeneousList objBodies, Map qosProperties) {
-                            for (int i = 0; i < objDetails.size(); ++i) {
-                                AggregationDefinition details = (AggregationDefinition) objBodies.get(i);
-                                if (details.getGenerationEnabled()) {
-                                    for (AggregationParameterSet set : details.getParameterSets()) {
-                                        parameterIds.addAll(set.getParameters());
-                                    }
-                                } else {
-                                    System.out.println("Aggregation " + aggregationIdentities.get(objDetails.get(i)
+                        for (int i = 0; i < objDetails.size(); ++i) {
+                            AggregationDefinition details = (AggregationDefinition) objBodies.get(i);
+                            if (details.getGenerationEnabled()) {
+                                for (AggregationParameterSet set : details.getParameterSets()) {
+                                    parameterIds.addAll(set.getParameters());
+                                }
+                            } else {
+                                System.out.println("Aggregation " + aggregationIdentities.get(objDetails.get(i)
                                         .getDetails().getRelated()) + " is disabled!");
-                                }
-
-                                if (!details.getSendDefinitions()) {
-                                    System.out.println("sendDefinitions is set to false for aggregation: " +
-                                        aggregationIdentities.get(objDetails.get(i).getDetails().getRelated()) + ". " +
-                                        "Parameter names will not be available.");
-                                }
-
                             }
 
-                            synchronized (lock) {
-                                lock.notifyAll();
+                            if (!details.getSendDefinitions()) {
+                                System.out.println("sendDefinitions is set to false for aggregation: "
+                                        + aggregationIdentities.get(objDetails.get(i).getDetails().getRelated()) + ". "
+                                        + "Parameter names will not be available.");
                             }
+
                         }
 
-                        @Override
-                        public void retrieveResponseErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
+                        synchronized (lock) {
+                            lock.notifyAll();
+                        }
+                    }
+
+                    @Override
+                    public void retrieveResponseErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
                             Map qosProperties) {
-                            LOGGER.log(Level.SEVERE, "Error during archive retrieve!", error);
-                            synchronized (lock) {
-                                lock.notifyAll();
-                            }
+                        LOGGER.log(Level.SEVERE, "Error during archive retrieve!", error);
+                        synchronized (lock) {
+                            lock.notifyAll();
                         }
-                    });
+                    }
+                });
 
                 synchronized (lock) {
                     lock.wait();
@@ -452,29 +458,29 @@ public class MCCommands {
                 //                System.out.println(parameterIds.stream().map(Object::toString).collect(Collectors.joining(", ")));
                 Map<Long, String> identityIdToName = new HashMap<>();
                 archive.retrieve(ParameterServiceInfo.PARAMETERIDENTITY_OBJECT_TYPE, domain, parameterIds,
-                    new ArchiveAdapter() {
-                        @Override
-                        public void retrieveResponseReceived(MALMessageHeader msgHeader, ArchiveDetailsList objDetails,
+                        new ArchiveAdapter() {
+                    @Override
+                    public void retrieveResponseReceived(MALMessageHeader msgHeader, ArchiveDetailsList objDetails,
                             HeterogeneousList objBodies, Map qosProperties) {
-                            for (int i = 0; i < objDetails.size(); ++i) {
-                                identityIdToName.put(objDetails.get(i).getInstId(), ((Identifier) objBodies.get(i))
+                        for (int i = 0; i < objDetails.size(); ++i) {
+                            identityIdToName.put(objDetails.get(i).getInstId(), ((Identifier) objBodies.get(i))
                                     .getValue());
-                            }
-
-                            synchronized (lock) {
-                                lock.notifyAll();
-                            }
                         }
 
-                        @Override
-                        public void retrieveResponseErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
+                        synchronized (lock) {
+                            lock.notifyAll();
+                        }
+                    }
+
+                    @Override
+                    public void retrieveResponseErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
                             Map qosProperties) {
-                            LOGGER.log(Level.SEVERE, "Error during archive retrieve!", error);
-                            synchronized (lock) {
-                                lock.notifyAll();
-                            }
+                        LOGGER.log(Level.SEVERE, "Error during archive retrieve!", error);
+                        synchronized (lock) {
+                            lock.notifyAll();
                         }
-                    });
+                    }
+                });
 
                 synchronized (lock) {
                     lock.wait();
@@ -487,49 +493,49 @@ public class MCCommands {
                 Map<Long, String> definitionIdToIdentity = new HashMap<>();
 
                 archive.query(false, ParameterServiceInfo.PARAMETERDEFINITION_OBJECT_TYPE, queries, null,
-                    new ArchiveAdapter() {
-                        @Override
-                        public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType,
+                        new ArchiveAdapter() {
+                    @Override
+                    public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType,
                             IdentifierList domain, ArchiveDetailsList objDetails, HeterogeneousList objBodies,
                             Map qosProperties) {
-                            for (ArchiveDetails details : objDetails) {
-                                definitionIdToIdentity.put(details.getInstId(), identityIdToName.get(details
+                        for (ArchiveDetails details : objDetails) {
+                            definitionIdToIdentity.put(details.getInstId(), identityIdToName.get(details
                                     .getDetails().getRelated()));
-                            }
                         }
+                    }
 
-                        @Override
-                        public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType,
+                    @Override
+                    public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType,
                             IdentifierList domain, ArchiveDetailsList objDetails, HeterogeneousList objBodies,
                             Map qosProperties) {
-                            for (ArchiveDetails details : objDetails) {
-                                definitionIdToIdentity.put(details.getInstId(), identityIdToName.get(details
+                        for (ArchiveDetails details : objDetails) {
+                            definitionIdToIdentity.put(details.getInstId(), identityIdToName.get(details
                                     .getDetails().getRelated()));
-                            }
-
-                            synchronized (lock) {
-                                lock.notifyAll();
-                            }
                         }
 
-                        @Override
-                        public void queryUpdateErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
+                        synchronized (lock) {
+                            lock.notifyAll();
+                        }
+                    }
+
+                    @Override
+                    public void queryUpdateErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
                             Map qosProperties) {
-                            LOGGER.log(Level.SEVERE, "Error during archive query!", error);
-                            synchronized (lock) {
-                                lock.notifyAll();
-                            }
+                        LOGGER.log(Level.SEVERE, "Error during archive query!", error);
+                        synchronized (lock) {
+                            lock.notifyAll();
                         }
+                    }
 
-                        @Override
-                        public void queryResponseErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
+                    @Override
+                    public void queryResponseErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
                             Map qosProperties) {
-                            LOGGER.log(Level.SEVERE, "Error during archive query!", error);
-                            synchronized (lock) {
-                                lock.notifyAll();
-                            }
+                        LOGGER.log(Level.SEVERE, "Error during archive query!", error);
+                        synchronized (lock) {
+                            lock.notifyAll();
                         }
-                    });
+                    }
+                });
 
                 synchronized (lock) {
                     lock.wait();
@@ -550,7 +556,7 @@ public class MCCommands {
                 EntityRequest entity = new EntityRequest(null, false, false, false, false, entityKeys);
                 EntityRequestList entities = new EntityRequestList();
                 entities.add(entity);
-                */
+                 */
                 SubscriptionFilterList filters = new SubscriptionFilterList();
                 if (aggregationNames == null || aggregationNames.isEmpty()) {
                 } else {
@@ -564,19 +570,19 @@ public class MCCommands {
                 stub.monitorValueRegister(subscription, new AggregationAdapter() {
                     @Override
                     public void monitorValueNotifyReceived(MALMessageHeader msgHeader, Identifier identifier,
-                        UpdateHeader updateHeader, ObjectId objectId,
-                        AggregationValue aggregationValue, Map qosProperties) {
+                            UpdateHeader updateHeader, ObjectId objectId,
+                            AggregationValue aggregationValue, Map qosProperties) {
                         String aggregationName = updateHeader.getKeyValues().get(0).getValue().toString()
-                            .toLowerCase();
+                                .toLowerCase();
                         //long timestamp = updateHeaderList.get(0).getTimestamp().getValue();
                         AggregationParameterValueList values = aggregationValue.getParameterSetValues().get(
-                            0).getValues();
+                                0).getValues();
                         System.out.println(aggregationName + ": ");
                         int index = 1;
                         for (AggregationParameterValue value : values) {
                             String name = definitionIdToIdentity.get(value.getParamDefInstId());
                             System.out.println("  " + (name == null ? "parameter " + index : name) + ": " + value
-                                .getValue().getRawValue().toString());
+                                    .getValue().getRawValue().toString());
                             index += 1;
                         }
                         System.out.println();
@@ -584,7 +590,7 @@ public class MCCommands {
 
                     @Override
                     public void monitorValueRegisterErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
-                        Map qosProperties) {
+                            Map qosProperties) {
                         LOGGER.log(Level.SEVERE, "Error during monitorValueRegister!", error);
                         synchronized (lock) {
                             lock.notifyAll();
@@ -604,28 +610,29 @@ public class MCCommands {
 
     @Command(name = "get", description = "Dumps to a file MO parameters samples from COM archive.")
     public static class GetParameters extends BaseCommand implements Runnable {
+
         @Parameters(arity = "1", paramLabel = "<filename>", index = "0",
-                    description = "Target file for the parameters samples")
+                description = "Target file for the parameters samples")
         String file;
 
         @Parameters(arity = "0..*", paramLabel = "<parameterNames>", index = "1",
-                    description = "Names of the parameters to retrieve\n" + " - examples: param1 or param1 param2")
+                description = "Names of the parameters to retrieve\n" + " - examples: param1 or param1 param2")
         List<String> parameterNames;
 
         @Option(names = {"-d", "--domain"}, paramLabel = "<domainId>",
-                description = "Restricts the dump to parameters in a specific domain\n" +
-                    "  - format: key1.key2.[...].keyN.\n" + "  - example: esa.NMF_SDK.nanosat-mo-supervisor")
+                description = "Restricts the dump to parameters in a specific domain\n"
+                + "  - format: key1.key2.[...].keyN.\n" + "  - example: esa.NMF_SDK.nanosat-mo-supervisor")
         String domainId;
 
         @Option(names = {"-s", "--start"}, paramLabel = "<startTime>",
-                description = "Restricts the dump to parameters generated after the given time\n" +
-                    "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n" + "  - example: \"2021-03-04 08:37:58.482\"")
+                description = "Restricts the dump to parameters generated after the given time\n"
+                + "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n" + "  - example: \"2021-03-04 08:37:58.482\"")
         String startTime;
 
         @Option(names = {"-e", "--end"}, paramLabel = "<endTime>",
-                description = "Restricts the dump to parameters generated before the given time. " +
-                    "If this option is provided without the -s option, returns the single object that has the closest timestamp to, but not greater than <endTime>\n" +
-                    "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n" + "  - example: \"2021-03-05 12:05:45.271\"")
+                description = "Restricts the dump to parameters generated before the given time. "
+                + "If this option is provided without the -s option, returns the single object that has the closest timestamp to, but not greater than <endTime>\n"
+                + "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n" + "  - example: \"2021-03-05 12:05:45.271\"")
         String endTime;
 
         @Option(names = {"-j", "--json"}, paramLabel = "<json>",
@@ -652,48 +659,48 @@ public class MCCommands {
             IdentifierList domain = domainId == null ? null : HelperDomain.domainId2domain(domainId);
 
             ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, null, 0L, null, startTimeF, endTimeF, null,
-                null);
+                    null);
             archiveQueryList.add(archiveQuery);
 
             ArchiveToParametersAdapter parametersAdapter = new ArchiveToParametersAdapter();
             ObjectType parameterObjectType = new ObjectType(MCHelper.MC_AREA_NUMBER,
-                ParameterServiceInfo.PARAMETER_SERVICE_NUMBER, MCHelper.MC_AREA_VERSION, new UShort(0));
+                    ParameterServiceInfo.PARAMETER_SERVICE_NUMBER, MCHelper.MC_AREA_VERSION, new UShort(0));
             queryArchive(parameterObjectType, archiveQueryList, parametersAdapter, parametersAdapter);
 
             ArchiveToAggregationsAdapter aggregationsAdapter = new ArchiveToAggregationsAdapter();
             ObjectType aggregationObjectType = new ObjectType(MCHelper.MC_AREA_NUMBER,
-                AggregationServiceInfo.AGGREGATION_SERVICE_NUMBER, MCHelper.MC_AREA_VERSION, new UShort(0));
+                    AggregationServiceInfo.AGGREGATION_SERVICE_NUMBER, MCHelper.MC_AREA_VERSION, new UShort(0));
             queryArchive(aggregationObjectType, archiveQueryList, aggregationsAdapter, aggregationsAdapter);
 
             Map<IdentifierList, Map<Identifier, List<TimestampedParameterValue>>> allParameters = parametersAdapter
-                .getParameterValues();
+                    .getParameterValues();
 
             // Display list of aggregations
             Map<IdentifierList, Map<Long, List<TimestampedAggregationValue>>> aggregationValuesMap = aggregationsAdapter
-                .getAggregationValues();
+                    .getAggregationValues();
             if (aggregationValuesMap != null) {
                 //Make the parameter map
                 for (IdentifierList domainKey : aggregationValuesMap.keySet()) {
                     for (Map.Entry<Long, List<TimestampedAggregationValue>> entry : aggregationValuesMap.get(domainKey)
-                        .entrySet()) {
+                            .entrySet()) {
                         Long definitionId = entry.getKey();
                         AggregationDefinition definition = aggregationsAdapter.getAggregationDefinitions().get(
-                            domainKey).get(definitionId);
+                                domainKey).get(definitionId);
 
                         for (TimestampedAggregationValue aggregationValue : entry.getValue()) {
                             for (int i = 0;
-                                 i < aggregationValue.getAggregationValue().getParameterSetValues().size();
-                                 i++) {
+                                    i < aggregationValue.getAggregationValue().getParameterSetValues().size();
+                                    i++) {
                                 AggregationSetValue values = aggregationValue.getAggregationValue()
-                                    .getParameterSetValues().get(i);
+                                        .getParameterSetValues().get(i);
                                 AggregationParameterSet definitions = definition.getParameterSets().get(i);
 
                                 int valueSetNumber = 0;
                                 double deltaTime = values.getDeltaTime() != null ? values.getDeltaTime().getValue() : 0;
                                 double intervalTime = values.getIntervalTime() != null ? values.getIntervalTime()
-                                    .getValue() : 0;
-                                long valueSetTimestamp = aggregationValue.getTimestamp().getValue() +
-                                    (long) (deltaTime * 1000L);
+                                        .getValue() : 0;
+                                long valueSetTimestamp = aggregationValue.getTimestamp().getValue()
+                                        + (long) (deltaTime * 1000L);
 
                                 for (int n = 0; n < values.getValues().size(); n++) {
                                     // Check if we are starting a new set of values compared to the given definition list
@@ -703,14 +710,14 @@ public class MCCommands {
 
                                     AggregationParameterValue value = values.getValues().get(n);
                                     Long parameterId = definitions.getParameters().get(n % definitions.getParameters()
-                                        .size());
+                                            .size());
 
                                     TimestampedParameterValue paramValue = new TimestampedParameterValue(value
-                                        .getValue(), new FineTime(valueSetTimestamp + (long) (valueSetNumber *
-                                            intervalTime * 1000L)));
+                                            .getValue(), new FineTime(valueSetTimestamp + (long) (valueSetNumber
+                                                    * intervalTime * 1000L)));
 
                                     Identifier parameterName = parametersAdapter.getIdentitiesMap().get(domainKey).get(
-                                        parameterId);
+                                            parameterId);
                                     if (allParameters.get(domainKey).containsKey(parameterName)) {
                                         allParameters.get(domainKey).get(parameterName).add(paramValue);
                                     } else {
@@ -738,7 +745,7 @@ public class MCCommands {
                         for (String name : parameterNames) {
                             for (IdentifierList domainKey : allParameters.keySet()) {
                                 List<TimestampedParameterValue> values = allParameters.get(domainKey).get(
-                                    new Identifier(name));
+                                        new Identifier(name));
                                 if (values == null) {
                                     continue;
                                 }
@@ -753,9 +760,9 @@ public class MCCommands {
                         parameters = allParameters;
                         for (IdentifierList domainKey : parameters.keySet()) {
                             for (Map.Entry<Identifier, List<TimestampedParameterValue>> entry : parameters.get(
-                                domainKey).entrySet()) {
+                                    domainKey).entrySet()) {
                                 entry.getValue().sort(Comparator.comparingLong(
-                                    TimestampedParameterValue::getTimestamp));
+                                        TimestampedParameterValue::getTimestamp));
                             }
                         }
                     }
@@ -767,12 +774,12 @@ public class MCCommands {
                         for (IdentifierList domainKey : parameters.keySet()) {
                             writer.write("Domain: " + HelperDomain.domain2domainId(domainKey) + "\n");
                             List<String> keys = parameters.get(domainKey).keySet().stream().map(Identifier::getValue)
-                                .sorted().collect(Collectors.toList());
+                                    .sorted().collect(Collectors.toList());
                             for (String parameter : keys) {
                                 for (TimestampedParameterValue value : parameters.get(domainKey).get(new Identifier(
-                                    parameter))) {
+                                        parameter))) {
                                     String line = parameter + "\t" + value.getTimestamp() + "\t" + value
-                                        .getParameterValue() + "\n";
+                                            .getParameterValue() + "\n";
                                     writer.write(line);
                                 }
                             }
@@ -791,9 +798,10 @@ public class MCCommands {
 
     @Command(name = "list", description = "Lists available parameters in a COM archive.")
     public static class ListParameters extends BaseCommand implements Runnable {
+
         @Option(names = {"-d", "--domain"}, paramLabel = "<domainId>",
-                description = "Restricts the dump to objects in a specific domain\n" +
-                    "  - format: key1.key2.[...].keyN.\n" + "  - example: esa.NMF_SDK.nanosat-mo-supervisor")
+                description = "Restricts the dump to objects in a specific domain\n"
+                + "  - format: key1.key2.[...].keyN.\n" + "  - example: esa.NMF_SDK.nanosat-mo-supervisor")
         String domainId;
 
         public void run() {
@@ -820,8 +828,8 @@ public class MCCommands {
             // Display list of NMF apps that have parameters
             Map<IdentifierList, List<Identifier>> parameters = adapter.getParameterIdentities();
             if (parameters.size() <= 0) {
-                System.out.println("\nNo parameter found in the provided archive: " + (databaseFile == null ?
-                    providerURI : databaseFile));
+                System.out.println("\nNo parameter found in the provided archive: " + (databaseFile == null
+                        ? providerURI : databaseFile));
             } else {
                 System.out.println("\nFound the following parameters: ");
                 for (Map.Entry<IdentifierList, List<Identifier>> entry : parameters.entrySet()) {

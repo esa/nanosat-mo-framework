@@ -62,8 +62,8 @@ public class ArchivePersistenceObject implements Serializable {
 
         this.providerURI = (archiveDetails.getProvider() != null) ? archiveDetails.getProvider().getValue() : null;
         this.network = (archiveDetails.getNetwork() != null) ? archiveDetails.getNetwork().getValue() : null;
-        this.timestampArchiveDetails = (archiveDetails.getTimestamp() != null) ? archiveDetails.getTimestamp()
-                .getValue() : 0;
+        this.timestampArchiveDetails = (archiveDetails.getTimestamp() != null) ?
+                archiveDetails.getTimestamp().getValue() : 0;
 
         this.sourceLink = archiveDetails.getDetails().getSource();
         this.relatedLink = archiveDetails.getDetails().getRelated();

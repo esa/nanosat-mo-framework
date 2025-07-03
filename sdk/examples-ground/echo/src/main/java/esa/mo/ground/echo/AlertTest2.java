@@ -60,9 +60,19 @@ public class AlertTest2 {
     private final Identifier subscriptionId;
     private final Random random = new Random();
 
+    /**
+     * Main command line entry point.
+     *
+     * @param args the command line arguments
+     * @throws java.lang.Exception If there is an error
+     */
+    public static void main(final String[] args) throws Throwable {
+        AlertTest2 demo = new AlertTest2();
+    }
+
     public AlertTest2() throws Throwable {
         ProviderSummaryList summaryList = GroundMOAdapterImpl.retrieveProvidersFromDirectory(new URI(
-            URL_DIRECTORY_SERVICE));
+                URL_DIRECTORY_SERVICE));
 
         if (!summaryList.isEmpty()) {
             groundAdapter = new GroundMOAdapterImpl(summaryList.get(0));
@@ -99,7 +109,7 @@ public class AlertTest2 {
         final Long secondEntityKey = 0xFFFFFFFFFF000000L & HelperCOM.generateSubKey(AlertServiceInfo.ALERTDEFINITION_OBJECT_TYPE);
         this.subscriptionId = new Identifier("AlertEvent" + random.nextInt());  // Add some randomness in the subscriptionId to avoid collisions
         Subscription eventSub = ConnectionConsumer.subscriptionKeys(this.subscriptionId, new Identifier("*"),
-            secondEntityKey, 0L, 0L);
+                secondEntityKey, 0L, 0L);
 
         eventConsumer.addEventReceivedListener(eventSub, new EventConsumerAdapter());
     }
@@ -138,8 +148,10 @@ public class AlertTest2 {
                     if (attValues.size() > 1) {
                         for (int i = 0; i < attValues.size(); i++) {
                             AttributeValue attValue = attValues.get(i);
-                            messageToDisplay.append("[").append(i).append("] ").append(attValue.getValue().toString())
-                                .append("\n");
+                            messageToDisplay
+                                    .append("[").append(i).append("] ")
+                                    .append(attValue.getValue().toString())
+                                    .append("\n");
                         }
                     }
                 }
@@ -154,15 +166,5 @@ public class AlertTest2 {
                 // Something's wrong...
             }
         }
-    }
-
-    /**
-     * Main command line entry point.
-     *
-     * @param args the command line arguments
-     * @throws java.lang.Exception If there is an error
-     */
-    public static void main(final String[] args) throws Throwable {
-        AlertTest2 demo = new AlertTest2();
     }
 }

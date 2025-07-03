@@ -153,8 +153,9 @@ public class LoginDialog extends JDialog {
             try {
                 LoginConsumerServiceImpl loginConsumer = getLoginConsumer();
                 Long role = roleNameToId.get(rolesComboBox.getSelectedItem());
-                LoginResponse response = loginConsumer.getLoginStub().login(new Profile(new Identifier(userTextField
-                    .getText()), role), new String(passwordTextField.getPassword()));
+                LoginResponse response = loginConsumer.getLoginStub().login(
+                        new Profile(new Identifier(userTextField.getText()), role),
+                        new String(passwordTextField.getPassword()));
                 authenticationId = response.getAuthId();
                 loginConsumer.closeConnection();
                 loginSuccessful = true;

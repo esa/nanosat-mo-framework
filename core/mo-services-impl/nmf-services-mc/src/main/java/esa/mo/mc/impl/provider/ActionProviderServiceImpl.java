@@ -344,8 +344,9 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         LongList newDefIds = new LongList();
         ObjectId source = manager.storeCOMOperationActivity(interaction); // requirement: 3.2.4.e
         for (int index = 0; index < actionDefInstIds.size(); index++) { // requirement: 3.2.13.2.e, k (incremental "for cycle" guarantees that)
-            newDefIds.add(manager.update(actionDefInstIds.get(index), actionDefDetails.get(index), source, connection
-                    .getPrimaryConnectionDetails().getProviderURI()));  // Change in the manager; requirement: 3.2.13.2.d, g, h
+            newDefIds.add(manager.update(actionDefInstIds.get(index),
+                    actionDefDetails.get(index), source,
+                    connection.getPrimaryConnectionDetails().getProviderURI()));  // Change in the manager; requirement: 3.2.13.2.d, g, h
         }
 
         if (configurationAdapter != null) {
@@ -422,8 +423,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
 
         if (actionInstance != null) {
             // Aditional validation can be performed!
-            final ActionDefinition actionDefinition = manager.getActionDefinitionFromDefId(actionInstance
-                    .getDefInstId());
+            ActionDefinition actionDefinition = manager.getActionDefinitionFromDefId(actionInstance.getDefInstId());
 
             if (actionDefinition == null) {
                 throw new IOException("The submitted actionInstId could not be found.");

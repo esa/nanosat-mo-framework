@@ -77,8 +77,7 @@ final class RunnableInsert implements Runnable {
         try {
             Connection c = this.transactionsProcessor.dbBackend.getConnection();
             c.setAutoCommit(false);
-            PreparedStatement insertStmt = transactionsProcessor.dbBackend.getPreparedStatements()
-                .getInsertCOMObjects();
+            PreparedStatement insertStmt = transactionsProcessor.dbBackend.getPreparedStatements().getInsertCOMObjects();
 
             for (int i = 0; i < perObjs.size(); i++) { // 6.510 ms per cycle
                 COMObjectEntity obj = perObjs.get(i);

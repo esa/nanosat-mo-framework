@@ -45,8 +45,8 @@ public class StoreParameters {
 
     public static void storeParameterValues(int numberOfObjs, NMFInterface connector) {
         try {
-            ParameterValue pValue = new ParameterValue(new UOctet((short) 0), (Attribute) HelperAttributes
-                .javaType2Attribute(123.4567), null);
+            ParameterValue pValue = new ParameterValue(new UOctet((short) 0),
+                    (Attribute) HelperAttributes.javaType2Attribute(123.4567), null);
 
             ParameterValueList values = new ParameterValueList();
 
@@ -54,7 +54,7 @@ public class StoreParameters {
                 values.add(pValue);
             }
             ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(null, null, connector
-                .getMCServices().getActionService().getConnectionProvider().getConnectionDetails());
+                    .getMCServices().getActionService().getConnectionProvider().getConnectionDetails());
             for (int i = 0; i < numberOfObjs - 1; i++) {
                 archDetails.add(archDetails.get(0));
             }
@@ -102,20 +102,21 @@ public class StoreParameters {
                     yyy.add(values.get(i));
 
                     connector.getCOMServices().getArchiveService().store(true,
-                        ParameterServiceInfo.PARAMETERVALUEINSTANCE_OBJECT_TYPE, connector.getMCServices().getActionService()
-                            .getConnectionProvider().getConnectionDetails().getDomain(), xxx, yyy, null);
+                            ParameterServiceInfo.PARAMETERVALUEINSTANCE_OBJECT_TYPE,
+                            connector.getMCServices().getActionService().getConnectionProvider().getConnectionDetails().getDomain(),
+                            xxx, yyy, null);
 
                 }
             } catch (MALException | MALInteractionException ex) {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             }
             long estimatedTime = System.nanoTime() - startTime;
-            Logger.getLogger(BenchmarkApp.class.getName()).log(Level.INFO, "Total time: " + numberOfObjs +
-                " objects in {0} nanoseconds", estimatedTime);
+            Logger.getLogger(BenchmarkApp.class.getName()).log(Level.INFO, "Total time: " + numberOfObjs
+                    + " objects in {0} nanoseconds", estimatedTime);
             float objectPerSec = numberOfObjs / ((float) estimatedTime / (float) 1000000000);
             float averageTimePerObj = 1 / objectPerSec;
-            Logger.getLogger(BenchmarkApp.class.getName()).log(Level.INFO, "Objects per second: " + objectPerSec +
-                " (average: " + averageTimePerObj + " sec)");
+            Logger.getLogger(BenchmarkApp.class.getName()).log(Level.INFO, "Objects per second: " + objectPerSec
+                    + " (average: " + averageTimePerObj + " sec)");
         } catch (NMFException ex) {
             Logger.getLogger(BenchmarkApp.class.getName()).log(Level.SEVERE, null, ex);
         }

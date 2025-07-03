@@ -34,8 +34,7 @@ public class DemoSpace2Supervisor {
         connector.init(adapter);
 
         // Initialize application's NMF consumer (consuming the supervisor)
-        SpaceMOApdapterImpl supervisorSMA = SpaceMOApdapterImpl.forNMFSupervisor(connector
-            .readCentralDirectoryServiceURI());
+        SpaceMOApdapterImpl supervisorSMA = SpaceMOApdapterImpl.forNMFSupervisor(connector.readCentralDirectoryServiceURI());
 
         adapter.setConnector(connector);
         adapter.setSupervisorSMA(supervisorSMA);

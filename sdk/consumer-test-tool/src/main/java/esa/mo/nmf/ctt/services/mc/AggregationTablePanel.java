@@ -54,9 +54,10 @@ public class AggregationTablePanel extends SharedTablePanel {
 
         AggregationDefinition pDef = (AggregationDefinition) comObject.getObject();
 
-        tableData.addRow(new Object[]{comObject.getArchiveDetails().getDetails().getRelated(), name.toString(), pDef
-            .getDescription(), pDef.getCategory().toString(), pDef.getGenerationEnabled(), pDef.getReportInterval()
-            .toString(), pDef.getFilterEnabled(), pDef.getFilteredTimeout().getValue()});
+        tableData.addRow(new Object[]{comObject.getArchiveDetails().getDetails().getRelated(),
+            name.toString(), pDef.getDescription(), pDef.getCategory().toString(),
+            pDef.getGenerationEnabled(), pDef.getReportInterval().toString(),
+            pDef.getFilterEnabled(), pDef.getFilteredTimeout().getValue()});
 
         comObjects.add(comObject);
         semaphore.release();

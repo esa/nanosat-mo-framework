@@ -71,8 +71,9 @@ public class PictureProcessingExecutor {
             return false;
         }
 
-        CommandLine commandLine = new CommandLine("python").addArgument("imageEditor.py").addArgument(picture
-            .toAbsolutePath().toString());
+        CommandLine commandLine = new CommandLine("python")
+                .addArgument("imageEditor.py")
+                .addArgument(picture.toAbsolutePath().toString());
 
         executor.setStreamHandler(new PumpStreamHandler(outputStream));
 

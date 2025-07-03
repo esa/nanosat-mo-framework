@@ -566,10 +566,10 @@ public class CameraAcquisitorGround {
                             idList.add(new Identifier(
                                     CameraAcquisitorSystemCameraTargetHandler.ACTION_PHOTOGRAPH_LOCATION));
 
-                            ObjectInstancePairList objIds = gma.getMCServices().getActionService().getActionStub()
-                                    .listDefinition(idList);
-                            if (objIds.size() > 0 && objIds.get(0).getObjDefInstanceId().longValue() == instance
-                                    .getDefInstId().longValue() && instance.getArgumentValues().size() == 3) {
+                            ObjectInstancePairList objIds = gma.getMCServices().getActionService().getActionStub().listDefinition(idList);
+                            if (!objIds.isEmpty()
+                                    && objIds.get(0).getObjDefInstanceId().longValue() == instance.getDefInstId().longValue()
+                                    && instance.getArgumentValues().size() == 3) {
 
                                 String timestamp = instance.getArgumentValues().get(2).getValue().toString();
                                 LOGGER.log(Level.INFO, "recovered action: " + timestamp + "\tID: " + objDetails.get(i)

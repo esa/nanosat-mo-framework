@@ -60,8 +60,7 @@ public class CommandExecutorTablePanel extends SharedTablePanel {
         CommandDetails commandDetails = (CommandDetails) comObject.getObject();
 
         String pid = commandDetails.getPid() == null ? "not started yet" : commandDetails.getPid().toString();
-        String exitCode = commandDetails.getExitCode() == null ? "not completed yet" : commandDetails.getExitCode()
-            .toString();
+        String exitCode = commandDetails.getExitCode() == null ? "not completed yet" : commandDetails.getExitCode().toString();
         tableData.addRow(new Object[]{comObject.getArchiveDetails().getInstId(), commandDetails.getCommand(), pid,
                                       exitCode});
 

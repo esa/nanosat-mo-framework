@@ -95,8 +95,10 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationCh
             } catch (MALException ex) {
                 Logger.getLogger(PersistLatestServiceConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);
             } catch (MALInteractionException ex) {
-                Logger.getLogger(PersistLatestServiceConfigurationAdapter.class.getName()).log(Level.SEVERE, serviceImpl
-                        .getCOMService().getName() + " service: The configuration could not be updated! objectId: "
+                Logger.getLogger(PersistLatestServiceConfigurationAdapter.class.getName()).log(
+                        Level.SEVERE,
+                        serviceImpl.getCOMService().getName()
+                        + " service: The configuration could not be updated! objectId: "
                         + serviceConfigObjId, ex);
             }
         });

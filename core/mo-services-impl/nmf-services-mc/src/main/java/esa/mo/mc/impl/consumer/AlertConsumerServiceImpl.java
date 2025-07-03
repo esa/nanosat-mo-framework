@@ -61,13 +61,13 @@ public class AlertConsumerServiceImpl extends ConsumerServiceImpl {
     }
 
     public AlertConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices)
-        throws MALException, MalformedURLException, MALInteractionException {
+            throws MALException, MalformedURLException, MALInteractionException {
         this(connectionDetails, comServices, null, null);
     }
 
-    public AlertConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices,
-        Blob authenticationId, String localNamePrefix) throws MALException, MalformedURLException,
-        MALInteractionException {
+    public AlertConsumerServiceImpl(SingleConnectionDetails connectionDetails,
+            COMServicesConsumer comServices, Blob authenticationId, String localNamePrefix)
+            throws MALException, MalformedURLException, MALInteractionException {
         this.connectionDetails = connectionDetails;
         this.comServices = comServices;
 
@@ -80,9 +80,11 @@ public class AlertConsumerServiceImpl extends ConsumerServiceImpl {
             }
         }
 
-        tmConsumer = connection.startService(this.connectionDetails.getProviderURI(), this.connectionDetails
-            .getBrokerURI(), this.connectionDetails.getDomain(), AlertHelper.ALERT_SERVICE, authenticationId,
-            localNamePrefix);
+        tmConsumer = connection.startService(this.connectionDetails.getProviderURI(),
+                this.connectionDetails.getBrokerURI(),
+                this.connectionDetails.getDomain(),
+                AlertHelper.ALERT_SERVICE,
+                authenticationId, localNamePrefix);
 
         this.alertService = new AlertStub(tmConsumer);
     }

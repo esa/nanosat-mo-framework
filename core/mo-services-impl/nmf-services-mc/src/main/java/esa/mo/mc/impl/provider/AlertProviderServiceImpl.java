@@ -485,8 +485,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
         if (alertDef.getArguments() != null) {
             if (argumentIds != null) {
                 for (int index = 0; index < alertDef.getArguments().size(); index++) {
-                    if (!alertDef.getArguments().get(index).getArgId().getValue().equals(argumentIds.get(index)
-                            .getValue())) {  // If it doesn't match?
+                    if (!alertDef.getArguments().get(index).getArgId().getValue().equals(argumentIds.get(index).getValue())) {  // If it doesn't match?
                         return null;
                     }
                 }

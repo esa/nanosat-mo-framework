@@ -377,16 +377,14 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
         Boolean curState;
 
         if (parameterTable.getSelectedRow() == -1) {  // Used to avoid problems if no row is selected
-            ParameterDefinition parameterDefinition = (ParameterDefinition) parameterTable
-                    .getFirstCOMObject().getObject();
+            ParameterDefinition parameterDefinition = (ParameterDefinition) parameterTable.getFirstCOMObject().getObject();
             if (parameterDefinition != null) {
                 curState = parameterDefinition.getGenerationEnabled();
             } else {
                 curState = true;
             }
         } else {
-            curState = ((ParameterDefinition) parameterTable.getSelectedCOMObject().getObject())
-                    .getGenerationEnabled();
+            curState = ((ParameterDefinition) parameterTable.getSelectedCOMObject().getObject()).getGenerationEnabled();
         }
 
         InstanceBooleanPairList BoolPairList = new InstanceBooleanPairList();
@@ -405,8 +403,7 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
             return;  // Well, then nothing to be done here folks!
         }
 
-        Boolean curState = ((ParameterDefinition) parameterTable.getSelectedCOMObject().getObject())
-                .getGenerationEnabled();
+        Boolean curState = ((ParameterDefinition) parameterTable.getSelectedCOMObject().getObject()).getGenerationEnabled();
         InstanceBooleanPairList BoolPairList = new InstanceBooleanPairList();
         BoolPairList.add(new InstanceBooleanPair(parameterTable.getSelectedIdentityObjId(), !curState));  // Zero is the wildcard
 

@@ -51,8 +51,7 @@ final class CallableGetAllCOMObjectIds implements Callable<LongList> {
         LongList objIds = new LongList();
 
         try {
-            PreparedStatement stmt = this.transactionsProcessor.dbBackend.getPreparedStatements()
-                .getSelectAllCOMObjects();
+            PreparedStatement stmt = this.transactionsProcessor.dbBackend.getPreparedStatements().getSelectAllCOMObjects();
             stmt.setInt(1, objTypeId);
             stmt.setInt(2, domainId);
             ResultSet rs = stmt.executeQuery();

@@ -152,8 +152,7 @@ public class SoftwareManagementCommands {
                         System.out.println("Could not find any providers matching provided names!");
                         System.out.println("Available providers:");
                         for (Map.Entry<String, ProviderAppDetails> entry : providerNameToDetails.entrySet()) {
-                            System.out.println(entry.getKey() + " - Running: " + entry.getValue().appDetails
-                                    .getRunning());
+                            System.out.println(entry.getKey() + " - Running: " + entry.getValue().appDetails.getRunning());
                         }
                         return;
                     }

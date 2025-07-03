@@ -104,8 +104,11 @@ public class EventConsumerServiceImpl extends ConsumerServiceImpl {
             }
         }
 
-        tmConsumer = connection.startService(this.connectionDetails.getProviderURI(), this.connectionDetails
-                .getBrokerURI(), this.connectionDetails.getDomain(), EventHelper.EVENT_SERVICE, authenticationId,
+        tmConsumer = connection.startService(this.connectionDetails.getProviderURI(),
+                this.connectionDetails.getBrokerURI(),
+                this.connectionDetails.getDomain(),
+                EventHelper.EVENT_SERVICE,
+                authenticationId,
                 localNamePrefix);
 
         this.eventService = new EventStub(tmConsumer);

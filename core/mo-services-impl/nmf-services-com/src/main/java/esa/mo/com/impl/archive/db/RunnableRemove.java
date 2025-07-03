@@ -56,8 +56,7 @@ final class RunnableRemove implements Runnable {
             Connection c = this.transactionsProcessor.dbBackend.getConnection();
             c.setAutoCommit(false);
 
-            PreparedStatement deleteStmt = transactionsProcessor.dbBackend.getPreparedStatements()
-                    .getDeleteCOMObjects();
+            PreparedStatement deleteStmt = transactionsProcessor.dbBackend.getPreparedStatements().getDeleteCOMObjects();
 
             // Generate the object Ids if needed and the persistence objects to be removed
             for (int i = 0; i < objIds.size(); i++) {

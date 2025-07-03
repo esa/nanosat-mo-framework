@@ -513,10 +513,10 @@ public class ArchiveManager {
 
         if (null != objTypeIds && !objTypeIds.isEmpty()) {
             final IntegerList domainIds = this.fastDomain.getDomainIds(archiveQuery.getDomain());
-            final Integer providerURIId = (archiveQuery.getProvider() != null) ? this.fastProviderURI.getProviderURIId(
-                    archiveQuery.getProvider()) : null;
-            final Integer networkId = (archiveQuery.getNetwork() != null) ? this.fastNetwork.getNetworkId(archiveQuery
-                    .getNetwork()) : null;
+            final Integer providerURIId = (archiveQuery.getProvider() != null) ?
+                    this.fastProviderURI.getProviderURIId(archiveQuery.getProvider()) : null;
+            final Integer networkId = (archiveQuery.getNetwork() != null) ?
+                    this.fastNetwork.getNetworkId(archiveQuery.getNetwork()) : null;
             final SourceLinkContainer sourceLink = this.createSourceContainerFromObjectId(archiveQuery.getSource());
 
             if (archiveQuery.getSource() != null) {

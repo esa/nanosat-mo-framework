@@ -212,8 +212,7 @@ public class AggregationCommands {
                     public void retrieveResponseReceived(MALMessageHeader msgHeader, ArchiveDetailsList objDetails,
                             HeterogeneousList objBodies, Map qosProperties) {
                         for (int i = 0; i < objDetails.size(); ++i) {
-                            aggregationIdentities.put(objDetails.get(i).getInstId(), ((Identifier) objBodies.get(i))
-                                    .getValue());
+                            aggregationIdentities.put(objDetails.get(i).getInstId(), ((Identifier) objBodies.get(i)).getValue());
                         }
 
                         synchronized (lock) {
@@ -249,8 +248,8 @@ public class AggregationCommands {
                                     parameterIds.addAll(set.getParameters());
                                 }
                             } else {
-                                System.out.println("Aggregation " + aggregationIdentities.get(objDetails.get(i)
-                                        .getDetails().getRelated()) + " is disabled!");
+                                System.out.println("Aggregation "
+                                        + aggregationIdentities.get(objDetails.get(i).getDetails().getRelated()) + " is disabled!");
                             }
 
                             if (!details.getSendDefinitions()) {
@@ -293,8 +292,8 @@ public class AggregationCommands {
                     public void retrieveResponseReceived(MALMessageHeader msgHeader, ArchiveDetailsList objDetails,
                             HeterogeneousList objBodies, Map qosProperties) {
                         for (int i = 0; i < objDetails.size(); ++i) {
-                            identityIdToName.put(objDetails.get(i).getInstId(), ((Identifier) objBodies.get(i))
-                                    .getValue());
+                            identityIdToName.put(objDetails.get(i).getInstId(),
+                                    ((Identifier) objBodies.get(i)).getValue());
                         }
 
                         synchronized (lock) {
@@ -329,8 +328,8 @@ public class AggregationCommands {
                             IdentifierList domain, ArchiveDetailsList objDetails, HeterogeneousList objBodies,
                             Map qosProperties) {
                         for (ArchiveDetails details : objDetails) {
-                            definitionIdToIdentity.put(details.getInstId(), identityIdToName.get(details
-                                    .getDetails().getRelated()));
+                            definitionIdToIdentity.put(details.getInstId(),
+                                    identityIdToName.get(details.getDetails().getRelated()));
                         }
                     }
 
@@ -339,8 +338,8 @@ public class AggregationCommands {
                             IdentifierList domain, ArchiveDetailsList objDetails, HeterogeneousList objBodies,
                             Map qosProperties) {
                         for (ArchiveDetails details : objDetails) {
-                            definitionIdToIdentity.put(details.getInstId(), identityIdToName.get(details
-                                    .getDetails().getRelated()));
+                            definitionIdToIdentity.put(details.getInstId(),
+                                    identityIdToName.get(details.getDetails().getRelated()));
                         }
 
                         synchronized (lock) {
@@ -386,7 +385,7 @@ public class AggregationCommands {
                 EntityRequest entity = new EntityRequest(null, false, false, false, false, entityKeys);
                 EntityRequestList entities = new EntityRequestList();
                 entities.add(entity);
-                */
+                 */
                 SubscriptionFilterList filters = new SubscriptionFilterList();
                 if (aggregationNames == null || aggregationNames.isEmpty()) {
                 } else {
@@ -397,7 +396,7 @@ public class AggregationCommands {
 
                 Subscription subscription = new Subscription(subscriptionId, null, null, filters);
                 aggregationSubscription = subscriptionId;
-                
+
                 stub.monitorValueRegister(subscription, new AggregationAdapter() {
                     @Override
                     public void monitorValueNotifyReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
@@ -406,17 +405,16 @@ public class AggregationCommands {
                             org.ccsds.moims.mo.com.structures.ObjectId objId,
                             org.ccsds.moims.mo.mc.aggregation.structures.AggregationValue newValue,
                             java.util.Map qosProperties) {
-                        String aggregationName = updateHeader.getKeyValues().get(0).getValue().toString()
-                            .toLowerCase();
+                        String aggregationName = updateHeader.getKeyValues().get(0).getValue().toString().toLowerCase();
                         //long timestamp = updateHeaderList.get(0).getTimestamp().getValue();
                         AggregationParameterValueList values = newValue.getParameterSetValues().get(
-                            0).getValues();
+                                0).getValues();
                         System.out.println(aggregationName + ": ");
                         int index = 1;
                         for (AggregationParameterValue value : values) {
                             String name = definitionIdToIdentity.get(value.getParamDefInstId());
-                            System.out.println("  " + (name == null ? "parameter " + index : name) + ": " + value
-                                .getValue().getRawValue().toString());
+                            System.out.println("  " + (name == null ? "parameter " + index : name)
+                                    + ": " + value.getValue().getRawValue().toString());
                             index += 1;
                         }
                         System.out.println();

@@ -63,13 +63,13 @@ public class ParameterConsumerServiceImpl extends ConsumerServiceImpl {
     }
 
     public ParameterConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices)
-        throws MALException, MalformedURLException, MALInteractionException {
+            throws MALException, MalformedURLException, MALInteractionException {
         this(connectionDetails, comServices, null, null);
     }
 
-    public ParameterConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices,
-        Blob authenticationId, String localNamePrefix) throws MALException, MalformedURLException,
-        MALInteractionException {
+    public ParameterConsumerServiceImpl(SingleConnectionDetails connectionDetails,
+            COMServicesConsumer comServices, Blob authenticationId, String localNamePrefix)
+            throws MALException, MalformedURLException, MALInteractionException {
         this.connectionDetails = connectionDetails;
         this.comServices = comServices;
 
@@ -89,9 +89,11 @@ public class ParameterConsumerServiceImpl extends ConsumerServiceImpl {
             }
         }
 
-        tmConsumer = connection.startService(this.connectionDetails.getProviderURI(), this.connectionDetails
-            .getBrokerURI(), this.connectionDetails.getDomain(), ParameterHelper.PARAMETER_SERVICE, authenticationId,
-            localNamePrefix);
+        tmConsumer = connection.startService(this.connectionDetails.getProviderURI(),
+                this.connectionDetails.getBrokerURI(),
+                this.connectionDetails.getDomain(),
+                ParameterHelper.PARAMETER_SERVICE,
+                authenticationId, localNamePrefix);
 
         this.parameterService = new ParameterStub(tmConsumer);
     }

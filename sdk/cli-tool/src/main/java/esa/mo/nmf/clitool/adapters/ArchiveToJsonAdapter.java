@@ -111,10 +111,10 @@ public class ArchiveToJsonAdapter extends ArchiveAdapter implements QueryStatusP
         archiveObjects.get(domainKey).computeIfAbsent(comTypeKey, k -> new ArrayList<>());
 
         for (int i = 0; i < archiveObjectOutput.getArchiveDetailsList().size(); i++) {
-            Object malObject = archiveObjectOutput.getObjectBodies() == null ? null : archiveObjectOutput
-                .getObjectBodies().get(i);
-            CleanCOMArchiveObject comObject = new CleanCOMArchiveObject(comType, archiveObjectOutput
-                .getArchiveDetailsList().get(i), malObject);
+            Object malObject = archiveObjectOutput.getObjectBodies() == null ?
+                    null : archiveObjectOutput.getObjectBodies().get(i);
+            CleanCOMArchiveObject comObject = new CleanCOMArchiveObject(comType,
+                    archiveObjectOutput.getArchiveDetailsList().get(i), malObject);
             archiveObjects.get(domainKey).get(comTypeKey).add(comObject);
         }
     }
@@ -208,8 +208,7 @@ public class ArchiveToJsonAdapter extends ArchiveAdapter implements QueryStatusP
         public CleanCOMArchiveObject(ObjectType objectType, ArchiveDetails archiveDetails, Object object) {
             // archive details
             instanceId = archiveDetails.getInstId();
-            objectDetails = archiveDetails.getDetails() == null ? null : new CleanObjectDetails(archiveDetails
-                .getDetails());
+            objectDetails = archiveDetails.getDetails() == null ? null : new CleanObjectDetails(archiveDetails.getDetails());
             networkZone = archiveDetails.getNetwork().getValue();
             creationTime = HelperTime.time2readableString(archiveDetails.getTimestamp());
             providerURI = archiveDetails.getProvider().getValue();

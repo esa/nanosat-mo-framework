@@ -604,8 +604,8 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         for (AggregationCreationRequest aggrCreationRequest : aggrCreationReqList) { // requirement: 3.7.12.2.i ( "for each cycle" guarantees that)
             Identifier aggrName = aggrCreationRequest.getName();
             //requriement: 3.7.12.2.g , store the objects 
-            outPairLst.add(manager.add(aggrName, aggrCreationRequest.getAggDefDetails(), source, connection
-                    .getConnectionDetails())); //  requirement: 3.3.12.2.e
+            outPairLst.add(manager.add(aggrName, aggrCreationRequest.getAggDefDetails(),
+                    source, connection.getConnectionDetails())); //  requirement: 3.3.12.2.e
             periodicReportingManager.refresh(outPairLst.get(0).getObjIdentityInstanceId()); // Refresh the Periodic Reporting Manager for the added Identities
             periodicSamplingManager.refresh(outPairLst.get(0).getObjIdentityInstanceId()); // Refresh the Periodic Sampling Manager for the added Identities
         }

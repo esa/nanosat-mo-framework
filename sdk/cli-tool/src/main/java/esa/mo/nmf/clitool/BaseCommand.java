@@ -213,8 +213,9 @@ public abstract class BaseCommand {
                 };
 
                 consumer.getCOMServices().getArchiveService().getArchiveStub().retrieve(
-                        LoginServiceInfo.LOGINROLE_OBJECT_TYPE, consumer.getCommonServices().getLoginService()
-                                .getConnectionDetails().getDomain(), ids, adapter);
+                        LoginServiceInfo.LOGINROLE_OBJECT_TYPE,
+                        consumer.getCommonServices().getLoginService().getConnectionDetails().getDomain(),
+                        ids, adapter);
 
                 synchronized (lock) {
                     lock.wait(10000);
@@ -311,8 +312,8 @@ public abstract class BaseCommand {
             ArchiveAdapter adapter, QueryStatusProvider queryStatusProvider) {
         // run the query
         try {
-            ArchiveStub archive = localArchive == null ? consumer.getCOMServices().getArchiveService()
-                    .getArchiveStub() : localArchive.getArchiveStub();
+            ArchiveStub archive = localArchive == null ?
+                    consumer.getCOMServices().getArchiveService().getArchiveStub() : localArchive.getArchiveStub();
             archive.query(true, objectsTypes, archiveQueryList, null, adapter);
         } catch (MALInteractionException | MALException e) {
             LOGGER.log(Level.SEVERE, "Error when querying archive", e);

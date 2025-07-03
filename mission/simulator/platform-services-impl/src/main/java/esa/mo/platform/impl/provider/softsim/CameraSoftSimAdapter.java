@@ -101,8 +101,9 @@ public class CameraSoftSimAdapter implements CameraAdapterInterface, SimulatorAd
     public synchronized Picture takePicture(final CameraSettings settings) throws IOException {
         // Get a picture from the simulator...
         final Time timestamp = Time.now();
-        byte[] data = instrumentsSimulator.getpCamera().takePicture((int) settings.getResolution().getWidth()
-            .getValue(), (int) settings.getResolution().getHeight().getValue());
+        byte[] data = instrumentsSimulator.getpCamera().takePicture(
+                (int) settings.getResolution().getWidth().getValue(),
+                (int) settings.getResolution().getHeight().getValue());
 
         if (settings.getFormat() != PictureFormat.RAW) {
             data = convertImage(data, settings.getFormat());

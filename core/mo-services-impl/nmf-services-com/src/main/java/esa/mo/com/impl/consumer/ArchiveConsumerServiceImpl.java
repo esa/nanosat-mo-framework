@@ -53,13 +53,12 @@ public class ArchiveConsumerServiceImpl extends ConsumerServiceImpl {
         return archiveService;
     }
 
-    public ArchiveConsumerServiceImpl(SingleConnectionDetails connectionDetails) throws MALException,
-        MalformedURLException {
+    public ArchiveConsumerServiceImpl(SingleConnectionDetails connectionDetails) throws MALException, MalformedURLException {
         this(connectionDetails, null, null);
     }
 
     public ArchiveConsumerServiceImpl(SingleConnectionDetails connectionDetails, Blob authenticationId,
-        String localNamePrefix) throws MALException, MalformedURLException {
+            String localNamePrefix) throws MALException, MalformedURLException {
         this.connectionDetails = connectionDetails;
 
         // Close old connection
@@ -71,9 +70,12 @@ public class ArchiveConsumerServiceImpl extends ConsumerServiceImpl {
             }
         }
 
-        tmConsumer = connection.startService(this.connectionDetails.getProviderURI(), this.connectionDetails
-            .getBrokerURI(), this.connectionDetails.getDomain(), ArchiveHelper.ARCHIVE_SERVICE, authenticationId,
-            localNamePrefix);
+        tmConsumer = connection.startService(this.connectionDetails.getProviderURI(),
+                this.connectionDetails.getBrokerURI(),
+                this.connectionDetails.getDomain(),
+                ArchiveHelper.ARCHIVE_SERVICE,
+                authenticationId,
+                localNamePrefix);
 
         this.archiveService = new ArchiveStub(tmConsumer);
 

@@ -262,7 +262,7 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
         class DataReceivedAggregationAdapter extends AggregationAdapter {
 
             @Override
-            public void monitorValueNotifyReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
+            public void monitorValueNotifyReceived(MALMessageHeader msgHeader,
                     org.ccsds.moims.mo.mal.structures.Identifier subscriptionId,
                     org.ccsds.moims.mo.mal.structures.UpdateHeader updateHeader,
                     org.ccsds.moims.mo.com.structures.ObjectId objId,
@@ -274,9 +274,7 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
                     AggregationValue aggregationValue = newValue;
 
                     for (AggregationSetValue aggregationSetValue : aggregationValue.getParameterSetValues()) {
-                        for (AggregationParameterValue aggregationParamValue : aggregationSetValue
-                                .getValues()) {
-
+                        for (AggregationParameterValue aggregationParamValue : aggregationSetValue.getValues()) {
                             Long paramDefInstId = aggregationParamValue.getParamDefInstId();
                             Attribute parameterValue = aggregationParamValue.getValue().getRawValue();
 

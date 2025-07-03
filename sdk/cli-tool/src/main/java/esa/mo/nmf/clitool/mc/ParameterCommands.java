@@ -106,7 +106,7 @@ public class ParameterCommands {
             EntityRequest entity = new EntityRequest(null, false, false, false, false, entityKeys);
             EntityRequestList entities = new EntityRequestList();
             entities.add(entity);
-            */
+             */
             SubscriptionFilterList filters = new SubscriptionFilterList();
             if (parameterNames == null || parameterNames.isEmpty()) {
             } else {
@@ -267,17 +267,14 @@ public class ParameterCommands {
                     AggregationServiceInfo.AGGREGATION_SERVICE_NUMBER, MCHelper.MC_AREA_VERSION, new UShort(0));
             queryArchive(aggregationObjectType, archiveQueryList, aggregationsAdapter, aggregationsAdapter);
 
-            Map<IdentifierList, Map<Identifier, List<TimestampedParameterValue>>> allParameters = parametersAdapter
-                    .getParameterValues();
+            Map<IdentifierList, Map<Identifier, List<TimestampedParameterValue>>> allParameters = parametersAdapter.getParameterValues();
 
             // Display list of aggregations
-            Map<IdentifierList, Map<Long, List<TimestampedAggregationValue>>> aggregationValuesMap = aggregationsAdapter
-                    .getAggregationValues();
+            Map<IdentifierList, Map<Long, List<TimestampedAggregationValue>>> aggregationValuesMap = aggregationsAdapter.getAggregationValues();
             if (aggregationValuesMap != null) {
                 //Make the parameter map
                 for (IdentifierList domainKey : aggregationValuesMap.keySet()) {
-                    for (Map.Entry<Long, List<TimestampedAggregationValue>> entry : aggregationValuesMap.get(domainKey)
-                            .entrySet()) {
+                    for (Map.Entry<Long, List<TimestampedAggregationValue>> entry : aggregationValuesMap.get(domainKey).entrySet()) {
                         Long definitionId = entry.getKey();
                         AggregationDefinition definition = aggregationsAdapter.getAggregationDefinitions().get(
                                 domainKey).get(definitionId);
@@ -286,14 +283,12 @@ public class ParameterCommands {
                             for (int i = 0;
                                     i < aggregationValue.getAggregationValue().getParameterSetValues().size();
                                     i++) {
-                                AggregationSetValue values = aggregationValue.getAggregationValue()
-                                        .getParameterSetValues().get(i);
+                                AggregationSetValue values = aggregationValue.getAggregationValue().getParameterSetValues().get(i);
                                 AggregationParameterSet definitions = definition.getParameterSets().get(i);
 
                                 int valueSetNumber = 0;
                                 double deltaTime = values.getDeltaTime() != null ? values.getDeltaTime().getValue() : 0;
-                                double intervalTime = values.getIntervalTime() != null ? values.getIntervalTime()
-                                        .getValue() : 0;
+                                double intervalTime = values.getIntervalTime() != null ? values.getIntervalTime().getValue() : 0;
                                 long valueSetTimestamp = aggregationValue.getTimestamp().getValue()
                                         + (long) (deltaTime * 1000L);
 
@@ -304,12 +299,11 @@ public class ParameterCommands {
                                     }
 
                                     AggregationParameterValue value = values.getValues().get(n);
-                                    Long parameterId = definitions.getParameters().get(n % definitions.getParameters()
-                                            .size());
+                                    Long parameterId = definitions.getParameters().get(n % definitions.getParameters().size());
 
-                                    TimestampedParameterValue paramValue = new TimestampedParameterValue(value
-                                            .getValue(), new FineTime(valueSetTimestamp + (long) (valueSetNumber
-                                                    * intervalTime * 1000L)));
+                                    TimestampedParameterValue paramValue = new TimestampedParameterValue(
+                                            value.getValue(),
+                                            new FineTime(valueSetTimestamp + (long) (valueSetNumber * intervalTime * 1000L)));
 
                                     Identifier parameterName = parametersAdapter.getIdentitiesMap().get(domainKey).get(
                                             parameterId);
@@ -373,8 +367,8 @@ public class ParameterCommands {
                             for (String parameter : keys) {
                                 for (TimestampedParameterValue value : parameters.get(domainKey).get(new Identifier(
                                         parameter))) {
-                                    String line = parameter + "\t" + value.getTimestamp() + "\t" + value
-                                            .getParameterValue() + "\n";
+                                    String line = parameter + "\t" + value.getTimestamp()
+                                            + "\t" + value.getParameterValue() + "\n";
                                     writer.write(line);
                                 }
                             }
@@ -477,7 +471,9 @@ public class ParameterCommands {
     @CommandLine.Command(name = "set", description = "Set a parameter value")
     public static class SetParameter extends BaseCommand implements Runnable {
 
-        enum ParameterType { Integer, String, Long, Float, Double, Boolean }
+        enum ParameterType {
+            Integer, String, Long, Float, Double, Boolean
+        }
 
         @CommandLine.Parameters(arity = "1", paramLabel = "<paramName>",
                 index = "0", description = "Name of parameter to update")
@@ -493,18 +489,18 @@ public class ParameterCommands {
 
         @Override
         public void run() {
-            if(!super.initRemoteConsumer()){
+            if (!super.initRemoteConsumer()) {
                 return;
             }
 
-            if(consumer.getMCServices().getParameterService() == null){
+            if (consumer.getMCServices().getParameterService() == null) {
                 System.out.println("Parameter service not available for this provider");
                 return;
             }
 
             try {
                 Union parameter = convertParameter(parameterType, parameterValue);
-                if( parameter != null) {
+                if (parameter != null) {
                     consumer.setParameter(parameterName, parameter);
                 } else {
                     System.out.println("The parameter could not be converted to the correct type and set");
@@ -515,25 +511,25 @@ public class ParameterCommands {
             }
         }
 
-        private Union convertParameter(ParameterType type, String parameterValue){
-            try{
-                if(type.equals(ParameterType.Integer)){
+        private Union convertParameter(ParameterType type, String parameterValue) {
+            try {
+                if (type.equals(ParameterType.Integer)) {
                     return new Union(Integer.parseInt(parameterValue));
                 }
-                if(type.equals(ParameterType.Long)){
+                if (type.equals(ParameterType.Long)) {
                     return new Union(Long.parseLong(parameterValue));
                 }
-                if(type.equals(ParameterType.Double)){
+                if (type.equals(ParameterType.Double)) {
                     return new Union(Double.parseDouble(parameterValue));
                 }
-                if(type.equals(ParameterType.Float)){
+                if (type.equals(ParameterType.Float)) {
                     return new Union(Float.parseFloat(parameterValue));
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Number format is wrong!");
                 return null;
             }
-            if(type.equals(ParameterType.Boolean)){
+            if (type.equals(ParameterType.Boolean)) {
                 return new Union(Boolean.parseBoolean(parameterValue));
             }
             return new Union(parameterValue);

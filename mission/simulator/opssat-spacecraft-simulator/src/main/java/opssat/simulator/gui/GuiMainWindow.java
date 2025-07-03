@@ -263,8 +263,7 @@ public class GuiMainWindow implements Runnable {
 
                 copyToClipBoard.addActionListener(e -> {
                     Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
-                    StringSelection stringSelection = new StringSelection(hashTableDataOutAgregate.get(targetDevice)
-                            .getTextArea().getText());
+                    StringSelection stringSelection = new StringSelection(hashTableDataOutAgregate.get(targetDevice).getTextArea().getText());
                     clpbrd.setContents(stringSelection, null);
                 });
 
@@ -425,8 +424,7 @@ public class GuiMainWindow implements Runnable {
                     if (cTemplateDescription.equals(CommandDescriptor.KEYWORD_DEFAULT)) {
                         JOptionPane.showMessageDialog(frame,
                                 "Default template edit cannot be saved, create a new one or edit another one.");
-                    } else if (((CommandDescriptor) c).updateTemplate(cTemplateDescription, txtInputArguments
-                            .getText())) {
+                    } else if (((CommandDescriptor) c).updateTemplate(cTemplateDescription, txtInputArguments.getText())) {
                         templateChanged = false;
                     } else {
                         JOptionPane.showMessageDialog(frame, "Could not find template [" + cTemplateDescription
@@ -687,8 +685,7 @@ public class GuiMainWindow implements Runnable {
                 Component component = super.prepareRenderer(renderer, row, column);
                 int rendererWidth = component.getPreferredSize().width;
                 TableColumn tableColumn = getColumnModel().getColumn(column);
-                tableColumn.setPreferredWidth(Math.max(rendererWidth + getIntercellSpacing().width + 20, tableColumn
-                        .getPreferredWidth()));
+                tableColumn.setPreferredWidth(Math.max(rendererWidth + getIntercellSpacing().width + 20, tableColumn.getPreferredWidth()));
                 return component;
             }
         };
@@ -867,8 +864,7 @@ public class GuiMainWindow implements Runnable {
                     for (ArgumentDescriptor simulatorDeviceDataPiece : simulatorDeviceData.getDataList()) {
                         composite.append(simulatorDeviceDataPiece.toString()).append("\n\n");
                     }
-                    hashTableDataOutAgregate.get(simulatorDeviceData.getName()).getTextArea().setText(composite
-                            .toString());
+                    hashTableDataOutAgregate.get(simulatorDeviceData.getName()).getTextArea().setText(composite.toString());
                 }
             }
         });
@@ -944,8 +940,7 @@ public class GuiMainWindow implements Runnable {
                         TimeUnit.SECONDS), computedDiff.get(TimeUnit.MILLISECONDS));
                 lblSimulatorTimeRunning.setText(localMinutes);
             }
-            if (!txtTimeFactor.isFocusOwner() && !txtTimeFactor.getText().equals(String.valueOf(data
-                    .getTimeFactor()))) {
+            if (!txtTimeFactor.isFocusOwner() && !txtTimeFactor.getText().equals(String.valueOf(data.getTimeFactor()))) {
                 txtTimeFactor.setText(String.valueOf(data.getTimeFactor()));
             }
             if (data.isTimeRunning()) {
