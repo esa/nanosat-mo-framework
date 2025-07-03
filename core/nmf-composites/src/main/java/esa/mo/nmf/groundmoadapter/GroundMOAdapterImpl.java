@@ -20,7 +20,7 @@
  */
 package esa.mo.nmf.groundmoadapter;
 
-import esa.mo.nmf.commonmoadapter.CommonMOAdapterImpl;
+import esa.mo.nmf.commonmoadapter.MOAdapterImpl;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.structures.Blob;
@@ -30,7 +30,7 @@ import org.ccsds.moims.mo.mal.structures.Blob;
  *
  * @author Cesar Coelho
  */
-public class GroundMOAdapterImpl extends CommonMOAdapterImpl {
+public class GroundMOAdapterImpl extends MOAdapterImpl {
 
     /**
      * The constructor of this class

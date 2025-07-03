@@ -56,15 +56,11 @@ import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.mal.structures.Time;
-import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.mal.transport.MALMessage;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.action.ActionServiceInfo;
 import org.ccsds.moims.mo.mc.action.consumer.ActionAdapter;
 import org.ccsds.moims.mo.mc.action.consumer.ActionStub;
-import org.ccsds.moims.mo.mc.action.structures.ActionCreationRequest;
-import org.ccsds.moims.mo.mc.action.structures.ActionCreationRequestList;
-import org.ccsds.moims.mo.mc.action.structures.ActionDefinition;
 import org.ccsds.moims.mo.mc.action.structures.ActionInstanceDetails;
 import org.ccsds.moims.mo.mc.aggregation.consumer.AggregationAdapter;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterValue;
@@ -74,22 +70,18 @@ import org.ccsds.moims.mo.mc.parameter.consumer.ParameterAdapter;
 import org.ccsds.moims.mo.mc.parameter.consumer.ParameterStub;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValue;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
-import org.ccsds.moims.mo.mc.structures.ArgumentDefinition;
-import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionList;
 import org.ccsds.moims.mo.mc.structures.AttributeValue;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 
 /**
- * The implementation of the Common MO Adapter.
- *
- * @author Cesar Coelho
+ * The implementation of the base class of the MO Adapters.
  */
-public class CommonMOAdapterImpl extends NMFConsumer implements SimpleCommandingInterface {
+public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterface {
 
     /* Logger */
-    private static final Logger LOGGER = Logger.getLogger(CommonMOAdapterImpl.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(MOAdapterImpl.class.getName());
 
     private Subscription parameterSubscription = null;
     private Subscription aggregationSubscription = null;
@@ -99,7 +91,7 @@ public class CommonMOAdapterImpl extends NMFConsumer implements SimpleCommanding
      *
      * @param connection The connection details of the provider
      */
-    public CommonMOAdapterImpl(final ConnectionConsumer connection) {
+    public MOAdapterImpl(final ConnectionConsumer connection) {
         this(connection, null, null);
     }
 
@@ -110,7 +102,7 @@ public class CommonMOAdapterImpl extends NMFConsumer implements SimpleCommanding
      * @param authenticationId authenticationId of the logged in user
      * @param localNamePrefix the prefix for the local name of the consumer
      */
-    public CommonMOAdapterImpl(final ConnectionConsumer connection, final Blob authenticationId, final String localNamePrefix) {
+    public MOAdapterImpl(final ConnectionConsumer connection, final Blob authenticationId, final String localNamePrefix) {
         super(connection, authenticationId, localNamePrefix);
         super.init();
     }
@@ -121,7 +113,7 @@ public class CommonMOAdapterImpl extends NMFConsumer implements SimpleCommanding
      * @param providerDetails The Provider details. This object can be obtained
      * from the Directory service.
      */
-    public CommonMOAdapterImpl(final ProviderSummary providerDetails) {
+    public MOAdapterImpl(final ProviderSummary providerDetails) {
         this(providerDetails, null, null);
     }
 
@@ -133,7 +125,7 @@ public class CommonMOAdapterImpl extends NMFConsumer implements SimpleCommanding
      * @param authenticationId authenticationId of the logged in user
      * @param localNamePrefix the prefix for the local name of the consumer
      */
-    public CommonMOAdapterImpl(final ProviderSummary providerDetails,
+    public MOAdapterImpl(final ProviderSummary providerDetails,
             final Blob authenticationId, final String localNamePrefix) {
         super(providerDetails, authenticationId, localNamePrefix);
         super.init();

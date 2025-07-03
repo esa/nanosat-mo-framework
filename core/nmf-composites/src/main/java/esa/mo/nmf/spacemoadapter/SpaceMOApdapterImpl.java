@@ -23,7 +23,7 @@ package esa.mo.nmf.spacemoadapter;
 import esa.mo.common.impl.consumer.DirectoryConsumerServiceImpl;
 import esa.mo.common.impl.util.HelperCommon;
 import esa.mo.helpertools.misc.Const;
-import esa.mo.nmf.commonmoadapter.CommonMOAdapterImpl;
+import esa.mo.nmf.commonmoadapter.MOAdapterImpl;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -40,7 +40,7 @@ import org.ccsds.moims.mo.mal.structures.*;
  *
  * @author Tanguy Soto
  */
-public class SpaceMOApdapterImpl extends CommonMOAdapterImpl {
+public class SpaceMOApdapterImpl extends MOAdapterImpl {
 
     /* Logger */
     private static final Logger LOGGER = Logger.getLogger(SpaceMOApdapterImpl.class.getName());

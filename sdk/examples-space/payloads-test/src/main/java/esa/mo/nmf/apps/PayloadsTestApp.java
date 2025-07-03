@@ -20,7 +20,7 @@
  */
 package esa.mo.nmf.apps;
 
-import esa.mo.nmf.commonmoadapter.CommonMOAdapterImpl;
+import esa.mo.nmf.commonmoadapter.MOAdapterImpl;
 import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 
@@ -40,7 +40,7 @@ public class PayloadsTestApp {
         // Initialize the loopback connection to consume own interfaces easily
         ConnectionConsumer connectionConsumer = new ConnectionConsumer();
         connectionConsumer.loadURIs();
-        adapter.setSimpleCommandingInterface(new CommonMOAdapterImpl(connectionConsumer));
+        adapter.setSimpleCommandingInterface(new MOAdapterImpl(connectionConsumer));
 
         adapter.subscribeToSupervisorParameters(connector.readCentralDirectoryServiceURI());
     }
