@@ -108,7 +108,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
         NamedValueList qosProperties = new NamedValueList();  // Nothing here for now...
 
         AddressDetails serviceAddress = new AddressDetails(qos, qosProperties,
-                new UInteger(1), conn.getProviderURI(), conn.getBrokerURI(), null);
+                new UInteger(1), conn.getProviderURI(), conn.getBrokerURI());
 
         return serviceAddress;
     }

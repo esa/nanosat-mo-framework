@@ -19,9 +19,7 @@
                 It shall be possible for a provider to offer multiple service addresses and bindings to allows the provider to support multiple message transports and encodings.
                 Each service address entry shall include the service interface binding signature description, interface address, MAL protocol mapping, message encoding, the supported QoS levels and associated QoS properties available for that connection.
                 A service consumer indicates its required QoS level and priority by using these values in the lookupProvider operation.
-                For services that have operations based on the publish and subscribe interaction pattern there may be required a separate URI for the broker component. To support this the directory service shall hold two URIs for each service, the URI of the primary interface and also a secondary one which, if present, is used for publish and subscribe-based operations.
-                If a broker component is shared between more than one provider, known as a shared broker, the broker shall be published as a directory service entry without a primary interface URI.
-                Providers that wish to use the shared broker shall reference it by using its object instance identifier in the 'brokerProviderObjInstId' field in their directory service entry.</mal:documentation>
+                For services that have operations based on the publish and subscribe interaction pattern there may be required a separate URI for the broker component. To support this the directory service shall hold two URIs for each service, the URI of the primary interface and also a secondary one which, if present, is used for publish and subscribe-based operations.</mal:documentation>
             <mal:capabilitySet number="1">
                 <mal:requestIP name="lookupProvider" number="1" supportInReplay="true"
                                comment="The lookup operation allows a service consumer to query the directory service to return a list of service providers that match the requested criteria. If no match is found, then an empty list is returned.&#xA;&#xA;NOTE: The various filters that may be specified as part of this operation are combined using AND logic.">
@@ -181,10 +179,6 @@
                                comment="The broker URI that identifies the physical location of the publish and subscribe interface. NULL if service does not use publish and subscribe operations or if a shared broker is to be used.">
                         <mal:type name="URI" area="MAL"/>
                     </mal:field>
-                    <mal:field name="brokerProviderObjInstId"
-                               comment="The object instance identifier of a ServiceProvider COM object that is the shared broker used by this provider.">
-                        <mal:type name="Long" area="MAL"/>
-                    </mal:field>
                 </mal:composite>
                 <mal:composite name="ProviderSummary" shortFormPart="5"
                                comment="The ProviderSummary structure holds information about a provider of a service and its capabilities.">
@@ -271,7 +265,7 @@
                 </mal:composite>
             </mal:dataTypes>
             <com:features>
-                <com:objects comment="A ServiceProvider object represents a service provider. The COM object body shall hold the service provider id taken from the providerId field of the PublishDetails composite.&#xA;The ServiceProvider COM object related link shall not be used and therefore set to NULL.&#xA;The ServiceProvider COM object source link shall not be used and therefore shall be set to NULL.&#xA;A ProviderCapabilities object represents the supported capabilities of a service provider. The COM object body shall hold the provider details of the service provider.&#xA;The ProviderCapabilities COM object related link shall indicate which ServiceProvider COM object it links to.&#xA;The ProviderCapabilities COM object source link shall not be used and therefore set to NULL.&#xA;ServiceProvider and ProviderCapabilities objects shall be created by the publishService operation.&#xA;The object instance identifier for the ServiceProvider and ProviderCapabilities objects shall be populated by the provider of the directory service.&#xA;For the AddressDetails of a particular ProviderCapabilities object, if the brokerProviderObjInstId field contains a value and the brokerURI field is NULL, then the brokerURI value of the referenced provider shall be used.">
+                <com:objects comment="A ServiceProvider object represents a service provider. The COM object body shall hold the service provider id taken from the providerId field of the PublishDetails composite.&#xA;The ServiceProvider COM object related link shall not be used and therefore set to NULL.&#xA;The ServiceProvider COM object source link shall not be used and therefore shall be set to NULL.&#xA;A ProviderCapabilities object represents the supported capabilities of a service provider. The COM object body shall hold the provider details of the service provider.&#xA;The ProviderCapabilities COM object related link shall indicate which ServiceProvider COM object it links to.&#xA;The ProviderCapabilities COM object source link shall not be used and therefore set to NULL.&#xA;ServiceProvider and ProviderCapabilities objects shall be created by the publishService operation.&#xA;The object instance identifier for the ServiceProvider and ProviderCapabilities objects shall be populated by the provider of the directory service.">
                     <com:object name="ServiceProvider" number="1">
                         <com:objectType>
                             <mal:type name="Identifier" area="MAL"/>

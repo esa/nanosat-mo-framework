@@ -130,8 +130,7 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
                             dets.getQoSproperties(),
                             dets.getPriorityLevels(),
                             new URI(serviceURI),
-                            brokerURI,
-                            dets.getBrokerProviderObjInstId());
+                            brokerURI);
 
                     newDets.add(addressDetails);
                 }
