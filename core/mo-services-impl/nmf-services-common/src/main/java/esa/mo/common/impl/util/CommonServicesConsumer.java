@@ -21,13 +21,11 @@
 package esa.mo.common.impl.util;
 
 import esa.mo.com.impl.util.COMServicesConsumer;
-import esa.mo.common.impl.consumer.ConfigurationConsumerServiceImpl;
 import esa.mo.common.impl.consumer.DirectoryConsumerServiceImpl;
 import esa.mo.common.impl.consumer.LoginConsumerServiceImpl;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.common.configuration.ConfigurationServiceInfo;
 import org.ccsds.moims.mo.common.directory.DirectoryServiceInfo;
 import org.ccsds.moims.mo.common.login.LoginServiceInfo;
 import org.ccsds.moims.mo.mal.MALException;
@@ -43,7 +41,6 @@ import org.ccsds.moims.mo.mal.structures.Blob;
 public class CommonServicesConsumer {
 
     private DirectoryConsumerServiceImpl directoryService;
-    private ConfigurationConsumerServiceImpl configurationService;
     private LoginConsumerServiceImpl loginService;
 
     public void init(ConnectionConsumer connectionConsumer, COMServicesConsumer comServices) {
@@ -63,13 +60,6 @@ public class CommonServicesConsumer {
                     localNamePrefix);
             }
 
-            // Initialize the Configuration service
-            details = connectionConsumer.getServicesDetails().get(ConfigurationServiceInfo.CONFIGURATION_SERVICE_NAME);
-            if (details != null) {
-                configurationService = new ConfigurationConsumerServiceImpl(details, comServices, authenticationId,
-                    localNamePrefix);
-            }
-
             // Initialize the Login service
             details = connectionConsumer.getServicesDetails().get(LoginServiceInfo.LOGIN_SERVICE_NAME);
             if (details != null) {
@@ -78,15 +68,10 @@ public class CommonServicesConsumer {
         } catch (MALException | MALInteractionException | MalformedURLException ex) {
             Logger.getLogger(CommonServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
     public DirectoryConsumerServiceImpl getDirectoryService() {
         return this.directoryService;
-    }
-
-    public ConfigurationConsumerServiceImpl getConfigurationService() {
-        return this.configurationService;
     }
 
     public LoginConsumerServiceImpl getLoginService() {
@@ -94,18 +79,13 @@ public class CommonServicesConsumer {
     }
 
     public void setServices(DirectoryConsumerServiceImpl directoryService,
-        ConfigurationConsumerServiceImpl configurationService, LoginConsumerServiceImpl loginService) {
+        LoginConsumerServiceImpl loginService) {
         this.directoryService = directoryService;
-        this.configurationService = configurationService;
         this.loginService = loginService;
     }
 
     public void setDirectoryService(DirectoryConsumerServiceImpl directoryService) {
         this.directoryService = directoryService;
-    }
-
-    public void setConfigurationService(ConfigurationConsumerServiceImpl configurationService) {
-        this.configurationService = configurationService;
     }
 
     public void setLoginService(LoginConsumerServiceImpl loginService) {
@@ -121,10 +101,6 @@ public class CommonServicesConsumer {
             this.directoryService.closeConnection();
         }
 
-        if (this.configurationService != null) {
-            this.configurationService.closeConnection();
-        }
-
         if (this.loginService != null) {
             this.loginService.closeConnection();
         }
@@ -133,10 +109,6 @@ public class CommonServicesConsumer {
     public void setAuthenticationId(Blob authenticationId) {
         if (this.directoryService != null) {
             this.directoryService.setAuthenticationId(authenticationId);
-        }
-
-        if (this.configurationService != null) {
-            this.configurationService.setAuthenticationId(authenticationId);
         }
 
         if (this.loginService != null) {

@@ -21,7 +21,6 @@
 package esa.mo.common.impl.util;
 
 import esa.mo.com.impl.util.COMServicesProvider;
-import esa.mo.common.impl.provider.ConfigurationProviderServiceImpl;
 import esa.mo.common.impl.provider.DirectoryProviderServiceImpl;
 import org.ccsds.moims.mo.mal.MALException;
 
@@ -31,17 +30,13 @@ import org.ccsds.moims.mo.mal.MALException;
  */
 public class CommonServicesProvider {
 
-    private final ConfigurationProviderServiceImpl configurationService = new ConfigurationProviderServiceImpl();
+    //private final ConfigurationProviderServiceImpl configurationService = new ConfigurationProviderServiceImpl();
     private final DirectoryProviderServiceImpl directoryService = new DirectoryProviderServiceImpl();
     //    private final LoginProviderServiceImpl loginService = new LoginProviderServiceImpl();
 
     public void init(COMServicesProvider comServices) throws MALException {
-        configurationService.init(comServices);
+        //configurationService.init(comServices);
         directoryService.init(comServices);
-    }
-
-    public ConfigurationProviderServiceImpl getConfigurationService() {
-        return this.configurationService;
     }
 
     public DirectoryProviderServiceImpl getDirectoryService() {
@@ -49,6 +44,10 @@ public class CommonServicesProvider {
     }
 
     /*    
+    public ConfigurationProviderServiceImpl getConfigurationService() {
+        return this.configurationService;
+    }
+
     public LoginProviderServiceImpl getLoginService() {
         return null;
     }

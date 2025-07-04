@@ -26,7 +26,6 @@ import esa.mo.helpertools.clock.SystemClock;
 import esa.mo.mc.impl.util.MCServicesConsumer;
 import esa.mo.nmf.ctt.services.com.ArchiveConsumerManagerPanel;
 import esa.mo.nmf.ctt.services.com.EventConsumerPanel;
-import esa.mo.nmf.ctt.services.common.ConfigurationConsumerPanel;
 import esa.mo.nmf.ctt.services.mc.ActionConsumerPanel;
 import esa.mo.nmf.ctt.services.mc.AggregationConsumerPanel;
 import esa.mo.nmf.ctt.services.mc.AlertConsumerPanel;
@@ -99,6 +98,7 @@ public class ProviderTabPanel extends javax.swing.JPanel {
 
     private void startTabs() throws MALInteractionException, MALException {
         // Common
+        /*
         if (services.getCommonServices() != null) {
             if (services.getCommonServices().getConfigurationService() != null) {
                 ConfigurationConsumerPanel panel = new ConfigurationConsumerPanel(
@@ -107,6 +107,7 @@ public class ProviderTabPanel extends javax.swing.JPanel {
                 serviceTabs.insertTab("Configuration service", null, panel, "Configuration Tab", count);
             }
         }
+        */
 
         // Software Management
         if (services.getSMServices() != null) {
