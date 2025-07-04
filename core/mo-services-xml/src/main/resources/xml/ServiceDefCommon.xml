@@ -290,7 +290,7 @@
             </com:features>
         </mal:service>
         <mal:service xsi:type="com:ExtendedServiceType" name="Login" number="2"
-                     comment="The Login service defines the primary mechanism for the submission of authentication credentials to a deployment specific security system. It supports operations to allow a user to login, logout, report available roles, and also handover the login to another user.&#xA;The service is closely tied to the Access Control aspect of the MAL where the returned authentication identifiers are used in the MAL message header to authenticate and authorise message via Access Control.&#xA;The login service supports the concept of roles, where users may log in with a specific role; the meaning of each role is mission-specific, however it is expected that a specific role allocates the user privileges to invoke operations on mission operation services.&#xA;The use of login roles is optional but if they are used then the role details are held in the COM archive and the COM archive operations are used to manage the role definitions. The responsibility for maintenance of the login roles is outside the scope of this specification as it is a deployment issue to define the possible roles and associate users to those roles.&#xA;The form in which the password is sent to the Login service provider must be agreed upon beforehand and is dependent on the security system deployed. For example, most security implementations do not recommend the use of plain text passwords but rather some encrypted version of the password. For this reason the contents of the messages sent between the login service consumer and provider during authentication handshaking are implementation-specific.&#xA;The authentication and authorisation concept of the MO services is covered in section 3.6 of the Reference Model (R2).&#xA;The Reference Model (R2) also provides sequence diagrams for security and login in sections 5.2 and 5.3.">
+                     comment="The Login service defines the primary mechanism for the submission of authentication credentials to a deployment specific security system. It supports operations to allow a user to login, logout, and report available roles.&#xA;The service is closely tied to the Access Control aspect of the MAL where the returned authentication identifiers are used in the MAL message header to authenticate and authorise message via Access Control.&#xA;The login service supports the concept of roles, where users may log in with a specific role; the meaning of each role is mission-specific, however it is expected that a specific role allocates the user privileges to invoke operations on mission operation services.&#xA;The use of login roles is optional but if they are used then the role details are held in the COM archive and the COM archive operations are used to manage the role definitions. The responsibility for maintenance of the login roles is outside the scope of this specification as it is a deployment issue to define the possible roles and associate users to those roles.&#xA;The form in which the password is sent to the Login service provider must be agreed upon beforehand and is dependent on the security system deployed. For example, most security implementations do not recommend the use of plain text passwords but rather some encrypted version of the password. For this reason the contents of the messages sent between the login service consumer and provider during authentication handshaking are implementation-specific.&#xA;The authentication and authorisation concept of the MO services is covered in section 3.6 of the Reference Model (R2).&#xA;The Reference Model (R2) also provides sequence diagrams for security and login in sections 5.2 and 5.3.">
             <mal:documentation name="High Level Requirements" order="1">The login service shall provide the capability:
 &lt;ol&gt;
  &lt;li&gt;log in;&lt;/li&gt;
@@ -375,46 +375,6 @@
                     </mal:errors>
                 </mal:requestIP>
             </mal:capabilitySet>
-            <mal:capabilitySet number="3">
-                <mal:requestIP name="handover" number="4" supportInReplay="false"
-                               comment="The handover operation allows an existing login to be transferred to a new user. Two cases are expected here, the first is where the operation is used to change the user's current role, and the second is where an operations context is handed over to another user.">
-                    <mal:messages>
-                        <mal:request>
-                            <mal:field name="newUserDetails"
-                                       comment="The newUserDetails field shall contain the details of the new user and role combination.&#xA;If the username field of the supplied Profile structure is either NULL, the wildcard '*', or empty an INVALID error shall be returned.&#xA;If roles are required by the system and the role field of the supplied Profile structure is NULL then an INVALID error shall be returned.&#xA;The role field of the supplied Profile structure may be NULL if roles are not used by the system.&#xA;An UNKNOWN error shall be returned if the username, password and role combination are not correct for the system i.e. unknown user/role or incorrect password.&#xA;A DUPLICATE error shall be returned if the username and role combination is currently in use.&#xA;A TOO_MANY error shall be returned if the username or role are already used and exceed the permitted maximum usage value (deployment dependent).&#xA;The DUPLICATE and TOO_MANY checks shall take into account the fact that current operator/role combination will be logged out after the handover operation completes.&#xA;If the handover is successful the provider shall create a new LoginInstance COM object and store it in the COM archive.&#xA;The related link of the new LoginInstance COM object shall be set to the requested LoginRole COM object.&#xA;If an error is raised then the handover operation shall fail and the original login remain active.&#xA;The source link of the new LoginInstance COM object shall be set to the LoginInstance COM object that represents the previous login.&#xA;If the handover operation is successful a LogoutEvent COM event shall be generated for the previous login and a LoginEvent COM event shall be generated for the new login.">
-                                <mal:type name="Profile" service="Login" area="Common"/>
-                            </mal:field>
-                            <mal:field name="newUserPassword">
-                                <mal:type name="String" area="MAL"/>
-                            </mal:field>
-                        </mal:request>
-                        <mal:response>
-                            <mal:field name="newAuthId"
-                                       comment="The returned newAuthId field shall be used as the authenticationId field in future MAL messages by the consumer MAL for authentication. The token is specific to the new user and role in use.">
-                                <mal:type name="Blob" area="MAL"/>
-                            </mal:field>
-                            <mal:field name="newLoginInstId"
-                                       comment="The returned newLoginInstId field shall contain the new LoginInstance COM object instance identifier that was created by the operation.">
-                                <mal:type name="Long" area="MAL"/>
-                            </mal:field>
-                        </mal:response>
-                    </mal:messages>
-                    <mal:errors>
-                        <mal:errorRef comment="Unknown username/role/password combination.">
-                            <mal:type name="UNKNOWN" area="MAL"/>
-                        </mal:errorRef>
-                        <mal:errorRef comment="Submitted profile contains invalid values.">
-                            <mal:type name="INVALID" area="COM"/>
-                        </mal:errorRef>
-                        <mal:errorRef comment="Role concurrent session limit count exceeded.">
-                            <mal:type name="TOO_MANY" area="MAL"/>
-                        </mal:errorRef>
-                        <mal:errorRef comment="Username/role combination currently in use.">
-                            <mal:type name="DUPLICATE" area="COM"/>
-                        </mal:errorRef>
-                    </mal:errors>
-                </mal:requestIP>
-            </mal:capabilitySet>
             <mal:dataTypes>
                 <mal:composite name="Profile" shortFormPart="1"
                                comment="The Profile structure contains details of the user who is logging on to take a specified role.">
@@ -431,7 +391,7 @@
                 </mal:composite>
             </mal:dataTypes>
             <com:features>
-                <com:objects comment="Instances of a user login shall be represented as LoginInstance COM object.&#xA;Instances of a user role shall be represented as LoginRole COM object.&#xA;LoginInstance objects shall be created by the login and handover operations.&#xA;The object instance identifier for a LoginInstance object shall be populated by the provider of the Login service.&#xA;The LoginInstance object shall use the related link to indicate which LoginRole (if any) the login uses.&#xA;If a LoginInstance object was created during a login operation then the source link shall be set to NULL.&#xA;If a LoginInstance object was created during a handover operation it shall use the source link to indicate which LoginInstance the login was handed over from.">
+                <com:objects comment="Instances of a user login shall be represented as LoginInstance COM object.&#xA;Instances of a user role shall be represented as LoginRole COM object.&#xA;LoginInstance objects shall be created by the login operation.&#xA;The object instance identifier for a LoginInstance object shall be populated by the provider of the Login service.&#xA;The LoginInstance object shall use the related link to indicate which LoginRole (if any) the login uses.&#xA;If a LoginInstance object was created during a login operation then the source link shall be set to NULL.">
                     <com:object name="LoginRole" number="1"
                                 comment="The body of the LoginRole object is the role name Identifier.">
                         <com:objectType>
@@ -450,7 +410,7 @@
                         </com:sourceObject>
                     </com:object>
                 </com:objects>
-                <com:events comment="When a user logs in a LoginEvent COM event shall be generated.&#xA;When a user logs out a LogoutEvent COM event shall be generated.&#xA;When the handover operation is successful a LogoutEvent COM event shall be generated for the previous login and a LoginEvent COM event shall be generated for the new login.&#xA;The LoginEvent event shall use the related link to indicate which LoginInstance object is being logged in.&#xA;The LogoutEvent event shall use the related link to indicate which LoginInstance object is being logged out.&#xA;The LoginEvent event shall not use the COM object source link and shall set it to NULL.&#xA;The LogoutEvent event shall use the source link to indicate which LoginEvent event it is logging out.&#xA;The events shall be published using the COM event service.">
+                <com:events comment="When a user logs in a LoginEvent COM event shall be generated.&#xA;When a user logs out a LogoutEvent COM event shall be generated.&#xA;The LoginEvent event shall use the related link to indicate which LoginInstance object is being logged in.&#xA;The LogoutEvent event shall use the related link to indicate which LoginInstance object is being logged out.&#xA;The LoginEvent event shall not use the COM object source link and shall set it to NULL.&#xA;The LogoutEvent event shall use the source link to indicate which LoginEvent event it is logging out.&#xA;The events shall be published using the COM event service.">
                     <com:event name="LoginEvent" number="3">
                         <com:relatedObject>
                             <com:objectType number="2" service="Login" area="Common"/>
