@@ -124,7 +124,7 @@
                         <mal:type name="String" area="MAL"/>
                     </mal:field>
                     <mal:field name="category" canBeNull="false"
-                               comment="Category of the action. Value taken from ActionCategory enumeration, although the use of a UOctet allows deployment specific extension. Extensions must use values greater than 127.">
+                               comment="The category of the action.">
                         <mal:type name="ActionCategory" service="Action" area="MC"/>
                     </mal:field>
                     <mal:field name="progressStepCount" canBeNull="false"
