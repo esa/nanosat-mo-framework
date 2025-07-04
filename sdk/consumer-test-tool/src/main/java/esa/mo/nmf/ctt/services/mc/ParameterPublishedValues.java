@@ -34,7 +34,6 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.NullableAttributeList;
 import org.ccsds.moims.mo.mal.structures.Subscription;
-import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.UpdateHeader;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.parameter.consumer.ParameterAdapter;
@@ -124,8 +123,8 @@ public class ParameterPublishedValues extends javax.swing.JPanel {
 
                 if ((0 <= index) && (index < labels.length)) {
                     String nameId = "(" + String.valueOf(objId) + ") " + name;
-                    UOctet validityState = parameterValue.getValidityState();
-                    String validity = ValidityState.VALID.fromValue((int) validityState.getValue()).toString();
+                    ValidityState validityState = parameterValue.getValidityState();
+                    String validity = validityState.toString();
                     String rawValue = HelperAttributes.attribute2string(parameterValue.getRawValue());
                     String convertedValue = HelperAttributes.attribute2string(parameterValue.getConvertedValue());
 

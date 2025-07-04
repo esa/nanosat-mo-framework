@@ -46,7 +46,6 @@ import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
-import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
 import org.ccsds.moims.mo.mc.parameter.ParameterServiceInfo;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterConversion;
@@ -144,8 +143,7 @@ public class ParameterManager extends MCManager {
             //create the archive details(related/source link, ...). The timestamp must
             //be same as the one that will be used later for publishing the ParameterValue
             final ArchiveDetailsList archiveDetailsList;
-            if (timestamp == null) //ParameterValue-Object will not be published, generate a new timestamp then
-            {
+            if (timestamp == null) { //ParameterValue-Object will not be published, generate a new timestamp then
                 archiveDetailsList = HelperArchive.generateArchiveDetailsList(related, source, connectionDetails);
             } else { //use the timestamp given
                 archiveDetailsList = new ArchiveDetailsList();
@@ -282,7 +280,7 @@ public class ParameterManager extends MCManager {
             // Generate final Parameter Value
             return generateNewParameterValue(rawValue, pDef, aggrExpired);
         } catch (IOException ex) {
-            return new ParameterValue(getAsUOctet(ValidityState.INVALID_RAW), null, null);
+            return new ParameterValue(ValidityState.INVALID_RAW, null, null);
         }
     }
 
@@ -373,18 +371,19 @@ public class ParameterManager extends MCManager {
      * will be expired.
      * @return the validityState
      */
-    protected UOctet generateValidityState(final ParameterDefinition pDef, final Attribute rawValue,
+    protected ValidityState generateValidityState(final ParameterDefinition pDef, final Attribute rawValue,
             final Attribute convertedValue, final boolean aggrExpired) {
 
         //parameter-aggregation has a timeout that is expired
-        if (pDef.getGenerationEnabled() && pDef.getReportInterval().getValue() != 0 && aggrExpired) //requirement 3.3.3.i
-        {
-            return getAsUOctet(ValidityState.EXPIRED);
+        if (pDef.getGenerationEnabled()
+                && pDef.getReportInterval().getValue() != 0
+                && aggrExpired) { //requirement 3.3.3.i
+            return ValidityState.EXPIRED;
         }
 
         //parameter raw value cannot be obtained, or calculated for synthetic parameters
         if (rawValue == null /*|| rawValueOfSyntheticParameterCannotBeCalculated*/) { //requirement: 3.3.3.j
-            return getAsUOctet(ValidityState.INVALID_RAW);
+            return ValidityState.INVALID_RAW;
         }
         final ParameterExpression validityExpression = pDef.getValidityExpression();
         final Boolean evalExpression = this.evaluateParameterExpression(validityExpression);
@@ -394,33 +393,20 @@ public class ParameterManager extends MCManager {
         if (validityExpression == null || evalExpression) {
             //conversions didnt fail
             if (conversion == null || convertedValue != null) { // requirement: 3.3.3.k
-                return getAsUOctet(ValidityState.VALID);
-            } //conversion failed -> convertedValue == null
-            else {// requirement: 3.3.3.l
-                return getAsUOctet(ValidityState.INVALID_CONVERSION);
+                return ValidityState.VALID;
+            } else {// requirement: 3.3.3.l
+                return ValidityState.INVALID_CONVERSION;
             }
-        } //expression failed -> evalExpression == false
-        else {
+        } else {
             //get validityState of the parameters that are needed for the expression
-            UOctet expPValState = getValidityState(validityExpression, aggrExpired);
+            ValidityState expPValState = getValidityState(validityExpression, aggrExpired);
             //expression failed with not valid parameters
-            if (!expPValState.equals(getAsUOctet(ValidityState.VALID))) { // requirement: 3.3.3.m
-                return getAsUOctet(ValidityState.UNVERIFIED);
-            } //expression failed with valid parameters
-            else { // requirement: 3.3.3.n
-                return getAsUOctet(ValidityState.INVALID);
+            if (!expPValState.equals(ValidityState.VALID)) { // requirement: 3.3.3.m
+                return ValidityState.UNVERIFIED;
+            } else { // requirement: 3.3.3.n
+                return ValidityState.INVALID;
             }
         }
-    }
-
-    /**
-     * converts a validityState to its UOctet-Value
-     *
-     * @param valState the validityState to be converted
-     * @return the converted validityState as an UOctet
-     */
-    private UOctet getAsUOctet(ValidityState valState) {
-        return new UOctet(valState.getValue());
     }
 
     /**
@@ -429,7 +415,7 @@ public class ParameterManager extends MCManager {
      * @param validityExpression the expression where parameters are used
      * @return the validity-state of the parameter used in the expression
      */
-    private UOctet getValidityState(final ParameterExpression validityExpression, boolean aggrExpired) {
+    private ValidityState getValidityState(final ParameterExpression validityExpression, boolean aggrExpired) {
         final Long expPIdentityId = validityExpression.getParameterId().getInstId();
         final Attribute expParamValue;
         try {
@@ -443,7 +429,7 @@ public class ParameterManager extends MCManager {
 
         } catch (IOException | NoSuchMethodException | SecurityException ex) {
             Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
-            return getAsUOctet(ValidityState.INVALID_RAW);
+            return ValidityState.INVALID_RAW;
         }
         final ParameterDefinition expPDef = getParameterDefinition(expPIdentityId);
         return generateValidityState(this.getParameterDefinition(expPIdentityId), expParamValue, getConvertedValue(
@@ -798,12 +784,12 @@ public class ParameterManager extends MCManager {
         Attribute convertedValue = this.getConvertedValue(rawValue, pDef);
 
         //check the validity and set the state
-        UOctet validityState = generateValidityState(pDef, rawValue, convertedValue, aggrExpired);
+        ValidityState validityState = generateValidityState(pDef, rawValue, convertedValue, aggrExpired);
 
-        if (validityState.equals(getAsUOctet(ValidityState.INVALID_CONVERSION))) {
+        if (validityState.equals(ValidityState.INVALID_CONVERSION)) {
             convertedValue = null;  // requirement: 3.3.3.o
         }
-        if (validityState.equals(getAsUOctet(ValidityState.INVALID_RAW))) {
+        if (validityState.equals(ValidityState.INVALID_RAW)) {
             rawValue = null; //requirement: 3.3.3.j
         }
 

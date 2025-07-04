@@ -588,7 +588,7 @@
                     </mal:extends>
                     <mal:field name="validityState" canBeNull="false"
                                comment="Holds the validity state for a parameter value. If the parameter is valid then this should be set to '0'.">
-                        <mal:type name="UOctet" area="MAL"/>
+                        <mal:type name="ValidityState" service="Parameter" area="MC"/>
                     </mal:field>
                     <mal:field name="rawValue"
                                comment="The parameter raw value. The value of NULL is a valid value and carries no special significance in the parameter service.">

@@ -39,7 +39,6 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.TimeList;
-import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mc.aggregation.AggregationServiceInfo;
 import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinition;
@@ -249,7 +248,7 @@ public final class AggregationManager extends MCManager {
         try {
             return parameterManager.getParameterValue(paramIdentityId, aggrExpired);
         } catch (MALInteractionException ex) {
-            return new ParameterValue(new UOctet(ValidityState.INVALID_RAW_VALUE), null, null);
+            return new ParameterValue(ValidityState.INVALID_RAW, null, null);
         }
     }
 
@@ -450,10 +449,8 @@ public final class AggregationManager extends MCManager {
                 AggregationParameterValue agg = newParameterValueSamples.get(k);
                 ParameterValue pVal = agg.getValue();
                 if (currentParamValues.get(k).getValue().getRawValue().equals(pVal.getRawValue())) {
-                    UOctet val = new UOctet(Short.valueOf("" + ValidityState.EXPIRED_VALUE));
-                    ParameterValue newValue = new ParameterValue(val, pVal.getRawValue(), pVal.getConvertedValue());
+                    ParameterValue newValue = new ParameterValue(ValidityState.EXPIRED, pVal.getRawValue(), pVal.getConvertedValue());
                     newParameterValueSamples.add(k, new AggregationParameterValue(newValue, agg.getParamDefInstId()));
-                    //pVal.setValidityState(val);
                 }
             }
         }
@@ -670,11 +667,10 @@ public final class AggregationManager extends MCManager {
 
             if (current != null && previous != null) {
                 // Compare the values:
-                short currentValidityState = current.getValidityState().getValue();
-                short previousValidityState = previous.getValidityState().getValue();
+                int currentValidityState = current.getValidityState().getValue();
+                int previousValidityState = previous.getValidityState().getValue();
                 if ((currentValidityState == 0 && previousValidityState == 0)
-                        || // Are the parameters valid?
-                        (currentValidityState == 2 && previousValidityState == 2)) { // 2 stands for the INVALID_RAW state
+                        ||  (currentValidityState == 2 && previousValidityState == 2)) { // 2 stands for the INVALID_RAW state
                     boolean filterisTriggered = false;
 
                     if (currentValidityState == 0

@@ -30,12 +30,13 @@ import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
-import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mc.parameter.ParameterServiceInfo;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterValueList;
+import org.ccsds.moims.mo.mc.parameter.structures.ValidityState;
 
 /**
  *
@@ -45,7 +46,7 @@ public class StoreParameters {
 
     public static void storeParameterValues(int numberOfObjs, NMFInterface connector) {
         try {
-            ParameterValue pValue = new ParameterValue(new UOctet((short) 0),
+            ParameterValue pValue = new ParameterValue(ValidityState.VALID,
                     (Attribute) HelperAttributes.javaType2Attribute(123.4567), null);
 
             ParameterValueList values = new ParameterValueList();
@@ -53,8 +54,9 @@ public class StoreParameters {
             for (int i = 0; i < numberOfObjs; i++) {
                 values.add(pValue);
             }
-            ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(null, null, connector
-                    .getMCServices().getActionService().getConnectionProvider().getConnectionDetails());
+            ConnectionProvider connection = connector.getMCServices().getActionService().getConnectionProvider();
+            ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(
+                    null, null, connection.getConnectionDetails());
             for (int i = 0; i < numberOfObjs - 1; i++) {
                 archDetails.add(archDetails.get(0));
             }
@@ -103,7 +105,7 @@ public class StoreParameters {
 
                     connector.getCOMServices().getArchiveService().store(true,
                             ParameterServiceInfo.PARAMETERVALUEINSTANCE_OBJECT_TYPE,
-                            connector.getMCServices().getActionService().getConnectionProvider().getConnectionDetails().getDomain(),
+                            connection.getConnectionDetails().getDomain(),
                             xxx, yyy, null);
 
                 }
@@ -111,12 +113,13 @@ public class StoreParameters {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             }
             long estimatedTime = System.nanoTime() - startTime;
-            Logger.getLogger(BenchmarkApp.class.getName()).log(Level.INFO, "Total time: " + numberOfObjs
-                    + " objects in {0} nanoseconds", estimatedTime);
+            Logger.getLogger(BenchmarkApp.class.getName()).log(Level.INFO,
+                    "Total time: " + numberOfObjs + " objects in {0} nanoseconds",
+                    estimatedTime);
             float objectPerSec = numberOfObjs / ((float) estimatedTime / (float) 1000000000);
             float averageTimePerObj = 1 / objectPerSec;
-            Logger.getLogger(BenchmarkApp.class.getName()).log(Level.INFO, "Objects per second: " + objectPerSec
-                    + " (average: " + averageTimePerObj + " sec)");
+            Logger.getLogger(BenchmarkApp.class.getName()).log(Level.INFO,
+                    "Objects per second: " + objectPerSec + " (average: " + averageTimePerObj + " sec)");
         } catch (NMFException ex) {
             Logger.getLogger(BenchmarkApp.class.getName()).log(Level.SEVERE, null, ex);
         }

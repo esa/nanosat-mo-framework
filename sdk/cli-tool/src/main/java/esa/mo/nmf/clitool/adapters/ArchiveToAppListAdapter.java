@@ -18,7 +18,6 @@
  * limitations under the License.
  * ----------------------------------------------------------------------------
  */
-
 package esa.mo.nmf.clitool.adapters;
 
 import esa.mo.com.impl.util.ArchiveCOMObjectsOutput;
@@ -43,8 +42,9 @@ import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherServiceInf
 import org.ccsds.moims.mo.softwaremanagement.commandexecutor.CommandExecutorServiceInfo;
 
 /**
- * Archive adapter that lists App (of the AppsLauncher service) that have StandardOutput and
- * StandardError events (of the CommandExecutor service) associated to them from an archive query.
+ * Archive adapter that lists App (of the AppsLauncher service) that have
+ * StandardOutput and StandardError events (of the CommandExecutor service)
+ * associated to them from an archive query.
  *
  * @author Tanguy Soto
  */
@@ -68,8 +68,8 @@ public class ArchiveToAppListAdapter extends ArchiveAdapter implements QueryStat
     private ObjectType stdErrorType = CommandExecutorServiceInfo.STANDARDERROR_OBJECT_TYPE;
 
     /**
-     * List of App instance ids that are the source of logs object (StandardOutput and StandardError
-     * events)
+     * List of App instance ids that are the source of logs object
+     * (StandardOutput and StandardError events)
      */
     private ArrayList<Long> sourceAppInstanceIds = new ArrayList<>();
 
@@ -89,7 +89,8 @@ public class ArchiveToAppListAdapter extends ArchiveAdapter implements QueryStat
     private HashSet<String> appWithLogs = new HashSet<>();
 
     /**
-     * Dumps an archive objects output received from an archive query answer (update or response).
+     * Dumps an archive objects output received from an archive query answer
+     * (update or response).
      *
      * @param archiveObjectOutput the archive objects outputs
      */
@@ -113,9 +114,7 @@ public class ArchiveToAppListAdapter extends ArchiveAdapter implements QueryStat
                     }
                 }
             }
-        }
-        // we got App objects
-        else if (comType.equals(appType)) {
+        } else if (comType.equals(appType)) {
             // we store their details for names retrieval later
             if (archiveObjectOutput.getObjectBodies() != null) {
                 for (int i = 0; i < archiveObjectOutput.getObjectBodies().size(); i++) {
@@ -141,14 +140,14 @@ public class ArchiveToAppListAdapter extends ArchiveAdapter implements QueryStat
 
     @Override
     public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-        ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
+            ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
         dumpArchiveObjectsOutput(new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies));
         setIsQueryOver(true);
     }
 
     @Override
     public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-        ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
+            ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
         dumpArchiveObjectsOutput(new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies));
     }
 
@@ -170,7 +169,9 @@ public class ArchiveToAppListAdapter extends ArchiveAdapter implements QueryStat
         setIsQueryOver(true);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public synchronized boolean isQueryOver() {
         return isQueryOver;

@@ -24,8 +24,8 @@ import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.Time;
-import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
+import org.ccsds.moims.mo.mc.parameter.structures.ValidityState;
 
 /**
  * The ParameterInstance class is a container for an instance of a parameter.
@@ -47,7 +47,7 @@ public class ParameterInstance {
 
     public ParameterInstance(final Identifier name, final Attribute value,
             final ObjectId source, final Time timestamp) {
-        this(name, new ParameterValue(new UOctet((short) 0), value, null), source, timestamp);
+        this(name, new ParameterValue(ValidityState.VALID, value, null), source, timestamp);
     }
 
     public Identifier getName() {

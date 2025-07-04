@@ -53,8 +53,7 @@ public class AttitudeStateProvider implements AdditionalStateProvider {
             if (!switched[i]) {
                 additionalState[i] = -1.;
                 transitionDate[i] = null; // reset for linear function
-            } // have been pressed
-            else {
+            } else {
                 if (transitionDate[i] == null) {
                     transitionDate[i] = state.getDate();
                 }

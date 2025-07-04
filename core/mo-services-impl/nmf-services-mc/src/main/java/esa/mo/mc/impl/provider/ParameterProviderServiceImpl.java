@@ -70,6 +70,7 @@ import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterValueDetails;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterValueDetailsList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterValueList;
+import org.ccsds.moims.mo.mc.parameter.structures.ValidityState;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 
@@ -857,7 +858,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
      */
     public Boolean pushSingleParameterValueAttribute(final Identifier name,
             final Attribute value, final ObjectId source, final Time timestamp) {
-        final ParameterValue parameterValue = new ParameterValue(new UOctet((short) 0), value, null);
+        final ParameterValue parameterValue = new ParameterValue(ValidityState.VALID, value, null);
         ArrayList<ParameterInstance> parameters = new ArrayList<>(1);
         parameters.add(new ParameterInstance(name, parameterValue, source, timestamp));
 
@@ -989,7 +990,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
                     outIds.add(objId); // Don't push the PVals that are not enabled...
                     ParameterValue value = parameter.getParameterValue();
                     Attribute convertedValue = value.getConvertedValue();
-                    UOctet validityState = value.getValidityState();
+                    ValidityState validityState = value.getValidityState();
 
                     // If the conversion value was not provided, we can try to generate it
                     if (convertedValue == null) {

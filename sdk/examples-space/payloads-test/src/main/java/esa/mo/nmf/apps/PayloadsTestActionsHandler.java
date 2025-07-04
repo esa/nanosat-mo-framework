@@ -176,7 +176,7 @@ public class PayloadsTestActionsHandler {
             MALInteraction interaction, UInteger deviceType, boolean setOn) {
         try {
             DeviceList deviceList = new DeviceList();
-            DeviceType d = (DeviceType) DeviceType.ADCS.fromValue((int) deviceType.getValue());
+            DeviceType d = new DeviceType((int) deviceType.getValue());
             deviceList.add(new Device(setOn, null, null, d));
             payloadsTestMCAdapter.nmf.getPlatformServices().getPowerControlService().enableDevices(deviceList);
             return null; // Success!

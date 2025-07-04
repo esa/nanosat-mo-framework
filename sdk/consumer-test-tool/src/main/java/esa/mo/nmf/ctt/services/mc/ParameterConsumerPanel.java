@@ -41,7 +41,6 @@ import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
-import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.parameter.ParameterServiceInfo;
 import org.ccsds.moims.mo.mc.parameter.consumer.ParameterAdapter;
@@ -50,6 +49,7 @@ import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValue;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterValueDetailsList;
+import org.ccsds.moims.mo.mc.parameter.structures.ValidityState;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 
 /**
@@ -431,7 +431,7 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
             for (int i = 0; i < values.size(); i++) {
                 str.append("The value for objId ").append(values.get(i).getParamId().toString()).append(" is:");
 
-                UOctet validityState = values.get(i).getValue().getValidityState();
+                ValidityState validityState = values.get(i).getValue().getValidityState();
                 Attribute rawValue = values.get(i).getValue().getRawValue();
                 Attribute convertedValue = values.get(i).getValue().getConvertedValue();
                 str.append("\nvalidityState: ");
