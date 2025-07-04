@@ -34,9 +34,9 @@ import java.util.logging.Logger;
  * services and therefore Apps won't be able to return any kind of information
  * from the mission.
  */
-public class NanosatMOSupervisorBasicImpl extends NanoSatMOSupervisor {
+public class BareboneSupervisorImpl extends NanoSatMOSupervisor {
 
-    private static final Logger LOGGER = Logger.getLogger(NanosatMOSupervisorBasicImpl.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(BareboneSupervisorImpl.class.getName());
 
     /**
      * Main command line entry point.
@@ -45,7 +45,7 @@ public class NanosatMOSupervisorBasicImpl extends NanoSatMOSupervisor {
      * @throws Exception If there is an error.
      */
     public static void main(final String[] args) throws Exception {
-        NanosatMOSupervisorBasicImpl supervisor = new NanosatMOSupervisorBasicImpl();
+        BareboneSupervisorImpl supervisor = new BareboneSupervisorImpl();
         MCSupervisorBasicAdapter adapter = new MCSupervisorBasicAdapter();
         adapter.setNmfSupervisor(supervisor);
         supervisor.init(adapter);
