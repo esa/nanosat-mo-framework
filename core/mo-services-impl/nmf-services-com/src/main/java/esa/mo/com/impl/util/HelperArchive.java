@@ -31,8 +31,8 @@ import org.ccsds.moims.mo.com.archive.consumer.ArchiveStub;
 import org.ccsds.moims.mo.com.archive.provider.ArchiveHandler;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
-import org.ccsds.moims.mo.com.structures.ObjectDetails;
 import org.ccsds.moims.mo.com.structures.ObjectId;
+import org.ccsds.moims.mo.com.structures.ObjectLinks;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
@@ -200,7 +200,7 @@ public class HelperArchive {
             final FineTime timestamp, final Long objId) {
         network = (network == null) ? new Identifier("") : network;
         ArchiveDetails archiveDetails = new ArchiveDetails(objId,
-                new ObjectDetails(related, source),
+                new ObjectLinks(related, source),
                 network,
                 timestamp,
                 provider);

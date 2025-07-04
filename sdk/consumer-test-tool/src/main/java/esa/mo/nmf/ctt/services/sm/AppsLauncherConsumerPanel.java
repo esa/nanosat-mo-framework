@@ -435,7 +435,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
                 org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
                 org.ccsds.moims.mo.mal.structures.Identifier subscriptionId,
                 org.ccsds.moims.mo.mal.structures.UpdateHeader updateHeader,
-                org.ccsds.moims.mo.com.structures.ObjectDetails eventLinks,
+                org.ccsds.moims.mo.com.structures.ObjectLinks eventLinks,
                 org.ccsds.moims.mo.mal.structures.Element eventBody,
                 java.util.Map qosProperties) {
             // Does the objId received matches the one that we originally sent to the service?

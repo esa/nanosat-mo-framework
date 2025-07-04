@@ -50,10 +50,10 @@ import org.ccsds.moims.mo.com.archive.structures.CompositeFilterList;
 import org.ccsds.moims.mo.com.archive.structures.CompositeFilterSet;
 import org.ccsds.moims.mo.com.archive.structures.ExpressionOperator;
 import org.ccsds.moims.mo.com.archive.structures.QueryFilter;
-import org.ccsds.moims.mo.com.structures.ObjectDetails;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectIdList;
 import org.ccsds.moims.mo.com.structures.ObjectKey;
+import org.ccsds.moims.mo.com.structures.ObjectLinks;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.com.structures.ObjectTypeList;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
@@ -289,7 +289,7 @@ public class ArchiveManager {
         }
 
         ArchiveDetails archiveDetails = new ArchiveDetails(comEntity.getObjectId(),
-                new ObjectDetails(comEntity.getRelatedLink(), objectId),
+                new ObjectLinks(comEntity.getRelatedLink(), objectId),
                 network, comEntity.getTimestamp(), providerURI);
 
         return new ArchivePersistenceObject(objType, domain, objId, archiveDetails, comEntity.getObject());

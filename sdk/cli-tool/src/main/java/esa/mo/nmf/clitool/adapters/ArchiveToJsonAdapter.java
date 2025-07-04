@@ -35,8 +35,8 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
-import org.ccsds.moims.mo.com.structures.ObjectDetails;
 import org.ccsds.moims.mo.com.structures.ObjectId;
+import org.ccsds.moims.mo.com.structures.ObjectLinks;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
 import org.ccsds.moims.mo.mal.MOErrorException;
@@ -224,9 +224,9 @@ public class ArchiveToJsonAdapter extends ArchiveAdapter implements QueryStatusP
             private Long relatedInstanceId;
             private CleanObjectId source;
 
-            public CleanObjectDetails(ObjectDetails objectDetails) {
-                relatedInstanceId = objectDetails.getRelated();
-                source = objectDetails.getSource() == null ? null : new CleanObjectId(objectDetails.getSource());
+            public CleanObjectDetails(ObjectLinks objectLinks) {
+                relatedInstanceId = objectLinks.getRelated();
+                source = objectLinks.getSource() == null ? null : new CleanObjectId(objectLinks.getSource());
             }
 
             private static class CleanObjectId {

@@ -22,8 +22,8 @@ package esa.mo.com.impl.util;
 
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
-import org.ccsds.moims.mo.com.structures.ObjectDetails;
 import org.ccsds.moims.mo.com.structures.ObjectId;
+import org.ccsds.moims.mo.com.structures.ObjectLinks;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.FineTime;
@@ -111,7 +111,7 @@ public class COMObjectStructure {
     }
 
     public ArchiveDetails getArchiveDetails() {
-        ObjectDetails objDetails = new ObjectDetails(relatedLink, sourceLink);
+        ObjectLinks objDetails = new ObjectLinks(relatedLink, sourceLink);
         return new ArchiveDetails(objId, objDetails, network, timestamp, providerURI);
     }
 

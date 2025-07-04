@@ -37,9 +37,9 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.archivesync.consumer.ArchiveSyncStub;
-import org.ccsds.moims.mo.com.structures.ObjectDetails;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectKey;
+import org.ccsds.moims.mo.com.structures.ObjectLinks;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperDomain;
 import org.ccsds.moims.mo.mal.MALContextFactory;
@@ -329,7 +329,7 @@ public class EncodeDecode {
                 ObjectId objectId = (sourceObjType == null) ? null
                         : new ObjectId(sourceObjType, new ObjectKey(sourceDomain, sourceObjId));
 
-                ObjectDetails objDetails = new ObjectDetails(relatedLink, objectId);
+                ObjectLinks objDetails = new ObjectLinks(relatedLink, objectId);
 
                 ArchiveDetails archDetails = new ArchiveDetails(objId, objDetails, network, timestamp, providerURI);
 

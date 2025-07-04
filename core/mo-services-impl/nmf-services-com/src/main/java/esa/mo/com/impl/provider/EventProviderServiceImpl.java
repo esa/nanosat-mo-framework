@@ -30,10 +30,10 @@ import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.event.EventHelper;
 import org.ccsds.moims.mo.com.event.provider.EventInheritanceSkeleton;
 import org.ccsds.moims.mo.com.event.provider.MonitorEventPublisher;
-import org.ccsds.moims.mo.com.structures.ObjectDetails;
-import org.ccsds.moims.mo.com.structures.ObjectDetailsList;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectIdList;
+import org.ccsds.moims.mo.com.structures.ObjectLinks;
+import org.ccsds.moims.mo.com.structures.ObjectLinksList;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
@@ -165,8 +165,8 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
             final Element eventObjBody, final Long related, final ObjectId source, final MALInteraction interaction,
             final URI uri, final Identifier network) {
 
-        ObjectDetailsList objectDetailsList = new ObjectDetailsList();
-        objectDetailsList.add(new ObjectDetails(related, source));
+        ObjectLinksList objectLinksList = new ObjectLinksList();
+        objectLinksList.add(new ObjectLinks(related, source));
         HeterogeneousList events = new HeterogeneousList();
 
         if (eventObjBody != null) {  // Do we have a null as input?
@@ -181,9 +181,9 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
 
         // Store it!!
         if (interaction != null) {
-            return this.storeEventOnArchive(objectDetailsList, domain, objType, events, interaction);
+            return this.storeEventOnArchive(objectLinksList, domain, objType, events, interaction);
         } else {
-            return this.storeEventOnArchive(objectDetailsList, domain, objType, events, uri, network);
+            return this.storeEventOnArchive(objectLinksList, domain, objType, events, uri, network);
         }
     }
 
@@ -284,13 +284,13 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
 
             UpdateHeader updateHeader = new UpdateHeader(new Identifier(sourceURI.getValue()),
                     connection.getConnectionDetails().getDomain(), keyValues);
-            ObjectDetails objectDetails = new ObjectDetails(related, source); // requirement: 3.3.4.2.5
+            ObjectLinks objectLinks = new ObjectLinks(related, source); // requirement: 3.3.4.2.5
 
             if (eventBody == null) {
                 eventBody = new UInteger();
             }
 
-            publisher.publish(updateHeader, objectDetails, eventBody); // requirement: 3.7.2.15
+            publisher.publish(updateHeader, objectLinks, eventBody); // requirement: 3.7.2.15
         } catch (IllegalArgumentException ex) {
             Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.WARNING,
                     "Exception during publishing process on the provider (0)", ex);
@@ -361,13 +361,13 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
 
                 UpdateHeader updateHeader = new UpdateHeader(new Identifier(sourceURI.getValue()),
                         connection.getConnectionDetails().getDomain(), keys.getAsNullableAttributeList());
-                ObjectDetails objectDetails = new ObjectDetails(related, sources.get(i)); // requirement: 3.3.4.2.5
+                ObjectLinks objectLinks = new ObjectLinks(related, sources.get(i)); // requirement: 3.3.4.2.5
 
                 if (eventBody == null) {
                     eventBody = new UInteger();
                 }
 
-                publisher.publish(updateHeader, objectDetails, eventBody); // requirement: 3.7.2.15
+                publisher.publish(updateHeader, objectLinks, eventBody); // requirement: 3.7.2.15
             }
         } catch (IllegalArgumentException ex) {
             Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.WARNING,
@@ -383,11 +383,11 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
 
     public LongList generateAndStoreEvents(final ObjectType objType, final IdentifierList domain,
             final LongList relateds, final ObjectIdList sourceList, final MALInteraction interaction) {
-        ObjectDetailsList objectDetailsList = new ObjectDetailsList(sourceList.size());
+        ObjectLinksList objectLinksList = new ObjectLinksList(sourceList.size());
 
         for (int i = 0; i < sourceList.size(); i++) {
             Long related = (relateds != null) ? relateds.get(i) : null;
-            objectDetailsList.add(new ObjectDetails(related, sourceList.get(i)));
+            objectLinksList.add(new ObjectLinks(related, sourceList.get(i)));
         }
 
         HeterogeneousList events = null;
@@ -406,11 +406,11 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
             return null;
         }
 
-        ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList(objectDetailsList.size());
+        ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList(objectLinksList.size());
 
-        for (int i = 0; i < objectDetailsList.size(); i++) {
+        for (int i = 0; i < objectLinksList.size(); i++) {
             ArchiveDetails archiveDetails = new ArchiveDetails(new Long(0),
-                    objectDetailsList.get(i),
+                    objectLinksList.get(i),
                     network,
                     FineTime.now(),
                     uri);
@@ -462,20 +462,20 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
     /**
      * Stores an Event in the Archive
      */
-    private Long storeEventOnArchive(final ObjectDetailsList objectDetailsList, final IdentifierList domain,
+    private Long storeEventOnArchive(final ObjectLinksList objectLinksList, final IdentifierList domain,
             final ObjectType objType, final HeterogeneousList events, final MALInteraction interaction) {
         if (interaction != null) {
-            return this.storeEventOnArchive(objectDetailsList, domain, objType,
+            return this.storeEventOnArchive(objectLinksList, domain, objType,
                     events, interaction.getMessageHeader().getFromURI(), null);
         } else {
-            return this.storeEventOnArchive(objectDetailsList, domain, objType, events, null, null);
+            return this.storeEventOnArchive(objectLinksList, domain, objType, events, null, null);
         }
     }
 
     /**
      * Stores an Event in the Archive
      */
-    private Long storeEventOnArchive(final ObjectDetailsList objectDetailsList, final IdentifierList domain,
+    private Long storeEventOnArchive(final ObjectLinksList objectLinksList, final IdentifierList domain,
             final ObjectType objType, HeterogeneousList bodies, URI uri, Identifier network) {
 
         if (this.archiveService == null) {
@@ -490,7 +490,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
         uri = (uri != null) ? uri : connection.getConnectionDetails().getProviderURI();
 
         ArchiveDetails details = new ArchiveDetails(0L,
-                objectDetailsList.get(0), network, FineTime.now(), uri);
+                objectLinksList.get(0), network, FineTime.now(), uri);
 
         ArchiveDetailsList detailsList = new ArchiveDetailsList();
         detailsList.add(details);

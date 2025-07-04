@@ -29,9 +29,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
-import org.ccsds.moims.mo.com.structures.ObjectDetails;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectIdList;
+import org.ccsds.moims.mo.com.structures.ObjectLinks;
 import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
@@ -147,7 +147,7 @@ public class ParameterManager extends MCManager {
                 archiveDetailsList = HelperArchive.generateArchiveDetailsList(related, source, connectionDetails);
             } else { //use the timestamp given
                 archiveDetailsList = new ArchiveDetailsList();
-                archiveDetailsList.add(new ArchiveDetails(0L, new ObjectDetails(related, source),
+                archiveDetailsList.add(new ArchiveDetails(0L, new ObjectLinks(related, source),
                         ConfigurationProviderSingleton.getNetwork(), timestamp, connectionDetails.getProviderURI()));
             }
 
@@ -188,7 +188,7 @@ public class ParameterManager extends MCManager {
 
             for (int i = 0; i < relatedList.size(); i++) {
                 ArchiveDetails archiveDetails = new ArchiveDetails(0L,
-                        new ObjectDetails(relatedList.get(i), sourcesList.get(i)),
+                        new ObjectLinks(relatedList.get(i), sourcesList.get(i)),
                         ConfigurationProviderSingleton.getNetwork(),
                         timestamps.get(i),
                         connectionDetails.getProviderURI());

@@ -23,8 +23,8 @@ package esa.mo.com.impl.provider;
 import esa.mo.com.impl.util.HelperCOM;
 import java.io.Serializable;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
-import org.ccsds.moims.mo.com.structures.ObjectDetails;
 import org.ccsds.moims.mo.com.structures.ObjectId;
+import org.ccsds.moims.mo.com.structures.ObjectLinks;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.structures.FineTime;
 import org.ccsds.moims.mo.mal.structures.Identifier;
@@ -90,7 +90,7 @@ public class ArchivePersistenceObject implements Serializable {
     public ArchiveDetails getArchiveDetails() {
         final Identifier net = (this.network == null) ? null : new Identifier(network);
         final URI uri = (this.providerURI == null) ? null : new URI(providerURI);
-        return new ArchiveDetails(objId, new ObjectDetails(relatedLink, sourceLink),
+        return new ArchiveDetails(objId, new ObjectLinks(relatedLink, sourceLink),
                 net, new FineTime(timestampArchiveDetails), uri);
     }
 

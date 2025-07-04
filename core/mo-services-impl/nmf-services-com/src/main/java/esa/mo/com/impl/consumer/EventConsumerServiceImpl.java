@@ -29,8 +29,8 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.event.EventHelper;
 import org.ccsds.moims.mo.com.event.consumer.EventAdapter;
 import org.ccsds.moims.mo.com.event.consumer.EventStub;
-import org.ccsds.moims.mo.com.structures.ObjectDetails;
 import org.ccsds.moims.mo.com.structures.ObjectType;
+import org.ccsds.moims.mo.com.structures.ObjectLinks;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.consumer.MALConsumer;
@@ -123,7 +123,7 @@ public class EventConsumerServiceImpl extends ConsumerServiceImpl {
             @Override
             public void monitorEventNotifyReceived(final MALMessageHeader msgHeader,
                     final Identifier lIdentifier, final UpdateHeader lUpdateHeader,
-                    final ObjectDetails objectDetails, final Element element,
+                    final ObjectLinks objectLinks, final Element element,
                     Map qosProperties) {
 
                 /*
@@ -164,8 +164,8 @@ public class EventConsumerServiceImpl extends ConsumerServiceImpl {
                 newEvent.setObjType(objType);
                 newEvent.setObjId(entityKey3);
 
-                newEvent.setSource(objectDetails.getSource());
-                newEvent.setRelated(objectDetails.getRelated());
+                newEvent.setSource(objectLinks.getSource());
+                newEvent.setRelated(objectLinks.getRelated());
                 newEvent.setBody(body);
 
                 newEvent.setTimestamp(msgHeader.getTimestamp());

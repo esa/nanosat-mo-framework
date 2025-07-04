@@ -38,7 +38,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
-import org.ccsds.moims.mo.com.structures.ObjectDetails;
+import org.ccsds.moims.mo.com.structures.ObjectLinks;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
@@ -140,7 +140,7 @@ public class EventConsumerPanel extends javax.swing.JPanel {
             String eKey2 = HelperCOM.objType2string(objType2);
             String eKey4 = (eventCOMObject.getSource() != null)
                     ? HelperCOM.objType2string(eventCOMObject.getSource().getType()) : "";
-            ObjectDetails objectDetails = new ObjectDetails(eventCOMObject.getRelated(), eventCOMObject.getSource());
+            ObjectLinks objectLinks = new ObjectLinks(eventCOMObject.getRelated(), eventCOMObject.getSource());
 
             String objDetailsRelated = (eventCOMObject.getRelated() != null)
                     ? eventCOMObject.getRelated().toString() : "null";
@@ -157,7 +157,7 @@ public class EventConsumerPanel extends javax.swing.JPanel {
 
             ArchiveDetails archiveDetails = new ArchiveDetails(
                     eventCOMObject.getObjId(),
-                    objectDetails,
+                    objectLinks,
                     eventCOMObject.getNetworkZone(),
                     eventCOMObject.getTimestamp().toFineTime(),
                     eventCOMObject.getSourceURI());

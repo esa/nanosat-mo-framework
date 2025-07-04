@@ -31,10 +31,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
-import org.ccsds.moims.mo.com.structures.ObjectDetails;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectIdList;
 import org.ccsds.moims.mo.com.structures.ObjectKey;
+import org.ccsds.moims.mo.com.structures.ObjectLinks;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
@@ -500,7 +500,7 @@ public class MCRegistration {
 
         /*
         for (int i = 0; i < metadata.size(); i++) {
-            metadata.get(i).setDetails(new ObjectDetails(conversionIdentityObjIds.get(i), null));
+            metadata.get(i).setDetails(new ObjectLinks(conversionIdentityObjIds.get(i), null));
         }
          */
         ArchiveDetailsList metadataConversions = new ArchiveDetailsList();
@@ -511,7 +511,7 @@ public class MCRegistration {
         for (int i = 0; i < myList.size(); i++) {
             ArchiveDetails det = new ArchiveDetails(
                     0L,
-                    new ObjectDetails(conversionIdentityObjIds.get(i), null),
+                    new ObjectLinks(conversionIdentityObjIds.get(i), null),
                     metadata.get(0).getNetwork(),
                     metadata.get(0).getTimestamp(),
                     metadata.get(0).getProvider()

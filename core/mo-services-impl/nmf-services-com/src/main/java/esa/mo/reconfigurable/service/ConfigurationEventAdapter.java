@@ -30,9 +30,9 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.event.consumer.EventAdapter;
-import org.ccsds.moims.mo.com.structures.ObjectDetails;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectKey;
+import org.ccsds.moims.mo.com.structures.ObjectLinks;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.common.configuration.ConfigurationServiceInfo;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails;
@@ -72,7 +72,7 @@ public class ConfigurationEventAdapter extends EventAdapter implements Serializa
 
     @Override
     public void monitorEventNotifyReceived(MALMessageHeader msgHeader, Identifier _Identifier0,
-            UpdateHeader updateHeader, ObjectDetails objectDetails,
+            UpdateHeader updateHeader, ObjectLinks objectLinks,
             Element object, Map qosProperties) {
         // Notification received from the Configuration serviceImpl...
         NullableAttributeList subkeys = updateHeader.getKeyValues();
@@ -129,7 +129,7 @@ public class ConfigurationEventAdapter extends EventAdapter implements Serializa
             ObjectType objType = ConfigurationServiceInfo.CONFIGURATIONOBJECTS_OBJECT_TYPE;
 
             ArchiveDetails archiveDetails = new ArchiveDetails(new Long(0),
-                    new ObjectDetails(entityKey3, null),
+                    new ObjectLinks(entityKey3, null),
                     null,
                     FineTime.now(),
                     msgHeader.getFromURI());

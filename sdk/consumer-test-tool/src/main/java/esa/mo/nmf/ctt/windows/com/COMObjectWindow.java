@@ -32,8 +32,8 @@ import javax.swing.JOptionPane;
 import org.ccsds.moims.mo.com.COMObject;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveStub;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
-import org.ccsds.moims.mo.com.structures.ObjectDetails;
 import org.ccsds.moims.mo.com.structures.ObjectId;
+import org.ccsds.moims.mo.com.structures.ObjectLinks;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperDomain;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
 import org.ccsds.moims.mo.mal.structures.Attribute;
@@ -153,7 +153,7 @@ public final class COMObjectWindow extends javax.swing.JDialog {
                 this.sourceType.setText("null");
                 this.sourceButton.setEnabled(false);
             } else {
-                ObjectDetails details = comObject.getArchiveDetails().getDetails();
+                ObjectLinks details = comObject.getArchiveDetails().getDetails();
                 // Source
                 this.sourceType.setText(HelperCOM.objType2string(details.getSource().getType()));
                 this.sourceType1.setText(details.getSource().getType().getArea().toString());

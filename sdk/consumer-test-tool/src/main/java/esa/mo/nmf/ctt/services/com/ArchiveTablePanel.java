@@ -36,7 +36,7 @@ import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-import org.ccsds.moims.mo.com.structures.ObjectDetails;
+import org.ccsds.moims.mo.com.structures.ObjectLinks;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperDomain;
@@ -159,7 +159,7 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
             objType = HelperCOM.objType2string(objTypeType);
         }
 
-        ObjectDetails details = comObject.getArchiveDetails().getDetails();
+        ObjectLinks details = comObject.getArchiveDetails().getDetails();
 
         if (details.getSource() != null) {
             source = HelperCOM.objType2string(details.getSource().getType());
