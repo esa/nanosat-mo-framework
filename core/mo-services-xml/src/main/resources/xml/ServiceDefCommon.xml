@@ -91,18 +91,16 @@
                 </mal:submitIP>
             </mal:capabilitySet>
             <mal:capabilitySet number="3">
-                <mal:requestIP name="getServiceXML" number="4" supportInReplay="false"
-                               comment="The getServiceXML operation returns the list of XML files that were submitted by the service provider by the publishProvider operation.&#xA;If no files were supplied then this operation returns an empty list.">
+                <mal:requestIP name="getAreaXML" number="4" supportInReplay="false"
+                               comment="The getAreaXML operation returns the list of XML files with the information about the area.">
                     <mal:messages>
                         <mal:request>
-                            <mal:field name="providerObjId"
-                                       comment="The providerObjId field shall hold the COM object instance identifier for the ServiceProvider to obtain the service XML for.&#xA;If the supplied instance identifier is '0' an INVALID error shall be returned.&#xA;If the supplied identifier does not match an existing ServiceProvider COM object then an UNKNOWN error shall be returned.">
-                                <mal:type name="Long" area="MAL"/>
+                            <mal:field name="filename" comment="The filename of the XML file. The wildcard may be used to return all XML files.">
+                                <mal:type name="String" area="MAL"/>
                             </mal:field>
                         </mal:request>
                         <mal:response>
-                            <mal:field name="xmlFiles"
-                                       comment="The list of XML files supplied during the publishProvider operation for the matched provider shall be returned.&#xA;If no XML files were supplied by the provider then an empty list shall be returned.">
+                            <mal:field name="xmlFiles" comment="The list of XML files.">
                                 <mal:type list="true" name="File" area="MAL"/>
                             </mal:field>
                         </mal:response>

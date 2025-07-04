@@ -479,7 +479,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
     }
 
     @Override
-    public FileList getServiceXML(Long l, MALInteraction mali) throws MALInteractionException, MALException {
+    public FileList getAreaXML(String filename, MALInteraction interaction) throws MALInteractionException, MALException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }
