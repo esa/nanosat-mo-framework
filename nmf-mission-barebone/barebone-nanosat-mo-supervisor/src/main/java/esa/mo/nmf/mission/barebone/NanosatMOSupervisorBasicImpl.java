@@ -1,5 +1,5 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2021      European Space Agency
+ * Copyright (C) 2025      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
@@ -29,13 +29,10 @@ import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import java.util.logging.Logger;
 
 /**
- * This is a specific implementation of the NMF supervisor which is currently
- * being used by the SDK and the OPS-SAT mission. Using the property
- * "nmf.platform.impl" one can select the class of the platform services
- * implementation which shall be used by the supervisor. If no such property is
- * provided, it will use the simulated platform services by default.
- *
- * @author yannick
+ * This is a specific implementation of the NMF supervisor. It is the simplest
+ * implementation possible of a Supervisor. It does not include the Platform
+ * services and therefore Apps won't be able to return any kind of information
+ * from the mission.
  */
 public class NanosatMOSupervisorBasicImpl extends NanoSatMOSupervisor {
 
@@ -44,8 +41,8 @@ public class NanosatMOSupervisorBasicImpl extends NanoSatMOSupervisor {
     /**
      * Main command line entry point.
      *
-     * @param args the command line arguments
-     * @throws java.lang.Exception If there is an error
+     * @param args the command line arguments.
+     * @throws Exception If there is an error.
      */
     public static void main(final String[] args) throws Exception {
         NanosatMOSupervisorBasicImpl supervisor = new NanosatMOSupervisorBasicImpl();
