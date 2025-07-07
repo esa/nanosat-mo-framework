@@ -33,6 +33,7 @@ import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.UnknownException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Element;
@@ -112,7 +113,7 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
         if (expression == null) {
             return true;  // No test is required
         }
-        ParameterValue parameterValue = manager.getParameterValue(expression.getParameterId().getInstId());
+        ParameterValue parameterValue = manager.getParameterValue(expression.getParameterId());
         Attribute param = expression.getUseConverted() ?
                 parameterValue.getConvertedValue() : parameterValue.getRawValue();
 
@@ -143,9 +144,8 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
          * get the conversionDetails by the identityId *
          */
         //TODO: use a query method here
-        final IdentifierList domain = conditionalRef.getConversionId().getDomain();
-
-        Element conversionDetails = this.getConversionDefinition(domain, conditionalRef.getConversionId().getInstId());
+        final IdentifierList domain = ConfigurationProviderSingleton.getDomain();
+        Element conversionDetails = this.getConversionDefinition(domain, conditionalRef.getConversionId());
 
         if (conversionDetails == null) {
             return null; // The Conversion object was not found in the Archive or Archive not available
@@ -230,8 +230,8 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
      * @return The Definition-Object with the newest timestamp or null if
      * no object of the given objectType references the given identity.
      */
-    private Element getDefinitionFromIdentityIdFromArchive(ObjectType objType, final IdentifierList domain,
-        Long identityId) {
+    private Element getDefinitionFromIdentityIdFromArchive(ObjectType objType,
+            final IdentifierList domain, Long identityId) {
         //retrieve all existing conversion-objects
         LongList defIds = new LongList();
         defIds.add(0L);

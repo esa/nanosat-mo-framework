@@ -31,7 +31,6 @@ import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.event.consumer.EventAdapter;
 import org.ccsds.moims.mo.com.structures.ObjectId;
-import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.com.structures.ObjectLinks;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.common.configuration.ConfigurationServiceInfo;
@@ -96,12 +95,12 @@ public class ConfigurationEventAdapter extends EventAdapter implements Serializa
             // Check if it is a Configuration event for this particular service (based on the service type, domain ?)
             if (obj.getType().getArea().equals(serviceImpl.getCOMService().getAreaNumber())
                     && obj.getType().getNumber().equals(serviceImpl.getCOMService().getServiceNumber())
-                    && obj.getKey().getDomain().equals(providerDomain)) {
+                    && obj.getDomain().equals(providerDomain)) {
 
                 // Retrieve it from the Archive
                 ConfigurationObjectDetails configurationObj = (ConfigurationObjectDetails) HelperArchive.getObjectBodyFromArchive(
                         comServices.getArchiveService(), obj.getType(),
-                        obj.getKey().getDomain(), obj.getKey().getInstId());
+                        obj.getDomain(), obj.getInstId());
 
                 // Reload the retrieved configuration
                 Boolean confChanged = serviceImpl.reloadConfiguration(configurationObj);
@@ -182,7 +181,8 @@ public class ConfigurationEventAdapter extends EventAdapter implements Serializa
         bool.add(true);  // Success
         ObjectId eventSource = new ObjectId(
                 ConfigurationServiceInfo.CONFIGURATIONOBJECTS_OBJECT_TYPE,
-                new ObjectKey(providerDomain, objId)
+                providerDomain,
+                objId
         );
 
         try {

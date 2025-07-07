@@ -186,7 +186,7 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
                 ObjectId objId = objIds.get(0);
                 ParameterExpression paramExpr = null;
 
-                ConditionalConversion condition = new ConditionalConversion(paramExpr, objId.getKey());
+                ConditionalConversion condition = new ConditionalConversion(paramExpr, objId.getInstId());
                 ConditionalConversionList conditionalConversions = new ConditionalConversionList();
                 conditionalConversions.add(condition);
 

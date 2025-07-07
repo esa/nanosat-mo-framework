@@ -789,7 +789,7 @@ public class AppsLauncherManager extends DefinitionsManager {
         SingleConnectionDetails connectionDetails = new SingleConnectionDetails();
         connectionDetails.setProviderURI(addresses.get(bestIndex).getServiceURI());
         connectionDetails.setBrokerURI(addresses.get(bestIndex).getBrokerURI());
-        connectionDetails.setDomain(providersList.get(0).getProviderKey().getDomain());
+        connectionDetails.setDomain(providersList.get(0).getDomain());
         return connectionDetails;
     }
 

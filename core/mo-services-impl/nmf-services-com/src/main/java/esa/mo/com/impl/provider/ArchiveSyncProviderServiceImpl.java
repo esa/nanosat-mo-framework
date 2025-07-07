@@ -522,7 +522,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
                 queryResults.addAll(objDetails);
                 Logger.getLogger(this.getClass().getName()).log(Level.FINE, "Received response!");
                 if (objType.equals(ToDelete.STDERR_VALUE.getType()) || objType.equals(ToDelete.STDOUT_VALUE.getType())) {
-                    objDetails.stream().map(detail -> detail.getLinks().getSource().getKey().getInstId())
+                    objDetails.stream().map(detail -> detail.getLinks().getSource().getInstId())
                             .forEach(x -> clearedIds.add(x));
                 }
 

@@ -182,7 +182,7 @@ public abstract class BaseCommand {
 
             consumer = new GroundMOAdapterImpl(provider);
             consumer.init();
-            domain = provider.getProviderKey().getDomain();
+            domain = provider.getDomain();
 
             if (consumer.getCommonServices().getLoginService() != null
                     && consumer.getCommonServices().getLoginService().getLoginStub() != null) {

@@ -64,11 +64,11 @@ import org.ccsds.moims.mo.mal.structures.UIntegerList;
  */
 public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
 
+    private final ConnectionProvider connection = new ConnectionProvider();
     private final ArchiveManager manager = new ArchiveManager(null);
     private MALProvider archiveServiceProvider;
     private boolean initialiased = false;
     private boolean running = false;
-    private final ConnectionProvider connection = new ConnectionProvider();
 
     /**
      * creates the MAL objects, the publisher used to create updates and starts

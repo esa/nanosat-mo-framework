@@ -544,7 +544,7 @@ public class CameraAcquisitorGround {
                 return;
             }
 
-            long actionID = eventCOMObject.getSource().getKey().getInstId();
+            long actionID = eventCOMObject.getSource().getInstId();
 
             int type = eventCOMObject.getBody().getTypeId().getSFP();
             updateEvent(actionID, type, eventCOMObject.getBody());
@@ -587,11 +587,11 @@ public class CameraAcquisitorGround {
                         }
                     } else if (objBody instanceof ActivityAcceptance) {
                         ActivityAcceptance instance = ((ActivityAcceptance) objBody);
-                        updateEvent(objDetails.get(i).getLinks().getSource().getKey().getInstId(),
+                        updateEvent(objDetails.get(i).getLinks().getSource().getInstId(),
                                 instance.getTypeId().getSFP(), objBody);
                     } else if (objBody instanceof ActivityExecution) {
                         ActivityExecution instance = ((ActivityExecution) objBody);
-                        updateEvent(objDetails.get(i).getLinks().getSource().getKey().getInstId(),
+                        updateEvent(objDetails.get(i).getLinks().getSource().getInstId(),
                                 instance.getTypeId().getSFP(), objBody);
                     }
                     i++;

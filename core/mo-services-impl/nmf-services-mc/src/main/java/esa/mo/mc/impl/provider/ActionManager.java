@@ -34,7 +34,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.structures.ObjectId;
-import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
@@ -371,8 +370,6 @@ public final class ActionManager extends MCManager {
             @Override
             public void run() {
                 try {
-                    final ObjectKey key = new ObjectKey(ConfigurationProviderSingleton.getDomain(), actionInstId);
-
                     URI uriTo = interaction.getMessageHeader().getToURI();
                     URI uriNextDestination = null;
                     String[] nodes = uriTo.toString().split("@");
@@ -382,7 +379,8 @@ public final class ActionManager extends MCManager {
                     }
 
                     // Reception
-                    ObjectId sourceRec = new ObjectId(ActionServiceInfo.ACTIONINSTANCE_OBJECT_TYPE, key);
+                    ObjectId sourceRec = new ObjectId(ActionServiceInfo.ACTIONINSTANCE_OBJECT_TYPE,
+                            ConfigurationProviderSingleton.getDomain(), actionInstId);
                     getActivityTrackingService().publishReceptionEvent(new URI(nodes[0]),
                             null, true, null, uriNextDestination, sourceRec);
 
@@ -397,7 +395,8 @@ public final class ActionManager extends MCManager {
                     }
 
                     // Publish forward success
-                    ObjectId sourceFor = new ObjectId(ActionServiceInfo.ACTIONINSTANCE_OBJECT_TYPE, key);
+                    ObjectId sourceFor = new ObjectId(ActionServiceInfo.ACTIONINSTANCE_OBJECT_TYPE,
+                            ConfigurationProviderSingleton.getDomain(), actionInstId);
                     getActivityTrackingService().publishForwardEvent(new URI(nodes[0]),
                             null, (errorNumber == null),
                             null, uriNextDestination, sourceFor);
@@ -464,8 +463,8 @@ public final class ActionManager extends MCManager {
     protected void reportActivityExecutionEvent(final boolean success, final UInteger errorNumber,
             final int executionStage, final int stageCount, final Long actionInstId, final MALInteraction interaction,
             final SingleConnectionDetails connectionDetails) {
-        ObjectKey key = new ObjectKey(ConfigurationProviderSingleton.getDomain(), actionInstId);
-        ObjectId source = new ObjectId(ActionServiceInfo.ACTIONINSTANCE_OBJECT_TYPE, key);
+        ObjectId source = new ObjectId(ActionServiceInfo.ACTIONINSTANCE_OBJECT_TYPE,
+                ConfigurationProviderSingleton.getDomain(), actionInstId);
 
         try {
             if (this.getActivityTrackingService() != null) {

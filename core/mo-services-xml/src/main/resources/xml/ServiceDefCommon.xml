@@ -183,9 +183,11 @@
                     <mal:extends>
                         <mal:type name="Composite" area="MAL"/>
                     </mal:extends>
-                    <mal:field name="providerKey" canBeNull="false"
-                               comment="The COM object key of this service provider">
-                        <mal:type name="ObjectKey" area="COM"/>
+                    <mal:field canBeNull="false" comment="The domain of the provider." name="domain">
+                        <mal:type area="MAL" list="true" name="Identifier"/>
+                    </mal:field>
+                    <mal:field canBeNull="false" comment="The unique instance." name="instId">
+                        <mal:type area="MAL" list="false" name="Long"/>
                     </mal:field>
                     <mal:field name="providerId" canBeNull="false" comment="The id of this service provider.">
                         <mal:type name="Identifier" area="MAL"/>

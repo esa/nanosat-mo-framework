@@ -38,7 +38,6 @@ import java.util.zip.GZIPOutputStream;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.archivesync.consumer.ArchiveSyncStub;
 import org.ccsds.moims.mo.com.structures.ObjectId;
-import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.com.structures.ObjectLinks;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperDomain;
@@ -327,7 +326,7 @@ public class EncodeDecode {
                 }
 
                 ObjectId objectId = (sourceObjType == null) ? null
-                        : new ObjectId(sourceObjType, new ObjectKey(sourceDomain, sourceObjId));
+                        : new ObjectId(sourceObjType, sourceDomain, sourceObjId);
 
                 ObjectLinks objDetails = new ObjectLinks(relatedLink, objectId);
 

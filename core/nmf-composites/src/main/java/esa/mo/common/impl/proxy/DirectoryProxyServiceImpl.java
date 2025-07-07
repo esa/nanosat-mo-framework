@@ -79,7 +79,7 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
         for (ProviderSummary provider : updatedProviders) {
             PublishDetails pub = new PublishDetails(
                     provider.getProviderId(),
-                    provider.getProviderKey().getDomain(),
+                    provider.getDomain(),
                     SessionType.LIVE,
                     null,
                     new Identifier("not_available"),
@@ -146,7 +146,7 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
                     oldDetails.getProviderAddresses()
             );
 
-            updatedProviders.add(new ProviderSummary(in.getProviderKey(), in.getProviderId(), newDetails));
+            updatedProviders.add(new ProviderSummary(in.getDomain(), in.getInstId(), in.getProviderId(), newDetails));
         }
 
         return updatedProviders;

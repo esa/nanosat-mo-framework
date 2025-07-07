@@ -39,7 +39,6 @@ import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.structures.InstanceBooleanPair;
 import org.ccsds.moims.mo.com.structures.InstanceBooleanPairList;
 import org.ccsds.moims.mo.com.structures.ObjectId;
-import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.com.structures.ObjectLinks;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
@@ -612,7 +611,7 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
             }
 
             ObjectId source2 = new ObjectId(ActivityTrackingServiceInfo.OPERATIONACTIVITY_OBJECT_TYPE,
-                    new ObjectKey(actionConnection.getDomain(), transId));
+                    actionConnection.getDomain(), transId);
             ObjectLinks details = new ObjectLinks(defInstId, source2);
             //archiveDetailsListActionInstance.get(0).setDetails(details);
             ArchiveDetailsList detailsInstance = HelperArchive.generateArchiveDetailsList(

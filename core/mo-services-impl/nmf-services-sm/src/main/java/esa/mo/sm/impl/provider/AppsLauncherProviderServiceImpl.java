@@ -36,7 +36,6 @@ import org.ccsds.moims.mo.com.COMService;
 import org.ccsds.moims.mo.com.InvalidException;
 import org.ccsds.moims.mo.com.event.EventHelper;
 import org.ccsds.moims.mo.com.structures.ObjectId;
-import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectSet;
@@ -198,7 +197,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
                         Element eventBody = new Union(segment);
                         stdQuota.increase(appObjId, segment.length());
                         ObjectId source = new ObjectId(AppsLauncherServiceInfo.APP_OBJECT_TYPE,
-                                new ObjectKey(domain, appObjId));
+                                domain, appObjId);
                         eventService.generateAndStoreEvent(
                                 objType,
                                 domain, eventBody, appObjId, source, null);
@@ -208,7 +207,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
                         Element eventBody = new Union(errorString);
                         outputList = outputList + errorString;
                         ObjectId source = new ObjectId(AppsLauncherServiceInfo.APP_OBJECT_TYPE,
-                                new ObjectKey(domain, appObjId));
+                                domain, appObjId);
                         eventService.generateAndStoreEvent(
                                 objType,
                                 domain, eventBody, appObjId, source, null);

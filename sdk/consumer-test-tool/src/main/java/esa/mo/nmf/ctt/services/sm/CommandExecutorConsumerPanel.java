@@ -224,7 +224,7 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel {
             ObjectType objType = eventCOMObject.getObjType();
 
             String time = HelperTime.time2readableString(eventCOMObject.getTimestamp());
-            Long sourceObjId = eventCOMObject.getSource().getKey().getInstId();
+            Long sourceObjId = eventCOMObject.getSource().getInstId();
             if (sourceObjId == null) {
                 LOGGER.log(Level.SEVERE,
                         "Missing source object in a received event (oID {0}). This should never happen.",

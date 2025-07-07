@@ -32,7 +32,6 @@ import org.ccsds.moims.mo.com.COMService;
 import org.ccsds.moims.mo.com.DuplicateException;
 import org.ccsds.moims.mo.com.InvalidException;
 import org.ccsds.moims.mo.com.structures.ObjectId;
-import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectSet;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectSetList;
@@ -168,7 +167,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         try {
             // source for ActionInstance ACCEPTANCE event is the ActionInstance object id
             ObjectId source = new ObjectId(ActionServiceInfo.ACTIONINSTANCE_OBJECT_TYPE,
-                    new ObjectKey(ConfigurationProviderSingleton.getDomain(), actionInstId)); // requirement: 3.2.8.f  
+                    ConfigurationProviderSingleton.getDomain(), actionInstId); // requirement: 3.2.8.f
             //body of AcceptanceEvent is value of "accepted"? -> issue #187
             manager.getActivityTrackingService().publishAcceptanceEventOperation(interaction, accepted, null, source); // requirement: 3.2.8.e, f, g  
         } catch (MALInteractionException | MALException ex) {

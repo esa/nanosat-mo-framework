@@ -197,8 +197,8 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
         return HelperArchive.getArchiveCOMObject(
                 archiveService,
                 source.getType(),
-                source.getKey().getDomain(),
-                source.getKey().getInstId()
+                source.getDomain(),
+                source.getInstId()
         );
     }
 

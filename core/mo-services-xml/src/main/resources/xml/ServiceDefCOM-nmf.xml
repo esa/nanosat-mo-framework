@@ -681,17 +681,6 @@
                     <mal:type area="MAL" list="false" name="UShort"/>
                 </mal:field>
             </mal:composite>
-            <mal:composite comment="The ObjectKey structure combines a domain and an object instance identifier such that it identifies the instance of an object for a specific domain." name="ObjectKey" shortFormPart="2">
-                <mal:extends>
-                    <mal:type area="MAL" list="false" name="Composite"/>
-                </mal:extends>
-                <mal:field canBeNull="false" comment="The domain of the object instance." name="domain">
-                    <mal:type area="MAL" list="true" name="Identifier"/>
-                </mal:field>
-                <mal:field canBeNull="false" comment="The unique identifier of the object instance. Must not be '0' for values as this is the wildcard." name="instId">
-                    <mal:type area="MAL" list="false" name="Long"/>
-                </mal:field>
-            </mal:composite>
             <mal:composite comment="The ObjectId structure combines an object type and an object key such that it identifies the instance and type of an object for a specific domain." name="ObjectId" shortFormPart="3">
                 <mal:extends>
                     <mal:type area="MAL" list="false" name="Composite"/>
@@ -699,8 +688,11 @@
                 <mal:field canBeNull="false" comment="The fully qualified unique identifier of the type." name="type">
                     <mal:type area="COM" list="false" name="ObjectType"/>
                 </mal:field>
-                <mal:field canBeNull="false" comment="The combination of the object domain and object instance identifier." name="key">
-                    <mal:type area="COM" list="false" name="ObjectKey"/>
+                <mal:field canBeNull="false" comment="The domain of the object instance." name="domain">
+                    <mal:type area="MAL" list="true" name="Identifier"/>
+                </mal:field>
+                <mal:field canBeNull="false" comment="The unique identifier of the object instance. Must not be '0' for values as this is the wildcard." name="instId">
+                    <mal:type area="MAL" list="false" name="Long"/>
                 </mal:field>
             </mal:composite>
             <mal:composite comment="The ObjectLinks type is used to hold the extra information associated with an object instance, namely the related and source links." name="ObjectLinks" shortFormPart="4">

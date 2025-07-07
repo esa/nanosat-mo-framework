@@ -22,7 +22,6 @@ package esa.mo.com.impl.util;
 
 import java.text.MessageFormat;
 import org.ccsds.moims.mo.com.structures.ObjectId;
-import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperDomain;
 import org.ccsds.moims.mo.mal.structures.Element;
@@ -142,7 +141,7 @@ public class EventCOMObject {
     }
 
     public ObjectId getObjectId() {
-        return new ObjectId(this.objType, new ObjectKey(this.domain, this.objId));
+        return new ObjectId(this.objType, this.domain, this.objId);
     }
 
     @Override

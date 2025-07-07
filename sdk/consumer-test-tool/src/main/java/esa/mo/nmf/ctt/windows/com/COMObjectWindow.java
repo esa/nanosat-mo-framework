@@ -161,8 +161,8 @@ public final class COMObjectWindow extends javax.swing.JDialog {
                 this.sourceType3.setText(links.getSource().getType().getVersion().toString());
                 this.sourceType4.setText(links.getSource().getType().getNumber().toString());
 
-                this.sourceDomain.setText(HelperDomain.domain2domainId(links.getSource().getKey().getDomain()));
-                this.sourceObjId.setText(links.getSource().getKey().getInstId().toString());
+                this.sourceDomain.setText(HelperDomain.domain2domainId(links.getSource().getDomain()));
+                this.sourceObjId.setText(links.getSource().getInstId().toString());
             }
         }
 
@@ -609,8 +609,8 @@ public final class COMObjectWindow extends javax.swing.JDialog {
     private void sourceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sourceButtonActionPerformed
         ArchivePersistenceObject sourceCOMObject = HelperArchive.getArchiveCOMObject(archiveService,
                 comObject.getArchiveDetails().getLinks().getSource().getType(),
-                comObject.getArchiveDetails().getLinks().getSource().getKey().getDomain(),
-                comObject.getArchiveDetails().getLinks().getSource().getKey().getInstId());
+                comObject.getArchiveDetails().getLinks().getSource().getDomain(),
+                comObject.getArchiveDetails().getLinks().getSource().getInstId());
 
         if (sourceCOMObject == null) {
             JOptionPane.showMessageDialog(null,

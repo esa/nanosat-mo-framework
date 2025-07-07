@@ -334,7 +334,7 @@ public class ParameterManager extends MCManager {
         }
 
         //TODO: contains the expression defintion or identity-id? -> issue #132, #179
-        final Long paramIdentityId = expression.getParameterId().getInstId();
+        final Long paramIdentityId = expression.getParameterId();
         ParameterDefinition pDef = this.getParameterDefinition(paramIdentityId);
         Attribute value;
         try {
@@ -416,7 +416,7 @@ public class ParameterManager extends MCManager {
      * @return the validity-state of the parameter used in the expression
      */
     private ValidityState getValidityState(final ParameterExpression validityExpression, boolean aggrExpired) {
-        final Long expPIdentityId = validityExpression.getParameterId().getInstId();
+        final Long expPIdentityId = validityExpression.getParameterId();
         final Attribute expParamValue;
         try {
             Class cla = parametersMonitoring.getClass().getMethod("onGetValue", Identifier.class, AttributeType.class)

@@ -35,7 +35,6 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.structures.ObjectId;
-import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.common.configuration.ConfigurationServiceInfo;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
@@ -119,10 +118,8 @@ public abstract class NanoSatMOMonolithic extends NMFProvider {
             // Activate the previous configuration
             final ObjectId confId = new ObjectId(
                     ConfigurationServiceInfo.PROVIDERCONFIGURATION_OBJECT_TYPE,
-                    new ObjectKey(
-                            ConfigurationProviderSingleton.getDomain(),
-                            DEFAULT_PROVIDER_CONFIGURATION_OBJID
-                    )
+                    ConfigurationProviderSingleton.getDomain(),
+                    DEFAULT_PROVIDER_CONFIGURATION_OBJID
             );
 
             super.providerConfiguration = new PersistProviderConfiguration(this,

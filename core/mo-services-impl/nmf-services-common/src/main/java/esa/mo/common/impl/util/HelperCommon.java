@@ -81,7 +81,7 @@ public class HelperCommon {
             SingleConnectionDetails details = new SingleConnectionDetails();
             details.setBrokerURI(addressDetails.getBrokerURI());
             details.setProviderURI(addressDetails.getServiceURI());
-            details.setDomain(provider.getProviderKey().getDomain());
+            details.setDomain(provider.getDomain());
 
             final MALArea malArea = MALContextFactory.lookupArea(key.getKeyArea(), key.getKeyAreaVersion());
 
@@ -150,7 +150,7 @@ public class HelperCommon {
 
         final ProviderDetails details = new ProviderDetails(newCapabilities,
                 provider.getProviderDetails().getProviderAddresses());
-        return new ProviderSummary(provider.getProviderKey(),
+        return new ProviderSummary(provider.getDomain(), provider.getInstId(),
                 provider.getProviderId(), details);
     }
 

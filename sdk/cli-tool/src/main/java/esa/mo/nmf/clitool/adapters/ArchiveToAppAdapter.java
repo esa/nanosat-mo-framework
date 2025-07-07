@@ -18,7 +18,6 @@
  * limitations under the License.
  * ----------------------------------------------------------------------------
  */
-
 package esa.mo.nmf.clitool.adapters;
 
 import esa.mo.com.impl.util.ArchiveCOMObjectsOutput;
@@ -28,7 +27,6 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.structures.ObjectId;
-import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
@@ -39,8 +37,8 @@ import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherServiceInf
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.structures.AppDetails;
 
 /**
- * Archive adapter that finds by name an App object of the CommandExecutor service of the
- * SoftwareManagement from an archive query of all App objects.
+ * Archive adapter that finds by name an App object of the CommandExecutor
+ * service of the SoftwareManagement from an archive query of all App objects.
  *
  * @author Tanguy Soto
  */
@@ -70,7 +68,7 @@ public class ArchiveToAppAdapter extends ArchiveAdapter implements QueryStatusPr
 
     /**
      * Creates a new instance of ArchiveToAppAdapter.
-     * 
+     *
      * @param appName The name of the App.
      */
     public ArchiveToAppAdapter(String appName) {
@@ -78,7 +76,8 @@ public class ArchiveToAppAdapter extends ArchiveAdapter implements QueryStatusPr
     }
 
     /**
-     * Processes archive objects output received from an archive query answer (update or response).
+     * Processes archive objects output received from an archive query answer
+     * (update or response).
      *
      * @param archiveObjectOutput the archive objects outputs.
      */
@@ -110,7 +109,7 @@ public class ArchiveToAppAdapter extends ArchiveAdapter implements QueryStatusPr
             appDomain.add(new Identifier("*"));
 
             if (this.appName.equals(appName)) {
-                appObjectId = new ObjectId(appType, new ObjectKey(appDomain, appInstanceId));
+                appObjectId = new ObjectId(appType, appDomain, appInstanceId);
                 setIsQueryOver(true);
             }
         }
@@ -118,14 +117,14 @@ public class ArchiveToAppAdapter extends ArchiveAdapter implements QueryStatusPr
 
     @Override
     public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-        ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
+            ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
         ProcessArchiveObjectsOutput(new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies));
         setIsQueryOver(true);
     }
 
     @Override
     public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-        ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
+            ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
         ProcessArchiveObjectsOutput(new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies));
     }
 
@@ -148,15 +147,18 @@ public class ArchiveToAppAdapter extends ArchiveAdapter implements QueryStatusPr
     }
 
     /**
-     * Returns the ObjectId of the found App or null if not found after the query ended.
-     * 
+     * Returns the ObjectId of the found App or null if not found after the
+     * query ended.
+     *
      * @return the ObjectId
      */
     public ObjectId getAppObjectId() {
         return appObjectId;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public synchronized boolean isQueryOver() {
         return isQueryOver;

@@ -381,7 +381,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
                 ObjectId objId = objIds.get(0);
                 ParameterExpression paramExpr = null;
 
-                ConditionalConversion condition = new ConditionalConversion(paramExpr, objId.getKey());
+                ConditionalConversion condition = new ConditionalConversion(paramExpr, objId.getInstId());
                 ConditionalConversionList conditionalConversions = new ConditionalConversionList();
                 conditionalConversions.add(condition);
 
@@ -425,7 +425,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
                         = centralDirectory.getDirectoryStub().lookupProvider(sf);
 
                 try {
-                    final SingleConnectionDetails connectionDetails 
+                    final SingleConnectionDetails connectionDetails
                             = AppsLauncherManager.getSingleConnectionDetailsFromProviderSummaryList(supervisorParameterServiceConnectionDetails);
                     ParameterConsumerServiceImpl supervisorParameterService = new ParameterConsumerServiceImpl(
                             connectionDetails, null);

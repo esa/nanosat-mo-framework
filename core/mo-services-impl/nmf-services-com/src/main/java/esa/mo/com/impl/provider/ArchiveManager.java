@@ -52,7 +52,6 @@ import org.ccsds.moims.mo.com.archive.structures.ExpressionOperator;
 import org.ccsds.moims.mo.com.archive.structures.QueryFilter;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectIdList;
-import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.com.structures.ObjectLinks;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.com.structures.ObjectTypeList;
@@ -281,8 +280,9 @@ public class ArchiveManager {
                 || sourceLink.getObjId() != null) {
             try {
                 IdentifierList sDomain = this.fastDomain.getDomain(sourceLink.getDomainId());
-                ObjectKey ok = new ObjectKey(sDomain, sourceLink.getObjId());
-                objectId = new ObjectId(this.fastObjectType.getObjectType(sourceLink.getObjectTypeId()), ok);
+                objectId = new ObjectId(
+                        this.fastObjectType.getObjectType(sourceLink.getObjectTypeId()),
+                        sDomain, sourceLink.getObjId());
             } catch (Exception ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
             }
@@ -321,16 +321,16 @@ public class ArchiveManager {
         Long sourceObjId = null;
 
         if (source != null) {
-            if (source.getKey() != null && source.getKey().getDomain() != null) {
-                sourceDomainId = this.fastDomain.getDomainId(source.getKey().getDomain());
+            if (source.getDomain() != null) {
+                sourceDomainId = this.fastDomain.getDomainId(source.getDomain());
             }
 
             if (source.getType() != null) {
                 sourceObjectTypeId = this.fastObjectType.getObjectTypeId(source.getType());
             }
 
-            if (source.getKey() != null) {
-                sourceObjId = source.getKey().getInstId();
+            if (source.getInstId() != null) {
+                sourceObjId = source.getInstId();
             }
         }
 
@@ -494,8 +494,8 @@ public class ArchiveManager {
         final SourceLinkContainer sourceLink = this.createSourceContainerFromObjectId(sId);
 
         if (sId != null) {
-            if (sId.getKey().getDomain() != null) {
-                sourceLink.setDomainIds(this.fastDomain.getDomainIds(sId.getKey().getDomain()));
+            if (sId.getDomain() != null) {
+                sourceLink.setDomainIds(this.fastDomain.getDomainIds(sId.getDomain()));
             }
 
             if (sId.getType() != null) {
@@ -520,9 +520,9 @@ public class ArchiveManager {
             final SourceLinkContainer sourceLink = this.createSourceContainerFromObjectId(archiveQuery.getSource());
 
             if (archiveQuery.getSource() != null) {
-                if (archiveQuery.getSource().getKey().getDomain() != null) {
+                if (archiveQuery.getSource().getDomain() != null) {
                     sourceLink.setDomainIds(this.fastDomain.getDomainIds(
-                            archiveQuery.getSource().getKey().getDomain()));
+                            archiveQuery.getSource().getDomain()));
                 }
 
                 if (archiveQuery.getSource().getType() != null) {
@@ -557,8 +557,8 @@ public class ArchiveManager {
         final SourceLinkContainer sourceLink = this.createSourceContainerFromObjectId(archiveQuery.getSource());
 
         if (archiveQuery.getSource() != null) {
-            if (archiveQuery.getSource().getKey().getDomain() != null) {
-                sourceLink.setDomainIds(this.fastDomain.getDomainIds(archiveQuery.getSource().getKey().getDomain()));
+            if (archiveQuery.getSource().getDomain() != null) {
+                sourceLink.setDomainIds(this.fastDomain.getDomainIds(archiveQuery.getSource().getDomain()));
             }
 
             if (archiveQuery.getSource().getType() != null) {
@@ -632,7 +632,7 @@ public class ArchiveManager {
         final ObjectIdList sourceList = new ObjectIdList(objIds.size());
 
         for (int i = 0; i < objIds.size(); i++) {
-            final ObjectId source = new ObjectId(objType, new ObjectKey(domain, objIds.get(i)));
+            final ObjectId source = new ObjectId(objType, domain, objIds.get(i));
 
             // Is the COM Object an Event coming from the archive?
             ObjectType archType = HelperCOM.generateCOMObjectType(
@@ -685,7 +685,7 @@ public class ArchiveManager {
     }
 
     public static ObjectId archivePerObj2source(final ArchivePersistenceObject obj) {
-        return new ObjectId(obj.getObjectType(), new ObjectKey(obj.getDomain(), obj.getObjectId()));
+        return new ObjectId(obj.getObjectType(), obj.getDomain(), obj.getObjectId());
     }
 
     public static Boolean objectTypeContainsWildcard(final ObjectType objType) {

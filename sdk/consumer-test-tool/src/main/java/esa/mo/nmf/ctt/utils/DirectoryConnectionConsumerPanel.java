@@ -365,7 +365,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
 
                 Blob authenticationId = null;
                 String localNamePrefix = null;
-                IdentifierList providerDomain = summary.getProviderKey().getDomain();
+                IdentifierList providerDomain = summary.getDomain();
                 IdentifierList domainForArchiveRetrieval = providerDomain;
                 if (loginService != null && archiveService != null) {
                     if (loginService.getServiceAddresses().get(0).getServiceURI().getValue().toLowerCase().contains("lwmcs")) {
@@ -378,7 +378,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
                                 .findFirst()
                                 .orElse(null);
                         if (lwmcs != null) {
-                            domainForArchiveRetrieval = lwmcs.getProviderKey().getDomain();
+                            domainForArchiveRetrieval = lwmcs.getDomain();
                         }
                     }
                     LoginDialog loginDialog = new LoginDialog(loginService, archiveService,
@@ -445,7 +445,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
             DefaultListModel listOfProviders = new DefaultListModel();
 
             for (ProviderSummary summary : summaryList) {
-                listOfProviders.addElement(summary.getProviderKey().getInstId().toString()
+                listOfProviders.addElement(summary.getInstId().toString()
                         + ". " + summary.getProviderId().toString());
             }
 

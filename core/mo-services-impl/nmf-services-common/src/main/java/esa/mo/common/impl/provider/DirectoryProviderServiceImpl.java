@@ -34,7 +34,6 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.InvalidException;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
-import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.common.directory.DirectoryHelper;
 import org.ccsds.moims.mo.common.directory.DirectoryServiceInfo;
 import org.ccsds.moims.mo.common.directory.body.PublishProviderResponse;
@@ -300,9 +299,9 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
             }
 
             // It passed all the tests!
-            final ObjectKey objKey = new ObjectKey(provider.getDomain(), keys.get(i));
             ProviderDetails outProvDetails = new ProviderDetails(outCap, pDetails.getProviderAddresses());
-            outputList.add(new ProviderSummary(objKey, provider.getProviderId(), outProvDetails));
+            outputList.add(new ProviderSummary(provider.getDomain(),
+                    keys.get(i), provider.getProviderId(), outProvDetails));
         }
 
         // Errors

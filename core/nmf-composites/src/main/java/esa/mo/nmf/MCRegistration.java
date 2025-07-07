@@ -33,7 +33,6 @@ import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectIdList;
-import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.com.structures.ObjectLinks;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALException;
@@ -529,7 +528,7 @@ public class MCRegistration {
         ObjectIdList output = new ObjectIdList();
 
         for (Long objId : conversionIdentityObjIds) {
-            output.add(new ObjectId(objType, new ObjectKey(domain, objId)));
+            output.add(new ObjectId(objType, domain, objId));
         }
 
         return output;

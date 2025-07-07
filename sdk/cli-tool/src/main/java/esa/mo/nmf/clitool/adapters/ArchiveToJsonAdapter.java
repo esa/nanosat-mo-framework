@@ -236,8 +236,8 @@ public class ArchiveToJsonAdapter extends ArchiveAdapter implements QueryStatusP
 
                 public CleanObjectId(ObjectId objectId) {
                     objectType = HelperCOM.objType2string(objectId.getType()).replace(" - ", ".").replace(": ", ".");
-                    domain = HelperDomain.domain2domainId(objectId.getKey().getDomain());
-                    instanceId = objectId.getKey().getInstId();
+                    domain = HelperDomain.domain2domainId(objectId.getDomain());
+                    instanceId = objectId.getInstId();
                 }
             }
         }

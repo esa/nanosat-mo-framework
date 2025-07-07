@@ -1880,8 +1880,8 @@
                     <mal:type name="ParameterExpression" area="MC"/>
                 </mal:field>
                 <mal:field name="conversionId" canBeNull="false"
-                           comment="The object instance identifier of the ConversionIdentity object to be used if the condition evaluates to TRUE or is NULL.">
-                    <mal:type name="ObjectKey" area="COM"/>
+                           comment="The object instance identifier of the Conversion to be used if the condition evaluates to TRUE or is NULL.">
+                    <mal:type name="Long" area="MAL"/>
                 </mal:field>
             </mal:composite>
             <mal:composite name="ParameterExpression" shortFormPart="4"
@@ -1890,8 +1890,8 @@
                     <mal:type name="Composite" area="MAL"/>
                 </mal:extends>
                 <mal:field name="parameterId" canBeNull="false"
-                           comment="Holds the object instance identifier of the ParameterIdentity object to be used in the expression.">
-                    <mal:type name="ObjectKey" area="COM"/>
+                           comment="Holds the object instance identifier of the Parameter to be used in the expression.">
+                    <mal:type name="Long" area="MAL"/>
                 </mal:field>
                 <mal:field name="operator" canBeNull="false" comment="The expression operator.">
                     <mal:type name="ExpressionOperator" service="Archive" area="COM"/>

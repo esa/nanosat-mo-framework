@@ -439,9 +439,9 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
                 org.ccsds.moims.mo.mal.structures.Element eventBody,
                 java.util.Map qosProperties) {
             // Does the objId received matches the one that we originally sent to the service?
-            if (originalObjId.equals(eventLinks.getSource().getKey().getInstId())) {
+            if (originalObjId.equals(eventLinks.getSource().getInstId())) {
                 ObjectId obj = eventLinks.getSource();
-                updateAppStatus(obj.getKey().getInstId(), "Running", "Failed to start!");
+                updateAppStatus(obj.getInstId(), "Running", "Failed to start!");
             }
         }
     }

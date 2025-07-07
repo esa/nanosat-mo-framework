@@ -163,7 +163,7 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
 
         if (links.getSource() != null) {
             source = HelperCOM.objType2string(links.getSource().getType());
-            source += " (objId: " + links.getSource().getKey().getInstId().toString() + ")";
+            source += " (objId: " + links.getSource().getInstId().toString() + ")";
         }
 
         if (links.getRelated() != null) {

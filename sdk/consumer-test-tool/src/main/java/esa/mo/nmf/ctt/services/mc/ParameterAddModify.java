@@ -30,7 +30,6 @@ import javax.swing.table.DefaultTableModel;
 import org.ccsds.moims.mo.com.COMService;
 import org.ccsds.moims.mo.com.archive.structures.ExpressionOperator;
 import org.ccsds.moims.mo.com.structures.ObjectId;
-import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
@@ -113,7 +112,7 @@ public class ParameterAddModify extends javax.swing.JFrame {
     public ParameterExpression makeNewParameterExpression(Long instId,
             int operator, Boolean useConverted, String value) {
         return new ParameterExpression(
-                new ObjectKey(serviceMCParameter.getConnectionDetails().getDomain(), instId),
+                instId,
                 new ExpressionOperator(operator),
                 useConverted,
                 new Union(value));
@@ -550,18 +549,20 @@ public class ParameterAddModify extends javax.swing.JFrame {
 
             // Reference to the conversion Object
             ObjectId referenceId = new ObjectId(type,
-                    new ObjectKey(serviceMCParameter.getConnectionDetails().getDomain(),
-                            Long.valueOf(referenceObjIdTF.getText())));  // Get the first objId
+                    serviceMCParameter.getConnectionDetails().getDomain(),
+                    Long.valueOf(referenceObjIdTF.getText()));  // Get the first objId
 
             ConditionalConversionList conversionConditions = new ConditionalConversionList();
-            ConditionalConversion conversionCondition = new ConditionalConversion(referenceId.getKey());
+            ConditionalConversion conversionCondition = new ConditionalConversion(referenceId.getInstId());
             conversionConditions.add(conversionCondition);
-            pConv = new ParameterConversion((byte) rawTypeCB.getSelectedIndex(), convertedUnit.getText(), conversionConditions);
+            pConv = new ParameterConversion((byte) rawTypeCB.getSelectedIndex(),
+                    convertedUnit.getText(), conversionConditions);
         }
 
         ParameterDefinition pDef;
-        pDef = makeNewParameterDefinition(rawTypeCB.getSelectedIndex(), rawUnitTF.getText(), descriptionTF.getText(),
-                generationEnabledCB.isSelected(), Float.parseFloat(updateIntervalTF.getText()), PExp, pConv);
+        pDef = makeNewParameterDefinition(rawTypeCB.getSelectedIndex(), rawUnitTF.getText(),
+                descriptionTF.getText(), generationEnabledCB.isSelected(),
+                Float.parseFloat(updateIntervalTF.getText()), PExp, pConv);
 
         ParameterDefinitionList pDefs = new ParameterDefinitionList();
         pDefs.add(pDef);
