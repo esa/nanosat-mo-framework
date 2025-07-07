@@ -168,7 +168,7 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
     }
 
     public Long getSelectedIdentityObjId() {
-        return comObjects.get(getSelectedRow()).getArchiveDetails().getDetails().getRelated();
+        return comObjects.get(getSelectedRow()).getArchiveDetails().getLinks().getRelated();
     }
 
     public List<ArchivePersistenceObject> getCOMObjects() {
@@ -193,7 +193,7 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
             return null;
         }
 
-        ObjectId source = comObjects.get(0).getArchiveDetails().getDetails().getSource();
+        ObjectId source = comObjects.get(0).getArchiveDetails().getLinks().getSource();
         return HelperArchive.getArchiveCOMObject(
                 archiveService,
                 source.getType(),

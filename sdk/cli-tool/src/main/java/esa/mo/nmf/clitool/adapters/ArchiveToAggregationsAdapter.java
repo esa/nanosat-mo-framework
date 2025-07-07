@@ -91,7 +91,7 @@ public class ArchiveToAggregationsAdapter extends ArchiveAdapter implements Quer
         if (AggregationServiceInfo.AGGREGATIONVALUEINSTANCE_OBJECT_TYPE.equals(type)) {
             for (int i = 0; i < detailsList.size(); ++i) {
                 AggregationValue value = (AggregationValue) bodiesList.get(i);
-                Long definitionId = detailsList.get(i).getDetails().getRelated();
+                Long definitionId = detailsList.get(i).getLinks().getRelated();
                 if (aggregationValues.get(domain).containsKey(definitionId)) {
                     aggregationValues.get(domain).get(definitionId).add(new TimestampedAggregationValue(value,
                             detailsList.get(i).getTimestamp()));

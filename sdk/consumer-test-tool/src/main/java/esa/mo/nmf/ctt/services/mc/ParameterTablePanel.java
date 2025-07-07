@@ -61,7 +61,7 @@ public class ParameterTablePanel extends SharedTablePanel {
         ParameterDefinition pDef = (ParameterDefinition) comObject.getObject();
 
         tableData.addRow(new Object[]{
-            comObject.getArchiveDetails().getDetails().getRelated(),
+            comObject.getArchiveDetails().getLinks().getRelated(),
             name.toString(),
             pDef.getDescription(),
             HelperAttributes.typeShortForm2attributeName(pDef.getRawType().getValue()),

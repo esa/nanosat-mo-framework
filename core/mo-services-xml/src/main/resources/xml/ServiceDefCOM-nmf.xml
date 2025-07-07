@@ -282,7 +282,7 @@
                     <mal:field canBeNull="false" comment="The object instance identifier of the archived object." name="instId">
                         <mal:type area="MAL" list="false" name="Long"/>
                     </mal:field>
-                    <mal:field canBeNull="false" comment="The details of the Object." name="details">
+                    <mal:field canBeNull="false" comment="The links of the Object." name="links">
                         <mal:type area="COM" list="false" name="ObjectLinks"/>
                     </mal:field>
                     <mal:field canBeNull="true" comment="The network zone of the object." name="network">

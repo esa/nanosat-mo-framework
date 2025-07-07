@@ -73,7 +73,7 @@ public class GroupServiceImpl extends ConversionInheritanceSkeleton {
         ArchiveDetailsList groupDefsReferencingGroupIdentity = new ArchiveDetailsList();
         //get ALL group-definitions, referencing the current group-identity
         for (ArchiveDetails groupDefDetails : groupDetailsList) {
-            if (groupIdentityId.equals(groupDefDetails.getDetails().getRelated())) {
+            if (groupIdentityId.equals(groupDefDetails.getLinks().getRelated())) {
                 groupDefsReferencingGroupIdentity.add(groupDefDetails);
             }
         }

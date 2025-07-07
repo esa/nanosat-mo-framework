@@ -143,17 +143,17 @@ public class ArchiveToParametersAdapter extends ArchiveAdapter implements QueryS
             }
         } else if (type.equals(parameterDefinitionType)) {
             for (ArchiveDetails archiveDetails : detailsList) {
-                definitionsMap.get(domain).put(archiveDetails.getInstId(), archiveDetails.getDetails().getRelated());
+                definitionsMap.get(domain).put(archiveDetails.getInstId(), archiveDetails.getLinks().getRelated());
             }
         } else if (type.equals(parameterValueType)) {
             for (int i = 0; i < detailsList.size(); ++i) {
-                if (valuesMap.get(domain).containsKey(detailsList.get(i).getDetails().getRelated())) {
-                    valuesMap.get(domain).get(detailsList.get(i).getDetails().getRelated()).add(
+                if (valuesMap.get(domain).containsKey(detailsList.get(i).getLinks().getRelated())) {
+                    valuesMap.get(domain).get(detailsList.get(i).getLinks().getRelated()).add(
                         new TimestampedParameterValue((ParameterValue) bodiesList.get(i), detailsList.get(i).getTimestamp()));
                 } else {
                     List<TimestampedParameterValue> values = new ArrayList<>();
                     values.add(new TimestampedParameterValue((ParameterValue) bodiesList.get(i), detailsList.get(i).getTimestamp()));
-                    valuesMap.get(domain).put(detailsList.get(i).getDetails().getRelated(), values);
+                    valuesMap.get(domain).put(detailsList.get(i).getLinks().getRelated(), values);
                 }
             }
         }

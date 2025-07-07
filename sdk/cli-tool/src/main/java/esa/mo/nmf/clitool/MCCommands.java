@@ -420,12 +420,12 @@ public class MCCommands {
                                 }
                             } else {
                                 System.out.println("Aggregation " + aggregationIdentities.get(objDetails.get(i)
-                                        .getDetails().getRelated()) + " is disabled!");
+                                        .getLinks().getRelated()) + " is disabled!");
                             }
 
                             if (!details.getSendDefinitions()) {
                                 System.out.println("sendDefinitions is set to false for aggregation: "
-                                        + aggregationIdentities.get(objDetails.get(i).getDetails().getRelated()) + ". "
+                                        + aggregationIdentities.get(objDetails.get(i).getLinks().getRelated()) + ". "
                                         + "Parameter names will not be available.");
                             }
 
@@ -500,7 +500,7 @@ public class MCCommands {
                             Map qosProperties) {
                         for (ArchiveDetails details : objDetails) {
                             definitionIdToIdentity.put(details.getInstId(), identityIdToName.get(details
-                                    .getDetails().getRelated()));
+                                    .getLinks().getRelated()));
                         }
                     }
 
@@ -510,7 +510,7 @@ public class MCCommands {
                             Map qosProperties) {
                         for (ArchiveDetails details : objDetails) {
                             definitionIdToIdentity.put(details.getInstId(), identityIdToName.get(details
-                                    .getDetails().getRelated()));
+                                    .getLinks().getRelated()));
                         }
 
                         synchronized (lock) {

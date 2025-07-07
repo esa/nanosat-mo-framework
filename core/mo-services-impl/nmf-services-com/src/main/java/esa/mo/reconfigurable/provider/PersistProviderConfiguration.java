@@ -85,7 +85,7 @@ public class PersistProviderConfiguration {
                     archiveService,
                     ConfigurationServiceInfo.CONFIGURATIONOBJECTS_OBJECT_TYPE,
                     confId.getKey().getDomain(),
-                    comObjectProvider.getArchiveDetails().getDetails().getRelated());
+                    comObjectProvider.getArchiveDetails().getLinks().getRelated());
             objIds = ((ConfigurationObjectDetails) comObjectConfs.getObject()).getConfigObjects().get(0).getObjInstIds();
             return;
         }
@@ -189,7 +189,7 @@ public class PersistProviderConfiguration {
 
         // Get all of the related links to retrieve from the archive
         for (ArchivePersistenceObject comObject : comObjects) {
-            relateds.add(comObject.getArchiveDetails().getDetails().getRelated());
+            relateds.add(comObject.getArchiveDetails().getLinks().getRelated());
         }
 
         // Retrieve it from the Archive

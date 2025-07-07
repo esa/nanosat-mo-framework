@@ -104,7 +104,7 @@ public class ArchiveToActionsAdapter extends ArchiveAdapter implements QueryStat
             }
         } else if (type.equals(actionDefinitionType)) {
             for (ArchiveDetails archiveDetails : detailsList) {
-                definitionsMap.get(domain).put(archiveDetails.getInstId(), archiveDetails.getDetails().getRelated());
+                definitionsMap.get(domain).put(archiveDetails.getInstId(), archiveDetails.getLinks().getRelated());
             }
         }
     }

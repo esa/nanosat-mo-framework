@@ -587,11 +587,11 @@ public class CameraAcquisitorGround {
                         }
                     } else if (objBody instanceof ActivityAcceptance) {
                         ActivityAcceptance instance = ((ActivityAcceptance) objBody);
-                        updateEvent(objDetails.get(i).getDetails().getSource().getKey().getInstId(),
+                        updateEvent(objDetails.get(i).getLinks().getSource().getKey().getInstId(),
                                 instance.getTypeId().getSFP(), objBody);
                     } else if (objBody instanceof ActivityExecution) {
                         ActivityExecution instance = ((ActivityExecution) objBody);
-                        updateEvent(objDetails.get(i).getDetails().getSource().getKey().getInstId(),
+                        updateEvent(objDetails.get(i).getLinks().getSource().getKey().getInstId(),
                                 instance.getTypeId().getSFP(), objBody);
                     }
                     i++;

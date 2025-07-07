@@ -80,7 +80,7 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationCh
                     return;
                 }
 
-                configObjectsObjId = comObject.getArchiveDetails().getDetails().getRelated();
+                configObjectsObjId = comObject.getArchiveDetails().getLinks().getRelated();
             }
 
             // Stuff to feed the update operation from the Archive...

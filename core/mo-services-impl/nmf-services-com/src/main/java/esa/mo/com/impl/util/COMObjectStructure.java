@@ -52,8 +52,8 @@ public class COMObjectStructure {
         this.domain = domain;
         this.objId = archiveDetails.getInstId();
 
-        this.sourceLink = archiveDetails.getDetails().getSource();
-        this.relatedLink = archiveDetails.getDetails().getRelated();
+        this.sourceLink = archiveDetails.getLinks().getSource();
+        this.relatedLink = archiveDetails.getLinks().getRelated();
         this.network = archiveDetails.getNetwork();
         this.timestamp = archiveDetails.getTimestamp();
         this.providerURI = archiveDetails.getProvider();

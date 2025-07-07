@@ -159,15 +159,15 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
             objType = HelperCOM.objType2string(objTypeType);
         }
 
-        ObjectLinks details = comObject.getArchiveDetails().getDetails();
+        ObjectLinks links = comObject.getArchiveDetails().getLinks();
 
-        if (details.getSource() != null) {
-            source = HelperCOM.objType2string(details.getSource().getType());
-            source += " (objId: " + details.getSource().getKey().getInstId().toString() + ")";
+        if (links.getSource() != null) {
+            source = HelperCOM.objType2string(links.getSource().getType());
+            source += " (objId: " + links.getSource().getKey().getInstId().toString() + ")";
         }
 
-        if (details.getRelated() != null) {
-            related = details.getRelated().toString();
+        if (links.getRelated() != null) {
+            related = links.getRelated().toString();
         }
 
         if (comObject.getArchiveDetails().getTimestamp() != null) {

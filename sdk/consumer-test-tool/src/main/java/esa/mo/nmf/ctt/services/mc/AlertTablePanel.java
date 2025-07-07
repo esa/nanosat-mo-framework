@@ -59,7 +59,7 @@ public class AlertTablePanel extends SharedTablePanel {
 
         AlertDefinition pDef = (AlertDefinition) comObject.getObject();
 
-        tableData.addRow(new Object[]{comObject.getArchiveDetails().getDetails().getRelated(),
+        tableData.addRow(new Object[]{comObject.getArchiveDetails().getLinks().getRelated(),
             name.toString(), pDef.getDescription(), pDef.getSeverity().toString(), pDef.getGenerationEnabled()});
 
         comObjects.add(comObject);

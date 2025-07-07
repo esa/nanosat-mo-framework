@@ -361,7 +361,7 @@ public class ArchiveManager {
             ArchiveDetails details = lArchiveDetails.get(i);
             final int providerURIId = this.fastProviderURI.getProviderURIId(details.getProvider());
             final int networkId = this.fastNetwork.getNetworkId(details.getNetwork());
-            final SourceLinkContainer sourceLink = this.createSourceContainerFromObjectId(details.getDetails().getSource());
+            final SourceLinkContainer sourceLink = this.createSourceContainerFromObjectId(details.getLinks().getSource());
             final Long objId = this.fastObjId.getUniqueObjId(objTypeId, domainId, details.getInstId());
 
             // If there are no objects in the list, inject null...
@@ -369,7 +369,7 @@ public class ArchiveManager {
 
             perObjsEntities.add(new COMObjectEntity(objTypeId, domainId, objId,
                     details.getTimestamp().getValue(), providerURIId,
-                    networkId, sourceLink, details.getDetails().getRelated(),
+                    networkId, sourceLink, details.getLinks().getRelated(),
                     objBody));
             objIds.add(objId);
         }
@@ -411,13 +411,13 @@ public class ArchiveManager {
             Object objBody = (objects == null) ? null : ((objects.get(i) == null) ? null : objects.get(i));
 
             SourceLinkContainer sourceLink = this.createSourceContainerFromObjectId(
-                    lArchiveDetails.get(i).getDetails().getSource());
+                    lArchiveDetails.get(i).getLinks().getSource());
 
             final COMObjectEntity newObj = new COMObjectEntity(objTypeId,
                     domainId, lArchiveDetails.get(i).getInstId(),
                     lArchiveDetails.get(i).getTimestamp().getValue(),
                     providerURIId, networkId, sourceLink,
-                    lArchiveDetails.get(i).getDetails().getRelated(), objBody); // 0.170 ms
+                    lArchiveDetails.get(i).getLinks().getRelated(), objBody); // 0.170 ms
 
             newObjs.add(newObj);
             objIds.add(lArchiveDetails.get(i).getInstId());

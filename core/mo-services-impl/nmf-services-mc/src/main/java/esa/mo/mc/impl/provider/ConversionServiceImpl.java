@@ -244,9 +244,9 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
             return null;
         //iterate through all entries to check for the given identity as the source object
         for (ArchiveDetails defArchiveDetails : defarchiveDetailsListFromArchive) {
-            if (defArchiveDetails.getDetails().getRelated() == null)
+            if (defArchiveDetails.getLinks().getRelated() == null)
                 continue;
-            if (defArchiveDetails.getDetails().getRelated().equals(identityId)) {
+            if (defArchiveDetails.getLinks().getRelated().equals(identityId)) {
                 //and filter for the latest one
                 final long itemTimestamp = defArchiveDetails.getTimestamp().getValue();
                 if (itemTimestamp > maxTimeStamp) {

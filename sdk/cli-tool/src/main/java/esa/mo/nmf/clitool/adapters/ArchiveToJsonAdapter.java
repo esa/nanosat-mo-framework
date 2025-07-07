@@ -208,7 +208,7 @@ public class ArchiveToJsonAdapter extends ArchiveAdapter implements QueryStatusP
         public CleanCOMArchiveObject(ObjectType objectType, ArchiveDetails archiveDetails, Object object) {
             // archive details
             instanceId = archiveDetails.getInstId();
-            objectDetails = archiveDetails.getDetails() == null ? null : new CleanObjectDetails(archiveDetails.getDetails());
+            objectDetails = archiveDetails.getLinks() == null ? null : new CleanObjectDetails(archiveDetails.getLinks());
             networkZone = archiveDetails.getNetwork().getValue();
             creationTime = HelperTime.time2readableString(archiveDetails.getTimestamp());
             providerURI = archiveDetails.getProvider().getValue();
