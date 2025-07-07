@@ -44,7 +44,7 @@ public class ParameterTest {
     private final static long ID4 = 9555;
     private final static long ID5 = 8;
 
-    private static class automationAdapterTester extends MonitorAndControlNMFAdapter {
+    private static class AutomationAdapterTester extends MonitorAndControlNMFAdapter {
 
         @Parameter(name = "private")
         private int privateParameter = 0;
@@ -79,9 +79,9 @@ public class ParameterTest {
 
     }
 
-    private static class registrationTester extends MCRegistration {
+    private static class RegistrationTester extends MCRegistration {
 
-        public registrationTester() {
+        public RegistrationTester() {
             super(null, null, null, null, null);
         }
 
@@ -101,8 +101,8 @@ public class ParameterTest {
 
     @Test
     public void test0() throws IOException {
-        automationAdapterTester test = new automationAdapterTester();
-        test.initialRegistrations(new registrationTester());
+        AutomationAdapterTester test = new AutomationAdapterTester();
+        test.initialRegistrations(new RegistrationTester());
 
         ParameterRawValueList setList = new ParameterRawValueList();
         Object attribute = Attribute.javaType2Attribute(42);
@@ -126,6 +126,5 @@ public class ParameterTest {
         org.junit.Assert.assertTrue("'" + v3 + "' != '" + .99999 + "'", v3.equals(.99999));
         org.junit.Assert.assertTrue("'" + v4 + "' != '" + "Hallo" + "'", v4.equals("Hallo"));
         org.junit.Assert.assertTrue("'" + v5 + "' != '" + "new" + "'", v5.equals("new"));
-
     }
 }

@@ -34,26 +34,13 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectIdList;
-import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.helpertools.misc.TaskScheduler;
+import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
-import org.ccsds.moims.mo.mal.structures.Attribute;
-import org.ccsds.moims.mo.mal.structures.AttributeType;
-import org.ccsds.moims.mo.mal.structures.Duration;
-import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.structures.IntegerList;
-import org.ccsds.moims.mo.mal.structures.LongList;
-import org.ccsds.moims.mo.mal.structures.Pair;
-import org.ccsds.moims.mo.mal.structures.PairList;
-import org.ccsds.moims.mo.mal.structures.UInteger;
-import org.ccsds.moims.mo.mal.structures.UOctet;
-import org.ccsds.moims.mo.mal.structures.UShort;
-import org.ccsds.moims.mo.mal.structures.Union;
-import org.ccsds.moims.mo.mal.structures.UpdateHeader;
+import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.action.structures.ActionCategory;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinition;
@@ -78,12 +65,14 @@ import org.ccsds.moims.mo.mc.structures.ConditionalConversionList;
 import org.ccsds.moims.mo.mc.structures.ParameterExpression;
 import org.ccsds.moims.mo.platform.autonomousadcs.body.GetStatusResponse;
 import org.ccsds.moims.mo.platform.autonomousadcs.consumer.AutonomousADCSAdapter;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.ActuatorsTelemetry;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeBDot;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeNadirPointing;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeSingleSpinning;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeSunPointing;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeTargetTracking;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeTelemetry;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion;
 import org.ccsds.moims.mo.platform.structures.VectorF3D;
 import org.ccsds.moims.mo.platform.gps.body.GetLastKnownPositionResponse;
@@ -470,7 +459,7 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
                 });
 
         // Action dispatcher
-        if (null != name.getValue()) {
+        if (name.getValue() != null) {
             switch (name.getValue()) {
                 case ACTION_SUN_POINTING_MODE:
                     return executeAdcsModeAction(
@@ -563,10 +552,8 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
         @Override
         public void monitorAttitudeNotifyReceived(final MALMessageHeader msgHeader,
                 final Identifier lIdentifier, final UpdateHeader lUpdateHeaderList,
-                org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeTelemetry attitudeTm,
-                org.ccsds.moims.mo.platform.autonomousadcs.structures.ActuatorsTelemetry actuatorsTm,
-                org.ccsds.moims.mo.mal.structures.Duration remainingDuration,
-                org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode, final Map qosp) {
+                AttitudeTelemetry attitudeTm, ActuatorsTelemetry actuatorsTm,
+                Duration remainingDuration, AttitudeMode attitudeMode, final Map qosp) {
             try {
                 VectorF3D sunVector = attitudeTm.getSunVector();
                 VectorF3D magneticField = attitudeTm.getMagneticField();
