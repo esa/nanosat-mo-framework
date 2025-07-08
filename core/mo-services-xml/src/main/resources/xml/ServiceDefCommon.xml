@@ -26,7 +26,7 @@
                     <mal:messages>
                         <mal:request>
                             <mal:field name="filter"
-                                       comment="The filter field shall define the lookup query and be used to match details previously published using the publishProvider operation, the specifics of the ServiceFilter fields are defined in the following requirements.&#xA;If the serviceProviderId field is NULL then all service provider identifiers shall be matched.&#xA;If the final identifier of the domain field of the filter is the wildcard '*', then all sub-domains shall be searched for matches. See R[2] section 3.5.6.5.g.&#xA;If the wildcard is used in any other part of the domain other than the final one then an INVALID error shall be returned.&#xA;If the domain field is NULL then all domains shall be matched.&#xA;If the network field is NULL then all networks shall be matched.&#xA;If the sessionType field is NULL then all session types shall be matched.&#xA;If the sessionName field is NULL then all session names shall be matched.&#xA;The ServiceId field shall be used to match against ServiceId fields held in the PublishDetails used to publish a specific provider.&#xA;If the ServiceId field is NULL then all areas, services and versions shall be matched.&#xA;If the area field is the wildcard '0' then all areas names shall be matched.&#xA;If the service field is the wildcard '0' then all services shall be matched.&#xA;If the version field is the wildcard '0' then all area versions shall be matched.&#xA;If the requiredCapabilitySets field is NULL or an empty list then all service capability sets shall be matched.">
+                                       comment="The filter field shall define the lookup query and be used to match details previously published using the publishProvider operation, the specifics of the ServiceFilter fields are defined in the following requirements.&#xA;If the serviceProviderId field is NULL then all service provider identifiers shall be matched.&#xA;If the final identifier of the domain field of the filter is the wildcard '*', then all sub-domains shall be searched for matches. See R[2] section 3.5.6.5.g.&#xA;If the wildcard is used in any other part of the domain other than the final one then an INVALID error shall be returned.&#xA;If the domain field is NULL then all domains shall be matched.&#xA;If the network field is NULL then all networks shall be matched.&#xA;If the sessionName field is NULL then all session names shall be matched.&#xA;The ServiceId field shall be used to match against ServiceId fields held in the PublishDetails used to publish a specific provider.&#xA;If the ServiceId field is NULL then all areas, services and versions shall be matched.&#xA;If the area field is the wildcard '0' then all areas names shall be matched.&#xA;If the service field is the wildcard '0' then all services shall be matched.&#xA;If the version field is the wildcard '0' then all area versions shall be matched.&#xA;If the requiredCapabilitySets field is NULL or an empty list then all service capability sets shall be matched.">
                                 <mal:type name="ServiceFilter" service="Directory" area="Common"/>
                             </mal:field>
                         </mal:request>
@@ -209,10 +209,6 @@
                     <mal:field name="domain" canBeNull="false" comment="The domain of the provider.">
                         <mal:type list="true" name="Identifier" area="MAL"/>
                     </mal:field>
-                    <mal:field name="sessionType" canBeNull="false"
-                               comment="The type of session of the provider.">
-                        <mal:type name="SessionType" area="MAL"/>
-                    </mal:field>
                     <mal:field name="sourceSessionName"
                                comment="If this is part of a replay session, this field holds the session name of the source session. NULL otherwise">
                         <mal:type name="Identifier" area="MAL"/>
@@ -245,10 +241,6 @@
                     <mal:field name="network"
                                comment="The network to match. Can be NULL in which case matches all values.">
                         <mal:type name="Identifier" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="sessionType"
-                               comment="The session type to match. Can be NULL in which case matches all values.">
-                        <mal:type name="SessionType" area="MAL"/>
                     </mal:field>
                     <mal:field name="sessionName"
                                comment="The session name to match. Can be NULL in which case matches all values.">

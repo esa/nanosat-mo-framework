@@ -313,7 +313,7 @@ public class NMFConsumer {
 
         // Additional logic to save bandwidth in the Space2Ground link
         ServiceFilter filter = new ServiceFilter(new Identifier("*"),
-                wildcardList, new Identifier("*"), null,
+                wildcardList, new Identifier("*"),
                 new Identifier(isS2G ? DirectoryProviderServiceImpl.CHAR_S2G : "*"),
                 new ServiceId(new UShort((short) 0), new UShort((short) 0), new UOctet((short) 0)),
                 new UShortList()

@@ -145,7 +145,6 @@ public abstract class GroundMOProxy {
                 new Identifier("*"),
                 wildcardList,
                 new Identifier("*"),
-                null,
                 new Identifier("*"),
                 key,
                 new UShortList());

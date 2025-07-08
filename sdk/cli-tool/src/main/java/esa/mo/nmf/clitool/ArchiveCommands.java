@@ -191,8 +191,8 @@ public class ArchiveCommands {
             IdentifierList domain = domainId == null ? null : HelperDomain.domainId2domain(domainId);
             FineTime startTimeF = startTime == null ? null : HelperTime.readableString2FineTime(startTime);
             FineTime endTimeF = endTime == null ? null : HelperTime.readableString2FineTime(endTime);
-            ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, null, 0L, null, startTimeF, endTimeF, null,
-                    null);
+            ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, null, 0L,
+                    null, startTimeF, endTimeF, null, null);
             archiveQueryList.add(archiveQuery);
 
             boolean consumerCreated = false;
@@ -254,10 +254,10 @@ public class ArchiveCommands {
         // Create archive provider filter
         IdentifierList domain = new IdentifierList();
         domain.add(new Identifier("*"));
-        ServiceId sk = new ServiceId(COMHelper.COM_AREA_NUMBER, ArchiveServiceInfo.ARCHIVE_SERVICE_NUMBER, new UOctet(
-                (short) 0));
-        ServiceFilter sf2 = new ServiceFilter(new Identifier("*"), domain, new Identifier("*"), null, new Identifier(
-                "*"), sk, new UShortList());
+        ServiceId sk = new ServiceId(COMHelper.COM_AREA_NUMBER,
+                ArchiveServiceInfo.ARCHIVE_SERVICE_NUMBER, new UOctet((short) 0));
+        ServiceFilter sf2 = new ServiceFilter(new Identifier("*"), domain,
+                new Identifier("*"), new Identifier("*"), sk, new UShortList());
 
         // Query directory service with filter
         try {
@@ -304,8 +304,8 @@ public class ArchiveCommands {
             if (!super.initRemoteConsumer()) {
                 return;
             }
-            ObjectType objectsTypes = new ObjectType(new UShort(0), new UShort(0), new UOctet((short) 0), new UShort(
-                    0));
+            ObjectType objectsTypes = new ObjectType(new UShort(0),
+                    new UShort(0), new UOctet((short) 0), new UShort(0));
             ArchiveQueryList archiveQueryList = new ArchiveQueryList();
             IdentifierList domain = domainId == null ? null : HelperDomain.domainId2domain(domainId);
             ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, null,

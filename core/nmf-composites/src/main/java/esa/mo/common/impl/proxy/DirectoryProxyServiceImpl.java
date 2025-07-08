@@ -80,7 +80,6 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
             PublishDetails pub = new PublishDetails(
                     provider.getProviderId(),
                     provider.getDomain(),
-                    SessionType.LIVE,
                     null,
                     new Identifier("not_available"),
                     provider.getProviderDetails(),

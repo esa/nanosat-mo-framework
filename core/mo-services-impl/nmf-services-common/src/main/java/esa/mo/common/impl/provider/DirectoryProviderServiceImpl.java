@@ -207,13 +207,6 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
                 continue;
             }
 
-            // Check session type
-            if (filter.getSessionType() != null) {
-                if (!provider.getSessionType().equals(filter.getSessionType())) {
-                    continue;
-                }
-            }
-
             // Check session name
             if (!filter.getSessionName().toString().equals("*")) {
                 if (!CHAR_S2G.equals(filter.getSessionName().toString())) {
@@ -464,8 +457,8 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
         ProviderDetails serviceDetails = new ProviderDetails(capabilities, new AddressDetailsList());
 
         PublishDetails newProviderDetails = new PublishDetails(new Identifier(providerName),
-                ConfigurationProviderSingleton.getDomain(), ConfigurationProviderSingleton.getSession(),
-                null, ConfigurationProviderSingleton.getNetwork(), serviceDetails, null);
+                ConfigurationProviderSingleton.getDomain(), null,
+                ConfigurationProviderSingleton.getNetwork(), serviceDetails, null);
 
         try {
             this.publishProvider(newProviderDetails, null);

@@ -420,7 +420,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
                 final ServiceId serviceId = new ServiceId(key.getAreaNumber(),
                         key.getServiceNumber(), key.getAreaVersion());
                 final ServiceFilter sf = new ServiceFilter(new Identifier(Const.NANOSAT_MO_SUPERVISOR_NAME), domain,
-                        new Identifier("*"), null, new Identifier("*"), serviceId, new UShortList());
+                        new Identifier("*"), new Identifier("*"), serviceId, new UShortList());
                 final ProviderSummaryList supervisorParameterServiceConnectionDetails
                         = centralDirectory.getDirectoryStub().lookupProvider(sf);
 
