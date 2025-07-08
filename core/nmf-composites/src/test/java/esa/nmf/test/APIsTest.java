@@ -35,7 +35,7 @@ import org.junit.Test;
 public class APIsTest {
 
     @Test
-    public void test0() throws IOException {
+    public void testAreaVersions() throws IOException {
         // Check if the MO Area versions match the version of the Java code
         int version = NMFProvider.getMajorVersionNMF();
 
