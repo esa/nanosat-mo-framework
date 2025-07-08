@@ -59,9 +59,6 @@
                                        comment="If the providerId field of the PublishDetails structure matches an existing ServiceProvider COM object, the operation shall update the existing details of that provider.&#xA;If the providerId field of the PublishDetails structure does not match an existing ServiceProvider COM object, then the operation shall create a new ServiceProvider COM object to represent the new service provider.&#xA;A new ProviderCapabilities COM object shall be created to store the capabilities of the provider.&#xA;The created objects should be stored in the COM archive by the directory service provider.&#xA;The operation shall return the COM object instance identifiers of the ServiceProvider and ProviderCapabilities COM objects representing the provider.">
                                 <mal:type name="Long" area="MAL"/>
                             </mal:field>
-                            <mal:field name="capabilitiesObjId">
-                                <mal:type name="Long" area="MAL"/>
-                            </mal:field>
                         </mal:response>
                     </mal:messages>
                     <mal:errors>

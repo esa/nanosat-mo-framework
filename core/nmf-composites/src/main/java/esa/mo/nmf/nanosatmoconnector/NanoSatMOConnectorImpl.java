@@ -46,7 +46,6 @@ import org.ccsds.moims.mo.com.COMService;
 import org.ccsds.moims.mo.com.event.EventHelper;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.common.configuration.ConfigurationServiceInfo;
-import org.ccsds.moims.mo.common.directory.body.PublishProviderResponse;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
 import org.ccsds.moims.mo.common.directory.structures.PublishDetails;
@@ -268,9 +267,8 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                             "Populating Central Directory service on URI: {0}",
                             centralDirectoryURI.getValue());
 
-                    final PublishProviderResponse response = centralDirectory.getDirectoryStub().publishProvider(
+                    this.appDirectoryServiceId = centralDirectory.getDirectoryStub().publishProvider(
                             publishDetails);
-                    this.appDirectoryServiceId = response.getProviderObjId();
                     centralDirectory.closeConnection(); // Close the connection to the Directory service
                     LOGGER.log(Level.INFO,
                             "Populated! And the connection to the Directory service has been successfully closed!");

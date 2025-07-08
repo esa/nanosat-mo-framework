@@ -36,7 +36,6 @@ import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
 import org.ccsds.moims.mo.common.directory.DirectoryHelper;
 import org.ccsds.moims.mo.common.directory.DirectoryServiceInfo;
-import org.ccsds.moims.mo.common.directory.body.PublishProviderResponse;
 import org.ccsds.moims.mo.common.directory.provider.DirectoryInheritanceSkeleton;
 import org.ccsds.moims.mo.common.directory.structures.AddressDetails;
 import org.ccsds.moims.mo.common.directory.structures.AddressDetailsList;
@@ -303,13 +302,11 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
     }
 
     @Override
-    public PublishProviderResponse publishProvider(final PublishDetails newProviderDetails,
+    public Long publishProvider(final PublishDetails newProviderDetails,
             final MALInteraction interaction) throws MALInteractionException, MALException {
         Identifier serviceProviderName = newProviderDetails.getProviderId();
         HeterogeneousList objBodies = new HeterogeneousList();
         objBodies.add(serviceProviderName);
-
-        PublishProviderResponse response = new PublishProviderResponse();
 
         synchronized (MUTEX) {
             final HashMap<Long, PublishDetails> list = new HashMap<>(providersAvailable);
@@ -368,10 +365,8 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
                     ConfigurationProviderSingleton.getDomain(), archDetails1, capabilities, null);
 
             this.providersAvailable.put(servProvObjId, newProviderDetails);
-            response = new PublishProviderResponse(servProvObjId, null);
+            return servProvObjId;
         }
-
-        return response;
     }
 
     @Override

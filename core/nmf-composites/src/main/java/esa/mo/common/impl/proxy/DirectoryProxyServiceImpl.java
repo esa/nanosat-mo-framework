@@ -88,7 +88,6 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
 
         // Make the Ground MO Proxy (itself) also available in the list of providers
         this.loadURIs(Const.NANOSAT_MO_GROUND_PROXY_NAME);
-
         return updatedProviders;
     }
 
