@@ -220,10 +220,6 @@
                                comment="The new service provider details.">
                         <mal:type name="ProviderDetails" service="Directory" area="Common"/>
                     </mal:field>
-                    <mal:field name="serviceXML"
-                               comment="The optional XML files to associate with this provider.">
-                        <mal:type list="true" name="File" area="MAL"/>
-                    </mal:field>
                 </mal:composite>
                 <mal:composite name="ServiceFilter" shortFormPart="7"
                                comment="The ServiceFilter structure holds all information required by the Directory service for service lookup operation. The field filters are AND'd together.">
