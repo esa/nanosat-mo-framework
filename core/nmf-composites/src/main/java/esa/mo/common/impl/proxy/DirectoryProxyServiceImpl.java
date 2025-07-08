@@ -83,7 +83,7 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
                     null,
                     new Identifier("not_available"),
                     provider.getProviderDetails());
-            this.publishProvider(pub, null);
+            this.add(pub, null);
         }
 
         // Make the Ground MO Proxy (itself) also available in the list of providers

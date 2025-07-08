@@ -302,7 +302,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
     }
 
     @Override
-    public Long publishProvider(final PublishDetails newProviderDetails,
+    public Long add(final PublishDetails newProviderDetails,
             final MALInteraction interaction) throws MALInteractionException, MALException {
         Identifier serviceProviderName = newProviderDetails.getProviderId();
         HeterogeneousList objBodies = new HeterogeneousList();
@@ -319,7 +319,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
                     // It is repeated!!
                     LOGGER.warning("There was already a provider with the same name in the "
                             + "Directory service. Removing the old one and adding the new one...");
-                    withdrawProvider(key, null);
+                    remove(key, null);
                 }
             }
 
@@ -370,7 +370,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
     }
 
     @Override
-    public void withdrawProvider(Long providerObjectKey,
+    public void remove(Long providerObjectKey,
             MALInteraction interaction) throws MALInteractionException, MALException {
         synchronized (MUTEX) {
             if (!this.providersAvailable.containsKey(providerObjectKey)) { // The requested provider does not exist
@@ -397,7 +397,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
     public void withdrawAllProviders() throws MALInteractionException, MALException {
         synchronized (MUTEX) {
             for (Long key : providersAvailable.keySet()) {
-                withdrawProvider(key, null);
+                remove(key, null);
             }
         }
     }
@@ -456,7 +456,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
                 ConfigurationProviderSingleton.getNetwork(), serviceDetails);
 
         try {
-            this.publishProvider(newProviderDetails, null);
+            this.add(newProviderDetails, null);
             return newProviderDetails;
         } catch (MALInteractionException | MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);

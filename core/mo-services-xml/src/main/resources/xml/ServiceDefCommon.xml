@@ -6,7 +6,7 @@
     <mal:area name="Common" number="3" version="5"
               comment="This section details the Common Services; the structures used by the services and operations are detailed in section 4. The services and structures are defined in terms of the MO Message Abstraction Layer (MAL) which is defined in reference [2], so it is possible to deploy them over any supported protocol and message transport.&#xA;The services defined here are also specified in terms of the COM which is defined in reference [3]. &#xA;To aid comprehension several tables are included for each service and operation definition. The table formats are the same as those used for the specification of the MO COM Services in reference [3]. The formats are fully described in reference [2] in section 2 and in reference [3] section 2, for COM usage.&#xA;All service specifications in this document are part of the Common Area.">
         <mal:service xsi:type="com:ExtendedServiceType" name="Directory" number="1"
-                     comment="The Directory service allows service providers to publish information about which services they provide and consumers to discover service provider address and capability information.&#xA;Service provider information is made available using the Directory service publishProvider operation and removed using the withdrawProvider operation.&#xA;The lookupProvider operation provides the ability for consumers to query the directory service based on a filter such as required service capability.&#xA;Finally, a provider may supply its set of service specification XML files when publishing its capabilities. This allows consumers that are able to process MO service XML files obtain the files for further processing. It is expected that this would be used to either ensure that no modifications have been made by a provider to a standard service or, in the case of a consumer that is able to dynamically interact with new service specifications, obtain the service specification to allow interaction with that new service.">
+                     comment="The Directory service allows service providers to publish information about which services they provide and consumers to discover service provider address and capability information.&#xA;Service provider information is made available using the Directory service add operation and removed using the remove operation.&#xA;The lookupProvider operation provides the ability for consumers to query the directory service based on a filter such as required service capability.&#xA;Finally, a provider may supply its set of service specification XML files when publishing its capabilities. This allows consumers that are able to process MO service XML files obtain the files for further processing. It is expected that this would be used to either ensure that no modifications have been made by a provider to a standard service or, in the case of a consumer that is able to dynamically interact with new service specifications, obtain the service specification to allow interaction with that new service.">
             <mal:documentation name="High Level Requirements" order="1">The directory service shall provide the capability:
 &lt;ol&gt;
  &lt;li&gt;request service provider details based on a filter;&lt;/li&gt;
@@ -14,7 +14,7 @@
  &lt;li&gt;withdraw service provider details;&lt;/li&gt;
  &lt;li&gt;request any supplied service XML for a service provider.&lt;/li&gt;
 &lt;/ol&gt;</mal:documentation>
-            <mal:documentation name="Functional Requirements" order="2">A service provider shall use the publishProvider operation to make available the set of services and the capabilities of those services that it offers.
+            <mal:documentation name="Functional Requirements" order="2">A service provider shall use the add operation to make available the set of services and the capabilities of those services that it offers.
                 The publish operation shall take a PublishDetails structure which defines the capabilities and addressing information of that service provider.
                 It shall be possible for a provider to offer multiple service addresses and bindings to allows the provider to support multiple message transports and encodings.
                 Each service address entry shall include the service interface binding signature description, interface address, MAL protocol mapping, message encoding, the supported QoS levels and associated QoS properties available for that connection.
@@ -26,7 +26,7 @@
                     <mal:messages>
                         <mal:request>
                             <mal:field name="filter"
-                                       comment="The filter field shall define the lookup query and be used to match details previously published using the publishProvider operation, the specifics of the ServiceFilter fields are defined in the following requirements.&#xA;If the serviceProviderId field is NULL then all service provider identifiers shall be matched.&#xA;If the final identifier of the domain field of the filter is the wildcard '*', then all sub-domains shall be searched for matches. See R[2] section 3.5.6.5.g.&#xA;If the wildcard is used in any other part of the domain other than the final one then an INVALID error shall be returned.&#xA;If the domain field is NULL then all domains shall be matched.&#xA;If the network field is NULL then all networks shall be matched.&#xA;If the sessionName field is NULL then all session names shall be matched.&#xA;The ServiceId field shall be used to match against ServiceId fields held in the PublishDetails used to publish a specific provider.&#xA;If the ServiceId field is NULL then all areas, services and versions shall be matched.&#xA;If the area field is the wildcard '0' then all areas names shall be matched.&#xA;If the service field is the wildcard '0' then all services shall be matched.&#xA;If the version field is the wildcard '0' then all area versions shall be matched.&#xA;If the requiredCapabilitySets field is NULL or an empty list then all service capability sets shall be matched.">
+                                       comment="The filter field shall define the lookup query and be used to match details previously published using the add operation, the specifics of the ServiceFilter fields are defined in the following requirements.&#xA;If the serviceProviderId field is NULL then all service provider identifiers shall be matched.&#xA;If the final identifier of the domain field of the filter is the wildcard '*', then all sub-domains shall be searched for matches. See R[2] section 3.5.6.5.g.&#xA;If the wildcard is used in any other part of the domain other than the final one then an INVALID error shall be returned.&#xA;If the domain field is NULL then all domains shall be matched.&#xA;If the network field is NULL then all networks shall be matched.&#xA;If the sessionName field is NULL then all session names shall be matched.&#xA;The ServiceId field shall be used to match against ServiceId fields held in the PublishDetails used to publish a specific provider.&#xA;If the ServiceId field is NULL then all areas, services and versions shall be matched.&#xA;If the area field is the wildcard '0' then all areas names shall be matched.&#xA;If the service field is the wildcard '0' then all services shall be matched.&#xA;If the version field is the wildcard '0' then all area versions shall be matched.&#xA;If the requiredCapabilitySets field is NULL or an empty list then all service capability sets shall be matched.">
                                 <mal:type name="ServiceFilter" service="Directory" area="Common"/>
                             </mal:field>
                         </mal:request>
@@ -45,8 +45,8 @@
                 </mal:requestIP>
             </mal:capabilitySet>
             <mal:capabilitySet number="2">
-                <mal:requestIP name="publishProvider" number="2" supportInReplay="false"
-                               comment="The publishProvider operation adds a new or updates an existing entry in the list of service providers held in the directory service.">
+                <mal:requestIP name="add" number="2" supportInReplay="false"
+                               comment="The add operation adds a new or updates an existing entry in the list of service providers held in the directory service.">
                     <mal:messages>
                         <mal:request>
                             <mal:field name="newProviderDetails"
@@ -67,8 +67,8 @@
                         </mal:errorRef>
                     </mal:errors>
                 </mal:requestIP>
-                <mal:submitIP name="withdrawProvider" number="3" supportInReplay="false"
-                              comment="The withdrawProvider operation removes an existing entry from the list of service providers held in the directory service. If no match is found for the withdraw request, then nothing is changed.">
+                <mal:submitIP name="remove" number="3" supportInReplay="false"
+                              comment="The remove operation removes an existing entry from the list of service providers held in the directory service. If no match is found for the withdraw request, then nothing is changed.">
                     <mal:messages>
                         <mal:submit>
                             <mal:field name="providerObjId"

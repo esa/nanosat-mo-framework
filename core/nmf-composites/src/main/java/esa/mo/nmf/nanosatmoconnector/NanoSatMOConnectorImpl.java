@@ -267,7 +267,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                             "Populating Central Directory service on URI: {0}",
                             centralDirectoryURI.getValue());
 
-                    this.appDirectoryServiceId = centralDirectory.getDirectoryStub().publishProvider(
+                    this.appDirectoryServiceId = centralDirectory.getDirectoryStub().add(
                             publishDetails);
                     centralDirectory.closeConnection(); // Close the connection to the Directory service
                     LOGGER.log(Level.INFO,
@@ -374,7 +374,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                 try {
                     DirectoryConsumerServiceImpl directoryServiceConsumer = new DirectoryConsumerServiceImpl(
                             centralDirectoryURI);
-                    directoryServiceConsumer.getDirectoryStub().withdrawProvider(this.getAppDirectoryId());
+                    directoryServiceConsumer.getDirectoryStub().remove(this.getAppDirectoryId());
                     directoryServiceConsumer.closeConnection();
                 } catch (MALException | MalformedURLException ex) {
                     LOGGER.log(Level.SEVERE, null, ex);
