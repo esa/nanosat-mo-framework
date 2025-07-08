@@ -425,13 +425,6 @@
         <mal:service xsi:type="com:ExtendedServiceType" name="Configuration" number="5"
                      comment="The Configuration service allows a service consumer to activate pre-defined configurations of a service provider. &#xA;The service uses a COM object to represent the different configurations allowed by a service provider; a service consumer selects one configuration to activate using the Configuration service activate operation.&#xA;The contents of a configuration for a service provider is deployment specific however the management of these configurations, and the selection of a configuration for current use, is the purpose of this service.&#xA;Implementations of this service may also use bespoke methods for configuration representation (such as hard-coded configuration) which is outside the scope of this specification, however, the status and management of these configurations can still be managed with this service.&#xA;NOTE: This service uses the COM Event service to distribute changes in state, therefore participating service providers should ensure they are all using the same shared COM Event service if they wish to receive Configuration service events.">
             <mal:dataTypes>
-                <mal:enumeration name="ConfigurationType" shortFormPart="4"
-                                 comment="The configuration type enumeration holds the possible types of a configuration.">
-                    <mal:item value="PROVIDER" nvalue="1"
-                              comment="The configuration is a Provider configuration."/>
-                    <mal:item value="SERVICE" nvalue="2"
-                              comment="The configuration is a Service configuration."/>
-                </mal:enumeration>
                 <mal:composite name="ConfigurationObjectSet" shortFormPart="1"
                                comment="The configuration object set holds a set of object identifiers for a single COM object type in a single domain.">
                     <mal:field name="objType" canBeNull="false"
