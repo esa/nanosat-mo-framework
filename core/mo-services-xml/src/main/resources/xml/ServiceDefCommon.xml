@@ -6,33 +6,39 @@
     <mal:area name="Common" number="3" version="5"
               comment="This section details the Common Services; the structures used by the services and operations are detailed in section 4. The services and structures are defined in terms of the MO Message Abstraction Layer (MAL) which is defined in reference [2], so it is possible to deploy them over any supported protocol and message transport.&#xA;The services defined here are also specified in terms of the COM which is defined in reference [3]. &#xA;To aid comprehension several tables are included for each service and operation definition. The table formats are the same as those used for the specification of the MO COM Services in reference [3]. The formats are fully described in reference [2] in section 2 and in reference [3] section 2, for COM usage.&#xA;All service specifications in this document are part of the Common Area.">
         <mal:service xsi:type="com:ExtendedServiceType" name="Directory" number="1"
-                     comment="The Directory service allows service providers to publish information about which services they provide and consumers to discover service provider address and capability information.&#xA;Service provider information is made available using the Directory service add operation and removed using the remove operation.&#xA;The lookup operation provides the ability for consumers to query the directory service based on a filter such as required service capability.&#xA;Finally, a provider may supply its set of service specification XML files when publishing its capabilities. This allows consumers that are able to process MO service XML files obtain the files for further processing. It is expected that this would be used to either ensure that no modifications have been made by a provider to a standard service or, in the case of a consumer that is able to dynamically interact with new service specifications, obtain the service specification to allow interaction with that new service.">
-            <mal:documentation name="High Level Requirements" order="1">The directory service shall provide the capability:
+                     comment="The Directory service allows providers to publish information about which services they provide and consumers to discover provider address and capability information.&#xA;Service provider information is made available using the Directory service add operation and removed using the remove operation.&#xA;The lookup operation provides the ability for consumers to query the directory service based on a filter such as required service capability.&#xA;Finally, a provider may supply its set of service specification XML files when publishing its capabilities. This allows consumers that are able to process MO service XML files obtain the files for further processing. It is expected that this would be used to either ensure that no modifications have been made by a provider to a standard service or, in the case of a consumer that is able to dynamically interact with new service specifications, obtain the service specification to allow interaction with that new service.">
+            <mal:documentation name="High Level Requirements" order="1">The directory service shall provide the capability to:
 &lt;ol&gt;
- &lt;li&gt;request service provider details based on a filter;&lt;/li&gt;
- &lt;li&gt;publish new service provider details;&lt;/li&gt;
- &lt;li&gt;withdraw service provider details;&lt;/li&gt;
- &lt;li&gt;request any supplied service XML for a service provider.&lt;/li&gt;
+ &lt;li&gt;request provider details based on a filter;&lt;/li&gt;
+ &lt;li&gt;add new provider details;&lt;/li&gt;
+ &lt;li&gt;remove provider details;&lt;/li&gt;
+ &lt;li&gt;request the area XML for a certain MAL area.&lt;/li&gt;
 &lt;/ol&gt;</mal:documentation>
-            <mal:documentation name="Functional Requirements" order="2">A service provider shall use the add operation to make available the set of services and the capabilities of those services that it offers.
-                The publish operation shall take a PublishDetails structure which defines the capabilities and addressing information of that service provider.
+            <mal:documentation name="Functional Requirements" order="2">A provider shall use the add operation to make available the set of services and the capabilities of those services that it offers.
+                The publish operation shall take a PublishDetails structure which defines the capabilities and addressing information of that provider.
                 It shall be possible for a provider to offer multiple service addresses and bindings to allows the provider to support multiple message transports and encodings.
                 Each service address entry shall include the service interface binding signature description, interface address, MAL protocol mapping, message encoding, the supported QoS levels and associated QoS properties available for that connection.
                 A service consumer indicates its required QoS level and priority by using these values in the lookup operation.
                 For services that have operations based on the publish and subscribe interaction pattern there may be required a separate URI for the broker component. To support this the directory service shall hold two URIs for each service, the URI of the primary interface and also a secondary one which, if present, is used for publish and subscribe-based operations.</mal:documentation>
             <mal:capabilitySet number="1">
-                <mal:requestIP name="lookup" number="1" supportInReplay="true"
-                               comment="The lookup operation allows a service consumer to query the directory service to return a list of service providers that match the requested criteria. If no match is found, then an empty list is returned.&#xA;&#xA;NOTE: The various filters that may be specified as part of this operation are combined using AND logic.">
+                <mal:requestIP name="lookup" number="1" supportInReplay="true" comment="The lookup operation retrieves the list of providers made available in the Directory service.">
+                    <mal:documentation name="Requirement" order="1">
+                        A consumer shall send the lookup criteria to the provider for the providers intended to be retrieved.
+                    </mal:documentation>
+                    The various filters that may be specified as part of this operation shall be combined using AND logic.
+                    <mal:documentation name="Requirement" order="2">
+                    </mal:documentation>
+                    The returned list of providers that match the requested criteria. If no match is found, then an empty list is returned.
+                    <mal:documentation name="Requirement" order="3">
+                    </mal:documentation>
                     <mal:messages>
                         <mal:request>
-                            <mal:field name="filter"
-                                       comment="The filter field shall define the lookup query and be used to match details previously published using the add operation, the specifics of the ServiceFilter fields are defined in the following requirements.&#xA;If the serviceProviderId field is NULL then all service provider identifiers shall be matched.&#xA;If the final identifier of the domain field of the filter is the wildcard '*', then all sub-domains shall be searched for matches. See R[2] section 3.5.6.5.g.&#xA;If the wildcard is used in any other part of the domain other than the final one then an INVALID error shall be returned.&#xA;If the domain field is NULL then all domains shall be matched.&#xA;If the network field is NULL then all networks shall be matched.&#xA;If the sessionName field is NULL then all session names shall be matched.&#xA;The ServiceId field shall be used to match against ServiceId fields held in the PublishDetails used to publish a specific provider.&#xA;If the ServiceId field is NULL then all areas, services and versions shall be matched.&#xA;If the area field is the wildcard '0' then all areas names shall be matched.&#xA;If the service field is the wildcard '0' then all services shall be matched.&#xA;If the version field is the wildcard '0' then all area versions shall be matched.&#xA;If the requiredCapabilitySets field is NULL or an empty list then all service capability sets shall be matched.">
+                            <mal:field name="filter" comment="The lookup query filter to be used to match the providers.&#xA;If the serviceProviderId field is NULL then all provider identifiers shall be matched.&#xA;If the final identifier of the domain field of the filter is the wildcard '*', then all sub-domains shall be searched for matches. See R[2] section 3.5.6.5.g.&#xA;If the wildcard is used in any other part of the domain other than the final one then an INVALID error shall be returned.&#xA;If the domain field is NULL then all domains shall be matched.&#xA;If the network field is NULL then all networks shall be matched.&#xA;If the sessionName field is NULL then all session names shall be matched.&#xA;The ServiceId field shall be used to match against ServiceId fields held in the PublishDetails used to publish a specific provider.&#xA;If the ServiceId field is NULL then all areas, services and versions shall be matched.&#xA;If the area field is the wildcard '0' then all areas names shall be matched.&#xA;If the service field is the wildcard '0' then all services shall be matched.&#xA;If the version field is the wildcard '0' then all area versions shall be matched.&#xA;If the requiredCapabilitySets field is NULL or an empty list then all service capability sets shall be matched.">
                                 <mal:type name="ServiceFilter" service="Directory" area="Common"/>
                             </mal:field>
                         </mal:request>
                         <mal:response>
-                            <mal:field name="matchingProviders"
-                                       comment="The operation shall return a list of service providers that match the filter.&#xA;If no service providers match the supplied filter then an empty list shall be returned.">
+                            <mal:field name="matchingProviders" comment="The providers that matched the filter.&#xA;If no providers match the supplied filter then an empty list shall be returned.">
                                 <mal:type list="true" name="ProviderSummary" service="Directory" area="Common"/>
                             </mal:field>
                         </mal:response>
@@ -45,8 +51,7 @@
                 </mal:requestIP>
             </mal:capabilitySet>
             <mal:capabilitySet number="2">
-                <mal:requestIP name="add" number="2" supportInReplay="false"
-                               comment="The add operation adds a new or updates an existing entry in the list of service providers held in the directory service.">
+                <mal:requestIP name="add" number="2" supportInReplay="false" comment="The add operation adds a new or updates an existing entry in the list of providers held in the directory service.">
                     <mal:messages>
                         <mal:request>
                             <mal:field name="newProviderDetails"
@@ -56,7 +61,7 @@
                         </mal:request>
                         <mal:response>
                             <mal:field name="providerObjId"
-                                       comment="If the providerId field of the PublishDetails structure matches an existing ServiceProvider COM object, the operation shall update the existing details of that provider.&#xA;If the providerId field of the PublishDetails structure does not match an existing ServiceProvider COM object, then the operation shall create a new ServiceProvider COM object to represent the new service provider.&#xA;A new ProviderCapabilities COM object shall be created to store the capabilities of the provider.&#xA;The created objects should be stored in the COM archive by the directory service provider.&#xA;The operation shall return the COM object instance identifiers of the ServiceProvider and ProviderCapabilities COM objects representing the provider.">
+                                       comment="If the providerId field of the PublishDetails structure matches an existing ServiceProvider COM object, the operation shall update the existing details of that provider.&#xA;If the providerId field of the PublishDetails structure does not match an existing ServiceProvider COM object, then the operation shall create a new ServiceProvider COM object to represent the new provider.&#xA;A new ProviderCapabilities COM object shall be created to store the capabilities of the provider.&#xA;The created objects should be stored in the COM archive by the directory provider.&#xA;The operation shall return the COM object instance identifiers of the ServiceProvider and ProviderCapabilities COM objects representing the provider.">
                                 <mal:type name="Long" area="MAL"/>
                             </mal:field>
                         </mal:response>
@@ -68,7 +73,7 @@
                     </mal:errors>
                 </mal:requestIP>
                 <mal:submitIP name="remove" number="3" supportInReplay="false"
-                              comment="The remove operation removes an existing entry from the list of service providers held in the directory service. If no match is found for the withdraw request, then nothing is changed.">
+                              comment="The remove operation removes an existing entry from the list of providers held in the directory service. If no match is found for the withdraw request, then nothing is changed.">
                     <mal:messages>
                         <mal:submit>
                             <mal:field name="providerObjId"
@@ -119,11 +124,11 @@
                         <mal:type name="Composite" area="MAL"/>
                     </mal:extends>
                     <mal:field name="serviceCapabilities" canBeNull="false"
-                               comment="The service capabilities supported by this service provider">
+                               comment="The service capabilities supported by this provider">
                         <mal:type list="true" name="ServiceCapability" service="Directory" area="Common"/>
                     </mal:field>
                     <mal:field name="providerAddresses" canBeNull="false"
-                               comment="List of addresses for all services of this service provider unless service specific addresses are supplied in the serviceCapabilities field. If all address information is supplied in the serviceCapabilities field this list should be zero length.">
+                               comment="List of addresses for all services of this provider unless service specific addresses are supplied in the serviceCapabilities field. If all address information is supplied in the serviceCapabilities field this list should be zero length.">
                         <mal:type list="true" name="AddressDetails" service="Directory" area="Common"/>
                     </mal:field>
                 </mal:composite>
@@ -137,7 +142,7 @@
                         <mal:type name="ServiceId" area="MAL"/>
                     </mal:field>
                     <mal:field name="supportedCapabilitySets"
-                               comment="The supported capability set numbers for this service provider. If NULL then all capability sets supported.">
+                               comment="The supported capability set numbers for this provider. If NULL then all capability sets supported.">
                         <mal:type list="true" name="UShort" area="MAL"/>
                     </mal:field>
                     <mal:field name="serviceProperties"
@@ -150,7 +155,7 @@
                     </mal:field>
                 </mal:composite>
                 <mal:composite name="AddressDetails" shortFormPart="4"
-                               comment="The AddressDetails structure holds all information required by the Directory service about a service providers URI and attributes relating to QoS.">
+                               comment="The AddressDetails structure holds all information required by the Directory service about a providers URI and attributes relating to QoS.">
                     <mal:extends>
                         <mal:type name="Composite" area="MAL"/>
                     </mal:extends>
@@ -186,7 +191,7 @@
                     <mal:field canBeNull="false" comment="The unique instance." name="instId">
                         <mal:type area="MAL" list="false" name="Long"/>
                     </mal:field>
-                    <mal:field name="providerId" canBeNull="false" comment="The id of this service provider.">
+                    <mal:field name="providerId" canBeNull="false" comment="The id of this provider.">
                         <mal:type name="Identifier" area="MAL"/>
                     </mal:field>
                     <mal:field name="providerDetails" canBeNull="false"
@@ -195,12 +200,12 @@
                     </mal:field>
                 </mal:composite>
                 <mal:composite name="PublishDetails" shortFormPart="6"
-                               comment="The PublishDetails structure holds all the required information to publish new service provider details.">
+                               comment="The PublishDetails structure holds all the required information to publish new provider details.">
                     <mal:extends>
                         <mal:type name="Composite" area="MAL"/>
                     </mal:extends>
                     <mal:field name="providerId" canBeNull="false"
-                               comment="The unique service provider id; allows multiple service providers of the same service type to coexist in the directory service.">
+                               comment="The unique provider id; allows multiple providers of the same service type to coexist in the directory service.">
                         <mal:type name="Identifier" area="MAL"/>
                     </mal:field>
                     <mal:field name="domain" canBeNull="false" comment="The domain of the provider.">
@@ -214,7 +219,7 @@
                         <mal:type name="Identifier" area="MAL"/>
                     </mal:field>
                     <mal:field name="providerDetails" canBeNull="false"
-                               comment="The new service provider details.">
+                               comment="The new provider details.">
                         <mal:type name="ProviderDetails" service="Directory" area="Common"/>
                     </mal:field>
                 </mal:composite>
@@ -224,7 +229,7 @@
                         <mal:type name="Composite" area="MAL"/>
                     </mal:extends>
                     <mal:field name="serviceProviderId"
-                               comment="The required service provider. Can be NULL in which case matches all values.">
+                               comment="The required provider. Can be NULL in which case matches all values.">
                         <mal:type name="Identifier" area="MAL"/>
                     </mal:field>
                     <mal:field name="domain"
@@ -250,7 +255,7 @@
                 </mal:composite>
             </mal:dataTypes>
             <com:features>
-                <com:objects comment="A ServiceProvider object represents a service provider. The COM object body shall hold the service provider id taken from the providerId field of the PublishDetails composite.&#xA;The ServiceProvider COM object related link shall not be used and therefore set to NULL.&#xA;The ServiceProvider COM object source link shall not be used and therefore shall be set to NULL.&#xA;A ProviderCapabilities object represents the supported capabilities of a service provider. The COM object body shall hold the provider details of the service provider.&#xA;The ProviderCapabilities COM object related link shall indicate which ServiceProvider COM object it links to.&#xA;The ProviderCapabilities COM object source link shall not be used and therefore set to NULL.&#xA;ServiceProvider and ProviderCapabilities objects shall be created by the publishService operation.&#xA;The object instance identifier for the ServiceProvider and ProviderCapabilities objects shall be populated by the provider of the directory service.">
+                <com:objects comment="A ServiceProvider object represents a provider. The COM object body shall hold the provider id taken from the providerId field of the PublishDetails composite.&#xA;The ServiceProvider COM object related link shall not be used and therefore set to NULL.&#xA;The ServiceProvider COM object source link shall not be used and therefore shall be set to NULL.&#xA;A ProviderCapabilities object represents the supported capabilities of a provider. The COM object body shall hold the provider details of the provider.&#xA;The ProviderCapabilities COM object related link shall indicate which ServiceProvider COM object it links to.&#xA;The ProviderCapabilities COM object source link shall not be used and therefore set to NULL.&#xA;ServiceProvider and ProviderCapabilities objects shall be created by the publishService operation.&#xA;The object instance identifier for the ServiceProvider and ProviderCapabilities objects shall be populated by the provider of the directory service.">
                     <com:object name="ServiceProvider" number="1">
                         <com:objectType>
                             <mal:type name="Identifier" area="MAL"/>
@@ -269,7 +274,7 @@
             </com:features>
         </mal:service>
         <mal:service xsi:type="com:ExtendedServiceType" name="Login" number="2"
-                     comment="The Login service defines the primary mechanism for the submission of authentication credentials to a deployment specific security system. It supports operations to allow a user to login, logout, and report available roles.&#xA;The service is closely tied to the Access Control aspect of the MAL where the returned authentication identifiers are used in the MAL message header to authenticate and authorise message via Access Control.&#xA;The login service supports the concept of roles, where users may log in with a specific role; the meaning of each role is mission-specific, however it is expected that a specific role allocates the user privileges to invoke operations on mission operation services.&#xA;The use of login roles is optional but if they are used then the role details are held in the COM archive and the COM archive operations are used to manage the role definitions. The responsibility for maintenance of the login roles is outside the scope of this specification as it is a deployment issue to define the possible roles and associate users to those roles.&#xA;The form in which the password is sent to the Login service provider must be agreed upon beforehand and is dependent on the security system deployed. For example, most security implementations do not recommend the use of plain text passwords but rather some encrypted version of the password. For this reason the contents of the messages sent between the login service consumer and provider during authentication handshaking are implementation-specific.&#xA;The authentication and authorisation concept of the MO services is covered in section 3.6 of the Reference Model (R2).&#xA;The Reference Model (R2) also provides sequence diagrams for security and login in sections 5.2 and 5.3.">
+                     comment="The Login service defines the primary mechanism for the submission of authentication credentials to a deployment specific security system. It supports operations to allow a user to login, logout, and report available roles.&#xA;The service is closely tied to the Access Control aspect of the MAL where the returned authentication identifiers are used in the MAL message header to authenticate and authorise message via Access Control.&#xA;The login service supports the concept of roles, where users may log in with a specific role; the meaning of each role is mission-specific, however it is expected that a specific role allocates the user privileges to invoke operations on mission operation services.&#xA;The use of login roles is optional but if they are used then the role details are held in the COM archive and the COM archive operations are used to manage the role definitions. The responsibility for maintenance of the login roles is outside the scope of this specification as it is a deployment issue to define the possible roles and associate users to those roles.&#xA;The form in which the password is sent to the Login provider must be agreed upon beforehand and is dependent on the security system deployed. For example, most security implementations do not recommend the use of plain text passwords but rather some encrypted version of the password. For this reason the contents of the messages sent between the login service consumer and provider during authentication handshaking are implementation-specific.&#xA;The authentication and authorisation concept of the MO services is covered in section 3.6 of the Reference Model (R2).&#xA;The Reference Model (R2) also provides sequence diagrams for security and login in sections 5.2 and 5.3.">
             <mal:documentation name="High Level Requirements" order="1">The login service shall provide the capability:
 &lt;ol&gt;
  &lt;li&gt;log in;&lt;/li&gt;
@@ -319,7 +324,7 @@
                 <mal:submitIP name="logout" number="2" supportInReplay="false"
                               comment="The logout operation allows a user to log out from the system. No information is passed in the message as the MAL authentication Id is enough to identify the login.">
                     <mal:messages>
-                        <mal:submit comment="Upon reception of the message the operation shall remove the matched user from the set of logged in users in the login service provider.&#xA;A logged in user shall be matched using the supplied authenticationId. &#xA;A LogoutEvent COM event shall be generated at this point.&#xA;No errors shall be returned by this operation."/>
+                        <mal:submit comment="Upon reception of the message the operation shall remove the matched user from the set of logged in users in the login provider.&#xA;A logged in user shall be matched using the supplied authenticationId. &#xA;A LogoutEvent COM event shall be generated at this point.&#xA;No errors shall be returned by this operation."/>
                     </mal:messages>
                 </mal:submitIP>
             </mal:capabilitySet>
@@ -404,11 +409,11 @@
                         </com:sourceObject>
                     </com:event>
                 </com:events>
-                <com:archiveUsage comment="LoginInstance objects should be stored in the COM archive.&#xA;When a login service event is published, the event object should be stored in the COM archive by the Login service provider.&#xA;LoginRole objects should be stored in the COM archive.&#xA;The COM archive service should be used for maintaining the LoginRole objects."/>
+                <com:archiveUsage comment="LoginInstance objects should be stored in the COM archive.&#xA;When a login service event is published, the event object should be stored in the COM archive by the Login provider.&#xA;LoginRole objects should be stored in the COM archive.&#xA;The COM archive service should be used for maintaining the LoginRole objects."/>
             </com:features>
         </mal:service>
         <mal:service xsi:type="com:ExtendedServiceType" name="Configuration" number="5"
-                     comment="The Configuration service allows a service consumer to activate pre-defined configurations of a service provider. &#xA;The service uses a COM object to represent the different configurations allowed by a service provider; a service consumer selects one configuration to activate using the Configuration service activate operation.&#xA;The contents of a configuration for a service provider is deployment specific however the management of these configurations, and the selection of a configuration for current use, is the purpose of this service.&#xA;Implementations of this service may also use bespoke methods for configuration representation (such as hard-coded configuration) which is outside the scope of this specification, however, the status and management of these configurations can still be managed with this service.&#xA;NOTE: This service uses the COM Event service to distribute changes in state, therefore participating service providers should ensure they are all using the same shared COM Event service if they wish to receive Configuration service events.">
+                     comment="The Configuration service allows a service consumer to activate pre-defined configurations of a provider. &#xA;The service uses a COM object to represent the different configurations allowed by a provider; a service consumer selects one configuration to activate using the Configuration service activate operation.&#xA;The contents of a configuration for a provider is deployment specific however the management of these configurations, and the selection of a configuration for current use, is the purpose of this service.&#xA;Implementations of this service may also use bespoke methods for configuration representation (such as hard-coded configuration) which is outside the scope of this specification, however, the status and management of these configurations can still be managed with this service.&#xA;NOTE: This service uses the COM Event service to distribute changes in state, therefore participating providers should ensure they are all using the same shared COM Event service if they wish to receive Configuration service events.">
             <mal:dataTypes>
                 <mal:composite name="ConfigurationObjectSet" shortFormPart="1"
                                comment="The configuration object set holds a set of object identifiers for a single COM object type in a single domain.">
@@ -443,7 +448,7 @@
                 </mal:composite>
             </mal:dataTypes>
             <com:features>
-                <com:objects comment="A ProviderConfiguration COM object represents a single set of configuration details that may be used by multiple service providers. The object body shall hold an indentifier to identify the provider configuration.&#xA;The ProviderConfiguration COM object related link shall link to the ConfigurationObjects COM object that contains the objects that form the provider configuration.&#xA;If the ProviderConfiguration represents a Hard-coded configuration for a provider then the related link shall be set to NULL.&#xA;The ProviderConfiguration COM object source link should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.&#xA;A ServiceConfiguration COM object represents a single configuration of a service in a provider, multiple ProviderConfiguration COM objects may reference the same service configuration via its linked ConfigurationObjects COM object. The object body shall hold the service key that identifies the service it is a configuration of.&#xA;The ServiceConfiguration COM object related link shall link to the ConfigurationObjects COM object that contains the objects that form the service configuration.&#xA;If the ServiceConfiguration represents a Hard-coded configuration for a single service then the related link shall be set to NULL.&#xA;The ServiceConfiguration COM object source link should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.&#xA;A ConfigurationObjects COM object represents a set of links to a set of COM objects that form an actual configuration. The object body shall hold a configuration object details structure that links to the objects that form the configuration.&#xA;The ConfigurationObjects COM object related link shall be set to NULL.&#xA;The ConfigurationObjects COM object source link should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.">
+                <com:objects comment="A ProviderConfiguration COM object represents a single set of configuration details that may be used by multiple providers. The object body shall hold an indentifier to identify the provider configuration.&#xA;The ProviderConfiguration COM object related link shall link to the ConfigurationObjects COM object that contains the objects that form the provider configuration.&#xA;If the ProviderConfiguration represents a Hard-coded configuration for a provider then the related link shall be set to NULL.&#xA;The ProviderConfiguration COM object source link should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.&#xA;A ServiceConfiguration COM object represents a single configuration of a service in a provider, multiple ProviderConfiguration COM objects may reference the same service configuration via its linked ConfigurationObjects COM object. The object body shall hold the service key that identifies the service it is a configuration of.&#xA;The ServiceConfiguration COM object related link shall link to the ConfigurationObjects COM object that contains the objects that form the service configuration.&#xA;If the ServiceConfiguration represents a Hard-coded configuration for a single service then the related link shall be set to NULL.&#xA;The ServiceConfiguration COM object source link should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.&#xA;A ConfigurationObjects COM object represents a set of links to a set of COM objects that form an actual configuration. The object body shall hold a configuration object details structure that links to the objects that form the configuration.&#xA;The ConfigurationObjects COM object related link shall be set to NULL.&#xA;The ConfigurationObjects COM object source link should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.">
                     <com:object name="ServiceConfiguration" number="1">
                         <com:objectType>
                             <mal:type name="ServiceConfigurationIdentifier" service="Configuration" area="Common"/>
