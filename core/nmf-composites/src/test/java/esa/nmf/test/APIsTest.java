@@ -1,5 +1,3 @@
-package esa.nmf.test;
-
 /* ----------------------------------------------------------------------------
  * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
@@ -20,6 +18,8 @@ package esa.nmf.test;
  * limitations under the License.
  * ----------------------------------------------------------------------------
  */
+package esa.nmf.test;
+
 import esa.mo.nmf.NMFProvider;
 import java.io.IOException;
 import org.ccsds.moims.mo.com.COMHelper;
