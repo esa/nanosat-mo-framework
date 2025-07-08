@@ -321,7 +321,7 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
     public final void writeCentralDirectoryServiceURI(final String centralDirectoryURI, final String secondaryURI) {
         String filename = Const.FILENAME_CENTRAL_DIRECTORY_SERVICE;
 
-        try (BufferedWriter wrt = new BufferedWriter(new FileWriter(filename, false))) {
+        try ( BufferedWriter wrt = new BufferedWriter(new FileWriter(filename, false))) {
             // Reset the files
             if (secondaryURI != null) {
                 wrt.write(secondaryURI);
@@ -346,12 +346,11 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
     }
 
     /**
-     * Returns the COM Archive location for the database, inside the user
-     * directory for the App or the Supervisor.
+     * Returns the major version of this java package.
      *
-     * @return The location for the database.
+     * @return The major version of this java package.
      */
-    public File getDatabaseLocationInUserDirectory() {
+    public static Integer getMajorVersionNMF() {
         Package nmfPack = NMFProvider.class.getPackage();
         String nmfVersion = nmfPack.getImplementationVersion();
 
@@ -361,7 +360,17 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
             // this way, no attempt of path injections can be made
             version = Integer.valueOf(nmfVersion.split("\\.")[0]);
         }
+        return version;
+    }
 
+    /**
+     * Returns the COM Archive location for the database, inside the user
+     * directory for the App or the Supervisor.
+     *
+     * @return The location for the database.
+     */
+    public File getDatabaseLocationInUserDirectory() {
+        Integer version = getMajorVersionNMF();
         File nmfDir = AppStorage.getAppNMFInternalDir();
         return new File(nmfDir, "comArchive_v" + version + ".db");
     }

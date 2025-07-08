@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <mal:specification xmlns:mal="http://www.ccsds.org/schema/ServiceSchema" xmlns:com="http://www.ccsds.org/schema/COMSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <mal:area comment="This section details the Common Object Model area; the structures used by the service are detailed in section 4. The area and structures are defined in terms of the MO Message Abstraction Layer (MAL), so it is possible to deploy them over any supported protocol and message transport." name="COM" number="2" version="1">
+    <mal:area comment="This section details the Common Object Model area; the structures used by the service are detailed in section 4. The area and structures are defined in terms of the MO Message Abstraction Layer (MAL), so it is possible to deploy them over any supported protocol and message transport." name="COM" number="2" version="5">
         <mal:documentation name="Requirements" order="1">The instance identifier of an object must not use the value of '0' for actual object instances as this is the wildcard value.
             The related field of an object must not use the value of '0' as this is the wildcard value.
             The instance identifier of the source field of an object must not use the value of '0' as this is the wildcard value.
