@@ -422,7 +422,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
                 final ServiceFilter sf = new ServiceFilter(new Identifier(Const.NANOSAT_MO_SUPERVISOR_NAME), domain,
                         new Identifier("*"), new Identifier("*"), serviceId, new UShortList());
                 final ProviderSummaryList supervisorParameterServiceConnectionDetails
-                        = centralDirectory.getDirectoryStub().lookupProvider(sf);
+                        = centralDirectory.getDirectoryStub().lookup(sf);
 
                 try {
                     final SingleConnectionDetails connectionDetails

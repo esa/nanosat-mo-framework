@@ -416,7 +416,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             if (app.getCategory().getValue().equalsIgnoreCase("NMF_App")) {
                 // Do a lookup on the Central Drectory service for the app that we want
                 MALInteraction malInt = (interaction != null) ? interaction.getInteraction() : null;
-                ProviderSummaryList providersList = this.directoryService.lookupProvider(sf, malInt);
+                ProviderSummaryList providersList = this.directoryService.lookup(sf, malInt);
                 LOGGER.log(Level.FINER, "providersList object: {0}", providersList);
 
                 try {

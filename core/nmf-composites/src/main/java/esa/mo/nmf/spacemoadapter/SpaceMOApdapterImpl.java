@@ -135,7 +135,7 @@ public class SpaceMOApdapterImpl extends MOAdapterImpl {
         // Query directory service with filter
         try {
             DirectoryConsumerServiceImpl centralDirectory = new DirectoryConsumerServiceImpl(centralDirectoryServiceURI);
-            ProviderSummaryList supervisorConnections = centralDirectory.getDirectoryStub().lookupProvider(sf2);
+            ProviderSummaryList supervisorConnections = centralDirectory.getDirectoryStub().lookup(sf2);
             if (supervisorConnections.size() == 1) {
                 LOGGER.log(Level.INFO, String.format("Found %s provider",
                         Const.NANOSAT_MO_SUPERVISOR_NAME));

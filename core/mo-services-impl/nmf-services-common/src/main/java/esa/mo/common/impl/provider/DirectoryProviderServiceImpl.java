@@ -155,7 +155,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
     }
 
     @Override
-    public ProviderSummaryList lookupProvider(final ServiceFilter filter,
+    public ProviderSummaryList lookup(final ServiceFilter filter,
             final MALInteraction interaction) throws MALInteractionException, MALException {
         if (null == filter) { // Is the input null?
             throw new IllegalArgumentException("filter argument must not be null");

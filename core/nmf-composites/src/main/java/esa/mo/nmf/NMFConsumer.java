@@ -322,7 +322,7 @@ public class NMFConsumer {
         ProviderSummaryList summaryList;
         // Do the lookup
         try {
-            summaryList = directoryService.getDirectoryStub().lookupProvider(filter);
+            summaryList = directoryService.getDirectoryStub().lookup(filter);
         } catch (MALException | MALInteractionException e) {
             throw e;
         } finally {

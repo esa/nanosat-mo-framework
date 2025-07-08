@@ -179,7 +179,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                         domain, new Identifier("*"), new Identifier("*"),
                         serviceId, new UShortList());
                 final ProviderSummaryList supervisorEventServiceConnectionDetails
-                        = centralDirectory.getDirectoryStub().lookupProvider(sf);
+                        = centralDirectory.getDirectoryStub().lookup(sf);
 
                 LOGGER.log(Level.INFO, "The Central Directory service is operational!");
 
@@ -209,7 +209,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                         new UShort(0), new UOctet((short) 0));
                 final ServiceFilter sf2 = new ServiceFilter(new Identifier(Const.NANOSAT_MO_SUPERVISOR_NAME),
                         domain, new Identifier("*"), new Identifier("*"), sk, new UShortList());
-                final ProviderSummaryList supervisorConnections = centralDirectory.getDirectoryStub().lookupProvider(sf2);
+                final ProviderSummaryList supervisorConnections = centralDirectory.getDirectoryStub().lookup(sf2);
 
                 if (supervisorConnections.size() == 1) { // Platform services found!
                     // Select the best transport for IPC and convert to a ConnectionConsumer object
@@ -267,8 +267,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                             "Populating Central Directory service on URI: {0}",
                             centralDirectoryURI.getValue());
 
-                    this.appDirectoryServiceId = centralDirectory.getDirectoryStub().add(
-                            publishDetails);
+                    this.appDirectoryServiceId = centralDirectory.getDirectoryStub().add(publishDetails);
                     centralDirectory.closeConnection(); // Close the connection to the Directory service
                     LOGGER.log(Level.INFO,
                             "Populated! And the connection to the Directory service has been successfully closed!");
