@@ -349,6 +349,7 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
      * Returns the major version of this java package.
      *
      * @return The major version of this java package.
+     * @since 5.0
      */
     public static Integer getMajorVersionNMF() {
         Package nmfPack = NMFProvider.class.getPackage();
