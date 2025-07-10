@@ -14,31 +14,64 @@
  &lt;li&gt;remove provider details;&lt;/li&gt;
  &lt;li&gt;request the area XML for a certain MAL area.&lt;/li&gt;
 &lt;/ol&gt;</mal:documentation>
-            <mal:documentation name="Functional Requirements" order="2">A provider shall use the add operation to make available the set of services and the capabilities of those services that it offers.
-                The publish operation shall take a PublishDetails structure which defines the capabilities and addressing information of that provider.
-                It shall be possible for a provider to offer multiple service addresses and bindings to allows the provider to support multiple message transports and encodings.
+            <mal:documentation name="Requirement" order="2">
+                A provider shall use the add operation to make available the set of services and the capabilities of those services that it offers.
+            </mal:documentation>
+            <mal:documentation name="Requirement" order="3">
+                The add operation shall take a PublishDetails structure which defines the capabilities and addressing information of that provider.
+            </mal:documentation>
+            <mal:documentation name="Requirement" order="4">
+                It shall be possible for a provider to offer multiple service addresses and bindings in order to allow the provider to support multiple message transports and encodings.
+            </mal:documentation>
+            <mal:documentation name="Requirement" order="5">
                 Each service address entry shall include the service interface binding signature description, interface address, MAL protocol mapping, message encoding, the supported QoS levels and associated QoS properties available for that connection.
+            </mal:documentation>
+            <mal:documentation name="Requirement" order="6">
                 A service consumer indicates its required QoS level and priority by using these values in the lookup operation.
-                For services that have operations based on the publish and subscribe interaction pattern there may be required a separate URI for the broker component. To support this the directory service shall hold two URIs for each service, the URI of the primary interface and also a secondary one which, if present, is used for publish and subscribe-based operations.</mal:documentation>
+            </mal:documentation>
+            <mal:documentation name="Requirement" order="7">
+                For services that have operations based on the PUB-SUB interaction pattern there may be required a separate URI for the broker component.
+                To support this the Directory service shall hold two URIs for each service, the URI of the primary interface and also the URI of the broker.
+            </mal:documentation>
             <mal:capabilitySet number="1">
                 <mal:requestIP name="lookup" number="1" supportInReplay="true" comment="The lookup operation retrieves the list of providers made available in the Directory service.">
                     <mal:documentation name="Requirement" order="1">
                         A consumer shall send the lookup criteria to the provider for the providers intended to be retrieved.
                     </mal:documentation>
-                    The various filters that may be specified as part of this operation shall be combined using AND logic.
                     <mal:documentation name="Requirement" order="2">
+                        The various filters that may be specified as part of this operation shall be combined using AND logic.
                     </mal:documentation>
-                    The returned list of providers that match the requested criteria. If no match is found, then an empty list is returned.
                     <mal:documentation name="Requirement" order="3">
+                        The returned list holds the list of providers that match the requested criteria.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="4">
+                        If no match is found, then the returned list shall be empty.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="5">
+                        If the serviceProviderId field is NULL then all provider identifiers shall be matched.&#xA;
+                        If the final identifier of the domain field of the filter is the wildcard '*', then all sub-domains shall be searched for matches.
+                        See R[2] section 3.5.6.5.g.&#xA;
+                        If the wildcard is used in any other part of the domain other than the final one then an INVALID error shall be returned.&#xA;
+                        If the domain field is NULL then all domains shall be matched.&#xA;If the network field is NULL then all networks shall be matched.&#xA;
+                        If the sessionName field is NULL then all session names shall be matched.&#xA;
+                        The ServiceId field shall be used to match against ServiceId fields held in the PublishDetails used to publish a specific provider.&#xA;
+                        If the ServiceId field is NULL then all areas, services and versions shall be matched.&#xA;
+                        If the area field is the wildcard '0' then all areas names shall be matched.&#xA;
+                        If the service field is the wildcard '0' then all services shall be matched.&#xA;
+                        If the version field is the wildcard '0' then all area versions shall be matched.&#xA;
+                        If the requiredCapabilitySets field is NULL or an empty list then all service capability sets shall be matched.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="6">
+                        If no providers match the supplied filter then an empty list shall be returned.
                     </mal:documentation>
                     <mal:messages>
                         <mal:request>
-                            <mal:field name="filter" comment="The lookup query filter to be used to match the providers.&#xA;If the serviceProviderId field is NULL then all provider identifiers shall be matched.&#xA;If the final identifier of the domain field of the filter is the wildcard '*', then all sub-domains shall be searched for matches. See R[2] section 3.5.6.5.g.&#xA;If the wildcard is used in any other part of the domain other than the final one then an INVALID error shall be returned.&#xA;If the domain field is NULL then all domains shall be matched.&#xA;If the network field is NULL then all networks shall be matched.&#xA;If the sessionName field is NULL then all session names shall be matched.&#xA;The ServiceId field shall be used to match against ServiceId fields held in the PublishDetails used to publish a specific provider.&#xA;If the ServiceId field is NULL then all areas, services and versions shall be matched.&#xA;If the area field is the wildcard '0' then all areas names shall be matched.&#xA;If the service field is the wildcard '0' then all services shall be matched.&#xA;If the version field is the wildcard '0' then all area versions shall be matched.&#xA;If the requiredCapabilitySets field is NULL or an empty list then all service capability sets shall be matched.">
+                            <mal:field name="filter" comment="The lookup query filter to be used to match the providers.">
                                 <mal:type name="ServiceFilter" service="Directory" area="Common"/>
                             </mal:field>
                         </mal:request>
                         <mal:response>
-                            <mal:field name="matchingProviders" comment="The providers that matched the filter.&#xA;If no providers match the supplied filter then an empty list shall be returned.">
+                            <mal:field name="matchingProviders" comment="The providers that matched the filter.">
                                 <mal:type list="true" name="ProviderSummary" service="Directory" area="Common"/>
                             </mal:field>
                         </mal:response>
@@ -52,16 +85,38 @@
             </mal:capabilitySet>
             <mal:capabilitySet number="2">
                 <mal:requestIP name="add" number="2" supportInReplay="false" comment="The add operation adds a new or updates an existing entry in the list of providers held in the directory service.">
+                    <mal:documentation name="Requirement" order="1">
+                        If any of the fields of the newProviderDetails domain/sessionName/network fields are either empty or contain the wildcard '*' an INVALID error shall be returned.&#xA;
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="2">
+                        If the providerId field of the PublishDetails structure is empty or contains the wildcard '*' an INVALID error shall be returned.&#xA;
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="3">
+                        For each contained ServiceId structure if the area/service/version fields contain '0' then an INVALID error shall be returned.&#xA;
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="4">
+                        For each contained supportedCapabilitySets list if the list is empty or contains '0' then an INVALID error shall be returned.&#xA;If the supportedLevels list is empty or the priorityLevels field is '0' for each contained AddressDetails structure found either within the ProviderDetails or the inner ServiceCapability structures then an INVALID error shall be returned.&#xA;
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="5">
+                        If an error is being returned then no changes shall be made.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="6">
+                        If the providerId field of the PublishDetails structure matches an existing ServiceProvider COM object, the operation shall update the existing details of that provider.                        
+                        If the providerId field of the PublishDetails structure does not match an existing ServiceProvider COM object, then the operation shall create a new ServiceProvider COM object to represent the new provider.&#xA;
+                        A new ProviderCapabilities COM object shall be created to store the capabilities of the provider.&#xA;
+                        The created objects should be stored in the COM archive by the directory provider.&#xA;
+                        The operation shall return the COM object instance identifiers of the ServiceProvider and ProviderCapabilities COM objects representing the provider.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:request>
                             <mal:field name="newProviderDetails"
-                                       comment="The newProviderDetails field shall hold the provider details of the service to be added or updated in the directory service.&#xA;If any of the fields of the newProviderDetails domain/sessionName/network fields are either empty or contain the wildcard '*' an INVALID error shall be returned.&#xA;If the providerId field of the PublishDetails structure is empty or contains the wildcard '*' an INVALID error shall be returned.&#xA;For each contained ServiceId structure if the area/service/version fields contain '0' then an INVALID error shall be returned.&#xA;For each contained supportedCapabilitySets list if the list is empty or contains '0' then an INVALID error shall be returned.&#xA;If the supportedLevels list is empty or the priorityLevels field is '0' for each contained AddressDetails structure found either within the ProviderDetails or the inner ServiceCapability structures then an INVALID error shall be returned.&#xA;If an error is being returned then no changes shall be made.">
+                                       comment="The details of the provider to be added or updated in the Directory service.">
                                 <mal:type name="PublishDetails" service="Directory" area="Common"/>
                             </mal:field>
                         </mal:request>
                         <mal:response>
                             <mal:field name="providerObjId"
-                                       comment="If the providerId field of the PublishDetails structure matches an existing ServiceProvider COM object, the operation shall update the existing details of that provider.&#xA;If the providerId field of the PublishDetails structure does not match an existing ServiceProvider COM object, then the operation shall create a new ServiceProvider COM object to represent the new provider.&#xA;A new ProviderCapabilities COM object shall be created to store the capabilities of the provider.&#xA;The created objects should be stored in the COM archive by the directory provider.&#xA;The operation shall return the COM object instance identifiers of the ServiceProvider and ProviderCapabilities COM objects representing the provider.">
+                                       comment="The identifier of the provider.">
                                 <mal:type name="Long" area="MAL"/>
                             </mal:field>
                         </mal:response>
@@ -73,11 +128,17 @@
                     </mal:errors>
                 </mal:requestIP>
                 <mal:submitIP name="remove" number="3" supportInReplay="false"
-                              comment="The remove operation removes an existing entry from the list of providers held in the directory service. If no match is found for the withdraw request, then nothing is changed.">
+                              comment="The remove operation removes an existing entry from the list of providers held in the Directory service. If no match is found for the withdraw request, then nothing is changed.">
+                    <mal:documentation name="Requirement" order="1">
+                        If the supplied identifier is '0' an INVALID error shall be returned.&#xA;
+                        If the supplied identifier does not match an existing ServiceProvider COM object then an UNKNOWN error shall be returned.&#xA;
+                        If an error is being returned then no changes shall be made.&#xA;
+                        The matched provider shall be removed from the directory service.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:submit>
                             <mal:field name="providerObjId"
-                                       comment="The providerObjId field shall hold the object instance identifier for the ServiceProvider COM object to remove from the directory service.&#xA;If the supplied identifier is '0' an INVALID error shall be returned.&#xA;If the supplied identifier does not match an existing ServiceProvider COM object then an UNKNOWN error shall be returned.&#xA;If an error is being returned then no changes shall be made.&#xA;The matched provider shall be removed from the directory service.">
+                                       comment="The object instance identifier for the provider to remove from the Directory service.">
                                 <mal:type name="Long" area="MAL"/>
                             </mal:field>
                         </mal:submit>
@@ -285,13 +346,26 @@
             <mal:capabilitySet number="1">
                 <mal:requestIP name="login" number="1" supportInReplay="false"
                                comment="The login operation allows a user to log in to the system. A user can log in more than once by using a different role; however, a specific deployment may place limits on the number of users that may use a specific role, and in that case will fail the login operation with the TOO_MANY error.">
+                    <mal:documentation name="Requirement" order="1">
+                        The authenticationId field of the REQUEST message must be NULL otherwise an INVALID error shall be returned.&#xA;
+                        The authenticationId field shall be checked before applying all other tests here.&#xA;
+                        The userDetails field shall contain the details of the new user and role combination.&#xA;
+                        If the username field of the supplied Profile structure is either the wildcard '*' or empty an INVALID error shall be returned.&#xA;
+                        If roles are required by the system and the role field of the supplied Profile structure is NULL then an INVALID error shall be returned.&#xA;
+                        If roles are not used by the system the role field of the supplied Profile structure shall be ignored and may be set to NULL.&#xA;
+                        An UNKNOWN error shall be returned if the username, password and role combination are not correct for the system i.e. unknown user/role or incorrect password.&#xA;
+                        A DUPLICATE error shall be returned if the username and role combination is currently in use.&#xA;
+                        A TOO_MANY error shall be returned if the username or role are already used and exceed (deployment dependent) maximum number of concurrent logins/roles.&#xA;
+                        If the login is successful the provider shall create a new LoginInstance COM object and store it in the COM archive.&#xA;
+                        The related link of the new LoginInstance COM object shall be set to the requested LoginRole COM object.&#xA;
+                        A LoginEvent COM event shall be generated at this point.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:request>
-                            <mal:field name="userDetails"
-                                       comment="The authenticationId field of the REQUEST message must be NULL otherwise an INVALID error shall be returned.&#xA;The authenticationId field shall be checked before applying all other tests here.&#xA;The userDetails field shall contain the details of the new user and role combination.&#xA;If the username field of the supplied Profile structure is either the wildcard '*' or empty an INVALID error shall be returned.&#xA;If roles are required by the system and the role field of the supplied Profile structure is NULL then an INVALID error shall be returned.&#xA;If roles are not used by the system the role field of the supplied Profile structure shall be ignored and may be set to NULL.&#xA;An UNKNOWN error shall be returned if the username, password and role combination are not correct for the system i.e. unknown user/role or incorrect password.&#xA;A DUPLICATE error shall be returned if the username and role combination is currently in use.&#xA;A TOO_MANY error shall be returned if the username or role are already used and exceed (deployment dependent) maximum number of concurrent logins/roles.&#xA;If the login is successful the provider shall create a new LoginInstance COM object and store it in the COM archive.&#xA;The related link of the new LoginInstance COM object shall be set to the requested LoginRole COM object.&#xA;A LoginEvent COM event shall be generated at this point.">
+                            <mal:field name="userDetails" comment="The details of the user.">
                                 <mal:type name="Profile" service="Login" area="Common"/>
                             </mal:field>
-                            <mal:field name="password">
+                            <mal:field name="password" comment="The password of the user.">
                                 <mal:type name="String" area="MAL"/>
                             </mal:field>
                         </mal:request>
@@ -323,28 +397,42 @@
                 </mal:requestIP>
                 <mal:submitIP name="logout" number="2" supportInReplay="false"
                               comment="The logout operation allows a user to log out from the system. No information is passed in the message as the MAL authentication Id is enough to identify the login.">
+                    <mal:documentation name="Requirement" order="1">
+                        A logged in user shall be matched using the supplied authenticationId.&#xA;
+                        A LogoutEvent COM event shall be generated at this point.&#xA;
+                        No errors shall be returned by this operation.
+                    </mal:documentation>
                     <mal:messages>
-                        <mal:submit comment="Upon reception of the message the operation shall remove the matched user from the set of logged in users in the login provider.&#xA;A logged in user shall be matched using the supplied authenticationId. &#xA;A LogoutEvent COM event shall be generated at this point.&#xA;No errors shall be returned by this operation."/>
+                        <mal:submit/>
                     </mal:messages>
                 </mal:submitIP>
             </mal:capabilitySet>
             <mal:capabilitySet number="2">
                 <mal:requestIP name="listRoles" number="3" supportInReplay="false"
-                               comment="The listRoles operation returns the list of available roles for a specific user. This operation is expected to be called before a user logs in so that the software can provide a list of possible roles.&#xA;It should be noted that this operation requires both a username and password field before returning any information, this is to ensure that it does not provide a security attack vector by allowing the discovery of valid usernames without first knowing the correct password.">
+                               comment="The listRoles operation returns the list of available roles for a specific user. This operation is expected to be called before a user logs in so that the software can provide a list of possible roles.">
+                    <mal:documentation name="Requirement" order="1">
+                        If the username field is either the wildcard '*', NULL or empty an INVALID error shall be returned.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="2">
+                        It should be noted that this operation requires both a username and password field before returning any information, this is to ensure that it does not provide a security attack vector by allowing the discovery of valid usernames without first knowing the correct password.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="3">
+                        An UNKNOWN error shall be returned if the username and password combination are not correct for the system i.e. unknown user or incorrect password.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="4">
+                        The operation shall return a list of LoginRole object instance identifiers that are permitted for the user or NULL if roles are not used by the system.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:request>
-                            <mal:field name="username"
-                                       comment="The username field shall hold the details of the user.&#xA;If the username field is either the wildcard '*', NULL or empty an INVALID error shall be returned.">
+                            <mal:field name="username" comment="The username field shall hold the details of the user.">
                                 <mal:type name="Identifier" area="MAL"/>
                             </mal:field>
-                            <mal:field name="password"
-                                       comment="An UNKNOWN error shall be returned if the username and password combination are not correct for the system i.e. unknown user or incorrect password.">
+                            <mal:field name="password" comment="The password for the selected username.">
                                 <mal:type name="String" area="MAL"/>
                             </mal:field>
                         </mal:request>
                         <mal:response>
-                            <mal:field name="permittedRoles"
-                                       comment="The operation shall return a list of LoginRole object instance identifiers that are permitted for the user or NULL if roles are not used by the system.">
+                            <mal:field name="permittedRoles" comment="The list of roles.">
                                 <mal:type list="true" name="Long" area="MAL"/>
                             </mal:field>
                         </mal:response>
