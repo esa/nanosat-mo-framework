@@ -525,21 +525,12 @@
                         <mal:type list="true" name="ConfigurationObjectSet" service="Configuration" area="Common"/>
                     </mal:field>
                 </mal:composite>
-                <mal:composite name="ServiceConfigurationIdentifier" shortFormPart="3"
-                               comment="The ServiceConfigurationIdentifier structure holds the name and service key of a service configuration object.">
-                    <mal:field name="configName" canBeNull="false" comment="">
-                        <mal:type name="Identifier" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="ServiceId" canBeNull="false" comment="">
-                        <mal:type name="ServiceId" area="MAL"/>
-                    </mal:field>
-                </mal:composite>
             </mal:dataTypes>
             <com:features>
                 <com:objects comment="A ProviderConfiguration COM object represents a single set of configuration details that may be used by multiple providers. The object body shall hold an indentifier to identify the provider configuration.&#xA;The ProviderConfiguration COM object related link shall link to the ConfigurationObjects COM object that contains the objects that form the provider configuration.&#xA;If the ProviderConfiguration represents a Hard-coded configuration for a provider then the related link shall be set to NULL.&#xA;The ProviderConfiguration COM object source link should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.&#xA;A ServiceConfiguration COM object represents a single configuration of a service in a provider, multiple ProviderConfiguration COM objects may reference the same service configuration via its linked ConfigurationObjects COM object. The object body shall hold the service key that identifies the service it is a configuration of.&#xA;The ServiceConfiguration COM object related link shall link to the ConfigurationObjects COM object that contains the objects that form the service configuration.&#xA;If the ServiceConfiguration represents a Hard-coded configuration for a single service then the related link shall be set to NULL.&#xA;The ServiceConfiguration COM object source link should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.&#xA;A ConfigurationObjects COM object represents a set of links to a set of COM objects that form an actual configuration. The object body shall hold a configuration object details structure that links to the objects that form the configuration.&#xA;The ConfigurationObjects COM object related link shall be set to NULL.&#xA;The ConfigurationObjects COM object source link should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.">
                     <com:object name="ServiceConfiguration" number="1">
                         <com:objectType>
-                            <mal:type name="ServiceConfigurationIdentifier" service="Configuration" area="Common"/>
+                            <mal:type name="ServiceId" area="MAL"/>
                         </com:objectType>
                         <com:relatedObject>
                             <com:objectType number="3" service="Configuration" area="Common"/>
