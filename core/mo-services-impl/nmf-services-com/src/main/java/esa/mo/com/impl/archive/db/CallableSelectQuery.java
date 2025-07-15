@@ -27,8 +27,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
-import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
-import org.ccsds.moims.mo.com.archive.structures.QueryFilter;
+import org.ccsds.moims.mo.com.structures.ArchiveQuery;
+import org.ccsds.moims.mo.com.structures.QueryFilter;
 import org.ccsds.moims.mo.mal.structures.IntegerList;
 
 public class CallableSelectQuery extends CallableGenericQuery<ArrayList<COMObjectEntity>> {

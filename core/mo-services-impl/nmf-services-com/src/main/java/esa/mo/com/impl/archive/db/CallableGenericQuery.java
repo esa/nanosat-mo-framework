@@ -23,10 +23,9 @@ package esa.mo.com.impl.archive.db;
 import java.util.concurrent.Callable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
-import org.ccsds.moims.mo.com.archive.structures.PaginationFilter;
-import org.ccsds.moims.mo.com.archive.structures.QueryFilter;
+import org.ccsds.moims.mo.com.structures.ArchiveQuery;
+import org.ccsds.moims.mo.com.structures.PaginationFilter;
+import org.ccsds.moims.mo.com.structures.QueryFilter;
 import org.ccsds.moims.mo.mal.structures.IntegerList;
 
 public abstract class CallableGenericQuery<T> implements Callable<T> {

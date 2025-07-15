@@ -46,7 +46,7 @@
                         <mal:acknowledgement/>
                         <mal:response>
                             <mal:field canBeNull="true" comment="The response shall contain the set of matched objects.&#10;The first returned list shall contain the matched object instance identifiers and object details of the matched objects.&#10;The second returned list shall contain the object bodies ordered identically to the first list unless no body for the object is declared in the service specification, in which case a NULL replaces the complete list.&#10;There shall be an entry in each returned list for each matched object.&#10;When no objects have been matched only a response with NULL for each part of the response shall be returned.&#10;The ordering of the returned objects is not specified and implementation specific.&#10;If ordering of the returned objects is required then the query operation should be used instead." name="objDetails">
-                                <mal:type area="COM" list="true" name="ArchiveDetails" service="Archive"/>
+                                <mal:type area="COM" list="true" name="ArchiveDetails"/>
                             </mal:field>
                             <mal:field canBeNull="true" name="objBodies">
                                 <mal:type area="MAL" list="true" name="Element"/>
@@ -75,10 +75,10 @@
                                 <mal:type area="COM" list="false" name="ObjectType"/>
                             </mal:field>
                             <mal:field canBeNull="true" name="archiveQuery">
-                                <mal:type area="COM" list="true" name="ArchiveQuery" service="Archive"/>
+                                <mal:type area="COM" list="true" name="ArchiveQuery"/>
                             </mal:field>
                             <mal:field canBeNull="true" name="queryFilter">
-                                <mal:type area="COM" list="true" name="QueryFilter" service="Archive"/>
+                                <mal:type area="COM" list="true" name="QueryFilter"/>
                             </mal:field>
                         </mal:progress>
                         <mal:acknowledgement/>
@@ -90,7 +90,7 @@
                                 <mal:type area="MAL" list="true" name="Identifier"/>
                             </mal:field>
                             <mal:field canBeNull="true" name="objDetails">
-                                <mal:type area="COM" list="true" name="ArchiveDetails" service="Archive"/>
+                                <mal:type area="COM" list="true" name="ArchiveDetails"/>
                             </mal:field>
                             <mal:field canBeNull="true" name="objBodies">
                                 <mal:type area="MAL" list="true" name="Element"/>
@@ -104,7 +104,7 @@
                                 <mal:type area="MAL" list="true" name="Identifier"/>
                             </mal:field>
                             <mal:field canBeNull="true" name="objDetails">
-                                <mal:type area="COM" list="true" name="ArchiveDetails" service="Archive"/>
+                                <mal:type area="COM" list="true" name="ArchiveDetails"/>
                             </mal:field>
                             <mal:field canBeNull="true" name="objBodies">
                                 <mal:type area="MAL" list="true" name="Element"/>
@@ -127,10 +127,10 @@
                                 <mal:type area="COM" list="false" name="ObjectType"/>
                             </mal:field>
                             <mal:field canBeNull="true" name="archiveQuery">
-                                <mal:type area="COM" list="true" name="ArchiveQuery" service="Archive"/>
+                                <mal:type area="COM" list="true" name="ArchiveQuery"/>
                             </mal:field>
                             <mal:field canBeNull="true" name="queryFilter">
-                                <mal:type area="COM" list="true" name="QueryFilter" service="Archive"/>
+                                <mal:type area="COM" list="true" name="QueryFilter"/>
                             </mal:field>
                         </mal:invoke>
                         <mal:acknowledgement/>
@@ -164,7 +164,7 @@
                                 <mal:type area="MAL" list="true" name="Identifier"/>
                             </mal:field>
                             <mal:field canBeNull="true" name="objDetails">
-                                <mal:type area="COM" list="true" name="ArchiveDetails" service="Archive"/>
+                                <mal:type area="COM" list="true" name="ArchiveDetails"/>
                             </mal:field>
                             <mal:field canBeNull="true" name="objBodies">
                                 <mal:type area="MAL" list="true" name="Element"/>
@@ -203,7 +203,7 @@
                                 <mal:type area="MAL" list="true" name="Identifier"/>
                             </mal:field>
                             <mal:field canBeNull="true" name="objDetails">
-                                <mal:type area="COM" list="true" name="ArchiveDetails" service="Archive"/>
+                                <mal:type area="COM" list="true" name="ArchiveDetails"/>
                             </mal:field>
                             <mal:field canBeNull="true" name="objBodies">
                                 <mal:type area="MAL" list="true" name="Element"/>
@@ -259,105 +259,6 @@
                     </mal:errors>
                 </mal:requestIP>
             </mal:capabilitySet>
-            <mal:dataTypes>
-                <mal:enumeration comment="The ExpressionOperator enumeration holds a set of possible expression operators." name="ExpressionOperator" shortFormPart="5">
-                    <mal:item comment="Checks for equality." nvalue="1" value="EQUAL"/>
-                    <mal:item comment="Checks for difference (not equal)." nvalue="2" value="DIFFER"/>
-                    <mal:item comment="Checks for greater than." nvalue="3" value="GREATER"/>
-                    <mal:item comment="Checks for greater than or equal to." nvalue="4" value="GREATER_OR_EQUAL"/>
-                    <mal:item comment="Checks for less than." nvalue="5" value="LESS"/>
-                    <mal:item comment="Checks for less than or equal to." nvalue="6" value="LESS_OR_EQUAL"/>
-                    <mal:item comment="Case sensitive containment test (String types only)" nvalue="7" value="CONTAINS"/>
-                    <mal:item comment="Case insensitive containment test (String types only)." nvalue="8" value="ICONTAINS"/>
-                </mal:enumeration>
-                <mal:composite comment="The base structure for archive filters." name="QueryFilter">
-                    <mal:extends>
-                        <mal:type area="MAL" list="false" name="Composite"/>
-                    </mal:extends>
-                </mal:composite>
-                <mal:composite comment="The ArchiveDetails structure is used to hold information about a single entry in an Archive." name="ArchiveDetails" shortFormPart="1">
-                    <mal:extends>
-                        <mal:type area="MAL" list="false" name="Composite"/>
-                    </mal:extends>
-                    <mal:field canBeNull="false" comment="The object instance identifier of the archived object." name="instId">
-                        <mal:type area="MAL" list="false" name="Long"/>
-                    </mal:field>
-                    <mal:field canBeNull="false" comment="The links of the Object." name="links">
-                        <mal:type area="COM" list="false" name="ObjectLinks"/>
-                    </mal:field>
-                    <mal:field canBeNull="true" comment="The network zone of the object." name="network">
-                        <mal:type area="MAL" list="false" name="Identifier"/>
-                    </mal:field>
-                    <mal:field canBeNull="true" comment="The time the object was created." name="timestamp">
-                        <mal:type area="MAL" list="false" name="FineTime"/>
-                    </mal:field>
-                    <mal:field canBeNull="true" comment="The component that created the object (a component may be anything from an onboard equipment to a software process on the ground)." name="provider">
-                        <mal:type area="MAL" list="false" name="URI"/>
-                    </mal:field>
-                </mal:composite>
-                <mal:composite comment="The ArchiveQuery structure is used to specify filters on the common parts of an object in an archive." name="ArchiveQuery" shortFormPart="2">
-                    <mal:extends>
-                        <mal:type area="MAL" list="false" name="Composite"/>
-                    </mal:extends>
-                    <mal:field canBeNull="true" comment="Only the objects whose domain matches the provided domain will be returned. The domain field supports the wildcard value of '*' only in the last part of the domain. If NULL then all domains shall be matched." name="domain">
-                        <mal:type area="MAL" list="true" name="Identifier"/>
-                    </mal:field>
-                    <mal:field canBeNull="true" comment="Optional network zone. Only the objects whose network zone matches the provided value will be returned. If NULL then all values will be matched." name="network">
-                        <mal:type area="MAL" list="false" name="Identifier"/>
-                    </mal:field>
-                    <mal:field canBeNull="true" comment="Optional provider. Only the objects whose provider URI matches the provided provider URI will be returned. If NULL then all values will be matched." name="provider">
-                        <mal:type area="MAL" list="false" name="URI"/>
-                    </mal:field>
-                    <mal:field canBeNull="false" comment="Object instance identifier of the related Object. Only the objects whose related Object matches the provided related Object will be returned unless the '0' wildcard value is supplied." name="related">
-                        <mal:type area="MAL" list="false" name="Long"/>
-                    </mal:field>
-                    <mal:field canBeNull="true" comment="Optional source. Only the objects whose source matches the provided source will be returned. The fields of the ObjectId may contain the wildcard values ('0' for numeric fields, '*' for Identifier fields). If NULL then all values will be matched. " name="source">
-                        <mal:type area="COM" list="false" name="ObjectId"/>
-                    </mal:field>
-                    <mal:field canBeNull="true" comment="Optional start time. Only the objects whose timestamp is equal or greater than the provided start time will be returned. If NULL then no start time shall be applied." name="startTime">
-                        <mal:type area="MAL" list="false" name="FineTime"/>
-                    </mal:field>
-                    <mal:field canBeNull="true" comment="Optional end time. Only the objects whose timestamp is equal or less than the provided end time will be returned. If NULL then no end time will be applied." name="endTime">
-                        <mal:type area="MAL" list="false" name="FineTime"/>
-                    </mal:field>
-                    <mal:field canBeNull="true" comment="If set to TRUE then returned values shall be sorted in ascending order, if FALSE then in descending order. If NULL then no sorting shall be applied." name="sortOrder">
-                        <mal:type area="MAL" list="false" name="Boolean"/>
-                    </mal:field>
-                    <mal:field canBeNull="true" comment="If the returned values are to be sorted because the sortOrder field is not NULL then this field may contain the name of the field in the object body (MAL::Composite) to sort against. If the object body is not a composite but an Attribute or Enumeration then to sort on the values an empty string of &quot;&quot; should be used. Enumerations are sorted on their ordinal. If this field is NULL then the objects shall be sorted on the COM object timestamp. The field follows the naming convention of CompositeFilter::fieldName. If the field points to a composite, list, abstract type (including Attribute) or Blob then no sorting shall be applied." name="sortFieldName">
-                        <mal:type area="MAL" list="false" name="String"/>
-                    </mal:field>
-                </mal:composite>
-                <mal:composite comment="The CompositeFilter allows an archive query to specify a filter based on the content of the body of an object if that body is specified using the MAL data type specification." name="CompositeFilter" shortFormPart="3">
-                    <mal:field canBeNull="false" comment="The name of the field in the object body (MAL::Composite) to match against. It is specified by referring to the name of the field. If the field does not exist in the Composite then the filter shall evaluate to false. If the field is nested inside another Composite, it can be referenced by separating the field names by a '.' character; for example the field 'instId' or the source of an ArchiveDetails composite would be referenced using &quot;details.source.key.instId&quot;. If the body is not a Composite but an Attribute or Enumeration then it can be referred to by using a blank (&quot;&quot;) string value here. Accessing values from lists is not supported by this method." name="fieldName">
-                        <mal:type area="MAL" list="false" name="String"/>
-                    </mal:field>
-                    <mal:field canBeNull="false" comment="The type of the filter to apply." name="type">
-                        <mal:type area="COM" list="false" name="ExpressionOperator" service="Archive"/>
-                    </mal:field>
-                    <mal:field canBeNull="true" comment="The value to compare with. The type of the suppied value and the matched field mst be the same. Must not contain NULL for expression operators CONTAINS, ICONTAINS, GREATER, GREATER_OR_EQUAL, LESS, or LESS_OR_EQUAL otherwise an INVALID error should be returned. Must contain a UInteger ordinal value if the field being matched is an Enumeration. Blob fields can only be used with EQUAL/DIFFER. Must contain a String value if operator is CONTAINS or ICONTAINS otherwise an INVALID error should be returned." name="fieldValue">
-                        <mal:type area="MAL" list="false" name="Attribute"/>
-                    </mal:field>
-                </mal:composite>
-                <mal:composite comment="Contains a list of CompositeFilters that are AND'd together to form a more complex filter." name="CompositeFilterSet" shortFormPart="4">
-                    <mal:extends>
-                        <mal:type area="COM" list="false" name="QueryFilter" service="Archive"/>
-                    </mal:extends>
-                    <mal:field canBeNull="false" comment="The list of filters to apply." name="filters">
-                        <mal:type area="COM" list="true" name="CompositeFilter" service="Archive"/>
-                    </mal:field>
-                </mal:composite>
-                <mal:composite comment="The PaginationFilter allows an archive query to specify a filter based on the limit and offset of the query." name="PaginationFilter" shortFormPart="6">
-                    <mal:extends>
-                        <mal:type area="COM" list="false" name="QueryFilter" service="Archive"/>
-                    </mal:extends>
-                    <mal:field canBeNull="false" comment="The limit for the page." name="limit">
-                        <mal:type area="MAL" list="false" name="UInteger"/>
-                    </mal:field>
-                    <mal:field canBeNull="false" comment="The offset for the page." name="offset">
-                        <mal:type area="MAL" list="false" name="UInteger"/>
-                    </mal:field>
-                </mal:composite>
-            </mal:dataTypes>
             <com:features>
                 <com:events comment="For each stored object, an 'ObjectStored' event may be published to the event service.&#10;For each updated object, an 'ObjectUpdated' event may be published to the event service.&#10;For each deleted object, an 'ObjectDeleted' event may be published to the event service.&#10;The source link of the generated events shall link to the object being stored/updated/deleted.&#10;Archive service events shall be persisted silently in order not to trigger an infinite event loop.">
                     <com:event comment="For each stored object, an event of type 'ObjectStored' may be published to the event service." name="ObjectStored" number="1">
@@ -376,45 +277,11 @@
             </com:features>
         </mal:service>
         <mal:service comment="The activity tracking service provides the ability to monitor the progress of activities; an activity is anything that has a measurable period of time (a command, a remote procedure, a schedule etc). It defines an event pattern that supports the monitoring of activities from the initial consumer request, tracking its progress across a transport link, to reception by the provider and execution in that provider." name="ActivityTracking" number="3" xsi:type="com:ExtendedServiceType">
-            <mal:dataTypes>
-                <mal:composite comment="The structure holds details for a Release, Reception, or Forward event of an activity." name="ActivityTransfer" shortFormPart="1">
-                    <mal:field canBeNull="false" comment="The success result of this stage, TRUE if successful, FALSE otherwise. If this is TRUE then the next two fields should be populated." name="success">
-                        <mal:type area="MAL" list="false" name="Boolean"/>
-                    </mal:field>
-                    <mal:field canBeNull="true" comment="The estimated amount of time it will take to be received by the next destination if Release or Forward. Contains the estimated amount of time it will take to be forwarded by this relay if Reception event. May be NULL if unknown or cannot be calculated." name="estimateDuration">
-                        <mal:type area="MAL" list="false" name="Duration"/>
-                    </mal:field>
-                    <mal:field canBeNull="true" comment="This contains the URI of the next destination, either another relay or the provider. It is protocol specific how this value is derived." name="nextDestination">
-                        <mal:type area="MAL" list="false" name="URI"/>
-                    </mal:field>
-                </mal:composite>
-                <mal:composite comment="The structure is used to hold details of an Acceptance event." name="ActivityAcceptance" shortFormPart="2">
-                    <mal:field canBeNull="false" comment="The success result of this stage, TRUE if successful, FALSE otherwise." name="success">
-                        <mal:type area="MAL" list="false" name="Boolean"/>
-                    </mal:field>
-                </mal:composite>
-                <mal:composite comment="The structure is used to report the execution status of an activity in the final destination." name="ActivityExecution" shortFormPart="3">
-                    <mal:field canBeNull="false" comment="The success result of this stage, TRUE if successful, FALSE otherwise." name="success">
-                        <mal:type area="MAL" list="false" name="Boolean"/>
-                    </mal:field>
-                    <mal:field canBeNull="false" comment="The execution stage of the operation." name="executionStage">
-                        <mal:type area="MAL" list="false" name="UInteger"/>
-                    </mal:field>
-                    <mal:field canBeNull="false" comment="The total number of execution stages that will be reported." name="stageCount">
-                        <mal:type area="MAL" list="false" name="UInteger"/>
-                    </mal:field>
-                </mal:composite>
-                <mal:composite comment="The OperationActivity structure contains the details of a MAL operation activity." name="OperationActivity" shortFormPart="4">
-                    <mal:field canBeNull="false" comment="The interaction type of the original operation message header." name="interactionType">
-                        <mal:type area="MAL" list="false" name="InteractionType"/>
-                    </mal:field>
-                </mal:composite>
-            </mal:dataTypes>
             <com:features>
                 <com:objects comment="The activity tracking service may be used for the monitoring of MAL operations.&#10;A MAL implementation must populate the transaction identifier for SEND interactions if the activity tracking service is to be used.&#10;If a MAL operation is using the activity tracking service, when the interaction is started, the consumer shall populate and archive an OperationActivity object.&#10;The OperationActivity object shall use the transaction identifier of the MAL operation for its object instance identifier.&#10;The OperationActivity object shall use the domain of the MAL operation for its domain.&#10;All Activity events for the interaction shall link to the OperationActivity object using their source link where the object instance identifier to use is the MAL interaction transaction identifier.&#10;If a relay node is unable to relay the operation then that relay shall fail the MAL interaction that the consumer initiated as well as generate the correct activity event.&#10;The executionStage field of the Execution event structure shall hold the current execution stage of the activity.&#10;For SUBMIT, INVOKE, and PROGRESS interactions the ACKNOWLEDGE stage shall have an execution stage value of '1'.&#10;For REQUEST interactions the RESPONSE stage shall have an execution stage value of '1'.&#10;For PROGRESS interactions the execution stage value for the PROGRESS updates shall start at '2' and increate for each update sent.&#10;For PROGRESS interactions the execution stage value for the RESPONSE shall be the total number of PROGRESS updates plus '2'.&#10;The stageCount field of the Execution event structure shall be populated from the stage count row of Table 2-1.">
                     <com:object name="OperationActivity" number="6">
                         <com:objectType>
-                            <mal:type area="COM" list="false" name="OperationActivity" service="ActivityTracking"/>
+                            <mal:type area="COM" list="false" name="OperationActivity"/>
                         </com:objectType>
                         <com:relatedObject comment=""/>
                         <com:sourceObject comment=""/>
@@ -423,35 +290,35 @@
                 <com:events comment="The activity tracking service shall use the event service for the monitoring of activities being transferred from a consumer to a provider and also for execution in the provider.&#10;A Release event shall be generated when an activity is released from a consumer.&#10;A Reception event shall be generated when an activity is received by an intermediate relay.&#10;A Forward event shall be generated when an activity is released from an intermediate relay.&#10;An Acceptance event shall be generated when an activity is received by the destination provider.&#10;Reception and Forward events shall only be used in a multi-hop activity transfer.&#10;For Reception and Forward events, the source URI in the UpdateHeader of the published event shall contain the URI of the relay. It is protocol specific how this value is derived.&#10;Execution progress of an activity shall be reported using Execution events.&#10;The Execution event may be reported many times as it is used to report each stage in the execution of the activity.">
                     <com:event comment="A Release event is release from source consumer." name="Release" number="1">
                         <com:objectType>
-                            <mal:type area="COM" list="false" name="ActivityTransfer" service="ActivityTracking"/>
+                            <mal:type area="COM" list="false" name="ActivityTransfer"/>
                         </com:objectType>
                         <com:relatedObject comment=""/>
                         <com:sourceObject comment="The activity being monitored is the source of the event."/>
                     </com:event>
                     <com:event comment="A Reception event is reception by an intermediate relay." name="Reception" number="2">
                         <com:objectType>
-                            <mal:type area="COM" list="false" name="ActivityTransfer" service="ActivityTracking"/>
+                            <mal:type area="COM" list="false" name="ActivityTransfer"/>
                         </com:objectType>
                         <com:relatedObject comment=""/>
                         <com:sourceObject comment="The activity being monitored is the source of the event."/>
                     </com:event>
                     <com:event comment="A Forward event is release from an intermediate relay." name="Forward" number="3">
                         <com:objectType>
-                            <mal:type area="COM" list="false" name="ActivityTransfer" service="ActivityTracking"/>
+                            <mal:type area="COM" list="false" name="ActivityTransfer"/>
                         </com:objectType>
                         <com:relatedObject comment=""/>
                         <com:sourceObject comment="The activity being monitored is the source of the event."/>
                     </com:event>
                     <com:event comment="An Acceptance event is reception and acceptance by the destination provider." name="Acceptance" number="4">
                         <com:objectType>
-                            <mal:type area="COM" list="false" name="ActivityAcceptance" service="ActivityTracking"/>
+                            <mal:type area="COM" list="false" name="ActivityAcceptance"/>
                         </com:objectType>
                         <com:relatedObject comment=""/>
                         <com:sourceObject comment="The activity being monitored is the source of the event."/>
                     </com:event>
                     <com:event comment="An Execution event is execution progress reporting by the destination provider." name="Execution" number="5">
                         <com:objectType>
-                            <mal:type area="COM" list="false" name="ActivityExecution" service="ActivityTracking"/>
+                            <mal:type area="COM" list="false" name="ActivityExecution"/>
                         </com:objectType>
                         <com:relatedObject comment=""/>
                         <com:sourceObject comment="The activity being monitored is the source of the event."/>
@@ -570,92 +437,11 @@
                     </mal:errors>
                 </mal:submitIP>
             </mal:capabilitySet>
-            <mal:dataTypes>
-                <mal:composite comment="The DictionaryEntry structure is used to hold information about a single entry of the Dictionary." name="DictionaryEntry" shortFormPart="7">
-                    <mal:extends>
-                        <mal:type area="MAL" list="false" name="Composite"/>
-                    </mal:extends>
-                    <mal:field canBeNull="true" comment="The id of the entry." name="id">
-                        <mal:type area="MAL" list="false" name="UInteger"/>
-                    </mal:field>
-                    <mal:field canBeNull="true" comment="The associated string." name="string">
-                        <mal:type area="MAL" list="false" name="String"/>
-                    </mal:field>
-                </mal:composite>
-                <mal:composite comment="The Dictionary structure is used to hold information about the Dictionary." name="Dictionary" shortFormPart="8">
-                    <mal:extends>
-                        <mal:type area="MAL" list="false" name="Composite"/>
-                    </mal:extends>
-                    <mal:field canBeNull="true" comment="The entries of the dictionary." name="entries">
-                        <mal:type area="COM" list="true" name="DictionaryEntry" service="ArchiveSync"/>
-                    </mal:field>
-                </mal:composite>
-                <mal:composite comment="The CompactCOMObject structure is used to hold the information of a COM Object based on a content from a dictionary." name="CompactCOMObject" shortFormPart="9">
-                    <mal:extends>
-                        <mal:type area="MAL" list="false" name="Composite"/>
-                    </mal:extends>
-                    <mal:field canBeNull="true" comment="The network field of the COM Object. It points to a certain id in the dictionary." name="network">
-                        <mal:type area="MAL" list="false" name="UInteger"/>
-                    </mal:field>
-                    <mal:field canBeNull="true" comment="The provider field of the COM Object. It points to a certain id in the dictionary." name="providerURI">
-                        <mal:type area="MAL" list="false" name="UInteger"/>
-                    </mal:field>
-                    <mal:field canBeNull="false" comment="The Object Type of the COM Object." name="objectType">
-                        <mal:type area="MAL" list="false" name="Long"/>
-                    </mal:field>
-                    <mal:field canBeNull="true" comment="The source link Domain of the COM Object. It points to a certain id in the dictionary." name="sourceLinkDomainId">
-                        <mal:type area="MAL" list="false" name="UInteger"/>
-                    </mal:field>
-                    <mal:field canBeNull="true" comment="The source link Object Type of the COM Object. It points to a certain id in the dictionary." name="sourceLinkObjectType">
-                        <mal:type area="MAL" list="false" name="Long"/>
-                    </mal:field>
-                    <mal:field canBeNull="true" comment="The source link Object Instance Identifier of the COM Object." name="sourceLinkObjId">
-                        <mal:type area="MAL" list="false" name="Long"/>
-                    </mal:field>
-                    <mal:field canBeNull="true" comment="The related link of the COM Object." name="relatedLink">
-                        <mal:type area="MAL" list="false" name="Long"/>
-                    </mal:field>
-                    <mal:field canBeNull="true" comment="The object body of the COM Object." name="objectBody">
-                        <mal:type area="MAL" list="false" name="Blob"/>
-                    </mal:field>
-                    <mal:field canBeNull="false" comment="The Object Instance Identifier of the COM Object." name="objId">
-                        <mal:type area="MAL" list="false" name="Long"/>
-                    </mal:field>
-                    <mal:field canBeNull="false" comment="The timestamp of the COM Object." name="timestamp">
-                        <mal:type area="MAL" list="false" name="FineTime"/>
-                    </mal:field>
-                </mal:composite>
-                <mal:composite comment="The DomainizedCOMObjects structure is used to hold the a set of CompactCOMObjects that share the same domain." name="DomainizedCOMObjects" shortFormPart="10">
-                    <mal:extends>
-                        <mal:type area="MAL" list="false" name="Composite"/>
-                    </mal:extends>
-                    <mal:field canBeNull="true" comment="The domain field of the COM Object. It points to a certain id in the dictionary." name="domain">
-                        <mal:type area="MAL" list="false" name="UInteger"/>
-                    </mal:field>
-                    <mal:field canBeNull="true" comment="The compactCOMObjects field holds a set of COM Objects." name="compactCOMObjects">
-                        <mal:type area="COM" list="true" name="CompactCOMObject" service="ArchiveSync"/>
-                    </mal:field>
-                </mal:composite>
-                <mal:composite comment="The LastSync structure is used to hold information about synchronizations." name="LastSync" shortFormPart="11">
-                    <mal:extends>
-                        <mal:type area="MAL" list="false" name="Composite"/>
-                    </mal:extends>
-                    <mal:field canBeNull="false" comment="The provider URI." name="providerURI">
-                        <mal:type area="MAL" list="false" name="String"/>
-                    </mal:field>
-                    <mal:field canBeNull="false" comment="The domain." name="domainId">
-                        <mal:type area="MAL" list="false" name="String"/>
-                    </mal:field>
-                    <mal:field canBeNull="false" comment="The time of the last synchronization." name="lastSyncTime">
-                        <mal:type area="MAL" list="false" name="Time"/>
-                    </mal:field>
-                </mal:composite>
-            </mal:dataTypes>
             <com:features>
                 <com:objects comment="The ArchiveSync service can store the last synchronizations information on the COM Archive.">
                     <com:object name="LastSync" number="1">
                         <com:objectType>
-                            <mal:type area="COM" list="false" name="LastSync" service="ArchiveSync"/>
+                            <mal:type area="COM" list="false" name="LastSync"/>
                         </com:objectType>
                         <com:relatedObject comment=""/>
                         <com:sourceObject comment=""/>
@@ -664,7 +450,7 @@
             </com:features>
         </mal:service>
         <mal:dataTypes>
-            <mal:composite comment="The ObjectType structure uniquely identifies the type of an object. It is the combination of the area number, service number, area version, and service object type number. The combined parts are able to fit inside a MAL::Long (for implementations that prefer to index on a single numeric field rather than a structure)." name="ObjectType" shortFormPart="1">
+            <mal:composite shortFormPart="1" name="ObjectType" comment="The ObjectType structure uniquely identifies the type of an object. It is the combination of the area number, service number, area version, and service object type number. The combined parts are able to fit inside a MAL::Long (for implementations that prefer to index on a single numeric field rather than a structure).">
                 <mal:extends>
                     <mal:type area="MAL" list="false" name="Composite"/>
                 </mal:extends>
@@ -681,7 +467,7 @@
                     <mal:type area="MAL" list="false" name="UShort"/>
                 </mal:field>
             </mal:composite>
-            <mal:composite comment="The ObjectId structure combines an object type and an object key such that it identifies the instance and type of an object for a specific domain." name="ObjectId" shortFormPart="3">
+            <mal:composite shortFormPart="2" name="ObjectId" comment="The ObjectId structure combines an object type and an object key such that it identifies the instance and type of an object for a specific domain.">
                 <mal:extends>
                     <mal:type area="MAL" list="false" name="Composite"/>
                 </mal:extends>
@@ -695,7 +481,7 @@
                     <mal:type area="MAL" list="false" name="Long"/>
                 </mal:field>
             </mal:composite>
-            <mal:composite comment="The ObjectLinks type is used to hold the extra information associated with an object instance, namely the related and source links." name="ObjectLinks" shortFormPart="4">
+            <mal:composite shortFormPart="3" name="ObjectLinks" comment="The ObjectLinks type is used to hold the extra information associated with an object instance, namely the related and source links.">
                 <mal:extends>
                     <mal:type area="MAL" list="false" name="Composite"/>
                 </mal:extends>
@@ -706,7 +492,7 @@
                     <mal:type area="COM" list="false" name="ObjectId"/>
                 </mal:field>
             </mal:composite>
-            <mal:composite comment="Simple pair of an object instance identifier and a Boolean value." name="InstanceBooleanPair" shortFormPart="5">
+            <mal:composite shortFormPart="4" name="InstanceBooleanPair" comment="Simple pair of an object instance identifier and a Boolean value.">
                 <mal:extends>
                     <mal:type area="MAL" list="false" name="Composite"/>
                 </mal:extends>
@@ -715,6 +501,214 @@
                 </mal:field>
                 <mal:field canBeNull="false" comment="An associated Boolean value." name="value">
                     <mal:type area="MAL" list="false" name="Boolean"/>
+                </mal:field>
+            </mal:composite>
+            <mal:enumeration shortFormPart="5" name="ExpressionOperator" comment="The ExpressionOperator enumeration holds a set of possible expression operators.">
+                <mal:item comment="Checks for equality." nvalue="1" value="EQUAL"/>
+                <mal:item comment="Checks for difference (not equal)." nvalue="2" value="DIFFER"/>
+                <mal:item comment="Checks for greater than." nvalue="3" value="GREATER"/>
+                <mal:item comment="Checks for greater than or equal to." nvalue="4" value="GREATER_OR_EQUAL"/>
+                <mal:item comment="Checks for less than." nvalue="5" value="LESS"/>
+                <mal:item comment="Checks for less than or equal to." nvalue="6" value="LESS_OR_EQUAL"/>
+                <mal:item comment="Case sensitive containment test (String types only)" nvalue="7" value="CONTAINS"/>
+                <mal:item comment="Case insensitive containment test (String types only)." nvalue="8" value="ICONTAINS"/>
+            </mal:enumeration>
+            <mal:composite comment="The base structure for archive filters." name="QueryFilter">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite"/>
+                </mal:extends>
+            </mal:composite>
+            <mal:composite shortFormPart="6" name="ArchiveDetails" comment="The ArchiveDetails structure is used to hold information about a single entry in an Archive.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite"/>
+                </mal:extends>
+                <mal:field canBeNull="false" comment="The object instance identifier of the archived object." name="instId">
+                    <mal:type area="MAL" list="false" name="Long"/>
+                </mal:field>
+                <mal:field canBeNull="false" comment="The links of the Object." name="links">
+                    <mal:type area="COM" list="false" name="ObjectLinks"/>
+                </mal:field>
+                <mal:field canBeNull="true" comment="The network zone of the object." name="network">
+                    <mal:type area="MAL" list="false" name="Identifier"/>
+                </mal:field>
+                <mal:field canBeNull="true" comment="The time the object was created." name="timestamp">
+                    <mal:type area="MAL" list="false" name="FineTime"/>
+                </mal:field>
+                <mal:field canBeNull="true" comment="The component that created the object (a component may be anything from an onboard equipment to a software process on the ground)." name="provider">
+                    <mal:type area="MAL" list="false" name="URI"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite shortFormPart="7" name="ArchiveQuery" comment="The ArchiveQuery structure is used to specify filters on the common parts of an object in an archive.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite"/>
+                </mal:extends>
+                <mal:field canBeNull="true" comment="Only the objects whose domain matches the provided domain will be returned. The domain field supports the wildcard value of '*' only in the last part of the domain. If NULL then all domains shall be matched." name="domain">
+                    <mal:type area="MAL" list="true" name="Identifier"/>
+                </mal:field>
+                <mal:field canBeNull="true" comment="Optional network zone. Only the objects whose network zone matches the provided value will be returned. If NULL then all values will be matched." name="network">
+                    <mal:type area="MAL" list="false" name="Identifier"/>
+                </mal:field>
+                <mal:field canBeNull="true" comment="Optional provider. Only the objects whose provider URI matches the provided provider URI will be returned. If NULL then all values will be matched." name="provider">
+                    <mal:type area="MAL" list="false" name="URI"/>
+                </mal:field>
+                <mal:field canBeNull="false" comment="Object instance identifier of the related Object. Only the objects whose related Object matches the provided related Object will be returned unless the '0' wildcard value is supplied." name="related">
+                    <mal:type area="MAL" list="false" name="Long"/>
+                </mal:field>
+                <mal:field canBeNull="true" comment="Optional source. Only the objects whose source matches the provided source will be returned. The fields of the ObjectId may contain the wildcard values ('0' for numeric fields, '*' for Identifier fields). If NULL then all values will be matched. " name="source">
+                    <mal:type area="COM" list="false" name="ObjectId"/>
+                </mal:field>
+                <mal:field canBeNull="true" comment="Optional start time. Only the objects whose timestamp is equal or greater than the provided start time will be returned. If NULL then no start time shall be applied." name="startTime">
+                    <mal:type area="MAL" list="false" name="FineTime"/>
+                </mal:field>
+                <mal:field canBeNull="true" comment="Optional end time. Only the objects whose timestamp is equal or less than the provided end time will be returned. If NULL then no end time will be applied." name="endTime">
+                    <mal:type area="MAL" list="false" name="FineTime"/>
+                </mal:field>
+                <mal:field canBeNull="true" comment="If set to TRUE then returned values shall be sorted in ascending order, if FALSE then in descending order. If NULL then no sorting shall be applied." name="sortOrder">
+                    <mal:type area="MAL" list="false" name="Boolean"/>
+                </mal:field>
+                <mal:field canBeNull="true" comment="If the returned values are to be sorted because the sortOrder field is not NULL then this field may contain the name of the field in the object body (MAL::Composite) to sort against. If the object body is not a composite but an Attribute or Enumeration then to sort on the values an empty string of &quot;&quot; should be used. Enumerations are sorted on their ordinal. If this field is NULL then the objects shall be sorted on the COM object timestamp. The field follows the naming convention of CompositeFilter::fieldName. If the field points to a composite, list, abstract type (including Attribute) or Blob then no sorting shall be applied." name="sortFieldName">
+                    <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite shortFormPart="8" name="CompositeFilter" comment="The CompositeFilter allows an archive query to specify a filter based on the content of the body of an object if that body is specified using the MAL data type specification.">
+                <mal:field canBeNull="false" comment="The name of the field in the object body (MAL::Composite) to match against. It is specified by referring to the name of the field. If the field does not exist in the Composite then the filter shall evaluate to false. If the field is nested inside another Composite, it can be referenced by separating the field names by a '.' character; for example the field 'instId' or the source of an ArchiveDetails composite would be referenced using &quot;details.source.key.instId&quot;. If the body is not a Composite but an Attribute or Enumeration then it can be referred to by using a blank (&quot;&quot;) string value here. Accessing values from lists is not supported by this method." name="fieldName">
+                    <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+                <mal:field canBeNull="false" comment="The type of the filter to apply." name="type">
+                    <mal:type area="COM" list="false" name="ExpressionOperator"/>
+                </mal:field>
+                <mal:field canBeNull="true" comment="The value to compare with. The type of the suppied value and the matched field mst be the same. Must not contain NULL for expression operators CONTAINS, ICONTAINS, GREATER, GREATER_OR_EQUAL, LESS, or LESS_OR_EQUAL otherwise an INVALID error should be returned. Must contain a UInteger ordinal value if the field being matched is an Enumeration. Blob fields can only be used with EQUAL/DIFFER. Must contain a String value if operator is CONTAINS or ICONTAINS otherwise an INVALID error should be returned." name="fieldValue">
+                    <mal:type area="MAL" list="false" name="Attribute"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite shortFormPart="9" name="CompositeFilterSet" comment="Contains a list of CompositeFilters that are AND'd together to form a more complex filter.">
+                <mal:extends>
+                    <mal:type area="COM" list="false" name="QueryFilter"/>
+                </mal:extends>
+                <mal:field canBeNull="false" comment="The list of filters to apply." name="filters">
+                    <mal:type area="COM" list="true" name="CompositeFilter"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite shortFormPart="10" name="PaginationFilter" comment="The PaginationFilter allows an archive query to specify a filter based on the limit and offset of the query.">
+                <mal:extends>
+                    <mal:type area="COM" list="false" name="QueryFilter"/>
+                </mal:extends>
+                <mal:field canBeNull="false" comment="The limit for the page." name="limit">
+                    <mal:type area="MAL" list="false" name="UInteger"/>
+                </mal:field>
+                <mal:field canBeNull="false" comment="The offset for the page." name="offset">
+                    <mal:type area="MAL" list="false" name="UInteger"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite shortFormPart="11" name="ActivityTransfer" comment="The structure holds details for a Release, Reception, or Forward event of an activity.">
+                <mal:field canBeNull="false" comment="The success result of this stage, TRUE if successful, FALSE otherwise. If this is TRUE then the next two fields should be populated." name="success">
+                    <mal:type area="MAL" list="false" name="Boolean"/>
+                </mal:field>
+                <mal:field canBeNull="true" comment="The estimated amount of time it will take to be received by the next destination if Release or Forward. Contains the estimated amount of time it will take to be forwarded by this relay if Reception event. May be NULL if unknown or cannot be calculated." name="estimateDuration">
+                    <mal:type area="MAL" list="false" name="Duration"/>
+                </mal:field>
+                <mal:field canBeNull="true" comment="This contains the URI of the next destination, either another relay or the provider. It is protocol specific how this value is derived." name="nextDestination">
+                    <mal:type area="MAL" list="false" name="URI"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite shortFormPart="12" name="ActivityAcceptance" comment="The structure is used to hold details of an Acceptance event.">
+                <mal:field canBeNull="false" comment="The success result of this stage, TRUE if successful, FALSE otherwise." name="success">
+                    <mal:type area="MAL" list="false" name="Boolean"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite shortFormPart="13" name="ActivityExecution" comment="The structure is used to report the execution status of an activity in the final destination.">
+                <mal:field canBeNull="false" comment="The success result of this stage, TRUE if successful, FALSE otherwise." name="success">
+                    <mal:type area="MAL" list="false" name="Boolean"/>
+                </mal:field>
+                <mal:field canBeNull="false" comment="The execution stage of the operation." name="executionStage">
+                    <mal:type area="MAL" list="false" name="UInteger"/>
+                </mal:field>
+                <mal:field canBeNull="false" comment="The total number of execution stages that will be reported." name="stageCount">
+                    <mal:type area="MAL" list="false" name="UInteger"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite shortFormPart="14" name="OperationActivity" comment="The OperationActivity structure contains the details of a MAL operation activity.">
+                <mal:field canBeNull="false" comment="The interaction type of the original operation message header." name="interactionType">
+                    <mal:type area="MAL" list="false" name="InteractionType"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite shortFormPart="15" name="DictionaryEntry" comment="The DictionaryEntry structure is used to hold information about a single entry of the Dictionary.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite"/>
+                </mal:extends>
+                <mal:field canBeNull="true" comment="The id of the entry." name="id">
+                    <mal:type area="MAL" list="false" name="UInteger"/>
+                </mal:field>
+                <mal:field canBeNull="true" comment="The associated string." name="string">
+                    <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite shortFormPart="16" name="Dictionary" comment="The Dictionary structure is used to hold information about the Dictionary.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite"/>
+                </mal:extends>
+                <mal:field canBeNull="true" comment="The entries of the dictionary." name="entries">
+                    <mal:type area="COM" list="true" name="DictionaryEntry"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite shortFormPart="17" name="CompactCOMObject" comment="The CompactCOMObject structure is used to hold the information of a COM Object based on a content from a dictionary.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite"/>
+                </mal:extends>
+                <mal:field canBeNull="true" comment="The network field of the COM Object. It points to a certain id in the dictionary." name="network">
+                    <mal:type area="MAL" list="false" name="UInteger"/>
+                </mal:field>
+                <mal:field canBeNull="true" comment="The provider field of the COM Object. It points to a certain id in the dictionary." name="providerURI">
+                    <mal:type area="MAL" list="false" name="UInteger"/>
+                </mal:field>
+                <mal:field canBeNull="false" comment="The Object Type of the COM Object." name="objectType">
+                    <mal:type area="MAL" list="false" name="Long"/>
+                </mal:field>
+                <mal:field canBeNull="true" comment="The source link Domain of the COM Object. It points to a certain id in the dictionary." name="sourceLinkDomainId">
+                    <mal:type area="MAL" list="false" name="UInteger"/>
+                </mal:field>
+                <mal:field canBeNull="true" comment="The source link Object Type of the COM Object. It points to a certain id in the dictionary." name="sourceLinkObjectType">
+                    <mal:type area="MAL" list="false" name="Long"/>
+                </mal:field>
+                <mal:field canBeNull="true" comment="The source link Object Instance Identifier of the COM Object." name="sourceLinkObjId">
+                    <mal:type area="MAL" list="false" name="Long"/>
+                </mal:field>
+                <mal:field canBeNull="true" comment="The related link of the COM Object." name="relatedLink">
+                    <mal:type area="MAL" list="false" name="Long"/>
+                </mal:field>
+                <mal:field canBeNull="true" comment="The object body of the COM Object." name="objectBody">
+                    <mal:type area="MAL" list="false" name="Blob"/>
+                </mal:field>
+                <mal:field canBeNull="false" comment="The Object Instance Identifier of the COM Object." name="objId">
+                    <mal:type area="MAL" list="false" name="Long"/>
+                </mal:field>
+                <mal:field canBeNull="false" comment="The timestamp of the COM Object." name="timestamp">
+                    <mal:type area="MAL" list="false" name="FineTime"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite shortFormPart="18" name="DomainizedCOMObjects" comment="The DomainizedCOMObjects structure is used to hold the a set of CompactCOMObjects that share the same domain.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite"/>
+                </mal:extends>
+                <mal:field canBeNull="true" comment="The domain field of the COM Object. It points to a certain id in the dictionary." name="domain">
+                    <mal:type area="MAL" list="false" name="UInteger"/>
+                </mal:field>
+                <mal:field canBeNull="true" comment="The compactCOMObjects field holds a set of COM Objects." name="compactCOMObjects">
+                    <mal:type area="COM" list="true" name="CompactCOMObject"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite shortFormPart="19" name="LastSync" comment="The LastSync structure is used to hold information about synchronizations.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite"/>
+                </mal:extends>
+                <mal:field canBeNull="false" comment="The provider URI." name="providerURI">
+                    <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+                <mal:field canBeNull="false" comment="The domain." name="domainId">
+                    <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+                <mal:field canBeNull="false" comment="The time of the last synchronization." name="lastSyncTime">
+                    <mal:type area="MAL" list="false" name="Time"/>
                 </mal:field>
             </mal:composite>
         </mal:dataTypes>

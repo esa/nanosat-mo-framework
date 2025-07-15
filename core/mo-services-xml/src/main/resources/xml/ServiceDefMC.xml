@@ -1492,7 +1492,7 @@
                     <mal:type name="Long" area="MAL"/>
                 </mal:field>
                 <mal:field name="operator" canBeNull="false" comment="The expression operator.">
-                    <mal:type name="ExpressionOperator" service="Archive" area="COM"/>
+                    <mal:type name="ExpressionOperator" area="COM"/>
                 </mal:field>
                 <mal:field name="useConverted" canBeNull="false"
                            comment="If set to TRUE the converted value field of the parameter value should be used, otherwise the raw value field should be used.">

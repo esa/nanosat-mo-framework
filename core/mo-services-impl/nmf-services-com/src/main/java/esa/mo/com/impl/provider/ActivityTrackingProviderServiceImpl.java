@@ -31,27 +31,13 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.activitytracking.ActivityTrackingHelper;
 import org.ccsds.moims.mo.com.activitytracking.ActivityTrackingServiceInfo;
-import org.ccsds.moims.mo.com.activitytracking.structures.ActivityAcceptance;
-import org.ccsds.moims.mo.com.activitytracking.structures.ActivityAcceptanceList;
-import org.ccsds.moims.mo.com.activitytracking.structures.ActivityExecution;
-import org.ccsds.moims.mo.com.activitytracking.structures.ActivityExecutionList;
-import org.ccsds.moims.mo.com.activitytracking.structures.ActivityTransfer;
-import org.ccsds.moims.mo.com.activitytracking.structures.ActivityTransferList;
-import org.ccsds.moims.mo.com.activitytracking.structures.OperationActivity;
-import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
-import org.ccsds.moims.mo.com.structures.ObjectId;
-import org.ccsds.moims.mo.com.structures.ObjectType;
+import org.ccsds.moims.mo.com.structures.*;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
-import org.ccsds.moims.mo.mal.structures.Duration;
-import org.ccsds.moims.mo.mal.structures.FineTime;
-import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
-import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.UInteger;
-import org.ccsds.moims.mo.mal.structures.URI;
+import org.ccsds.moims.mo.mal.structures.*;
 
 /**
  * Activity Tracking service Provider.

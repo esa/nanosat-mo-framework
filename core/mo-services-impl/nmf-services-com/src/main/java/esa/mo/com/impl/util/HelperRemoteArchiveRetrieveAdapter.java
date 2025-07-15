@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
-import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
+import org.ccsds.moims.mo.com.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.structures.ElementList;
@@ -13,6 +13,7 @@ import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 
 class HelperRemoteArchiveRetrieveAdapter extends ArchiveAdapter implements HelperArchiveRetrieveAdapterInterface {
+
     private ElementList objectBodyList;
     private ArchiveDetailsList archiveDetailsList;
     private final Semaphore semaphore = new Semaphore(0);
@@ -32,13 +33,14 @@ class HelperRemoteArchiveRetrieveAdapter extends ArchiveAdapter implements Helpe
 
     @Override
     public void retrieveAckErrorReceived(MALMessageHeader msgHeader, MOErrorException error, Map qosProperties) {
-        HelperArchive.LOGGER.log(Level.SEVERE, "The Archive returned the following error: {0}", error.toString());
+        HelperArchive.LOGGER.log(Level.SEVERE,
+                "The Archive returned the following error: {0}", error.toString());
         semaphore.release();
     }
 
     @Override
-    public void retrieveResponseReceived(MALMessageHeader msgHeader, ArchiveDetailsList objDetails,
-        HeterogeneousList objBodies, Map qosProperties) {
+    public void retrieveResponseReceived(MALMessageHeader msgHeader,
+            ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
 
         if (objBodies != null) {
             if (!objBodies.isEmpty()) {

@@ -22,14 +22,8 @@ package esa.mo.com.impl.provider;
 
 import esa.mo.com.impl.util.HelperCOM;
 import java.io.Serializable;
-import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
-import org.ccsds.moims.mo.com.structures.ObjectId;
-import org.ccsds.moims.mo.com.structures.ObjectLinks;
-import org.ccsds.moims.mo.com.structures.ObjectType;
-import org.ccsds.moims.mo.mal.structures.FineTime;
-import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.structures.URI;
+import org.ccsds.moims.mo.com.structures.*;
+import org.ccsds.moims.mo.mal.structures.*;
 
 /**
  * This class used to be a direct Entity for the db, now it is just a COM Object

@@ -20,17 +20,16 @@
  */
 package esa.mo.nmf.clitool.adapters;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.Map;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
-import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
+import org.ccsds.moims.mo.com.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Archive adapter that retrieves login roles
@@ -57,7 +56,7 @@ public class ArchiveToRolesAdapter extends ArchiveAdapter implements QueryStatus
     private final List<String> rolesNames = new ArrayList<>();
 
     public void retrieveResponseReceived(MALMessageHeader msgHeader, ArchiveDetailsList objDetails,
-        HeterogeneousList objBodies, Map qosProperties) {
+            HeterogeneousList objBodies, Map qosProperties) {
         for (int i = 0; i < objDetails.size(); ++i) {
             rolesIds.add(objDetails.get(i).getInstId());
             rolesNames.add(objBodies.get(i).toString());
