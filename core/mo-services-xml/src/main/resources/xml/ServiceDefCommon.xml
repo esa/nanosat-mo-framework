@@ -192,7 +192,7 @@
                             <mal:type name="ProviderDetails" area="Common"/>
                         </com:objectType>
                         <com:relatedObject>
-                            <com:objectType number="1" area="Common"/>
+                            <com:objectType number="1" service="Directory" area="Common"/>
                         </com:relatedObject>
                     </com:object>
                 </com:objects>
@@ -327,25 +327,25 @@
                             <mal:type name="Profile" area="Common"/>
                         </com:objectType>
                         <com:relatedObject>
-                            <com:objectType number="1" area="Common"/>
+                            <com:objectType number="1" service="Login" area="Common"/>
                         </com:relatedObject>
                         <com:sourceObject>
-                            <com:objectType number="2" area="Common"/>
+                            <com:objectType number="2" service="Login" area="Common"/>
                         </com:sourceObject>
                     </com:object>
                 </com:objects>
                 <com:events comment="When a user logs in a LoginEvent COM event shall be generated.&#xA;When a user logs out a LogoutEvent COM event shall be generated.&#xA;The LoginEvent event shall use the related link to indicate which LoginInstance object is being logged in.&#xA;The LogoutEvent event shall use the related link to indicate which LoginInstance object is being logged out.&#xA;The LoginEvent event shall not use the COM object source link and shall set it to NULL.&#xA;The LogoutEvent event shall use the source link to indicate which LoginEvent event it is logging out.&#xA;The events shall be published using the COM event service.">
                     <com:event name="LoginEvent" number="3">
                         <com:relatedObject>
-                            <com:objectType number="2" area="Common"/>
+                            <com:objectType number="2" service="Login" area="Common"/>
                         </com:relatedObject>
                     </com:event>
                     <com:event name="LogoutEvent" number="4">
                         <com:relatedObject>
-                            <com:objectType number="2" area="Common"/>
+                            <com:objectType number="2" service="Login" area="Common"/>
                         </com:relatedObject>
                         <com:sourceObject>
-                            <com:objectType number="3" area="Common"/>
+                            <com:objectType number="3" service="Login" area="Common"/>
                         </com:sourceObject>
                     </com:event>
                 </com:events>
@@ -363,7 +363,7 @@
                             <mal:type name="ServiceId" area="MAL"/>
                         </com:objectType>
                         <com:relatedObject>
-                            <com:objectType number="3" area="Common"/>
+                            <com:objectType number="3" service="Configuration" area="Common"/>
                         </com:relatedObject>
                         <com:sourceObject comment="The object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used."/>
                     </com:object>
@@ -372,7 +372,7 @@
                             <mal:type name="Identifier" area="MAL"/>
                         </com:objectType>
                         <com:relatedObject>
-                            <com:objectType number="3" area="Common"/>
+                            <com:objectType number="3" service="Configuration" area="Common"/>
                         </com:relatedObject>
                         <com:sourceObject comment="The object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used."/>
                     </com:object>
@@ -389,7 +389,7 @@
                             <mal:type name="ObjectId" area="COM"/>
                         </com:objectType>
                         <com:relatedObject>
-                            <com:objectType number="1" area="Common"/>
+                            <com:objectType number="1" service="Configuration" area="Common"/>
                         </com:relatedObject>
                         <com:sourceObject comment="The source link of the event is the object that triggered the activation, most likely the activate operation."/>
                     </com:event>
@@ -398,7 +398,7 @@
                             <mal:type name="Boolean" area="MAL"/>
                         </com:objectType>
                         <com:relatedObject comment="The ConfigurationSwitch COM event that triggered the switch attempt.">
-                            <com:objectType number="6" area="Common"/>
+                            <com:objectType number="6" service="Configuration" area="Common"/>
                         </com:relatedObject>
                         <com:sourceObject comment="The previous active configuration or be NULL if no configuration was previously active."/>
                     </com:event>
@@ -407,7 +407,7 @@
                             <mal:type name="ServiceId" area="MAL"/>
                         </com:objectType>
                         <com:relatedObject>
-                            <com:objectType number="1" area="Common"/>
+                            <com:objectType number="1" service="Configuration" area="Common"/>
                         </com:relatedObject>
                         <com:sourceObject comment="The source link of the event is the object that triggered the activation, most likely the storeCurrent operation."/>
                     </com:event>
@@ -416,7 +416,7 @@
                             <mal:type name="ObjectId" area="COM"/>
                         </com:objectType>
                         <com:relatedObject comment="The related link of the event is the ConfigurationStore COM object that triggered the storing.">
-                            <com:objectType number="8" area="Common"/>
+                            <com:objectType number="8" service="Configuration" area="Common"/>
                         </com:relatedObject>
                     </com:event>
                 </com:events>
