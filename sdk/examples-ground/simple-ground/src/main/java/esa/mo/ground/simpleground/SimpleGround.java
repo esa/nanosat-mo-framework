@@ -22,8 +22,8 @@ package esa.mo.ground.simpleground;
 
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 import esa.mo.nmf.commonmoadapter.SimpleDataReceivedListener;
-import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
-import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
+import org.ccsds.moims.mo.common.structures.ProviderSummary;
+import org.ccsds.moims.mo.common.structures.ProviderSummaryList;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.URI;

@@ -21,7 +21,7 @@
 package esa.mo.nmf.groundmoadapter;
 
 import esa.mo.nmf.commonmoadapter.MOAdapterImpl;
-import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
+import org.ccsds.moims.mo.common.structures.ProviderSummary;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.structures.Blob;
 

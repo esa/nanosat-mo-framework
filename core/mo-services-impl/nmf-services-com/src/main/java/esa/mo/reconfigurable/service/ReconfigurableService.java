@@ -21,7 +21,7 @@
 package esa.mo.reconfigurable.service;
 
 import org.ccsds.moims.mo.com.COMService;
-import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails;
+import org.ccsds.moims.mo.common.structures.ConfigurationObjectDetails;
 
 /**
  * An interface to make a service implementation reconfigurable

@@ -67,12 +67,12 @@
                     <mal:messages>
                         <mal:request>
                             <mal:field name="filter" comment="The lookup query filter to be used to match the providers.">
-                                <mal:type name="ServiceFilter" service="Directory" area="Common"/>
+                                <mal:type name="ServiceFilter" area="Common"/>
                             </mal:field>
                         </mal:request>
                         <mal:response>
                             <mal:field name="matchingProviders" comment="The providers that matched the filter.">
-                                <mal:type list="true" name="ProviderSummary" service="Directory" area="Common"/>
+                                <mal:type list="true" name="ProviderSummary" area="Common"/>
                             </mal:field>
                         </mal:response>
                     </mal:messages>
@@ -111,7 +111,7 @@
                         <mal:request>
                             <mal:field name="newProviderDetails"
                                        comment="The details of the provider to be added or updated in the Directory service.">
-                                <mal:type name="PublishDetails" service="Directory" area="Common"/>
+                                <mal:type name="PublishDetails" area="Common"/>
                             </mal:field>
                         </mal:request>
                         <mal:response>
@@ -179,141 +179,6 @@
                 </mal:requestIP>
             </mal:capabilitySet>
             <mal:dataTypes>
-                <mal:composite name="ProviderDetails" shortFormPart="1"
-                               comment="The ProviderDetails structure holds information about a provider of a service and its capabilities. The structure contains a list of AddressDetails structures which should be used when the individual services listed by the provider do not supply address information. A provider may support more than one transport technology and therefore can be reached using more than one address.">
-                    <mal:extends>
-                        <mal:type name="Composite" area="MAL"/>
-                    </mal:extends>
-                    <mal:field name="serviceCapabilities" canBeNull="false"
-                               comment="The service capabilities supported by this provider">
-                        <mal:type list="true" name="ServiceCapability" service="Directory" area="Common"/>
-                    </mal:field>
-                    <mal:field name="providerAddresses" canBeNull="false"
-                               comment="List of addresses for all services of this provider unless service specific addresses are supplied in the serviceCapabilities field. If all address information is supplied in the serviceCapabilities field this list should be zero length.">
-                        <mal:type list="true" name="AddressDetails" service="Directory" area="Common"/>
-                    </mal:field>
-                </mal:composite>
-                <mal:composite name="ServiceCapability" shortFormPart="2"
-                               comment="The ServiceCapability structure holds information about a service and the capabilities offered by a provider.">
-                    <mal:extends>
-                        <mal:type name="Composite" area="MAL"/>
-                    </mal:extends>
-                    <mal:field name="ServiceId" canBeNull="false"
-                               comment="The area, service, and version fields.">
-                        <mal:type name="ServiceId" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="supportedCapabilitySets"
-                               comment="The supported capability set numbers for this provider. If NULL then all capability sets supported.">
-                        <mal:type list="true" name="UShort" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="serviceProperties"
-                               comment="Allows the passing of deployment specific service properties.">
-                        <mal:type list="true" name="NamedValue" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="serviceAddresses"
-                               comment="Optional set of address details for this specific service which shall be used instead of the provider ones when accessing this service. If all address information is supplied in the containing ProviderDetails structure field this list should be replaced with a NULL.">
-                        <mal:type list="true" name="AddressDetails" service="Directory" area="Common"/>
-                    </mal:field>
-                </mal:composite>
-                <mal:composite name="AddressDetails" shortFormPart="4"
-                               comment="The AddressDetails structure holds all information required by the Directory service about a providers URI and attributes relating to QoS.">
-                    <mal:extends>
-                        <mal:type name="Composite" area="MAL"/>
-                    </mal:extends>
-                    <mal:field name="supportedLevels" canBeNull="false"
-                               comment="The set of possible QoS levels this service can provide.">
-                        <mal:type list="true" name="QoSLevel" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="QoSproperties" canBeNull="false"
-                               comment="Any QoS properties relevant to this address URIs and the specified transport.">
-                        <mal:type list="true" name="NamedValue" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="priorityLevels" canBeNull="false"
-                               comment="The number of QoS priority levels that this provider supports.">
-                        <mal:type name="UInteger" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="serviceURI"
-                               comment="The Service URI that identifies the physical location of this service. NULL if represents a shared data provider (Broker).">
-                        <mal:type name="URI" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="brokerURI"
-                               comment="The broker URI that identifies the physical location of the publish and subscribe interface. NULL if service does not use publish and subscribe operations or if a shared broker is to be used.">
-                        <mal:type name="URI" area="MAL"/>
-                    </mal:field>
-                </mal:composite>
-                <mal:composite name="ProviderSummary" shortFormPart="5"
-                               comment="The ProviderSummary structure holds information about a provider of a service and its capabilities.">
-                    <mal:extends>
-                        <mal:type name="Composite" area="MAL"/>
-                    </mal:extends>
-                    <mal:field canBeNull="false" comment="The domain of the provider." name="domain">
-                        <mal:type area="MAL" list="true" name="Identifier"/>
-                    </mal:field>
-                    <mal:field canBeNull="false" comment="The unique instance." name="instId">
-                        <mal:type area="MAL" list="false" name="Long"/>
-                    </mal:field>
-                    <mal:field name="providerId" canBeNull="false" comment="The id of this provider.">
-                        <mal:type name="Identifier" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="providerDetails" canBeNull="false"
-                               comment="The service capabilities supported by this provider">
-                        <mal:type name="ProviderDetails" service="Directory" area="Common"/>
-                    </mal:field>
-                </mal:composite>
-                <mal:composite name="PublishDetails" shortFormPart="6"
-                               comment="The PublishDetails structure holds all the required information to publish new provider details.">
-                    <mal:extends>
-                        <mal:type name="Composite" area="MAL"/>
-                    </mal:extends>
-                    <mal:field name="providerId" canBeNull="false"
-                               comment="The unique provider id; allows multiple providers of the same service type to coexist in the directory service.">
-                        <mal:type name="Identifier" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="domain" canBeNull="false" comment="The domain of the provider.">
-                        <mal:type list="true" name="Identifier" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="sourceSessionName"
-                               comment="If this is part of a replay session, this field holds the session name of the source session. NULL otherwise">
-                        <mal:type name="Identifier" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="network" canBeNull="false" comment="The network of the provider.">
-                        <mal:type name="Identifier" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="providerDetails" canBeNull="false"
-                               comment="The new provider details.">
-                        <mal:type name="ProviderDetails" service="Directory" area="Common"/>
-                    </mal:field>
-                </mal:composite>
-                <mal:composite name="ServiceFilter" shortFormPart="7"
-                               comment="The ServiceFilter structure holds all information required by the Directory service for service lookup operation. The field filters are AND'd together.">
-                    <mal:extends>
-                        <mal:type name="Composite" area="MAL"/>
-                    </mal:extends>
-                    <mal:field name="serviceProviderId"
-                               comment="The required provider. Can be NULL in which case matches all values.">
-                        <mal:type name="Identifier" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="domain"
-                               comment="The domain to query. Can be NULL in which case matches all values.">
-                        <mal:type list="true" name="Identifier" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="network"
-                               comment="The network to match. Can be NULL in which case matches all values.">
-                        <mal:type name="Identifier" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="sessionName"
-                               comment="The session name to match. Can be NULL in which case matches all values.">
-                        <mal:type name="Identifier" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="ServiceId"
-                               comment="The service to filter on, values can be NULL which matches all values.">
-                        <mal:type name="ServiceId" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="requiredCapabilitySets"
-                               comment="List of required capability sets. If NULL then matches any.">
-                        <mal:type list="true" name="UShort" area="MAL"/>
-                    </mal:field>
-                </mal:composite>
             </mal:dataTypes>
             <com:features>
                 <com:objects comment="A ServiceProvider object represents a provider. The COM object body shall hold the provider id taken from the providerId field of the PublishDetails composite.&#xA;The ServiceProvider COM object related link shall not be used and therefore set to NULL.&#xA;The ServiceProvider COM object source link shall not be used and therefore shall be set to NULL.&#xA;A ProviderCapabilities object represents the supported capabilities of a provider. The COM object body shall hold the provider details of the provider.&#xA;The ProviderCapabilities COM object related link shall indicate which ServiceProvider COM object it links to.&#xA;The ProviderCapabilities COM object source link shall not be used and therefore set to NULL.&#xA;ServiceProvider and ProviderCapabilities objects shall be created by the publishService operation.&#xA;The object instance identifier for the ServiceProvider and ProviderCapabilities objects shall be populated by the provider of the directory service.">
@@ -324,10 +189,10 @@
                     </com:object>
                     <com:object name="ProviderCapabilities" number="2">
                         <com:objectType>
-                            <mal:type name="ProviderDetails" service="Directory" area="Common"/>
+                            <mal:type name="ProviderDetails" area="Common"/>
                         </com:objectType>
                         <com:relatedObject>
-                            <com:objectType number="1" service="Directory" area="Common"/>
+                            <com:objectType number="1" area="Common"/>
                         </com:relatedObject>
                     </com:object>
                 </com:objects>
@@ -363,7 +228,7 @@
                     <mal:messages>
                         <mal:request>
                             <mal:field name="userDetails" comment="The details of the user.">
-                                <mal:type name="Profile" service="Login" area="Common"/>
+                                <mal:type name="Profile" area="Common"/>
                             </mal:field>
                             <mal:field name="password" comment="The password of the user.">
                                 <mal:type name="String" area="MAL"/>
@@ -448,19 +313,6 @@
                 </mal:requestIP>
             </mal:capabilitySet>
             <mal:dataTypes>
-                <mal:composite name="Profile" shortFormPart="1"
-                               comment="The Profile structure contains details of the user who is logging on to take a specified role.">
-                    <mal:extends>
-                        <mal:type name="Composite" area="MAL"/>
-                    </mal:extends>
-                    <mal:field name="username" canBeNull="false" comment="The name of the user.">
-                        <mal:type name="Identifier" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="role"
-                               comment="The optional object instance identifier of the role required by the user.">
-                        <mal:type name="Long" area="MAL"/>
-                    </mal:field>
-                </mal:composite>
             </mal:dataTypes>
             <com:features>
                 <com:objects comment="Instances of a user login shall be represented as LoginInstance COM object.&#xA;Instances of a user role shall be represented as LoginRole COM object.&#xA;LoginInstance objects shall be created by the login operation.&#xA;The object instance identifier for a LoginInstance object shall be populated by the provider of the Login service.&#xA;The LoginInstance object shall use the related link to indicate which LoginRole (if any) the login uses.&#xA;If a LoginInstance object was created during a login operation then the source link shall be set to NULL.">
@@ -472,28 +324,28 @@
                     </com:object>
                     <com:object name="LoginInstance" number="2">
                         <com:objectType>
-                            <mal:type name="Profile" service="Login" area="Common"/>
+                            <mal:type name="Profile" area="Common"/>
                         </com:objectType>
                         <com:relatedObject>
-                            <com:objectType number="1" service="Login" area="Common"/>
+                            <com:objectType number="1" area="Common"/>
                         </com:relatedObject>
                         <com:sourceObject>
-                            <com:objectType number="2" service="Login" area="Common"/>
+                            <com:objectType number="2" area="Common"/>
                         </com:sourceObject>
                     </com:object>
                 </com:objects>
                 <com:events comment="When a user logs in a LoginEvent COM event shall be generated.&#xA;When a user logs out a LogoutEvent COM event shall be generated.&#xA;The LoginEvent event shall use the related link to indicate which LoginInstance object is being logged in.&#xA;The LogoutEvent event shall use the related link to indicate which LoginInstance object is being logged out.&#xA;The LoginEvent event shall not use the COM object source link and shall set it to NULL.&#xA;The LogoutEvent event shall use the source link to indicate which LoginEvent event it is logging out.&#xA;The events shall be published using the COM event service.">
                     <com:event name="LoginEvent" number="3">
                         <com:relatedObject>
-                            <com:objectType number="2" service="Login" area="Common"/>
+                            <com:objectType number="2" area="Common"/>
                         </com:relatedObject>
                     </com:event>
                     <com:event name="LogoutEvent" number="4">
                         <com:relatedObject>
-                            <com:objectType number="2" service="Login" area="Common"/>
+                            <com:objectType number="2" area="Common"/>
                         </com:relatedObject>
                         <com:sourceObject>
-                            <com:objectType number="3" service="Login" area="Common"/>
+                            <com:objectType number="3" area="Common"/>
                         </com:sourceObject>
                     </com:event>
                 </com:events>
@@ -503,28 +355,6 @@
         <mal:service xsi:type="com:ExtendedServiceType" name="Configuration" number="5"
                      comment="The Configuration service allows a service consumer to activate pre-defined configurations of a provider. &#xA;The service uses a COM object to represent the different configurations allowed by a provider; a service consumer selects one configuration to activate using the Configuration service activate operation.&#xA;The contents of a configuration for a provider is deployment specific however the management of these configurations, and the selection of a configuration for current use, is the purpose of this service.&#xA;Implementations of this service may also use bespoke methods for configuration representation (such as hard-coded configuration) which is outside the scope of this specification, however, the status and management of these configurations can still be managed with this service.&#xA;NOTE: This service uses the COM Event service to distribute changes in state, therefore participating providers should ensure they are all using the same shared COM Event service if they wish to receive Configuration service events.">
             <mal:dataTypes>
-                <mal:composite name="ConfigurationObjectSet" shortFormPart="1"
-                               comment="The configuration object set holds a set of object identifiers for a single COM object type in a single domain.">
-                    <mal:field name="objType" canBeNull="false"
-                               comment="The COM object type of the configuration objects.">
-                        <mal:type name="ObjectType" area="COM"/>
-                    </mal:field>
-                    <mal:field name="domain" canBeNull="false"
-                               comment="The domain of the configuration objects.">
-                        <mal:type list="true" name="Identifier" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="objInstIds" canBeNull="false"
-                               comment="The set of COM object identifiers that form this configuration set.">
-                        <mal:type list="true" name="Long" area="MAL"/>
-                    </mal:field>
-                </mal:composite>
-                <mal:composite name="ConfigurationObjectDetails" shortFormPart="2"
-                               comment="The ConfigurationObjectDetails composite holds a zero to many ConfigurationObjectSet structures. It allows a configuration to reference COM objects from more than one domain or of more than one COM object type.">
-                    <mal:field name="configObjects" canBeNull="false"
-                               comment="The list of configuration objects.">
-                        <mal:type list="true" name="ConfigurationObjectSet" service="Configuration" area="Common"/>
-                    </mal:field>
-                </mal:composite>
             </mal:dataTypes>
             <com:features>
                 <com:objects comment="A ProviderConfiguration COM object represents a single set of configuration details that may be used by multiple providers. The object body shall hold an indentifier to identify the provider configuration.&#xA;The ProviderConfiguration COM object related link shall link to the ConfigurationObjects COM object that contains the objects that form the provider configuration.&#xA;If the ProviderConfiguration represents a Hard-coded configuration for a provider then the related link shall be set to NULL.&#xA;The ProviderConfiguration COM object source link should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.&#xA;A ServiceConfiguration COM object represents a single configuration of a service in a provider, multiple ProviderConfiguration COM objects may reference the same service configuration via its linked ConfigurationObjects COM object. The object body shall hold the service key that identifies the service it is a configuration of.&#xA;The ServiceConfiguration COM object related link shall link to the ConfigurationObjects COM object that contains the objects that form the service configuration.&#xA;If the ServiceConfiguration represents a Hard-coded configuration for a single service then the related link shall be set to NULL.&#xA;The ServiceConfiguration COM object source link should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.&#xA;A ConfigurationObjects COM object represents a set of links to a set of COM objects that form an actual configuration. The object body shall hold a configuration object details structure that links to the objects that form the configuration.&#xA;The ConfigurationObjects COM object related link shall be set to NULL.&#xA;The ConfigurationObjects COM object source link should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.">
@@ -533,7 +363,7 @@
                             <mal:type name="ServiceId" area="MAL"/>
                         </com:objectType>
                         <com:relatedObject>
-                            <com:objectType number="3" service="Configuration" area="Common"/>
+                            <com:objectType number="3" area="Common"/>
                         </com:relatedObject>
                         <com:sourceObject comment="The object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used."/>
                     </com:object>
@@ -542,13 +372,13 @@
                             <mal:type name="Identifier" area="MAL"/>
                         </com:objectType>
                         <com:relatedObject>
-                            <com:objectType number="3" service="Configuration" area="Common"/>
+                            <com:objectType number="3" area="Common"/>
                         </com:relatedObject>
                         <com:sourceObject comment="The object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used."/>
                     </com:object>
                     <com:object name="ConfigurationObjects" number="3">
                         <com:objectType>
-                            <mal:type name="ConfigurationObjectDetails" service="Configuration" area="Common"/>
+                            <mal:type name="ConfigurationObjectDetails" area="Common"/>
                         </com:objectType>
                         <com:sourceObject comment="The object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used."/>
                     </com:object>
@@ -559,7 +389,7 @@
                             <mal:type name="ObjectId" area="COM"/>
                         </com:objectType>
                         <com:relatedObject>
-                            <com:objectType number="1" service="Directory" area="Common"/>
+                            <com:objectType number="1" area="Common"/>
                         </com:relatedObject>
                         <com:sourceObject comment="The source link of the event is the object that triggered the activation, most likely the activate operation."/>
                     </com:event>
@@ -568,7 +398,7 @@
                             <mal:type name="Boolean" area="MAL"/>
                         </com:objectType>
                         <com:relatedObject comment="The ConfigurationSwitch COM event that triggered the switch attempt.">
-                            <com:objectType number="6" service="Configuration" area="Common"/>
+                            <com:objectType number="6" area="Common"/>
                         </com:relatedObject>
                         <com:sourceObject comment="The previous active configuration or be NULL if no configuration was previously active."/>
                     </com:event>
@@ -577,7 +407,7 @@
                             <mal:type name="ServiceId" area="MAL"/>
                         </com:objectType>
                         <com:relatedObject>
-                            <com:objectType number="1" service="Directory" area="Common"/>
+                            <com:objectType number="1" area="Common"/>
                         </com:relatedObject>
                         <com:sourceObject comment="The source link of the event is the object that triggered the activation, most likely the storeCurrent operation."/>
                     </com:event>
@@ -586,7 +416,7 @@
                             <mal:type name="ObjectId" area="COM"/>
                         </com:objectType>
                         <com:relatedObject comment="The related link of the event is the ConfigurationStore COM object that triggered the storing.">
-                            <com:objectType number="8" service="Configuration" area="Common"/>
+                            <com:objectType number="8" area="Common"/>
                         </com:relatedObject>
                     </com:event>
                 </com:events>
@@ -594,6 +424,176 @@
             </com:features>
         </mal:service>
         <mal:dataTypes>
+            <mal:composite name="ProviderDetails" shortFormPart="1"
+                           comment="The ProviderDetails structure holds information about a provider of a service and its capabilities. The structure contains a list of AddressDetails structures which should be used when the individual services listed by the provider do not supply address information. A provider may support more than one transport technology and therefore can be reached using more than one address.">
+                <mal:extends>
+                    <mal:type name="Composite" area="MAL"/>
+                </mal:extends>
+                <mal:field name="serviceCapabilities" canBeNull="false"
+                           comment="The service capabilities supported by this provider">
+                    <mal:type list="true" name="ServiceCapability" area="Common"/>
+                </mal:field>
+                <mal:field name="providerAddresses" canBeNull="false"
+                           comment="List of addresses for all services of this provider unless service specific addresses are supplied in the serviceCapabilities field. If all address information is supplied in the serviceCapabilities field this list should be zero length.">
+                    <mal:type list="true" name="AddressDetails" area="Common"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="ServiceCapability" shortFormPart="2"
+                           comment="The ServiceCapability structure holds information about a service and the capabilities offered by a provider.">
+                <mal:extends>
+                    <mal:type name="Composite" area="MAL"/>
+                </mal:extends>
+                <mal:field name="ServiceId" canBeNull="false"
+                           comment="The area, service, and version fields.">
+                    <mal:type name="ServiceId" area="MAL"/>
+                </mal:field>
+                <mal:field name="supportedCapabilitySets"
+                           comment="The supported capability set numbers for this provider. If NULL then all capability sets supported.">
+                    <mal:type list="true" name="UShort" area="MAL"/>
+                </mal:field>
+                <mal:field name="serviceProperties"
+                           comment="Allows the passing of deployment specific service properties.">
+                    <mal:type list="true" name="NamedValue" area="MAL"/>
+                </mal:field>
+                <mal:field name="serviceAddresses"
+                           comment="Optional set of address details for this specific service which shall be used instead of the provider ones when accessing this service. If all address information is supplied in the containing ProviderDetails structure field this list should be replaced with a NULL.">
+                    <mal:type list="true" name="AddressDetails" area="Common"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="AddressDetails" shortFormPart="4"
+                           comment="The AddressDetails structure holds all information required by the Directory service about a providers URI and attributes relating to QoS.">
+                <mal:extends>
+                    <mal:type name="Composite" area="MAL"/>
+                </mal:extends>
+                <mal:field name="supportedLevels" canBeNull="false"
+                           comment="The set of possible QoS levels this service can provide.">
+                    <mal:type list="true" name="QoSLevel" area="MAL"/>
+                </mal:field>
+                <mal:field name="QoSproperties" canBeNull="false"
+                           comment="Any QoS properties relevant to this address URIs and the specified transport.">
+                    <mal:type list="true" name="NamedValue" area="MAL"/>
+                </mal:field>
+                <mal:field name="priorityLevels" canBeNull="false"
+                           comment="The number of QoS priority levels that this provider supports.">
+                    <mal:type name="UInteger" area="MAL"/>
+                </mal:field>
+                <mal:field name="serviceURI"
+                           comment="The Service URI that identifies the physical location of this service. NULL if represents a shared data provider (Broker).">
+                    <mal:type name="URI" area="MAL"/>
+                </mal:field>
+                <mal:field name="brokerURI"
+                           comment="The broker URI that identifies the physical location of the publish and subscribe interface. NULL if service does not use publish and subscribe operations or if a shared broker is to be used.">
+                    <mal:type name="URI" area="MAL"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="ProviderSummary" shortFormPart="5"
+                           comment="The ProviderSummary structure holds information about a provider of a service and its capabilities.">
+                <mal:extends>
+                    <mal:type name="Composite" area="MAL"/>
+                </mal:extends>
+                <mal:field canBeNull="false" comment="The domain of the provider." name="domain">
+                    <mal:type area="MAL" list="true" name="Identifier"/>
+                </mal:field>
+                <mal:field canBeNull="false" comment="The unique instance." name="instId">
+                    <mal:type area="MAL" list="false" name="Long"/>
+                </mal:field>
+                <mal:field name="providerId" canBeNull="false" comment="The id of this provider.">
+                    <mal:type name="Identifier" area="MAL"/>
+                </mal:field>
+                <mal:field name="providerDetails" canBeNull="false"
+                           comment="The service capabilities supported by this provider">
+                    <mal:type name="ProviderDetails" area="Common"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="PublishDetails" shortFormPart="6"
+                           comment="The PublishDetails structure holds all the required information to publish new provider details.">
+                <mal:extends>
+                    <mal:type name="Composite" area="MAL"/>
+                </mal:extends>
+                <mal:field name="providerId" canBeNull="false"
+                           comment="The unique provider id; allows multiple providers of the same service type to coexist in the directory service.">
+                    <mal:type name="Identifier" area="MAL"/>
+                </mal:field>
+                <mal:field name="domain" canBeNull="false" comment="The domain of the provider.">
+                    <mal:type list="true" name="Identifier" area="MAL"/>
+                </mal:field>
+                <mal:field name="sourceSessionName"
+                           comment="If this is part of a replay session, this field holds the session name of the source session. NULL otherwise">
+                    <mal:type name="Identifier" area="MAL"/>
+                </mal:field>
+                <mal:field name="network" canBeNull="false" comment="The network of the provider.">
+                    <mal:type name="Identifier" area="MAL"/>
+                </mal:field>
+                <mal:field name="providerDetails" canBeNull="false"
+                           comment="The new provider details.">
+                    <mal:type name="ProviderDetails" area="Common"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="ServiceFilter" shortFormPart="7"
+                           comment="The ServiceFilter structure holds all information required by the Directory service for service lookup operation. The field filters are AND'd together.">
+                <mal:extends>
+                    <mal:type name="Composite" area="MAL"/>
+                </mal:extends>
+                <mal:field name="serviceProviderId"
+                           comment="The required provider. Can be NULL in which case matches all values.">
+                    <mal:type name="Identifier" area="MAL"/>
+                </mal:field>
+                <mal:field name="domain"
+                           comment="The domain to query. Can be NULL in which case matches all values.">
+                    <mal:type list="true" name="Identifier" area="MAL"/>
+                </mal:field>
+                <mal:field name="network"
+                           comment="The network to match. Can be NULL in which case matches all values.">
+                    <mal:type name="Identifier" area="MAL"/>
+                </mal:field>
+                <mal:field name="sessionName"
+                           comment="The session name to match. Can be NULL in which case matches all values.">
+                    <mal:type name="Identifier" area="MAL"/>
+                </mal:field>
+                <mal:field name="ServiceId"
+                           comment="The service to filter on, values can be NULL which matches all values.">
+                    <mal:type name="ServiceId" area="MAL"/>
+                </mal:field>
+                <mal:field name="requiredCapabilitySets"
+                           comment="List of required capability sets. If NULL then matches any.">
+                    <mal:type list="true" name="UShort" area="MAL"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="Profile" shortFormPart="1"
+                           comment="The Profile structure contains details of the user who is logging on to take a specified role.">
+                <mal:extends>
+                    <mal:type name="Composite" area="MAL"/>
+                </mal:extends>
+                <mal:field name="username" canBeNull="false" comment="The name of the user.">
+                    <mal:type name="Identifier" area="MAL"/>
+                </mal:field>
+                <mal:field name="role"
+                           comment="The optional object instance identifier of the role required by the user.">
+                    <mal:type name="Long" area="MAL"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="ConfigurationObjectSet" shortFormPart="1"
+                           comment="The configuration object set holds a set of object identifiers for a single COM object type in a single domain.">
+                <mal:field name="objType" canBeNull="false"
+                           comment="The COM object type of the configuration objects.">
+                    <mal:type name="ObjectType" area="COM"/>
+                </mal:field>
+                <mal:field name="domain" canBeNull="false"
+                           comment="The domain of the configuration objects.">
+                    <mal:type list="true" name="Identifier" area="MAL"/>
+                </mal:field>
+                <mal:field name="objInstIds" canBeNull="false"
+                           comment="The set of COM object identifiers that form this configuration set.">
+                    <mal:type list="true" name="Long" area="MAL"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="ConfigurationObjectDetails" shortFormPart="2"
+                           comment="The ConfigurationObjectDetails composite holds a zero to many ConfigurationObjectSet structures. It allows a configuration to reference COM objects from more than one domain or of more than one COM object type.">
+                <mal:field name="configObjects" canBeNull="false"
+                           comment="The list of configuration objects.">
+                    <mal:type list="true" name="ConfigurationObjectSet" area="Common"/>
+                </mal:field>
+            </mal:composite>
         </mal:dataTypes>
     </mal:area>
 </mal:specification>

@@ -44,7 +44,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JTabbedPane;
-import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
+import org.ccsds.moims.mo.common.structures.ProviderSummary;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;

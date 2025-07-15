@@ -46,7 +46,7 @@ import java.util.logging.Logger;
 import java.util.Properties;
 import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.common.CommonHelper;
-import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails;
+import org.ccsds.moims.mo.common.structures.ConfigurationObjectDetails;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.MALException;

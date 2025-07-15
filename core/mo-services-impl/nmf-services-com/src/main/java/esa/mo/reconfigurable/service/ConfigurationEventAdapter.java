@@ -34,7 +34,7 @@ import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectLinks;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.common.configuration.ConfigurationServiceInfo;
-import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails;
+import org.ccsds.moims.mo.common.structures.ConfigurationObjectDetails;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.Attribute;

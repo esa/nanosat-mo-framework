@@ -21,8 +21,8 @@
 package esa.mo.ground.setandcommand;
 
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
-import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
-import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
+import org.ccsds.moims.mo.common.structures.ProviderSummary;
+import org.ccsds.moims.mo.common.structures.ProviderSummaryList;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.URI;

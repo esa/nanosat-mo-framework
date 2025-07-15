@@ -21,7 +21,7 @@
 package esa.mo.reconfigurable.provider;
 
 import java.util.ArrayList;
-import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails;
+import org.ccsds.moims.mo.common.structures.ConfigurationObjectDetails;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import esa.mo.reconfigurable.service.ReconfigurableService;
 import esa.mo.reconfigurable.service.ConfigurationChangeListener;
