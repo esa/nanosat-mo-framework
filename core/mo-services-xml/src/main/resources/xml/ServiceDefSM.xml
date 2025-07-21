@@ -150,39 +150,6 @@
                     </mal:errors>
                 </mal:requestIP>
             </mal:capabilitySet>
-            <mal:dataTypes>
-                <mal:composite comment="The PackageDefinition structure holds the definition information of a package." name="PackageDefinition" shortFormPart="7">
-                    <mal:extends>
-                        <mal:type area="MAL" list="false" name="Composite"/>
-                    </mal:extends>
-                    <mal:field canBeNull="false" comment="The name of the package." name="name">
-                        <mal:type area="MAL" list="false" name="Identifier"/>
-                    </mal:field>
-                    <mal:field canBeNull="true" comment="The description of the package." name="description">
-                        <mal:type area="MAL" list="false" name="String"/>
-                    </mal:field>
-                    <mal:field canBeNull="false" comment="The category of the package." name="category">
-                        <mal:type area="MAL" list="false" name="Identifier"/>
-                    </mal:field>
-                    <mal:field canBeNull="false" comment="The path of the file where the package is located." name="path">
-                        <mal:type area="MAL" list="false" name="File"/>
-                    </mal:field>
-                    <mal:field canBeNull="true" comment="The publisher of the package. It can be, for example, a company or group of people." name="publisher">
-                        <mal:type area="MAL" list="false" name="String"/>
-                    </mal:field>
-                </mal:composite>
-                <mal:composite comment="The InstallationDetails structure holds the installation details of a certain package." name="InstallationDetails" shortFormPart="8">
-                    <mal:extends>
-                        <mal:type area="MAL" list="false" name="Composite"/>
-                    </mal:extends>
-                    <mal:field canBeNull="true" comment="The status information about whether a package is/was installed or not." name="installed">
-                        <mal:type area="MAL" list="false" name="Boolean"/>
-                    </mal:field>
-                    <mal:field canBeNull="true" comment="To be done..." name="folderLocation">
-                        <mal:type area="MAL" list="false" name="String"/>
-                    </mal:field>
-                </mal:composite>
-            </mal:dataTypes>
             <com:features>
                 <mal:diagram name="PackageManagementObjects">
                     <svg:svg height="200" version="1.1" width="500">
@@ -218,7 +185,7 @@
                 <com:objects comment="">
                     <com:object comment="" name="Package" number="1">
                         <com:objectType>
-                            <mal:type area="SoftwareManagement" list="false" name="PackageDefinition" service="PackageManagement"/>
+                            <mal:type area="SoftwareManagement" list="false" name="PackageDefinition"/>
                         </com:objectType>
                         <com:relatedObject comment=""/>
                         <com:sourceObject comment=""/>
@@ -273,7 +240,7 @@
                     <mal:messages>
                         <mal:request comment="">
                             <mal:field canBeNull="true" comment="Details of the command to be run." name="command">
-                                <mal:type area="SoftwareManagement" list="false" name="CommandDetails" service="CommandExecutor"/>
+                                <mal:type area="SoftwareManagement" list="false" name="CommandDetails"/>
                             </mal:field>
                         </mal:request>
                         <mal:response comment="">
@@ -284,27 +251,11 @@
                     </mal:messages>
                 </mal:requestIP>
             </mal:capabilitySet>
-            <mal:dataTypes>
-                <mal:composite comment="This structure holds the execution details of a command, including its status." name="CommandDetails" shortFormPart="1">
-                    <mal:extends>
-                        <mal:type area="MAL" list="false" name="Composite"/>
-                    </mal:extends>
-                    <mal:field canBeNull="false" comment="The command line passed to the executing shell instance." name="command">
-                        <mal:type area="MAL" list="false" name="String"/>
-                    </mal:field>
-                    <mal:field canBeNull="true" comment="Assigned Process ID of the spawned shell instance. Shall be NULL if the execution has not started yet. -1 if the PID cannot be determined." name="pid">
-                        <mal:type area="MAL" list="false" name="Long"/>
-                    </mal:field>
-                    <mal:field canBeNull="true" comment="Exit code of the command. Shall be NULL if the execution has not completed yet." name="exitCode">
-                        <mal:type area="MAL" list="false" name="Integer"/>
-                    </mal:field>
-                </mal:composite>
-            </mal:dataTypes>
             <com:features>
                 <com:objects comment="A Command COM object represents an instance of direct command execution requested from the provider. The COM object body shall hold the details of the command.&#10;&lt;ol&gt;&#10;&lt;/ol&gt;">
                     <com:object comment="" name="Command" number="1">
                         <com:objectType>
-                            <mal:type area="SoftwareManagement" list="false" name="CommandDetails" service="CommandExecutor"/>
+                            <mal:type area="SoftwareManagement" list="false" name="CommandDetails"/>
                         </com:objectType>
                         <com:relatedObject comment=""/>
                         <com:sourceObject comment=""/>
@@ -464,40 +415,6 @@
                     </mal:errors>
                 </mal:requestIP>
             </mal:capabilitySet>
-            <mal:dataTypes>
-                <mal:composite comment="The AppDetails structure holds the details of an instance of an app." name="AppDetails" shortFormPart="1">
-                    <mal:extends>
-                        <mal:type area="MAL" list="false" name="Composite"/>
-                    </mal:extends>
-                    <mal:field canBeNull="false" comment="The name of the app. Must not be empty or wildcard value." name="name">
-                        <mal:type area="MAL" list="false" name="Identifier"/>
-                    </mal:field>
-                    <mal:field canBeNull="false" comment="The description of the app." name="description">
-                        <mal:type area="MAL" list="false" name="String"/>
-                    </mal:field>
-                    <mal:field canBeNull="false" comment="The version of the app." name="version">
-                        <mal:type area="MAL" list="false" name="String"/>
-                    </mal:field>
-                    <mal:field canBeNull="false" comment="The category of the app." name="category">
-                        <mal:type area="MAL" list="false" name="Identifier"/>
-                    </mal:field>
-                    <mal:field canBeNull="false" comment="Controls whether the app runs at startup of the Supervisor." name="runAtStartup">
-                        <mal:type area="MAL" list="false" name="Boolean"/>
-                    </mal:field>
-                    <mal:field canBeNull="false" comment="The current running state of the app." name="running">
-                        <mal:type area="MAL" list="false" name="Boolean"/>
-                    </mal:field>
-                    <mal:field canBeNull="true" comment="Additional information that might be implementation-specific." name="extraInfo">
-                        <mal:type area="MAL" list="false" name="String"/>
-                    </mal:field>
-                    <mal:field canBeNull="true" comment="The copyright of the app." name="copyright">
-                        <mal:type area="MAL" list="false" name="String"/>
-                    </mal:field>
-                    <mal:field canBeNull="true" comment="The user the app is run as." name="runAs">
-                        <mal:type area="MAL" list="false" name="String"/>
-                    </mal:field>
-                </mal:composite>
-            </mal:dataTypes>
             <com:features>
                 <mal:diagram name="AppsLauncherObjects">
                     <svg:svg height="300" version="1.1" width="760">
@@ -567,7 +484,7 @@
                 <com:objects comment="An App COM object represents an on-board application. The COM object body shall hold the details of the application.&#10;&lt;ol&gt;&#10;&lt;li&gt;The App COM object source link should point to the package from where the app was installed.&lt;/li&gt;&#10;&lt;/ol&gt;">
                     <com:object comment="" name="App" number="1">
                         <com:objectType>
-                            <mal:type area="SoftwareManagement" list="false" name="AppDetails" service="AppsLauncher"/>
+                            <mal:type area="SoftwareManagement" list="false" name="AppDetails"/>
                         </com:objectType>
                         <com:relatedObject comment=""/>
                         <com:sourceObject comment="">
@@ -601,7 +518,6 @@
                             <com:objectType area="SoftwareManagement" number="2" service="AppsLauncher"/>
                         </com:sourceObject>
                     </com:event>
-
                     <com:event comment="This event is generated upon receiving a request to start a certain app." name="StartApp" number="5">
                         <com:objectType>
                             <mal:type area="MAL" list="false" name="Identifier"/>
@@ -616,5 +532,84 @@
                 </com:events>
             </com:features>
         </mal:service>
+        <mal:dataTypes>
+            <mal:composite shortFormPart="1" name="PackageDefinition" comment="The PackageDefinition structure holds the definition information of a package.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite"/>
+                </mal:extends>
+                <mal:field canBeNull="false" comment="The name of the package." name="name">
+                    <mal:type area="MAL" list="false" name="Identifier"/>
+                </mal:field>
+                <mal:field canBeNull="true" comment="The description of the package." name="description">
+                    <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+                <mal:field canBeNull="false" comment="The category of the package." name="category">
+                    <mal:type area="MAL" list="false" name="Identifier"/>
+                </mal:field>
+                <mal:field canBeNull="false" comment="The path of the file where the package is located." name="path">
+                    <mal:type area="MAL" list="false" name="File"/>
+                </mal:field>
+                <mal:field canBeNull="true" comment="The publisher of the package. It can be, for example, a company or group of people." name="publisher">
+                    <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite shortFormPart="2" name="InstallationDetails" comment="The InstallationDetails structure holds the installation details of a certain package.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite"/>
+                </mal:extends>
+                <mal:field canBeNull="true" comment="The status information about whether a package is/was installed or not." name="installed">
+                    <mal:type area="MAL" list="false" name="Boolean"/>
+                </mal:field>
+                <mal:field canBeNull="true" comment="To be done..." name="folderLocation">
+                    <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite shortFormPart="3" name="AppDetails" comment="The AppDetails structure holds the details of an instance of an app.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite"/>
+                </mal:extends>
+                <mal:field canBeNull="false" comment="The name of the app. Must not be empty or wildcard value." name="name">
+                    <mal:type area="MAL" list="false" name="Identifier"/>
+                </mal:field>
+                <mal:field canBeNull="false" comment="The description of the app." name="description">
+                    <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+                <mal:field canBeNull="false" comment="The version of the app." name="version">
+                    <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+                <mal:field canBeNull="false" comment="The category of the app." name="category">
+                    <mal:type area="MAL" list="false" name="Identifier"/>
+                </mal:field>
+                <mal:field canBeNull="false" comment="Controls whether the app runs at startup of the Supervisor." name="runAtStartup">
+                    <mal:type area="MAL" list="false" name="Boolean"/>
+                </mal:field>
+                <mal:field canBeNull="false" comment="The current running state of the app." name="running">
+                    <mal:type area="MAL" list="false" name="Boolean"/>
+                </mal:field>
+                <mal:field canBeNull="true" comment="Additional information that might be implementation-specific." name="extraInfo">
+                    <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+                <mal:field canBeNull="true" comment="The copyright of the app." name="copyright">
+                    <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+                <mal:field canBeNull="true" comment="The user the app is run as." name="runAs">
+                    <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite shortFormPart="4" name="CommandDetails" comment="This structure holds the execution details of a command, including its status.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite"/>
+                </mal:extends>
+                <mal:field canBeNull="false" comment="The command line passed to the executing shell instance." name="command">
+                    <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+                <mal:field canBeNull="true" comment="Assigned Process ID of the spawned shell instance. Shall be NULL if the execution has not started yet. -1 if the PID cannot be determined." name="pid">
+                    <mal:type area="MAL" list="false" name="Long"/>
+                </mal:field>
+                <mal:field canBeNull="true" comment="Exit code of the command. Shall be NULL if the execution has not completed yet." name="exitCode">
+                    <mal:type area="MAL" list="false" name="Integer"/>
+                </mal:field>
+            </mal:composite>
+        </mal:dataTypes>
     </mal:area>
 </mal:specification>

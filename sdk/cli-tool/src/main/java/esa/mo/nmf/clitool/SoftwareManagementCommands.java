@@ -40,9 +40,9 @@ import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherServiceInf
 import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.consumer.AppsLauncherAdapter;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.consumer.AppsLauncherStub;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.structures.AppDetails;
 import org.ccsds.moims.mo.softwaremanagement.heartbeat.consumer.HeartbeatAdapter;
 import org.ccsds.moims.mo.softwaremanagement.heartbeat.consumer.HeartbeatStub;
+import org.ccsds.moims.mo.softwaremanagement.structures.AppDetails;
 import picocli.CommandLine.*;
 
 /**

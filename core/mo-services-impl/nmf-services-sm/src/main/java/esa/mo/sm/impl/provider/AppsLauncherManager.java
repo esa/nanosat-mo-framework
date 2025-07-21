@@ -56,8 +56,8 @@ import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherServiceInfo;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.provider.StopAppInteraction;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.structures.AppDetails;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.structures.AppDetailsList;
+import org.ccsds.moims.mo.softwaremanagement.structures.AppDetails;
+import org.ccsds.moims.mo.softwaremanagement.structures.AppDetailsList;
 
 /**
  *

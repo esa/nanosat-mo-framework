@@ -56,7 +56,7 @@ import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.softwaremanagement.commandexecutor.CommandExecutorHelper;
 import org.ccsds.moims.mo.softwaremanagement.commandexecutor.CommandExecutorServiceInfo;
 import org.ccsds.moims.mo.softwaremanagement.commandexecutor.provider.CommandExecutorInheritanceSkeleton;
-import org.ccsds.moims.mo.softwaremanagement.commandexecutor.structures.CommandDetails;
+import org.ccsds.moims.mo.softwaremanagement.structures.CommandDetails;
 
 /**
  * Command Executor service Provider.

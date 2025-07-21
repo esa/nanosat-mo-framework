@@ -57,8 +57,8 @@ import org.ccsds.moims.mo.softwaremanagement.appslauncher.body.ListAppResponse;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.provider.AppsLauncherInheritanceSkeleton;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.provider.MonitorExecutionPublisher;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.provider.StopAppInteraction;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.structures.AppDetails;
 import org.ccsds.moims.mo.softwaremanagement.commandexecutor.CommandExecutorServiceInfo;
+import org.ccsds.moims.mo.softwaremanagement.structures.AppDetails;
 
 /**
  * Apps Launcher service Provider.
