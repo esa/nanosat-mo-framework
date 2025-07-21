@@ -39,11 +39,11 @@ import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.platform.camera.consumer.CameraAdapter;
 import org.ccsds.moims.mo.platform.camera.consumer.CameraStub;
-import org.ccsds.moims.mo.platform.camera.structures.CameraSettings;
-import org.ccsds.moims.mo.platform.camera.structures.PictureFormat;
-import org.ccsds.moims.mo.platform.camera.structures.PixelResolution;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSAdapter;
-import org.ccsds.moims.mo.platform.gps.structures.TwoLineElementSet;
+import org.ccsds.moims.mo.platform.structures.CameraSettings;
+import org.ccsds.moims.mo.platform.structures.PictureFormat;
+import org.ccsds.moims.mo.platform.structures.PixelResolution;
+import org.ccsds.moims.mo.platform.structures.TwoLineElementSet;
 import org.orekit.bodies.GeodeticPoint;
 
 /**
@@ -146,7 +146,7 @@ public class CameraAcquisitorSystemCameraHandler {
         @Override
         public void takePictureResponseReceived(
                 org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-                org.ccsds.moims.mo.platform.camera.structures.Picture picture,
+                org.ccsds.moims.mo.platform.structures.Picture picture,
                 java.util.Map qosProperties) {
             // report action progress
             try {

@@ -24,7 +24,7 @@ import esa.mo.platform.impl.provider.gen.OpticalDataReceiverAdapterInterface;
 import esa.mo.platform.impl.provider.gen.PowerControlAdapterInterface;
 import opssat.simulator.main.ESASimulator;
 import org.ccsds.moims.mo.mal.structures.Duration;
-import org.ccsds.moims.mo.platform.powercontrol.structures.DeviceType;
+import org.ccsds.moims.mo.platform.structures.DeviceType;
 
 /**
  *

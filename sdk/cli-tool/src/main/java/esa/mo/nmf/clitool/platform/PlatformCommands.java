@@ -37,13 +37,11 @@ import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.platform.PlatformHelper;
 import org.ccsds.moims.mo.platform.autonomousadcs.body.GetStatusResponse;
 import org.ccsds.moims.mo.platform.autonomousadcs.consumer.AutonomousADCSStub;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.ActuatorsTelemetry;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeTelemetry;
 import org.ccsds.moims.mo.platform.camera.consumer.CameraAdapter;
 import org.ccsds.moims.mo.platform.camera.consumer.CameraStub;
-import org.ccsds.moims.mo.platform.camera.structures.*;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSAdapter;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSStub;
+import org.ccsds.moims.mo.platform.structures.*;
 import picocli.CommandLine.*;
 
 /**

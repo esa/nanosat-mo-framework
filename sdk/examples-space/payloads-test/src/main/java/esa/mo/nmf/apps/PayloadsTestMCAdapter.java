@@ -68,15 +68,9 @@ import org.ccsds.moims.mo.mc.parameter.structures.*;
 import org.ccsds.moims.mo.mc.structures.*;
 import org.ccsds.moims.mo.platform.autonomousadcs.consumer.AutonomousADCSAdapter;
 import org.ccsds.moims.mo.platform.autonomousadcs.consumer.AutonomousADCSStub;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.*;
-import org.ccsds.moims.mo.platform.camera.structures.PictureFormat;
-import org.ccsds.moims.mo.platform.camera.structures.PixelResolution;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSAdapter;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSStub;
-import org.ccsds.moims.mo.platform.gps.structures.Position;
-import org.ccsds.moims.mo.platform.gps.structures.PositionList;
-import org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList;
-import org.ccsds.moims.mo.platform.structures.VectorF3D;
+import org.ccsds.moims.mo.platform.structures.*;
 
 /**
  * The adapter for the NMF App
@@ -989,10 +983,10 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
         @Override
         public void monitorAttitudeNotifyReceived(final MALMessageHeader msgHeader, final Identifier lIdentifier,
                 final UpdateHeader lUpdateHeader,
-                org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeTelemetry attitudeTm,
-                org.ccsds.moims.mo.platform.autonomousadcs.structures.ActuatorsTelemetry actuatorsTm,
+                org.ccsds.moims.mo.platform.structures.AttitudeTelemetry attitudeTm,
+                org.ccsds.moims.mo.platform.structures.ActuatorsTelemetry actuatorsTm,
                 org.ccsds.moims.mo.mal.structures.Duration remainingDuration,
-                org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode activeAttitudeMode, final Map qosp) {
+                org.ccsds.moims.mo.platform.structures.AttitudeMode activeAttitudeMode, final Map qosp) {
             LOGGER.log(Level.FINE, "Received monitorAttitude notify");
             try {
                 VectorF3D sunVector = attitudeTm.getSunVector();

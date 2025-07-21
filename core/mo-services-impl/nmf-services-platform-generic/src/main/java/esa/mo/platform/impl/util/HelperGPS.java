@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.TimeZone;
 import org.ccsds.moims.mo.mal.structures.Time;
-import org.ccsds.moims.mo.platform.gps.structures.*;
+import org.ccsds.moims.mo.platform.structures.*;
 
 /**
  * A Helper class with some conversions for GPS NMEA sentences
@@ -130,7 +130,7 @@ public class HelperGPS {
             Integer numberOfSatellites;
             Float hdop;
             Float undulation;
-            org.ccsds.moims.mo.platform.gps.structures.PositionSourceType positionSource;
+            PositionSourceType positionSource;
 
             positionSource = PositionSourceType.GNSS;
             if (items[GPGGA_GEN_COL.QUAL].length() != 0) {

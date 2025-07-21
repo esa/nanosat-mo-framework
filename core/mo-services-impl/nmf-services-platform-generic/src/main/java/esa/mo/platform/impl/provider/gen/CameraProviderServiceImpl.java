@@ -59,12 +59,7 @@ import org.ccsds.moims.mo.platform.camera.provider.PicturesStreamPublisher;
 import org.ccsds.moims.mo.platform.camera.provider.PreprocessPictureInteraction;
 import org.ccsds.moims.mo.platform.camera.provider.TakeAutoExposedPictureInteraction;
 import org.ccsds.moims.mo.platform.camera.provider.TakePictureInteraction;
-import org.ccsds.moims.mo.platform.camera.structures.CameraSettings;
-import org.ccsds.moims.mo.platform.camera.structures.Picture;
-import org.ccsds.moims.mo.platform.camera.structures.PictureFormat;
-import org.ccsds.moims.mo.platform.camera.structures.PictureFormatList;
-import org.ccsds.moims.mo.platform.camera.structures.PixelResolution;
-import org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList;
+import org.ccsds.moims.mo.platform.structures.*;
 
 /**
  * The CameraProviderServiceImpl class implements the Camera service provider.

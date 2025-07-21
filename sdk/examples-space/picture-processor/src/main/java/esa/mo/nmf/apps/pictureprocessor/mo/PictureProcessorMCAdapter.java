@@ -53,9 +53,9 @@ import org.ccsds.moims.mo.mc.structures.ArgumentDefinition;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionList;
 import org.ccsds.moims.mo.mc.structures.AttributeValue;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
-import org.ccsds.moims.mo.platform.camera.structures.CameraSettings;
-import org.ccsds.moims.mo.platform.camera.structures.PictureFormat;
-import org.ccsds.moims.mo.platform.camera.structures.PixelResolution;
+import org.ccsds.moims.mo.platform.structures.CameraSettings;
+import org.ccsds.moims.mo.platform.structures.PictureFormat;
+import org.ccsds.moims.mo.platform.structures.PixelResolution;
 
 /**
  * The adapter for the NMF App

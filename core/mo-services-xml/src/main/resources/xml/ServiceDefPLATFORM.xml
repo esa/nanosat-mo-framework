@@ -32,7 +32,7 @@
                         <mal:publishNotify comment="">
                             <mal:field canBeNull="true" name="picture"
                                        comment="The picture in streaming mode.&#10;The MAL EntityKey.firstSubKey shall be the value provided by the consumer during the enableStream operation.&#10;The MAL EntityKey.secondSubKey shall hold a unique object instance identifier.&#10;The MAL EntityKey.thirdSubKey shall hold the width value of the resolution object provided by the consumer during the enableStream operation.&#10;The MAL EntityKey.fourthSubKey shall hold the height value of the resolution object provided by the consumer during the enableStream operation.&#10;The timestamp of the update shall be the time of when the picture was taken." >
-                                <mal:type area="Platform" list="false" name="Picture" service="Camera" />
+                                <mal:type area="Platform" list="false" name="Picture" />
                             </mal:field>
                         </mal:publishNotify>
                     </mal:messages>
@@ -54,7 +54,7 @@
                                 <mal:type area="MAL" list="false" name="Identifier" />
                             </mal:field>
                             <mal:field canBeNull="true" name="settings" comment="Image acquisition settings.">
-                                <mal:type area="Platform" list="false" name="CameraSettings" service="Camera" />
+                                <mal:type area="Platform" list="false" name="CameraSettings" />
                             </mal:field>
                         </mal:submit>
                     </mal:messages>
@@ -74,15 +74,14 @@
                         </mal:errorRef>
                         <mal:errorRef comment="The requested resolution is not supported.">
                             <mal:type area="COM" list="false" name="INVALID" />
-                            <mal:extraInformation
-                                comment="The extra information field shall hold the list of available resolutions.">
-                                <mal:type area="Platform" list="true" name="PixelResolution" service="Camera" />
+                            <mal:extraInformation comment="The extra information field shall hold the list of available resolutions.">
+                                <mal:type area="Platform" list="true" name="PixelResolution" />
                             </mal:extraInformation>
                         </mal:errorRef>
                         <mal:errorRef comment="The requested format is not supported.">
                             <mal:type area="COM" list="false" name="INVALID" />
                             <mal:extraInformation comment="The extra information field shall hold the list of available formats.">
-                                <mal:type area="Platform" list="true" name="PictureFormat" service="Camera" />
+                                <mal:type area="Platform" list="true" name="PictureFormat" />
                             </mal:extraInformation>
                         </mal:errorRef>
                         <mal:errorRef
@@ -100,7 +99,7 @@
                         <mal:response comment="">
                             <mal:field canBeNull="true" name="picture"
                                        comment="The picture field shall hold the picture preview." >
-                                <mal:type area="Platform" list="false" name="Picture" service="Camera" />
+                                <mal:type area="Platform" list="false" name="Picture" />
                             </mal:field>
                         </mal:response>
                     </mal:messages>
@@ -117,13 +116,13 @@
                     <mal:messages>
                         <mal:invoke comment="">
                             <mal:field canBeNull="true" name="settings" comment="Picture acquisition settings.">
-                                <mal:type area="Platform" list="false" name="CameraSettings" service="Camera" />
+                                <mal:type area="Platform" list="false" name="CameraSettings" />
                             </mal:field>
                         </mal:invoke>
                         <mal:acknowledgement comment="" />
                         <mal:response comment="">
                             <mal:field canBeNull="true" name="picture" comment="The picture field shall hold the picture." >
-                                <mal:type area="Platform" list="false" name="Picture" service="Camera" />
+                                <mal:type area="Platform" list="false" name="Picture" />
                             </mal:field>
                         </mal:response>
                     </mal:messages>
@@ -138,13 +137,13 @@
                         <mal:errorRef comment="The requested resolution is not supported.">
                             <mal:type area="COM" list="false" name="INVALID" />
                             <mal:extraInformation comment="The extra information field shall hold the list of available resolutions.">
-                                <mal:type area="Platform" list="true" name="PixelResolution" service="Camera" />
+                                <mal:type area="Platform" list="true" name="PixelResolution" />
                             </mal:extraInformation>
                         </mal:errorRef>
                         <mal:errorRef comment="The requested format is not supported.">
                             <mal:type area="COM" list="false" name="INVALID" />
                             <mal:extraInformation comment="The extra information field shall hold the list of available formats.">
-                                <mal:type area="Platform" list="true" name="PictureFormat" service="Camera" />
+                                <mal:type area="Platform" list="true" name="PictureFormat" />
                             </mal:extraInformation>
                         </mal:errorRef>
                     </mal:errors>
@@ -156,14 +155,14 @@
                     <mal:messages>
                         <mal:invoke comment="">
                             <mal:field canBeNull="true" name="settings" comment="Picture acquisition settings.">
-                                <mal:type area="Platform" list="false" name="CameraSettings" service="Camera" />
+                                <mal:type area="Platform" list="false" name="CameraSettings" />
                             </mal:field>
                         </mal:invoke>
                         <mal:acknowledgement comment="" />
                         <mal:response comment="">
                             <mal:field canBeNull="true" name="picture"
                                        comment="The picture field shall hold the picture." >
-                                <mal:type area="Platform" list="false" name="Picture" service="Camera" />
+                                <mal:type area="Platform" list="false" name="Picture" />
                             </mal:field>
                         </mal:response>
                     </mal:messages>
@@ -181,13 +180,13 @@
                             <mal:type area="COM" list="false" name="INVALID" />
                             <mal:extraInformation
                                 comment="The extra information field shall hold the list of available resolutions.">
-                                <mal:type area="Platform" list="true" name="PixelResolution" service="Camera" />
+                                <mal:type area="Platform" list="true" name="PixelResolution" />
                             </mal:extraInformation>
                         </mal:errorRef>
                         <mal:errorRef comment="The requested format is not supported.">
                             <mal:type area="COM" list="false" name="INVALID" />
                             <mal:extraInformation comment="The extra information field shall hold the list of available formats.">
-                                <mal:type area="Platform" list="true" name="PictureFormat" service="Camera" />
+                                <mal:type area="Platform" list="true" name="PictureFormat" />
                             </mal:extraInformation>
                         </mal:errorRef>
                     </mal:errors>
@@ -200,15 +199,15 @@
                         <mal:request comment="" />
                         <mal:response comment="">
                             <mal:field canBeNull="true" name="availableResolutions"
-                                       comment="The availableResolutions field shall hold the list of the available resolutions by the camera." >
-                                <mal:type area="Platform" list="true" name="PixelResolution" service="Camera" />
+                                       comment="The list of the available resolutions by the camera." >
+                                <mal:type area="Platform" list="true" name="PixelResolution" />
                             </mal:field>
                             <mal:field canBeNull="true" name="availableFormats"
-                                       comment="The availableFormats field shall hold a list of available formats by the service." >
-                                <mal:type area="Platform" list="true" name="PictureFormat" service="Camera" />
+                                       comment="The list of available formats by the service." >
+                                <mal:type area="Platform" list="true" name="PictureFormat" />
                             </mal:field>
                             <mal:field canBeNull="true" name="extraInfo"
-                                       comment="The info field shall hold additional properties of the camera. The actual content is undefined." >
+                                       comment="The additional properties of the camera. The actual content is undefined." >
                                 <mal:type area="MAL" list="false" name="String" />
                             </mal:field>
                         </mal:response>
@@ -222,18 +221,18 @@
                         <mal:invoke comment="">
                             <mal:field canBeNull="true" name="inputPicture"
                                        comment="The inputPicture field shall hold the picture." >
-                                <mal:type area="Platform" list="false" name="Picture" service="Camera" />
+                                <mal:type area="Platform" list="false" name="Picture" />
                             </mal:field>
                             <mal:field canBeNull="true" name="settings"
                                        comment="Picture acquisition settings.">
-                                <mal:type area="Platform" list="false" name="CameraSettings" service="Camera" />
+                                <mal:type area="Platform" list="false" name="CameraSettings" />
                             </mal:field>
                         </mal:invoke>
                         <mal:acknowledgement comment="" />
                         <mal:response comment="">
                             <mal:field canBeNull="true" name="outputPicture"
                                        comment="The outputPicture field shall hold the preprocessed picture." >
-                                <mal:type area="Platform" list="false" name="Picture" service="Camera" />
+                                <mal:type area="Platform" list="false" name="Picture" />
                             </mal:field>
                         </mal:response>
                     </mal:messages>
@@ -241,83 +240,12 @@
                         <mal:errorRef comment="The requested Picture or the CameraSettings are invalid.">
                             <mal:type area="COM" list="false" name="INVALID" />
                             <mal:extraInformation comment="The extra information shall hold the invalid field name.">
-                                <mal:type area="Platform" list="true" name="String" service="MAL" />
+                                <mal:type area="Platform" list="true" name="String" />
                             </mal:extraInformation>
                         </mal:errorRef>
                     </mal:errors>
                 </mal:invokeIP>
             </mal:capabilitySet>
-            <mal:dataTypes>
-                <mal:composite shortFormPart="1" name="Picture"
-                               comment="The Picture structure holds the details of the picture." >
-                    <mal:extends>
-                        <mal:type area="MAL" list="false" name="Composite" />
-                    </mal:extends>
-                    <mal:field canBeNull="true" name="timestamp" comment="The time of creation.">
-                        <mal:type area="MAL" list="false" name="Time" />
-                    </mal:field>
-                    <mal:field canBeNull="false" name="settings"
-                               comment="Acquisition settings used to take the picture." >
-                        <mal:type area="Platform" list="false"
-                                  name="CameraSettings" service="Camera" />
-                    </mal:field>
-                    <mal:field canBeNull="false" name="content" comment="The content of the picture.">
-                        <mal:type area="MAL" list="false" name="Blob" />
-                    </mal:field>
-                </mal:composite>
-                <mal:composite shortFormPart="2" name="PixelResolution"
-                               comment="The PixelResolution structure holds the pixel resolution of a picture." >
-                    <mal:extends>
-                        <mal:type area="MAL" list="false" name="Composite" />
-                    </mal:extends>
-                    <mal:field canBeNull="false" name="width" comment="The width of the picture.">
-                        <mal:type area="MAL" list="false" name="UInteger" />
-                    </mal:field>
-                    <mal:field canBeNull="false" name="height" comment="The height of the picture.">
-                        <mal:type area="MAL" list="false" name="UInteger" />
-                    </mal:field>
-                </mal:composite>
-                <mal:enumeration shortFormPart="3" name="PictureFormat"
-                                 comment="PictureFormat is an enumeration definition holding the format of the picture." >
-                    <mal:item nvalue="1" value="RAW" comment="RAW bitmap with native sensor data" />
-                    <mal:item nvalue="2" value="RGB24" comment="RGB24 raw stream" />
-                    <mal:item nvalue="3" value="BMP" comment="BMP file" />
-                    <mal:item nvalue="4" value="PNG" comment="PNG file" />
-                    <mal:item nvalue="5" value="JPG" comment="JPG file" />
-                </mal:enumeration>
-                <mal:composite shortFormPart="4" name="CameraSettings" comment="Image acquisition settings." >
-                    <mal:extends>
-                        <mal:type area="MAL" list="false" name="Composite" />
-                    </mal:extends>
-                    <mal:field canBeNull="false" name="resolution"
-                               comment="The resolution field shall hold the desired picture resolution." >
-                        <mal:type area="Platform" list="false"
-                                  name="PixelResolution" service="Camera" />
-                    </mal:field>
-                    <mal:field canBeNull="false" name="format"
-                               comment="The format field shall hold the desired streaming picture format." >
-                        <mal:type area="Platform" list="false"
-                                  name="PictureFormat" service="Camera" />
-                    </mal:field>
-                    <mal:field canBeNull="false" name="exposureTime"
-                               comment="The exposureTime field shall hold the exposure time of the camera." >
-                        <mal:type area="MAL" list="false" name="Duration" />
-                    </mal:field>
-                    <mal:field canBeNull="false" name="gainRed" comment="Green channel gain." >
-                        <mal:type area="MAL" list="false" name="Float" />
-                    </mal:field>
-                    <mal:field canBeNull="false" name="gainGreen" comment="Blue channel gain." >
-                        <mal:type area="MAL" list="false" name="Float" />
-                    </mal:field>
-                    <mal:field canBeNull="false" name="gainBlue" comment="Red channel gain." >
-                        <mal:type area="MAL" list="false" name="Float" />
-                    </mal:field>
-                    <mal:field canBeNull="true" name="extra"
-                               comment="Extra optional configurations. Shall be empty if no extra configurations are provided.">
-                        <mal:type area="MAL" list="true" name="NamedValue" />
-                    </mal:field>
-                </mal:composite>
-            </mal:dataTypes>
             <com:features />
         </mal:service>
         <mal:service number="2" name="GPS" xsi:type="com:ExtendedServiceType"
@@ -377,7 +305,7 @@
                         <mal:response comment="">
                             <mal:field canBeNull="true" name="position"
                                        comment="The position field shall hold the last known position." >
-                                <mal:type area="Platform" list="false" name="Position" service="GPS" />
+                                <mal:type area="Platform" list="false" name="Position" />
                             </mal:field>
                             <mal:field canBeNull="true" name="elapsedTime"
                                        comment="The elapsedTime field shall hold the elapsed time since the position's determination." >
@@ -402,7 +330,7 @@
                         <mal:response comment="">
                             <mal:field canBeNull="true" name="position"
                                        comment="The position field shall hold the current position." >
-                                <mal:type area="Platform" list="false" name="Position" service="GPS" />
+                                <mal:type area="Platform" list="false" name="Position" />
                             </mal:field>
                         </mal:response>
                     </mal:messages>
@@ -426,7 +354,7 @@
                         <mal:response comment="">
                             <mal:field canBeNull="true" name="gpsSatellitesInfo"
                                        comment="The gpsSatellitesInfo field shall hold the information of the satellites." >
-                                <mal:type area="Platform" list="true" name="SatelliteInfo" service="GPS" />
+                                <mal:type area="Platform" list="true" name="SatelliteInfo" />
                             </mal:field>
                         </mal:response>
                     </mal:messages>
@@ -464,7 +392,7 @@
                         <mal:request comment="">
                             <mal:field canBeNull="true" name="nearbyPositionDefinitions"
                                        comment="The nearbyPosition field shall hold the definition of a position." >
-                                <mal:type area="Platform" list="true" name="NearbyPositionDefinition" service="GPS" />
+                                <mal:type area="Platform" list="true" name="NearbyPositionDefinition" />
                             </mal:field>
                         </mal:request>
                         <mal:response comment="">
@@ -645,7 +573,7 @@
                         <mal:acknowledgement comment="" />
                         <mal:response comment="">
                             <mal:field canBeNull="true" name="tle" comment="The tle field shall hold the curent TLE." >
-                                <mal:type area="Platform" list="false" name="TwoLineElementSet" service="GPS" />
+                                <mal:type area="Platform" list="false" name="TwoLineElementSet" />
                             </mal:field>
                         </mal:response>
                     </mal:messages>
@@ -659,217 +587,6 @@
                     </mal:errors>
                 </mal:invokeIP>
             </mal:capabilitySet>
-            <mal:dataTypes>
-                <mal:composite shortFormPart="1" name="Position"
-                               comment="The Position structure holds a WGS-84 position of the spacecraft reported by the GPS unit." >
-                    <mal:extends>
-                        <mal:type area="MAL" list="false" name="Composite" />
-                    </mal:extends>
-                    <mal:field canBeNull="false" name="latitude"
-                               comment="The latitude of the position. The unit is in decimal degrees." >
-                        <mal:type area="MAL" list="false" name="Float" />
-                    </mal:field>
-                    <mal:field canBeNull="false" name="longitude"
-                               comment="The longitude of the position. The unit is in decimal degrees." >
-                        <mal:type area="MAL" list="false" name="Float" />
-                    </mal:field>
-                    <mal:field canBeNull="false" name="altitude"
-                               comment="Altitude in meters according to the WGS-84 ellipsoid" >
-                        <mal:type area="MAL" list="false" name="Float" />
-                    </mal:field>
-                    <mal:field canBeNull="true" name="extraDetails"
-                               comment="Extra details about the position." >
-                        <mal:type area="Platform" list="false" name="PositionExtraDetails" service="GPS" />
-                    </mal:field>
-                </mal:composite>
-                <mal:composite shortFormPart="2" name="SatelliteInfo"
-                               comment="The SatelliteInfo structure holds the information about the satellites obtained from the GPS unit." >
-                    <mal:extends>
-                        <mal:type area="MAL" list="false" name="Composite" />
-                    </mal:extends>
-                    <mal:field canBeNull="true" name="azimuth"
-                               comment="The azimuth of the satellite [deg]">
-                        <mal:type area="MAL" list="false" name="Float" />
-                    </mal:field>
-                    <mal:field canBeNull="true" name="elevation"
-                               comment="The elevation of the satellite [deg]">
-                        <mal:type area="MAL" list="false" name="Float" />
-                    </mal:field>
-                    <mal:field canBeNull="true" name="prn"
-                               comment="The pseudorandom noise number">
-                        <mal:type area="MAL" list="false" name="Integer" />
-                    </mal:field>
-                    <mal:field canBeNull="true" name="psr"
-                               comment="Calculated pseudorange [m]">
-                        <mal:type area="MAL" list="false" name="Double" />
-                    </mal:field>
-                    <mal:field canBeNull="true" name="psrDev"
-                               comment="Pseudorange std deviation">
-                        <mal:type area="MAL" list="false" name="Float" />
-                    </mal:field>
-                    <mal:field canBeNull="true" name="adr"
-                               comment="Calculated carrier phase (accumulated Doppler range) [cycles]">
-                        <mal:type area="MAL" list="false" name="Double" />
-                    </mal:field>
-                    <mal:field canBeNull="true" name="adrDev"
-                               comment="Calculated carrier phase std deviation">
-                        <mal:type area="MAL" list="false" name="Float" />
-                    </mal:field>
-                    <mal:field canBeNull="true" name="dopp"
-                               comment="Instantaneous carrier Doppler frequency">
-                        <mal:type area="MAL" list="false" name="Float" />
-                    </mal:field>
-                    <mal:field canBeNull="true" name="snr"
-                               comment="Signal to noise ratio">
-                        <mal:type area="MAL" list="false" name="Float" />
-                    </mal:field>
-                    <mal:field canBeNull="true" name="trackingStatus"
-                               comment="Tracking Status">
-                        <mal:type area="MAL" list="false" name="UInteger" />
-                    </mal:field>
-                    <mal:field canBeNull="true" name="locktime"
-                               comment="Time of continuous tracking [s]">
-                        <mal:type area="MAL" list="false" name="Float" />
-                    </mal:field>
-                </mal:composite>
-                <mal:composite shortFormPart="4" name="PositionExtraDetails"
-                               comment="The PositionExtraDetails structure holds extra information that can be provided by a GPS unit." >
-                    <mal:extends>
-                        <mal:type area="MAL" list="false" name="Composite" />
-                    </mal:extends>
-                    <mal:field canBeNull="true" name="utc"
-                               comment="UTC time status of position.">
-                        <mal:type area="MAL" list="false" name="Time" />
-                    </mal:field>
-                    <mal:field canBeNull="true" name="fixQuality"
-                               comment="Fix Quality:&#10;0 = Invalid; &#10;1 = GPS fix;&#10;2 = DGPS fix." >
-                        <mal:type area="MAL" list="false" name="Integer" />
-                    </mal:field>
-                    <mal:field canBeNull="true" name="numberOfSatellites"
-                               comment="The number of satellites in view for this position." >
-                        <mal:type area="MAL" list="false" name="Integer" />
-                    </mal:field>
-                    <mal:field canBeNull="true" name="hdop"
-                               comment="Horizontal Dilution of Precision. The relative accuracy of horizontal position." >
-                        <mal:type area="MAL" list="false" name="Float" />
-                    </mal:field>
-                    <mal:field canBeNull="true" name="undulation"
-                               comment="The relationship between the geoid and the WGS84 ellipsoid. The unit is meters." >
-                        <mal:type area="MAL" list="false" name="Float" />
-                    </mal:field>
-                    <mal:field canBeNull="false" name="positionSource"
-                               comment="Source of the position data (e.g. directly from GNSS or propagated via TLE)." >
-                        <mal:type area="Platform" list="false" name="PositionSourceType" service="GPS"/>
-                    </mal:field>
-                </mal:composite>
-                <mal:enumeration shortFormPart="11" name="PositionSourceType" comment="GNSS position source." >
-                    <mal:item nvalue="1" value="GNSS" comment="GNSS" />
-                    <mal:item nvalue="2" value="TLE" comment="TLE propagation" />
-                </mal:enumeration>
-                <mal:composite shortFormPart="26" name="NearbyPositionDefinition"
-                               comment="The NearbyPositionDefinition structure holds a definition of a certain Position." >
-                    <mal:extends>
-                        <mal:type area="MAL" list="false" name="Composite" />
-                    </mal:extends>
-                    <mal:field canBeNull="true" name="name"
-                               comment="The name of the definition.">
-                        <mal:type area="MAL" list="false" name="Identifier" />
-                    </mal:field>
-                    <mal:field canBeNull="true" name="description"
-                               comment="A textual description of the definition." >
-                        <mal:type area="MAL" list="false" name="String" />
-                    </mal:field>
-                    <mal:field canBeNull="true" name="distanceBoundary"
-                               comment="The distance boundary of this definition. The distance boundary shall define a spherical zone around the position. The unit is meters." >
-                        <mal:type area="MAL" list="false" name="Float" />
-                    </mal:field>
-                    <mal:field canBeNull="true" name="position" comment="The position of the definition.">
-                        <mal:type area="Platform" list="false" name="Position" service="GPS" />
-                    </mal:field>
-                </mal:composite>
-                <mal:composite shortFormPart="5" name="TwoLineElementSet"
-                               comment="The TwoLineElementSet structure holds the two line element set reported by the GPS unit." >
-                    <mal:extends>
-                        <mal:type area="MAL" list="false" name="Composite" />
-                    </mal:extends>
-                    <mal:field canBeNull="true" name="catalogNo"
-                               comment="The Satellite catalog number." >
-                        <mal:type area="MAL" list="false" name="Integer" />
-                    </mal:field>
-                    <mal:field canBeNull="true" name="classification"
-                               comment="The Classification. Possible Values: U=Unclassified, C=Classified, S=Secret." >
-                        <mal:type area="MAL" list="false" name="String" />
-                    </mal:field>
-                    <mal:field canBeNull="true" name="idYear"
-                               comment="First part of International Designator, containing the last two digits of the launch year" >
-                        <mal:type area="MAL" list="false" name="Integer" />
-                    </mal:field>
-                    <mal:field canBeNull="true" name="idLaunchNo"
-                               comment="Second part of International Designator, containing launch number of the year" >
-                        <mal:type area="MAL" list="false" name="Integer" />
-                    </mal:field>
-                    <mal:field canBeNull="true" name="idPiece"
-                               comment="Third part of International Designator, containing the piece of launch" >
-                        <mal:type area="MAL" list="false" name="String" />
-                    </mal:field>
-                    <mal:field canBeNull="true" name="epochYear"
-                               comment="Epoch year (last two digits of year)" >
-                        <mal:type area="MAL" list="false" name="Integer" />
-                    </mal:field>
-                    <mal:field canBeNull="true" name="epochDay"
-                               comment="Epoch day (day of year)" >
-                        <mal:type area="MAL" list="false" name="Integer" />
-                    </mal:field>
-                    <mal:field canBeNull="true" name="epochSecond"
-                               comment="Epoch second (Second of day)" >
-                        <mal:type area="MAL" list="false" name="Double" />
-                    </mal:field>
-                    <mal:field canBeNull="true" name="meanMotionD1"
-                               comment="First Derivative of Mean Motion" >
-                        <mal:type area="MAL" list="false" name="Double" />
-                    </mal:field>
-                    <mal:field canBeNull="true" name="meanMotionD2"
-                               comment="Second Derivative of Mean Motion" >
-                        <mal:type area="MAL" list="false" name="Double" />
-                    </mal:field>
-                    <mal:field canBeNull="true" name="dragTerm"
-                               comment="Drag Term (Radiation Pressure Coefficient)" >
-                        <mal:type area="MAL" list="false" name="Double" />
-                    </mal:field>
-                    <mal:field canBeNull="true" name="id"
-                               comment="Element set number (ID of this set)" >
-                        <mal:type area="MAL" list="false" name="Integer" />
-                    </mal:field>
-                    <mal:field canBeNull="true" name="inclination"
-                               comment="The Inclination. The unit is in decimal degrees." >
-                        <mal:type area="MAL" list="false" name="Double" />
-                    </mal:field>
-                    <mal:field canBeNull="true" name="raan"
-                               comment="The right ascension of the ascending node. The unit is in decimal degrees." >
-                        <mal:type area="MAL" list="false" name="Double" />
-                    </mal:field>
-                    <mal:field canBeNull="true" name="eccentricity"
-                               comment="The eccentricity. The unit is in decimal degrees." >
-                        <mal:type area="MAL" list="false" name="Double" />
-                    </mal:field>
-                    <mal:field canBeNull="true" name="argumentOfPerigee"
-                               comment="The argument of perigee. The unit is in decimal degrees." >
-                        <mal:type area="MAL" list="false" name="Double" />
-                    </mal:field>
-                    <mal:field canBeNull="true" name="meanAnomaly"
-                               comment="The mean anomaly. The unit is in decimal degrees." >
-                        <mal:type area="MAL" list="false" name="Double" />
-                    </mal:field>
-                    <mal:field canBeNull="true" name="meanMotion"
-                               comment="The mean motion. The unit is revolutions per daz." >
-                        <mal:type area="MAL" list="false" name="Double" />
-                    </mal:field>
-                    <mal:field canBeNull="true" name="numRevolutions"
-                               comment="The number of completed revolutions at epoch.">
-                        <mal:type area="MAL" list="false" name="Integer" />
-                    </mal:field>
-                </mal:composite>
-            </mal:dataTypes>
             <com:features>
                 <mal:diagram name="GPSObjects">
                     <svg:svg height="100" version="1.1" width="700">
@@ -963,7 +680,7 @@
                     <com:object number="1" name="NearbyPosition"
                                 comment="The positions markers for the events shall be represented as NearbyPosition COM objects." >
                         <com:objectType>
-                            <mal:type area="Platform" list="false" name="NearbyPositionDefinition" service="GPS" />
+                            <mal:type area="Platform" list="false" name="NearbyPositionDefinition" />
                         </com:objectType>
                         <com:relatedObject comment="" />
                         <com:sourceObject
@@ -1004,11 +721,11 @@
                         <mal:publishNotify comment="">
                             <mal:field canBeNull="true" name="attitudeTelemetry"
                                        comment="Determined spacecraft attitude." >
-                                <mal:type area="Platform" list="false" name="AttitudeTelemetry" service="AutonomousADCS" />
+                                <mal:type area="Platform" list="false" name="AttitudeTelemetry" />
                             </mal:field>
                             <mal:field canBeNull="true" name="actuatorsTelemetry"
                                        comment="Status of the ADCS actuators." >
-                                <mal:type area="Platform" list="false" name="ActuatorsTelemetry" service="AutonomousADCS" />
+                                <mal:type area="Platform" list="false" name="ActuatorsTelemetry" />
                             </mal:field>
                             <mal:field canBeNull="true" name="controlDuration"
                                        comment="The remaining duration of the active attitude control mode. NULL if no time duration is set, or no attitude control is active." >
@@ -1016,7 +733,7 @@
                             </mal:field>
                             <mal:field canBeNull="true" name="activeAttitudeMode"
                                        comment="Active attitude mode. NULL if no attitude control is active. This is an abstract type." >
-                                <mal:type area="Platform" list="false" name="AttitudeMode" service="AutonomousADCS" />
+                                <mal:type area="Platform" list="false" name="AttitudeMode" />
                             </mal:field>
                         </mal:publishNotify>
                     </mal:messages>
@@ -1055,11 +772,11 @@
                         <mal:response comment="">
                             <mal:field canBeNull="true" name="attitudeTelemetry"
                                        comment="Determined spacecraft attitude." >
-                                <mal:type area="Platform" list="false" name="AttitudeTelemetry" service="AutonomousADCS" />
+                                <mal:type area="Platform" list="false" name="AttitudeTelemetry" />
                             </mal:field>
                             <mal:field canBeNull="true" name="actuatorsTelemetry"
                                        comment="Status of the ADCS actuators." >
-                                <mal:type area="Platform" list="false" name="ActuatorsTelemetry" service="AutonomousADCS" />
+                                <mal:type area="Platform" list="false" name="ActuatorsTelemetry" />
                             </mal:field>
                             <mal:field canBeNull="true" name="controlDuration"
                                        comment="The remaining duration of the active attitude control mode. NULL if no time duration is set, or no attitude control is active." >
@@ -1075,7 +792,7 @@
                             </mal:field>
                             <mal:field canBeNull="true" name="activeAttitudeMode"
                                        comment="Active attitude mode. NULL if no attitude control is active. This is an abstract type." >
-                                <mal:type area="Platform" list="false" name="AttitudeMode" service="AutonomousADCS" />
+                                <mal:type area="Platform" list="false" name="AttitudeMode" />
                             </mal:field>
                         </mal:response>
                     </mal:messages>
@@ -1097,7 +814,7 @@
                             </mal:field>
                             <mal:field canBeNull="true" name="desiredAttitude"
                                        comment="Desired attitude mode. If set to NULL, ADCS will switch into a free tumbling mode. This is an abstract type." >
-                                <mal:type area="Platform" list="false" name="AttitudeMode" service="AutonomousADCS" />
+                                <mal:type area="Platform" list="false" name="AttitudeMode" />
                             </mal:field>
                         </mal:submit>
                     </mal:messages>
@@ -1129,7 +846,7 @@
                     <mal:messages>
                         <mal:submit comment="">
                             <mal:field canBeNull="false" name="wheel" comment="The Reaction wheel indentifier." >
-                                <mal:type area="Platform" list="false" name="ReactionWheelIdentifier" service="AutonomousADCS" />
+                                <mal:type area="Platform" list="false" name="ReactionWheelIdentifier" />
                             </mal:field>
                             <mal:field canBeNull="false" name="speed" comment="Desired Speed in rad/second" >
                                 <mal:type area="MAL" list="false" name="Float"/>
@@ -1181,7 +898,7 @@
                     <mal:messages>
                         <mal:submit comment="">
                             <mal:field canBeNull="false" name="parameters" comment="Reaction wheel parameters">
-                                <mal:type area="Platform" list="false" name="ReactionWheelParameters" service="AutonomousADCS" />
+                                <mal:type area="Platform" list="false" name="ReactionWheelParameters" />
                             </mal:field>
                         </mal:submit>
                     </mal:messages>
@@ -1226,7 +943,7 @@
                         <mal:request comment=""/>
                         <mal:response comment="">
                             <mal:field canBeNull="false" comment="Reaction wheel parameters" name="parameters">
-                                <mal:type area="Platform" list="false" name="ReactionWheelParameters" service="AutonomousADCS" />
+                                <mal:type area="Platform" list="false" name="ReactionWheelParameters" />
                             </mal:field>
                         </mal:response>
                     </mal:messages>
@@ -1237,227 +954,6 @@
                     </mal:errors>
                 </mal:requestIP>
             </mal:capabilitySet>
-            <mal:dataTypes>
-                <mal:composite shortFormPart="1" name="Quaternion" comment="Holds quaternion components." >
-                    <mal:extends>
-                        <mal:type area="MAL" list="false" name="Composite" />
-                    </mal:extends>
-                    <mal:field canBeNull="false" comment="Quaternion scalar component a" name="a">
-                        <mal:type area="MAL" list="false" name="Float" />
-                    </mal:field>
-                    <mal:field canBeNull="false" comment="Quaternion vector component b*i" name="b">
-                        <mal:type area="MAL" list="false" name="Float" />
-                    </mal:field>
-                    <mal:field canBeNull="false" comment="Quaternion vector component c*j" name="c">
-                        <mal:type area="MAL" list="false" name="Float" />
-                    </mal:field>
-                    <mal:field canBeNull="false" comment="Quaternion vector component d*k" name="d">
-                        <mal:type area="MAL" list="false" name="Float" />
-                    </mal:field>
-                </mal:composite>
-                <mal:composite name="AttitudeMode" comment="Holds an abstract attitude setting defined by the consumer. This composite is specialized into particular attitude mode descriptors.">
-                    <mal:extends>
-                        <mal:type area="MAL" list="false" name="Composite" />
-                    </mal:extends>
-                </mal:composite>
-                <mal:composite shortFormPart="3" name="AttitudeModeBDot"
-                               comment="B-dot detumbling attitude mode defined by the consumer." >
-                    <mal:extends>
-                        <mal:type area="Platform" list="false" name="AttitudeMode" service="AutonomousADCS" />
-                    </mal:extends>
-                </mal:composite>
-                <mal:composite shortFormPart="4" name="AttitudeModeSingleSpinning"
-                               comment="Single-axis spinning attitude mode defined by the consumer." >
-                    <mal:extends>
-                        <mal:type area="Platform" list="false" name="AttitudeMode" service="AutonomousADCS" />
-                    </mal:extends>
-                    <mal:field canBeNull="false" name="bodyAxis"
-                               comment="The spin axis vector, defined in the body reference frame." >
-                        <mal:type area="Platform" list="false" name="VectorF3D"/>
-                    </mal:field>
-                    <mal:field canBeNull="false" name="angularVelocity"
-                               comment="The angular velocity of the spin. The right-hand rule shall be followed to indicate the positive direction of the angular velocity. [rad/s]" >
-                        <mal:type area="MAL" list="false" name="Float" />
-                    </mal:field>
-                </mal:composite>
-                <mal:composite shortFormPart="5" name="AttitudeModeSunPointing"
-                               comment="Sun Pointing attitude mode defined by the consumer." >
-                    <mal:extends>
-                        <mal:type area="Platform" list="false" name="AttitudeMode" service="AutonomousADCS" />
-                    </mal:extends>
-                </mal:composite>
-                <mal:composite shortFormPart="6" name="AttitudeModeTargetTracking"
-                               comment="Fixed Ground Target Tracking attitude mode defined by the consumer." >
-                    <mal:extends>
-                        <mal:type area="Platform" list="false" name="AttitudeMode" service="AutonomousADCS" />
-                    </mal:extends>
-                    <mal:field canBeNull="false" name="latitude"
-                               comment="The latitude of the target to be tracked. [deg]" >
-                        <mal:type area="MAL" list="false" name="Float" />
-                    </mal:field>
-                    <mal:field canBeNull="false" name="longitude"
-                               comment="The longitude of the target to be tracked. [deg]" >
-                        <mal:type area="MAL" list="false" name="Float" />
-                    </mal:field>
-                </mal:composite>
-                <mal:composite shortFormPart="12" name="AttitudeModeTargetTrackingLinear"
-                               comment="Constant velocity Ground Target Tracking attitude mode defined by the consumer." >
-                    <mal:extends>
-                        <mal:type area="Platform" list="false" name="AttitudeMode" service="AutonomousADCS" />
-                    </mal:extends>
-                    <mal:field canBeNull="false" name="latitudeStart"
-                               comment="The start latitude of the target to be tracked. [deg]" >
-                        <mal:type area="MAL" list="false" name="Float" />
-                    </mal:field>
-                    <mal:field canBeNull="false" name="longitudeStart"
-                               comment="The start longitude of the target to be tracked. [deg]" >
-                        <mal:type area="MAL" list="false" name="Float" />
-                    </mal:field>
-                    <mal:field canBeNull="false" name="latitudeEnd"
-                               comment="The end latitude of the target to be tracked. [deg]" >
-                        <mal:type area="MAL" list="false" name="Float" />
-                    </mal:field>
-                    <mal:field canBeNull="false" name="longitudeEnd"
-                               comment="The end longitude of the target to be tracked. [deg]" >
-                        <mal:type area="MAL" list="false" name="Float" />
-                    </mal:field>
-                    <mal:field canBeNull="false" name="startEpoch"
-                               comment="The beginning epoch time of the tracking. [msec]" >
-                        <mal:type area="MAL" list="false" name="Long" />
-                    </mal:field>
-                    <mal:field canBeNull="false" name="endEpoch"
-                               comment="The ending epoch time of the tracking. [msec]" >
-                        <mal:type area="MAL" list="false" name="Long" />
-                    </mal:field>
-                </mal:composite>
-                <mal:composite shortFormPart="7" name="AttitudeModeNadirPointing"
-                               comment="Nadir Pointing attitude mode defined by the consumer." >
-                    <mal:extends>
-                        <mal:type area="Platform" list="false" name="AttitudeMode" service="AutonomousADCS" />
-                    </mal:extends>
-                </mal:composite>
-                <mal:composite shortFormPart="14" name="AttitudeModeVectorPointing"
-                               comment="Vector Pointing attitude mode defined by the consumer." >
-                    <mal:extends>
-                        <mal:type area="Platform" list="false" name="AttitudeMode" service="AutonomousADCS" />
-                    </mal:extends>
-                    <mal:field canBeNull="false" name="target"
-                               comment="Vector the Satelite should point the camera at (in ICRF)" >
-                        <mal:type area="Platform" list="false" name="VectorF3D"/>
-                    </mal:field>
-                    <mal:field canBeNull="false" name="margin"
-                               comment="margin between target vector and current vector (in degrees)" >
-                        <mal:type area="MAL" list="false" name="Float" />
-                    </mal:field>
-                </mal:composite>
-                <mal:composite shortFormPart="15" name="AttitudeModeInertialPointing"
-                               comment="Inertial Pointing attitude mode." >
-                    <mal:extends>
-                        <mal:type area="Platform" list="false" name="AttitudeMode" service="AutonomousADCS" />
-                    </mal:extends>
-                    <mal:field canBeNull="false" name="targetVector"
-                               comment="Line of sight vector in satellite body frame pointing to the target" >
-                        <mal:type area="Platform" list="false" name="VectorF3D"/>
-                    </mal:field>
-                    <mal:field canBeNull="false" name="flightVector"
-                               comment="Flight vector in satellite body frame pointing into the flight direction" >
-                        <mal:type area="Platform" list="false" name="VectorF3D"/>
-                    </mal:field>
-                    <mal:field canBeNull="false" name="targetAttitude"
-                               comment="Target attitude quaternion in ECI frame" >
-                        <mal:type area="Platform" list="false" name="Quaternion" service="AutonomousADCS"/>
-                    </mal:field>
-                </mal:composite>
-                <mal:composite shortFormPart="8" name="WheelsSpeed" comment="Holds the speed of reaction wheels." >
-                    <mal:extends>
-                        <mal:type area="MAL" list="false" name="Composite" />
-                    </mal:extends>
-                    <mal:field canBeNull="false" name="rotationalSpeed"
-                               comment="Angular velocities of the wheels. The ordering of the array is implementation specific (typically X,Y,Z[,U,V,W]). [rad/sec]" >
-                        <mal:type area="MAL" list="true" name="Float" />
-                    </mal:field>
-                </mal:composite>
-                <mal:composite shortFormPart="9" name="ActuatorsTelemetry"
-                               comment="Holds the ADCS actuators telemetry." >
-                    <mal:extends>
-                        <mal:type area="MAL" list="false" name="Composite" />
-                    </mal:extends>
-                    <mal:field canBeNull="false" name="targetWheelSpeed"
-                               comment="Target reaction wheels speed." >
-                        <mal:type area="Platform" list="false"
-                                  name="WheelsSpeed" service="AutonomousADCS" />
-                    </mal:field>
-                    <mal:field canBeNull="false" name="currentWheelSpeed"
-                               comment="Current reaction wheels speed." >
-                        <mal:type area="Platform" list="false" name="WheelsSpeed" service="AutonomousADCS" />
-                    </mal:field>
-                    <mal:field canBeNull="false" name="mtqDipoleMoment"
-                               comment="Target magnetorquers dipole moment relative to the spacecraft frame. [A*m^2]" >
-                        <mal:type area="Platform" list="false" name="VectorF3D"/>
-                    </mal:field>
-                    <mal:field canBeNull="false" name="mtqState"
-                               comment="Current state of the magnetorquers." >
-                        <mal:type area="Platform" list="false" name="MagnetorquersState" service="AutonomousADCS" />
-                    </mal:field>
-                </mal:composite>
-                <mal:composite shortFormPart="10" name="AttitudeTelemetry" comment="Holds the derived ADCS telemetry." >
-                    <mal:extends>
-                        <mal:type area="MAL" list="false" name="Composite" />
-                    </mal:extends>
-                    <mal:field canBeNull="false" name="attitude"
-                               comment="Calculated attitude quaternion of the spacecraft frame relative to International Celestial Reference Frame (ICRF)." >
-                        <mal:type area="Platform" list="false" name="Quaternion" service="AutonomousADCS" />
-                    </mal:field>
-                    <mal:field canBeNull="false" name="angularVelocity"
-                               comment="Calculated angular velocity vector (x,y,z) relative to the spacecraft frame. [rad/sec]" >
-                        <mal:type area="Platform" list="false" name="VectorF3D"/>
-                    </mal:field>
-                    <mal:field canBeNull="false" name="sunVector"
-                               comment="Calculated dimensionless sun vector (x,y,z) relative to the spacecraft frame." >
-                        <mal:type area="Platform" list="false" name="VectorF3D"/>
-                    </mal:field>
-                    <mal:field canBeNull="false" name="magneticField"
-                               comment="Calculated magnetic flux density relative to the spacecraft frame. [T]" >
-                        <mal:type area="Platform" list="false" name="VectorF3D"/>
-                    </mal:field>
-                    <mal:field canBeNull="false" name="stateTarget"
-                               comment="True when achieved desired pointing mode, false otherwise." >
-                        <mal:type area="MAL" list="false" name="Boolean"/>
-                    </mal:field>
-                </mal:composite>
-                <mal:enumeration shortFormPart="11" name="MagnetorquersState" comment="State of the magnetorquers." >
-                    <mal:item nvalue="1" value="INACTIVE" comment="Magnetorquers not operating." />
-                    <mal:item nvalue="2" value="ACTIVE" comment="Magnetorquers operating and powered." />
-                    <mal:item nvalue="3" value="SUSPEND" comment="Magnetorquers operating and automatically suspended." />
-                </mal:enumeration>
-                <mal:enumeration shortFormPart="12" name="ReactionWheelIdentifier" comment="Wheel identifiers." >
-                    <mal:item 
-                        nvalue="1" value="WHEEL_X" comment="Reaction wheel x" />
-                    <mal:item nvalue="2" value="WHEEL_Y" comment="Reaction wheel y" />
-                    <mal:item nvalue="3" value="WHEEL_Z" comment="Reaction wheel Z" />
-                    <mal:item nvalue="4" value="WHEEL_U" comment="Reaction wheel u" />
-                    <mal:item nvalue="5" value="WHEEL_V" comment="Reaction wheel v" />
-                    <mal:item nvalue="6" value="WHEEL_W" comment="Reaction wheel w" />
-                </mal:enumeration>
-                <mal:composite shortFormPart="13" name="ReactionWheelParameters"
-                               comment="Holds Raction wheel parameters" >
-                    <mal:field canBeNull="false" comment="Control mode of the Reaction wheels. 0 = Target value is a current value [A]; 1 = Target value is a speed value [rad/sec]; 2 = Target alue is a torgh [Nm]" name="controlMode">
-                        <mal:type area="MAL" list="false" name="Integer" />
-                    </mal:field>
-                    <mal:field canBeNull="false" comment="maximum speed of the Reaction wheels in rad/second. For safety reasons, the value for this can not exceed 1047.197551" name="maxSpeed">
-                        <mal:type area="MAL" list="false" name="Float" />
-                    </mal:field>
-                    <mal:field canBeNull="false" comment="maximum torque of the Reaction wheels in Nm" name="maxTorque">
-                        <mal:type area="MAL" list="false" name="Float" />
-                    </mal:field>
-                    <mal:field canBeNull="false" comment="moment of inertia of the Reaction wheels in kg/m^2" name="inertia">
-                        <mal:type area="MAL" list="false" name="Float" />
-                    </mal:field>
-                    <mal:field canBeNull="true" comment="motor constant of the Reaction wheels in Nm/A" name="motorConst">
-                        <mal:type area="MAL" list="false" name="Float" />
-                    </mal:field>
-                </mal:composite>
-            </mal:dataTypes>
         </mal:service>
         <mal:service number="4" name="SoftwareDefinedRadio" xsi:type="com:ExtendedServiceType"
                      comment="The Software-defined Radio provides a generic mechanism to set, configure and receive data from a Software-defined Radio device." >
@@ -1470,7 +966,7 @@
                         <mal:publishNotify comment="">
                             <mal:field canBeNull="true" name="iqComponents"
                                        comment="The iqComponents field shall hold the in-phase and quadrature data from the Software-defined Radio unit." >
-                                <mal:type area="Platform" list="false" name="IQComponents" service="SoftwareDefinedRadio" />
+                                <mal:type area="Platform" list="false" name="IQComponents" />
                             </mal:field>
                         </mal:publishNotify>
                     </mal:messages>
@@ -1487,7 +983,7 @@
                             </mal:field>
                             <mal:field canBeNull="true" name="initialConfiguration"
                                        comment="The  initialConfiguration field shall hold the configuration to be set right after the SDR is enabled." >
-                                <mal:type area="Platform" list="false" name="SDRConfiguration" service="SoftwareDefinedRadio" />
+                                <mal:type area="Platform" list="false" name="SDRConfiguration" />
                             </mal:field>
                             <mal:field canBeNull="true" name="publishingPeriod" comment="">
                                 <mal:type area="MAL" list="false" name="Duration" />
@@ -1511,7 +1007,7 @@
                         <mal:submit comment="">
                             <mal:field canBeNull="true" name="configuration"
                                        comment="The configuration field holds the configuration of the SDR." >
-                                <mal:type area="Platform" list="false" name="SDRConfiguration" service="SoftwareDefinedRadio" />
+                                <mal:type area="Platform" list="false" name="SDRConfiguration" />
                             </mal:field>
                         </mal:submit>
                     </mal:messages>
@@ -1522,38 +1018,6 @@
                     </mal:errors>
                 </mal:submitIP>
             </mal:capabilitySet>
-            <mal:dataTypes>
-                <mal:composite shortFormPart="1" name="SDRConfiguration"
-                               comment="Holds a configuration for the SDR. Allowed values range depends on the unit." >
-                    <mal:extends>
-                        <mal:type area="MAL" list="false" name="Composite" />
-                    </mal:extends>
-                    <mal:field canBeNull="true" name="rxCarrierFrequency"
-                               comment="RX Carrier Frequency [MHz]." >
-                        <mal:type area="MAL" list="false" name="Float" />
-                    </mal:field>
-                    <mal:field canBeNull="true" name="rxGain" comment="RX chain gain [dB].">
-                        <mal:type area="MAL" list="false" name="Integer" />
-                    </mal:field>
-                    <mal:field canBeNull="true" name="rxLowPassBW" comment="RX Low Pass Filter bandwidth [MHz]." >
-                        <mal:type area="MAL" list="false" name="Float" />
-                    </mal:field>
-                    <mal:field canBeNull="true" name="rxSamplingFrequency" comment="RX sampling frequency [MHz]." >
-                        <mal:type area="MAL" list="false" name="Float" />
-                    </mal:field>
-                </mal:composite>
-                <mal:composite shortFormPart="27" name="IQComponents" comment="It holds the In-phase and Quadrature components." >
-                    <mal:extends>
-                        <mal:type area="MAL" list="false" name="Composite" />
-                    </mal:extends>
-                    <mal:field canBeNull="true" comment="The in-phase component." name="inPhase">
-                        <mal:type area="MAL" list="true" name="Float" />
-                    </mal:field>
-                    <mal:field canBeNull="true"  name="quadrature" comment="The quadrature component.">
-                        <mal:type area="MAL" list="true" name="Float" />
-                    </mal:field>
-                </mal:composite>
-            </mal:dataTypes>
             <com:features />
         </mal:service>
         <mal:service number="5" name="OpticalDataReceiver" xsi:type="com:ExtendedServiceType"
@@ -1601,7 +1065,7 @@
                         </mal:request>
                         <mal:response comment="">
                             <mal:field canBeNull="true" comment="List of returned devices" name="devices">
-                                <mal:type area="Platform" list="true" name="Device" service="PowerControl" />
+                                <mal:type area="Platform" list="true" name="Device" />
                             </mal:field>
                         </mal:response>
                     </mal:messages>
@@ -1621,7 +1085,7 @@
                     <mal:messages>
                         <mal:request comment="">
                             <mal:field canBeNull="true" name="devices" comment="List of devices to be controlled" >
-                                <mal:type area="Platform" list="true" name="Device" service="PowerControl" />
+                                <mal:type area="Platform" list="true" name="Device" />
                             </mal:field>
                         </mal:request>
                         <mal:response comment="" />
@@ -1633,39 +1097,6 @@
                     </mal:errors>
                 </mal:requestIP>
             </mal:capabilitySet>
-            <mal:dataTypes>
-                <mal:composite shortFormPart="17" name="Device" comment="Represents a unit managed by Power Control service" >
-                    <mal:extends>
-                        <mal:type area="MAL" list="false" name="Composite" />
-                    </mal:extends>
-                    <mal:field canBeNull="false" name="enabled"
-                               comment="Holds the boolean flag indicating power state of the unit." >
-                        <mal:type area="MAL" list="false" name="Boolean" />
-                    </mal:field>
-                    <mal:field canBeNull="true" name="unitObjInstId"
-                               comment="Holds the unique object instance identifier representing the device." >
-                        <mal:type area="MAL" list="false" name="Long" />
-                    </mal:field>
-                    <mal:field canBeNull="true" comment="Device name." name="name">
-                        <mal:type area="MAL" list="false" name="Identifier" />
-                    </mal:field>
-                    <mal:field canBeNull="false" comment="Device type." name="deviceType">
-                        <mal:type area="Platform" list="false" name="DeviceType" service="PowerControl" />
-                    </mal:field>
-                </mal:composite>
-                <mal:enumeration shortFormPart="3" name="DeviceType"
-                                 comment="Defines type of controlled Units." >
-                    <mal:item nvalue="1" value="ADCS" comment="Attitude Determination and Control System" />
-                    <mal:item nvalue="2" value="OBC" comment="On-Board computer" />
-                    <mal:item nvalue="3" value="SBAND" comment="S-Band transceiver" />
-                    <mal:item nvalue="4" value="XBAND" comment="X-Band transceiver" />
-                    <mal:item nvalue="5" value="SDR" comment="Software Defined Radio" />
-                    <mal:item nvalue="6" value="OPTRX" comment="Optical receiver" />
-                    <mal:item nvalue="7" value="CAMERA" comment="Imaging subsystem" />
-                    <mal:item nvalue="8" value="GNSS" comment="GNSS subsystem" />
-                    <mal:item nvalue="100" value="OTHER" comment="Other device" />
-                </mal:enumeration>
-            </mal:dataTypes>
             <com:features />
         </mal:service>
         <mal:service number="8" name="Clock" xsi:type="com:ExtendedServiceType"
@@ -1817,6 +1248,546 @@
                     <mal:type area="MAL" list="false" name="Double" />
                 </mal:field>
             </mal:composite>
+            <mal:composite shortFormPart="3" name="Picture" comment="The Picture structure holds the details of the picture." >
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite" />
+                </mal:extends>
+                <mal:field canBeNull="true" name="timestamp" comment="The time of creation.">
+                    <mal:type area="MAL" list="false" name="Time" />
+                </mal:field>
+                <mal:field canBeNull="false" name="settings" comment="Acquisition settings used to take the picture." >
+                    <mal:type area="Platform" list="false" name="CameraSettings" />
+                </mal:field>
+                <mal:field canBeNull="false" name="content" comment="The content of the picture.">
+                    <mal:type area="MAL" list="false" name="Blob" />
+                </mal:field>
+            </mal:composite>
+            <mal:composite shortFormPart="4" name="PixelResolution"
+                           comment="The PixelResolution structure holds the pixel resolution of a picture." >
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite" />
+                </mal:extends>
+                <mal:field canBeNull="false" name="width" comment="The width of the picture.">
+                    <mal:type area="MAL" list="false" name="UInteger" />
+                </mal:field>
+                <mal:field canBeNull="false" name="height" comment="The height of the picture.">
+                    <mal:type area="MAL" list="false" name="UInteger" />
+                </mal:field>
+            </mal:composite>
+            <mal:enumeration shortFormPart="5" name="PictureFormat"
+                             comment="PictureFormat is an enumeration definition holding the format of the picture." >
+                <mal:item nvalue="1" value="RAW" comment="RAW bitmap with native sensor data" />
+                <mal:item nvalue="2" value="RGB24" comment="RGB24 raw stream" />
+                <mal:item nvalue="3" value="BMP" comment="BMP file" />
+                <mal:item nvalue="4" value="PNG" comment="PNG file" />
+                <mal:item nvalue="5" value="JPG" comment="JPG file" />
+            </mal:enumeration>
+            <mal:composite shortFormPart="6" name="CameraSettings" comment="Image acquisition settings." >
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite" />
+                </mal:extends>
+                <mal:field canBeNull="false" name="resolution"
+                           comment="The resolution field shall hold the desired picture resolution." >
+                    <mal:type area="Platform" list="false" name="PixelResolution" />
+                </mal:field>
+                <mal:field canBeNull="false" name="format"
+                           comment="The format field shall hold the desired streaming picture format." >
+                    <mal:type area="Platform" list="false" name="PictureFormat" />
+                </mal:field>
+                <mal:field canBeNull="false" name="exposureTime"
+                           comment="The exposureTime field shall hold the exposure time of the camera." >
+                    <mal:type area="MAL" list="false" name="Duration" />
+                </mal:field>
+                <mal:field canBeNull="false" name="gainRed" comment="Green channel gain." >
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field canBeNull="false" name="gainGreen" comment="Blue channel gain." >
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field canBeNull="false" name="gainBlue" comment="Red channel gain." >
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field canBeNull="true" name="extra"
+                           comment="Extra optional configurations. Shall be empty if no extra configurations are provided.">
+                    <mal:type area="MAL" list="true" name="NamedValue" />
+                </mal:field>
+            </mal:composite>
+            <mal:composite shortFormPart="7" name="Position"
+                           comment="The Position structure holds a WGS-84 position of the spacecraft reported by the GPS unit." >
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite" />
+                </mal:extends>
+                <mal:field canBeNull="false" name="latitude"
+                           comment="The latitude of the position. The unit is in decimal degrees." >
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field canBeNull="false" name="longitude"
+                           comment="The longitude of the position. The unit is in decimal degrees." >
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field canBeNull="false" name="altitude"
+                           comment="Altitude in meters according to the WGS-84 ellipsoid" >
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field canBeNull="true" name="extraDetails" comment="Extra details about the position." >
+                    <mal:type area="Platform" list="false" name="PositionExtraDetails" />
+                </mal:field>
+            </mal:composite>
+            <mal:composite shortFormPart="8" name="SatelliteInfo"
+                           comment="The SatelliteInfo structure holds the information about the satellites obtained from the GPS unit." >
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite" />
+                </mal:extends>
+                <mal:field canBeNull="true" name="azimuth"
+                           comment="The azimuth of the satellite [deg]">
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field canBeNull="true" name="elevation"
+                           comment="The elevation of the satellite [deg]">
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field canBeNull="true" name="prn"
+                           comment="The pseudorandom noise number">
+                    <mal:type area="MAL" list="false" name="Integer" />
+                </mal:field>
+                <mal:field canBeNull="true" name="psr"
+                           comment="Calculated pseudorange [m]">
+                    <mal:type area="MAL" list="false" name="Double" />
+                </mal:field>
+                <mal:field canBeNull="true" name="psrDev"
+                           comment="Pseudorange std deviation">
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field canBeNull="true" name="adr"
+                           comment="Calculated carrier phase (accumulated Doppler range) [cycles]">
+                    <mal:type area="MAL" list="false" name="Double" />
+                </mal:field>
+                <mal:field canBeNull="true" name="adrDev"
+                           comment="Calculated carrier phase std deviation">
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field canBeNull="true" name="dopp"
+                           comment="Instantaneous carrier Doppler frequency">
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field canBeNull="true" name="snr"
+                           comment="Signal to noise ratio">
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field canBeNull="true" name="trackingStatus"
+                           comment="Tracking Status">
+                    <mal:type area="MAL" list="false" name="UInteger" />
+                </mal:field>
+                <mal:field canBeNull="true" name="locktime"
+                           comment="Time of continuous tracking [s]">
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+            </mal:composite>
+            <mal:composite shortFormPart="9" name="PositionExtraDetails"
+                           comment="The PositionExtraDetails structure holds extra information that can be provided by a GPS unit." >
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite" />
+                </mal:extends>
+                <mal:field canBeNull="true" name="utc"
+                           comment="UTC time status of position.">
+                    <mal:type area="MAL" list="false" name="Time" />
+                </mal:field>
+                <mal:field canBeNull="true" name="fixQuality"
+                           comment="Fix Quality:&#10;0 = Invalid; &#10;1 = GPS fix;&#10;2 = DGPS fix." >
+                    <mal:type area="MAL" list="false" name="Integer" />
+                </mal:field>
+                <mal:field canBeNull="true" name="numberOfSatellites"
+                           comment="The number of satellites in view for this position." >
+                    <mal:type area="MAL" list="false" name="Integer" />
+                </mal:field>
+                <mal:field canBeNull="true" name="hdop"
+                           comment="Horizontal Dilution of Precision. The relative accuracy of horizontal position." >
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field canBeNull="true" name="undulation"
+                           comment="The relationship between the geoid and the WGS84 ellipsoid. The unit is meters." >
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field canBeNull="false" name="positionSource"
+                           comment="Source of the position data (e.g. directly from GNSS or propagated via TLE)." >
+                    <mal:type area="Platform" list="false" name="PositionSourceType" />
+                </mal:field>
+            </mal:composite>
+            <mal:enumeration shortFormPart="10" name="PositionSourceType" comment="GNSS position source." >
+                <mal:item nvalue="1" value="GNSS" comment="GNSS" />
+                <mal:item nvalue="2" value="TLE" comment="TLE propagation" />
+            </mal:enumeration>
+            <mal:composite shortFormPart="11" name="NearbyPositionDefinition"
+                           comment="The NearbyPositionDefinition structure holds a definition of a certain Position." >
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite" />
+                </mal:extends>
+                <mal:field canBeNull="true" name="name"
+                           comment="The name of the definition.">
+                    <mal:type area="MAL" list="false" name="Identifier" />
+                </mal:field>
+                <mal:field canBeNull="true" name="description"
+                           comment="A textual description of the definition." >
+                    <mal:type area="MAL" list="false" name="String" />
+                </mal:field>
+                <mal:field canBeNull="true" name="distanceBoundary"
+                           comment="The distance boundary of this definition. The distance boundary shall define a spherical zone around the position. The unit is meters." >
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field canBeNull="true" name="position" comment="The position of the definition.">
+                    <mal:type area="Platform" list="false" name="Position" />
+                </mal:field>
+            </mal:composite>
+            <mal:composite shortFormPart="12" name="TwoLineElementSet"
+                           comment="The TwoLineElementSet structure holds the two line element set reported by the GPS unit." >
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite" />
+                </mal:extends>
+                <mal:field canBeNull="true" name="catalogNo"
+                           comment="The Satellite catalog number." >
+                    <mal:type area="MAL" list="false" name="Integer" />
+                </mal:field>
+                <mal:field canBeNull="true" name="classification"
+                           comment="The Classification. Possible Values: U=Unclassified, C=Classified, S=Secret." >
+                    <mal:type area="MAL" list="false" name="String" />
+                </mal:field>
+                <mal:field canBeNull="true" name="idYear"
+                           comment="First part of International Designator, containing the last two digits of the launch year" >
+                    <mal:type area="MAL" list="false" name="Integer" />
+                </mal:field>
+                <mal:field canBeNull="true" name="idLaunchNo"
+                           comment="Second part of International Designator, containing launch number of the year" >
+                    <mal:type area="MAL" list="false" name="Integer" />
+                </mal:field>
+                <mal:field canBeNull="true" name="idPiece"
+                           comment="Third part of International Designator, containing the piece of launch" >
+                    <mal:type area="MAL" list="false" name="String" />
+                </mal:field>
+                <mal:field canBeNull="true" name="epochYear"
+                           comment="Epoch year (last two digits of year)" >
+                    <mal:type area="MAL" list="false" name="Integer" />
+                </mal:field>
+                <mal:field canBeNull="true" name="epochDay"
+                           comment="Epoch day (day of year)" >
+                    <mal:type area="MAL" list="false" name="Integer" />
+                </mal:field>
+                <mal:field canBeNull="true" name="epochSecond"
+                           comment="Epoch second (Second of day)" >
+                    <mal:type area="MAL" list="false" name="Double" />
+                </mal:field>
+                <mal:field canBeNull="true" name="meanMotionD1"
+                           comment="First Derivative of Mean Motion" >
+                    <mal:type area="MAL" list="false" name="Double" />
+                </mal:field>
+                <mal:field canBeNull="true" name="meanMotionD2"
+                           comment="Second Derivative of Mean Motion" >
+                    <mal:type area="MAL" list="false" name="Double" />
+                </mal:field>
+                <mal:field canBeNull="true" name="dragTerm"
+                           comment="Drag Term (Radiation Pressure Coefficient)" >
+                    <mal:type area="MAL" list="false" name="Double" />
+                </mal:field>
+                <mal:field canBeNull="true" name="id"
+                           comment="Element set number (ID of this set)" >
+                    <mal:type area="MAL" list="false" name="Integer" />
+                </mal:field>
+                <mal:field canBeNull="true" name="inclination"
+                           comment="The Inclination. The unit is in decimal degrees." >
+                    <mal:type area="MAL" list="false" name="Double" />
+                </mal:field>
+                <mal:field canBeNull="true" name="raan"
+                           comment="The right ascension of the ascending node. The unit is in decimal degrees." >
+                    <mal:type area="MAL" list="false" name="Double" />
+                </mal:field>
+                <mal:field canBeNull="true" name="eccentricity"
+                           comment="The eccentricity. The unit is in decimal degrees." >
+                    <mal:type area="MAL" list="false" name="Double" />
+                </mal:field>
+                <mal:field canBeNull="true" name="argumentOfPerigee"
+                           comment="The argument of perigee. The unit is in decimal degrees." >
+                    <mal:type area="MAL" list="false" name="Double" />
+                </mal:field>
+                <mal:field canBeNull="true" name="meanAnomaly"
+                           comment="The mean anomaly. The unit is in decimal degrees." >
+                    <mal:type area="MAL" list="false" name="Double" />
+                </mal:field>
+                <mal:field canBeNull="true" name="meanMotion"
+                           comment="The mean motion. The unit is revolutions per daz." >
+                    <mal:type area="MAL" list="false" name="Double" />
+                </mal:field>
+                <mal:field canBeNull="true" name="numRevolutions"
+                           comment="The number of completed revolutions at epoch.">
+                    <mal:type area="MAL" list="false" name="Integer" />
+                </mal:field>
+            </mal:composite>
+            <mal:composite shortFormPart="13" name="Quaternion" comment="Holds quaternion components." >
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite" />
+                </mal:extends>
+                <mal:field canBeNull="false" comment="Quaternion scalar component a" name="a">
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field canBeNull="false" comment="Quaternion vector component b*i" name="b">
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field canBeNull="false" comment="Quaternion vector component c*j" name="c">
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field canBeNull="false" comment="Quaternion vector component d*k" name="d">
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="AttitudeMode" comment="Holds an abstract attitude setting defined by the consumer. This composite is specialized into particular attitude mode descriptors.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite" />
+                </mal:extends>
+            </mal:composite>
+            <mal:composite shortFormPart="14" name="AttitudeModeBDot"
+                           comment="B-dot detumbling attitude mode defined by the consumer." >
+                <mal:extends>
+                    <mal:type area="Platform" list="false" name="AttitudeMode" />
+                </mal:extends>
+            </mal:composite>
+            <mal:composite shortFormPart="15" name="AttitudeModeSingleSpinning"
+                           comment="Single-axis spinning attitude mode defined by the consumer." >
+                <mal:extends>
+                    <mal:type area="Platform" list="false" name="AttitudeMode" />
+                </mal:extends>
+                <mal:field canBeNull="false" name="bodyAxis"
+                           comment="The spin axis vector, defined in the body reference frame." >
+                    <mal:type area="Platform" list="false" name="VectorF3D"/>
+                </mal:field>
+                <mal:field canBeNull="false" name="angularVelocity"
+                           comment="The angular velocity of the spin. The right-hand rule shall be followed to indicate the positive direction of the angular velocity. [rad/s]" >
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+            </mal:composite>
+            <mal:composite shortFormPart="16" name="AttitudeModeSunPointing"
+                           comment="Sun Pointing attitude mode defined by the consumer." >
+                <mal:extends>
+                    <mal:type area="Platform" list="false" name="AttitudeMode" />
+                </mal:extends>
+            </mal:composite>
+            <mal:composite shortFormPart="17" name="AttitudeModeTargetTracking"
+                           comment="Fixed Ground Target Tracking attitude mode defined by the consumer." >
+                <mal:extends>
+                    <mal:type area="Platform" list="false" name="AttitudeMode" />
+                </mal:extends>
+                <mal:field canBeNull="false" name="latitude"
+                           comment="The latitude of the target to be tracked. [deg]" >
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field canBeNull="false" name="longitude"
+                           comment="The longitude of the target to be tracked. [deg]" >
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+            </mal:composite>
+            <mal:composite shortFormPart="18" name="AttitudeModeTargetTrackingLinear"
+                           comment="Constant velocity Ground Target Tracking attitude mode defined by the consumer." >
+                <mal:extends>
+                    <mal:type area="Platform" list="false" name="AttitudeMode" />
+                </mal:extends>
+                <mal:field canBeNull="false" name="latitudeStart"
+                           comment="The start latitude of the target to be tracked. [deg]" >
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field canBeNull="false" name="longitudeStart"
+                           comment="The start longitude of the target to be tracked. [deg]" >
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field canBeNull="false" name="latitudeEnd"
+                           comment="The end latitude of the target to be tracked. [deg]" >
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field canBeNull="false" name="longitudeEnd"
+                           comment="The end longitude of the target to be tracked. [deg]" >
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field canBeNull="false" name="startEpoch"
+                           comment="The beginning epoch time of the tracking. [msec]" >
+                    <mal:type area="MAL" list="false" name="Long" />
+                </mal:field>
+                <mal:field canBeNull="false" name="endEpoch"
+                           comment="The ending epoch time of the tracking. [msec]" >
+                    <mal:type area="MAL" list="false" name="Long" />
+                </mal:field>
+            </mal:composite>
+            <mal:composite shortFormPart="19" name="AttitudeModeNadirPointing"
+                           comment="Nadir Pointing attitude mode defined by the consumer." >
+                <mal:extends>
+                    <mal:type area="Platform" list="false" name="AttitudeMode" />
+                </mal:extends>
+            </mal:composite>
+            <mal:composite shortFormPart="20" name="AttitudeModeVectorPointing"
+                           comment="Vector Pointing attitude mode defined by the consumer." >
+                <mal:extends>
+                    <mal:type area="Platform" list="false" name="AttitudeMode" />
+                </mal:extends>
+                <mal:field canBeNull="false" name="target"
+                           comment="Vector the Satelite should point the camera at (in ICRF)" >
+                    <mal:type area="Platform" list="false" name="VectorF3D"/>
+                </mal:field>
+                <mal:field canBeNull="false" name="margin"
+                           comment="margin between target vector and current vector (in degrees)" >
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+            </mal:composite>
+            <mal:composite shortFormPart="21" name="AttitudeModeInertialPointing" comment="Inertial Pointing attitude mode." >
+                <mal:extends>
+                    <mal:type area="Platform" list="false" name="AttitudeMode" />
+                </mal:extends>
+                <mal:field canBeNull="false" name="targetVector" comment="Line of sight vector in satellite body frame pointing to the target" >
+                    <mal:type area="Platform" list="false" name="VectorF3D"/>
+                </mal:field>
+                <mal:field canBeNull="false" name="flightVector" comment="Flight vector in satellite body frame pointing into the flight direction" >
+                    <mal:type area="Platform" list="false" name="VectorF3D"/>
+                </mal:field>
+                <mal:field canBeNull="false" name="targetAttitude" comment="Target attitude quaternion in ECI frame" >
+                    <mal:type area="Platform" list="false" name="Quaternion" />
+                </mal:field>
+            </mal:composite>
+            <mal:composite shortFormPart="22" name="WheelsSpeed" comment="Holds the speed of reaction wheels." >
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite" />
+                </mal:extends>
+                <mal:field canBeNull="false" name="rotationalSpeed"
+                           comment="Angular velocities of the wheels. The ordering of the array is implementation specific (typically X,Y,Z[,U,V,W]). [rad/sec]" >
+                    <mal:type area="MAL" list="true" name="Float" />
+                </mal:field>
+            </mal:composite>
+            <mal:composite shortFormPart="23" name="ActuatorsTelemetry" comment="Holds the ADCS actuators telemetry." >
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite" />
+                </mal:extends>
+                <mal:field canBeNull="false" name="targetWheelSpeed" comment="Target reaction wheels speed." >
+                    <mal:type area="Platform" list="false" name="WheelsSpeed" />
+                </mal:field>
+                <mal:field canBeNull="false" name="currentWheelSpeed" comment="Current reaction wheels speed." >
+                    <mal:type area="Platform" list="false" name="WheelsSpeed" />
+                </mal:field>
+                <mal:field canBeNull="false" name="mtqDipoleMoment"
+                           comment="Target magnetorquers dipole moment relative to the spacecraft frame. [A*m^2]" >
+                    <mal:type area="Platform" list="false" name="VectorF3D"/>
+                </mal:field>
+                <mal:field canBeNull="false" name="mtqState" comment="Current state of the magnetorquers." >
+                    <mal:type area="Platform" list="false" name="MagnetorquersState" />
+                </mal:field>
+            </mal:composite>
+            <mal:composite shortFormPart="24" name="AttitudeTelemetry" comment="Holds the derived ADCS telemetry." >
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite" />
+                </mal:extends>
+                <mal:field canBeNull="false" name="attitude"
+                           comment="Calculated attitude quaternion of the spacecraft frame relative to International Celestial Reference Frame (ICRF)." >
+                    <mal:type area="Platform" list="false" name="Quaternion" />
+                </mal:field>
+                <mal:field canBeNull="false" name="angularVelocity"
+                           comment="Calculated angular velocity vector (x,y,z) relative to the spacecraft frame. [rad/sec]" >
+                    <mal:type area="Platform" list="false" name="VectorF3D"/>
+                </mal:field>
+                <mal:field canBeNull="false" name="sunVector"
+                           comment="Calculated dimensionless sun vector (x,y,z) relative to the spacecraft frame." >
+                    <mal:type area="Platform" list="false" name="VectorF3D"/>
+                </mal:field>
+                <mal:field canBeNull="false" name="magneticField"
+                           comment="Calculated magnetic flux density relative to the spacecraft frame. [T]" >
+                    <mal:type area="Platform" list="false" name="VectorF3D"/>
+                </mal:field>
+                <mal:field canBeNull="false" name="stateTarget"
+                           comment="True when achieved desired pointing mode, false otherwise." >
+                    <mal:type area="MAL" list="false" name="Boolean"/>
+                </mal:field>
+            </mal:composite>
+            <mal:enumeration shortFormPart="25" name="MagnetorquersState" comment="State of the magnetorquers." >
+                <mal:item nvalue="1" value="INACTIVE" comment="Magnetorquers not operating." />
+                <mal:item nvalue="2" value="ACTIVE" comment="Magnetorquers operating and powered." />
+                <mal:item nvalue="3" value="SUSPEND" comment="Magnetorquers operating and automatically suspended." />
+            </mal:enumeration>
+            <mal:enumeration shortFormPart="12" name="ReactionWheelIdentifier" comment="Wheel identifiers." >
+                <mal:item nvalue="1" value="WHEEL_X" comment="Reaction wheel x" />
+                <mal:item nvalue="2" value="WHEEL_Y" comment="Reaction wheel y" />
+                <mal:item nvalue="3" value="WHEEL_Z" comment="Reaction wheel Z" />
+                <mal:item nvalue="4" value="WHEEL_U" comment="Reaction wheel u" />
+                <mal:item nvalue="5" value="WHEEL_V" comment="Reaction wheel v" />
+                <mal:item nvalue="6" value="WHEEL_W" comment="Reaction wheel w" />
+            </mal:enumeration>
+            <mal:composite shortFormPart="26" name="ReactionWheelParameters"
+                           comment="Holds Raction wheel parameters" >
+                <mal:field canBeNull="false" comment="Control mode of the Reaction wheels. 0 = Target value is a current value [A]; 1 = Target value is a speed value [rad/sec]; 2 = Target alue is a torgh [Nm]" name="controlMode">
+                    <mal:type area="MAL" list="false" name="Integer" />
+                </mal:field>
+                <mal:field canBeNull="false" comment="maximum speed of the Reaction wheels in rad/second. For safety reasons, the value for this can not exceed 1047.197551" name="maxSpeed">
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field canBeNull="false" comment="maximum torque of the Reaction wheels in Nm" name="maxTorque">
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field canBeNull="false" comment="moment of inertia of the Reaction wheels in kg/m^2" name="inertia">
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field canBeNull="true" comment="motor constant of the Reaction wheels in Nm/A" name="motorConst">
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+            </mal:composite>
+            <mal:composite shortFormPart="27" name="SDRConfiguration"
+                           comment="Holds a configuration for the SDR. Allowed values range depends on the unit." >
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite" />
+                </mal:extends>
+                <mal:field canBeNull="true" name="rxCarrierFrequency" comment="RX Carrier Frequency [MHz]." >
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field canBeNull="true" name="rxGain" comment="RX chain gain [dB].">
+                    <mal:type area="MAL" list="false" name="Integer" />
+                </mal:field>
+                <mal:field canBeNull="true" name="rxLowPassBW" comment="RX Low Pass Filter bandwidth [MHz]." >
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field canBeNull="true" name="rxSamplingFrequency" comment="RX sampling frequency [MHz]." >
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+            </mal:composite>
+            <mal:composite shortFormPart="28" name="IQComponents" comment="It holds the In-phase and Quadrature components." >
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite" />
+                </mal:extends>
+                <mal:field canBeNull="true" comment="The in-phase component." name="inPhase">
+                    <mal:type area="MAL" list="true" name="Float" />
+                </mal:field>
+                <mal:field canBeNull="true"  name="quadrature" comment="The quadrature component.">
+                    <mal:type area="MAL" list="true" name="Float" />
+                </mal:field>
+            </mal:composite>
+            <mal:composite shortFormPart="29" name="Device" comment="Represents a unit managed by Power Control service" >
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite" />
+                </mal:extends>
+                <mal:field canBeNull="false" name="enabled"
+                           comment="Holds the boolean flag indicating power state of the unit." >
+                    <mal:type area="MAL" list="false" name="Boolean" />
+                </mal:field>
+                <mal:field canBeNull="true" name="unitObjInstId"
+                           comment="Holds the unique object instance identifier representing the device." >
+                    <mal:type area="MAL" list="false" name="Long" />
+                </mal:field>
+                <mal:field canBeNull="true" comment="Device name." name="name">
+                    <mal:type area="MAL" list="false" name="Identifier" />
+                </mal:field>
+                <mal:field canBeNull="false" comment="Device type." name="deviceType">
+                    <mal:type area="Platform" list="false" name="DeviceType" />
+                </mal:field>
+            </mal:composite>
+            <mal:enumeration shortFormPart="30" name="DeviceType" comment="Defines type of controlled Units." >
+                <mal:item nvalue="1" value="ADCS" comment="Attitude Determination and Control System" />
+                <mal:item nvalue="2" value="OBC" comment="On-Board computer" />
+                <mal:item nvalue="3" value="SBAND" comment="S-Band transceiver" />
+                <mal:item nvalue="4" value="XBAND" comment="X-Band transceiver" />
+                <mal:item nvalue="5" value="SDR" comment="Software Defined Radio" />
+                <mal:item nvalue="6" value="OPTRX" comment="Optical receiver" />
+                <mal:item nvalue="7" value="CAMERA" comment="Imaging subsystem" />
+                <mal:item nvalue="8" value="GNSS" comment="GNSS subsystem" />
+                <mal:item nvalue="100" value="OTHER" comment="Other device" />
+            </mal:enumeration>
         </mal:dataTypes>
         <mal:errors>
             <mal:error number="10509" name="DEVICE_IN_USE" comment="The device is currently in use." />

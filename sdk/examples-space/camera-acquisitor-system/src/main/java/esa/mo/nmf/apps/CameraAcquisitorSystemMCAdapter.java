@@ -33,7 +33,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.UInteger;
-import org.ccsds.moims.mo.platform.camera.structures.PictureFormat;
+import org.ccsds.moims.mo.platform.structures.PictureFormat;
 import org.orekit.data.DataContext;
 import org.orekit.data.DataProvidersManager;
 import org.orekit.errors.OrekitException;

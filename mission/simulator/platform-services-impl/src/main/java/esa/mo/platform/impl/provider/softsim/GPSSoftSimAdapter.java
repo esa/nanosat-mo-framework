@@ -25,7 +25,7 @@ import java.io.IOException;
 import esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter;
 import esa.mo.platform.impl.provider.gen.PowerControlAdapterInterface;
 import opssat.simulator.main.ESASimulator;
-import org.ccsds.moims.mo.platform.powercontrol.structures.DeviceType;
+import org.ccsds.moims.mo.platform.structures.DeviceType;
 import org.orekit.propagation.analytical.tle.TLE;
 
 /**

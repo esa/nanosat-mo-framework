@@ -37,8 +37,7 @@ import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.platform.gps.GPSServiceInfo;
-import org.ccsds.moims.mo.platform.gps.structures.NearbyPositionDefinition;
-import org.ccsds.moims.mo.platform.gps.structures.NearbyPositionDefinitionList;
+import org.ccsds.moims.mo.platform.structures.*;
 
 /**
  * The GPSManager class is the manager of the GPS definitions and also holds the

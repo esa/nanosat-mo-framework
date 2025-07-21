@@ -22,11 +22,8 @@ package esa.mo.platform.impl.util;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-
 import org.ccsds.moims.mo.mal.structures.FloatList;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed;
-import org.ccsds.moims.mo.platform.structures.VectorF3D;
+import org.ccsds.moims.mo.platform.structures.*;
 
 /**
  * The HelperIADCS100 is an helper class to facilitate the computations related

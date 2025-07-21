@@ -62,7 +62,7 @@ import org.ccsds.moims.mo.mc.alert.structures.AlertEventDetails;
 import org.ccsds.moims.mo.mc.structures.AttributeValue;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
-import org.ccsds.moims.mo.platform.camera.structures.PictureFormat;
+import org.ccsds.moims.mo.platform.structures.PictureFormat;
 import org.orekit.bodies.GeodeticPoint;
 import org.orekit.data.DataContext;
 import org.orekit.data.DataProvidersManager;

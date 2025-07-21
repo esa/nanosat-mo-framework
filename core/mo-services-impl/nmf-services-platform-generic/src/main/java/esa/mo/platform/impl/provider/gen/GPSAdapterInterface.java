@@ -22,8 +22,7 @@ package esa.mo.platform.impl.provider.gen;
 
 import java.io.IOException;
 
-import org.ccsds.moims.mo.platform.gps.structures.Position;
-import org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList;
+import org.ccsds.moims.mo.platform.structures.*;
 
 /**
  * The GPS interface for adapters.

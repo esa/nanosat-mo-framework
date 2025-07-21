@@ -23,6 +23,7 @@ package esa.mo.nmf.apps;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
+import esa.mo.nmf.NMFInterface;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -36,12 +37,9 @@ import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
-import org.ccsds.moims.mo.mal.structures.Attribute;
-import org.ccsds.moims.mo.mal.structures.Duration;
-import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.structures.UInteger;
-import org.ccsds.moims.mo.mal.structures.UShort;
+import org.ccsds.moims.mo.mal.structures.*;
+import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
+import org.ccsds.moims.mo.mc.action.structures.ActionCategory;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinition;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinition;
@@ -51,12 +49,7 @@ import org.ccsds.moims.mo.mc.structures.ArgumentDefinition;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.platform.camera.consumer.CameraAdapter;
-import org.ccsds.moims.mo.platform.camera.structures.PictureFormat;
-import org.ccsds.moims.mo.platform.camera.structures.PixelResolution;
-import esa.mo.nmf.NMFInterface;
-import org.ccsds.moims.mo.mal.structures.AttributeType;
-import org.ccsds.moims.mo.mc.action.structures.ActionCategory;
-import org.ccsds.moims.mo.platform.camera.structures.CameraSettings;
+import org.ccsds.moims.mo.platform.structures.*;
 
 /**
  * The adapter for the NMF App
@@ -201,7 +194,7 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
         }
 
         @Override
-        public void takePictureAckReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
+        public void takePictureAckReceived(MALMessageHeader msgHeader,
                 java.util.Map qosProperties) {
             try {
                 connector.reportActionExecutionProgress(true, 0, STAGE_ACK, TOTAL_STAGES, actionInstanceObjId);
@@ -212,8 +205,8 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
         }
 
         @Override
-        public void takePictureResponseReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-                org.ccsds.moims.mo.platform.camera.structures.Picture picture, java.util.Map qosProperties) {
+        public void takePictureResponseReceived(MALMessageHeader msgHeader,
+                Picture picture, java.util.Map qosProperties) {
             // The picture was received!
             snapsTaken.incrementAndGet();
 

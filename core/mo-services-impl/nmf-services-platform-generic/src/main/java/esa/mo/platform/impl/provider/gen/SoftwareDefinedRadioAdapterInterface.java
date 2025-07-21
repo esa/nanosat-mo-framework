@@ -20,8 +20,8 @@
  */
 package esa.mo.platform.impl.provider.gen;
 
-import org.ccsds.moims.mo.platform.softwaredefinedradio.structures.IQComponents;
-import org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration;
+import org.ccsds.moims.mo.platform.structures.IQComponents;
+import org.ccsds.moims.mo.platform.structures.SDRConfiguration;
 
 /**
  * The SoftwareDefinedRadioAdapterInterface is an interface to create adapters

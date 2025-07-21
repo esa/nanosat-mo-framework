@@ -25,8 +25,7 @@ import esa.mo.platform.impl.util.HelperGPS;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.platform.gps.structures.Position;
-import org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList;
+import org.ccsds.moims.mo.platform.structures.*;
 
 /**
  * The GPSNMEAonlyAdapter is an abstract GPS adapter that implements parts of

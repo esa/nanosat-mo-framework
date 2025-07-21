@@ -24,9 +24,7 @@ import java.io.IOException;
 import java.util.Map;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.platform.powercontrol.structures.Device;
-import org.ccsds.moims.mo.platform.powercontrol.structures.DeviceList;
-import org.ccsds.moims.mo.platform.powercontrol.structures.DeviceType;
+import org.ccsds.moims.mo.platform.structures.*;
 
 /**
  * The PowerControlAdapterInterface is an interface to create adapters for the

@@ -44,8 +44,8 @@ import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.mal.transport.MALMessage;
 import org.ccsds.moims.mo.mc.action.structures.ActionInstanceDetails;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeTargetTracking;
+import org.ccsds.moims.mo.platform.structures.AttitudeMode;
+import org.ccsds.moims.mo.platform.structures.AttitudeModeTargetTracking;
 import org.orekit.time.AbsoluteDate;
 import org.orekit.time.TimeScalesFactory;
 

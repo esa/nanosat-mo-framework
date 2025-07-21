@@ -65,19 +65,9 @@ import org.ccsds.moims.mo.mc.structures.ConditionalConversionList;
 import org.ccsds.moims.mo.mc.structures.ParameterExpression;
 import org.ccsds.moims.mo.platform.autonomousadcs.body.GetStatusResponse;
 import org.ccsds.moims.mo.platform.autonomousadcs.consumer.AutonomousADCSAdapter;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.ActuatorsTelemetry;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeBDot;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeNadirPointing;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeSingleSpinning;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeSunPointing;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeTargetTracking;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeTelemetry;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion;
-import org.ccsds.moims.mo.platform.structures.VectorF3D;
 import org.ccsds.moims.mo.platform.gps.body.GetLastKnownPositionResponse;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSAdapter;
-import org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList;
+import org.ccsds.moims.mo.platform.structures.*;
 
 /**
  * The adapter for the NMF App

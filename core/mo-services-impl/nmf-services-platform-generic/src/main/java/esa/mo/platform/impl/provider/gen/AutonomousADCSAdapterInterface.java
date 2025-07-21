@@ -21,11 +21,7 @@
 package esa.mo.platform.impl.provider.gen;
 
 import java.io.IOException;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.ActuatorsTelemetry;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeTelemetry;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.ReactionWheelIdentifier;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.ReactionWheelParameters;
+import org.ccsds.moims.mo.platform.structures.*;
 
 /**
  * The AutonomousADCSAdapterInterface is an interface to create adapters for the

@@ -67,7 +67,6 @@ import org.ccsds.moims.mo.mal.structures.UpdateHeaderList;
 import org.ccsds.moims.mo.mal.transport.MALErrorBody;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.platform.DeviceNotAvailableException;
-import org.ccsds.moims.mo.platform.PlatformHelper;
 import org.ccsds.moims.mo.platform.gps.GPSHelper;
 import org.ccsds.moims.mo.platform.gps.GPSServiceInfo;
 import org.ccsds.moims.mo.platform.gps.body.GetLastKnownPositionAndVelocityResponse;
@@ -81,9 +80,7 @@ import org.ccsds.moims.mo.platform.gps.provider.GetSatellitesInfoInteraction;
 import org.ccsds.moims.mo.platform.gps.provider.GetTIMEASentenceInteraction;
 import org.ccsds.moims.mo.platform.gps.provider.GetTLEInteraction;
 import org.ccsds.moims.mo.platform.gps.provider.NearbyPositionPublisher;
-import org.ccsds.moims.mo.platform.gps.structures.*;
-import org.ccsds.moims.mo.platform.structures.VectorD3D;
-import org.ccsds.moims.mo.platform.structures.VectorF3D;
+import org.ccsds.moims.mo.platform.structures.*;
 
 /**
  * GPS service Provider.

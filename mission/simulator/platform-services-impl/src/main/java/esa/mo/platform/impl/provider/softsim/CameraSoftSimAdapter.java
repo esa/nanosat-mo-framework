@@ -32,15 +32,8 @@ import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.UInteger;
-import org.ccsds.moims.mo.platform.camera.structures.CameraSettings;
-import org.ccsds.moims.mo.platform.camera.structures.Picture;
-import org.ccsds.moims.mo.platform.camera.structures.PictureFormat;
-import org.ccsds.moims.mo.platform.camera.structures.PictureFormatList;
-import org.ccsds.moims.mo.platform.camera.structures.PixelResolution;
-import org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
-import org.ccsds.moims.mo.platform.powercontrol.structures.DeviceType;
+import org.ccsds.moims.mo.platform.structures.*;
 
 /**
  *

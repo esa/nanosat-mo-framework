@@ -47,9 +47,8 @@ import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.UpdateHeader;
 import org.ccsds.moims.mo.platform.autonomousadcs.consumer.AutonomousADCSAdapter;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeSunPointing;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSAdapter;
+import org.ccsds.moims.mo.platform.structures.*;
 
 /**
  *
@@ -132,10 +131,10 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
         public void monitorAttitudeNotifyReceived(
                 final MALMessageHeader msgHeader,
                 final Identifier lIdentifier, final UpdateHeader lUpdateHeader,
-                org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeTelemetry attitudeTm,
-                org.ccsds.moims.mo.platform.autonomousadcs.structures.ActuatorsTelemetry actuatorsTelemetry,
-                org.ccsds.moims.mo.mal.structures.Duration controlDuration,
-                org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode,
+                AttitudeTelemetry attitudeTm,
+                ActuatorsTelemetry actuatorsTelemetry,
+                Duration controlDuration,
+                AttitudeMode attitudeMode,
                 final Map qosp){
             LOGGER.log(Level.FINE, "Received monitorAttitude notify");
             Quaternion attitude = attitudeTm.getAttitude();

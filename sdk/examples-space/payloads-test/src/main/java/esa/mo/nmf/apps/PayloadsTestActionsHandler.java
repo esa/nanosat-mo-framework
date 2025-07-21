@@ -33,13 +33,7 @@ import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.UInteger;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode;
-import org.ccsds.moims.mo.platform.camera.structures.CameraSettings;
-import org.ccsds.moims.mo.platform.camera.structures.PictureFormat;
-import org.ccsds.moims.mo.platform.powercontrol.structures.Device;
-import org.ccsds.moims.mo.platform.powercontrol.structures.DeviceList;
-import org.ccsds.moims.mo.platform.powercontrol.structures.DeviceType;
-import org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration;
+import org.ccsds.moims.mo.platform.structures.*;
 
 /**
  *

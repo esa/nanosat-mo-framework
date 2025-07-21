@@ -21,7 +21,7 @@
 package esa.mo.platform.impl.util;
 
 import java.io.IOException;
-import org.ccsds.moims.mo.platform.gps.structures.Position;
+import org.ccsds.moims.mo.platform.structures.*;
 
 /**
  * This class calculates the distance between 2 points on a based on their

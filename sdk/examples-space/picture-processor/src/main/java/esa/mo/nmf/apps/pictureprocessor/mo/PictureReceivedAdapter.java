@@ -32,7 +32,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.platform.camera.consumer.CameraAdapter;
-import org.ccsds.moims.mo.platform.camera.structures.Picture;
+import org.ccsds.moims.mo.platform.structures.Picture;
 
 public class PictureReceivedAdapter extends CameraAdapter {
 

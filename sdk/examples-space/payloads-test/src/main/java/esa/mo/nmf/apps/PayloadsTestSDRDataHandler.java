@@ -32,7 +32,7 @@ class PayloadsTestSDRDataHandler extends SoftwareDefinedRadioAdapter {
     public void streamRadioNotifyReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
             org.ccsds.moims.mo.mal.structures.Identifier _Identifier0,
             org.ccsds.moims.mo.mal.structures.UpdateHeader updateHeader,
-            org.ccsds.moims.mo.platform.softwaredefinedradio.structures.IQComponents iqComp,
+            org.ccsds.moims.mo.platform.structures.IQComponents iqComp,
             java.util.Map qosProperties) {
         if (iqComp == null) {
             LOGGER.log(Level.SEVERE, "empty IQComponentsList");

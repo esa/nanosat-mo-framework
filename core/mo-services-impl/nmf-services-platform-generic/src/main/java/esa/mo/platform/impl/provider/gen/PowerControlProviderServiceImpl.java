@@ -37,8 +37,8 @@ import org.ccsds.moims.mo.platform.DeviceNotAvailableException;
 import org.ccsds.moims.mo.platform.powercontrol.PowerControlHelper;
 import org.ccsds.moims.mo.platform.powercontrol.PowerControlServiceInfo;
 import org.ccsds.moims.mo.platform.powercontrol.provider.PowerControlInheritanceSkeleton;
-import org.ccsds.moims.mo.platform.powercontrol.structures.Device;
-import org.ccsds.moims.mo.platform.powercontrol.structures.DeviceList;
+import org.ccsds.moims.mo.platform.structures.Device;
+import org.ccsds.moims.mo.platform.structures.DeviceList;
 
 /**
  * Power Control service Provider.

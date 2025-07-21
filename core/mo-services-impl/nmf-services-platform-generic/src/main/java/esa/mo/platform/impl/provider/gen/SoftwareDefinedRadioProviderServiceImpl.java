@@ -53,8 +53,7 @@ import org.ccsds.moims.mo.platform.softwaredefinedradio.SoftwareDefinedRadioHelp
 import org.ccsds.moims.mo.platform.softwaredefinedradio.SoftwareDefinedRadioServiceInfo;
 import org.ccsds.moims.mo.platform.softwaredefinedradio.provider.SoftwareDefinedRadioInheritanceSkeleton;
 import org.ccsds.moims.mo.platform.softwaredefinedradio.provider.StreamRadioPublisher;
-import org.ccsds.moims.mo.platform.softwaredefinedradio.structures.IQComponents;
-import org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration;
+import org.ccsds.moims.mo.platform.structures.*;
 
 /**
  * Software-defined Radio service Provider.

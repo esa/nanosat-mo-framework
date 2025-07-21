@@ -23,10 +23,7 @@ package esa.mo.platform.impl.provider.gen;
 import java.io.IOException;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.structures.Duration;
-import org.ccsds.moims.mo.platform.camera.structures.CameraSettings;
-import org.ccsds.moims.mo.platform.camera.structures.Picture;
-import org.ccsds.moims.mo.platform.camera.structures.PictureFormatList;
-import org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList;
+import org.ccsds.moims.mo.platform.structures.*;
 
 /**
  * The CameraAdapterInterface is an interface to create adapters for the Camera

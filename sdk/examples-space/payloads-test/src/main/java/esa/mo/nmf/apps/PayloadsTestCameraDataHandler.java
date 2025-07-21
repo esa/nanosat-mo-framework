@@ -33,8 +33,8 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.platform.camera.consumer.CameraAdapter;
-import org.ccsds.moims.mo.platform.camera.structures.Picture;
-import org.ccsds.moims.mo.platform.camera.structures.PictureFormat;
+import org.ccsds.moims.mo.platform.structures.Picture;
+import org.ccsds.moims.mo.platform.structures.PictureFormat;
 
 /**
  *
@@ -71,7 +71,7 @@ public class PayloadsTestCameraDataHandler extends CameraAdapter {
 
     @Override
     public void takePictureResponseReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-        org.ccsds.moims.mo.platform.camera.structures.Picture picture, java.util.Map qosProperties) {
+        org.ccsds.moims.mo.platform.structures.Picture picture, java.util.Map qosProperties) {
         LOGGER.log(Level.INFO, "Image has been recived");
         // The picture was received!
         mcAdapter.picturesTaken.incrementAndGet();

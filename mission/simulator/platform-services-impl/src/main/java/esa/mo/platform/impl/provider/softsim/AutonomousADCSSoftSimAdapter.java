@@ -27,21 +27,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import opssat.simulator.main.ESASimulator;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.ActuatorsTelemetry;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeBDot;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeNadirPointing;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeSingleSpinning;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeSunPointing;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeTargetTracking;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeVectorPointing;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeInertialPointing;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeTelemetry;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.MagnetorquersState;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.ReactionWheelIdentifier;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.ReactionWheelParameters;
-import org.ccsds.moims.mo.platform.powercontrol.structures.DeviceType;
-import org.ccsds.moims.mo.platform.structures.VectorF3D;
+import org.ccsds.moims.mo.platform.structures.*;
 
 /**
  *

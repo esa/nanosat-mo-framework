@@ -1,13 +1,13 @@
 package esa.nmf.test;
 
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import java.io.IOException;
-import org.junit.runners.MethodSorters;
 import esa.mo.platform.impl.util.HelperGPS;
-import org.ccsds.moims.mo.platform.gps.structures.Position;
-import org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList;
+import java.io.IOException;
+import org.ccsds.moims.mo.platform.structures.Position;
+import org.ccsds.moims.mo.platform.structures.SatelliteInfoList;
 import org.junit.Assert;
+import org.junit.FixMethodOrder;
+import org.junit.runners.MethodSorters;
+import org.junit.Test;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class HelperGPSTest {
