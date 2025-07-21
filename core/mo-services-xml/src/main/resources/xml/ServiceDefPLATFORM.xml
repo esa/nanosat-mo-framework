@@ -315,9 +315,8 @@
                 </mal:invokeIP>
             </mal:capabilitySet>
             <mal:dataTypes>
-                <mal:composite
-                    comment="The Picture structure holds the details of the picture."
-                    name="Picture" shortFormPart="1">
+                <mal:composite shortFormPart="1" name="Picture"
+                               comment="The Picture structure holds the details of the picture." >
                     <mal:extends>
                         <mal:type area="MAL" list="false" name="Composite" />
                     </mal:extends>
@@ -336,9 +335,8 @@
                         <mal:type area="MAL" list="false" name="Blob" />
                     </mal:field>
                 </mal:composite>
-                <mal:composite
-                    comment="The PixelResolution structure holds the pixel resolution of a picture."
-                    name="PixelResolution" shortFormPart="2">
+                <mal:composite shortFormPart="2" name="PixelResolution"
+                               comment="The PixelResolution structure holds the pixel resolution of a picture." >
                     <mal:extends>
                         <mal:type area="MAL" list="false" name="Composite" />
                     </mal:extends>
@@ -351,9 +349,8 @@
                         <mal:type area="MAL" list="false" name="UInteger" />
                     </mal:field>
                 </mal:composite>
-                <mal:enumeration
-                    comment="PictureFormat is an enumeration definition holding the format of the picture."
-                    name="PictureFormat" shortFormPart="3">
+                <mal:enumeration shortFormPart="3" name="PictureFormat"
+                                 comment="PictureFormat is an enumeration definition holding the format of the picture." >
                     <mal:item
                         comment="RAW bitmap with native sensor data" nvalue="1"
                         value="RAW" />
@@ -363,43 +360,39 @@
                     <mal:item comment="PNG file" nvalue="4" value="PNG" />
                     <mal:item comment="JPG file" nvalue="5" value="JPG" />
                 </mal:enumeration>
-                <mal:composite
-                    comment="Image acquisition settings." name="CameraSettings"
-                    shortFormPart="4">
+                <mal:composite shortFormPart="4" name="CameraSettings"
+                               comment="Image acquisition settings." >
                     <mal:extends>
                         <mal:type area="MAL" list="false" name="Composite" />
                     </mal:extends>
-                    <mal:field canBeNull="false"
-                               comment="The resolution field shall hold the desired picture resolution."
-                               name="resolution">
+                    <mal:field canBeNull="false" name="resolution"
+                               comment="The resolution field shall hold the desired picture resolution." >
                         <mal:type area="Platform" list="false"
                                   name="PixelResolution" service="Camera" />
                     </mal:field>
-                    <mal:field canBeNull="false"
-                               comment="The format field shall hold the desired streaming picture format."
-                               name="format">
+                    <mal:field canBeNull="false" name="format"
+                               comment="The format field shall hold the desired streaming picture format." >
                         <mal:type area="Platform" list="false"
                                   name="PictureFormat" service="Camera" />
                     </mal:field>
-                    <mal:field canBeNull="false"
-                               comment="The exposureTime field shall hold the exposure time of the camera."
-                               name="exposureTime">
+                    <mal:field canBeNull="false" name="exposureTime"
+                               comment="The exposureTime field shall hold the exposure time of the camera." >
                         <mal:type area="MAL" list="false" name="Duration" />
                     </mal:field>
-                    <mal:field canBeNull="false"
-                               comment="Green channel gain." name="gainRed">
+                    <mal:field canBeNull="false" name="gainRed"
+                               comment="Green channel gain." >
                         <mal:type area="MAL" list="false" name="Float" />
                     </mal:field>
-                    <mal:field canBeNull="false"
-                               comment="Blue channel gain." name="gainGreen">
+                    <mal:field canBeNull="false" name="gainGreen"
+                               comment="Blue channel gain." >
                         <mal:type area="MAL" list="false" name="Float" />
                     </mal:field>
-                    <mal:field canBeNull="false"
-                               comment="Red channel gain." name="gainBlue">
+                    <mal:field canBeNull="false" name="gainBlue"
+                               comment="Red channel gain." >
                         <mal:type area="MAL" list="false" name="Float" />
                     </mal:field>
-                    <mal:field canBeNull="true"
-                               comment="Extra optional configurations. Shall be empty if no extra configurations are provided." name="extra">
+                    <mal:field canBeNull="true" name="extra"
+                               comment="Extra optional configurations. Shall be empty if no extra configurations are provided.">
                         <mal:type area="MAL" list="true" name="NamedValue" />
                     </mal:field>
                 </mal:composite>
@@ -410,8 +403,7 @@
             comment="The GPS service provides the ability to retrieve satellite navigation data from a Global Navigation Satellite System (GNSS) device receiver in the spacecraft platform. The GPS service provides the capability for streaming NMEA messages; the capability for enabling/disabling the streaming of NMEA messages; the capability for getting the last known position from the receiver; the capability for getting the satellites GNSS information; the capability for maintaining the list of nearby position events.&#10;The nearbyPosition operation allows a consumer to receive a message from the service when the spacecraft enters or exists a certain position. These can be set using the addNearbyPosition and removed using the removeNearbyPosition."
             name="GPS" number="2" xsi:type="com:ExtendedServiceType">
             <mal:documentation
-                name="High Level Requirements" order="1">The GPS service shall
-                provide:
+                name="High Level Requirements" order="1">The GPS service shall provide:
         &lt;ol&gt;
         &lt;li&gt;the capability for streaming GPS
                 NMEA messages;&lt;/li&gt;
@@ -831,9 +823,8 @@
                 </mal:invokeIP>
             </mal:capabilitySet>
             <mal:dataTypes>
-                <mal:composite
-                    comment="The Position structure holds a WGS-84 position of the spacecraft reported by the GPS unit."
-                    name="Position" shortFormPart="1">
+                <mal:composite shortFormPart="1" name="Position"
+                               comment="The Position structure holds a WGS-84 position of the spacecraft reported by the GPS unit." >
                     <mal:extends>
                         <mal:type area="MAL" list="false" name="Composite" />
                     </mal:extends>
@@ -859,9 +850,8 @@
                                   name="PositionExtraDetails" service="GPS" />
                     </mal:field>
                 </mal:composite>
-                <mal:composite
-                    comment="The SatelliteInfo structure holds the information about the satellites obtained from the GPS unit."
-                    name="SatelliteInfo" shortFormPart="2">
+                <mal:composite shortFormPart="2" name="SatelliteInfo"
+                               comment="The SatelliteInfo structure holds the information about the satellites obtained from the GPS unit." >
                     <mal:extends>
                         <mal:type area="MAL" list="false" name="Composite" />
                     </mal:extends>
@@ -910,9 +900,8 @@
                         <mal:type area="MAL" list="false" name="Float" />
                     </mal:field>
                 </mal:composite>
-                <mal:composite
-                    comment="The PositionExtraDetails structure holds extra information that can be provided by a GPS unit."
-                    name="PositionExtraDetails" shortFormPart="4">
+                <mal:composite shortFormPart="4" name="PositionExtraDetails"
+                               comment="The PositionExtraDetails structure holds extra information that can be provided by a GPS unit." >
                     <mal:extends>
                         <mal:type area="MAL" list="false" name="Composite" />
                     </mal:extends>
@@ -947,18 +936,16 @@
                                   name="PositionSourceType" service="GPS"/>
                     </mal:field>
                 </mal:composite>
-                <mal:enumeration
-                    comment="GNSS position source."
-                    name="PositionSourceType" shortFormPart="11">
+                <mal:enumeration shortFormPart="11" name="PositionSourceType"
+                                 comment="GNSS position source." >
                     <mal:item comment="GNSS"
                               nvalue="1" value="GNSS" />
                     <mal:item
                         comment="TLE propagation" nvalue="2"
                         value="TLE" />
                 </mal:enumeration>
-                <mal:composite
-                    comment="The NearbyPositionDefinition structure holds a definition of a certain Position."
-                    name="NearbyPositionDefinition" shortFormPart="26">
+                <mal:composite  shortFormPart="26" name="NearbyPositionDefinition"
+                                comment="The NearbyPositionDefinition structure holds a definition of a certain Position." >
                     <mal:extends>
                         <mal:type area="MAL" list="false" name="Composite" />
                     </mal:extends>
@@ -982,9 +969,8 @@
                                   name="Position" service="GPS" />
                     </mal:field>
                 </mal:composite>
-                <mal:composite
-                    comment="The TwoLineElementSet structure holds the two line element set reported by the GPS unit."
-                    name="TwoLineElementSet" shortFormPart="5">
+                <mal:composite shortFormPart="5" name="TwoLineElementSet"
+                               comment="The TwoLineElementSet structure holds the two line element set reported by the GPS unit." >
                     <mal:extends>
                         <mal:type area="MAL" list="false" name="Composite" />
                     </mal:extends>
@@ -1553,9 +1539,8 @@
                 </mal:requestIP>
             </mal:capabilitySet>
             <mal:dataTypes>
-                <mal:composite
-                    comment="Holds quaternion components." name="Quaternion"
-                    shortFormPart="1">
+                <mal:composite shortFormPart="1" name="Quaternion"
+                               comment="Holds quaternion components." >
                     <mal:extends>
                         <mal:type area="MAL" list="false" name="Composite" />
                     </mal:extends>
@@ -1576,24 +1561,21 @@
                         <mal:type area="MAL" list="false" name="Float" />
                     </mal:field>
                 </mal:composite>
-                <mal:composite
-                    comment="Holds an abstract attitude setting defined by the consumer. This composite is specialized into particular attitude mode descriptors."
-                    name="AttitudeMode">
+                <mal:composite name="AttitudeMode"
+                               comment="Holds an abstract attitude setting defined by the consumer. This composite is specialized into particular attitude mode descriptors.">
                     <mal:extends>
                         <mal:type area="MAL" list="false" name="Composite" />
                     </mal:extends>
                 </mal:composite>
-                <mal:composite
-                    comment="B-dot detumbling attitude mode defined by the consumer."
-                    name="AttitudeModeBDot" shortFormPart="3">
+                <mal:composite shortFormPart="3" name="AttitudeModeBDot"
+                               comment="B-dot detumbling attitude mode defined by the consumer." >
                     <mal:extends>
                         <mal:type area="Platform" list="false"
                                   name="AttitudeMode" service="AutonomousADCS" />
                     </mal:extends>
                 </mal:composite>
-                <mal:composite
-                    comment="Single-axis spinning attitude mode defined by the consumer."
-                    name="AttitudeModeSingleSpinning" shortFormPart="4">
+                <mal:composite shortFormPart="4" name="AttitudeModeSingleSpinning"
+                               comment="Single-axis spinning attitude mode defined by the consumer." >
                     <mal:extends>
                         <mal:type area="Platform" list="false"
                                   name="AttitudeMode" service="AutonomousADCS" />
@@ -1610,17 +1592,15 @@
                         <mal:type area="MAL" list="false" name="Float" />
                     </mal:field>
                 </mal:composite>
-                <mal:composite
-                    comment="Sun Pointing attitude mode defined by the consumer."
-                    name="AttitudeModeSunPointing" shortFormPart="5">
+                <mal:composite shortFormPart="5" name="AttitudeModeSunPointing"
+                               comment="Sun Pointing attitude mode defined by the consumer." >
                     <mal:extends>
                         <mal:type area="Platform" list="false"
                                   name="AttitudeMode" service="AutonomousADCS" />
                     </mal:extends>
                 </mal:composite>
-                <mal:composite
-                    comment="Fixed Ground Target Tracking attitude mode defined by the consumer."
-                    name="AttitudeModeTargetTracking" shortFormPart="6">
+                <mal:composite shortFormPart="6" name="AttitudeModeTargetTracking"
+                               comment="Fixed Ground Target Tracking attitude mode defined by the consumer." >
                     <mal:extends>
                         <mal:type area="Platform" list="false"
                                   name="AttitudeMode" service="AutonomousADCS" />
@@ -1636,9 +1616,8 @@
                         <mal:type area="MAL" list="false" name="Float" />
                     </mal:field>
                 </mal:composite>
-                <mal:composite
-                    comment="Constant velocity Ground Target Tracking attitude mode defined by the consumer."
-                    name="AttitudeModeTargetTrackingLinear" shortFormPart="12">
+                <mal:composite shortFormPart="12" name="AttitudeModeTargetTrackingLinear"
+                               comment="Constant velocity Ground Target Tracking attitude mode defined by the consumer." >
                     <mal:extends>
                         <mal:type area="Platform" list="false"
                                   name="AttitudeMode" service="AutonomousADCS" />
@@ -1674,17 +1653,15 @@
                         <mal:type area="MAL" list="false" name="Long" />
                     </mal:field>
                 </mal:composite>
-                <mal:composite
-                    comment="Nadir Pointing attitude mode defined by the consumer."
-                    name="AttitudeModeNadirPointing" shortFormPart="7">
+                <mal:composite shortFormPart="7" name="AttitudeModeNadirPointing"
+                               comment="Nadir Pointing attitude mode defined by the consumer." >
                     <mal:extends>
                         <mal:type area="Platform" list="false"
                                   name="AttitudeMode" service="AutonomousADCS" />
                     </mal:extends>
                 </mal:composite>
-                <mal:composite
-                    comment="Vector Pointing attitude mode defined by the consumer."
-                    name="AttitudeModeVectorPointing" shortFormPart="14">
+                <mal:composite shortFormPart="14" name="AttitudeModeVectorPointing"
+                               comment="Vector Pointing attitude mode defined by the consumer." >
                     <mal:extends>
                         <mal:type area="Platform" list="false"
                                   name="AttitudeMode" service="AutonomousADCS" />
@@ -1701,9 +1678,8 @@
                         <mal:type area="MAL" list="false" name="Float" />
                     </mal:field>
                 </mal:composite>
-                <mal:composite
-                    comment="Inertial Pointing attitude mode."
-                    name="AttitudeModeInertialPointing" shortFormPart="15">
+                <mal:composite shortFormPart="15" name="AttitudeModeInertialPointing"
+                               comment="Inertial Pointing attitude mode." >
                     <mal:extends>
                         <mal:type area="Platform" list="false"
                                   name="AttitudeMode" service="AutonomousADCS" />
@@ -1727,9 +1703,8 @@
                                   name="Quaternion" service="AutonomousADCS"/>
                     </mal:field>
                 </mal:composite>
-                <mal:composite
-                    comment="Holds the speed of reaction wheels."
-                    name="WheelsSpeed" shortFormPart="8">
+                <mal:composite shortFormPart="8" name="WheelsSpeed"
+                               comment="Holds the speed of reaction wheels." >
                     <mal:extends>
                         <mal:type area="MAL" list="false" name="Composite" />
                     </mal:extends>
@@ -1739,9 +1714,8 @@
                         <mal:type area="MAL" list="true" name="Float" />
                     </mal:field>
                 </mal:composite>
-                <mal:composite
-                    comment="Holds the ADCS actuators telemetry."
-                    name="ActuatorsTelemetry" shortFormPart="9">
+                <mal:composite shortFormPart="9" name="ActuatorsTelemetry"
+                               comment="Holds the ADCS actuators telemetry." >
                     <mal:extends>
                         <mal:type area="MAL" list="false" name="Composite" />
                     </mal:extends>
@@ -1770,9 +1744,8 @@
                                   name="MagnetorquersState" service="AutonomousADCS" />
                     </mal:field>
                 </mal:composite>
-                <mal:composite
-                    comment="Holds the derived ADCS telemetry."
-                    name="AttitudeTelemetry" shortFormPart="10">
+                <mal:composite shortFormPart="10" name="AttitudeTelemetry"
+                               comment="Holds the derived ADCS telemetry." >
                     <mal:extends>
                         <mal:type area="MAL" list="false" name="Composite" />
                     </mal:extends>
@@ -1807,9 +1780,8 @@
                                   name="Boolean"/>
                     </mal:field>
                 </mal:composite>
-                <mal:enumeration
-                    comment="State of the magnetorquers."
-                    name="MagnetorquersState" shortFormPart="11">
+                <mal:enumeration shortFormPart="11" name="MagnetorquersState"
+                                 comment="State of the magnetorquers." >
                     <mal:item comment="Magnetorquers not operating."
                               nvalue="1" value="INACTIVE" />
                     <mal:item
@@ -1819,9 +1791,8 @@
                         comment="Magnetorquers operating and automatically suspended."
                         nvalue="3" value="SUSPEND" />
                 </mal:enumeration>
-                <mal:enumeration
-                    comment="Wheel identifiers."
-                    name="ReactionWheelIdentifier" shortFormPart="12">
+                <mal:enumeration shortFormPart="12" name="ReactionWheelIdentifier"
+                                 comment="Wheel identifiers." >
                     <mal:item comment="Reaction wheel x"
                               nvalue="1" value="WHEEL_X" />
                     <mal:item comment="Reaction wheel y"
@@ -1835,9 +1806,8 @@
                     <mal:item comment="Reaction wheel w"
                               nvalue="6" value="WHEEL_W" />
                 </mal:enumeration>
-                <mal:composite
-                    comment="Holds Raction wheel parameters" name="ReactionWheelParameters"
-                    shortFormPart="13">
+                <mal:composite shortFormPart="13" name="ReactionWheelParameters"
+                               comment="Holds Raction wheel parameters" >
                     <mal:field canBeNull="false"
                                comment="Control mode of the Reaction wheels. 0 = Target value is a current value [A]; 1 = Target value is a speed value [rad/sec]; 2 = Target alue is a torgh [Nm]" name="controlMode">
                         <mal:type area="MAL" list="false" name="Integer" />
@@ -1945,9 +1915,8 @@
                 </mal:submitIP>
             </mal:capabilitySet>
             <mal:dataTypes>
-                <mal:composite
-                    comment="Holds a configuration for the SDR. Allowed values range depends on the unit."
-                    name="SDRConfiguration" shortFormPart="1">
+                <mal:composite shortFormPart="1" name="SDRConfiguration"
+                               comment="Holds a configuration for the SDR. Allowed values range depends on the unit." >
                     <mal:extends>
                         <mal:type area="MAL" list="false" name="Composite" />
                     </mal:extends>
@@ -1971,9 +1940,8 @@
                         <mal:type area="MAL" list="false" name="Float" />
                     </mal:field>
                 </mal:composite>
-                <mal:composite
-                    comment="It holds the In-phase and Quadrature components."
-                    name="IQComponents" shortFormPart="27">
+                <mal:composite shortFormPart="27" name="IQComponents"
+                               comment="It holds the In-phase and Quadrature components." >
                     <mal:extends>
                         <mal:type area="MAL" list="false" name="Composite" />
                     </mal:extends>
@@ -2092,9 +2060,8 @@
                 </mal:requestIP>
             </mal:capabilitySet>
             <mal:dataTypes>
-                <mal:composite
-                    comment="Represents a unit managed by Power Control service"
-                    name="Device" shortFormPart="17">
+                <mal:composite shortFormPart="17" name="Device"
+                               comment="Represents a unit managed by Power Control service" >
                     <mal:extends>
                         <mal:type area="MAL" list="false" name="Composite" />
                     </mal:extends>
@@ -2118,9 +2085,8 @@
                                   name="DeviceType" service="PowerControl" />
                     </mal:field>
                 </mal:composite>
-                <mal:enumeration
-                    comment="Defines type of controlled Units." name="DeviceType"
-                    shortFormPart="3">
+                <mal:enumeration shortFormPart="3" name="DeviceType"
+                                 comment="Defines type of controlled Units." >
                     <mal:item
                         comment="Attitude Determination and Control System"
                         nvalue="1" value="ADCS" />
@@ -2276,9 +2242,7 @@
             <com:features />
         </mal:service>
         <mal:dataTypes>
-            <mal:composite
-                comment="Holds a 3D float Vector."
-                name="VectorF3D" shortFormPart="1">
+            <mal:composite shortFormPart="1" name="VectorF3D" comment="Holds a 3D float Vector." >
                 <mal:extends>
                     <mal:type area="MAL" list="false" name="Composite" />
                 </mal:extends>
@@ -2295,9 +2259,7 @@
                     <mal:type area="MAL" list="false" name="Float" />
                 </mal:field>
             </mal:composite>
-            <mal:composite
-                comment="Holds a 3D double Vector."
-                name="VectorD3D" shortFormPart="2">
+            <mal:composite shortFormPart="2" name="VectorD3D" comment="Holds a 3D double Vector." >
                 <mal:extends>
                     <mal:type area="MAL" list="false" name="Composite" />
                 </mal:extends>
@@ -2316,11 +2278,8 @@
             </mal:composite>
         </mal:dataTypes>
         <mal:errors>
-            <mal:error comment="The device is currently in use."
-                       name="DEVICE_IN_USE" number="10509" />
-            <mal:error
-                comment="The device is currently not available."
-                name="DEVICE_NOT_AVAILABLE" number="10510" />
+            <mal:error  number="10509" name="DEVICE_IN_USE" comment="The device is currently in use." />
+            <mal:error number="10510" name="DEVICE_NOT_AVAILABLE" comment="The device is currently not available." />
         </mal:errors>
     </mal:area>
 </mal:specification>
