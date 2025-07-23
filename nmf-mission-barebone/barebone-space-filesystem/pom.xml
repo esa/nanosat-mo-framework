@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>int.esa.nmf</groupId>
+        <artifactId>parent</artifactId>
+        <version>5.0-SNAPSHOT</version>
+        <relativePath>../../parent/pom.xml</relativePath>
+    </parent>
+
+    <groupId>int.esa.nmf.barebone</groupId>
+    <artifactId>barebone-space-filesystem</artifactId>
+    <packaging>jar</packaging>
+
+    <name>ESA NMF Barebone - Space Filesystem</name>
+
+    <organization>
+        <name>ESA</name>
+        <url>http://www.esa.int</url>
+    </organization>
+
+    <licenses>
+        <license>
+            <name>European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4</name>
+            <url>https://raw.github.com/esa/nanosat-mo-framework/master/LICENCE.md</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <connection>scm:git:https://github.com/esa/nanosat-mo-framework.git</connection>
+        <url>https://github.com/esa/nanosat-mo-framework</url>
+    </scm>
+
+    <issueManagement>
+        <system>Gitlab</system>
+        <url>https://gitlab.com/esa/NMF/nmf-issues/-/issues</url>
+    </issueManagement>
+
+    <developers>
+        <developer>
+            <id>CesarCoelho</id>
+            <name>César Coelho</name>
+            <url>https://github.com/CesarCoelho</url>
+        </developer>
+    </developers>
+
+    <properties>
+        <esa.nmf.version>5.0-SNAPSHOT</esa.nmf.version>
+        <out.folder.output>space-file-system</out.folder.output>
+        <out.folder.nmf>nanosat-mo-framework</out.folder.nmf>
+        <mission.outputdir>${project.build.directory}/${out.folder.output}</mission.outputdir>
+    </properties>
+    
+    <dependencies>
+        <!-- NMF Composites -->
+        <dependency>
+            <groupId>int.esa.nmf.core</groupId>
+            <artifactId>nmf-composites</artifactId>
+        </dependency>
+        <!-- Supervisor -->
+        <dependency>
+            <groupId>int.esa.nmf</groupId>
+            <artifactId>barebone-nanosat-mo-supervisor</artifactId>
+            <version>5.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>1.4</version>
+            </plugin>
+            <plugin>
+                <groupId>int.esa.nmf.core</groupId>
+                <artifactId>nmf-linux-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>generate-filesystem</goal>
+                        </goals>
+                        <configuration>
+                            <supervisorMainClass>myclass</supervisorMainClass>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

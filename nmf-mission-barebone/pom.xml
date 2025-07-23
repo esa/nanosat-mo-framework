@@ -51,5 +51,6 @@
     </properties>
     <modules>
         <module>barebone-nanosat-mo-supervisor</module>
+        <module>barebone-space-filesystem</module>
     </modules>
 </project>
