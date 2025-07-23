@@ -43,13 +43,8 @@ public class DirectoryConsumerServiceImpl extends ConsumerServiceImpl {
 
     private DirectoryStub directoryService = null;
 
-    public DirectoryConsumerServiceImpl(final URI providerURI) throws MALException, MalformedURLException,
-        MALInteractionException {
-        this(providerURI, null, null);
-    }
-
     public DirectoryConsumerServiceImpl(final URI providerURI, final Blob authenticationId,
-        final String localNamePrefix) throws MALException, MalformedURLException, MALInteractionException {
+            final String localNamePrefix) throws MALException, MalformedURLException, MALInteractionException {
         this.connectionDetails = null;
         this.providerURI = providerURI;
 
@@ -66,9 +61,14 @@ public class DirectoryConsumerServiceImpl extends ConsumerServiceImpl {
         domain.add(new Identifier("*"));
 
         tmConsumer = connection.startService(providerURI, null, domain, DirectoryHelper.DIRECTORY_SERVICE,
-            authenticationId, localNamePrefix);
+                authenticationId, localNamePrefix);
 
         this.directoryService = new DirectoryStub(tmConsumer);
+    }
+
+    public DirectoryConsumerServiceImpl(final URI providerURI)
+            throws MALException, MalformedURLException, MALInteractionException {
+        this(providerURI, null, null);
     }
 
     public URI getProviderURI() {

@@ -62,8 +62,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
     private boolean initialiased = false;
     private boolean running = false;
     private final ConnectionProvider connection = new ConnectionProvider();
-    protected final Map<Long, PublishDetails> providersAvailable
-            = new ConcurrentHashMap<>();
+    protected final Map<Long, PublishDetails> providersAvailable = new ConcurrentHashMap<>();
     protected final Object MUTEX = new Object();
     private COMServicesProvider comServices;
 
@@ -79,17 +78,17 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
         this.comServices = comServices;
 
         // shut down old service transport
-        if (null != directoryServiceProvider) {
+        if (directoryServiceProvider != null) {
             connection.closeAll();
         }
 
         directoryServiceProvider = connection.startService(
-                DirectoryServiceInfo.DIRECTORY_SERVICE_NAME.toString(),
                 DirectoryHelper.DIRECTORY_SERVICE, false, this);
 
         running = true;
         initialiased = true;
-        LOGGER.info("Directory service READY");
+        timestamp = System.currentTimeMillis() - timestamp;
+        LOGGER.info("Directory service: READY! (" + timestamp + " ms)");
     }
 
     private static AddressDetails getServiceAddressDetails(final SingleConnectionDetails conn) {

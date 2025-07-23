@@ -42,29 +42,6 @@ public class LoginConsumerServiceImpl extends ConsumerServiceImpl {
     private LoginStub loginService = null;
     private COMServicesConsumer comServices;
 
-    public COMServicesConsumer getCOMServices() {
-        return comServices;
-    }
-
-    @Override
-    public Object generateServiceStub(MALConsumer tmConsumer) {
-        return new LoginStub(tmConsumer);
-    }
-
-    @Override
-    public Object getStub() {
-        return this.getLoginStub();
-    }
-
-    public LoginStub getLoginStub() {
-        return this.loginService;
-    }
-
-    public LoginConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices)
-            throws MALException, MalformedURLException, MALInteractionException {
-        this(connectionDetails, comServices, null, null);
-    }
-
     public LoginConsumerServiceImpl(SingleConnectionDetails connectionDetails,
             COMServicesConsumer comServices, Blob authenticationId, 
             String localNamePrefix) throws MALException, MalformedURLException, MALInteractionException {
@@ -89,4 +66,26 @@ public class LoginConsumerServiceImpl extends ConsumerServiceImpl {
         this.loginService = new LoginStub(tmConsumer);
     }
 
+    public LoginConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices)
+            throws MALException, MalformedURLException, MALInteractionException {
+        this(connectionDetails, comServices, null, null);
+    }
+
+    public COMServicesConsumer getCOMServices() {
+        return comServices;
+    }
+
+    @Override
+    public Object generateServiceStub(MALConsumer tmConsumer) {
+        return new LoginStub(tmConsumer);
+    }
+
+    @Override
+    public Object getStub() {
+        return this.getLoginStub();
+    }
+
+    public LoginStub getLoginStub() {
+        return this.loginService;
+    }
 }
