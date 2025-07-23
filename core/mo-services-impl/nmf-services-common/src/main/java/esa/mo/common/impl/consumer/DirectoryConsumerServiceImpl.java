@@ -60,8 +60,8 @@ public class DirectoryConsumerServiceImpl extends ConsumerServiceImpl {
         IdentifierList domain = new IdentifierList();
         domain.add(new Identifier("*"));
 
-        tmConsumer = connection.startService(providerURI, null, domain, DirectoryHelper.DIRECTORY_SERVICE,
-                authenticationId, localNamePrefix);
+        tmConsumer = connection.startService(providerURI, null, domain,
+                DirectoryHelper.DIRECTORY_SERVICE, authenticationId, localNamePrefix);
 
         this.directoryService = new DirectoryStub(tmConsumer);
     }
