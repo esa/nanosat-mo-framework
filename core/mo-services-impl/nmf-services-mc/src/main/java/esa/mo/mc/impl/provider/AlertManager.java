@@ -33,7 +33,7 @@ import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mc.alert.AlertServiceInfo;
-import org.ccsds.moims.mo.mc.alert.structures.AlertDefinition;
+import org.ccsds.moims.mo.mc.structures.AlertDefinition;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
 
 /**

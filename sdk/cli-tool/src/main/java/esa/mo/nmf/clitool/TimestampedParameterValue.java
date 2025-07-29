@@ -21,7 +21,7 @@
 package esa.mo.nmf.clitool;
 
 import org.ccsds.moims.mo.mal.structures.FineTime;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
+import org.ccsds.moims.mo.mc.structures.ParameterValue;
 
 public class TimestampedParameterValue {
 

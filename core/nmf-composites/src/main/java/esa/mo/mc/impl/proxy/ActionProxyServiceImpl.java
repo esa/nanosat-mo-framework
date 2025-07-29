@@ -39,17 +39,13 @@ import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.UIntegerList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.action.ActionHelper;
 import org.ccsds.moims.mo.mc.action.ActionServiceInfo;
 import org.ccsds.moims.mo.mc.action.consumer.ActionAdapter;
 import org.ccsds.moims.mo.mc.action.provider.ActionInheritanceSkeleton;
-import org.ccsds.moims.mo.mc.action.structures.ActionCreationRequestList;
-import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionList;
-import org.ccsds.moims.mo.mc.action.structures.ActionInstanceDetails;
-import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
+import org.ccsds.moims.mo.mc.structures.*;
 
 /**
  * The ActionProxyServiceImpl class extends the ActionInheritanceSkeleton class

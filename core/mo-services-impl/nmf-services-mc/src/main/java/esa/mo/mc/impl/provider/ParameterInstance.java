@@ -24,8 +24,7 @@ import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.Time;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
-import org.ccsds.moims.mo.mc.parameter.structures.ValidityState;
+import org.ccsds.moims.mo.mc.structures.*;
 
 /**
  * The ParameterInstance class is a container for an instance of a parameter.

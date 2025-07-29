@@ -42,23 +42,10 @@ import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.NullableAttributeList;
 import org.ccsds.moims.mo.mal.structures.Subscription;
-import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.aggregation.AggregationServiceInfo;
 import org.ccsds.moims.mo.mc.aggregation.consumer.AggregationAdapter;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationCategory;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationCreationRequest;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationCreationRequestList;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinition;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionList;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSet;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSetList;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationSetValue;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationValueDetails;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationValueDetailsList;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
-import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
-import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
+import org.ccsds.moims.mo.mc.structures.*;
 
 /**
  * The AggregationConsumerPanel class holds a panel to interact with an
@@ -643,7 +630,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
                 org.ccsds.moims.mo.mal.structures.Identifier identifier,
                 org.ccsds.moims.mo.mal.structures.UpdateHeader updateHeader,
                 org.ccsds.moims.mo.com.structures.ObjectId objectId,
-                org.ccsds.moims.mo.mc.aggregation.structures.AggregationValue aggregationValue,
+                org.ccsds.moims.mo.mc.structures.AggregationValue aggregationValue,
                 java.util.Map qosProperties) {
 
             final long iDiff = System.currentTimeMillis() - msgHeader.getTimestamp().getValue();

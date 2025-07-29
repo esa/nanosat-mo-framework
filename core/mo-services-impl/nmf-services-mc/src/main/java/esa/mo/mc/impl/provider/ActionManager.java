@@ -46,12 +46,7 @@ import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UIntegerList;
 import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mc.action.ActionServiceInfo;
-import org.ccsds.moims.mo.mc.action.structures.ActionCreationRequest;
-import org.ccsds.moims.mo.mc.action.structures.ActionDefinition;
-import org.ccsds.moims.mo.mc.action.structures.ActionInstanceDetails;
-import org.ccsds.moims.mo.mc.structures.ArgumentDefinition;
-import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionList;
-import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
+import org.ccsds.moims.mo.mc.structures.*;
 
 /**
  *

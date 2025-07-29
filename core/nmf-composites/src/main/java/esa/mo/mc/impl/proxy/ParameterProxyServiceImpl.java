@@ -37,8 +37,7 @@ import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
 import org.ccsds.moims.mo.mc.parameter.provider.ParameterInheritanceSkeleton;
-import org.ccsds.moims.mo.mc.parameter.structures.*;
-import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
+import org.ccsds.moims.mo.mc.structures.*;
 
 /**
  * The ParameterProxyServiceImpl class extends the ParameterInheritanceSkeleton

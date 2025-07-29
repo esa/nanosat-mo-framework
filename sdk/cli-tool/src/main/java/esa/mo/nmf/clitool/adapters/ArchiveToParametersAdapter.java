@@ -37,7 +37,7 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.parameter.ParameterServiceInfo;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
+import org.ccsds.moims.mo.mc.structures.ParameterValue;
 
 /**
  * Archive adapter that retrieves available parameter names and their values.

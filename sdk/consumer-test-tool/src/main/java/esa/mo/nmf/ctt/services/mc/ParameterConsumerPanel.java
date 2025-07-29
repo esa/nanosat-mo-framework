@@ -44,13 +44,7 @@ import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.parameter.ParameterServiceInfo;
 import org.ccsds.moims.mo.mc.parameter.consumer.ParameterAdapter;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinition;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionList;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValue;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterValueDetailsList;
-import org.ccsds.moims.mo.mc.parameter.structures.ValidityState;
-import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
+import org.ccsds.moims.mo.mc.structures.*;
 
 /**
  * The ParameterConsumerPanel class holds a panel to interact with a Parameter

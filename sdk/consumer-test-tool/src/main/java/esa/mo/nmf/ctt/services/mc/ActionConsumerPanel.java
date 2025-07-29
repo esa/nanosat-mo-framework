@@ -35,26 +35,11 @@ import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MOErrorException;
-import org.ccsds.moims.mo.mal.structures.Attribute;
-import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.structures.LongList;
-import org.ccsds.moims.mo.mal.structures.UOctet;
-import org.ccsds.moims.mo.mal.structures.UShort;
+import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.action.ActionServiceInfo;
 import org.ccsds.moims.mo.mc.action.consumer.ActionAdapter;
-import org.ccsds.moims.mo.mc.action.structures.ActionCreationRequest;
-import org.ccsds.moims.mo.mc.action.structures.ActionCreationRequestList;
-import org.ccsds.moims.mo.mc.action.structures.ActionDefinition;
-import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionList;
-import org.ccsds.moims.mo.mc.action.structures.ActionInstanceDetails;
-import org.ccsds.moims.mo.mc.structures.ArgumentDefinition;
-import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionList;
-import org.ccsds.moims.mo.mc.structures.AttributeValue;
-import org.ccsds.moims.mo.mc.structures.AttributeValueList;
-import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
-import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
+import org.ccsds.moims.mo.mc.structures.*;
 
 /**
  * The ActionConsumerPanel class holds a panel to interact with an Action

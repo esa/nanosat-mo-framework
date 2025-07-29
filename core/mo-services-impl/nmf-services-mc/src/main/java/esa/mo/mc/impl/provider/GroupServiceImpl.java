@@ -32,7 +32,7 @@ import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mc.conversion.provider.ConversionInheritanceSkeleton;
 import org.ccsds.moims.mo.mc.group.GroupHelper;
 import org.ccsds.moims.mo.mc.group.GroupServiceInfo;
-import org.ccsds.moims.mo.mc.group.structures.GroupDetails;
+import org.ccsds.moims.mo.mc.structures.GroupDetails;
 
 /**
  * Group service Provider.

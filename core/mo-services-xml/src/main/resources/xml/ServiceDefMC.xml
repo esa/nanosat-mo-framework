@@ -36,7 +36,7 @@
                             </mal:field>
                             <mal:field name="actionDetails"
                                        comment="The actionDetails part of the submission shall contain the argument values and related information of the action instance to be executed.&#xA;If the defInstId of the supplied actionDetails field does not match a known ActionDefinition object then an UNKNOWN error shall be returned.&#xA;The size of the argumentValues list of the ActionInstanceDetails structure shall be compared to the size of the argument list in the matched ActionDefinition object and an INVALID error shall be returned if they are not the same.&#xA;If the ActionInstanceDetails structure contains an argumentIds field value then this shall be compared to the same field in the matched ActionDefinition object and must be the same size and contain the same values, an INVALID error shall be returned if this is not the case.&#xA;If the ActionInstanceDetails structure contains an isRawValue field value then the size of this list shall be compared to the size of the argument list in the matched ActionDefinition object and an INVALID error shall be returned if they are not the same.&#xA;If the supplied argument values do not match the attribute type specified in the action definition then an INVALID error shall be returned.&#xA;A service provider may apply some deployment specific checks to the action instance and can return an INVALID error if they fail.&#xA;If an error is raised then no action shall be executed.&#xA;The SUBMIT acknowledgement shall be returned once the action has been accepted for execution but before execution starts.">
-                                <mal:type name="ActionInstanceDetails" service="Action" area="MC"/>
+                                <mal:type name="ActionInstanceDetails" area="MC"/>
                             </mal:field>
                         </mal:submit>
                     </mal:messages>
@@ -58,7 +58,7 @@
                         <mal:request>
                             <mal:field name="actionDetails"
                                        comment="The actionDetails part of the submission shall contain the argument values and related information of the action instance to be executed.&#xA;If the ActionInstanceDetails structure contains an argumentIds field value then this shall be compared to the same field in the matched ActionDefinition object and must be the same size and contain the same values, an INVALID error shall be returned if this is not the case.&#xA;If the supplied argument values do not match the attribute type specified in the action definition then an INVALID error shall be returned.&#xA;A service provider may apply some deployment specific checks to the action instance and can return an INVALID error if they fail.">
-                                <mal:type name="ActionInstanceDetails" service="Action" area="MC"/>
+                                <mal:type name="ActionInstanceDetails" area="MC"/>
                             </mal:field>
                         </mal:request>
                         <mal:response>
@@ -108,83 +108,6 @@
                     </mal:errors>
                 </mal:requestIP>
             </mal:capabilitySet>
-            <mal:dataTypes>
-                <mal:enumeration name="ActionCategory" shortFormPart="4"
-                                 comment="Contains the default Action category values. It is implementation specific what the meaning of the values are in a particular context.">
-                    <mal:item value="DEFAULT" nvalue="1" comment="Default category"/>
-                    <mal:item value="HIPRIORITY" nvalue="2" comment="Category for high priority actions"/>
-                    <mal:item value="CRITICAL" nvalue="3" comment="Category for critical actions"/>
-                </mal:enumeration>
-                <mal:composite name="ActionDefinition" shortFormPart="1"
-                               comment="The ActionDefinition structure holds the definition information of an action.">
-                    <mal:extends>
-                        <mal:type name="Composite" area="MAL"/>
-                    </mal:extends>
-                    <mal:field name="description" canBeNull="false" comment="The description of the action.">
-                        <mal:type name="String" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="category" canBeNull="false"
-                               comment="The category of the action.">
-                        <mal:type name="ActionCategory" service="Action" area="MC"/>
-                    </mal:field>
-                    <mal:field name="progressStepCount" canBeNull="false"
-                               comment="Total number of steps that will be reported if PROGRESS reporting is selected in the sent Action. 0 if PROGRESS reporting is not used.">
-                        <mal:type name="UShort" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="arguments"
-                               comment="The list of argument definitions. If no arguments are defined, then the complete list is replaced with a NULL.">
-                        <mal:type list="true" name="ArgumentDefinition" area="MC"/>
-                    </mal:field>
-                </mal:composite>
-                <mal:composite name="ActionInstanceDetails" shortFormPart="2"
-                               comment="The ActionInstanceDetails structure holds the information required for an instance of an Action such as the argument values to use.">
-                    <mal:extends>
-                        <mal:type name="Composite" area="MAL"/>
-                    </mal:extends>
-                    <mal:field name="defInstId" canBeNull="false"
-                               comment="The object instance identifier of the ActionDefinition to be used.">
-                        <mal:type name="Long" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="stageStartedRequired" canBeNull="false"
-                               comment="If TRUE, then an activity event of type Execution is required for the STARTED stage.">
-                        <mal:type name="Boolean" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="stageProgressRequired" canBeNull="false"
-                               comment="If TRUE, then activity events of type Execution are required for the PROGRESS stages.">
-                        <mal:type name="Boolean" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="stageCompletedRequired" canBeNull="false"
-                               comment="If TRUE, then an activity event of type Execution is required for the COMPLETION stage.">
-                        <mal:type name="Boolean" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="argumentValues"
-                               comment="List containing the values of the arguments. The ordering of the list matches that of the definition. If a value for a particular entry is not being supplied, then its position is filled with a NULL value. If no arguments are defined, then the complete list is replaced with a NULL.">
-                        <mal:type list="true" name="AttributeValue" area="MC"/>
-                    </mal:field>
-                    <mal:field name="argumentIds"
-                               comment="Optional list of argument definition identifiers. Allows the provider to verify that the correct arguments are being supplied. The ordering of the list matches that of the argument list of the action definition.">
-                        <mal:type list="true" name="Identifier" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="isRawValue"
-                               comment="Optional list of Booleans that determine whether the supplied argument values are raw or converted. If the Boolean for a particular value is TRUE or NULL then that value is assumed to be raw. If the complete isRawValue list is NULL then all arguments are assumed to be raw values.&#xA;The ordering of the list matches that of the argument list of the action definition.">
-                        <mal:type list="true" name="Boolean" area="MAL"/>
-                    </mal:field>
-                </mal:composite>
-                <mal:composite name="ActionCreationRequest" shortFormPart="3"
-                               comment="The ActionCreationRequest contains all the fields required when creating a new action in a provider.">
-                    <mal:extends>
-                        <mal:type name="Composite" area="MAL"/>
-                    </mal:extends>
-                    <mal:field name="name" canBeNull="false"
-                               comment="The name of the action. Must not be empty or the wildcard value.">
-                        <mal:type name="Identifier" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="actionDefDetails" canBeNull="false"
-                               comment="The action definition details.">
-                        <mal:type name="ActionDefinition" service="Action" area="MC"/>
-                    </mal:field>
-                </mal:composite>
-            </mal:dataTypes>
             <com:features>
                 <com:objects comment="Each action of a provider shall be represented by an ActionIdentity COM object.&#xA;The body of the ActionIdentity COM object shall hold the name of the action.&#xA;The definitions of the actions shall be represented as ActionDefinition COM objects.&#xA;The ActionDefinition object shall use the related link to indicate which ActionIdentity object it uses.&#xA;The source link of the ActionIdentity object should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.&#xA;The source link of the ActionDefinition object should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.&#xA;Instances of an action that are submitted to a provider using the submitAction operation shall be represented as ActionInstance COM object.&#xA;The object instance identifier for an ActionInstance object shall be populated by the consumer.&#xA;The ActionInstance object shall use the related link to indicate which ActionDefinition object it uses.&#xA;Instances of an action that are submitted to a provider using the submitAction operation shall link to the submitAction OperationActivity object using the source link.&#xA;The source link of the submitAction OperationActivity object should be the object that caused it to be created, most likely an operator login or automated procedure object.">
                     <com:object name="ActionIdentity" number="1">
@@ -195,7 +118,7 @@
                     </com:object>
                     <com:object name="ActionDefinition" number="2">
                         <com:objectType>
-                            <mal:type name="ActionDefinition" service="Action" area="MC"/>
+                            <mal:type name="ActionDefinition" area="MC"/>
                         </com:objectType>
                         <com:relatedObject>
                             <com:objectType number="1" service="Action" area="MC"/>
@@ -204,7 +127,7 @@
                     </com:object>
                     <com:object name="ActionInstance" number="3">
                         <com:objectType>
-                            <mal:type name="ActionInstanceDetails" service="Action" area="MC"/>
+                            <mal:type name="ActionInstanceDetails" area="MC"/>
                         </com:objectType>
                         <com:relatedObject>
                             <com:objectType number="2" service="Action" area="MC"/>
@@ -278,7 +201,7 @@
                             </mal:field>
                             <mal:field name="newValue"
                                        comment="The second part of the publish message shall be the ParameterValueInstance object value.">
-                                <mal:type name="ParameterValue" service="Parameter" area="MC"/>
+                                <mal:type name="ParameterValue" area="MC"/>
                             </mal:field>
                         </mal:publishNotify>
                     </mal:messages>
@@ -297,7 +220,7 @@
                         <mal:response>
                             <mal:field name="paramValDetails"
                                        comment="The response shall contain a list of returned ParameterIdentity and ParameterDefinition object instance identifier pairs and a matching list of parameter values.&#xA;The new value shall not be published via the monitorValue operation.">
-                                <mal:type list="true" name="ParameterValueDetails" service="Parameter" area="MC"/>
+                                <mal:type list="true" name="ParameterValueDetails" area="MC"/>
                             </mal:field>
                         </mal:response>
                     </mal:messages>
@@ -318,7 +241,7 @@
                         <mal:submit>
                             <mal:field name="newRawValues"
                                        comment="The submitted newRawValues shall hold a list of ParameterRawValues that contain the ParameterIdentity object instance identifier and the respective raw value to be set.&#xA;If the paramInstId field contains the wildcard value of '0' then an INVALID error shall be returned.&#xA;If a requested ParameterIdentity is unknown then an UNKNOWN error shall be returned.&#xA;If a request ParameterIdentity is not settable due to it being read only then a READONLY error shall be returned.&#xA;The rawValue shall contain the new parameter raw value to be set.&#xA;If the supplied new parameter raw value does not match the defined type for the ParameterIdentity then an INVALID error shall be returned.&#xA;If an error is raised then no modifications shall be made as a result of this operation call.&#xA;The parameter values shall be set concurrently, by this it is meant that all values are set at the same time without interleaving of other values being (ATOMIC behaviour). How this is implemented is an implementation detail.&#xA;The service provider shall create new ParameterValueInstance objects for the updated parameter values, store these in the COM Archive, and publish these new values.">
-                                <mal:type list="true" name="ParameterRawValue" service="Parameter" area="MC"/>
+                                <mal:type list="true" name="ParameterRawValue" area="MC"/>
                             </mal:field>
                         </mal:submit>
                     </mal:messages>
@@ -419,7 +342,7 @@
                             </mal:field>
                             <mal:field name="paramDefDetails"
                                        comment="The paramDefDetails field shall contain the replacement ParameterDefinition.&#xA;The two lists shall be ordered the same.&#xA;The number of entries in the two lists shall be the same size otherwise an INVALID error shall be returned.&#xA;If the supplied reportInterval value is not supported by the provider then an INVALID error shall be returned.&#xA;If an error is raised then no definitions shall be updated as a result of this operation call.&#xA;The provider shall create a new ParameterDefinition object and store it in the COM archive.&#xA;The new ParameterDefinition object shall be the current ParameterDefinition used for the specific ParameterIdentity.">
-                                <mal:type list="true" name="ParameterDefinition" service="Parameter" area="MC"/>
+                                <mal:type list="true" name="ParameterDefinition" area="MC"/>
                             </mal:field>
                         </mal:request>
                         <mal:response>
@@ -445,135 +368,6 @@
                     </mal:errors>
                 </mal:requestIP>
             </mal:capabilitySet>
-            <mal:dataTypes>
-                <mal:enumeration name="ValidityState" shortFormPart="4"
-                                 comment="Convenience enumeration that holds the validity states and their numeric values.">
-                    <mal:item value="VALID" nvalue="0" comment="Valid."/>
-                    <mal:item value="EXPIRED" nvalue="1"
-                              comment="The parameter has a timeout associated which has expired"/>
-                    <mal:item value="INVALID_RAW" nvalue="2"
-                              comment="The parameter raw value cannot be obtained, or calculated for synthetic parameters"/>
-                    <mal:item value="INVALID_CONVERSION" nvalue="3"
-                              comment="The validity expression either has evaluated to TRUE or there is no validity defined, but the conversion of the parameter value has failed (for example an unexpected value for a discrete conversion)"/>
-                    <mal:item value="UNVERIFIED" nvalue="4"
-                              comment="The validity of the validity expression has been evaluated to FALSE and therefore cannot be used to verify the current value"/>
-                    <mal:item value="INVALID" nvalue="5"
-                              comment="The validity expression has been evaluated to FALSE"/>
-                </mal:enumeration>
-                <mal:composite name="ParameterDefinition" shortFormPart="1"
-                               comment="The ParameterDefinition structure holds a parameter definition. The conversion field defines the conditions where the relevant conversion is applied. For onboard parameters, the report interval should be a multiple of the minimum sampling interval of that parameter.">
-                    <mal:extends>
-                        <mal:type name="Composite" area="MAL"/>
-                    </mal:extends>
-                    <mal:field name="description" canBeNull="false"
-                               comment="The description of the parameter. May be empty.">
-                        <mal:type name="String" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="rawType" canBeNull="false"
-                               comment="Holds the attribute short form part of the raw type of the parameter, e.g., for a MAL::String parameter it shall hold 15.">
-                        <mal:type name="AttributeType" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="rawUnit"
-                               comment="The unit for the raw value. If NULL then raw type has no unit.">
-                        <mal:type name="String" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="generationEnabled" canBeNull="false"
-                               comment="Controls whether reports for this parameter are to be generated.">
-                        <mal:type name="Boolean" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="reportInterval" canBeNull="false"
-                               comment="Periodic report interval. No periodic reports to be generated if this is set to '0'.">
-                        <mal:type name="Duration" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="validityExpression"
-                               comment="Expression that determines this parameter's validity state. Can be NULL if no validity check is required or validity is calculated by implementation-specific mechanisms.">
-                        <mal:type name="ParameterExpression" area="MC"/>
-                    </mal:field>
-                    <mal:field name="conversion" comment="If present then parameter has a converted type.">
-                        <mal:type name="ParameterConversion" service="Parameter" area="MC"/>
-                    </mal:field>
-                </mal:composite>
-                <mal:composite name="ParameterValue" shortFormPart="2"
-                               comment="This structure holds a specific value of the parameter. The type of the value shall match that specified in the parameter definition.">
-                    <mal:extends>
-                        <mal:type name="Composite" area="MAL"/>
-                    </mal:extends>
-                    <mal:field name="validityState" canBeNull="false"
-                               comment="Holds the validity state for a parameter value. If the parameter is valid then this should be set to '0'.">
-                        <mal:type name="ValidityState" service="Parameter" area="MC"/>
-                    </mal:field>
-                    <mal:field name="rawValue"
-                               comment="The parameter raw value. The value of NULL is a valid value and carries no special significance in the parameter service.">
-                        <mal:type name="Attribute" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="convertedValue" comment="The parameter converted value.">
-                        <mal:type name="Attribute" area="MAL"/>
-                    </mal:field>
-                </mal:composite>
-                <mal:composite name="ParameterConversion" shortFormPart="3"
-                               comment="The ParameterConversion structure holds information about the conversions to be applied to a parameter.">
-                    <mal:extends>
-                        <mal:type name="Composite" area="MAL"/>
-                    </mal:extends>
-                    <mal:field name="convertedType" canBeNull="false"
-                               comment="Holds the attribute short form part of the converted type of the parameter, e.g., for a MAL::String parameter it shall hold 15.">
-                        <mal:type name="Octet" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="convertedUnit"
-                               comment="The converted parameter unit. If NULL then converted type has no unit.">
-                        <mal:type name="String" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="conditionalConversions" canBeNull="false"
-                               comment="The conversions to be applied. Only the first TRUE conversion should be applied.">
-                        <mal:type list="true" name="ConditionalConversion" area="MC"/>
-                    </mal:field>
-                </mal:composite>
-                <mal:composite name="ParameterCreationRequest" shortFormPart="5"
-                               comment="The ParameterCreationRequest contains all the fields required when creating a new parameter in a provider.">
-                    <mal:extends>
-                        <mal:type name="Composite" area="MAL"/>
-                    </mal:extends>
-                    <mal:field name="name" canBeNull="false"
-                               comment="The name of the parameter. Must not be empty or the wildcard value.">
-                        <mal:type name="Identifier" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="paramDefDetails" canBeNull="false"
-                               comment="The parameter definition details.">
-                        <mal:type name="ParameterDefinition" service="Parameter" area="MC"/>
-                    </mal:field>
-                </mal:composite>
-                <mal:composite name="ParameterRawValue" shortFormPart="6"
-                               comment="The ParameterRawValue structure holds a new raw value for a specific parameter.">
-                    <mal:extends>
-                        <mal:type name="Composite" area="MAL"/>
-                    </mal:extends>
-                    <mal:field name="paramInstId" canBeNull="false"
-                               comment="The object instance identifier of the parameter identity.">
-                        <mal:type name="Long" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="rawValue"
-                               comment="The parameter raw value. The value of NULL is a valid value and carries no special significance in the parameter service.">
-                        <mal:type name="Attribute" area="MAL"/>
-                    </mal:field>
-                </mal:composite>
-                <mal:composite name="ParameterValueDetails" shortFormPart="7"
-                               comment="This structure holds a specific time stamped value of the parameter. The type of the value shall match that specified in the parameter definition.">
-                    <mal:field name="paramId" canBeNull="false"
-                               comment="The ParameterIdentity object instance identifier.">
-                        <mal:type name="Long" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="defId" canBeNull="false"
-                               comment="The ParameterDefinition object instance identifier.">
-                        <mal:type name="Long" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="timestamp" canBeNull="false" comment="The timestamp of the value.">
-                        <mal:type name="Time" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="value" canBeNull="false" comment="The parameter value.">
-                        <mal:type name="ParameterValue" service="Parameter" area="MC"/>
-                    </mal:field>
-                </mal:composite>
-            </mal:dataTypes>
             <com:features>
                 <com:objects comment="Each parameter of a provider shall be represented by a ParameterIdentity COM object.&#xA;The body of the ParameterIdentity COM object shall hold the name of the parameter.&#xA;The definitions of the parameters shall be represented as ParameterDefinition COM objects.&#xA;Parameter value report shall be represented as ParameterValueInstance COM objects.&#xA;The ParameterDefinition object shall use the related link to indicate which ParameterIdentity object it uses.&#xA;The ParameterValueInstance object shall use the related link to indicate which ParameterDefinition object it uses.&#xA;The source link of the ParameterIdentity object should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.&#xA;The source link of the ParameterDefinition object should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.&#xA;The source link of the ParameterValueInstance object should be the object that caused the report to be generated.&#xA;The source link of the ParameterValueInstance object shall be NULL for periodic reports.">
                     <com:object name="ParameterIdentity" number="1">
@@ -584,7 +378,7 @@
                     </com:object>
                     <com:object name="ParameterDefinition" number="2">
                         <com:objectType>
-                            <mal:type name="ParameterDefinition" service="Parameter" area="MC"/>
+                            <mal:type name="ParameterDefinition" area="MC"/>
                         </com:objectType>
                         <com:relatedObject>
                             <com:objectType number="1" service="Parameter" area="MC"/>
@@ -593,7 +387,7 @@
                     </com:object>
                     <com:object name="ParameterValueInstance" number="3">
                         <com:objectType>
-                            <mal:type name="ParameterValue" service="Parameter" area="MC"/>
+                            <mal:type name="ParameterValue" area="MC"/>
                         </com:objectType>
                         <com:relatedObject>
                             <com:objectType number="2" service="Parameter" area="MC"/>
@@ -693,7 +487,7 @@
                             </mal:field>
                             <mal:field name="alertDefDetails"
                                        comment="The alertDefDetails field shall contain the replacement AlertDefinition.&#xA;The two lists shall be ordered the same.&#xA;The number of entries in the two lists shall be the same size otherwise an INVALID error shall be returned.&#xA;If an error is raised then no definitions shall be updated as a result of this operation call.&#xA;The provider shall create a new AlertDefinition object and store it in the COM archive.&#xA;The new AlertDefinition object shall be the current AlertDefinition used for the specific AlertIdentity.">
-                                <mal:type list="true" name="AlertDefinition" service="Alert" area="MC"/>
+                                <mal:type list="true" name="AlertDefinition" area="MC"/>
                             </mal:field>
                         </mal:request>
                         <mal:response>
@@ -719,55 +513,6 @@
                     </mal:errors>
                 </mal:requestIP>
             </mal:capabilitySet>
-            <mal:dataTypes>
-                <mal:composite name="AlertDefinition" shortFormPart="1"
-                               comment="The AlertDefinition provides the definition of an alert including any argument definitions.">
-                    <mal:extends>
-                        <mal:type name="Composite" area="MAL"/>
-                    </mal:extends>
-                    <mal:field name="description" canBeNull="false" comment="The description of the alert.">
-                        <mal:type name="String" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="severity" canBeNull="false" comment="Severity of the alert.">
-                        <mal:type name="Severity" area="MC"/>
-                    </mal:field>
-                    <mal:field name="generationEnabled" canBeNull="false"
-                               comment="Controls whether instances of this alert are to be generated.">
-                        <mal:type name="Boolean" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="arguments" canBeNull="false" comment="The list of argument definitions.">
-                        <mal:type list="true" name="ArgumentDefinition" area="MC"/>
-                    </mal:field>
-                </mal:composite>
-                <mal:composite name="AlertEventDetails" shortFormPart="2"
-                               comment="The AlertEventDetails structure holds the details of an instance of an alert.">
-                    <mal:extends>
-                        <mal:type name="Composite" area="MAL"/>
-                    </mal:extends>
-                    <mal:field name="argumentValues"
-                               comment="List containing the values of the arguments. The ordering of the list matches that of the definition. If a value for a particular entry is not being supplied, then its position is filled with a NULL value. If no arguments are defined, then the complete list is replaced with a NULL.">
-                        <mal:type list="true" name="AttributeValue" area="MC"/>
-                    </mal:field>
-                    <mal:field name="argumentIds"
-                               comment="Optional list of argument definition identifiers. Allows the consumer to verify that the correct arguments are being supplied. The ordering of the list matches that of the argument list of the alert definition.">
-                        <mal:type list="true" name="Identifier" area="MAL"/>
-                    </mal:field>
-                </mal:composite>
-                <mal:composite name="AlertCreationRequest" shortFormPart="3"
-                               comment="The AlertCreationRequest contains all the fields required when creating a new alert in a provider.">
-                    <mal:extends>
-                        <mal:type name="Composite" area="MAL"/>
-                    </mal:extends>
-                    <mal:field name="name" canBeNull="false"
-                               comment="Alert name. Must not be empty or wildcard value.">
-                        <mal:type name="Identifier" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="alertDefDetails" canBeNull="false"
-                               comment="The alert definition details.">
-                        <mal:type name="AlertDefinition" service="Alert" area="MC"/>
-                    </mal:field>
-                </mal:composite>
-            </mal:dataTypes>
             <com:features>
                 <com:objects comment="Each alert of a provider shall be represented by an AlertIdentity COM object.&#xA;The body of the AlertIdentity COM object shall hold the name of the alert.&#xA;The definitions of the alerts shall be represented as AlertDefinition COM objects.&#xA;Instances of an alert shall be represented as an AlertEvent COM event.&#xA;The AlertDefinition object shall use the related link to indicate which AlertIdentity object it uses.&#xA;The AlertEvent object shall use the related link to indicate which AlertDefinition object it uses.&#xA;The source link of the AlertIdentity object should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.&#xA;The source link of the AlertDefinition object should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.">
                     <com:object name="AlertIdentity" number="1">
@@ -778,7 +523,7 @@
                     </com:object>
                     <com:object name="AlertDefinition" number="2">
                         <com:objectType>
-                            <mal:type name="AlertDefinition" service="Alert" area="MC"/>
+                            <mal:type name="AlertDefinition" area="MC"/>
                         </com:objectType>
                         <com:relatedObject>
                             <com:objectType number="1" service="Alert" area="MC"/>
@@ -790,7 +535,7 @@
                     <com:event name="AlertEvent" number="3"
                                comment="The AlertEvent shall be raised when an enabled alert is published.">
                         <com:objectType>
-                            <mal:type name="AlertEventDetails" service="Alert" area="MC"/>
+                            <mal:type name="AlertEventDetails" area="MC"/>
                         </com:objectType>
                         <com:relatedObject>
                             <com:objectType number="2" service="Alert" area="MC"/>
@@ -845,7 +590,7 @@
                             </mal:field>
                             <mal:field name="newValue"
                                        comment="The second part of the publish message shall be the AggregationValue.">
-                                <mal:type name="AggregationValue" service="Aggregation" area="MC"/>
+                                <mal:type name="AggregationValue" area="MC"/>
                             </mal:field>
                         </mal:publishNotify>
                     </mal:messages>
@@ -864,7 +609,7 @@
                         <mal:response>
                             <mal:field name="aggValDetails"
                                        comment="The response shall contain a list of returned AggregationIdentity and AggregationDefinition object instance identifier pairs and a matching list of AggregationValues.&#xA;The new value shall not be published via the monitorValue operation.">
-                                <mal:type list="true" name="AggregationValueDetails" service="Aggregation" area="MC"/>
+                                <mal:type list="true" name="AggregationValueDetails" area="MC"/>
                             </mal:field>
                         </mal:response>
                     </mal:messages>
@@ -977,7 +722,7 @@
                         <mal:request>
                             <mal:field name="aggDefDetails"
                                        comment="The aggDefDetails field shall hold the name and the AggregationDefinition to be added.&#xA;The name field must not be the wildcard '*', or empty (an INVALID error shall be returned in this case).&#xA;If the supplied reportInterval or sampleInterval values are not supported by the provider then an INVALID error shall be returned.&#xA;The supplied name must be unique among all AggregationIdentity objects for the domain of the provider otherwise a DUPLICATE error shall be raised.&#xA;If an error is raised then no new identities and definitions shall be added as a result of this operation call.&#xA;If the supplied name matches an existing, but removed, AggregationIdentity then that AggregationIdentity shall be reused otherwise a new AggregationIdentity shall be created.&#xA;The provider shall create a new AggregationDefinition object and store it, and any new AggregationIdentity objects, in the COM archive.">
-                                <mal:type list="true" name="AggregationCreationRequest" service="Aggregation" area="MC"/>
+                                <mal:type list="true" name="AggregationCreationRequest" area="MC"/>
                             </mal:field>
                         </mal:request>
                         <mal:response>
@@ -1012,7 +757,7 @@
                             </mal:field>
                             <mal:field name="aggDefDetails"
                                        comment="The aggDefDetails field shall contain the replacement AggregationDefinition.&#xA;The two lists shall be ordered the same.&#xA;The number of entries in the two lists shall be the same size otherwise an INVALID error shall be returned.&#xA;If the supplied reportInterval or sampleInterval values are not supported by the provider then an INVALID error shall be returned.&#xA;If an error is raised then no definitions shall be updated as a result of this operation call.&#xA;The provider shall create a new AggregationDefinition object and store it in the COM archive.&#xA;The new AggregationDefinition object shall be the current AggregationDefinition used for the specific AggregationIdentity.">
-                                <mal:type list="true" name="AggregationDefinition" service="Aggregation" area="MC"/>
+                                <mal:type list="true" name="AggregationDefinition" area="MC"/>
                             </mal:field>
                         </mal:request>
                         <mal:response>
@@ -1057,186 +802,6 @@
                     </mal:errors>
                 </mal:submitIP>
             </mal:capabilitySet>
-            <mal:dataTypes>
-                <mal:enumeration name="AggregationCategory" shortFormPart="7"
-                                 comment="AggregationCategory is an enumeration definition holding the categories of aggregations.">
-                    <mal:item value="GENERAL" nvalue="1" comment="General aggregation."/>
-                    <mal:item value="DIAGNOSTIC" nvalue="2" comment="Diagnostic aggregation."/>
-                </mal:enumeration>
-                <mal:enumeration name="ThresholdType" shortFormPart="8"
-                                 comment="ThresholdType is an enumeration definition holding the types of filtering thresholds.">
-                    <mal:item value="PERCENTAGE" nvalue="1" comment="Threshold value is a percentage."/>
-                    <mal:item value="DELTA" nvalue="2" comment="Threshold value is a delta."/>
-                </mal:enumeration>
-                <mal:enumeration name="GenerationMode" shortFormPart="9"
-                                 comment="GenerationMode is an enumeration definition holding the reasons for the aggregation to be generated.">
-                    <mal:item value="ADHOC" nvalue="1"
-                              comment="The aggregation value was generated because of an ad-hoc implementation dependent reason."/>
-                    <mal:item value="PERIODIC" nvalue="2"
-                              comment="The aggregation value was generated because of a periodic report."/>
-                    <mal:item value="FILTERED_TIMEOUT" nvalue="3"
-                              comment="The item is filtered but it exceeded its timeout value."/>
-                </mal:enumeration>
-                <mal:composite name="AggregationDefinition" shortFormPart="1"
-                               comment="The AggregationDefinition structure holds definition details of an aggregation.">
-                    <mal:extends>
-                        <mal:type name="Composite" area="MAL"/>
-                    </mal:extends>
-                    <mal:field name="description" canBeNull="false"
-                               comment="The description of the parameter. May be empty.">
-                        <mal:type name="String" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="category" canBeNull="false"
-                               comment="The category of the aggregation.">
-                        <mal:type name="AggregationCategory" service="Aggregation" area="MC"/>
-                    </mal:field>
-                    <mal:field name="reportInterval" canBeNull="false"
-                               comment="The interval between periodic reports on this aggregation. If this aggregation is not periodic, this field must be '0'.">
-                        <mal:type name="Duration" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="sendUnchanged" canBeNull="false"
-                               comment="If TRUE reports will include all values regardless of whether changed, if FALSE values unchanged from previous report are replaced with a NULL.">
-                        <mal:type name="Boolean" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="sendDefinitions" canBeNull="false"
-                               comment="If TRUE reports will include the ParameterDefinition object instance identifier in the AggregationParameterValue, if FALSE it will be set to NULL.">
-                        <mal:type name="Boolean" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="filterEnabled" canBeNull="false"
-                               comment="Controls whether reports for this aggregation are to be filtered.">
-                        <mal:type name="Boolean" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="filteredTimeout" canBeNull="false"
-                               comment="The maximum duration between filtered reports. If this value is exceeded, then a report is sent regardless of filtered thresholds. Ignored if not filtered.">
-                        <mal:type name="Duration" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="generationEnabled" canBeNull="false"
-                               comment="Controls whether reports for this aggregation are to be generated.">
-                        <mal:type name="Boolean" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="parameterSets" canBeNull="false"
-                               comment="List containing the parameter sets which define the aggregation.">
-                        <mal:type list="true" name="AggregationParameterSet" service="Aggregation" area="MC"/>
-                    </mal:field>
-                </mal:composite>
-                <mal:composite name="AggregationParameterSet" shortFormPart="2"
-                               comment="The AggregationParameterSet structure holds the identifier and optional filter for a parameter, or set of parameters, in an aggregation.">
-                    <mal:extends>
-                        <mal:type name="Composite" area="MAL"/>
-                    </mal:extends>
-                    <mal:field name="domain"
-                               comment="The domain of the parameters being referenced in this set of parameters, NULL if the same domain as the aggregation.">
-                        <mal:type list="true" name="Identifier" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="parameters" canBeNull="false"
-                               comment="The list of object instance identifiers of the ParameterIdentity objects being included in the aggregation.">
-                        <mal:type list="true" name="Long" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="sampleInterval" canBeNull="false"
-                               comment="The interval between samples of the parameters in the set. If '0' then just a single sample of the parameters is required per aggregation report.">
-                        <mal:type name="Duration" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="reportFilter"
-                               comment="If the AggregationParameterSet contains a single parameter then this field contains the filter to apply for filtered reports when filters are applied. NULL if no filter required or this set contains more than one parameter.">
-                        <mal:type name="ThresholdFilter" service="Aggregation" area="MC"/>
-                    </mal:field>
-                </mal:composite>
-                <mal:composite name="AggregationValue" shortFormPart="3"
-                               comment="The AggregationValue structure holds the values for one or more sets of parameter values. The value sets must be held in the same order as that defined in the matching AggregationDefinition.">
-                    <mal:extends>
-                        <mal:type name="Composite" area="MAL"/>
-                    </mal:extends>
-                    <mal:field name="generationMode" canBeNull="false"
-                               comment="Reason for the aggregation being generated.">
-                        <mal:type name="GenerationMode" service="Aggregation" area="MC"/>
-                    </mal:field>
-                    <mal:field name="filtered" canBeNull="false"
-                               comment="If a filter is enabled when the aggregation value is generated then this value shall be set to TRUE, else FALSE.">
-                        <mal:type name="Boolean" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="parameterSetValues" canBeNull="false"
-                               comment="The parameterSetValues list holds the sets of values of the aggregation. The sets must be held in the same order as that defined in the aggregation definition.">
-                        <mal:type list="true" name="AggregationSetValue" service="Aggregation" area="MC"/>
-                    </mal:field>
-                </mal:composite>
-                <mal:composite name="AggregationSetValue" shortFormPart="4"
-                               comment="The AggregationSetValue structure holds the values for one set of parameter values. If the definition sendUnchanged field is set to FALSE parameter values that are unchanged since the previous report are replaced by a NULL in this list. The parameter values must be held in the same order as that defined in the matching AggregationDefinition.">
-                    <mal:extends>
-                        <mal:type name="Composite" area="MAL"/>
-                    </mal:extends>
-                    <mal:field name="deltaTime"
-                               comment="Optional delta time, from the timestamp of the aggregation for the first parameter set of the aggregation or the last value of the previous parameter set otherwise, for the first parameter sample of this set. If NULL, then the first sample time is the same as the aggregation timestamp for the first parameter set of the aggregation or the last value of the previous parameter set otherwise.">
-                        <mal:type name="Duration" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="intervalTime"
-                               comment="Optional delta time between samples in this set. If NULL, then all samples in this set are given the same time. This is usually driven by the sampleInterval in the aggregation set definition.">
-                        <mal:type name="Duration" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="values" canBeNull="false"
-                               comment="List containing values of the parameters which are part of the aggregation. The ordering of the list entries shall match that of the definition of the aggregation. If there are more values than contained in the definition then it is assumed that the parameters cycle as a complete parameter set.">
-                        <mal:type list="true" name="AggregationParameterValue" service="Aggregation" area="MC"/>
-                    </mal:field>
-                </mal:composite>
-                <mal:composite name="AggregationParameterValue" shortFormPart="5"
-                               comment="The structure holds a single parameter value with its definition instance identifier.">
-                    <mal:extends>
-                        <mal:type name="Composite" area="MAL"/>
-                    </mal:extends>
-                    <mal:field name="value" canBeNull="false" comment="The parameter value.">
-                        <mal:type name="ParameterValue" service="Parameter" area="MC"/>
-                    </mal:field>
-                    <mal:field name="paramDefInstId"
-                               comment="The object instance identifier of the ParameterDefinition. NULL if sendDefinitions in the AggregationDefinition is FALSE.">
-                        <mal:type name="Long" area="MAL"/>
-                    </mal:field>
-                </mal:composite>
-                <mal:composite name="ThresholdFilter" shortFormPart="6"
-                               comment="The ThresholdFilter structure holds the filter for a parameter.">
-                    <mal:extends>
-                        <mal:type name="Composite" area="MAL"/>
-                    </mal:extends>
-                    <mal:field name="thresholdType" canBeNull="false"
-                               comment="The type of filter to apply for filtered periodic reports when filters are applied.">
-                        <mal:type name="ThresholdType" service="Aggregation" area="MC"/>
-                    </mal:field>
-                    <mal:field name="thresholdValue" canBeNull="false" comment="Threshold value to apply.">
-                        <mal:type name="Attribute" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="useConverted" canBeNull="false"
-                               comment="If true, and the relevant Parameter has a conversion, then use the converted value for the threshold comparison, otherwise use the raw value.">
-                        <mal:type name="Boolean" area="MAL"/>
-                    </mal:field>
-                </mal:composite>
-                <mal:composite name="AggregationCreationRequest" shortFormPart="10"
-                               comment="The AggregationCreationRequest contains all the fields required when creating a new aggregation in a provider.">
-                    <mal:field name="name" canBeNull="false"
-                               comment="The name of the aggregation. Must not be empty or the wildcard value.">
-                        <mal:type name="Identifier" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="aggDefDetails" canBeNull="false"
-                               comment="The aggregation definition details.">
-                        <mal:type name="AggregationDefinition" service="Aggregation" area="MC"/>
-                    </mal:field>
-                </mal:composite>
-                <mal:composite name="AggregationValueDetails" shortFormPart="11"
-                               comment="This structure holds a specific time stamped value of the aggregation. ">
-                    <mal:field name="aggId" canBeNull="false"
-                               comment="The AggregationIdentity object instance identifier.">
-                        <mal:type name="Long" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="defId" canBeNull="false"
-                               comment="The AggregationDefinition object instance identifier.">
-                        <mal:type name="Long" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="timestamp" canBeNull="false"
-                               comment="The timestamp of the value. Use for the calculation of the individual parameter value timestamps.">
-                        <mal:type name="Time" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="value" canBeNull="false" comment="The aggregation value.">
-                        <mal:type name="AggregationValue" service="Aggregation" area="MC"/>
-                    </mal:field>
-                </mal:composite>
-            </mal:dataTypes>
             <com:features>
                 <com:objects comment="Each aggregation of a provider shall be represented by an AggregationIdentity COM object.&#xA;The body of the AggregationIdentity COM object shall hold the name of the aggregation.&#xA;The definitions of the aggregations shall be represented as AggregationDefinition COM objects.&#xA;Aggregation value reports shall be represented as AggregationValueInstance COM objects.&#xA;The AggregationDefinition object shall use the related link to indicate which AggregationIdentity object it uses.&#xA;The AggregationValueInstance object shall use the related link to indicate which AggregationDefinition object it uses.&#xA;The source link of the AggregationIdentity object should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.&#xA;The source link of the AggregationDefinition object should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.&#xA;The source link of the AggregationValueInstance object should be the object that caused the report to be generated.&#xA;The source link of the AggregationValueInstance object shall be NULL for periodic reports.">
                     <com:object name="AggregationIdentity" number="1">
@@ -1247,7 +812,7 @@
                     </com:object>
                     <com:object name="AggregationDefinition" number="2">
                         <com:objectType>
-                            <mal:type name="AggregationDefinition" service="Aggregation" area="MC"/>
+                            <mal:type name="AggregationDefinition" area="MC"/>
                         </com:objectType>
                         <com:relatedObject>
                             <com:objectType number="1" service="Aggregation" area="MC"/>
@@ -1256,7 +821,7 @@
                     </com:object>
                     <com:object name="AggregationValueInstance" number="3">
                         <com:objectType>
-                            <mal:type name="AggregationValue" service="Aggregation" area="MC"/>
+                            <mal:type name="AggregationValue" area="MC"/>
                         </com:objectType>
                         <com:relatedObject>
                             <com:objectType number="2" service="Aggregation" area="MC"/>
@@ -1279,52 +844,6 @@
                 A Range conversion must contain at least one pair of values in the points list.
                 The service that references a conversion should ensure that the conversion referenced is correct.
             </mal:documentation>
-            <mal:dataTypes>
-                <mal:composite name="DiscreteConversionDetails" shortFormPart="1"
-                               comment="The DiscreteConversionDetails structure holds a bidirectional conversion between raw and converted values. The first element of the pair is the raw value and the second is the converted value. Both sets of values must be unique.">
-                    <mal:extends>
-                        <mal:type name="Composite" area="MAL"/>
-                    </mal:extends>
-                    <mal:field name="mapping" canBeNull="false"
-                               comment="Defines a mapping between raw and converted values as a discrete set of points. The first entry in the pair is the raw value, and the second entry is the converted value.">
-                        <mal:type list="true" name="Pair" area="MAL"/>
-                    </mal:field>
-                </mal:composite>
-                <mal:composite name="LineConversionDetails" shortFormPart="2"
-                               comment="The LineConversionDetails structure is a bi-directional conversion between raw and converted values. It is defined by a series of points between which values are to be interpolated. The extrapolate attribute indicates if values can also be linearly extrapolated beyond the initial and final points.">
-                    <mal:extends>
-                        <mal:type name="Composite" area="MAL"/>
-                    </mal:extends>
-                    <mal:field name="extrapolate" canBeNull="false"
-                               comment="Indicates whether or not values can be extrapolated beyond the start and the end of the points.">
-                        <mal:type name="Boolean" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="points" canBeNull="false"
-                               comment="Defines the bi-directional conversion. The first attribute of the point is a raw value, and the second attribute is the converted value.">
-                        <mal:type list="true" name="Pair" area="MAL"/>
-                    </mal:field>
-                </mal:composite>
-                <mal:composite name="PolyConversionDetails" shortFormPart="3"
-                               comment="The PolyConversionDetails structure holds only forward (raw to converted) polynomial conversions. They are defined by a series of points for the polynomial coefficients.">
-                    <mal:extends>
-                        <mal:type name="Composite" area="MAL"/>
-                    </mal:extends>
-                    <mal:field name="points" canBeNull="false"
-                               comment="The first attribute of a point is a MAL::Integer, being the degree of the polynomial; the second attribute is either a MAL::Float or a MAL::Double, being the coefficient of the term.">
-                        <mal:type list="true" name="Pair" area="MAL"/>
-                    </mal:field>
-                </mal:composite>
-                <mal:composite name="RangeConversionDetails" shortFormPart="4"
-                               comment="The RangeConversionDetails structure holds a range for a one-way conversion to convert between a continuous range to a discrete value. A range is defined as from this point up to, but not including, the next point.">
-                    <mal:extends>
-                        <mal:type name="Composite" area="MAL"/>
-                    </mal:extends>
-                    <mal:field name="points" canBeNull="false"
-                               comment="The first attribute in each pair is the raw range, and the second attribute is the converted value.">
-                        <mal:type list="true" name="Pair" area="MAL"/>
-                    </mal:field>
-                </mal:composite>
-            </mal:dataTypes>
             <com:features>
                 <com:objects comment="Each conversion shall be represented by a ConversionIdentity COM object.&#xA;The body of the ConversionIdentity COM object shall hold the name of the conversion.&#xA;The definitions of the conversions shall be represented as either DiscreteConversion, LineConversion, PolyConversion, or RangeConversion COM objects.&#xA;The conversion definition object shall use the related link to indicate which ConversionIdentity object it uses.&#xA;The source link of the ConversionIdentity object should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.&#xA;The source link of the conversion definition object should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.&#xA;Other service objects shall reference instances of a conversion using the object instance identifier of the conversion definition.">
                     <com:object name="ConversionIdentity" number="1">
@@ -1335,7 +854,7 @@
                     </com:object>
                     <com:object name="DiscreteConversion" number="2">
                         <com:objectType>
-                            <mal:type name="DiscreteConversionDetails" service="Conversion" area="MC"/>
+                            <mal:type name="DiscreteConversionDetails" area="MC"/>
                         </com:objectType>
                         <com:relatedObject>
                             <com:objectType number="1" service="Conversion" area="MC"/>
@@ -1344,7 +863,7 @@
                     </com:object>
                     <com:object name="LineConversion" number="3">
                         <com:objectType>
-                            <mal:type name="LineConversionDetails" service="Conversion" area="MC"/>
+                            <mal:type name="LineConversionDetails" area="MC"/>
                         </com:objectType>
                         <com:relatedObject>
                             <com:objectType number="1" service="Conversion" area="MC"/>
@@ -1353,7 +872,7 @@
                     </com:object>
                     <com:object name="PolyConversion" number="4">
                         <com:objectType>
-                            <mal:type name="PolyConversionDetails" service="Conversion" area="MC"/>
+                            <mal:type name="PolyConversionDetails" area="MC"/>
                         </com:objectType>
                         <com:relatedObject>
                             <com:objectType number="1" service="Conversion" area="MC"/>
@@ -1362,7 +881,7 @@
                     </com:object>
                     <com:object name="RangeConversion" number="5">
                         <com:objectType>
-                            <mal:type name="RangeConversionDetails" service="Conversion" area="MC"/>
+                            <mal:type name="RangeConversionDetails" area="MC"/>
                         </com:objectType>
                         <com:relatedObject>
                             <com:objectType number="1" service="Conversion" area="MC"/>
@@ -1380,29 +899,6 @@
             <mal:documentation name="Functional Requirements" order="2">The group service shall use the COM archive operations for maintaining the group definitions.
                 Updating a group definition shall be performed by adding a new group definition and referencing it in the service specific COM objects.
             </mal:documentation>
-            <mal:dataTypes>
-                <mal:composite name="GroupDetails" shortFormPart="1"
-                               comment="The GroupDetails structure holds the object type, domain, and set of object instance identifiers for a set of objects from another service.">
-                    <mal:extends>
-                        <mal:type name="Composite" area="MAL"/>
-                    </mal:extends>
-                    <mal:field name="description" canBeNull="false" comment="Description of the group.">
-                        <mal:type name="String" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="objectType" canBeNull="false"
-                               comment="The object type of the objects referenced by this group.">
-                        <mal:type name="ObjectType" area="COM"/>
-                    </mal:field>
-                    <mal:field name="domain" canBeNull="false"
-                               comment="The domain of the objects being referenced by this group.">
-                        <mal:type list="true" name="Identifier" area="MAL"/>
-                    </mal:field>
-                    <mal:field name="instanceIds" canBeNull="false"
-                               comment="The list of object instance identifiers of the objects being referenced by this group.">
-                        <mal:type list="true" name="Long" area="MAL"/>
-                    </mal:field>
-                </mal:composite>
-            </mal:dataTypes>
             <com:features>
                 <com:objects comment="Each group shall be represented by a GroupIdentity COM object.&#xA;The body of the GroupIdentity COM object shall hold the name of the group.&#xA;The definitions of the groups shall be represented as GroupDefinition COM objects.&#xA;The GroupDefinition object shall use the related link to indicate which GroupIdentity object it uses.&#xA;The source link of the GroupIdentity object should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.&#xA;The source link of the GroupDefinition object should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.&#xA;Groups of groups shall reference instances of a group using the object instance identifier of the GroupIdentity.&#xA;Other service objects shall reference instances of a group using the object instance identifier of the GroupIdentity.">
                     <com:object name="GroupIdentity" number="1">
@@ -1413,7 +909,7 @@
                     </com:object>
                     <com:object name="GroupDefinition" number="2">
                         <com:objectType>
-                            <mal:type name="GroupDetails" service="Group" area="MC"/>
+                            <mal:type name="GroupDetails" area="MC"/>
                         </com:objectType>
                         <com:relatedObject>
                             <com:objectType number="1" service="Group" area="MC"/>
@@ -1425,40 +921,33 @@
             </com:features>
         </mal:service>
         <mal:dataTypes>
-            <mal:enumeration name="Severity" shortFormPart="6"
+            <mal:enumeration name="Severity" shortFormPart="1"
                              comment="The severity enumeration holds the possible values for a severity. The numerical value represents the increasing severity, therefore CRITICAL is more severe than ALARM. Normally, for checks, only the Warning and Critical ranges are used: the colour yellow is associated with Warning, and the colour red is associated with Critical.">
-                <mal:item value="INFORMATIONAL" nvalue="1"
-                          comment="Indicates a nominal situation with no consequences."/>
-                <mal:item value="WARNING" nvalue="2"
-                          comment="Indicates unexpected behaviour without directly threatening consequences."/>
-                <mal:item value="ALARM" nvalue="3"
-                          comment="Indicates behaviour of serious concern requiring the attention of an operator, but not necessarily a malfunction."/>
-                <mal:item value="SEVERE" nvalue="4"
-                          comment="Indicates that the monitored item has malfunctioned. Requires operator attention."/>
-                <mal:item value="CRITICAL" nvalue="5"
-                          comment="Indicates behaviour with mission threatening consequences. Requires operator attention."/>
+                <mal:item nvalue="1" value="INFORMATIONAL" comment="Indicates a nominal situation with no consequences."/>
+                <mal:item nvalue="2" value="WARNING" comment="Indicates unexpected behaviour without directly threatening consequences."/>
+                <mal:item nvalue="3" value="ALARM" comment="Indicates behaviour of serious concern requiring the attention of an operator, but not necessarily a malfunction."/>
+                <mal:item nvalue="4" value="SEVERE" comment="Indicates that the monitored item has malfunctioned. Requires operator attention."/>
+                <mal:item nvalue="5" value="CRITICAL" comment="Indicates behaviour with mission threatening consequences. Requires operator attention."/>
             </mal:enumeration>
-            <mal:composite name="ArgumentDefinition" shortFormPart="1"
+            <mal:composite name="ArgumentDefinition" shortFormPart="2"
                            comment="The ArgumentDefinition structure holds the details of an argument definition with a set of associated attributes, such as conversion used. The conditionalConversions define the conditions where a referenced conversion is applied. Only the first TRUE conversion should be applied.">
                 <mal:extends>
                     <mal:type name="Composite" area="MAL"/>
                 </mal:extends>
-                <mal:field name="argId" canBeNull="false"
-                           comment="Holds the argument definition identifier.">
+                <mal:field name="argId" canBeNull="false" comment="Holds the argument definition identifier.">
                     <mal:type name="Identifier" area="MAL"/>
                 </mal:field>
                 <mal:field name="description" comment="Optional argument description.">
                     <mal:type name="String" area="MAL"/>
                 </mal:field>
-                <mal:field name="rawType" canBeNull="false"
-                           comment="Holds the attribute short form part of the raw type of the argument, e.g., for a MAL::String argument it shall hold 15.">
+                <mal:field name="rawType" canBeNull="false" comment="Holds the attribute short form part of the raw type of the argument, e.g., for a MAL::String argument it shall hold 15.">
                     <mal:type name="AttributeType" area="MAL"/>
                 </mal:field>
                 <mal:field name="rawUnit" comment="The unit for the raw value.">
                     <mal:type name="String" area="MAL"/>
                 </mal:field>
             </mal:composite>
-            <mal:composite name="AttributeValue" shortFormPart="2"
+            <mal:composite name="AttributeValue" shortFormPart="3"
                            comment="The AttributeValue structure holds an Attribute value. It allows a list of different Attribute types to be created whereas List of Attribute would require the values to be all of the same type.">
                 <mal:extends>
                     <mal:type name="Composite" area="MAL"/>
@@ -1468,7 +957,7 @@
                     <mal:type name="Attribute" area="MAL"/>
                 </mal:field>
             </mal:composite>
-            <mal:composite name="ConditionalConversion" shortFormPart="3"
+            <mal:composite name="ConditionalConversion" shortFormPart="4"
                            comment="The ConditionalConversion structure holds a condition expression to be evaluated to determine if a specific Conversion should be used. In the case that no test is required, i.e., the conversion should always be used, then the condition field should be set to NULL.">
                 <mal:extends>
                     <mal:type name="Composite" area="MAL"/>
@@ -1482,7 +971,7 @@
                     <mal:type name="Long" area="MAL"/>
                 </mal:field>
             </mal:composite>
-            <mal:composite name="ParameterExpression" shortFormPart="4"
+            <mal:composite name="ParameterExpression" shortFormPart="5"
                            comment="The ParameterExpression structure represents a simple expression between a parameter and a value for that parameter.">
                 <mal:extends>
                     <mal:type name="Composite" area="MAL"/>
@@ -1502,18 +991,496 @@
                     <mal:type name="Attribute" area="MAL"/>
                 </mal:field>
             </mal:composite>
-            <mal:composite name="ObjectInstancePair" shortFormPart="7"
+            <mal:composite name="ObjectInstancePair" shortFormPart="6"
                            comment="The ObjectInstancePair structure is used to hold the object instance identifier of an Identity object with its associated Definition object.">
                 <mal:extends>
                     <mal:type name="Composite" area="MAL"/>
                 </mal:extends>
-                <mal:field name="objIdentityInstanceId" canBeNull="false"
-                           comment="The object instance identifier of the Identity object.">
+                <mal:field name="objIdentityInstanceId" canBeNull="false" comment="The object instance identifier of the Identity object.">
                     <mal:type name="Long" area="MAL"/>
                 </mal:field>
-                <mal:field name="objDefInstanceId" canBeNull="false"
-                           comment="The object instance identifier of the Definition object.">
+                <mal:field name="objDefInstanceId" canBeNull="false" comment="The object instance identifier of the Definition object.">
                     <mal:type name="Long" area="MAL"/>
+                </mal:field>
+            </mal:composite>
+            <mal:enumeration name="ActionCategory" shortFormPart="7"
+                             comment="Contains the default Action category values. It is implementation specific what the meaning of the values are in a particular context.">
+                <mal:item value="DEFAULT" nvalue="1" comment="Default category"/>
+                <mal:item value="HIPRIORITY" nvalue="2" comment="Category for high priority actions"/>
+                <mal:item value="CRITICAL" nvalue="3" comment="Category for critical actions"/>
+            </mal:enumeration>
+            <mal:composite name="ActionDefinition" shortFormPart="8"
+                           comment="The ActionDefinition structure holds the definition information of an action.">
+                <mal:extends>
+                    <mal:type name="Composite" area="MAL"/>
+                </mal:extends>
+                <mal:field name="description" canBeNull="false" comment="The description of the action.">
+                    <mal:type name="String" area="MAL"/>
+                </mal:field>
+                <mal:field name="category" canBeNull="false"
+                           comment="The category of the action.">
+                    <mal:type name="ActionCategory" area="MC"/>
+                </mal:field>
+                <mal:field name="progressStepCount" canBeNull="false"
+                           comment="Total number of steps that will be reported if PROGRESS reporting is selected in the sent Action. 0 if PROGRESS reporting is not used.">
+                    <mal:type name="UShort" area="MAL"/>
+                </mal:field>
+                <mal:field name="arguments"
+                           comment="The list of argument definitions. If no arguments are defined, then the complete list is replaced with a NULL.">
+                    <mal:type list="true" name="ArgumentDefinition" area="MC"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="ActionInstanceDetails" shortFormPart="9"
+                           comment="The ActionInstanceDetails structure holds the information required for an instance of an Action such as the argument values to use.">
+                <mal:extends>
+                    <mal:type name="Composite" area="MAL"/>
+                </mal:extends>
+                <mal:field name="defInstId" canBeNull="false"
+                           comment="The object instance identifier of the ActionDefinition to be used.">
+                    <mal:type name="Long" area="MAL"/>
+                </mal:field>
+                <mal:field name="stageStartedRequired" canBeNull="false"
+                           comment="If TRUE, then an activity event of type Execution is required for the STARTED stage.">
+                    <mal:type name="Boolean" area="MAL"/>
+                </mal:field>
+                <mal:field name="stageProgressRequired" canBeNull="false"
+                           comment="If TRUE, then activity events of type Execution are required for the PROGRESS stages.">
+                    <mal:type name="Boolean" area="MAL"/>
+                </mal:field>
+                <mal:field name="stageCompletedRequired" canBeNull="false"
+                           comment="If TRUE, then an activity event of type Execution is required for the COMPLETION stage.">
+                    <mal:type name="Boolean" area="MAL"/>
+                </mal:field>
+                <mal:field name="argumentValues"
+                           comment="List containing the values of the arguments. The ordering of the list matches that of the definition. If a value for a particular entry is not being supplied, then its position is filled with a NULL value. If no arguments are defined, then the complete list is replaced with a NULL.">
+                    <mal:type list="true" name="AttributeValue" area="MC"/>
+                </mal:field>
+                <mal:field name="argumentIds"
+                           comment="Optional list of argument definition identifiers. Allows the provider to verify that the correct arguments are being supplied. The ordering of the list matches that of the argument list of the action definition.">
+                    <mal:type list="true" name="Identifier" area="MAL"/>
+                </mal:field>
+                <mal:field name="isRawValue"
+                           comment="Optional list of Booleans that determine whether the supplied argument values are raw or converted. If the Boolean for a particular value is TRUE or NULL then that value is assumed to be raw. If the complete isRawValue list is NULL then all arguments are assumed to be raw values.&#xA;The ordering of the list matches that of the argument list of the action definition.">
+                    <mal:type list="true" name="Boolean" area="MAL"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="ActionCreationRequest" shortFormPart="10"
+                           comment="The ActionCreationRequest contains all the fields required when creating a new action in a provider.">
+                <mal:extends>
+                    <mal:type name="Composite" area="MAL"/>
+                </mal:extends>
+                <mal:field name="name" canBeNull="false"
+                           comment="The name of the action. Must not be empty or the wildcard value.">
+                    <mal:type name="Identifier" area="MAL"/>
+                </mal:field>
+                <mal:field name="actionDefDetails" canBeNull="false" comment="The action definition details.">
+                    <mal:type name="ActionDefinition" area="MC"/>
+                </mal:field>
+            </mal:composite>
+            <mal:enumeration name="ValidityState" shortFormPart="11"
+                             comment="Convenience enumeration that holds the validity states and their numeric values.">
+                <mal:item value="VALID" nvalue="0" comment="Valid."/>
+                <mal:item value="EXPIRED" nvalue="1"
+                          comment="The parameter has a timeout associated which has expired"/>
+                <mal:item value="INVALID_RAW" nvalue="2"
+                          comment="The parameter raw value cannot be obtained, or calculated for synthetic parameters"/>
+                <mal:item value="INVALID_CONVERSION" nvalue="3"
+                          comment="The validity expression either has evaluated to TRUE or there is no validity defined, but the conversion of the parameter value has failed (for example an unexpected value for a discrete conversion)"/>
+                <mal:item value="UNVERIFIED" nvalue="4"
+                          comment="The validity of the validity expression has been evaluated to FALSE and therefore cannot be used to verify the current value"/>
+                <mal:item value="INVALID" nvalue="5"
+                          comment="The validity expression has been evaluated to FALSE"/>
+            </mal:enumeration>
+            <mal:composite name="ParameterDefinition" shortFormPart="12"
+                           comment="The ParameterDefinition structure holds a parameter definition. The conversion field defines the conditions where the relevant conversion is applied. For onboard parameters, the report interval should be a multiple of the minimum sampling interval of that parameter.">
+                <mal:extends>
+                    <mal:type name="Composite" area="MAL"/>
+                </mal:extends>
+                <mal:field name="description" canBeNull="false"
+                           comment="The description of the parameter. May be empty.">
+                    <mal:type name="String" area="MAL"/>
+                </mal:field>
+                <mal:field name="rawType" canBeNull="false"
+                           comment="Holds the attribute short form part of the raw type of the parameter, e.g., for a MAL::String parameter it shall hold 15.">
+                    <mal:type name="AttributeType" area="MAL"/>
+                </mal:field>
+                <mal:field name="rawUnit"
+                           comment="The unit for the raw value. If NULL then raw type has no unit.">
+                    <mal:type name="String" area="MAL"/>
+                </mal:field>
+                <mal:field name="generationEnabled" canBeNull="false"
+                           comment="Controls whether reports for this parameter are to be generated.">
+                    <mal:type name="Boolean" area="MAL"/>
+                </mal:field>
+                <mal:field name="reportInterval" canBeNull="false"
+                           comment="Periodic report interval. No periodic reports to be generated if this is set to '0'.">
+                    <mal:type name="Duration" area="MAL"/>
+                </mal:field>
+                <mal:field name="validityExpression"
+                           comment="Expression that determines this parameter's validity state. Can be NULL if no validity check is required or validity is calculated by implementation-specific mechanisms.">
+                    <mal:type name="ParameterExpression" area="MC"/>
+                </mal:field>
+                <mal:field name="conversion" comment="If present then parameter has a converted type.">
+                    <mal:type name="ParameterConversion" area="MC"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="ParameterValue" shortFormPart="13"
+                           comment="This structure holds a specific value of the parameter. The type of the value shall match that specified in the parameter definition.">
+                <mal:extends>
+                    <mal:type name="Composite" area="MAL"/>
+                </mal:extends>
+                <mal:field name="validityState" canBeNull="false"
+                           comment="Holds the validity state for a parameter value. If the parameter is valid then this should be set to '0'.">
+                    <mal:type name="ValidityState" area="MC"/>
+                </mal:field>
+                <mal:field name="rawValue"
+                           comment="The parameter raw value. The value of NULL is a valid value and carries no special significance in the parameter service.">
+                    <mal:type name="Attribute" area="MAL"/>
+                </mal:field>
+                <mal:field name="convertedValue" comment="The parameter converted value.">
+                    <mal:type name="Attribute" area="MAL"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="ParameterConversion" shortFormPart="14"
+                           comment="The ParameterConversion structure holds information about the conversions to be applied to a parameter.">
+                <mal:extends>
+                    <mal:type name="Composite" area="MAL"/>
+                </mal:extends>
+                <mal:field name="convertedType" canBeNull="false"
+                           comment="Holds the attribute short form part of the converted type of the parameter, e.g., for a MAL::String parameter it shall hold 15.">
+                    <mal:type name="Octet" area="MAL"/>
+                </mal:field>
+                <mal:field name="convertedUnit"
+                           comment="The converted parameter unit. If NULL then converted type has no unit.">
+                    <mal:type name="String" area="MAL"/>
+                </mal:field>
+                <mal:field name="conditionalConversions" canBeNull="false"
+                           comment="The conversions to be applied. Only the first TRUE conversion should be applied.">
+                    <mal:type list="true" name="ConditionalConversion" area="MC"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="ParameterCreationRequest" shortFormPart="15"
+                           comment="The ParameterCreationRequest contains all the fields required when creating a new parameter in a provider.">
+                <mal:extends>
+                    <mal:type name="Composite" area="MAL"/>
+                </mal:extends>
+                <mal:field name="name" canBeNull="false"
+                           comment="The name of the parameter. Must not be empty or the wildcard value.">
+                    <mal:type name="Identifier" area="MAL"/>
+                </mal:field>
+                <mal:field name="paramDefDetails" canBeNull="false"
+                           comment="The parameter definition details.">
+                    <mal:type name="ParameterDefinition" area="MC"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="ParameterRawValue" shortFormPart="16"
+                           comment="The ParameterRawValue structure holds a new raw value for a specific parameter.">
+                <mal:extends>
+                    <mal:type name="Composite" area="MAL"/>
+                </mal:extends>
+                <mal:field name="paramInstId" canBeNull="false"
+                           comment="The object instance identifier of the parameter identity.">
+                    <mal:type name="Long" area="MAL"/>
+                </mal:field>
+                <mal:field name="rawValue"
+                           comment="The parameter raw value. The value of NULL is a valid value and carries no special significance in the parameter service.">
+                    <mal:type name="Attribute" area="MAL"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="ParameterValueDetails" shortFormPart="17"
+                           comment="This structure holds a specific time stamped value of the parameter. The type of the value shall match that specified in the parameter definition.">
+                <mal:field name="paramId" canBeNull="false"
+                           comment="The ParameterIdentity object instance identifier.">
+                    <mal:type name="Long" area="MAL"/>
+                </mal:field>
+                <mal:field name="defId" canBeNull="false"
+                           comment="The ParameterDefinition object instance identifier.">
+                    <mal:type name="Long" area="MAL"/>
+                </mal:field>
+                <mal:field name="timestamp" canBeNull="false" comment="The timestamp of the value.">
+                    <mal:type name="Time" area="MAL"/>
+                </mal:field>
+                <mal:field name="value" canBeNull="false" comment="The parameter value.">
+                    <mal:type name="ParameterValue" area="MC"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="AlertDefinition" shortFormPart="18"
+                           comment="The AlertDefinition provides the definition of an alert including any argument definitions.">
+                <mal:extends>
+                    <mal:type name="Composite" area="MAL"/>
+                </mal:extends>
+                <mal:field name="description" canBeNull="false" comment="The description of the alert.">
+                    <mal:type name="String" area="MAL"/>
+                </mal:field>
+                <mal:field name="severity" canBeNull="false" comment="Severity of the alert.">
+                    <mal:type name="Severity" area="MC"/>
+                </mal:field>
+                <mal:field name="generationEnabled" canBeNull="false"
+                           comment="Controls whether instances of this alert are to be generated.">
+                    <mal:type name="Boolean" area="MAL"/>
+                </mal:field>
+                <mal:field name="arguments" canBeNull="false" comment="The list of argument definitions.">
+                    <mal:type list="true" name="ArgumentDefinition" area="MC"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="AlertEventDetails" shortFormPart="19"
+                           comment="The AlertEventDetails structure holds the details of an instance of an alert.">
+                <mal:extends>
+                    <mal:type name="Composite" area="MAL"/>
+                </mal:extends>
+                <mal:field name="argumentValues"
+                           comment="List containing the values of the arguments. The ordering of the list matches that of the definition. If a value for a particular entry is not being supplied, then its position is filled with a NULL value. If no arguments are defined, then the complete list is replaced with a NULL.">
+                    <mal:type list="true" name="AttributeValue" area="MC"/>
+                </mal:field>
+                <mal:field name="argumentIds"
+                           comment="Optional list of argument definition identifiers. Allows the consumer to verify that the correct arguments are being supplied. The ordering of the list matches that of the argument list of the alert definition.">
+                    <mal:type list="true" name="Identifier" area="MAL"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="AlertCreationRequest" shortFormPart="20"
+                           comment="The AlertCreationRequest contains all the fields required when creating a new alert in a provider.">
+                <mal:extends>
+                    <mal:type name="Composite" area="MAL"/>
+                </mal:extends>
+                <mal:field name="name" canBeNull="false"
+                           comment="Alert name. Must not be empty or wildcard value.">
+                    <mal:type name="Identifier" area="MAL"/>
+                </mal:field>
+                <mal:field name="alertDefDetails" canBeNull="false" comment="The alert definition.">
+                    <mal:type name="AlertDefinition" area="MC"/>
+                </mal:field>
+            </mal:composite>
+            <mal:enumeration name="AggregationCategory" shortFormPart="21"
+                             comment="AggregationCategory is an enumeration definition holding the categories of aggregations.">
+                <mal:item value="GENERAL" nvalue="1" comment="General aggregation."/>
+                <mal:item value="DIAGNOSTIC" nvalue="2" comment="Diagnostic aggregation."/>
+            </mal:enumeration>
+            <mal:enumeration name="ThresholdType" shortFormPart="22"
+                             comment="ThresholdType is an enumeration definition holding the types of filtering thresholds.">
+                <mal:item value="PERCENTAGE" nvalue="1" comment="Threshold value is a percentage."/>
+                <mal:item value="DELTA" nvalue="2" comment="Threshold value is a delta."/>
+            </mal:enumeration>
+            <mal:enumeration name="GenerationMode" shortFormPart="23"
+                             comment="GenerationMode is an enumeration definition holding the reasons for the aggregation to be generated.">
+                <mal:item nvalue="1" value="ADHOC" comment="The aggregation value was generated because of an ad-hoc implementation dependent reason."/>
+                <mal:item nvalue="2" value="PERIODIC" comment="The aggregation value was generated because of a periodic report."/>
+                <mal:item nvalue="3" value="FILTERED_TIMEOUT" comment="The item is filtered but it exceeded its timeout value."/>
+            </mal:enumeration>
+            <mal:composite name="AggregationDefinition" shortFormPart="24" comment="The AggregationDefinition structure holds definition details of an aggregation.">
+                <mal:extends>
+                    <mal:type name="Composite" area="MAL"/>
+                </mal:extends>
+                <mal:field name="description" canBeNull="false" comment="The description of the parameter. May be empty.">
+                    <mal:type name="String" area="MAL"/>
+                </mal:field>
+                <mal:field name="category" canBeNull="false" comment="The category of the aggregation.">
+                    <mal:type name="AggregationCategory" area="MC"/>
+                </mal:field>
+                <mal:field name="reportInterval" canBeNull="false" comment="The interval between periodic reports on this aggregation. If this aggregation is not periodic, this field must be '0'.">
+                    <mal:type name="Duration" area="MAL"/>
+                </mal:field>
+                <mal:field name="sendUnchanged" canBeNull="false"
+                           comment="If TRUE reports will include all values regardless of whether changed, if FALSE values unchanged from previous report are replaced with a NULL.">
+                    <mal:type name="Boolean" area="MAL"/>
+                </mal:field>
+                <mal:field name="sendDefinitions" canBeNull="false"
+                           comment="If TRUE reports will include the ParameterDefinition object instance identifier in the AggregationParameterValue, if FALSE it will be set to NULL.">
+                    <mal:type name="Boolean" area="MAL"/>
+                </mal:field>
+                <mal:field name="filterEnabled" canBeNull="false" comment="Controls whether reports for this aggregation are to be filtered.">
+                    <mal:type name="Boolean" area="MAL"/>
+                </mal:field>
+                <mal:field name="filteredTimeout" canBeNull="false"
+                           comment="The maximum duration between filtered reports. If this value is exceeded, then a report is sent regardless of filtered thresholds. Ignored if not filtered.">
+                    <mal:type name="Duration" area="MAL"/>
+                </mal:field>
+                <mal:field name="generationEnabled" canBeNull="false" comment="Controls whether reports for this aggregation are to be generated.">
+                    <mal:type name="Boolean" area="MAL"/>
+                </mal:field>
+                <mal:field name="parameterSets" canBeNull="false" comment="List containing the parameter sets which define the aggregation.">
+                    <mal:type list="true" name="AggregationParameterSet" area="MC"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="AggregationParameterSet" shortFormPart="25"
+                           comment="The AggregationParameterSet structure holds the identifier and optional filter for a parameter, or set of parameters, in an aggregation.">
+                <mal:extends>
+                    <mal:type name="Composite" area="MAL"/>
+                </mal:extends>
+                <mal:field name="domain"
+                           comment="The domain of the parameters being referenced in this set of parameters, NULL if the same domain as the aggregation.">
+                    <mal:type list="true" name="Identifier" area="MAL"/>
+                </mal:field>
+                <mal:field name="parameters" canBeNull="false"
+                           comment="The list of object instance identifiers of the ParameterIdentity objects being included in the aggregation.">
+                    <mal:type list="true" name="Long" area="MAL"/>
+                </mal:field>
+                <mal:field name="sampleInterval" canBeNull="false"
+                           comment="The interval between samples of the parameters in the set. If '0' then just a single sample of the parameters is required per aggregation report.">
+                    <mal:type name="Duration" area="MAL"/>
+                </mal:field>
+                <mal:field name="reportFilter"
+                           comment="If the AggregationParameterSet contains a single parameter then this field contains the filter to apply for filtered reports when filters are applied. NULL if no filter required or this set contains more than one parameter.">
+                    <mal:type name="ThresholdFilter" area="MC"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="AggregationValue" shortFormPart="26"
+                           comment="The AggregationValue structure holds the values for one or more sets of parameter values. The value sets must be held in the same order as that defined in the matching AggregationDefinition.">
+                <mal:extends>
+                    <mal:type name="Composite" area="MAL"/>
+                </mal:extends>
+                <mal:field name="generationMode" canBeNull="false"
+                           comment="Reason for the aggregation being generated.">
+                    <mal:type name="GenerationMode" area="MC"/>
+                </mal:field>
+                <mal:field name="filtered" canBeNull="false"
+                           comment="If a filter is enabled when the aggregation value is generated then this value shall be set to TRUE, else FALSE.">
+                    <mal:type name="Boolean" area="MAL"/>
+                </mal:field>
+                <mal:field name="parameterSetValues" canBeNull="false"
+                           comment="The parameterSetValues list holds the sets of values of the aggregation. The sets must be held in the same order as that defined in the aggregation definition.">
+                    <mal:type list="true" name="AggregationSetValue" area="MC"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="AggregationSetValue" shortFormPart="27"
+                           comment="The AggregationSetValue structure holds the values for one set of parameter values. If the definition sendUnchanged field is set to FALSE parameter values that are unchanged since the previous report are replaced by a NULL in this list. The parameter values must be held in the same order as that defined in the matching AggregationDefinition.">
+                <mal:extends>
+                    <mal:type name="Composite" area="MAL"/>
+                </mal:extends>
+                <mal:field name="deltaTime"
+                           comment="Optional delta time, from the timestamp of the aggregation for the first parameter set of the aggregation or the last value of the previous parameter set otherwise, for the first parameter sample of this set. If NULL, then the first sample time is the same as the aggregation timestamp for the first parameter set of the aggregation or the last value of the previous parameter set otherwise.">
+                    <mal:type name="Duration" area="MAL"/>
+                </mal:field>
+                <mal:field name="intervalTime"
+                           comment="Optional delta time between samples in this set. If NULL, then all samples in this set are given the same time. This is usually driven by the sampleInterval in the aggregation set definition.">
+                    <mal:type name="Duration" area="MAL"/>
+                </mal:field>
+                <mal:field name="values" canBeNull="false"
+                           comment="List containing values of the parameters which are part of the aggregation. The ordering of the list entries shall match that of the definition of the aggregation. If there are more values than contained in the definition then it is assumed that the parameters cycle as a complete parameter set.">
+                    <mal:type list="true" name="AggregationParameterValue" area="MC"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="AggregationParameterValue" shortFormPart="28"
+                           comment="The structure holds a single parameter value with its definition instance identifier.">
+                <mal:extends>
+                    <mal:type name="Composite" area="MAL"/>
+                </mal:extends>
+                <mal:field name="value" canBeNull="false" comment="The parameter value.">
+                    <mal:type name="ParameterValue" area="MC"/>
+                </mal:field>
+                <mal:field name="paramDefInstId"
+                           comment="The object instance identifier of the ParameterDefinition. NULL if sendDefinitions in the AggregationDefinition is FALSE.">
+                    <mal:type name="Long" area="MAL"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="ThresholdFilter" shortFormPart="29"
+                           comment="The ThresholdFilter structure holds the filter for a parameter.">
+                <mal:extends>
+                    <mal:type name="Composite" area="MAL"/>
+                </mal:extends>
+                <mal:field name="thresholdType" canBeNull="false"
+                           comment="The type of filter to apply for filtered periodic reports when filters are applied.">
+                    <mal:type name="ThresholdType" area="MC"/>
+                </mal:field>
+                <mal:field name="thresholdValue" canBeNull="false" comment="Threshold value to apply.">
+                    <mal:type name="Attribute" area="MAL"/>
+                </mal:field>
+                <mal:field name="useConverted" canBeNull="false"
+                           comment="If true, and the relevant Parameter has a conversion, then use the converted value for the threshold comparison, otherwise use the raw value.">
+                    <mal:type name="Boolean" area="MAL"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="AggregationCreationRequest" shortFormPart="30"
+                           comment="The AggregationCreationRequest contains all the fields required when creating a new aggregation in a provider.">
+                <mal:field name="name" canBeNull="false"
+                           comment="The name of the aggregation. Must not be empty or the wildcard value.">
+                    <mal:type name="Identifier" area="MAL"/>
+                </mal:field>
+                <mal:field name="aggDefDetails" canBeNull="false"
+                           comment="The aggregation definition details.">
+                    <mal:type name="AggregationDefinition" area="MC"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="AggregationValueDetails" shortFormPart="31"
+                           comment="This structure holds a specific time stamped value of the aggregation. ">
+                <mal:field name="aggId" canBeNull="false"
+                           comment="The AggregationIdentity object instance identifier.">
+                    <mal:type name="Long" area="MAL"/>
+                </mal:field>
+                <mal:field name="defId" canBeNull="false"
+                           comment="The AggregationDefinition object instance identifier.">
+                    <mal:type name="Long" area="MAL"/>
+                </mal:field>
+                <mal:field name="timestamp" canBeNull="false"
+                           comment="The timestamp of the value. Use for the calculation of the individual parameter value timestamps.">
+                    <mal:type name="Time" area="MAL"/>
+                </mal:field>
+                <mal:field name="value" canBeNull="false" comment="The aggregation value.">
+                    <mal:type name="AggregationValue" area="MC"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="DiscreteConversionDetails" shortFormPart="32"
+                           comment="The DiscreteConversionDetails structure holds a bidirectional conversion between raw and converted values. The first element of the pair is the raw value and the second is the converted value. Both sets of values must be unique.">
+                <mal:extends>
+                    <mal:type name="Composite" area="MAL"/>
+                </mal:extends>
+                <mal:field name="mapping" canBeNull="false"
+                           comment="Defines a mapping between raw and converted values as a discrete set of points. The first entry in the pair is the raw value, and the second entry is the converted value.">
+                    <mal:type list="true" name="Pair" area="MAL"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="LineConversionDetails" shortFormPart="33"
+                           comment="The LineConversionDetails structure is a bi-directional conversion between raw and converted values. It is defined by a series of points between which values are to be interpolated. The extrapolate attribute indicates if values can also be linearly extrapolated beyond the initial and final points.">
+                <mal:extends>
+                    <mal:type name="Composite" area="MAL"/>
+                </mal:extends>
+                <mal:field name="extrapolate" canBeNull="false"
+                           comment="Indicates whether or not values can be extrapolated beyond the start and the end of the points.">
+                    <mal:type name="Boolean" area="MAL"/>
+                </mal:field>
+                <mal:field name="points" canBeNull="false"
+                           comment="Defines the bi-directional conversion. The first attribute of the point is a raw value, and the second attribute is the converted value.">
+                    <mal:type list="true" name="Pair" area="MAL"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="PolyConversionDetails" shortFormPart="34"
+                           comment="The PolyConversionDetails structure holds only forward (raw to converted) polynomial conversions. They are defined by a series of points for the polynomial coefficients.">
+                <mal:extends>
+                    <mal:type name="Composite" area="MAL"/>
+                </mal:extends>
+                <mal:field name="points" canBeNull="false"
+                           comment="The first attribute of a point is a MAL::Integer, being the degree of the polynomial; the second attribute is either a MAL::Float or a MAL::Double, being the coefficient of the term.">
+                    <mal:type list="true" name="Pair" area="MAL"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="RangeConversionDetails" shortFormPart="35"
+                           comment="The RangeConversionDetails structure holds a range for a one-way conversion to convert between a continuous range to a discrete value. A range is defined as from this point up to, but not including, the next point.">
+                <mal:extends>
+                    <mal:type name="Composite" area="MAL"/>
+                </mal:extends>
+                <mal:field name="points" canBeNull="false"
+                           comment="The first attribute in each pair is the raw range, and the second attribute is the converted value.">
+                    <mal:type list="true" name="Pair" area="MAL"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="GroupDetails" shortFormPart="36"
+                           comment="The GroupDetails structure holds the object type, domain, and set of object instance identifiers for a set of objects from another service.">
+                <mal:extends>
+                    <mal:type name="Composite" area="MAL"/>
+                </mal:extends>
+                <mal:field name="description" canBeNull="false" comment="Description of the group.">
+                    <mal:type name="String" area="MAL"/>
+                </mal:field>
+                <mal:field name="objectType" canBeNull="false"
+                           comment="The object type of the objects referenced by this group.">
+                    <mal:type name="ObjectType" area="COM"/>
+                </mal:field>
+                <mal:field name="domain" canBeNull="false"
+                           comment="The domain of the objects being referenced by this group.">
+                    <mal:type list="true" name="Identifier" area="MAL"/>
+                </mal:field>
+                <mal:field name="instanceIds" canBeNull="false"
+                           comment="The list of object instance identifiers of the objects being referenced by this group.">
+                    <mal:type list="true" name="Long" area="MAL"/>
                 </mal:field>
             </mal:composite>
         </mal:dataTypes>

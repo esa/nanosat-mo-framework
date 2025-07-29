@@ -51,13 +51,7 @@ import org.ccsds.moims.mo.mal.UnknownException;
 import org.ccsds.moims.mo.mc.action.ActionHelper;
 import org.ccsds.moims.mo.mc.action.ActionServiceInfo;
 import org.ccsds.moims.mo.mc.action.provider.ActionInheritanceSkeleton;
-import org.ccsds.moims.mo.mc.action.structures.ActionCreationRequestList;
-import org.ccsds.moims.mo.mc.action.structures.ActionCreationRequest;
-import org.ccsds.moims.mo.mc.action.structures.ActionDefinition;
-import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionList;
-import org.ccsds.moims.mo.mc.action.structures.ActionInstanceDetails;
-import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
-import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
+import org.ccsds.moims.mo.mc.structures.*;
 
 /**
  * Action service Provider.

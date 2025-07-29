@@ -33,13 +33,7 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UShort;
-import org.ccsds.moims.mo.mc.action.structures.ActionCategory;
-import org.ccsds.moims.mo.mc.action.structures.ActionDefinition;
-import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionList;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
-import org.ccsds.moims.mo.mc.structures.ArgumentDefinition;
-import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionList;
-import org.ccsds.moims.mo.mc.structures.AttributeValueList;
+import org.ccsds.moims.mo.mc.structures.*;
 
 /**
  * A simple NMF App demo that reports 5 stages of an Action every 2 seconds

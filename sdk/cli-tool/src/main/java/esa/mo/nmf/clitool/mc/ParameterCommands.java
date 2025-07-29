@@ -48,15 +48,10 @@ import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.MCHelper;
 import org.ccsds.moims.mo.mc.aggregation.AggregationServiceInfo;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinition;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSet;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterValue;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationSetValue;
 import org.ccsds.moims.mo.mc.parameter.ParameterServiceInfo;
 import org.ccsds.moims.mo.mc.parameter.consumer.ParameterAdapter;
 import org.ccsds.moims.mo.mc.parameter.consumer.ParameterStub;
-import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
-import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
+import org.ccsds.moims.mo.mc.structures.*;
 import picocli.CommandLine;
 
 /**
@@ -122,7 +117,7 @@ public class ParameterCommands {
                             org.ccsds.moims.mo.mal.structures.Identifier subscriptionId,
                             org.ccsds.moims.mo.mal.structures.UpdateHeader updateHeader,
                             org.ccsds.moims.mo.com.structures.ObjectId objId,
-                            org.ccsds.moims.mo.mc.parameter.structures.ParameterValue newValue,
+                            org.ccsds.moims.mo.mc.structures.ParameterValue newValue,
                             java.util.Map qosProperties) {
                         String parameterName = ((Union) updateHeader.getKeyValues().get(0).getValue()).getStringValue();
                         long timestamp = msgHeader.getTimestamp().getValue();

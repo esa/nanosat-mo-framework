@@ -29,10 +29,9 @@ import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
-import org.ccsds.moims.mo.mal.structures.Union;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinition;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionList;
 import org.ccsds.moims.mo.mc.structures.AttributeValue;
+import org.ccsds.moims.mo.mc.structures.ParameterDefinition;
+import org.ccsds.moims.mo.mc.structures.ParameterDefinitionList;
 
 /**
  * This class provides a demo cli provider for generating Serial objects

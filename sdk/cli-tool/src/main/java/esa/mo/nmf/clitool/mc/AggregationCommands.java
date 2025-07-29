@@ -39,13 +39,8 @@ import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.aggregation.AggregationServiceInfo;
 import org.ccsds.moims.mo.mc.aggregation.consumer.AggregationAdapter;
 import org.ccsds.moims.mo.mc.aggregation.consumer.AggregationStub;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinition;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSet;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterValue;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterValueList;
 import org.ccsds.moims.mo.mc.parameter.ParameterServiceInfo;
-import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
-import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
+import org.ccsds.moims.mo.mc.structures.*;
 import picocli.CommandLine;
 
 /**
@@ -382,7 +377,7 @@ public class AggregationCommands {
                             org.ccsds.moims.mo.mal.structures.Identifier subscriptionId,
                             org.ccsds.moims.mo.mal.structures.UpdateHeader updateHeader,
                             org.ccsds.moims.mo.com.structures.ObjectId objId,
-                            org.ccsds.moims.mo.mc.aggregation.structures.AggregationValue newValue,
+                            org.ccsds.moims.mo.mc.structures.AggregationValue newValue,
                             java.util.Map qosProperties) {
                         String aggregationName = updateHeader.getKeyValues().get(0).getValue().toString().toLowerCase();
                         //long timestamp = updateHeaderList.get(0).getTimestamp().getValue();

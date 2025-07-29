@@ -36,14 +36,7 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mc.conversion.ConversionHelper;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterConversion;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterCreationRequest;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterCreationRequestList;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinition;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionList;
-import org.ccsds.moims.mo.mc.structures.ConditionalConversion;
-import org.ccsds.moims.mo.mc.structures.ConditionalConversionList;
-import org.ccsds.moims.mo.mc.structures.ParameterExpression;
+import org.ccsds.moims.mo.mc.structures.*;
 
 /**
  *

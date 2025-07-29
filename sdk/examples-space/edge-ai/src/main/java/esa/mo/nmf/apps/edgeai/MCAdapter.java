@@ -37,12 +37,7 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UShort;
-import org.ccsds.moims.mo.mc.action.structures.ActionCategory;
-import org.ccsds.moims.mo.mc.action.structures.ActionDefinition;
-import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionList;
-import org.ccsds.moims.mo.mc.structures.ArgumentDefinition;
-import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionList;
-import org.ccsds.moims.mo.mc.structures.AttributeValueList;
+import org.ccsds.moims.mo.mc.structures.*;
 import org.ccsds.moims.mo.platform.artificialintelligence.consumer.ArtificialIntelligenceStub;
 
 /**

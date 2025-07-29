@@ -21,7 +21,7 @@
 package esa.mo.nmf.clitool;
 
 import org.ccsds.moims.mo.mal.structures.FineTime;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationValue;
+import org.ccsds.moims.mo.mc.structures.AggregationValue;
 
 public class TimestampedAggregationValue {
 

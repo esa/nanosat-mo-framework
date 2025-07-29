@@ -25,9 +25,7 @@ import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.AttributeType;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinition;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
+import org.ccsds.moims.mo.mc.structures.*;
 
 /**
  * The ParameterStatusListener interface allows the creation of listeners for

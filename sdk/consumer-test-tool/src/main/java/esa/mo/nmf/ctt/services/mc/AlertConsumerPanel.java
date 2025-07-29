@@ -39,8 +39,8 @@ import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.alert.AlertServiceInfo;
 import org.ccsds.moims.mo.mc.alert.consumer.AlertAdapter;
-import org.ccsds.moims.mo.mc.alert.structures.AlertDefinition;
-import org.ccsds.moims.mo.mc.alert.structures.AlertDefinitionList;
+import org.ccsds.moims.mo.mc.structures.AlertDefinition;
+import org.ccsds.moims.mo.mc.structures.AlertDefinitionList;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 

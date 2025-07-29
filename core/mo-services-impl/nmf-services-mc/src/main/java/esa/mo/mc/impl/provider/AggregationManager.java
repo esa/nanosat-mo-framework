@@ -41,22 +41,7 @@ import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.TimeList;
 import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mc.aggregation.AggregationServiceInfo;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinition;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSet;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSetList;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterValue;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterValueList;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationSetValue;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationSetValueList;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationValue;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationValueList;
-import org.ccsds.moims.mo.mc.aggregation.structures.GenerationMode;
-import org.ccsds.moims.mo.mc.aggregation.structures.ThresholdFilter;
-import org.ccsds.moims.mo.mc.aggregation.structures.ThresholdType;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinition;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
-import org.ccsds.moims.mo.mc.parameter.structures.ValidityState;
-import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
+import org.ccsds.moims.mo.mc.structures.*;
 
 /**
  *

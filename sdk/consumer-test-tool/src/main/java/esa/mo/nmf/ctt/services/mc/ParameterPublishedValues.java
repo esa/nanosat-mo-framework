@@ -37,8 +37,8 @@ import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.mal.structures.UpdateHeader;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.parameter.consumer.ParameterAdapter;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
-import org.ccsds.moims.mo.mc.parameter.structures.ValidityState;
+import org.ccsds.moims.mo.mc.structures.ParameterValue;
+import org.ccsds.moims.mo.mc.structures.ValidityState;
 
 /**
  *

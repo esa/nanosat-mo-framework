@@ -34,9 +34,9 @@ import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mc.parameter.ParameterServiceInfo;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterValueList;
-import org.ccsds.moims.mo.mc.parameter.structures.ValidityState;
+import org.ccsds.moims.mo.mc.structures.ParameterValue;
+import org.ccsds.moims.mo.mc.structures.ParameterValueList;
+import org.ccsds.moims.mo.mc.structures.ValidityState;
 
 /**
  *

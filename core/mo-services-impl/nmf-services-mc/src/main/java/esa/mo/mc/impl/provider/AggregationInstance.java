@@ -23,7 +23,7 @@ package esa.mo.mc.impl.provider;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.Time;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationValue;
+import org.ccsds.moims.mo.mc.structures.AggregationValue;
 
 /**
  *
@@ -36,8 +36,8 @@ public class AggregationInstance {
     private final ObjectId source;
     private final Time timestamp;
 
-    public AggregationInstance(final Identifier name, final AggregationValue pValue, final ObjectId source,
-        final Time timestamp) {
+    public AggregationInstance(final Identifier name, final AggregationValue pValue,
+            final ObjectId source, final Time timestamp) {
         this.name = name;
         this.aggregationValue = pValue;
         this.source = source;

@@ -73,9 +73,7 @@ import org.ccsds.moims.mo.mc.aggregation.AggregationHelper;
 import org.ccsds.moims.mo.mc.aggregation.AggregationServiceInfo;
 import org.ccsds.moims.mo.mc.aggregation.provider.AggregationInheritanceSkeleton;
 import org.ccsds.moims.mo.mc.aggregation.provider.MonitorValuePublisher;
-import org.ccsds.moims.mo.mc.aggregation.structures.*;
-import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
-import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
+import org.ccsds.moims.mo.mc.structures.*;
 
 /**
  * Aggregation service Provider.

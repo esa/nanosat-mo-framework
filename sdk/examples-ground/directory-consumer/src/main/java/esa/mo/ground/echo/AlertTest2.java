@@ -41,13 +41,8 @@ import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mc.alert.AlertServiceInfo;
-import org.ccsds.moims.mo.mc.alert.structures.AlertDefinition;
-import org.ccsds.moims.mo.mc.alert.structures.AlertEventDetails;
 import org.ccsds.moims.mo.mc.alert.consumer.AlertStub;
-import org.ccsds.moims.mo.mc.structures.AttributeValue;
-import org.ccsds.moims.mo.mc.structures.AttributeValueList;
-import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
-import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
+import org.ccsds.moims.mo.mc.structures.*;
 
 /**
  *

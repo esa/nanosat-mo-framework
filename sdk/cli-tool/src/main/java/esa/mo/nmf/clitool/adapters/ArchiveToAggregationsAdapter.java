@@ -1,23 +1,22 @@
 package esa.mo.nmf.clitool.adapters;
 
 import esa.mo.nmf.clitool.TimestampedAggregationValue;
-import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
-import org.ccsds.moims.mo.com.structures.ArchiveDetailsList;
-import org.ccsds.moims.mo.com.structures.ObjectType;
-import org.ccsds.moims.mo.mal.MOErrorException;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinition;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationValue;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
+import org.ccsds.moims.mo.com.structures.ArchiveDetailsList;
+import org.ccsds.moims.mo.com.structures.ObjectType;
+import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
+import org.ccsds.moims.mo.mal.structures.IdentifierList;
+import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.aggregation.AggregationServiceInfo;
+import org.ccsds.moims.mo.mc.structures.AggregationDefinition;
+import org.ccsds.moims.mo.mc.structures.AggregationValue;
 
 public class ArchiveToAggregationsAdapter extends ArchiveAdapter implements QueryStatusProvider {
 
@@ -50,13 +49,13 @@ public class ArchiveToAggregationsAdapter extends ArchiveAdapter implements Quer
 
     @Override
     public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-        ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
+            ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
         processObjects(objType, objDetails, objBodies, domain);
     }
 
     @Override
     public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-        ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
+            ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
         if (objDetails == null) {
             setIsQueryOver(true);
             return;

@@ -32,11 +32,10 @@ import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
-import org.ccsds.moims.mo.mal.structures.Union;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinition;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionList;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
+import org.ccsds.moims.mo.mc.structures.ParameterDefinition;
+import org.ccsds.moims.mo.mc.structures.ParameterDefinitionList;
+import org.ccsds.moims.mo.mc.structures.ParameterRawValueList;
 
 /**
  * This class provides a simple Hello World demo cli provider

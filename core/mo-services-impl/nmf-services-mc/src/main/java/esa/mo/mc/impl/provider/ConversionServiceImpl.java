@@ -43,15 +43,7 @@ import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.mc.conversion.ConversionHelper;
 import org.ccsds.moims.mo.mc.conversion.ConversionServiceInfo;
 import org.ccsds.moims.mo.mc.conversion.provider.ConversionInheritanceSkeleton;
-import org.ccsds.moims.mo.mc.conversion.structures.DiscreteConversionDetails;
-import org.ccsds.moims.mo.mc.conversion.structures.LineConversionDetails;
-import org.ccsds.moims.mo.mc.conversion.structures.PolyConversionDetails;
-import org.ccsds.moims.mo.mc.conversion.structures.RangeConversionDetails;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterConversion;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
-import org.ccsds.moims.mo.mc.structures.ConditionalConversionList;
-import org.ccsds.moims.mo.mc.structures.ConditionalConversion;
-import org.ccsds.moims.mo.mc.structures.ParameterExpression;
+import org.ccsds.moims.mo.mc.structures.*;
 
 /**
  * Conversion service.

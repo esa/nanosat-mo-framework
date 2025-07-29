@@ -53,16 +53,8 @@ import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.aggregation.AggregationServiceInfo;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationCategory;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinition;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSet;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSetList;
 import org.ccsds.moims.mo.mc.conversion.ConversionServiceInfo;
-import org.ccsds.moims.mo.mc.conversion.structures.DiscreteConversionDetails;
-import org.ccsds.moims.mo.mc.conversion.structures.LineConversionDetails;
-import org.ccsds.moims.mo.mc.conversion.structures.PolyConversionDetails;
-import org.ccsds.moims.mo.mc.conversion.structures.RangeConversionDetails;
-import org.ccsds.moims.mo.mc.group.structures.GroupDetails;
+import org.ccsds.moims.mo.mc.structures.*;
 
 /**
  * The ArchiveConsumerManagerPanel class holds a panel to interact with an

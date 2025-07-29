@@ -20,32 +20,28 @@
  */
 package esa.mo.nmf.nanosatmosupervisor;
 
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.provider.MALInteraction;
-import org.ccsds.moims.mo.mal.structures.UInteger;
-import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValue;
+import esa.mo.helpertools.misc.OSValidator;
+import esa.mo.helpertools.misc.ShellCommander;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
 import esa.mo.nmf.annotations.Action;
 import esa.mo.nmf.annotations.ActionParameter;
 import esa.mo.nmf.annotations.Parameter;
-import esa.mo.helpertools.misc.OSValidator;
-import esa.mo.helpertools.misc.ShellCommander;
-import org.ccsds.moims.mo.mal.MOErrorException;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
-import org.ccsds.moims.mo.mal.structures.Attribute;
-import org.ccsds.moims.mo.mal.structures.Duration;
-import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.UpdateHeader;
+import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.MOErrorException;
+import org.ccsds.moims.mo.mal.provider.MALInteraction;
+import org.ccsds.moims.mo.mal.structures.*;
+import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
+import org.ccsds.moims.mo.mc.structures.ParameterRawValue;
 import org.ccsds.moims.mo.platform.autonomousadcs.consumer.AutonomousADCSAdapter;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSAdapter;
 import org.ccsds.moims.mo.platform.structures.*;
@@ -68,12 +64,12 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
     private final OSValidator osValidator = new OSValidator();
 
     @Parameter(description = "The version of the operating system.", generationEnabled = false,
-               onGetFunction = "onGetOSVersion", readOnly = true, reportIntervalSeconds = 10)
+            onGetFunction = "onGetOSVersion", readOnly = true, reportIntervalSeconds = 10)
     public String OSVersion = "";
 
     @Parameter(description = "The Current partition where the OS is running. Only works for linux",
-               generationEnabled = false, onGetFunction = "onGetOSPartition", readOnly = true,
-               reportIntervalSeconds = 10)
+            generationEnabled = false, onGetFunction = "onGetOSPartition", readOnly = true,
+            reportIntervalSeconds = 10)
     public String OSPartition = "";
 
     @Parameter(generationEnabled = false, readOnly = true, reportIntervalSeconds = 10)
@@ -127,6 +123,7 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
     }
 
     public class ADCSDataHandler extends AutonomousADCSAdapter {
+
         @Override
         public void monitorAttitudeNotifyReceived(
                 final MALMessageHeader msgHeader,
@@ -135,7 +132,7 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
                 ActuatorsTelemetry actuatorsTelemetry,
                 Duration controlDuration,
                 AttitudeMode attitudeMode,
-                final Map qosp){
+                final Map qosp) {
             LOGGER.log(Level.FINE, "Received monitorAttitude notify");
             Quaternion attitude = attitudeTm.getAttitude();
             attitudeQuatA = attitude.getA();
@@ -162,16 +159,16 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
     private void configureMonitoring() throws IOException, MALInteractionException, MALException, NMFException {
         if (attitudeMonitoringInterval.getValue() >= 0.1) {
             nmfSupervisor.getPlatformServices().getAutonomousADCSService().enableMonitoring(true,
-                attitudeMonitoringInterval);
+                    attitudeMonitoringInterval);
         } else {
             nmfSupervisor.getPlatformServices().getAutonomousADCSService().enableMonitoring(false,
-                attitudeMonitoringInterval);
+                    attitudeMonitoringInterval);
         }
     }
 
     @Action(name = "ADCS.configureMonitoring")
     public UInteger configureMonitoringAction(Long actionInstanceObjId, boolean reportProgress,
-        MALInteraction interaction) {
+            MALInteraction interaction) {
         try {
             configureMonitoring();
         } catch (IOException | MALInteractionException | MALException | NMFException ex) {
@@ -184,7 +181,7 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
     @Action(name = "NMEA_Sentence",
             description = "Adds <CR><LF> to a raw NMEA query and forwards it to the GNSS Provider")
     public UInteger nmeaAction(Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction,
-        @ActionParameter(name = "arg") String arg) {
+            @ActionParameter(name = "arg") String arg) {
         try {
             arg = arg + "\r\n";
             nmfSupervisor.getPlatformServices().getGPSService().getNMEASentence(arg, new GPSConsumerAdapter());
@@ -198,7 +195,7 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
     @Action(name = "Clock.setTimeUsingDeltaMilliseconds",
             description = "Sets the clock using a diff between the on-board time and the desired time.")
     public UInteger setTimeUsingDeltaMilliseconds(Long actionInstanceObjId, boolean reportProgress,
-        MALInteraction interaction, @ActionParameter(name = "delta", rawUnit = "milliseconds") Long delta) {
+            MALInteraction interaction, @ActionParameter(name = "delta", rawUnit = "milliseconds") Long delta) {
         String str = (new SimpleDateFormat(DATE_PATTERN)).format(new Date(System.currentTimeMillis() + delta));
 
         ShellCommander shell = new ShellCommander();
@@ -211,7 +208,7 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
 
         try {
             nmfSupervisor.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(null,
-                new AttitudeModeSunPointing());
+                    new AttitudeModeSunPointing());
         } catch (MALInteractionException | MALException | IOException | NMFException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
             return new UInteger(1);
@@ -221,11 +218,11 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
 
     @Action(name = "ADCS.nadirPointing")
     public UInteger adcsNadirPointing(Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction,
-        @ActionParameter(name = "duration") Duration duration) {
+            @ActionParameter(name = "duration") Duration duration) {
 
         try {
             nmfSupervisor.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(duration,
-                new AttitudeModeSunPointing());
+                    new AttitudeModeSunPointing());
         } catch (MALInteractionException | MALException | IOException | NMFException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
             return new UInteger(1);

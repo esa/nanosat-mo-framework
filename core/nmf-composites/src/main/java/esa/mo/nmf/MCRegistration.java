@@ -34,25 +34,8 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.structures.*;
-import org.ccsds.moims.mo.mc.action.structures.ActionCreationRequest;
-import org.ccsds.moims.mo.mc.action.structures.ActionCreationRequestList;
-import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionList;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationCreationRequest;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationCreationRequestList;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionList;
-import org.ccsds.moims.mo.mc.alert.structures.AlertCreationRequest;
-import org.ccsds.moims.mo.mc.alert.structures.AlertCreationRequestList;
-import org.ccsds.moims.mo.mc.alert.structures.AlertDefinitionList;
 import org.ccsds.moims.mo.mc.conversion.ConversionServiceInfo;
-import org.ccsds.moims.mo.mc.conversion.structures.DiscreteConversionDetailsList;
-import org.ccsds.moims.mo.mc.conversion.structures.LineConversionDetailsList;
-import org.ccsds.moims.mo.mc.conversion.structures.PolyConversionDetailsList;
-import org.ccsds.moims.mo.mc.conversion.structures.RangeConversionDetailsList;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterCreationRequest;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterCreationRequestList;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionList;
-import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
-import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
+import org.ccsds.moims.mo.mc.structures.*;
 
 /**
  * The MCRegistration class provides methods to be implemented by the

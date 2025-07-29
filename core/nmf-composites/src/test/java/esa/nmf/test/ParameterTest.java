@@ -27,9 +27,9 @@ import java.io.IOException;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionList;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValue;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
+import org.ccsds.moims.mo.mc.structures.ParameterDefinitionList;
+import org.ccsds.moims.mo.mc.structures.ParameterRawValue;
+import org.ccsds.moims.mo.mc.structures.ParameterRawValueList;
 import org.junit.Test;
 
 /**

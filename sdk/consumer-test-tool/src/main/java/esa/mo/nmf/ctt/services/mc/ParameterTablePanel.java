@@ -27,7 +27,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinition;
+import org.ccsds.moims.mo.mc.structures.ParameterDefinition;
 
 /**
  *

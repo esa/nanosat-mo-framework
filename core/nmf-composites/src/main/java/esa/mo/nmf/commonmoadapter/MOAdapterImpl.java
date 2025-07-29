@@ -47,19 +47,10 @@ import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.action.ActionServiceInfo;
 import org.ccsds.moims.mo.mc.action.consumer.ActionAdapter;
 import org.ccsds.moims.mo.mc.action.consumer.ActionStub;
-import org.ccsds.moims.mo.mc.action.structures.ActionInstanceDetails;
 import org.ccsds.moims.mo.mc.aggregation.consumer.AggregationAdapter;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterValue;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationSetValue;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationValue;
 import org.ccsds.moims.mo.mc.parameter.consumer.ParameterAdapter;
 import org.ccsds.moims.mo.mc.parameter.consumer.ParameterStub;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValue;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
-import org.ccsds.moims.mo.mc.structures.AttributeValue;
-import org.ccsds.moims.mo.mc.structures.AttributeValueList;
-import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
-import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
+import org.ccsds.moims.mo.mc.structures.*;
 
 /**
  * The implementation of the base class of the MO Adapters.
@@ -205,7 +196,7 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
                     org.ccsds.moims.mo.mal.structures.Identifier subscriptionId,
                     org.ccsds.moims.mo.mal.structures.UpdateHeader updateHeader,
                     org.ccsds.moims.mo.com.structures.ObjectId objId,
-                    org.ccsds.moims.mo.mc.parameter.structures.ParameterValue newValue,
+                    org.ccsds.moims.mo.mc.structures.ParameterValue newValue,
                     java.util.Map qosProperties) {
                 String parameterName = updateHeader.getKeyValues().get(0).getValue().toString();
                 Attribute parameterValue = newValue.getRawValue();
@@ -252,7 +243,7 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
                     org.ccsds.moims.mo.mal.structures.Identifier subscriptionId,
                     org.ccsds.moims.mo.mal.structures.UpdateHeader updateHeader,
                     org.ccsds.moims.mo.com.structures.ObjectId objId,
-                    org.ccsds.moims.mo.mc.aggregation.structures.AggregationValue newValue,
+                    org.ccsds.moims.mo.mc.structures.AggregationValue newValue,
                     java.util.Map qosProperties) {
                 if (listener instanceof SimpleAggregationReceivedListener) {
                     List<ParameterInstance> parameterInstances = new LinkedList<>();
