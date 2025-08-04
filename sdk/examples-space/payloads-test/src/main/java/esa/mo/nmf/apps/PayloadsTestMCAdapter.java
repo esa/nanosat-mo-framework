@@ -342,13 +342,13 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
 
         // ------------------ Parameters ------------------
         ParameterDefinitionList defsOther = new ParameterDefinitionList();
-        IdentifierList paramOtherNames = new IdentifierList();
 
-        defsOther.add(new ParameterDefinition("The ADCS mode of operation",
+        defsOther.add(new ParameterDefinition(
+                new Identifier(PARAMETER_ADCS_MODE),
+                "The ADCS mode of operation",
                 AttributeType.UOCTET, "", false, new Duration(0), null, paramConversion));
-        paramOtherNames.add(new Identifier(PARAMETER_ADCS_MODE));
 
-        registration.registerParameters(paramOtherNames, defsOther);
+        registration.registerParameters(defsOther);
     }
 
     private ParameterConversion registerAdcsModeConversion(MCRegistration registration)

@@ -127,10 +127,9 @@ public final class ActionManager extends MCManager {
     //    public ActionDefinitionList getAll(){
     //        return (ActionDefinitionList) this.listgetAllDefs();
     //    }
-    public ObjectInstancePair add(ActionCreationRequest creationRequest, ObjectId source, URI uri) { // requirement: 3.3.2.5
+    public ObjectInstancePair add(ActionDefinition actionDefDetails, ObjectId source, URI uri) { // requirement: 3.3.2.5
         ObjectInstancePair newIdPair = new ObjectInstancePair();
-        final Identifier name = creationRequest.getName();
-        final ActionDefinition actionDefDetails = creationRequest.getActionDefDetails();
+        final Identifier name = actionDefDetails.getName();
 
         if (super.getArchiveService() == null) {
             //add to providers local list

@@ -43,7 +43,6 @@ import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.AttributeType;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.mc.structures.*;
@@ -75,13 +74,12 @@ public class PictureProcessorMCAdapter extends MonitorAndControlNMFAdapter imple
 
         // ------------------ Actions ------------------
         ActionDefinitionList actionDefs = new ActionDefinitionList();
-        IdentifierList actionNames = new IdentifierList();
 
-        regiserActionTakeAndProcessPicture(actionDefs, actionNames);
-        regiserActionDestroyProcess(actionDefs, actionNames);
+        populateActionTakeAndProcessPicture(actionDefs);
+        populateActionDestroyProcess(actionDefs);
         // ----
 
-        registration.registerActions(actionNames, actionDefs);
+        registration.registerActions(actionDefs);
     }
 
     @Override
@@ -106,8 +104,7 @@ public class PictureProcessorMCAdapter extends MonitorAndControlNMFAdapter imple
         publishParameter(id.toString(), exitCode);
     }
 
-    private void regiserActionTakeAndProcessPicture(ActionDefinitionList actionDefs,
-            IdentifierList actionNames) {
+    private void populateActionTakeAndProcessPicture(ActionDefinitionList actionDefs) {
         ArgumentDefinitionList arguments = new ArgumentDefinitionList();
         {
             AttributeType rawType = AttributeType.INTEGER;
@@ -125,12 +122,12 @@ public class PictureProcessorMCAdapter extends MonitorAndControlNMFAdapter imple
         }
 
         actionDefs.add(new ActionDefinition(
+                new Identifier(ACTION_TAKE_AND_PROCESS_PICTURE),
                 "Uses the NMF Camera to take a picture and process it through a python script",
                 ActionCategory.DEFAULT, new UShort(TOTAL_STAGES), arguments));
-        actionNames.add(new Identifier(ACTION_TAKE_AND_PROCESS_PICTURE));
     }
 
-    private void regiserActionDestroyProcess(ActionDefinitionList actionDefs, IdentifierList actionNames) {
+    private void populateActionDestroyProcess(ActionDefinitionList actionDefs) {
         ArgumentDefinitionList arguments = new ArgumentDefinitionList();
         {
             AttributeType rawType = AttributeType.LONG;
@@ -141,11 +138,11 @@ public class PictureProcessorMCAdapter extends MonitorAndControlNMFAdapter imple
         }
 
         actionDefs.add(new ActionDefinition(
+                new Identifier(ACTION_DESTROY_PROCESS),
                 "Destroy a process",
                 ActionCategory.DEFAULT,
                 new UShort(1),
                 arguments));
-        actionNames.add(new Identifier(ACTION_DESTROY_PROCESS));
     }
 
     private void takeAndProcessPicture(Long actionInstanceObjId, AttributeValueList attributeValues) {

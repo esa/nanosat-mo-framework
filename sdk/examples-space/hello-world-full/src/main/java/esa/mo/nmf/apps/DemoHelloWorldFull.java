@@ -70,12 +70,12 @@ public class DemoHelloWorldFull {
 
             // ------------------ Parameters ------------------
             final ParameterDefinitionList defs = new ParameterDefinitionList();
-            final IdentifierList names = new IdentifierList();
 
-            defs.add(new ParameterDefinition(PARAMETER_DESCRIPTION, AttributeType.STRING, "",
-                false, new Duration(3), null, null));
-            names.add(new Identifier(PARAMETER_NAME));
-            registrationObject.registerParameters(names, defs);
+            defs.add(new ParameterDefinition(
+                    new Identifier(PARAMETER_NAME),
+                    PARAMETER_DESCRIPTION, AttributeType.STRING, "",
+                    false, new Duration(3), null, null));
+            registrationObject.registerParameters(defs);
         }
 
         @Override
@@ -98,8 +98,8 @@ public class DemoHelloWorldFull {
         }
 
         @Override
-        public UInteger actionArrived(Identifier name, AttributeValueList attributeValues, Long actionInstanceObjId,
-            boolean reportProgress, MALInteraction interaction) {
+        public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,
+                Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
             return null;  // Action service not integrated
         }
     }

@@ -615,7 +615,7 @@ public class ParameterManager extends MCManager {
             return identityId; // the value was not changed
         }
 
-        ParameterDefinition newDef = new ParameterDefinition(
+        ParameterDefinition newDef = new ParameterDefinition(def.getName(),
                 def.getDescription(), def.getRawType(), def.getRawUnit(),
                 bool, def.getReportInterval(),
                 def.getValidityExpression(), def.getConversion());
@@ -682,7 +682,7 @@ public class ParameterManager extends MCManager {
 
         for (Long identityId : identitiyIds) {
             ParameterDefinition def = this.getParameterDefinition(identityId);
-            ParameterDefinition newDef = new ParameterDefinition(
+            ParameterDefinition newDef = new ParameterDefinition(def.getName(),
                     def.getDescription(), def.getRawType(), def.getRawUnit(),
                     bool, def.getReportInterval(),
                     def.getValidityExpression(), def.getConversion());

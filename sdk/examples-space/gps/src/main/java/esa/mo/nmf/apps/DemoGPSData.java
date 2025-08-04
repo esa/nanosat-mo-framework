@@ -34,15 +34,7 @@ import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
-import org.ccsds.moims.mo.mal.structures.Attribute;
-import org.ccsds.moims.mo.mal.structures.AttributeType;
-import org.ccsds.moims.mo.mal.structures.Duration;
-import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.structures.IntegerList;
-import org.ccsds.moims.mo.mal.structures.LongList;
-import org.ccsds.moims.mo.mal.structures.Time;
-import org.ccsds.moims.mo.mal.structures.UInteger;
+import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.structures.*;
 import org.ccsds.moims.mo.platform.gps.body.GetLastKnownPositionResponse;
@@ -104,28 +96,31 @@ public class DemoGPSData {
 
             // ------------------ Parameters ------------------
             ParameterDefinitionList parDef = new ParameterDefinitionList();
-            IdentifierList paramNames = new IdentifierList();
 
             // Create the GPS.Latitude
-            parDef.add(new ParameterDefinition("The GPS Latitude", AttributeType.DOUBLE,
+            parDef.add(new ParameterDefinition(
+                    new Identifier(PARAMETER_GPS_LATITUDE),
+                    "The GPS Latitude", AttributeType.DOUBLE,
                     "degrees", false, new Duration(2), null, null));
-            paramNames.add(new Identifier(PARAMETER_GPS_LATITUDE));
 
             // Create the GPS.Longitude
-            parDef.add(new ParameterDefinition("The GPS Longitude", AttributeType.DOUBLE,
+            parDef.add(new ParameterDefinition(
+                    new Identifier(PARAMETER_GPS_LONGITUDE),
+                    "The GPS Longitude", AttributeType.DOUBLE,
                     "degrees", false, new Duration(2), null, null));
-            paramNames.add(new Identifier(PARAMETER_GPS_LONGITUDE));
 
             // Create the GPS.Altitude
-            parDef.add(new ParameterDefinition("The GPS Altitude", AttributeType.DOUBLE,
+            parDef.add(new ParameterDefinition(
+                    new Identifier(PARAMETER_GPS_ALTITUDE),
+                    "The GPS Altitude", AttributeType.DOUBLE,
                     "meters", false, new Duration(2), null, null));
-            paramNames.add(new Identifier(PARAMETER_GPS_ALTITUDE));
 
-            parDef.add(new ParameterDefinition("The number of satellites in view of GPS receiver.",
+            parDef.add(new ParameterDefinition(
+                    new Identifier(PARAMETER_GPS_N_SATS_IN_VIEW),
+                    "The number of satellites in view of GPS receiver.",
                     AttributeType.INTEGER, "sats", false, new Duration(4), null, null));
-            paramNames.add(new Identifier(PARAMETER_GPS_N_SATS_IN_VIEW));
 
-            LongList parameterObjIdsGPS = registrationObject.registerParameters(paramNames, parDef);
+            LongList parameterObjIdsGPS = registrationObject.registerParameters(parDef);
 
             // ------------------ Aggregations ------------------
             AggregationDefinitionList aggDef = new AggregationDefinitionList();
@@ -133,17 +128,17 @@ public class DemoGPSData {
 
             // Create the Aggregation GPS
             AggregationDefinition defGPSAgg = new AggregationDefinition(
+                    new Identifier(AGGREGATION_GPS),
                     "Aggregates: GPS Latitude, GPS Longitude, GPS Altitude, GPS.NumberOfSatellitesInView.",
-                            AggregationCategory.GENERAL,
-                            new Duration(10), true, false, false,
+                    AggregationCategory.GENERAL,
+                    new Duration(10), true, false, false,
                     new Duration(20), true, new AggregationParameterSetList());
-            aggNames.add(new Identifier(AGGREGATION_GPS));
 
             defGPSAgg.getParameterSets().add(new AggregationParameterSet(null, parameterObjIdsGPS, new Duration(3),
                     null));
 
             aggDef.add(defGPSAgg);
-            registrationObject.registerAggregations(aggNames, aggDef);
+            registrationObject.registerAggregations(aggDef);
         }
 
         @Override

@@ -211,7 +211,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
             final MALInteraction interaction) throws MALException, MALInteractionException {
         ObjectInstancePairList outPairLst = new ObjectInstancePairList();
 
-        if (null == actionNames) { // Is the input null?
+        if (actionNames == null) { // Is the input null?
             throw new IllegalArgumentException("actionNames argument must not be null");
         }
 
@@ -247,28 +247,28 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         return outPairLst;  // requirement: 3.4.9.2.d
     }
 
-    public ObjectInstancePairList addAction(ActionCreationRequestList actionCreationRequestList,
+    public ObjectInstancePairList addAction(ActionDefinitionList defsList,
             MALInteraction interaction) throws MALInteractionException, MALException {
         ObjectInstancePairList newObjInstIds = new ObjectInstancePairList();
         UIntegerList invIndexList = new UIntegerList();
         UIntegerList dupIndexList = new UIntegerList();
 
-        if (null == actionCreationRequestList) // Is the input null?
-        {
+        if (defsList == null) { // Is the input null?
             throw new IllegalArgumentException("actionDefDetails argument must not be null");
         }
 
         //do the checks
-        for (int index = 0; index < actionCreationRequestList.size(); index++) {
-            ActionCreationRequest tempActionCreationRequest = actionCreationRequestList.get(index);
+        for (int index = 0; index < defsList.size(); index++) {
+            final Identifier name = defsList.get(index).getName();
             // Check if the name field of the ActionDefinition is invalid.
-            if (tempActionCreationRequest.getName() == null || tempActionCreationRequest.getName().equals(
-                    new Identifier("*")) || tempActionCreationRequest.getName().equals(new Identifier(""))) { // requirement: 3.2.12.2.b
+            if (name == null
+                    || name.equals(new Identifier("*"))
+                    || name.equals(new Identifier(""))) { // requirement: 3.2.12.2.b
                 invIndexList.add(new UInteger(index));
                 continue;
             }
 
-            if (manager.getIdentity(tempActionCreationRequest.getName()) != null) { // Is the supplied name unique? requirement: 3.2.12.2.c
+            if (manager.getIdentity(name) != null) { // Is the supplied name unique? requirement: 3.2.12.2.c
                 dupIndexList.add(new UInteger(index));
                 continue;
             }
@@ -284,10 +284,10 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         }
 
         //add the definition
-        for (int index = 0; index < actionCreationRequestList.size(); index++) { // requirement: 3.2.12.2.f (incremental "for cycle" guarantees that)
+        for (int index = 0; index < defsList.size(); index++) { // requirement: 3.2.12.2.f (incremental "for cycle" guarantees that)
             ObjectId source;
             source = manager.storeCOMOperationActivity(interaction); // requirement: 3.2.4.e
-            newObjInstIds.add(manager.add(actionCreationRequestList.get(index), source,
+            newObjInstIds.add(manager.add(defsList.get(index), source,
                     connection.getPrimaryConnectionDetails().getProviderURI())); //  requirement: 3.2.12.2.e, g
         }
 
@@ -303,7 +303,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
 
-        if (null == actionDefDetails || null == actionDefInstIds) { // Are the inputs null?
+        if (actionDefDetails == null || actionDefInstIds == null) { // Are the inputs null?
             throw new IllegalArgumentException("actionDefInstIds and actionDefDetails arguments must not be null");
         }
 
@@ -353,7 +353,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         Long tempIdentity;
         LongList tempIdentityLst = new LongList();
 
-        if (null == actionInstIds) { // Is the input null?
+        if (actionInstIds == null) { // Is the input null?
             throw new IllegalArgumentException("actionDefInstIds argument must not be null");
         }
 

@@ -215,7 +215,7 @@ public class BinaryEncoder extends GENEncoder {
 
         @Override
         public void addBytes(final byte[] value) throws IOException {
-            if (null == value) {
+            if (value == null) {
                 addSignedInt(-1);
             } else {
                 addSignedInt(value.length);

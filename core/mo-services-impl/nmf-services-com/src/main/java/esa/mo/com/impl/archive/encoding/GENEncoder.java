@@ -638,7 +638,7 @@ public abstract class GENEncoder implements MALEncoder {
      * @throws MALException if value is NULL
      */
     protected void checkForNull(Object value) throws MALException {
-        if (null == value) {
+        if (value == null) {
             throw new MALException("Null value supplied in a non-nullable field");
         }
     }

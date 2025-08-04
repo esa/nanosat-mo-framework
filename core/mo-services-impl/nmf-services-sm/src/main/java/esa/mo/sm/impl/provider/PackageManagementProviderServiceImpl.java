@@ -118,7 +118,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
         UIntegerList unkIndexList = new UIntegerList();
         FindPackageResponse outList;
 
-        if (null == names) { // Is the input null?
+        if (names == null) { // Is the input null?
             throw new IllegalArgumentException("names argument and category argument must not be null");
         }
 
@@ -183,7 +183,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
 
-        if (null == names) { // Is the input null?
+        if (names == null) { // Is the input null?
             throw new IllegalArgumentException("names argument must not be null");
         }
 
@@ -240,7 +240,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
         UIntegerList invIndexList = new UIntegerList();
 
         // Add validation
-        if (null == names || keepConfigurations == null) { // Is the input null?
+        if (names == null || keepConfigurations == null) { // Is the input null?
             throw new IllegalArgumentException("names argument and keepConfigurations argument must not be null");
         }
 
@@ -307,7 +307,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
         UIntegerList invIndexList = new UIntegerList();
 
         // Add validation
-        if (null == names) { // Is the input null?
+        if (names == null) { // Is the input null?
             throw new IllegalArgumentException("names argument must not be null");
         }
 
@@ -360,7 +360,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
         UIntegerList invIndexList = new UIntegerList();
 
         // Add validation
-        if (null == names) { // Is the input null?
+        if (names == null) { // Is the input null?
             throw new IllegalArgumentException("names argument must not be null");
         }
 

@@ -64,9 +64,11 @@ public final class AlertManager extends MCManager {
         return (AlertDefinition) this.getDefinitionFromObjId(defId);
     }
 
-    public ObjectInstancePair add(Identifier name, AlertDefinition definition, ObjectId source,
+    public ObjectInstancePair add(AlertDefinition definition, ObjectId source,
             SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
         ObjectInstancePair newIdPair = new ObjectInstancePair();
+        Identifier name = definition.getName();
+
         if (super.getArchiveService() == null) {
             //add to providers local list
             uniqueObjIdIdentity++; // This line as to go before any writing (because it's initialized as zero and that's the wildcard)
@@ -163,7 +165,7 @@ public final class AlertManager extends MCManager {
             return identityId; // the value was not changed
         }
 
-        AlertDefinition newDef = new AlertDefinition(
+        AlertDefinition newDef = new AlertDefinition(def.getName(),
                 def.getDescription(), def.getSeverity(), bool, def.getArguments());
 
         return this.update(identityId, newDef, source, connectionDetails);
@@ -176,7 +178,7 @@ public final class AlertManager extends MCManager {
 
         for (Long identityId : identityIds) {
             AlertDefinition def = this.getAlertDefinitionFromIdentityId(identityId);
-            AlertDefinition newDef = new AlertDefinition(
+            AlertDefinition newDef = new AlertDefinition(def.getName(),
                     def.getDescription(), def.getSeverity(), bool, def.getArguments());
 
             this.update(identityId, newDef, source, connectionDetails);

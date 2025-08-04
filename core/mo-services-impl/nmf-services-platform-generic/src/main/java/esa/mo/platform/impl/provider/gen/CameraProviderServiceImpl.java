@@ -234,7 +234,7 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
             cameraInUse = false;
             publishTimer.stopLast();
         } else {
-            if (null == firstEntityKey) { // Is the input null?
+            if (firstEntityKey == null) { // Is the input null?
                 throw new IllegalArgumentException("firstEntityKey argument must not be null");
             }
 

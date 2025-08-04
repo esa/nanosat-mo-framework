@@ -275,6 +275,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
 
         // Create and Show the Action Definition to the user
         AggregationDefinition aggregationDefinition = new AggregationDefinition(
+                new Identifier("Map"),
                 "A aggregation of 2 parameters.",
                 new AggregationCategory(),
                 new Duration(2),
@@ -285,18 +286,17 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
                 true,
                 aggSetList);
 
-        AggregationCreationRequest request = new AggregationCreationRequest(new Identifier("Map"), aggregationDefinition);
-        MOWindow aggregationDefinitionWindow = new MOWindow(request, true);
+        MOWindow aggregationDefinitionWindow = new MOWindow(aggregationDefinition, true);
 
-        AggregationCreationRequestList requestList = new AggregationCreationRequestList();
+        AggregationDefinitionList defsList = new AggregationDefinitionList();
         try {
-            requestList.add((AggregationCreationRequest) aggregationDefinitionWindow.getObject());
+            defsList.add((AggregationDefinition) aggregationDefinitionWindow.getObject());
         } catch (InterruptedIOException ex) {
             return;
         }
 
         try {
-            ObjectInstancePairList objIds = this.serviceMCAggregation.getAggregationStub().addAggregation(requestList);
+            ObjectInstancePairList objIds = this.serviceMCAggregation.getAggregationStub().addAggregation(defsList);
 
             if (objIds.isEmpty()) {
                 return;
@@ -310,7 +310,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
                     objIds.get(0).getObjDefInstanceId());
 
             // Add the Action Definition to the table
-            aggregationTable.addEntry(requestList.get(0).getName(), comObject);
+            aggregationTable.addEntry(defsList.get(0).getName(), comObject);
         } catch (MALInteractionException | MALException ex) {
             JOptionPane.showMessageDialog(null, "There was an error with the submitted Aggregation Definition.",
                     "Error", JOptionPane.PLAIN_MESSAGE);

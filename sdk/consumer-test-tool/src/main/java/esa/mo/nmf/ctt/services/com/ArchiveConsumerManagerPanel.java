@@ -94,6 +94,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
 
         // AgregationDefinition
         return new AggregationDefinition(
+                new Identifier(name),
                 "This is a description",
                 AggregationCategory.GENERAL,
                 new Duration(0),

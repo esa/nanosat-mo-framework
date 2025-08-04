@@ -80,12 +80,11 @@ public class EchoSpace {
         @Override
         public void initialRegistrations(MCRegistration registrationObject) {
             ParameterDefinitionList pddl = new ParameterDefinitionList();
-            IdentifierList names = new IdentifierList();
 
-            pddl.add(new ParameterDefinition("The sent data", new AttributeType(1),
+            pddl.add(new ParameterDefinition(
+                    new Identifier("Data"), "The sent data", new AttributeType(1),
                     null, true, new Duration(), null, null));
-            names.add(new Identifier("Data"));
-            registrationObject.registerParameters(names, pddl);
+            registrationObject.registerParameters(pddl);
         }
 
         @Override
@@ -101,17 +100,19 @@ public class EchoSpace {
 
         @Override
         public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values) {
-            if (identifiers.get(0).getValue().equals("Data")) {
-                data = (Blob) values.get(0).getRawValue();
-                try {
-                    pushBlob();
-                } catch (NMFException ex) {
-                    Logger.getLogger(EchoSpace.class.getName()).log(Level.SEVERE, "NMF Exception", ex);
-                    return false;
-                }
-                return true;
+            if (!identifiers.get(0).getValue().equals("Data")) {
+                return false;
             }
-            return false;
+
+            data = (Blob) values.get(0).getRawValue();
+            try {
+                pushBlob();
+            } catch (NMFException ex) {
+                Logger.getLogger(EchoSpace.class.getName()).log(
+                        Level.SEVERE, "NMF Exception", ex);
+                return false;
+            }
+            return true;
         }
     }
 }

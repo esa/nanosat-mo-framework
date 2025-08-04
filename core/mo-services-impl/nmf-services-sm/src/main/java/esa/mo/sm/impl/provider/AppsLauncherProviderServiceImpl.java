@@ -224,7 +224,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
 
-        if (null == appInstIds) { // Is the input null?
+        if (appInstIds == null) { // Is the input null?
             throw new IllegalArgumentException("appInstIds argument must not be null");
         }
         LOGGER.log(Level.INFO, "runApp received with arguments: {0}", appInstIds);
@@ -310,7 +310,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
 
-        if (null == appInstIds) { // Is the input null?
+        if (appInstIds == null) { // Is the input null?
             throw new IllegalArgumentException("appInstIds argument must not be null");
         }
         LOGGER.log(Level.INFO, "killApp received with arguments: {0}", appInstIds);
@@ -365,7 +365,8 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         UIntegerList invIndexList = new UIntegerList();
         UIntegerList intIndexList = new UIntegerList();
         ArrayList<SingleConnectionDetails> appConnections = new ArrayList<>();
-        if (null == appInstIds) { // Is the input null?
+
+        if (appInstIds == null) { // Is the input null?
             throw new IllegalArgumentException("appInstIds argument must not be null");
         }
         LOGGER.log(Level.INFO, "stopApp received with arguments: {0}", appInstIds);
@@ -469,7 +470,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             final MALInteraction interaction) throws MALInteractionException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
 
-        if (null == appNames) { // Is the input null?
+        if (appNames == null) { // Is the input null?
             throw new IllegalArgumentException("IdentifierList argument must not be null");
         }
 

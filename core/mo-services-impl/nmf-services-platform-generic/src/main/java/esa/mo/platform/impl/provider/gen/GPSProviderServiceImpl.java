@@ -304,7 +304,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
             throws MALInteractionException, MALException {
         LongList outLongLst = new LongList();
 
-        if (null == names) { // Is the input null?
+        if (names == null) { // Is the input null?
             throw new IllegalArgumentException("names argument must not be null");
         }
 
@@ -333,7 +333,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
         UIntegerList dupIndexList = new UIntegerList();
         NearbyPositionDefinition def;
 
-        if (null == nearbyPositionDefinitions) { // Is the input null?
+        if (nearbyPositionDefinitions == null) { // Is the input null?
             throw new IllegalArgumentException("nearbyPositionDefinitions argument must not be null");
         }
 
@@ -377,7 +377,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
         Long tempLong;
         LongList tempLongLst = new LongList();
 
-        if (null == objInstIds) { // Is the input null?
+        if (objInstIds == null) { // Is the input null?
             throw new IllegalArgumentException("objInstIds argument must not be null");
         }
 

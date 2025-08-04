@@ -95,21 +95,6 @@ public class AggregationAddModify extends javax.swing.JFrame {
         return null; // Not found (it shouldn't occur...)
     }
 
-    public AggregationDefinition makeNewAggregationDefinition(final String description,
-            final AggregationCategory category, boolean generationEnabled, float updateInterval, boolean filterEnabled,
-            float filteredTimeout, AggregationParameterSetList parameterSets) {
-        return new AggregationDefinition(
-                description,
-                new AggregationCategory(category.getValue()),
-                new Duration(updateInterval),
-                null,
-                null,
-                filterEnabled,
-                new Duration(filteredTimeout),
-                generationEnabled,
-                parameterSets);
-    }
-
     public AggregationParameterSetList makeNewAggregationParameterSetList() {
         AggregationParameterSetList aggRefList = new AggregationParameterSetList();
 
@@ -507,9 +492,13 @@ public class AggregationAddModify extends javax.swing.JFrame {
     }//GEN-LAST:event_removeParameterActionPerformed
 
     private void submitButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButton1ActionPerformed
-        if (nameTF.getText().equals("") || descriptionTF.getText().equals("") || categoryCB.getSelectedIndex() == 0
-                || updateIntervalTF.getText().equals("") || filteredTimeoutTF.getText().equals("")) {
-            JOptionPane.showMessageDialog(null, "Please fill-in all the necessary fields!", "Warning!",
+        if (nameTF.getText().equals("")
+                || descriptionTF.getText().equals("")
+                || categoryCB.getSelectedIndex() == 0
+                || updateIntervalTF.getText().equals("")
+                || filteredTimeoutTF.getText().equals("")) {
+            JOptionPane.showMessageDialog(null,
+                    "Please fill-in all the necessary fields!", "Warning!",
                     JOptionPane.PLAIN_MESSAGE);
             return;
         }
@@ -519,21 +508,28 @@ public class AggregationAddModify extends javax.swing.JFrame {
             updateInterval = Float.parseFloat(updateIntervalTF.getText());  // Check if it is a number
             filteredTimeout = Float.parseFloat(filteredTimeoutTF.getText());  // Check if it is a number
         } catch (NumberFormatException nfe) {
-            JOptionPane.showMessageDialog(null, "updateInterval or filteredTimeout is not a number!", "Warning!",
+            JOptionPane.showMessageDialog(null,
+                    "updateInterval or filteredTimeout is not a number!", "Warning!",
                     JOptionPane.PLAIN_MESSAGE);
             return;
         }
 
-        AggregationDefinition aDef;
-        aDef = makeNewAggregationDefinition(descriptionTF.getText(), new AggregationCategory(categoryCB
-                .getSelectedIndex()), generationEnabledCB.isSelected(), updateInterval, filterEnabledCB.isSelected(),
-                filteredTimeout, makeNewAggregationParameterSetList());
+        /*
+        AggregationDefinition aDef = new AggregationDefinition(
+                descriptionTF.getText(),
+                new AggregationCategory(categoryCB.getSelectedIndex()),
+                new Duration(updateInterval),
+                null,
+                null,
+                filterEnabledCB.isSelected(),
+                new Duration(filteredTimeout),
+                generationEnabledCB.isSelected(),
+                makeNewAggregationParameterSetList());
 
         AggregationDefinitionList aDefs = new AggregationDefinitionList();
         aDefs.add(aDef);
         this.setVisible(false);
 
-        /*
         if (isAddDef) {  // Are we adding a new definition?
             Logger.getLogger(AggregationAddModify.class.getName()).log(Level.INFO, null, "addDefinition started (Aggregation)");
             LongList output = aggregationService.addDefinition(aDefs);

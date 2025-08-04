@@ -90,13 +90,6 @@ public class ParameterAddModify extends javax.swing.JFrame {
         this.parameterDefinitionSelectedIndex = in;
     }
 
-    public ParameterDefinition makeNewParameterDefinition(int rawType,
-            String rawUnit, String description, boolean generationEnabled, float interval,
-            ParameterExpression validityExpression, ParameterConversion conversion) {
-        return new ParameterDefinition(description, new AttributeType(rawType), rawUnit,
-                generationEnabled, new Duration(interval), validityExpression, conversion);
-    }
-
     public ParameterExpression makeNewParameterExpression(Long instId,
             int operator, Boolean useConverted, String value) {
         return new ParameterExpression(
@@ -547,17 +540,17 @@ public class ParameterAddModify extends javax.swing.JFrame {
                     convertedUnit.getText(), conversionConditions);
         }
 
-        ParameterDefinition pDef;
-        pDef = makeNewParameterDefinition(rawTypeCB.getSelectedIndex(), rawUnitTF.getText(),
-                descriptionTF.getText(), generationEnabledCB.isSelected(),
-                Float.parseFloat(updateIntervalTF.getText()), PExp, pConv);
-
+        ParameterDefinition pDef = new ParameterDefinition(
+                new Identifier(nameTF.getText()),
+                descriptionTF.getText(),
+                new AttributeType(rawTypeCB.getSelectedIndex()),
+                rawUnitTF.getText(),
+                generationEnabledCB.isSelected(),
+                new Duration(Float.parseFloat(updateIntervalTF.getText())),
+                PExp, pConv);
+        
         ParameterDefinitionList pDefs = new ParameterDefinitionList();
         pDefs.add(pDef);
-
-        ParameterCreationRequest request = new ParameterCreationRequest(new Identifier(nameTF.getText()), pDef);
-        ParameterCreationRequestList requestList = new ParameterCreationRequestList();
-        requestList.add(request);
 
         this.setVisible(false);
 
@@ -586,7 +579,7 @@ public class ParameterAddModify extends javax.swing.JFrame {
                 serviceMCParameter.getParameterStub().updateDefinition(objIds, pDefs);
                 parameterTableData.removeRow(parameterDefinitionSelectedIndex);
                 parameterTableData.insertRow(parameterDefinitionSelectedIndex,
-                        new Object[]{objIds.get(0).intValue(), request.getName().toString(),
+                        new Object[]{objIds.get(0).intValue(), pDef.getName().toString(),
                             pDef.getDescription(), rawTypeCB.getItemAt(pDef.getRawType().getValue()).toString(),
                             pDef.getRawUnit(), pDef.getGenerationEnabled(),
                             pDef.getReportInterval().getValue()});

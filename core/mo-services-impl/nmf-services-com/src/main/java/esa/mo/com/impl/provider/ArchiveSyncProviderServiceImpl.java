@@ -249,13 +249,13 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
             throws MALInteractionException, MALException {
         final Dispatcher dispatcher = dispatchers.get(transactionTicket);
 
-        if (null == dispatcher) {
+        if (dispatcher == null) {
             throw new MALInteractionException(new InvalidException(null));
         }
 
         TimerTask timerTask = timerTasks.get(transactionTicket);
 
-        if (null == timerTask) {
+        if (timerTask == null) {
             LOGGER.log(Level.WARNING, "Dispatcher cleaning timer task not found for "
                     + "transaction " + transactionTicket + " ! Trying to continue...");
         } else {
@@ -329,7 +329,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
     public void free(Long transactionTicket, MALInteraction interaction) throws MALInteractionException, MALException {
         final Dispatcher dispatcher = dispatchers.get(transactionTicket);
 
-        if (null == dispatcher) {
+        if (dispatcher == null) {
             throw new MALInteractionException(new UnknownException("Can't find a dispatcher!"));
         }
 
@@ -343,7 +343,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
         Long lastSyncTime = syncTimes.get(transactionTicket);
 
-        if (null == lastSyncTime) {
+        if (lastSyncTime == null) {
             throw new MALInteractionException(new UnknownException("Can't find a last sync time!"));
         }
 
@@ -513,7 +513,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
             public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
                 ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
                 super.queryResponseReceived(msgHeader, objType, domain, objDetails, objBodies, qosProperties);
-                if (null == objType || null == domain || null == objDetails || null == objBodies) {
+                if (objType == null || domain == null || objDetails == null || objBodies == null) {
                     return;
                 }
 

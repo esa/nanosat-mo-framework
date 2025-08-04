@@ -61,23 +61,23 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
 
         // ------------------ Parameters ------------------
         ParameterDefinitionList parDef = new ParameterDefinitionList();
-        IdentifierList paramNames = new IdentifierList();
 
         // Creates a periodic parameter
-        parDef.add(new ParameterDefinition("A periodic parameter with a double value.",
+        parDef.add(new ParameterDefinition(
+                new Identifier(PARAMETER_PERIODIC),
+                "A periodic parameter with a double value.",
                 AttributeType.DOUBLE, "unit", false, new Duration(1), null, null));
-        paramNames.add(new Identifier(PARAMETER_PERIODIC));
 
         // Creates a periodic parameter
-        parDef.add(new ParameterDefinition("The COM Archive size.", AttributeType.DOUBLE,
+        parDef.add(new ParameterDefinition(
+                new Identifier(PARAMETER_ARCHIVE_SIZE),
+                "The COM Archive size.", AttributeType.DOUBLE,
                 "bytes", false, new Duration(0), null, null));
-        paramNames.add(new Identifier(PARAMETER_ARCHIVE_SIZE));
 
-        registration.registerParameters(paramNames, parDef);
+        registration.registerParameters(parDef);
 
         // ------------------ Actions ------------------
         ActionDefinitionList actionDefs = new ActionDefinitionList();
-        IdentifierList actionNames = new IdentifierList();
 
         ArgumentDefinitionList arguments1 = new ArgumentDefinitionList();
         {
@@ -87,17 +87,17 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
             arguments1.add(new ArgumentDefinition(new Identifier("1"), "", rawType, rawUnit));
         }
 
-        actionDefs.add(new ActionDefinition("Stores " + NUMBER_OF_OBJS
-                + " aggregation definition objects in the COM Archive.",
+        actionDefs.add(new ActionDefinition(
+                new Identifier(ACTION_STORE_AGGS),
+                "Stores " + NUMBER_OF_OBJS + " aggregation definition objects in the COM Archive.",
                 ActionCategory.DEFAULT, new UShort(0), arguments1));
-        actionNames.add(new Identifier(ACTION_STORE_AGGS));
 
-        actionDefs.add(new ActionDefinition("Stores " + NUMBER_OF_OBJS
-                + " parameter value objects in the COM Archive.",
+        actionDefs.add(new ActionDefinition(
+                new Identifier(ACTION_STORE_PARS),
+                "Stores " + NUMBER_OF_OBJS + " parameter value objects in the COM Archive.",
                 ActionCategory.DEFAULT, new UShort(0), arguments1));
-        actionNames.add(new Identifier(ACTION_STORE_PARS));
 
-        LongList actionObjIds = registration.registerActions(actionNames, actionDefs);
+        LongList actionObjIds = registration.registerActions(actionDefs);
     }
 
     @Override

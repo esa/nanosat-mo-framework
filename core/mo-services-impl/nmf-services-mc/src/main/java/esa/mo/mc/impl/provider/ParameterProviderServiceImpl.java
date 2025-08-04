@@ -195,7 +195,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         LongList objIdToBeEnabled = new LongList();
         BooleanList valueToBeEnabled = new BooleanList();
 
-        if (null == isGroupIds || null == enableInstances) { // Are the inputs null?
+        if (isGroupIds == null || enableInstances == null) { // Are the inputs null?
             throw new IllegalArgumentException("isGroupIds and enableInstances arguments must not be null");
         }
 
@@ -279,7 +279,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         UIntegerList invIndexList = new UIntegerList();
         UIntegerList readOnlyIndexList = new UIntegerList();
 
-        if (null == rawValueList) {
+        if (rawValueList == null) {
             throw new IllegalArgumentException("rawValueList inputs must not be null");
         }
 
@@ -369,7 +369,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             throws MALException, MALInteractionException { // requirement: 3.3.11.2.a
         ObjectInstancePairList retDefinitions = new ObjectInstancePairList();
 
-        if (null == paramNames) { // Is the input null?
+        if (paramNames == null) { // Is the input null?
             throw new IllegalArgumentException("IdentifierList argument must not be null");
         }
 
@@ -407,18 +407,18 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         return retDefinitions;
     }
 
-    public ObjectInstancePairList addParameter(final ParameterCreationRequestList paramCreationReqList,
+    public ObjectInstancePairList addParameter(final ParameterDefinitionList defsList,
             final MALInteraction interaction) throws MALException, MALInteractionException {
         UIntegerList invIndexList = new UIntegerList();
         UIntegerList dupIndexList = new UIntegerList();
 
-        if (null == paramCreationReqList) { // Is the input null?
-            throw new IllegalArgumentException("ParameterCreationRequestList argument must not be null");
+        if (defsList == null) { // Is the input null?
+            throw new IllegalArgumentException("defsList argument must not be null");
         }
 
-        for (int index = 0; index < paramCreationReqList.size(); index++) {
-            ParameterCreationRequest paramCreationReq = paramCreationReqList.get(index);
-            Identifier paramName = paramCreationReq.getName();
+        for (int index = 0; index < defsList.size(); index++) {
+            ParameterDefinition pDef = defsList.get(index);
+            Identifier paramName = pDef.getName();
 
             // Check if the name field of the ParameterDefinition is invalid.
             if (paramName == null || paramName.equals(new Identifier("*"))
@@ -427,7 +427,6 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
                 continue;
             }
 
-            final ParameterDefinition pDef = paramCreationReq.getParamDefDetails();
             if (pDef.getReportInterval().getValue() != 0
                     && pDef.getReportInterval().getValue() < MIN_REPORTING_INTERVAL) { //requirement: 3.3.3.h, 3.3.12.2.c
                 invIndexList.add(new UInteger(index));
@@ -456,9 +455,9 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         ObjectId source = manager.storeCOMOperationActivity(interaction); // requirement: 3.3.4.g, h
         IdentifierList names = new IdentifierList();
         HeterogeneousList details = new HeterogeneousList();
-        for (ParameterCreationRequest tempParameterCreationRequest : paramCreationReqList) { // requirement: 3.3.12.2.i ( "for each cycle" guarantees that)
-            names.add(tempParameterCreationRequest.getName());
-            details.add(tempParameterCreationRequest.getParamDefDetails());
+        for (ParameterDefinition tempDef : defsList) { // requirement: 3.3.12.2.i ( "for each cycle" guarantees that)
+            names.add(tempDef.getName());
+            details.add(tempDef);
         }
 
         ObjectInstancePairList objectInstancePairs = manager.addMultiple(names,
@@ -492,8 +491,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
 
-        if (null == paramIdentityInstIds || null == paramDefDetails) // Are the inputs null?
-        {
+        if (paramIdentityInstIds == null || paramDefDetails == null) { // Are the inputs null?
             throw new IllegalArgumentException("paramIdentityInstIds and paramDefDetails arguments must not be null");
         }
 
@@ -553,7 +551,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         UIntegerList unkIndexList = new UIntegerList();
         LongList removalLst = new LongList();
 
-        if (null == identityIds) { // Is the input null?
+        if (identityIds == null) { // Is the input null?
             throw new IllegalArgumentException("LongList argument must not be null");
         }
 
@@ -949,6 +947,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
                     }
 
                     ParameterDefinition pDef = new ParameterDefinition(
+                            parameter.getName(),
                             "This def. was auto-generated by the Parameter service",
                             rawType,
                             null,
@@ -957,12 +956,12 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
                             null,
                             null);
 
-                    ParameterCreationRequestList pDefCreationReqs = new ParameterCreationRequestList(1);
-                    pDefCreationReqs.add(new ParameterCreationRequest(parameter.getName(), pDef));
+                    ParameterDefinitionList pDefs = new ParameterDefinitionList(1);
+                    pDefs.add(pDef);
 
                     try {
                         // Enable the reporting for this Alert Definition
-                        ObjectInstancePairList returnedObjIds = this.addParameter(pDefCreationReqs, null);
+                        ObjectInstancePairList returnedObjIds = this.addParameter(pDefs, null);
                         objId = returnedObjIds.get(0);
                     } catch (MALInteractionException | MALException ex) {
                         Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);

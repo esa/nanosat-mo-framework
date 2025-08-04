@@ -240,8 +240,8 @@ public final class AggregationManager extends MCManager {
     /**
      * This method is created for the field:
      * AggregationDefinition.sendDefinitions. If
-     * AggregationDefinition.sendDefinitions is TRUE, reports will
-     * include the ParameterDefinition object instance identifier in the
+     * AggregationDefinition.sendDefinitions is TRUE, reports will include the
+     * ParameterDefinition object instance identifier in the
      * AggregationParameterValue, if FALSE it will be set to NULL.
      *
      * @param paramIdentityIds the identity id of the parameters to be sampled
@@ -655,7 +655,7 @@ public final class AggregationManager extends MCManager {
                 int currentValidityState = current.getValidityState().getValue();
                 int previousValidityState = previous.getValidityState().getValue();
                 if ((currentValidityState == 0 && previousValidityState == 0)
-                        ||  (currentValidityState == 2 && previousValidityState == 2)) { // 2 stands for the INVALID_RAW state
+                        || (currentValidityState == 2 && previousValidityState == 2)) { // 2 stands for the INVALID_RAW state
                     boolean filterisTriggered = false;
 
                     if (currentValidityState == 0
@@ -920,7 +920,7 @@ public final class AggregationManager extends MCManager {
             return identityId; // the value was not changed
         }
 
-        AggregationDefinition newDef = new AggregationDefinition(
+        AggregationDefinition newDef = new AggregationDefinition(def.getName(),
                 def.getDescription(), def.getCategory(), def.getReportInterval(),
                 def.getSendUnchanged(), def.getSendDefinitions(), def.getFilterEnabled(),
                 def.getFilteredTimeout(), status, def.getParameterSets());
@@ -935,7 +935,7 @@ public final class AggregationManager extends MCManager {
         for (Long identityId : identityIds) {
             AggregationDefinition def = this.getAggregationDefinition(identityId);
             if (def.getGenerationEnabled().booleanValue() != bool) {
-                AggregationDefinition newDef = new AggregationDefinition(
+                AggregationDefinition newDef = new AggregationDefinition(def.getName(),
                         def.getDescription(), def.getCategory(), def.getReportInterval(),
                         def.getSendUnchanged(), def.getSendDefinitions(), def.getFilterEnabled(),
                         def.getFilteredTimeout(), bool, def.getParameterSets());
@@ -967,7 +967,7 @@ public final class AggregationManager extends MCManager {
             return false; // the value was not changed
         }
 
-        AggregationDefinition newDef = new AggregationDefinition(
+        AggregationDefinition newDef = new AggregationDefinition(def.getName(),
                 def.getDescription(), def.getCategory(), def.getReportInterval(),
                 def.getSendUnchanged(), def.getSendDefinitions(), def.getFilterEnabled(),
                 def.getFilteredTimeout(), bool, def.getParameterSets());
@@ -983,7 +983,7 @@ public final class AggregationManager extends MCManager {
         for (Long identityId : identityIds) {
             AggregationDefinition def = this.getAggregationDefinition(identityId);
             if (def.getFilterEnabled().booleanValue() != bool) {
-                AggregationDefinition newDef = new AggregationDefinition(
+                AggregationDefinition newDef = new AggregationDefinition(def.getName(),
                         def.getDescription(), def.getCategory(), def.getReportInterval(),
                         def.getSendUnchanged(), def.getSendDefinitions(), def.getFilterEnabled(),
                         def.getFilteredTimeout(), bool, def.getParameterSets());

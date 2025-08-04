@@ -64,16 +64,15 @@ public class DemoHelloWorldSimple {
 
             // ------------------ Parameters ------------------
             final ParameterDefinitionList defs = new ParameterDefinitionList();
-            final IdentifierList names = new IdentifierList();
 
-            defs.add(new ParameterDefinition(PARAMETER_DESCRIPTION, AttributeType.STRING, "",
+            defs.add(new ParameterDefinition(
+                    new Identifier(PARAMETER_NAME),
+                    PARAMETER_DESCRIPTION, AttributeType.STRING, "",
                 false, new Duration(3), null, null));
-            names.add(new Identifier(PARAMETER_NAME));
-            registrationObject.registerParameters(names, defs);
+            registrationObject.registerParameters(defs);
 
             // ------------------ Actions ------------------
             ActionDefinitionList actionDefs = new ActionDefinitionList();
-            IdentifierList actionNames = new IdentifierList();
 
             ArgumentDefinitionList arguments1 = new ArgumentDefinitionList();
             {
@@ -83,11 +82,12 @@ public class DemoHelloWorldSimple {
                 arguments1.add(new ArgumentDefinition(new Identifier("1"), null, rawType, rawUnit));
             }
 
-            actionDefs.add(new ActionDefinition("Simple Go action with double value.",
+            actionDefs.add(new ActionDefinition(
+                    new Identifier(ACTION_GO),
+                    "Simple Go action with double value.",
                     ActionCategory.DEFAULT, new UShort(3), arguments1));
-            actionNames.add(new Identifier(ACTION_GO));
 
-            registrationObject.registerActions(actionNames, actionDefs);
+            registrationObject.registerActions(actionDefs);
         }
 
         @Override

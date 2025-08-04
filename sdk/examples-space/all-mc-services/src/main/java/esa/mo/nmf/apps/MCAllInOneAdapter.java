@@ -177,75 +177,74 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
         ParameterDefinitionList defsMag = new ParameterDefinitionList();
         IdentifierList paramMagNames = new IdentifierList();
 
-        defsOther.add(new ParameterDefinition("The ADCS mode of operation", AttributeType.UOCTET,
+        defsOther.add(new ParameterDefinition(new Identifier(PARAMETER_ADCS_MODE),
+                "The ADCS mode of operation", AttributeType.UOCTET,
                 "", false, new Duration(0), null, paramConversion));
-        paramOtherNames.add(new Identifier(PARAMETER_ADCS_MODE));
 
-        defsOther.add(new ParameterDefinition("The number of satellites in view of GPS receiver.",
+        defsOther.add(new ParameterDefinition(new Identifier(PARAMETER_GPS_N_SATS_IN_VIEW),
+                "The number of satellites in view of GPS receiver.",
                 AttributeType.INTEGER, "sats", false, new Duration(4), null, null));
-        paramOtherNames.add(new Identifier(PARAMETER_GPS_N_SATS_IN_VIEW));
 
         // Create the GPS.Latitude
-        defsGPS.add(new ParameterDefinition("The GPS Latitude",
-                AttributeType.DOUBLE, "degrees", false, new Duration(2), null, null));
-        paramGPSNames.add(new Identifier(PARAMETER_GPS_LATITUDE));
+        defsGPS.add(new ParameterDefinition(new Identifier(PARAMETER_GPS_LATITUDE),
+                "The GPS Latitude", AttributeType.DOUBLE, "degrees",
+                false, new Duration(2), null, null));
 
         // Create the GPS.Longitude
-        defsGPS.add(new ParameterDefinition("The GPS Longitude",
-                AttributeType.DOUBLE, "degrees", false, new Duration(2), null, null));
-        paramGPSNames.add(new Identifier(PARAMETER_GPS_LONGITUDE));
+        defsGPS.add(new ParameterDefinition(new Identifier(PARAMETER_GPS_LONGITUDE),
+                "The GPS Longitude", AttributeType.DOUBLE, "degrees",
+                false, new Duration(2), null, null));
 
         // Create the GPS.Altitude
-        defsGPS.add(new ParameterDefinition("The GPS Altitude",
-                AttributeType.DOUBLE, "meters", false, new Duration(2), null, null));
-        paramGPSNames.add(new Identifier(PARAMETER_GPS_ALTITUDE));
+        defsGPS.add(new ParameterDefinition(new Identifier(PARAMETER_GPS_ALTITUDE),
+                "The GPS Altitude", AttributeType.DOUBLE, "meters",
+                false, new Duration(2), null, null));
 
         // Create the Magnetometer.X
-        defsMag.add(new ParameterDefinition("The Magnetometer X component",
-                AttributeType.DOUBLE, "microTesla", false, new Duration(2), null, null));
-        paramMagNames.add(new Identifier(PARAMETER_MAG_X));
+        defsMag.add(new ParameterDefinition(new Identifier(PARAMETER_MAG_X),
+                "The Magnetometer X component", AttributeType.DOUBLE, "microTesla",
+                false, new Duration(2), null, null));
 
         // Create the Magnetometer.Y
-        defsMag.add(new ParameterDefinition("The Magnetometer Y component",
-                AttributeType.DOUBLE, "microTesla", false, new Duration(2), null, null));
-        paramMagNames.add(new Identifier(PARAMETER_MAG_Y));
+        defsMag.add(new ParameterDefinition(new Identifier(PARAMETER_MAG_Y),
+                "The Magnetometer Y component", AttributeType.DOUBLE, "microTesla",
+                false, new Duration(2), null, null));
 
         // Create the Magnetometer.Z
-        defsMag.add(new ParameterDefinition("The Magnetometer Z component",
-                AttributeType.DOUBLE, "microTesla", false, new Duration(2), null, null));
-        paramMagNames.add(new Identifier(PARAMETER_MAG_Z));
+        defsMag.add(new ParameterDefinition(new Identifier(PARAMETER_MAG_Z),
+                "The Magnetometer Z component", AttributeType.DOUBLE, "microTesla",
+                false, new Duration(2), null, null));
 
-        registration.registerParameters(paramOtherNames, defsOther);
-        LongList parameterObjIdsGPS = registration.registerParameters(paramGPSNames, defsGPS);
-        LongList parameterObjIdsMag = registration.registerParameters(paramMagNames, defsMag);
+        registration.registerParameters(defsOther);
+        LongList parameterObjIdsGPS = registration.registerParameters(defsGPS);
+        LongList parameterObjIdsMag = registration.registerParameters(defsMag);
 
         // ------------------ Aggregations ------------------
         AggregationDefinitionList aggs = new AggregationDefinitionList();
-        IdentifierList aggNames = new IdentifierList();
 
         // Create the Aggregation GPS
         AggregationDefinition defGPSAgg = new AggregationDefinition(
+                new Identifier(AGGREGATION_GPS),
                 "Aggregates: GPS Latitude, GPS Longitude, GPS Altitude.",
                 AggregationCategory.GENERAL,
                 new Duration(10), true, false, false, new Duration(20), false,
                 new AggregationParameterSetList());
-        aggNames.add(new Identifier(AGGREGATION_GPS));
 
         defGPSAgg.getParameterSets().add(new AggregationParameterSet(null, parameterObjIdsGPS, new Duration(3), null));
 
         // Create the Aggregation Magnetometer
         AggregationDefinition defMagAgg = new AggregationDefinition(
+                new Identifier(AGGREGATION_MAG),
                 "Aggregates Magnetometer components: X, Y, Z.",
                 AggregationCategory.GENERAL,
                 new Duration(10), true, false, false, new Duration(20), false,
                 new AggregationParameterSetList());
-        aggNames.add(new Identifier(AGGREGATION_MAG));
 
         defMagAgg.getParameterSets().add(new AggregationParameterSet(null, parameterObjIdsMag, new Duration(3), null));
 
         aggs.add(defGPSAgg);
         aggs.add(defMagAgg);
-        registration.registerAggregations(aggNames, aggs);
+        registration.registerAggregations(aggs);
 
         // ------------------ Actions ------------------
         ActionDefinitionList actionDefs = new ActionDefinitionList();
@@ -260,30 +259,30 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
         }
 
         ActionDefinition actionDef1 = new ActionDefinition(
+                new Identifier(ACTION_SUN_POINTING_MODE),
                 "Changes the spacecraft's attitude to sun pointing mode.",
                 ActionCategory.DEFAULT, new UShort(0), arguments1);
-        actionNames.add(new Identifier(ACTION_SUN_POINTING_MODE));
 
         ActionDefinition actionDef2 = new ActionDefinition(
+                new Identifier(ACTION_NADIR_POINTING_MODE),
                 "Changes the spacecraft's attitude to nadir pointing mode.",
                 ActionCategory.DEFAULT, new UShort(0), arguments1);
-        actionNames.add(new Identifier(ACTION_NADIR_POINTING_MODE));
 
         ActionDefinition actionDef3 = new ActionDefinition(
+                new Identifier(ACTION_UNSET),
                 "Unsets the spacecraft's attitude.",
                 ActionCategory.DEFAULT, new UShort(0), new ArgumentDefinitionList());
-        actionNames.add(new Identifier(ACTION_UNSET));
 
         ActionDefinition actionDef4 = new ActionDefinition(
+                new Identifier(ACTION_5_STAGES),
                 "Example of an Action with 5 stages.",
                 ActionCategory.DEFAULT, new UShort(5), new ArgumentDefinitionList());
-        actionNames.add(new Identifier(ACTION_5_STAGES));
 
         actionDefs.add(actionDef1);
         actionDefs.add(actionDef2);
         actionDefs.add(actionDef3);
         actionDefs.add(actionDef4);
-        registration.registerActions(actionNames, actionDefs);
+        registration.registerActions(actionDefs);
     }
 
     @Override

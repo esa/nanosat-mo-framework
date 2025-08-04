@@ -82,7 +82,6 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
      */
     private void registerParameters(MCRegistration registration) {
         LOGGER.log(Level.INFO, "Registering Parameters:");
-        IdentifierList parameterNames = new IdentifierList();
         ParameterDefinitionList definitions = new ParameterDefinitionList();
         LinkedList<Field> parameters = new LinkedList<>();
 
@@ -98,14 +97,8 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
 
             field.setAccessible(true);
             parameters.add(field);
-            if (annotation.name().equals("")) {
-                // if name is not set, use variable name
-                parameterNames.add(new Identifier(field.getName()));
-                LOGGER.log(Level.INFO, "Parameter registered: {0}", field.getName());
-            } else {
-                parameterNames.add(new Identifier(annotation.name()));
-                LOGGER.log(Level.INFO, "Parameter registered: {0}", annotation.name());
-            }
+            // if name is not set, use variable name
+            String name = annotation.name().equals("") ? field.getName() : annotation.name();
 
             //----------------collect ParameterDefinition----------------
             String description = annotation.description();
@@ -158,13 +151,14 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
                 }
             }
 
-            definitions.add(new ParameterDefinition(description, new AttributeType(rawType), rawUnit,
+            definitions.add(new ParameterDefinition(new Identifier(name),
+                    description, new AttributeType(rawType), rawUnit,
                     generationEnabled, reportInterval, validityExpression, conversion));
         }
 
-        if (!parameterNames.isEmpty()) {
+        if (!definitions.isEmpty()) {
             HashMap<String, LongList> aggregationMapping = new HashMap<>();
-            LongList idList = registration.registerParameters(parameterNames, definitions);
+            LongList idList = registration.registerParameters(definitions);
 
             // save mapping (id -> Field) in map
             for (int i = 0; i < idList.size(); i++) {
@@ -184,7 +178,6 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
             if (aggregationList != null && aggregationList.length > 0) {
                 Aggregation[] aggregations = aggregationList[0].value();
 
-                IdentifierList aggregationNames = new IdentifierList();
                 AggregationDefinitionList aggregationDetails = new AggregationDefinitionList();
 
                 for (Aggregation aggregation : aggregations) {
@@ -212,6 +205,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
 
                         // Create the Aggregation
                         AggregationDefinition aggregationDetail = new AggregationDefinition(
+                                new Identifier(aggregation.id()),
                                 aggregation.description(), new AggregationCategory(aggregation.category()),
                                 new Duration(aggregation.reportInterval()), aggregation.sendUnchanged(),
                                 aggregation.sendDefinitions(), aggregation.filterEnabled(),
@@ -220,7 +214,6 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
 
                         LOGGER.log(Level.INFO, "Aggregation registered: {0}", aggregation.id());
 
-                        aggregationNames.add(new Identifier(aggregation.id()));
                         aggregationDetails.add(aggregationDetail);
 
                     } else {
@@ -230,7 +223,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
                     }
                 }
 
-                registration.registerAggregations(aggregationNames, aggregationDetails);
+                registration.registerAggregations(aggregationDetails);
             }
         }
     }
@@ -307,7 +300,6 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
      */
     private void registerActions(MCRegistration registration) {
         ActionDefinitionList actionDefs = new ActionDefinitionList();
-        IdentifierList actionNames = new IdentifierList();
         LinkedList<Method> actionFunctions = new LinkedList<>();
 
         // get all methods
@@ -377,20 +369,19 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
                 Identifier actionId = new Identifier(acName);
 
                 LOGGER.log(Level.INFO, "Action registered: {0}", actionId);
-                actionNames.add(actionId);
-                actionDefs.add(new ActionDefinition(annotation.description(),
+                actionDefs.add(new ActionDefinition(actionId, annotation.description(),
                         new ActionCategory(annotation.category()),
                         new UShort(annotation.stepCount()), arguments));
             }
         }
 
-        if (!actionNames.isEmpty()) {
-            LongList idList = registration.registerActions(actionNames, actionDefs);
+        if (!actionDefs.isEmpty()) {
+            LongList idList = registration.registerActions(actionDefs);
 
             // save mapping (id -> Field) in map
             for (int i = 0; i < idList.size(); i++) {
                 actionMapping.put(idList.get(i), actionFunctions.get(i));
-                actionNameMapping.put(actionNames.get(i).getValue(), idList.get(i));
+                actionNameMapping.put(actionDefs.get(i).getName().getValue(), idList.get(i));
             }
         }
     }

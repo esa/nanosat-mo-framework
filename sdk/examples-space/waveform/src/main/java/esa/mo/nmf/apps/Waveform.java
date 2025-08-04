@@ -52,12 +52,8 @@ public class Waveform {
     public Waveform() {
         connector.init(new MCAdapter());
         tasker = new TaskScheduler(1);
-        Logger.getLogger(Waveform.class.getName()).log(Level.FINE, System.getProperty("app.name") + " started.");
-    }
-
-    public void pushVal() throws NMFException {
-        double res = amplitude * Math.sin(((double) System.nanoTime() / 1000000000.0) * 2 * Math.PI * frequency);
-        connector.pushParameterValue("Sine", res);
+        Logger.getLogger(Waveform.class.getName()).log(Level.FINE,
+                System.getProperty("app.name") + " started.");
     }
 
     /**
@@ -68,6 +64,11 @@ public class Waveform {
      */
     public static void main(final String[] args) throws Exception {
         Waveform demo = new Waveform();
+    }
+
+    public void pushVal() throws NMFException {
+        double res = amplitude * Math.sin(((double) System.nanoTime() / 1000000000.0) * 2 * Math.PI * frequency);
+        connector.pushParameterValue("Sine", res);
     }
 
     public void startWave() {
@@ -101,30 +102,30 @@ public class Waveform {
 
             // ------------------ Parameters ------------------
             final ParameterDefinitionList defs = new ParameterDefinitionList();
-            final IdentifierList names = new IdentifierList();
 
-            defs.add(new ParameterDefinition("Amplitude of the wave", AttributeType.DOUBLE, "",
+            defs.add(new ParameterDefinition(new Identifier("Amplitude"),
+                    "Amplitude of the wave", AttributeType.DOUBLE, "",
                     true, new Duration(3), null, null));
-            defs.add(new ParameterDefinition("Frequency of the wave", AttributeType.DOUBLE, "",
+            defs.add(new ParameterDefinition(new Identifier("Frequency"),
+                    "Frequency of the wave", AttributeType.DOUBLE, "",
                     true, new Duration(3), null, null));
-            defs.add(new ParameterDefinition("Result of the wave", AttributeType.DOUBLE, "", true,
+            defs.add(new ParameterDefinition(new Identifier("Sine"),
+                    "Result of the wave", AttributeType.DOUBLE, "", true,
                     new Duration(), null, null));
-            defs.add(new ParameterDefinition("Refreshrate for publishing the result",
+            defs.add(new ParameterDefinition(new Identifier("Refresh"),
+                    "Refreshrate for publishing the result",
                     AttributeType.LONG, "us", true, new Duration(), null, null));
-            names.add(new Identifier("Amplitude"));
-            names.add(new Identifier("Frequency"));
-            names.add(new Identifier("Sine"));
-            names.add(new Identifier("Refresh"));
-            registrationObject.registerParameters(names, defs);
-            IdentifierList actionNames = new IdentifierList();
+
+            registrationObject.registerParameters(defs);
+
             ActionDefinitionList actionDefs = new ActionDefinitionList();
-            ActionDefinition actionDef1 = new ActionDefinition("Start the plotter.",
+            ActionDefinition actionDef1 = new ActionDefinition(
+                    new Identifier("start"), "Start the plotter.",
                     ActionCategory.DEFAULT, new UShort(0), new ArgumentDefinitionList());
-            actionNames.add(new Identifier("start"));
             actionDefs.add(actionDef1);
-            ActionDefinition actionDef2 = new ActionDefinition("Stop the plotter.",
+            ActionDefinition actionDef2 = new ActionDefinition(
+                    new Identifier("stop"), "Stop the plotter.",
                     ActionCategory.DEFAULT, new UShort(0), new ArgumentDefinitionList());
-            actionNames.add(new Identifier("stop"));
             actionDefs.add(actionDef2);
 
             ArgumentDefinitionList argDef1 = new ArgumentDefinitionList();
@@ -134,9 +135,9 @@ public class Waveform {
                 argDef1.add(new ArgumentDefinition(new Identifier("Amplitude"), null, rawType, rawUnit));
             }
 
-            ActionDefinition actionDef3 = new ActionDefinition("Update the Amplitude",
+            ActionDefinition actionDef3 = new ActionDefinition(
+                    new Identifier("updateAmplitude"), "Update the Amplitude",
                     ActionCategory.DEFAULT, new UShort(0), argDef1);
-            actionNames.add(new Identifier("updateAmplitude"));
             actionDefs.add(actionDef3);
 
             ArgumentDefinitionList argDef2 = new ArgumentDefinitionList();
@@ -146,12 +147,12 @@ public class Waveform {
                 argDef2.add(new ArgumentDefinition(new Identifier("Frequency"), null, rawType, rawUnit));
             }
 
-            ActionDefinition actionDef4 = new ActionDefinition("Update the Frequency",
+            ActionDefinition actionDef4 = new ActionDefinition(
+                    new Identifier("updateFrequency"), "Update the Frequency",
                     ActionCategory.DEFAULT, new UShort(0), argDef2);
-            actionNames.add(new Identifier("updateFrequency"));
             actionDefs.add(actionDef4);
 
-            registrationObject.registerActions(actionNames, actionDefs);
+            registrationObject.registerActions(actionDefs);
         }
 
         @Override

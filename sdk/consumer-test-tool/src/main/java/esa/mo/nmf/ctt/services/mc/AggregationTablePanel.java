@@ -138,6 +138,7 @@ public class AggregationTablePanel extends SharedTablePanel {
     public AggregationDefinition generateNewAggregationDef(
             AggregationDefinition def, boolean filter, boolean generation) {
         return new AggregationDefinition(
+                def.getName(),
                 def.getDescription(),
                 def.getCategory(),
                 def.getReportInterval(),

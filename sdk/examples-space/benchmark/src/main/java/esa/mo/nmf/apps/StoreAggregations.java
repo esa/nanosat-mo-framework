@@ -31,6 +31,7 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
+import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mc.aggregation.AggregationServiceInfo;
 import org.ccsds.moims.mo.mc.structures.AggregationCategory;
@@ -52,22 +53,23 @@ public class StoreAggregations {
             LongList lissssst = new LongList();
             lissssst.add(new Long(65));
             AggregationParameterSet aa = new AggregationParameterSet(
-                null,
-                lissssst,
-                new Duration(43),
-                null);
+                    null,
+                    lissssst,
+                    new Duration(43),
+                    null);
             aaa.add(aa);
-            AggregationDefinition def = new AggregationDefinition(
-                "dfvgdf",
-                AggregationCategory.GENERAL,
-                new Duration(45),
-                false,
-                false,
-                false,
-                new Duration(54),
-                true,
-                aaa);
             for (int i = 0; i < numberOfObjs; i++) {
+                AggregationDefinition def = new AggregationDefinition(
+                        new Identifier("Aggregation_" + i),
+                        "dfvgdf",
+                        AggregationCategory.GENERAL,
+                        new Duration(45),
+                        false,
+                        false,
+                        false,
+                        new Duration(54),
+                        true,
+                        aaa);
                 defs.add(def);
             }
             ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(null, null,
@@ -132,12 +134,12 @@ public class StoreAggregations {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             }
             long estimatedTime = System.nanoTime() - startTime;
-            Logger.getLogger(BenchmarkApp.class.getName()).log(Level.INFO, "Total time: " + numberOfObjs +
-                " objects in {0} nanoseconds", estimatedTime);
+            Logger.getLogger(BenchmarkApp.class.getName()).log(Level.INFO, "Total time: " + numberOfObjs
+                    + " objects in {0} nanoseconds", estimatedTime);
             float objectPerSec = numberOfObjs / ((float) estimatedTime / (float) 1000000000);
             float averageTimePerObj = 1 / objectPerSec;
-            Logger.getLogger(BenchmarkApp.class.getName()).log(Level.INFO, "Objects per second: " + objectPerSec +
-                " (average: " + averageTimePerObj + " sec)");
+            Logger.getLogger(BenchmarkApp.class.getName()).log(Level.INFO, "Objects per second: " + objectPerSec
+                    + " (average: " + averageTimePerObj + " sec)");
         } catch (NMFException ex) {
             Logger.getLogger(BenchmarkApp.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -286,7 +286,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         // requirement 3.7.6.2.1
         UIntegerList unkIndexList = new UIntegerList();
 
-        if (null == inIdentityIds) { // Is the input null?
+        if (inIdentityIds == null) { // Is the input null?
             throw new IllegalArgumentException("LongList argument must not be null");
         }
 
@@ -421,8 +421,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         LongList objIdToBeEnabled = new LongList();
         BooleanList valueToBeEnabled = new BooleanList();
 
-        if (null == isGroupIds || null == enableInstances) // Are the inputs null?
-        {
+        if (isGroupIds == null || enableInstances == null) { // Are the inputs null?
             throw new IllegalArgumentException("Boolean and InstanceBooleanPairList arguments must not be null");
         }
 
@@ -498,7 +497,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         ObjectInstancePairList outLongLst = new ObjectInstancePairList();
         UIntegerList unkIndexList = new UIntegerList();
 
-        if (null == nameList) { // Is the input null?
+        if (nameList == null) { // Is the input null?
             throw new IllegalArgumentException("IdentifierList argument must not be null");
         }
 
@@ -532,19 +531,19 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
     }
 
     @Override
-    public ObjectInstancePairList addAggregation(final AggregationCreationRequestList aggrCreationReqList,
+    public ObjectInstancePairList addAggregation(final AggregationDefinitionList defsList,
             final MALInteraction interaction) throws MALException, MALInteractionException {
         ObjectInstancePairList outPairLst = new ObjectInstancePairList();
         UIntegerList invIndexList = new UIntegerList();
         UIntegerList dupIndexList = new UIntegerList();
 
-        if (aggrCreationReqList == null) { // Is the input null?
-            throw new IllegalArgumentException("AggregationDefinitionList argument must not be null");
+        if (defsList == null) { // Is the input null?
+            throw new IllegalArgumentException("defsList argument must not be null");
         }
 
-        for (int index = 0; index < aggrCreationReqList.size(); index++) { // requirement: 3.7.10.2.5 (incremental "for cycle" guarantees that)
-            AggregationCreationRequest aggrCreationReq = aggrCreationReqList.get(index);
-            final Identifier aggrName = aggrCreationReq.getName();
+        for (int index = 0; index < defsList.size(); index++) { // requirement: 3.7.10.2.5 (incremental "for cycle" guarantees that)
+            AggregationDefinition aDef = defsList.get(index);
+            final Identifier aggrName = aDef.getName();
 
             // Check if the name field of the AggregationDefinition is invalid.
             if (aggrName.equals(new Identifier("*"))
@@ -553,7 +552,6 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
                 continue;
             }
 
-            final AggregationDefinition aDef = aggrCreationReq.getAggDefDetails();
             final AggregationParameterSetList parameterSets = aDef.getParameterSets();
 
             //requirement: 3.7.10.2.c, 3.7.3.p requested intervals must be provided
@@ -597,10 +595,10 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         }
 
         ObjectId source = manager.storeCOMOperationActivity(interaction); //requirement: 3.7.4.g, h
-        for (AggregationCreationRequest aggrCreationRequest : aggrCreationReqList) { // requirement: 3.7.12.2.i ( "for each cycle" guarantees that)
-            Identifier aggrName = aggrCreationRequest.getName();
+        for (AggregationDefinition def : defsList) { // requirement: 3.7.12.2.i ( "for each cycle" guarantees that)
+            Identifier aggrName = def.getName();
             //requriement: 3.7.12.2.g , store the objects 
-            outPairLst.add(manager.add(aggrName, aggrCreationRequest.getAggDefDetails(),
+            outPairLst.add(manager.add(aggrName, def,
                     source, connection.getConnectionDetails())); //  requirement: 3.3.12.2.e
             periodicReportingManager.refresh(outPairLst.get(0).getObjIdentityInstanceId()); // Refresh the Periodic Reporting Manager for the added Identities
             periodicSamplingManager.refresh(outPairLst.get(0).getObjIdentityInstanceId()); // Refresh the Periodic Sampling Manager for the added Identities
@@ -619,7 +617,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
 
-        if (null == aDefs || null == identityIds) { // Are the inputs null?
+        if (aDefs == null || identityIds == null) { // Are the inputs null?
             throw new IllegalArgumentException("identityIds and aggDefDetails arguments must not be null");
         }
 

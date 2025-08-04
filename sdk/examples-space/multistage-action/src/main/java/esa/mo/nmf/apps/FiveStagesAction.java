@@ -65,7 +65,6 @@ public class FiveStagesAction {
         @Override
         public void initialRegistrations(MCRegistration registrationObject) {
             ActionDefinitionList actionDefs = new ActionDefinitionList();
-            IdentifierList names = new IdentifierList();
 
             ArgumentDefinitionList argDef = new ArgumentDefinitionList();
             {
@@ -75,11 +74,12 @@ public class FiveStagesAction {
                 argDef.add(new ArgumentDefinition(new Identifier("1"), null, rawType, rawUnit));
             }
 
-            ActionDefinition actionDef1 = new ActionDefinition("Example of an Action with 5 stages.",
-                ActionCategory.DEFAULT, new UShort(5), argDef);
-            names.add(new Identifier(ACTION5STAGES));
+            ActionDefinition actionDef1 = new ActionDefinition(
+                    new Identifier(ACTION5STAGES),
+                    "Example of an Action with 5 stages.",
+                    ActionCategory.DEFAULT, new UShort(5), argDef);
             actionDefs.add(actionDef1);
-            registrationObject.registerActions(names, actionDefs);
+            registrationObject.registerActions(actionDefs);
         }
 
         @Override
@@ -94,14 +94,14 @@ public class FiveStagesAction {
 
         @Override
         public UInteger actionArrived(Identifier name, AttributeValueList attributeValues, Long actionInstanceObjId,
-            boolean reportProgress, MALInteraction interaction) {
+                boolean reportProgress, MALInteraction interaction) {
             if (ACTION5STAGES.equals(name.getValue())) {
                 try {
                     // action1 was called?
                     reportFiveStepsAction(actionInstanceObjId);
                 } catch (NMFException ex) {
                     Logger.getLogger(FiveStagesAction.class.getName()).log(Level.SEVERE,
-                        "The action could not report the five steps!", ex);
+                            "The action could not report the five steps!", ex);
                     return new UInteger(0);
                 }
 

@@ -722,7 +722,7 @@
                         <mal:request>
                             <mal:field name="aggDefDetails"
                                        comment="The aggDefDetails field shall hold the name and the AggregationDefinition to be added.&#xA;The name field must not be the wildcard '*', or empty (an INVALID error shall be returned in this case).&#xA;If the supplied reportInterval or sampleInterval values are not supported by the provider then an INVALID error shall be returned.&#xA;The supplied name must be unique among all AggregationIdentity objects for the domain of the provider otherwise a DUPLICATE error shall be raised.&#xA;If an error is raised then no new identities and definitions shall be added as a result of this operation call.&#xA;If the supplied name matches an existing, but removed, AggregationIdentity then that AggregationIdentity shall be reused otherwise a new AggregationIdentity shall be created.&#xA;The provider shall create a new AggregationDefinition object and store it, and any new AggregationIdentity objects, in the COM archive.">
-                                <mal:type list="true" name="AggregationCreationRequest" area="MC"/>
+                                <mal:type list="true" name="AggregationDefinition" area="MC"/>
                             </mal:field>
                         </mal:request>
                         <mal:response>
@@ -1014,6 +1014,10 @@
                 <mal:extends>
                     <mal:type name="Composite" area="MAL"/>
                 </mal:extends>
+                <mal:field name="name" canBeNull="false"
+                           comment="The name of the action. Must not be empty or the wildcard value.">
+                    <mal:type name="Identifier" area="MAL"/>
+                </mal:field>
                 <mal:field name="description" canBeNull="false" comment="The description of the action.">
                     <mal:type name="String" area="MAL"/>
                 </mal:field>
@@ -1064,19 +1068,6 @@
                     <mal:type list="true" name="Boolean" area="MAL"/>
                 </mal:field>
             </mal:composite>
-            <mal:composite name="ActionCreationRequest" shortFormPart="10"
-                           comment="The ActionCreationRequest contains all the fields required when creating a new action in a provider.">
-                <mal:extends>
-                    <mal:type name="Composite" area="MAL"/>
-                </mal:extends>
-                <mal:field name="name" canBeNull="false"
-                           comment="The name of the action. Must not be empty or the wildcard value.">
-                    <mal:type name="Identifier" area="MAL"/>
-                </mal:field>
-                <mal:field name="actionDefDetails" canBeNull="false" comment="The action definition details.">
-                    <mal:type name="ActionDefinition" area="MC"/>
-                </mal:field>
-            </mal:composite>
             <mal:enumeration name="ValidityState" shortFormPart="11"
                              comment="Convenience enumeration that holds the validity states and their numeric values.">
                 <mal:item value="VALID" nvalue="0" comment="Valid."/>
@@ -1096,6 +1087,10 @@
                 <mal:extends>
                     <mal:type name="Composite" area="MAL"/>
                 </mal:extends>
+                <mal:field name="name" canBeNull="false"
+                           comment="The name of the parameter. Must not be empty or the wildcard value.">
+                    <mal:type name="Identifier" area="MAL"/>
+                </mal:field>
                 <mal:field name="description" canBeNull="false"
                            comment="The description of the parameter. May be empty.">
                     <mal:type name="String" area="MAL"/>
@@ -1159,20 +1154,6 @@
                     <mal:type list="true" name="ConditionalConversion" area="MC"/>
                 </mal:field>
             </mal:composite>
-            <mal:composite name="ParameterCreationRequest" shortFormPart="15"
-                           comment="The ParameterCreationRequest contains all the fields required when creating a new parameter in a provider.">
-                <mal:extends>
-                    <mal:type name="Composite" area="MAL"/>
-                </mal:extends>
-                <mal:field name="name" canBeNull="false"
-                           comment="The name of the parameter. Must not be empty or the wildcard value.">
-                    <mal:type name="Identifier" area="MAL"/>
-                </mal:field>
-                <mal:field name="paramDefDetails" canBeNull="false"
-                           comment="The parameter definition details.">
-                    <mal:type name="ParameterDefinition" area="MC"/>
-                </mal:field>
-            </mal:composite>
             <mal:composite name="ParameterRawValue" shortFormPart="16"
                            comment="The ParameterRawValue structure holds a new raw value for a specific parameter.">
                 <mal:extends>
@@ -1209,6 +1190,10 @@
                 <mal:extends>
                     <mal:type name="Composite" area="MAL"/>
                 </mal:extends>
+                <mal:field name="name" canBeNull="false"
+                           comment="Alert name. Must not be empty or wildcard value.">
+                    <mal:type name="Identifier" area="MAL"/>
+                </mal:field>
                 <mal:field name="description" canBeNull="false" comment="The description of the alert.">
                     <mal:type name="String" area="MAL"/>
                 </mal:field>
@@ -1237,19 +1222,6 @@
                     <mal:type list="true" name="Identifier" area="MAL"/>
                 </mal:field>
             </mal:composite>
-            <mal:composite name="AlertCreationRequest" shortFormPart="20"
-                           comment="The AlertCreationRequest contains all the fields required when creating a new alert in a provider.">
-                <mal:extends>
-                    <mal:type name="Composite" area="MAL"/>
-                </mal:extends>
-                <mal:field name="name" canBeNull="false"
-                           comment="Alert name. Must not be empty or wildcard value.">
-                    <mal:type name="Identifier" area="MAL"/>
-                </mal:field>
-                <mal:field name="alertDefDetails" canBeNull="false" comment="The alert definition.">
-                    <mal:type name="AlertDefinition" area="MC"/>
-                </mal:field>
-            </mal:composite>
             <mal:enumeration name="AggregationCategory" shortFormPart="21"
                              comment="AggregationCategory is an enumeration definition holding the categories of aggregations.">
                 <mal:item value="GENERAL" nvalue="1" comment="General aggregation."/>
@@ -1270,6 +1242,10 @@
                 <mal:extends>
                     <mal:type name="Composite" area="MAL"/>
                 </mal:extends>
+                <mal:field name="name" canBeNull="false"
+                           comment="The name of the aggregation. Must not be empty or the wildcard value.">
+                    <mal:type name="Identifier" area="MAL"/>
+                </mal:field>
                 <mal:field name="description" canBeNull="false" comment="The description of the parameter. May be empty.">
                     <mal:type name="String" area="MAL"/>
                 </mal:field>
@@ -1387,17 +1363,6 @@
                 <mal:field name="useConverted" canBeNull="false"
                            comment="If true, and the relevant Parameter has a conversion, then use the converted value for the threshold comparison, otherwise use the raw value.">
                     <mal:type name="Boolean" area="MAL"/>
-                </mal:field>
-            </mal:composite>
-            <mal:composite name="AggregationCreationRequest" shortFormPart="30"
-                           comment="The AggregationCreationRequest contains all the fields required when creating a new aggregation in a provider.">
-                <mal:field name="name" canBeNull="false"
-                           comment="The name of the aggregation. Must not be empty or the wildcard value.">
-                    <mal:type name="Identifier" area="MAL"/>
-                </mal:field>
-                <mal:field name="aggDefDetails" canBeNull="false"
-                           comment="The aggregation definition details.">
-                    <mal:type name="AggregationDefinition" area="MC"/>
                 </mal:field>
             </mal:composite>
             <mal:composite name="AggregationValueDetails" shortFormPart="31"

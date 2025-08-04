@@ -111,7 +111,9 @@ public class ParameterTablePanel extends SharedTablePanel {
     }
 
     public ParameterDefinition generateNewParameterDef(ParameterDefinition def, boolean generation) {
-        return new ParameterDefinition(def.getDescription(),
+        return new ParameterDefinition(
+                def.getName(),
+                def.getDescription(),
                 def.getRawType(),
                 def.getRawUnit(),
                 generation,

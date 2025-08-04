@@ -103,7 +103,9 @@ public class AlertTablePanel extends SharedTablePanel {
     }
 
     public AlertDefinition generateNewAlertDef(AlertDefinition def, boolean generation) {
-        return new AlertDefinition(def.getDescription(),
+        return new AlertDefinition(
+                def.getName(),
+                def.getDescription(),
                 def.getSeverity(),
                 generation,
                 def.getArguments());

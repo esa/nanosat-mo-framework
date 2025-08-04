@@ -72,9 +72,9 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
 
         // ------------------ Parameters ------------------
         ParameterDefinitionList defs = new ParameterDefinitionList();
-        IdentifierList paramNames = new IdentifierList();
 
         defs.add(new ParameterDefinition(
+                new Identifier(PARAMETER_SNAPS_TAKEN),
                 "The number of snaps taken.",
                 AttributeType.STRING,
                 "",
@@ -83,12 +83,10 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
                 null,
                 null
         ));
-        paramNames.add(new Identifier(PARAMETER_SNAPS_TAKEN));
-        registration.registerParameters(paramNames, defs);
+        registration.registerParameters(defs);
 
         // ------------------ Actions ------------------
         ActionDefinitionList actionDefs = new ActionDefinitionList();
-        IdentifierList actionNames = new IdentifierList();
 
         ArgumentDefinitionList arguments1 = new ArgumentDefinitionList();
         {
@@ -99,22 +97,22 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
         }
 
         actionDefs.add(new ActionDefinition(
+                new Identifier(ACTION_TAKE_PICTURE_RAW),
                 "Uses the NMF Camera service to take a picture.",
                 ActionCategory.DEFAULT,
                 new UShort(TOTAL_STAGES),
                 arguments1
         ));
-        actionNames.add(new Identifier(ACTION_TAKE_PICTURE_RAW));
 
         actionDefs.add(new ActionDefinition(
+                new Identifier(ACTION_TAKE_PICTURE_JPG),
                 "Uses the NMF Camera service to take a picture.",
                 ActionCategory.DEFAULT,
                 new UShort(TOTAL_STAGES),
                 arguments1
         ));
-        actionNames.add(new Identifier(ACTION_TAKE_PICTURE_JPG));
 
-        registration.registerActions(actionNames, actionDefs);
+        registration.registerActions(actionDefs);
     }
 
     @Override

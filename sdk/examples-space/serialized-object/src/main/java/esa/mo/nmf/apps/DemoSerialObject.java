@@ -27,7 +27,6 @@ import java.io.Serializable;
 import org.ccsds.moims.mo.mal.structures.AttributeType;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mc.structures.AttributeValue;
 import org.ccsds.moims.mo.mc.structures.ParameterDefinition;
@@ -64,13 +63,12 @@ public class DemoSerialObject {
 
             // ------------------ Parameters ------------------
             final ParameterDefinitionList defsOther = new ParameterDefinitionList();
-            final IdentifierList names = new IdentifierList();
 
-            defsOther.add(new ParameterDefinition("A single parameter.", AttributeType.STRING, "",
+            defsOther.add(new ParameterDefinition(new Identifier(PARAMETER),
+                    "A single parameter.", AttributeType.STRING, "",
                 true, new Duration(0), null, null));
-            names.add(new Identifier(PARAMETER));
 
-            registrationObject.registerParameters(names, defsOther);
+            registrationObject.registerParameters(defsOther);
         }
 
         @Override

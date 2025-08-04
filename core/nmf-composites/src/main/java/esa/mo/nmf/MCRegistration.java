@@ -82,19 +82,23 @@ public class MCRegistration {
      * in the Parameter service. This abstracts the NMF developer from the
      * low-level details of MO.
      *
-     * @param names The parameter name identifiers
      * @param definitions The parameter definitions
      * @return The parameter object instance identifiers of the
      * ParameterIdentity objects.
      */
-    public LongList registerParameters(final IdentifierList names, final ParameterDefinitionList definitions) {
+    public LongList registerParameters(final ParameterDefinitionList definitions) {
         // Some validation
-        if (names == null || definitions == null) {
+        if (definitions == null) {
             return null;
         }
 
-        if (names.isEmpty() || definitions.isEmpty()) {
+        if (definitions.isEmpty()) {
             return null;
+        }
+
+        final IdentifierList names = new IdentifierList(definitions.size());
+        for (ParameterDefinition def : definitions) {
+            names.add(def.getName());
         }
 
         try {
@@ -111,11 +115,11 @@ public class MCRegistration {
                 final UIntegerList extraInfo = (UIntegerList) ex1.getStandardError().getExtraInformation();
 
                 //-------------New Definitions-------------
-                ParameterCreationRequestList newDefs = new ParameterCreationRequestList();
+                ParameterDefinitionList newDefs = new ParameterDefinitionList();
 
                 for (int i = 0; i < extraInfo.size(); i++) { // Which ones are new?
                     int index = (short) extraInfo.get(i).getValue();
-                    newDefs.add(new ParameterCreationRequest(names.get(index), definitions.get(index)));
+                    newDefs.add(definitions.get(index));
                 }
 
                 parameterService.addParameter(newDefs, null);
@@ -162,20 +166,23 @@ public class MCRegistration {
      * Definitions in the Aggregation service. This abstracts the NMF developer
      * from the low-level details of MO.
      *
-     * @param names The aggregation name identifiers
      * @param definitions The aggregation definitions
      * @return The aggregation object instance identifiers of the
      * AggregationIdentity objects.
      */
-    public LongList registerAggregations(final IdentifierList names,
-            final AggregationDefinitionList definitions) {
+    public LongList registerAggregations(final AggregationDefinitionList definitions) {
         // Some validation
-        if (names == null || definitions == null) {
+        if (definitions == null) {
             return null;
         }
 
-        if (names.isEmpty() || definitions.isEmpty()) {
+        if (definitions.isEmpty()) {
             return null;
+        }
+
+        final IdentifierList names = new IdentifierList(definitions.size());
+        for (AggregationDefinition def : definitions) {
+            names.add(def.getName());
         }
 
         try {
@@ -192,11 +199,11 @@ public class MCRegistration {
                 final UIntegerList extraInfo = (UIntegerList) ex1.getStandardError().getExtraInformation();
 
                 //-------------New Definitions-------------
-                AggregationCreationRequestList newDefs = new AggregationCreationRequestList();
+                AggregationDefinitionList newDefs = new AggregationDefinitionList();
 
                 for (int i = 0; i < extraInfo.size(); i++) { // Which ones already exist?
                     int index = (short) extraInfo.get(i).getValue();
-                    newDefs.add(new AggregationCreationRequest(names.get(index), definitions.get(index)));
+                    newDefs.add(definitions.get(index));
                 }
 
                 aggregationService.addAggregation(newDefs, null);
@@ -243,19 +250,23 @@ public class MCRegistration {
      * Alert service. This abstracts the NMF developer from the low-level
      * details of MO.
      *
-     * @param names The alert name identifiers
      * @param definitions The alert definitions
      * @return The aggregation object instance identifiers of the AlertIdentity
      * objects.
      */
-    public LongList registerAlerts(final IdentifierList names, final AlertDefinitionList definitions) {
+    public LongList registerAlerts(final AlertDefinitionList definitions) {
         // Some validation
-        if (names == null || definitions == null) {
+        if (definitions == null) {
             return null;
         }
 
-        if (names.isEmpty() || definitions.isEmpty()) {
+        if (definitions.isEmpty()) {
             return null;
+        }
+
+        final IdentifierList names = new IdentifierList(definitions.size());
+        for (AlertDefinition def : definitions) {
+            names.add(def.getName());
         }
 
         try {
@@ -272,11 +283,11 @@ public class MCRegistration {
                 final UIntegerList extraInfo = (UIntegerList) ex1.getStandardError().getExtraInformation();
 
                 //-------------New Definitions-------------
-                AlertCreationRequestList newDefs = new AlertCreationRequestList();
+                AlertDefinitionList newDefs = new AlertDefinitionList();
 
                 for (int i = 0; i < extraInfo.size(); i++) { // Which ones already exist?
                     int index = (short) extraInfo.get(i).getValue();
-                    newDefs.add(new AlertCreationRequest(names.get(index), definitions.get(index)));
+                    newDefs.add(definitions.get(index));
                 }
 
                 alertService.addAlert(newDefs, null);
@@ -323,19 +334,23 @@ public class MCRegistration {
      * the Action service. This abstracts the NMF developer from the low-level
      * details of MO.
      *
-     * @param names The action name identifiers
      * @param definitions The action definitions
      * @return The aggregation object instance identifiers of the ActionIdentity
      * objects.
      */
-    public LongList registerActions(final IdentifierList names, final ActionDefinitionList definitions) {
+    public LongList registerActions(final ActionDefinitionList definitions) {
         // Some validation
-        if (names == null || definitions == null) {
+        if (definitions == null) {
             return null;
         }
 
-        if (names.isEmpty() || definitions.isEmpty()) {
+        if (definitions.isEmpty()) {
             return null;
+        }
+
+        final IdentifierList names = new IdentifierList(definitions.size());
+        for (ActionDefinition def : definitions) {
+            names.add(def.getName());
         }
 
         try {
@@ -352,11 +367,11 @@ public class MCRegistration {
                 final UIntegerList extraInfo = (UIntegerList) ex1.getStandardError().getExtraInformation();
 
                 //-------------New Definitions-------------
-                ActionCreationRequestList newDefs = new ActionCreationRequestList();
+                ActionDefinitionList newDefs = new ActionDefinitionList();
 
                 for (int i = 0; i < extraInfo.size(); i++) { // Which ones already exist?
                     int index = (short) extraInfo.get(i).getValue();
-                    newDefs.add(new ActionCreationRequest(names.get(index), definitions.get(index)));
+                    newDefs.add(definitions.get(index));
                 }
 
                 actionService.addAction(newDefs, null);

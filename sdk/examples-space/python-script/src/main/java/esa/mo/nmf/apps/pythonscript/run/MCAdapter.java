@@ -33,7 +33,6 @@ import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.AttributeType;
 import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.mc.structures.*;
@@ -62,13 +61,12 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
 
         // ------------------ Actions ------------------
         ActionDefinitionList actionDefs = new ActionDefinitionList();
-        IdentifierList actionNames = new IdentifierList();
 
-        registerActionDestroyProcess(actionDefs, actionNames);
-        registerActionRunPython(actionDefs, actionNames);
+        registerActionDestroyProcess(actionDefs);
+        registerActionRunPython(actionDefs);
         // ----
 
-        registration.registerActions(actionNames, actionDefs);
+        registration.registerActions(actionDefs);
     }
 
     @Override
@@ -92,7 +90,7 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
         publishParameter(id.toString(), exitCode);
     }
 
-    private void registerActionRunPython(ActionDefinitionList actionDefs, IdentifierList actionNames) {
+    private void registerActionRunPython(ActionDefinitionList actionDefs) {
         ArgumentDefinitionList arguments = new ArgumentDefinitionList();
         {
             AttributeType rawType = AttributeType.INTEGER;
@@ -110,14 +108,14 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
         }
 
         actionDefs.add(new ActionDefinition(
+                new Identifier(ACTION_RUN_PYTHON_SCRIPT),
                 "Runs a python script",
                 ActionCategory.DEFAULT,
                 new UShort(TOTAL_STAGES),
                 arguments));
-        actionNames.add(new Identifier(ACTION_RUN_PYTHON_SCRIPT));
     }
 
-    private void registerActionDestroyProcess(ActionDefinitionList actionDefs, IdentifierList actionNames) {
+    private void registerActionDestroyProcess(ActionDefinitionList actionDefs) {
         ArgumentDefinitionList arguments = new ArgumentDefinitionList();
         {
             AttributeType rawType = AttributeType.LONG;
@@ -128,11 +126,11 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
         }
 
         actionDefs.add(new ActionDefinition(
+                new Identifier(ACTION_DESTROY_PROCESS),
                 "Destroy a process",
                 ActionCategory.DEFAULT,
                 new UShort(1),
                 arguments));
-        actionNames.add(new Identifier(ACTION_DESTROY_PROCESS));
     }
 
     private void runPythonScript(Long actionInstanceObjId, AttributeValueList attributeValues) {
