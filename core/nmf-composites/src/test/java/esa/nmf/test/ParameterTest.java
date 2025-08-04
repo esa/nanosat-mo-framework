@@ -25,7 +25,6 @@ import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.annotations.Parameter;
 import java.io.IOException;
 import org.ccsds.moims.mo.mal.structures.Attribute;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mc.structures.ParameterDefinitionList;
 import org.ccsds.moims.mo.mc.structures.ParameterRawValue;
