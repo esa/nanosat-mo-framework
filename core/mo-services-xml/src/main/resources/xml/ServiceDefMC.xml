@@ -92,9 +92,9 @@
                             </mal:field>
                         </mal:request>
                         <mal:response>
-                            <mal:field name="actionInstIds"
-                                       comment="The response shall contain a list of matching ActionIdentity and ActionDefinition object instance identifiers.&#xA;The returned list shall maintain the same order as the submitted list unless the wildcard value was included in the request.">
-                                <mal:type list="true" name="ObjectInstancePair" area="MC"/>
+                            <mal:field name="ids"
+                                       comment="The list of ids matching the ActionDefinitions.&#xA;The returned list shall maintain the same order as the submitted list unless the wildcard value was included in the request.">
+                                <mal:type list="true" name="Long" area="MAL"/>
                             </mal:field>
                         </mal:response>
                     </mal:messages>
@@ -315,9 +315,9 @@
                             </mal:field>
                         </mal:request>
                         <mal:response>
-                            <mal:field name="objInstIds"
-                                       comment="The response shall contain a list of matching ParameterIdentity and ParameterDefinition object instance identifier pairs.&#xA;The returned list shall maintain the same order as the submitted list unless the wildcard value was included in the request.">
-                                <mal:type list="true" name="ObjectInstancePair" area="MC"/>
+                            <mal:field name="ids"
+                                       comment="The list of ids matching the ParameterDefinitions.&#xA;The returned list shall maintain the same order as the submitted list unless the wildcard value was included in the request.">
+                                <mal:type list="true" name="Long" area="MAL"/>
                             </mal:field>
                         </mal:response>
                     </mal:messages>
@@ -460,9 +460,9 @@
                             </mal:field>
                         </mal:request>
                         <mal:response>
-                            <mal:field name="alertObjInstIds"
-                                       comment="The response shall contain a list of matching AlertIdentity and AlertDefinition object instance identifiers.&#xA;The returned list shall maintain the same order as the submitted list unless the wildcard value was included in the request.">
-                                <mal:type list="true" name="ObjectInstancePair" area="MC"/>
+                            <mal:field name="ids"
+                                       comment="The list of ids matching the AlertDefinitions.&#xA;The returned list shall maintain the same order as the submitted list unless the wildcard value was included in the request.">
+                                <mal:type list="true" name="Long" area="MAL"/>
                             </mal:field>
                         </mal:response>
                     </mal:messages>
@@ -693,15 +693,15 @@
                                comment="The listDefinition operation allows a consumer to request the latest object instance identifiers of the AggregationIdentity and AggregationDefinition objects for the supported aggregations of the provider.">
                     <mal:messages>
                         <mal:request>
-                            <mal:field name="aggNames"
+                            <mal:field name="aggregationNames"
                                        comment="The aggNames field shall contain a list of aggregation names to retrieve the AggregationIdentity and AggregationDefinition object instance identifiers for.&#xA;The aggNames field may contain the wildcard value of '*' to return all supported AggregationIdentity and AggregationDefinition objects.&#xA;The wildcard value should be checked for first, if found no other checks of supplied identifiers shall be made.&#xA;If a provided identifier does not include a wildcard and does not match an existing AggregationIdentity object then this operation shall fail with an UNKNOWN error.">
                                 <mal:type list="true" name="Identifier" area="MAL"/>
                             </mal:field>
                         </mal:request>
                         <mal:response>
-                            <mal:field name="objInstIds"
-                                       comment="The response shall contain a list of matching AggregationIdentity and AggregationDefinition object instance identifiers.&#xA;The returned list shall maintain the same order as the submitted list unless the wildcard value was included in the request.">
-                                <mal:type list="true" name="ObjectInstancePair" area="MC"/>
+                            <mal:field name="ids"
+                                       comment="The list of ids matching the AggregationDefinitions.&#xA;The returned list shall maintain the same order as the submitted list unless the wildcard value was included in the request.">
+                                <mal:type list="true" name="Long" area="MAL"/>
                             </mal:field>
                         </mal:response>
                     </mal:messages>
@@ -726,9 +726,9 @@
                             </mal:field>
                         </mal:request>
                         <mal:response>
-                            <mal:field name="newObjInstIds"
-                                       comment="The response shall contain the list of object instance identifiers for the AggregationIdentity and new AggregationDefinition objects.&#xA;The returned list shall maintain the same order as the submitted definitions.">
-                                <mal:type list="true" name="ObjectInstancePair" area="MC"/>
+                            <mal:field name="newIds"
+                                       comment="The list of object instance identifiers for the AggregationDefinition objects.&#xA;The returned list shall maintain the same order as the submitted definitions.">
+                                <mal:type list="true" name="Long" area="MAL"/>
                             </mal:field>
                         </mal:response>
                     </mal:messages>
@@ -991,18 +991,6 @@
                     <mal:type name="Attribute" area="MAL"/>
                 </mal:field>
             </mal:composite>
-            <mal:composite name="ObjectInstancePair" shortFormPart="6"
-                           comment="The ObjectInstancePair structure is used to hold the object instance identifier of an Identity object with its associated Definition object.">
-                <mal:extends>
-                    <mal:type name="Composite" area="MAL"/>
-                </mal:extends>
-                <mal:field name="objIdentityInstanceId" canBeNull="false" comment="The object instance identifier of the Identity object.">
-                    <mal:type name="Long" area="MAL"/>
-                </mal:field>
-                <mal:field name="objDefInstanceId" canBeNull="false" comment="The object instance identifier of the Definition object.">
-                    <mal:type name="Long" area="MAL"/>
-                </mal:field>
-            </mal:composite>
             <mal:enumeration name="ActionCategory" shortFormPart="7"
                              comment="Contains the default Action category values. It is implementation specific what the meaning of the values are in a particular context.">
                 <mal:item value="DEFAULT" nvalue="1" comment="Default category"/>
@@ -1170,12 +1158,8 @@
             </mal:composite>
             <mal:composite name="ParameterValueDetails" shortFormPart="17"
                            comment="This structure holds a specific time stamped value of the parameter. The type of the value shall match that specified in the parameter definition.">
-                <mal:field name="paramId" canBeNull="false"
-                           comment="The ParameterIdentity object instance identifier.">
-                    <mal:type name="Long" area="MAL"/>
-                </mal:field>
                 <mal:field name="defId" canBeNull="false"
-                           comment="The ParameterDefinition object instance identifier.">
+                           comment="The id of the Parameter Definition.">
                     <mal:type name="Long" area="MAL"/>
                 </mal:field>
                 <mal:field name="timestamp" canBeNull="false" comment="The timestamp of the value.">
@@ -1367,10 +1351,6 @@
             </mal:composite>
             <mal:composite name="AggregationValueDetails" shortFormPart="31"
                            comment="This structure holds a specific time stamped value of the aggregation. ">
-                <mal:field name="aggId" canBeNull="false"
-                           comment="The AggregationIdentity object instance identifier.">
-                    <mal:type name="Long" area="MAL"/>
-                </mal:field>
                 <mal:field name="defId" canBeNull="false"
                            comment="The AggregationDefinition object instance identifier.">
                     <mal:type name="Long" area="MAL"/>

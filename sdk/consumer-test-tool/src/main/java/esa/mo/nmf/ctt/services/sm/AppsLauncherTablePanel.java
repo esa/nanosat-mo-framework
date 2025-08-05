@@ -26,7 +26,6 @@ import esa.mo.nmf.ctt.utils.SharedTablePanel;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
-import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.softwaremanagement.structures.AppDetails;
 
 /**
@@ -42,7 +41,7 @@ public class AppsLauncherTablePanel extends SharedTablePanel {
     }
 
     @Override
-    public void addEntry(final Identifier name, final ArchivePersistenceObject comObject) {
+    public void addEntry(final ArchivePersistenceObject comObject) {
         if (comObject == null) {
             LOGGER.log(Level.SEVERE, "The table cannot process a null COM Object.");
             return;

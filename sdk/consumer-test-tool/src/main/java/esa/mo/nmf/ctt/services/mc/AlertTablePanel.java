@@ -25,7 +25,6 @@ import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.nmf.ctt.utils.SharedTablePanel;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mc.structures.AlertDefinition;
 
 /**
@@ -44,7 +43,7 @@ public class AlertTablePanel extends SharedTablePanel {
     }
 
     @Override
-    public void addEntry(final Identifier name, final ArchivePersistenceObject comObject) {
+    public void addEntry(final ArchivePersistenceObject comObject) {
         if (comObject == null) {
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE,
                     "The table cannot process a null COM Object.");
@@ -59,8 +58,12 @@ public class AlertTablePanel extends SharedTablePanel {
 
         AlertDefinition pDef = (AlertDefinition) comObject.getObject();
 
-        tableData.addRow(new Object[]{comObject.getArchiveDetails().getLinks().getRelated(),
-            name.toString(), pDef.getDescription(), pDef.getSeverity().toString(), pDef.getGenerationEnabled()});
+        tableData.addRow(new Object[]{
+            comObject.getArchiveDetails().getInstId(),
+            pDef.getName().getValue(),
+            pDef.getDescription(),
+            pDef.getSeverity().toString(),
+            pDef.getGenerationEnabled()});
 
         comObjects.add(comObject);
         semaphore.release();
@@ -113,13 +116,20 @@ public class AlertTablePanel extends SharedTablePanel {
 
     @Override
     public void defineTableContent() {
-        String[] tableCol = new String[]{"Identity", "name",
-            "description", "Severity", "generationEnabled"};
+        String[] tableCol = new String[]{
+            "Id",
+            "name",
+            "description",
+            "Severity",
+            "generationEnabled"};
 
         tableData = new javax.swing.table.DefaultTableModel(new Object[][]{}, tableCol) {
-            Class[] types = new Class[]{java.lang.Integer.class,
-                java.lang.String.class, java.lang.String.class,
-                java.lang.String.class, java.lang.Boolean.class};
+            Class[] types = new Class[]{
+                java.lang.Integer.class,
+                java.lang.String.class,
+                java.lang.String.class,
+                java.lang.String.class,
+                java.lang.Boolean.class};
 
             @Override               //all cells false
             public boolean isCellEditable(int row, int column) {

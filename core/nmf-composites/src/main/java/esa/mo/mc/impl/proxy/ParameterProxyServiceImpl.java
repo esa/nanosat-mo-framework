@@ -166,8 +166,8 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
     }
 
     @Override
-    public ObjectInstancePairList listDefinition(IdentifierList il, MALInteraction mali) throws MALInteractionException,
-            MALException {
+    public LongList listDefinition(IdentifierList il,
+            MALInteraction mali) throws MALInteractionException, MALException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

@@ -38,6 +38,7 @@ import org.ccsds.moims.mo.mal.helpertools.helpers.HelperDomain;
 import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
+import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mc.alert.AlertServiceInfo;
@@ -74,11 +75,9 @@ public class AlertTest2 {
         IdentifierList alertDefNames = new IdentifierList();
         alertDefNames.add(new Identifier("*"));
 
-        ObjectInstancePairList moAlertDefIds = alertConsumer.listDefinition(alertDefNames);
+        LongList moAlertDefIds = alertConsumer.listDefinition(alertDefNames);
 
-        for (ObjectInstancePair pair : moAlertDefIds) {
-            Long moAlertDefId = pair.getObjIdentityInstanceId();
-
+        for (Long moAlertDefId : moAlertDefIds) {
             // enable generation of this alert in the Alert Provider
             InstanceBooleanPairList enableInstance = new InstanceBooleanPairList();
             enableInstance.add(new InstanceBooleanPair(moAlertDefId, true));

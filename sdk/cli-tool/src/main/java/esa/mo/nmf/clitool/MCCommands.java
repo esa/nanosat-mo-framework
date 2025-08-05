@@ -86,11 +86,11 @@ public class MCCommands {
         }
 
         try {
-            ObjectInstancePairList ids = parameterService.listDefinition(request);
+            LongList ids = parameterService.listDefinition(request);
             InstanceBooleanPairList enableInstances = new InstanceBooleanPairList();
 
-            for (ObjectInstancePair pair : ids) {
-                enableInstances.add(new InstanceBooleanPair(pair.getObjIdentityInstanceId(), enable));
+            for (Long id : ids) {
+                enableInstances.add(new InstanceBooleanPair(id, enable));
             }
 
             parameterService.enableGeneration(false, enableInstances);
@@ -166,11 +166,11 @@ public class MCCommands {
         }
 
         try {
-            ObjectInstancePairList ids = aggregationService.listDefinition(request);
+            LongList ids = aggregationService.listDefinition(request);
             InstanceBooleanPairList enableInstances = new InstanceBooleanPairList();
 
-            for (ObjectInstancePair pair : ids) {
-                enableInstances.add(new InstanceBooleanPair(pair.getObjIdentityInstanceId(), enable));
+            for (Long id : ids) {
+                enableInstances.add(new InstanceBooleanPair(id, enable));
             }
 
             aggregationService.enableGeneration(false, enableInstances);
@@ -348,19 +348,16 @@ public class MCCommands {
                     }
                 }
 
-                ObjectInstancePairList result = stub.listDefinition(names);
+                LongList result = stub.listDefinition(names);
 
                 ArchiveStub archive = consumer.getCOMServices().getArchiveService().getArchiveStub();
                 LongList aggregationDefinitionsIds = new LongList();
                 LongList aggregationIdentitiesIds = new LongList();
                 LongList parameterIds = new LongList();
 
-                for (ObjectInstancePair pair : result) {
-                    long aggregationIdentityId = pair.getObjIdentityInstanceId();
-                    long aggregationDefinitionId = pair.getObjDefInstanceId();
-
-                    aggregationIdentitiesIds.add(aggregationIdentityId);
-                    aggregationDefinitionsIds.add(aggregationDefinitionId);
+                for (Long id : result) {
+                    aggregationIdentitiesIds.add(id);
+                    aggregationDefinitionsIds.add(id);
                 }
 
                 final Object lock = new Object();

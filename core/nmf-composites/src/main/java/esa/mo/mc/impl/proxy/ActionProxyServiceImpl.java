@@ -39,6 +39,7 @@ import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
+import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.UIntegerList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.action.ActionHelper;
@@ -158,7 +159,7 @@ public class ActionProxyServiceImpl extends ActionInheritanceSkeleton {
     }
 
     @Override
-    public ObjectInstancePairList listDefinition(IdentifierList il,
+    public LongList listDefinition(IdentifierList il,
             MALInteraction mali) throws MALInteractionException, MALException {
         return actionConsumer.getActionStub().listDefinition(il);
     }

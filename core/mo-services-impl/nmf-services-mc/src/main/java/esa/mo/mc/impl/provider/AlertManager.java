@@ -34,7 +34,6 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mc.alert.AlertServiceInfo;
 import org.ccsds.moims.mo.mc.structures.AlertDefinition;
-import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
 
 /**
  *
@@ -42,7 +41,6 @@ import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
  */
 public final class AlertManager extends MCManager {
 
-    private Long uniqueObjIdIdentity;
     private Long uniqueObjIdDef; // Counter (different for every Definition)
 
     public AlertManager(COMServicesProvider comServices) {
@@ -56,65 +54,40 @@ public final class AlertManager extends MCManager {
 
     }
 
-    public AlertDefinition getAlertDefinitionFromIdentityId(Long identityId) {
-        return (AlertDefinition) this.getDefinition(identityId);
-    }
-
     public AlertDefinition getAlertDefinitionFromDefId(Long defId) {
-        return (AlertDefinition) this.getDefinitionFromObjId(defId);
+        return (AlertDefinition) this.getDefinition(defId);
     }
 
-    public ObjectInstancePair add(AlertDefinition definition, ObjectId source,
+    public Long add(AlertDefinition definition, ObjectId source,
             SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
-        ObjectInstancePair newIdPair = new ObjectInstancePair();
+        Long newIdPair = 0L;
         Identifier name = definition.getName();
 
         if (super.getArchiveService() == null) {
             //add to providers local list
-            uniqueObjIdIdentity++; // This line as to go before any writing (because it's initialized as zero and that's the wildcard)
             uniqueObjIdDef++; // This line as to go before any writing (because it's initialized as zero and that's the wildcard)
-            newIdPair = new ObjectInstancePair(uniqueObjIdIdentity, uniqueObjIdDef);
+            newIdPair = uniqueObjIdDef;
 
         } else {
             try {
-                //requirement: 3.4.10.2.e: if an AlertName ever existed before, use the old AlertIdentity-Object by retrieving it from the archive
-                //check if the name existed before and retrieve id if found
-                Long identityId = retrieveIdentityIdByNameFromArchive(ConfigurationProviderSingleton.getDomain(),
-                        name, AlertServiceInfo.ALERTIDENTITY_OBJECT_TYPE);
-
-                //in case the AlertName never existed before, create a new identity
-                if (identityId == null) {
-                    HeterogeneousList names = new HeterogeneousList();
-                    names.add(name);
-                    //add to the archive; requirement: 3.4.7.a
-                    LongList identityIds = super.getArchiveService().store(true,
-                            AlertServiceInfo.ALERTIDENTITY_OBJECT_TYPE, //requirement: 3.4.4.a
-                            ConfigurationProviderSingleton.getDomain(),
-                            HelperArchive.generateArchiveDetailsList(null, source, connectionDetails), //requirement 3.4.4.g
-                            names, //requirement: 3.4.4.b
-                            null);
-
-                    //there is only one identity created, so get the id and set it as the related id
-                    identityId = identityIds.get(0);
-                }
                 HeterogeneousList defs = new HeterogeneousList();
                 defs.add(definition);
                 //add to the archive; requirement: 3.4.7.a
                 LongList defIds = super.getArchiveService().store(true,
                         AlertServiceInfo.ALERTDEFINITION_OBJECT_TYPE, //requirement: 3.4.4.c
                         ConfigurationProviderSingleton.getDomain(),
-                        HelperArchive.generateArchiveDetailsList(identityId, source, connectionDetails), //requirement: 3.4.4.e, 3.4.4.h
+                        HelperArchive.generateArchiveDetailsList(null, source, connectionDetails), //requirement: 3.4.4.e, 3.4.4.h
                         defs,
                         null);
 
                 //add to providers local list
-                newIdPair = new ObjectInstancePair(identityId, defIds.get(0));
+                newIdPair = defIds.get(0);
             } catch (MALException | MALInteractionException ex) {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
-        this.addIdentityDefinition(name, newIdPair, definition);
+        this.addDefinitionLocally(name, newIdPair, definition);
         return newIdPair;
     }
 
@@ -144,18 +117,14 @@ public final class AlertManager extends MCManager {
             }
         }
 
-        this.updateDef(identityId, newDefId, definition);
+        this.updateDef(newDefId, definition);
         return newDefId;
-    }
-
-    public boolean delete(Long objId) {
-        return this.deleteIdentity(objId);
     }
 
     public Long setGenerationEnabled(final Long identityId, final Boolean bool,
             final ObjectId source, final SingleConnectionDetails connectionDetails) {
         // requirement: 3.3.2.5
-        AlertDefinition def = this.getAlertDefinitionFromIdentityId(identityId);
+        AlertDefinition def = this.getAlertDefinitionFromDefId(identityId);
         if (def == null) {
             return null;
         }
@@ -174,10 +143,10 @@ public final class AlertManager extends MCManager {
     public void setGenerationEnabledAll(final Boolean bool, final ObjectId source,
             final SingleConnectionDetails connectionDetails) {
         LongList identityIds = new LongList();
-        identityIds.addAll(this.listAllIdentities());
+        identityIds.addAll(this.listAllDefinitions());
 
         for (Long identityId : identityIds) {
-            AlertDefinition def = this.getAlertDefinitionFromIdentityId(identityId);
+            AlertDefinition def = this.getAlertDefinitionFromDefId(identityId);
             AlertDefinition newDef = new AlertDefinition(def.getName(),
                     def.getDescription(), def.getSeverity(), bool, def.getArguments());
 

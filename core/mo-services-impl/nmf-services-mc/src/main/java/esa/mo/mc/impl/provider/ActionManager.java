@@ -54,7 +54,6 @@ import org.ccsds.moims.mo.mc.structures.*;
  */
 public final class ActionManager extends MCManager {
 
-    private Long uniqueObjIdIdentity;
     private Long uniqueObjIdDef; // Unique objId Definition (different for every Definition)
     private Long uniqueObjIdAIns;
     private final ActionInvocationListener actions;
@@ -74,7 +73,6 @@ public final class ActionManager extends MCManager {
         this.actions = actions;
 
         if (super.getArchiveService() == null) {  // No Archive?
-            this.uniqueObjIdIdentity = 0L; // The zeroth value will not be used (reserved for the wildcard)
             this.uniqueObjIdDef = 0L; // The zeroth value will not be used (reserved for the wildcard)
             this.uniqueObjIdAIns = 0L; // The zeroth value will not be used (reserved for the wildcard)
             //            this.load(); // Load the file
@@ -85,12 +83,8 @@ public final class ActionManager extends MCManager {
     }
 
     // We could use generics to avoid doing this...
-    public ActionDefinition getActionDefinitionFromIdentityId(Long identityId) {
-        return (ActionDefinition) this.getDefinition(identityId);
-    }
-
-    public ActionDefinition getActionDefinitionFromDefId(Long defId) {
-        return (ActionDefinition) this.getDefinitionFromObjId(defId);
+    public ActionDefinition getActionDefinition(Long id) {
+        return (ActionDefinition) this.getDefinition(id);
     }
 
     public Long storeAndGenerateAInsobjId(ActionInstanceDetails aIns, Long related, final URI uri) {
@@ -127,60 +121,37 @@ public final class ActionManager extends MCManager {
     //    public ActionDefinitionList getAll(){
     //        return (ActionDefinitionList) this.listgetAllDefs();
     //    }
-    public ObjectInstancePair add(ActionDefinition actionDefDetails, ObjectId source, URI uri) { // requirement: 3.3.2.5
-        ObjectInstancePair newIdPair = new ObjectInstancePair();
+    public Long add(ActionDefinition actionDefDetails, ObjectId source, URI uri) { // requirement: 3.3.2.5
+        Long newId = 0L;
         final Identifier name = actionDefDetails.getName();
 
         if (super.getArchiveService() == null) {
             //add to providers local list
-            uniqueObjIdIdentity++; // This line as to go before any writing (because it's initialized as zero and that's the wildcard)
             uniqueObjIdDef++; // This line as to go before any writing (because it's initialized as zero and that's the wildcard)
-            newIdPair = new ObjectInstancePair(uniqueObjIdIdentity, uniqueObjIdDef);
+            newId = uniqueObjIdDef;
         } else {
             try {
-                //requirement: 3.2.12.2.e: if an ActionName ever existed before, use the old ActionIdentity-Object by retrieving it from the archive
-                //check if the name existed before and retrieve id if found
-                Long identityId = retrieveIdentityIdByNameFromArchive(ConfigurationProviderSingleton.getDomain(),
-                        name, ActionServiceInfo.ACTIONIDENTITY_OBJECT_TYPE);
-
-                //in case the ActionName never existed before, create a new identity
-                if (identityId == null) {
-                    HeterogeneousList names = new HeterogeneousList();
-                    //requirement: 3.2.4.b
-                    names.add(name);
-                    //add identity to the archive 3.2.7.a
-                    LongList identityIds = super.getArchiveService().store(true,
-                            ActionServiceInfo.ACTIONIDENTITY_OBJECT_TYPE, //requirement: 3.2.4.a
-                            ConfigurationProviderSingleton.getDomain(),
-                            HelperArchive.generateArchiveDetailsList(null, source, uri), //requirement: 3.2.4.e
-                            names,
-                            null);
-
-                    //there is only one identity created, so get the id and set it as the related id
-                    identityId = identityIds.get(0);
-                }
                 HeterogeneousList defs = new HeterogeneousList();
                 defs.add(actionDefDetails);
                 //add definition to the archive requirement: 3.2.7.b
                 LongList defIds = super.getArchiveService().store(true,
                         ActionServiceInfo.ACTIONDEFINITION_OBJECT_TYPE, //requirement: 3.2.4.c
                         ConfigurationProviderSingleton.getDomain(),
-                        HelperArchive.generateArchiveDetailsList(identityId, source, uri), //requirement: 3.2.4.d, f
+                        HelperArchive.generateArchiveDetailsList(null, source, uri), //requirement: 3.2.4.d, f
                         defs,
                         null);
 
-                newIdPair = new ObjectInstancePair(identityId, defIds.get(0));
+                newId = defIds.get(0);
             } catch (MALException | MALInteractionException ex) {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         //add to internal lists
-        //        this.addIdentityDefinition(newIdPair.getObjIdentityInstanceId(), name, newIdPair.getObjDefInstanceId(), actionDefDetails);
-        this.addIdentityDefinition(name, newIdPair, actionDefDetails);
-        return newIdPair;
+        this.addDefinitionLocally(name, newId, actionDefDetails);
+        return newId;
     }
 
-    public Long update(Long identityId, ActionDefinition definition, ObjectId source, URI uri) { // requirement: 3.3.2.5
+    public Long update(Long id, ActionDefinition definition, ObjectId source, URI uri) { // requirement: 3.3.2.5
         Long newDefId = null;
 
         if (super.getArchiveService() == null) { //only update locally
@@ -197,7 +168,7 @@ public final class ActionManager extends MCManager {
                 LongList defIds = super.getArchiveService().store(true,
                         ActionServiceInfo.ACTIONDEFINITION_OBJECT_TYPE,
                         ConfigurationProviderSingleton.getDomain(),
-                        HelperArchive.generateArchiveDetailsList(identityId, source, uri),
+                        HelperArchive.generateArchiveDetailsList(id, source, uri),
                         defs,
                         null);
 
@@ -207,14 +178,9 @@ public final class ActionManager extends MCManager {
             }
         }
         //update internal list
-        this.updateDef(identityId, newDefId, definition);
+        this.updateDef(newDefId, definition);
 
         return newDefId;
-    }
-
-    public boolean delete(Long objId) {
-        // requirement: 3.2.14.2.e
-        return this.deleteIdentity(objId);
     }
 
     protected boolean isActionDefinitionValid(ActionDefinition oldDef, ActionDefinition newDef) {
@@ -275,7 +241,7 @@ public final class ActionManager extends MCManager {
 
     public boolean checkActionInstanceDetails(ActionInstanceDetails actionInstance, UIntegerList errorList) {
         //TODO extend this method to support the external verification. create a new Interface -> actionservice
-        ActionDefinition actionDef = this.getActionDefinitionFromDefId(actionInstance.getDefInstId());
+        ActionDefinition actionDef = this.getActionDefinition(actionInstance.getDefInstId());
 
         if (errorList != null) {
             errorList.clear();
@@ -357,8 +323,7 @@ public final class ActionManager extends MCManager {
 
     protected void forward(final Long actionInstId, final ActionInstanceDetails actionDetails,
             final MALInteraction interaction, final SingleConnectionDetails connectionDetails) {
-        //TODO: after issue I expect to get the identity-id here -> issue #179
-        final Identifier name = this.getNameFromObjId(actionDetails.getDefInstId());
+        final Identifier name = this.getName(actionDetails.getDefInstId());
 
         actionsExecutor.execute(new Runnable() {
             @Override
@@ -406,10 +371,10 @@ public final class ActionManager extends MCManager {
     protected void execute(final Long actionInstId, final ActionInstanceDetails actionDetails,
             final MALInteraction interaction, final SingleConnectionDetails connectionDetails) {
         actionInstances.put(actionInstId, actionDetails);
-        final Identifier name = this.getNameFromObjId(actionDetails.getDefInstId());
+        final Identifier name = this.getName(actionDetails.getDefInstId());
 
         actionsExecutor.execute(() -> {
-            final ActionDefinition actionDefinition = getActionDefinitionFromDefId(actionDetails.getDefInstId());
+            final ActionDefinition actionDefinition = getActionDefinition(actionDetails.getDefInstId());
 
             //from here on: requirement 3.2.8.b
             // Publish Event stating that the execution was initialized

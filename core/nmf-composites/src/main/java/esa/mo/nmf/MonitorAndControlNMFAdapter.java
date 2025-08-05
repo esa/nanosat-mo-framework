@@ -263,11 +263,11 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
                 IdentifierList names = new IdentifierList();
                 names.add(new Identifier(parameterName));
                 try {
-                    ObjectInstancePairList ids = parameterService.listDefinition(names, null);
-                    ObjectInstancePair id = ids.get(0);
+                    LongList ids = parameterService.listDefinition(names, null);
+                    Long id = ids.get(0);
                     ArchiveQuery query = new ArchiveQuery(
                             archiveService.getConnection().getConnectionDetails().getDomain(),
-                            null, null, id.getObjDefInstanceId(), null, null,
+                            null, null, id, null, null,
                             FineTime.now(), false, null);
                     PaginationFilter filter = new PaginationFilter(new UInteger(1), new UInteger(0));
                     List<ArchivePersistenceObject> result = archiveService.getArchiveManager().query(

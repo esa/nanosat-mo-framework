@@ -276,8 +276,10 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
             }
         }
 
-        // Are the dynamic changes enabled?
-        if ("true".equals(System.getProperty(Const.DYNAMIC_CHANGES_PROPERTY))) {
+        // Are the dynamic changes enabled? Default it to true
+        String dynamic = System.getProperty(Const.DYNAMIC_CHANGES_PROPERTY, "true");
+
+        if ("true".equals(dynamic)) {
             LOGGER.log(Level.INFO, "Loading previous configurations...");
 
             // Activate the previous configuration
@@ -294,8 +296,11 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
         }
 
         if (mcAdapter != null) {
-            MCRegistration registration = new MCRegistration(comServices, mcServices.getParameterService(),
-                    mcServices.getAggregationService(), mcServices.getAlertService(), mcServices.getActionService());
+            MCRegistration registration = new MCRegistration(comServices,
+                    mcServices.getParameterService(),
+                    mcServices.getAggregationService(),
+                    mcServices.getAlertService(),
+                    mcServices.getActionService());
             mcAdapter.initialRegistrations(registration);
             mcAdapter.restoreParameterValuesFromArchive();
         }
@@ -368,10 +373,9 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
 
             if (centralDirectoryURI != null) {
                 try {
-                    DirectoryConsumerServiceImpl directoryServiceConsumer = new DirectoryConsumerServiceImpl(
-                            centralDirectoryURI);
-                    directoryServiceConsumer.getDirectoryStub().remove(this.getAppDirectoryId());
-                    directoryServiceConsumer.closeConnection();
+                    DirectoryConsumerServiceImpl directory = new DirectoryConsumerServiceImpl(centralDirectoryURI);
+                    directory.getDirectoryStub().remove(this.getAppDirectoryId());
+                    directory.closeConnection();
                 } catch (MALException | MalformedURLException ex) {
                     LOGGER.log(Level.SEVERE, null, ex);
                 } catch (MALInteractionException ex) {

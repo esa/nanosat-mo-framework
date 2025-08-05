@@ -55,7 +55,6 @@ public final class AggregationManager extends MCManager {
     private final HashMap<Long, TimeList> latestSampleTimeList; // IdentityId, Time of the first sample of each ParameterSetValue
     private final HashMap<Long, ArrayList<Integer>> sampleCountList; //IdentityId, Amount of samples per parameterSetValue
 
-    private long uniqueObjIdIdentity; // Unique objId Identity (different for every Identity)
     private Long uniqueObjIdDef; // Unique objId Definition (different for every Definition)
     private Long uniqueObjIdAVal;
     private final ParameterManager parameterManager;
@@ -71,14 +70,13 @@ public final class AggregationManager extends MCManager {
         this.sampleCountList = new HashMap<>();
 
         if (super.getArchiveService() == null) {  // No Archive?
-            this.uniqueObjIdIdentity = 0L; // The zeroth value will not be used (reserved for the wildcard)
             this.uniqueObjIdDef = 0L; // The zeroth value will not be used (reserved for the wildcard)
             this.uniqueObjIdAVal = 0L; // The zeroth value will not be used (reserved for the wildcard)
         }
     }
 
-    public AggregationDefinition getAggregationDefinition(Long identityId) {
-        return (AggregationDefinition) this.getDefinition(identityId);
+    public AggregationDefinition getAggregationDefinition(Long id) {
+        return (AggregationDefinition) this.getDefinition(id);
     }
 
     /**
@@ -150,7 +148,7 @@ public final class AggregationManager extends MCManager {
      * @return true if it was successful, false if identity not found
      */
     public Boolean resetAggregationSampleHelperVariables(Long identityId) {
-        if (!this.existsIdentity(identityId)) {
+        if (!this.existsDef(identityId)) {
             return false;
         }
         AggregationDefinition definition = this.getAggregationDefinition(identityId);
@@ -244,19 +242,20 @@ public final class AggregationManager extends MCManager {
      * ParameterDefinition object instance identifier in the
      * AggregationParameterValue, if FALSE it will be set to NULL.
      *
-     * @param paramIdentityIds the identity id of the parameters to be sampled
+     * @param paramIds the id of the parameters to be sampled
      * @param aggrExpired should be set to true, if the aggregation that is
      * sampling the parameter, is periodic and the update hasnt been received in
      * the aggregation-period. if true, the validity-state of the new parameter
      * will be expired.
      * @return
      */
-    private AggregationParameterValueList sampleParameters(LongList paramIdentityIds, boolean aggrExpired,
-            boolean sendDefinitions) {
+    private AggregationParameterValueList sampleParameters(LongList paramIds,
+            boolean aggrExpired, boolean sendDefinitions) {
         AggregationParameterValueList aggrPValList = new AggregationParameterValueList();
-        for (Long identityId : paramIdentityIds) {
-            final Long paramDefId = sendDefinitions ? parameterManager.getDefinitionId(identityId) : null;
-            final ParameterValue paramValue = sampleParameter(identityId, aggrExpired);
+
+        for (Long id : paramIds) {
+            final Long paramDefId = sendDefinitions ? id : null;
+            final ParameterValue paramValue = sampleParameter(id, aggrExpired);
             aggrPValList.add(new AggregationParameterValue(paramValue, paramDefId));
         }
 
@@ -792,51 +791,29 @@ public final class AggregationManager extends MCManager {
         return newParamSample;
     }
 
-    public ObjectInstancePair add(Identifier name, AggregationDefinition definition, ObjectId source,
+    public Long add(Identifier name, AggregationDefinition definition, ObjectId source,
             SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
 
-        ObjectInstancePair newIdPair;
+        Long newId;
         if (super.getArchiveService() == null) {
             //add to providers local list
-            uniqueObjIdIdentity++; // This line as to go before any writing (because it's initialized as zero and that's the wildcard)
             uniqueObjIdDef++; // This line as to go before any writing (because it's initialized as zero and that's the wildcard)
-            newIdPair = new ObjectInstancePair(uniqueObjIdIdentity, uniqueObjIdDef);
+            newId = uniqueObjIdDef;
 
         } else {
             try {
-                //requirement: 3.7.10.2.f: if a AggregationName ever existed before,
-                // use the old AggregationIdentity-Object by retrieving it from the archive
-                //check if the name existed before and retrieve id if found
-                Long identityId = retrieveIdentityIdByNameFromArchive(ConfigurationProviderSingleton.getDomain(),
-                        name, AggregationServiceInfo.AGGREGATIONIDENTITY_OBJECT_TYPE);
-
-                //in case the AggregationName never existed before, create a new identity
-                if (identityId == null) {
-                    HeterogeneousList names = new HeterogeneousList();
-                    names.add(name);
-                    //add to the archive
-                    LongList identityIds = super.getArchiveService().store(true,
-                            AggregationServiceInfo.AGGREGATIONIDENTITY_OBJECT_TYPE,
-                            ConfigurationProviderSingleton.getDomain(),
-                            HelperArchive.generateArchiveDetailsList(null, source, connectionDetails),
-                            names,
-                            null);
-                    identityId = identityIds.get(0);
-                }
-
                 //not matter if the Aggregation was created or loaded, a new definition will be created
                 HeterogeneousList defs = new HeterogeneousList();
                 defs.add(definition);
                 LongList defIds = super.getArchiveService().store(true,
                         AggregationServiceInfo.AGGREGATIONDEFINITION_OBJECT_TYPE,
                         ConfigurationProviderSingleton.getDomain(),
-                        HelperArchive.generateArchiveDetailsList(identityId, source, connectionDetails),
+                        HelperArchive.generateArchiveDetailsList(null, source, connectionDetails),
                         defs,
                         null);
 
                 //add to providers local list
-                newIdPair = new ObjectInstancePair(identityId, defIds.get(0));
-
+                newId = defIds.get(0);
             } catch (MALException | MALInteractionException ex) {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
                 return null;
@@ -844,12 +821,12 @@ public final class AggregationManager extends MCManager {
         }
 
         //add to internal lists
-        this.addIdentityDefinition(name, newIdPair, definition);
-        final LongList identities = new LongList();
-        identities.add(newIdPair.getObjIdentityInstanceId());
-        this.createAggregationValuesList(identities);
+        this.addDefinitionLocally(name, newId, definition);
+        final LongList ids = new LongList();
+        ids.add(newId);
+        this.createAggregationValuesList(ids);
 
-        return newIdPair;
+        return newId;
     }
 
     /**
@@ -865,39 +842,36 @@ public final class AggregationManager extends MCManager {
      */
     public Long update(Long identityId, AggregationDefinition definition, ObjectId source,
             SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
-        Long newDefId = null;
+        Long newDefId = identityId;
 
         if (super.getArchiveService() == null) { //only update locally
             //add to providers local list
             uniqueObjIdDef++; // This line as to go before any writing (because it's initialized as zero and that's the wildcard)
             newDefId = uniqueObjIdDef;
-
         } else {  // update in the COM Archive
             try {
                 HeterogeneousList defs = new HeterogeneousList();
                 defs.add(definition);
 
                 //requirement 3.7.6.a
-                LongList defIds = super.getArchiveService().store(true,
+                super.getArchiveService().update(
                         AggregationServiceInfo.AGGREGATIONDEFINITION_OBJECT_TYPE,
                         ConfigurationProviderSingleton.getDomain(),
                         HelperArchive.generateArchiveDetailsList(identityId, source, connectionDetails), //requirement: 3.7.4.d, h
                         defs,
                         null);
-
-                newDefId = defIds.get(0);
             } catch (MALException | MALInteractionException ex) {
                 Logger.getLogger(AggregationManager.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         //update internal lists
-        this.updateDef(identityId, newDefId, definition);
+        this.updateDef(newDefId, definition);
 
         return newDefId;
     }
 
     public boolean delete(Long identityId) {
-        if (!this.deleteIdentity(identityId)) {
+        if (!this.deleteDefinitionLocally(identityId)) {
             return false;
         }
 
@@ -930,7 +904,7 @@ public final class AggregationManager extends MCManager {
     }
 
     public void setGenerationEnabledAll(Boolean bool, ObjectId source, SingleConnectionDetails connectionDetails) {
-        LongList identityIds = this.listAllIdentities();
+        LongList identityIds = this.listAllDefinitions();
 
         for (Long identityId : identityIds) {
             AggregationDefinition def = this.getAggregationDefinition(identityId);
@@ -978,7 +952,7 @@ public final class AggregationManager extends MCManager {
     }
 
     public void setFilterEnabledAll(Boolean bool, ObjectId source, SingleConnectionDetails connectionDetails) {
-        LongList identityIds = this.listAllIdentities();
+        LongList identityIds = this.listAllDefinitions();
 
         for (Long identityId : identityIds) {
             AggregationDefinition def = this.getAggregationDefinition(identityId);

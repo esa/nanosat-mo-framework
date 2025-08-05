@@ -427,12 +427,12 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
                     eclipsedParameters.add(new Identifier("CADC0890"));
                     eclipsedParameters.add(new Identifier("CADC0892"));
                     eclipsedParameters.add(new Identifier("CADC0894"));
-                    ObjectInstancePairList payloadsTestIds = this.parameterService.listDefinition(eclipsedParameters,
+                    LongList payloadsTestIds = this.parameterService.listDefinition(eclipsedParameters,
                             null);
 
                     Map<String, Long> nameToId = new HashMap<>();
                     for (int i = 0; i < eclipsedParameters.size(); ++i) {
-                        nameToId.put(eclipsedParameters.get(i).getValue(), payloadsTestIds.get(i).getObjIdentityInstanceId());
+                        nameToId.put(eclipsedParameters.get(i).getValue(), payloadsTestIds.get(i));
                     }
 
                     String parametersProp = System.getProperty(SUPERVISOR_PARAMETER_PROXY_PROP, null);
@@ -462,7 +462,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
                     IdentifierList parameterNames = new IdentifierList();
                     parameterNames.addAll(supervisorParameters);
                     parameterNames.addAll(eclipsedParameters);
-                    ObjectInstancePairList supervisorIds = new ObjectInstancePairList();
+                    LongList supervisorIds = new LongList();
                     try {
                         supervisorIds = supervisorParameterService.getParameterStub().listDefinition(parameterNames);
                     } catch (MALInteractionException e) {
@@ -481,8 +481,8 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
                     }
 
                     InstanceBooleanPairList enable = new InstanceBooleanPairList();
-                    for (ObjectInstancePair id : supervisorIds) {
-                        enable.add(new InstanceBooleanPair(id.getObjIdentityInstanceId(), true));
+                    for (Long id : supervisorIds) {
+                        enable.add(new InstanceBooleanPair(id, true));
                     }
                     supervisorParameterService.getParameterStub().enableGeneration(false, enable);
 

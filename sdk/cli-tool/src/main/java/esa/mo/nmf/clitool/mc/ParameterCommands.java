@@ -435,11 +435,11 @@ public class ParameterCommands {
         }
 
         try {
-            ObjectInstancePairList ids = parameterService.listDefinition(request);
+            LongList ids = parameterService.listDefinition(request);
             InstanceBooleanPairList enableInstances = new InstanceBooleanPairList();
 
-            for (ObjectInstancePair pair : ids) {
-                enableInstances.add(new InstanceBooleanPair(pair.getObjIdentityInstanceId(), enable));
+            for (Long id : ids) {
+                enableInstances.add(new InstanceBooleanPair(id, enable));
             }
 
             parameterService.enableGeneration(false, enableInstances);

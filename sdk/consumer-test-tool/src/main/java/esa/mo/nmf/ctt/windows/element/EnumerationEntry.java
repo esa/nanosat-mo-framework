@@ -42,7 +42,7 @@ public class EnumerationEntry extends Entry {
         super.middlePanel.add(comboBox);
         this.comboBox.setEnabled(editable);
 
-        Enumeration enumeration = (Enumeration) obj;
+        Enumeration enumeration = (Enumeration) ((Enumeration) obj).createElement();
         Field[] fields = enumeration.getClass().getDeclaredFields();
 
         Field field = fields[fields.length - 1]; // Get the string enumerations

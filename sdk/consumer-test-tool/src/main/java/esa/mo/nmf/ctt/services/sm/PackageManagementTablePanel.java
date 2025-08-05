@@ -38,7 +38,7 @@ public class PackageManagementTablePanel extends SharedTablePanel {
     }
 
     @Override
-    public void addEntry(final Identifier name, final ArchivePersistenceObject comObject) {
+    public void addEntry(final ArchivePersistenceObject comObject) {
         Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, "This method cannot be used!");
     }
 

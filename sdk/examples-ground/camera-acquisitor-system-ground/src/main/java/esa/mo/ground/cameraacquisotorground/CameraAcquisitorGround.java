@@ -285,8 +285,7 @@ public class CameraAcquisitorGround {
                 IdentifierList idList = new IdentifierList();
                 idList.add(new Identifier(CameraAcquisitorSystemCameraTargetHandler.ACTION_PHOTOGRAPH_LOCATION));
 
-                ObjectInstancePairList objIds = gma.getMCServices().getActionService().getActionStub().listDefinition(
-                        idList);
+                LongList objIds = gma.getMCServices().getActionService().getActionStub().listDefinition(idList);
                 if (objIds == null) {
                     LOGGER.log(Level.SEVERE, "Action does not exist, please check if space application is running");
                 }
@@ -295,7 +294,7 @@ public class CameraAcquisitorGround {
                 arguments.add(new AttributeValue((Attribute) HelperAttributes.javaType2Attribute(longitude)));
                 arguments.add(new AttributeValue((Attribute) HelperAttributes.javaType2Attribute(timeStamp)));
 
-                Long actionID = gma.launchAction(objIds.get(0).getObjDefInstanceId(), arguments);
+                Long actionID = gma.launchAction(objIds.get(0), arguments);
                 if (actionID == null) {
                     LOGGER.log(Level.SEVERE, "Action ID == null!");
                 } else {
@@ -549,9 +548,9 @@ public class CameraAcquisitorGround {
                             idList.add(new Identifier(
                                     CameraAcquisitorSystemCameraTargetHandler.ACTION_PHOTOGRAPH_LOCATION));
 
-                            ObjectInstancePairList objIds = gma.getMCServices().getActionService().getActionStub().listDefinition(idList);
+                            LongList objIds = gma.getMCServices().getActionService().getActionStub().listDefinition(idList);
                             if (!objIds.isEmpty()
-                                    && objIds.get(0).getObjDefInstanceId().longValue() == instance.getDefInstId().longValue()
+                                    && objIds.get(0).longValue() == instance.getDefInstId().longValue()
                                     && instance.getArgumentValues().size() == 3) {
 
                                 String timestamp = instance.getArgumentValues().get(2).getValue().toString();

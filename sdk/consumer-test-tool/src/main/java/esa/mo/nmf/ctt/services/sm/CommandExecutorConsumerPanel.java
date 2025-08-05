@@ -265,7 +265,7 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel {
             if (comObj == null) {
                 LOGGER.log(Level.SEVERE, "Retrieved null COM object for objInstId {0}", commandInstId);
             } else {
-                recentCommandsTable.addEntry(new Identifier(commandInstId.toString()), comObj);
+                recentCommandsTable.addEntry(comObj);
             }
         }
     }

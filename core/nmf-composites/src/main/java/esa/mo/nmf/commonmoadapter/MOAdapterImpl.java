@@ -133,17 +133,17 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
         ParameterStub parameterService = super.getMCServices().getParameterService().getParameterStub();
 
         try {
-            ObjectInstancePairList objIds = parameterService.listDefinition(parameters);
+            LongList ids = parameterService.listDefinition(parameters);
 
-            if (objIds == null) {
+            if (ids == null) {
                 LOGGER.log(Level.SEVERE, "The Parameter was not found: " + parameterName);
                 return;  // something went wrong... Connection problem?
             }
 
-            ObjectInstancePair objId = objIds.get(0);
+            Long id = ids.get(0);
 
             // If the definition does not exist, then create it automatically for the user
-            if (objId == null) {
+            if (id == null) {
                 LOGGER.log(Level.SEVERE, "The Parameter was not found: " + parameterName);
                 return;
                 /*
@@ -173,9 +173,8 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
 
             // Continues here...
             ParameterRawValueList raws = new ParameterRawValueList();
-            Long objIdInsID = objIds.get(0).getObjIdentityInstanceId();
             rawValue = (content == null) ? null : rawValue;
-            raws.add(new ParameterRawValue(objIdInsID, rawValue));
+            raws.add(new ParameterRawValue(ids.get(0), rawValue));
 
             // Ok, now, let's finally set the Value!
             parameterService.setValue(raws);
@@ -322,16 +321,16 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
 
         try {
             // Check if the action exists
-            ObjectInstancePairList objIds = actionService.listDefinition(actionNames);
+            LongList ids = actionService.listDefinition(actionNames);
 
-            if (objIds == null) {
+            if (ids == null) {
                 return null;  // something went wrong...
             }
 
-            ObjectInstancePair objId = objIds.get(0);
+            Long id = ids.get(0);
 
             // If the definition does not exist, then create it automatically for the user
-            if (objId == null) {
+            if (id == null) {
                 LOGGER.log(Level.SEVERE, "The Action was not found: " + actionName);
                 return -1L;
                 /*
@@ -372,7 +371,7 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
 
                 objIds = actionService.addAction(acrl);
                 objId = objIds.get(0);
-                */
+                 */
             }
 
             AttributeValueList argValues = new AttributeValueList();
@@ -399,8 +398,7 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
                 argValues.add(new AttributeValue(rawValue));
             }
 
-            actionID = launchAction(objId.getObjDefInstanceId(), argValues);
-
+            actionID = launchAction(id, argValues);
         } catch (MALInteractionException | NMFException | MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
@@ -493,15 +491,14 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
         IdentifierList argumentIds = null;
 
         try {
-            ActionInstanceDetails instanceDetails
-                    = new ActionInstanceDetails(
-                            defInstId,
-                            stageStartedRequired,
-                            stageProgressRequired,
-                            stageCompletedRequired,
-                            argumentValues,
-                            argumentIds,
-                            null);
+            ActionInstanceDetails instanceDetails = new ActionInstanceDetails(
+                    defInstId,
+                    stageStartedRequired,
+                    stageProgressRequired,
+                    stageCompletedRequired,
+                    argumentValues,
+                    argumentIds,
+                    null);
 
             // Store the Action Instance in the Archive and get an
             // object instance identifier to use during the submit
@@ -524,20 +521,20 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
                     returnObjInstIds, ActionServiceInfo.ACTIONINSTANCE_OBJECT_TYPE, actionConnection.getDomain(),
                     archiveDetailsListActionInstance, instanceDetailsList);
 
-            if (objIdActionInstances.size() == 1) {
-                instanceObjId = objIdActionInstances.get(0);
-                //archiveDetailsListActionInstance.get(0).setInstId(instanceObjId);
-                archiveDetailsListActionInstance = HelperArchive.generateArchiveDetailsList(
-                        related,
-                        source,
-                        archiveDetailsListActionInstance.get(0).getNetwork(),
-                        archiveDetailsListActionInstance.get(0).getProvider(),
-                        FineTime.now(),
-                        instanceObjId
-                );
-            } else {
+            if (objIdActionInstances.size() != 1) {
                 throw new NMFException("Failed to store new Action Instance in COM Archive");
             }
+
+            instanceObjId = objIdActionInstances.get(0);
+
+            archiveDetailsListActionInstance = HelperArchive.generateArchiveDetailsList(
+                    related,
+                    source,
+                    archiveDetailsListActionInstance.get(0).getNetwork(),
+                    archiveDetailsListActionInstance.get(0).getProvider(),
+                    FineTime.now(),
+                    instanceObjId
+            );
 
             // Submit the action instance
             // WORKAROUND: submit the action asynchronously so that we can find
@@ -641,17 +638,17 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
 
         try {
             // Query parameters IDs
-            ObjectInstancePairList objIds = parameterService.listDefinition(parameters);
+            LongList ids = parameterService.listDefinition(parameters);
 
-            if (objIds == null) {
+            if (ids == null) {
                 throw new NMFException(String.format(
                         "Error while toggling parameters generation, couldn't get parameters instance IDs (unknown error) for parameters names: %s",
                         paramNames));
             }
 
             // Check how many we got back
-            if (objIds.size() < parameterNames.size()) {
-                if (objIds.size() <= 0) {
+            if (ids.size() < parameterNames.size()) {
+                if (ids.size() <= 0) {
                     throw new NMFException(String.format(
                             "Error while toggling parameters generation, 0 parameters instance IDs found for parameters names: %s",
                             paramNames));
@@ -664,9 +661,8 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
 
             // toggle their generation
             InstanceBooleanPairList ibpl = new InstanceBooleanPairList();
-            for (ObjectInstancePair objectInstancePair : objIds) {
-                ibpl.add(new InstanceBooleanPair(objectInstancePair.getObjIdentityInstanceId(),
-                        enableGeneration));
+            for (Long id : ids) {
+                ibpl.add(new InstanceBooleanPair(id, enableGeneration));
             }
             parameterService.enableGeneration(false, ibpl);
         } catch (MALInteractionException | MALException e) {

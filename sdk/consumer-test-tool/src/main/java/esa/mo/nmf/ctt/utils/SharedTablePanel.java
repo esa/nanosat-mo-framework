@@ -44,11 +44,8 @@ import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
-import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
-import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
-import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 
 /**
  *
@@ -95,25 +92,19 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
     }
 
     public synchronized int getSelectedRow() {
-        return table.getRowSorter().convertRowIndexToModel(table.getSelectedRow());
+        int index = table.getSelectedRow();
+        return table.getRowSorter().convertRowIndexToModel(index);
     }
 
-    public void refreshTableWithIdsPairs(ObjectInstancePairList pairs, IdentifierList domain, ObjectType objType) {
+    public void refreshTableWithIdsPairs(LongList ids, IdentifierList domain, ObjectType objType) {
         this.removeAllEntries(); // RemoveAll
-        LongList objIds = new LongList();
-        LongList identities = new LongList();
 
-        // Sort by Identity id
-        pairs.sort(Comparator.comparing(ObjectInstancePair::getObjIdentityInstanceId));
-
-        for (ObjectInstancePair pair : pairs) {
-            objIds.add(pair.getObjDefInstanceId());
-            identities.add(pair.getObjIdentityInstanceId());
-        }
+        // Sort by id
+        ids.sort(Comparator.comparing(Long::longValue));
 
         // Retrieve from the archive all the objects
         List<ArchivePersistenceObject> archiveCOMobjectList = HelperArchive.getArchiveCOMObjectList(
-                archiveService.getArchiveStub(), objType, domain, objIds);
+                archiveService.getArchiveStub(), objType, domain, ids);
 
         if (archiveCOMobjectList == null) {
             return;
@@ -125,13 +116,9 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
 
         COMObject comObjectInfo = HelperCOM.objType2COMObject(archiveCOMobjectList.get(0).getObjectType());
 
-        List<ArchivePersistenceObject> comIdentityList = HelperArchive.getArchiveCOMObjectList(
-                archiveService.getArchiveStub(), comObjectInfo.getRelatedType(),
-                domain, identities);
-
         // Add them
         for (int i = 0; i < archiveCOMobjectList.size(); i++) {
-            addEntry((Identifier) comIdentityList.get(i).getObject(), archiveCOMobjectList.get(i));
+            addEntry(archiveCOMobjectList.get(i));
         }
     }
 
@@ -155,7 +142,7 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
 
         // Add them
         for (int i = 0; i < archiveCOMobjectList.size(); i++) {
-            addEntry(null, archiveCOMobjectList.get(i));
+            addEntry(archiveCOMobjectList.get(i));
         }
     }
 
@@ -165,10 +152,6 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
 
     public Long getSelectedDefinitionObjId() {
         return comObjects.get(getSelectedRow()).getObjectId();
-    }
-
-    public Long getSelectedIdentityObjId() {
-        return comObjects.get(getSelectedRow()).getArchiveDetails().getLinks().getRelated();
     }
 
     public List<ArchivePersistenceObject> getCOMObjects() {
@@ -218,7 +201,7 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
         }
     }
 
-    protected final void addEntries(final IdentifierList names, final ArchiveCOMObjectsOutput archiveObjectOutput) {
+    protected final void addEntries(final ArchiveCOMObjectsOutput archiveObjectOutput) {
         if (archiveObjectOutput == null) {
             return;
         }
@@ -238,11 +221,11 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
                     archiveObjectOutput.getArchiveDetailsList().get(i),
                     objects);
 
-            addEntry(names.get(i), comObject);
+            addEntry(comObject);
         }
     }
 
-    public abstract void addEntry(final Identifier defName, final ArchivePersistenceObject comObject);
+    public abstract void addEntry(final ArchivePersistenceObject comObject);
 
     public abstract void defineTableContent();
 

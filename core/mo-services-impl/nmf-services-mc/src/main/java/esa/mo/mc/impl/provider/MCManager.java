@@ -21,14 +21,11 @@
 package esa.mo.mc.impl.provider;
 
 import esa.mo.com.impl.provider.ActivityTrackingProviderServiceImpl;
-import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.provider.ArchiveProviderServiceImpl;
 import esa.mo.com.impl.provider.EventProviderServiceImpl;
 import esa.mo.com.impl.util.COMServicesProvider;
-import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.mc.impl.util.GroupRetrieval;
 import java.util.HashMap;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.structures.InstanceBooleanPair;
@@ -53,15 +50,9 @@ import org.ccsds.moims.mo.mc.structures.*;
  */
 public abstract class MCManager {
 
-    //An Identity always has exactly one active Definition. Never 0 and never > 1.
-    private final HashMap<Long, Identifier> identitiesToNamesMap;
-    private final HashMap<Identifier, ObjectInstancePair> namesToPairsMap;
-    private final HashMap<Long, Element> objIdToDefMap;
-
-    // Maps all existing Identity objects names that exists in the archive to their ID
-    // Identity objects type for which names are stored depends on the implementation class (ParameterIdentity, ActionIdentity...)
-    private HashMap<Identifier, Long> storedNamesToIdMap;
-    private HashMap<Long, Identifier> objIdToNameMap;
+    private final HashMap<Long, Identifier> idToName;
+    private final HashMap<Identifier, Long> nameToId;
+    private final HashMap<Long, Element> objIdToDef;
 
     private final EventProviderServiceImpl eventService;
     private final ArchiveProviderServiceImpl archiveService;
@@ -70,12 +61,9 @@ public abstract class MCManager {
     private final GroupServiceImpl groupService = new GroupServiceImpl();
 
     protected MCManager(COMServicesProvider comServices) {
-        this.identitiesToNamesMap = new HashMap<>();
-        this.namesToPairsMap = new HashMap<>();
-        this.objIdToDefMap = new HashMap<>();
-        this.objIdToNameMap = new HashMap<>();
-
-        this.storedNamesToIdMap = null;
+        this.nameToId = new HashMap<>();
+        this.objIdToDef = new HashMap<>();
+        this.idToName = new HashMap<>();
 
         if (comServices != null) {
             this.eventService = comServices.getEventService();
@@ -114,139 +102,42 @@ public abstract class MCManager {
     }
 
     /**
-     * Checks if a certain identity exists.
-     *
-     * @param identityId The object instance identifier of the identity
-     * @return True if exists. False otherwise.
-     */
-    protected synchronized boolean existsIdentity(Long identityId) {
-        return this.identitiesToNamesMap.containsKey(identityId);
-    }
-
-    /**
      * Checks if a certain object instance identifier definition exists.
      *
      * @param objId The object instance identifier.
      * @return True if exists. False otherwise.
      */
     public synchronized boolean existsDef(final Long objId) {
-        return this.objIdToDefMap.containsKey(objId);
+        return this.objIdToDef.containsKey(objId);
     }
 
-    /**
-     * Lists the object instance identifier for an identities name.
-     *
-     * @param name The name of the identity.
-     * @return The object instance identifier of the identity. Null if not
-     * found.
-     */
-    public synchronized Long getIdentity(Identifier name) {
-        // Todo: This one can go slow... BUT, the publishing of Alerts has to change 
-        // to use the getIdentityDefinition() and check for null, like it is done for parameters
-        final ObjectInstancePair pair = this.namesToPairsMap.get(name);
-        return (pair != null) ? pair.getObjIdentityInstanceId() : null;
-    }
-
-    /**
-     * Lists the object instance identifier of an identity and its definition
-     * for an identities name.
-     *
-     * @param name The name of the identity.
-     * @return The object instance identifier of the identity. Null if not
-     * found.
-     */
-    public synchronized ObjectInstancePair getIdentityDefinition(Identifier name) {
-        return this.namesToPairsMap.get(name);
-    }
-
-    public synchronized Identifier getNameFromObjId(Long objId) {
-        Identifier out = objIdToNameMap.get(objId);
-
-        if (out == null) { // Refresh if could not be found
-            for (Identifier name : namesToPairsMap.keySet()) {
-                objIdToNameMap.put(namesToPairsMap.get(name).getObjDefInstanceId(), name);
-            }
-            return objIdToNameMap.get(objId);
-        }
-
-        return out;
-    }
-
-    /**
-     * Gets the details of the definition with the given id.
-     *
-     * @param identityId the id of the identity you want the details from
-     * @return the definition-details. Or Null if not found.
-     */
-    public synchronized Element getDefinition(Long identityId) {
-        final Identifier name = this.identitiesToNamesMap.get(identityId);
-
-        if (name == null) {
-            return null;
-        }
-
-        return this.objIdToDefMap.get(this.namesToPairsMap.get(name).getObjDefInstanceId());
+    public synchronized Identifier getName(Long objId) {
+        return this.idToName.get(objId);
     }
 
     /**
      * Gets the details of the definition with the given objId.
      *
-     * @param objId the id of the identity you want the details from
-     * @return the definition-details. Or Null if not found.
+     * @param objId The id of the definition.
+     * @return The Definition or Null if not found.
      */
-    public synchronized Element getDefinitionFromObjId(Long objId) {
-        return this.objIdToDefMap.get(objId);
+    public synchronized Element getDefinition(Long objId) {
+        return this.objIdToDef.get(objId);
     }
 
     /**
-     * Gets the details of the definition with the given id.
+     * Gets the details of the definition with the given the name.
      *
-     *
-     * @param identityId the id of the identity you want the details from
-     * @return the definition-details. Or Null if not found.
+     * @param name The name of the definition.
+     * @return The Definition or Null if not found.
      */
-    public synchronized Long getDefinitionId(Long identityId) {
-        final Identifier name = this.identitiesToNamesMap.get(identityId);
-
-        if (name == null) {
-            return null;
-        }
-
-        return this.namesToPairsMap.get(name).getObjDefInstanceId();
+    public synchronized Element getDefinition(Identifier name) {
+        Long id = this.nameToId.get(name);
+        return this.objIdToDef.get(id);
     }
 
-    /**
-     * returns the name of the definition
-     *
-     * @param identityId the id of the definitions identity
-     * @return the name-field of the definitions identity
-     */
-    public synchronized Identifier getName(Long identityId) {
-        // Todo: Make it fast!
-
-        return this.identitiesToNamesMap.get(identityId);
-    }
-
-    /**
-     * Lists all the identities available.
-     *
-     * @return The object instance identifiers of the identities.
-     */
-    public synchronized ObjectInstancePairList listAllIdentityDefinitions() {
-        ObjectInstancePairList list = new ObjectInstancePairList();
-        list.addAll(this.namesToPairsMap.values());
-        return list;
-    }
-
-    /**
-     * Lists all the identity-ids available.
-     *
-     * @return The object instance identifiers of the identities.
-     */
-    public synchronized LongList listAllIdentities() {
-        LongList list = new LongList();
-        list.addAll(this.identitiesToNamesMap.keySet());
-        return list;
+    public synchronized Long getId(Identifier name) {
+        return this.nameToId.get(name);
     }
 
     /**
@@ -256,108 +147,75 @@ public abstract class MCManager {
      */
     public synchronized LongList listAllDefinitions() {
         LongList list = new LongList();
-        list.addAll(this.objIdToDefMap.keySet());
+        list.addAll(this.objIdToDef.keySet());
         return list;
     }
 
     /**
-     * Adds an identity-object and its definition-object to the manager
+     * Adds a definition to the manager
      *
-     * @param name the name of the Identity.
-     * @param pair The object instance pair.
+     * @param name the name of the Definition.
+     * @param id the id of the Definition.
      * @param defDetails the Definition.
      * @return True if successful. False otherwise.
      */
-    protected synchronized Boolean addIdentityDefinition(final Identifier name,
-            final ObjectInstancePair pair, final Element defDetails) {
-        this.identitiesToNamesMap.put(pair.getObjIdentityInstanceId(), name);
-        this.namesToPairsMap.put(name, pair);
-        this.objIdToDefMap.put(pair.getObjDefInstanceId(), defDetails);
-        this.storedNamesToIdMap.put(name, pair.getObjIdentityInstanceId());
+    protected synchronized Boolean addDefinitionLocally(
+            final Identifier name, Long id, final Element defDetails) {
+        this.idToName.put(id, name);
+        this.nameToId.put(name, id);
+        this.objIdToDef.put(id, defDetails);
+        return true;
+    }
+
+    protected synchronized Boolean deleteDefinitionLocally(Long id) {
+        Identifier name = this.getName(id);
+        this.idToName.remove(id);
+        this.nameToId.remove(name);
+        this.objIdToDef.remove(id);
         return true;
     }
 
     /**
      * Updates a definition of an existing identity in the manager.
      *
-     * @param identityId the identity the definition should be updated of
-     * @param newDefId The object instance identifier of the new definition
+     * @param id The id the definition.
      * @param newDefDetails The object body of the new definition
      * @return True if successful. False if the object instance identifier does
      * not exist in the manager, in this case, the definition is not added.
      */
-    protected synchronized boolean updateDef(Long identityId, Long newDefId, Element newDefDetails) {
-        final Identifier name = this.identitiesToNamesMap.get(identityId);
-
-        if (name == null) {
-            return false;
-        }
-
-        final ObjectInstancePair pair = this.namesToPairsMap.get(name);
-
-        if (pair == null) {
+    protected synchronized boolean updateDef(Long id, Element newDefDetails) {
+        if (id == null) {
             return false;
         }
 
         // We are good! Remove the previous definition and add the new one...
-        this.objIdToDefMap.remove(pair.getObjDefInstanceId());
-        this.objIdToDefMap.put(newDefId, newDefDetails);
-
-        // Update the pair
-        //pair.setObjDefInstanceId(newDefId);
-        this.namesToPairsMap.put(name, new ObjectInstancePair(pair.getObjIdentityInstanceId(), newDefId));
-
-        return true;
-    }
-
-    /**
-     * Removes a identity and its definition in the manager.
-     *
-     * @param identityId The object instance identifier of the identity
-     * @return True if successful. False if the object instance identifier does
-     * not exist in the manager.
-     */
-    protected synchronized boolean deleteIdentity(final Long identityId) {
-        final Identifier name = this.identitiesToNamesMap.get(identityId);
-
-        if (name == null) {
-            return false;
-        }
-
-        final Long objId = this.namesToPairsMap.get(name).getObjDefInstanceId();
-
-        if (objId == null) {
-            return false;
-        }
-
-        // Remove them all...
-        this.objIdToDefMap.remove(objId);
-        this.namesToPairsMap.remove(name);
-        this.identitiesToNamesMap.remove(identityId);
-
+        Identifier name = this.getName(id);
+        deleteDefinitionLocally(id);
+        addDefinitionLocally(name, id, newDefDetails);
+        /*
+        this.objIdToDef.remove(id);
+        this.objIdToDef.put(id, newDefDetails);
+        this.idToName.remove(id);
+        this.idToName.put(id, newDefDetails);
+        this.nameToId.remove(name);
+        this.nameToId.put(id, newDefDetails);
+        */
         return true;
     }
 
     /**
      * Provides the current set of definitions available in the Manager.
      *
-     * @param objTypeIdents The object type of the identities.
      * @param objTypeDef The object type of the definitions.
      * @return The definitions set and the corresponding object instance
      * identifiers.
      */
-    public synchronized ConfigurationObjectSetList getCurrentConfiguration(
-            ObjectType objTypeIdents, ObjectType objTypeDef) {
-        LongList idObjIds = new LongList();
+    public synchronized ConfigurationObjectSetList getCurrentConfiguration(ObjectType objTypeDef) {
         LongList defObjIds = new LongList();
 
-        for (ObjectInstancePair pair : this.namesToPairsMap.values()) {
-            idObjIds.add(pair.getObjIdentityInstanceId());
-            defObjIds.add(pair.getObjDefInstanceId());
+        for (Long id : this.nameToId.values()) {
+            defObjIds.add(id);
         }
-
-        ConfigurationObjectSet idents = new ConfigurationObjectSet(objTypeIdents,
-                ConfigurationProviderSingleton.getDomain(), idObjIds);
 
         LongList currentObjIds1 = new LongList();
         currentObjIds1.addAll(defObjIds);
@@ -365,7 +223,6 @@ public abstract class MCManager {
                 ConfigurationProviderSingleton.getDomain(), currentObjIds1);
 
         ConfigurationObjectSetList list = new ConfigurationObjectSetList();
-        list.add(idents);
         list.add(defis);
 
         return list;
@@ -374,33 +231,31 @@ public abstract class MCManager {
     /**
      * Changes the current set of definitions available by the provided set.
      *
-     * @param identityIds the identityIds of the parameters to be set
      * @param names the names of the parameters to be set
      * @param defIds the definitionsIds of the parameters to be set
      * @param definitions The object body of the definitions to be set
      * @return True if the configuration was successfully changed. False
      * otherwise.
      */
-    public synchronized Boolean reconfigureDefinitions(final LongList identityIds,
+    public synchronized Boolean reconfigureDefinitions(
             final IdentifierList names, final LongList defIds, final ElementList definitions) {
-        if (identityIds == null || names == null || defIds == null || definitions == null) {
+        if (names == null || defIds == null || definitions == null) {
             return false;
         }
 
-        if (identityIds.size() != names.size()
-                && defIds.size() != definitions.size()
-                && identityIds.size() != defIds.size()) {
+        if (defIds.size() != names.size()
+                && definitions.size() != defIds.size()) {
             return false;
         }
 
-        this.identitiesToNamesMap.clear();
-        this.namesToPairsMap.clear();
-        this.objIdToDefMap.clear();
+        this.idToName.clear();
+        this.nameToId.clear();
+        this.objIdToDef.clear();
 
-        for (int i = 0; i < identityIds.size(); i++) {
-            this.identitiesToNamesMap.put(identityIds.get(i), names.get(i));
-            this.namesToPairsMap.put(names.get(i), new ObjectInstancePair(identityIds.get(i), defIds.get(i)));
-            this.objIdToDefMap.put(defIds.get(i), (Element) definitions.get(i));
+        for (int i = 0; i < defIds.size(); i++) {
+            this.idToName.put(defIds.get(i), names.get(i));
+            this.nameToId.put(names.get(i), defIds.get(i));
+            this.objIdToDef.put(defIds.get(i), (Element) definitions.get(i));
         }
 
         return true;
@@ -422,48 +277,6 @@ public abstract class MCManager {
     }
 
     /**
-     * Queries the archive for a Identity-Object with the given name.
-     *
-     * TODO: make the method more efficient, by actually querying the archive.
-     * TODO: put the method in some archive-helper-class (after independent from
-     * ArchiveServiceImplementation)
-     *
-     * @param domain the domain to look at.
-     * @param name the name of the Identity to be looked for.
-     * @param identitysObjectType the objectType of the identity, you want to
-     * have the identityId from (e.g. ParameterIdentity-ObjectType
-     * @return The id of the Identity-Object with the given name if it exists in
-     * the archive. NULL otherwise.
-     */
-    protected synchronized Long retrieveIdentityIdByNameFromArchive(IdentifierList domain,
-            Identifier name, ObjectType identitysObjectType) {
-        // We never queried the archive -> do it once
-        if (storedNamesToIdMap == null) {
-            final ArchiveProviderServiceImpl archive = getArchiveService();
-            if (archive == null) { // If there's no archive...
-                return null;
-            }
-            // Get all identity-objects with the given objectType
-            LongList identityIds = new LongList();
-            identityIds.add(0L);
-            final List<ArchivePersistenceObject> identityArchiveObjs = HelperArchive.getArchiveCOMObjectList(
-                    archive, identitysObjectType, domain, identityIds);
-
-            // Build the Identifier to id map
-            storedNamesToIdMap = new HashMap<>();
-
-            if (identityArchiveObjs != null) {
-                for (ArchivePersistenceObject identityArchiveObj : identityArchiveObjs) {
-                    storedNamesToIdMap.put((Identifier) identityArchiveObj.getObject(),
-                            identityArchiveObj.getObjectId());
-                }
-            }
-        }
-
-        return storedNamesToIdMap.get(name);
-    }
-
-    /**
      * This method is getting all instances contained in the given groups. It
      * also does the checking for invalid or unknown identities or entries. Just
      * as defined the "enableGeneration" ServiceOperation definition. The
@@ -473,7 +286,7 @@ public abstract class MCManager {
      *
      * TODO : put this method in some GroupHelper - class
      *
-     * @param enableInstances is the pair list that is used for filling the
+     * @param enableInstances is the list that is used for filling the
      * retrievalinformation object of the group
      * @param groupRetrievalInformation contains an empty object to be filled.
      * with the group-information about: unknown and invalid errors and objects
