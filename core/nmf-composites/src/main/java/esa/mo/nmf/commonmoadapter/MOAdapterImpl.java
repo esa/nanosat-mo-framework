@@ -585,6 +585,7 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
                 throw new NMFException("The storing of the Operation Activity failed. (2)", ex);
             }
 
+            /*
             ObjectId source2 = new ObjectId(ActivityTrackingServiceInfo.OPERATIONACTIVITY_OBJECT_TYPE,
                     actionConnection.getDomain(), transId);
             ObjectLinks details = new ObjectLinks(defInstId, source2);
@@ -603,6 +604,7 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
                     actionConnection.getDomain(),
                     detailsInstance,
                     instanceDetailsList);
+            */
         } catch (MALInteractionException | MALException | NMFException ex) {
             throw new NMFException("Failed to execute Action " + defInstId, ex);
         }
