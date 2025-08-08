@@ -49,7 +49,7 @@ public class GroundHeartbeatAdapter extends HeartbeatAdapter {
         this.moProxy = moProxy;
         this.heartbeat = heartbeat;
         long timestamp = System.currentTimeMillis();
-        double value = heartbeat.getHeartbeatStub().getPeriod().getValue();
+        double value = heartbeat.getHeartbeatStub().getPeriod().getInSeconds();
         lag = System.currentTimeMillis() - timestamp;
         period = (long) (value * 1000);
         LOGGER.log(Level.INFO, "The provider is reachable! Beat period: {0} seconds", value);

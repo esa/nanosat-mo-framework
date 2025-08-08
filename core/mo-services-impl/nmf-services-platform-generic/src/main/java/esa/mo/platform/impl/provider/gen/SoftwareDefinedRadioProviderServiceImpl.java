@@ -169,7 +169,7 @@ public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadi
                 throw new MALInteractionException(new InvalidException(null));
             }
             sdrInUse = true;
-            int period = (int) (publishingPeriod.getValue() * 1000); // In milliseconds
+            int period = (int) (publishingPeriod.getInSeconds() * 1000); // In milliseconds
 
             publishTimer = new Timer();
             publishTimer.schedule(new TimerTask() {

@@ -458,7 +458,7 @@ public abstract class GENEncoder implements MALEncoder {
     public void encodeDuration(final Duration value) throws MALException {
         try {
             checkForNull(value);
-            outputStream.addDouble(value.getValue());
+            outputStream.addDouble(value.getInSeconds());
         } catch (IOException ex) {
             throw new MALException(ENCODING_EXCEPTION_STR, ex);
         }

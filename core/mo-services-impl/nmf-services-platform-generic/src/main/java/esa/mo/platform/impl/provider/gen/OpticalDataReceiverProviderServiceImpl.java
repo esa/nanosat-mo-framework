@@ -94,12 +94,12 @@ public class OpticalDataReceiverProviderServiceImpl extends OpticalDataReceiverI
             // TODO Add error code to the service spec
             throw new MALInteractionException(new DeviceNotAvailableException(null));
         }
-        if (recordingDuration == null || recordingDuration.getValue() == 0.0) {
+        if (recordingDuration == null || recordingDuration.getInSeconds() == 0.0) {
             // TODO Add error code to the service spec
             interaction.sendError(new MOErrorException(new UInteger(0), null));
             return;
         }
-        if (recordingDuration.getValue() > MAX_RECORDING_DURATION) {
+        if (recordingDuration.getInSeconds() > MAX_RECORDING_DURATION) {
             interaction.sendError(new InvalidException(new Duration(MAX_RECORDING_DURATION)));
             return;
         }

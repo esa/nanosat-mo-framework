@@ -48,7 +48,7 @@ public class OpticalDataReceiverSoftSimAdapter implements OpticalDataReceiverAda
 
     @Override
     public byte[] recordOpticalReceiverData(Duration recordingLength) {
-        int nSamples = (int) (recordingLength.getValue() * 1000); // Assume 1kHz sample rate
+        int nSamples = (int) (recordingLength.getInSeconds() * 1000); // Assume 1kHz sample rate
         return instrumentsSimulator.getpOpticalReceiver().readFromMessageBuffer(nSamples);
     }
 

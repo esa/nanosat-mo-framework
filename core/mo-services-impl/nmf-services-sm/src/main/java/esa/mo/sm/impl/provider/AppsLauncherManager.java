@@ -774,11 +774,10 @@ public class AppsLauncherManager extends DefinitionsManager {
         AddressDetailsList addresses = capabilities.get(0).getServiceAddresses();
 
         int bestIndex = HelperCommon.getBestIPCServiceAddressIndex(addresses);
-        SingleConnectionDetails connectionDetails = new SingleConnectionDetails();
-        connectionDetails.setProviderURI(addresses.get(bestIndex).getServiceURI());
-        connectionDetails.setBrokerURI(addresses.get(bestIndex).getBrokerURI());
-        connectionDetails.setDomain(providersList.get(0).getDomain());
-        return connectionDetails;
+        return new SingleConnectionDetails(
+                addresses.get(bestIndex).getServiceURI(),
+                addresses.get(bestIndex).getBrokerURI(),
+                providersList.get(0).getDomain());
     }
 
     private static boolean isJustRunningStatusChange(final AppDetails previousAppDetails,
@@ -805,7 +804,7 @@ public class AppsLauncherManager extends DefinitionsManager {
     private AppDetails readAppDescriptor(final String appName, final File propertiesFile) {
         Identifier myAppName = new Identifier(appName);
 
-        try ( FileInputStream inputStream = new FileInputStream(propertiesFile)) {
+        try (FileInputStream inputStream = new FileInputStream(propertiesFile)) {
             Properties props = new Properties();
             props.load(inputStream);
 

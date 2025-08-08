@@ -28,6 +28,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
+import org.ccsds.moims.mo.com.InvalidException;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MOErrorException;
@@ -239,15 +240,14 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
             }
 
             // Is the requested streaming rate less than the minimum period?
-            if (streamingRate.getValue() < minimumPeriod.getValue()) {
+            if (streamingRate.getInSeconds() < minimumPeriod.getInSeconds()) {
                 throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, minimumPeriod));
             }
 
             // Is the requested streaming rate less than the service lowest minimum period?
-            if (streamingRate.getValue() < serviceLowestMinimumPeriod.getValue()) {
+            if (streamingRate.getInSeconds() < serviceLowestMinimumPeriod.getInSeconds()) {
                 // This is a protection to avoid having crazy implementations with super low streaming rates!
-                throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER,
-                        serviceLowestMinimumPeriod));
+                throw new MALInteractionException(new InvalidException(serviceLowestMinimumPeriod));
             }
 
             isCapturePossible(settings);
@@ -255,12 +255,12 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
             if (firstEntityKey.getValue() == null
                     || "*".equals(firstEntityKey.getValue())
                     || "".equals(firstEntityKey.getValue())) {
-                throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, null));
+                throw new MALInteractionException(new InvalidException(null));
             }
 
             cameraInUse = true;
             publishTimer.stopLast();
-            int period = (int) (streamingRate.getValue() * 1000); // In milliseconds
+            int period = (int) (streamingRate.getInSeconds() * 1000); // In milliseconds
 
             //publishTimer = new TaskScheduler(1);
             publishTimer.scheduleTask(new Thread(() -> {

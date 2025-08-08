@@ -785,7 +785,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
                         publishPeriodicParameterUpdate(identityId);
                     }
                 }
-            }), 0, (int) (interval.getValue() * 1000), TimeUnit.MILLISECONDS, true);
+            }), 0, (int) (interval.getInSeconds() * 1000), TimeUnit.MILLISECONDS, true);
             // the time has to be converted to milliseconds by multiplying by 1000
         }
 

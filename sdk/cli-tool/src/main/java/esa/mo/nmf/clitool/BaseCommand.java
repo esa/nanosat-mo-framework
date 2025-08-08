@@ -118,13 +118,15 @@ public abstract class BaseCommand {
             return false;
         }
         NMFConsumer.initHelpers();
-        String providerURI = localArchiveProvider.getConnection().getConnectionDetails().getProviderURI().getValue();
-        SingleConnectionDetails connectionDetails = new SingleConnectionDetails();
-        connectionDetails.setProviderURI(providerURI);
+        URI providerURI = localArchiveProvider.getConnection().getConnectionDetails().getProviderURI();
         IdentifierList domain = new IdentifierList();
         Identifier wildCard = new Identifier("*");
         domain.add(wildCard);
-        connectionDetails.setDomain(domain);
+
+        SingleConnectionDetails connectionDetails = new SingleConnectionDetails(
+                providerURI,
+                null,
+                domain);
 
         try {
             localArchive = new ArchiveConsumerServiceImpl(connectionDetails);
@@ -312,8 +314,8 @@ public abstract class BaseCommand {
             ArchiveAdapter adapter, QueryStatusProvider queryStatusProvider) {
         // run the query
         try {
-            ArchiveStub archive = localArchive == null ?
-                    consumer.getCOMServices().getArchiveService().getArchiveStub() : localArchive.getArchiveStub();
+            ArchiveStub archive = localArchive == null
+                    ? consumer.getCOMServices().getArchiveService().getArchiveStub() : localArchive.getArchiveStub();
             archive.query(true, objectsTypes, archiveQueryList, null, adapter);
         } catch (MALInteractionException | MALException e) {
             LOGGER.log(Level.SEVERE, "Error when querying archive", e);

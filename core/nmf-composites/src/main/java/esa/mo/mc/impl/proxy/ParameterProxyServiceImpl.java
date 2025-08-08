@@ -79,7 +79,7 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
          */
         // shut down old service transport
         if (null != parameterServiceProvider) {
-            connection.close();
+            connection.closeAll();
         }
 
         parameterServiceProvider = connection.startService(ParameterHelper.PARAMETER_SERVICE, true, this);

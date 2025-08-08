@@ -183,11 +183,11 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
             throw new MALInteractionException(new DeviceNotAvailableException(null));
         }
         // Is the requested streaming rate less than the minimum period?
-        if (monitoringInterval == null || monitoringInterval.getValue() < MINIMUM_MONITORING_PERIOD.getValue()) {
+        if (monitoringInterval == null || monitoringInterval.getInSeconds() < MINIMUM_MONITORING_PERIOD.getInSeconds()) {
             throw new MALInteractionException(new InvalidException(MINIMUM_MONITORING_PERIOD));
         }
 
-        monitoringPeriod = (int) (monitoringInterval.getValue() * 1000); // In milliseconds
+        monitoringPeriod = (int) (monitoringInterval.getInSeconds() * 1000); // In milliseconds
         this.startGeneration();
     }
 
@@ -338,7 +338,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
             return;
         }
 
-        final long remainingMillis = (long) (duration.getValue() * 1000);
+        final long remainingMillis = (long) (duration.getInSeconds() * 1000);
         attitudeControlEndTime = System.currentTimeMillis() + remainingMillis;
         // Start auto-timer to unset
         autoUnsetThread = new Thread(() -> {

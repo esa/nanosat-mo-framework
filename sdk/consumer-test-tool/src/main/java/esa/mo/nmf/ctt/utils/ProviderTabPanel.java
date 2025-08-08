@@ -320,7 +320,7 @@ public class ProviderTabPanel extends javax.swing.JPanel {
         public ProviderStatusAdapter(final HeartbeatConsumerServiceImpl heartbeat)
                 throws MALInteractionException, MALException {
             long timestamp = System.currentTimeMillis();
-            double value = heartbeat.getHeartbeatStub().getPeriod().getValue();
+            double value = heartbeat.getHeartbeatStub().getPeriod().getInSeconds();
             lag = System.currentTimeMillis() - timestamp;
             period = (long) (value * 1000);
             status.setText("The provider is reachable! Beat period: " + value + " seconds");

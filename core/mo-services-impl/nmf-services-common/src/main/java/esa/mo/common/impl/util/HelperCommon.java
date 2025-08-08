@@ -73,10 +73,10 @@ public class HelperCommon {
                 continue;
             }
 
-            SingleConnectionDetails details = new SingleConnectionDetails();
-            details.setBrokerURI(addressDetails.getBrokerURI());
-            details.setProviderURI(addressDetails.getServiceURI());
-            details.setDomain(provider.getDomain());
+            SingleConnectionDetails details = new SingleConnectionDetails(
+                    addressDetails.getServiceURI(),
+                    addressDetails.getBrokerURI(),
+                    provider.getDomain());
 
             final MALArea malArea = MALContextFactory.lookupArea(key.getKeyArea(), key.getKeyAreaVersion());
 

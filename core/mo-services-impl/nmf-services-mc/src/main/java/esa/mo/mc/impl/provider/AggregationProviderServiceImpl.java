@@ -555,24 +555,24 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
             //requirement: 3.7.10.2.c, 3.7.3.p requested intervals must be provided
             //updateInterval must be provided
-            if (aDef.getReportInterval().getValue() != 0
-                    && aDef.getReportInterval().getValue() < MIN_REPORTING_INTERVAL) {
+            if (aDef.getReportInterval().getInSeconds() != 0
+                    && aDef.getReportInterval().getInSeconds() < MIN_REPORTING_INTERVAL) {
                 invIndexList.add(new UInteger(index));
                 continue;
             }
             //requirement: 3.7.10.2.c, 3.7.3.p
             //sample-interval must be provided
             for (AggregationParameterSet parameterSet : parameterSets) {
-                if (parameterSet.getSampleInterval().getValue() != 0
-                        && parameterSet.getSampleInterval().getValue() < MIN_REPORTING_INTERVAL) {
+                if (parameterSet.getSampleInterval().getInSeconds() != 0
+                        && parameterSet.getSampleInterval().getInSeconds() < MIN_REPORTING_INTERVAL) {
                     invIndexList.add(new UInteger(index));
                     break;
                 }
             }
             //requirement: 3.7.3.p
             //filteredTimeout-interval must be provided
-            if (aDef.getFilteredTimeout().getValue() != 0
-                    && aDef.getFilteredTimeout().getValue() < MIN_REPORTING_INTERVAL) {
+            if (aDef.getFilteredTimeout().getInSeconds() != 0
+                    && aDef.getFilteredTimeout().getInSeconds() < MIN_REPORTING_INTERVAL) {
                 invIndexList.add(new UInteger(index));
                 continue;
             }
@@ -637,24 +637,24 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
             //requirement: 3.7.3.p, 3.7.13.2.f
             //TODO: check the updateInterval, filteredTimeout and sampleIntervals? -> issue #152
             //updateInterval must be provided
-            if (aDef.getReportInterval().getValue() != 0
-                    && aDef.getReportInterval().getValue() < MIN_REPORTING_INTERVAL) {
+            if (aDef.getReportInterval().getInSeconds() != 0
+                    && aDef.getReportInterval().getInSeconds() < MIN_REPORTING_INTERVAL) {
                 invIndexList.add(new UInteger(index));
                 continue;
             }
             //requirement: 3.7.3.p, 3.7.13.2.f
             //sample-interval must be provided
             for (AggregationParameterSet parameterSet : parameterSets) {
-                if (parameterSet.getSampleInterval().getValue() != 0
-                        && parameterSet.getSampleInterval().getValue() < MIN_REPORTING_INTERVAL) {
+                if (parameterSet.getSampleInterval().getInSeconds() != 0
+                        && parameterSet.getSampleInterval().getInSeconds() < MIN_REPORTING_INTERVAL) {
                     invIndexList.add(new UInteger(index));
                     break;
                 }
             }
             //requirement: 3.7.3.p
             //filteredTimeout-interval must be provided
-            if (aDef.getFilteredTimeout().getValue() != 0
-                    && aDef.getFilteredTimeout().getValue() < MIN_REPORTING_INTERVAL) {
+            if (aDef.getFilteredTimeout().getInSeconds() != 0
+                    && aDef.getFilteredTimeout().getInSeconds() < MIN_REPORTING_INTERVAL) {
                 invIndexList.add(new UInteger(index));
                 continue;
             }
@@ -885,7 +885,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         //check the sampleInterval
         final AggregationParameterSetList parameterSets = def.getParameterSets();
         for (int i = 0; i < parameterSets.size(); i++) {
-            final double sampleInterval = parameterSets.get(i).getSampleInterval().getValue();
+            final double sampleInterval = parameterSets.get(i).getSampleInterval().getInSeconds();
             //If '0' or if its greater than the updateInterval then just a single sample of the parameters is required per aggregation update
             if (sampleInterval == 0 || (sampleInterval > def.getReportInterval().getValue())) {
                 checkFilterAndSampleParam(id, aggrExpired);
@@ -1054,7 +1054,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
                         }
                     }
                 }
-            }), (int) (interval.getValue() * 1000), (int) (interval.getValue() * 1000), TimeUnit.MILLISECONDS, true); // requirement: 3.7.3.g
+            }), (int) (interval.getInSeconds() * 1000), (int) (interval.getInSeconds() * 1000), TimeUnit.MILLISECONDS, true); // requirement: 3.7.3.g
         }
 
         private void stopUpdatesTimer(final Long objId) {
@@ -1091,7 +1091,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
                             GenerationMode.FILTERED_TIMEOUT));
                     manager.resetAggregationSampleHelperVariables(id);
                 }
-            }), 0, (int) (interval.getValue() * 1000), TimeUnit.MILLISECONDS, true);
+            }), 0, (int) (interval.getInSeconds() * 1000), TimeUnit.MILLISECONDS, true);
         }
 
         private void stopFilterTimeoutTimer(final Long objId) {
@@ -1182,11 +1182,11 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
                 Duration sampleInterval = aggrDef.getParameterSets().get(indexOfParameterSet).getSampleInterval();
 
                 //means ad hoc value, dont add to sample timer
-                if (sampleInterval.getValue() > aggrDef.getReportInterval().getValue()) {
+                if (sampleInterval.getInSeconds() > aggrDef.getReportInterval().getInSeconds()) {
                     sampleInterval = new Duration(0);
                 }
                 // Add to the Periodic Sampling Manager only if there's a sampleInterval selected for the parameterSet
-                if (sampleInterval.getValue() != 0) {
+                if (sampleInterval.getInSeconds() != 0) {
                     aggregationObjIdList.add(index, identityId);
                     parameterSetIndexList.add(index, indexOfParameterSet);
                     TaskScheduler timer = new TaskScheduler(1);  // Take care of adding a new timer
@@ -1220,7 +1220,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
                         manager.sampleAndFilterParam(identityId, indexOfparameterSet);
                     }
                 }
-            }), 0, (int) (interval.getValue() * 1000), TimeUnit.MILLISECONDS, true); // the time has to be converted to milliseconds by multiplying by 1000
+            }), 0, (int) (interval.getInSeconds() * 1000), TimeUnit.MILLISECONDS, true); // the time has to be converted to milliseconds by multiplying by 1000
         }
 
         private void stopTimer(int index) {

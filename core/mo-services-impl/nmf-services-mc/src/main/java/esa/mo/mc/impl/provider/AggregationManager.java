@@ -542,22 +542,22 @@ public final class AggregationManager extends MCManager {
             int indexParameterSet, AggregationParameterValueList val) {
         //periodic updates should get the value from the last sampled value
         if (generationMode == GenerationMode.PERIODIC
-                && sampleInterval.getValue() != 0
-                && sampleInterval.getValue() < updateInterval.getValue()) {
+                && sampleInterval.getInSeconds() != 0
+                && sampleInterval.getInSeconds() < updateInterval.getInSeconds()) {
             //calculate the intervals
             Time currentTime = Time.now();
             //            Time AggTimeStamp = new Time(currentTime.getValue() - (long) updateInterval.getValue() * 1000);
             //            Time firstSampleTime = new Time(this.latestSampleTimeList.get(identityId).get(indexParameterSet).getValue());
             long previous;
             if (indexParameterSet == 0) { //if its the first Set, the reference-time is the start of this aggregation-update
-                previous = currentTime.getValue() - (long) (updateInterval.getValue() * 1000);
+                previous = currentTime.getValue() - (long) (updateInterval.getInSeconds() * 1000);
             } else { //otherwise its the time of the last value of the previous set
                 previous = this.latestSampleTimeList.get(identityId).get(indexParameterSet - 1).getValue();
             }
 
             Time previousSetTimeStamp = new Time(previous);
             Time firstSampleTime = new Time(this.latestSampleTimeList.get(identityId).get(indexParameterSet).getValue()
-                    - (long) (sampleInterval.getValue() * 1000) * sampleCountList.get(identityId).get(indexParameterSet));
+                    - (long) (sampleInterval.getInSeconds() * 1000) * sampleCountList.get(identityId).get(indexParameterSet));
 
             // Delta-TIme =  firstSampleTime(Setx) - (firstSampleTime(Setx-1) + y*sampleInterval) | y = amount of updates.
             Duration deltaTime = new Duration(((float) (firstSampleTime.getValue() - previousSetTimeStamp.getValue())) / 1000);
