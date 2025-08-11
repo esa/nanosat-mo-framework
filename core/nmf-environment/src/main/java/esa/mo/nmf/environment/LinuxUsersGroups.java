@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft â€“ v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -41,41 +41,6 @@ public class LinuxUsersGroups {
     private static final String MSG_NOT_FOUND = "The command was not found.\n";
 
     private static final String DEFAULT_SHELL = "/bin/bash";
-
-    /**
-     * Adds a new Linux user account and sets its respective password. The
-     * account can be created without a password by passing a null into the
-     * password field argument.
-     *
-     * @param username The username of the user account.
-     * @param password The Password of the user account. Can be null if no
-     * password is to be defined.
-     * @param withGroup Defines if a group with the same name must also be
-     * created during the user account creation.
-     * @param extraGroups The list of supplementary groups which the user will
-     * also be a member of. Each group is separated from the next by a comma,
-     * with no intervening whitespace.
-     * @throws IOException if the user could not be created.
-     */
-    @Deprecated
-    public static void useradd(String username, String password,
-            boolean withGroup, String extraGroups) throws IOException {
-        // Second, we need to check if we have permissions to run the commands
-        //String cmd = "useradd $user_nmf_admin -m -s /bin/bash --user-group";
-        //String cmd = "useradd $user_nmf_admin --create-home --shell /bin/bash --user-group";
-        String group = withGroup ? "--user-group" : "";
-        String[] cmd = {"sudo", "useradd", username, "--create-home",
-            "--shell", DEFAULT_SHELL, group, "--groups", extraGroups};
-        String out = runCommand(cmd);
-        checkIfPermissionDenied(cmd, out);
-
-        // Does the user account have a respective password?
-        if (password != null) {
-            LinuxUsersGroups.chpasswd(username, password);
-        }
-
-        LinuxUsersGroups.printCommandAndOutput(cmd, out);
-    }
 
     /**
      * Adds a new Linux group.
