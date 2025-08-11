@@ -85,8 +85,6 @@
                         <com:objectType>
                             <mal:type name="ActionDefinition" area="MC"/>
                         </com:objectType>
-                        <com:relatedObject>
-                        </com:relatedObject>
                         <com:sourceObject comment="The object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used"/>
                     </com:object>
                     <com:object name="ActionInstance" number="2">
@@ -105,8 +103,6 @@
                         <com:objectType>
                             <mal:type name="UInteger" area="MAL"/>
                         </com:objectType>
-                        <com:relatedObject>
-                        </com:relatedObject>
                         <com:sourceObject>
                             <com:objectType number="5" service="ActivityTracking" area="COM"/>
                         </com:sourceObject>
@@ -337,8 +333,6 @@
                         <com:objectType>
                             <mal:type name="ParameterDefinition" area="MC"/>
                         </com:objectType>
-                        <com:relatedObject>
-                        </com:relatedObject>
                         <com:sourceObject comment="The object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used"/>
                     </com:object>
                     <com:object name="ParameterValueInstance" number="2">
@@ -475,8 +469,6 @@
                         <com:objectType>
                             <mal:type name="AlertDefinition" area="MC"/>
                         </com:objectType>
-                        <com:relatedObject>
-                        </com:relatedObject>
                         <com:sourceObject comment="The object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used"/>
                     </com:object>
                 </com:objects>
@@ -757,8 +749,6 @@
                         <com:objectType>
                             <mal:type name="AggregationDefinition" area="MC"/>
                         </com:objectType>
-                        <com:relatedObject>
-                        </com:relatedObject>
                         <com:sourceObject comment="The object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used"/>
                     </com:object>
                     <com:object name="AggregationValueInstance" number="2">
