@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft - v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -348,6 +348,7 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_removeDefinitionAllButtonActionPerformed
 
     private void preCheckActionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_preCheckActionButtonActionPerformed
+/*
         if (actionTable.getSelectedRow() == -1) { // The row is not selected?
             return;  // Well, then nothing to be done here folks!
         }
@@ -374,6 +375,7 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
         JOptionPane.showMessageDialog(null,
                 "The action instance pre-check has passed successfully.",
                 "Success", JOptionPane.PLAIN_MESSAGE);
+*/
     }//GEN-LAST:event_preCheckActionButtonActionPerformed
 
     private void actionDefinitionsTableComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_actionDefinitionsTableComponentAdded

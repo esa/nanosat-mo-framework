@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft - v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -182,28 +182,6 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
             manager.execute(actionInstId, actionDetails, interaction, connection.getConnectionDetails()); // The execution events are generated within the execute method; requirement: 3.2.9.2.b
         }
         manager.getActivityTrackingService().publishExecutionEventSubmitAck(interaction, accepted, saSource); // requirement: c
-    }
-
-    @Override
-    public Boolean preCheckAction(ActionInstanceDetails actionDetails, MALInteraction interaction)
-            throws MALInteractionException, MALException {
-        UIntegerList invIndexList = new UIntegerList();
-
-        // requirement: 3.2.10.3.2
-        if (!manager.existsDef(actionDetails.getDefInstId())) {
-            throw new MALInteractionException(new UnknownException(null));
-        }
-
-        // requirement: 3.2.10.2.a, 3.2.10.2.b
-        //TODO: check the checkActionInstanceDetails-mehod after spec-update -> issue #99
-        boolean accepted = manager.checkActionInstanceDetails(actionDetails, invIndexList);
-
-        // Errors
-        if (!invIndexList.isEmpty()) { // requirement: 3.2.10.3.1
-            throw new MALInteractionException(new InvalidException(invIndexList));
-        }
-
-        return accepted;
     }
 
     @Override
