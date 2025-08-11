@@ -905,13 +905,13 @@
                 <mal:extends>
                     <mal:type name="Composite" area="MAL"/>
                 </mal:extends>
-                <mal:field name="argId" canBeNull="false" comment="Holds the argument definition identifier.">
+                <mal:field name="argId" canBeNull="false" comment="The argument definition identifier.">
                     <mal:type name="Identifier" area="MAL"/>
                 </mal:field>
-                <mal:field name="description" comment="Optional argument description.">
+                <mal:field name="description" comment="An optional argument description.">
                     <mal:type name="String" area="MAL"/>
                 </mal:field>
-                <mal:field name="rawType" canBeNull="false" comment="Holds the attribute short form part of the raw type of the argument, e.g., for a MAL::String argument it shall hold 15.">
+                <mal:field name="rawType" canBeNull="false" comment="The attribute raw type of the argument.">
                     <mal:type name="AttributeType" area="MAL"/>
                 </mal:field>
                 <mal:field name="rawUnit" comment="The unit for the raw value.">
