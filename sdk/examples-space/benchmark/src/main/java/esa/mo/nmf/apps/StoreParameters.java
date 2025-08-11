@@ -56,46 +56,12 @@ public class StoreParameters {
             }
             ConnectionProvider connection = connector.getMCServices().getActionService().getConnectionProvider();
             ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(
-                    null, null, connection.getConnectionDetails());
+                    null, null, connection.getConnectionDetails().getProviderURI());
             for (int i = 0; i < numberOfObjs - 1; i++) {
                 archDetails.add(archDetails.get(0));
             }
             long startTime = System.nanoTime();
-            /*
-            try {
-            LongList objIds = nanoSatMOFramework.getCOMServices().getArchiveService().store(
-            true,
-            AggregationHelper.AGGREGATIONDEFINITION_OBJECT_TYPE,
-            nanoSatMOFramework.getMCServices().getActionService().getConnectionProvider().getConnectionDetails().getDomain(),
-            archDetails,
-            defs,
-            null);
-            
-            } catch (MALException ex) {
-            Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALInteractionException ex) {
-            Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-            for (int i = 0; i < NUMBER_OF_OBJS - 1; i++) {
-            archDetails.get(i).setInstId(new Long(i));
-            }
-            
-            try {
-            nanoSatMOFramework.getCOMServices().getArchiveService().update(
-            AggregationHelper.AGGREGATIONDEFINITION_OBJECT_TYPE,
-            nanoSatMOFramework.getMCServices().getActionService().getConnectionProvider().getConnectionDetails().getDomain(),
-            archDetails,
-            defs,
-            null);
-            
-            } catch (MALException ex) {
-            Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALInteractionException ex) {
-            Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-             */
+
             try {
                 for (int i = 0; i < values.size(); i++) {
                     ArchiveDetailsList xxx = new ArchiveDetailsList();

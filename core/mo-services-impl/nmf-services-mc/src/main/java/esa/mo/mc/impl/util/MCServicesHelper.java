@@ -111,42 +111,6 @@ public class MCServicesHelper {
         public ObjectType sourceObjectType = new ObjectType();
     }
 
-    @Deprecated
-    public static Attribute getAttribute(String value, int type) {
-        //        LoggingBase.logMessage("Getting Attribute of type " + type + " with value " + value);
-
-        Attribute ret = null;
-        switch (type) {
-            case Attribute._INTEGER_TYPE_SHORT_FORM:
-                ret = new Union(Integer.parseInt(value));
-                break;
-            case Attribute._FLOAT_TYPE_SHORT_FORM:
-                ret = new Union(Float.parseFloat(value));
-                break;
-            case Attribute._DOUBLE_TYPE_SHORT_FORM:
-                ret = new Union(Double.parseDouble(value));
-                break;
-            case Attribute._LONG_TYPE_SHORT_FORM:
-                ret = new Union(Long.parseLong(value));
-                break;
-            case Attribute._SHORT_TYPE_SHORT_FORM:
-                ret = new Union(Short.parseShort(value));
-                break;
-            case Attribute._UINTEGER_TYPE_SHORT_FORM:
-                ret = new UInteger(Long.parseLong(value));
-                break;
-            case Attribute._ULONG_TYPE_SHORT_FORM:
-                ret = new ULong(new BigInteger(value));
-                break;
-            case Attribute._STRING_TYPE_SHORT_FORM:
-                ret = new Union(value);
-                break;
-            default:
-                break;
-        }
-        return ret;
-    }
-
     public static double getDouble(Attribute attr) {
         int type = attr.getTypeId().getSFP();
         switch (type) {

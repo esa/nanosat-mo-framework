@@ -114,26 +114,6 @@ public class COMServicesConsumer {
     }
 
     /**
-     * Sets the Event service consumer
-     *
-     * @param eventService Event service consumer
-     */
-    @Deprecated
-    public void setEventService(EventConsumerServiceImpl eventService) {
-        this.eventService = eventService;
-    }
-
-    /**
-     * Sets the Archive service consumer
-     *
-     * @param archiveService Archive service consumer
-     */
-    @Deprecated
-    public void setArchiveService(ArchiveConsumerServiceImpl archiveService) {
-        this.archiveService = archiveService;
-    }
-
-    /**
      * Closes the service consumer connections
      *
      */

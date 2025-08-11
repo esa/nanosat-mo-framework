@@ -29,6 +29,7 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
@@ -50,18 +51,19 @@ public class StoreAggregations {
         try {
             AggregationDefinitionList defs = new AggregationDefinitionList();
             AggregationParameterSetList aaa = new AggregationParameterSetList();
-            LongList lissssst = new LongList();
-            lissssst.add(new Long(65));
+            LongList parameters = new LongList();
+            parameters.add(new Long(65));
             AggregationParameterSet aa = new AggregationParameterSet(
                     null,
-                    lissssst,
+                    parameters,
                     new Duration(43),
                     null);
             aaa.add(aa);
+
             for (int i = 0; i < numberOfObjs; i++) {
                 AggregationDefinition def = new AggregationDefinition(
                         new Identifier("Aggregation_" + i),
-                        "dfvgdf",
+                        "This is a Description!",
                         AggregationCategory.GENERAL,
                         new Duration(45),
                         false,
@@ -72,47 +74,16 @@ public class StoreAggregations {
                         aaa);
                 defs.add(def);
             }
+
+            ConnectionProvider conn = connector.getMCServices().getActionService().getConnectionProvider();
             ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(null, null,
-                    connector.getMCServices().getActionService().getConnectionProvider().getConnectionDetails());
+                    conn.getConnectionDetails().getProviderURI());
             for (int i = 0; i < numberOfObjs - 1; i++) {
                 archDetails.add(archDetails.get(0));
             }
+
             long startTime = System.nanoTime();
-            /*
-            try {
-            LongList objIds = nanoSatMOFramework.getCOMServices().getArchiveService().store(
-            true,
-            AggregationHelper.AGGREGATIONDEFINITION_OBJECT_TYPE,
-            nanoSatMOFramework.getMCServices().getActionService().getConnectionProvider().getConnectionDetails().getDomain(),
-            archDetails,
-            defs,
-            null);
-            
-            } catch (MALException ex) {
-            Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALInteractionException ex) {
-            Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-            for (int i = 0; i < NUMBER_OF_OBJS - 1; i++) {
-            archDetails.get(i).setInstId(new Long(i));
-            }
-            
-            try {
-            nanoSatMOFramework.getCOMServices().getArchiveService().update(
-            AggregationHelper.AGGREGATIONDEFINITION_OBJECT_TYPE,
-            nanoSatMOFramework.getMCServices().getActionService().getConnectionProvider().getConnectionDetails().getDomain(),
-            archDetails,
-            defs,
-            null);
-            
-            } catch (MALException ex) {
-            Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALInteractionException ex) {
-            Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-             */
+
             try {
 
                 for (int i = 0; i < defs.size(); i++) {
@@ -123,7 +94,7 @@ public class StoreAggregations {
 
                     connector.getCOMServices().getArchiveService().store(true,
                             AggregationServiceInfo.AGGREGATIONDEFINITION_OBJECT_TYPE,
-                            connector.getMCServices().getActionService().getConnectionProvider().getConnectionDetails().getDomain(),
+                            conn.getConnectionDetails().getDomain(),
                             xxx,
                             yyy,
                             null);

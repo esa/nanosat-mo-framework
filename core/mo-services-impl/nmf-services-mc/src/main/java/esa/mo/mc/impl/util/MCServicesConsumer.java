@@ -126,26 +126,6 @@ public class MCServicesConsumer {
         this.aggregationService = aggregationService;
     }
 
-    @Deprecated
-    public void setActionService(ActionConsumerServiceImpl actionService) {
-        this.actionService = actionService;
-    }
-
-    @Deprecated
-    public void setParameterService(ParameterConsumerServiceImpl parameterService) {
-        this.parameterService = parameterService;
-    }
-
-    @Deprecated
-    public void setAlertService(AlertConsumerServiceImpl alertService) {
-        this.alertService = alertService;
-    }
-
-    @Deprecated
-    public void setAggregationService(AggregationConsumerServiceImpl aggregationService) {
-        this.aggregationService = aggregationService;
-    }
-
     /**
      * Closes the service consumer connections
      *
