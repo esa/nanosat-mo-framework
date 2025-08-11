@@ -177,7 +177,7 @@ public class AggregationCommands {
                 final Object lock = new Object();
 
                 Map<Long, String> aggregationIdentities = new HashMap<>();
-                archive.retrieve(AggregationServiceInfo.AGGREGATIONIDENTITY_OBJECT_TYPE, domain, aggregationIdentitiesIds,
+                archive.retrieve(AggregationServiceInfo.AGGREGATIONDEFINITION_OBJECT_TYPE, domain, aggregationIdentitiesIds,
                         new ArchiveAdapter() {
                     @Override
                     public void retrieveResponseReceived(MALMessageHeader msgHeader, ArchiveDetailsList objDetails,
@@ -257,7 +257,7 @@ public class AggregationCommands {
                 //                System.out.println("Parameter ids");
                 //                System.out.println(parameterIds.stream().map(Object::toString).collect(Collectors.joining(", ")));
                 Map<Long, String> identityIdToName = new HashMap<>();
-                archive.retrieve(ParameterServiceInfo.PARAMETERIDENTITY_OBJECT_TYPE, domain, parameterIds,
+                archive.retrieve(ParameterServiceInfo.PARAMETERDEFINITION_OBJECT_TYPE, domain, parameterIds,
                         new ArchiveAdapter() {
                     @Override
                     public void retrieveResponseReceived(MALMessageHeader msgHeader, ArchiveDetailsList objDetails,

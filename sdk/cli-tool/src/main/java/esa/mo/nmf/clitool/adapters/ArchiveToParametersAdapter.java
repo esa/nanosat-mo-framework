@@ -56,7 +56,7 @@ public class ArchiveToParametersAdapter extends ArchiveAdapter implements QueryS
     /**
      * MC.Parameter.ParameterIdentity object type
      */
-    private final ObjectType parameterIdentityType = ParameterServiceInfo.PARAMETERIDENTITY_OBJECT_TYPE;
+    private final ObjectType parameterIdentityType = ParameterServiceInfo.PARAMETERDEFINITION_OBJECT_TYPE;
 
     /**
      * MC.Parameter.ParameterDefinition object type

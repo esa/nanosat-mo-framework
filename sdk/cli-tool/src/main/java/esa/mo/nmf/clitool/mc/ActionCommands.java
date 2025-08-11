@@ -115,7 +115,7 @@ public class ActionCommands {
             archiveQueryList.add(archiveQuery);
             
             ArchiveToActionsAdapter adapter = new ArchiveToActionsAdapter();
-            queryArchive(ActionServiceInfo.ACTIONIDENTITY_OBJECT_TYPE, archiveQueryList, adapter, adapter);
+            queryArchive(ActionServiceInfo.ACTIONDEFINITION_OBJECT_TYPE, archiveQueryList, adapter, adapter);
 
             // Display list of NMF apps that have actions
             Map<IdentifierList, List<Identifier>> actions = adapter.getActionIdentities();

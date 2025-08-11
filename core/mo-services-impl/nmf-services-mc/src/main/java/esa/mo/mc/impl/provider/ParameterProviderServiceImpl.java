@@ -229,7 +229,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
                         valueToBeEnabled);
                 //get the group instances
                 groupRetrievalInformation = manager.getGroupInstancesForServiceOperation(enableInstances,
-                        groupRetrievalInformation, ParameterServiceInfo.PARAMETERIDENTITY_OBJECT_TYPE,
+                        groupRetrievalInformation, ParameterServiceInfo.PARAMETERDEFINITION_OBJECT_TYPE,
                         ConfigurationProviderSingleton.getDomain(), manager.listAllDefinitions());
 
                 //fill the existing lists with the generated lists

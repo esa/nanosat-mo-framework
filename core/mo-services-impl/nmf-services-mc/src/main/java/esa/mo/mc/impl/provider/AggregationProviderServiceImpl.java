@@ -454,7 +454,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
                 //get the group instances requirements: 3.7.10.2.g, h
                 groupRetrievalInformation = manager.getGroupInstancesForServiceOperation(enableInstances,
-                        groupRetrievalInformation, AggregationServiceInfo.AGGREGATIONIDENTITY_OBJECT_TYPE,
+                        groupRetrievalInformation, AggregationServiceInfo.AGGREGATIONDEFINITION_OBJECT_TYPE,
                         ConfigurationProviderSingleton.getDomain(), manager.listAllDefinitions());
 
                 //fill the existing lists with the modified lists

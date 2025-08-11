@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft â€“ v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -51,7 +51,7 @@ public class ArchiveToActionsAdapter extends ArchiveAdapter implements QueryStat
      */
     private boolean isQueryOver = false;
 
-    private final ObjectType actionIdentityType = ActionServiceInfo.ACTIONIDENTITY_OBJECT_TYPE;
+    private final ObjectType actionIdentityType = ActionServiceInfo.ACTIONDEFINITION_OBJECT_TYPE;
     private final ObjectType actionDefinitionType = ActionServiceInfo.ACTIONDEFINITION_OBJECT_TYPE;
 
     private final Map<IdentifierList, List<Identifier>> actionIdentities = new HashMap<>();

@@ -403,7 +403,7 @@ public class ParameterCommands {
             archiveQueryList.add(archiveQuery);
 
             ArchiveToParametersAdapter adapter = new ArchiveToParametersAdapter();
-            queryArchive(ParameterServiceInfo.PARAMETERIDENTITY_OBJECT_TYPE, archiveQueryList, adapter, adapter);
+            queryArchive(ParameterServiceInfo.PARAMETERDEFINITION_OBJECT_TYPE, archiveQueryList, adapter, adapter);
 
             // Display list of NMF apps that have parameters
             Map<IdentifierList, List<Identifier>> parameters = adapter.getParameterIdentities();

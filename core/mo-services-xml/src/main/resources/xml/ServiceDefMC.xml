@@ -81,27 +81,20 @@
             </mal:capabilitySet>
             <com:features>
                 <com:objects comment="Each action of a provider shall be represented by an ActionIdentity COM object.&#xA;The body of the ActionIdentity COM object shall hold the name of the action.&#xA;The definitions of the actions shall be represented as ActionDefinition COM objects.&#xA;The ActionDefinition object shall use the related link to indicate which ActionIdentity object it uses.&#xA;The source link of the ActionIdentity object should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.&#xA;The source link of the ActionDefinition object should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.&#xA;Instances of an action that are submitted to a provider using the submitAction operation shall be represented as ActionInstance COM object.&#xA;The object instance identifier for an ActionInstance object shall be populated by the consumer.&#xA;The ActionInstance object shall use the related link to indicate which ActionDefinition object it uses.&#xA;Instances of an action that are submitted to a provider using the submitAction operation shall link to the submitAction OperationActivity object using the source link.&#xA;The source link of the submitAction OperationActivity object should be the object that caused it to be created, most likely an operator login or automated procedure object.">
-                    <com:object name="ActionIdentity" number="1">
-                        <com:objectType>
-                            <mal:type name="Identifier" area="MAL"/>
-                        </com:objectType>
-                        <com:sourceObject comment="The object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used"/>
-                    </com:object>
-                    <com:object name="ActionDefinition" number="2">
+                    <com:object name="ActionDefinition" number="1">
                         <com:objectType>
                             <mal:type name="ActionDefinition" area="MC"/>
                         </com:objectType>
                         <com:relatedObject>
-                            <com:objectType number="1" service="Action" area="MC"/>
                         </com:relatedObject>
                         <com:sourceObject comment="The object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used"/>
                     </com:object>
-                    <com:object name="ActionInstance" number="3">
+                    <com:object name="ActionInstance" number="2">
                         <com:objectType>
                             <mal:type name="ActionInstanceDetails" area="MC"/>
                         </com:objectType>
                         <com:relatedObject>
-                            <com:objectType number="2" service="Action" area="MC"/>
+                            <com:objectType number="1" service="Action" area="MC"/>
                         </com:relatedObject>
                         <com:sourceObject comment="The object that caused it to be created, most likely a COM OperationActivity object if created by the submitAction operation"/>
                     </com:object>
@@ -113,7 +106,6 @@
                             <mal:type name="UInteger" area="MAL"/>
                         </com:objectType>
                         <com:relatedObject>
-                            <com:objectType number="3" service="Action" area="MC"/>
                         </com:relatedObject>
                         <com:sourceObject>
                             <com:objectType number="5" service="ActivityTracking" area="COM"/>
@@ -341,27 +333,20 @@
             </mal:capabilitySet>
             <com:features>
                 <com:objects comment="Each parameter of a provider shall be represented by a ParameterIdentity COM object.&#xA;The body of the ParameterIdentity COM object shall hold the name of the parameter.&#xA;The definitions of the parameters shall be represented as ParameterDefinition COM objects.&#xA;Parameter value report shall be represented as ParameterValueInstance COM objects.&#xA;The ParameterDefinition object shall use the related link to indicate which ParameterIdentity object it uses.&#xA;The ParameterValueInstance object shall use the related link to indicate which ParameterDefinition object it uses.&#xA;The source link of the ParameterIdentity object should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.&#xA;The source link of the ParameterDefinition object should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.&#xA;The source link of the ParameterValueInstance object should be the object that caused the report to be generated.&#xA;The source link of the ParameterValueInstance object shall be NULL for periodic reports.">
-                    <com:object name="ParameterIdentity" number="1">
-                        <com:objectType>
-                            <mal:type name="Identifier" area="MAL"/>
-                        </com:objectType>
-                        <com:sourceObject comment="The object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used"/>
-                    </com:object>
-                    <com:object name="ParameterDefinition" number="2">
+                    <com:object name="ParameterDefinition" number="1">
                         <com:objectType>
                             <mal:type name="ParameterDefinition" area="MC"/>
                         </com:objectType>
                         <com:relatedObject>
-                            <com:objectType number="1" service="Parameter" area="MC"/>
                         </com:relatedObject>
                         <com:sourceObject comment="The object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used"/>
                     </com:object>
-                    <com:object name="ParameterValueInstance" number="3">
+                    <com:object name="ParameterValueInstance" number="2">
                         <com:objectType>
                             <mal:type name="ParameterValue" area="MC"/>
                         </com:objectType>
                         <com:relatedObject>
-                            <com:objectType number="2" service="Parameter" area="MC"/>
+                            <com:objectType number="1" service="Parameter" area="MC"/>
                         </com:relatedObject>
                         <com:sourceObject comment="The object that caused the value to be generated or NULL for periodic reports"/>
                     </com:object>
@@ -486,30 +471,23 @@
             </mal:capabilitySet>
             <com:features>
                 <com:objects comment="Each alert of a provider shall be represented by an AlertIdentity COM object.&#xA;The body of the AlertIdentity COM object shall hold the name of the alert.&#xA;The definitions of the alerts shall be represented as AlertDefinition COM objects.&#xA;Instances of an alert shall be represented as an AlertEvent COM event.&#xA;The AlertDefinition object shall use the related link to indicate which AlertIdentity object it uses.&#xA;The AlertEvent object shall use the related link to indicate which AlertDefinition object it uses.&#xA;The source link of the AlertIdentity object should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.&#xA;The source link of the AlertDefinition object should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.">
-                    <com:object name="AlertIdentity" number="1">
-                        <com:objectType>
-                            <mal:type name="Identifier" area="MAL"/>
-                        </com:objectType>
-                        <com:sourceObject comment="The object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used"/>
-                    </com:object>
-                    <com:object name="AlertDefinition" number="2">
+                    <com:object name="AlertDefinition" number="1">
                         <com:objectType>
                             <mal:type name="AlertDefinition" area="MC"/>
                         </com:objectType>
                         <com:relatedObject>
-                            <com:objectType number="1" service="Alert" area="MC"/>
                         </com:relatedObject>
                         <com:sourceObject comment="The object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used"/>
                     </com:object>
                 </com:objects>
                 <com:events comment="When an alert is generated it shall be represented as a COM event.&#xA;The event shall be published using the COM event service.&#xA;The source link of the AlertEvent object shall be the object that caused the event to be generated.">
-                    <com:event name="AlertEvent" number="3"
+                    <com:event name="AlertEvent" number="2"
                                comment="The AlertEvent shall be raised when an enabled alert is published.">
                         <com:objectType>
                             <mal:type name="AlertEventDetails" area="MC"/>
                         </com:objectType>
                         <com:relatedObject>
-                            <com:objectType number="2" service="Alert" area="MC"/>
+                            <com:objectType number="1" service="Alert" area="MC"/>
                         </com:relatedObject>
                         <com:sourceObject comment="The object that caused the event to be generated"/>
                     </com:event>
@@ -775,27 +753,20 @@
             </mal:capabilitySet>
             <com:features>
                 <com:objects comment="Each aggregation of a provider shall be represented by an AggregationIdentity COM object.&#xA;The body of the AggregationIdentity COM object shall hold the name of the aggregation.&#xA;The definitions of the aggregations shall be represented as AggregationDefinition COM objects.&#xA;Aggregation value reports shall be represented as AggregationValueInstance COM objects.&#xA;The AggregationDefinition object shall use the related link to indicate which AggregationIdentity object it uses.&#xA;The AggregationValueInstance object shall use the related link to indicate which AggregationDefinition object it uses.&#xA;The source link of the AggregationIdentity object should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.&#xA;The source link of the AggregationDefinition object should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.&#xA;The source link of the AggregationValueInstance object should be the object that caused the report to be generated.&#xA;The source link of the AggregationValueInstance object shall be NULL for periodic reports.">
-                    <com:object name="AggregationIdentity" number="1">
-                        <com:objectType>
-                            <mal:type name="Identifier" area="MAL"/>
-                        </com:objectType>
-                        <com:sourceObject comment="The object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used"/>
-                    </com:object>
-                    <com:object name="AggregationDefinition" number="2">
+                    <com:object name="AggregationDefinition" number="1">
                         <com:objectType>
                             <mal:type name="AggregationDefinition" area="MC"/>
                         </com:objectType>
                         <com:relatedObject>
-                            <com:objectType number="1" service="Aggregation" area="MC"/>
                         </com:relatedObject>
                         <com:sourceObject comment="The object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used"/>
                     </com:object>
-                    <com:object name="AggregationValueInstance" number="3">
+                    <com:object name="AggregationValueInstance" number="2">
                         <com:objectType>
                             <mal:type name="AggregationValue" area="MC"/>
                         </com:objectType>
                         <com:relatedObject>
-                            <com:objectType number="2" service="Aggregation" area="MC"/>
+                            <com:objectType number="1" service="Aggregation" area="MC"/>
                         </com:relatedObject>
                         <com:sourceObject comment="The object that caused the value to be generated or NULL for periodic reports"/>
                     </com:object>

@@ -176,13 +176,13 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
                         ignoreList.add(groupId);
 
                         // workaround for empty groups of the wrong type
-                        if (idObjectTypes.isEmpty() && !group.getObjectType().equals(AlertServiceInfo.ALERTIDENTITY_OBJECT_TYPE)) {
+                        if (idObjectTypes.isEmpty() && !group.getObjectType().equals(AlertServiceInfo.ALERTDEFINITION_OBJECT_TYPE)) {
                             invIndexList.add(new UInteger(index));
                         }
 
                         //checks if the given identityId is found in the internal Alert-list, if not its not a alert and invalid
                         for (GroupServiceImpl.IdObjectType idObjectType : idObjectTypes) {
-                            if (idObjectType.getObjectType().equals(AlertServiceInfo.ALERTIDENTITY_OBJECT_TYPE)) {
+                            if (idObjectType.getObjectType().equals(AlertServiceInfo.ALERTDEFINITION_OBJECT_TYPE)) {
                                 final Long identityId = idObjectType.getId(); // requirement: 3.4.8.2.b
                                 //checks if the alertId referenced in the group is known
                                 if (!manager.existsDef(identityId)) {// requirement: 3.4.8.2.g
