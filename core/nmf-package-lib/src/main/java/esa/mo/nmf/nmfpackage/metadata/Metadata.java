@@ -21,7 +21,6 @@
 package esa.mo.nmf.nmfpackage.metadata;
 
 import esa.mo.nmf.nmfpackage.NMFPackageManager;
-import esa.mo.nmf.nmfpackage.receipt.NMFPackageDescriptor;
 import esa.mo.nmf.nmfpackage.NMFPackageFile;
 import java.io.File;
 import java.io.FileInputStream;
@@ -85,12 +84,7 @@ public class Metadata {
      * @param properties The properties to be part of the metadata.
      */
     public Metadata(final Properties properties) {
-        this(properties, null);
-    }
-
-    @Deprecated
-    public Metadata(Properties properties, ArrayList<NMFPackageFile> files) {
-        this.files = files;
+        this.files = null;
         this.properties = this.newOrderedProperties();
         final Time time = new Time(System.currentTimeMillis());
         final String timestamp = HelperTime.time2readableString(time);
@@ -98,6 +92,7 @@ public class Metadata {
         this.properties.put(PACKAGE_METADATA_VERSION, METADATA_VERSION_LATEST);
         this.properties.putAll(properties);
 
+        /*
         if (files != null) {
             this.properties.put(FILE_COUNT, String.valueOf(files.size()));
 
@@ -109,6 +104,7 @@ public class Metadata {
                 this.properties.put(FILE_CRC + index, crc);
             }
         }
+        */
     }
 
     public void addProperty(String key, String value) {
@@ -189,15 +185,6 @@ public class Metadata {
         ZipEntry receipt = zipFile.getEntry(FILENAME);
 
         if (receipt == null) {
-            // This code can be removed in the future! It is here at the 
-            // moment in order to support backward compatibility
-            NMFPackageDescriptor descriptor = NMFPackageDescriptor.parseZipFile(zipFile);
-            Metadata metadata = descriptor.toMetadata();
-
-            if (metadata != null) {
-                return metadata;
-            }
-
             throw new IOException("The " + FILENAME + " file does not exist!");
         }
 

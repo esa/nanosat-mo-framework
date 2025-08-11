@@ -45,8 +45,6 @@ public class Deployment {
     public static final String DIR_ETC = "etc";
     public static final String DIR_JARS_MISSION = "jars-mission";
     public static final String DIR_JARS_NMF = "jars-nmf";
-    @Deprecated
-    public static final String DIR_JARS_NMF_OLD = "libs";
     public static final String DIR_JARS_SHARED = "jars-shared-libraries";
     public static final String DIR_JAVA = "java";
     public static final String DIR_LOGS = "logs";
@@ -115,14 +113,7 @@ public class Deployment {
      * @return The directory for NMF jar files.
      */
     public static File getJarsNMFDir() {
-        File newFolder = new File(getNMFRootDir(), DIR_JARS_NMF);
-
-        if (newFolder.exists()) {
-            return newFolder;
-        }
-
-        // Otherwise return the old folder:
-        return new File(getNMFRootDir(), DIR_JARS_NMF_OLD);
+        return new File(getNMFRootDir(), DIR_JARS_NMF);
     }
 
     /**
