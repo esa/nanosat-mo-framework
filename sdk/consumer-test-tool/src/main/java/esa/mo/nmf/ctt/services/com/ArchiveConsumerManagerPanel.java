@@ -932,6 +932,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         objIds.add(3L);
 
         GroupDetails group = new GroupDetails(
+                new Identifier("Name_of_the_Group"),
                 "A group of the 3 first Parameter Definitions.",
                 objTypeParameterDef,
                 domain,

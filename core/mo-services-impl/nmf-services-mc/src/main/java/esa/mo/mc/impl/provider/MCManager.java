@@ -176,7 +176,7 @@ public abstract class MCManager {
     }
 
     /**
-     * Updates a definition of an existing identity in the manager.
+     * Updates a definition of an existing id in the manager.
      *
      * @param id The id the definition.
      * @param newDefDetails The object body of the new definition

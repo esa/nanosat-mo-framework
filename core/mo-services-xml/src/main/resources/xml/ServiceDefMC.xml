@@ -1354,6 +1354,10 @@
                 <mal:extends>
                     <mal:type name="Composite" area="MAL"/>
                 </mal:extends>
+                <mal:field name="name" canBeNull="false"
+                           comment="The name of the group. Must not be empty or the wildcard value.">
+                    <mal:type name="Identifier" area="MAL"/>
+                </mal:field>
                 <mal:field name="description" canBeNull="false" comment="Description of the group.">
                     <mal:type name="String" area="MAL"/>
                 </mal:field>
