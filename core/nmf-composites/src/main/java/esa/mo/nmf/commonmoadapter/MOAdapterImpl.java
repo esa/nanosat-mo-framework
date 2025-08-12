@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft - v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -497,8 +497,7 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
                     stageProgressRequired,
                     stageCompletedRequired,
                     argumentValues,
-                    argumentIds,
-                    null);
+                    argumentIds);
 
             // Store the Action Instance in the Archive and get an
             // object instance identifier to use during the submit
