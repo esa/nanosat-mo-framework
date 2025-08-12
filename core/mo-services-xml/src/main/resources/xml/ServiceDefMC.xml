@@ -983,10 +983,6 @@
                            comment="Optional list of argument definition identifiers. Allows the provider to verify that the correct arguments are being supplied. The ordering of the list matches that of the argument list of the action definition.">
                     <mal:type list="true" name="Identifier" area="MAL"/>
                 </mal:field>
-                <mal:field name="isRawValue"
-                           comment="Optional list of Booleans that determine whether the supplied argument values are raw or converted. If the Boolean for a particular value is TRUE or NULL then that value is assumed to be raw. If the complete isRawValue list is NULL then all arguments are assumed to be raw values.&#xA;The ordering of the list matches that of the argument list of the action definition.">
-                    <mal:type list="true" name="Boolean" area="MAL"/>
-                </mal:field>
             </mal:composite>
             <mal:enumeration name="ValidityState" shortFormPart="11"
                              comment="Convenience enumeration that holds the validity states and their numeric values.">
