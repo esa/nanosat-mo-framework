@@ -766,7 +766,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         }
 
         //if the push value was published during a periodic update reset the timers //not standarized. impl. specific
-        if (manager.getAggregationDefinition(id).getReportInterval().getValue() != 0) {
+        if (manager.getAggregationDefinition(id).getReportInterval().getInSeconds() != 0) {
             periodicReportingManager.refresh(id);// then, refresh the Periodic updates and samplings
             periodicSamplingManager.refresh(id);
         } else {
@@ -807,7 +807,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
             return false;
         }
         //if the push value was published during a periodic update reset the timers //not standarized, impl. specific
-        if (manager.getAggregationDefinition(identityId).getReportInterval().getValue() != 0) {
+        if (manager.getAggregationDefinition(identityId).getReportInterval().getInSeconds() != 0) {
             periodicReportingManager.refresh(identityId);// then, refresh the Periodic updates and samplings
             periodicSamplingManager.refresh(identityId);
         } else {
@@ -887,7 +887,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         for (int i = 0; i < parameterSets.size(); i++) {
             final double sampleInterval = parameterSets.get(i).getSampleInterval().getInSeconds();
             //If '0' or if its greater than the updateInterval then just a single sample of the parameters is required per aggregation update
-            if (sampleInterval == 0 || (sampleInterval > def.getReportInterval().getValue())) {
+            if (sampleInterval == 0 || (sampleInterval > def.getReportInterval().getInSeconds())) {
                 checkFilterAndSampleParam(id, aggrExpired);
             }
         }
@@ -966,11 +966,11 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
             if (aDef != null) { // Does it exist in the Aggregation Definitions List?
                 if (aDef.getGenerationEnabled()) { //requirement 3.7.3.a, 3.7.3.b
                     manager.populateAggregationValues(id); // Reset the Sampling Values
-                    if (aDef.getReportInterval().getValue() != 0) { // Is the periodic reporting active? (requirement: 3.7.3.i, 3.7.9.2.k)
+                    if (aDef.getReportInterval().getInSeconds() != 0) { // Is the periodic reporting active? (requirement: 3.7.3.i, 3.7.9.2.k)
                         this.addPeriodicReporting(id);
                     }
                     //AD-HOC aggregations can also have a filter and must be added to the filtered-timeout-list in this case
-                    if (aDef.getFilterEnabled() && aDef.getFilteredTimeout().getValue() != 0) { // requirement 3.7.3.j
+                    if (aDef.getFilterEnabled() && aDef.getFilteredTimeout().getInSeconds() != 0) { // requirement 3.7.3.j
                         this.addFilteredTimeoutReporting(id);
                     }
                 }

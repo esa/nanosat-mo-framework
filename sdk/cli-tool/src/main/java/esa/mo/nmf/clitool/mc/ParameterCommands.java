@@ -278,8 +278,8 @@ public class ParameterCommands {
                                 AggregationParameterSet definitions = definition.getParameterSets().get(i);
 
                                 int valueSetNumber = 0;
-                                double deltaTime = values.getDeltaTime() != null ? values.getDeltaTime().getValue() : 0;
-                                double intervalTime = values.getIntervalTime() != null ? values.getIntervalTime().getValue() : 0;
+                                double deltaTime = values.getDeltaTime() != null ? values.getDeltaTime().getInSeconds() : 0;
+                                double intervalTime = values.getIntervalTime() != null ? values.getIntervalTime().getInSeconds() : 0;
                                 long valueSetTimestamp = aggregationValue.getTimestamp().getValue()
                                         + (long) (deltaTime * 1000L);
 

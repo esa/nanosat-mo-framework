@@ -63,10 +63,10 @@ public class PayloadsTestActionsHandler {
             AttitudeMode attitudeMode, PayloadsTestMCAdapter payloadsTestMCAdapter) {
         if (duration != null) {
             // Negative Durations are not allowed!
-            if (duration.getValue() < 0) {
+            if (duration.getInSeconds() < 0) {
                 return new UInteger(1);
             }
-            if (duration.getValue() == 0) {
+            if (duration.getInSeconds() == 0) {
                 // Adhere to the ADCS Service interface
                 duration = null;
             }
@@ -86,7 +86,7 @@ public class PayloadsTestActionsHandler {
     public UInteger scheduleTakePicture(Long actionInstanceObjId, boolean reportProgress,
             MALInteraction interaction, Duration scheduleDelay, PictureFormat format, boolean autoExposed) {
         Timer timer = new Timer();
-        long delay = (long) (scheduleDelay.getValue() * 1000L);
+        long delay = (long) (scheduleDelay.getInSeconds() * 1000L);
         if (delay < 0) {
             delay = 0;
         }

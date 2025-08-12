@@ -111,7 +111,7 @@ public class CameraAcquisitorSystemCameraTargetHandler {
 
                 try {
                     casMCAdapter.getConnector().getPlatformServices().getAutonomousADCSService().setDesiredAttitude(
-                            new Duration(timeTillPhotograph.getValue() + casMCAdapter.getAttitudeSafetyMarginSeconds()),
+                            new Duration(timeTillPhotograph.getInSeconds() + casMCAdapter.getAttitudeSafetyMarginSeconds()),
                             desiredAttitude);
 
                     casMCAdapter.getConnector().reportActionExecutionProgress(true, 0,
@@ -123,7 +123,7 @@ public class CameraAcquisitorSystemCameraTargetHandler {
 
                 // wait again till optimal moment for photograph
                 try {
-                    double fractSeconds = timeTillPhotograph.getValue();
+                    double fractSeconds = timeTillPhotograph.getInSeconds();
                     long seconds = (long) fractSeconds;
                     long milliSeconds = (long) ((fractSeconds - seconds) * 1000);
 

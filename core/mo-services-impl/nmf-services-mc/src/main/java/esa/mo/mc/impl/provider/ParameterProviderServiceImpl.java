@@ -501,8 +501,8 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             }
             //requirement: 3.3.3.h, 3.3.13.2.f
             final ParameterDefinition pDef = paramDefDetails.get(index);
-            if (pDef.getReportInterval().getValue() != 0
-                    && pDef.getReportInterval().getValue() < MIN_REPORTING_INTERVAL) {
+            if (pDef.getReportInterval().getInSeconds() != 0
+                    && pDef.getReportInterval().getInSeconds() < MIN_REPORTING_INTERVAL) {
                 invIndexList.add(new UInteger(index));
                 continue;
             }
@@ -730,7 +730,8 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             ParameterDefinition pDef = manager.getParameterDefinition(id);
             if (pDef != null) { // Does it exist in the Parameter Definitions List?
                 //requirement: 3.3.3.d
-                if (pDef.getReportInterval().getValue() != 0 && pDef.getGenerationEnabled()) { // Is the periodic reporting active?
+                if (pDef.getReportInterval().getInSeconds() != 0
+                        && pDef.getGenerationEnabled()) { // Is the periodic reporting active?
                     this.addPeriodicReporting(id);
                 }
             }

@@ -582,7 +582,7 @@ public class ParameterAddModify extends javax.swing.JFrame {
                         new Object[]{objIds.get(0).intValue(), pDef.getName().toString(),
                             pDef.getDescription(), rawTypeCB.getItemAt(pDef.getRawType().getValue()).toString(),
                             pDef.getRawUnit(), pDef.getGenerationEnabled(),
-                            pDef.getReportInterval().getValue()});
+                            pDef.getReportInterval().getInSeconds()});
                 Logger.getLogger(ParameterAddModify.class.getName()).info("updateDefinition executed");
             } catch (MALInteractionException | MALException ex) {
                 Logger.getLogger(ParameterAddModify.class.getName()).log(Level.SEVERE, null, ex);

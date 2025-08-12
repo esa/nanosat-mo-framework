@@ -633,19 +633,15 @@ public class MCCommands {
                                 domainKey).get(definitionId);
 
                         for (TimestampedAggregationValue aggregationValue : entry.getValue()) {
-                            for (int i = 0;
-                                    i < aggregationValue.getAggregationValue().getParameterSetValues().size();
-                                    i++) {
+                            for (int i = 0; i < aggregationValue.getAggregationValue().getParameterSetValues().size(); i++) {
                                 AggregationSetValue values = aggregationValue.getAggregationValue()
                                         .getParameterSetValues().get(i);
                                 AggregationParameterSet definitions = definition.getParameterSets().get(i);
 
                                 int valueSetNumber = 0;
-                                double deltaTime = values.getDeltaTime() != null ? values.getDeltaTime().getValue() : 0;
-                                double intervalTime = values.getIntervalTime() != null ? values.getIntervalTime()
-                                        .getValue() : 0;
-                                long valueSetTimestamp = aggregationValue.getTimestamp().getValue()
-                                        + (long) (deltaTime * 1000L);
+                                double deltaTime = values.getDeltaTime() != null ? values.getDeltaTime().getInSeconds() : 0;
+                                double intervalTime = values.getIntervalTime() != null ? values.getIntervalTime().getInSeconds() : 0;
+                                long valueSetTimestamp = aggregationValue.getTimestamp().getValue() + (long) (deltaTime * 1000L);
 
                                 for (int n = 0; n < values.getValues().size(); n++) {
                                     // Check if we are starting a new set of values compared to the given definition list

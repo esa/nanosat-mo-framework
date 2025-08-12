@@ -361,7 +361,7 @@ public class ParameterManager extends MCManager {
 
         //parameter-aggregation has a timeout that is expired
         if (pDef.getGenerationEnabled()
-                && pDef.getReportInterval().getValue() != 0
+                && pDef.getReportInterval().getInSeconds() != 0
                 && aggrExpired) { //requirement 3.3.3.i
             return ValidityState.EXPIRED;
         }

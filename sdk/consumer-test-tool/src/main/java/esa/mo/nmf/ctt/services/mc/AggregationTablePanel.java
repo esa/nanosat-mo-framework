@@ -61,7 +61,7 @@ public class AggregationTablePanel extends SharedTablePanel {
             pDef.getGenerationEnabled(),
             pDef.getReportInterval().toString(),
             pDef.getFilterEnabled(),
-            pDef.getFilteredTimeout().getValue()});
+            pDef.getFilteredTimeout().getInSeconds()});
 
         comObjects.add(comObject);
         semaphore.release();

@@ -66,7 +66,7 @@ public class ParameterTablePanel extends SharedTablePanel {
             HelperAttributes.typeShortForm2attributeName(pDef.getRawType().getValue()),
             pDef.getRawUnit(),
             pDef.getGenerationEnabled(),
-            pDef.getReportInterval().getValue()});
+            pDef.getReportInterval().getInSeconds()});
 
         comObjects.add(comObject);
         semaphore.release();

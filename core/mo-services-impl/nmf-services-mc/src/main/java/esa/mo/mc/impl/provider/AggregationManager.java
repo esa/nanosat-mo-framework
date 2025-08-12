@@ -429,7 +429,7 @@ public final class AggregationManager extends MCManager {
             Long id = aggrParamSet.getParameters().get(k);
             ParameterDefinition paramDef = parameterManager.getParameterDefinition(id);
 
-            if (paramDef.getGenerationEnabled() && paramDef.getReportInterval().getValue() != 0) {
+            if (paramDef.getGenerationEnabled() && paramDef.getReportInterval().getInSeconds() != 0) {
                 AggregationParameterValue agg = newParameterValueSamples.get(k);
                 ParameterValue pVal = agg.getValue();
                 if (currentParamValues.get(k).getValue().getRawValue().equals(pVal.getRawValue())) {

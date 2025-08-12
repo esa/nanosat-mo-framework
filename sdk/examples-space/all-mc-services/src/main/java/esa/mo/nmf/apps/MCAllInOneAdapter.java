@@ -457,10 +457,10 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
     private UInteger executeAdcsModeAction(Duration duration, AttitudeMode attitudeMode) {
         if (duration != null) {
             // Negative Durations are not allowed!
-            if (duration.getValue() < 0) {
+            if (duration.getInSeconds() < 0) {
                 return new UInteger(1);
             }
-            if (duration.getValue() == 0) {
+            if (duration.getInSeconds() == 0) {
                 // Adhere to the ADCS Service interface
                 duration = null;
             }
