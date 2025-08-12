@@ -38,7 +38,7 @@
                         </mal:errorRef>
                     </mal:errors>
                 </mal:requestIP>
-                <mal:invokeIP comment="The install operation allows a consumer to install the content of a package on the provider. The selected packages will be installed sequencially." name="install" number="2" supportInReplay="false">
+                <mal:invokeIP comment="The install operation allows a consumer to install the content of a package on the provider. The selected packages will be installed sequentially." name="install" number="2" supportInReplay="false">
                     <mal:messages>
                         <mal:invoke comment="">
                             <mal:field canBeNull="true" comment="The names field contains the names of the packages." name="names">
