@@ -239,7 +239,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
         interaction.sendAcknowledgement();  // "ok, it was received.."
 
         if (lArchiveQueryList == null) {
-            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, null));  // requirement: 3.4.4.2.4 and 3.4.4.2.5
+            throw new MALInteractionException(new InvalidException(null));  // requirement: 3.4.4.2.4 and 3.4.4.2.5
         }
         // Is the list empty?
         if (lArchiveQueryList.isEmpty()) {
@@ -497,7 +497,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                             tmpArchiveQuery.getSortOrder());
                 } catch (NoSuchFieldException ex) {
                     // requirement: 3.4.4.2.14
-                    throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, null));
+                    throw new MALInteractionException(new InvalidException(null));
                 }
             }
 
