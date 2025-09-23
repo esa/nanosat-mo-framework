@@ -22,6 +22,7 @@ package esa.mo.mc.impl.provider;
 
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
+import static esa.mo.com.impl.util.HelperArchive.generateArchiveDetailsList;
 import esa.mo.mc.impl.interfaces.ActionInvocationListener;
 import java.io.IOException;
 import java.util.HashMap;
@@ -33,12 +34,14 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.com.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
+import org.ccsds.moims.mo.mal.structures.FineTime;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.LongList;
@@ -46,6 +49,7 @@ import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UIntegerList;
 import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mc.action.ActionServiceInfo;
+import org.ccsds.moims.mo.mc.alert.AlertServiceInfo;
 import org.ccsds.moims.mo.mc.structures.*;
 
 /**
@@ -152,34 +156,31 @@ public final class ActionManager extends MCManager {
     }
 
     public Long update(Long id, ActionDefinition definition, ObjectId source, URI uri) { // requirement: 3.3.2.5
-        Long newDefId = null;
+        Long newDefId = id;
 
         if (super.getArchiveService() == null) { //only update locally
             //add to providers local list
             uniqueObjIdDef++; // This line as to go before any writing (because it's initialized as zero and that's the wildcard)
             newDefId = uniqueObjIdDef;
-
         } else {  // update in the COM Archive
             try {
                 HeterogeneousList defs = new HeterogeneousList();
                 defs.add(definition);
+                ArchiveDetailsList metadata = generateArchiveDetailsList(null, source,
+                        ConfigurationProviderSingleton.getNetwork(),
+                        uri, FineTime.now(), id);
 
-                //create a new ActionDefinition 
-                LongList defIds = super.getArchiveService().store(true,
-                        ActionServiceInfo.ACTIONDEFINITION_OBJECT_TYPE,
+                // Update a new ActionDefinition 
+                super.getArchiveService().update(ActionServiceInfo.ACTIONDEFINITION_OBJECT_TYPE,
                         ConfigurationProviderSingleton.getDomain(),
-                        HelperArchive.generateArchiveDetailsList(id, source, uri),
-                        defs,
-                        null);
-
-                newDefId = defIds.get(0);
+                        metadata,
+                        defs, null);
             } catch (MALException | MALInteractionException ex) {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         //update internal list
         this.updateDef(newDefId, definition);
-
         return newDefId;
     }
 

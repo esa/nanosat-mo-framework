@@ -22,6 +22,7 @@ package esa.mo.mc.impl.provider;
 
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
+import static esa.mo.com.impl.util.HelperArchive.generateArchiveDetailsList;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -857,7 +858,7 @@ public final class AggregationManager extends MCManager {
                 super.getArchiveService().update(
                         AggregationServiceInfo.AGGREGATIONDEFINITION_OBJECT_TYPE,
                         ConfigurationProviderSingleton.getDomain(),
-                        HelperArchive.generateArchiveDetailsList(identityId, source, connectionDetails), //requirement: 3.7.4.d, h
+                        HelperArchive.generateArchiveDetailsList(null, source, null, null, FineTime.now(), identityId),
                         defs,
                         null);
             } catch (MALException | MALInteractionException ex) {
@@ -882,16 +883,16 @@ public final class AggregationManager extends MCManager {
         return true;
     }
 
-    public Long setGenerationEnabled(Long identityId, Boolean status, ObjectId source,
+    public Long setGenerationEnabled(Long defId, Boolean status, ObjectId source,
             SingleConnectionDetails connectionDetails) {
-        AggregationDefinition def = this.getAggregationDefinition(identityId);
+        AggregationDefinition def = this.getAggregationDefinition(defId);
 
         if (def == null) {
             return null;
         }
         //requirement: 3.7.9.2.f    
         if (def.getGenerationEnabled().booleanValue() == status) { // Is it set with the requested value already?
-            return identityId; // the value was not changed
+            return defId; // the value was not changed
         }
 
         AggregationDefinition newDef = new AggregationDefinition(def.getName(),
@@ -900,7 +901,7 @@ public final class AggregationManager extends MCManager {
                 def.getFilteredTimeout(), status, def.getParameterSets());
 
         //requirement: 3.7.9.2.j, k
-        return this.update(identityId, newDef, source, connectionDetails);
+        return this.update(defId, newDef, source, connectionDetails);
     }
 
     public void setGenerationEnabledAll(Boolean bool, ObjectId source, SingleConnectionDetails connectionDetails) {

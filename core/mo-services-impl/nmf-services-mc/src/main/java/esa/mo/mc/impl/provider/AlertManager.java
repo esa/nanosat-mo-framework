@@ -22,17 +22,21 @@ package esa.mo.mc.impl.provider;
 
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
+import static esa.mo.com.impl.util.HelperArchive.generateArchiveDetailsList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.com.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
+import org.ccsds.moims.mo.mal.structures.FineTime;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mc.alert.AlertServiceInfo;
+import org.ccsds.moims.mo.mc.parameter.ParameterServiceInfo;
 import org.ccsds.moims.mo.mc.structures.AlertDefinition;
 
 /**
@@ -91,9 +95,9 @@ public final class AlertManager extends MCManager {
         return newIdPair;
     }
 
-    public Long update(final Long identityId, final AlertDefinition definition, final ObjectId source,
+    public Long update(final Long id, final AlertDefinition definition, final ObjectId source,
             final SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
-        Long newDefId = null;
+        Long newDefId = id;
 
         if (super.getArchiveService() == null) { //only update locally
             //add to providers local list
@@ -103,15 +107,15 @@ public final class AlertManager extends MCManager {
             try {
                 HeterogeneousList defs = new HeterogeneousList();
                 defs.add(definition);
-                //create a new AlertDefinition and add to the archive; requirement: 3.4.7.a
-                LongList defIds = super.getArchiveService().store(true,
-                        AlertServiceInfo.ALERTDEFINITION_OBJECT_TYPE, //requirement: 3.4.4.c
-                        ConfigurationProviderSingleton.getDomain(),
-                        HelperArchive.generateArchiveDetailsList(identityId, source, connectionDetails), //requirement: 3.4.4.d, 3.4.4.h
-                        defs,
-                        null);
+                ArchiveDetailsList metadata = generateArchiveDetailsList(null, source,
+                        ConfigurationProviderSingleton.getNetwork(),
+                        connectionDetails.getProviderURI(), FineTime.now(), id);
 
-                newDefId = defIds.get(0);
+                // Update a new AlertDefinition and add to the archive; requirement: 3.4.7.a
+                super.getArchiveService().update(AlertServiceInfo.ALERTDEFINITION_OBJECT_TYPE,
+                        ConfigurationProviderSingleton.getDomain(),
+                        metadata,
+                        defs, null);
             } catch (MALException | MALInteractionException ex) {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             }

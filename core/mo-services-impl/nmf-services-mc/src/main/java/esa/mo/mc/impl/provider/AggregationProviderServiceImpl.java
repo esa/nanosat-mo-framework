@@ -49,24 +49,7 @@ import org.ccsds.moims.mo.mal.helpertools.misc.TaskScheduler;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.provider.MALPublishInteractionListener;
-import org.ccsds.moims.mo.mal.structures.AttributeList;
-import org.ccsds.moims.mo.mal.structures.AttributeType;
-import org.ccsds.moims.mo.mal.structures.AttributeTypeList;
-import org.ccsds.moims.mo.mal.structures.BooleanList;
-import org.ccsds.moims.mo.mal.structures.Duration;
-import org.ccsds.moims.mo.mal.structures.Element;
-import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
-import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.structures.LongList;
-import org.ccsds.moims.mo.mal.structures.QoSLevel;
-import org.ccsds.moims.mo.mal.structures.SessionType;
-import org.ccsds.moims.mo.mal.structures.Time;
-import org.ccsds.moims.mo.mal.structures.UInteger;
-import org.ccsds.moims.mo.mal.structures.UIntegerList;
-import org.ccsds.moims.mo.mal.structures.URI;
-import org.ccsds.moims.mo.mal.structures.Union;
-import org.ccsds.moims.mo.mal.structures.UpdateHeader;
+import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALErrorBody;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.aggregation.AggregationHelper;
@@ -195,12 +178,10 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
                 if (!isRegistered) {
                     IdentifierList keys = new IdentifierList();
                     keys.add(new Identifier("aggregationName"));
-                    keys.add(new Identifier("identityId"));
                     keys.add(new Identifier("definitionId"));
                     keys.add(new Identifier("aValObjId"));
                     AttributeTypeList keyTypes = new AttributeTypeList();
                     keyTypes.add(AttributeType.IDENTIFIER);
-                    keyTypes.add(AttributeType.LONG);
                     keyTypes.add(AttributeType.LONG);
                     keyTypes.add(AttributeType.LONG);
                     publisher.register(keys, keyTypes, new PublishInteractionListener());
@@ -231,10 +212,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
             AttributeList keys = new AttributeList();
             keys.add(new Identifier(manager.getName(id).toString()));
             keys.add(new Union(id));
-            keys.add(new Union(id));
             keys.add(new Union(aValObjId));
-
-            final AggregationValueList aValLst = new AggregationValueList(1);
 
             URI providerURI = connection.getConnectionDetails().getProviderURI();
             UpdateHeader updateHeader = new UpdateHeader(new Identifier(providerURI.getValue()),
@@ -396,11 +374,15 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
                     valueToBeEnabled.get(index), source, connection.getConnectionDetails());
             output.add(out);
 
+            /*
             //requirement: 3.7.9.2.e, l
             if (objIdToBeEnabled.get(index).longValue() != out.longValue()) {
                 periodicReportingManager.refresh(objIdToBeEnabled.get(index));
                 periodicSamplingManager.refresh(objIdToBeEnabled.get(index));
             }
+            */
+            periodicReportingManager.refresh(objIdToBeEnabled.get(index));
+            periodicSamplingManager.refresh(objIdToBeEnabled.get(index));
         }
 
         if (configurationAdapter != null) {

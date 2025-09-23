@@ -488,9 +488,12 @@ public class ParameterManager extends MCManager {
                 //not matter if the parameter was created or loaded, a new definition will be created
                 HeterogeneousList defs = new HeterogeneousList();
                 defs.add(definition);
-                LongList defIds = super.getArchiveService().store(true, ParameterServiceInfo.PARAMETERDEFINITION_OBJECT_TYPE,
-                        ConfigurationProviderSingleton.getDomain(), HelperArchive.generateArchiveDetailsList(0L,
-                        source, connectionDetails), defs, null);
+                LongList defIds = super.getArchiveService().store(true,
+                        ParameterServiceInfo.PARAMETERDEFINITION_OBJECT_TYPE,
+                        ConfigurationProviderSingleton.getDomain(),
+                        HelperArchive.generateArchiveDetailsList(0L, source, connectionDetails),
+                        defs,
+                        null);
 
                 //add to providers local list
                 newIdPair = defIds.get(0);
@@ -565,7 +568,7 @@ public class ParameterManager extends MCManager {
                         ConfigurationProviderSingleton.getNetwork(),
                         connectionDetails.getProviderURI(), FineTime.now(), id);
 
-                //create a new ParameterDefinition
+                // Update a new ParameterDefinition
                 super.getArchiveService().update(ParameterServiceInfo.PARAMETERDEFINITION_OBJECT_TYPE,
                         ConfigurationProviderSingleton.getDomain(),
                         metadata,
