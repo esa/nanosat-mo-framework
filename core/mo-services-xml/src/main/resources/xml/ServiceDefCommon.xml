@@ -237,8 +237,7 @@
                                        comment="The returned authId field shall be used as the authenticationId field in future MAL messages by the consumer MAL for authentication. The token is specific to the user and role in use.">
                                 <mal:type name="Blob" area="MAL"/>
                             </mal:field>
-                            <mal:field name="objInstId"
-                                       comment="The returned objInstId field shall contain the LoginInstance COM object instance identifier that was created by the login operation.">
+                            <mal:field name="objInstId" comment="The returned objInstId field shall contain the LoginInstance COM object instance identifier that was created by the login operation.">
                                 <mal:type name="Long" area="MAL"/>
                             </mal:field>
                         </mal:response>
