@@ -10,6 +10,7 @@ import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import org.ccsds.moims.mo.mc.structures.AggregationCategory;
 
 /**
  * Describes an Aggregation of MC Parameters exposed by an MC adapter. Multiple
@@ -74,7 +75,7 @@ public @interface Aggregation {
      *
      * @return The category of the Aggregation.
      */
-    int category() default 0;
+    int category() default AggregationCategory.GENERAL_VALUE;
 
     /**
      * Report interval in seconds. Defaults to 0 (non periodic).

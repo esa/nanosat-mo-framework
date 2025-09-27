@@ -24,6 +24,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import org.ccsds.moims.mo.mc.structures.ActionCategory;
 
 /**
  * Annotates a Java method as an MC Action. Every method annotated as an action
@@ -62,7 +63,7 @@ public @interface Action {
 
     String description() default "";
 
-    int category() default 0;
+    int category() default ActionCategory.DEFAULT_VALUE;
 
     int stepCount() default 0;
 

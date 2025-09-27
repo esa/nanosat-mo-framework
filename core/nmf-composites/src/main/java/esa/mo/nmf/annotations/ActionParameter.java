@@ -24,6 +24,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import org.ccsds.moims.mo.mal.structures.AttributeType;
 
 /**
  * Describes an annotated Java method's argument as Action Parameter.
@@ -38,7 +39,7 @@ public @interface ActionParameter {
 
     String description() default "";
 
-    int rawType() default 0;
+    int rawType() default AttributeType.STRING_VALUE;
 
     String rawUnit() default "";
 }
