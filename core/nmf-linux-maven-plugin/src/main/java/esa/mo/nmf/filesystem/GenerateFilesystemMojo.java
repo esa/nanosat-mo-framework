@@ -56,13 +56,13 @@ public class GenerateFilesystemMojo extends AbstractMojo {
     private String missionVersion;
 
     /**
-     * The main class for the supervisor.
+     * The main class for the Supervisor.
      */
     @Parameter(property = "generate-filesystem.supervisorMainClass", defaultValue = "${supervisorMainClass}")
     private String supervisorMainClass;
 
     /**
-     * The version of the NMF that the App was developed against.
+     * The version of the NMF that the Supervisor was developed against.
      */
     @Parameter(property = "generate-filesystem.nmfVersion", defaultValue = "${esa.nmf.version}")
     private String nmfVersion;
