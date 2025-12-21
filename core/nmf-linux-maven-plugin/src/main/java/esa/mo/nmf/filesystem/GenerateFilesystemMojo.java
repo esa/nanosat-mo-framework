@@ -104,11 +104,14 @@ public class GenerateFilesystemMojo extends AbstractMojo {
         FilesystemGenerator filesystem = new FilesystemGenerator();
 
         try {
+            // Add the logging.properties file
             String file_logging = "logging.properties";
             getLog().info("  >> Adding DIR_ETC: " + file_logging);
             filesystem.addResource(Deployment.DIR_ETC, file_logging);
+
+            // Add the fresh_install.sh file
             String file_install = "fresh_install.sh";
-            getLog().info("  >> Adding DIR_ETC: " + file_install);
+            getLog().info("  >> Adding: " + file_install);
             filesystem.addResource("", file_install);
         } catch (IOException ex) {
             throw new MojoExecutionException(ex);

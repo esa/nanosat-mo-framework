@@ -92,7 +92,7 @@ create_dir(){
     owner=$2
     group=$3
     directory=$4
-   
+
 	mkdir $directory
 	chown -R $owner:$group $directory
 	chmod -R $permissions $directory
@@ -107,7 +107,8 @@ JAVA_OPENJDK_8=/nanosat-mo-framework/java/jdk8u292-b10-aarch32-20210423-jre/bin/
 #JAVA_CMD=\$JAVA_OPENJDK_8
 JAVA_CMD=java
 JAVA_LOGGER=/nanosat-mo-framework/etc/logging.properties
-NMF_VERSION=4.0
+NMF_VERSION=5.0-SNAPSHOT
+MISSION_VERSION=5.0-SNAPSHOT
 
 # Prepare path for Supervisor logs
 NOW=\$(date +\"%F\")
@@ -118,8 +119,8 @@ mkdir -p \$LOG_PATH
 \$JAVA_CMD \\
     -Xms16M \\
     -Djava.util.logging.config.file=\$JAVA_LOGGER \\
-    -classpath \"libs/*:jars-mission/*\" \\
-    esa.mo.nmf.provider.NanoSatMOSupervisorRaspberryPiImpl  \\
+    -classpath \"libs/*:jars-mission/\$MISSION_VERSION/*:jars-nmf/\$NMF_VERSION/*\" \\
+    esa.mo.nmf.mission.barebone.BareboneSupervisorImpl  \\
     2>&1 | tee -a \$LOG_PATH/\$FILENAME
 "
 
@@ -131,6 +132,8 @@ chown $user_nmf_admin:$user_nmf_admin $start_script_name
 chmod 700 $start_script_name
 
 create_dir 775 $user_nmf_admin $user_nmf_admin apps
+create_dir 775 $user_nmf_admin $user_nmf_admin jars-mission
+create_dir 775 $user_nmf_admin $user_nmf_admin jars-nmf
 create_dir 775 $user_nmf_admin $user_nmf_admin libs
 create_dir 700 $user_nmf_admin $user_nmf_admin packages
 create_dir 770 $user_nmf_admin $group_nmf_apps public_square
@@ -143,6 +146,8 @@ echo "Success! The NanoSat MO Framework was installed!"
 ###############################################################################
 # Create Directories
 #mkdir apps
+#mkdir jars-mission
+#mkdir jars-nmf
 #mkdir libs
 #mkdir packages
 #mkdir public_square
@@ -153,6 +158,10 @@ echo "Success! The NanoSat MO Framework was installed!"
 #chmod 775 .
 #chown $user_nmf_admin:$user_nmf_admin apps
 #chmod 775 apps
+#chown $user_nmf_admin:$user_nmf_admin jars-mission
+#chmod 775 jars-mission
+#chown $user_nmf_admin:$user_nmf_admin jars-nmf
+#chmod 775 jars-nmf
 #chown $user_nmf_admin:$user_nmf_admin libs
 #chmod 775 libs
 #chown $user_nmf_admin:$user_nmf_admin packages
