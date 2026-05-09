@@ -60,10 +60,10 @@
                     </mal:documentation>
                     <mal:messages>
                         <mal:publishNotify>
-                            <mal:field canBeNull="true" comment="The object links and body of the event." name="eventLinks">
+                            <mal:field canBeNull="true" comment="The object links of the event." name="eventLinks">
                                 <mal:type area="COM" list="false" name="ObjectLinks"/>
                             </mal:field>
-                            <mal:field canBeNull="true" name="eventBody">
+                            <mal:field canBeNull="true" comment="The body of the event." name="eventBody">
                                 <mal:type area="MAL" list="false" name="Element"/>
                             </mal:field>
                         </mal:publishNotify>
