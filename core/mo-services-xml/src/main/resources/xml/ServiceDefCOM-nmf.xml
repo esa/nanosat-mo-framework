@@ -636,104 +636,104 @@
             </com:features>
         </mal:service>
         <mal:service comment="The ArchiveSync service allows a service consumer to synchronize the COM Archive with a service provider. " name="ArchiveSync" number="4" xsi:type="com:ExtendedServiceType">
-            <mal:capabilitySet comment="" number="1">
-                <mal:requestIP comment="" name="getTime" number="1" supportInReplay="false">
+            <mal:capabilitySet number="1">
+                <mal:requestIP comment="The getTime operation allows a consumer to retrieve the current time and the time of the last synchronization from the provider." name="getTime" number="1" supportInReplay="false">
                     <mal:messages>
-                        <mal:request comment=""/>
-                        <mal:response comment="">
-                            <mal:field canBeNull="true" comment="" name="currentTime">
+                        <mal:request/>
+                        <mal:response>
+                            <mal:field canBeNull="true" comment="The current time on the provider." name="currentTime">
                                 <mal:type area="MAL" list="false" name="FineTime"/>
                             </mal:field>
-                            <mal:field canBeNull="true" comment="" name="lastSyncTime">
+                            <mal:field canBeNull="true" comment="The time of the last synchronization, or NULL if never synchronized." name="lastSyncTime">
                                 <mal:type area="MAL" list="false" name="FineTime"/>
                             </mal:field>
                         </mal:response>
                     </mal:messages>
                 </mal:requestIP>
             </mal:capabilitySet>
-            <mal:capabilitySet comment="" number="2">
-                <mal:progressIP comment="The" name="retrieveRange" number="2" supportInReplay="false">
+            <mal:capabilitySet number="2">
+                <mal:progressIP comment="The retrieveRange operation allows a consumer to retrieve COM archive objects within a specified time range. The response is streamed as a sequence of compressed chunks." name="retrieveRange" number="2" supportInReplay="false">
                     <mal:messages>
-                        <mal:progress comment="">
-                            <mal:field canBeNull="true" comment="" name="from">
+                        <mal:progress>
+                            <mal:field canBeNull="true" comment="The start time of the range to retrieve." name="from">
                                 <mal:type area="MAL" list="false" name="FineTime"/>
                             </mal:field>
-                            <mal:field canBeNull="true" comment="" name="until">
+                            <mal:field canBeNull="true" comment="The end time of the range to retrieve." name="until">
                                 <mal:type area="MAL" list="false" name="FineTime"/>
                             </mal:field>
-                            <mal:field canBeNull="true" comment="" name="objectTypes">
+                            <mal:field canBeNull="true" comment="The list of object types to retrieve, or NULL for all types." name="objectTypes">
                                 <mal:type area="COM" list="true" name="ObjectType"/>
                             </mal:field>
-                            <mal:field canBeNull="true" comment="" name="compression">
+                            <mal:field canBeNull="true" comment="The compression algorithm identifier, or NULL for no compression." name="compression">
                                 <mal:type area="MAL" list="false" name="Identifier"/>
                             </mal:field>
                         </mal:progress>
-                        <mal:acknowledgement comment="">
-                            <mal:field canBeNull="true" comment="" name="interactionTicket">
+                        <mal:acknowledgement>
+                            <mal:field canBeNull="true" comment="The ticket identifier assigned to this retrieval transaction." name="interactionTicket">
                                 <mal:type area="MAL" list="false" name="Long"/>
                             </mal:field>
                         </mal:acknowledgement>
-                        <mal:update comment="">
-                            <mal:field canBeNull="true" comment="" name="chunk">
+                        <mal:update>
+                            <mal:field canBeNull="true" comment="A chunk of the serialized archive data." name="chunk">
                                 <mal:type area="MAL" list="false" name="Blob"/>
                             </mal:field>
-                            <mal:field canBeNull="true" comment="" name="index">
+                            <mal:field canBeNull="true" comment="The index of this chunk in the overall response." name="index">
                                 <mal:type area="MAL" list="false" name="UInteger"/>
                             </mal:field>
                         </mal:update>
-                        <mal:response comment="">
-                            <mal:field canBeNull="true" comment="" name="numberOfChunks">
+                        <mal:response>
+                            <mal:field canBeNull="true" comment="The total number of chunks in the response." name="numberOfChunks">
                                 <mal:type area="MAL" list="false" name="UInteger"/>
                             </mal:field>
                         </mal:response>
                     </mal:messages>
                 </mal:progressIP>
             </mal:capabilitySet>
-            <mal:capabilitySet comment="" number="3">
-                <mal:progressIP comment="" name="retrieveRangeAgain" number="3" supportInReplay="false">
+            <mal:capabilitySet number="3">
+                <mal:progressIP comment="The retrieveRangeAgain operation allows a consumer to re-request chunks that were not received in a previous retrieveRange interaction." name="retrieveRangeAgain" number="3" supportInReplay="false">
                     <mal:messages>
-                        <mal:progress comment="">
-                            <mal:field canBeNull="true" comment="" name="interactionTicket">
+                        <mal:progress>
+                            <mal:field canBeNull="true" comment="The ticket identifier from the previous retrieveRange interaction." name="interactionTicket">
                                 <mal:type area="MAL" list="false" name="Long"/>
                             </mal:field>
-                            <mal:field canBeNull="true" comment="" name="missingIndexes">
+                            <mal:field canBeNull="true" comment="The list of chunk indexes that were not received and need to be retransmitted." name="missingIndexes">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:field>
                         </mal:progress>
-                        <mal:acknowledgement comment=""/>
-                        <mal:update comment="">
-                            <mal:field canBeNull="true" comment="" name="chunk">
+                        <mal:acknowledgement/>
+                        <mal:update>
+                            <mal:field canBeNull="true" comment="A chunk of the serialized archive data." name="chunk">
                                 <mal:type area="MAL" list="false" name="Blob"/>
                             </mal:field>
-                            <mal:field canBeNull="true" comment="" name="index">
+                            <mal:field canBeNull="true" comment="The index of this chunk in the overall response." name="index">
                                 <mal:type area="MAL" list="false" name="UInteger"/>
                             </mal:field>
                         </mal:update>
-                        <mal:response comment=""/>
+                        <mal:response/>
                     </mal:messages>
                 </mal:progressIP>
             </mal:capabilitySet>
-            <mal:capabilitySet comment="" number="4">
-                <mal:requestIP comment="" name="getDictionary" number="4" supportInReplay="false">
+            <mal:capabilitySet number="4">
+                <mal:requestIP comment="The getDictionary operation allows a consumer to retrieve dictionary words by their identifiers." name="getDictionary" number="4" supportInReplay="false">
                     <mal:messages>
-                        <mal:request comment="">
-                            <mal:field canBeNull="true" comment="" name="wordIds">
+                        <mal:request>
+                            <mal:field canBeNull="true" comment="The list of word identifiers to retrieve from the dictionary." name="wordIds">
                                 <mal:type area="MAL" list="true" name="Integer"/>
                             </mal:field>
                         </mal:request>
-                        <mal:response comment="">
-                            <mal:field canBeNull="true" comment="" name="words">
+                        <mal:response>
+                            <mal:field canBeNull="true" comment="The list of words corresponding to the requested identifiers." name="words">
                                 <mal:type area="MAL" list="true" name="String"/>
                             </mal:field>
                         </mal:response>
                     </mal:messages>
                 </mal:requestIP>
             </mal:capabilitySet>
-            <mal:capabilitySet comment="" number="5">
-                <mal:submitIP comment="" name="free" number="5" supportInReplay="false">
+            <mal:capabilitySet number="5">
+                <mal:submitIP comment="The free operation allows a consumer to release a transaction after completing a retrieval." name="free" number="5" supportInReplay="false">
                     <mal:messages>
-                        <mal:submit comment="">
-                            <mal:field canBeNull="true" comment="" name="transactionTicket">
+                        <mal:submit>
+                            <mal:field canBeNull="true" comment="The ticket identifier of the transaction to be released." name="transactionTicket">
                                 <mal:type area="MAL" list="false" name="Long"/>
                             </mal:field>
                         </mal:submit>
@@ -751,8 +751,8 @@
                         <com:objectType>
                             <mal:type area="COM" list="false" name="LastSync"/>
                         </com:objectType>
-                        <com:relatedObject comment=""/>
-                        <com:sourceObject comment=""/>
+                        <com:relatedObject comment="Not used."/>
+                        <com:sourceObject comment="Not used."/>
                     </com:object>
                 </com:objects>
             </com:features>
