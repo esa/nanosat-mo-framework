@@ -14,6 +14,9 @@
             <mal:documentation name="Functional Requirements" order="2"/>
             <mal:capabilitySet comment="" number="1">
                 <mal:requestIP comment="The findPackage operation allows a consumer to find the available packages on the provider." name="findPackage" number="1" supportInReplay="true">
+                    <mal:documentation name="Requirement" order="1">
+                        The installed field shall hold the status of the package.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:request comment="">
                             <mal:field canBeNull="true" comment="The names field contains the names of the packages." name="names">
@@ -24,7 +27,7 @@
                             <mal:field canBeNull="true" comment="The names field contains the names of the packages." name="names">
                                 <mal:type area="MAL" list="true" name="Identifier"/>
                             </mal:field>
-                            <mal:field canBeNull="true" comment="The installed field shall hold the status of the package." name="installed">
+                            <mal:field canBeNull="true" comment="The status of the package." name="installed">
                                 <mal:type area="MAL" list="true" name="Boolean"/>
                             </mal:field>
                         </mal:response>
@@ -68,12 +71,15 @@
                     </mal:errors>
                 </mal:invokeIP>
                 <mal:invokeIP comment="The uninstall operation allows a consumer to uninstall the content of a package on the provider. The selected packages will be uninstalled sequencially." name="uninstall" number="3" supportInReplay="false">
+                    <mal:documentation name="Requirement" order="1">
+                        The keepConfigurations field selects if the configuration of the executable files shall be kept.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:invoke comment="">
                             <mal:field canBeNull="true" comment="The names field contains the names of the packages." name="names">
                                 <mal:type area="MAL" list="true" name="Identifier"/>
                             </mal:field>
-                            <mal:field canBeNull="true" comment="The keepConfigurations field selects if the configuration of the executable files shall be kept." name="keepConfigurations">
+                            <mal:field canBeNull="true" comment="Selects if the configuration of the executable files shall be kept." name="keepConfigurations">
                                 <mal:type area="MAL" list="true" name="Boolean"/>
                             </mal:field>
                         </mal:invoke>
@@ -222,10 +228,13 @@
             </mal:capabilitySet>
             <mal:capabilitySet comment="" number="2">
                 <mal:requestIP comment="The getPeriod operation allows a consumer to get the period of the provider's heartbeat." name="getPeriod" number="2" supportInReplay="true">
+                    <mal:documentation name="Requirement" order="1">
+                        The period field shall hold period of the heartbeat message.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:request comment=""/>
                         <mal:response comment="">
-                            <mal:field canBeNull="true" comment="The period field shall hold period of the heartbeat message." name="period">
+                            <mal:field canBeNull="true" comment="The period of the heartbeat message." name="period">
                                 <mal:type area="MAL" list="false" name="Duration"/>
                             </mal:field>
                         </mal:response>
@@ -235,6 +244,9 @@
             <com:features/>
         </mal:service>
         <mal:service comment="The Command Executor service allows executing arbitrary system commands and monitoring their status." name="CommandExecutor" number="3" xsi:type="com:ExtendedServiceType">
+            <mal:documentation name="Service-level Requirement" order="1">
+                The COM object body of the Command COM object shall hold the details of the command.
+            </mal:documentation>
             <mal:capabilitySet comment="" number="1">
                 <mal:requestIP comment="This operation allows a consumer to spawn a new shell instance and execute an arbitrary command on the provider host." name="runCommand" number="1" supportInReplay="false">
                     <mal:messages>
@@ -252,7 +264,7 @@
                 </mal:requestIP>
             </mal:capabilitySet>
             <com:features>
-                <com:objects comment="A Command COM object represents an instance of direct command execution requested from the provider. The COM object body shall hold the details of the command.&#10;&lt;ol&gt;&#10;&lt;/ol&gt;">
+                <com:objects comment="The Command COM object used by the Command Executor service.">
                     <com:object comment="" name="Command" number="1">
                         <com:objectType>
                             <mal:type area="SoftwareManagement" list="false" name="CommandDetails"/>
@@ -302,11 +314,77 @@
 &lt;/ol&gt;
             </mal:documentation>
             <mal:documentation name="Functional Requirements" order="2"/>
+            <mal:documentation name="Service-level Requirement" order="3">
+                The COM object body of the App COM object shall hold the details of the application.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="4">
+                The App COM object source link should point to the package from where the app was installed.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="5">
+                The StopApp COM event body shall hold the name of the app to be stopped.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="6">
+                The StopApp COM event related link shall point to the App COM object.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="7">
+                The StopApp COM event source link should point to the object that caused it to be created, most likely a COM OperationActivity object.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="8">
+                The StopApp COM event shall be generated by the stopApp operation.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="9">
+                The Stopping COM event source link shall point to the StopApp COM event that requested the application to stop or to null if there was no request.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="10">
+                The Stopping COM event shall be generated by the application when it is going to stop its execution.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="11">
+                The Stopped COM event source link shall point to the StopApp COM event that requested the application to stop or to null if there was no request.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="12">
+                The Stopped COM event shall be generated by the application when it is completely stopping its execution.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="13">
+                The StartApp COM event body shall hold the name of the app to be started.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="14">
+                The StartApp COM event related link shall point to the App COM object.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="15">
+                The StartApp COM event source link should point to the object that caused it to be created, most likely a COM OperationActivity object.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="16">
+                The StartApp COM event shall be generated by the runApp operation.
+            </mal:documentation>
             <mal:capabilitySet comment="" number="1">
                 <mal:pubsubIP comment="The monitorExecution operation allows a consumer to subscribe for the application execution output stream." name="monitorExecution" number="1" supportInReplay="false">
+                    <mal:documentation name="Requirement" order="1">
+                        The outputStream field shall contain a stream of characters corresponding to the output stream of the application.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="2">
+                        The MAL EntityKey.firstSubKey shall contain the App name.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="3">
+                        The MAL EntityKey.secondSubKey shall contain the AppDetails object instance identifier.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="4">
+                        The MAL EntityKey.thirdSubKey shall be NULL.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="5">
+                        The MAL EntityKey.fourthSubKey shall be NULL.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="6">
+                        The timestamp of the update shall be the on-board time when the update was published.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="7">
+                        The publish message shall include the ObjectId of the source link of the update.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="8">
+                        If no source link is needed then the ObjectId shall be replaced with a NULL.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:publishNotify comment="">
-                            <mal:field canBeNull="true" comment="The outputStream field shall contain a stream of characters corresponding to the output stream of the application.&#10;The MAL EntityKey.firstSubKey shall contain the App name.&#10;The MAL EntityKey.secondSubKey shall contain the AppDetails object instance identifier.&#10;The MAL EntityKey.thirdSubKey shall be NULL.&#10;The MAL EntityKey.fourthSubKey shall be NULL.&#10;The timestamp of the update shall be the on-board time when the update was published.&#10;The publish message shall include the ObjectId of the source link of the update.&#10;If no source link is needed then the ObjectId shall be replaced with a NULL." name="outputStream">
+                            <mal:field canBeNull="true" comment="The output stream of the application." name="outputStream">
                                 <mal:type area="MAL" list="false" name="String"/>
                             </mal:field>
                         </mal:publishNotify>
@@ -369,6 +447,12 @@
             </mal:capabilitySet>
             <mal:capabilitySet comment="" number="3">
                 <mal:progressIP comment="The stopApp operation allows a consumer to stop the execution of an application on the provider." name="stopApp" number="4" supportInReplay="false">
+                    <mal:documentation name="Requirement" order="1">
+                        The appClosing field shall contain the object instance identifier of an app.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="2">
+                        This update shall be sent after the app acknowledges the reception of the command to stop.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:progress comment="">
                             <mal:field canBeNull="true" comment="The appInstIds field contains the list of apps to stop." name="appInstIds">
@@ -377,7 +461,7 @@
                         </mal:progress>
                         <mal:acknowledgement comment=""/>
                         <mal:update comment="">
-                            <mal:field canBeNull="true" comment="The appClosing field shall contain the object instance identifier of an app. This update shall be sent after the app acknowledges the reception of the command to stop." name="appClosing">
+                            <mal:field canBeNull="true" comment="The object instance identifier of the app that is closing." name="appClosing">
                                 <mal:type area="MAL" list="false" name="Long"/>
                             </mal:field>
                         </mal:update>
@@ -387,6 +471,9 @@
             </mal:capabilitySet>
             <mal:capabilitySet comment="" number="4">
                 <mal:requestIP comment="The listApp operation allows a consumer to request the object instance identifiers of the Apps objects and running status for an app name or for a certain app category." name="listApp" number="5" supportInReplay="true">
+                    <mal:documentation name="Requirement" order="1">
+                        The returned lists shall maintain the same order as the submitted list unless the wildcard value was included in the appNames field request.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:request comment="">
                             <mal:field canBeNull="true" comment="The appNames field contains a list of application names." name="appNames">
@@ -400,7 +487,7 @@
                             <mal:field canBeNull="true" comment="The appInstIds field contains a list of apps." name="appInstIds">
                                 <mal:type area="MAL" list="true" name="Long"/>
                             </mal:field>
-                            <mal:field canBeNull="true" comment="The running field contains a list of boolean values with the information about thte running status of requested apps.&#10;The returned lists shall maintain the same order as the submitted list unless the wildcard value was included in the appNames field request." name="running">
+                            <mal:field canBeNull="true" comment="The running status of the requested apps." name="running">
                                 <mal:type area="MAL" list="true" name="Boolean"/>
                             </mal:field>
                         </mal:response>
@@ -481,7 +568,7 @@
                         </svg:g>
                     </svg:svg>
                 </mal:diagram>
-                <com:objects comment="An App COM object represents an on-board application. The COM object body shall hold the details of the application.&#10;&lt;ol&gt;&#10;&lt;li&gt;The App COM object source link should point to the package from where the app was installed.&lt;/li&gt;&#10;&lt;/ol&gt;">
+                <com:objects comment="The App COM object used by the Apps Launcher service.">
                     <com:object comment="" name="App" number="1">
                         <com:objectType>
                             <mal:type area="SoftwareManagement" list="false" name="AppDetails"/>
@@ -493,7 +580,7 @@
                     </com:object>
 
                 </com:objects>
-                <com:events comment="A StopApp COM event represents a request to stop a certain application. The COM event object body shall hold the name of the provider to be stopped.&#10;&lt;ol&gt;&#10;&lt;li&gt;The StopApp COM event related link shall point to the App COM object.&lt;/li&gt;&#10;&lt;li&gt;The StopApp COM event source link should point to the object that caused it to be created, most likely a COM OperationActivity object.&lt;/li&gt;&#10;&lt;li&gt;The StopApp COM event shall be generated by the stopApp operation.&lt;/li&gt;&#10;&lt;/ol&gt;&#10;A Stopping COM event represents an acknowledgement that the application is stopping its execution.&#10;&lt;ol&gt;&#10;&lt;li&gt;The Stopping COM event source link shall point to the StopApp COM event that requested the application to stop or to null if there was no request.&lt;/li&gt;&#10;&lt;li&gt;The Stopping COM event shall be generated by the application when it is going to stop its execution.&lt;/li&gt;&#10;&lt;/ol&gt;&#10;A Stopped COM event represents an acknowledgement that the application is going to completely stop its execution.&#10;&lt;ol&gt;&#10;&lt;li&gt;The Stopped COM event source link shall point to the StopApp COM event that requested the application to stop or to null if there was no request.&lt;/li&gt;&#10;&lt;li&gt;The Stopped COM event shall be generated by the application when it is completely stopping its execution.&lt;/li&gt;&#10;&lt;/ol&gt;&#10;A StartApp COM event represents a request to run a certain application. The COM event object body shall hold the name of the provider to be started.&#10;&lt;ol&gt;&#10;&lt;li&gt;The StartApp COM event related link shall point to the App COM object.&lt;/li&gt;&#10;&lt;li&gt;The StartApp COM event source link should point to the object that caused it to be created, most likely a COM OperationActivity object.&lt;/li&gt;&#10;&lt;li&gt;The StartApp COM event shall be generated by the runApp operation.&lt;/li&gt;&#10;&lt;/ol&gt;&#10;">
+                <com:events comment="The StopApp, Stopping, Stopped, and StartApp events used by the Apps Launcher service.">
                     <com:event comment="This event is generated upon receiving a request to stop a certain app." name="StopApp" number="2">
                         <com:objectType>
                             <mal:type area="MAL" list="false" name="Identifier"/>
