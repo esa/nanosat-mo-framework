@@ -238,30 +238,30 @@
                         </mal:progress>
                         <mal:acknowledgement/>
                         <mal:update>
-                            <mal:field canBeNull="true" name="objType" comment="">
+                            <mal:field canBeNull="true" name="objType" comment="The type of the matched objects.">
                                 <mal:type area="COM" list="false" name="ObjectType"/>
                             </mal:field>
-                            <mal:field canBeNull="true" name="domain" comment="">
+                            <mal:field canBeNull="true" name="domain" comment="The domain of the matched objects.">
                                 <mal:type area="MAL" list="true" name="Identifier"/>
                             </mal:field>
-                            <mal:field canBeNull="true" name="objDetails" comment="">
+                            <mal:field canBeNull="true" name="objDetails" comment="The archive details of the matched objects.">
                                 <mal:type area="COM" list="true" name="ArchiveDetails"/>
                             </mal:field>
-                            <mal:field canBeNull="true" name="objBodies" comment="">
+                            <mal:field canBeNull="true" name="objBodies" comment="The bodies of the matched objects, or NULL if not requested.">
                                 <mal:type area="MAL" list="true" name="Element"/>
                             </mal:field>
                         </mal:update>
                         <mal:response>
-                            <mal:field canBeNull="true" name="objType" comment="">
+                            <mal:field canBeNull="true" name="objType" comment="The type of the matched objects.">
                                 <mal:type area="COM" list="false" name="ObjectType"/>
                             </mal:field>
-                            <mal:field canBeNull="true" name="domain" comment="">
+                            <mal:field canBeNull="true" name="domain" comment="The domain of the matched objects.">
                                 <mal:type area="MAL" list="true" name="Identifier"/>
                             </mal:field>
-                            <mal:field canBeNull="true" name="objDetails" comment="">
+                            <mal:field canBeNull="true" name="objDetails" comment="The archive details of the matched objects.">
                                 <mal:type area="COM" list="true" name="ArchiveDetails"/>
                             </mal:field>
-                            <mal:field canBeNull="true" name="objBodies" comment="">
+                            <mal:field canBeNull="true" name="objBodies" comment="The bodies of the matched objects, or NULL if not requested.">
                                 <mal:type area="MAL" list="true" name="Element"/>
                             </mal:field>
                         </mal:response>
@@ -293,10 +293,10 @@
                             <mal:field canBeNull="true" name="objType" comment="The type of the object.">
                                 <mal:type area="COM" list="false" name="ObjectType"/>
                             </mal:field>
-                            <mal:field canBeNull="true" name="archiveQuery">
+                            <mal:field canBeNull="true" comment="The archive query." name="archiveQuery">
                                 <mal:type area="COM" list="true" name="ArchiveQuery"/>
                             </mal:field>
-                            <mal:field canBeNull="true" name="queryFilter">
+                            <mal:field canBeNull="true" comment="The query filter." name="queryFilter">
                                 <mal:type area="COM" list="true" name="QueryFilter"/>
                             </mal:field>
                         </mal:invoke>
@@ -369,21 +369,21 @@
                             <mal:field canBeNull="true" comment="Flag that states if the objects ids are to be returned." name="returnObjInstIds">
                                 <mal:type area="MAL" list="false" name="Boolean"/>
                             </mal:field>
-                            <mal:field canBeNull="true" name="objType">
+                            <mal:field canBeNull="true" comment="The type of the objects to be stored." name="objType">
                                 <mal:type area="COM" list="false" name="ObjectType"/>
                             </mal:field>
-                            <mal:field canBeNull="true" name="domain">
+                            <mal:field canBeNull="true" comment="The domain of the objects to be stored." name="domain">
                                 <mal:type area="MAL" list="true" name="Identifier"/>
                             </mal:field>
-                            <mal:field canBeNull="true" name="objDetails">
+                            <mal:field canBeNull="true" comment="The list of archive details for the objects to be stored." name="objDetails">
                                 <mal:type area="COM" list="true" name="ArchiveDetails"/>
                             </mal:field>
-                            <mal:field canBeNull="true" name="objBodies">
+                            <mal:field canBeNull="true" comment="The list of object bodies to be stored." name="objBodies">
                                 <mal:type area="MAL" list="true" name="Element"/>
                             </mal:field>
                         </mal:request>
                         <mal:response>
-                            <mal:field canBeNull="true" comment="The list of object ids." name="objInstIds">
+                            <mal:field canBeNull="true" comment="The list of object instance identifiers of the stored objects." name="objInstIds">
                                 <mal:type area="MAL" list="true" name="Long"/>
                             </mal:field>
                         </mal:response>
@@ -435,13 +435,13 @@
                             <mal:field canBeNull="true" name="objType" comment="The type of the object.">
                                 <mal:type area="COM" list="false" name="ObjectType"/>
                             </mal:field>
-                            <mal:field canBeNull="true" name="domain">
+                            <mal:field canBeNull="true" comment="The domain of the objects to be updated." name="domain">
                                 <mal:type area="MAL" list="true" name="Identifier"/>
                             </mal:field>
-                            <mal:field canBeNull="true" name="objDetails">
+                            <mal:field canBeNull="true" comment="The list of archive details for the objects to be updated." name="objDetails">
                                 <mal:type area="COM" list="true" name="ArchiveDetails"/>
                             </mal:field>
-                            <mal:field canBeNull="true" name="objBodies">
+                            <mal:field canBeNull="true" comment="The list of updated object bodies." name="objBodies">
                                 <mal:type area="MAL" list="true" name="Element"/>
                             </mal:field>
                         </mal:submit>
@@ -493,10 +493,10 @@
                             <mal:field canBeNull="true" comment="The type of the object." name="objType">
                                 <mal:type area="COM" list="false" name="ObjectType"/>
                             </mal:field>
-                            <mal:field canBeNull="true" name="domain">
+                            <mal:field canBeNull="true" comment="The domain of the objects to be deleted." name="domain">
                                 <mal:type area="MAL" list="true" name="Identifier"/>
                             </mal:field>
-                            <mal:field canBeNull="true" name="objInstIds">
+                            <mal:field canBeNull="true" comment="The list of object instance identifiers of the objects to be deleted." name="objInstIds">
                                 <mal:type area="MAL" list="true" name="Long"/>
                             </mal:field>
                         </mal:request>
@@ -522,15 +522,15 @@
             <com:features>
                 <com:events comment="For each stored object, an 'ObjectStored' event may be published to the event service.&#10;For each updated object, an 'ObjectUpdated' event may be published to the event service.&#10;For each deleted object, an 'ObjectDeleted' event may be published to the event service.&#10;The source link of the generated events shall link to the object being stored/updated/deleted.&#10;Archive service events shall be persisted silently in order not to trigger an infinite event loop.">
                     <com:event comment="For each stored object, an event of type 'ObjectStored' may be published to the event service." name="ObjectStored" number="1">
-                        <com:relatedObject comment=""/>
+                        <com:relatedObject comment="Not used."/>
                         <com:sourceObject comment="The Object source is the newly stored object."/>
                     </com:event>
                     <com:event comment="For each updated object, an event of type 'ObjectUpdated' may be published to the event service." name="ObjectUpdated" number="2">
-                        <com:relatedObject comment=""/>
+                        <com:relatedObject comment="Not used."/>
                         <com:sourceObject comment="The Object source is the updated object."/>
                     </com:event>
                     <com:event comment="For each deleted object, an event of type 'ObjectDeleted' may be published to the event service." name="ObjectDeleted" number="3">
-                        <com:relatedObject comment=""/>
+                        <com:relatedObject comment="Not used."/>
                         <com:sourceObject comment="The Object source is the deleted object."/>
                     </com:event>
                 </com:events>
@@ -591,8 +591,8 @@
                         <com:objectType>
                             <mal:type area="COM" list="false" name="OperationActivity"/>
                         </com:objectType>
-                        <com:relatedObject comment=""/>
-                        <com:sourceObject comment=""/>
+                        <com:relatedObject comment="Not used."/>
+                        <com:sourceObject comment="Not used."/>
                     </com:object>
                 </com:objects>
                 <com:events comment="Activity events monitor the transfer and execution of MAL operations.">
@@ -600,35 +600,35 @@
                         <com:objectType>
                             <mal:type area="COM" list="false" name="ActivityTransfer"/>
                         </com:objectType>
-                        <com:relatedObject comment=""/>
+                        <com:relatedObject comment="Not used."/>
                         <com:sourceObject comment="The activity being monitored is the source of the event."/>
                     </com:event>
                     <com:event comment="A Reception event is reception by an intermediate relay." name="Reception" number="2">
                         <com:objectType>
                             <mal:type area="COM" list="false" name="ActivityTransfer"/>
                         </com:objectType>
-                        <com:relatedObject comment=""/>
+                        <com:relatedObject comment="Not used."/>
                         <com:sourceObject comment="The activity being monitored is the source of the event."/>
                     </com:event>
                     <com:event comment="A Forward event is release from an intermediate relay." name="Forward" number="3">
                         <com:objectType>
                             <mal:type area="COM" list="false" name="ActivityTransfer"/>
                         </com:objectType>
-                        <com:relatedObject comment=""/>
+                        <com:relatedObject comment="Not used."/>
                         <com:sourceObject comment="The activity being monitored is the source of the event."/>
                     </com:event>
                     <com:event comment="An Acceptance event is reception and acceptance by the destination provider." name="Acceptance" number="4">
                         <com:objectType>
                             <mal:type area="COM" list="false" name="ActivityAcceptance"/>
                         </com:objectType>
-                        <com:relatedObject comment=""/>
+                        <com:relatedObject comment="Not used."/>
                         <com:sourceObject comment="The activity being monitored is the source of the event."/>
                     </com:event>
                     <com:event comment="An Execution event is execution progress reporting by the destination provider." name="Execution" number="5">
                         <com:objectType>
                             <mal:type area="COM" list="false" name="ActivityExecution"/>
                         </com:objectType>
-                        <com:relatedObject comment=""/>
+                        <com:relatedObject comment="Not used."/>
                         <com:sourceObject comment="The activity being monitored is the source of the event."/>
                     </com:event>
                 </com:events>
