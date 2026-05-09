@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: Get Date
         id: get-date
-        run: echo "date=$(/bin/date -u "+%Y-week-%U")" >> $GITHUB_OUTPUT
+        run: echo "date=$(/bin/date -u "+%Y-%m-%dT%H-%M-%S")" >> $GITHUB_OUTPUT
 
       - name: Checkout nanosat-mo-framework
         uses: actions/checkout@v4
@@ -53,6 +53,6 @@ jobs:
       - name: Upload DOCX artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: mo-api-docs
+          name: mo-api-docs-${{ steps.get-date.outputs.date }}
           path: docx-output/
           if-no-files-found: error
