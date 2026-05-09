@@ -1,0 +1,57 @@
+name: Generate MO API Docs
+
+on: [push]
+
+permissions:
+  contents: read
+
+jobs:
+  generate-docx:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Date
+        id: get-date
+        run: echo "date=$(/bin/date -u "+%Y-week-%U")" >> $GITHUB_OUTPUT
+
+      - name: Checkout nanosat-mo-framework
+        uses: actions/checkout@v4
+        with:
+          path: nanosat-mo-framework
+
+      - name: Checkout mo-services-java
+        uses: actions/checkout@v4
+        with:
+          repository: esa/mo-services-java
+          path: mo-services-java
+
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+
+      - name: Cache Maven local repository
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-docgen-${{ steps.get-date.outputs.date }}
+          restore-keys: |
+            ${{ runner.os }}-maven-docgen-
+
+      - name: Build mo-navigator (and dependencies only)
+        run: mvn --batch-mode install -DskipTests -pl tooling/mo-navigator --also-make
+        working-directory: mo-services-java
+
+      - name: Generate DOCX files
+        run: |
+          mkdir -p docx-output
+          java -cp mo-services-java/tooling/mo-navigator/target/mo-navigator-jar-with-dependencies.jar \
+            esa.mo.navigator.AppGenerateDocx \
+            nanosat-mo-framework/core/mo-services-xml/src/main/resources/xml \
+            docx-output
+
+      - name: Upload DOCX artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: mo-api-docs
+          path: docx-output/
+          if-no-files-found: error
