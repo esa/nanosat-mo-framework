@@ -33,6 +33,33 @@
                 For services that have operations based on the PUB-SUB interaction pattern there may be required a separate URI for the broker component.
                 To support this the Directory service shall hold two URIs for each service, the URI of the primary interface and also the URI of the broker.
             </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="8">
+                A ServiceProvider object represents a provider. The COM object body shall hold the provider id taken from the providerId field of the PublishDetails composite.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="9">
+                The ServiceProvider COM object related link shall not be used and therefore set to NULL.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="10">
+                The ServiceProvider COM object source link shall not be used and therefore shall be set to NULL.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="11">
+                A ProviderCapabilities object represents the supported capabilities of a provider. The COM object body shall hold the provider details of the provider.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="12">
+                The ProviderCapabilities COM object related link shall indicate which ServiceProvider COM object it links to.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="13">
+                The ProviderCapabilities COM object source link shall not be used and therefore set to NULL.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="14">
+                ServiceProvider and ProviderCapabilities objects shall be created by the add operation.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="15">
+                The object instance identifier for the ServiceProvider and ProviderCapabilities objects shall be populated by the provider of the directory service.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="16">
+                All directory objects must be stored in the COM archive by the provider of the Directory service if the implementation of the Directory service uses a COM archive.
+            </mal:documentation>
             <mal:capabilitySet number="1">
                 <mal:requestIP name="lookup" number="1" supportInReplay="true" comment="The lookup operation retrieves the list of providers made available in the Directory service.">
                     <mal:documentation name="Requirement" order="1">
@@ -130,9 +157,15 @@
                 <mal:submitIP name="remove" number="3" supportInReplay="false"
                               comment="The remove operation removes an existing entry from the list of providers held in the Directory service. If no match is found for the withdraw request, then nothing is changed.">
                     <mal:documentation name="Requirement" order="1">
-                        If the supplied identifier is '0' an INVALID error shall be returned.&#xA;
-                        If the supplied identifier does not match an existing ServiceProvider COM object then an UNKNOWN error shall be returned.&#xA;
-                        If an error is being returned then no changes shall be made.&#xA;
+                        If the supplied identifier is '0' an INVALID error shall be returned.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="2">
+                        If the supplied identifier does not match an existing ServiceProvider COM object then an UNKNOWN error shall be returned.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="3">
+                        If an error is being returned then no changes shall be made.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="4">
                         The matched provider shall be removed from the directory service.
                     </mal:documentation>
                     <mal:messages>
@@ -179,7 +212,7 @@
                 </mal:requestIP>
             </mal:capabilitySet>
             <com:features>
-                <com:objects comment="A ServiceProvider object represents a provider. The COM object body shall hold the provider id taken from the providerId field of the PublishDetails composite.&#xA;The ServiceProvider COM object related link shall not be used and therefore set to NULL.&#xA;The ServiceProvider COM object source link shall not be used and therefore shall be set to NULL.&#xA;A ProviderCapabilities object represents the supported capabilities of a provider. The COM object body shall hold the provider details of the provider.&#xA;The ProviderCapabilities COM object related link shall indicate which ServiceProvider COM object it links to.&#xA;The ProviderCapabilities COM object source link shall not be used and therefore set to NULL.&#xA;ServiceProvider and ProviderCapabilities objects shall be created by the publishService operation.&#xA;The object instance identifier for the ServiceProvider and ProviderCapabilities objects shall be populated by the provider of the directory service.">
+                <com:objects comment="The ServiceProvider and ProviderCapabilities objects used by the Directory service.">
                     <com:object name="ServiceProvider" number="1">
                         <com:objectType>
                             <mal:type name="Identifier" area="MAL"/>
@@ -194,7 +227,7 @@
                         </com:relatedObject>
                     </com:object>
                 </com:objects>
-                <com:archiveUsage comment="All directory objects must be stored in the COM archive by the provider of the Directory service if the implementation of the Directory service uses a COM archive."/>
+                <com:archiveUsage comment="The Directory service COM archive usage."/>
             </com:features>
         </mal:service>
         <mal:service xsi:type="com:ExtendedServiceType" name="Login" number="2"
@@ -206,22 +239,101 @@
  &lt;li&gt;report the list of possible roles for a login profile;&lt;/li&gt;
  &lt;li&gt;hand over an existing login from one user to another.&lt;/li&gt;
 &lt;/ol&gt;</mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="2">
+                Instances of a user login shall be represented as LoginInstance COM object.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="3">
+                Instances of a user role shall be represented as LoginRole COM object.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="4">
+                LoginInstance objects shall be created by the login operation.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="5">
+                The object instance identifier for a LoginInstance object shall be populated by the provider of the Login service.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="6">
+                The LoginInstance object shall use the related link to indicate which LoginRole (if any) the login uses.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="7">
+                If a LoginInstance object was created during a login operation then the source link shall be set to NULL.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="8">
+                When a user logs in a LoginEvent COM event shall be generated.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="9">
+                When a user logs out a LogoutEvent COM event shall be generated.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="10">
+                The LoginEvent event shall use the related link to indicate which LoginInstance object is being logged in.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="11">
+                The LogoutEvent event shall use the related link to indicate which LoginInstance object is being logged out.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="12">
+                The LoginEvent event shall not use the COM object source link and shall set it to NULL.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="13">
+                The LogoutEvent event shall use the source link to indicate which LoginEvent event it is logging out.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="14">
+                The events shall be published using the COM event service.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="15">
+                LoginInstance objects should be stored in the COM archive.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="16">
+                When a login service event is published, the event object should be stored in the COM archive by the Login provider.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="17">
+                LoginRole objects should be stored in the COM archive.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="18">
+                The COM archive service should be used for maintaining the LoginRole objects.
+            </mal:documentation>
             <mal:capabilitySet number="1">
                 <mal:requestIP name="login" number="1" supportInReplay="false"
                                comment="The login operation allows a user to log in to the system. A user can log in more than once by using a different role; however, a specific deployment may place limits on the number of users that may use a specific role, and in that case will fail the login operation with the TOO_MANY error.">
                     <mal:documentation name="Requirement" order="1">
-                        The authenticationId field of the REQUEST message must be NULL otherwise an INVALID error shall be returned.&#xA;
-                        The authenticationId field shall be checked before applying all other tests here.&#xA;
-                        The userDetails field shall contain the details of the new user and role combination.&#xA;
-                        If the username field of the supplied Profile structure is either the wildcard '*' or empty an INVALID error shall be returned.&#xA;
-                        If roles are required by the system and the role field of the supplied Profile structure is NULL then an INVALID error shall be returned.&#xA;
-                        If roles are not used by the system the role field of the supplied Profile structure shall be ignored and may be set to NULL.&#xA;
-                        An UNKNOWN error shall be returned if the username, password and role combination are not correct for the system i.e. unknown user/role or incorrect password.&#xA;
-                        A DUPLICATE error shall be returned if the username and role combination is currently in use.&#xA;
-                        A TOO_MANY error shall be returned if the username or role are already used and exceed (deployment dependent) maximum number of concurrent logins/roles.&#xA;
-                        If the login is successful the provider shall create a new LoginInstance COM object and store it in the COM archive.&#xA;
-                        The related link of the new LoginInstance COM object shall be set to the requested LoginRole COM object.&#xA;
+                        The authenticationId field of the REQUEST message must be NULL otherwise an INVALID error shall be returned.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="2">
+                        The authenticationId field shall be checked before applying all other tests here.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="3">
+                        The userDetails field shall contain the details of the new user and role combination.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="4">
+                        If the username field of the supplied Profile structure is either the wildcard '*' or empty an INVALID error shall be returned.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="5">
+                        If roles are required by the system and the role field of the supplied Profile structure is NULL then an INVALID error shall be returned.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="6">
+                        If roles are not used by the system the role field of the supplied Profile structure shall be ignored and may be set to NULL.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="7">
+                        An UNKNOWN error shall be returned if the username, password and role combination are not correct for the system i.e. unknown user/role or incorrect password.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="8">
+                        A DUPLICATE error shall be returned if the username and role combination is currently in use.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="9">
+                        A TOO_MANY error shall be returned if the username or role are already used and exceed (deployment dependent) maximum number of concurrent logins/roles.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="10">
+                        If the login is successful the provider shall create a new LoginInstance COM object and store it in the COM archive.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="11">
+                        The related link of the new LoginInstance COM object shall be set to the requested LoginRole COM object.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="12">
                         A LoginEvent COM event shall be generated at this point.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="13">
+                        The returned authId field shall be used as the authenticationId field in future MAL messages by the consumer MAL for authentication. The token is specific to the user and role in use.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="14">
+                        The returned objInstId field shall contain the LoginInstance COM object instance identifier that was created by the login operation.
                     </mal:documentation>
                     <mal:messages>
                         <mal:request>
@@ -233,11 +345,10 @@
                             </mal:field>
                         </mal:request>
                         <mal:response>
-                            <mal:field name="authId"
-                                       comment="The returned authId field shall be used as the authenticationId field in future MAL messages by the consumer MAL for authentication. The token is specific to the user and role in use.">
+                            <mal:field name="authId" comment="The authentication identifier for the user and role.">
                                 <mal:type name="Blob" area="MAL"/>
                             </mal:field>
-                            <mal:field name="objInstId" comment="The returned objInstId field shall contain the LoginInstance COM object instance identifier that was created by the login operation.">
+                            <mal:field name="objInstId" comment="The LoginInstance COM object instance identifier created by the login operation.">
                                 <mal:type name="Long" area="MAL"/>
                             </mal:field>
                         </mal:response>
@@ -260,8 +371,12 @@
                 <mal:submitIP name="logout" number="2" supportInReplay="false"
                               comment="The logout operation allows a user to log out from the system. No information is passed in the message as the MAL authentication Id is enough to identify the login.">
                     <mal:documentation name="Requirement" order="1">
-                        A logged in user shall be matched using the supplied authenticationId.&#xA;
-                        A LogoutEvent COM event shall be generated at this point.&#xA;
+                        A logged in user shall be matched using the supplied authenticationId.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="2">
+                        A LogoutEvent COM event shall be generated at this point.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="3">
                         No errors shall be returned by this operation.
                     </mal:documentation>
                     <mal:messages>
@@ -310,7 +425,7 @@
                 </mal:requestIP>
             </mal:capabilitySet>
             <com:features>
-                <com:objects comment="Instances of a user login shall be represented as LoginInstance COM object.&#xA;Instances of a user role shall be represented as LoginRole COM object.&#xA;LoginInstance objects shall be created by the login operation.&#xA;The object instance identifier for a LoginInstance object shall be populated by the provider of the Login service.&#xA;The LoginInstance object shall use the related link to indicate which LoginRole (if any) the login uses.&#xA;If a LoginInstance object was created during a login operation then the source link shall be set to NULL.">
+                <com:objects comment="The LoginRole and LoginInstance objects used by the Login service.">
                     <com:object name="LoginRole" number="1"
                                 comment="The body of the LoginRole object is the role name Identifier.">
                         <com:objectType>
@@ -329,7 +444,7 @@
                         </com:sourceObject>
                     </com:object>
                 </com:objects>
-                <com:events comment="When a user logs in a LoginEvent COM event shall be generated.&#xA;When a user logs out a LogoutEvent COM event shall be generated.&#xA;The LoginEvent event shall use the related link to indicate which LoginInstance object is being logged in.&#xA;The LogoutEvent event shall use the related link to indicate which LoginInstance object is being logged out.&#xA;The LoginEvent event shall not use the COM object source link and shall set it to NULL.&#xA;The LogoutEvent event shall use the source link to indicate which LoginEvent event it is logging out.&#xA;The events shall be published using the COM event service.">
+                <com:events comment="The LoginEvent and LogoutEvent events used by the Login service.">
                     <com:event name="LoginEvent" number="3">
                         <com:relatedObject>
                             <com:objectType number="2" service="Login" area="Common"/>
@@ -344,13 +459,106 @@
                         </com:sourceObject>
                     </com:event>
                 </com:events>
-                <com:archiveUsage comment="LoginInstance objects should be stored in the COM archive.&#xA;When a login service event is published, the event object should be stored in the COM archive by the Login provider.&#xA;LoginRole objects should be stored in the COM archive.&#xA;The COM archive service should be used for maintaining the LoginRole objects."/>
+                <com:archiveUsage comment="The Login service COM archive usage."/>
             </com:features>
         </mal:service>
         <mal:service xsi:type="com:ExtendedServiceType" name="Configuration" number="5"
                      comment="The Configuration service allows a service consumer to activate pre-defined configurations of a provider. &#xA;The service uses a COM object to represent the different configurations allowed by a provider; a service consumer selects one configuration to activate using the Configuration service activate operation.&#xA;The contents of a configuration for a provider is deployment specific however the management of these configurations, and the selection of a configuration for current use, is the purpose of this service.&#xA;Implementations of this service may also use bespoke methods for configuration representation (such as hard-coded configuration) which is outside the scope of this specification, however, the status and management of these configurations can still be managed with this service.&#xA;NOTE: This service uses the COM Event service to distribute changes in state, therefore participating providers should ensure they are all using the same shared COM Event service if they wish to receive Configuration service events.">
+            <mal:documentation name="Service-level Requirement" order="1">
+                The object body of the ServiceConfiguration COM object shall hold the service key that identifies the service it is a configuration of.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="2">
+                The ServiceConfiguration COM object related link shall link to the ConfigurationObjects COM object that contains the objects that form the service configuration.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="3">
+                If the ServiceConfiguration represents a Hard-coded configuration for a single service then the related link shall be set to NULL.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="4">
+                The ServiceConfiguration COM object source link should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="5">
+                The object body of the ProviderConfiguration COM object shall hold an identifier to identify the provider configuration.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="6">
+                The ProviderConfiguration COM object related link shall link to the ConfigurationObjects COM object that contains the objects that form the provider configuration.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="7">
+                If the ProviderConfiguration represents a Hard-coded configuration for a provider then the related link shall be set to NULL.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="8">
+                The ProviderConfiguration COM object source link should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="9">
+                The object body of the ConfigurationObjects COM object shall hold a configuration object details structure that links to the objects that form the configuration.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="10">
+                The ConfigurationObjects COM object related link shall be set to NULL.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="11">
+                The ConfigurationObjects COM object source link should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="12">
+                A ConfigurationSwitch COM event shall represent a request change in active configuration.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="13">
+                The ConfigurationSwitch COM event body shall hold the configuration to be activated.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="14">
+                The ConfigurationSwitch COM event related link shall point to the COM ServiceProvider object that is required to attempt the configuration switch.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="15">
+                The ConfigurationSwitch COM event source link shall indicate the activate COM OperationActivity object that caused it to be created.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="16">
+                A ConfigurationSwitched COM event shall be raised when a configuration is made active.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="17">
+                The ConfigurationSwitched COM event body shall hold the result of the activation attempt.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="18">
+                If the activation was successful then the body of the ConfigurationSwitched event shall be set to TRUE, otherwise FALSE for failure.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="19">
+                The ConfigurationSwitched COM event related link shall point to the ConfigurationSwitch event that triggered the switch attempt.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="20">
+                The ConfigurationSwitched COM event source link shall point to the previous active configuration or be NULL if no configuration was previously active.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="21">
+                A ConfigurationStore COM event shall represent a request to store the current configuration.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="22">
+                The ConfigurationStore COM event body may contain the ServiceId of the service to store; it shall be NULL if the provider configuration is to be stored.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="23">
+                The ConfigurationStore COM event related link shall link to the ServiceProvider object that represents the provider that must store its configuration.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="24">
+                The ConfigurationStore COM event source link shall indicate the storeCurrent COM OperationActivity object that caused it to be created.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="25">
+                A ConfigurationStored COM event shall be raised when a configuration has been stored.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="26">
+                The ConfigurationStored COM event body shall hold the ObjectId of the new Configuration object if the store was successful, otherwise NULL for failure.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="27">
+                The ConfigurationStored COM event related link shall point to the ConfigurationStore event that triggered the store attempt.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="28">
+                The ConfigurationStored COM event source link shall be NULL.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="29">
+                Configuration definition objects (ServiceConfiguration, ProviderConfiguration, ConfigurationObjects) must be stored in the COM archive by the provider of the Configuration service if the implementation of the Configuration service uses a COM archive.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="30">
+                The COM objects that hold the actual configuration definition details must be stored in the COM archive by the provider of the relevant service if the implementation of the Configuration service uses a COM archive.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="31">
+                When a configuration event (ConfigurationSwitch, ConfigurationSwitched, ConfigurationStore, ConfigurationStored) is published, the event objects should be stored in the COM archive.
+            </mal:documentation>
             <com:features>
-                <com:objects comment="A ProviderConfiguration COM object represents a single set of configuration details that may be used by multiple providers. The object body shall hold an indentifier to identify the provider configuration.&#xA;The ProviderConfiguration COM object related link shall link to the ConfigurationObjects COM object that contains the objects that form the provider configuration.&#xA;If the ProviderConfiguration represents a Hard-coded configuration for a provider then the related link shall be set to NULL.&#xA;The ProviderConfiguration COM object source link should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.&#xA;A ServiceConfiguration COM object represents a single configuration of a service in a provider, multiple ProviderConfiguration COM objects may reference the same service configuration via its linked ConfigurationObjects COM object. The object body shall hold the service key that identifies the service it is a configuration of.&#xA;The ServiceConfiguration COM object related link shall link to the ConfigurationObjects COM object that contains the objects that form the service configuration.&#xA;If the ServiceConfiguration represents a Hard-coded configuration for a single service then the related link shall be set to NULL.&#xA;The ServiceConfiguration COM object source link should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.&#xA;A ConfigurationObjects COM object represents a set of links to a set of COM objects that form an actual configuration. The object body shall hold a configuration object details structure that links to the objects that form the configuration.&#xA;The ConfigurationObjects COM object related link shall be set to NULL.&#xA;The ConfigurationObjects COM object source link should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.">
+                <com:objects comment="The ServiceConfiguration, ProviderConfiguration, and ConfigurationObjects COM objects used by the Configuration service.">
                     <com:object name="ServiceConfiguration" number="1">
                         <com:objectType>
                             <mal:type name="ServiceId" area="MAL"/>
@@ -376,7 +584,7 @@
                         <com:sourceObject comment="The object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used."/>
                     </com:object>
                 </com:objects>
-                <com:events comment="A ConfigurationSwitch COM event shall represent a request change in active configuration.&#xA;The ConfigurationSwitch COM event body shall hold the configuration to be activated.&#xA;The ConfigurationSwitch COM event related link shall point to the COM ServiceProvider object that is required to attempt the configuration switch.&#xA;The ConfigurationSwitch COM event source link shall indicate the activate COM OperationActivity object that caused it to be created.&#xA;A ConfigurationSwitched COM event shall be raised when a configuration is made active.&#xA;The ConfigurationSwitched COM event body shall hold the result of the activation attempt.&#xA;If the activation was successful then the body of the ConfigurationSwitched event shall be set to TRUE, otherwise FALSE for failure.&#xA;The ConfigurationSwitched COM event related link shall point to the ConfigurationSwitch event that triggered the switch attempt.&#xA;The ConfigurationSwitched COM event source link shall point to the previous active configuration or be NULL if no configuration was previously active.&#xA;A ConfigurationStore COM event shall represent a request to store the current configuration.&#xA;The ConfigurationStore COM event body is may contain the ServiceId of the service to store, it shall be NULL if the provider configuration is to be stored.&#xA;The ConfigurationStore COM event related link shall link to the ServiceProvider object that represents the provider that must store its configuration.&#xA;The ConfigurationStore COM event source link shall indicate the storeCurrent COM OperationActivity object that caused it to be created.&#xA;A ConfigurationStored COM event shall be raised when a configuration has been stored.&#xA;The ConfigurationStored COM event body shall hold the ObjectId of the new Configuration object if the store was successful, otherwise NULL for failure.&#xA;The ConfigurationStored COM event related link shall point to the ConfigurationStore event that triggered the store attempt.&#xA;The ConfigurationStored COM event source link shall be NULL.">
+                <com:events comment="The ConfigurationSwitch, ConfigurationSwitched, ConfigurationStore, and ConfigurationStored events used by the Configuration service.">
                     <com:event name="ConfigurationSwitch" number="6">
                         <com:objectType>
                             <mal:type name="ObjectId" area="COM"/>
@@ -413,7 +621,7 @@
                         </com:relatedObject>
                     </com:event>
                 </com:events>
-                <com:archiveUsage comment="Configuration definition objects (ServiceConfiguration, ProviderConfiguration, ConfigurationObjects) must be stored in the COM archive by the provider of the Configuration service if the implementation of the Configuration service uses a COM archive.&#xA;The COM objects that hold the actual configuration definition details must be stored in the COM archive by the provider of the relevant service if the implementation of the Configuration service uses a COM archive.&#xA;When a configuration event (ConfigurationSwitch, ConfigurationSwitched, ConfigurationStore, ConfigurationStored) is published, the event objects should be stored in the COM archive."/>
+                <com:archiveUsage comment="The Configuration service COM archive usage."/>
             </com:features>
         </mal:service>
         <mal:dataTypes>
