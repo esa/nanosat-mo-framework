@@ -113,7 +113,8 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
     }
 
     public ArchivePersistenceObject getSelectedCOMObject() {
-        return this.comObjects.get(this.getSelectedRow());
+        int modelRow = archiveTable.convertRowIndexToModel(this.getSelectedRow());
+        return this.comObjects.get(modelRow);
     }
 
     public List<ArchivePersistenceObject> getAllCOMObjects() {
@@ -188,7 +189,7 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
     }
 
     public void removeSelectedEntry() {
-        archiveTableData.removeRow(this.getSelectedRow());
+        archiveTableData.removeRow(archiveTable.convertRowIndexToModel(this.getSelectedRow()));
     }
 
     public void removeAllEntries() {

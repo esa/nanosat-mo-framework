@@ -101,7 +101,8 @@ public class EventConsumerPanel extends javax.swing.JPanel {
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2) {
                     // Get from the list of objects the one we want and display
-                    ArchivePersistenceObject comObject = comObjects.get(eventTable.getSelectedRow());
+                    int modelRow = eventTable.convertRowIndexToModel(eventTable.getSelectedRow());
+                    ArchivePersistenceObject comObject = comObjects.get(modelRow);
                     try {
                         COMObjectWindow comObjectWindow = new COMObjectWindow(comObject,
                                 false, archiveService.getArchiveStub());
