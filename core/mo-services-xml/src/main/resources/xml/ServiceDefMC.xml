@@ -121,33 +121,27 @@
                 <mal:submitIP name="submitAction" number="1" supportInReplay="false"
                               comment="The submitAction operation allows a consumer to submit an action to a provider for remote execution.">
                     <mal:documentation name="Requirement" order="1">
-                        The actionInstId field of the submission shall contain the id of the ActionInstance to be used for activity tracking events.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="2">
-                        The actionDetails part of the submission shall contain the argument values and related information of the action instance to be executed.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="3">
                         If the defInstId of the supplied actionDetails field does not match a known ActionDefinition object then an UNKNOWN error shall be returned.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="4">
+                    <mal:documentation name="Requirement" order="2">
                         The size of the argumentValues list of the ActionInstanceDetails structure shall be compared to the size of the argument list in the matched ActionDefinition object and an INVALID error shall be returned if they are not the same.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="5">
+                    <mal:documentation name="Requirement" order="3">
                         If the ActionInstanceDetails structure contains an argumentIds field value then this shall be compared to the same field in the matched ActionDefinition object and must be the same size and contain the same values, an INVALID error shall be returned if this is not the case.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="6">
+                    <mal:documentation name="Requirement" order="4">
                         If the ActionInstanceDetails structure contains an isRawValue field value then the size of this list shall be compared to the size of the argument list in the matched ActionDefinition object and an INVALID error shall be returned if they are not the same.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="7">
+                    <mal:documentation name="Requirement" order="5">
                         If the supplied argument values do not match the attribute type specified in the action definition then an INVALID error shall be returned.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="8">
+                    <mal:documentation name="Requirement" order="6">
                         A service provider may apply some deployment specific checks to the action instance and can return an INVALID error if they fail.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="9">
+                    <mal:documentation name="Requirement" order="7">
                         If an error is raised then no action shall be executed.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="10">
+                    <mal:documentation name="Requirement" order="8">
                         The SUBMIT acknowledgement shall be returned once the action has been accepted for execution but before execution starts.
                     </mal:documentation>
                     <mal:messages>
@@ -179,18 +173,15 @@
                 <mal:requestIP name="listDefinition" number="3" supportInReplay="true"
                                comment="The listDefinition operation allows a consumer to request the ids of the ActionDefinition objects for the supported actions of the provider.">
                     <mal:documentation name="Requirement" order="1">
-                        The actionNames field shall contain a list of action names to retrieve the ActionDefinition ids for.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="2">
                         The request may contain the wildcard value of '*' to return all supported ActionDefinition objects.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="3">
+                    <mal:documentation name="Requirement" order="2">
                         The wildcard value should be checked for first, if found no other checks of supplied identifiers shall be made.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="4">
+                    <mal:documentation name="Requirement" order="3">
                         If a provided identifier does not include a wildcard and does not match an existing ActionDefinition object then this operation shall fail with an UNKNOWN error.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="5">
+                    <mal:documentation name="Requirement" order="4">
                         The returned list shall maintain the same order as the submitted list unless the wildcard value was included in the request.
                     </mal:documentation>
                     <mal:messages>
@@ -330,13 +321,7 @@
                         The timestamp of the ParameterValueInstance report shall be taken from the publish message and shall be the time of the parameter value update.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="6">
-                        The publish message shall include the ObjectId of the source link of the report.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="7">
                         If no source link is needed then the ObjectId shall be replaced with a NULL.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="8">
-                        The second part of the publish message shall be the ParameterValueInstance object value.
                     </mal:documentation>
                     <mal:messages>
                         <mal:publishNotify>
@@ -356,24 +341,18 @@
                 <mal:requestIP name="getValue" number="2" supportInReplay="true"
                                comment="The getValue operation returns the latest received value for a requested parameter.">
                     <mal:documentation name="Requirement" order="1">
-                        The paramInstIds field shall provide the list of ParameterDefinition ids.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="2">
                         The wildcard value of '0' shall be supported and matches all parameters of the provider.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="3">
+                    <mal:documentation name="Requirement" order="2">
                         The wildcard value should be checked for first, if found no other checks of supplied ids shall be made.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="4">
+                    <mal:documentation name="Requirement" order="3">
                         If a requested parameter is unknown then an UNKNOWN error shall be returned.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="5">
+                    <mal:documentation name="Requirement" order="4">
                         If a parameter is being reported periodically, using the operation shall not reset the reportInterval timer.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="6">
-                        The response shall contain a list of returned ParameterDefinition ids and a matching list of parameter values.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="7">
+                    <mal:documentation name="Requirement" order="5">
                         The new value shall not be published via the monitorValue operation.
                     </mal:documentation>
                     <mal:messages>
@@ -404,30 +383,27 @@
                 <mal:submitIP name="setValue" number="3" supportInReplay="false"
                               comment="The setValue operation allows a consumer to set the raw value for one or more parameters.">
                     <mal:documentation name="Requirement" order="1">
-                        The submitted newRawValues shall hold a list of ParameterRawValues that contain the ParameterDefinition id and the respective raw value to be set.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="2">
                         If the paramInstId field contains the wildcard value of '0' then an INVALID error shall be returned.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="3">
+                    <mal:documentation name="Requirement" order="2">
                         If a requested ParameterDefinition is unknown then an UNKNOWN error shall be returned.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="4">
+                    <mal:documentation name="Requirement" order="3">
                         If a request ParameterDefinition is not settable due to it being read only then a READONLY error shall be returned.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="5">
+                    <mal:documentation name="Requirement" order="4">
                         The rawValue shall contain the new parameter raw value to be set.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="6">
+                    <mal:documentation name="Requirement" order="5">
                         If the supplied new parameter raw value does not match the defined type for the ParameterDefinition then an INVALID error shall be returned.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="7">
+                    <mal:documentation name="Requirement" order="6">
                         If an error is raised then no modifications shall be made as a result of this operation call.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="8">
+                    <mal:documentation name="Requirement" order="7">
                         The parameter values shall be set concurrently, by this it is meant that all values are set at the same time without interleaving of other values being (ATOMIC behaviour). How this is implemented is an implementation detail.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="9">
+                    <mal:documentation name="Requirement" order="8">
                         The service provider shall create new ParameterValueInstance objects for the updated parameter values, store these in the COM Archive, and publish these new values.
                     </mal:documentation>
                     <mal:messages>
@@ -493,9 +469,6 @@
                     <mal:documentation name="Requirement" order="10">
                         If the generation of reports is being enabled, and the parameter is defined as being periodic, then the provider shall generate a report immediately and start the report interval from that report.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="11">
-                        The response shall contain the list of ids for the new ParameterDefinition objects.
-                    </mal:documentation>
                     <mal:messages>
                         <mal:request>
                             <mal:field name="enableInstances"
@@ -524,18 +497,15 @@
                 <mal:requestIP name="listDefinition" number="5" supportInReplay="true"
                                comment="The listDefinition operation allows a consumer to request the ids of the ParameterDefinition objects for the supported parameters of the provider.">
                     <mal:documentation name="Requirement" order="1">
-                        The paramNames field shall contain a list of parameter names to retrieve the ParameterDefinition ids for.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="2">
                         The paramNames field may contain the wildcard value of '*' to return all supported ParameterDefinition objects.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="3">
+                    <mal:documentation name="Requirement" order="2">
                         The wildcard value should be checked for first, if found no other checks of supplied identifiers shall be made.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="4">
+                    <mal:documentation name="Requirement" order="3">
                         If a provided identifier does not include a wildcard and does not match an existing ParameterDefinition object then this operation shall fail with an UNKNOWN error.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="5">
+                    <mal:documentation name="Requirement" order="4">
                         The returned list shall maintain the same order as the submitted list unless the wildcard value was included in the request.
                     </mal:documentation>
                     <mal:messages>
@@ -566,33 +536,27 @@
                 <mal:requestIP name="updateDefinition" number="7" supportInReplay="false"
                                comment="The updateDefinition operation allows a consumer to update a definition for one or more parameters. The replacement definition should be stored in the COM archive by the service provider. The operation does not remove the previous object from the COM archive, merely removes the object from the provider.">
                     <mal:documentation name="Requirement" order="1">
-                        The paramInstIds field shall contain the ids of the ParameterDefinition objects to be updated.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="2">
                         The supplied ids shall match existing ParameterDefinition objects, an UNKNOWN error shall be raised if this is not the case.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="3">
+                    <mal:documentation name="Requirement" order="2">
                         If the paramInstIds list contains either NULL or '0' an INVALID error shall be raised.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="4">
+                    <mal:documentation name="Requirement" order="3">
                         The two lists shall be ordered the same and shall be the same size, otherwise an INVALID error shall be returned.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="5">
+                    <mal:documentation name="Requirement" order="4">
                         If the supplied reportInterval value is not supported by the provider then an INVALID error shall be returned.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="6">
+                    <mal:documentation name="Requirement" order="5">
                         If an error is raised then no definitions shall be updated as a result of this operation call.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="7">
+                    <mal:documentation name="Requirement" order="6">
                         The provider shall create a new ParameterDefinition object and store it in the COM archive.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="8">
+                    <mal:documentation name="Requirement" order="7">
                         The new ParameterDefinition object shall be the current ParameterDefinition used for the parameter.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="9">
-                        The response shall contain the list of ids for the new ParameterDefinition objects.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="10">
+                    <mal:documentation name="Requirement" order="8">
                         The returned list shall maintain the same order as the submitted definitions.
                     </mal:documentation>
                     <mal:messages>
@@ -722,9 +686,6 @@
                     <mal:documentation name="Requirement" order="9">
                         If a new AlertDefinition object is created then that new object shall be the current AlertDefinition used for the alert.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="10">
-                        The response shall contain the list of ids for the new AlertDefinition objects.
-                    </mal:documentation>
                     <mal:messages>
                         <mal:request>
                             <mal:field name="enableInstances"
@@ -753,18 +714,15 @@
                 <mal:requestIP name="listDefinition" number="2" supportInReplay="true"
                                comment="The listDefinition operation allows a consumer to request the ids of the AlertDefinition objects for the supported alerts of the provider.">
                     <mal:documentation name="Requirement" order="1">
-                        The alertNames field shall contain a list of alert names to retrieve the AlertDefinition ids for.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="2">
                         The alertNames field may contain the wildcard value of '*' to return all supported AlertDefinition objects.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="3">
+                    <mal:documentation name="Requirement" order="2">
                         The wildcard value should be checked for first, if found no other checks of supplied identifiers shall be made.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="4">
+                    <mal:documentation name="Requirement" order="3">
                         If a provided identifier does not include a wildcard and does not match an existing AlertDefinition object then this operation shall fail with an UNKNOWN error.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="5">
+                    <mal:documentation name="Requirement" order="4">
                         The returned list shall maintain the same order as the submitted list unless the wildcard value was included in the request.
                     </mal:documentation>
                     <mal:messages>
@@ -795,33 +753,24 @@
                 <mal:requestIP name="updateDefinition" number="4" supportInReplay="false"
                                comment="The updateDefinition operation allows a consumer to update a definition for one or more alerts. The replacement definition should be stored in the COM archive by the service provider. The operation does not remove the previous object from the COM archive, merely removes the object from the provider.">
                     <mal:documentation name="Requirement" order="1">
-                        The alertObjInstIds field shall contain the ids of the AlertDefinition objects to be updated.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="2">
                         The supplied ids shall match existing AlertDefinition objects, an UNKNOWN error shall be raised if this is not the case.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="3">
+                    <mal:documentation name="Requirement" order="2">
                         If the alertObjInstIds list contains either NULL or '0' an INVALID error shall be raised.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="4">
-                        The alertDefDetails field shall contain the replacement AlertDefinition.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="5">
+                    <mal:documentation name="Requirement" order="3">
                         The two lists shall be ordered the same and shall be the same size, otherwise an INVALID error shall be returned.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="6">
+                    <mal:documentation name="Requirement" order="4">
                         If an error is raised then no definitions shall be updated as a result of this operation call.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="7">
+                    <mal:documentation name="Requirement" order="5">
                         The provider shall create a new AlertDefinition object and store it in the COM archive.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="8">
+                    <mal:documentation name="Requirement" order="6">
                         The new AlertDefinition object shall be the current AlertDefinition used for the alert.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="9">
-                        The response shall contain the list of ids for the new AlertDefinition objects.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="10">
+                    <mal:documentation name="Requirement" order="7">
                         The returned list shall maintain the same order as the submitted definitions.
                     </mal:documentation>
                     <mal:messages>
@@ -958,13 +907,7 @@
                         The timestamp of the AggregationValueInstance report shall be taken from the publish message.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="6">
-                        The publish message shall include the ObjectId of the source link of the report.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="7">
                         If no source link is needed then the ObjectId shall be replaced with a NULL.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="8">
-                        The second part of the publish message shall be the AggregationValue.
                     </mal:documentation>
                     <mal:messages>
                         <mal:publishNotify>
@@ -984,27 +927,21 @@
                 <mal:requestIP name="getValue" number="2" supportInReplay="true"
                                comment="The getValue operation returns the latest received value for a requested aggregation.">
                     <mal:documentation name="Requirement" order="1">
-                        The aggInstIds field shall provide the list of AggregationDefinition ids.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="2">
                         The wildcard value of '0' shall be supported and matches all aggregations of the provider.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="3">
+                    <mal:documentation name="Requirement" order="2">
                         The wildcard value should be checked for first, if found no other checks of supplied ids shall be made.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="4">
+                    <mal:documentation name="Requirement" order="3">
                         If a requested aggregation is unknown then an UNKNOWN error shall be returned.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="5">
+                    <mal:documentation name="Requirement" order="4">
                         The filter shall not be applied for the getValue operation.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="6">
+                    <mal:documentation name="Requirement" order="5">
                         If an aggregation is being reported periodically, using the operation shall not reset the reportInterval or filteredTimeout timer.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="7">
-                        The response shall contain a list of returned AggregationDefinition ids and a matching list of AggregationValues.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="8">
+                    <mal:documentation name="Requirement" order="6">
                         The new value shall not be published via the monitorValue operation.
                     </mal:documentation>
                     <mal:messages>
@@ -1063,9 +1000,6 @@
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="10">
                         If the generation of reports is being enabled, and the aggregation is defined as being periodic, then the provider shall generate a report immediately and start the report interval from that report.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="11">
-                        The response shall contain the list of ids for the new AggregationDefinition objects.
                     </mal:documentation>
                     <mal:messages>
                         <mal:request>
@@ -1141,18 +1075,15 @@
                 <mal:requestIP name="listDefinition" number="5" supportInReplay="true"
                                comment="The listDefinition operation allows a consumer to request the ids of the AggregationDefinition objects for the supported aggregations of the provider.">
                     <mal:documentation name="Requirement" order="1">
-                        The aggNames field shall contain a list of aggregation names to retrieve the AggregationDefinition ids for.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="2">
                         The aggNames field may contain the wildcard value of '*' to return all supported AggregationDefinition objects.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="3">
+                    <mal:documentation name="Requirement" order="2">
                         The wildcard value should be checked for first, if found no other checks of supplied identifiers shall be made.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="4">
+                    <mal:documentation name="Requirement" order="3">
                         If a provided identifier does not include a wildcard and does not match an existing AggregationDefinition object then this operation shall fail with an UNKNOWN error.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="5">
+                    <mal:documentation name="Requirement" order="4">
                         The returned list shall maintain the same order as the submitted list unless the wildcard value was included in the request.
                     </mal:documentation>
                     <mal:messages>
@@ -1183,27 +1114,21 @@
                 <mal:requestIP name="addAggregation" number="6" supportInReplay="false"
                                comment="The addAggregation operation allows a consumer to define one or more aggregations that do not currently exist.&#xA;The new AggregationDefinition objects are expected to be stored in the COM archive by the provider of the aggregation service.">
                     <mal:documentation name="Requirement" order="1">
-                        The aggDefDetails field shall hold the name and the AggregationDefinition to be added.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="2">
                         The name field must not be the wildcard '*', or empty (an INVALID error shall be returned in this case).
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="3">
+                    <mal:documentation name="Requirement" order="2">
                         If the supplied reportInterval or sampleInterval values are not supported by the provider then an INVALID error shall be returned.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="4">
+                    <mal:documentation name="Requirement" order="3">
                         The supplied name must be unique among all AggregationDefinition objects for the domain of the provider otherwise a DUPLICATE error shall be raised.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="5">
+                    <mal:documentation name="Requirement" order="4">
                         If an error is raised then no new definitions shall be added as a result of this operation call.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="6">
+                    <mal:documentation name="Requirement" order="5">
                         The provider shall create a new AggregationDefinition object and store it in the COM archive.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="7">
-                        The response shall contain the list of ids for the new AggregationDefinition objects.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="8">
+                    <mal:documentation name="Requirement" order="6">
                         The returned list shall maintain the same order as the submitted definitions.
                     </mal:documentation>
                     <mal:messages>
@@ -1238,36 +1163,27 @@
                 <mal:requestIP name="updateDefinition" number="7" supportInReplay="false"
                                comment="The updateDefinition operation allows a consumer to update a definition for one or more aggregations.&#xA;The replacement definition should be stored in the COM archive by the service provider. The operation does not remove the previous object from the COM archive, merely removes the object from the provider.">
                     <mal:documentation name="Requirement" order="1">
-                        The aggInstIds field shall contain the ids of the AggregationDefinition objects to be updated.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="2">
                         The supplied ids shall match existing AggregationDefinition objects, an UNKNOWN error shall be raised if this is not the case.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="3">
+                    <mal:documentation name="Requirement" order="2">
                         If the aggInstIds list contains either NULL or '0' an INVALID error shall be raised.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="4">
-                        The aggDefDetails field shall contain the replacement AggregationDefinition.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="5">
+                    <mal:documentation name="Requirement" order="3">
                         The two lists shall be ordered the same and shall be the same size, otherwise an INVALID error shall be returned.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="6">
+                    <mal:documentation name="Requirement" order="4">
                         If the supplied reportInterval or sampleInterval values are not supported by the provider then an INVALID error shall be returned.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="7">
+                    <mal:documentation name="Requirement" order="5">
                         If an error is raised then no definitions shall be updated as a result of this operation call.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="8">
+                    <mal:documentation name="Requirement" order="6">
                         The provider shall create a new AggregationDefinition object and store it in the COM archive.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="9">
+                    <mal:documentation name="Requirement" order="7">
                         The new AggregationDefinition object shall be the current AggregationDefinition used for the aggregation.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="10">
-                        The response shall contain the list of ids for the new AggregationDefinition objects.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="11">
+                    <mal:documentation name="Requirement" order="8">
                         The returned list shall maintain the same order as the submitted definitions.
                     </mal:documentation>
                     <mal:messages>
@@ -1306,24 +1222,21 @@
                 <mal:submitIP name="removeAggregation" number="8" supportInReplay="false"
                               comment="The removeAggregation operation allows a consumer to remove one or more aggregations from the list of aggregations supported by the aggregation provider.&#xA;The operation does not remove the AggregationDefinition objects from the COM archive, merely removes the objects from the provider. This permits existing AggregationValueInstance objects to continue to reference the correct AggregationDefinition object in the COM archive.">
                     <mal:documentation name="Requirement" order="1">
-                        The aggInstIds field shall hold the ids of the AggregationDefinition objects to be removed from the provider.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="2">
                         The list may contain the wildcard value of '0'.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="3">
+                    <mal:documentation name="Requirement" order="2">
                         The wildcard value should be checked for first, if found no other checks of supplied ids shall be made.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="4">
+                    <mal:documentation name="Requirement" order="3">
                         If a provided AggregationDefinition id does not include a wildcard and does not match an existing aggregation then this operation shall fail with an UNKNOWN error.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="5">
+                    <mal:documentation name="Requirement" order="4">
                         Matched AggregationDefinition objects shall not be removed from the COM archive, only the list of AggregationDefinition objects in the provider.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="6">
+                    <mal:documentation name="Requirement" order="5">
                         If an error is raised then no aggregations shall be removed as a result of this operation call.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="7">
+                    <mal:documentation name="Requirement" order="6">
                         If the operation succeeds then the provider shall not publish aggregation values for the deleted AggregationDefinition objects anymore.
                     </mal:documentation>
                     <mal:messages>
