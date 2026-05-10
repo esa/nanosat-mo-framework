@@ -223,7 +223,7 @@
                         <com:objectType>
                             <mal:type name="ActionDefinition" area="MC"/>
                         </com:objectType>
-                        <com:sourceObject comment="The object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used"/>
+                        <com:sourceObject comment="The object that caused it to be created, for example, a COM OperationActivity"/>
                     </com:object>
                     <com:object name="ActionInstance" number="2">
                         <com:objectType>
@@ -635,7 +635,7 @@
                         <com:objectType>
                             <mal:type name="ParameterDefinition" area="MC"/>
                         </com:objectType>
-                        <com:sourceObject comment="The object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used"/>
+                        <com:sourceObject comment="The object that caused it to be created, for example, a COM OperationActivity"/>
                     </com:object>
                     <com:object name="ParameterValueInstance" number="2">
                         <com:objectType>
@@ -864,7 +864,7 @@
                         <com:objectType>
                             <mal:type name="AlertDefinition" area="MC"/>
                         </com:objectType>
-                        <com:sourceObject comment="The object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used"/>
+                        <com:sourceObject comment="The object that caused it to be created, for example, a COM OperationActivity"/>
                     </com:object>
                 </com:objects>
                 <com:events comment="AlertEvent objects are published when an enabled alert is generated.">
@@ -1350,7 +1350,7 @@
                         <com:objectType>
                             <mal:type name="AggregationDefinition" area="MC"/>
                         </com:objectType>
-                        <com:sourceObject comment="The object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used"/>
+                        <com:sourceObject comment="The object that caused it to be created, for example, a COM OperationActivity"/>
                     </com:object>
                     <com:object name="AggregationValueInstance" number="2">
                         <com:objectType>
@@ -1416,7 +1416,7 @@
                         <com:objectType>
                             <mal:type name="Identifier" area="MAL"/>
                         </com:objectType>
-                        <com:sourceObject comment="The object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used."/>
+                        <com:sourceObject comment="The object that caused it to be created, for example, a COM OperationActivity."/>
                     </com:object>
                     <com:object name="DiscreteConversion" number="2">
                         <com:objectType>
@@ -1425,7 +1425,7 @@
                         <com:relatedObject>
                             <com:objectType number="1" service="Conversion" area="MC"/>
                         </com:relatedObject>
-                        <com:sourceObject comment="The object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used."/>
+                        <com:sourceObject comment="The object that caused it to be created, for example, a COM OperationActivity."/>
                     </com:object>
                     <com:object name="LineConversion" number="3">
                         <com:objectType>
@@ -1434,7 +1434,7 @@
                         <com:relatedObject>
                             <com:objectType number="1" service="Conversion" area="MC"/>
                         </com:relatedObject>
-                        <com:sourceObject comment="The object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used."/>
+                        <com:sourceObject comment="The object that caused it to be created, for example, a COM OperationActivity."/>
                     </com:object>
                     <com:object name="PolyConversion" number="4">
                         <com:objectType>
@@ -1443,7 +1443,7 @@
                         <com:relatedObject>
                             <com:objectType number="1" service="Conversion" area="MC"/>
                         </com:relatedObject>
-                        <com:sourceObject comment="The object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used."/>
+                        <com:sourceObject comment="The object that caused it to be created, for example, a COM OperationActivity."/>
                     </com:object>
                     <com:object name="RangeConversion" number="5">
                         <com:objectType>
@@ -1452,7 +1452,7 @@
                         <com:relatedObject>
                             <com:objectType number="1" service="Conversion" area="MC"/>
                         </com:relatedObject>
-                        <com:sourceObject comment="The object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used."/>
+                        <com:sourceObject comment="The object that caused it to be created, for example, a COM OperationActivity."/>
                     </com:object>
                 </com:objects>
                 <com:archiveUsage comment="Conversion definition objects are stored in the COM archive."/>
