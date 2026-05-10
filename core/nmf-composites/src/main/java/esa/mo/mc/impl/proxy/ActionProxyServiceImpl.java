@@ -28,7 +28,7 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.InvalidException;
-import org.ccsds.moims.mo.common.configuration.ConfigurationHelper;
+import org.ccsds.moims.mo.com.configuration.ConfigurationHelper;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;

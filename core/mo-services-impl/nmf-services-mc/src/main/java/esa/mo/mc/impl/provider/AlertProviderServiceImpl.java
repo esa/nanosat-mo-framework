@@ -34,7 +34,7 @@ import org.ccsds.moims.mo.com.InvalidException;
 import org.ccsds.moims.mo.com.structures.InstanceBooleanPair;
 import org.ccsds.moims.mo.com.structures.InstanceBooleanPairList;
 import org.ccsds.moims.mo.com.structures.ObjectId;
-import org.ccsds.moims.mo.common.structures.*;
+import org.ccsds.moims.mo.com.structures.*;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.MALException;

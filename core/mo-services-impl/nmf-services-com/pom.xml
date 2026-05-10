@@ -48,10 +48,6 @@ under the License. -->
     <dependencies>
         <dependency>
             <groupId>int.esa.nmf.core</groupId>
-            <artifactId>api-nmf-common</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>int.esa.nmf.core</groupId>
             <artifactId>api-nmf-com</artifactId>
         </dependency>
         <dependency>

@@ -51,7 +51,6 @@
     </properties>
     <modules>
         <module>nmf-services-com</module>
-        <module>nmf-services-common</module>
         <module>nmf-services-mc</module>
         <module>nmf-services-sm</module>
         <module>nmf-services-platform-generic</module>

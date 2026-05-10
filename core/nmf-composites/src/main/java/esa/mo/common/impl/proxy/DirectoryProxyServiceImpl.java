@@ -27,7 +27,7 @@ import java.net.MalformedURLException;
 import java.util.Collection;
 import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.archive.ArchiveServiceInfo;
-import org.ccsds.moims.mo.common.structures.*;
+import org.ccsds.moims.mo.com.structures.*;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.Identifier;

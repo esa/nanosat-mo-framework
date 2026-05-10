@@ -63,11 +63,6 @@ under the License. -->
             <artifactId>nmf-services-com</artifactId>
         </dependency>
         <dependency>
-            <groupId>int.esa.nmf.core</groupId>
-            <artifactId>nmf-services-common</artifactId>
-            <type>jar</type>
-        </dependency>
-        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-exec</artifactId>
             <version>1.3</version>

@@ -35,7 +35,7 @@ import org.ccsds.moims.mo.com.COMService;
 import org.ccsds.moims.mo.com.DuplicateException;
 import org.ccsds.moims.mo.com.InvalidException;
 import org.ccsds.moims.mo.com.structures.ObjectId;
-import org.ccsds.moims.mo.common.structures.*;
+import org.ccsds.moims.mo.com.structures.*;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.UnknownException;

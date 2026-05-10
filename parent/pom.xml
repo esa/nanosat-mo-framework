@@ -86,11 +86,6 @@
             </dependency>
             <dependency>
                 <groupId>int.esa.nmf.core</groupId>
-                <artifactId>api-nmf-common</artifactId>
-                <version>${esa.nmf.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>int.esa.nmf.core</groupId>
                 <artifactId>api-nmf-mc</artifactId>
                 <version>${esa.nmf.version}</version>
             </dependency>
@@ -108,11 +103,6 @@
             <dependency>
                 <groupId>int.esa.nmf.core</groupId>
                 <artifactId>nmf-services-com</artifactId>
-                <version>${esa.nmf.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>int.esa.nmf.core</groupId>
-                <artifactId>nmf-services-common</artifactId>
                 <version>${esa.nmf.version}</version>
             </dependency>
             <dependency>

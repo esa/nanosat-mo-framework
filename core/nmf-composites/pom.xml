@@ -64,10 +64,6 @@ under the License. -->
             <artifactId>nmf-services-platform-generic</artifactId>
         </dependency>
         <dependency>
-            <groupId>int.esa.nmf.core</groupId>
-            <artifactId>nmf-services-common</artifactId>
-        </dependency>
-        <dependency>
             <groupId>int.esa.ccsds.mo</groupId>
             <artifactId>mal-impl</artifactId>
         </dependency>

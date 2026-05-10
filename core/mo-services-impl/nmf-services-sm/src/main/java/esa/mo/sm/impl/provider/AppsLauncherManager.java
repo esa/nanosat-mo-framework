@@ -45,7 +45,6 @@ import java.util.logging.Logger;
 import org.apache.commons.exec.environment.EnvironmentUtils;
 import org.ccsds.moims.mo.com.InvalidException;
 import org.ccsds.moims.mo.com.structures.*;
-import org.ccsds.moims.mo.common.structures.*;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MOErrorException;

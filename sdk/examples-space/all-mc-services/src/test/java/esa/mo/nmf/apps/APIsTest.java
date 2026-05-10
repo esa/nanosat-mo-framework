@@ -23,7 +23,6 @@ package esa.mo.nmf.apps;
 import esa.mo.nmf.NMFProvider;
 import java.io.IOException;
 import org.ccsds.moims.mo.com.COMHelper;
-import org.ccsds.moims.mo.common.CommonHelper;
 import org.ccsds.moims.mo.mc.MCHelper;
 import org.ccsds.moims.mo.platform.PlatformHelper;
 import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
@@ -41,7 +40,6 @@ public class APIsTest {
         int version = NMFProvider.getMajorVersionNMF();
 
         org.junit.Assert.assertEquals(version, COMHelper.COM_AREA.getVersion().getValue());
-        org.junit.Assert.assertEquals(version, CommonHelper.COMMON_AREA.getVersion().getValue());
         org.junit.Assert.assertEquals(version, MCHelper.MC_AREA.getVersion().getValue());
         org.junit.Assert.assertEquals(version, PlatformHelper.PLATFORM_AREA.getVersion().getValue());
         org.junit.Assert.assertEquals(version, SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA.getVersion().getValue());
