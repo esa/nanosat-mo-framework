@@ -633,7 +633,7 @@ public class ParameterManager extends MCManager {
 
         //each Raw Value shall be set
         for (ParameterRawValue newRawValue : newRawValues) {
-            Long id = newRawValue.getParamInstId();
+            Long id = newRawValue.getParameterId();
             //requirement 3.3.9.2.h: create a new ParameterValue
             //TODO: what happens with the newly crated value? only raw value will be saved in the parameterApplication -> issue #140
             //            ParameterValue newValue = generateNewParameterValue(newRawValue.getRawValue(), getParameterDefinition(identityId), false);
