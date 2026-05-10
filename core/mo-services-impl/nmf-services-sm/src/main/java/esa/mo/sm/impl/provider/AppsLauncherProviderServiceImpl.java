@@ -147,13 +147,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         try {
             synchronized (lock) {
                 if (!isRegistered) {
-                    IdentifierList keys = new IdentifierList();
-                    keys.add(new Identifier("app.name"));
-                    keys.add(new Identifier("app.objId"));
-                    AttributeTypeList keyTypes = new AttributeTypeList();
-                    keyTypes.add(AttributeType.IDENTIFIER);
-                    keyTypes.add(AttributeType.LONG);
-                    publisher.register(keys, keyTypes, new PublishInteractionListener());
+                    publisher.registerWithDefaultKeys(new PublishInteractionListener());
                     isRegistered = true;
                 }
             }

@@ -126,8 +126,7 @@ public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadi
 
             synchronized (lock) {
                 if (!isRegistered) {
-                    IdentifierList keys = new IdentifierList();
-                    publisher.register(keys, new AttributeTypeList(), new PublishInteractionListener());
+                    publisher.registerWithDefaultKeys(new PublishInteractionListener());
                     isRegistered = true;
                 }
                 iqComponents = adapter.getIQComponents();

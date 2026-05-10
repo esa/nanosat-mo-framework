@@ -186,17 +186,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
         try {
             synchronized (lock) {
                 if (!isRegistered) {
-                    IdentifierList keyNames = new IdentifierList();
-                    keyNames.add(new Identifier("K1"));
-                    keyNames.add(new Identifier("K2"));
-                    keyNames.add(new Identifier("K3"));
-                    keyNames.add(new Identifier("K4"));
-                    AttributeTypeList keyTypes = new AttributeTypeList();
-                    keyTypes.add(AttributeType.IDENTIFIER);
-                    keyTypes.add(AttributeType.LONG);
-                    keyTypes.add(AttributeType.LONG);
-                    keyTypes.add(AttributeType.LONG);
-                    publisher.register(keyNames, keyTypes, new PublishInteractionListener());
+                    publisher.registerWithDefaultKeys(new PublishInteractionListener());
                     isRegistered = true;
                 }
             }
@@ -272,17 +262,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
         try {
             synchronized (lock) {
                 if (!isRegistered) {
-                    IdentifierList keyNames = new IdentifierList();
-                    keyNames.add(new Identifier("K1"));
-                    keyNames.add(new Identifier("K2"));
-                    keyNames.add(new Identifier("K3"));
-                    keyNames.add(new Identifier("K4"));
-                    AttributeTypeList keyTypes = new AttributeTypeList();
-                    keyTypes.add(AttributeType.IDENTIFIER);
-                    keyTypes.add(AttributeType.LONG);
-                    keyTypes.add(AttributeType.LONG);
-                    keyTypes.add(AttributeType.LONG);
-                    publisher.register(keyNames, keyTypes, new PublishInteractionListener());
+                    publisher.registerWithDefaultKeys(new PublishInteractionListener());
                     isRegistered = true;
                 }
             }

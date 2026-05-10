@@ -126,7 +126,7 @@ public class HeartbeatProviderServiceImpl extends HeartbeatInheritanceSkeleton {
     private synchronized void publishHeartbeat() {
         try {
             if (!isRegistered) {
-                publisher.register(new IdentifierList(), new AttributeTypeList(), new PublishInteractionListener());
+                publisher.registerWithDefaultKeys(new PublishInteractionListener());
                 isRegistered = true;
             }
 

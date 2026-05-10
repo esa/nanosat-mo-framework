@@ -170,15 +170,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
         try {
             synchronized (lock) {
                 if (!isRegistered) {
-                    IdentifierList keys = new IdentifierList();
-                    keys.add(new Identifier("name"));
-                    keys.add(new Identifier("objId"));
-                    keys.add(new Identifier("pValObjId"));
-                    AttributeTypeList keyTypes = new AttributeTypeList();
-                    keyTypes.add(AttributeType.IDENTIFIER);
-                    keyTypes.add(AttributeType.LONG);
-                    keyTypes.add(AttributeType.LONG);
-                    publisher.register(keys, keyTypes, new PublishInteractionListener());
+                    publisher.registerWithDefaultKeys(new PublishInteractionListener());
                     isRegistered = true;
                 }
             }

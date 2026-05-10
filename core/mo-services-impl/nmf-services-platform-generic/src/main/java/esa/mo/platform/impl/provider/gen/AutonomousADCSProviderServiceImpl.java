@@ -142,8 +142,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
         synchronized (lock) {
             if (!isRegistered) {
                 try {
-                    IdentifierList keys = new IdentifierList();
-                    publisher.register(keys, new AttributeTypeList(), new PublishInteractionListener());
+                    publisher.registerWithDefaultKeys(new PublishInteractionListener());
                 } catch (IllegalArgumentException | MALException | MALInteractionException ex) {
                     LOGGER.log(Level.WARNING, "Error when registering the publisher!", ex);
                     return;

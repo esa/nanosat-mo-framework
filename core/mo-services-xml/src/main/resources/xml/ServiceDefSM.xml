@@ -383,6 +383,16 @@
                         If no source link is needed then the ObjectId shall be replaced with a NULL.
                     </mal:documentation>
                     <mal:messages>
+                        <mal:subscriptionKeys>
+                            <mal:field name="app.name" canBeNull="false"
+                                       comment="The App name.">
+                                <mal:type area="MAL" list="false" name="Identifier"/>
+                            </mal:field>
+                            <mal:field name="app.objId" canBeNull="false"
+                                       comment="The AppDetails object instance identifier.">
+                                <mal:type area="MAL" list="false" name="Long"/>
+                            </mal:field>
+                        </mal:subscriptionKeys>
                         <mal:publishNotify comment="">
                             <mal:field canBeNull="true" comment="The output stream of the application." name="outputStream">
                                 <mal:type area="MAL" list="false" name="String"/>

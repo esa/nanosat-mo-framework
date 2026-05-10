@@ -44,6 +44,24 @@
                         The timestamp of the update shall be the time of when the picture was taken.
                     </mal:documentation>
                     <mal:messages>
+                        <mal:subscriptionKeys>
+                            <mal:field name="firstEntityKey" canBeNull="false"
+                                       comment="The value provided by the consumer during the enableStream operation.">
+                                <mal:type area="MAL" list="false" name="Identifier"/>
+                            </mal:field>
+                            <mal:field name="objId" canBeNull="false"
+                                       comment="A unique object instance identifier.">
+                                <mal:type area="MAL" list="false" name="Long"/>
+                            </mal:field>
+                            <mal:field name="width" canBeNull="false"
+                                       comment="The width value of the resolution object.">
+                                <mal:type area="MAL" list="false" name="Long"/>
+                            </mal:field>
+                            <mal:field name="height" canBeNull="false"
+                                       comment="The height value of the resolution object.">
+                                <mal:type area="MAL" list="false" name="Long"/>
+                            </mal:field>
+                        </mal:subscriptionKeys>
                         <mal:publishNotify comment="">
                             <mal:field canBeNull="true" name="picture"
                                        comment="The picture in streaming mode." >
@@ -551,6 +569,20 @@
                         The ObjectId shall be set to NULL.
                     </mal:documentation>
                     <mal:messages>
+                        <mal:subscriptionKeys>
+                            <mal:field name="name" canBeNull="false"
+                                       comment="The NearbyPosition name.">
+                                <mal:type area="MAL" list="false" name="Identifier"/>
+                            </mal:field>
+                            <mal:field name="objId" canBeNull="false"
+                                       comment="The NearbyPosition object instance identifier.">
+                                <mal:type area="MAL" list="false" name="Long"/>
+                            </mal:field>
+                            <mal:field name="pValObjId" canBeNull="false"
+                                       comment="The NearbyPositionAlert object instance identifier.">
+                                <mal:type area="MAL" list="false" name="Long"/>
+                            </mal:field>
+                        </mal:subscriptionKeys>
                         <mal:publishNotify comment="">
                             <mal:field canBeNull="true" name="isEntering"
                                        comment="The entering state of the current position." >
