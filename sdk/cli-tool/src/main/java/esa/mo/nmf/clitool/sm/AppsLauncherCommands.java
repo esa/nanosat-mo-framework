@@ -83,7 +83,7 @@ public class AppsLauncherCommands {
                 if (appNames != null && !appNames.isEmpty()) {
                     SubscriptionFilterList filters = new SubscriptionFilterList();
                     for (String app : appNames) {
-                        filters.add(new SubscriptionFilter(new Identifier("app.name"), new AttributeList(app)));
+                        filters.add(new SubscriptionFilter(new Identifier("appName"), new AttributeList(app)));
                     }
 
                     subscription = new Subscription(subscriptionId, null, null, filters);

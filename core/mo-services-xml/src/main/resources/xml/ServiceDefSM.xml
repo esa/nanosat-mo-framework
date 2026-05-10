@@ -384,11 +384,11 @@
                     </mal:documentation>
                     <mal:messages>
                         <mal:subscriptionKeys>
-                            <mal:field name="app.name" canBeNull="false"
+                            <mal:field name="appName" canBeNull="false"
                                        comment="The App name.">
                                 <mal:type area="MAL" list="false" name="Identifier"/>
                             </mal:field>
-                            <mal:field name="app.objId" canBeNull="false"
+                            <mal:field name="appId" canBeNull="false"
                                        comment="The AppDetails object instance identifier.">
                                 <mal:type area="MAL" list="false" name="Long"/>
                             </mal:field>

@@ -140,7 +140,7 @@ public class SoftwareManagementCommands {
                     for (String app : appNames) {
                         Long id = providerNameToDetails.get(app).id;
                         if (id != null) {
-                            filters.add(new SubscriptionFilter(new Identifier("app.name"), new AttributeList(app)));
+                            filters.add(new SubscriptionFilter(new Identifier("appName"), new AttributeList(app)));
                             //EntityKey entitykey = new EntityKey(new Identifier(app), id, 0L, 0L);
                             //entityKeys.add(entitykey);
                         } else {
