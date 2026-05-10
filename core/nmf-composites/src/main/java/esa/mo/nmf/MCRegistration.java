@@ -26,7 +26,6 @@ import esa.mo.mc.impl.provider.ActionProviderServiceImpl;
 import esa.mo.mc.impl.provider.AggregationProviderServiceImpl;
 import esa.mo.mc.impl.provider.AlertProviderServiceImpl;
 import esa.mo.mc.impl.provider.ParameterProviderServiceImpl;
-import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.structures.*;
@@ -407,63 +406,31 @@ public class MCRegistration {
      *
      * @param conversions The conversions
      * @param objType The Object Type of the conversions
-     * @return The list of ObjIds of the Identity objects of the conversions.
+     * @return The list of ObjIds of the conversion objects.
      */
     private ObjectIdList registerConversionsGen(final ElementList conversions,
             final ObjectType objType) throws MALException, MALInteractionException {
         final IdentifierList domain = ConfigurationProviderSingleton.getDomain();
         final ArchiveDetailsList metadata = HelperArchive.generateArchiveDetailsList(
                 null, null, PROVIDER_URI);
-        final HeterogeneousList names = new HeterogeneousList();
-
-        Random rand = new Random();
-
-        for (Object conversion : conversions) {
-            names.add(new Identifier("Conversion" + rand.nextInt()));
-        }
 
         for (int i = 1; i < conversions.size(); i++) { // There's already 1 object in the list
             metadata.add(metadata.get(0));
         }
 
-        final LongList conversionIdentityObjIds = comServices.getArchiveService().store(true,
-                ConversionServiceInfo.CONVERSIONIDENTITY_OBJECT_TYPE,
-                domain,
-                metadata,
-                names,
-                null);
-
-        /*
-        for (int i = 0; i < metadata.size(); i++) {
-            metadata.get(i).setDetails(new ObjectLinks(conversionIdentityObjIds.get(i), null));
-        }
-         */
-        ArchiveDetailsList metadataConversions = new ArchiveDetailsList();
-
         HeterogeneousList myList = new HeterogeneousList();
         myList.addAll(conversions);
 
-        for (int i = 0; i < myList.size(); i++) {
-            ArchiveDetails det = new ArchiveDetails(
-                    0L,
-                    new ObjectLinks(conversionIdentityObjIds.get(i), null),
-                    metadata.get(0).getNetwork(),
-                    metadata.get(0).getTimestamp(),
-                    metadata.get(0).getProvider()
-            );
-            metadataConversions.add(det);
-        }
-
-        comServices.getArchiveService().store(false,
+        final LongList conversionObjIds = comServices.getArchiveService().store(true,
                 objType,
                 domain,
-                metadataConversions,
+                metadata,
                 myList,
                 null);
 
         ObjectIdList output = new ObjectIdList();
 
-        for (Long objId : conversionIdentityObjIds) {
+        for (Long objId : conversionObjIds) {
             output.add(new ObjectId(objType, domain, objId));
         }
 

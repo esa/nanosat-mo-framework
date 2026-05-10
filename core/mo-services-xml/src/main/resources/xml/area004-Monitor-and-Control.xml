@@ -1299,28 +1299,16 @@
                 The service that references a conversion should ensure that the conversion referenced is correct.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="3">
-                Each conversion shall be represented by a ConversionIdentity COM object.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="4">
-                The body of the ConversionIdentity COM object shall hold the name of the conversion.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="5">
                 The definitions of the conversions shall be represented as either DiscreteConversion, LineConversion, PolyConversion, or RangeConversion COM objects.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="6">
-                The conversion definition object shall use the related link to indicate which ConversionIdentity object it uses.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="7">
-                The source link of the ConversionIdentity object should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="8">
+            <mal:documentation name="Service-level Requirement" order="4">
                 The source link of the conversion definition object should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="9">
+            <mal:documentation name="Service-level Requirement" order="5">
                 Other service objects shall reference instances of a conversion using the id of the conversion definition.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="10">
-                ConversionIdentity and conversion definition objects should be stored in the COM archive.
+            <mal:documentation name="Service-level Requirement" order="6">
+                Conversion definition objects should be stored in the COM archive.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="11">
                 Each instance of a conversion definition shall be represented by an object instance held in the COM archive.
@@ -1333,46 +1321,28 @@
             </mal:documentation>
             <com:features>
                 <com:objects comment="Conversion definitions are represented as COM objects.">
-                    <com:object name="ConversionIdentity" number="1">
-                        <com:objectType>
-                            <mal:type name="Identifier" area="MAL"/>
-                        </com:objectType>
-                        <com:sourceObject comment="The object that caused it to be created, for example, a COM OperationActivity."/>
-                    </com:object>
-                    <com:object name="DiscreteConversion" number="2">
+                    <com:object name="DiscreteConversion" number="1">
                         <com:objectType>
                             <mal:type name="DiscreteConversion" area="MC"/>
                         </com:objectType>
-                        <com:relatedObject>
-                            <com:objectType number="1" service="Conversion" area="MC"/>
-                        </com:relatedObject>
                         <com:sourceObject comment="The object that caused it to be created, for example, a COM OperationActivity."/>
                     </com:object>
-                    <com:object name="LineConversion" number="3">
+                    <com:object name="LineConversion" number="2">
                         <com:objectType>
                             <mal:type name="LineConversion" area="MC"/>
                         </com:objectType>
-                        <com:relatedObject>
-                            <com:objectType number="1" service="Conversion" area="MC"/>
-                        </com:relatedObject>
                         <com:sourceObject comment="The object that caused it to be created, for example, a COM OperationActivity."/>
                     </com:object>
-                    <com:object name="PolyConversion" number="4">
+                    <com:object name="PolyConversion" number="3">
                         <com:objectType>
                             <mal:type name="PolyConversion" area="MC"/>
                         </com:objectType>
-                        <com:relatedObject>
-                            <com:objectType number="1" service="Conversion" area="MC"/>
-                        </com:relatedObject>
                         <com:sourceObject comment="The object that caused it to be created, for example, a COM OperationActivity."/>
                     </com:object>
-                    <com:object name="RangeConversion" number="5">
+                    <com:object name="RangeConversion" number="4">
                         <com:objectType>
                             <mal:type name="RangeConversion" area="MC"/>
                         </com:objectType>
-                        <com:relatedObject>
-                            <com:objectType number="1" service="Conversion" area="MC"/>
-                        </com:relatedObject>
                         <com:sourceObject comment="The object that caused it to be created, for example, a COM OperationActivity."/>
                     </com:object>
                 </com:objects>
