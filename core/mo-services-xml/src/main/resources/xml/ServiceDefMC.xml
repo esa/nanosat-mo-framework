@@ -323,6 +323,24 @@
                     <mal:documentation name="Requirement" order="6">
                         If no source link is needed then the ObjectId shall be replaced with a NULL.
                     </mal:documentation>
+                    <mal:subscriptionKeys>
+                        <mal:field name="objIdentityInstanceName" canBeNull="false"
+                                   comment="The name of the parameter.">
+                            <mal:type area="MAL" list="false" name="Identifier"/>
+                        </mal:field>
+                        <mal:field name="objIdentityInstanceId" canBeNull="false"
+                                   comment="The id of the parameter identity instance.">
+                            <mal:type area="MAL" list="false" name="Long"/>
+                        </mal:field>
+                        <mal:field name="objDefInstanceId" canBeNull="false"
+                                   comment="The id of the ParameterDefinition object.">
+                            <mal:type area="MAL" list="false" name="Long"/>
+                        </mal:field>
+                        <mal:field name="pValObjIds" canBeNull="false"
+                                   comment="The id of the ParameterValueInstance object.">
+                            <mal:type area="MAL" list="false" name="Long"/>
+                        </mal:field>
+                    </mal:subscriptionKeys>
                     <mal:messages>
                         <mal:publishNotify>
                             <mal:field name="objId"
@@ -909,6 +927,20 @@
                     <mal:documentation name="Requirement" order="6">
                         If no source link is needed then the ObjectId shall be replaced with a NULL.
                     </mal:documentation>
+                    <mal:subscriptionKeys>
+                        <mal:field name="aggregationName" canBeNull="false"
+                                   comment="The name of the aggregation.">
+                            <mal:type area="MAL" list="false" name="Identifier"/>
+                        </mal:field>
+                        <mal:field name="definitionId" canBeNull="false"
+                                   comment="The id of the AggregationDefinition object.">
+                            <mal:type area="MAL" list="false" name="Long"/>
+                        </mal:field>
+                        <mal:field name="aValObjId" canBeNull="false"
+                                   comment="The id of the AggregationValueInstance object.">
+                            <mal:type area="MAL" list="false" name="Long"/>
+                        </mal:field>
+                    </mal:subscriptionKeys>
                     <mal:messages>
                         <mal:publishNotify>
                             <mal:field name="objId"

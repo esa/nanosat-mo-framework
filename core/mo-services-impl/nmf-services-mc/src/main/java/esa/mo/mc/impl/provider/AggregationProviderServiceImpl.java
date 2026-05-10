@@ -175,15 +175,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         try {
             synchronized (lock) {
                 if (!isRegistered) {
-                    IdentifierList keys = new IdentifierList();
-                    keys.add(new Identifier("aggregationName"));
-                    keys.add(new Identifier("definitionId"));
-                    keys.add(new Identifier("aValObjId"));
-                    AttributeTypeList keyTypes = new AttributeTypeList();
-                    keyTypes.add(AttributeType.IDENTIFIER);
-                    keyTypes.add(AttributeType.LONG);
-                    keyTypes.add(AttributeType.LONG);
-                    publisher.register(keys, keyTypes, new PublishInteractionListener());
+                    publisher.registerWithDefaultKeys(new PublishInteractionListener());
                     isRegistered = true;
                 }
             }
