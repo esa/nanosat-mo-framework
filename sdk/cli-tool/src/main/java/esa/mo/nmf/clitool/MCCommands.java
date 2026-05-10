@@ -273,7 +273,7 @@ public class MCCommands {
             if (parameterNames == null || parameterNames.isEmpty()) {
             } else {
                 for (String parameter : parameterNames) {
-                    filters.add(new SubscriptionFilter(new Identifier("objIdentityInstanceName"), new AttributeList(parameter)));
+                    filters.add(new SubscriptionFilter(new Identifier("name"), new AttributeList(parameter)));
                 }
             }
 

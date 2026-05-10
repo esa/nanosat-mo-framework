@@ -313,7 +313,7 @@
                     </mal:documentation>
                     <mal:messages>
                         <mal:subscriptionKeys>
-                            <mal:field name="objIdentityInstanceName" canBeNull="false"
+                            <mal:field name="name" canBeNull="false"
                                        comment="The name of the parameter.">
                                 <mal:type area="MAL" list="false" name="Identifier"/>
                             </mal:field>
