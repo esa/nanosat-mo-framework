@@ -113,8 +113,8 @@ public class AlertTest2 {
 
             Element body = eventCOMObject.getBody();
 
-            if (body instanceof AlertEventDetails) {
-                AlertEventDetails receivedAlert = (AlertEventDetails) body;
+            if (body instanceof AlertEvent) {
+                AlertEvent receivedAlert = (AlertEvent) body;
 
                 Long alertDefObjId = eventCOMObject.getRelated();
 

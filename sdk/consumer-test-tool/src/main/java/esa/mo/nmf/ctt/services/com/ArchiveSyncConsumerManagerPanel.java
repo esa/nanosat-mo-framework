@@ -564,8 +564,8 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
         //        archiveDetailsList.add(serviceCOMArchive.generateArchiveDetails(new Long(0)));
         ArchiveDetailsList archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive.getConnectionDetails());
         objType = ConversionHelper.DISCRETECONVERSION_OBJECT_TYPE;
-        DiscreteConversionDetailsList objList1 = new DiscreteConversionDetailsList();
-        objList1.add(this.generateDiscreteConversionDetails());
+        DiscreteConversionList objList1 = new DiscreteConversionList();
+        objList1.add(this.generateDiscreteConversion());
         
         try {
             outObjId = serviceCOMArchive.getArchiveStub().store(Boolean.TRUE, objType, serviceCOMArchive.getConnectionDetails().getDomain(), archiveDetailsList, objList1);
@@ -579,8 +579,8 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
         //        archiveDetailsList.add(serviceCOMArchive.generateArchiveDetails(new Long(0)));
         archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive.getConnectionDetails());
         objType = ConversionHelper.LINECONVERSION_OBJECT_TYPE;
-        LineConversionDetailsList objList2 = new LineConversionDetailsList();
-        objList2.add(this.generateLineConversionDetails());
+        LineConversionList objList2 = new LineConversionList();
+        objList2.add(this.generateLineConversion());
         
         try {
             outObjId = serviceCOMArchive.getArchiveStub().store(Boolean.TRUE, objType, serviceCOMArchive.getConnectionDetails().getDomain(), archiveDetailsList, objList2);
@@ -594,8 +594,8 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
         //        archiveDetailsList.add(serviceCOMArchive.generateArchiveDetails(new Long(0)));
         archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive.getConnectionDetails());
         objType = ConversionHelper.POLYCONVERSION_OBJECT_TYPE;
-        PolyConversionDetailsList objList3 = new PolyConversionDetailsList();
-        objList3.add(this.generatePolyConversionDetails());
+        PolyConversionList objList3 = new PolyConversionList();
+        objList3.add(this.generatePolyConversion());
         
         try {
             outObjId = serviceCOMArchive.getArchiveStub().store(Boolean.TRUE, objType, serviceCOMArchive.getConnectionDetails().getDomain(), archiveDetailsList, objList3);
@@ -609,8 +609,8 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
         //        archiveDetailsList.add(serviceCOMArchive.generateArchiveDetails(new Long(0)));
         archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive.getConnectionDetails());
         objType = ConversionHelper.RANGECONVERSION_OBJECT_TYPE;
-        RangeConversionDetailsList objList4 = new RangeConversionDetailsList();
-        objList4.add(this.generateRangeConversionDetails());
+        RangeConversionList objList4 = new RangeConversionList();
+        objList4.add(this.generateRangeConversion());
         
         try {
             outObjId = serviceCOMArchive.getArchiveStub().store(Boolean.TRUE, objType, serviceCOMArchive.getConnectionDetails().getDomain(), archiveDetailsList, objList4);

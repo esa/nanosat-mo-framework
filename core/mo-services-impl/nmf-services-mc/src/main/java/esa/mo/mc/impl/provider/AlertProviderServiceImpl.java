@@ -409,7 +409,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
             }
         }
 
-        AlertEventDetails alertEvent = new AlertEventDetails(argumentValues, argumentIds);
+        AlertEvent alertEvent = new AlertEvent(argumentValues, argumentIds);
 
         // COM and Event usage 
         // requirement: 3.4.3.d
@@ -420,7 +420,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
                 alertEvent, id, source, interaction);
 
         // requirement: 3.4.5.a and 3.4.5.b and 3.4.5.c
-        AlertEventDetailsList alertEvents = new AlertEventDetailsList();
+        AlertEventList alertEvents = new AlertEventList();
         alertEvents.add(alertEvent);
         final URI uri = EventProviderServiceImpl.convertMALInteractionToURI(interaction);
 

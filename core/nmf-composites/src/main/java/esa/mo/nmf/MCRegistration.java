@@ -379,22 +379,22 @@ public class MCRegistration {
         }
 
         // Discrete Conversion:
-        if (conversions instanceof DiscreteConversionDetailsList) {
+        if (conversions instanceof DiscreteConversionList) {
             return this.registerConversionsGen(conversions, ConversionServiceInfo.DISCRETECONVERSION_OBJECT_TYPE);
         }
 
         // Line Conversion:
-        if (conversions instanceof LineConversionDetailsList) {
+        if (conversions instanceof LineConversionList) {
             return this.registerConversionsGen(conversions, ConversionServiceInfo.LINECONVERSION_OBJECT_TYPE);
         }
 
         // Polynomial Conversion:
-        if (conversions instanceof PolyConversionDetailsList) {
+        if (conversions instanceof PolyConversionList) {
             return this.registerConversionsGen(conversions, ConversionServiceInfo.POLYCONVERSION_OBJECT_TYPE);
         }
 
         // Range Conversion:
-        if (conversions instanceof RangeConversionDetailsList) {
+        if (conversions instanceof RangeConversionList) {
             return this.registerConversionsGen(conversions, ConversionServiceInfo.RANGECONVERSION_OBJECT_TYPE);
         }
 

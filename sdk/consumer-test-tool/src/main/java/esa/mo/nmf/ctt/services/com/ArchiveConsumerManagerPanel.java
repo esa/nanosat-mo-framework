@@ -106,21 +106,21 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
                 aggParamSetList);
     }
 
-    private LineConversionDetails generateLineConversionDetails() {
+    private LineConversion generateLineConversion() {
         PairList points = new PairList();
         points.add(new Pair(new Union(1), new Union(33.8)));
         points.add(new Pair(new Union(100), new Union(212)));
-        return new LineConversionDetails(true, points);
+        return new LineConversion(true, points);
     }
 
-    private PolyConversionDetails generatePolyConversionDetails() {
+    private PolyConversion generatePolyConversion() {
         PairList points = new PairList();
         points.add(new Pair(new Union(0), new Union(32)));
         points.add(new Pair(new Union(1), new Union(1.8)));
-        return new PolyConversionDetails(points);
+        return new PolyConversion(points);
     }
 
-    private DiscreteConversionDetails generateDiscreteConversionDetails() {
+    private DiscreteConversion generateDiscreteConversion() {
         PairList mapping = new PairList();
 
         mapping.add(new Pair(new Union(0), new Union("Mode 0")));
@@ -128,14 +128,14 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         mapping.add(new Pair(new Union(2), new Union("Mode 2")));
         mapping.add(new Pair(new Union(3), new Union("Mode 3")));
 
-        return new DiscreteConversionDetails(mapping);
+        return new DiscreteConversion(mapping);
     }
 
-    private RangeConversionDetails generateRangeConversionDetails() {
+    private RangeConversion generateRangeConversion() {
         PairList points = new PairList();
         points.add(new Pair(new Union(0), new Union("Between 0-100")));
         points.add(new Pair(new Union(100), new Union("Between 100-inf")));
-        return new RangeConversionDetails(points);
+        return new RangeConversion(points);
     }
 
     protected class ArchiveConsumerAdapter extends ArchiveAdapter {
@@ -734,7 +734,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         ArchiveDetailsList archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive.getConnectionDetails());
         objType = ConversionServiceInfo.DISCRETECONVERSION_OBJECT_TYPE;
         HeterogeneousList objList1 = new HeterogeneousList();
-        objList1.add(this.generateDiscreteConversionDetails());
+        objList1.add(this.generateDiscreteConversion());
 
         try {
             outObjId = serviceCOMArchive.getArchiveStub().store(Boolean.TRUE, objType,
@@ -752,7 +752,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive.getConnectionDetails());
         objType = ConversionServiceInfo.LINECONVERSION_OBJECT_TYPE;
         HeterogeneousList objList2 = new HeterogeneousList();
-        objList2.add(this.generateLineConversionDetails());
+        objList2.add(this.generateLineConversion());
 
         try {
             outObjId = serviceCOMArchive.getArchiveStub().store(Boolean.TRUE, objType,
@@ -770,7 +770,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive.getConnectionDetails());
         objType = ConversionServiceInfo.POLYCONVERSION_OBJECT_TYPE;
         HeterogeneousList objList3 = new HeterogeneousList();
-        objList3.add(this.generatePolyConversionDetails());
+        objList3.add(this.generatePolyConversion());
 
         try {
             outObjId = serviceCOMArchive.getArchiveStub().store(Boolean.TRUE, objType, serviceCOMArchive
@@ -783,7 +783,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive.getConnectionDetails());
         objType = ConversionServiceInfo.RANGECONVERSION_OBJECT_TYPE;
         HeterogeneousList objList4 = new HeterogeneousList();
-        objList4.add(this.generateRangeConversionDetails());
+        objList4.add(this.generateRangeConversion());
 
         try {
             outObjId = serviceCOMArchive.getArchiveStub().store(Boolean.TRUE, objType, serviceCOMArchive

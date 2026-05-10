@@ -143,23 +143,23 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
 
         // Execute conversion...
         // Discrete Conversion:
-        if (conversionDetails instanceof DiscreteConversionDetails) {
-            return this.applyDiscreteConversion((DiscreteConversionDetails) conversionDetails, value);
+        if (conversionDetails instanceof DiscreteConversion) {
+            return this.applyDiscreteConversion((DiscreteConversion) conversionDetails, value);
         }
 
         // Line Conversion:
-        if (conversionDetails instanceof LineConversionDetails) {
-            return this.applyLineConversion((LineConversionDetails) conversionDetails, value);
+        if (conversionDetails instanceof LineConversion) {
+            return this.applyLineConversion((LineConversion) conversionDetails, value);
         }
 
         // Polynomial Conversion:
-        if (conversionDetails instanceof PolyConversionDetails) {
-            return this.applyPolyConversion((PolyConversionDetails) conversionDetails, value);
+        if (conversionDetails instanceof PolyConversion) {
+            return this.applyPolyConversion((PolyConversion) conversionDetails, value);
         }
 
         // Range Conversion:
-        if (conversionDetails instanceof RangeConversionDetails) {
-            return this.applyRangeConversion((RangeConversionDetails) conversionDetails, value);
+        if (conversionDetails instanceof RangeConversion) {
+            return this.applyRangeConversion((RangeConversion) conversionDetails, value);
         }
 
         // The object returned didn't match any type of Conversion
@@ -251,7 +251,7 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
         return null;
     }
 
-    private Attribute applyDiscreteConversion(final DiscreteConversionDetails conversionDetails,
+    private Attribute applyDiscreteConversion(final DiscreteConversion conversionDetails,
         final Attribute value) {
         //requirement: 3.8.3.c => no entry in the points-list returns null
         for (Pair mapping : conversionDetails.getMapping()) {
@@ -263,7 +263,7 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
         return null;
     }
 
-    private Attribute applyLineConversion(final LineConversionDetails conversionDetails, final Attribute value) {
+    private Attribute applyLineConversion(final LineConversion conversionDetails, final Attribute value) {
 
         PairList points = conversionDetails.getPoints();
 
@@ -320,7 +320,7 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
         return null;
     }
 
-    private Attribute applyPolyConversion(final PolyConversionDetails conversionDetails, final Attribute value) {
+    private Attribute applyPolyConversion(final PolyConversion conversionDetails, final Attribute value) {
         //requirement: 3.8.3.e => no entry in the points-list returns null
         final PairList points = conversionDetails.getPoints();
         if (points.size() == 0) {
@@ -337,7 +337,7 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
         return new Union(convertedValue);
     }
 
-    private Attribute applyRangeConversion(final RangeConversionDetails conversionDetails, final Attribute value) {
+    private Attribute applyRangeConversion(final RangeConversion conversionDetails, final Attribute value) {
         //requirement: 3.8.3.f => no entry in the points-list returns null
         // Do we have a direct hit?
         final PairList points = conversionDetails.getPoints();

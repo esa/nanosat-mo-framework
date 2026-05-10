@@ -145,8 +145,8 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
         mappings.add(new Pair(new UOctet((short) AttitudeModeEnum.TARGETTRACKING.ordinal()), new Union("TARGETTRACKING")));
         mappings.add(new Pair(new UOctet((short) AttitudeModeEnum.NADIRPOINTING.ordinal()), new Union("NADIRPOINTING")));
 
-        DiscreteConversionDetailsList conversions = new DiscreteConversionDetailsList();
-        conversions.add(new DiscreteConversionDetails(mappings));
+        DiscreteConversionList conversions = new DiscreteConversionList();
+        conversions.add(new DiscreteConversion(mappings));
         ParameterConversion paramConversion = null;
 
         try {

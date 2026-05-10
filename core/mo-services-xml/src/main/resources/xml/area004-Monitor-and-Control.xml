@@ -826,7 +826,7 @@
                     <com:event name="AlertEvent" number="2"
                                comment="The AlertEvent shall be raised when an enabled alert is published.">
                         <com:objectType>
-                            <mal:type name="AlertEventDetails" area="MC"/>
+                            <mal:type name="AlertEvent" area="MC"/>
                         </com:objectType>
                         <com:relatedObject>
                             <com:objectType number="1" service="Alert" area="MC"/>
@@ -1341,7 +1341,7 @@
                     </com:object>
                     <com:object name="DiscreteConversion" number="2">
                         <com:objectType>
-                            <mal:type name="DiscreteConversionDetails" area="MC"/>
+                            <mal:type name="DiscreteConversion" area="MC"/>
                         </com:objectType>
                         <com:relatedObject>
                             <com:objectType number="1" service="Conversion" area="MC"/>
@@ -1350,7 +1350,7 @@
                     </com:object>
                     <com:object name="LineConversion" number="3">
                         <com:objectType>
-                            <mal:type name="LineConversionDetails" area="MC"/>
+                            <mal:type name="LineConversion" area="MC"/>
                         </com:objectType>
                         <com:relatedObject>
                             <com:objectType number="1" service="Conversion" area="MC"/>
@@ -1359,7 +1359,7 @@
                     </com:object>
                     <com:object name="PolyConversion" number="4">
                         <com:objectType>
-                            <mal:type name="PolyConversionDetails" area="MC"/>
+                            <mal:type name="PolyConversion" area="MC"/>
                         </com:objectType>
                         <com:relatedObject>
                             <com:objectType number="1" service="Conversion" area="MC"/>
@@ -1368,7 +1368,7 @@
                     </com:object>
                     <com:object name="RangeConversion" number="5">
                         <com:objectType>
-                            <mal:type name="RangeConversionDetails" area="MC"/>
+                            <mal:type name="RangeConversion" area="MC"/>
                         </com:objectType>
                         <com:relatedObject>
                             <com:objectType number="1" service="Conversion" area="MC"/>
@@ -1647,8 +1647,8 @@
                     <mal:type list="true" name="ArgumentDefinition" area="MC"/>
                 </mal:field>
             </mal:composite>
-            <mal:composite name="AlertEventDetails" shortFormPart="19"
-                           comment="The AlertEventDetails structure holds the details of an instance of an alert.">
+            <mal:composite name="AlertEvent" shortFormPart="19"
+                           comment="The AlertEvent structure holds the details of an instance of an alert.">
                 <mal:extends>
                     <mal:type name="Composite" area="MAL"/>
                 </mal:extends>
@@ -1818,8 +1818,8 @@
                     <mal:type name="AggregationValue" area="MC"/>
                 </mal:field>
             </mal:composite>
-            <mal:composite name="DiscreteConversionDetails" shortFormPart="32"
-                           comment="The DiscreteConversionDetails structure holds a bidirectional conversion between raw and converted values. The first element of the pair is the raw value and the second is the converted value. Both sets of values must be unique.">
+            <mal:composite name="DiscreteConversion" shortFormPart="32"
+                           comment="The DiscreteConversion structure holds a bidirectional conversion between raw and converted values. The first element of the pair is the raw value and the second is the converted value. Both sets of values must be unique.">
                 <mal:extends>
                     <mal:type name="Composite" area="MAL"/>
                 </mal:extends>
@@ -1828,8 +1828,8 @@
                     <mal:type list="true" name="Pair" area="MAL"/>
                 </mal:field>
             </mal:composite>
-            <mal:composite name="LineConversionDetails" shortFormPart="33"
-                           comment="The LineConversionDetails structure is a bi-directional conversion between raw and converted values. It is defined by a series of points between which values are to be interpolated. The extrapolate attribute indicates if values can also be linearly extrapolated beyond the initial and final points.">
+            <mal:composite name="LineConversion" shortFormPart="33"
+                           comment="The LineConversion structure is a bi-directional conversion between raw and converted values. It is defined by a series of points between which values are to be interpolated. The extrapolate attribute indicates if values can also be linearly extrapolated beyond the initial and final points.">
                 <mal:extends>
                     <mal:type name="Composite" area="MAL"/>
                 </mal:extends>
@@ -1842,8 +1842,8 @@
                     <mal:type list="true" name="Pair" area="MAL"/>
                 </mal:field>
             </mal:composite>
-            <mal:composite name="PolyConversionDetails" shortFormPart="34"
-                           comment="The PolyConversionDetails structure holds only forward (raw to converted) polynomial conversions. They are defined by a series of points for the polynomial coefficients.">
+            <mal:composite name="PolyConversion" shortFormPart="34"
+                           comment="The PolyConversion structure holds only forward (raw to converted) polynomial conversions. They are defined by a series of points for the polynomial coefficients.">
                 <mal:extends>
                     <mal:type name="Composite" area="MAL"/>
                 </mal:extends>
@@ -1852,8 +1852,8 @@
                     <mal:type list="true" name="Pair" area="MAL"/>
                 </mal:field>
             </mal:composite>
-            <mal:composite name="RangeConversionDetails" shortFormPart="35"
-                           comment="The RangeConversionDetails structure holds a range for a one-way conversion to convert between a continuous range to a discrete value. A range is defined as from this point up to, but not including, the next point.">
+            <mal:composite name="RangeConversion" shortFormPart="35"
+                           comment="The RangeConversion structure holds a range for a one-way conversion to convert between a continuous range to a discrete value. A range is defined as from this point up to, but not including, the next point.">
                 <mal:extends>
                     <mal:type name="Composite" area="MAL"/>
                 </mal:extends>

@@ -490,9 +490,9 @@ public class CameraAcquisitorGround {
                     executionStage});
             }
 
-        } else if (type == AlertEventDetails.TYPE_ID.getSFP()) {
-            System.out.println("AlertEventDetails");
-            AlertEventDetails event = (AlertEventDetails) body;
+        } else if (type == AlertEvent.TYPE_ID.getSFP()) {
+            System.out.println("AlertEvent");
+            AlertEvent event = (AlertEvent) body;
 
             AttributeValueList attValues = event.getArgumentValues();
 
