@@ -82,8 +82,7 @@ public class AlertTest2 {
             InstanceBooleanPairList enableInstance = new InstanceBooleanPairList();
             enableInstance.add(new InstanceBooleanPair(moAlertDefId, true));
 
-            Boolean isGroupIds = false;
-            alertConsumer.enableGeneration(isGroupIds, enableInstance);
+            alertConsumer.enableGeneration(enableInstance);
 
             System.out.println("Generation enabled for Alert Def Id: " + moAlertDefId);
         }

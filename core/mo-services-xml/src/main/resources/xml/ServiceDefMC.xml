@@ -6,7 +6,7 @@
     <mal:area name="MC" number="4" version="5"
               comment="This section details the MC services, the structures used by the services are detailed in section 4. Both the services and structures are defined in terms of the MO MAL, which is defined in [2], so it is possible to deploy them over any supported protocol and message transport.&#xA;The services defined here are also specified in terms of the COM, which is defined in [3].&#xA;To aid comprehension, several tables are included for each service and operation definition. The table formats are briefly described in section 1.6.3.2 and are the same as those used for the specification of the MO COM services in [3]. &#xA;All service specifications in this document are part of the MC area, which has a short form number of '4'.">
         <mal:service xsi:type="com:ExtendedServiceType" name="Action" number="1"
-                     comment="The action service allows consumers to submit an action for execution and to subsequently monitor the execution progress of these actions via the COM activity tracking pattern. The progress of the action is split into two parts, firstly transfer from the consumer to the provider, and secondly execution in the provider.&#xA;An action is submitted to the provider using the submitAction operation, the progress of which can be monitored using the COM activity tracking pattern, which completes when the action has been delivered to the provider. The action is then executed in the provider which can also be monitored using the activity tracking pattern. The submitAction operation takes the object instance identifier of the submitted action and uses that to populate the source fields of the activity tracking events. Coordination may be required between action service consumers to ensure the action object instance identifiers are unique. How this is done is outside the scope of this specification however a good approach is the use of a central COM archive as that can provide the unique instance identifiers.&#xA;The nominal sequence of action submission and execution monitoring are shown in Figure 3-1:&#xA; insert sequence diag here &#xA;The consumer is responsible for creating and archiving the action instance object and then using the submitAction operation to submit it to the action provider for execution. The action provider reports, using the COM ActivityTracking service, both the execution progress of the submitAction operation and also the execution of the action itself. Once the supplied action instance details have been checked and execution of the action started by the submitAction operation, that operation finishes, whilst the execution of the action possibly continues (depends on the actual action). The final interaction in the sequence shows the execution events of the executing action instance, the '*' at the start of that line indicates zero to many events being published.&#xA;If the execution of an action fails with an error, the action service provider can publish an ActionFailure COM event to hold the error code being reported by the failure. If no error code is required to be reported then there is no need to publish the event as the normal COM ActivityTracking event contains a success indication.&#xA;The action service defines two types of objects, the first type is the ActionDefinition object that holds the name and description of an action with the list of required/optional arguments. The second type is the ActionInstance object that holds details of a specific action instance namely a value for each of the arguments of the action.">
+                     comment="The action service allows consumers to submit an action for execution and to subsequently monitor the execution progress of these actions via the COM activity tracking pattern. The progress of the action is split into two parts, firstly transfer from the consumer to the provider, and secondly execution in the provider.&#xA;An action is submitted to the provider using the submitAction operation, the progress of which can be monitored using the COM activity tracking pattern, which completes when the action has been delivered to the provider. The action is then executed in the provider which can also be monitored using the activity tracking pattern. The submitAction operation takes the id of the submitted action and uses that to populate the source fields of the activity tracking events. Coordination may be required between action service consumers to ensure the action ids are unique. How this is done is outside the scope of this specification however a good approach is the use of a central COM archive as that can provide the unique instance identifiers.&#xA;The nominal sequence of action submission and execution monitoring are shown in Figure 3-1:&#xA; insert sequence diag here &#xA;The consumer is responsible for creating and archiving the action instance object and then using the submitAction operation to submit it to the action provider for execution. The action provider reports, using the COM ActivityTracking service, both the execution progress of the submitAction operation and also the execution of the action itself. Once the supplied action instance details have been checked and execution of the action started by the submitAction operation, that operation finishes, whilst the execution of the action possibly continues (depends on the actual action). The final interaction in the sequence shows the execution events of the executing action instance, the '*' at the start of that line indicates zero to many events being published.&#xA;If the execution of an action fails with an error, the action service provider can publish an ActionFailure COM event to hold the error code being reported by the failure. If no error code is required to be reported then there is no need to publish the event as the normal COM ActivityTracking event contains a success indication.&#xA;The action service defines two types of objects, the first type is the ActionDefinition object that holds the name and description of an action with the list of required/optional arguments. The second type is the ActionInstance object that holds details of a specific action instance namely a value for each of the arguments of the action.">
             <mal:documentation name="High Level Requirements" order="1">The action service shall provide:
 &lt;ol&gt;
  &lt;li&gt;the capability for submitting actions for execution;&lt;/li&gt;
@@ -34,7 +34,7 @@
                 Instances of an action that are submitted to a provider using the submitAction operation shall be represented as ActionInstance COM object.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="6">
-                The object instance identifier for an ActionInstance object shall be populated by the consumer.
+                The id for an ActionInstance object shall be populated by the consumer.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="7">
                 The ActionInstance object shall use the related link to indicate which ActionDefinition object it uses.
@@ -121,7 +121,7 @@
                 <mal:submitIP name="submitAction" number="1" supportInReplay="false"
                               comment="The submitAction operation allows a consumer to submit an action to a provider for remote execution.">
                     <mal:documentation name="Requirement" order="1">
-                        The actionInstId field of the submission shall contain the object instance identifier of the ActionInstance to be used for activity tracking events.
+                        The actionInstId field of the submission shall contain the id of the ActionInstance to be used for activity tracking events.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
                         The actionDetails part of the submission shall contain the argument values and related information of the action instance to be executed.
@@ -153,7 +153,7 @@
                     <mal:messages>
                         <mal:submit>
                             <mal:field name="actionInstId"
-                                       comment="The object instance identifier of the ActionInstance to be used for activity tracking events.">
+                                       comment="The id of the ActionInstance to be used for activity tracking events.">
                                 <mal:type name="Long" area="MAL"/>
                             </mal:field>
                             <mal:field name="actionDetails"
@@ -177,9 +177,9 @@
             </mal:capabilitySet>
             <mal:capabilitySet number="2">
                 <mal:requestIP name="listDefinition" number="3" supportInReplay="true"
-                               comment="The listDefinition operation allows a consumer to request the object instance identifiers of the ActionDefinition objects for the supported actions of the provider.">
+                               comment="The listDefinition operation allows a consumer to request the ids of the ActionDefinition objects for the supported actions of the provider.">
                     <mal:documentation name="Requirement" order="1">
-                        The actionNames field shall contain a list of action names to retrieve the ActionDefinition object instance identifiers for.
+                        The actionNames field shall contain a list of action names to retrieve the ActionDefinition ids for.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
                         The request may contain the wildcard value of '*' to return all supported ActionDefinition objects.
@@ -196,7 +196,7 @@
                     <mal:messages>
                         <mal:request>
                             <mal:field name="actionNames"
-                                       comment="The list of action names to retrieve the ActionDefinition object instance identifiers for.">
+                                       comment="The list of action names to retrieve the ActionDefinition ids for.">
                                 <mal:type list="true" name="Identifier" area="MAL"/>
                             </mal:field>
                         </mal:request>
@@ -251,7 +251,7 @@
             </com:features>
         </mal:service>
         <mal:service xsi:type="com:ExtendedServiceType" name="Parameter" number="2"
-                     comment="The parameter service allows the user to subscribe to parameter value report and optionally be able to set new values. A single PUBSUB operation is provided for monitoring and publishing of parameter values.&#xA;A parameter value also contains a calculation of the validity of the parameter, the flow chart for this calculation is provided in Figure 3-3:&#xA; validity calculation flow chart &#xA;&#xA;This standard supports the concept of non-standard invalidity states but the meaning and calculation of these is outside the scope of this standard.&#xA;The generation of value reports can be controlled using the enableGeneration operation, which supports the use of groups. Groups must reference parameter identities or groups of parameter identities only.&#xA;The parameter service does not include any value checking, this is delegated to the check service.&#xA;Parameter definitions are maintained using the operations defined in this service but storage of definitions is delegated to the COM archive.">
+                     comment="The parameter service allows the user to subscribe to parameter value report and optionally be able to set new values. A single PUBSUB operation is provided for monitoring and publishing of parameter values.&#xA;A parameter value also contains a calculation of the validity of the parameter, the flow chart for this calculation is provided in Figure 3-3:&#xA; validity calculation flow chart &#xA;&#xA;This standard supports the concept of non-standard invalidity states but the meaning and calculation of these is outside the scope of this standard.&#xA;The generation of value reports can be controlled using the enableGeneration operation.&#xA;The parameter service does not include any value checking, this is delegated to the check service.&#xA;Parameter definitions are maintained using the operations defined in this service but storage of definitions is delegated to the COM archive.">
             <mal:documentation name="High Level Requirements" order="1">The parameter service shall provide:
 &lt;ol&gt;
  &lt;li&gt;the capability for periodic reporting of predefined parameter values;&lt;/li&gt;
@@ -318,13 +318,13 @@
                         The MAL EntityKey.firstSubKey shall contain the parameter name.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        The MAL EntityKey.secondSubKey shall contain the ParameterDefinition object instance identifier.
+                        The MAL EntityKey.secondSubKey shall contain the ParameterDefinition id.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
-                        The MAL EntityKey.thirdSubKey shall contain the ParameterDefinition object instance identifier.
+                        The MAL EntityKey.thirdSubKey shall contain the ParameterDefinition id.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="4">
-                        The MAL EntityKey.fourthSubKey shall contain the new ParameterValueInstance object instance identifier.
+                        The MAL EntityKey.fourthSubKey shall contain the new ParameterValueInstance id.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="5">
                         The timestamp of the ParameterValueInstance report shall be taken from the publish message and shall be the time of the parameter value update.
@@ -356,13 +356,13 @@
                 <mal:requestIP name="getValue" number="2" supportInReplay="true"
                                comment="The getValue operation returns the latest received value for a requested parameter.">
                     <mal:documentation name="Requirement" order="1">
-                        The paramInstIds field shall provide the list of ParameterDefinition object instance identifiers.
+                        The paramInstIds field shall provide the list of ParameterDefinition ids.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
                         The wildcard value of '0' shall be supported and matches all parameters of the provider.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
-                        The wildcard value should be checked for first, if found no other checks of supplied object instance identifiers shall be made.
+                        The wildcard value should be checked for first, if found no other checks of supplied ids shall be made.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="4">
                         If a requested parameter is unknown then an UNKNOWN error shall be returned.
@@ -371,7 +371,7 @@
                         If a parameter is being reported periodically, using the operation shall not reset the reportInterval timer.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="6">
-                        The response shall contain a list of returned ParameterDefinition object instance identifiers and a matching list of parameter values.
+                        The response shall contain a list of returned ParameterDefinition ids and a matching list of parameter values.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="7">
                         The new value shall not be published via the monitorValue operation.
@@ -379,13 +379,13 @@
                     <mal:messages>
                         <mal:request>
                             <mal:field name="paramInstIds"
-                                       comment="The list of ParameterDefinition object instance identifiers.">
+                                       comment="The list of ParameterDefinition ids.">
                                 <mal:type list="true" name="Long" area="MAL"/>
                             </mal:field>
                         </mal:request>
                         <mal:response>
                             <mal:field name="paramValDetails"
-                                       comment="The list of returned ParameterDefinition object instance identifiers and matching parameter values.">
+                                       comment="The list of returned ParameterDefinition ids and matching parameter values.">
                                 <mal:type list="true" name="ParameterValueDetails" area="MC"/>
                             </mal:field>
                         </mal:response>
@@ -404,7 +404,7 @@
                 <mal:submitIP name="setValue" number="3" supportInReplay="false"
                               comment="The setValue operation allows a consumer to set the raw value for one or more parameters.">
                     <mal:documentation name="Requirement" order="1">
-                        The submitted newRawValues shall hold a list of ParameterRawValues that contain the ParameterDefinition object instance identifier and the respective raw value to be set.
+                        The submitted newRawValues shall hold a list of ParameterRawValues that contain the ParameterDefinition id and the respective raw value to be set.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
                         If the paramInstId field contains the wildcard value of '0' then an INVALID error shall be returned.
@@ -433,7 +433,7 @@
                     <mal:messages>
                         <mal:submit>
                             <mal:field name="newRawValues"
-                                       comment="The list of ParameterRawValues containing the ParameterDefinition object instance identifier and the respective raw value to be set.">
+                                       comment="The list of ParameterRawValues containing the ParameterDefinition id and the respective raw value to be set.">
                                 <mal:type list="true" name="ParameterRawValue" area="MC"/>
                             </mal:field>
                         </mal:submit>
@@ -462,74 +462,58 @@
             </mal:capabilitySet>
             <mal:capabilitySet number="4">
                 <mal:requestIP name="enableGeneration" number="4" supportInReplay="false"
-                               comment="The enableGeneration operation allows a consumer to control whether reports for specific parameters are generated or not. The operation allows the consumer to select the parameters directly or indirectly using groups.">
+                               comment="The enableGeneration operation allows a consumer to control whether reports for specific parameters are generated or not.">
                     <mal:documentation name="Requirement" order="1">
-                        If the isGroupIds field is TRUE then the enableInstances field shall contain GroupIdentity object instance identifiers, otherwise the field contains ParameterDefinition object instance identifiers.
+                        The enableInstances field shall contain the ParameterDefinition ids to match.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        The ParameterDefinition objects referenced, either directly or indirectly via groups, by the enableInstances field shall be the ParameterDefinition objects to match.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="3">
                         The id of the enableInstances field shall support the wildcard value of '0' and matches all ParameterDefinition objects of the provider.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="4">
-                        The service provider shall check for the wildcard value in the list of object instance identifiers in the enableInstances field first and if found no other checks of supplied object instance identifiers shall be made.
+                    <mal:documentation name="Requirement" order="3">
+                        The service provider shall check for the wildcard value in the list of ids in the enableInstances field first and if found no other checks of supplied ids shall be made.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="5">
+                    <mal:documentation name="Requirement" order="4">
                         If the enableInstances field contains a value of TRUE then reports for matching ParameterDefinition objects shall be generated, a value of FALSE requests that reports will not be generated.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="6">
+                    <mal:documentation name="Requirement" order="5">
                         No error shall be raised if the enableInstances Boolean value supplied is the same as the current generationEnabled field of the definition for a matched ParameterDefinition object i.e. enabling an already enabled parameter will not result in an error.
                     </mal:documentation>
+                    <mal:documentation name="Requirement" order="6">
+                        If a requested ParameterDefinition object is unknown then an UNKNOWN error shall be returned.
+                    </mal:documentation>
                     <mal:documentation name="Requirement" order="7">
-                        If a requested ParameterDefinition or GroupIdentity object is unknown then an UNKNOWN error shall be returned.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="8">
-                        If a requested Group, or the Group objects referenced by that Group, does not contain ParameterDefinition objects then an INVALID error shall be returned.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="9">
                         If an error is raised then no modifications shall be made as a result of this operation call.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="10">
+                    <mal:documentation name="Requirement" order="8">
                         The provider shall create and store a new ParameterDefinition object in the COM archive if the generationEnabled field is changed.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="11">
+                    <mal:documentation name="Requirement" order="9">
                         If a new ParameterDefinition object is created then that new object shall be the current ParameterDefinition used for the parameter.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="12">
+                    <mal:documentation name="Requirement" order="10">
                         If the generation of reports is being enabled, and the parameter is defined as being periodic, then the provider shall generate a report immediately and start the report interval from that report.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="13">
-                        The response shall contain the list of object instance identifiers for the new ParameterDefinition objects.
+                    <mal:documentation name="Requirement" order="11">
+                        The response shall contain the list of ids for the new ParameterDefinition objects.
                     </mal:documentation>
                     <mal:messages>
                         <mal:request>
-                            <mal:field name="isGroupIds"
-                                       comment="If TRUE, the enableInstances field contains GroupIdentity object instance identifiers; otherwise it contains ParameterDefinition object instance identifiers.">
-                                <mal:type name="Boolean" area="MAL"/>
-                            </mal:field>
                             <mal:field name="enableInstances"
-                                       comment="The list of object instance identifiers and their enable/disable flag.">
+                                       comment="The list of ParameterDefinition ids and their enable/disable flag.">
                                 <mal:type list="true" name="InstanceBooleanPair" area="COM"/>
                             </mal:field>
                         </mal:request>
                         <mal:response>
                             <mal:field name="newObjInstIds"
-                                       comment="The list of object instance identifiers for the new ParameterDefinition objects.">
+                                       comment="The list of ids for the new ParameterDefinition objects.">
                                 <mal:type list="true" name="Long" area="MAL"/>
                             </mal:field>
                         </mal:response>
                     </mal:messages>
                     <mal:errors>
-                        <mal:errorRef comment="One or more of the requested parameters or groups is unknown.">
+                        <mal:errorRef comment="One or more of the requested parameters is unknown.">
                             <mal:type name="UNKNOWN" area="MAL"/>
                             <mal:extraInformation comment="A list of the indexes of the error values shall be contained in the extra information field.">
-                                <mal:type list="true" name="UInteger" area="MAL"/>
-                            </mal:extraInformation>
-                        </mal:errorRef>
-                        <mal:errorRef comment="One of the supplied groups is either not a group of groups or a group of ParameterDefinition objects.">
-                            <mal:type name="INVALID" area="COM"/>
-                            <mal:extraInformation comment="The extra information field contains a list of the indexes of the erroneous values from the originating list supplied.">
                                 <mal:type list="true" name="UInteger" area="MAL"/>
                             </mal:extraInformation>
                         </mal:errorRef>
@@ -538,9 +522,9 @@
             </mal:capabilitySet>
             <mal:capabilitySet number="5">
                 <mal:requestIP name="listDefinition" number="5" supportInReplay="true"
-                               comment="The listDefinition operation allows a consumer to request the object instance identifiers of the ParameterDefinition objects for the supported parameters of the provider.">
+                               comment="The listDefinition operation allows a consumer to request the ids of the ParameterDefinition objects for the supported parameters of the provider.">
                     <mal:documentation name="Requirement" order="1">
-                        The paramNames field shall contain a list of parameter names to retrieve the ParameterDefinition object instance identifiers for.
+                        The paramNames field shall contain a list of parameter names to retrieve the ParameterDefinition ids for.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
                         The paramNames field may contain the wildcard value of '*' to return all supported ParameterDefinition objects.
@@ -557,7 +541,7 @@
                     <mal:messages>
                         <mal:request>
                             <mal:field name="paramNames"
-                                       comment="The list of parameter names to retrieve the ParameterDefinition object instance identifiers for.">
+                                       comment="The list of parameter names to retrieve the ParameterDefinition ids for.">
                                 <mal:type list="true" name="Identifier" area="MAL"/>
                             </mal:field>
                         </mal:request>
@@ -582,10 +566,10 @@
                 <mal:requestIP name="updateDefinition" number="7" supportInReplay="false"
                                comment="The updateDefinition operation allows a consumer to update a definition for one or more parameters. The replacement definition should be stored in the COM archive by the service provider. The operation does not remove the previous object from the COM archive, merely removes the object from the provider.">
                     <mal:documentation name="Requirement" order="1">
-                        The paramInstIds field shall contain the object instance identifiers of the ParameterDefinition objects to be updated.
+                        The paramInstIds field shall contain the ids of the ParameterDefinition objects to be updated.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        The supplied object instance identifiers shall match existing ParameterDefinition objects, an UNKNOWN error shall be raised if this is not the case.
+                        The supplied ids shall match existing ParameterDefinition objects, an UNKNOWN error shall be raised if this is not the case.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
                         If the paramInstIds list contains either NULL or '0' an INVALID error shall be raised.
@@ -606,7 +590,7 @@
                         The new ParameterDefinition object shall be the current ParameterDefinition used for the parameter.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="9">
-                        The response shall contain the list of object instance identifiers for the new ParameterDefinition objects.
+                        The response shall contain the list of ids for the new ParameterDefinition objects.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="10">
                         The returned list shall maintain the same order as the submitted definitions.
@@ -614,7 +598,7 @@
                     <mal:messages>
                         <mal:request>
                             <mal:field name="paramInstIds"
-                                       comment="The object instance identifiers of the ParameterDefinition objects to be updated.">
+                                       comment="The ids of the ParameterDefinition objects to be updated.">
                                 <mal:type list="true" name="Long" area="MAL"/>
                             </mal:field>
                             <mal:field name="definitions"
@@ -624,19 +608,19 @@
                         </mal:request>
                         <mal:response>
                             <mal:field name="newObjInstIds"
-                                       comment="The list of object instance identifiers for the new ParameterDefinition objects.">
+                                       comment="The list of ids for the new ParameterDefinition objects.">
                                 <mal:type list="true" name="Long" area="MAL"/>
                             </mal:field>
                         </mal:response>
                     </mal:messages>
                     <mal:errors>
-                        <mal:errorRef comment="The supplied object instance identifiers list contains either a NULL or '0' or the two supplied lists are not the same length or a supplied interval is not supported by the provider.&#xA;If the two lists are not the same length then the extra information field shall contain the first index of the element in the largest list which does not have corresponding element in the other list.">
+                        <mal:errorRef comment="The supplied ids list contains either a NULL or '0' or the two supplied lists are not the same length or a supplied interval is not supported by the provider.&#xA;If the two lists are not the same length then the extra information field shall contain the first index of the element in the largest list which does not have corresponding element in the other list.">
                             <mal:type name="INVALID" area="COM"/>
                             <mal:extraInformation comment="The extra information field contains a list of the indexes of the erroneous values from the originating list supplied.">
                                 <mal:type list="true" name="UInteger" area="MAL"/>
                             </mal:extraInformation>
                         </mal:errorRef>
-                        <mal:errorRef comment="One of the supplied ParameterDefinition object instance identifiers is unknown.">
+                        <mal:errorRef comment="One of the supplied ParameterDefinition ids is unknown.">
                             <mal:type name="UNKNOWN" area="MAL"/>
                             <mal:extraInformation comment="A list of the indexes of the error values shall be contained in the extra information field.">
                                 <mal:type list="true" name="UInteger" area="MAL"/>
@@ -667,7 +651,7 @@
             </com:features>
         </mal:service>
         <mal:service xsi:type="com:ExtendedServiceType" name="Alert" number="3"
-                     comment="The alert service defines the structures and patterns for the publishing and monitoring of alerts. The alert service uses COM event service to monitor and publish alert events.&#xA;The generation of alerts can be controlled using the enableGeneration operation, which supports the use of groups. Groups must reference either other groups or alerts only.&#xA;Alert definitions are maintained using the operations defined in this service but storage of definitions is delegated to the COM archive.">
+                     comment="The alert service defines the structures and patterns for the publishing and monitoring of alerts. The alert service uses COM event service to monitor and publish alert events.&#xA;The generation of alerts can be controlled using the enableGeneration operation.&#xA;Alert definitions are maintained using the operations defined in this service but storage of definitions is delegated to the COM archive.">
             <mal:documentation name="High Level Requirements" order="1">The alert service shall provide:
 &lt;ol&gt;
  &lt;li&gt;the capability for reporting of alerts;&lt;/li&gt;
@@ -710,68 +694,53 @@
             </mal:documentation>
             <mal:capabilitySet number="1">
                 <mal:requestIP name="enableGeneration" number="1" supportInReplay="false"
-                               comment="The enableGeneration operation allows a consumer to control whether updates for specific alerts are generated or not. The operation allows the consumer to select the alerts directly or indirectly using groups.">
+                               comment="The enableGeneration operation allows a consumer to control whether updates for specific alerts are generated or not.">
                     <mal:documentation name="Requirement" order="1">
-                        If the isGroupIds field is TRUE then the enableInstances field shall contain GroupIdentity object instance identifiers, otherwise the field contains AlertDefinition object instance identifiers.
+                        The enableInstances field shall contain the AlertDefinition ids to match.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        The AlertDefinition objects referenced, either directly or indirectly via groups, by the enableInstances field shall be the AlertDefinition objects to match.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="3">
                         The id of the enableInstances field shall support the wildcard value of '0' and matches all AlertDefinition objects of the provider.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="4">
-                        The service provider shall check for the wildcard value in the list of object instance identifiers in the enableInstances field first and if found no other checks of supplied object instance identifiers shall be made.
+                    <mal:documentation name="Requirement" order="3">
+                        The service provider shall check for the wildcard value in the list of ids in the enableInstances field first and if found no other checks of supplied ids shall be made.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="5">
+                    <mal:documentation name="Requirement" order="4">
                         If the enableInstances field contains a value of TRUE then instances of matching AlertDefinition objects shall be generated, a value of FALSE requests that instances will not be generated.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="6">
+                    <mal:documentation name="Requirement" order="5">
                         No error shall be raised if the enableInstances Boolean value supplied is the same as the current generationEnabled field for an alert object i.e. enabling an already enabled alert will not result in an error.
                     </mal:documentation>
+                    <mal:documentation name="Requirement" order="6">
+                        If a requested AlertDefinition object is unknown then an UNKNOWN error shall be returned.
+                    </mal:documentation>
                     <mal:documentation name="Requirement" order="7">
-                        If a requested AlertDefinition or GroupIdentity object is unknown then an UNKNOWN error shall be returned.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="8">
-                        If a requested Group, or the Group objects referenced by that Group, does not contain AlertDefinition objects then an INVALID error shall be returned.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="9">
                         If an error is raised then no modifications shall be made as a result of this operation call.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="10">
+                    <mal:documentation name="Requirement" order="8">
                         The provider shall create and store a new AlertDefinition object in the COM archive if the generationEnabled field is changed.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="11">
+                    <mal:documentation name="Requirement" order="9">
                         If a new AlertDefinition object is created then that new object shall be the current AlertDefinition used for the alert.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="12">
-                        The response shall contain the list of object instance identifiers for the new AlertDefinition objects.
+                    <mal:documentation name="Requirement" order="10">
+                        The response shall contain the list of ids for the new AlertDefinition objects.
                     </mal:documentation>
                     <mal:messages>
                         <mal:request>
-                            <mal:field name="isGroupIds"
-                                       comment="If TRUE, the enableInstances field contains GroupIdentity object instance identifiers; otherwise it contains AlertDefinition object instance identifiers.">
-                                <mal:type name="Boolean" area="MAL"/>
-                            </mal:field>
-                            <mal:field name="enableInstances">
+                            <mal:field name="enableInstances"
+                                       comment="The list of AlertDefinition ids and their enable/disable flag.">
                                 <mal:type list="true" name="InstanceBooleanPair" area="COM"/>
                             </mal:field>
                         </mal:request>
                         <mal:response>
                             <mal:field name="newObjInstIds"
-                                       comment="The list of object instance identifiers for the new AlertDefinition objects.">
+                                       comment="The list of ids for the new AlertDefinition objects.">
                                 <mal:type list="true" name="Long" area="MAL"/>
                             </mal:field>
                         </mal:response>
                     </mal:messages>
                     <mal:errors>
-                        <mal:errorRef comment="One of the supplied groups is either not a group of groups or a group of AlertDefinition objects.">
-                            <mal:type name="INVALID" area="COM"/>
-                            <mal:extraInformation comment="The extra information field contains a list of the indexes of the erroneous values from the originating list supplied.">
-                                <mal:type list="true" name="UInteger" area="MAL"/>
-                            </mal:extraInformation>
-                        </mal:errorRef>
-                        <mal:errorRef comment="One or more of the requested alerts or group objects is unknown.">
+                        <mal:errorRef comment="One or more of the requested alerts is unknown.">
                             <mal:type name="UNKNOWN" area="MAL"/>
                             <mal:extraInformation comment="A list of the indexes of the error values shall be contained in the extra information field.">
                                 <mal:type list="true" name="UInteger" area="MAL"/>
@@ -782,9 +751,9 @@
             </mal:capabilitySet>
             <mal:capabilitySet number="2">
                 <mal:requestIP name="listDefinition" number="2" supportInReplay="true"
-                               comment="The listDefinition operation allows a consumer to request the object instance identifiers of the AlertDefinition objects for the supported alerts of the provider.">
+                               comment="The listDefinition operation allows a consumer to request the ids of the AlertDefinition objects for the supported alerts of the provider.">
                     <mal:documentation name="Requirement" order="1">
-                        The alertNames field shall contain a list of alert names to retrieve the AlertDefinition object instance identifiers for.
+                        The alertNames field shall contain a list of alert names to retrieve the AlertDefinition ids for.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
                         The alertNames field may contain the wildcard value of '*' to return all supported AlertDefinition objects.
@@ -801,7 +770,7 @@
                     <mal:messages>
                         <mal:request>
                             <mal:field name="alertNames"
-                                       comment="The list of alert names to retrieve the AlertDefinition object instance identifiers for.">
+                                       comment="The list of alert names to retrieve the AlertDefinition ids for.">
                                 <mal:type list="true" name="Identifier" area="MAL"/>
                             </mal:field>
                         </mal:request>
@@ -826,10 +795,10 @@
                 <mal:requestIP name="updateDefinition" number="4" supportInReplay="false"
                                comment="The updateDefinition operation allows a consumer to update a definition for one or more alerts. The replacement definition should be stored in the COM archive by the service provider. The operation does not remove the previous object from the COM archive, merely removes the object from the provider.">
                     <mal:documentation name="Requirement" order="1">
-                        The alertObjInstIds field shall contain the object instance identifiers of the AlertDefinition objects to be updated.
+                        The alertObjInstIds field shall contain the ids of the AlertDefinition objects to be updated.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        The supplied object instance identifiers shall match existing AlertDefinition objects, an UNKNOWN error shall be raised if this is not the case.
+                        The supplied ids shall match existing AlertDefinition objects, an UNKNOWN error shall be raised if this is not the case.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
                         If the alertObjInstIds list contains either NULL or '0' an INVALID error shall be raised.
@@ -850,7 +819,7 @@
                         The new AlertDefinition object shall be the current AlertDefinition used for the alert.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="9">
-                        The response shall contain the list of object instance identifiers for the new AlertDefinition objects.
+                        The response shall contain the list of ids for the new AlertDefinition objects.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="10">
                         The returned list shall maintain the same order as the submitted definitions.
@@ -858,7 +827,7 @@
                     <mal:messages>
                         <mal:request>
                             <mal:field name="alertObjInstIds"
-                                       comment="The object instance identifiers of the AlertDefinition objects to be updated.">
+                                       comment="The ids of the AlertDefinition objects to be updated.">
                                 <mal:type list="true" name="Long" area="MAL"/>
                             </mal:field>
                             <mal:field name="alertDefDetails"
@@ -868,7 +837,7 @@
                         </mal:request>
                         <mal:response>
                             <mal:field name="newObjInstIds"
-                                       comment="The list of object instance identifiers for the new AlertDefinition objects.">
+                                       comment="The list of ids for the new AlertDefinition objects.">
                                 <mal:type list="true" name="Long" area="MAL"/>
                             </mal:field>
                         </mal:response>
@@ -880,7 +849,7 @@
                                 <mal:type list="true" name="UInteger" area="MAL"/>
                             </mal:extraInformation>
                         </mal:errorRef>
-                        <mal:errorRef comment="One of the supplied AlertDefinition object instance identifiers is unknown.">
+                        <mal:errorRef comment="One of the supplied AlertDefinition ids is unknown.">
                             <mal:type name="UNKNOWN" area="MAL"/>
                             <mal:extraInformation comment="A list of the indexes of the error values shall be contained in the extra information field.">
                                 <mal:type list="true" name="UInteger" area="MAL"/>
@@ -977,13 +946,13 @@
                         The MAL EntityKey.firstSubKey shall contain the aggregation name.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        The MAL EntityKey.secondSubKey shall contain the AggregationDefinition object instance identifier.
+                        The MAL EntityKey.secondSubKey shall contain the AggregationDefinition id.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
-                        The MAL EntityKey.thirdSubKey shall contain the AggregationDefinition object instance identifier.
+                        The MAL EntityKey.thirdSubKey shall contain the AggregationDefinition id.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="4">
-                        The MAL EntityKey.fourthSubKey shall contain the new AggregationValueInstance object instance identifier.
+                        The MAL EntityKey.fourthSubKey shall contain the new AggregationValueInstance id.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="5">
                         The timestamp of the AggregationValueInstance report shall be taken from the publish message.
@@ -1015,13 +984,13 @@
                 <mal:requestIP name="getValue" number="2" supportInReplay="true"
                                comment="The getValue operation returns the latest received value for a requested aggregation.">
                     <mal:documentation name="Requirement" order="1">
-                        The aggInstIds field shall provide the list of AggregationDefinition object instance identifiers.
+                        The aggInstIds field shall provide the list of AggregationDefinition ids.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
                         The wildcard value of '0' shall be supported and matches all aggregations of the provider.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
-                        The wildcard value should be checked for first, if found no other checks of supplied object instance identifiers shall be made.
+                        The wildcard value should be checked for first, if found no other checks of supplied ids shall be made.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="4">
                         If a requested aggregation is unknown then an UNKNOWN error shall be returned.
@@ -1033,7 +1002,7 @@
                         If an aggregation is being reported periodically, using the operation shall not reset the reportInterval or filteredTimeout timer.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="7">
-                        The response shall contain a list of returned AggregationDefinition object instance identifiers and a matching list of AggregationValues.
+                        The response shall contain a list of returned AggregationDefinition ids and a matching list of AggregationValues.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="8">
                         The new value shall not be published via the monitorValue operation.
@@ -1041,13 +1010,13 @@
                     <mal:messages>
                         <mal:request>
                             <mal:field name="aggInstIds"
-                                       comment="The list of AggregationDefinition object instance identifiers.">
+                                       comment="The list of AggregationDefinition ids.">
                                 <mal:type list="true" name="Long" area="MAL"/>
                             </mal:field>
                         </mal:request>
                         <mal:response>
                             <mal:field name="aggValDetails"
-                                       comment="The list of returned AggregationDefinition object instance identifiers and matching AggregationValues.">
+                                       comment="The list of returned AggregationDefinition ids and matching AggregationValues.">
                                 <mal:type list="true" name="AggregationValueDetails" area="MC"/>
                             </mal:field>
                         </mal:response>
@@ -1064,133 +1033,102 @@
             </mal:capabilitySet>
             <mal:capabilitySet number="3">
                 <mal:requestIP name="enableGeneration" number="3" supportInReplay="false"
-                               comment="The enableGeneration operation allows a consumer to control whether reports for specific aggregations are generated or not. The operation allows the consumer to select the aggregations directly or indirectly using groups. This affects all types of aggregations, periodic, filtered and ad-hoc.">
+                               comment="The enableGeneration operation allows a consumer to control whether reports for specific aggregations are generated or not. This affects all types of aggregations, periodic, filtered and ad-hoc.">
                     <mal:documentation name="Requirement" order="1">
-                        If the isGroupIds field is TRUE then the enableInstances field shall contain GroupIdentity object instance identifiers, otherwise the field contains AggregationDefinition object instance identifiers.
+                        The enableInstances field shall contain the AggregationDefinition ids to match.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        The AggregationDefinition objects referenced, either directly or indirectly via groups, by the enableInstances field shall be the AggregationDefinition objects to match.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="3">
                         The id of the enableInstances field shall support the wildcard value of '0' and matches all AggregationDefinition objects of the provider.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="4">
-                        The service provider shall check for the wildcard value in the list of object instance identifiers in the enableInstances field first and if found no other checks of supplied object instance identifiers shall be made.
+                    <mal:documentation name="Requirement" order="3">
+                        The service provider shall check for the wildcard value in the list of ids in the enableInstances field first and if found no other checks of supplied ids shall be made.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="5">
+                    <mal:documentation name="Requirement" order="4">
                         If the enableInstances field contains a value of TRUE then reports of matching AggregationDefinition objects shall be generated, a value of FALSE requests that reports will not be generated.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="6">
+                    <mal:documentation name="Requirement" order="5">
                         No error shall be raised if the enableInstances Boolean value supplied is the same as the current generationEnabled field of the definition for a matched AggregationDefinition object i.e. enabling an already enabled aggregation will not result in an error.
                     </mal:documentation>
+                    <mal:documentation name="Requirement" order="6">
+                        If a requested AggregationDefinition object is unknown then an UNKNOWN error shall be returned.
+                    </mal:documentation>
                     <mal:documentation name="Requirement" order="7">
-                        If a requested AggregationDefinition or GroupIdentity object is unknown then an UNKNOWN error shall be returned.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="8">
-                        If a requested Group, or the Group objects referenced by that Group, does not contain AggregationDefinition objects then an INVALID error shall be returned.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="9">
                         If an error is raised then no modifications shall be made as a result of this operation call.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="10">
+                    <mal:documentation name="Requirement" order="8">
                         The provider shall create and store a new AggregationDefinition object in the COM archive if the generationEnabled field is changed.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="11">
+                    <mal:documentation name="Requirement" order="9">
                         If a new AggregationDefinition object is created then that new object shall be the current AggregationDefinition used for the aggregation.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="12">
+                    <mal:documentation name="Requirement" order="10">
                         If the generation of reports is being enabled, and the aggregation is defined as being periodic, then the provider shall generate a report immediately and start the report interval from that report.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="13">
-                        The response shall contain the list of object instance identifiers for the new AggregationDefinition objects.
+                    <mal:documentation name="Requirement" order="11">
+                        The response shall contain the list of ids for the new AggregationDefinition objects.
                     </mal:documentation>
                     <mal:messages>
                         <mal:request>
-                            <mal:field name="isGroupIds"
-                                       comment="If TRUE the enableInstances field contains GroupIdentity object instance identifiers, otherwise AggregationDefinition object instance identifiers.">
-                                <mal:type name="Boolean" area="MAL"/>
-                            </mal:field>
                             <mal:field name="enableInstances"
-                                       comment="The list of AggregationDefinition object instance identifiers and their desired generation state.">
+                                       comment="The list of AggregationDefinition ids and their desired generation state.">
                                 <mal:type list="true" name="InstanceBooleanPair" area="COM"/>
                             </mal:field>
                         </mal:request>
                         <mal:response>
                             <mal:field name="newObjInstIds"
-                                       comment="The list of object instance identifiers for the new AggregationDefinition objects.">
+                                       comment="The list of ids for the new AggregationDefinition objects.">
                                 <mal:type list="true" name="Long" area="MAL"/>
                             </mal:field>
                         </mal:response>
                     </mal:messages>
                     <mal:errors>
-                        <mal:errorRef comment="One or more of the requested aggregations or groups is unknown.">
+                        <mal:errorRef comment="One or more of the requested aggregations is unknown.">
                             <mal:type name="UNKNOWN" area="MAL"/>
                             <mal:extraInformation comment="A list of the indexes of the error values shall be contained in the extra information field.">
-                                <mal:type list="true" name="UInteger" area="MAL"/>
-                            </mal:extraInformation>
-                        </mal:errorRef>
-                        <mal:errorRef comment="One of the supplied groups is either not a group of groups or a group of AggregationDefinition objects.">
-                            <mal:type name="INVALID" area="COM"/>
-                            <mal:extraInformation comment="The extra information field contains a list of the indexes of the erroneous values from the originating list supplied.">
                                 <mal:type list="true" name="UInteger" area="MAL"/>
                             </mal:extraInformation>
                         </mal:errorRef>
                     </mal:errors>
                 </mal:requestIP>
                 <mal:submitIP name="enableFilter" number="4" supportInReplay="false"
-                              comment="The enableFilter operation allows a consumer to control whether reports for specific aggregations are filtered or not. The operation allows the consumer to select the aggregations directly or indirectly using groups. This affects both periodic and ad-hoc aggregations.">
+                              comment="The enableFilter operation allows a consumer to control whether reports for specific aggregations are filtered or not. This affects both periodic and ad-hoc aggregations.">
                     <mal:documentation name="Requirement" order="1">
-                        If the isGroupIds field is TRUE then the enableInstances field shall contain GroupIdentity object instance identifiers, otherwise the field contains AggregationDefinition object instance identifiers.
+                        The enableInstances field shall contain the AggregationDefinition ids to match.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        The AggregationDefinition objects referenced, either directly or indirectly via groups, by the enableInstances field shall be the AggregationDefinition objects to match.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="3">
                         The id of the enableInstances field shall support the wildcard value of '0' and matches all AggregationDefinition objects of the provider.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="4">
-                        The service provider shall check for the wildcard value in the list of object instance identifiers in the enableInstances field first and if found no other checks of supplied object instance identifiers shall be made.
+                    <mal:documentation name="Requirement" order="3">
+                        The service provider shall check for the wildcard value in the list of ids in the enableInstances field first and if found no other checks of supplied ids shall be made.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="5">
+                    <mal:documentation name="Requirement" order="4">
                         If the enableInstances field contains a value of TRUE then reports of matching AggregationDefinition objects shall be filtered, a value of FALSE requests that reports will not be filtered.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="6">
+                    <mal:documentation name="Requirement" order="5">
                         No error shall be raised if the enableInstances Boolean value supplied is the same as the current filterEnabled field of the definition for a matched AggregationDefinition object i.e. filtering an already filtered aggregation will not result in an error.
                     </mal:documentation>
+                    <mal:documentation name="Requirement" order="6">
+                        If a requested AggregationDefinition object is unknown then an UNKNOWN error shall be returned.
+                    </mal:documentation>
                     <mal:documentation name="Requirement" order="7">
-                        If a requested AggregationDefinition or GroupIdentity object is unknown then an UNKNOWN error shall be returned.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="8">
-                        If a requested Group, or the Group objects referenced by that Group, does not contain AggregationDefinition objects then an INVALID error shall be returned.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="9">
                         If an error is raised then no modifications shall be made as a result of this operation call.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="10">
+                    <mal:documentation name="Requirement" order="8">
                         The provider shall create and store a new AggregationDefinition object in the COM archive if the filterEnabled field is changed.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="11">
+                    <mal:documentation name="Requirement" order="9">
                         If a new AggregationDefinition object is created then that new object shall be the current AggregationDefinition used for the aggregation.
                     </mal:documentation>
                     <mal:messages>
                         <mal:submit>
-                            <mal:field name="isGroupIds"
-                                       comment="If TRUE the enableInstances field contains GroupIdentity object instance identifiers, otherwise AggregationDefinition object instance identifiers.">
-                                <mal:type name="Boolean" area="MAL"/>
-                            </mal:field>
-                            <mal:field name="enableInstances">
+                            <mal:field name="enableInstances"
+                                       comment="The list of AggregationDefinition ids and their enable/disable flag.">
                                 <mal:type list="true" name="InstanceBooleanPair" area="COM"/>
                             </mal:field>
                         </mal:submit>
                     </mal:messages>
                     <mal:errors>
-                        <mal:errorRef comment="One of the supplied groups is either not a group of groups or a group of AggregationDefinition objects.">
-                            <mal:type name="INVALID" area="COM"/>
-                            <mal:extraInformation comment="The extra information field contains a list of the indexes of the erroneous values from the originating list supplied.">
-                                <mal:type list="true" name="UInteger" area="MAL"/>
-                            </mal:extraInformation>
-                        </mal:errorRef>
-                        <mal:errorRef comment="One or more of the requested aggregations or groups is unknown.">
+                        <mal:errorRef comment="One or more of the requested aggregations is unknown.">
                             <mal:type name="UNKNOWN" area="MAL"/>
                             <mal:extraInformation comment="A list of the indexes of the error values shall be contained in the extra information field.">
                                 <mal:type list="true" name="UInteger" area="MAL"/>
@@ -1201,9 +1139,9 @@
             </mal:capabilitySet>
             <mal:capabilitySet number="4">
                 <mal:requestIP name="listDefinition" number="5" supportInReplay="true"
-                               comment="The listDefinition operation allows a consumer to request the object instance identifiers of the AggregationDefinition objects for the supported aggregations of the provider.">
+                               comment="The listDefinition operation allows a consumer to request the ids of the AggregationDefinition objects for the supported aggregations of the provider.">
                     <mal:documentation name="Requirement" order="1">
-                        The aggNames field shall contain a list of aggregation names to retrieve the AggregationDefinition object instance identifiers for.
+                        The aggNames field shall contain a list of aggregation names to retrieve the AggregationDefinition ids for.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
                         The aggNames field may contain the wildcard value of '*' to return all supported AggregationDefinition objects.
@@ -1220,7 +1158,7 @@
                     <mal:messages>
                         <mal:request>
                             <mal:field name="aggregationNames"
-                                       comment="The list of aggregation names to retrieve the AggregationDefinition object instance identifiers for.">
+                                       comment="The list of aggregation names to retrieve the AggregationDefinition ids for.">
                                 <mal:type list="true" name="Identifier" area="MAL"/>
                             </mal:field>
                         </mal:request>
@@ -1263,7 +1201,7 @@
                         The provider shall create a new AggregationDefinition object and store it in the COM archive.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="7">
-                        The response shall contain the list of object instance identifiers for the new AggregationDefinition objects.
+                        The response shall contain the list of ids for the new AggregationDefinition objects.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="8">
                         The returned list shall maintain the same order as the submitted definitions.
@@ -1277,7 +1215,7 @@
                         </mal:request>
                         <mal:response>
                             <mal:field name="newIds"
-                                       comment="The list of object instance identifiers for the new AggregationDefinition objects.">
+                                       comment="The list of ids for the new AggregationDefinition objects.">
                                 <mal:type list="true" name="Long" area="MAL"/>
                             </mal:field>
                         </mal:response>
@@ -1300,10 +1238,10 @@
                 <mal:requestIP name="updateDefinition" number="7" supportInReplay="false"
                                comment="The updateDefinition operation allows a consumer to update a definition for one or more aggregations.&#xA;The replacement definition should be stored in the COM archive by the service provider. The operation does not remove the previous object from the COM archive, merely removes the object from the provider.">
                     <mal:documentation name="Requirement" order="1">
-                        The aggInstIds field shall contain the object instance identifiers of the AggregationDefinition objects to be updated.
+                        The aggInstIds field shall contain the ids of the AggregationDefinition objects to be updated.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        The supplied object instance identifiers shall match existing AggregationDefinition objects, an UNKNOWN error shall be raised if this is not the case.
+                        The supplied ids shall match existing AggregationDefinition objects, an UNKNOWN error shall be raised if this is not the case.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
                         If the aggInstIds list contains either NULL or '0' an INVALID error shall be raised.
@@ -1327,7 +1265,7 @@
                         The new AggregationDefinition object shall be the current AggregationDefinition used for the aggregation.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="10">
-                        The response shall contain the list of object instance identifiers for the new AggregationDefinition objects.
+                        The response shall contain the list of ids for the new AggregationDefinition objects.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="11">
                         The returned list shall maintain the same order as the submitted definitions.
@@ -1335,7 +1273,7 @@
                     <mal:messages>
                         <mal:request>
                             <mal:field name="aggInstIds"
-                                       comment="The object instance identifiers of the AggregationDefinition objects to be updated.">
+                                       comment="The ids of the AggregationDefinition objects to be updated.">
                                 <mal:type list="true" name="Long" area="MAL"/>
                             </mal:field>
                             <mal:field name="aggDefDetails"
@@ -1345,19 +1283,19 @@
                         </mal:request>
                         <mal:response>
                             <mal:field name="newObjInstIds"
-                                       comment="The list of object instance identifiers for the new AggregationDefinition objects.">
+                                       comment="The list of ids for the new AggregationDefinition objects.">
                                 <mal:type list="true" name="Long" area="MAL"/>
                             </mal:field>
                         </mal:response>
                     </mal:messages>
                     <mal:errors>
-                        <mal:errorRef comment="One of the supplied AggregationDefinition object instance identifiers is unknown.">
+                        <mal:errorRef comment="One of the supplied AggregationDefinition ids is unknown.">
                             <mal:type name="UNKNOWN" area="MAL"/>
                             <mal:extraInformation comment="A list of the indexes of the error values shall be contained in the extra information field.">
                                 <mal:type list="true" name="UInteger" area="MAL"/>
                             </mal:extraInformation>
                         </mal:errorRef>
-                        <mal:errorRef comment="The supplied object instance identifiers list contains either a NULL or '0' or the two supplied lists are not the same length or a supplied interval is not supported by the provider.&#xA;If the two lists are not the same length then the extra information field shall contain the first index of the element in the largest list which does not have corresponding element in the other list.">
+                        <mal:errorRef comment="The supplied ids list contains either a NULL or '0' or the two supplied lists are not the same length or a supplied interval is not supported by the provider.&#xA;If the two lists are not the same length then the extra information field shall contain the first index of the element in the largest list which does not have corresponding element in the other list.">
                             <mal:type name="INVALID" area="COM"/>
                             <mal:extraInformation comment="The extra information field contains a list of the indexes of the erroneous values from the originating list supplied.">
                                 <mal:type list="true" name="UInteger" area="MAL"/>
@@ -1368,16 +1306,16 @@
                 <mal:submitIP name="removeAggregation" number="8" supportInReplay="false"
                               comment="The removeAggregation operation allows a consumer to remove one or more aggregations from the list of aggregations supported by the aggregation provider.&#xA;The operation does not remove the AggregationDefinition objects from the COM archive, merely removes the objects from the provider. This permits existing AggregationValueInstance objects to continue to reference the correct AggregationDefinition object in the COM archive.">
                     <mal:documentation name="Requirement" order="1">
-                        The aggInstIds field shall hold the object instance identifiers of the AggregationDefinition objects to be removed from the provider.
+                        The aggInstIds field shall hold the ids of the AggregationDefinition objects to be removed from the provider.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
                         The list may contain the wildcard value of '0'.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
-                        The wildcard value should be checked for first, if found no other checks of supplied object instance identifiers shall be made.
+                        The wildcard value should be checked for first, if found no other checks of supplied ids shall be made.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="4">
-                        If a provided AggregationDefinition object instance identifier does not include a wildcard and does not match an existing aggregation then this operation shall fail with an UNKNOWN error.
+                        If a provided AggregationDefinition id does not include a wildcard and does not match an existing aggregation then this operation shall fail with an UNKNOWN error.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="5">
                         Matched AggregationDefinition objects shall not be removed from the COM archive, only the list of AggregationDefinition objects in the provider.
@@ -1391,13 +1329,13 @@
                     <mal:messages>
                         <mal:submit>
                             <mal:field name="aggInstIds"
-                                       comment="The object instance identifiers of the AggregationDefinition objects to be removed.">
+                                       comment="The ids of the AggregationDefinition objects to be removed.">
                                 <mal:type list="true" name="Long" area="MAL"/>
                             </mal:field>
                         </mal:submit>
                     </mal:messages>
                     <mal:errors>
-                        <mal:errorRef comment="One of the supplied AggregationDefinition object instance identifiers is unknown.">
+                        <mal:errorRef comment="One of the supplied AggregationDefinition ids is unknown.">
                             <mal:type name="UNKNOWN" area="MAL"/>
                             <mal:extraInformation comment="A list of the indexes of the error values shall be contained in the extra information field.">
                                 <mal:type list="true" name="UInteger" area="MAL"/>
@@ -1458,7 +1396,7 @@
                 The source link of the conversion definition object should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="9">
-                Other service objects shall reference instances of a conversion using the object instance identifier of the conversion definition.
+                Other service objects shall reference instances of a conversion using the id of the conversion definition.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="10">
                 ConversionIdentity and conversion definition objects should be stored in the COM archive.
@@ -1520,67 +1458,6 @@
                 <com:archiveUsage comment="Conversion definition objects are stored in the COM archive."/>
             </com:features>
         </mal:service>
-        <mal:service xsi:type="com:ExtendedServiceType" name="Group" number="8"
-                     comment="The group service provides a mechanism for other services to reference sets of their own objects using a single group reference. These groups are used by the other MC services (such as Action, Alert, Check, Aggregation and Parameter) to reduce the complexity of operations by allowing consumers to reference groups of objects (such as parameters) in operations rather than having to supply large lists of object references.&#xA;Where operations of other service mention the use of groups in their operations, any reference to a group object instance identifier implicitly means a GroupIdentity object.&#xA;Groups of other groups is supported, however all objects within the group of groups should have the same object type as most operations expect a single type.&#xA;The creation of cyclic group of groups should also be avoided.&#xA;The group service does not provide any operations directly, but allows consumers to add, remove, and modify groups via the COM archive.">
-            <mal:documentation name="High Level Requirements" order="1">The group service shall provide the capability for maintaining the list of groups.
-            </mal:documentation>
-            <mal:documentation name="Functional Requirements" order="2">The group service shall use the COM archive operations for maintaining the group definitions.
-                Updating a group definition shall be performed by adding a new group definition and referencing it in the service specific COM objects.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="3">
-                Each group shall be represented by a GroupIdentity COM object.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="4">
-                The body of the GroupIdentity COM object shall hold the name of the group.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="5">
-                The definitions of the groups shall be represented as GroupDefinition COM objects.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="6">
-                The GroupDefinition object shall use the related link to indicate which GroupIdentity object it uses.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="7">
-                The source link of the GroupIdentity object should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="8">
-                The source link of the GroupDefinition object should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="9">
-                Groups of groups shall reference instances of a group using the object instance identifier of the GroupIdentity.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="10">
-                Other service objects shall reference instances of a group using the object instance identifier of the GroupIdentity.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="11">
-                GroupIdentity and GroupDefinition objects should be stored in the COM archive.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="12">
-                The COM archive service operations shall be used to add, update and remove groups.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="13">
-                Other services should monitor the archive service for changes to groups they reference.
-            </mal:documentation>
-            <com:features>
-                <com:objects comment="Group definitions are represented as COM objects.">
-                    <com:object name="GroupIdentity" number="1">
-                        <com:objectType>
-                            <mal:type name="Identifier" area="MAL"/>
-                        </com:objectType>
-                        <com:sourceObject comment="The object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used."/>
-                    </com:object>
-                    <com:object name="GroupDefinition" number="2">
-                        <com:objectType>
-                            <mal:type name="GroupDetails" area="MC"/>
-                        </com:objectType>
-                        <com:relatedObject>
-                            <com:objectType number="1" service="Group" area="MC"/>
-                        </com:relatedObject>
-                        <com:sourceObject comment="The object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used."/>
-                    </com:object>
-                </com:objects>
-                <com:archiveUsage comment="Group definition objects are stored in the COM archive."/>
-            </com:features>
-        </mal:service>
         <mal:dataTypes>
             <mal:enumeration name="Severity" shortFormPart="1"
                              comment="The severity enumeration holds the possible values for a severity. The numerical value represents the increasing severity, therefore CRITICAL is more severe than ALARM. Normally, for checks, only the Warning and Critical ranges are used: the colour yellow is associated with Warning, and the colour red is associated with Critical.">
@@ -1628,7 +1505,7 @@
                     <mal:type name="ParameterExpression" area="MC"/>
                 </mal:field>
                 <mal:field name="conversionId" canBeNull="false"
-                           comment="The object instance identifier of the Conversion to be used if the condition evaluates to TRUE or is NULL.">
+                           comment="The id of the Conversion to be used if the condition evaluates to TRUE or is NULL.">
                     <mal:type name="Long" area="MAL"/>
                 </mal:field>
             </mal:composite>
@@ -1638,7 +1515,7 @@
                     <mal:type name="Composite" area="MAL"/>
                 </mal:extends>
                 <mal:field name="parameterId" canBeNull="false"
-                           comment="Holds the object instance identifier of the Parameter to be used in the expression.">
+                           comment="Holds the id of the Parameter to be used in the expression.">
                     <mal:type name="Long" area="MAL"/>
                 </mal:field>
                 <mal:field name="operator" canBeNull="false" comment="The expression operator.">
@@ -1689,7 +1566,7 @@
                     <mal:type name="Composite" area="MAL"/>
                 </mal:extends>
                 <mal:field name="defInstId" canBeNull="false"
-                           comment="The object instance identifier of the ActionDefinition to be used.">
+                           comment="The id of the ActionDefinition to be used.">
                     <mal:type name="Long" area="MAL"/>
                 </mal:field>
                 <mal:field name="stageStartedRequired" canBeNull="false"
@@ -1805,7 +1682,7 @@
                     <mal:type name="Composite" area="MAL"/>
                 </mal:extends>
                 <mal:field name="paramInstId" canBeNull="false"
-                           comment="The object instance identifier of the parameter identity.">
+                           comment="The id of the parameter identity.">
                     <mal:type name="Long" area="MAL"/>
                 </mal:field>
                 <mal:field name="rawValue"
@@ -1901,7 +1778,7 @@
                     <mal:type name="Boolean" area="MAL"/>
                 </mal:field>
                 <mal:field name="sendDefinitions" canBeNull="false"
-                           comment="If TRUE reports will include the ParameterDefinition object instance identifier in the AggregationParameterValue, if FALSE it will be set to NULL.">
+                           comment="If TRUE reports will include the ParameterDefinition id in the AggregationParameterValue, if FALSE it will be set to NULL.">
                     <mal:type name="Boolean" area="MAL"/>
                 </mal:field>
                 <mal:field name="filterEnabled" canBeNull="false" comment="Controls whether reports for this aggregation are to be filtered.">
@@ -1928,7 +1805,7 @@
                     <mal:type list="true" name="Identifier" area="MAL"/>
                 </mal:field>
                 <mal:field name="parameters" canBeNull="false"
-                           comment="The list of object instance identifiers of the ParameterDefinition objects being included in the aggregation.">
+                           comment="The list of ids of the ParameterDefinition objects being included in the aggregation.">
                     <mal:type list="true" name="Long" area="MAL"/>
                 </mal:field>
                 <mal:field name="sampleInterval" canBeNull="false"
@@ -1985,7 +1862,7 @@
                     <mal:type name="ParameterValue" area="MC"/>
                 </mal:field>
                 <mal:field name="paramDefInstId"
-                           comment="The object instance identifier of the ParameterDefinition. NULL if sendDefinitions in the AggregationDefinition is FALSE.">
+                           comment="The id of the ParameterDefinition. NULL if sendDefinitions in the AggregationDefinition is FALSE.">
                     <mal:type name="Long" area="MAL"/>
                 </mal:field>
             </mal:composite>
@@ -2009,7 +1886,7 @@
             <mal:composite name="AggregationValueDetails" shortFormPart="31"
                            comment="This structure holds a specific time stamped value of the aggregation. ">
                 <mal:field name="defId" canBeNull="false"
-                           comment="The AggregationDefinition object instance identifier.">
+                           comment="The AggregationDefinition id.">
                     <mal:type name="Long" area="MAL"/>
                 </mal:field>
                 <mal:field name="timestamp" canBeNull="false"
@@ -2062,31 +1939,6 @@
                 <mal:field name="points" canBeNull="false"
                            comment="The first attribute in each pair is the raw range, and the second attribute is the converted value.">
                     <mal:type list="true" name="Pair" area="MAL"/>
-                </mal:field>
-            </mal:composite>
-            <mal:composite name="GroupDetails" shortFormPart="36"
-                           comment="The GroupDetails structure holds the object type, domain, and set of object instance identifiers for a set of objects from another service.">
-                <mal:extends>
-                    <mal:type name="Composite" area="MAL"/>
-                </mal:extends>
-                <mal:field name="name" canBeNull="false"
-                           comment="The name of the group. Must not be empty or the wildcard value.">
-                    <mal:type name="Identifier" area="MAL"/>
-                </mal:field>
-                <mal:field name="description" canBeNull="false" comment="Description of the group.">
-                    <mal:type name="String" area="MAL"/>
-                </mal:field>
-                <mal:field name="objectType" canBeNull="false"
-                           comment="The object type of the objects referenced by this group.">
-                    <mal:type name="ObjectType" area="COM"/>
-                </mal:field>
-                <mal:field name="domain" canBeNull="false"
-                           comment="The domain of the objects being referenced by this group.">
-                    <mal:type list="true" name="Identifier" area="MAL"/>
-                </mal:field>
-                <mal:field name="instanceIds" canBeNull="false"
-                           comment="The list of object instance identifiers of the objects being referenced by this group.">
-                    <mal:type list="true" name="Long" area="MAL"/>
                 </mal:field>
             </mal:composite>
         </mal:dataTypes>

@@ -177,7 +177,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         enableDefinitionButtonAgg.addActionListener(this::enableDefinitionButtonAggActionPerformed);
         jPanel1.add(enableDefinitionButtonAgg);
 
-        enableDefinitionAllAgg.setText("enableGeneration(group=false, 0)");
+        enableDefinitionAllAgg.setText("enableGeneration(0)");
         enableDefinitionAllAgg.addActionListener(this::enableDefinitionAllAggActionPerformed);
         jPanel1.add(enableDefinitionAllAgg);
 
@@ -185,7 +185,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         enableFilterButtonAgg.addActionListener(this::enableFilterButtonAggActionPerformed);
         jPanel1.add(enableFilterButtonAgg);
 
-        enableFilterAllAgg.setText("enableFilter(group=false, 0)");
+        enableFilterAllAgg.setText("enableFilter(0)");
         enableFilterAllAgg.addActionListener(this::enableFilterAllAggActionPerformed);
         jPanel1.add(enableFilterAllAgg);
 
@@ -441,7 +441,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         BoolPairList.add(new InstanceBooleanPair((long) 0, !curState));  // Zero is the wildcard
 
         try {
-            this.serviceMCAggregation.getAggregationStub().enableGeneration(false, BoolPairList);
+            this.serviceMCAggregation.getAggregationStub().enableGeneration(BoolPairList);
             aggregationTable.switchEnabledstatusAll(!curState);
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -459,7 +459,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         BoolPairList.add(new InstanceBooleanPair(aggregationTable.getSelectedDefinitionObjId(), !curState));  // Zero is the wildcard
 
         try {
-            this.serviceMCAggregation.getAggregationStub().enableGeneration(false, BoolPairList);
+            this.serviceMCAggregation.getAggregationStub().enableGeneration(BoolPairList);
             aggregationTable.switchEnabledstatus(!curState);
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -543,7 +543,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         InstanceBooleanPairList boolPairList = new InstanceBooleanPairList();
         boolPairList.add(new InstanceBooleanPair((long) 0, !curState));  // Zero is the wildcard
         try {
-            serviceMCAggregation.getAggregationStub().enableFilter(false, boolPairList);  // false: no group service
+            serviceMCAggregation.getAggregationStub().enableFilter(boolPairList);
             aggregationTable.switchFilterEnabledstatusAll(!curState);
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -563,7 +563,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         boolPairList.add(new InstanceBooleanPair(objId, !curState));
 
         try {
-            serviceMCAggregation.getAggregationStub().enableFilter(false, boolPairList);
+            serviceMCAggregation.getAggregationStub().enableFilter(boolPairList);
             aggregationTable.switchFilterEnabledStatus(!curState);
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);

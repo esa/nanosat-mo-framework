@@ -24,16 +24,10 @@ import esa.mo.com.impl.provider.ActivityTrackingProviderServiceImpl;
 import esa.mo.com.impl.provider.ArchiveProviderServiceImpl;
 import esa.mo.com.impl.provider.EventProviderServiceImpl;
 import esa.mo.com.impl.util.COMServicesProvider;
-import esa.mo.mc.impl.util.GroupRetrieval;
 import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.structures.InstanceBooleanPair;
-import org.ccsds.moims.mo.com.structures.InstanceBooleanPairList;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.common.structures.*;
-import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Element;
@@ -41,7 +35,6 @@ import org.ccsds.moims.mo.mal.structures.ElementList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
-import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mc.structures.*;
 
 /**
@@ -58,7 +51,6 @@ public abstract class MCManager {
     private final ArchiveProviderServiceImpl archiveService;
     private final ActivityTrackingProviderServiceImpl activityTrackingService;
     private final COMServicesProvider comServices;
-    private final GroupServiceImpl groupService = new GroupServiceImpl();
 
     protected MCManager(COMServicesProvider comServices) {
         this.nameToId = new HashMap<>();
@@ -75,11 +67,6 @@ public abstract class MCManager {
             this.archiveService = null;
             this.activityTrackingService = null;
             this.comServices = null;
-        }
-        try {
-            groupService.init(archiveService);
-        } catch (MALException ex) {
-            Logger.getLogger(MCManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -274,101 +261,6 @@ public abstract class MCManager {
         }
 
         return getActivityTrackingService().storeCOMOperationActivity(interaction, null);
-    }
-
-    /**
-     * This method is getting all instances contained in the given groups. It
-     * also does the checking for invalid or unknown identities or entries. Just
-     * as defined the "enableGeneration" ServiceOperation definition. The
-     * requirements in these operations defined in the different Services only
-     * differ in the identities object type of the objects contained in the
-     * group. So you have to give the ObjectType of the service object identity.
-     *
-     * TODO : put this method in some GroupHelper - class
-     *
-     * @param enableInstances is the list that is used for filling the
-     * retrievalinformation object of the group
-     * @param groupRetrievalInformation contains an empty object to be filled.
-     * with the group-information about: unknown and invalid errors and objects
-     * and values that will be enabled/disabled
-     * @param identyObjectType the objectType of the identity-object of which
-     * the objects contained in the groups are
-     * @param domain the domain to look for identityIds in the archive.
-     * @param allIdentities the list of all available identities, the groups may
-     * contain. E.g. in the ParameterService´enableGeneration this parameter
-     * contains all available ParameterIdentities.
-     * @return The group retrieval.
-     */
-    public GroupRetrieval getGroupInstancesForServiceOperation(InstanceBooleanPairList enableInstances,
-            GroupRetrieval groupRetrievalInformation, ObjectType identyObjectType,
-            IdentifierList domain, LongList allIdentities) {
-        //in the next for loop, ignore the other group identities, those will be checked in other iterations.
-        LongList ignoreList = new LongList();
-        for (InstanceBooleanPair instance : enableInstances) {
-            ignoreList.add(instance.getId());
-        }
-        for (int index = 0; index < enableInstances.size(); index++) {
-            //these are Group-Identity-ids req: 3.9.4.g,h
-            InstanceBooleanPair enableInstance = enableInstances.get(index);
-            final Long groupIdentityId = enableInstance.getId();
-            GroupDetails group = groupService.retrieveGroupDetailsFromArchive(domain, groupIdentityId);
-
-            if (group == null) { //group wasnt found
-                groupRetrievalInformation.addUnkIndex(new UInteger(index)); // requirement: 3.3.10.2.g
-                continue;
-            }
-
-            // If group was found, then get the instances of it and its groups
-            ignoreList.remove(groupIdentityId);
-            GroupServiceImpl.IdObjectTypeList idObjectTypes = groupService.getGroupObjectIdsFromGroup(
-                    groupIdentityId, group, ignoreList);
-            ignoreList.add(groupIdentityId);
-            //checks if the given identityId is found in the internal Identity-list of the specific 
-            //service, if not then the object doesnt belong to the service and is invalid
-            for (GroupServiceImpl.IdObjectType idObjectType : idObjectTypes) {
-                if (!idObjectType.getObjectType().equals(identyObjectType)) {
-                    groupRetrievalInformation.addInvIndex(new UInteger(index)); // requirement: 3.3.10.2.h
-                    break;
-                }
-
-                final Long identityId = idObjectType.getId();
-                //checks if the identityId referenced in the group is known
-                if (!allIdentities.contains(identityId)) {// requirement: 3.3.10.2.g
-                    groupRetrievalInformation.addUnkIndex(new UInteger(index));
-                }
-                if (!groupRetrievalInformation.getObjIdToBeEnabled().contains(identityId)) {
-                    groupRetrievalInformation.addObjIdToBeEnabled(identityId);
-                    groupRetrievalInformation.addValueToBeEnabled(enableInstance.getValue());
-                }
-            }
-        }
-        return groupRetrievalInformation;
-    }
-
-    /**
-     * This method is getting all instances contained in the given groups. The
-     * only difference to the other method (check the see part) is: you don't
-     * care about the values and just want to get the identities referenced by
-     * the groups.
-     *
-     * @param groupIds The group ids.
-     * @param groupRetrievalInformation The group retrieval information.
-     * @param identyObjectType The identity object type.
-     * @param domain The domain.
-     * @param allIdentities The identities to be retrieved.
-     * @return The group retrieval.
-     */
-    public GroupRetrieval getGroupInstancesForServiceOperation(LongList groupIds,
-            GroupRetrieval groupRetrievalInformation, ObjectType identyObjectType,
-            IdentifierList domain, LongList allIdentities) {
-        //if you cont care about the values and just want to get the identities referenced by the groups:
-        InstanceBooleanPairList instBoolPairList = new InstanceBooleanPairList(groupIds.size());
-        for (Long enableInstance : groupIds) {
-            instBoolPairList.add(new InstanceBooleanPair(enableInstance, Boolean.TRUE));
-        }
-
-        return getGroupInstancesForServiceOperation(instBoolPairList,
-                groupRetrievalInformation, identyObjectType, domain, allIdentities);
     }
 
 }

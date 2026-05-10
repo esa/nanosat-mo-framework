@@ -71,7 +71,7 @@ public class AggregationCommands {
                 enableInstances.add(new InstanceBooleanPair(id, enable));
             }
 
-            aggregationService.enableGeneration(false, enableInstances);
+            aggregationService.enableGeneration(enableInstances);
             System.out.println((enable ? "Enable " : "Disable ") + "successful.");
         } catch (MALInteractionException e) {
             MOErrorException error = e.getStandardError();

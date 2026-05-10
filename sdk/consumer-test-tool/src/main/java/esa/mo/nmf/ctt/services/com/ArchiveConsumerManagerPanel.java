@@ -904,50 +904,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jButtonStoreActionsActionPerformed
 
     private void jButtonStoreGroupsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStoreGroupsActionPerformed
-
-        // Object Type
-        ObjectType objType = new ObjectType(new UShort(4), new UShort(8),
-                new UOctet((short) 1), new UShort(1));
-
-        // Domain
-        IdentifierList domain = serviceCOMArchive.getConnectionDetails().getDomain();
-
-        // Archive details
-        ArchiveDetailsList archiveDetailsList = HelperArchive.generateArchiveDetailsList(
-                null, null, serviceCOMArchive.getConnectionDetails());
-        MOWindow genArchiveDetailsList = new MOWindow(archiveDetailsList, true);
-        try {
-            archiveDetailsList = (ArchiveDetailsList) genArchiveDetailsList.getObject();
-        } catch (InterruptedIOException ex) {
-            return;
-        }
-
-        HeterogeneousList groupList = new HeterogeneousList();
-
-        ObjectType objTypeParameterDef = new ObjectType(new UShort(4),
-                new UShort(2), new UOctet((short) 1), new UShort(1));
-        LongList objIds = new LongList();
-        objIds.add(1L);
-        objIds.add(2L);
-        objIds.add(3L);
-
-        GroupDetails group = new GroupDetails(
-                new Identifier("Name_of_the_Group"),
-                "A group of the 3 first Parameter Definitions.",
-                objTypeParameterDef,
-                domain,
-                objIds);
-
-        groupList.add(group);
-
-        // Actually you have to use the Action service to store the definiton
-        try {
-            serviceCOMArchive.getArchiveStub().store(false, objType, domain, archiveDetailsList, groupList);
-        } catch (MALInteractionException | MALException ex) {
-            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(
-                    Level.SEVERE, null, ex);
-        }
-
+        // Group service removed
     }//GEN-LAST:event_jButtonStoreGroupsActionPerformed
 
     private void TBoxStoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TBoxStoreActionPerformed

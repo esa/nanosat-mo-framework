@@ -22,7 +22,6 @@ package esa.mo.mc.impl.provider;
 
 import esa.mo.com.impl.consumer.EventConsumerServiceImpl;
 import esa.mo.com.impl.util.HelperArchive;
-import esa.mo.mc.impl.util.GroupRetrieval;
 import esa.mo.reconfigurable.service.ConfigurationChangeListener;
 import esa.mo.reconfigurable.service.ReconfigurableService;
 import java.util.ArrayList;
@@ -77,7 +76,6 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
     protected ParameterManager manager;
     private PeriodicReportingManager periodicReportingManager;
     private final ConnectionProvider connection = new ConnectionProvider();
-    private final GroupServiceImpl groupService = new GroupServiceImpl();
     private EventConsumerServiceImpl eventServiceConsumer;
     private ConfigurationChangeListener configurationAdapter;
 
@@ -106,7 +104,6 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         manager = parameterManager;
         periodicReportingManager = new PeriodicReportingManager();
         periodicReportingManager.init(); // Initialize the Periodic Reporting Manager
-        groupService.init(manager.getArchiveService());
 
         /*
         storeParametersInCOMArchive = Boolean.parseBoolean(System.getProperty(MCServicesHelper.STORE_IN_ARCHIVE_PROPERTY, "true"));
@@ -186,66 +183,44 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
     }
 
     @Override
-    public LongList enableGeneration(final Boolean isGroupIds, final InstanceBooleanPairList enableInstances,
+    public LongList enableGeneration(final InstanceBooleanPairList enableInstances,
             final MALInteraction interaction) throws MALException, MALInteractionException {
         UIntegerList unkIndexList = new UIntegerList();
-        UIntegerList invIndexList = new UIntegerList();
 
         LongList objIdToBeEnabled = new LongList();
         BooleanList valueToBeEnabled = new BooleanList();
 
-        if (isGroupIds == null || enableInstances == null) { // Are the inputs null?
-            throw new IllegalArgumentException("isGroupIds and enableInstances arguments must not be null");
+        if (enableInstances == null) {
+            throw new IllegalArgumentException("enableInstances argument must not be null");
         }
 
         boolean foundWildcard = false;
 
-        ObjectId source = manager.storeCOMOperationActivity(interaction); // requirement: 3.3.4.h
-        for (InstanceBooleanPair instance : enableInstances) {  // requirement: 3.3.10.2.d
-            if (instance.getId() == 0) {  // Is it the wildcard '0'? requirement: 3.3.10.2.c
+        ObjectId source = manager.storeCOMOperationActivity(interaction);
+        for (InstanceBooleanPair instance : enableInstances) {
+            if (instance.getId() == 0) {  // Is it the wildcard '0'?
                 manager.setGenerationEnabledAll(instance.getValue(), source, connection.getConnectionDetails());
                 periodicReportingManager.refreshAll();
                 foundWildcard = true;
-
                 break;
             }
         }
 
-        if (!foundWildcard) { // requirement: 3.3.10.2.d
-            //the Ids are parameter-identity-ids 3.3.10.2.a
-            if (!isGroupIds) {
-                for (int index = 0; index < enableInstances.size(); index++) {
-                    InstanceBooleanPair enableInstance = enableInstances.get(index);
-                    objIdToBeEnabled.add(enableInstance.getId());
-                    valueToBeEnabled.add(enableInstance.getValue());
+        if (!foundWildcard) {
+            for (int index = 0; index < enableInstances.size(); index++) {
+                InstanceBooleanPair enableInstance = enableInstances.get(index);
+                objIdToBeEnabled.add(enableInstance.getId());
+                valueToBeEnabled.add(enableInstance.getValue());
 
-                    if (!manager.existsDef(enableInstance.getId())) { // does it exist? 
-                        unkIndexList.add(new UInteger(index)); // requirement: 3.3.10.2.g
-                    }
+                if (!manager.existsDef(enableInstance.getId())) {
+                    unkIndexList.add(new UInteger(index));
                 }
-            } else { //the ids are group-identity-ids, req: 3.3.10.2.a, 3.9.4.g,h
-                GroupRetrieval groupRetrievalInformation;
-                groupRetrievalInformation = new GroupRetrieval(unkIndexList, invIndexList, objIdToBeEnabled,
-                        valueToBeEnabled);
-                //get the group instances
-                groupRetrievalInformation = manager.getGroupInstancesForServiceOperation(enableInstances,
-                        groupRetrievalInformation, ParameterServiceInfo.PARAMETERDEFINITION_OBJECT_TYPE,
-                        ConfigurationProviderSingleton.getDomain(), manager.listAllDefinitions());
-
-                //fill the existing lists with the generated lists
-                unkIndexList = groupRetrievalInformation.getUnkIndexList();
-                invIndexList = groupRetrievalInformation.getInvIndexList();
-                objIdToBeEnabled = groupRetrievalInformation.getObjIdToBeEnabled();
-                valueToBeEnabled = groupRetrievalInformation.getValueToBeEnabled();
             }
         }
 
         // Errors
-        if (!unkIndexList.isEmpty()) { // requirement: 3.3.10.3.1
+        if (!unkIndexList.isEmpty()) {
             throw new MALInteractionException(new UnknownException(unkIndexList));
-        }
-        if (!invIndexList.isEmpty()) { // requirement: 3.3.10.3.2
-            throw new MALInteractionException(new InvalidException(invIndexList));
         }
 
         LongList output = new LongList();

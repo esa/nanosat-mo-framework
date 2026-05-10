@@ -442,7 +442,7 @@ public class ParameterCommands {
                 enableInstances.add(new InstanceBooleanPair(id, enable));
             }
 
-            parameterService.enableGeneration(false, enableInstances);
+            parameterService.enableGeneration(enableInstances);
             System.out.println((enable ? "Enable " : "Disable ") + "successful.");
         } catch (MALInteractionException e) {
             MOErrorException error = e.getStandardError();

@@ -22,7 +22,6 @@ package esa.mo.mc.impl.provider;
 
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
-import esa.mo.mc.impl.util.GroupRetrieval;
 import esa.mo.reconfigurable.service.ConfigurationChangeListener;
 import esa.mo.reconfigurable.service.ReconfigurableService;
 import java.util.ArrayList;
@@ -301,17 +300,15 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
     }
 
     @Override
-    public LongList enableGeneration(final Boolean isGroupIds, final InstanceBooleanPairList enableInstances,
+    public LongList enableGeneration(final InstanceBooleanPairList enableInstances,
             final MALInteraction interaction) throws MALException, MALInteractionException {
         UIntegerList unkIndexList = new UIntegerList();
-        UIntegerList invIndexList = new UIntegerList();
-        InstanceBooleanPair enableInstance;
 
         LongList objIdToBeEnabled = new LongList();
         BooleanList valueToBeEnabled = new BooleanList();
 
-        if (isGroupIds == null || enableInstances == null) { // Are the inputs null?
-            throw new IllegalArgumentException("isGroupIds and enableInstances arguments must not be null");
+        if (enableInstances == null) {
+            throw new IllegalArgumentException("enableInstances argument must not be null");
         }
 
         boolean foundWildcard = false;
@@ -324,45 +321,25 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
                 periodicReportingManager.refreshAll();
                 periodicSamplingManager.refreshAll();
                 foundWildcard = true;
-
                 break;
             }
         }
 
         if (!foundWildcard) { // requirement: 3.7.9.2.d
-            if (!isGroupIds) { //the Ids are aggregation-identity-ids requirement: 3.7.9.2.a 
-                for (int index = 0; index < enableInstances.size(); index++) {
-                    enableInstance = enableInstances.get(index);
-                    objIdToBeEnabled.add(enableInstance.getId()); //requirement: 3.7.9.2.b
-                    valueToBeEnabled.add(enableInstance.getValue());
+            for (int index = 0; index < enableInstances.size(); index++) {
+                InstanceBooleanPair enableInstance = enableInstances.get(index);
+                objIdToBeEnabled.add(enableInstance.getId()); //requirement: 3.7.9.2.b
+                valueToBeEnabled.add(enableInstance.getValue());
 
-                    if (!manager.existsDef(enableInstance.getId())) { // does it exist? 
-                        unkIndexList.add(new UInteger(index)); // requirement: 3.7.9.2.g
-                    }
+                if (!manager.existsDef(enableInstance.getId())) { // does it exist?
+                    unkIndexList.add(new UInteger(index)); // requirement: 3.7.9.2.g
                 }
-            } else { //the ids are group-identity-ids, req: 3.3.10.2.a, 3.9.4.g,h 
-                GroupRetrieval groupRetrievalInformation;
-                groupRetrievalInformation = new GroupRetrieval(unkIndexList, invIndexList, objIdToBeEnabled,
-                        valueToBeEnabled);
-                //get the group instances requirements: 3.7.9.2.g, h
-                groupRetrievalInformation = manager.getGroupInstancesForServiceOperation(enableInstances,
-                        groupRetrievalInformation, AggregationServiceInfo.AGGREGATIONDEFINITION_OBJECT_TYPE,
-                        ConfigurationProviderSingleton.getDomain(), manager.listAllDefinitions());
-
-                //fill the existing lists with the modified lists
-                unkIndexList = groupRetrievalInformation.getUnkIndexList();
-                invIndexList = groupRetrievalInformation.getInvIndexList();
-                objIdToBeEnabled = groupRetrievalInformation.getObjIdToBeEnabled();
-                valueToBeEnabled = groupRetrievalInformation.getValueToBeEnabled();
             }
         }
 
         // Errors
         if (!unkIndexList.isEmpty()) { // requirement: 3.7.9.3.1
             throw new MALInteractionException(new UnknownException(unkIndexList));
-        }
-        if (!invIndexList.isEmpty()) { // requirement: 3.7.9.3.2
-            throw new MALInteractionException(new InvalidException(invIndexList));
         }
 
         LongList output = new LongList();
@@ -393,17 +370,15 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
     }
 
     @Override
-    public void enableFilter(final Boolean isGroupIds, final InstanceBooleanPairList enableInstances,
+    public void enableFilter(final InstanceBooleanPairList enableInstances,
             final MALInteraction interaction) throws MALException, MALInteractionException { // requirement: 3.7.10.2.a
         UIntegerList unkIndexList = new UIntegerList();
-        UIntegerList invIndexList = new UIntegerList();
-        InstanceBooleanPair enableInstance;
 
         LongList objIdToBeEnabled = new LongList();
         BooleanList valueToBeEnabled = new BooleanList();
 
-        if (isGroupIds == null || enableInstances == null) { // Are the inputs null?
-            throw new IllegalArgumentException("Boolean and InstanceBooleanPairList arguments must not be null");
+        if (enableInstances == null) {
+            throw new IllegalArgumentException("enableInstances argument must not be null");
         }
 
         boolean foundWildcard = false;
@@ -420,39 +395,20 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         }
 
         if (!foundWildcard) { // requirement: 3.7.10.2.d
-            if (!isGroupIds) { //the Ids are aggregation-identity-ids requirement: 3.7.10.2.a 
-                for (int index = 0; index < enableInstances.size(); index++) {
-                    enableInstance = enableInstances.get(index);
-                    objIdToBeEnabled.add(enableInstance.getId()); //requirement: 3.7.10.2.b
-                    valueToBeEnabled.add(enableInstance.getValue());
+            for (int index = 0; index < enableInstances.size(); index++) {
+                InstanceBooleanPair enableInstance = enableInstances.get(index);
+                objIdToBeEnabled.add(enableInstance.getId()); //requirement: 3.7.10.2.b
+                valueToBeEnabled.add(enableInstance.getValue());
 
-                    if (!manager.existsDef(enableInstance.getId())) { // does it exist? 
-                        unkIndexList.add(new UInteger(index)); // requirement: 3.7.10.2.g
-                    }
+                if (!manager.existsDef(enableInstance.getId())) { // does it exist?
+                    unkIndexList.add(new UInteger(index)); // requirement: 3.7.10.2.g
                 }
-            } else {//the ids are group-definition-ids, req: 3.7.10.2.a, 3.9.4.g,h
-                GroupRetrieval groupRetrievalInformation = new GroupRetrieval(unkIndexList, invIndexList,
-                        objIdToBeEnabled, valueToBeEnabled);
-
-                //get the group instances requirements: 3.7.10.2.g, h
-                groupRetrievalInformation = manager.getGroupInstancesForServiceOperation(enableInstances,
-                        groupRetrievalInformation, AggregationServiceInfo.AGGREGATIONDEFINITION_OBJECT_TYPE,
-                        ConfigurationProviderSingleton.getDomain(), manager.listAllDefinitions());
-
-                //fill the existing lists with the modified lists
-                unkIndexList = groupRetrievalInformation.getUnkIndexList();
-                invIndexList = groupRetrievalInformation.getInvIndexList();
-                objIdToBeEnabled = groupRetrievalInformation.getObjIdToBeEnabled();
-                valueToBeEnabled = groupRetrievalInformation.getValueToBeEnabled();
             }
         }
 
         // Errors
         if (!unkIndexList.isEmpty()) { // requirement: 3.7.10.3.1
             throw new MALInteractionException(new UnknownException(unkIndexList));
-        }
-        if (!invIndexList.isEmpty()) { // requirement: 3.7.10.3.2
-            throw new MALInteractionException(new InvalidException(invIndexList));
         }
 
         // requirement: 3.7.10.2.i (This part of the code is not reached if an error is thrown)

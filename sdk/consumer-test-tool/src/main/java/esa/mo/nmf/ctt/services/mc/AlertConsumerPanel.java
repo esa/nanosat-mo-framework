@@ -137,7 +137,7 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
 
         parameterTab.setLayout(new java.awt.GridLayout(2, 1));
 
-        enableDefinitionAllAgg.setText("enableGeneration(group=false, 0)");
+        enableDefinitionAllAgg.setText("enableGeneration(0)");
         enableDefinitionAllAgg.addActionListener(this::enableDefinitionAllAggActionPerformed);
         jPanel1.add(enableDefinitionAllAgg);
 
@@ -301,7 +301,7 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
         BoolPairList.add(new InstanceBooleanPair((long) 0, !curState));  // Zero is the wildcard
 
         try {
-            this.serviceMCAlert.getAlertStub().enableGeneration(false, BoolPairList);
+            this.serviceMCAlert.getAlertStub().enableGeneration(BoolPairList);
             alertTable.switchEnabledstatusAll(!curState);
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -322,7 +322,7 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
         BoolPairList.add(new InstanceBooleanPair((long) 0, !curState));  // Zero is the wildcard
 
         try {
-            this.serviceMCAlert.getAlertStub().enableGeneration(false, BoolPairList);
+            this.serviceMCAlert.getAlertStub().enableGeneration(BoolPairList);
             alertTable.switchEnabledstatus(!curState);
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);

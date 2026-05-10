@@ -59,7 +59,6 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
     private boolean isRegistered = false;
     protected AlertManager manager;
     private final ConnectionProvider connection = new ConnectionProvider();
-    private final GroupServiceImpl groupService = new GroupServiceImpl();
     private ConfigurationChangeListener configurationAdapter;
 
     /**
@@ -81,7 +80,6 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
 
         running = true;
         manager = new AlertManager(comServices);
-        groupService.init(manager.getArchiveService());
 
         initialiased = true;
         timestamp = System.currentTimeMillis() - timestamp;
@@ -116,17 +114,15 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
     }
 
     @Override
-    public LongList enableGeneration(Boolean isGroupIds, InstanceBooleanPairList enableInstances,
+    public LongList enableGeneration(InstanceBooleanPairList enableInstances,
             MALInteraction interaction) throws MALInteractionException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
-        UIntegerList invIndexList = new UIntegerList();
-        InstanceBooleanPair enableInstance;
 
         LongList objIdToBeEnabled = new LongList();
         BooleanList valueToBeEnabled = new BooleanList();
 
-        if (isGroupIds == null || enableInstances == null) { // Are the inputs null?
-            throw new IllegalArgumentException("isGroupIds and enableInstances arguments must not be null");
+        if (enableInstances == null) {
+            throw new IllegalArgumentException("enableInstances argument must not be null");
         }
 
         boolean foundWildcard = false;
@@ -142,62 +138,13 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
         }
 
         if (!foundWildcard) { // requirement: 3.4.8.2.d
+            for (int index = 0; index < enableInstances.size(); index++) {
+                InstanceBooleanPair enableInstance = enableInstances.get(index);
+                objIdToBeEnabled.add(enableInstance.getId()); // requirement: 3.4.8.2.b
+                valueToBeEnabled.add(enableInstance.getValue());
 
-            //the Ids are alert-identity-ids 3.4.8.2.a
-            if (!isGroupIds) {
-                for (int index = 0; index < enableInstances.size(); index++) {
-                    enableInstance = enableInstances.get(index);
-                    objIdToBeEnabled.add(enableInstance.getId()); // requirement: 3.4.8.2.b
-                    valueToBeEnabled.add(enableInstance.getValue());
-
-                    if (!manager.existsDef(enableInstance.getId())) { // does it exist? 
-                        unkIndexList.add(new UInteger(index)); // requirement: 3.4.8.2.g
-                    }
-                }
-            } else {//the ids are group-definition-ids, req: 3.4.8.2.a, 3.9.4.g,h
-                //TODO: sure? groupddefintion or identity-ids? -> issue #135, #179
-                //in the next for loop, ignore the other group definitions, they will be checked in other iterations.
-                LongList ignoreList = new LongList();
-                for (InstanceBooleanPair instance : enableInstances) {
-                    ignoreList.add(instance.getId());
-                }
-                for (int index = 0; index < enableInstances.size(); index++) {
-                    //these are Group-Definition-ids req: 3.9.4.g,h
-                    enableInstance = enableInstances.get(index);
-                    final Long groupId = enableInstance.getId();
-                    GroupDetails group = groupService.retrieveGroupDetailsFromArchive(
-                            ConfigurationProviderSingleton.getDomain(), groupId);
-                    if (group == null) { //group wasnt found
-                        unkIndexList.add(new UInteger(index)); // requirement: 3.4.8.2.g
-                    } else { //if group was found, then get the instances of it and its groups
-                        ignoreList.remove(groupId);
-                        GroupServiceImpl.IdObjectTypeList idObjectTypes = groupService.getGroupObjectIdsFromGroup(
-                                groupId, group, ignoreList);
-                        ignoreList.add(groupId);
-
-                        // workaround for empty groups of the wrong type
-                        if (idObjectTypes.isEmpty() && !group.getObjectType().equals(AlertServiceInfo.ALERTDEFINITION_OBJECT_TYPE)) {
-                            invIndexList.add(new UInteger(index));
-                        }
-
-                        //checks if the given identityId is found in the internal Alert-list, if not its not a alert and invalid
-                        for (GroupServiceImpl.IdObjectType idObjectType : idObjectTypes) {
-                            if (idObjectType.getObjectType().equals(AlertServiceInfo.ALERTDEFINITION_OBJECT_TYPE)) {
-                                final Long identityId = idObjectType.getId(); // requirement: 3.4.8.2.b
-                                //checks if the alertId referenced in the group is known
-                                if (!manager.existsDef(identityId)) {// requirement: 3.4.8.2.g
-                                    unkIndexList.add(new UInteger(index));
-                                }
-                                if (!objIdToBeEnabled.contains(identityId)) {
-                                    objIdToBeEnabled.add(identityId);
-                                    valueToBeEnabled.add(enableInstance.getValue());
-                                }
-                            } else { // no/not only AlertIdentity-entries
-                                invIndexList.add(new UInteger(index)); // requirement: 3.4.8.2.h
-                                break;
-                            }
-                        }
-                    }
+                if (!manager.existsDef(enableInstance.getId())) { // does it exist?
+                    unkIndexList.add(new UInteger(index)); // requirement: 3.4.8.2.g
                 }
             }
         }
@@ -205,10 +152,6 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
         // Errors
         if (!unkIndexList.isEmpty()) { // requirement: 3.4.8.3.1
             throw new MALInteractionException(new UnknownException(unkIndexList));
-        }
-
-        if (!invIndexList.isEmpty()) { // requirement: 3.4.8.3.2
-            throw new MALInteractionException(new InvalidException(invIndexList));
         }
 
         LongList output = new LongList();

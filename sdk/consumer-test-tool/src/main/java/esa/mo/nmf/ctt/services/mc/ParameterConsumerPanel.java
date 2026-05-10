@@ -150,7 +150,7 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
         setValueButton.addActionListener(this::setValueButtonActionPerformed);
         jPanel1.add(setValueButton);
 
-        enableDefinitionAllAgg.setText("enableGeneration(group=false, 0)");
+        enableDefinitionAllAgg.setText("enableGeneration(0)");
         enableDefinitionAllAgg.addActionListener(this::enableDefinitionAllAggActionPerformed);
         jPanel1.add(enableDefinitionAllAgg);
 
@@ -285,7 +285,7 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
         BoolPairList.add(new InstanceBooleanPair((long) 0, !curState));  // Zero is the wildcard
 
         try {
-            this.serviceMCParameter.getParameterStub().enableGeneration(false, BoolPairList);
+            this.serviceMCParameter.getParameterStub().enableGeneration(BoolPairList);
             parameterTable.switchEnabledstatusAll(!curState);
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -302,7 +302,7 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
         BoolPairList.add(new InstanceBooleanPair(parameterTable.getSelectedDefinitionObjId(), !curState));  // Zero is the wildcard
 
         try {
-            this.serviceMCParameter.getParameterStub().enableGeneration(false, BoolPairList);
+            this.serviceMCParameter.getParameterStub().enableGeneration(BoolPairList);
             parameterTable.switchEnabledstatus(!curState);
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);

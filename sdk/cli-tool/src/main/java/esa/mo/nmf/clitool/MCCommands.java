@@ -93,7 +93,7 @@ public class MCCommands {
                 enableInstances.add(new InstanceBooleanPair(id, enable));
             }
 
-            parameterService.enableGeneration(false, enableInstances);
+            parameterService.enableGeneration(enableInstances);
             System.out.println((enable ? "Enable " : "Disable ") + "successful.");
         } catch (MALInteractionException e) {
             MOErrorException error = e.getStandardError();
@@ -173,7 +173,7 @@ public class MCCommands {
                 enableInstances.add(new InstanceBooleanPair(id, enable));
             }
 
-            aggregationService.enableGeneration(false, enableInstances);
+            aggregationService.enableGeneration(enableInstances);
             System.out.println((enable ? "Enable " : "Disable ") + "successful.");
         } catch (MALInteractionException e) {
             MOErrorException error = e.getStandardError();
