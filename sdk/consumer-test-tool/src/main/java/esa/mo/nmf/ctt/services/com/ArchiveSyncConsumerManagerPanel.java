@@ -628,48 +628,6 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jButtonStoreActionsActionPerformed
 
     private void jButtonStoreGroupsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStoreGroupsActionPerformed
-        /*
-        // Object Type
-        ObjectType objType = new ObjectType(new UShort(4), new UShort(8), new UOctet((short) 1), new UShort(1));
-        
-        // Domain
-        IdentifierList domain = serviceCOMArchive.getConnectionDetails().getDomain();
-        
-        // Archive details
-        ArchiveDetailsList archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive.getConnectionDetails());
-        MOWindow genArchiveDetailsList = new MOWindow(archiveDetailsList, true);
-        try {
-            archiveDetailsList = (ArchiveDetailsList) genArchiveDetailsList.getObject();
-        } catch (InterruptedIOException ex) {
-            return;
-        }
-        
-        GroupDetails group = new GroupDetails();
-        GroupDetailsList groupList = new GroupDetailsList();
-        
-        //        group.setName(new Identifier("Group1"));
-        group.setDescription("A group of the 3 first Parameter Definitions.");
-        ObjectType objTypeParameterDef = new ObjectType(new UShort(4), new UShort(2), new UOctet((short) 1), new UShort(1));
-        group.setObjectType(objTypeParameterDef);
-        group.setDomain(domain);
-        LongList objIds = new LongList();
-        objIds.add(new Long(1));
-        objIds.add(new Long(2));
-        objIds.add(new Long(3));
-        
-        group.setInstanceIds(objIds);
-        
-        groupList.add(group);
-        
-        // Actually you have to use the Action service to store the definiton
-        try {
-            serviceCOMArchive.getArchiveStub().store(false, objType, domain, archiveDetailsList, groupList);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ArchiveSyncConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
-            Logger.getLogger(ArchiveSyncConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-         */
     }//GEN-LAST:event_jButtonStoreGroupsActionPerformed
 
     private void TBoxStoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TBoxStoreActionPerformed
