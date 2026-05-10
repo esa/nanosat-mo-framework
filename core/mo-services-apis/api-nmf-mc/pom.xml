@@ -59,9 +59,9 @@ under the License. -->
         <ccsds.specification.version>${project.version}</ccsds.specification.version>
         <ccsds.specification.download.skip>false</ccsds.specification.download.skip>
         <ccsds.specification.download.directory>${project.build.directory}</ccsds.specification.download.directory>
-        <ccsds.specification.download.filter>**/ServiceDefMC.xml</ccsds.specification.download.filter>
+        <ccsds.specification.download.filter>**/area004-Monitor-and-Control.xml</ccsds.specification.download.filter>
         <ccsds.specification.download.ref-skip>false</ccsds.specification.download.ref-skip>
-        <ccsds.specification.download.ref-filter>**/ServiceDefMAL.xml, **/ServiceDefCOM.xml</ccsds.specification.download.ref-filter>
+        <ccsds.specification.download.ref-filter>**/area001-MAL.xml, **/area002-COM.xml</ccsds.specification.download.ref-filter>
     </properties>
   
     <dependencies>
