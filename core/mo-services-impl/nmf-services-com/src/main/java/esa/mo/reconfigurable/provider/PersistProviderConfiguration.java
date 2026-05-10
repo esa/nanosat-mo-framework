@@ -34,8 +34,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.provider.ArchiveInheritanceSkeleton;
-import org.ccsds.moims.mo.com.structures.ArchiveDetailsList;
-import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.configuration.ConfigurationServiceInfo;
 import org.ccsds.moims.mo.com.structures.*;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;

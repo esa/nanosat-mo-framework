@@ -37,7 +37,6 @@ import org.ccsds.moims.mo.com.archive.provider.CountInteraction;
 import org.ccsds.moims.mo.com.archive.provider.QueryInteraction;
 import org.ccsds.moims.mo.com.archive.provider.RetrieveInteraction;
 import org.ccsds.moims.mo.com.structures.*;
-import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MOErrorException;

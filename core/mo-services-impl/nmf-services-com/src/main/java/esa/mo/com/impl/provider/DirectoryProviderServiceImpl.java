@@ -32,8 +32,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.InvalidException;
-import org.ccsds.moims.mo.com.structures.ArchiveDetailsList;
-import org.ccsds.moims.mo.com.structures.ArchiveQuery;
 import org.ccsds.moims.mo.com.directory.DirectoryHelper;
 import org.ccsds.moims.mo.com.directory.DirectoryServiceInfo;
 import org.ccsds.moims.mo.com.directory.provider.DirectoryInheritanceSkeleton;

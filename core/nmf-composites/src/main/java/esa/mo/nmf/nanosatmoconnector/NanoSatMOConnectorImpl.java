@@ -44,7 +44,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMService;
 import org.ccsds.moims.mo.com.event.EventHelper;
-import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.configuration.ConfigurationServiceInfo;
 import org.ccsds.moims.mo.com.structures.*;
 import org.ccsds.moims.mo.mal.MALException;
