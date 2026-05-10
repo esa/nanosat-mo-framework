@@ -21,15 +21,14 @@
 package esa.mo.ground.setandcommand;
 
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
+import java.net.MalformedURLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.structures.ProviderSummary;
 import org.ccsds.moims.mo.com.structures.ProviderSummaryList;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.URI;
-
-import java.net.MalformedURLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Set and Command demo application. This demo should be used with the Hello World (Simple) demo provider.

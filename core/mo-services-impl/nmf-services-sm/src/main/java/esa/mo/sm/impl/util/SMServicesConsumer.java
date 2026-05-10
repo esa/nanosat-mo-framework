@@ -22,10 +22,9 @@ package esa.mo.sm.impl.util;
 
 import esa.mo.com.impl.util.COMServicesConsumer;
 import esa.mo.sm.impl.consumer.AppsLauncherConsumerServiceImpl;
-import esa.mo.sm.impl.consumer.PackageManagementConsumerServiceImpl;
 import esa.mo.sm.impl.consumer.CommandExecutorConsumerServiceImpl;
 import esa.mo.sm.impl.consumer.HeartbeatConsumerServiceImpl;
-import java.net.MalformedURLException;
+import esa.mo.sm.impl.consumer.PackageManagementConsumerServiceImpl;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;

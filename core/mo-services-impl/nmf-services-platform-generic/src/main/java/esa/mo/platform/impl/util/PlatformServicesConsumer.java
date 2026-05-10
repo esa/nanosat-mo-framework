@@ -21,14 +21,7 @@
 package esa.mo.platform.impl.util;
 
 import esa.mo.com.impl.util.COMServicesConsumer;
-import esa.mo.platform.impl.consumer.ArtificialIntelligenceConsumerServiceImpl;
-import esa.mo.platform.impl.consumer.CameraConsumerServiceImpl;
-import esa.mo.platform.impl.consumer.ClockConsumerServiceImpl;
-import esa.mo.platform.impl.consumer.GPSConsumerServiceImpl;
-import esa.mo.platform.impl.consumer.AutonomousADCSConsumerServiceImpl;
-import esa.mo.platform.impl.consumer.OpticalDataReceiverConsumerServiceImpl;
-import esa.mo.platform.impl.consumer.PowerControlConsumerServiceImpl;
-import esa.mo.platform.impl.consumer.SoftwareDefinedRadioConsumerServiceImpl;
+import esa.mo.platform.impl.consumer.*;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;

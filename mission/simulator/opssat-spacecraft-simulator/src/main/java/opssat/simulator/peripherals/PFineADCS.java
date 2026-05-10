@@ -24,10 +24,10 @@ package opssat.simulator.peripherals;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
-import opssat.simulator.threading.SimulatorNode;
 import opssat.simulator.interfaces.IFineADCS;
 import opssat.simulator.interfaces.ISimulatorDeviceData;
 import opssat.simulator.interfaces.InternalData;
+import opssat.simulator.threading.SimulatorNode;
 
 /**
  *

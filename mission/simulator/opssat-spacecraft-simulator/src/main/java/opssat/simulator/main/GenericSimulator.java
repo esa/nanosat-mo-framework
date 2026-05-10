@@ -22,8 +22,8 @@
 package opssat.simulator.main;
 
 import opssat.simulator.peripherals.PCamera;
-import opssat.simulator.peripherals.PGPS;
 import opssat.simulator.peripherals.PFineADCS;
+import opssat.simulator.peripherals.PGPS;
 import opssat.simulator.peripherals.POpticalReceiver;
 import opssat.simulator.peripherals.PSDR;
 

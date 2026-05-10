@@ -20,14 +20,14 @@
  */
 package esa.mo.helpertools.test.misc;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import org.junit.Test;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import org.ccsds.moims.mo.mal.helpertools.misc.FileDataSerialization;
+import org.junit.Test;
 
 public class TestFileDataSerialization {
 

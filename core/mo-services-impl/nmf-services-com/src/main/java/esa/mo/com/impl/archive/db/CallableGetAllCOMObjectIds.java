@@ -25,7 +25,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.concurrent.Callable;
 import java.util.logging.Level;
-
 import org.ccsds.moims.mo.mal.structures.LongList;
 
 final class CallableGetAllCOMObjectIds implements Callable<LongList> {

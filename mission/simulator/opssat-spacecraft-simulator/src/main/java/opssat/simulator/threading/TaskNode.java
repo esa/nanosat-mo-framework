@@ -35,8 +35,8 @@ import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import opssat.simulator.util.LoggerFormatter;
 import opssat.simulator.util.LoggerFormatter1Line;
+import opssat.simulator.util.LoggerFormatter;
 import opssat.simulator.util.SimulatorTimer;
 
 public abstract class TaskNode implements Runnable {

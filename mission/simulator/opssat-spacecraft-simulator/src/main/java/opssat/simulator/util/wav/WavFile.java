@@ -32,7 +32,6 @@ package opssat.simulator.util.wav;
 // Version 1.0
 
 import java.io.*;
-
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
 

@@ -21,7 +21,6 @@
 package esa.mo.platform.impl.provider.gen;
 
 import java.io.IOException;
-
 import org.ccsds.moims.mo.platform.structures.*;
 
 /**

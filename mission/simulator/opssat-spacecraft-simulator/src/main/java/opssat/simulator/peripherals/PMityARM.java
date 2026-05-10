@@ -22,9 +22,9 @@
 package opssat.simulator.peripherals;
 
 import java.util.ArrayList;
+import opssat.simulator.interfaces.IMityARM;
 import opssat.simulator.interfaces.InternalData;
 import opssat.simulator.threading.SimulatorNode;
-import opssat.simulator.interfaces.IMityARM;
 
 /**
  *

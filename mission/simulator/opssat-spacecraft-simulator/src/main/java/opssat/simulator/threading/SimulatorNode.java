@@ -21,6 +21,7 @@
  */
 package opssat.simulator.threading;
 
+import static org.hipparchus.util.FastMath.toDegrees;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -78,8 +79,8 @@ import opssat.simulator.peripherals.GenericPeripheral;
 import opssat.simulator.peripherals.PCCSDSEngine;
 import opssat.simulator.peripherals.PCamera;
 import opssat.simulator.peripherals.PFDIR;
-import opssat.simulator.peripherals.PFineADCS;
 import opssat.simulator.peripherals.PFineADCS.FWRefFineADCS;
+import opssat.simulator.peripherals.PFineADCS;
 import opssat.simulator.peripherals.PGPS;
 import opssat.simulator.peripherals.PMityARM;
 import opssat.simulator.peripherals.PNanomind;
@@ -100,7 +101,6 @@ import opssat.simulator.util.SimulatorSchedulerPiece;
 import opssat.simulator.util.SimulatorSpacecraftState;
 import opssat.simulator.util.SimulatorTimer;
 import org.hipparchus.geometry.euclidean.threed.Vector3D;
-import static org.hipparchus.util.FastMath.toDegrees;
 import org.orekit.bodies.GeodeticPoint;
 import org.orekit.errors.OrekitException;
 import org.orekit.propagation.analytical.tle.TLE;

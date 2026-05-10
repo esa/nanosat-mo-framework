@@ -20,8 +20,8 @@
  */
 package esa.mo.nmf.apps;
 
-import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MCRegistration.RegistrationMode;
+import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.SimpleMonitorAndControlAdapter;
 import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
 import java.io.Serializable;

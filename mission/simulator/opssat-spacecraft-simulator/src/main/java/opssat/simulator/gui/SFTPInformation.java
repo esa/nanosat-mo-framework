@@ -21,9 +21,9 @@
  */
 package opssat.simulator.gui;
 
+import com.jcraft.jsch.UserInfo;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -32,8 +32,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
-
-import com.jcraft.jsch.UserInfo;
 
 public class SFTPInformation extends JFrame implements UserInfo {
 

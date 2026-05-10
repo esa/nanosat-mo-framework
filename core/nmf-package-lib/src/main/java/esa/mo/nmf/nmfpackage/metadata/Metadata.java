@@ -20,8 +20,8 @@
  */
 package esa.mo.nmf.nmfpackage.metadata;
 
-import esa.mo.nmf.nmfpackage.NMFPackageManager;
 import esa.mo.nmf.nmfpackage.NMFPackageFile;
+import esa.mo.nmf.nmfpackage.NMFPackageManager;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

@@ -20,8 +20,8 @@
  */
 package esa.mo.nmf.clitool.mc;
 
-import esa.mo.nmf.clitool.BaseCommand;
 import static esa.mo.nmf.clitool.BaseCommand.consumer;
+import esa.mo.nmf.clitool.BaseCommand;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

@@ -20,8 +20,8 @@
  */
 package esa.mo.nmf.commonmoadapter;
 
-import java.util.List;
 import esa.mo.mc.impl.provider.ParameterInstance;
+import java.util.List;
 
 /**
  * An abstract class that passes the received data from the Aggregation service

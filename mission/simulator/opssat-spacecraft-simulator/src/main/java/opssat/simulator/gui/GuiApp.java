@@ -25,7 +25,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import opssat.simulator.tcp.SocketClient;
 import opssat.simulator.util.CommandDescriptor;
 import opssat.simulator.util.LoggerFormatter1Line;

@@ -21,9 +21,8 @@
  */
 package opssat.simulator.main;
 
-import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
-
+import javax.swing.UIManager;
 import opssat.simulator.gui.GuiApp;
 
 /**

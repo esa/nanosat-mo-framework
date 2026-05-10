@@ -21,10 +21,8 @@
 package esa.mo.nmf.apps.pictureprocessor.process;
 
 import static esa.mo.nmf.apps.pictureprocessor.utils.FileUtils.closeSafe;
-
 import java.io.OutputStream;
 import java.util.logging.Logger;
-
 import org.apache.commons.exec.DefaultExecuteResultHandler;
 import org.apache.commons.exec.ExecuteException;
 

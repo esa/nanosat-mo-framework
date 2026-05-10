@@ -20,7 +20,6 @@
  */
 package esa.mo.nmf.clitool;
 
-import esa.mo.nmf.clitool.sm.SoftwareManagementCommands;
 import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.com.impl.provider.ArchiveProviderServiceImpl;
 import esa.mo.nmf.NMFConsumer;
@@ -28,6 +27,7 @@ import esa.mo.nmf.clitool.adapters.ArchiveToAppAdapter;
 import esa.mo.nmf.clitool.adapters.QueryStatusProvider;
 import esa.mo.nmf.clitool.mc.AggregationCommands;
 import esa.mo.nmf.clitool.mc.ParameterCommands;
+import esa.mo.nmf.clitool.sm.SoftwareManagementCommands;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -37,16 +37,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveStub;
+import org.ccsds.moims.mo.com.login.LoginServiceInfo;
+import org.ccsds.moims.mo.com.login.body.LoginResponse;
 import org.ccsds.moims.mo.com.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.structures.ArchiveQuery;
 import org.ccsds.moims.mo.com.structures.ArchiveQueryList;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectType;
+import org.ccsds.moims.mo.com.structures.Profile;
 import org.ccsds.moims.mo.com.structures.ProviderSummary;
 import org.ccsds.moims.mo.com.structures.ProviderSummaryList;
-import org.ccsds.moims.mo.com.login.LoginServiceInfo;
-import org.ccsds.moims.mo.com.login.body.LoginResponse;
-import org.ccsds.moims.mo.com.structures.Profile;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;

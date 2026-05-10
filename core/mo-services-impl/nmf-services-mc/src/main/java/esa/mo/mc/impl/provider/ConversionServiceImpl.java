@@ -21,8 +21,8 @@
 package esa.mo.mc.impl.provider;
 
 import esa.mo.com.impl.provider.ArchiveProviderServiceImpl;
-import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.com.impl.util.HelperArchive;
+import esa.mo.com.impl.util.HelperCOM;
 import org.ccsds.moims.mo.com.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.structures.ExpressionOperator;

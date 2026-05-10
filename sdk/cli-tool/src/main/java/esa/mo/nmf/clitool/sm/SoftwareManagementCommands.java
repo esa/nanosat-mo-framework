@@ -20,9 +20,9 @@
  */
 package esa.mo.nmf.clitool.sm;
 
+import static esa.mo.nmf.clitool.BaseCommand.consumer;
 import esa.mo.nmf.clitool.BaseCommand;
 import esa.mo.nmf.clitool.ExitCodes;
-import static esa.mo.nmf.clitool.BaseCommand.consumer;
 import esa.mo.nmf.clitool.sm.AppsLauncherCommands.KillApp;
 import esa.mo.nmf.clitool.sm.AppsLauncherCommands.MonitorExecution;
 import esa.mo.nmf.clitool.sm.AppsLauncherCommands.RunApp;

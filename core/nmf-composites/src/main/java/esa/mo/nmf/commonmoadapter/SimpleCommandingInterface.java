@@ -23,7 +23,6 @@ package esa.mo.nmf.commonmoadapter;
 import esa.mo.nmf.NMFException;
 import java.io.Serializable;
 import java.util.List;
-
 import org.ccsds.moims.mo.mc.action.consumer.ActionAdapter;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 

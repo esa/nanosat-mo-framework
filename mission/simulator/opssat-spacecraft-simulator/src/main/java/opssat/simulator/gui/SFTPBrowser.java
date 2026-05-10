@@ -21,6 +21,8 @@
  */
 package opssat.simulator.gui;
 
+import com.jcraft.jsch.ChannelSftp;
+import com.jcraft.jsch.SftpException;
 import java.awt.Component;
 import java.awt.Point;
 import java.awt.Toolkit;
@@ -33,7 +35,6 @@ import java.util.List;
 import java.util.Vector;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -45,9 +46,6 @@ import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
-
-import com.jcraft.jsch.ChannelSftp;
-import com.jcraft.jsch.SftpException;
 
 public class SFTPBrowser extends JFrame implements Comparator<ChannelSftp.LsEntry> {
 

@@ -20,14 +20,13 @@
  */
 package esa.mo.com.impl.archive.db;
 
+import esa.mo.com.impl.archive.entities.COMObjectEntity;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import esa.mo.com.impl.archive.entities.COMObjectEntity;
 
 final class RunnableInsert implements Runnable {
 

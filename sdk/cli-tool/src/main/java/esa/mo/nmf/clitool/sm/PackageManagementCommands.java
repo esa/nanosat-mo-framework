@@ -20,8 +20,8 @@
  */
 package esa.mo.nmf.clitool.sm;
 
-import esa.mo.nmf.clitool.BaseCommand;
 import static esa.mo.nmf.clitool.BaseCommand.consumer;
+import esa.mo.nmf.clitool.BaseCommand;
 import esa.mo.nmf.clitool.ExitCodes;
 import java.util.Map;
 import java.util.logging.Level;

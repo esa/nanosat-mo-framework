@@ -22,7 +22,6 @@
 package opssat.simulator.peripherals;
 
 import java.util.ArrayList;
-
 import opssat.simulator.interfaces.IGPS;
 import opssat.simulator.interfaces.ISimulatorDeviceData;
 import opssat.simulator.interfaces.InternalData;

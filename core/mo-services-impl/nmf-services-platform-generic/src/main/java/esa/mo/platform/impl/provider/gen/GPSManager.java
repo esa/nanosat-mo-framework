@@ -20,8 +20,8 @@
  */
 package esa.mo.platform.impl.provider.gen;
 
-import esa.mo.com.impl.util.DefinitionsManager;
 import esa.mo.com.impl.util.COMServicesProvider;
+import esa.mo.com.impl.util.DefinitionsManager;
 import esa.mo.com.impl.util.HelperArchive;
 import java.util.HashMap;
 import java.util.logging.Level;

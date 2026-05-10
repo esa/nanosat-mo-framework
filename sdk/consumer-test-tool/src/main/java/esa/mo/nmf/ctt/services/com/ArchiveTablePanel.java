@@ -20,9 +20,9 @@
  */
 package esa.mo.nmf.ctt.services.com;
 
-import esa.mo.com.impl.util.ArchiveCOMObjectsOutput;
 import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
+import esa.mo.com.impl.util.ArchiveCOMObjectsOutput;
 import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.nmf.ctt.windows.com.COMObjectWindow;
 import java.awt.event.MouseAdapter;

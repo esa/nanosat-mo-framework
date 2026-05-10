@@ -23,9 +23,9 @@ package esa.mo.nmf.clitool;
 import esa.mo.nmf.clitool.mc.MCCommands;
 import esa.mo.nmf.clitool.platform.PlatformCommands;
 import esa.mo.nmf.clitool.sm.SoftwareManagementCommands;
-import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
+import picocli.CommandLine;
 
 /**
  * @author marcel.mikolajko

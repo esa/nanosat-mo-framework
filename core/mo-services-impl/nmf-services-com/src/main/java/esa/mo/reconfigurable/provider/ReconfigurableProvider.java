@@ -20,11 +20,11 @@
  */
 package esa.mo.reconfigurable.provider;
 
+import esa.mo.reconfigurable.service.ConfigurationChangeListener;
+import esa.mo.reconfigurable.service.ReconfigurableService;
 import java.util.ArrayList;
 import org.ccsds.moims.mo.com.structures.ConfigurationObjectDetails;
 import org.ccsds.moims.mo.mal.structures.Identifier;
-import esa.mo.reconfigurable.service.ReconfigurableService;
-import esa.mo.reconfigurable.service.ConfigurationChangeListener;
 
 /**
  * An interface to make a service provider implementation reconfigurable

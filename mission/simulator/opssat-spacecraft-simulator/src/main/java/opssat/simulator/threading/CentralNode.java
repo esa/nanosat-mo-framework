@@ -23,7 +23,6 @@ package opssat.simulator.threading;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.logging.Level;
-
 import opssat.simulator.celestia.CelestiaData;
 import opssat.simulator.celestia.CelestiaIf;
 import opssat.simulator.main.ESASimulator;

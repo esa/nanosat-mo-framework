@@ -20,9 +20,9 @@
  */
 package esa.mo.platform.impl.provider.softsim;
 
-import org.ccsds.moims.mo.mal.structures.Time;
 import esa.mo.platform.impl.provider.gen.ClockAdapterInterface;
 import opssat.simulator.main.ESASimulator;
+import org.ccsds.moims.mo.mal.structures.Time;
 
 public class ClockSoftSimAdapter implements ClockAdapterInterface, SimulatorAdapter {
 

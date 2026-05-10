@@ -29,7 +29,6 @@ import java.io.IOException;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import opssat.simulator.peripherals.PCamera;
 import opssat.simulator.peripherals.PFineADCS;
 import opssat.simulator.peripherals.PGPS;

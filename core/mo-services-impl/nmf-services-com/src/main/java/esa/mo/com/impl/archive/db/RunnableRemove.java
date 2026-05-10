@@ -24,7 +24,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.logging.Level;
-
 import org.ccsds.moims.mo.mal.structures.LongList;
 
 final class RunnableRemove implements Runnable {

@@ -20,13 +20,13 @@
  */
 package esa.mo.nmf.nanosatmoconnector;
 
+import esa.mo.com.impl.consumer.DirectoryConsumerServiceImpl;
 import esa.mo.com.impl.consumer.EventConsumerServiceImpl;
 import esa.mo.com.impl.util.COMServicesConsumer;
 import esa.mo.com.impl.util.HelperCOM;
-import esa.mo.com.impl.consumer.DirectoryConsumerServiceImpl;
 import esa.mo.com.impl.util.HelperCommon;
-import esa.mo.helpertools.clock.SystemClock;
 import esa.mo.helpertools.clock.PlatformClockCallback;
+import esa.mo.helpertools.clock.SystemClock;
 import esa.mo.helpertools.misc.AppShutdownGuard;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
@@ -43,8 +43,8 @@ import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMService;
-import org.ccsds.moims.mo.com.event.EventHelper;
 import org.ccsds.moims.mo.com.configuration.ConfigurationServiceInfo;
+import org.ccsds.moims.mo.com.event.EventHelper;
 import org.ccsds.moims.mo.com.structures.*;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;

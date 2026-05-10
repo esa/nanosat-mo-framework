@@ -23,8 +23,8 @@ package esa.mo.mc.impl.provider;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.mc.impl.interfaces.ActionInvocationListener;
-import esa.mo.reconfigurable.service.ReconfigurableService;
 import esa.mo.reconfigurable.service.ConfigurationChangeListener;
+import esa.mo.reconfigurable.service.ReconfigurableService;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,21 +32,14 @@ import org.ccsds.moims.mo.com.COMService;
 import org.ccsds.moims.mo.com.DuplicateException;
 import org.ccsds.moims.mo.com.InvalidException;
 import org.ccsds.moims.mo.com.structures.*;
-import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
-import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.UnknownException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
-import org.ccsds.moims.mo.mal.structures.Element;
-import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
-import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.structures.LongList;
-import org.ccsds.moims.mo.mal.structures.UInteger;
-import org.ccsds.moims.mo.mal.structures.UIntegerList;
-import org.ccsds.moims.mo.mal.structures.UShort;
-import org.ccsds.moims.mo.mal.UnknownException;
+import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mc.action.ActionHelper;
 import org.ccsds.moims.mo.mc.action.ActionServiceInfo;
 import org.ccsds.moims.mo.mc.action.provider.ActionInheritanceSkeleton;
@@ -474,19 +467,6 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
     public ConfigurationObjectDetails getCurrentConfiguration() {
         // Get all the current objIds in the serviceImpl
         // Create a Configuration Object with all the objs of the provider
-        /*
-        HashMap<Identity, Definition> defObjs = manager.getCurrentDefinitionsConfiguration();
-        
-        ConfigurationObjectSet objsSet = new ConfigurationObjectSet();
-        objsSet.setDomain(ConfigurationProviderSingleton.getDomain());
-        LongList currentObjIds = new LongList();
-        currentObjIds.addAll(defObjs.keySet());
-        objsSet.setObjInstIds(currentObjIds);
-        objsSet.setObjType(ActionHelper.ACTIONDEFINITION_OBJECT_TYPE);
-        
-        ConfigurationObjectSetList list = new ConfigurationObjectSetList();
-        list.add(objsSet);
-         */
         ConfigurationObjectSetList list = manager.getCurrentConfiguration(
                 ActionServiceInfo.ACTIONDEFINITION_OBJECT_TYPE);
 

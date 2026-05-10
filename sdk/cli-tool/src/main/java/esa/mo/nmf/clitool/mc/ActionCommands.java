@@ -20,9 +20,9 @@
  */
 package esa.mo.nmf.clitool.mc;
 
-import esa.mo.nmf.clitool.BaseCommand;
 import static esa.mo.nmf.clitool.BaseCommand.consumer;
 import static esa.mo.nmf.clitool.BaseCommand.queryArchive;
+import esa.mo.nmf.clitool.BaseCommand;
 import esa.mo.nmf.clitool.adapters.ArchiveToActionsAdapter;
 import java.io.Serializable;
 import java.util.List;

@@ -1,16 +1,14 @@
 package esa.mo.com.impl.util;
 
+import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.ccsds.moims.mo.com.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.ElementList;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
-
-import esa.mo.com.impl.provider.ArchivePersistenceObject;
 
 /*
  * Common interface implemented by the adapters used by getFromArchive helper

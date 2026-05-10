@@ -20,12 +20,11 @@
  */
 package esa.mo.nmf.apps.pictureprocessor.process;
 
-import esa.mo.nmf.AppStorage;
 import static esa.mo.nmf.apps.pictureprocessor.utils.FileUtils.createDirectoriesIfNotExist;
 import static esa.mo.nmf.apps.pictureprocessor.utils.FileUtils.newOutpuStreamSafe;
 import static esa.mo.nmf.apps.pictureprocessor.utils.FileUtils.stripFileNameExtension;
+import esa.mo.nmf.AppStorage;
 import java.io.File;
-
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Path;
@@ -34,7 +33,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.ExecuteWatchdog;

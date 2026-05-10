@@ -20,14 +20,14 @@
  */
 package esa.mo.nmf.apps.pictureprocessor.mo;
 
-import esa.mo.nmf.apps.pictureprocessor.process.ProcessEventListener;
+import static esa.mo.nmf.apps.pictureprocessor.utils.FileUtils.createDirectoriesIfNotExist;
 import esa.mo.nmf.AppStorage;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
 import esa.mo.nmf.NMFInterface;
 import esa.mo.nmf.NMFProvider;
-import static esa.mo.nmf.apps.pictureprocessor.utils.FileUtils.createDirectoriesIfNotExist;
+import esa.mo.nmf.apps.pictureprocessor.process.ProcessEventListener;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;

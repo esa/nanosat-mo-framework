@@ -20,14 +20,14 @@
  */
 package esa.mo.nmf.nmfpackage;
 
-import esa.mo.nmf.environment.Deployment;
-import esa.mo.nmf.environment.LinuxUsersGroups;
-import esa.mo.nmf.nmfpackage.utils.HelperNMFPackage;
 import esa.mo.helpertools.misc.Const;
 import esa.mo.helpertools.misc.OSValidator;
+import esa.mo.nmf.environment.Deployment;
+import esa.mo.nmf.environment.LinuxUsersGroups;
 import esa.mo.nmf.nmfpackage.metadata.Metadata;
 import esa.mo.nmf.nmfpackage.metadata.MetadataApp;
 import esa.mo.nmf.nmfpackage.utils.AuxFilesGenerator;
+import esa.mo.nmf.nmfpackage.utils.HelperNMFPackage;
 import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl;
 import java.io.File;
 import java.io.FileInputStream;

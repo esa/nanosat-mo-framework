@@ -25,14 +25,14 @@ package esa.mo.platform.impl.provider.adapters;
 
 import esa.mo.helpertools.misc.OSValidator;
 import esa.mo.helpertools.misc.ShellCommander;
-import java.io.File;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import esa.mo.platform.impl.provider.gen.AIAdapterInterface;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * The AIMovidiusAdapter adapter for the Intel Movidius Neural Compute

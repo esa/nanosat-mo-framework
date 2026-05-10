@@ -20,7 +20,6 @@
  */
 package esa.mo.sm.impl.provider;
 
-import esa.mo.sm.impl.util.ClosingAppListener;
 import esa.mo.com.impl.consumer.EventConsumerServiceImpl;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.DefinitionsManager;
@@ -29,6 +28,7 @@ import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.com.impl.util.HelperCommon;
 import esa.mo.helpertools.misc.Const;
 import esa.mo.helpertools.misc.OSValidator;
+import esa.mo.sm.impl.util.ClosingAppListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;

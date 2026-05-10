@@ -21,10 +21,10 @@
 
 package esa.mo.nmf.clitool.adapters;
 
-import esa.mo.com.impl.util.ArchiveCOMObjectsOutput;
-import esa.mo.com.impl.util.HelperCOM;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import esa.mo.com.impl.util.ArchiveCOMObjectsOutput;
+import esa.mo.com.impl.util.HelperCOM;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -34,9 +34,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
 import org.ccsds.moims.mo.com.structures.*;
-import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
 import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperDomain;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;

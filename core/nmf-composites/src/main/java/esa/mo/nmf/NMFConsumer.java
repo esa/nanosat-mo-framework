@@ -20,9 +20,9 @@
  */
 package esa.mo.nmf;
 
-import esa.mo.com.impl.util.COMServicesConsumer;
 import esa.mo.com.impl.consumer.DirectoryConsumerServiceImpl;
 import esa.mo.com.impl.provider.DirectoryProviderServiceImpl;
+import esa.mo.com.impl.util.COMServicesConsumer;
 import esa.mo.com.impl.util.HelperCommon;
 import esa.mo.mc.impl.util.MCServicesConsumer;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;

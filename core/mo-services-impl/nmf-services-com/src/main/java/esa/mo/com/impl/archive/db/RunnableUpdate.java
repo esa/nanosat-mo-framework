@@ -20,13 +20,12 @@
  */
 package esa.mo.com.impl.archive.db;
 
+import esa.mo.com.impl.archive.entities.COMObjectEntity;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
-
-import esa.mo.com.impl.archive.entities.COMObjectEntity;
 
 final class RunnableUpdate implements Runnable {
     /**
