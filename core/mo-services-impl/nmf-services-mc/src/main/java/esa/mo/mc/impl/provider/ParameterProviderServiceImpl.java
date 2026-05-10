@@ -949,16 +949,16 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
                 timestamps.add(timestamp);
             }
 
-            final LongList pValObjIds;
+            final LongList parameterValueId;
 
             if (storeIt) {
-                pValObjIds = manager.storeAndGenerateMultiplePValobjId(pVals, relatedIds,
+                parameterValueId = manager.storeAndGenerateMultiplePValobjId(pVals, relatedIds,
                         sourceIds, connection.getConnectionDetails(), timestamps);
             } else {
                 // Well, if we don't store it, then we shall use the local unique variable
-                pValObjIds = new LongList(pVals.size());
+                parameterValueId = new LongList(pVals.size());
                 for (Element parameterVal : pVals) {
-                    pValObjIds.add(pValUniqueObjId.incrementAndGet());
+                    parameterValueId.add(pValUniqueObjId.incrementAndGet());
                 }
             }
 
@@ -967,12 +967,11 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             final ParameterValueList pVallst = new ParameterValueList(parameters.size());
 
             for (int i = 0; i < parameterInstances.size(); i++) {
-                //  requirements: 3.3.7.2.a , 3.3.7.2.b , 3.3.7.2.c , 3.3.7.2.d 
+                //  requirements: 3.3.7.2.a , 3.3.7.2.b , 3.3.7.2.c , 3.3.7.2.d
                 AttributeList keys = new AttributeList();
                 keys.add(new Identifier(manager.getName(outIds.get(i)).toString()));
                 keys.add(new Union(outIds.get(i)));
-                keys.add(new Union(outIds.get(i)));
-                keys.add(new Union(pValObjIds.get(i)));
+                keys.add(new Union(parameterValueId.get(i)));
 
                 Time time = parameterInstances.get(i).getTimestamp();
                 time = (time == null) ? defaultTimestamp : time; //  requirement: 3.3.5.2.5

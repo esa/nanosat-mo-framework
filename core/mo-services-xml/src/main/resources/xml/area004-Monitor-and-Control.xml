@@ -317,15 +317,11 @@
                                        comment="The name of the parameter.">
                                 <mal:type area="MAL" list="false" name="Identifier"/>
                             </mal:field>
-                            <mal:field name="objIdentityInstanceId" canBeNull="false"
-                                       comment="The id of the parameter identity instance.">
-                                <mal:type area="MAL" list="false" name="Long"/>
-                            </mal:field>
-                            <mal:field name="objDefInstanceId" canBeNull="false"
+                            <mal:field name="parameterId" canBeNull="false"
                                        comment="The id of the ParameterDefinition object.">
                                 <mal:type area="MAL" list="false" name="Long"/>
                             </mal:field>
-                            <mal:field name="pValObjIds" canBeNull="false"
+                            <mal:field name="parameterValueId" canBeNull="false"
                                        comment="The id of the ParameterValue object.">
                                 <mal:type area="MAL" list="false" name="Long"/>
                             </mal:field>
