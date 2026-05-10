@@ -306,21 +306,9 @@
                 <mal:pubsubIP name="monitorValue" number="1" supportInReplay="true"
                               comment="The monitorValue operation allows a consumer to subscribe for parameter value reports.">
                     <mal:documentation name="Requirement" order="1">
-                        The MAL EntityKey.firstSubKey shall contain the parameter name.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="2">
-                        The MAL EntityKey.secondSubKey shall contain the ParameterDefinition id.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="3">
-                        The MAL EntityKey.thirdSubKey shall contain the ParameterDefinition id.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="4">
-                        The MAL EntityKey.fourthSubKey shall contain the new ParameterValueInstance id.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="5">
                         The timestamp of the ParameterValueInstance report shall be taken from the publish message and shall be the time of the parameter value update.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="6">
+                    <mal:documentation name="Requirement" order="2">
                         If no source link is needed then the ObjectId shall be replaced with a NULL.
                     </mal:documentation>
                     <mal:messages>
@@ -910,21 +898,9 @@
                 <mal:pubsubIP name="monitorValue" number="1" supportInReplay="true"
                               comment="The monitorValue operation allows a consumer to subscribe for aggregation value reports.">
                     <mal:documentation name="Requirement" order="1">
-                        The MAL EntityKey.firstSubKey shall contain the aggregation name.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="2">
-                        The MAL EntityKey.secondSubKey shall contain the AggregationDefinition id.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="3">
-                        The MAL EntityKey.thirdSubKey shall contain the AggregationDefinition id.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="4">
-                        The MAL EntityKey.fourthSubKey shall contain the new AggregationValueInstance id.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="5">
                         The timestamp of the AggregationValueInstance report shall be taken from the publish message.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="6">
+                    <mal:documentation name="Requirement" order="2">
                         If no source link is needed then the ObjectId shall be replaced with a NULL.
                     </mal:documentation>
                     <mal:messages>

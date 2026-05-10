@@ -134,7 +134,7 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
         }
     }
 
-    private void streamPicturesUpdate(final Identifier firstEntityKey,
+    private void streamPicturesUpdate(final Identifier tag,
             final CameraSettings settings) {
         try {
             final Long objId;
@@ -160,7 +160,7 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
                 LOGGER.log(Level.FINER, "Generating streaming Picture update with objId: {0}", objId);
 
                 AttributeList keys = new AttributeList();
-                keys.add(firstEntityKey);
+                keys.add(tag);
                 keys.addAsJavaType(objId);
                 keys.addAsJavaType(settings.getResolution().getWidth().getValue());
                 keys.addAsJavaType(settings.getResolution().getHeight().getValue());
@@ -219,14 +219,14 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
 
     @Override
     public void enableStream(Boolean enable, final Duration streamingRate,
-            final Identifier firstEntityKey, final CameraSettings settings,
+            final Identifier tag, final CameraSettings settings,
             MALInteraction interaction) throws MALInteractionException, MALException {
         if (!enable) {
             cameraInUse = false;
             publishTimer.stopLast();
         } else {
-            if (firstEntityKey == null) { // Is the input null?
-                throw new IllegalArgumentException("firstEntityKey argument must not be null");
+            if (tag == null) { // Is the input null?
+                throw new IllegalArgumentException("tag argument must not be null");
             }
 
             // Is the requested streaming rate less than the minimum period?
@@ -242,9 +242,9 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
 
             isCapturePossible(settings);
 
-            if (firstEntityKey.getValue() == null
-                    || "*".equals(firstEntityKey.getValue())
-                    || "".equals(firstEntityKey.getValue())) {
+            if (tag.getValue() == null
+                    || "*".equals(tag.getValue())
+                    || "".equals(tag.getValue())) {
                 throw new MALInteractionException(new InvalidException(null));
             }
 
@@ -256,7 +256,7 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
             publishTimer.scheduleTask(new Thread(() -> {
                 if (running) {
                     if (cameraInUse) {
-                        streamPicturesUpdate(firstEntityKey, settings);
+                        streamPicturesUpdate(tag, settings);
                     }
                 }
             }), period, period, TimeUnit.MILLISECONDS, true);

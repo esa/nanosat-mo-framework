@@ -29,23 +29,11 @@
                 <mal:pubsubIP number="1" name="picturesStream" supportInReplay="false"
                               comment="The picturesStream operation allows a consumer to subscribe for pictures published after enableStream call." >
                     <mal:documentation name="Requirement" order="1">
-                        The MAL EntityKey.firstSubKey shall be the value provided by the consumer during the enableStream operation.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="2">
-                        The MAL EntityKey.secondSubKey shall hold a unique object instance identifier.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="3">
-                        The MAL EntityKey.thirdSubKey shall hold the width value of the resolution object provided by the consumer during the enableStream operation.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="4">
-                        The MAL EntityKey.fourthSubKey shall hold the height value of the resolution object provided by the consumer during the enableStream operation.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="5">
                         The timestamp of the update shall be the time of when the picture was taken.
                     </mal:documentation>
                     <mal:messages>
                         <mal:subscriptionKeys>
-                            <mal:field name="firstEntityKey" canBeNull="false"
+                            <mal:field name="tag" canBeNull="false"
                                        comment="The value provided by the consumer during the enableStream operation.">
                                 <mal:type area="MAL" list="false" name="Identifier"/>
                             </mal:field>
@@ -73,7 +61,7 @@
                 <mal:submitIP number="2" name="enableStream" supportInReplay="false"
                               comment="The enableStream operation allows a consumer to set the rate, dimension and format of the Pictures being streamed." >
                     <mal:documentation name="Requirement" order="1">
-                        If enable flag is true, the firstEntityKey field must not be empty, nor be NULL nor the wildcard '*'. An INVALID error shall be returned in this case.
+                        If enable flag is true, the tag field must not be empty, nor be NULL nor the wildcard '*'. An INVALID error shall be returned in this case.
                     </mal:documentation>
                     <mal:messages>
                         <mal:submit comment="">
@@ -85,7 +73,7 @@
                                        comment="The streaming period of the pictures." >
                                 <mal:type area="MAL" list="false" name="Duration" />
                             </mal:field>
-                            <mal:field canBeNull="true" name="firstEntityKey"
+                            <mal:field canBeNull="true" name="tag"
                                        comment="The first entity key for subscription filtering during the streamPictures broadcast." >
                                 <mal:type area="MAL" list="false" name="Identifier" />
                             </mal:field>
@@ -121,7 +109,7 @@
                             </mal:extraInformation>
                         </mal:errorRef>
                         <mal:errorRef
-                            comment="The firstEntityKey field cannot be a NULL nor a wildcard.">
+                            comment="The tag field cannot be a NULL nor a wildcard.">
                             <mal:type area="COM" list="false" name="INVALID" />
                         </mal:errorRef>
                     </mal:errors>
@@ -551,21 +539,9 @@
                         If the GPS current position has entered the nearby position, then the field shall be set to TRUE otherwise FALSE.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
-                        The MAL EntityKey.firstSubKey shall contain the NearbyPosition name.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="4">
-                        The MAL EntityKey.secondSubKey shall contain the NearbyPosition object instance identifier.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="5">
-                        The MAL EntityKey.thirdSubKey shall contain the NearbyPositionAlert object instance identifier.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="6">
-                        The MAL EntityKey.fourthSubKey shall be NULL.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="7">
                         The timestamp of the update shall be on-board clock at the time of the notification.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="8">
+                    <mal:documentation name="Requirement" order="4">
                         The ObjectId shall be set to NULL.
                     </mal:documentation>
                     <mal:messages>

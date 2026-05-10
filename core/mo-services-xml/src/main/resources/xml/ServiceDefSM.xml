@@ -362,24 +362,12 @@
                         The outputStream field shall contain a stream of characters corresponding to the output stream of the application.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        The MAL EntityKey.firstSubKey shall contain the App name.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="3">
-                        The MAL EntityKey.secondSubKey shall contain the AppDetails object instance identifier.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="4">
-                        The MAL EntityKey.thirdSubKey shall be NULL.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="5">
-                        The MAL EntityKey.fourthSubKey shall be NULL.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="6">
                         The timestamp of the update shall be the on-board time when the update was published.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="7">
+                    <mal:documentation name="Requirement" order="3">
                         The publish message shall include the ObjectId of the source link of the update.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="8">
+                    <mal:documentation name="Requirement" order="4">
                         If no source link is needed then the ObjectId shall be replaced with a NULL.
                     </mal:documentation>
                     <mal:messages>
