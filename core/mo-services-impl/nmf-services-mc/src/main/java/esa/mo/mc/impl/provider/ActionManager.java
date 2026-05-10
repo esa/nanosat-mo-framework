@@ -61,7 +61,7 @@ public final class ActionManager extends MCManager {
     private Long uniqueObjIdDef; // Unique objId Definition (different for every Definition)
     private Long uniqueObjIdAIns;
     private final ActionInvocationListener actions;
-    private final HashMap<Long, ActionInstanceDetails> actionInstances = new HashMap<>();
+    private final HashMap<Long, ActionInstance> actionInstances = new HashMap<>();
 
     private final static int MINIMUM_THREADS_IN_POOL = 2;
     private final static int MAXIMUM_THREADS_IN_POOL = 100;
@@ -91,7 +91,7 @@ public final class ActionManager extends MCManager {
         return (ActionDefinition) this.getDefinition(id);
     }
 
-    public Long storeAndGenerateAInsobjId(ActionInstanceDetails aIns, Long related, final URI uri) {
+    public Long storeAndGenerateAInsobjId(ActionInstance aIns, Long related, final URI uri) {
         if (super.getArchiveService() == null) {
             uniqueObjIdAIns++;
             ///            if (uniqueObjIdAIns % SAVING_PERIOD  == 0) // It is used to avoid constant saving every time we generate a new obj Inst identifier.
@@ -240,7 +240,7 @@ public final class ActionManager extends MCManager {
 
     }
 
-    public boolean checkActionInstanceDetails(ActionInstanceDetails actionInstance, UIntegerList errorList) {
+    public boolean checkActionInstance(ActionInstance actionInstance, UIntegerList errorList) {
         //TODO extend this method to support the external verification. create a new Interface -> actionservice
         ActionDefinition actionDef = this.getActionDefinition(actionInstance.getDefInstId());
 
@@ -321,7 +321,7 @@ public final class ActionManager extends MCManager {
         return preCheckResult;
     }
 
-    protected void forward(final Long actionInstId, final ActionInstanceDetails actionDetails,
+    protected void forward(final Long actionInstId, final ActionInstance actionDetails,
             final MALInteraction interaction, final SingleConnectionDetails connectionDetails) {
         final Identifier name = this.getName(actionDetails.getDefInstId());
 
@@ -368,7 +368,7 @@ public final class ActionManager extends MCManager {
         });
     }
 
-    protected void execute(final Long actionInstId, final ActionInstanceDetails actionDetails,
+    protected void execute(final Long actionInstId, final ActionInstance actionDetails,
             final MALInteraction interaction, final SingleConnectionDetails connectionDetails) {
         actionInstances.put(actionInstId, actionDetails);
         final Identifier name = this.getName(actionDetails.getDefInstId());
@@ -378,7 +378,7 @@ public final class ActionManager extends MCManager {
 
             //from here on: requirement 3.2.8.b
             // Publish Event stating that the execution was initialized
-            if (actionDetails.getStageStartedRequired()) {  // ActionInstanceDetails field requirement
+            if (actionDetails.getStageStartedRequired()) {  // ActionInstance field requirement
                 reportExecutionStart(true, null, actionDefinition.getProgressStepCount().getValue(), actionInstId,
                         interaction, connectionDetails);
             }
@@ -395,7 +395,7 @@ public final class ActionManager extends MCManager {
             }
 
             // Publish Event stating that the execution was finished
-            if (actionDetails.getStageCompletedRequired()) {  // ActionInstanceDetails field requirement
+            if (actionDetails.getStageCompletedRequired()) {  // ActionInstance field requirement
                 reportExecutionComplete((errorNumber == null), errorNumber,
                         actionDefinition.getProgressStepCount().getValue(),
                         actionInstId, interaction, connectionDetails);
@@ -407,7 +407,7 @@ public final class ActionManager extends MCManager {
             //the following completion event shall be published -> issue
             //                // Publish Event stating that the execution was finished
             //				success = actions.getFailureStage() != actionDefinition.getProgressStepCount().getValue() + 2;
-            //                if (actionDetails.getStageCompletedRequired()) {  // ActionInstanceDetails field requirement
+            //                if (actionDetails.getStageCompletedRequired()) {  // ActionInstance field requirement
             //                    reportExecutionComplete(success, success ? null : actions.getFailureCode(),
             //                        actionDefinition.getProgressStepCount().getValue(), actionInstId, interaction, connectionDetails);
             //                }
@@ -415,7 +415,7 @@ public final class ActionManager extends MCManager {
 
     }
 
-    protected ActionInstanceDetails getActionInstance(final Long id) {
+    protected ActionInstance getActionInstance(final Long id) {
         return actionInstances.get(id);
     }
 

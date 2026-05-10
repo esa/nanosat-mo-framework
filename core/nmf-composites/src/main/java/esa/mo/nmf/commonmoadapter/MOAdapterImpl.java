@@ -480,14 +480,14 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
             ActionAdapter actionAdapter) throws NMFException {
         Long instanceObjId = null;
 
-        // Create an ActionInstanceDetails object for the invocation of this action
+        // Create an ActionInstance object for the invocation of this action
         Boolean stageStartedRequired = true;
         Boolean stageProgressRequired = true;
         Boolean stageCompletedRequired = true;
         IdentifierList argumentIds = null;
 
         try {
-            ActionInstanceDetails instanceDetails = new ActionInstanceDetails(
+            ActionInstance instanceDetails = new ActionInstance(
                     defInstId,
                     stageStartedRequired,
                     stageProgressRequired,

@@ -124,13 +124,13 @@
                         If the defInstId of the supplied actionDetails field does not match a known ActionDefinition object then an UNKNOWN error shall be returned.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        The size of the argumentValues list of the ActionInstanceDetails structure shall be compared to the size of the argument list in the matched ActionDefinition object and an INVALID error shall be returned if they are not the same.
+                        The size of the argumentValues list of the ActionInstance structure shall be compared to the size of the argument list in the matched ActionDefinition object and an INVALID error shall be returned if they are not the same.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
-                        If the ActionInstanceDetails structure contains an argumentIds field value then this shall be compared to the same field in the matched ActionDefinition object and must be the same size and contain the same values, an INVALID error shall be returned if this is not the case.
+                        If the ActionInstance structure contains an argumentIds field value then this shall be compared to the same field in the matched ActionDefinition object and must be the same size and contain the same values, an INVALID error shall be returned if this is not the case.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="4">
-                        If the ActionInstanceDetails structure contains an isRawValue field value then the size of this list shall be compared to the size of the argument list in the matched ActionDefinition object and an INVALID error shall be returned if they are not the same.
+                        If the ActionInstance structure contains an isRawValue field value then the size of this list shall be compared to the size of the argument list in the matched ActionDefinition object and an INVALID error shall be returned if they are not the same.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="5">
                         If the supplied argument values do not match the attribute type specified in the action definition then an INVALID error shall be returned.
@@ -152,12 +152,12 @@
                             </mal:field>
                             <mal:field name="actionDetails"
                                        comment="The argument values and related information of the action instance to be executed.">
-                                <mal:type name="ActionInstanceDetails" area="MC"/>
+                                <mal:type name="ActionInstance" area="MC"/>
                             </mal:field>
                         </mal:submit>
                     </mal:messages>
                     <mal:errors>
-                        <mal:errorRef comment="The list sizes held in the ActionInstanceDetails do not match the argument definitions or it contains one or more invalid argument values.&#xA;If the two lists are not the same length then the extra information field shall contain the first index of the element in the largest list which does not have corresponding element in the other list.">
+                        <mal:errorRef comment="The list sizes held in the ActionInstance do not match the argument definitions or it contains one or more invalid argument values.&#xA;If the two lists are not the same length then the extra information field shall contain the first index of the element in the largest list which does not have corresponding element in the other list.">
                             <mal:type name="INVALID" area="COM"/>
                             <mal:extraInformation comment="The extra information field contains a list of the indexes of the erroneous values from the originating list supplied.">
                                 <mal:type list="true" name="UInteger" area="MAL"/>
@@ -218,7 +218,7 @@
                     </com:object>
                     <com:object name="ActionInstance" number="2">
                         <com:objectType>
-                            <mal:type name="ActionInstanceDetails" area="MC"/>
+                            <mal:type name="ActionInstance" area="MC"/>
                         </com:objectType>
                         <com:relatedObject>
                             <com:objectType number="1" service="Action" area="MC"/>
@@ -1481,8 +1481,8 @@
                     <mal:type list="true" name="ArgumentDefinition" area="MC"/>
                 </mal:field>
             </mal:composite>
-            <mal:composite name="ActionInstanceDetails" shortFormPart="9"
-                           comment="The ActionInstanceDetails structure holds the information required for an instance of an Action such as the argument values to use.">
+            <mal:composite name="ActionInstance" shortFormPart="9"
+                           comment="The ActionInstance structure holds the information required for an instance of an Action such as the argument values to use.">
                 <mal:extends>
                     <mal:type name="Composite" area="MAL"/>
                 </mal:extends>

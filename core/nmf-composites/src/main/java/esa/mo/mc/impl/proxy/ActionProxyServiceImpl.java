@@ -113,7 +113,7 @@ public class ActionProxyServiceImpl extends ActionInheritanceSkeleton {
     }
 
     @Override
-    public void submitAction(Long actionInstId, ActionInstanceDetails actionDetails, MALInteraction interaction)
+    public void submitAction(Long actionInstId, ActionInstance actionDetails, MALInteraction interaction)
             throws MALInteractionException, MALException {
         // Publish Activity Tracking event: Reception Event
         manager.getCOMServices().getActivityTrackingService().publishReceptionEvent(interaction, true, new Duration(0),

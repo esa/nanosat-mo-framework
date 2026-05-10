@@ -541,8 +541,8 @@ public class CameraAcquisitorGround {
             if (objBodies != null) {
                 int i = 0;
                 for (Object objBody : objBodies) {
-                    if (objBody instanceof ActionInstanceDetails) {
-                        ActionInstanceDetails instance = ((ActionInstanceDetails) objBody);
+                    if (objBody instanceof ActionInstance) {
+                        ActionInstance instance = ((ActionInstance) objBody);
                         try {
                             IdentifierList idList = new IdentifierList();
                             idList.add(new Identifier(

@@ -25,7 +25,7 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UIntegerList;
 import org.ccsds.moims.mo.mc.structures.ActionDefinition;
-import org.ccsds.moims.mo.mc.structures.ActionInstanceDetails;
+import org.ccsds.moims.mo.mc.structures.ActionInstance;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 
 /**
@@ -58,6 +58,6 @@ public interface ActionInvocationListener {
      * @param errorList The list of errors.
      * @return True if passes, false otherwise.
      */
-    boolean preCheck(ActionDefinition defDetails, ActionInstanceDetails instDetails, UIntegerList errorList);
+    boolean preCheck(ActionDefinition defDetails, ActionInstance instDetails, UIntegerList errorList);
 
 }

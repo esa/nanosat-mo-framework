@@ -120,7 +120,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
     }
 
     @Override //requirement: 3.2.3
-    public void submitAction(Long actionInstId, ActionInstanceDetails actionDetails, MALInteraction interaction)
+    public void submitAction(Long actionInstId, ActionInstance actionDetails, MALInteraction interaction)
             throws MALInteractionException, MALException {
         UIntegerList invIndexList = new UIntegerList();
         boolean unknown = false;
@@ -151,8 +151,8 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
             accepted = false;
             unknown = true;
         } else {
-            // Check the ActionInstanceDetails
-            accepted = manager.checkActionInstanceDetails(actionDetails, invIndexList); // requirement: 3.2.9.2.b
+            // Check the ActionInstance
+            accepted = manager.checkActionInstance(actionDetails, invIndexList); // requirement: 3.2.9.2.b
         }
 
         // Publish the second Acceptance event
@@ -388,7 +388,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
             throw new IOException("The first progress stage must be 1.");
         }
 
-        final ActionInstanceDetails actionInstance = manager.getActionInstance(actionInstId);
+        final ActionInstance actionInstance = manager.getActionInstance(actionInstId);
 
         if (actionInstance != null) {
             // Aditional validation can be performed!

@@ -353,12 +353,12 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
             return;  // Well, then nothing to be done here folks!
         }
 
-        ActionInstanceDetails actionInstanceDetails = new ActionInstanceDetails(
+        ActionInstance actionInstanceDetails = new ActionInstance(
                 actionTable.getSelectedDefinitionObjId(),
                 null, null, null);
         MOWindow genericObject = new MOWindow(actionInstanceDetails, true);
         try {
-            actionInstanceDetails = (ActionInstanceDetails) genericObject.getObject();
+            actionInstanceDetails = (ActionInstance) genericObject.getObject();
         } catch (InterruptedIOException ex) {
             return;
         }

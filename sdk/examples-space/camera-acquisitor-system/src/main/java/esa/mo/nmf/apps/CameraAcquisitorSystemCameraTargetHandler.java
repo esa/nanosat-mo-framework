@@ -42,7 +42,7 @@ import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.mal.transport.MALMessage;
-import org.ccsds.moims.mo.mc.structures.ActionInstanceDetails;
+import org.ccsds.moims.mo.mc.structures.ActionInstance;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.platform.structures.AttitudeMode;
 import org.ccsds.moims.mo.platform.structures.AttitudeModeTargetTracking;
@@ -202,8 +202,8 @@ public class CameraAcquisitorSystemCameraTargetHandler {
             if (objBodies != null) {
                 int i = 0;
                 for (Object objBody : objBodies) {
-                    if (objBody instanceof ActionInstanceDetails) {
-                        ActionInstanceDetails instance = ((ActionInstanceDetails) objBody);
+                    if (objBody instanceof ActionInstance) {
+                        ActionInstance instance = ((ActionInstance) objBody);
                         if (instance.getArgumentValues().size() == 3) {
                             String timeStamp = instance.getArgumentValues().get(2).getValue().toString();
                             try {
