@@ -271,7 +271,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
                             Time.now(), false, null);
                     PaginationFilter filter = new PaginationFilter(new UInteger(1), new UInteger(0));
                     List<ArchivePersistenceObject> result = archiveService.getArchiveManager().query(
-                            ParameterServiceInfo.PARAMETERVALUEINSTANCE_OBJECT_TYPE, query, filter);
+                            ParameterServiceInfo.PARAMETERVALUE_OBJECT_TYPE, query, filter);
                     if (!result.isEmpty()) {
                         // assume the first one is the newest because of the query sort order
                         ArchivePersistenceObject newestParameter = result.get(0);

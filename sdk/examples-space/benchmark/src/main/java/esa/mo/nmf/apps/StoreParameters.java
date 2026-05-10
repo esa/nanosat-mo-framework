@@ -70,7 +70,7 @@ public class StoreParameters {
                     yyy.add(values.get(i));
 
                     connector.getCOMServices().getArchiveService().store(true,
-                            ParameterServiceInfo.PARAMETERVALUEINSTANCE_OBJECT_TYPE,
+                            ParameterServiceInfo.PARAMETERVALUE_OBJECT_TYPE,
                             connection.getConnectionDetails().getDomain(),
                             xxx, yyy, null);
 

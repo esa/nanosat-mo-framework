@@ -282,31 +282,31 @@
                 The definitions of the parameters shall be represented as ParameterDefinition COM objects.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="4">
-                Parameter value reports shall be represented as ParameterValueInstance COM objects.
+                Parameter value reports shall be represented as ParameterValue COM objects.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="5">
-                The ParameterValueInstance object shall use the related link to indicate which ParameterDefinition object it uses.
+                The ParameterValue object shall use the related link to indicate which ParameterDefinition object it uses.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="6">
                 The source link of the ParameterDefinition object should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="7">
-                The source link of the ParameterValueInstance object should be the object that caused the report to be generated.
+                The source link of the ParameterValue object should be the object that caused the report to be generated.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="8">
-                The source link of the ParameterValueInstance object shall be NULL for periodic reports.
+                The source link of the ParameterValue object shall be NULL for periodic reports.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="9">
                 ParameterDefinition objects should be stored in the COM archive.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="10">
-                When a parameter value report is published, the ParameterValueInstance object should be stored in the COM archive.
+                When a parameter value report is published, the ParameterValue object should be stored in the COM archive.
             </mal:documentation>
             <mal:capabilitySet number="1">
                 <mal:pubsubIP name="monitorValue" number="1" supportInReplay="true"
                               comment="The monitorValue operation allows a consumer to subscribe for parameter value reports.">
                     <mal:documentation name="Requirement" order="1">
-                        The timestamp of the ParameterValueInstance report shall be taken from the publish message and shall be the time of the parameter value update.
+                        The timestamp of the ParameterValue report shall be taken from the publish message and shall be the time of the parameter value update.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
                         If no source link is needed then the ObjectId shall be replaced with a NULL.
@@ -326,7 +326,7 @@
                                 <mal:type area="MAL" list="false" name="Long"/>
                             </mal:field>
                             <mal:field name="pValObjIds" canBeNull="false"
-                                       comment="The id of the ParameterValueInstance object.">
+                                       comment="The id of the ParameterValue object.">
                                 <mal:type area="MAL" list="false" name="Long"/>
                             </mal:field>
                         </mal:subscriptionKeys>
@@ -336,7 +336,7 @@
                                 <mal:type name="ObjectId" area="COM"/>
                             </mal:field>
                             <mal:field name="newValue"
-                                       comment="The ParameterValueInstance object value.">
+                                       comment="The ParameterValue object value.">
                                 <mal:type name="ParameterValue" area="MC"/>
                             </mal:field>
                         </mal:publishNotify>
@@ -410,7 +410,7 @@
                         The parameter values shall be set concurrently, by this it is meant that all values are set at the same time without interleaving of other values being (ATOMIC behaviour). How this is implemented is an implementation detail.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="8">
-                        The service provider shall create new ParameterValueInstance objects for the updated parameter values, store these in the COM Archive, and publish these new values.
+                        The service provider shall create new ParameterValue objects for the updated parameter values, store these in the COM Archive, and publish these new values.
                     </mal:documentation>
                     <mal:messages>
                         <mal:submit>
@@ -607,7 +607,7 @@
                         </com:objectType>
                         <com:sourceObject comment="The object that caused it to be created, for example, a COM OperationActivity"/>
                     </com:object>
-                    <com:object name="ParameterValueInstance" number="2">
+                    <com:object name="ParameterValue" number="2">
                         <com:objectType>
                             <mal:type name="ParameterValue" area="MC"/>
                         </com:objectType>

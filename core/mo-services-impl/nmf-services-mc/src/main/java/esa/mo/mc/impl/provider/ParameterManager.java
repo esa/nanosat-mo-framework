@@ -141,7 +141,7 @@ public class ParameterManager extends MCManager {
                 // requirement: 3.3.4.d
                 //save the published value in the COM-Archive
                 LongList objIds = super.getArchiveService().store(true,
-                        ParameterServiceInfo.PARAMETERVALUEINSTANCE_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(),
+                        ParameterServiceInfo.PARAMETERVALUE_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(),
                         archiveDetailsList, pValList, null);
                 if (objIds.size() == 1) {
                     return objIds.get(0);
@@ -184,7 +184,7 @@ public class ParameterManager extends MCManager {
 
             try {// requirement: 3.3.4.d
                 LongList objIds = super.getArchiveService().store(true,
-                        ParameterServiceInfo.PARAMETERVALUEINSTANCE_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(),
+                        ParameterServiceInfo.PARAMETERVALUE_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(),
                         archiveDetailsList, pVals, null);
 
                 if (objIds.size() == pVals.size()) {

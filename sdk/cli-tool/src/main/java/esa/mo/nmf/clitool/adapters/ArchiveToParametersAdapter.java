@@ -64,9 +64,9 @@ public class ArchiveToParametersAdapter extends ArchiveAdapter implements QueryS
     private final ObjectType parameterDefinitionType = ParameterServiceInfo.PARAMETERDEFINITION_OBJECT_TYPE;
 
     /**
-     * MC.Parameter.ParameterValueInstance object type
+     * MC.Parameter.ParameterValue object type
      */
-    private final ObjectType parameterValueType = ParameterServiceInfo.PARAMETERVALUEINSTANCE_OBJECT_TYPE;
+    private final ObjectType parameterValueType = ParameterServiceInfo.PARAMETERVALUE_OBJECT_TYPE;
 
     private final Map<IdentifierList, List<Identifier>> parameterIdentities = new HashMap<>();
     private final Map<IdentifierList, Map<Long, Identifier>> identitiesMap = new HashMap<>();
