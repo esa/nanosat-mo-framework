@@ -1568,8 +1568,8 @@
                 <mal:extends>
                     <mal:type name="Composite" area="MAL"/>
                 </mal:extends>
-                <mal:field name="paramInstId" canBeNull="false"
-                           comment="The id of the parameter identity.">
+                <mal:field name="parameterId" canBeNull="false"
+                           comment="The id of the parameter.">
                     <mal:type name="Long" area="MAL"/>
                 </mal:field>
                 <mal:field name="rawValue"
