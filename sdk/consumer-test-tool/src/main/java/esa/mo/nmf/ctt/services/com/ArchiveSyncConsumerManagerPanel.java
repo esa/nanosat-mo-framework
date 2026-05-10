@@ -379,18 +379,18 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jButtonGetTimeActionPerformed
 
     private void retrieveAutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_retrieveAutoActionPerformed
-        FineTime from = new FineTime(0);
+        Time from = new Time(0);
         MOWindow windowFrom = new MOWindow(from, true);
         try {
-            from = (FineTime) windowFrom.getObject();
+            from = (Time) windowFrom.getObject();
         } catch (InterruptedIOException ex) {
             return;
         }
 
-        FineTime until = FineTime.now();
+        Time until = Time.now();
         MOWindow windowUntil = new MOWindow(until, true);
         try {
-            until = (FineTime) windowUntil.getObject();
+            until = (Time) windowUntil.getObject();
         } catch (InterruptedIOException ex) {
             return;
         }
@@ -445,18 +445,18 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
     private void jButtonRetrieveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRetrieveActionPerformed
         ArchiveSyncGenAdapter adapter = new ArchiveSyncGenAdapter();
 
-        FineTime from = new FineTime(0);
+        Time from = new Time(0);
         MOWindow windowFrom = new MOWindow(from, true);
         try {
-            from = (FineTime) windowFrom.getObject();
+            from = (Time) windowFrom.getObject();
         } catch (InterruptedIOException ex) {
             return;
         }
 
-        FineTime until = FineTime.now();
+        Time until = Time.now();
         MOWindow windowUntil = new MOWindow(until, true);
         try {
-            until = (FineTime) windowUntil.getObject();
+            until = (Time) windowUntil.getObject();
         } catch (InterruptedIOException ex) {
             return;
         }

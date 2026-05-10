@@ -85,7 +85,7 @@ public class ArchivePersistenceObject implements Serializable {
         final Identifier net = (this.network == null) ? null : new Identifier(network);
         final URI uri = (this.providerURI == null) ? null : new URI(providerURI);
         return new ArchiveDetails(objId, new ObjectLinks(relatedLink, sourceLink),
-                net, new FineTime(timestampArchiveDetails), uri);
+                net, new Time(timestampArchiveDetails), uri);
     }
 
     public Object getObject() {

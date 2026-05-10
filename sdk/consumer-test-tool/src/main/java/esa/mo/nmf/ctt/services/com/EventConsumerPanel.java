@@ -160,7 +160,7 @@ public class EventConsumerPanel extends javax.swing.JPanel {
                     eventCOMObject.getObjId(),
                     objectLinks,
                     eventCOMObject.getNetworkZone(),
-                    eventCOMObject.getTimestamp().toFineTime(),
+                    eventCOMObject.getTimestamp(),
                     eventCOMObject.getSourceURI());
 
             ArchivePersistenceObject comObject = new ArchivePersistenceObject(

@@ -120,7 +120,7 @@ public class ConfigurationEventAdapter extends EventAdapter implements Serializa
             ArchiveDetails archiveDetails = new ArchiveDetails(new Long(0),
                     new ObjectLinks(entityKey3, null),
                     null,
-                    FineTime.now(),
+                    Time.now(),
                     msgHeader.getFromURI());
 
             ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();

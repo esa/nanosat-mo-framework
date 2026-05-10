@@ -660,10 +660,10 @@
                         <mal:request/>
                         <mal:response>
                             <mal:field canBeNull="true" comment="The current time on the provider." name="currentTime">
-                                <mal:type area="MAL" list="false" name="FineTime"/>
+                                <mal:type area="MAL" list="false" name="Time"/>
                             </mal:field>
                             <mal:field canBeNull="true" comment="The time of the last synchronization, or NULL if never synchronized." name="lastSyncTime">
-                                <mal:type area="MAL" list="false" name="FineTime"/>
+                                <mal:type area="MAL" list="false" name="Time"/>
                             </mal:field>
                         </mal:response>
                     </mal:messages>
@@ -674,10 +674,10 @@
                     <mal:messages>
                         <mal:progress>
                             <mal:field canBeNull="true" comment="The start time of the range to retrieve." name="from">
-                                <mal:type area="MAL" list="false" name="FineTime"/>
+                                <mal:type area="MAL" list="false" name="Time"/>
                             </mal:field>
                             <mal:field canBeNull="true" comment="The end time of the range to retrieve." name="until">
-                                <mal:type area="MAL" list="false" name="FineTime"/>
+                                <mal:type area="MAL" list="false" name="Time"/>
                             </mal:field>
                             <mal:field canBeNull="true" comment="The list of object types to retrieve, or NULL for all types." name="objectTypes">
                                 <mal:type area="COM" list="true" name="ObjectType"/>
@@ -1477,7 +1477,7 @@
                     <mal:type area="MAL" list="false" name="Identifier"/>
                 </mal:field>
                 <mal:field canBeNull="true" comment="The time the object was created." name="timestamp">
-                    <mal:type area="MAL" list="false" name="FineTime"/>
+                    <mal:type area="MAL" list="false" name="Time"/>
                 </mal:field>
                 <mal:field canBeNull="true" comment="The component that created the object (a component may be anything from an onboard equipment to a software process on the ground)." name="provider">
                     <mal:type area="MAL" list="false" name="URI"/>
@@ -1503,10 +1503,10 @@
                     <mal:type area="COM" list="false" name="ObjectId"/>
                 </mal:field>
                 <mal:field canBeNull="true" comment="Optional start time. Only the objects whose timestamp is equal or greater than the provided start time will be returned. If NULL then no start time shall be applied." name="startTime">
-                    <mal:type area="MAL" list="false" name="FineTime"/>
+                    <mal:type area="MAL" list="false" name="Time"/>
                 </mal:field>
                 <mal:field canBeNull="true" comment="Optional end time. Only the objects whose timestamp is equal or less than the provided end time will be returned. If NULL then no end time will be applied." name="endTime">
-                    <mal:type area="MAL" list="false" name="FineTime"/>
+                    <mal:type area="MAL" list="false" name="Time"/>
                 </mal:field>
                 <mal:field canBeNull="true" comment="If set to TRUE then returned values shall be sorted in ascending order, if FALSE then in descending order. If NULL then no sorting shall be applied." name="sortOrder">
                     <mal:type area="MAL" list="false" name="Boolean"/>
@@ -1628,7 +1628,7 @@
                     <mal:type area="MAL" list="false" name="Long"/>
                 </mal:field>
                 <mal:field canBeNull="false" comment="The timestamp of the COM Object." name="timestamp">
-                    <mal:type area="MAL" list="false" name="FineTime"/>
+                    <mal:type area="MAL" list="false" name="Time"/>
                 </mal:field>
             </mal:composite>
             <mal:composite shortFormPart="18" name="DomainizedCOMObjects" comment="The DomainizedCOMObjects structure is used to hold the a set of CompactCOMObjects that share the same domain.">

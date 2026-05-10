@@ -31,7 +31,7 @@ import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperDomain;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
-import org.ccsds.moims.mo.mal.structures.FineTime;
+import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherServiceInfo;
@@ -93,8 +93,8 @@ public class LogsCommands {
             // prepare domain, time and object id filters
             IdentifierList domain = domainId == null ? null : HelperDomain.domainId2domain(domainId);
             ArchiveQueryList archiveQueryList = new ArchiveQueryList();
-            FineTime startTimeF = startTime == null ? null : HelperTime.readableString2FineTime(startTime);
-            FineTime endTimeF = endTime == null ? null : HelperTime.readableString2FineTime(endTime);
+            Time startTimeF = startTime == null ? null : HelperTime.readableString2Time(startTime);
+            Time endTimeF = endTime == null ? null : HelperTime.readableString2Time(endTime);
             ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, null, 0L, null, startTimeF, endTimeF, null,
                     null);
             archiveQueryList.add(archiveQuery);
@@ -188,8 +188,8 @@ public class LogsCommands {
 
             // prepare domain, time and object id filters
             ArchiveQueryList archiveQueryList = new ArchiveQueryList();
-            FineTime startTimeF = startTime == null ? null : HelperTime.readableString2FineTime(startTime);
-            FineTime endTimeF = endTime == null ? null : HelperTime.readableString2FineTime(endTime);
+            Time startTimeF = startTime == null ? null : HelperTime.readableString2Time(startTime);
+            Time endTimeF = endTime == null ? null : HelperTime.readableString2Time(endTime);
             ArchiveQuery outputArchiveQuery = new ArchiveQuery(domain, null, null, 0L, appObjectId, startTimeF,
                     endTimeF, null, null);
             archiveQueryList.add(outputArchiveQuery);

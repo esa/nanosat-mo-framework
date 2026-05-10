@@ -36,7 +36,7 @@ import org.ccsds.moims.mo.mal.consumer.MALConsumer;
 import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.helpertools.misc.ConsumerServiceImpl;
 import org.ccsds.moims.mo.mal.structures.Blob;
-import org.ccsds.moims.mo.mal.structures.FineTime;
+import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UIntegerList;
@@ -91,7 +91,7 @@ public class ArchiveSyncConsumerServiceImpl extends ConsumerServiceImpl {
         this.archiveSyncService = new ArchiveSyncStub(tmConsumer);
     }
 
-    public ArrayList<COMObjectStructure> retrieveCOMObjects(FineTime from, FineTime until, ObjectTypeList objTypes) {
+    public ArrayList<COMObjectStructure> retrieveCOMObjects(Time from, Time until, ObjectTypeList objTypes) {
         ArchiveSyncGenAdapter adapter = new ArchiveSyncGenAdapter();
         Long iTicket;
 

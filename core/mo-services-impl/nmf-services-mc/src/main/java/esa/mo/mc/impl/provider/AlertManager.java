@@ -31,7 +31,7 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
-import org.ccsds.moims.mo.mal.structures.FineTime;
+import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.LongList;
@@ -109,7 +109,7 @@ public final class AlertManager extends MCManager {
                 defs.add(definition);
                 ArchiveDetailsList metadata = generateArchiveDetailsList(null, source,
                         ConfigurationProviderSingleton.getNetwork(),
-                        connectionDetails.getProviderURI(), FineTime.now(), id);
+                        connectionDetails.getProviderURI(), Time.now(), id);
 
                 // Update a new AlertDefinition and add to the archive; requirement: 3.4.7.a
                 super.getArchiveService().update(AlertServiceInfo.ALERTDEFINITION_OBJECT_TYPE,

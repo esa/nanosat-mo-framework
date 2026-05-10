@@ -28,7 +28,6 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
 import org.ccsds.moims.mo.mal.helpertools.misc.TaskScheduler;
-import org.ccsds.moims.mo.mal.structures.FineTime;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.softwaremanagement.heartbeat.consumer.HeartbeatAdapter;
 
@@ -83,12 +82,12 @@ public class GroundHeartbeatAdapter extends HeartbeatAdapter {
         }
     }
 
-    public FineTime getLastBeat() {
-        return lastBeatAt.toFineTime();
+    public Time getLastBeat() {
+        return lastBeatAt;
     }
 
-    public FineTime getLastBeatOBT() {
-        return lastBeatOBT.toFineTime();
+    public Time getLastBeatOBT() {
+        return lastBeatOBT;
     }
 
     private class HeartbeatRefreshTask extends Thread {

@@ -49,6 +49,7 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperDomain;
 import org.ccsds.moims.mo.mal.structures.*;
+import org.ccsds.moims.mo.mal.structures.Time;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import picocli.CommandLine.Command;
@@ -189,8 +190,8 @@ public class ArchiveCommands {
             // prepare domain and time filters
             ArchiveQueryList archiveQueryList = new ArchiveQueryList();
             IdentifierList domain = domainId == null ? null : HelperDomain.domainId2domain(domainId);
-            FineTime startTimeF = startTime == null ? null : HelperTime.readableString2FineTime(startTime);
-            FineTime endTimeF = endTime == null ? null : HelperTime.readableString2FineTime(endTime);
+            Time startTimeF = startTime == null ? null : HelperTime.readableString2Time(startTime);
+            Time endTimeF = endTime == null ? null : HelperTime.readableString2Time(endTime);
             ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, null, 0L,
                     null, startTimeF, endTimeF, null, null);
             archiveQueryList.add(archiveQuery);

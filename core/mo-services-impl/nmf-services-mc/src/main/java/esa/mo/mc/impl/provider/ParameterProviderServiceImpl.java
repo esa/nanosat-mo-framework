@@ -302,14 +302,14 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         //        FineTime timestamp = HelperTime.getTimestamp();
         //requirement: 3.3.9.2.e
         ParameterValueList newParamValues = manager.setValues(rawValueList);
-        FineTime timestamp = FineTime.now();
+        Time timestamp = Time.now();
 
         //requirement: 3.3.9.2.h, 3.3.9.2.i
         List<ParameterInstance> toPublishParamInstances = new ArrayList<>();
         HeterogeneousList noPublishParamValList = new HeterogeneousList();
         LongList noPublishRelatedIds = new LongList();
         ObjectIdList noPublishSourceIds = new ObjectIdList();
-        FineTimeList timestamps = new FineTimeList();
+        TimeList timestamps = new TimeList();
         for (int i = 0; i < newParamValues.size(); i++) {
             final Long id = rawValueList.get(i).getParamInstId();
             if (manager.getParameterDefinition(id).getGenerationEnabled()) {
@@ -933,19 +933,18 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
             LongList relatedIds = new LongList(outIds.size());
             ObjectIdList sourceIds = new ObjectIdList(outIds.size());
-            FineTimeList timestamps = new FineTimeList(outIds.size());
+            TimeList timestamps = new TimeList(outIds.size());
 
             //requirement: 3.3.9.2.h all Parameter-Value objects shall have the same creation-time
-            final Time defaultTimestamp2 = Time.now();
-            final FineTime defaultTimestamp = defaultTimestamp2.toFineTime();
+            final Time defaultTimestamp = Time.now();
 
             for (int i = 0; i < outIds.size(); i++) {
                 relatedIds.add(outIds.get(i));
                 ObjectId sourceId = parameters.get(i).getSource();
                 sourceId = (sourceId != null) ? sourceId : new ObjectId();
                 sourceIds.add(sourceId);
-                final FineTime timestamp = (parameters.get(i).getTimestamp() != null)
-                        ? parameters.get(i).getTimestamp().toFineTime()
+                final Time timestamp = (parameters.get(i).getTimestamp() != null)
+                        ? parameters.get(i).getTimestamp()
                         : defaultTimestamp;
                 timestamps.add(timestamp);
             }
@@ -976,7 +975,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
                 keys.add(new Union(pValObjIds.get(i)));
 
                 Time time = parameterInstances.get(i).getTimestamp();
-                time = (time == null) ? defaultTimestamp2 : time; //  requirement: 3.3.5.2.5
+                time = (time == null) ? defaultTimestamp : time; //  requirement: 3.3.5.2.5
 
                 //requirement: 3.3.7.2.e : timestamp must be the same as for the creation of the ParameterValue
                 URI source = connection.getConnectionDetails().getProviderURI();

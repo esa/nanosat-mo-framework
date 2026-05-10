@@ -531,7 +531,7 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
                     source,
                     archiveDetailsListActionInstance.get(0).getNetwork(),
                     archiveDetailsListActionInstance.get(0).getProvider(),
-                    FineTime.now(),
+                    Time.now(),
                     instanceObjId
             );
 
@@ -560,7 +560,7 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
                     source,
                     archiveDetailsListActionInstance.get(0).getNetwork(),
                     actionConnection.getProviderURI(),
-                    FineTime.now(),
+                    Time.now(),
                     transId
             );
 
@@ -594,7 +594,7 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
                     source2,
                     archiveDetailsListActionInstance.get(0).getNetwork(),
                     actionConnection.getProviderURI(),
-                    FineTime.now(),
+                    Time.now(),
                     transId
             );
 

@@ -599,8 +599,8 @@ public class MCCommands {
             }
             // prepare domain, time and object id filters
             ArchiveQueryList archiveQueryList = new ArchiveQueryList();
-            FineTime startTimeF = startTime == null ? null : HelperTime.readableString2FineTime(startTime);
-            FineTime endTimeF = endTime == null ? null : HelperTime.readableString2FineTime(endTime);
+            Time startTimeF = startTime == null ? null : HelperTime.readableString2Time(startTime);
+            Time endTimeF = endTime == null ? null : HelperTime.readableString2Time(endTime);
             IdentifierList domain = domainId == null ? null : HelperDomain.domainId2domain(domainId);
 
             ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, null, 0L, null, startTimeF, endTimeF, null,
@@ -654,7 +654,7 @@ public class MCCommands {
                                             .size());
 
                                     TimestampedParameterValue paramValue = new TimestampedParameterValue(value
-                                            .getValue(), new FineTime(valueSetTimestamp + (long) (valueSetNumber
+                                            .getValue(), new Time(valueSetTimestamp + (long) (valueSetNumber
                                                     * intervalTime * 1000L)));
 
                                     Identifier parameterName = parametersAdapter.getIdentitiesMap().get(domainKey).get(

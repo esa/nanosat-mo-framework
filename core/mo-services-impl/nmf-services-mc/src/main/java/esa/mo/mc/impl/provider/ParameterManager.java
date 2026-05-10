@@ -38,8 +38,8 @@ import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingl
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.AttributeType;
 import org.ccsds.moims.mo.mal.structures.Element;
-import org.ccsds.moims.mo.mal.structures.FineTime;
-import org.ccsds.moims.mo.mal.structures.FineTimeList;
+import org.ccsds.moims.mo.mal.structures.Time;
+import org.ccsds.moims.mo.mal.structures.TimeList;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
@@ -117,7 +117,7 @@ public class ParameterManager extends MCManager {
      * must be retrieved from the Archive during storage
      */
     protected Long storeAndGeneratePValobjId(Long identityId, ParameterValue pVal, ObjectId source,
-            SingleConnectionDetails connectionDetails, FineTime timestamp) {
+            SingleConnectionDetails connectionDetails, Time timestamp) {
         if (super.getArchiveService() == null) {
             uniqueObjIdPVal++;
             return this.uniqueObjIdPVal;
@@ -168,7 +168,7 @@ public class ParameterManager extends MCManager {
      */
     protected LongList storeAndGenerateMultiplePValobjId(final HeterogeneousList pVals,
             final LongList relatedList, final ObjectIdList sourcesList,
-            final SingleConnectionDetails connectionDetails, final FineTimeList timestamps) {
+            final SingleConnectionDetails connectionDetails, final TimeList timestamps) {
         if (super.getArchiveService() != null) {
             ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
 
@@ -566,7 +566,7 @@ public class ParameterManager extends MCManager {
                 defs.add(definition);
                 ArchiveDetailsList metadata = generateArchiveDetailsList(null, source,
                         ConfigurationProviderSingleton.getNetwork(),
-                        connectionDetails.getProviderURI(), FineTime.now(), id);
+                        connectionDetails.getProviderURI(), Time.now(), id);
 
                 // Update a new ParameterDefinition
                 super.getArchiveService().update(ParameterServiceInfo.PARAMETERDEFINITION_OBJECT_TYPE,

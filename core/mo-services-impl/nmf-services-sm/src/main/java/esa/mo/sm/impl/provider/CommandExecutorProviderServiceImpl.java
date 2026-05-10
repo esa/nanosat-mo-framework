@@ -45,7 +45,7 @@ import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.structures.Element;
-import org.ccsds.moims.mo.mal.structures.FineTime;
+import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.IntegerList;
@@ -245,7 +245,7 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
                 null, null,
                 ConfigurationProviderSingleton.getNetwork(),
                 connection.getPrimaryConnectionDetails().getProviderURI(),
-                FineTime.now(),
+                Time.now(),
                 objId);
         final HeterogeneousList objBodies = new HeterogeneousList();
         objBodies.add(command);

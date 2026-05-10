@@ -41,7 +41,7 @@ import org.ccsds.moims.mo.com.structures.*;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.structures.FineTime;
+import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.URI;
@@ -128,7 +128,7 @@ public class PersistProviderConfiguration {
             // Related points to the Provider's Configuration Object
             ArchiveDetailsList details = HelperArchive.generateArchiveDetailsList(objIds3.get(0),
                     null, ConfigurationProviderSingleton.getNetwork(),
-                    new URI(""), FineTime.now(), confId.getInstId());
+                    new URI(""), Time.now(), confId.getInstId());
 
             HeterogeneousList providerNameList = new HeterogeneousList();
             providerNameList.add(provider.getProviderName());

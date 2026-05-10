@@ -194,7 +194,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
             if (storeInCOMArchive) {
                 //requirement 3.7.6.b
                 aValObjId = manager.storeAndGenerateAValobjId(aVal, id, source,
-                        connection.getPrimaryConnectionDetails().getProviderURI(), time.toFineTime());
+                        connection.getPrimaryConnectionDetails().getProviderURI(), time);
             } else {
                 aValObjId = aValUniqueObjId.incrementAndGet();
             }

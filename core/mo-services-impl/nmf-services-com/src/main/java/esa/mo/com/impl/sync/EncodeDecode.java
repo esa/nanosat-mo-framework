@@ -241,7 +241,7 @@ public class EncodeDecode {
         encoder.encodeNullableBlob(value);
 
         encoder.encodeLong(entity.getObjectId());
-        encoder.encodeFineTime(entity.getTimestamp());
+        encoder.encodeTime(entity.getTimestamp().toTime());
     }
 
     private static ArrayList<COMObjectStructure> decodeFromByteArray(Dictionary dictionary,
@@ -285,7 +285,7 @@ public class EncodeDecode {
                 }
 
                 Long objId = decoder.decodeLong();
-                FineTime timestamp = decoder.decodeFineTime();
+                Time timestamp = decoder.decodeTime();
 
                 IntegerList ids = new IntegerList();
 

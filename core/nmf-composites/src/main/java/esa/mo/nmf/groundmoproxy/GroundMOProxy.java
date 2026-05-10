@@ -49,7 +49,7 @@ import org.ccsds.moims.mo.mal.ServiceKey;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
-import org.ccsds.moims.mo.mal.structures.FineTime;
+import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
@@ -206,7 +206,7 @@ public abstract class GroundMOProxy {
         private final URI routedURI;
         private boolean firstRun = true;
         private ArchiveConsumerServiceImpl archiveService;
-        private FineTime lastTime = new FineTime(0);
+        private Time lastTime = new Time(0);
 
         public DirectoryScanTask(URI centralDirectoryServiceURI, URI routedURI) {
             this.centralDirectoryServiceURI = centralDirectoryServiceURI;
@@ -242,7 +242,7 @@ public abstract class GroundMOProxy {
                     }
 
                     // Check the remote COM Archive for new objects! Use On-Board Timestamp.
-                    FineTime currentOBT = providerStatusAdapter.getLastBeatOBT();
+                    Time currentOBT = providerStatusAdapter.getLastBeatOBT();
 
                     if (currentOBT == null) {
                         return;

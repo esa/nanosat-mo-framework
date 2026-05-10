@@ -20,7 +20,7 @@
  */
 package esa.mo.nmf.clitool;
 
-import org.ccsds.moims.mo.mal.structures.FineTime;
+import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mc.structures.ParameterValue;
 
 public class TimestampedParameterValue {
@@ -28,7 +28,7 @@ public class TimestampedParameterValue {
     private final String parameterValue;
     private final Long timestamp;
 
-    public TimestampedParameterValue(ParameterValue value, FineTime timestamp) {
+    public TimestampedParameterValue(ParameterValue value, Time timestamp) {
         this.parameterValue = String.valueOf(value.getRawValue());
         this.timestamp = timestamp.getValue();
     }

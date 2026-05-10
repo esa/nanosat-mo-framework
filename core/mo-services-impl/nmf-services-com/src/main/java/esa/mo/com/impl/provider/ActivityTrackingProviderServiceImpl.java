@@ -300,7 +300,7 @@ public class ActivityTrackingProviderServiceImpl {
         final Long objId = interaction.getMessageHeader().getTransactionId();
         final ArchiveDetailsList archiveDetails = HelperArchive.generateArchiveDetailsList(null,
                 source, ConfigurationProviderSingleton.getNetwork(),
-                interaction.getMessageHeader().getFromURI(), FineTime.now(), objId);
+                interaction.getMessageHeader().getFromURI(), Time.now(), objId);
         //archiveDetails.get(0).setInstId(objId); // requirement: 3.5.2.4
         //archiveDetails.get(0).setNetwork(interaction.getMessageHeader().getNetworkZone());  // RID raised to create this requirement!
         //archiveDetails.get(0).setProvider(interaction.getMessageHeader().getFromURI());     // RID raised to create this requirement!

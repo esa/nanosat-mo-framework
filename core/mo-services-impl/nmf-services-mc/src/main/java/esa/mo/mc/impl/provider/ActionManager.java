@@ -41,7 +41,7 @@ import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
-import org.ccsds.moims.mo.mal.structures.FineTime;
+import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.LongList;
@@ -168,7 +168,7 @@ public final class ActionManager extends MCManager {
                 defs.add(definition);
                 ArchiveDetailsList metadata = generateArchiveDetailsList(null, source,
                         ConfigurationProviderSingleton.getNetwork(),
-                        uri, FineTime.now(), id);
+                        uri, Time.now(), id);
 
                 // Update a new ActionDefinition 
                 super.getArchiveService().update(ActionServiceInfo.ACTIONDEFINITION_OBJECT_TYPE,

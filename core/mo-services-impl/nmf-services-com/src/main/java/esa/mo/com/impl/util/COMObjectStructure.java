@@ -26,7 +26,7 @@ import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectLinks;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.structures.Element;
-import org.ccsds.moims.mo.mal.structures.FineTime;
+import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
@@ -41,7 +41,7 @@ public class COMObjectStructure {
     private ObjectId sourceLink;
     private Long relatedLink;
     private Identifier network;
-    private FineTime timestamp;
+    private Time timestamp;
     private URI providerURI;
 
     private final Element object;
@@ -92,7 +92,7 @@ public class COMObjectStructure {
         return network;
     }
 
-    public FineTime getTimestamp() {
+    public Time getTimestamp() {
         return timestamp;
     }
 

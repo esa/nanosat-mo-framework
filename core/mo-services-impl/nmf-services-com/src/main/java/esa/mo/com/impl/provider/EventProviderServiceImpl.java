@@ -340,7 +340,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
             ArchiveDetails archiveDetails = new ArchiveDetails(new Long(0),
                     objectLinksList.get(i),
                     network,
-                    FineTime.now(),
+                    Time.now(),
                     uri);
 
             archiveDetailsList.add(archiveDetails);
@@ -418,7 +418,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
         uri = (uri != null) ? uri : connection.getConnectionDetails().getProviderURI();
 
         ArchiveDetails details = new ArchiveDetails(0L,
-                objectLinksList.get(0), network, FineTime.now(), uri);
+                objectLinksList.get(0), network, Time.now(), uri);
 
         ArchiveDetailsList detailsList = new ArchiveDetailsList();
         detailsList.add(details);

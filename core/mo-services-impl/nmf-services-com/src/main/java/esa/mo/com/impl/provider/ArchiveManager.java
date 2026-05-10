@@ -55,6 +55,7 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.IntegerList;
 import org.ccsds.moims.mo.mal.structures.LongList;
+import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UIntegerList;
 import org.ccsds.moims.mo.mal.structures.URI;
@@ -278,7 +279,7 @@ public class ArchiveManager {
 
         ArchiveDetails archiveDetails = new ArchiveDetails(comEntity.getObjectId(),
                 new ObjectLinks(comEntity.getRelatedLink(), objectId),
-                network, comEntity.getTimestamp(), providerURI);
+                network, new Time(comEntity.getTimestamp().getValue()), providerURI);
 
         return new ArchivePersistenceObject(objType, domain, objId, archiveDetails, comEntity.getObject());
     }

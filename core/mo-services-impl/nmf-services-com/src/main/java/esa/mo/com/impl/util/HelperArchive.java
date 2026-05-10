@@ -171,7 +171,7 @@ public class HelperArchive {
             final ObjectId source, final Identifier network, final URI provider) {
         return generateArchiveDetailsList(related, source,
                 ConfigurationProviderSingleton.getNetwork(),
-                provider, FineTime.now(), 0L);
+                provider, Time.now(), 0L);
     }
 
     /**
@@ -190,7 +190,7 @@ public class HelperArchive {
      */
     public static ArchiveDetailsList generateArchiveDetailsList(final Long related,
             final ObjectId source, Identifier network, final URI provider,
-            final FineTime timestamp, final Long objId) {
+            final Time timestamp, final Long objId) {
         network = (network == null) ? new Identifier("") : network;
         ArchiveDetails archiveDetails = new ArchiveDetails(objId,
                 new ObjectLinks(related, source),

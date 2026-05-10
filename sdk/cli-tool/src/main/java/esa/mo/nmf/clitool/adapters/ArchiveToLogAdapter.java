@@ -32,7 +32,7 @@ import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
 import org.ccsds.moims.mo.mal.structures.Element;
-import org.ccsds.moims.mo.mal.structures.FineTime;
+import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
@@ -141,7 +141,7 @@ public class ArchiveToLogAdapter extends ArchiveAdapter implements QueryStatusPr
                 }
                 try {
                     if (addTimestamps) {
-                        FineTime timestamp = archiveObjectOutput.getArchiveDetailsList().get(i).getTimestamp();
+                        Time timestamp = archiveObjectOutput.getArchiveDetailsList().get(i).getTimestamp();
                         String[] logLines = logObject.split("\n");
                         logLines[0] = HelperTime.time2readableString(timestamp) + " " + logLines[0];
                         if (logLines.length > 1) {

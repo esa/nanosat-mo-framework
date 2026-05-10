@@ -56,7 +56,7 @@ import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.structures.Blob;
-import org.ccsds.moims.mo.mal.structures.FineTime;
+import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
@@ -102,7 +102,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
     private ArchiveConsumerServiceImpl archive;
 
-    private FineTime latestSync;
+    private Time latestSync;
 
     private Quota stdQuota;
 
@@ -116,7 +116,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
     public ArchiveSyncProviderServiceImpl(SingleConnectionDetails connectionToArchiveService,
             Blob authenticationId, String localNamePrefix) {
-        this.latestSync = new FineTime(0);
+        this.latestSync = new Time(0);
         try {
             this.archive = new ArchiveConsumerServiceImpl(connectionToArchiveService, authenticationId,
                 localNamePrefix);
@@ -206,13 +206,13 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
     @Override
     public GetTimeResponse getTime(final MALInteraction interaction) throws MALInteractionException, MALException {
-        final FineTime currentTime = FineTime.now();
-        final FineTime lastSyncTime = new FineTime(lastSync.get());
+        final Time currentTime = Time.now();
+        final Time lastSyncTime = new Time(lastSync.get());
         return new GetTimeResponse(currentTime, lastSyncTime);
     }
 
     @Override
-    public void retrieveRange(FineTime from, FineTime until, ObjectTypeList objectTypes, Identifier compression,
+    public void retrieveRange(Time from, Time until, ObjectTypeList objectTypes, Identifier compression,
             RetrieveRangeInteraction interaction) throws MALInteractionException, MALException {
         final Dispatcher dispatcher = new Dispatcher(interaction, archive);
         long interactionTicket = interaction.getInteraction().getMessageHeader().getTransactionId();
@@ -233,7 +233,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
         PaginationFilter filter = new PaginationFilter(new UInteger(objectsLimit), new UInteger(0));
 
         ArrayList<COMObjectEntity> perObjs = manager.queryCOMObjectEntity(objectTypes, archiveQuery, filter);
-        latestSync = perObjs.isEmpty() ? latestSync : perObjs.get(perObjs.size() - 1).getTimestamp();
+        latestSync = perObjs.isEmpty() ? latestSync : perObjs.get(perObjs.size() - 1).getTimestamp().toTime();
 
         dispatcher.addObjects(perObjs);
         LOGGER.log(Level.FINE, "Stage 1: " + perObjs.size() +
@@ -468,7 +468,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
             // This block cleans up the archive after sync if the option is enabled
             if (purgeArchive) {
-                ArchiveQuery archiveQuery = new ArchiveQuery(null, null, null, 0L, null, new FineTime(0), latestSync, null, null);
+                ArchiveQuery archiveQuery = new ArchiveQuery(null, null, null, 0L, null, new Time(0), latestSync, null, null);
                 // Iterate over constant set of types to purge until the latest synchronised object
                 for (ToDelete type : ToDelete.values()) {
                     int removed = manager.deleteCOMObjectEntities(type.getType(), archiveQuery, null);
