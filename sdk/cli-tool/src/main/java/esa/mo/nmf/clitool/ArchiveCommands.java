@@ -24,7 +24,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.com.impl.util.ArchiveCOMObjectsOutput;
-import esa.mo.common.impl.consumer.DirectoryConsumerServiceImpl;
+import esa.mo.com.impl.consumer.DirectoryConsumerServiceImpl;
 import esa.mo.nmf.clitool.adapters.ArchiveToBackupAdapter;
 import esa.mo.nmf.clitool.adapters.ArchiveToJsonAdapter;
 import java.io.File;

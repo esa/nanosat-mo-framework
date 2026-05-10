@@ -20,7 +20,7 @@
  */
 package esa.mo.nmf.apps;
 
-import esa.mo.common.impl.consumer.DirectoryConsumerServiceImpl;
+import esa.mo.com.impl.consumer.DirectoryConsumerServiceImpl;
 import esa.mo.helpertools.misc.Const;
 import esa.mo.mc.impl.consumer.ParameterConsumerServiceImpl;
 import esa.mo.nmf.MCRegistration;

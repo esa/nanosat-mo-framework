@@ -18,7 +18,7 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.common.impl.provider;
+package esa.mo.com.impl.provider;
 
 import esa.mo.com.impl.provider.ArchiveManager;
 import esa.mo.com.impl.provider.ArchivePersistenceObject;

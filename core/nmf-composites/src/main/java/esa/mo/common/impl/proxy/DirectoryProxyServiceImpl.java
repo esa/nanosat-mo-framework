@@ -20,7 +20,7 @@
  */
 package esa.mo.common.impl.proxy;
 
-import esa.mo.common.impl.provider.DirectoryProviderServiceImpl;
+import esa.mo.com.impl.provider.DirectoryProviderServiceImpl;
 import esa.mo.helpertools.misc.Const;
 import esa.mo.nmf.NMFConsumer;
 import java.net.MalformedURLException;

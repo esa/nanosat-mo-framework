@@ -18,7 +18,7 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.common.impl.util;
+package esa.mo.com.impl.util;
 
 import java.util.HashMap;
 import java.util.logging.Level;

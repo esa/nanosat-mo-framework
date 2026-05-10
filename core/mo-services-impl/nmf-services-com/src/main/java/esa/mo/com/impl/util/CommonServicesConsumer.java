@@ -18,11 +18,10 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.common.impl.util;
+package esa.mo.com.impl.util;
 
-import esa.mo.com.impl.util.COMServicesConsumer;
-import esa.mo.common.impl.consumer.DirectoryConsumerServiceImpl;
-import esa.mo.common.impl.consumer.LoginConsumerServiceImpl;
+import esa.mo.com.impl.consumer.DirectoryConsumerServiceImpl;
+import esa.mo.com.impl.consumer.LoginConsumerServiceImpl;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;

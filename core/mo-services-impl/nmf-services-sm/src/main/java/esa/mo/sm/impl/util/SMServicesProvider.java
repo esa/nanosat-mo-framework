@@ -20,8 +20,8 @@
  */
 package esa.mo.sm.impl.util;
 
+import esa.mo.com.impl.provider.DirectoryProviderServiceImpl;
 import esa.mo.com.impl.util.COMServicesProvider;
-import esa.mo.common.impl.provider.DirectoryProviderServiceImpl;
 import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl;
 import esa.mo.sm.impl.provider.HeartbeatProviderServiceImpl;
 import java.util.logging.Level;

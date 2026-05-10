@@ -20,8 +20,8 @@
  */
 package esa.mo.nmf.spacemoadapter;
 
-import esa.mo.common.impl.consumer.DirectoryConsumerServiceImpl;
-import esa.mo.common.impl.util.HelperCommon;
+import esa.mo.com.impl.consumer.DirectoryConsumerServiceImpl;
+import esa.mo.com.impl.util.HelperCommon;
 import esa.mo.helpertools.misc.Const;
 import esa.mo.nmf.commonmoadapter.MOAdapterImpl;
 import java.net.MalformedURLException;

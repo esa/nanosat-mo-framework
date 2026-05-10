@@ -26,7 +26,7 @@ import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.DefinitionsManager;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.com.impl.util.HelperCOM;
-import esa.mo.common.impl.util.HelperCommon;
+import esa.mo.com.impl.util.HelperCommon;
 import esa.mo.helpertools.misc.Const;
 import esa.mo.helpertools.misc.OSValidator;
 import java.io.File;

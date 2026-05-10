@@ -21,7 +21,7 @@
 package esa.mo.nmf;
 
 import esa.mo.com.impl.util.COMServicesProvider;
-import esa.mo.common.impl.provider.DirectoryProviderServiceImpl;
+import esa.mo.com.impl.provider.DirectoryProviderServiceImpl;
 import esa.mo.helpertools.misc.Const;
 import esa.mo.mc.impl.provider.ParameterInstance;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;

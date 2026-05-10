@@ -21,7 +21,7 @@
 package esa.mo.nmf.ctt.utils;
 
 import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
-import esa.mo.common.impl.consumer.LoginConsumerServiceImpl;
+import esa.mo.com.impl.consumer.LoginConsumerServiceImpl;
 import javax.swing.*;
 import java.awt.*;
 import java.net.MalformedURLException;

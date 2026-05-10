@@ -18,39 +18,18 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.common.impl.util;
+package esa.mo.com.impl.util;
 
-import esa.mo.com.impl.util.COMServicesProvider;
-import esa.mo.common.impl.provider.DirectoryProviderServiceImpl;
-import org.ccsds.moims.mo.mal.MALException;
+import esa.mo.com.impl.provider.EventProviderServiceImpl;
 
 /**
- *
+ * Listens for a Configuration change event from the Event service
  *
  */
-public class CommonServicesProvider {
+public class ConfigurationsListener {
 
-    //private final ConfigurationProviderServiceImpl configurationService = new ConfigurationProviderServiceImpl();
-    private final DirectoryProviderServiceImpl directoryService = new DirectoryProviderServiceImpl();
-    //    private final LoginProviderServiceImpl loginService = new LoginProviderServiceImpl();
+    public ConfigurationsListener(EventProviderServiceImpl eventService) {
 
-    public void init(COMServicesProvider comServices) throws MALException {
-        //configurationService.init(comServices);
-        directoryService.init(comServices);
     }
-
-    public DirectoryProviderServiceImpl getDirectoryService() {
-        return this.directoryService;
-    }
-
-    /*    
-    public ConfigurationProviderServiceImpl getConfigurationService() {
-        return this.configurationService;
-    }
-
-    public LoginProviderServiceImpl getLoginService() {
-        return null;
-    }
-    */
 
 }

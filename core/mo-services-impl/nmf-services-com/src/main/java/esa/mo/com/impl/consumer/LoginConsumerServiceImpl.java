@@ -18,7 +18,7 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.common.impl.consumer;
+package esa.mo.com.impl.consumer;
 
 import esa.mo.com.impl.util.COMServicesConsumer;
 import java.net.MalformedURLException;
