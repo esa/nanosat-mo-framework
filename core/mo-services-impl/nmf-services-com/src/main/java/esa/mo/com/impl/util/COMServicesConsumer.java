@@ -13,22 +13,26 @@
  * You on an "as is" basis and without warranties of any kind, including without
  * limitation merchantability, fitness for a particular purpose, absence of
  * defects or errors, accuracy or non-infringement of intellectual property rights.
- * 
+ *
  * See the License for the specific language governing permissions and
- * limitations under the License. 
+ * limitations under the License.
  * ----------------------------------------------------------------------------
  */
 package esa.mo.com.impl.util;
 
 import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.com.impl.consumer.ArchiveSyncConsumerServiceImpl;
+import esa.mo.com.impl.consumer.DirectoryConsumerServiceImpl;
 import esa.mo.com.impl.consumer.EventConsumerServiceImpl;
+import esa.mo.com.impl.consumer.LoginConsumerServiceImpl;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.ArchiveServiceInfo;
 import org.ccsds.moims.mo.com.archivesync.ArchiveSyncServiceInfo;
+import org.ccsds.moims.mo.com.directory.DirectoryServiceInfo;
 import org.ccsds.moims.mo.com.event.EventServiceInfo;
+import org.ccsds.moims.mo.com.login.LoginServiceInfo;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
@@ -44,6 +48,8 @@ public class COMServicesConsumer {
     private EventConsumerServiceImpl eventService;
     private ArchiveConsumerServiceImpl archiveService;
     private ArchiveSyncConsumerServiceImpl archiveSyncService;
+    private DirectoryConsumerServiceImpl directoryService;
+    private LoginConsumerServiceImpl loginService;
 
     /**
      * Initializes all the COM services consumer side automatically from the
@@ -74,16 +80,29 @@ public class COMServicesConsumer {
                 archiveService = new ArchiveConsumerServiceImpl(details, authenticationId, localNamePrefix);
             }
 
-            // Initialize the Event service (without an Archive)
+            // Initialize the Event service
             details = connectionConsumer.getServicesDetails().get(EventServiceInfo.EVENT_SERVICE_NAME);
             if (details != null) {
                 eventService = new EventConsumerServiceImpl(details, authenticationId, localNamePrefix);
             }
 
-            // Initialize the Event service (without an Archive)
+            // Initialize the ArchiveSync service
             details = connectionConsumer.getServicesDetails().get(ArchiveSyncServiceInfo.ARCHIVESYNC_SERVICE_NAME);
             if (details != null) {
                 archiveSyncService = new ArchiveSyncConsumerServiceImpl(details, authenticationId, localNamePrefix);
+            }
+
+            // Initialize the Directory service
+            details = connectionConsumer.getServicesDetails().get(DirectoryServiceInfo.DIRECTORY_SERVICE_NAME);
+            if (details != null) {
+                directoryService = new DirectoryConsumerServiceImpl(details.getProviderURI(), authenticationId,
+                        localNamePrefix);
+            }
+
+            // Initialize the Login service
+            details = connectionConsumer.getServicesDetails().get(LoginServiceInfo.LOGIN_SERVICE_NAME);
+            if (details != null) {
+                loginService = new LoginConsumerServiceImpl(details, this, authenticationId, localNamePrefix);
             }
         } catch (MALException | MALInteractionException | MalformedURLException ex) {
             Logger.getLogger(COMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
@@ -102,6 +121,14 @@ public class COMServicesConsumer {
         return this.archiveSyncService;
     }
 
+    public DirectoryConsumerServiceImpl getDirectoryService() {
+        return this.directoryService;
+    }
+
+    public LoginConsumerServiceImpl getLoginService() {
+        return this.loginService;
+    }
+
     /**
      * Sets manually all the COM consumer services
      *
@@ -111,6 +138,14 @@ public class COMServicesConsumer {
     public void setServices(EventConsumerServiceImpl eventService, ArchiveConsumerServiceImpl archiveService) {
         this.eventService = eventService;
         this.archiveService = archiveService;
+    }
+
+    public void setDirectoryService(DirectoryConsumerServiceImpl directoryService) {
+        this.directoryService = directoryService;
+    }
+
+    public void setLoginService(LoginConsumerServiceImpl loginService) {
+        this.loginService = loginService;
     }
 
     /**
@@ -129,6 +164,14 @@ public class COMServicesConsumer {
         if (this.archiveSyncService != null) {
             this.archiveSyncService.closeConnection();
         }
+
+        if (this.directoryService != null) {
+            this.directoryService.closeConnection();
+        }
+
+        if (this.loginService != null) {
+            this.loginService.closeConnection();
+        }
     }
 
     public void setAuthenticationId(Blob authenticationId) {
@@ -142,6 +185,14 @@ public class COMServicesConsumer {
 
         if (this.archiveSyncService != null) {
             this.archiveSyncService.setAuthenticationId(authenticationId);
+        }
+
+        if (this.directoryService != null) {
+            this.directoryService.setAuthenticationId(authenticationId);
+        }
+
+        if (this.loginService != null) {
+            this.loginService.setAuthenticationId(authenticationId);
         }
     }
 

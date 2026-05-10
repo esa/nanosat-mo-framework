@@ -498,7 +498,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
         try {
             if (providerPanel.getServices().getAuthenticationId() != null) {
                 try {
-                    providerPanel.getServices().getCommonServices().getLoginService().getLoginStub().logout();
+                    providerPanel.getServices().getCOMServices().getLoginService().getLoginStub().logout();
                     providerPanel.getServices().setAuthenticationId(null);
                     Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName())
                             .log(Level.INFO, "Logged out successfully");

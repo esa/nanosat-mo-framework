@@ -390,7 +390,7 @@ public class ProviderTabPanel extends javax.swing.JPanel {
         super.removeNotify();
         if (getServices().getAuthenticationId() != null) {
             try {
-                getServices().getCommonServices().getLoginService().getLoginStub().logout();
+                getServices().getCOMServices().getLoginService().getLoginStub().logout();
                 getServices().setAuthenticationId(null);
                 LOGGER.log(Level.INFO, "Logged out successfully");
             } catch (MALInteractionException | MALException e) {

@@ -23,7 +23,6 @@ package esa.mo.nmf;
 import esa.mo.com.impl.util.COMServicesConsumer;
 import esa.mo.com.impl.consumer.DirectoryConsumerServiceImpl;
 import esa.mo.com.impl.provider.DirectoryProviderServiceImpl;
-import esa.mo.com.impl.util.CommonServicesConsumer;
 import esa.mo.com.impl.util.HelperCommon;
 import esa.mo.mc.impl.util.MCServicesConsumer;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
@@ -56,7 +55,6 @@ public class NMFConsumer {
     protected final COMServicesConsumer comServices = new COMServicesConsumer();
     protected final MCServicesConsumer mcServices = new MCServicesConsumer();
     protected final PlatformServicesConsumer platformServices = new PlatformServicesConsumer();
-    protected final CommonServicesConsumer commonServices = new CommonServicesConsumer();
     protected final SMServicesConsumer smServices = new SMServicesConsumer();
     private final ConnectionConsumer connection;
     private final Blob authenticationId;
@@ -124,7 +122,6 @@ public class NMFConsumer {
         initMCServices();
         initSMServices();
         initPlatformServices();
-        initCommonServices();
     }
 
     private void initCOMServices() {
@@ -137,10 +134,6 @@ public class NMFConsumer {
 
     private void initPlatformServices() {
         platformServices.init(connection, comServices, authenticationId, localNamePrefix);
-    }
-
-    private void initCommonServices() {
-        commonServices.init(connection, comServices, authenticationId, localNamePrefix);
     }
 
     private void initSMServices() {
@@ -172,15 +165,6 @@ public class NMFConsumer {
      */
     public PlatformServicesConsumer getPlatformServices() {
         return platformServices;
-    }
-
-    /**
-     * Requests the Common services.
-     *
-     * @return The Common services.
-     */
-    public CommonServicesConsumer getCommonServices() {
-        return commonServices;
     }
 
     /**
@@ -346,7 +330,6 @@ public class NMFConsumer {
         this.connection.setAuthenticationId(authenticationId);
         this.mcServices.setAuthenticationId(authenticationId);
         this.platformServices.setAuthenticationId(authenticationId);
-        this.commonServices.setAuthenticationId(authenticationId);
         this.smServices.setAuthenticationId(authenticationId);
     }
 

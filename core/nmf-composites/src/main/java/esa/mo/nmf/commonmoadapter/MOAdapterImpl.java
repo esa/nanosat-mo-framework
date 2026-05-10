@@ -462,10 +462,6 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
             this.mcServices.closeConnections();
         }
 
-        if (this.commonServices != null) {
-            this.commonServices.closeConnections();
-        }
-
         if (this.platformServices != null) {
             this.platformServices.closeConnections();
         }

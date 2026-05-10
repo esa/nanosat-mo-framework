@@ -22,7 +22,7 @@ package esa.mo.nmf.groundmoproxy;
 
 import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.com.impl.util.COMServicesProvider;
-import esa.mo.common.impl.proxy.DirectoryProxyServiceImpl;
+import esa.mo.com.impl.proxy.DirectoryProxyServiceImpl;
 import esa.mo.helpertools.misc.Const;
 import esa.mo.nmf.NMFConsumer;
 import esa.mo.sm.impl.consumer.HeartbeatConsumerServiceImpl;

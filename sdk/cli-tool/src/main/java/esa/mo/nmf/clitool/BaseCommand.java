@@ -186,15 +186,15 @@ public abstract class BaseCommand {
             consumer.init();
             domain = provider.getDomain();
 
-            if (consumer.getCommonServices().getLoginService() != null
-                    && consumer.getCommonServices().getLoginService().getLoginStub() != null) {
+            if (consumer.getCOMServices().getLoginService() != null
+                    && consumer.getCOMServices().getLoginService().getLoginStub() != null) {
                 System.out.println("\nLogin required for " + provider.getProviderId());
 
                 String login = System.console().readLine("Login: ");
                 char[] password = System.console().readPassword("Password: ");
                 System.out.println();
 
-                LongList ids = consumer.getCommonServices().getLoginService().getLoginStub().listRoles(
+                LongList ids = consumer.getCOMServices().getLoginService().getLoginStub().listRoles(
                         new Identifier(login), String.valueOf(password));
 
                 List<Long> roleIds = new ArrayList<>();
@@ -216,7 +216,7 @@ public abstract class BaseCommand {
 
                 consumer.getCOMServices().getArchiveService().getArchiveStub().retrieve(
                         LoginServiceInfo.LOGINROLE_OBJECT_TYPE,
-                        consumer.getCommonServices().getLoginService().getConnectionDetails().getDomain(),
+                        consumer.getCOMServices().getLoginService().getConnectionDetails().getDomain(),
                         ids, adapter);
 
                 synchronized (lock) {
@@ -235,7 +235,7 @@ public abstract class BaseCommand {
                     }
                 }
 
-                LoginResponse response = consumer.getCommonServices().getLoginService().getLoginStub().login(
+                LoginResponse response = consumer.getCOMServices().getLoginService().getLoginStub().login(
                         new Profile(new Identifier(login), roleId), String.valueOf(password));
                 consumer.setAuthenticationId(response.getAuthId());
                 System.out.println("Login successful!");
@@ -281,7 +281,6 @@ public abstract class BaseCommand {
                 LOGGER.log(Level.SEVERE, "Failed to deregister subscription: " + ids.get(0), e);
             }
 
-            consumer.getCommonServices().closeConnections();
             consumer.getCOMServices().closeConnections();
             consumer.getMCServices().closeConnections();
             consumer.getPlatformServices().closeConnections();
