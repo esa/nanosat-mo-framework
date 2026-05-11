@@ -27,7 +27,6 @@ import esa.mo.mc.impl.consumer.AggregationConsumerServiceImpl;
 import esa.mo.mc.impl.consumer.AlertConsumerServiceImpl;
 import esa.mo.mc.impl.consumer.ParameterConsumerServiceImpl;
 import esa.mo.mc.impl.interfaces.ActionInvocationListener;
-import esa.mo.mc.impl.interfaces.ParameterStatusListener;
 import esa.mo.mc.impl.provider.ActionProviderServiceImpl;
 import esa.mo.mc.impl.provider.AggregationProviderServiceImpl;
 import esa.mo.mc.impl.provider.AlertProviderServiceImpl;
@@ -59,8 +58,7 @@ public class NMFMCServicesFactory {
     }
 
     public ParameterProviderServiceImpl createProviderParameter(COMServicesProvider comServices,
-            ParameterStatusListener listener) throws MALException {
-        ParameterManager manager = new ParameterManager(comServices, listener);
+            ParameterManager manager) throws MALException {
         ParameterProviderServiceImpl provider = new ParameterProviderServiceImpl();
         provider.init(manager);
         return provider;

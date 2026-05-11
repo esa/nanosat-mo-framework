@@ -92,9 +92,12 @@ public class SetUpProvidersAndConsumers {
                 alertConsumerStub = factory.createConsumerStubAlert(details, comServicesConsumer);
             }
 
-            if (startParameter) {
-                parameterProvider = factory.createProviderParameter(comServicesProvider, backend);
+            if (startParameter || startAggregation) {
                 parameterManager = new ParameterManager(comServicesProvider, backend);
+            }
+
+            if (startParameter) {
+                parameterProvider = factory.createProviderParameter(comServicesProvider, parameterManager);
                 SingleConnectionDetails details = parameterProvider.getConnectionProvider().getConnectionDetails();
                 parameterConsumerStub = factory.createConsumerStubParameter(details, comServicesConsumer);
             }
