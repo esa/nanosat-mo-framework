@@ -331,45 +331,33 @@
                         The returnObjInstIds field indicates whether the operation should return the object instance identifiers used, if TRUE it shall return them, otherwise it returns NULL.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        The objType field shall contain the type of object being stored.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="3">
-                        The domain field shall contain the domain of the objects being stored.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="4">
-                        The objDetails field shall contain the list of archive details to use, one for each object being stored.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="5">
                         If the object instance identifier supplied in the archive details is set to 0 then the store operation shall allocate a new and unused object instance identifier.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="6">
+                    <mal:documentation name="Requirement" order="3">
                         If the object instance identifier supplied in the archive details is not set to 0 and is currently used in the archive then a DUPLICATE error is returned and no objects from the request shall be stored.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="7">
-                        The objBodies field shall contain the list of objects to store.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="8">
+                    <mal:documentation name="Requirement" order="4">
                         The objDetails and objBodies lists must be the same size as there is only one entry in each for each object to be stored. If they differ in size an INVALID error is returned with the extra error information integer giving the index of the list entry without a matching entry in the other list.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="9">
+                    <mal:documentation name="Requirement" order="5">
                         An INVALID error shall be returned if a wildcard value of '0' is used in the object type.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="10">
+                    <mal:documentation name="Requirement" order="6">
                         An INVALID error shall be returned if a wildcard value of '*' is used in the domain identifier list.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="11">
+                    <mal:documentation name="Requirement" order="7">
                         An INVALID error shall be returned if the values of '0', '*', or NULL are used in the network, timestamp or provider fields of the archive details except for the object instance identifier.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="12">
+                    <mal:documentation name="Requirement" order="8">
                         The type of the body of the object should be checked against the declared type in the relevant service specification, if different an INVALID error is raised.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="13">
+                    <mal:documentation name="Requirement" order="9">
                         If any error is returned then the store operation shall be rolled back and nothing is stored as a result of the operation.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="14">
+                    <mal:documentation name="Requirement" order="10">
                         The response shall contain the set of new object instance identifiers if the returnObjInstIds field was TRUE, otherwise it returns NULL.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="15">
+                    <mal:documentation name="Requirement" order="11">
                         The objInstIds list shall be ordered identically to the submitted objDetails list so that the returned object instance identifiers can be mapped to the correct objects.
                     </mal:documentation>
                     <mal:messages>
@@ -415,27 +403,15 @@
             <mal:capabilitySet number="3">
                 <mal:submitIP comment="Updates an object (or set of objects), causes an ObjectUpdated event to be published by the archive." name="update" number="5" supportInReplay="false">
                     <mal:documentation name="Requirement" order="1">
-                        The objType field shall contain the type of object being updated.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="2">
-                        The domain field shall contain the domain of the objects being updated.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="3">
-                        The objDetails field shall contain the list of ArchiveDetails.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="4">
                         The object instance identifier contained in the ArchiveDetails, combined with the object type and domain from the request, shall be used to match objects.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="5">
+                    <mal:documentation name="Requirement" order="2">
                         If requested object cannot be matched then an UNKNOWN error shall be returned and nothing will be updated.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="6">
+                    <mal:documentation name="Requirement" order="3">
                         The remainder of the ArchiveDetails shall be used to update the matched objects.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="7">
-                        The objBodies field shall contain the list of objects to replace the matched objects with.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="8">
+                    <mal:documentation name="Requirement" order="4">
                         No wildcard values shall be accepted in the object type, the domain, and the object instance identifier, an INVALID error is returned in this case and no objects are updated.
                     </mal:documentation>
                     <mal:messages>
@@ -482,18 +458,15 @@
                         If either the objType or domain field contains a wildcard value then an INVALID error shall be returned and no object deleted.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="4">
-                        The objInstIds field shall contain the list of object instance identifiers to match.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="5">
                         If the object instance identifier list contains the wildcard value '0' then all object instances shall be matched.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="6">
+                    <mal:documentation name="Requirement" order="5">
                         If any explicitly requested object cannot be matched then an UNKNOWN error shall be returned and nothing will be deleted.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="7">
+                    <mal:documentation name="Requirement" order="6">
                         The matched objects shall be deleted from the archive.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="8">
+                    <mal:documentation name="Requirement" order="7">
                         The response shall contain the set of object instance identifiers of the deleted objects.
                     </mal:documentation>
                     <mal:messages>
@@ -837,7 +810,6 @@
                     <mal:documentation name="Requirement" order="5">
                         If the serviceProviderId field is NULL then all provider identifiers shall be matched.&#xA;
                         If the final identifier of the domain field of the filter is the wildcard '*', then all sub-domains shall be searched for matches.
-                        See R[2] section 3.5.6.5.g.&#xA;
                         If the wildcard is used in any other part of the domain other than the final one then an INVALID error shall be returned.&#xA;
                         If the domain field is NULL then all domains shall be matched.&#xA;If the network field is NULL then all networks shall be matched.&#xA;
                         If the sessionName field is NULL then all session names shall be matched.&#xA;
@@ -1091,9 +1063,6 @@
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="13">
                         The returned authId field shall be used as the authenticationId field in future MAL messages by the consumer MAL for authentication. The token is specific to the user and role in use.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="14">
-                        The returned objInstId field shall contain the LoginInstance COM object instance identifier that was created by the login operation.
                     </mal:documentation>
                     <mal:messages>
                         <mal:request>
