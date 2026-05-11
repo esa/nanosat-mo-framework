@@ -808,19 +808,40 @@
                         If no match is found, then the returned list shall be empty.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="5">
-                        If the serviceProviderId field is NULL then all provider identifiers shall be matched.&#xA;
-                        If the final identifier of the domain field of the filter is the wildcard '*', then all sub-domains shall be searched for matches.
-                        If the wildcard is used in any other part of the domain other than the final one then an INVALID error shall be returned.&#xA;
-                        If the domain field is NULL then all domains shall be matched.&#xA;If the network field is NULL then all networks shall be matched.&#xA;
-                        If the sessionName field is NULL then all session names shall be matched.&#xA;
-                        The ServiceId field shall be used to match against ServiceId fields held in the PublishDetails used to publish a specific provider.&#xA;
-                        If the ServiceId field is NULL then all areas, services and versions shall be matched.&#xA;
-                        If the area field is the wildcard '0' then all areas names shall be matched.&#xA;
-                        If the service field is the wildcard '0' then all services shall be matched.&#xA;
-                        If the version field is the wildcard '0' then all area versions shall be matched.&#xA;
-                        If the requiredCapabilitySets field is NULL or an empty list then all service capability sets shall be matched.
+                        If the serviceProviderId field is NULL then all provider identifiers shall be matched.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="6">
+                        If the final identifier of the domain field of the filter is the wildcard '*', then all sub-domains shall be searched for matches.
+                        If the wildcard is used in any other part of the domain other than the final one then an INVALID error shall be returned.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="7">
+                        If the domain field is NULL then all domains shall be matched.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="8">
+                        If the network field is NULL then all networks shall be matched.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="9">
+                        If the sessionName field is NULL then all session names shall be matched.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="10">
+                        The ServiceId field shall be used to match against ServiceId fields held in the PublishDetails used to publish a specific provider.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="11">
+                        If the ServiceId field is NULL then all areas, services and versions shall be matched.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="12">
+                        If the area field is the wildcard '0' then all areas names shall be matched.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="13">
+                        If the service field is the wildcard '0' then all services shall be matched.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="14">
+                        If the version field is the wildcard '0' then all area versions shall be matched.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="15">
+                        If the requiredCapabilitySets field is NULL or an empty list then all service capability sets shall be matched.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="16">
                         If no providers match the supplied filter then an empty list shall be returned.
                     </mal:documentation>
                     <mal:messages>
@@ -845,25 +866,34 @@
             <mal:capabilitySet number="2">
                 <mal:requestIP name="add" number="2" supportInReplay="false" comment="The add operation adds a new or updates an existing entry in the list of providers held in the directory service.">
                     <mal:documentation name="Requirement" order="1">
-                        If any of the fields of the newProviderDetails domain/sessionName/network fields are either empty or contain the wildcard '*' an INVALID error shall be returned.&#xA;
+                        If any of the fields of the newProviderDetails domain/sessionName/network fields are either empty or contain the wildcard '*' an INVALID error shall be returned.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        If the providerId field of the PublishDetails structure is empty or contains the wildcard '*' an INVALID error shall be returned.&#xA;
+                        If the providerId field of the PublishDetails structure is empty or contains the wildcard '*' an INVALID error shall be returned.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
-                        For each contained ServiceId structure if the area/service/version fields contain '0' then an INVALID error shall be returned.&#xA;
+                        For each contained ServiceId structure if the area/service/version fields contain '0' then an INVALID error shall be returned.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="4">
-                        For each contained supportedCapabilitySets list if the list is empty or contains '0' then an INVALID error shall be returned.&#xA;If the supportedLevels list is empty or the priorityLevels field is '0' for each contained AddressDetails structure found either within the ProviderDetails or the inner ServiceCapability structures then an INVALID error shall be returned.&#xA;
+                        For each contained supportedCapabilitySets list if the list is empty or contains '0' then an INVALID error shall be returned.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="5">
-                        If an error is being returned then no changes shall be made.
+                        If the supportedLevels list is empty or the priorityLevels field is '0' for each contained AddressDetails structure found either within the ProviderDetails or the inner ServiceCapability structures then an INVALID error shall be returned.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="6">
+                        If an error is being returned then no changes shall be made.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="7">
                         If the providerId field of the PublishDetails structure matches an existing ServiceProvider COM object, the operation shall update the existing details of that provider.
-                        If the providerId field of the PublishDetails structure does not match an existing ServiceProvider COM object, then the operation shall create a new ServiceProvider COM object to represent the new provider.&#xA;
-                        A new ProviderCapabilities COM object shall be created to store the capabilities of the provider.&#xA;
-                        The created objects should be stored in the COM archive by the directory provider.&#xA;
+                        If the providerId field of the PublishDetails structure does not match an existing ServiceProvider COM object, then the operation shall create a new ServiceProvider COM object to represent the new provider.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="8">
+                        A new ProviderCapabilities COM object shall be created to store the capabilities of the provider.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="9">
+                        The created objects should be stored in the COM archive by the directory provider.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="10">
                         The operation shall return the COM object instance identifiers of the ServiceProvider and ProviderCapabilities COM objects representing the provider.
                     </mal:documentation>
                     <mal:messages>
@@ -963,13 +993,12 @@
             </com:features>
         </mal:service>
         <mal:service xsi:type="com:ExtendedServiceType" name="Login" number="6"
-                     comment="The Login service defines the primary mechanism for the submission of authentication credentials to a deployment specific security system. It supports operations to allow a user to login, logout, and report available roles.&#xA;The service is closely tied to the Access Control aspect of the MAL where the returned authentication identifiers are used in the MAL message header to authenticate and authorise message via Access Control.&#xA;The login service supports the concept of roles, where users may log in with a specific role; the meaning of each role is mission-specific, however it is expected that a specific role allocates the user privileges to invoke operations on mission operation services.&#xA;The use of login roles is optional but if they are used then the role details are held in the COM archive and the COM archive operations are used to manage the role definitions. The responsibility for maintenance of the login roles is outside the scope of this specification as it is a deployment issue to define the possible roles and associate users to those roles.&#xA;The form in which the password is sent to the Login provider must be agreed upon beforehand and is dependent on the security system deployed. For example, most security implementations do not recommend the use of plain text passwords but rather some encrypted version of the password. For this reason the contents of the messages sent between the login service consumer and provider during authentication handshaking are implementation-specific.&#xA;The authentication and authorisation concept of the MO services is covered in section 3.6 of the Reference Model (R2).&#xA;The Reference Model (R2) also provides sequence diagrams for security and login in sections 5.2 and 5.3.">
+                     comment="The Login service defines the primary mechanism for the submission of authentication credentials to a deployment specific security system. It supports operations to allow a user to login, logout, and report available roles.&#xA;The service is closely tied to the Access Control aspect of the MAL where the returned authentication identifiers are used in the MAL message header to authenticate and authorise message via Access Control.&#xA;The login service supports the concept of roles, where users may log in with a specific role; the meaning of each role is mission-specific, however it is expected that a specific role allocates the user privileges to invoke operations on mission operation services.&#xA;The use of login roles is optional but if they are used then the role details are held in the COM archive and the COM archive operations are used to manage the role definitions. The responsibility for maintenance of the login roles is outside the scope of this specification as it is a deployment issue to define the possible roles and associate users to those roles.&#xA;The form in which the password is sent to the Login provider must be agreed upon beforehand and is dependent on the security system deployed. For example, most security implementations do not recommend the use of plain text passwords but rather some encrypted version of the password. For this reason the contents of the messages sent between the login service consumer and provider during authentication handshaking are implementation-specific.">
             <mal:documentation name="High Level Requirements" order="1">The login service shall provide the capability:
 &lt;ol&gt;
  &lt;li&gt;log in;&lt;/li&gt;
  &lt;li&gt;log out;&lt;/li&gt;
- &lt;li&gt;report the list of possible roles for a login profile;&lt;/li&gt;
- &lt;li&gt;hand over an existing login from one user to another.&lt;/li&gt;
+ &lt;li&gt;report the list of possible roles for a login profile.&lt;/li&gt;
 &lt;/ol&gt;</mal:documentation>
             <mal:documentation name="Service-level Requirement" order="2">
                 Instances of a user login shall be represented as LoginInstance COM object.
