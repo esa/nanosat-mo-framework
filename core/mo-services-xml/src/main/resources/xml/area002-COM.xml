@@ -605,7 +605,7 @@
             </mal:documentation>
             <com:features>
                 <com:objects comment="The OperationActivity object tracks MAL operation activities.">
-                    <com:object name="OperationActivity" number="6">
+                    <com:object number="6" name="OperationActivity">
                         <com:objectType>
                             <mal:type area="COM" list="false" name="OperationActivity"/>
                         </com:objectType>
@@ -765,7 +765,7 @@
             </mal:capabilitySet>
             <com:features>
                 <com:objects comment="The ArchiveSync service can store the last synchronizations information on the COM Archive.">
-                    <com:object name="LastSync" number="1">
+                    <com:object number="1" name="LastSync">
                         <com:objectType>
                             <mal:type area="COM" list="false" name="LastSync"/>
                         </com:objectType>
@@ -983,12 +983,12 @@
             </mal:capabilitySet>
             <com:features>
                 <com:objects comment="The ServiceProvider and ProviderCapabilities objects used by the Directory service.">
-                    <com:object name="ServiceProvider" number="1">
+                    <com:object number="1" name="ServiceProvider">
                         <com:objectType>
                             <mal:type name="Identifier" area="MAL"/>
                         </com:objectType>
                     </com:object>
-                    <com:object name="ProviderCapabilities" number="2">
+                    <com:object number="2" name="ProviderCapabilities">
                         <com:objectType>
                             <mal:type name="ProviderDetails" area="COM"/>
                         </com:objectType>
@@ -1196,13 +1196,13 @@
             </mal:capabilitySet>
             <com:features>
                 <com:objects comment="The LoginRole and LoginInstance objects used by the Login service.">
-                    <com:object name="LoginRole" number="1"
+                    <com:object number="1" name="LoginRole"
                                 comment="The body of the LoginRole object is the role name Identifier.">
                         <com:objectType>
                             <mal:type name="Identifier" area="MAL"/>
                         </com:objectType>
                     </com:object>
-                    <com:object name="LoginInstance" number="2">
+                    <com:object number="2" name="LoginInstance">
                         <com:objectType>
                             <mal:type name="Profile" area="COM"/>
                         </com:objectType>
@@ -1329,7 +1329,7 @@
             </mal:documentation>
             <com:features>
                 <com:objects comment="The ServiceConfiguration, ProviderConfiguration, and ConfigurationObjects COM objects used by the Configuration service.">
-                    <com:object name="ServiceConfiguration" number="1">
+                    <com:object number="1" name="ServiceConfiguration">
                         <com:objectType>
                             <mal:type name="ServiceId" area="MAL"/>
                         </com:objectType>
@@ -1338,7 +1338,7 @@
                         </com:relatedObject>
                         <com:sourceObject comment="The object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used."/>
                     </com:object>
-                    <com:object name="ProviderConfiguration" number="2">
+                    <com:object number="2" name="ProviderConfiguration">
                         <com:objectType>
                             <mal:type name="Identifier" area="MAL"/>
                         </com:objectType>
@@ -1347,7 +1347,7 @@
                         </com:relatedObject>
                         <com:sourceObject comment="The object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used."/>
                     </com:object>
-                    <com:object name="ConfigurationObjects" number="3">
+                    <com:object number="3" name="ConfigurationObjects">
                         <com:objectType>
                             <mal:type name="ConfigurationObjectDetails" area="COM"/>
                         </com:objectType>

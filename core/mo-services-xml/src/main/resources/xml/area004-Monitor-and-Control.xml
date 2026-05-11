@@ -210,13 +210,13 @@
             </mal:capabilitySet>
             <com:features>
                 <com:objects comment="Action definitions and instances are represented as COM objects.">
-                    <com:object name="ActionDefinition" number="1">
+                    <com:object number="1" name="ActionDefinition">
                         <com:objectType>
                             <mal:type name="ActionDefinition" area="MC"/>
                         </com:objectType>
                         <com:sourceObject comment="The object that caused it to be created, for example, a COM OperationActivity"/>
                     </com:object>
-                    <com:object name="ActionInstance" number="2">
+                    <com:object number="2" name="ActionInstance">
                         <com:objectType>
                             <mal:type name="ActionInstance" area="MC"/>
                         </com:objectType>
@@ -597,13 +597,13 @@
             </mal:capabilitySet>
             <com:features>
                 <com:objects comment="Parameter definitions and value instances are represented as COM objects.">
-                    <com:object name="ParameterDefinition" number="1">
+                    <com:object number="1" name="ParameterDefinition">
                         <com:objectType>
                             <mal:type name="ParameterDefinition" area="MC"/>
                         </com:objectType>
                         <com:sourceObject comment="The object that caused it to be created, for example, a COM OperationActivity"/>
                     </com:object>
-                    <com:object name="ParameterValue" number="2">
+                    <com:object number="2" name="ParameterValue">
                         <com:objectType>
                             <mal:type name="ParameterValue" area="MC"/>
                         </com:objectType>
@@ -811,7 +811,7 @@
             </mal:capabilitySet>
             <com:features>
                 <com:objects comment="Alert definitions and instances are represented as COM objects.">
-                    <com:object name="AlertDefinition" number="1">
+                    <com:object number="1" name="AlertDefinition">
                         <com:objectType>
                             <mal:type name="AlertDefinition" area="MC"/>
                         </com:objectType>
@@ -1263,13 +1263,13 @@
             </mal:capabilitySet>
             <com:features>
                 <com:objects comment="Aggregation definitions and value instances are represented as COM objects.">
-                    <com:object name="AggregationDefinition" number="1">
+                    <com:object number="1" name="AggregationDefinition">
                         <com:objectType>
                             <mal:type name="AggregationDefinition" area="MC"/>
                         </com:objectType>
                         <com:sourceObject comment="The object that caused it to be created, for example, a COM OperationActivity"/>
                     </com:object>
-                    <com:object name="AggregationValueInstance" number="2">
+                    <com:object number="2" name="AggregationValueInstance">
                         <com:objectType>
                             <mal:type name="AggregationValue" area="MC"/>
                         </com:objectType>
@@ -1317,25 +1317,25 @@
             </mal:documentation>
             <com:features>
                 <com:objects comment="Conversion definitions are represented as COM objects.">
-                    <com:object name="DiscreteConversion" number="1">
+                    <com:object number="1" name="DiscreteConversion">
                         <com:objectType>
                             <mal:type name="DiscreteConversion" area="MC"/>
                         </com:objectType>
                         <com:sourceObject comment="The object that caused it to be created, for example, a COM OperationActivity."/>
                     </com:object>
-                    <com:object name="LineConversion" number="2">
+                    <com:object number="2" name="LineConversion">
                         <com:objectType>
                             <mal:type name="LineConversion" area="MC"/>
                         </com:objectType>
                         <com:sourceObject comment="The object that caused it to be created, for example, a COM OperationActivity."/>
                     </com:object>
-                    <com:object name="PolyConversion" number="3">
+                    <com:object number="3" name="PolyConversion">
                         <com:objectType>
                             <mal:type name="PolyConversion" area="MC"/>
                         </com:objectType>
                         <com:sourceObject comment="The object that caused it to be created, for example, a COM OperationActivity."/>
                     </com:object>
-                    <com:object name="RangeConversion" number="4">
+                    <com:object number="4" name="RangeConversion">
                         <com:objectType>
                             <mal:type name="RangeConversion" area="MC"/>
                         </com:objectType>

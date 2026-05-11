@@ -189,14 +189,14 @@
                     </svg:svg>
                 </mal:diagram>
                 <com:objects comment="">
-                    <com:object comment="" name="Package" number="1">
+                    <com:object comment="" number="1" name="Package">
                         <com:objectType>
                             <mal:type area="SoftwareManagement" list="false" name="PackageDefinition"/>
                         </com:objectType>
                         <com:relatedObject comment=""/>
                         <com:sourceObject comment=""/>
                     </com:object>
-                    <com:object comment="" name="Installation" number="2">
+                    <com:object comment="" number="2" name="Installation">
                         <com:objectType>
                             <mal:type area="MAL" list="false" name="Identifier"/>
                         </com:objectType>
@@ -265,7 +265,7 @@
             </mal:capabilitySet>
             <com:features>
                 <com:objects comment="The Command COM object used by the Command Executor service.">
-                    <com:object comment="" name="Command" number="1">
+                    <com:object comment="" number="1" name="Command">
                         <com:objectType>
                             <mal:type area="SoftwareManagement" list="false" name="CommandDetails"/>
                         </com:objectType>
@@ -567,7 +567,7 @@
                     </svg:svg>
                 </mal:diagram>
                 <com:objects comment="The App COM object used by the Apps Launcher service.">
-                    <com:object comment="" name="App" number="1">
+                    <com:object comment="" number="1" name="App">
                         <com:objectType>
                             <mal:type area="SoftwareManagement" list="false" name="AppDetails"/>
                         </com:objectType>
