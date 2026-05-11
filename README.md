@@ -7,7 +7,8 @@
 NanoSat MO Framework
 ========================
 
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/int.esa.nmf/parent/badge.svg)](https://maven-badges.herokuapp.com/maven-central/int.esa.nmf/parent)
+[![Maven Central](https://img.shields.io/maven-central/v/int.esa.nmf/parent)](https://central.sonatype.com/artifact/int.esa.nmf/parent)
+[![Build Status](https://github.com/esa/nanosat-mo-framework/actions/workflows/testbeds.yml/badge.svg)](https://github.com/esa/nanosat-mo-framework/actions/workflows/testbeds.yml)
 
 The [NanoSat MO Framework] is a software framework for small satellites based on CCSDS Mission Operations services.
 
