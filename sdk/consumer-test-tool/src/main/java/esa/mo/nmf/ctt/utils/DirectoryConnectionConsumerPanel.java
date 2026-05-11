@@ -26,7 +26,11 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.Properties;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -44,6 +48,7 @@ import org.ccsds.moims.mo.com.structures.*;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
 import org.ccsds.moims.mo.mal.structures.Blob;
@@ -168,10 +173,36 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
 
     public void setURITextbox(final String uri) {
         if (uri.isEmpty()) {
-            uriServiceDirectory.setText(prefs.get(LAST_USED_CONSUMER_PREF, ""));
+            String freshUri = readFreshDirectoryURI();
+            if (freshUri != null) {
+                uriServiceDirectory.setText(freshUri);
+            } else {
+                uriServiceDirectory.setText(prefs.get(LAST_USED_CONSUMER_PREF, ""));
+            }
         } else {
             uriServiceDirectory.setText(uri);
         }
+    }
+
+    private static String readFreshDirectoryURI() {
+        File file = ConnectionProvider.getProviderURIsDirectory(HelperMisc.PROVIDER_URIS_PROPERTIES_FILENAME);
+        if (!file.exists()) {
+            return null;
+        }
+        long ageMs = System.currentTimeMillis() - file.lastModified();
+        if (ageMs > 120_000) { // 2 minutes in milliseconds
+            return null;
+        }
+        Properties props = new Properties();
+        try (FileInputStream fis = new FileInputStream(file)) {
+            props.load(fis);
+        } catch (IOException ex) {
+            Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName())
+                    .log(Level.WARNING, "Could not read providerURIs.properties", ex);
+            return null;
+        }
+        String key = DirectoryServiceInfo.DIRECTORY_SERVICE_NAME.getValue() + "_URI";
+        return props.getProperty(key);
     }
 
     /**
