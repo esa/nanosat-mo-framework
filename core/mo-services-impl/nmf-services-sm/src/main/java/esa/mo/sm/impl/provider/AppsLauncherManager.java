@@ -26,8 +26,6 @@ import esa.mo.com.impl.util.DefinitionsManager;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.com.impl.util.HelperCommon;
-import esa.mo.helpertools.misc.Const;
-import esa.mo.helpertools.misc.OSValidator;
 import esa.mo.sm.impl.util.ClosingAppListener;
 import java.io.File;
 import java.io.FileInputStream;
@@ -62,15 +60,11 @@ import org.ccsds.moims.mo.softwaremanagement.structures.AppDetailsList;
  *
  * @author Cesar Coelho
  */
-public class AppsLauncherManager extends DefinitionsManager {
+public abstract class AppsLauncherManager extends DefinitionsManager {
 
     private static final int APP_STOP_TIMEOUT = 15000; // In ms
 
     private static final Logger LOGGER = Logger.getLogger(AppsLauncherManager.class.getName());
-
-    private final OSValidator osValidator = new OSValidator();
-
-    private boolean sudoAvailable = false;
 
     private static final String FOLDER_LOCATION_PROPERTY
             = "esa.mo.sm.impl.provider.appslauncher.FolderLocation";
@@ -109,26 +103,6 @@ public class AppsLauncherManager extends DefinitionsManager {
             this.uniqueObjIdDef = new AtomicLong(0);
         } else {
             // With Archive...
-        }
-
-        if (osValidator.isUnix()) {
-            try {
-                String[] params = new String[]{"sh", "-c", "sudo --help"};
-                Process p = Runtime.getRuntime().exec(params, null, null);
-                try {
-                    boolean terminated = p.waitFor(1, TimeUnit.SECONDS);
-                    if (terminated) {
-                        sudoAvailable = (p.exitValue() != 127);
-                    }
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(AppsLauncherManager.class.getName()).log(
-                            Level.SEVERE, "The process did no finish yet...", ex);
-                    sudoAvailable = false;
-                }
-            } catch (IOException ex) {
-                Logger.getLogger(AppsLauncherManager.class.getName()).log(
-                        Level.SEVERE, "The process could not be executed!", ex);
-            }
         }
     }
 
@@ -394,40 +368,10 @@ public class AppsLauncherManager extends DefinitionsManager {
         return this.get(appId).getRunning();
     }
 
-    protected String[] assembleCommand(final String workDir, final String appName,
-            final String runAs, final String prefix, final String[] env) {
-        ArrayList<String> ret = new ArrayList<>();
-        String trimmedAppName = appName.replaceAll("space-app-", "");
+    protected abstract String[] assembleCommand(final String workDir, final String appName,
+            final String runAs, final String prefix, final String[] env);
 
-        if (osValidator.isWindows()) {
-            ret.add("cmd");
-            ret.add("/c");
-            StringBuilder str = new StringBuilder();
-            str.append(prefix).append(trimmedAppName).append(".bat");
-            ret.add(str.toString());
-        } else {
-            if (runAs != null) {
-                if (sudoAvailable) {
-                    ret.add("sudo");
-                }
-                ret.add("su");
-                ret.add("-");
-                ret.add(runAs);
-                ret.add("-c");
-            } else {
-                ret.add("/bin/sh");
-                ret.add("-c");
-            }
-            StringBuilder envString = new StringBuilder();
-            for (String envVar : env) {
-                envString.append(envVar).append(" ");
-            }
-
-            String script = prefix + trimmedAppName + ".sh";
-            ret.add("cd " + workDir + ";" + envString.toString() + "./" + script);
-        }
-        return ret.toArray(new String[0]);
-    }
+    protected abstract String getScriptExtension();
 
     protected String[] assembleAppStopCommand(final String workDir,
             final String appName, final String runAs, final String[] env) {
@@ -439,37 +383,8 @@ public class AppsLauncherManager extends DefinitionsManager {
         return assembleCommand(workDir, appName, runAs, "start_", env);
     }
 
-    protected HashMap<String, String> assembleAppLauncherEnvironment(final String directoryServiceURI) {
-        final HashMap<String, String> targetEnv = new HashMap<>();
-        try {
-            // Inherit NMF HOME and NMF LIB from the supervisor
-            Map<String, String> parentEnv = EnvironmentUtils.getProcEnvironment();
-            if (parentEnv.containsKey("NMF_LIB")) {
-                targetEnv.put("NMF_LIB", parentEnv.get("NMF_LIB"));
-            }
-            if (parentEnv.containsKey("NMF_HOME")) {
-                targetEnv.put("NMF_HOME", parentEnv.get("NMF_HOME"));
-            }
-            if (parentEnv.containsKey("PATH")) {
-                targetEnv.put("PATH", parentEnv.get("PATH"));
-            }
-            if (osValidator.isWindows()) {
-                if (parentEnv.containsKey("TEMP")) {
-                    targetEnv.put("TEMP", parentEnv.get("TEMP"));
-                }
-                if (parentEnv.containsKey("OS")) {
-                    targetEnv.put("OS", parentEnv.get("OS"));
-                }
-            }
-        } catch (IOException ex) {
-            LOGGER.log(Level.SEVERE, "getProcEnvironment failed!", ex);
-        }
-        // Extend the current environment by JAVA_OPTS
-        targetEnv.put("JAVA_OPTS",
-                "-D" + Const.CENTRAL_DIRECTORY_URI_PROPERTY + "=" + directoryServiceURI + "");
-
-        return targetEnv;
-    }
+    protected abstract HashMap<String, String> assembleAppLauncherEnvironment(
+            final String directoryServiceURI);
 
     protected void startAppProcess(final ProcessExecutionHandler handler,
             final MALInteraction interaction, final String directoryServiceURI) throws IOException {
@@ -659,10 +574,7 @@ public class AppsLauncherManager extends DefinitionsManager {
         for (int i = 0; i < appInstIds.size(); i++) {
             long appInstId = appInstIds.get(i);
             AppDetails curr = this.get(appInstId);
-            String fileExt = ".sh";
-            if (osValidator.isWindows()) {
-                fileExt = ".bat";
-            }
+            String fileExt = getScriptExtension();
             File appsFolderPath = this.getAppsFolderPath(curr.getName());
             File stopScript = new File(appsFolderPath + File.separator + curr.getName().getValue()
                     + File.separator + "stop_" + curr.getName().getValue() + fileExt);
