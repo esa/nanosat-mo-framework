@@ -10,10 +10,7 @@
             <mal:documentation name="High Level Requirements" order="1">The action service shall provide:
 &lt;ol&gt;
  &lt;li&gt;the capability for submitting actions for execution;&lt;/li&gt;
- &lt;li&gt;the capability for listing the numeric identifiers for the action definitions;&lt;/li&gt;
- &lt;li&gt;the capability for defining a new definition;&lt;/li&gt;
- &lt;li&gt;the capability for updating an existing definition;&lt;/li&gt;
- &lt;li&gt;the capability for removing an existing definition.&lt;/li&gt;
+ &lt;li&gt;the capability for listing the numeric identifiers for the action definitions.&lt;/li&gt;
 &lt;/ol&gt;
                 The list of actions that are supported by the action service shall be declared when deploying that service.
                 Each action submission shall include:

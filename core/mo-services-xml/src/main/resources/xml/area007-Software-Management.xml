@@ -7,8 +7,7 @@
 &lt;ol&gt;
 &lt;li&gt;the capability for listing, installing and uninstalling packages;&lt;/li&gt;
 &lt;li&gt;the capability for upgrading packages;&lt;/li&gt;
-&lt;li&gt;the capability for checking the integrity of a package;&lt;/li&gt;
-&lt;li&gt;the capability for listing the package categories available on the provider.&lt;/li&gt;
+&lt;li&gt;the capability for checking the integrity of a package.&lt;/li&gt;
 &lt;/ol&gt;
             </mal:documentation>
             <mal:documentation name="Functional Requirements" order="2"/>

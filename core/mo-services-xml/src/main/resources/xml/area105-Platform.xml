@@ -285,11 +285,10 @@
                      comment="The GPS service provides the ability to retrieve satellite navigation data from a Global Navigation Satellite System (GNSS) device receiver in the spacecraft platform. The GPS service provides the capability for streaming NMEA messages; the capability for enabling/disabling the streaming of NMEA messages; the capability for getting the last known position from the receiver; the capability for getting the satellites GNSS information; the capability for maintaining the list of nearby position events.&#10;The nearbyPosition operation allows a consumer to receive a message from the service when the spacecraft enters or exists a certain position. These can be set using the addNearbyPosition and removed using the removeNearbyPosition." >
             <mal:documentation name="High Level Requirements" order="1">The GPS service shall provide:
         &lt;ol&gt;
-        &lt;li&gt;the capability for streaming GPS NMEA messages;&lt;/li&gt;
-        &lt;li&gt;the capability for enabling/disabling the streaming of NMEA messages;&lt;/li&gt;
-        &lt;li&gt;the capability for having getting the last known position from the GPS;&lt;/li&gt;
+        &lt;li&gt;the capability for requesting GPS NMEA sentences;&lt;/li&gt;
+        &lt;li&gt;the capability for getting the last known position from the GPS;&lt;/li&gt;
         &lt;li&gt;the capability for getting the satellites GPS information;&lt;/li&gt;
-        &lt;li&gt;The capability for maintaining the list of nearby position events.&lt;/li&gt;
+        &lt;li&gt;the capability for maintaining the list of nearby position events.&lt;/li&gt;
         &lt;/ol&gt; </mal:documentation>
             <mal:documentation
                 name="Functional Requirements" order="2" />
