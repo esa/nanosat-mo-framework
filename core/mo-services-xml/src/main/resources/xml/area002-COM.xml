@@ -112,13 +112,13 @@
                         The response shall contain the set of matched objects.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="6">
-                        The objBodies shall be ordered identically to the first list unless no body for the object is declared in the service specification, in which case a NULL replaces the complete list.
+                        The objBodies shall be ordered identically to the metadata list unless no body for the object is declared in the service specification, in which case a NULL replaces the complete list.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="7">
-                        There shall be an entry in each returned list for each matched object.
+                        There shall be an entry in both metadata and objBodies for each matched object.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="8">
-                        When no objects have been matched only a response with NULL for each part of the response shall be returned.
+                        When no objects have been matched only a response with NULL for both metadata and objBodies shall be returned.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="9">
                         The ordering of the returned objects is not specified and implementation specific.
@@ -134,16 +134,16 @@
                             <mal:field name="domain" canBeNull="true" comment="The domain of the object to be retrieved.">
                                 <mal:type area="MAL" list="true" name="Identifier"/>
                             </mal:field>
-                            <mal:field name="objInstIds" canBeNull="true" comment="The id of the object to be retrieved.">
+                            <mal:field name="objInstIds" canBeNull="true" comment="The list of object instance identifiers to be retrieved.">
                                 <mal:type area="MAL" list="true" name="Long"/>
                             </mal:field>
                         </mal:invoke>
                         <mal:acknowledgement/>
                         <mal:response>
-                            <mal:field name="metadata" canBeNull="true" comment="The metadata of the object.">
+                            <mal:field name="metadata" canBeNull="true" comment="The metadata of the matched objects.">
                                 <mal:type area="COM" list="true" name="ArchiveDetails"/>
                             </mal:field>
-                            <mal:field name="objBodies" canBeNull="true" comment="The body of the objects.">
+                            <mal:field name="objBodies" canBeNull="true" comment="The bodies of the matched objects.">
                                 <mal:type area="MAL" list="true" name="Element"/>
                             </mal:field>
                         </mal:response>
@@ -168,7 +168,7 @@
                         Each part of the object type may contain the wildcard value of '0'.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
-                        A single query shall be formed by the combination of an ArchiveQuery from the first list and a QueryFilter from the second list.
+                        A single query shall be formed by the combination of an ArchiveQuery from the archiveQuery list and a QueryFilter from the queryFilter list.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="4">
                         If a query does not contain a QueryFilter part then that entry in the QueryFilter list shall be replaced with a NULL value.
@@ -177,7 +177,7 @@
                         If the request does not contain any QueryFilters then the complete list may be replaced with a NULL.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="6">
-                        The size of the two lists must be the same unless the complete second list is replaced with a NULL otherwise an INVALID error shall be raised.
+                        The size of the archiveQuery and queryFilter lists must be the same unless the complete queryFilter list is replaced with a NULL otherwise an INVALID error shall be raised.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="7">
                         For each query, the ArchiveQuery and the QueryFilter shall contain the COM object fields to filter on.
@@ -210,22 +210,22 @@
                         If there was not any wildcards in the ObjectType part of the request the ObjectType in the updates shall be replaced by a NULL.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="17">
-                        The first returned list shall contain the domain of the objects being returned.
+                        The domain field in each Update message shall contain the domain of the objects being returned.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="18">
-                        If multiple ObjectTypes or domains have been matched then multiple Update message may be returned.
+                        If multiple ObjectTypes or domains have been matched then multiple Update messages may be returned.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="19">
-                        There shall be an entry in the second and third lists for each matched object.
+                        In each Update message there shall be an entry in both objDetails and objBodies for each matched object.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="20">
-                        The second returned list shall contain the archive details stored for the matched objects.
+                        The objDetails field in each Update message shall contain the archive details stored for the matched objects.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="21">
-                        If the initial Boolean of the request was True the third returned list shall contain the bodies of the objects.
+                        If the returnBody field of the request was TRUE, the objBodies field in each Update message shall contain the bodies of the objects.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="22">
-                        If the initial Boolean of the request was NULL or False the third returned list shall be replaced by a NULL.
+                        If the returnBody field of the request was NULL or FALSE, the objBodies field in each Update message shall be replaced by a NULL.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="23">
                         The returned lists shall be sorted based on the sorting options specified in ArchiveQuery.
@@ -237,10 +237,10 @@
                         When the field being sorted on contains a NULL value, or does not exist in the matched object (due to a containing composite being NULL), these entries shall be added to the end of the returned list in the order that they are matched.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="26">
-                        When no objects have been matched, an empty Response message shall be returned.
+                        The final Response message shall be empty and signals to the consumer that all matched objects have been returned.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="27">
-                        The final Response message shall be empty, and it signals to the consumer that all matched objects have been returned.
+                        When no objects have been matched, only this empty Response is sent with no preceding Update messages.
                     </mal:documentation>
                     <mal:messages>
                         <mal:progress>
@@ -259,7 +259,7 @@
                         </mal:progress>
                         <mal:acknowledgement/>
                         <mal:update>
-                            <mal:field canBeNull="true" name="objType" comment="The type of the matched objects.">
+                            <mal:field canBeNull="true" name="objType" comment="The type of the matched object.">
                                 <mal:type area="COM" list="false" name="ObjectType"/>
                             </mal:field>
                             <mal:field canBeNull="true" name="domain" comment="The domain of the matched objects.">
@@ -291,10 +291,10 @@
                         The response shall contain the count of matched objects.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
-                        There shall be an entry in each returned list for each entry in the request list.
+                        There shall be an entry in the counts list for each entry in the archiveQuery list.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="4">
-                        The returned lists shall be ordered the same as the request query lists so that the response can be matched to the corresponding request.
+                        The counts list shall be ordered the same as the archiveQuery and queryFilter lists so that the response can be matched to the corresponding request.
                     </mal:documentation>
                     <mal:messages>
                         <mal:invoke>
@@ -328,16 +328,16 @@
             <mal:capabilitySet number="2">
                 <mal:requestIP comment="Stores new objects in the archive and causes an ObjectStored event to be published by the archive.&#10;When new objects are being stored in an archive by a service provider the archive service provider is capable of allocating an unused object instance identifier for the objects being stored. The returned object instance identifier should be used by the service provider for identifying the object instances to its consumer to ensure that only a single object instance identifier is used for each object instance." name="store" number="4" supportInReplay="false">
                     <mal:documentation name="Requirement" order="1">
-                        The first part of the request indicates whether the operation should return the object instance identifiers used, if TRUE it shall return them, otherwise it returns NULL.
+                        The returnObjInstIds field indicates whether the operation should return the object instance identifiers used, if TRUE it shall return them, otherwise it returns NULL.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        The second part of the request shall contain the type of object being stored.
+                        The objType field shall contain the type of object being stored.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
-                        The third part of the request shall contain the domain of the objects being stored.
+                        The domain field shall contain the domain of the objects being stored.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="4">
-                        The fourth part of the request shall contain the list of archive details to use, one for each object being stored.
+                        The objDetails field shall contain the list of archive details to use, one for each object being stored.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="5">
                         If the object instance identifier supplied in the archive details is set to 0 then the store operation shall allocate a new and unused object instance identifier.
@@ -346,10 +346,10 @@
                         If the object instance identifier supplied in the archive details is not set to 0 and is currently used in the archive then a DUPLICATE error is returned and no objects from the request shall be stored.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="7">
-                        The fifth part of the request shall contain the list of objects to store.
+                        The objBodies field shall contain the list of objects to store.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="8">
-                        The fourth and fifth list must be the same size as there is only one entry in each for each object to be stored. If they differ in size an INVALID error is returned with the extra error information integer giving the index of the list entry without a matching entry in the other list.
+                        The objDetails and objBodies lists must be the same size as there is only one entry in each for each object to be stored. If they differ in size an INVALID error is returned with the extra error information integer giving the index of the list entry without a matching entry in the other list.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="9">
                         An INVALID error shall be returned if a wildcard value of '0' is used in the object type.
@@ -367,14 +367,14 @@
                         If any error is returned then the store operation shall be rolled back and nothing is stored as a result of the operation.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="14">
-                        The response shall contain the set of new object instance identifiers if the request supplied an initial TRUE Boolean value, otherwise it returns NULL.
+                        The response shall contain the set of new object instance identifiers if the returnObjInstIds field was TRUE, otherwise it returns NULL.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="15">
-                        The returned list shall be ordered identically to the submitted list so that the returned object instance identifiers can be mapped to the correct objects.
+                        The objInstIds list shall be ordered identically to the submitted objDetails list so that the returned object instance identifiers can be mapped to the correct objects.
                     </mal:documentation>
                     <mal:messages>
                         <mal:request>
-                            <mal:field canBeNull="true" comment="Flag that states if the objects ids are to be returned." name="returnObjInstIds">
+                            <mal:field canBeNull="true" comment="Flag that states if the object instance identifiers are to be returned." name="returnObjInstIds">
                                 <mal:type area="MAL" list="false" name="Boolean"/>
                             </mal:field>
                             <mal:field canBeNull="true" comment="The type of the objects to be stored." name="objType">
@@ -415,13 +415,13 @@
             <mal:capabilitySet number="3">
                 <mal:submitIP comment="Updates an object (or set of objects), causes an ObjectUpdated event to be published by the archive." name="update" number="5" supportInReplay="false">
                     <mal:documentation name="Requirement" order="1">
-                        The first part of the request shall contain the type of object being updated.
+                        The objType field shall contain the type of object being updated.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        The second part of the request shall contain the domain of the objects being updated.
+                        The domain field shall contain the domain of the objects being updated.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
-                        The third part of the request shall contain the list of ArchiveDetails.
+                        The objDetails field shall contain the list of ArchiveDetails.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="4">
                         The object instance identifier contained in the ArchiveDetails, combined with the object type and domain from the request, shall be used to match objects.
@@ -433,7 +433,7 @@
                         The remainder of the ArchiveDetails shall be used to update the matched objects.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="7">
-                        The fourth part of the request shall contain the list of objects to replace the matched objects with.
+                        The objBodies field shall contain the list of objects to replace the matched objects with.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="8">
                         No wildcard values shall be accepted in the object type, the domain, and the object instance identifier, an INVALID error is returned in this case and no objects are updated.
@@ -473,16 +473,16 @@
             <mal:capabilitySet number="4">
                 <mal:requestIP comment="Deletes an object (or set of objects) and causes an ObjectDeleted event to be published by the archive." name="delete" number="6" supportInReplay="false">
                     <mal:documentation name="Requirement" order="1">
-                        The first part of the request shall contain the type of object to match and is not permitted to contain the wildcard value.
+                        The objType field shall contain the type of object to match and is not permitted to contain the wildcard value.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        The second part of the request shall contain the domain of the objects to match and is not permitted to contain the wildcard value.
+                        The domain field shall contain the domain of the objects to match and is not permitted to contain the wildcard value.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
-                        If either the first or second part contain a wildcard value then an INVALID error shall be returned and no object deleted.
+                        If either the objType or domain field contains a wildcard value then an INVALID error shall be returned and no object deleted.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="4">
-                        The third part of the request shall contain the list of object instance identifiers to match.
+                        The objInstIds field shall contain the list of object instance identifiers to match.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="5">
                         If the object instance identifier list contains the wildcard value '0' then all object instances shall be matched.
