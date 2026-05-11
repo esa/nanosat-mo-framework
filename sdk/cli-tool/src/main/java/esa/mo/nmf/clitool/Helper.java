@@ -97,16 +97,7 @@ public class Helper {
             }
 
             @Override
-            public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-                    ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
-                if (objDetails != null) {
-                    for (int i = 0; i < objDetails.size(); ++i) {
-                        AppDetails details = (AppDetails) objBodies.get(i);
-                        result.put(details.getName().getValue(),
-                                new ProviderAppDetails(objDetails.get(i).getInstId(), details));
-                    }
-                }
-
+            public void queryResponseReceived(MALMessageHeader msgHeader, Map qosProperties) {
                 synchronized (lock) {
                     lock.notifyAll();
                 }

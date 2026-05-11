@@ -83,14 +83,7 @@ public class ArchiveToParametersAdapter extends ArchiveAdapter implements QueryS
     private final Map<IdentifierList, Map<Identifier, List<TimestampedParameterValue>>> parameterValues = new HashMap<>();
 
     @Override
-    public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-        ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
-        if (objDetails == null) {
-            setIsQueryOver(true);
-            return;
-        }
-        processObjects(objType, objDetails, objBodies, domain);
-
+    public void queryResponseReceived(MALMessageHeader msgHeader, Map qosProperties) {
         for (IdentifierList domainKey : valuesMap.keySet()) {
             if (!parameterValues.containsKey(domainKey)) {
                 parameterValues.put(domainKey, new HashMap<>());

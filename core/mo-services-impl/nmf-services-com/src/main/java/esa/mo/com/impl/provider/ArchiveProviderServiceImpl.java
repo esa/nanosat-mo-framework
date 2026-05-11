@@ -242,7 +242,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
         }
         // Is the list empty?
         if (lArchiveQueryList.isEmpty()) {
-            interaction.sendResponse(null, null, null, null);  // requirement: 3.4.4.2.29
+            interaction.sendResponse();  // requirement: 3.4.4.2.26
             return;
         }
 
@@ -333,10 +333,9 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
 
             }
 
-            // Is the list empty? and it is the last query?
-            if (perObjs.isEmpty() && index == (sizeArchiveQueryList - 1)) {
-                interaction.sendResponse(null, null, null, null);  // requirement: 3.4.4.2.29
-                return;
+            // Is the list empty? skip to next query
+            if (perObjs.isEmpty()) {
+                continue;
             }
 
             // requirement: 3.4.4.2.18 and requirement 3.4.4.2.21
@@ -369,14 +368,9 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                     ObjectType objType = (ArchiveManager.objectTypeContainsWildcard(lObjectType)) ?
                             perObjs.get(j).getObjectType() : null;
 
-                    if (j != (perObjs.size() - 1) || index != (sizeArchiveQueryList - 1)) {
-                        // requirement: 3.4.4.2.18
-                        interaction.sendUpdate(objType, perObjs.get(j).getDomain(),
-                                outArchDetLst, outObjectList); // requirement: 3.4.4.2.17 and 3.4.4.2.23
-                    } else {
-                        interaction.sendResponse(objType, perObjs.get(j).getDomain(),
-                                outArchDetLst, outObjectList); // requirement: 3.4.4.2.17 and 3.4.4.2.23
-                    }
+                    // requirement: 3.4.4.2.18
+                    interaction.sendUpdate(objType, perObjs.get(j).getDomain(),
+                            outArchDetLst, outObjectList); // requirement: 3.4.4.2.17 and 3.4.4.2.23
                 }
 
             } else {
@@ -402,17 +396,13 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                     }
                 }
 
-                if (index != (sizeArchiveQueryList - 1)) {
-                    // requirement: 3.4.4.2.19
-                    interaction.sendUpdate(null, lArchiveQueryList.get(index).getDomain(), outArchiveDetailsList,
-                            outObjectList); // requirement: 3.4.4.2.17
-                } else {
-                    // requirement: 3.4.4.2.19
-                    interaction.sendResponse(null, lArchiveQueryList.get(index).getDomain(), outArchiveDetailsList,
-                            outObjectList); // requirement: 3.4.4.2.17
-                }
+                // requirement: 3.4.4.2.19
+                interaction.sendUpdate(null, lArchiveQueryList.get(index).getDomain(), outArchiveDetailsList,
+                        outObjectList); // requirement: 3.4.4.2.17
             }
         }
+
+        interaction.sendResponse();  // requirement: 3.4.4.2.27
     }
 
     @Override

@@ -201,13 +201,13 @@
                         If the QueryFilter contains an error then an INVALID error shall be returned. The definition of erroneous values are filter specific and defined in the relevant filter structure specification.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="14">
-                        The updates and the responses shall contain the set of matched objects.
+                        The updates shall contain the set of matched objects.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="15">
-                        If a wildcard was used in the ObjectType part of the request then the updates and response shall contain the ObjectType of each matched object.
+                        If a wildcard was used in the ObjectType part of the request then the updates shall contain the ObjectType of each matched object.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="16">
-                        If there was not any wildcards in the ObjectType part of the request the ObjectType in the updates and response shall be replaced by a NULL.
+                        If there was not any wildcards in the ObjectType part of the request the ObjectType in the updates shall be replaced by a NULL.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="17">
                         The first returned list shall contain the domain of the objects being returned.
@@ -237,7 +237,10 @@
                         When the field being sorted on contains a NULL value, or does not exist in the matched object (due to a containing composite being NULL), these entries shall be added to the end of the returned list in the order that they are matched.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="26">
-                        When no objects have been matched only a response with NULL for each part of the response shall be returned.
+                        When no objects have been matched, an empty Response message shall be returned.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="27">
+                        The final Response message shall be empty, and it signals to the consumer that all matched objects have been returned.
                     </mal:documentation>
                     <mal:messages>
                         <mal:progress>
@@ -269,20 +272,7 @@
                                 <mal:type area="MAL" list="true" name="Element"/>
                             </mal:field>
                         </mal:update>
-                        <mal:response>
-                            <mal:field canBeNull="true" name="objType" comment="The type of the matched objects.">
-                                <mal:type area="COM" list="false" name="ObjectType"/>
-                            </mal:field>
-                            <mal:field canBeNull="true" name="domain" comment="The domain of the matched objects.">
-                                <mal:type area="MAL" list="true" name="Identifier"/>
-                            </mal:field>
-                            <mal:field canBeNull="true" name="objDetails" comment="The archive details of the matched objects.">
-                                <mal:type area="COM" list="true" name="ArchiveDetails"/>
-                            </mal:field>
-                            <mal:field canBeNull="true" name="objBodies" comment="The bodies of the matched objects, or NULL if not requested.">
-                                <mal:type area="MAL" list="true" name="Element"/>
-                            </mal:field>
-                        </mal:response>
+                        <mal:response/>
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="One or more of the query filters supplied contains an invalid value.">

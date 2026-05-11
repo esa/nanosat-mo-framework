@@ -197,8 +197,19 @@ public class CameraAcquisitorSystemCameraTargetHandler {
         }
 
         @Override
-        public MALMessage sendResponse(ObjectType objType, IdentifierList domain, ArchiveDetailsList objDetails,
-                HeterogeneousList objBodies) throws MALInteractionException, MALException {
+        public MALMessage sendResponse() throws MALInteractionException, MALException {
+            return null;
+        }
+
+        @Override
+        public MALMessage sendAcknowledgement() throws MALInteractionException, MALException {
+            return null;
+        }
+
+        @Override
+        public MALMessage sendUpdate(ObjectType objType, IdentifierList domain,
+                ArchiveDetailsList objDetails, HeterogeneousList objBodies)
+                throws MALInteractionException, MALException {
             if (objBodies != null) {
                 int i = 0;
                 for (Object objBody : objBodies) {
@@ -226,19 +237,6 @@ public class CameraAcquisitorSystemCameraTargetHandler {
                     }
                 }
             }
-            return null;
-        }
-
-        @Override
-        public MALMessage sendAcknowledgement() throws MALInteractionException, MALException {
-            return null;
-        }
-
-        @Override
-        public MALMessage sendUpdate(ObjectType objType, IdentifierList domain,
-                ArchiveDetailsList objDetails, HeterogeneousList objBodies)
-                throws MALInteractionException, MALException {
-            sendResponse(objType, domain, objDetails, objBodies);
             return null;
         }
     }

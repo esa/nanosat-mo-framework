@@ -477,6 +477,10 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
             private final ArchiveDetailsList queryResults = new ArchiveDetailsList();
 
+            private final HashSet<Long> clearedIds = new HashSet<>();
+
+            private IdentifierList lastDomain = null;
+
             private final ArchiveConsumerServiceImpl archive;
 
             private final ObjectType type;
@@ -492,26 +496,19 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
                 super.queryUpdateReceived(msgHeader, objType, domain, objDetails, objBodies, qosProperties);
                 if (objDetails != null) {
                     queryResults.addAll(objDetails);
+                    lastDomain = domain;
+                    if (objType != null && (objType.equals(ToDelete.STDERR_VALUE.getType())
+                            || objType.equals(ToDelete.STDOUT_VALUE.getType()))) {
+                        objDetails.stream().map(detail -> detail.getLinks().getSource().getInstId())
+                                .forEach(clearedIds::add);
+                    }
                     Logger.getLogger(this.getClass().getName()).log(Level.FINER, "Received update");
                 }
             }
 
             @Override
-            public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-                ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
-                super.queryResponseReceived(msgHeader, objType, domain, objDetails, objBodies, qosProperties);
-                if (objType == null || domain == null || objDetails == null || objBodies == null) {
-                    return;
-                }
-
-                HashSet<Long> clearedIds = new HashSet<>();
-
-                queryResults.addAll(objDetails);
+            public void queryResponseReceived(MALMessageHeader msgHeader, Map qosProperties) {
                 Logger.getLogger(this.getClass().getName()).log(Level.FINE, "Received response!");
-                if (objType.equals(ToDelete.STDERR_VALUE.getType()) || objType.equals(ToDelete.STDOUT_VALUE.getType())) {
-                    objDetails.stream().map(detail -> detail.getLinks().getSource().getInstId())
-                            .forEach(x -> clearedIds.add(x));
-                }
 
                 List<Long> ids = queryResults.stream().map(detail -> detail.getInstId()).collect(Collectors.toList());
                 LongList objInstIds = new LongList();
@@ -519,7 +516,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
                 try {
                     Thread.sleep(1000);
 
-                    archive.getArchiveStub().delete(type, domain, objInstIds);
+                    archive.getArchiveStub().delete(type, lastDomain, objInstIds);
 
                     if (stdQuota != null) {
                         stdQuota.clean(clearedIds);

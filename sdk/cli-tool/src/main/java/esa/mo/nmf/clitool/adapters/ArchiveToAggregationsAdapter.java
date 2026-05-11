@@ -54,14 +54,7 @@ public class ArchiveToAggregationsAdapter extends ArchiveAdapter implements Quer
     }
 
     @Override
-    public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-            ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
-        if (objDetails == null) {
-            setIsQueryOver(true);
-            return;
-        }
-        processObjects(objType, objDetails, objBodies, domain);
-
+    public void queryResponseReceived(MALMessageHeader msgHeader, Map qosProperties) {
         setIsQueryOver(true);
     }
 

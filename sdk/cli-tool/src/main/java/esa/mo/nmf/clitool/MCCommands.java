@@ -453,13 +453,7 @@ public class MCCommands {
                     }
 
                     @Override
-                    public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType,
-                            IdentifierList domain, ArchiveDetailsList objDetails,
-                            HeterogeneousList objBodies, Map qosProperties) {
-                        for (Element body : objBodies) {
-                            paramDefs.add((ParameterDefinition) body);
-                        }
-
+                    public void queryResponseReceived(MALMessageHeader msgHeader, Map qosProperties) {
                         synchronized (lock) {
                             lock.notifyAll();
                         }

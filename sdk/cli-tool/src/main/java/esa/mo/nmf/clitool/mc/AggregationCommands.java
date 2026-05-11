@@ -305,14 +305,7 @@ public class AggregationCommands {
                     }
 
                     @Override
-                    public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType,
-                            IdentifierList domain, ArchiveDetailsList objDetails, HeterogeneousList objBodies,
-                            Map qosProperties) {
-                        for (ArchiveDetails details : objDetails) {
-                            definitionIdToIdentity.put(details.getInstId(),
-                                    identityIdToName.get(details.getLinks().getRelated()));
-                        }
-
+                    public void queryResponseReceived(MALMessageHeader msgHeader, Map qosProperties) {
                         synchronized (lock) {
                             lock.notifyAll();
                         }

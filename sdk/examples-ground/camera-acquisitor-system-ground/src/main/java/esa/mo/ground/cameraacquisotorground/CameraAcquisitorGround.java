@@ -534,7 +534,12 @@ public class CameraAcquisitorGround {
     private class GetAllArchiveAdapter extends ArchiveAdapter {
 
         @Override
-        public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
+        public void queryResponseReceived(MALMessageHeader msgHeader, Map qosProperties) {
+            // All matched objects have been received via queryUpdateReceived; query is complete.
+        }
+
+        @Override
+        public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
                 ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
             if (objBodies != null) {
                 int i = 0;
@@ -577,12 +582,6 @@ public class CameraAcquisitorGround {
                     i++;
                 }
             }
-        }
-
-        @Override
-        public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-                ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
-            queryResponseReceived(msgHeader, objType, domain, objDetails, objBodies, qosProperties);
         }
 
     }

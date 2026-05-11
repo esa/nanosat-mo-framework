@@ -231,20 +231,8 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         }
 
         @Override
-        public synchronized void queryResponseReceived(MALMessageHeader msgHeader,
-                ObjectType objType, IdentifierList domain, ArchiveDetailsList objDetails,
-                HeterogeneousList objBodies, Map qosProperties) {
-            if (objType == null || domain == null || objDetails == null) {
-                refreshTabCounter();
-                isOver.release();
-                return;
-            }
-            ArchiveCOMObjectsOutput archiveObjectOutput = new ArchiveCOMObjectsOutput(
-                    domain, objType, objDetails, objBodies);
-            archiveTablePanel.addEntries(archiveObjectOutput);
-            n_objs_counter = n_objs_counter + objDetails.size();
+        public synchronized void queryResponseReceived(MALMessageHeader msgHeader, Map qosProperties) {
             refreshTabCounter();
-
             isOver.release();
         }
 
