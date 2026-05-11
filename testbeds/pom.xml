@@ -24,7 +24,7 @@
     </parent>
 
     <groupId>int.esa.nmf.testbeds</groupId>
-    <artifactId>reactor</artifactId>
+    <artifactId>testbeds</artifactId>
     <name>ESA NMF Testbeds</name>
     <packaging>pom</packaging>
 
