@@ -107,6 +107,8 @@ jobs:
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-mo-services-java-jdk11-${{ steps.get-date.outputs.date }}
+      - name: Install NMF framework
+        run: mvn --batch-mode -DskipTests install
       - name: Run MC Area testbed
         run: mvn --batch-mode test -f testbeds/testbed-area-mc/pom.xml
 
@@ -129,6 +131,8 @@ jobs:
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-mo-services-java-jdk17-${{ steps.get-date.outputs.date }}
+      - name: Install NMF framework
+        run: mvn --batch-mode -DskipTests install
       - name: Run MC Area testbed
         run: mvn --batch-mode test -f testbeds/testbed-area-mc/pom.xml
 
@@ -151,6 +155,8 @@ jobs:
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-mo-services-java-jdk21-${{ steps.get-date.outputs.date }}
+      - name: Install NMF framework
+        run: mvn --batch-mode -DskipTests install
       - name: Run MC Area testbed
         run: mvn --batch-mode test -f testbeds/testbed-area-mc/pom.xml
 
@@ -173,6 +179,8 @@ jobs:
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-mo-services-java-jdk25-${{ steps.get-date.outputs.date }}
+      - name: Install NMF framework
+        run: mvn --batch-mode -DskipTests install
       - name: Run MC Area testbed
         run: mvn --batch-mode test -f testbeds/testbed-area-mc/pom.xml
 
