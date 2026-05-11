@@ -274,7 +274,7 @@ public class NMFConsumer {
             final URI directoryURI, final Blob authenticationId, final String localNamePrefix)
             throws MALException, MalformedURLException, MALInteractionException {
         // Starting the directory service consumer from static method.
-        // The whole Common area should be registered to avoid errors during the initHelpers
+        // All service helpers must be registered before calling initHelpers
         NMFConsumer.initHelpers();
 
         try {
