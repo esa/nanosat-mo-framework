@@ -1663,7 +1663,7 @@
                 <mal:extends>
                     <mal:type name="Composite" area="MAL"/>
                 </mal:extends>
-                <mal:field name="ServiceId" canBeNull="false"
+                <mal:field name="serviceId" canBeNull="false"
                            comment="The area, service, and version fields.">
                     <mal:type name="ServiceId" area="MAL"/>
                 </mal:field>
