@@ -126,7 +126,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
     }
 
     @Override //requirement: 3.2.3
-    public void executeAction(Long actionInstId, ActionInstance actionDetails, MALInteraction interaction)
+    public Long executeAction(ActionInstance actionDetails, MALInteraction interaction)
             throws MALInteractionException, MALException {
         UIntegerList invIndexList = new UIntegerList();
         boolean unknown = false;
@@ -134,8 +134,10 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         //from here on: requirement 3.2.8.a, c
         if ("true".equals(System.getProperty(IS_INTERMEDIATE_RELAY_PROPERTY))) {
             // Forward requirement: 3.2.8.c in conjunction with requirement in standard: "MISSION OPERATIONS COMMON OBJECT MODEL" 3.5.3.3, 4
-            manager.forward(actionInstId, actionDetails, interaction, connection.getConnectionDetails());
-            return; // Do nothing else...
+            Long executionId = manager.storeAndGenerateAInsobjId(actionDetails, actionDetails.getDefInstId(),
+                    connection.getPrimaryConnectionDetails().getProviderURI());
+            manager.forward(executionId, actionDetails, interaction, connection.getConnectionDetails());
+            return executionId;
         }
 
         // Publish first Acceptance event for executeAction operation
@@ -152,7 +154,6 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
 
         // requirement: 3.2.8.e
         boolean accepted;
-        //        if (!manager.existsDef(manager.getDefinition(actionDetails.getDefInstId()))) {
         if (!manager.existsDef(actionDetails.getDefInstId())) {
             accepted = false;
             unknown = true;
@@ -161,33 +162,55 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
             accepted = manager.checkActionInstance(actionDetails, invIndexList); // requirement: 3.2.9.2.b
         }
 
-        // Publish the second Acceptance event
-        try {
-            // source for ActionInstance ACCEPTANCE event is the ActionInstance object id
-            ObjectId source = new ObjectId(ActionServiceInfo.ACTIONINSTANCE_OBJECT_TYPE,
-                    ConfigurationProviderSingleton.getDomain(), actionInstId); // requirement: 3.2.8.f
-            //body of AcceptanceEvent is value of "accepted"? -> issue #187
-            manager.getActivityTrackingService().publishAcceptanceEventOperation(interaction, accepted, null, source); // requirement: 3.2.8.e, f, g  
-        } catch (MALInteractionException | MALException ex) {
-            Logger.getLogger(ActionManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        // Errors
+        // Errors - no ActionInstance stored for rejected requests
         if (!invIndexList.isEmpty()) { // requirement: 3.2.9.3.1
-            manager.getActivityTrackingService().publishExecutionEventSubmitAck(interaction, false, saSource); // requirement: c
+            try {
+                manager.getActivityTrackingService().publishAcceptanceEventOperation(interaction, false, null, null);
+            } catch (MALInteractionException | MALException ex) {
+                Logger.getLogger(ActionManager.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            manager.getActivityTrackingService().publishExecutionEventRequestResponse(interaction, false, saSource);
             throw new MALInteractionException(new InvalidException(invIndexList));
         }
 
         if (unknown) { // requirement: 3.2.9.3.2
-            manager.getActivityTrackingService().publishExecutionEventSubmitAck(interaction, false, saSource); // requirement: c
+            try {
+                manager.getActivityTrackingService().publishAcceptanceEventOperation(interaction, false, null, null);
+            } catch (MALInteractionException | MALException ex) {
+                Logger.getLogger(ActionManager.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            manager.getActivityTrackingService().publishExecutionEventRequestResponse(interaction, false, saSource);
             throw new MALInteractionException(new UnknownException(null));
         }
 
-        // If it was accepted then execute the action!
-        if (accepted) { // requirement: 3.2.9.2c is met because the "execute"-method is started asynchronously. so an ACK will be send straight away
-            manager.execute(actionInstId, actionDetails, interaction, connection.getConnectionDetails()); // The execution events are generated within the execute method; requirement: 3.2.9.2.b
+        if (!accepted) { // preCheck rejected the action without specifying errors
+            try {
+                manager.getActivityTrackingService().publishAcceptanceEventOperation(interaction, false, null, null);
+            } catch (MALInteractionException | MALException ex) {
+                Logger.getLogger(ActionManager.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            manager.getActivityTrackingService().publishExecutionEventRequestResponse(interaction, false, saSource);
+            throw new MALInteractionException(new InvalidException(invIndexList));
         }
-        manager.getActivityTrackingService().publishExecutionEventSubmitAck(interaction, accepted, saSource); // requirement: c
+
+        // Validation passed - provider assigns the executionId by storing the ActionInstance
+        Long executionId = manager.storeAndGenerateAInsobjId(actionDetails, actionDetails.getDefInstId(),
+                connection.getPrimaryConnectionDetails().getProviderURI());
+
+        // Publish the second Acceptance event - source is the newly stored ActionInstance
+        try {
+            ObjectId source = new ObjectId(ActionServiceInfo.ACTIONINSTANCE_OBJECT_TYPE,
+                    ConfigurationProviderSingleton.getDomain(), executionId); // requirement: 3.2.8.f
+            manager.getActivityTrackingService().publishAcceptanceEventOperation(interaction, true, null, source); // requirement: 3.2.8.e, f, g
+        } catch (MALInteractionException | MALException ex) {
+            Logger.getLogger(ActionManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        // Execute asynchronously; requirement: 3.2.9.2c is met because execution is started asynchronously
+        manager.execute(executionId, actionDetails, interaction, connection.getConnectionDetails()); // requirement: 3.2.9.2.b
+        manager.getActivityTrackingService().publishExecutionEventRequestResponse(interaction, true, saSource); // requirement: c
+
+        return executionId;
     }
 
     @Override

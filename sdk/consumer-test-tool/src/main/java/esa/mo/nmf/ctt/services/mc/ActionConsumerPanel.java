@@ -224,10 +224,10 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
 
             gma.launchAction(definitionObjId, argumentValueList, new ActionAdapter() {
                 @Override
-                public void executeActionAckReceived(MALMessageHeader msgHeader, Map qosProperties) {
-                    super.executeActionAckReceived(msgHeader, qosProperties);
+                public void executeActionResponseReceived(MALMessageHeader msgHeader,
+                        Long executionId, Map qosProperties) {
                     JOptionPane.showMessageDialog(null,
-                            "The action instance was successfully submitted.",
+                            "Action accepted. Execution ID: " + executionId,
                             "Success",
                             JOptionPane.PLAIN_MESSAGE);
                 }

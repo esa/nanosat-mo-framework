@@ -20,7 +20,6 @@
  */
 package esa.mo.nmf.commonmoadapter;
 
-import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.mc.impl.provider.AggregationInstance;
 import esa.mo.mc.impl.provider.ParameterInstance;
 import esa.mo.nmf.NMFConsumer;
@@ -32,18 +31,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.COMHelper;
-import org.ccsds.moims.mo.com.activitytracking.ActivityTrackingServiceInfo;
 import org.ccsds.moims.mo.com.structures.*;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
-import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.structures.*;
-import org.ccsds.moims.mo.mal.transport.MALMessage;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.mc.action.ActionServiceInfo;
 import org.ccsds.moims.mo.mc.action.consumer.ActionAdapter;
 import org.ccsds.moims.mo.mc.action.consumer.ActionStub;
 import org.ccsds.moims.mo.mc.aggregation.consumer.AggregationAdapter;
@@ -477,133 +471,23 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
     @Override
     public Long launchAction(Long defInstId, AttributeValueList argumentValues,
             ActionAdapter actionAdapter) throws NMFException {
-        Long instanceObjId = null;
-
-        // Create an ActionInstance object for the invocation of this action
-        Boolean stageStartedRequired = true;
-        Boolean stageProgressRequired = true;
-        Boolean stageCompletedRequired = true;
-        IdentifierList argumentIds = null;
-
+        ActionInstance instanceDetails = new ActionInstance(
+                defInstId, true, true, true, argumentValues, null);
         try {
-            ActionInstance instanceDetails = new ActionInstance(
-                    defInstId,
-                    stageStartedRequired,
-                    stageProgressRequired,
-                    stageCompletedRequired,
-                    argumentValues,
-                    argumentIds);
-
-            // Store the Action Instance in the Archive and get an
-            // object instance identifier to use during the submit
-            Long related = defInstId;
-            ObjectId source = null; // TBD - should be the OperationActivity object
-            SingleConnectionDetails actionConnection
-                    = super.getMCServices().getActionService().getConnectionDetails();
-
-            ArchiveDetailsList archiveDetailsListActionInstance
-                    = HelperArchive.generateArchiveDetailsList(
-                            related,
-                            source,
-                            actionConnection.getProviderURI());
-
-            boolean returnObjInstIds = true;
-            HeterogeneousList instanceDetailsList = new HeterogeneousList();
-            instanceDetailsList.add(instanceDetails);
-
-            LongList objIdActionInstances = super.getCOMServices().getArchiveService().getArchiveStub().store(
-                    returnObjInstIds, ActionServiceInfo.ACTIONINSTANCE_OBJECT_TYPE, actionConnection.getDomain(),
-                    archiveDetailsListActionInstance, instanceDetailsList);
-
-            if (objIdActionInstances.size() != 1) {
-                throw new NMFException("Failed to store new Action Instance in COM Archive");
+            Long executionId = super.getMCServices().getActionService().getActionStub()
+                    .executeAction(instanceDetails);
+            if (actionAdapter != null) {
+                actionAdapter.executeActionResponseReceived(null, executionId, null);
             }
-
-            instanceObjId = objIdActionInstances.get(0);
-
-            archiveDetailsListActionInstance = HelperArchive.generateArchiveDetailsList(
-                    related,
-                    source,
-                    archiveDetailsListActionInstance.get(0).getNetwork(),
-                    archiveDetailsListActionInstance.get(0).getProvider(),
-                    Time.now(),
-                    instanceObjId
-            );
-
-            // Submit the action instance
-            // WORKAROUND: submit the action asynchronously so that we can find
-            // out the Transaction ID of the MAL message and include it in the
-            // corresponding OperationActivity
-            // actionService.executeAction(instanceObjId, instanceDetails);
-            MALMessage msg = super.getMCServices().getActionService().getActionStub().asyncExecuteAction(
-                    instanceObjId,
-                    instanceDetails,
-                    actionAdapter
-            );
-
-            // Store the corresponding OperationActivity object instance in the
-            // Archive and publish its release
-            HeterogeneousList opActivityList = new HeterogeneousList();
-            opActivityList.add(new OperationActivity(msg.getHeader().getInteractionType()));
-
-            related = null;
-            source = null;          // the object that caused this to be created
-
-            Long transId = msg.getHeader().getTransactionId(); // requirement: 3.5.2.4
-            ArchiveDetailsList archiveDetailsListOp = HelperArchive.generateArchiveDetailsList(
-                    related,
-                    source,
-                    archiveDetailsListActionInstance.get(0).getNetwork(),
-                    actionConnection.getProviderURI(),
-                    Time.now(),
-                    transId
-            );
-
-            try {
-                returnObjInstIds = false;
-                super.getCOMServices().getArchiveService().getArchiveStub().store(
-                        returnObjInstIds,
-                        ActivityTrackingServiceInfo.OPERATIONACTIVITY_OBJECT_TYPE,
-                        actionConnection.getDomain(),
-                        archiveDetailsListOp,
-                        opActivityList);
-            } catch (MALInteractionException ex) {
-                // A duplicate might happen if the consumer stored the Operation Activity object
-                if (ex.getStandardError().getErrorNumber().getValue() != COMHelper.DUPLICATE_ERROR_NUMBER.getValue()) {
-                    throw new NMFException("The storing of the Operation Activity failed. (1)", ex);
-                } else {
-                    // It's a Duplicate error, the object already exists...
-                    // Do nothing!
-                }
-            } catch (MALException ex) {
-                throw new NMFException("The storing of the Operation Activity failed. (2)", ex);
+            return executionId;
+        } catch (MALInteractionException ex) {
+            if (actionAdapter != null) {
+                actionAdapter.executeActionErrorReceived(null, ex.getStandardError(), null);
             }
-
-            /*
-            ObjectId source2 = new ObjectId(ActivityTrackingServiceInfo.OPERATIONACTIVITY_OBJECT_TYPE,
-                    actionConnection.getDomain(), transId);
-            ObjectLinks details = new ObjectLinks(defInstId, source2);
-            //archiveDetailsListActionInstance.get(0).setDetails(details);
-            ArchiveDetailsList detailsInstance = HelperArchive.generateArchiveDetailsList(
-                    defInstId,
-                    source2,
-                    archiveDetailsListActionInstance.get(0).getNetwork(),
-                    actionConnection.getProviderURI(),
-                    Time.now(),
-                    transId
-            );
-
-            super.getCOMServices().getArchiveService().getArchiveStub().update(
-                    ActionServiceInfo.ACTIONINSTANCE_OBJECT_TYPE,
-                    actionConnection.getDomain(),
-                    detailsInstance,
-                    instanceDetailsList);
-            */
-        } catch (MALInteractionException | MALException | NMFException ex) {
+            throw new NMFException("Failed to execute Action " + defInstId, ex);
+        } catch (MALException ex) {
             throw new NMFException("Failed to execute Action " + defInstId, ex);
         }
-
-        return instanceObjId;
     }
 
     /**

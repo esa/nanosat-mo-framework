@@ -23,17 +23,13 @@ package esa.mo.mc.impl.proxy;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.mc.impl.consumer.ActionConsumerServiceImpl;
 import esa.mo.mc.impl.provider.ActionManager;
-import java.util.Map;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.InvalidException;
 import org.ccsds.moims.mo.com.configuration.ConfigurationHelper;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.MOErrorException;
-import org.ccsds.moims.mo.mal.UnknownException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
@@ -41,10 +37,8 @@ import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.UIntegerList;
-import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.action.ActionHelper;
 import org.ccsds.moims.mo.mc.action.ActionServiceInfo;
-import org.ccsds.moims.mo.mc.action.consumer.ActionAdapter;
 import org.ccsds.moims.mo.mc.action.provider.ActionInheritanceSkeleton;
 import org.ccsds.moims.mo.mc.structures.*;
 
@@ -113,28 +107,17 @@ public class ActionProxyServiceImpl extends ActionInheritanceSkeleton {
     }
 
     @Override
-    public void executeAction(Long actionInstId, ActionInstance actionDetails, MALInteraction interaction)
+    public Long executeAction(ActionInstance actionDetails, MALInteraction interaction)
             throws MALInteractionException, MALException {
-        // Publish Activity Tracking event: Reception Event
         manager.getCOMServices().getActivityTrackingService().publishReceptionEvent(interaction, true, new Duration(0),
                 actionConsumer.getConnectionDetails().getProviderURI(), null);
 
-        actionConsumer.getActionStub().asyncExecuteAction(actionInstId, actionDetails, new ActionAdapter() {
-            @Override
-            public void executeActionAckReceived(MALMessageHeader msgHeader, Map qosProperties) {
-                // Expected!
-            }
+        Long executionId = actionConsumer.getActionStub().executeAction(actionDetails);
 
-            @Override
-            public void executeActionErrorReceived(MALMessageHeader msgHeader, MOErrorException error, Map qosProperties) {
-                Logger.getLogger(ActionProxyServiceImpl.class.getName()).log(Level.WARNING,
-                        "The Action could not be submitted to the provider. {0}", error);
-            }
-        });
-
-        // Publish Activity Tracking event: Forward Event
         manager.getCOMServices().getActivityTrackingService().publishForwardEvent(interaction, true, new Duration(0),
                 actionConsumer.getConnectionDetails().getProviderURI(), null);
+
+        return executionId;
     }
 
     @Override

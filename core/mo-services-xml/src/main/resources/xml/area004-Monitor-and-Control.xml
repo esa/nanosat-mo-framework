@@ -172,7 +172,7 @@
                 </mal:pubsubIP>
             </mal:capabilitySet>
             <mal:capabilitySet number="2">
-                <mal:submitIP name="executeAction" number="2" supportInReplay="false"
+                <mal:requestIP name="executeAction" number="2" supportInReplay="false"
                               comment="The executeAction operation allows a consumer to request execution of an action on the provider.">
                     <mal:documentation name="Requirement" order="1">
                         If the defInstId of the supplied actionDetails field does not match a known ActionDefinition object then an UNKNOWN error shall be returned.
@@ -196,19 +196,21 @@
                         If an error is raised then no action shall be executed.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="8">
-                        The SUBMIT acknowledgement shall be returned once the action has been accepted for execution but before execution starts.
+                        The RESPONSE shall return the provider-assigned executionId once the action has been accepted for execution but before execution starts.
                     </mal:documentation>
                     <mal:messages>
-                        <mal:submit>
-                            <mal:field name="actionInstId"
-                                       comment="The object instance identifier of the ActionInstance. Used as the executionId subscription key in monitorExecution notifications and for activity tracking events.">
-                                <mal:type name="Long" area="MAL"/>
-                            </mal:field>
+                        <mal:request>
                             <mal:field name="actionDetails"
                                        comment="The argument values and related information of the action instance to be executed.">
                                 <mal:type name="ActionInstance" area="MC"/>
                             </mal:field>
-                        </mal:submit>
+                        </mal:request>
+                        <mal:response>
+                            <mal:field name="executionId"
+                                       comment="The provider-assigned object instance identifier of the ActionInstance. Used as the executionId subscription key in monitorExecution notifications and for activity tracking events.">
+                                <mal:type name="Long" area="MAL"/>
+                            </mal:field>
+                        </mal:response>
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="The list sizes held in the ActionInstance do not match the argument definitions or it contains one or more invalid argument values.&#xA;If the two lists are not the same length then the extra information field shall contain the first index of the element in the largest list which does not have corresponding element in the other list.">
@@ -221,7 +223,7 @@
                             <mal:type name="UNKNOWN" area="MAL"/>
                         </mal:errorRef>
                     </mal:errors>
-                </mal:submitIP>
+                </mal:requestIP>
             </mal:capabilitySet>
             <mal:capabilitySet number="3">
                 <mal:requestIP name="listDefinition" number="3" supportInReplay="true"
