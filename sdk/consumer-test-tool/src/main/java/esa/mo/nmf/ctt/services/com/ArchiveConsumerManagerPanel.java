@@ -359,7 +359,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         homeTab = new javax.swing.JPanel();
         jButtonStoreConversions = new javax.swing.JButton();
         jButtonStoreActions = new javax.swing.JButton();
-        jButtonStoreGroups = new javax.swing.JButton();
+        jButtonStorePlaceholder = new javax.swing.JButton();
         TBoxStore = new javax.swing.JTextField();
         jButtonDeleteAll = new javax.swing.JButton();
         open_ArchiveSync = new javax.swing.JButton();
@@ -370,25 +370,53 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         jLabel6.setToolTipText("");
 
         jButtonStoreAggregation.setText("Quick Store (Aggregation)");
-        jButtonStoreAggregation.addActionListener(this::jButtonStoreAggregationActionPerformed);
+        jButtonStoreAggregation.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonStoreAggregationActionPerformed(evt);
+            }
+        });
 
         jButtonGetAll.setText("Get All");
-        jButtonGetAll.addActionListener(this::jButtonGetAllActionPerformed);
+        jButtonGetAll.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonGetAllActionPerformed(evt);
+            }
+        });
 
         jButtonQuery.setText("Execute Query");
-        jButtonQuery.addActionListener(this::jButtonQueryActionPerformed);
+        jButtonQuery.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonQueryActionPerformed(evt);
+            }
+        });
 
         jButtonDelete.setText("Delete Object");
-        jButtonDelete.addActionListener(this::jButtonDeleteActionPerformed);
+        jButtonDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDeleteActionPerformed(evt);
+            }
+        });
 
         jButtonRetrieve.setText("Retrieve Object");
-        jButtonRetrieve.addActionListener(this::jButtonRetrieveActionPerformed);
+        jButtonRetrieve.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonRetrieveActionPerformed(evt);
+            }
+        });
 
         jButtonUpdate.setText("Update Object");
-        jButtonUpdate.addActionListener(this::jButtonUpdateActionPerformed);
+        jButtonUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonUpdateActionPerformed(evt);
+            }
+        });
 
         jButtonCount.setText("Count Objects");
-        jButtonCount.addActionListener(this::jButtonCountActionPerformed);
+        jButtonCount.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCountActionPerformed(evt);
+            }
+        });
 
         tabs.setToolTipText("");
         tabs.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -399,76 +427,111 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         tabs.addTab("Home", homeTab);
 
         jButtonStoreConversions.setText("Quick Store (Conversions)");
-        jButtonStoreConversions.addActionListener(this::jButtonStoreConversionsActionPerformed);
+        jButtonStoreConversions.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonStoreConversionsActionPerformed(evt);
+            }
+        });
 
         jButtonStoreActions.setText("Query with Pagination");
-        jButtonStoreActions.addActionListener(this::jButtonStoreActionsActionPerformed);
+        jButtonStoreActions.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonStoreActionsActionPerformed(evt);
+            }
+        });
 
-        jButtonStoreGroups.setText("Quick Store (Groups)");
-        jButtonStoreGroups.addActionListener(this::jButtonStoreGroupsActionPerformed);
+        jButtonStorePlaceholder.setText("-");
+        jButtonStorePlaceholder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonStorePlaceholderActionPerformed(evt);
+            }
+        });
 
-        TBoxStore.addActionListener(this::TBoxStoreActionPerformed);
+        TBoxStore.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TBoxStoreActionPerformed(evt);
+            }
+        });
 
         jButtonDeleteAll.setText("Delete All");
         jButtonDeleteAll.setEnabled(false);
-        jButtonDeleteAll.addActionListener(this::jButtonDeleteAllActionPerformed);
+        jButtonDeleteAll.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDeleteAllActionPerformed(evt);
+            }
+        });
 
         open_ArchiveSync.setText("Open ArchiveSync Tab");
-        open_ArchiveSync.addActionListener(this::open_ArchiveSyncActionPerformed);
+        open_ArchiveSync.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                open_ArchiveSyncActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
-        layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
-            jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE,
-            javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addGroup(layout.createSequentialGroup().addGap(48,
-                48, 48).addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButtonGetAll, javax.swing.GroupLayout.DEFAULT_SIZE,
-                        javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(jButtonRetrieve))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(layout
-                    .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jButtonDeleteAll,
-                        javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonUpdate, javax.swing.GroupLayout.DEFAULT_SIZE,
-                        javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)).addPreferredGap(
-                            javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(layout.createParallelGroup(
-                                javax.swing.GroupLayout.Alignment.LEADING).addComponent(jButtonDelete,
-                                    javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
-                                    Short.MAX_VALUE).addComponent(jButtonCount, javax.swing.GroupLayout.DEFAULT_SIZE,
-                                        javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)).addPreferredGap(
-                                            javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(layout
-                                                .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                .addComponent(jButtonQuery, javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                    javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(
-                                                        jButtonStoreActions, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                        149, Short.MAX_VALUE)).addPreferredGap(
-                                                            javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false).addComponent(
-                    jButtonStoreConversions, javax.swing.GroupLayout.PREFERRED_SIZE, 178, Short.MAX_VALUE).addComponent(
-                        jButtonStoreGroups, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
-                        Short.MAX_VALUE)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
-                                open_ArchiveSync, javax.swing.GroupLayout.DEFAULT_SIZE,
-                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(
-                                    jButtonStoreAggregation, javax.swing.GroupLayout.DEFAULT_SIZE,
-                                    javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)).addPreferredGap(
-                                        javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(TBoxStore,
-                                            javax.swing.GroupLayout.PREFERRED_SIZE, 28,
-                                            javax.swing.GroupLayout.PREFERRED_SIZE).addGap(48, 48, 48)).addGroup(layout
-                                                .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(tabs, javax.swing.GroupLayout.Alignment.TRAILING,
-                                                    javax.swing.GroupLayout.DEFAULT_SIZE, 957, Short.MAX_VALUE)));
-        layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout
-            .createSequentialGroup().addGap(18, 18, 18).addComponent(jLabel6).addGap(20, 20, 20).addGroup(layout
-                .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(jButtonRetrieve)
-                .addComponent(jButtonStoreAggregation).addComponent(jButtonUpdate).addComponent(jButtonStoreGroups)
-                .addComponent(TBoxStore, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
-                    javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(jButtonQuery).addComponent(jButtonCount))
-            .addGap(18, 18, 18).addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jButtonGetAll).addComponent(jButtonDeleteAll).addComponent(jButtonDelete).addComponent(
-                    jButtonStoreActions).addComponent(jButtonStoreConversions).addComponent(open_ArchiveSync))
-            .addContainerGap(438, Short.MAX_VALUE)).addGroup(layout.createParallelGroup(
-                javax.swing.GroupLayout.Alignment.LEADING).addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout
-                    .createSequentialGroup().addGap(129, 129, 129).addComponent(tabs,
-                        javax.swing.GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE))));
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(48, 48, 48)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButtonGetAll, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonRetrieve))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonDeleteAll, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonCount, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButtonQuery, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonStoreActions, javax.swing.GroupLayout.PREFERRED_SIZE, 149, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButtonStoreConversions, javax.swing.GroupLayout.PREFERRED_SIZE, 178, Short.MAX_VALUE)
+                    .addComponent(jButtonStorePlaceholder, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(open_ArchiveSync, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonStoreAggregation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(TBoxStore, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(48, 48, 48))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(tabs, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 957, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(jLabel6)
+                .addGap(20, 20, 20)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonRetrieve)
+                    .addComponent(jButtonStoreAggregation)
+                    .addComponent(jButtonUpdate)
+                    .addComponent(jButtonStorePlaceholder)
+                    .addComponent(TBoxStore, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonQuery)
+                    .addComponent(jButtonCount))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonGetAll)
+                    .addComponent(jButtonDeleteAll)
+                    .addComponent(jButtonDelete)
+                    .addComponent(jButtonStoreActions)
+                    .addComponent(jButtonStoreConversions)
+                    .addComponent(open_ArchiveSync))
+                .addContainerGap(438, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGap(129, 129, 129)
+                    .addComponent(tabs, javax.swing.GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)))
+        );
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonStoreAggregationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStoreAggregationActionPerformed
@@ -826,9 +889,9 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
 
     }//GEN-LAST:event_jButtonStoreActionsActionPerformed
 
-    private void jButtonStoreGroupsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStoreGroupsActionPerformed
+    private void jButtonStorePlaceholderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStorePlaceholderActionPerformed
         // Group service removed
-    }//GEN-LAST:event_jButtonStoreGroupsActionPerformed
+    }//GEN-LAST:event_jButtonStorePlaceholderActionPerformed
 
     private void TBoxStoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TBoxStoreActionPerformed
         // TODO add your handling code here:
@@ -916,7 +979,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
     private javax.swing.JButton jButtonStoreActions;
     private javax.swing.JButton jButtonStoreAggregation;
     private javax.swing.JButton jButtonStoreConversions;
-    private javax.swing.JButton jButtonStoreGroups;
+    private javax.swing.JButton jButtonStorePlaceholder;
     private javax.swing.JButton jButtonUpdate;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JButton open_ArchiveSync;
