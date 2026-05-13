@@ -309,7 +309,7 @@
 &lt;li&gt;the capability for periodic monitoring of the applications output;&lt;/li&gt;
 &lt;li&gt;the capability for running and killing applications;&lt;/li&gt;
 &lt;li&gt;the capability for stopping applications;&lt;/li&gt;
-&lt;li&gt;the capability for listing the object instance identifiers for the available apps.&lt;/li&gt;
+&lt;li&gt;the capability for listing the ids for the available apps.&lt;/li&gt;
 &lt;/ol&gt;
             </mal:documentation>
             <mal:documentation name="Functional Requirements" order="2"/>
@@ -467,7 +467,7 @@
                 </mal:progressIP>
             </mal:capabilitySet>
             <mal:capabilitySet comment="" number="4">
-                <mal:requestIP comment="The listApp operation allows a consumer to request the object instance identifiers of the Apps objects and running status for an app name or for a certain app category." name="listApp" number="5" supportInReplay="true">
+                <mal:requestIP comment="The listApp operation allows a consumer to request the ids of the Apps objects and running status for an app name or for a certain app category." name="listApp" number="5" supportInReplay="true">
                     <mal:documentation name="Requirement" order="1">
                         The returned lists shall maintain the same order as the submitted list unless the wildcard value was included in the appNames field request.
                     </mal:documentation>

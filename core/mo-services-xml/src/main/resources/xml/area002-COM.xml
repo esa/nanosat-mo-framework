@@ -134,7 +134,7 @@
                             <mal:field name="domain" canBeNull="true" comment="The domain of the object to be retrieved.">
                                 <mal:type area="MAL" list="true" name="Identifier"/>
                             </mal:field>
-                            <mal:field name="objInstIds" canBeNull="true" comment="The list of object instance identifiers to be retrieved.">
+                            <mal:field name="objInstIds" canBeNull="true" comment="The list of ids to be retrieved.">
                                 <mal:type area="MAL" list="true" name="Long"/>
                             </mal:field>
                         </mal:invoke>
@@ -160,7 +160,7 @@
                         </mal:errorRef>
                     </mal:errors>
                 </mal:invokeIP>
-                <mal:progressIP comment="Retrieves a set of object instance identifiers, and optionally the object bodies, from a list of supplied queries. The PROGRESS interaction pattern is used as the returned set of data may be quite large and this allows it to be split over several MAL messages." name="query" number="2" supportInReplay="true">
+                <mal:progressIP comment="Retrieves a set of ids, and optionally the object bodies, from a list of supplied queries. The PROGRESS interaction pattern is used as the returned set of data may be quite large and this allows it to be split over several MAL messages." name="query" number="2" supportInReplay="true">
                     <mal:documentation name="Requirement" order="1">
                         If the returnBody field is set to TRUE, then the body of the objects shall be returned otherwise only the ObjectType and ArchiveDetails shall be returned and the returned list of the bodies of the objects shall be replaced with a NULL.
                     </mal:documentation>
@@ -328,7 +328,7 @@
             <mal:capabilitySet number="2">
                 <mal:requestIP comment="Stores new objects in the archive and causes an ObjectStored event to be published by the archive.&#10;When new objects are being stored in an archive by a service provider the archive service provider is capable of allocating an unused object instance identifier for the objects being stored. The returned object instance identifier should be used by the service provider for identifying the object instances to its consumer to ensure that only a single object instance identifier is used for each object instance." name="store" number="4" supportInReplay="false">
                     <mal:documentation name="Requirement" order="1">
-                        The returnObjInstIds field indicates whether the operation should return the object instance identifiers used, if TRUE it shall return them, otherwise it returns NULL.
+                        The returnObjInstIds field indicates whether the operation should return the ids used, if TRUE it shall return them, otherwise it returns NULL.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
                         If the object instance identifier supplied in the archive details is set to 0 then the store operation shall allocate a new and unused object instance identifier.
@@ -355,14 +355,14 @@
                         If any error is returned then the store operation shall be rolled back and nothing is stored as a result of the operation.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="10">
-                        The response shall contain the set of new object instance identifiers if the returnObjInstIds field was TRUE, otherwise it returns NULL.
+                        The response shall contain the set of new ids if the returnObjInstIds field was TRUE, otherwise it returns NULL.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="11">
-                        The objInstIds list shall be ordered identically to the submitted objDetails list so that the returned object instance identifiers can be mapped to the correct objects.
+                        The objInstIds list shall be ordered identically to the submitted objDetails list so that the returned ids can be mapped to the correct objects.
                     </mal:documentation>
                     <mal:messages>
                         <mal:request>
-                            <mal:field canBeNull="true" comment="Flag that states if the object instance identifiers are to be returned." name="returnObjInstIds">
+                            <mal:field canBeNull="true" comment="Flag that states if the ids are to be returned." name="returnObjInstIds">
                                 <mal:type area="MAL" list="false" name="Boolean"/>
                             </mal:field>
                             <mal:field canBeNull="true" comment="The type of the objects to be stored." name="objType">
@@ -379,7 +379,7 @@
                             </mal:field>
                         </mal:request>
                         <mal:response>
-                            <mal:field canBeNull="true" comment="The list of object instance identifiers of the stored objects." name="objInstIds">
+                            <mal:field canBeNull="true" comment="The list of ids of the stored objects." name="objInstIds">
                                 <mal:type area="MAL" list="true" name="Long"/>
                             </mal:field>
                         </mal:response>
@@ -467,7 +467,7 @@
                         The matched objects shall be deleted from the archive.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="7">
-                        The response shall contain the set of object instance identifiers of the deleted objects.
+                        The response shall contain the set of ids of the deleted objects.
                     </mal:documentation>
                     <mal:messages>
                         <mal:request>
@@ -477,7 +477,7 @@
                             <mal:field canBeNull="true" comment="The domain of the objects to be deleted." name="domain">
                                 <mal:type area="MAL" list="true" name="Identifier"/>
                             </mal:field>
-                            <mal:field canBeNull="true" comment="The list of object instance identifiers of the objects to be deleted." name="objInstIds">
+                            <mal:field canBeNull="true" comment="The list of ids of the objects to be deleted." name="objInstIds">
                                 <mal:type area="MAL" list="true" name="Long"/>
                             </mal:field>
                         </mal:request>
@@ -894,7 +894,7 @@
                         The created objects should be stored in the COM archive by the directory provider.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="10">
-                        The operation shall return the COM object instance identifiers of the ServiceProvider and ProviderCapabilities COM objects representing the provider.
+                        The operation shall return the COM ids of the ServiceProvider and ProviderCapabilities COM objects representing the provider.
                     </mal:documentation>
                     <mal:messages>
                         <mal:request>
@@ -1155,7 +1155,7 @@
                         An UNKNOWN error shall be returned if the username and password combination are not correct for the system i.e. unknown user or incorrect password.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="4">
-                        The operation shall return a list of LoginRole object instance identifiers that are permitted for the user or NULL if roles are not used by the system.
+                        The operation shall return a list of LoginRole ids that are permitted for the user or NULL if roles are not used by the system.
                     </mal:documentation>
                     <mal:messages>
                         <mal:request>

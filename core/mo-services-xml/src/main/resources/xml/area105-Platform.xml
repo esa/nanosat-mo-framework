@@ -420,12 +420,12 @@
             </mal:capabilitySet>
             <mal:capabilitySet comment="" number="5">
                 <mal:requestIP number="5" supportInReplay="false" name="listNearbyPosition"
-                               comment="The listNearbyPositionEvent operation allows a consumer to request the object instance identifiers of the existing nearby position events in the service. The operation is expected to be used in conjunction with the COM archive which holds the actual nearby position objects." >
+                               comment="The listNearbyPositionEvent operation allows a consumer to request the ids of the existing nearby position events in the service. The operation is expected to be used in conjunction with the COM archive which holds the actual nearby position objects." >
                     <mal:documentation name="Requirement" order="1">
                         The names field shall hold a list of NearbyPositionEvent names.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        The objInstIds field shall hold a list of the corresponding object instance identifiers for the selected names.
+                        The objInstIds field shall hold a list of the corresponding ids for the selected names.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
                         The request may contain the wildcard value of '*' to return all supported nearby position events.
@@ -443,7 +443,7 @@
                         </mal:request>
                         <mal:response comment="">
                             <mal:field canBeNull="true" name="objInstIds"
-                                       comment="The list of corresponding object instance identifiers for the selected names." >
+                                       comment="The list of corresponding ids for the selected names." >
                                 <mal:type area="MAL" list="true" name="Long" />
                             </mal:field>
                         </mal:response>
@@ -457,7 +457,7 @@
                         The nearbyPositionDefinitions field shall hold the definition of a position.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        The objInstIds field shall hold a list of the corresponding object instance identifiers for the selected names.
+                        The objInstIds field shall hold a list of the corresponding ids for the selected names.
                     </mal:documentation>
                     <mal:messages>
                         <mal:request comment="">
@@ -468,7 +468,7 @@
                         </mal:request>
                         <mal:response comment="">
                             <mal:field canBeNull="true" name="objInstIds"
-                                       comment="The list of corresponding object instance identifiers for the selected names." >
+                                       comment="The list of corresponding ids for the selected names." >
                                 <mal:type area="MAL" list="true" name="Long" />
                             </mal:field>
                         </mal:response>
@@ -493,18 +493,18 @@
                 <mal:submitIP number="7" name="removeNearbyPosition" supportInReplay="false"
                               comment="The removeNearbyPositionEvent operation allows a consumer to remove a list of nearby position events set in the service." >
                     <mal:documentation name="Requirement" order="1">
-                        The objInstIds field shall hold a list of the corresponding object instance identifiers of the NearbyPosition objects.
+                        The objInstIds field shall hold a list of the corresponding ids of the NearbyPosition objects.
                     </mal:documentation>
                     <mal:messages>
                         <mal:submit comment="">
                             <mal:field canBeNull="true" name="objInstIds"
-                                       comment="The list of corresponding object instance identifiers of the NearbyPosition objects." >
+                                       comment="The list of corresponding ids of the NearbyPosition objects." >
                                 <mal:type area="MAL" list="true" name="Long" />
                             </mal:field>
                         </mal:submit>
                     </mal:messages>
                     <mal:errors>
-                        <mal:errorRef comment="One of the supplied NearbyPosition object instance identifiers is unknown.">
+                        <mal:errorRef comment="One of the supplied NearbyPosition ids is unknown.">
                             <mal:type area="MAL" list="false" name="UNKNOWN" />
                             <mal:extraInformation comment="A list of the indexes of the error values shall be contained in the extra information field.">
                                 <mal:type area="MAL" list="true" name="UInteger" />
