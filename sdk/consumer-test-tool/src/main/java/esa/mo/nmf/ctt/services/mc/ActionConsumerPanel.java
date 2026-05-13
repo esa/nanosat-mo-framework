@@ -60,7 +60,7 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
     private DefaultTableModel executionLogModel;
 
     private JScrollPane jScrollPane2;
-    private JButton submitAction;
+    private JButton executeAction;
     private JButton listDefinitionButton;
     private JButton listDefinitionAllButton;
 
@@ -166,8 +166,8 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
         add(splitPane, BorderLayout.CENTER);
 
         // Buttons
-        submitAction = new JButton("submitAction");
-        submitAction.addActionListener(this::submitActionActionPerformed);
+        executeAction = new JButton("executeAction");
+        executeAction.addActionListener(this::executeActionActionPerformed);
 
         listDefinitionButton = new JButton("listDefinition()");
         listDefinitionButton.addActionListener(this::listDefinitionButtonActionPerformed);
@@ -176,13 +176,13 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
         listDefinitionAllButton.addActionListener(this::listDefinitionAllButtonActionPerformed);
 
         JPanel buttonPanel = new JPanel();
-        buttonPanel.add(submitAction);
+        buttonPanel.add(executeAction);
         buttonPanel.add(listDefinitionButton);
         buttonPanel.add(listDefinitionAllButton);
         add(buttonPanel, BorderLayout.SOUTH);
     }
 
-    private void submitActionActionPerformed(java.awt.event.ActionEvent evt) {
+    private void executeActionActionPerformed(java.awt.event.ActionEvent evt) {
         if (actionTable.getSelectedRow() == -1) {
             return;
         }
@@ -224,8 +224,8 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
 
             gma.launchAction(definitionObjId, argumentValueList, new ActionAdapter() {
                 @Override
-                public void submitActionAckReceived(MALMessageHeader msgHeader, Map qosProperties) {
-                    super.submitActionAckReceived(msgHeader, qosProperties);
+                public void executeActionAckReceived(MALMessageHeader msgHeader, Map qosProperties) {
+                    super.executeActionAckReceived(msgHeader, qosProperties);
                     JOptionPane.showMessageDialog(null,
                             "The action instance was successfully submitted.",
                             "Success",
@@ -233,9 +233,9 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
                 }
 
                 @Override
-                public void submitActionErrorReceived(MALMessageHeader msgHeader,
+                public void executeActionErrorReceived(MALMessageHeader msgHeader,
                         MOErrorException error, Map qosProperties) {
-                    super.submitActionErrorReceived(msgHeader, error, qosProperties);
+                    super.executeActionErrorReceived(msgHeader, error, qosProperties);
                     JOptionPane.showMessageDialog(
                             null,
                             "The submitted action failed: " + error.toString(),

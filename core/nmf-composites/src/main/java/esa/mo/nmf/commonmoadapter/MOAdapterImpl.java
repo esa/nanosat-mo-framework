@@ -534,8 +534,8 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
             // WORKAROUND: submit the action asynchronously so that we can find
             // out the Transaction ID of the MAL message and include it in the
             // corresponding OperationActivity
-            // actionService.submitAction(instanceObjId, instanceDetails);
-            MALMessage msg = super.getMCServices().getActionService().getActionStub().asyncSubmitAction(
+            // actionService.executeAction(instanceObjId, instanceDetails);
+            MALMessage msg = super.getMCServices().getActionService().getActionStub().asyncExecuteAction(
                     instanceObjId,
                     instanceDetails,
                     actionAdapter

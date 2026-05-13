@@ -113,20 +113,20 @@ public class ActionProxyServiceImpl extends ActionInheritanceSkeleton {
     }
 
     @Override
-    public void submitAction(Long actionInstId, ActionInstance actionDetails, MALInteraction interaction)
+    public void executeAction(Long actionInstId, ActionInstance actionDetails, MALInteraction interaction)
             throws MALInteractionException, MALException {
         // Publish Activity Tracking event: Reception Event
         manager.getCOMServices().getActivityTrackingService().publishReceptionEvent(interaction, true, new Duration(0),
                 actionConsumer.getConnectionDetails().getProviderURI(), null);
 
-        actionConsumer.getActionStub().asyncSubmitAction(actionInstId, actionDetails, new ActionAdapter() {
+        actionConsumer.getActionStub().asyncExecuteAction(actionInstId, actionDetails, new ActionAdapter() {
             @Override
-            public void submitActionAckReceived(MALMessageHeader msgHeader, Map qosProperties) {
+            public void executeActionAckReceived(MALMessageHeader msgHeader, Map qosProperties) {
                 // Expected!
             }
 
             @Override
-            public void submitActionErrorReceived(MALMessageHeader msgHeader, MOErrorException error, Map qosProperties) {
+            public void executeActionErrorReceived(MALMessageHeader msgHeader, MOErrorException error, Map qosProperties) {
                 Logger.getLogger(ActionProxyServiceImpl.class.getName()).log(Level.WARNING,
                         "The Action could not be submitted to the provider. {0}", error);
             }

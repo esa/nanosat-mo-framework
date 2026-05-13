@@ -126,7 +126,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
     }
 
     @Override //requirement: 3.2.3
-    public void submitAction(Long actionInstId, ActionInstance actionDetails, MALInteraction interaction)
+    public void executeAction(Long actionInstId, ActionInstance actionDetails, MALInteraction interaction)
             throws MALInteractionException, MALException {
         UIntegerList invIndexList = new UIntegerList();
         boolean unknown = false;
@@ -138,8 +138,8 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
             return; // Do nothing else...
         }
 
-        // Publish first Acceptance event for submitAction operation
-        // source for submitAction ACCEPTANCE event is the OperationActivity instance id, which is the transaction id of this submitAction operation
+        // Publish first Acceptance event for executeAction operation
+        // source for executeAction ACCEPTANCE event is the OperationActivity instance id, which is the transaction id of this executeAction operation
         ObjectId saSource = manager.getActivityTrackingService().storeCOMOperationActivity(interaction, null);  // requirement: 3.2.4.f  and 3.2.4.g
 
         try {
