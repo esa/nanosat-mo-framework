@@ -28,8 +28,6 @@ import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.io.InterruptedIOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -40,16 +38,12 @@ import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.structures.*;
-import org.ccsds.moims.mo.mc.structures.AttributeValue;
-import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.action.ActionServiceInfo;
 import org.ccsds.moims.mo.mc.action.consumer.ActionAdapter;
-import org.ccsds.moims.mo.mc.structures.ActionDefinition;
-import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionList;
-import org.ccsds.moims.mo.mc.structures.ExecutionStageType;
+import org.ccsds.moims.mo.mc.structures.*;
 
 /**
  * The ActionConsumerPanel class holds a panel to interact with an Action
@@ -141,7 +135,7 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
         jScrollPane2.setViewportView(actionTable);
 
         // Execution log table
-        String[] cols = {"Time", "Action ID", "Step", "Category", "Stage Type", "Success", "Comment"};
+        String[] cols = {"Time", "Action ID", "Execution ID", "Category", "Stage Type", "Success", "Step", "Comment"};
         executionLogModel = new DefaultTableModel(new Object[][]{}, cols) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -323,12 +317,13 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
                 UpdateHeader updateHeader,
                 ExecutionStageType stageType,
                 Boolean success,
+                UShort step,
                 String comment,
                 Map qosProperties) {
 
             final NullableAttributeList keys = updateHeader.getKeyValues();
             Long actionId = null;
-            Long step = null;
+            Long executionId = null;
             Short category = null;
 
             if (keys != null && keys.size() >= 3) {
@@ -336,7 +331,7 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
                     actionId = ((Union) keys.get(0).getValue()).getLongValue();
                 }
                 if (keys.get(1) != null && keys.get(1).getValue() != null) {
-                    step = ((Union) keys.get(1).getValue()).getLongValue();
+                    executionId = ((Union) keys.get(1).getValue()).getLongValue();
                 }
                 if (keys.get(2) != null && keys.get(2).getValue() != null) {
                     category = ((UOctet) keys.get(2).getValue()).getValue();
@@ -345,17 +340,18 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
 
             final String timestamp = HelperTime.time2readableString(msgHeader.getTimestamp());
             final Long finalActionId = actionId;
-            final Long finalStep = step;
+            final Long finalExecutionId = executionId;
             final Short finalCategory = category;
             final String finalStageType = stageType != null ? stageType.toString() : "";
 
             SwingUtilities.invokeLater(() -> executionLogModel.addRow(new Object[]{
                 timestamp,
                 finalActionId,
-                finalStep,
+                finalExecutionId,
                 finalCategory,
                 finalStageType,
                 success,
+                step,
                 comment
             }));
         }

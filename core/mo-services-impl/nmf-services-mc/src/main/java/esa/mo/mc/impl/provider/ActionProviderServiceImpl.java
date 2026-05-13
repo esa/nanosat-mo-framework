@@ -426,8 +426,10 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
             }
         }
 
-        publishExecutionProgress(actionInstId, (long) progressStage, actionCategory,
-                ExecutionStageType.PROGRESS, success, success ? null : "Error code: " + errorNumber);
+        Long defInstId = actionInstance != null ? actionInstance.getDefInstId() : null;
+        publishExecutionProgress(defInstId, actionInstId, actionCategory,
+                ExecutionStageType.PROGRESS, success, new UShort(progressStage),
+                success ? null : "Error code: " + errorNumber);
 
         // requirement: 3.2.8.h and 3.2.8.j
         manager.reportActivityExecutionEvent(success, errorNumber, 1 + progressStage, 2 + totalNumberOfProgressStages,
@@ -437,16 +439,18 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
     /**
      * Publishes an execution progress update via the monitorExecution PUB-SUB operation.
      *
-     * @param actionId The action instance identifier.
-     * @param executionId The id of the execution stage.
+     * @param actionId The object instance identifier of the action definition being executed.
+     * @param executionId The object instance identifier of the ActionInstance being executed.
      * @param actionCategory The category of the action.
      * @param stageType The lifecycle stage (START, PROGRESS, or END).
      * @param success Whether the execution stage completed successfully.
+     * @param step The progress step number, or null for START and END stages.
      * @param comment An optional comment.
      */
     @Override
     public void publishExecutionProgress(final Long actionId, final Long executionId,
-            final UOctet actionCategory, final ExecutionStageType stageType, final boolean success, final String comment) {
+            final UOctet actionCategory, final ExecutionStageType stageType, final boolean success,
+            final UShort step, final String comment) {
         try {
             synchronized (lock) {
                 if (!isRegistered) {
@@ -464,7 +468,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
             UpdateHeader updateHeader = new UpdateHeader(new Identifier(source.getValue()),
                     connection.getConnectionDetails().getDomain(), keys.getAsNullableAttributeList());
 
-            publisher.publish(updateHeader, stageType, success, comment);
+            publisher.publish(updateHeader, stageType, success, step, comment);
         } catch (IllegalArgumentException | MALInteractionException | MALException ex) {
             Logger.getLogger(ActionProviderServiceImpl.class.getName()).log(Level.WARNING,
                     "Exception during publishing of execution progress {0}", ex);

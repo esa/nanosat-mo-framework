@@ -472,6 +472,11 @@ public final class ActionManager extends MCManager {
         }
     }
 
+    private Long getDefInstIdForInstance(final Long actionInstId) {
+        ActionInstance instance = actionInstances.get(actionInstId);
+        return instance != null ? instance.getDefInstId() : null;
+    }
+
     private UOctet getCategoryForInstance(final Long actionInstId) {
         ActionInstance instance = actionInstances.get(actionInstId);
         if (instance != null) {
@@ -490,8 +495,8 @@ public final class ActionManager extends MCManager {
         reportActivityExecutionEvent(success, errorNumber, 1, 2 + totalNumberOfProgressStages, actionInstId,
                 interaction, connectionDetails);
         if (progressPublisher != null) {
-            progressPublisher.publishExecutionProgress(actionInstId, 0L, getCategoryForInstance(actionInstId),
-                    ExecutionStageType.START, success, null);
+            progressPublisher.publishExecutionProgress(getDefInstIdForInstance(actionInstId), actionInstId,
+                    getCategoryForInstance(actionInstId), ExecutionStageType.START, success, null, null);
         }
     }
 
@@ -503,8 +508,8 @@ public final class ActionManager extends MCManager {
                 + totalNumberOfProgressStages, actionInstId, interaction, connectionDetails);
         if (progressPublisher != null) {
             String comment = success ? null : "Error code: " + errorNumber;
-            progressPublisher.publishExecutionProgress(actionInstId, (long) (totalNumberOfProgressStages + 1),
-                    getCategoryForInstance(actionInstId), ExecutionStageType.END, success, comment);
+            progressPublisher.publishExecutionProgress(getDefInstIdForInstance(actionInstId), actionInstId,
+                    getCategoryForInstance(actionInstId), ExecutionStageType.END, success, null, comment);
         }
     }
 

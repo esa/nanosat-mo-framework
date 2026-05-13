@@ -1,6 +1,7 @@
 package esa.mo.mc.impl.provider;
 
 import org.ccsds.moims.mo.mal.structures.UOctet;
+import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.mc.structures.ExecutionStageType;
 
 /**
@@ -9,6 +10,6 @@ import org.ccsds.moims.mo.mc.structures.ExecutionStageType;
 interface ExecutionProgressPublisher {
 
     void publishExecutionProgress(Long actionId, Long executionId, UOctet actionCategory,
-            ExecutionStageType stageType, boolean success, String comment);
+            ExecutionStageType stageType, boolean success, UShort step, String comment);
 
 }

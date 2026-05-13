@@ -138,10 +138,10 @@
                     </mal:documentation>
                     <mal:messages>
                         <mal:subscriptionKeys>
-                            <mal:field name="actionId" canBeNull="false" comment="The object instance identifier of the ActionInstance being executed.">
+                            <mal:field name="actionId" canBeNull="false" comment="The object instance identifier of the action definition being executed.">
                                 <mal:type area="MAL" list="false" name="Long"/>
                             </mal:field>
-                            <mal:field name="executionId" canBeNull="false" comment="The id of the instance of the executed action.">
+                            <mal:field name="executionId" canBeNull="false" comment="The object instance identifier of the ActionInstance being executed.">
                                 <mal:type area="MAL" list="false" name="Long"/>
                             </mal:field>
                             <mal:field name="actionCategory" canBeNull="false" comment="The category of the action.">
@@ -154,6 +154,9 @@
                             </mal:field>
                             <mal:field name="success" canBeNull="false" comment="Indicates whether the execution stage completed successfully.">
                                 <mal:type area="MAL" list="false" name="Boolean"/>
+                            </mal:field>
+                            <mal:field name="step" canBeNull="true" comment="The progress step number within the action execution. Null for START and END stages.">
+                                <mal:type area="MAL" list="false" name="UShort"/>
                             </mal:field>
                             <mal:field name="comment" canBeNull="true" comment="An optional comment providing additional details about the execution stage.">
                                 <mal:type area="MAL" list="false" name="String"/>
