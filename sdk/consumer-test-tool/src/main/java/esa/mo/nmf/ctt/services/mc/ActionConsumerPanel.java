@@ -43,6 +43,7 @@ import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mc.structures.AttributeValue;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.action.ActionServiceInfo;
 import org.ccsds.moims.mo.mc.action.consumer.ActionAdapter;
@@ -342,7 +343,7 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
                 }
             }
 
-            final String timestamp = new SimpleDateFormat("HH:mm:ss.SSS").format(new Date());
+            final String timestamp = HelperTime.time2readableString(msgHeader.getTimestamp());
             final Long finalActionId = actionId;
             final Long finalStep = step;
             final Short finalCategory = category;
