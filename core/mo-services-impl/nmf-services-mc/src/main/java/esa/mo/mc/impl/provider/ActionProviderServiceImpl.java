@@ -26,6 +26,7 @@ import esa.mo.mc.impl.interfaces.ActionInvocationListener;
 import esa.mo.reconfigurable.service.ConfigurationChangeListener;
 import esa.mo.reconfigurable.service.ReconfigurableService;
 import java.io.IOException;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMService;
@@ -39,10 +40,14 @@ import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingl
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
+import org.ccsds.moims.mo.mal.provider.MALPublishInteractionListener;
 import org.ccsds.moims.mo.mal.structures.*;
+import org.ccsds.moims.mo.mal.transport.MALErrorBody;
+import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.action.ActionHelper;
 import org.ccsds.moims.mo.mc.action.ActionServiceInfo;
 import org.ccsds.moims.mo.mc.action.provider.ActionInheritanceSkeleton;
+import org.ccsds.moims.mo.mc.action.provider.MonitorExecutionPublisher;
 import org.ccsds.moims.mo.mc.structures.*;
 
 /**
@@ -57,6 +62,9 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
     protected ActionManager manager;
     private final ConnectionProvider connection = new ConnectionProvider();
     private ConfigurationChangeListener configurationAdapter;
+    private MonitorExecutionPublisher publisher;
+    private boolean isRegistered = false;
+    private final Object lock = new Object();
 
     /**
      * cCreates the MAL objects, the publisher used to create updates and starts
@@ -69,6 +77,12 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
     public synchronized void init(COMServicesProvider comServices,
             ActionInvocationListener actionListener) throws MALException {
         long timestamp = System.currentTimeMillis();
+
+        publisher = createMonitorExecutionPublisher(ConfigurationProviderSingleton.getDomain(),
+                ConfigurationProviderSingleton.getNetwork(),
+                SessionType.LIVE, ConfigurationProviderSingleton.getSourceSessionName(),
+                QoSLevel.BESTEFFORT, null, new UInteger(0));
+
         // Shut down old service transport
         if (null != actionServiceProvider) {
             connection.closeAll();
@@ -404,9 +418,87 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
             }
         }
 
+        UOctet actionCategory = new UOctet((short) 0);
+        if (actionInstance != null) {
+            ActionDefinition actionDefinition = manager.getActionDefinition(actionInstance.getDefInstId());
+            if (actionDefinition != null && actionDefinition.getCategory() != null) {
+                actionCategory = new UOctet((short) actionDefinition.getCategory().getValue());
+            }
+        }
+
+        publishExecutionProgress(actionInstId, (long) progressStage, actionCategory, success,
+                success ? null : "Error code: " + errorNumber);
+
         // requirement: 3.2.8.h and 3.2.8.j
         manager.reportActivityExecutionEvent(success, errorNumber, 1 + progressStage, 2 + totalNumberOfProgressStages,
                 actionInstId, null, connection.getConnectionDetails());
+    }
+
+    /**
+     * Publishes an execution progress update via the monitorExecution PUB-SUB operation.
+     *
+     * @param actionId The action instance identifier.
+     * @param executionId The id of the execution stage.
+     * @param actionCategory The category of the action.
+     * @param success Whether the execution stage completed successfully.
+     * @param comment An optional comment.
+     */
+    public void publishExecutionProgress(final Long actionId, final Long executionId,
+            final UOctet actionCategory, final boolean success, final String comment) {
+        try {
+            synchronized (lock) {
+                if (!isRegistered) {
+                    publisher.registerWithDefaultKeys(new PublishInteractionListener());
+                    isRegistered = true;
+                }
+            }
+
+            AttributeList keys = new AttributeList();
+            keys.add(new Union(actionId));
+            keys.add(new Union(executionId));
+            keys.add(actionCategory);
+
+            URI source = connection.getConnectionDetails().getProviderURI();
+            UpdateHeader updateHeader = new UpdateHeader(new Identifier(source.getValue()),
+                    connection.getConnectionDetails().getDomain(), keys.getAsNullableAttributeList());
+
+            publisher.publish(updateHeader, success, comment);
+        } catch (IllegalArgumentException | MALInteractionException | MALException ex) {
+            Logger.getLogger(ActionProviderServiceImpl.class.getName()).log(Level.WARNING,
+                    "Exception during publishing of execution progress {0}", ex);
+        }
+    }
+
+    public static final class PublishInteractionListener implements MALPublishInteractionListener {
+
+        @Override
+        public void publishDeregisterAckReceived(final MALMessageHeader header, final Map qosProperties)
+                throws MALException {
+            Logger.getLogger(ActionProviderServiceImpl.class.getName()).fine(
+                    "PublishInteractionListener::publishDeregisterAckReceived");
+        }
+
+        @Override
+        public void publishErrorReceived(final MALMessageHeader header, final MALErrorBody body,
+                final Map qosProperties) throws MALException {
+            Logger.getLogger(ActionProviderServiceImpl.class.getName()).fine(
+                    "PublishInteractionListener::publishErrorReceived");
+        }
+
+        @Override
+        public void publishRegisterAckReceived(final MALMessageHeader header, final Map qosProperties)
+                throws MALException {
+            Logger.getLogger(ActionProviderServiceImpl.class.getName()).fine(
+                    "PublishInteractionListener::publishRegisterAckReceived");
+        }
+
+        @Override
+        public void publishRegisterErrorReceived(final MALMessageHeader header, final MALErrorBody body,
+                final Map qosProperties) throws MALException {
+            Logger.getLogger(ActionProviderServiceImpl.class.getName()).fine(
+                    "PublishInteractionListener::publishRegisterErrorReceived");
+        }
+
     }
 
     @Override
