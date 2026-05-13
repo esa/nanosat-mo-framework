@@ -27,7 +27,7 @@ import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UIntegerList;
 import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.mc.structures.ActionDefinition;
-import org.ccsds.moims.mo.mc.structures.ActionInstance;
+import org.ccsds.moims.mo.mc.structures.ActionExecution;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.mc.structures.ParameterDefinition;
 import org.ccsds.moims.mo.mc.structures.ParameterValue;
@@ -70,7 +70,7 @@ public class SimpleParameterBackend extends Backend {
     }
 
     @Override
-    public boolean preCheck(ActionDefinition defDetails, ActionInstance instDetails, UIntegerList errorList) {
+    public boolean preCheck(ActionDefinition defDetails, ActionExecution instDetails, UIntegerList errorList) {
         return true;
     }
 

@@ -72,7 +72,7 @@ public interface SimpleCommandingInterface {
      *
      * @param actionName The name of the Action to be executed
      * @param objects Implementer-specific data necessary to execute the action
-     * @return The object instance identifier of the ActionInstance. This can be used to track the
+     * @return The object instance identifier of the ActionExecution. This can be used to track the
      *         action via the Activity Tracking service.
      */
     Long launchAction(String actionName, Serializable[] objects);
@@ -85,7 +85,7 @@ public interface SimpleCommandingInterface {
      * @param defInstId The object instance identifier of the ActionDefinition
      * @param argumentValues List containing the values of the arguments. The ordering of the list
      *        matches that of the definition
-     * @return The object instance identifier of the ActionInstance. This can be used to track the
+     * @return The object instance identifier of the ActionExecution. This can be used to track the
      *         action via the Activity Tracking service.
      * @throws NMFException in case something goes wrong
      */
@@ -100,7 +100,7 @@ public interface SimpleCommandingInterface {
      * @param argumentValues List containing the values of the arguments. The ordering of the list
      *        matches that of the definition
      * @param actionAdapter ActionAdapter to listen for responses.
-     * @return The object instance identifier of the ActionInstance. This can be used to track the
+     * @return The object instance identifier of the ActionExecution. This can be used to track the
      *         action via the Activity Tracking service.
      * @throws NMFException in case something goes wrong
      */

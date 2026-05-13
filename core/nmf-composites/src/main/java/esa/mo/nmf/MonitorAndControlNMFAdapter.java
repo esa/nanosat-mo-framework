@@ -513,7 +513,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
 
     @Override
     public boolean preCheck(ActionDefinition defDetails,
-            ActionInstance instDetails, UIntegerList errorList) {
+            ActionExecution instDetails, UIntegerList errorList) {
         return true;
     }
 

@@ -471,7 +471,7 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
     @Override
     public Long launchAction(Long defInstId, AttributeValueList argumentValues,
             ActionAdapter actionAdapter) throws NMFException {
-        ActionInstance instanceDetails = new ActionInstance(
+        ActionExecution instanceDetails = new ActionExecution(
                 defInstId, true, true, true, argumentValues, null);
         try {
             Long executionId = super.getMCServices().getActionService().getActionStub()
