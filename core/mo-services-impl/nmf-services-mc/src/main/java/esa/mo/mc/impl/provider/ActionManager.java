@@ -418,8 +418,8 @@ public final class ActionManager extends MCManager {
     }
 
     protected void reportActivityExecutionEvent(final boolean success, final UInteger errorNumber,
-            final int executionStage, final int stageCount, final Long actionInstId, final MALInteraction interaction,
-            final SingleConnectionDetails connectionDetails) {
+            final int executionStage, final int stageCount, final Long actionInstId,
+            final MALInteraction interaction, final SingleConnectionDetails connectionDetails) {
         ObjectId source = new ObjectId(ActionServiceInfo.ACTIONINSTANCE_OBJECT_TYPE,
                 ConfigurationProviderSingleton.getDomain(), actionInstId);
 
@@ -434,8 +434,8 @@ public final class ActionManager extends MCManager {
 
                     if (!success) { // requirement 3.2.5.c
                         //TODO: requirement 3.2.5.c is the source really the completionEvent? -> issue #189 
-                        this.publishActionFailureEvent(errorNumber, actionInstId, executionEventLink, interaction,
-                                connectionDetails);
+                        this.publishActionFailureEvent(errorNumber, actionInstId,
+                                executionEventLink, interaction, connectionDetails);
                     }
                 } catch (MALInteractionException ex) {
                     Logger.getLogger(ActionManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -446,8 +446,9 @@ public final class ActionManager extends MCManager {
         }
     }
 
-    private void publishActionFailureEvent(final UInteger errorNumber, final Long related, final ObjectId source,
-            final MALInteraction interaction, final SingleConnectionDetails connectionDetails) {
+    private void publishActionFailureEvent(final UInteger errorNumber,
+            final Long related, final ObjectId source, final MALInteraction interaction,
+            final SingleConnectionDetails connectionDetails) {
         // requirement: 3.2.5.f
         final UIntegerList errorNumbers = new UIntegerList(1);
         errorNumbers.add(errorNumber);
@@ -483,8 +484,8 @@ public final class ActionManager extends MCManager {
     }
 
     private void reportExecutionStart(final boolean success, final UInteger errorNumber,
-            final int totalNumberOfProgressStages, final Long actionInstId, final MALInteraction interaction,
-            final SingleConnectionDetails connectionDetails) {
+            final int totalNumberOfProgressStages, final Long actionInstId,
+            final MALInteraction interaction, final SingleConnectionDetails connectionDetails) {
         // requirement: 3.2.8.h and 3.2.8.i
         reportActivityExecutionEvent(success, errorNumber, 1, 2 + totalNumberOfProgressStages, actionInstId,
                 interaction, connectionDetails);
@@ -495,8 +496,8 @@ public final class ActionManager extends MCManager {
     }
 
     private void reportExecutionComplete(final boolean success, final UInteger errorNumber,
-            final int totalNumberOfProgressStages, final Long actionInstId, final MALInteraction interaction,
-            final SingleConnectionDetails connectionDetails) {
+            final int totalNumberOfProgressStages, final Long actionInstId,
+            final MALInteraction interaction, final SingleConnectionDetails connectionDetails) {
         // requirement: 3.2.8.h and 3.2.8.k
         reportActivityExecutionEvent(success, errorNumber, 2 + totalNumberOfProgressStages, 2
                 + totalNumberOfProgressStages, actionInstId, interaction, connectionDetails);
