@@ -53,7 +53,7 @@ import org.ccsds.moims.mo.mc.structures.*;
 /**
  * Action service Provider.
  */
-public class ActionProviderServiceImpl extends ActionInheritanceSkeleton implements ReconfigurableService {
+public class ActionProviderServiceImpl extends ActionInheritanceSkeleton implements ReconfigurableService, ExecutionProgressPublisher {
 
     private final static String IS_INTERMEDIATE_RELAY_PROPERTY = "esa.mo.mc.impl.provider.ActionProviderServiceImpl.isIntermediateRelay";
     private MALProvider actionServiceProvider;
@@ -88,10 +88,10 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
             connection.closeAll();
         }
 
-        actionServiceProvider = connection.startService(ActionHelper.ACTION_SERVICE, false, this);
+        actionServiceProvider = connection.startService(ActionHelper.ACTION_SERVICE, true, this);
 
         running = true;
-        manager = new ActionManager(comServices, actionListener);
+        manager = new ActionManager(comServices, actionListener, this);
 
         initialiased = true;
         timestamp = System.currentTimeMillis() - timestamp;
@@ -426,8 +426,8 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
             }
         }
 
-        publishExecutionProgress(actionInstId, (long) progressStage, actionCategory, success,
-                success ? null : "Error code: " + errorNumber);
+        publishExecutionProgress(actionInstId, (long) progressStage, actionCategory,
+                ExecutionStageType.PROGRESS, success, success ? null : "Error code: " + errorNumber);
 
         // requirement: 3.2.8.h and 3.2.8.j
         manager.reportActivityExecutionEvent(success, errorNumber, 1 + progressStage, 2 + totalNumberOfProgressStages,
@@ -440,11 +440,13 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
      * @param actionId The action instance identifier.
      * @param executionId The id of the execution stage.
      * @param actionCategory The category of the action.
+     * @param stageType The lifecycle stage (START, PROGRESS, or END).
      * @param success Whether the execution stage completed successfully.
      * @param comment An optional comment.
      */
+    @Override
     public void publishExecutionProgress(final Long actionId, final Long executionId,
-            final UOctet actionCategory, final boolean success, final String comment) {
+            final UOctet actionCategory, final ExecutionStageType stageType, final boolean success, final String comment) {
         try {
             synchronized (lock) {
                 if (!isRegistered) {
@@ -462,7 +464,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
             UpdateHeader updateHeader = new UpdateHeader(new Identifier(source.getValue()),
                     connection.getConnectionDetails().getDomain(), keys.getAsNullableAttributeList());
 
-            publisher.publish(updateHeader, success, comment);
+            publisher.publish(updateHeader, stageType, success, comment);
         } catch (IllegalArgumentException | MALInteractionException | MALException ex) {
             Logger.getLogger(ActionProviderServiceImpl.class.getName()).log(Level.WARNING,
                     "Exception during publishing of execution progress {0}", ex);
@@ -495,7 +497,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         @Override
         public void publishRegisterErrorReceived(final MALMessageHeader header, final MALErrorBody body,
                 final Map qosProperties) throws MALException {
-            Logger.getLogger(ActionProviderServiceImpl.class.getName()).fine(
+            Logger.getLogger(ActionProviderServiceImpl.class.getName()).warning(
                     "PublishInteractionListener::publishRegisterErrorReceived");
         }
 

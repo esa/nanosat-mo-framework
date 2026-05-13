@@ -44,6 +44,7 @@ import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mc.action.ActionServiceInfo;
 import org.ccsds.moims.mo.mc.structures.*;
+import org.ccsds.moims.mo.mc.structures.ExecutionStageType;
 
 /**
  *
@@ -65,9 +66,13 @@ public final class ActionManager extends MCManager {
             MAXIMUM_THREADS_IN_POOL, KEEP_ALIVE_TIME_THREADS_IN_POOL, TimeUnit.SECONDS, new ArrayBlockingQueue<>(
                     MAXIMUM_NUMBER_OF_TASKS_IN_POOL, true), new ActionThreadFactory("ActionsExecutor"));
 
-    public ActionManager(COMServicesProvider comServices, ActionInvocationListener actions) {
+    private final ExecutionProgressPublisher progressPublisher;
+
+    public ActionManager(COMServicesProvider comServices, ActionInvocationListener actions,
+            ExecutionProgressPublisher progressPublisher) {
         super(comServices);
         this.actions = actions;
+        this.progressPublisher = progressPublisher;
 
         if (super.getArchiveService() == null) {  // No Archive?
             this.uniqueObjIdDef = 0L; // The zeroth value will not be used (reserved for the wildcard)
@@ -466,27 +471,40 @@ public final class ActionManager extends MCManager {
         }
     }
 
+    private UOctet getCategoryForInstance(final Long actionInstId) {
+        ActionInstance instance = actionInstances.get(actionInstId);
+        if (instance != null) {
+            ActionDefinition def = getActionDefinition(instance.getDefInstId());
+            if (def != null && def.getCategory() != null) {
+                return new UOctet((short) def.getCategory().getValue());
+            }
+        }
+        return new UOctet((short) 0);
+    }
+
     private void reportExecutionStart(final boolean success, final UInteger errorNumber,
             final int totalNumberOfProgressStages, final Long actionInstId, final MALInteraction interaction,
             final SingleConnectionDetails connectionDetails) {
         // requirement: 3.2.8.h and 3.2.8.i
         reportActivityExecutionEvent(success, errorNumber, 1, 2 + totalNumberOfProgressStages, actionInstId,
                 interaction, connectionDetails);
+        if (progressPublisher != null) {
+            progressPublisher.publishExecutionProgress(actionInstId, 0L, getCategoryForInstance(actionInstId),
+                    ExecutionStageType.START, success, null);
+        }
     }
 
-    /**
-     *
-     * @param success
-     * @param errorNumber
-     * @param totalNumberOfProgressStages
-     * @param actionInstId
-     */
     private void reportExecutionComplete(final boolean success, final UInteger errorNumber,
             final int totalNumberOfProgressStages, final Long actionInstId, final MALInteraction interaction,
             final SingleConnectionDetails connectionDetails) {
         // requirement: 3.2.8.h and 3.2.8.k
         reportActivityExecutionEvent(success, errorNumber, 2 + totalNumberOfProgressStages, 2
                 + totalNumberOfProgressStages, actionInstId, interaction, connectionDetails);
+        if (progressPublisher != null) {
+            String comment = success ? null : "Error code: " + errorNumber;
+            progressPublisher.publishExecutionProgress(actionInstId, (long) (totalNumberOfProgressStages + 1),
+                    getCategoryForInstance(actionInstId), ExecutionStageType.END, success, comment);
+        }
     }
 
     /**

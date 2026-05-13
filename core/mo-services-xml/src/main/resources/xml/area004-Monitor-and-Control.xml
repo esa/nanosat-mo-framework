@@ -122,7 +122,7 @@
                         When an execution stage of an action is reached, the service provider shall publish an execution progress update.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        The service provider shall publish the execution progress update with subscription keys corresponding to the actionId, executionId, and actionCategory of the executing action.
+                        The service provider shall publish the execution progress update with subscription keys corresponding to the actionId, executionId, actionCategory, and stageType of the executing action.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
                         A service consumer may subscribe to updates for a specific action instance, or for all action instances by using the wildcard value in the actionId field.
@@ -149,6 +149,9 @@
                             </mal:field>
                         </mal:subscriptionKeys>
                         <mal:publishNotify>
+                            <mal:field name="stageType" canBeNull="false" comment="The lifecycle stage of the execution update.">
+                                <mal:type area="MC" list="false" name="ExecutionStageType"/>
+                            </mal:field>
                             <mal:field name="success" canBeNull="false" comment="Indicates whether the execution stage completed successfully.">
                                 <mal:type area="MAL" list="false" name="Boolean"/>
                             </mal:field>
@@ -1463,6 +1466,12 @@
                 <mal:item value="DEFAULT" nvalue="1" comment="Default category"/>
                 <mal:item value="HIPRIORITY" nvalue="2" comment="Category for high priority actions"/>
                 <mal:item value="CRITICAL" nvalue="3" comment="Category for critical actions"/>
+            </mal:enumeration>
+            <mal:enumeration name="ExecutionStageType" shortFormPart="36"
+                             comment="Identifies the lifecycle stage of an action execution update published via the monitorExecution operation.">
+                <mal:item value="START" nvalue="1" comment="Indicates the beginning of action execution."/>
+                <mal:item value="PROGRESS" nvalue="2" comment="Indicates an intermediate progress update during action execution."/>
+                <mal:item value="END" nvalue="3" comment="Indicates the end of action execution, whether successful or not."/>
             </mal:enumeration>
             <mal:composite name="ActionDefinition" shortFormPart="8"
                            comment="The ActionDefinition structure holds the definition information of an action.">

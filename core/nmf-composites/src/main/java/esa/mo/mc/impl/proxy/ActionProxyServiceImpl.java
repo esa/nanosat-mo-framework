@@ -84,7 +84,7 @@ public class ActionProxyServiceImpl extends ActionInheritanceSkeleton {
         actionServiceProvider = connection.startService(name, ActionHelper.ACTION_SERVICE, false, this);
 
         running = true;
-        this.manager = new ActionManager(localCOMServices, null);
+        this.manager = new ActionManager(localCOMServices, null, null);
         this.actionConsumer = actionConsumer;
 
         initialiased = true;

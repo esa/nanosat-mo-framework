@@ -13,9 +13,9 @@
  * You on an "as is" basis and without warranties of any kind, including without
  * limitation merchantability, fitness for a particular purpose, absence of
  * defects or errors, accuracy or non-infringement of intellectual property rights.
- * 
+ *
  * See the License for the specific language governing permissions and
- * limitations under the License. 
+ * limitations under the License.
  * ----------------------------------------------------------------------------
  */
 package esa.mo.nmf.ctt.services.mc;
@@ -25,20 +25,30 @@ import esa.mo.mc.impl.consumer.ActionConsumerServiceImpl;
 import esa.mo.nmf.NMFException;
 import esa.mo.nmf.ctt.windows.element.MOWindow;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
+import java.awt.BorderLayout;
+import java.awt.Font;
 import java.io.InterruptedIOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MOErrorException;
-import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.structures.*;
+import org.ccsds.moims.mo.mc.structures.AttributeValue;
+import org.ccsds.moims.mo.mc.structures.AttributeValueList;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.action.ActionServiceInfo;
 import org.ccsds.moims.mo.mc.action.consumer.ActionAdapter;
-import org.ccsds.moims.mo.mc.structures.*;
+import org.ccsds.moims.mo.mc.structures.ActionDefinition;
+import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionList;
+import org.ccsds.moims.mo.mc.structures.ExecutionStageType;
 
 /**
  * The ActionConsumerPanel class holds a panel to interact with an Action
@@ -51,162 +61,135 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
     private final ActionConsumerServiceImpl serviceMCAction;
     private final ActionTablePanel actionTable;
     private GroundMOAdapterImpl gma;
+    private Subscription monitorExecutionSubscription;
+    private DefaultTableModel executionLogModel;
+
+    private JScrollPane jScrollPane2;
+    private JButton submitAction;
+    private JButton listDefinitionButton;
+    private JButton listDefinitionAllButton;
 
     /**
-     * Creates new formAddModifyParameter ConsumerPanelArchive
+     * Creates new ActionConsumerPanel.
      *
      * @param groundMOAdapter The Ground MO Adapter.
      */
     public ActionConsumerPanel(GroundMOAdapterImpl groundMOAdapter) {
-        initComponents();
         this.gma = groundMOAdapter;
         this.serviceMCAction = groundMOAdapter.getMCServices().getActionService();
         actionTable = new ActionTablePanel(serviceMCAction.getCOMServices().getArchiveService());
-        jScrollPane2.setViewportView(actionTable);
-        addDefinitionButton.setVisible(false);
-        updateDefinitionButton.setVisible(false);
-        removeDefinitionButton.setVisible(false);
-        removeDefinitionAllButton.setVisible(false);
+        initComponents();
     }
 
     /**
-     * Creates new formAddModifyParameter ConsumerPanelArchive
+     * Creates new ActionConsumerPanel.
      *
      * @param serviceMCAction The Action service consumer.
      */
     public ActionConsumerPanel(ActionConsumerServiceImpl serviceMCAction) {
-        initComponents();
-
         this.serviceMCAction = serviceMCAction;
         actionTable = new ActionTablePanel(serviceMCAction.getCOMServices().getArchiveService());
-        jScrollPane2.setViewportView(actionTable);
+        initComponents();
     }
 
     public void init() {
         this.listDefinitionAllButtonActionPerformed(null);
+
+        if (serviceMCAction.getConnectionDetails().getBrokerURI() == null) {
+            Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.WARNING,
+                    "Action service has no broker URI - monitorExecution subscription skipped."
+                    + " Reconnect to a provider that supports monitorExecution.");
+            return;
+        }
+
+        monitorExecutionSubscription = ConnectionConsumer.subscriptionWildcardRandom();
+        try {
+            serviceMCAction.getActionStub().monitorExecutionRegister(
+                    monitorExecutionSubscription, new ActionConsumerAdapter());
+        } catch (MALInteractionException | MALException ex) {
+            Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE,
+                    "Failed to subscribe to monitorExecution", ex);
+        }
     }
 
-    /**
-     * This method is called from within the constructor to initialize the
-     * formAddModifyParameter. WARNING: Do NOT modify this code. The content of
-     * this method is always regenerated by the Form Editor.
-     */
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    @Override
+    public void removeNotify() {
+        super.removeNotify();
+        if (monitorExecutionSubscription != null) {
+            IdentifierList ids = new IdentifierList();
+            ids.add(monitorExecutionSubscription.getSubscriptionId());
+            try {
+                serviceMCAction.getActionStub().monitorExecutionDeregister(ids);
+            } catch (MALInteractionException | MALException ex) {
+                Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE,
+                        "Failed to deregister from monitorExecution", ex);
+            }
+        }
+    }
+
     private void initComponents() {
+        setLayout(new BorderLayout());
 
-        jLabel6 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        actionDefinitionsTable = new javax.swing.JTable();
-        parameterTab = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
-        submitAction = new javax.swing.JButton();
-        preCheckActionButton = new javax.swing.JButton();
-        listDefinitionButton = new javax.swing.JButton();
-        jPanel5 = new javax.swing.JPanel();
-        addDefinitionButton = new javax.swing.JButton();
-        updateDefinitionButton = new javax.swing.JButton();
-        removeDefinitionButton = new javax.swing.JButton();
-        listDefinitionAllButton = new javax.swing.JButton();
-        removeDefinitionAllButton = new javax.swing.JButton();
+        JLabel titleLabel = new JLabel("Action Service - Definitions");
+        titleLabel.setFont(new Font("Tahoma", Font.BOLD, 18));
+        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        add(titleLabel, BorderLayout.NORTH);
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("Action Service - Definitions");
-        jLabel6.setToolTipText("");
+        // Definitions table
+        jScrollPane2 = new JScrollPane();
+        jScrollPane2.setViewportView(actionTable);
 
-        jScrollPane2.setHorizontalScrollBar(null);
-        jScrollPane2.setPreferredSize(new java.awt.Dimension(796, 380));
-        jScrollPane2.setRequestFocusEnabled(false);
-
-        actionDefinitionsTable.setModel(new javax.swing.table.DefaultTableModel(new Object[][]{{null, null, null, null,
-                                                                                                null, null,
-                                                                                                Boolean.TRUE, null}, {
-                                                                                                                      null,
-                                                                                                                      null,
-                                                                                                                      null,
-                                                                                                                      null,
-                                                                                                                      null,
-                                                                                                                      null,
-                                                                                                                      null,
-                                                                                                                      null}},
-            new String[]{"Identity", "Obj Inst Id", "name", "description", "rawType", "rawUnit", "generationEnabled",
-                         "updateInterval"}) {
-            Class[] types = new Class[]{java.lang.Object.class, java.lang.Integer.class, java.lang.String.class,
-                                        java.lang.String.class, java.lang.Object.class, java.lang.String.class,
-                                        java.lang.Boolean.class, java.lang.Float.class};
-
-            public Class getColumnClass(int columnIndex) {
-                return types[columnIndex];
+        // Execution log table
+        String[] cols = {"Time", "Action ID", "Step", "Category", "Stage Type", "Success", "Comment"};
+        executionLogModel = new DefaultTableModel(new Object[][]{}, cols) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
             }
-        });
-        actionDefinitionsTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
-        actionDefinitionsTable.setAutoscrolls(false);
-        actionDefinitionsTable.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        actionDefinitionsTable.setMaximumSize(null);
-        actionDefinitionsTable.addContainerListener(new java.awt.event.ContainerAdapter() {
-            public void componentAdded(java.awt.event.ContainerEvent evt) {
-                actionDefinitionsTableComponentAdded(evt);
+
+            @Override
+            public Class<?> getColumnClass(int col) {
+                if (col == 5) {
+                    return Boolean.class;
+                }
+                return String.class;
             }
-        });
-        jScrollPane2.setViewportView(actionDefinitionsTable);
+        };
+        JTable executionLogTable = new JTable(executionLogModel);
+        executionLogTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 
-        parameterTab.setLayout(new java.awt.GridLayout(2, 1));
+        JLabel executionLogLabel = new JLabel("Execution Progress");
+        executionLogLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+        executionLogLabel.setBorder(BorderFactory.createEmptyBorder(4, 4, 2, 4));
 
-        submitAction.setText("submitAction");
+        JPanel executionLogPanel = new JPanel(new BorderLayout());
+        executionLogPanel.add(executionLogLabel, BorderLayout.NORTH);
+        executionLogPanel.add(new JScrollPane(executionLogTable), BorderLayout.CENTER);
+
+        JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, jScrollPane2, executionLogPanel);
+        splitPane.setResizeWeight(0.65);
+        add(splitPane, BorderLayout.CENTER);
+
+        // Buttons
+        submitAction = new JButton("submitAction");
         submitAction.addActionListener(this::submitActionActionPerformed);
-        jPanel1.add(submitAction);
 
-        preCheckActionButton.setText("preCheckAction");
-        preCheckActionButton.addActionListener(this::preCheckActionButtonActionPerformed);
-        jPanel1.add(preCheckActionButton);
-
-        listDefinitionButton.setText("listDefinition()");
+        listDefinitionButton = new JButton("listDefinition()");
         listDefinitionButton.addActionListener(this::listDefinitionButtonActionPerformed);
-        jPanel1.add(listDefinitionButton);
 
-        parameterTab.add(jPanel1);
-
-        addDefinitionButton.setText("addDefinition");
-        addDefinitionButton.addActionListener(this::addDefinitionButtonActionPerformed);
-        jPanel5.add(addDefinitionButton);
-
-        updateDefinitionButton.setText("updateDefinition");
-        updateDefinitionButton.addActionListener(this::updateDefinitionButtonActionPerformed);
-        jPanel5.add(updateDefinitionButton);
-
-        removeDefinitionButton.setText("removeDefinition");
-        removeDefinitionButton.addActionListener(this::removeDefinitionButtonActionPerformed);
-        jPanel5.add(removeDefinitionButton);
-
-        listDefinitionAllButton.setText("listDefinition(\"*\")");
+        listDefinitionAllButton = new JButton("listDefinition(\"*\")");
         listDefinitionAllButton.addActionListener(this::listDefinitionAllButtonActionPerformed);
-        jPanel5.add(listDefinitionAllButton);
 
-        removeDefinitionAllButton.setText("removeDefinition(0)");
-        removeDefinitionAllButton.addActionListener(this::removeDefinitionAllButtonActionPerformed);
-        jPanel5.add(removeDefinitionAllButton);
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(submitAction);
+        buttonPanel.add(listDefinitionButton);
+        buttonPanel.add(listDefinitionAllButton);
+        add(buttonPanel, BorderLayout.SOUTH);
+    }
 
-        parameterTab.add(jPanel5);
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
-            parameterTab, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE).addComponent(jScrollPane2,
-                javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 882, Short.MAX_VALUE)
-            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
-                Short.MAX_VALUE));
-        layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout
-            .createSequentialGroup().addContainerGap().addComponent(jLabel6).addGap(18, 18, 18).addComponent(
-                jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(parameterTab,
-                        javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)));
-    }// </editor-fold>//GEN-END:initComponents
-
-    private void submitActionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitActionActionPerformed
-        if (actionTable.getSelectedRow() == -1) { // The row is not selected?
-            return;  // Well, then nothing to be done here folks!
+    private void submitActionActionPerformed(java.awt.event.ActionEvent evt) {
+        if (actionTable.getSelectedRow() == -1) {
+            return;
         }
 
         ArchivePersistenceObject comObject = actionTable.getSelectedCOMObject();
@@ -218,7 +201,7 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
 
         if (arguments != null) {
             for (int i = 0; i < arguments.size(); i++) {
-                if (arguments.get(i) == null) {  // If the argument is null, then please jump over it
+                if (arguments.get(i) == null) {
                     argumentValueList.add(null);
                     continue;
                 }
@@ -231,7 +214,6 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
             }
         }
 
-        // Allow the user to specify the arguments
         MOWindow moWindow = new MOWindow(argumentValueList, true, "Action arguments list");
 
         try {
@@ -270,16 +252,17 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
                     JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_submitActionActionPerformed
+    }
 
-    private void listDefinitionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listDefinitionButtonActionPerformed
+    private void listDefinitionButtonActionPerformed(java.awt.event.ActionEvent evt) {
         IdentifierList actionNames = new IdentifierList();
         MOWindow actionNamesWindow = new MOWindow(actionNames, true);
 
         try {
             LongList ids;
             try {
-                ids = this.serviceMCAction.getActionStub().listDefinition((IdentifierList) actionNamesWindow.getObject());
+                ids = this.serviceMCAction.getActionStub().listDefinition(
+                        (IdentifierList) actionNamesWindow.getObject());
             } catch (InterruptedIOException ex) {
                 return;
             }
@@ -297,21 +280,9 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_listDefinitionButtonActionPerformed
+    }
 
-    private void addDefinitionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDefinitionButtonActionPerformed
-
-    }//GEN-LAST:event_addDefinitionButtonActionPerformed
-
-    private void updateDefinitionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateDefinitionButtonActionPerformed
-
-    }//GEN-LAST:event_updateDefinitionButtonActionPerformed
-
-    private void removeDefinitionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeDefinitionButtonActionPerformed
-
-    }//GEN-LAST:event_removeDefinitionButtonActionPerformed
-
-    private void listDefinitionAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listDefinitionAllButtonActionPerformed
+    private void listDefinitionAllButtonActionPerformed(java.awt.event.ActionEvent evt) {
         IdentifierList idList = new IdentifierList();
         idList.add(new Identifier("*"));
 
@@ -324,7 +295,8 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
                             serviceMCAction.getConnectionDetails().getDomain(),
                             ActionServiceInfo.ACTIONDEFINITION_OBJECT_TYPE);
                     Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.INFO,
-                            "listDefinition(\"*\") returned {0} object instance identifiers", actionInstIds.size());
+                            "listDefinition(\"*\") returned {0} object instance identifiers",
+                            actionInstIds.size());
                 }
 
                 @Override
@@ -340,62 +312,66 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
 
-    }//GEN-LAST:event_listDefinitionAllButtonActionPerformed
+    public class ActionConsumerAdapter extends ActionAdapter {
 
-    private void removeDefinitionAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeDefinitionAllButtonActionPerformed
+        @Override
+        public void monitorExecutionNotifyReceived(MALMessageHeader msgHeader,
+                Identifier subscriptionId,
+                UpdateHeader updateHeader,
+                ExecutionStageType stageType,
+                Boolean success,
+                String comment,
+                Map qosProperties) {
 
-    }//GEN-LAST:event_removeDefinitionAllButtonActionPerformed
+            final NullableAttributeList keys = updateHeader.getKeyValues();
+            Long actionId = null;
+            Long step = null;
+            Short category = null;
 
-    private void preCheckActionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_preCheckActionButtonActionPerformed
-/*
-        if (actionTable.getSelectedRow() == -1) { // The row is not selected?
-            return;  // Well, then nothing to be done here folks!
+            if (keys != null && keys.size() >= 3) {
+                if (keys.get(0) != null && keys.get(0).getValue() != null) {
+                    actionId = ((Union) keys.get(0).getValue()).getLongValue();
+                }
+                if (keys.get(1) != null && keys.get(1).getValue() != null) {
+                    step = ((Union) keys.get(1).getValue()).getLongValue();
+                }
+                if (keys.get(2) != null && keys.get(2).getValue() != null) {
+                    category = ((UOctet) keys.get(2).getValue()).getValue();
+                }
+            }
+
+            final String timestamp = new SimpleDateFormat("HH:mm:ss.SSS").format(new Date());
+            final Long finalActionId = actionId;
+            final Long finalStep = step;
+            final Short finalCategory = category;
+            final String finalStageType = stageType != null ? stageType.toString() : "";
+
+            SwingUtilities.invokeLater(() -> executionLogModel.addRow(new Object[]{
+                timestamp,
+                finalActionId,
+                finalStep,
+                finalCategory,
+                finalStageType,
+                success,
+                comment
+            }));
         }
 
-        ActionInstance actionInstanceDetails = new ActionInstance(
-                actionTable.getSelectedDefinitionObjId(),
-                null, null, null);
-        MOWindow genericObject = new MOWindow(actionInstanceDetails, true);
-        try {
-            actionInstanceDetails = (ActionInstance) genericObject.getObject();
-        } catch (InterruptedIOException ex) {
-            return;
+        @Override
+        public void monitorExecutionRegisterAckReceived(MALMessageHeader msgHeader,
+                Map qosProperties) {
+            Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.INFO,
+                    "Subscribed to monitorExecution successfully.");
         }
 
-        try {
-            this.serviceMCAction.getActionStub().preCheckAction(actionInstanceDetails);
-        } catch (MALInteractionException | MALException ex) {
-            JOptionPane.showMessageDialog(null,
-                    "There was an error with the submitted action instance.",
-                    "Error", JOptionPane.PLAIN_MESSAGE);
-            Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        @Override
+        public void monitorExecutionRegisterErrorReceived(MALMessageHeader msgHeader,
+                MOErrorException error, Map qosProperties) {
+            Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.WARNING,
+                    "Failed to subscribe to monitorExecution: {0}", error);
         }
+    }
 
-        JOptionPane.showMessageDialog(null,
-                "The action instance pre-check has passed successfully.",
-                "Success", JOptionPane.PLAIN_MESSAGE);
-*/
-    }//GEN-LAST:event_preCheckActionButtonActionPerformed
-
-    private void actionDefinitionsTableComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_actionDefinitionsTableComponentAdded
-        // TODO add your handling code here:
-    }//GEN-LAST:event_actionDefinitionsTableComponentAdded
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTable actionDefinitionsTable;
-    private javax.swing.JButton addDefinitionButton;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JButton listDefinitionAllButton;
-    private javax.swing.JButton listDefinitionButton;
-    private javax.swing.JPanel parameterTab;
-    private javax.swing.JButton preCheckActionButton;
-    private javax.swing.JButton removeDefinitionAllButton;
-    private javax.swing.JButton removeDefinitionButton;
-    private javax.swing.JButton submitAction;
-    private javax.swing.JButton updateDefinitionButton;
-    // End of variables declaration//GEN-END:variables
 }
