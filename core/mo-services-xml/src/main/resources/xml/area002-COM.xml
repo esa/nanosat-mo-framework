@@ -1148,58 +1148,22 @@
                 The ConfigurationObjects COM object related link shall be set to NULL.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="9">
-                A ConfigurationSwitch COM event shall represent a request change in active configuration.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="10">
-                The ConfigurationSwitch COM event body shall hold the configuration to be activated.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="11">
-                The ConfigurationSwitch COM event related link shall point to the COM ServiceProvider object that is required to attempt the configuration switch.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="12">
-                A ConfigurationSwitched COM event shall be raised when a configuration is made active.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="13">
-                The ConfigurationSwitched COM event body shall hold the result of the activation attempt.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="14">
-                If the activation was successful then the body of the ConfigurationSwitched event shall be set to TRUE, otherwise FALSE for failure.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="15">
-                The ConfigurationSwitched COM event related link shall point to the ConfigurationSwitch event that triggered the switch attempt.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="16">
-                The ConfigurationSwitched COM event source link shall point to the previous active configuration or be NULL if no configuration was previously active.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="17">
-                A ConfigurationStore COM event shall represent a request to store the current configuration.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="18">
-                The ConfigurationStore COM event body may contain the ServiceId of the service to store; it shall be NULL if the provider configuration is to be stored.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="19">
-                The ConfigurationStore COM event related link shall link to the ServiceProvider object that represents the provider that must store its configuration.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="20">
                 A ConfigurationStored COM event shall be raised when a configuration has been stored.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="21">
+            <mal:documentation name="Service-level Requirement" order="10">
                 The ConfigurationStored COM event body shall hold the ObjectId of the new Configuration object if the store was successful, otherwise NULL for failure.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="22">
-                The ConfigurationStored COM event related link shall point to the ConfigurationStore event that triggered the store attempt.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="23">
+            <mal:documentation name="Service-level Requirement" order="11">
                 The ConfigurationStored COM event source link shall be NULL.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="24">
+            <mal:documentation name="Service-level Requirement" order="12">
                 Configuration definition objects (ServiceConfiguration, ProviderConfiguration, ConfigurationObjects) must be stored in the COM archive by the provider of the Configuration service if the implementation of the Configuration service uses a COM archive.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="25">
+            <mal:documentation name="Service-level Requirement" order="13">
                 The COM objects that hold the actual configuration definition details must be stored in the COM archive by the provider of the relevant service if the implementation of the Configuration service uses a COM archive.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="26">
-                When a configuration event (ConfigurationSwitch, ConfigurationSwitched, ConfigurationStore, ConfigurationStored) is published, the event objects should be stored in the COM archive.
+            <mal:documentation name="Service-level Requirement" order="14">
+                When a ConfigurationStored event is published, the event object should be stored in the COM archive.
             </mal:documentation>
             <com:features>
                 <com:objects comment="The ServiceConfiguration, ProviderConfiguration, and ConfigurationObjects COM objects used by the Configuration service.">
@@ -1225,41 +1189,11 @@
                         </com:objectType>
                     </com:object>
                 </com:objects>
-                <com:events comment="The ConfigurationSwitch, ConfigurationSwitched, ConfigurationStore, and ConfigurationStored events used by the Configuration service.">
-                    <com:event name="ConfigurationSwitch" number="6">
-                        <com:objectType>
-                            <mal:type name="ObjectId" area="COM"/>
-                        </com:objectType>
-                        <com:relatedObject>
-                            <com:objectType number="1" service="Configuration" area="COM"/>
-                        </com:relatedObject>
-                        <com:sourceObject comment="The source link of the event is the object that triggered the activation, most likely the activate operation."/>
-                    </com:event>
-                    <com:event name="ConfigurationSwitched" number="7">
-                        <com:objectType>
-                            <mal:type name="Boolean" area="MAL"/>
-                        </com:objectType>
-                        <com:relatedObject comment="The ConfigurationSwitch COM event that triggered the switch attempt.">
-                            <com:objectType number="6" service="Configuration" area="COM"/>
-                        </com:relatedObject>
-                        <com:sourceObject comment="The previous active configuration or be NULL if no configuration was previously active."/>
-                    </com:event>
-                    <com:event name="ConfigurationStore" number="8">
-                        <com:objectType>
-                            <mal:type name="ServiceId" area="MAL"/>
-                        </com:objectType>
-                        <com:relatedObject>
-                            <com:objectType number="1" service="Configuration" area="COM"/>
-                        </com:relatedObject>
-                        <com:sourceObject comment="The source link of the event is the object that triggered the activation, most likely the storeCurrent operation."/>
-                    </com:event>
+                <com:events comment="The ConfigurationStored event used by the Configuration service.">
                     <com:event name="ConfigurationStored" number="9">
                         <com:objectType>
                             <mal:type name="ObjectId" area="COM"/>
                         </com:objectType>
-                        <com:relatedObject comment="The related link of the event is the ConfigurationStore COM object that triggered the storing.">
-                            <com:objectType number="8" service="Configuration" area="COM"/>
-                        </com:relatedObject>
                     </com:event>
                 </com:events>
                 <com:archiveUsage comment="The Configuration service COM archive usage."/>
