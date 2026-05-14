@@ -29,15 +29,17 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Semaphore;
+import javax.swing.RowSorter;
+import javax.swing.SortOrder;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import org.ccsds.moims.mo.com.structures.ObjectLinks;
-import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperDomain;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
@@ -144,7 +146,7 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
         }
     }
 
-    private void addEntry(final ArchivePersistenceObject comObject) {
+    private Object[] buildRow(final ArchivePersistenceObject comObject) {
         String domain = "";
         String objType = "";
         String timestamp = "";
@@ -156,8 +158,7 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
         }
 
         if (comObject.getObjectType() != null) {
-            ObjectType objTypeType = comObject.getObjectType();
-            objType = HelperCOM.objType2string(objTypeType);
+            objType = HelperCOM.objType2string(comObject.getObjectType());
         }
 
         ObjectLinks links = comObject.getArchiveDetails().getLinks();
@@ -175,17 +176,25 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
             timestamp = HelperTime.time2readableString(comObject.getArchiveDetails().getTimestamp());
         }
 
+        return new Object[]{domain, objType,
+            comObject.getArchiveDetails().getInstId(), timestamp, source, related};
+    }
+
+    private void addEntry(final ArchivePersistenceObject comObject) {
         try {
             semaphore.acquire();
         } catch (InterruptedException ex) {
             Logger.getLogger(ArchiveTablePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        archiveTableData.addRow(new Object[]{domain, objType,
-            comObject.getArchiveDetails().getInstId(), timestamp, source, related});
-
+        archiveTableData.addRow(buildRow(comObject));
         comObjects.add(comObject);
         semaphore.release();
+    }
+
+    public void sortByTimestamp() {
+        archiveTable.getRowSorter().setSortKeys(
+                Arrays.asList(new RowSorter.SortKey(3, SortOrder.DESCENDING)));
     }
 
     public void removeSelectedEntry() {

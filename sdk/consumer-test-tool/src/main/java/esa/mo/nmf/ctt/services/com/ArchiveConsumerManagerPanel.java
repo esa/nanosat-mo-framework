@@ -232,6 +232,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
 
         @Override
         public synchronized void queryResponseReceived(MALMessageHeader msgHeader, Map qosProperties) {
+            archiveTablePanel.sortByTimestamp();
             refreshTabCounter();
             isOver.release();
         }
