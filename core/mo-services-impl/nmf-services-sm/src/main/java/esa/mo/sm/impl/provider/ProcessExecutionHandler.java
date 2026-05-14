@@ -23,10 +23,11 @@ package esa.mo.sm.impl.provider;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.Field;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import org.ccsds.moims.mo.mal.helpertools.misc.TaskScheduler;
 
 public class ProcessExecutionHandler {
@@ -83,8 +84,11 @@ public class ProcessExecutionHandler {
 
     public void close() {
         removeShutdownHook();
+        // Collect descendants before killing parent: once the shell wrapper is gone,
+        // its children are orphaned and process.descendants() may no longer find them.
+        List<ProcessHandle> descendants = process.descendants().collect(Collectors.toList());
         process.destroy();
-        // process.descendants().forEach(ProcessHandle::destroy);
+        descendants.forEach(ProcessHandle::destroy);
         try {
             process.getInputStream().close();
             process.getOutputStream().close();
@@ -104,8 +108,8 @@ public class ProcessExecutionHandler {
         if (process.isAlive()) {
             Logger.getLogger(ProcessExecutionHandler.class.getName()).log(Level.WARNING,
                     "The process is still alive... Attempting to destroyForcibly()");
-            process.destroy();
             process.destroyForcibly();
+            process.descendants().forEach(ProcessHandle::destroyForcibly);
         }
 
         try {
@@ -139,22 +143,11 @@ public class ProcessExecutionHandler {
     }
 
     public static synchronized long getProcessPid(Process p) throws IOException {
-        long pid;
-
         try {
-            if (p.getClass().getName().equals("java.lang.UNIXProcess")) {
-                Field f = p.getClass().getDeclaredField("pid");
-                f.setAccessible(true);
-                pid = f.getLong(p);
-                f.setAccessible(false);
-            } else {
-                throw new IOException("Trying to resolve PID on an unsupported platform");
-            }
-        } catch (IllegalAccessException | IllegalArgumentException
-                | NoSuchFieldException | SecurityException ex) {
-            throw new IOException("Exception when trying to resolve PID", ex);
+            return p.pid();
+        } catch (UnsupportedOperationException ex) {
+            throw new IOException("Trying to resolve PID on an unsupported platform", ex);
         }
-        return pid;
     }
 
     public void monitorProcess(final Process process) {
