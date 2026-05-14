@@ -302,11 +302,10 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
         boolean foundWildcard = false;
 
-        ObjectId source = manager.storeCOMOperationActivity(interaction); // requirement: 3.7.4.h
         for (InstanceBooleanPair instance : enableInstances) {  // requirement: 3.7.9.2.d
             if (instance.getId() == 0) {  // Is it the wildcard '0'? requirement: 3.7.9.2.c
                 manager.setGenerationEnabledAll(instance.getValue(),
-                        source, connection.getConnectionDetails());
+                        null, connection.getConnectionDetails());
                 periodicReportingManager.refreshAll();
                 periodicSamplingManager.refreshAll();
                 foundWildcard = true;
@@ -337,7 +336,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         for (int index = 0; index < objIdToBeEnabled.size(); index++) {
             // requirement: 3.7.3.c, 3.7.9.2.f and 3.7.9.2.j, k
             Long out = manager.setGenerationEnabled(objIdToBeEnabled.get(index),
-                    valueToBeEnabled.get(index), source, connection.getConnectionDetails());
+                    valueToBeEnabled.get(index), null, connection.getConnectionDetails());
             output.add(out);
 
             /*
@@ -372,10 +371,9 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
         boolean foundWildcard = false;
 
-        ObjectId source = manager.storeCOMOperationActivity(interaction); // requirement: 3.7.4.h
         for (InstanceBooleanPair instance : enableInstances) {  // requirement: 3.7.10.2.d
             if (instance.getId() == 0) {  // Is it the wildcard '0'? requirement: 3.7.10.2.c
-                manager.setFilterEnabledAll(instance.getValue(), source, connection.getConnectionDetails());
+                manager.setFilterEnabledAll(instance.getValue(), null, connection.getConnectionDetails());
                 periodicReportingManager.refreshAll();
                 periodicSamplingManager.refreshAll();
                 foundWildcard = true;
@@ -404,7 +402,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         for (int index = 0; index < objIdToBeEnabled.size(); index++) {
             // requirement: 3.7.3.d, e, f; 3.7.10.2.f and 3.7.1.2.j, k
             boolean changed = manager.setFilterEnabled(objIdToBeEnabled.get(index),
-                    valueToBeEnabled.get(index), source, connection.getConnectionDetails());
+                    valueToBeEnabled.get(index), null, connection.getConnectionDetails());
             //requirement: 3.7.10.2.e //periodic managers must be refreshed, as the change of the filterEnabled-value creates a new Definition object
             if (changed) {
                 periodicReportingManager.refresh(objIdToBeEnabled.get(index));
@@ -520,12 +518,11 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
             throw new MALInteractionException(new DuplicateException(dupIndexList));
         }
 
-        ObjectId source = manager.storeCOMOperationActivity(interaction); //requirement: 3.7.4.g, h
         for (AggregationDefinition def : defsList) { // requirement: 3.7.12.2.i ( "for each cycle" guarantees that)
             Identifier aggrName = def.getName();
-            //requriement: 3.7.12.2.g , store the objects 
+            //requriement: 3.7.12.2.g , store the objects
             out.add(manager.add(aggrName, def,
-                    source, connection.getConnectionDetails())); //  requirement: 3.3.12.2.e
+                    null, connection.getConnectionDetails())); //  requirement: 3.3.12.2.e
             periodicReportingManager.refresh(out.get(0)); // Refresh the Periodic Reporting Manager for the added Identities
             periodicSamplingManager.refresh(out.get(0)); // Refresh the Periodic Sampling Manager for the added Identities
         }
@@ -598,12 +595,10 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         }
 
         LongList newDefIds = new LongList();
-        ObjectId source = manager.storeCOMOperationActivity(interaction); //requirement: 3.7.4.h
-
         for (int index = 0; index < ids.size(); index++) { // requirement: 3.7.13.2.e, k (implicitly by cycling through list)
             final Long id = ids.get(index);
             // requirement: 3.7.3.o, 3.7.13.2.d, h, i, k
-            newDefIds.add(manager.update(id, aDefs.get(index), source, connection.getConnectionDetails()));  // update and return new id
+            newDefIds.add(manager.update(id, aDefs.get(index), null, connection.getConnectionDetails()));  // update and return new id
             periodicReportingManager.refresh(id);// then, refresh the Periodic updates and samplings //requirement: 3.7.3.k
             periodicSamplingManager.refresh(id);//requirement: 3.7.3.k
         }

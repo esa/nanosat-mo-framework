@@ -192,10 +192,9 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
         boolean foundWildcard = false;
 
-        ObjectId source = manager.storeCOMOperationActivity(interaction);
         for (InstanceBooleanPair instance : enableInstances) {
             if (instance.getId() == 0) {  // Is it the wildcard '0'?
-                manager.setGenerationEnabledAll(instance.getValue(), source, connection.getConnectionDetails());
+                manager.setGenerationEnabledAll(instance.getValue(), null, connection.getConnectionDetails());
                 periodicReportingManager.refreshAll();
                 foundWildcard = true;
                 break;
@@ -226,7 +225,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             // requirement: 3.3.10.2.e, 3.3.10.2.f, 3.3.10.2.j and 3.3.10.2.k
             Long id = objIdToBeEnabled.get(index);
             Long out = manager.setGenerationEnabled(id,
-                    valueToBeEnabled.get(index), source,
+                    valueToBeEnabled.get(index), null,
                     connection.getConnectionDetails());
             output.add(out);
 
@@ -292,8 +291,6 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             throw new MALInteractionException(new ReadonlyException(readOnlyIndexList));
         }
 
-        //requirement 3.3.4.i   
-        ObjectId source = manager.storeCOMOperationActivity(interaction);
         //atomic behaviour while setting the values. So let all values have the same timestamp for creation
         //        FineTime timestamp = HelperTime.getTimestamp();
         //requirement: 3.3.9.2.e
@@ -311,12 +308,12 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             if (manager.getParameterDefinition(id).getGenerationEnabled()) {
                 //for the parameters where values have to be published (generation is enabled)
                 toPublishParamInstances.add(new ParameterInstance(manager.getName(id),
-                        newParamValues.get(i), source, null));
+                        newParamValues.get(i), null, null));
             } else {
                 //for the parameters where values do not have to be published (generation is disabled)
                 noPublishParamValList.add(newParamValues.get(i));
                 noPublishRelatedIds.add(id);
-                noPublishSourceIds.add(source);
+                noPublishSourceIds.add(null);
                 timestamps.add(timestamp);
             }
         }
@@ -419,15 +416,14 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             throw new MALInteractionException(new DuplicateException(dupIndexList));
         }
 
-        //requirement: 3.3.12.2.e: only if no error was raised, the new definitions should be stored 
-        ObjectId source = manager.storeCOMOperationActivity(interaction); // requirement: 3.3.4.g, h
+        //requirement: 3.3.12.2.e: only if no error was raised, the new definitions should be stored
         HeterogeneousList definitions = new HeterogeneousList();
         for (ParameterDefinition tempDef : defsList) { // requirement: 3.3.12.2.i ( "for each cycle" guarantees that)
             definitions.add(tempDef);
         }
 
         //store the objects
-        LongList ids = manager.addMultiple(definitions, source, connection.getConnectionDetails());
+        LongList ids = manager.addMultiple(definitions, null, connection.getConnectionDetails());
 
         // Refresh the Periodic Reporting Manager for the added Definitions
         final ReconfigurableService t = this;
@@ -492,9 +488,8 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
         //requirment 3.3.13.2.g: parameters shall only be updated if no error was raised
         LongList newDefIds = new LongList();
-        ObjectId source = manager.storeCOMOperationActivity(interaction); // requirement: 3.3.4.g, h
         for (int index = 0; index < paramIdentityInstIds.size(); index++) {  // requirement: 3.3.13.2.i, .k
-            newDefIds.add(manager.update(paramIdentityInstIds.get(index), paramDefDetails.get(index), source, connection
+            newDefIds.add(manager.update(paramIdentityInstIds.get(index), paramDefDetails.get(index), null, connection
                     .getConnectionDetails()));  // Change in the manager, requirement 3.3.13.2.d, g
             periodicReportingManager.refresh(paramIdentityInstIds.get(index));// then, refresh the Periodic updates
         }

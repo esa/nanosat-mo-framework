@@ -124,10 +124,9 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
 
         boolean foundWildcard = false;
 
-        ObjectId source = manager.storeCOMOperationActivity(interaction); // requirement: 3.4.4.h
         for (InstanceBooleanPair instance : enableInstances) {  // requirement: 3.4.8.2.d
             if (instance.getId() == 0) {  // Is it the wildcard '0'? requirement: 3.3.8.2.c
-                manager.setGenerationEnabledAll(instance.getValue(), source,
+                manager.setGenerationEnabledAll(instance.getValue(), null,
                         connection.getConnectionDetails());
                 foundWildcard = true;
                 break;
@@ -157,7 +156,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
         for (int index = 0; index < objIdToBeEnabled.size(); index++) {
             // requirement: 3.4.8.e and 3.4.8.f and 3.4.8.j
             Long out = manager.setGenerationEnabled(objIdToBeEnabled.get(index),
-                    valueToBeEnabled.get(index), source, connection.getConnectionDetails());
+                    valueToBeEnabled.get(index), null, connection.getConnectionDetails());
             output.add(out);
         }
 
@@ -245,11 +244,10 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
         }
 
         LongList outPairLst = new LongList();
-        ObjectId source = manager.storeCOMOperationActivity(interaction); // requirement: 3.4.4.g,h
         //requirement: 3.4.10.2.h -> cycling with for loop through  the requests assures that
         for (AlertDefinition alertDef : alertDefs) {
             //requirement: 3.4.10.2.a
-            outPairLst.add(manager.add(alertDef, source,
+            outPairLst.add(manager.add(alertDef, null,
                     connection.getConnectionDetails())); //  requirement: 3.4.10.2.f
         }
 
@@ -296,12 +294,11 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
         }
 
         LongList outLst = new LongList();
-        ObjectId source = manager.storeCOMOperationActivity(interaction); // requirement: 3.3.4.g, h
         // requirement: 3.4.11.2.e, 3.4.11.2.j
         for (int index = 0; index < alertObjInstIds.size(); index++) {
             //requirement: 3.4.11.2.a, 3.4.11.2.d
             outLst.add(manager.update(alertObjInstIds.get(index), newAlertDefDetails.get(index),
-                    source, connection.getConnectionDetails())); //requirement: 3.4.11.2.h Change in the manager/archive
+                    null, connection.getConnectionDetails())); //requirement: 3.4.11.2.h Change in the manager/archive
         }
 
         if (configurationAdapter != null) {

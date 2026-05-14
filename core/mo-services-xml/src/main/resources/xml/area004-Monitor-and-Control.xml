@@ -266,18 +266,15 @@
                 The ParameterValue object shall use the related link to indicate which ParameterDefinition object it uses.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="6">
-                The source link of the ParameterDefinition object should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="7">
                 The source link of the ParameterValue object should be the object that caused the report to be generated.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="8">
+            <mal:documentation name="Service-level Requirement" order="7">
                 The source link of the ParameterValue object shall be NULL for periodic reports.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="9">
+            <mal:documentation name="Service-level Requirement" order="8">
                 ParameterDefinition objects should be stored in the COM archive.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="10">
+            <mal:documentation name="Service-level Requirement" order="9">
                 When a parameter value report is published, the ParameterValue object should be stored in the COM archive.
             </mal:documentation>
             <mal:capabilitySet number="1">
@@ -579,7 +576,6 @@
                         <com:objectType>
                             <mal:type name="ParameterDefinition" area="MC"/>
                         </com:objectType>
-                        <com:sourceObject comment="The object that caused it to be created, for example, a COM OperationActivity"/>
                     </com:object>
                     <com:object number="2" name="ParameterValue">
                         <com:objectType>
@@ -619,21 +615,18 @@
                 The AlertEvent object shall use the related link to indicate which AlertDefinition object it uses.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="6">
-                The source link of the AlertDefinition object should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="7">
                 When an alert is generated it shall be represented as a COM event.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="8">
+            <mal:documentation name="Service-level Requirement" order="7">
                 The event shall be published using the COM event service.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="9">
+            <mal:documentation name="Service-level Requirement" order="8">
                 The source link of the AlertEvent object shall be the object that caused the event to be generated.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="10">
+            <mal:documentation name="Service-level Requirement" order="9">
                 AlertDefinition objects should be stored in the COM archive.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="11">
+            <mal:documentation name="Service-level Requirement" order="10">
                 When an alert event is published, the AlertEvent object should be stored in the COM archive by the publisher.
             </mal:documentation>
             <mal:capabilitySet number="1">
@@ -793,7 +786,6 @@
                         <com:objectType>
                             <mal:type name="AlertDefinition" area="MC"/>
                         </com:objectType>
-                        <com:sourceObject comment="The object that caused it to be created, for example, a COM OperationActivity"/>
                     </com:object>
                 </com:objects>
                 <com:events comment="AlertEvent objects are published when an enabled alert is generated.">
@@ -854,18 +846,15 @@
                 The AggregationValueInstance object shall use the related link to indicate which AggregationDefinition object it uses.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="6">
-                The source link of the AggregationDefinition object should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="7">
                 The source link of the AggregationValueInstance object should be the object that caused the report to be generated.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="8">
+            <mal:documentation name="Service-level Requirement" order="7">
                 The source link of the AggregationValueInstance object shall be NULL for periodic reports.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="9">
+            <mal:documentation name="Service-level Requirement" order="8">
                 AggregationDefinition objects should be stored in the COM archive.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="10">
+            <mal:documentation name="Service-level Requirement" order="9">
                 When an aggregation value report is published, the AggregationValueInstance object should be stored in the COM archive.
             </mal:documentation>
             <mal:capabilitySet number="1">
@@ -1245,7 +1234,6 @@
                         <com:objectType>
                             <mal:type name="AggregationDefinition" area="MC"/>
                         </com:objectType>
-                        <com:sourceObject comment="The object that caused it to be created, for example, a COM OperationActivity"/>
                     </com:object>
                     <com:object number="2" name="AggregationValueInstance">
                         <com:objectType>
@@ -1276,12 +1264,9 @@
                 The definitions of the conversions shall be represented as either DiscreteConversion, LineConversion, PolyConversion, or RangeConversion COM objects.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="4">
-                The source link of the conversion definition object should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="5">
                 Other service objects shall reference instances of a conversion using the id of the conversion definition.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="6">
+            <mal:documentation name="Service-level Requirement" order="5">
                 Conversion definition objects should be stored in the COM archive.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="11">
@@ -1299,25 +1284,21 @@
                         <com:objectType>
                             <mal:type name="DiscreteConversion" area="MC"/>
                         </com:objectType>
-                        <com:sourceObject comment="The object that caused it to be created, for example, a COM OperationActivity."/>
                     </com:object>
                     <com:object number="2" name="LineConversion">
                         <com:objectType>
                             <mal:type name="LineConversion" area="MC"/>
                         </com:objectType>
-                        <com:sourceObject comment="The object that caused it to be created, for example, a COM OperationActivity."/>
                     </com:object>
                     <com:object number="3" name="PolyConversion">
                         <com:objectType>
                             <mal:type name="PolyConversion" area="MC"/>
                         </com:objectType>
-                        <com:sourceObject comment="The object that caused it to be created, for example, a COM OperationActivity."/>
                     </com:object>
                     <com:object number="4" name="RangeConversion">
                         <com:objectType>
                             <mal:type name="RangeConversion" area="MC"/>
                         </com:objectType>
-                        <com:sourceObject comment="The object that caused it to be created, for example, a COM OperationActivity."/>
                     </com:object>
                 </com:objects>
                 <com:archiveUsage comment="Conversion definition objects are stored in the COM archive."/>

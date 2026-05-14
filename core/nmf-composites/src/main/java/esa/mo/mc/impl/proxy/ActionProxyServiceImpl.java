@@ -33,7 +33,6 @@ import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
-import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.UIntegerList;
@@ -109,15 +108,7 @@ public class ActionProxyServiceImpl extends ActionInheritanceSkeleton {
     @Override
     public Long executeAction(ExecutionRequest executionRequest, MALInteraction interaction)
             throws MALInteractionException, MALException {
-        manager.getCOMServices().getActivityTrackingService().publishReceptionEvent(interaction, true, new Duration(0),
-                actionConsumer.getConnectionDetails().getProviderURI(), null);
-
-        Long executionId = actionConsumer.getActionStub().executeAction(executionRequest);
-
-        manager.getCOMServices().getActivityTrackingService().publishForwardEvent(interaction, true, new Duration(0),
-                actionConsumer.getConnectionDetails().getProviderURI(), null);
-
-        return executionId;
+        return actionConsumer.getActionStub().executeAction(executionRequest);
     }
 
     @Override

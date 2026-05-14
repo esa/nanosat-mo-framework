@@ -513,19 +513,18 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
                 new Object[]{appInstId, appDirectoryServiceName});
         MALInteraction malInt = (interaction != null) ? interaction.getInteraction() : null;
         COMServicesProvider com = super.getCOMServices();
-        ObjectId eventSource = com.getActivityTrackingService().storeCOMOperationActivity(malInt, null);
 
         // Generate, store and publish the events to stop the App...
         Long objId = com.getEventService().generateAndStoreEvent(
                 objType, ConfigurationProviderSingleton.getDomain(),
-                appDirectoryServiceName, appInstId, eventSource, malInt);
+                appDirectoryServiceName, appInstId, null, malInt);
 
         URI uri = (malInt != null) ? malInt.getMessageHeader().getFromURI() : new URI("");
 
         if (appDirectoryServiceName != null) {
             try {
                 com.getEventService().publishEvent(uri, objId, objType,
-                        appInstId, eventSource, appDirectoryServiceName);
+                        appInstId, null, appDirectoryServiceName);
             } catch (IOException ex) {
                 LOGGER.log(Level.SEVERE, "Something went wrong...", ex);
             }

@@ -13,14 +13,13 @@
  * You on an "as is" basis and without warranties of any kind, including without
  * limitation merchantability, fitness for a particular purpose, absence of
  * defects or errors, accuracy or non-infringement of intellectual property rights.
- * 
+ *
  * See the License for the specific language governing permissions and
- * limitations under the License. 
+ * limitations under the License.
  * ----------------------------------------------------------------------------
  */
 package esa.mo.com.impl.util;
 
-import esa.mo.com.impl.provider.ActivityTrackingProviderServiceImpl;
 import esa.mo.com.impl.provider.ArchiveProviderServiceImpl;
 import esa.mo.com.impl.provider.ArchiveSyncProviderServiceImpl;
 import esa.mo.com.impl.provider.DirectoryProviderServiceImpl;
@@ -35,7 +34,6 @@ public class COMServicesProvider {
 
     private ArchiveProviderServiceImpl archiveService;
     private EventProviderServiceImpl eventService;
-    private ActivityTrackingProviderServiceImpl activityTrackingService;
     private ArchiveSyncProviderServiceImpl archiveSyncService;
     private final DirectoryProviderServiceImpl directoryService = new DirectoryProviderServiceImpl();
 
@@ -50,7 +48,6 @@ public class COMServicesProvider {
         archiveService.init(null);
 
         eventService = new EventProviderServiceImpl();
-        activityTrackingService = new ActivityTrackingProviderServiceImpl();
 
         // Initialize the Event service (without an Archive)
         eventService.init(archiveService);
@@ -59,9 +56,6 @@ public class COMServicesProvider {
         eventService.setArchiveService(archiveService);
 
         archiveService.setEventService(eventService);
-
-        // Start Activity Tracking Service
-        activityTrackingService.init(archiveService, eventService);
 
         // Initialize the Directory service
         directoryService.init(this);
@@ -73,10 +67,6 @@ public class COMServicesProvider {
 
     public ArchiveProviderServiceImpl getArchiveService() {
         return this.archiveService;
-    }
-
-    public ActivityTrackingProviderServiceImpl getActivityTrackingService() {
-        return this.activityTrackingService;
     }
 
     public ArchiveSyncProviderServiceImpl getArchiveSyncService() {
@@ -108,15 +98,6 @@ public class COMServicesProvider {
      */
     public void setArchiveService(ArchiveProviderServiceImpl archiveService) {
         this.archiveService = archiveService;
-    }
-
-    /**
-     * Sets the Activity Tracking service provider
-     *
-     * @param activityTrackingService Activity Tracking service provider
-     */
-    public void setActivityTrackingService(ActivityTrackingProviderServiceImpl activityTrackingService) {
-        this.activityTrackingService = activityTrackingService;
     }
 
     public void closeAll() {

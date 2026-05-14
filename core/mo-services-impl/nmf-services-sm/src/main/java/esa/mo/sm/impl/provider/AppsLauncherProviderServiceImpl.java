@@ -277,15 +277,12 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
                 Long appId = appInstIds.get(i);
                 AppDetails app = this.manager.get(appId);
                 ObjectType objType = AppsLauncherServiceInfo.STARTAPP_OBJECT_TYPE;
-                ObjectId eventSource = this.manager.getCOMServices().getActivityTrackingService()
-                        .storeCOMOperationActivity(interaction, null);
-
                 Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO,
                         "Generating StartApp event for app: {0} (Name: ''{1}'')",
                         new Object[]{appId, app.getName()});
                 this.manager.getCOMServices().getEventService().generateAndStoreEvent(
                         objType, ConfigurationProviderSingleton.getDomain(),
-                        app.getName(), appId, eventSource, interaction);
+                        app.getName(), appId, null, interaction);
 
                 CallbacksImpl calback = new CallbacksImpl();
                 ProcessExecutionHandler pHandler = new ProcessExecutionHandler(calback, appId);

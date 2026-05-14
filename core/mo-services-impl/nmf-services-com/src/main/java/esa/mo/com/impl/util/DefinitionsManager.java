@@ -20,12 +20,9 @@
  */
 package esa.mo.com.impl.util;
 
-import esa.mo.com.impl.provider.ActivityTrackingProviderServiceImpl;
 import esa.mo.com.impl.provider.ArchiveProviderServiceImpl;
 import esa.mo.com.impl.provider.EventProviderServiceImpl;
 import java.util.HashMap;
-import org.ccsds.moims.mo.com.structures.ObjectId;
-import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.ElementList;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
@@ -42,7 +39,6 @@ public abstract class DefinitionsManager {
     private final HashMap<Long, Element> defs;
     private final EventProviderServiceImpl eventService;
     private final ArchiveProviderServiceImpl archiveService;
-    private final ActivityTrackingProviderServiceImpl activityTrackingService;
     private final COMServicesProvider comServices;
 
     public DefinitionsManager(COMServicesProvider comServices) {
@@ -51,12 +47,10 @@ public abstract class DefinitionsManager {
         if (comServices != null) {
             this.eventService = comServices.getEventService();
             this.archiveService = comServices.getArchiveService();
-            this.activityTrackingService = comServices.getActivityTrackingService();
             this.comServices = comServices;
         } else {
             this.eventService = null;
             this.archiveService = null;
-            this.activityTrackingService = null;
             this.comServices = null;
         }
     }
@@ -67,10 +61,6 @@ public abstract class DefinitionsManager {
 
     public ArchiveProviderServiceImpl getArchiveService() {
         return this.archiveService;
-    }
-
-    public ActivityTrackingProviderServiceImpl getActivityTrackingService() {
-        return this.activityTrackingService;
     }
 
     public COMServicesProvider getCOMServices() {
@@ -204,21 +194,6 @@ public abstract class DefinitionsManager {
         }
 
         return true;
-    }
-
-    /**
-     * Stores the COM Operation Activity object in the Archive
-     *
-     * @param interaction The MALInteraction object for the operation
-     * @return The link to the stored COM Operation Activity. Null if not
-     * stored.
-     */
-    public ObjectId storeCOMOperationActivity(final MALInteraction interaction) {
-        if (getActivityTrackingService() != null) {
-            return getActivityTrackingService().storeCOMOperationActivity(interaction, null);
-        } else {
-            return null;
-        }
     }
 
     /**

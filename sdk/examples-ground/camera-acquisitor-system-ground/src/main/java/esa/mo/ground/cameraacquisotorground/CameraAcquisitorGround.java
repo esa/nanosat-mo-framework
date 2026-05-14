@@ -20,10 +20,8 @@
  */
 package esa.mo.ground.cameraacquisotorground;
 
-import esa.mo.com.impl.util.EventCOMObject;
-import esa.mo.com.impl.util.EventReceivedListener;
-import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.ground.restservice.GroundTrack;
+import esa.mo.mc.impl.consumer.ActionConsumerServiceImpl;
 import esa.mo.ground.restservice.Pass;
 import esa.mo.ground.restservice.PositionAndTime;
 import esa.mo.nmf.NMFException;
@@ -47,9 +45,10 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-import org.ccsds.moims.mo.com.activitytracking.ActivityTrackingServiceInfo;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
 import org.ccsds.moims.mo.com.structures.*;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
+import org.ccsds.moims.mo.mc.action.consumer.ActionAdapter;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
@@ -111,8 +110,10 @@ public class CameraAcquisitorGround {
     // Tree set to keep track of scheduled photographs and make checking for collisions easier
     private final TreeSet<AbsoluteDate> schedule = new TreeSet<>();
 
-    // Hashmap containing the currently running actions and their status (current stage)
+    // Hashmap keyed by executionId containing each action's per-stage progress reports
     private final HashMap<Long, ActionReport[]> activeActions = new HashMap<>();
+
+    private Subscription monitorExecutionSubscription;
 
     // cached values
     private PositionAndTime[] cachedTrack = new PositionAndTime[0];
@@ -225,11 +226,8 @@ public class CameraAcquisitorGround {
             }
         }
         try {
-            Subscription subscription = HelperCOM.generateSubscriptionCOMEvent("ActivityTrackingListener",
-                    ActivityTrackingServiceInfo.EXECUTION_OBJECT_TYPE);
-            gma.getCOMServices().getEventService().addEventReceivedListener(subscription,
-                    new EventReceivedListenerAdapter());
             setInitialParameters();
+            subscribeToMonitorExecution();
 
             // get previous requests
             ArchiveQueryList archiveQueryList = new ArchiveQueryList();
@@ -455,79 +453,70 @@ public class CameraAcquisitorGround {
         gma.setParameter(Parameter.PICTURE_TYPE, PictureFormat.PNG.getValue());
     }
 
-    private void updateEvent(long actionID, int type, Object body) {
-        if (type == ActivityAcceptance.TYPE_ID.getSFP()) {
-            System.out.println("ActivityAcceptance");
-            ActivityAcceptance event = (ActivityAcceptance) body;
-        } else if (type == ActivityExecution.TYPE_ID.getSFP()) {
-            System.out.println("ActivityExecution");
-            ActivityExecution event = (ActivityExecution) body;
-            int executionStage = (int) event.getExecutionStage().getValue();
-            int stageCount = (int) event.getStageCount().getValue();
-            boolean success = event.getSuccess();
-
-            // update status of action
-            if (activeActions.containsKey(actionID)) {
-                synchronized (activeActions) {
-                    // minus 2 because stage count starts at 1 and an extra stage (for message received) is added by the Framework
-                    if (executionStage > 1 && executionStage < 6) {
-                        activeActions.get(actionID)[executionStage - 1] = new ActionReport(executionStage, success, "");
-                    }
-                    // if some other stage is successful, the command has also been transmitted to the satellite!
-                    if (executionStage - 1 > 0 && executionStage != 7 && success) {
-                        activeActions.get(actionID)[0] = new ActionReport(1, true, "");
-                    }
-                }
-                LOGGER.log(Level.INFO, "Action State: {0}", Arrays.toString(activeActions.get(actionID)));
-            }
-            if (success) {
-                LOGGER.log(Level.INFO, "Action Update: ID={0}, Execution Stage={1}", new Object[]{actionID,
-                    executionStage});
-            } else {
-                LOGGER.log(Level.WARNING, "Action Unsuccessful: ID={0}, Execution Stage={1}", new Object[]{actionID,
-                    executionStage});
-            }
-
-        } else if (type == AlertEvent.TYPE_ID.getSFP()) {
-            System.out.println("AlertEvent");
-            AlertEvent event = (AlertEvent) body;
-
-            AttributeValueList attValues = event.getArgumentValues();
-
-            StringBuilder messageToDisplay = new StringBuilder("ID: " + actionID + " ");
-
-            if (attValues != null) {
-                if (attValues.size() == 1) {
-                    messageToDisplay.append(attValues.get(0).getValue().toString());
-                }
-                if (attValues.size() > 1) {
-                    for (int i = 0; i < attValues.size(); i++) {
-                        AttributeValue attValue = attValues.get(i);
-                        messageToDisplay.append("[").append(i).append("] ").append(attValue.getValue().toString())
-                                .append("\n");
-                    }
-                }
-            }
-            LOGGER.log(Level.WARNING, messageToDisplay.toString());
+    private void subscribeToMonitorExecution() {
+        ActionConsumerServiceImpl actionService = gma.getMCServices().getActionService();
+        if (actionService.getConnectionDetails().getBrokerURI() == null) {
+            LOGGER.log(Level.WARNING,
+                    "Action service has no broker URI - monitorExecution subscription skipped.");
+            return;
+        }
+        monitorExecutionSubscription = ConnectionConsumer.subscriptionWildcardRandom();
+        try {
+            actionService.getActionStub().monitorExecutionRegister(
+                    monitorExecutionSubscription, new MonitorExecutionAdapter());
+            LOGGER.log(Level.INFO, "Subscribed to monitorExecution");
+        } catch (MALInteractionException | MALException ex) {
+            LOGGER.log(Level.SEVERE, "Failed to subscribe to monitorExecution", ex);
         }
     }
 
-    /**
-     * class for handling the receiving of messages from the space Application
-     */
-    private class EventReceivedListenerAdapter extends EventReceivedListener {
+    private void updateExecutionStatus(long executionId, ExecutionStageType stageType,
+            Boolean success, UShort step) {
+        if (!activeActions.containsKey(executionId)) {
+            return;
+        }
+        synchronized (activeActions) {
+            ActionReport[] reports = activeActions.get(executionId);
+            if (stageType == ExecutionStageType.PROGRESS && step != null) {
+                int stepVal = step.getValue();
+                if (stepVal > 0 && stepVal <= reports.length) {
+                    boolean ok = success != null && success;
+                    reports[stepVal - 1] = new ActionReport(stepVal, ok, "");
+                }
+            }
+        }
+        boolean ok = success != null && success;
+        if (stageType == ExecutionStageType.PROGRESS) {
+            if (ok) {
+                LOGGER.log(Level.INFO, "Action Update: executionId={0}, step={1}",
+                        new Object[]{executionId, step});
+            } else {
+                LOGGER.log(Level.WARNING, "Action step failed: executionId={0}, step={1}",
+                        new Object[]{executionId, step});
+            }
+        }
+        LOGGER.log(Level.INFO, "Action State: {0}", Arrays.toString(activeActions.get(executionId)));
+    }
+
+    private class MonitorExecutionAdapter extends ActionAdapter {
 
         @Override
-        public void onDataReceived(EventCOMObject eventCOMObject) {
-
-            if (eventCOMObject.getBody() == null) {
+        public void monitorExecutionNotifyReceived(MALMessageHeader msgHeader,
+                Identifier subscriptionId, UpdateHeader updateHeader,
+                ExecutionStageType stageType, Boolean success, UShort step,
+                String comment, java.util.Map qosProperties) {
+            NullableAttributeList keys = updateHeader.getKeyValues();
+            if (keys == null || keys.size() < 2) {
                 return;
             }
-
-            long actionID = eventCOMObject.getSource().getInstId();
-
-            int type = eventCOMObject.getBody().getTypeId().getSFP();
-            updateEvent(actionID, type, eventCOMObject.getBody());
+            Long executionId = null;
+            if (keys.get(1) != null && keys.get(1).getValue() != null) {
+                executionId = ((Union) keys.get(1).getValue()).getLongValue();
+            }
+            if (executionId == null) {
+                return;
+            }
+            updateExecutionStatus(executionId, stageType, success, step);
         }
     }
 
@@ -570,14 +559,13 @@ public class CameraAcquisitorGround {
                         } catch (MALInteractionException | MALException ex) {
                             LOGGER.log(Level.SEVERE, ex.getMessage());
                         }
-                    } else if (objBody instanceof ActivityAcceptance) {
-                        ActivityAcceptance instance = ((ActivityAcceptance) objBody);
-                        updateEvent(objDetails.get(i).getLinks().getSource().getInstId(),
-                                instance.getTypeId().getSFP(), objBody);
-                    } else if (objBody instanceof ActivityExecution) {
-                        ActivityExecution instance = ((ActivityExecution) objBody);
-                        updateEvent(objDetails.get(i).getLinks().getSource().getInstId(),
-                                instance.getTypeId().getSFP(), objBody);
+                    } else if (objBody instanceof ExecutionStatus) {
+                        ExecutionStatus status = (ExecutionStatus) objBody;
+                        Long executionId = objDetails.get(i).getLinks().getRelated();
+                        if (executionId != null) {
+                            updateExecutionStatus(executionId, status.getStageType(),
+                                    status.getSuccess(), status.getStep());
+                        }
                     }
                     i++;
                 }

@@ -517,105 +517,6 @@
                 </com:events>
             </com:features>
         </mal:service>
-        <mal:service comment="The activity tracking service provides the ability to monitor the progress of activities; an activity is anything that has a measurable period of time (a command, a remote procedure, a schedule etc). It defines an event pattern that supports the monitoring of activities from the initial consumer request, tracking its progress across a transport link, to reception by the provider and execution in that provider." name="ActivityTracking" number="3" xsi:type="com:ExtendedServiceType">
-            <mal:documentation name="Service-level Requirement" order="1">The activity tracking service may be used for the monitoring of MAL operations.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="2">A MAL implementation must populate the transaction identifier for SEND interactions if the activity tracking service is to be used.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="3">If a MAL operation is using the activity tracking service, when the interaction is started, the consumer shall populate and archive an OperationActivity object.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="4">The OperationActivity object shall use the transaction identifier of the MAL operation for its object instance identifier.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="5">The OperationActivity object shall use the domain of the MAL operation for its domain.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="6">All Activity events for the interaction shall link to the OperationActivity object using their source link where the object instance identifier to use is the MAL interaction transaction identifier.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="7">If a relay node is unable to relay the operation then that relay shall fail the MAL interaction that the consumer initiated as well as generate the correct activity event.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="8">The executionStage field of the Execution event structure shall hold the current execution stage of the activity.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="9">For SUBMIT, INVOKE, and PROGRESS interactions the ACKNOWLEDGE stage shall have an execution stage value of '1'.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="10">For REQUEST interactions the RESPONSE stage shall have an execution stage value of '1'.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="11">For PROGRESS interactions the execution stage value for the PROGRESS updates shall start at '2' and increate for each update sent.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="12">For PROGRESS interactions the execution stage value for the RESPONSE shall be the total number of PROGRESS updates plus '2'.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="13">The stageCount field of the Execution event structure shall be populated from the stage count row of Table 2-1.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="14">The activity tracking service shall use the event service for the monitoring of activities being transferred from a consumer to a provider and also for execution in the provider.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="15">A Release event shall be generated when an activity is released from a consumer.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="16">A Reception event shall be generated when an activity is received by an intermediate relay.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="17">A Forward event shall be generated when an activity is released from an intermediate relay.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="18">An Acceptance event shall be generated when an activity is received by the destination provider.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="19">Reception and Forward events shall only be used in a multi-hop activity transfer.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="20">For Reception and Forward events, the source URI in the UpdateHeader of the published event shall contain the URI of the relay. It is protocol specific how this value is derived.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="21">Execution progress of an activity shall be reported using Execution events.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="22">The Execution event may be reported many times as it is used to report each stage in the execution of the activity.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="23">The events generated as part of the activity monitoring pattern may be persisted in a COM archive.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="24">If the activity events are being persisted then the objects that represent the activities (such as an OperationActivity object) should also be persisted.
-            </mal:documentation>
-            <com:features>
-                <com:objects comment="The OperationActivity object tracks MAL operation activities.">
-                    <com:object number="6" name="OperationActivity">
-                        <com:objectType>
-                            <mal:type area="COM" list="false" name="OperationActivity"/>
-                        </com:objectType>
-                        <com:relatedObject comment="Not used."/>
-                        <com:sourceObject comment="Not used."/>
-                    </com:object>
-                </com:objects>
-                <com:events comment="Activity events monitor the transfer and execution of MAL operations.">
-                    <com:event comment="A Release event is release from source consumer." name="Release" number="1">
-                        <com:objectType>
-                            <mal:type area="COM" list="false" name="ActivityTransfer"/>
-                        </com:objectType>
-                        <com:relatedObject comment="Not used."/>
-                        <com:sourceObject comment="The activity being monitored is the source of the event."/>
-                    </com:event>
-                    <com:event comment="A Reception event is reception by an intermediate relay." name="Reception" number="2">
-                        <com:objectType>
-                            <mal:type area="COM" list="false" name="ActivityTransfer"/>
-                        </com:objectType>
-                        <com:relatedObject comment="Not used."/>
-                        <com:sourceObject comment="The activity being monitored is the source of the event."/>
-                    </com:event>
-                    <com:event comment="A Forward event is release from an intermediate relay." name="Forward" number="3">
-                        <com:objectType>
-                            <mal:type area="COM" list="false" name="ActivityTransfer"/>
-                        </com:objectType>
-                        <com:relatedObject comment="Not used."/>
-                        <com:sourceObject comment="The activity being monitored is the source of the event."/>
-                    </com:event>
-                    <com:event comment="An Acceptance event is reception and acceptance by the destination provider." name="Acceptance" number="4">
-                        <com:objectType>
-                            <mal:type area="COM" list="false" name="ActivityAcceptance"/>
-                        </com:objectType>
-                        <com:relatedObject comment="Not used."/>
-                        <com:sourceObject comment="The activity being monitored is the source of the event."/>
-                    </com:event>
-                    <com:event comment="An Execution event is execution progress reporting by the destination provider." name="Execution" number="5">
-                        <com:objectType>
-                            <mal:type area="COM" list="false" name="ActivityExecution"/>
-                        </com:objectType>
-                        <com:relatedObject comment="Not used."/>
-                        <com:sourceObject comment="The activity being monitored is the source of the event."/>
-                    </com:event>
-                </com:events>
-                <com:archiveUsage comment="Activity tracking events may be persisted in a COM archive."/>
-            </com:features>
-        </mal:service>
         <mal:service comment="The ArchiveSync service allows a service consumer to synchronize the COM Archive with a service provider. " name="ArchiveSync" number="4" xsi:type="com:ExtendedServiceType">
             <mal:capabilitySet number="1">
                 <mal:requestIP comment="The getTime operation allows a consumer to retrieve the current time and the time of the last synchronization from the provider." name="getTime" number="1" supportInReplay="false">
@@ -1232,87 +1133,72 @@
                 If the ServiceConfiguration represents a Hard-coded configuration for a single service then the related link shall be set to NULL.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="4">
-                The ServiceConfiguration COM object source link should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="5">
                 The object body of the ProviderConfiguration COM object shall hold an identifier to identify the provider configuration.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="6">
+            <mal:documentation name="Service-level Requirement" order="5">
                 The ProviderConfiguration COM object related link shall link to the ConfigurationObjects COM object that contains the objects that form the provider configuration.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="7">
+            <mal:documentation name="Service-level Requirement" order="6">
                 If the ProviderConfiguration represents a Hard-coded configuration for a provider then the related link shall be set to NULL.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="8">
-                The ProviderConfiguration COM object source link should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="9">
+            <mal:documentation name="Service-level Requirement" order="7">
                 The object body of the ConfigurationObjects COM object shall hold a configuration object details structure that links to the objects that form the configuration.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="10">
+            <mal:documentation name="Service-level Requirement" order="8">
                 The ConfigurationObjects COM object related link shall be set to NULL.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="11">
-                The ConfigurationObjects COM object source link should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="12">
+            <mal:documentation name="Service-level Requirement" order="9">
                 A ConfigurationSwitch COM event shall represent a request change in active configuration.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="13">
+            <mal:documentation name="Service-level Requirement" order="10">
                 The ConfigurationSwitch COM event body shall hold the configuration to be activated.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="14">
+            <mal:documentation name="Service-level Requirement" order="11">
                 The ConfigurationSwitch COM event related link shall point to the COM ServiceProvider object that is required to attempt the configuration switch.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="15">
-                The ConfigurationSwitch COM event source link shall indicate the activate COM OperationActivity object that caused it to be created.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="16">
+            <mal:documentation name="Service-level Requirement" order="12">
                 A ConfigurationSwitched COM event shall be raised when a configuration is made active.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="17">
+            <mal:documentation name="Service-level Requirement" order="13">
                 The ConfigurationSwitched COM event body shall hold the result of the activation attempt.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="18">
+            <mal:documentation name="Service-level Requirement" order="14">
                 If the activation was successful then the body of the ConfigurationSwitched event shall be set to TRUE, otherwise FALSE for failure.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="19">
+            <mal:documentation name="Service-level Requirement" order="15">
                 The ConfigurationSwitched COM event related link shall point to the ConfigurationSwitch event that triggered the switch attempt.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="20">
+            <mal:documentation name="Service-level Requirement" order="16">
                 The ConfigurationSwitched COM event source link shall point to the previous active configuration or be NULL if no configuration was previously active.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="21">
+            <mal:documentation name="Service-level Requirement" order="17">
                 A ConfigurationStore COM event shall represent a request to store the current configuration.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="22">
+            <mal:documentation name="Service-level Requirement" order="18">
                 The ConfigurationStore COM event body may contain the ServiceId of the service to store; it shall be NULL if the provider configuration is to be stored.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="23">
+            <mal:documentation name="Service-level Requirement" order="19">
                 The ConfigurationStore COM event related link shall link to the ServiceProvider object that represents the provider that must store its configuration.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="24">
-                The ConfigurationStore COM event source link shall indicate the storeCurrent COM OperationActivity object that caused it to be created.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="25">
+            <mal:documentation name="Service-level Requirement" order="20">
                 A ConfigurationStored COM event shall be raised when a configuration has been stored.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="26">
+            <mal:documentation name="Service-level Requirement" order="21">
                 The ConfigurationStored COM event body shall hold the ObjectId of the new Configuration object if the store was successful, otherwise NULL for failure.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="27">
+            <mal:documentation name="Service-level Requirement" order="22">
                 The ConfigurationStored COM event related link shall point to the ConfigurationStore event that triggered the store attempt.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="28">
+            <mal:documentation name="Service-level Requirement" order="23">
                 The ConfigurationStored COM event source link shall be NULL.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="29">
+            <mal:documentation name="Service-level Requirement" order="24">
                 Configuration definition objects (ServiceConfiguration, ProviderConfiguration, ConfigurationObjects) must be stored in the COM archive by the provider of the Configuration service if the implementation of the Configuration service uses a COM archive.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="30">
+            <mal:documentation name="Service-level Requirement" order="25">
                 The COM objects that hold the actual configuration definition details must be stored in the COM archive by the provider of the relevant service if the implementation of the Configuration service uses a COM archive.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="31">
+            <mal:documentation name="Service-level Requirement" order="26">
                 When a configuration event (ConfigurationSwitch, ConfigurationSwitched, ConfigurationStore, ConfigurationStored) is published, the event objects should be stored in the COM archive.
             </mal:documentation>
             <com:features>
@@ -1324,7 +1210,6 @@
                         <com:relatedObject>
                             <com:objectType number="3" service="Configuration" area="COM"/>
                         </com:relatedObject>
-                        <com:sourceObject comment="The object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used."/>
                     </com:object>
                     <com:object number="2" name="ProviderConfiguration">
                         <com:objectType>
@@ -1333,13 +1218,11 @@
                         <com:relatedObject>
                             <com:objectType number="3" service="Configuration" area="COM"/>
                         </com:relatedObject>
-                        <com:sourceObject comment="The object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used."/>
                     </com:object>
                     <com:object number="3" name="ConfigurationObjects">
                         <com:objectType>
                             <mal:type name="ConfigurationObjectDetails" area="COM"/>
                         </com:objectType>
-                        <com:sourceObject comment="The object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used."/>
                     </com:object>
                 </com:objects>
                 <com:events comment="The ConfigurationSwitch, ConfigurationSwitched, ConfigurationStore, and ConfigurationStored events used by the Configuration service.">
@@ -1531,38 +1414,6 @@
                 </mal:field>
                 <mal:field canBeNull="false" comment="The offset for the page." name="offset">
                     <mal:type area="MAL" list="false" name="UInteger"/>
-                </mal:field>
-            </mal:composite>
-            <mal:composite shortFormPart="11" name="ActivityTransfer" comment="The structure holds details for a Release, Reception, or Forward event of an activity.">
-                <mal:field canBeNull="false" comment="The success result of this stage, TRUE if successful, FALSE otherwise. If this is TRUE then the next two fields should be populated." name="success">
-                    <mal:type area="MAL" list="false" name="Boolean"/>
-                </mal:field>
-                <mal:field canBeNull="true" comment="The estimated amount of time it will take to be received by the next destination if Release or Forward. Contains the estimated amount of time it will take to be forwarded by this relay if Reception event. May be NULL if unknown or cannot be calculated." name="estimateDuration">
-                    <mal:type area="MAL" list="false" name="Duration"/>
-                </mal:field>
-                <mal:field canBeNull="true" comment="This contains the URI of the next destination, either another relay or the provider. It is protocol specific how this value is derived." name="nextDestination">
-                    <mal:type area="MAL" list="false" name="URI"/>
-                </mal:field>
-            </mal:composite>
-            <mal:composite shortFormPart="12" name="ActivityAcceptance" comment="The structure is used to hold details of an Acceptance event.">
-                <mal:field canBeNull="false" comment="The success result of this stage, TRUE if successful, FALSE otherwise." name="success">
-                    <mal:type area="MAL" list="false" name="Boolean"/>
-                </mal:field>
-            </mal:composite>
-            <mal:composite shortFormPart="13" name="ActivityExecution" comment="The structure is used to report the execution status of an activity in the final destination.">
-                <mal:field canBeNull="false" comment="The success result of this stage, TRUE if successful, FALSE otherwise." name="success">
-                    <mal:type area="MAL" list="false" name="Boolean"/>
-                </mal:field>
-                <mal:field canBeNull="false" comment="The execution stage of the operation." name="executionStage">
-                    <mal:type area="MAL" list="false" name="UInteger"/>
-                </mal:field>
-                <mal:field canBeNull="false" comment="The total number of execution stages that will be reported." name="stageCount">
-                    <mal:type area="MAL" list="false" name="UInteger"/>
-                </mal:field>
-            </mal:composite>
-            <mal:composite shortFormPart="14" name="OperationActivity" comment="The OperationActivity structure contains the details of a MAL operation activity.">
-                <mal:field canBeNull="false" comment="The interaction type of the original operation message header." name="interactionType">
-                    <mal:type area="MAL" list="false" name="InteractionType"/>
                 </mal:field>
             </mal:composite>
             <mal:composite shortFormPart="15" name="DictionaryEntry" comment="The DictionaryEntry structure is used to hold information about a single entry of the Dictionary.">
