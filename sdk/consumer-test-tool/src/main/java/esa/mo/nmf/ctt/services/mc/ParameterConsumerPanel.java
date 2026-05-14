@@ -240,9 +240,9 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
             this.serviceMCParameter.getParameterStub().asyncListDefinition(idList, new ParameterAdapter() {
                 @Override
                 public void listDefinitionResponseReceived(MALMessageHeader msgHeader, LongList objInstIds, Map qosProperties) {
-                    parameterTable.refreshTableWithIdsPairs(objInstIds,
+                    javax.swing.SwingUtilities.invokeLater(() -> parameterTable.refreshTableWithIdsPairs(objInstIds,
                             serviceMCParameter.getConnectionDetails().getDomain(),
-                            ParameterServiceInfo.PARAMETERDEFINITION_OBJECT_TYPE);
+                            ParameterServiceInfo.PARAMETERDEFINITION_OBJECT_TYPE));
                     Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.INFO,
                             "listDefinition(\"*\") returned {0} object instance identifiers", objInstIds.size());
                 }

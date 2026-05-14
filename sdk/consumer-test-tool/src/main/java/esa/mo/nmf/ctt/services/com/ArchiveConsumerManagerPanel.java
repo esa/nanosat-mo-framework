@@ -218,9 +218,11 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         public synchronized void retrieveResponseReceived(MALMessageHeader msgHeader,
                 ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
             ArchiveCOMObjectsOutput archiveObjectOutput = new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies);
-            archiveTablePanel.addEntries(archiveObjectOutput);
             n_objs_counter = n_objs_counter + objDetails.size();
-            refreshTabCounter();
+            javax.swing.SwingUtilities.invokeLater(() -> {
+                archiveTablePanel.addEntries(archiveObjectOutput);
+                refreshTabCounter();
+            });
         }
 
         @Override
@@ -233,7 +235,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         @Override
         public synchronized void queryResponseReceived(MALMessageHeader msgHeader, Map qosProperties) {
             archiveTablePanel.sortByTimestamp();
-            refreshTabCounter();
+            javax.swing.SwingUtilities.invokeLater(this::refreshTabCounter);
             isOver.release();
         }
 
@@ -246,16 +248,20 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
                 objType = this.objType;
             }
             if (objType == null || domain == null || objDetails == null) {
-                refreshTabCounter();
-                repaint();
+                javax.swing.SwingUtilities.invokeLater(() -> {
+                    refreshTabCounter();
+                    repaint();
+                });
                 return;
             }
             ArchiveCOMObjectsOutput archiveObjectOutput = new ArchiveCOMObjectsOutput(
                     domain, objType, objDetails, objBodies);
-            archiveTablePanel.addEntries(archiveObjectOutput);
             n_objs_counter = n_objs_counter + objDetails.size();
-            refreshTabCounter();
-            repaint();
+            javax.swing.SwingUtilities.invokeLater(() -> {
+                archiveTablePanel.addEntries(archiveObjectOutput);
+                refreshTabCounter();
+                repaint();
+            });
         }
 
         @Override

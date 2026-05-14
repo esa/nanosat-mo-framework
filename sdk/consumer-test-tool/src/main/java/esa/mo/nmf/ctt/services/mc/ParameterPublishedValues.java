@@ -129,10 +129,12 @@ public class ParameterPublishedValues extends javax.swing.JPanel {
                     String convertedValue = HelperAttributes.attribute2string(parameterValue.getConvertedValue());
 
                     boolean isNotValid = ((int) validityState.getValue() != ValidityState.VALID_VALUE);
-                    labels[index + 0 * numberOfColumns].setNewValue(nameId, isNotValid);
-                    labels[index + 1 * numberOfColumns].setNewValue(validity, isNotValid);
-                    labels[index + 2 * numberOfColumns].setNewValue(rawValue, isNotValid);
-                    labels[index + 3 * numberOfColumns].setNewValue(convertedValue, isNotValid);
+                    javax.swing.SwingUtilities.invokeLater(() -> {
+                        labels[index + 0 * numberOfColumns].setNewValue(nameId, isNotValid);
+                        labels[index + 1 * numberOfColumns].setNewValue(validity, isNotValid);
+                        labels[index + 2 * numberOfColumns].setNewValue(rawValue, isNotValid);
+                        labels[index + 3 * numberOfColumns].setNewValue(convertedValue, isNotValid);
+                    });
                 }
             } catch (NumberFormatException ex) {
                 Logger.getLogger(ParameterPublishedValues.class.getName()).log(Level.WARNING,

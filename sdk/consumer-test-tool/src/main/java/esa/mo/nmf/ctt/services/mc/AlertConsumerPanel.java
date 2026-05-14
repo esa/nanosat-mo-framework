@@ -255,9 +255,9 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
             this.serviceMCAlert.getAlertStub().asyncListDefinition(idList, new AlertAdapter() {
                 @Override
                 public void listDefinitionResponseReceived(MALMessageHeader msgHeader, LongList alertObjInstIds, Map qosProperties) {
-                    alertTable.refreshTableWithIdsPairs(alertObjInstIds,
+                    javax.swing.SwingUtilities.invokeLater(() -> alertTable.refreshTableWithIdsPairs(alertObjInstIds,
                             serviceMCAlert.getConnectionDetails().getDomain(),
-                            AlertServiceInfo.ALERTDEFINITION_OBJECT_TYPE);
+                            AlertServiceInfo.ALERTDEFINITION_OBJECT_TYPE));
                     Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.INFO,
                             "listDefinition(\"*\") returned {0} object instance identifiers", alertObjInstIds.size());
                 }

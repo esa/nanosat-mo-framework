@@ -152,10 +152,6 @@ public class EventConsumerPanel extends javax.swing.JPanel {
             String domainName = HelperDomain.domain2domainId(eventCOMObject.getDomain());
             String eventName = HelperCOM.objType2COMObject(eventCOMObject.getObjType()).getObjectName().toString();
 
-            eventTableData.addRow(new Object[]{time, eventCOMObject.getSourceURI().toString(), eKey2, eventName,
-                domainName, eventCOMObject.getObjId(), eKey4, objDetailsRelated,
-                objDetailsSource, n_events});
-
             ArchiveDetails archiveDetails = new ArchiveDetails(
                     eventCOMObject.getObjId(),
                     objectLinks,
@@ -170,8 +166,12 @@ public class EventConsumerPanel extends javax.swing.JPanel {
                     archiveDetails,
                     body);
 
-            // Add to the table
-            comObjects.add(comObject);
+            javax.swing.SwingUtilities.invokeLater(() -> {
+                eventTableData.addRow(new Object[]{time, eventCOMObject.getSourceURI().toString(), eKey2, eventName,
+                    domainName, eventCOMObject.getObjId(), eKey4, objDetailsRelated,
+                    objDetailsSource, n_events});
+                comObjects.add(comObject);
+            });
         }
     }
 

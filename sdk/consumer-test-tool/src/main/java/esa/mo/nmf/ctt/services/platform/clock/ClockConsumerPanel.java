@@ -108,7 +108,8 @@ public class ClockConsumerPanel extends javax.swing.JPanel {
             this.clockService.asyncGetTime(new ClockAdapter() {
                 @Override
                 public void getTimeResponseReceived(MALMessageHeader msgHeader, Time time, Map qosProperties) {
-                    timeLabel.setText(HelperTime.time2readableString(time));
+                    javax.swing.SwingUtilities.invokeLater(
+                            () -> timeLabel.setText(HelperTime.time2readableString(time)));
                 }
             });
         } catch (MALInteractionException | MALException e) {

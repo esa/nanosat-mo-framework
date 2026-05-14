@@ -166,12 +166,12 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
                 @Override
                 public void findPackageResponseReceived(MALMessageHeader msgHeader,
                         IdentifierList names, BooleanList installed, Map qosProperties) {
-                    packagesTable.removeAllEntries();
-
-                    for (int i = 0; i < names.size(); i++) {
-                        packagesTable.addEntry(names.get(i), installed.get(i));
-                    }
-
+                    javax.swing.SwingUtilities.invokeLater(() -> {
+                        packagesTable.removeAllEntries();
+                        for (int i = 0; i < names.size(); i++) {
+                            packagesTable.addEntry(names.get(i), installed.get(i));
+                        }
+                    });
                     Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.INFO,
                             "listApp(\"*\") returned {0} object instance identifiers", names.size());
                 }
@@ -214,7 +214,7 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
                         java.util.Map qosProperties) {
                     Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(
                             Level.INFO, "Upgraded!");
-                    listAppAllButtonActionPerformed(null);
+                    javax.swing.SwingUtilities.invokeLater(() -> listAppAllButtonActionPerformed(null));
                 }
 
                 @Override

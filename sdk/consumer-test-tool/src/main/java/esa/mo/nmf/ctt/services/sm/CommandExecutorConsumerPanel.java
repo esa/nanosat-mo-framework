@@ -251,7 +251,7 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel {
         private synchronized void addCommandOutput(Long sourceObjId, String data) {
             outputBuffers.computeIfAbsent(sourceObjId, k -> new StringBuffer());
             outputBuffers.get(sourceObjId).append(data);
-            refreshOutputBufferWindow(sourceObjId);
+            javax.swing.SwingUtilities.invokeLater(() -> refreshOutputBufferWindow(sourceObjId));
         }
     }
 
@@ -265,7 +265,7 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel {
             if (comObj == null) {
                 LOGGER.log(Level.SEVERE, "Retrieved null COM object for objInstId {0}", commandInstId);
             } else {
-                recentCommandsTable.addEntry(comObj);
+                javax.swing.SwingUtilities.invokeLater(() -> recentCommandsTable.addEntry(comObj));
             }
         }
     }

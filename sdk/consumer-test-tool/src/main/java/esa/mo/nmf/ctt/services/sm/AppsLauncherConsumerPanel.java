@@ -370,8 +370,10 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
 
             StringBuffer stringBuf = outputBuffers.get(appObjId.getLongValue());
             stringBuf.append(out);
-            appVerboseTextArea.append(out);
-            appVerboseTextArea.setCaretPosition(appVerboseTextArea.getDocument().getLength());
+            javax.swing.SwingUtilities.invokeLater(() -> {
+                appVerboseTextArea.append(out);
+                appVerboseTextArea.setCaretPosition(appVerboseTextArea.getDocument().getLength());
+            });
         }
     }
 
@@ -385,16 +387,20 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
 
         @Override
         public void stopAppAckReceived(MALMessageHeader msgHeader, Map qosProperties) {
-            for (Long apid : apids) {
-                appsTable.reportStatus("Stop ACK received...", apid.intValue());
-            }
+            javax.swing.SwingUtilities.invokeLater(() -> {
+                for (Long apid : apids) {
+                    appsTable.reportStatus("Stop ACK received...", apid.intValue());
+                }
+            });
         }
 
         @Override
         public void stopAppUpdateReceived(MALMessageHeader msgHeader,
                 Long appClosing, Map qosProperties) {
-            appsTable.reportStatus("Stopped!", appClosing.intValue());
-            appsTable.switchEnabledstatusForApp(false, appClosing.intValue());
+            javax.swing.SwingUtilities.invokeLater(() -> {
+                appsTable.reportStatus("Stopped!", appClosing.intValue());
+                appsTable.switchEnabledstatusForApp(false, appClosing.intValue());
+            });
         }
 
         @Override
@@ -414,10 +420,12 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
 
         @Override
         public void stopAppResponseReceived(MALMessageHeader msgHeader, Map qosProperties) {
-            for (Long apid : apids) {
-                appsTable.reportStatus("Stop App Completed.", apid.intValue());
-                appsTable.switchEnabledstatusForApp(false, apid.intValue());
-            }
+            javax.swing.SwingUtilities.invokeLater(() -> {
+                for (Long apid : apids) {
+                    appsTable.reportStatus("Stop App Completed.", apid.intValue());
+                    appsTable.switchEnabledstatusForApp(false, apid.intValue());
+                }
+            });
         }
 
     }
@@ -457,8 +465,10 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
                         ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
                     boolean appIsRunning = ((AppDetails) objBodies.get(0)).getRunning();
                     String text = appIsRunning ? runningText : notRunningText;
-                    appsTable.reportStatus(text, appId.intValue());
-                    appsTable.switchEnabledstatus(appIsRunning, rowId);
+                    javax.swing.SwingUtilities.invokeLater(() -> {
+                        appsTable.reportStatus(text, appId.intValue());
+                        appsTable.switchEnabledstatus(appIsRunning, rowId);
+                    });
                 }
             };
             serviceSMAppsLauncher.getCOMServices().getArchiveService().getArchiveStub().retrieve(
