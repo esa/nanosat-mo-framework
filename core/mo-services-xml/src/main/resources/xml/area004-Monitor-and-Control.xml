@@ -510,8 +510,8 @@
                 </mal:requestIP>
             </mal:capabilitySet>
             <mal:capabilitySet number="6">
-                <mal:requestIP name="updateDefinition" number="7" supportInReplay="false"
-                               comment="The updateDefinition operation allows a consumer to update a definition for one or more parameters. The replacement definition should be stored in the COM archive by the service provider. The operation does not remove the previous object from the COM archive, merely removes the object from the provider.">
+                <mal:submitIP name="updateDefinition" number="7" supportInReplay="false"
+                              comment="The updateDefinition operation allows a consumer to update a definition for one or more parameters. The replacement definition should be stored in the COM archive by the service provider. The operation does not remove the previous object from the COM archive, merely removes the object from the provider.">
                     <mal:documentation name="Requirement" order="1">
                         The supplied ids shall match existing ParameterDefinition objects, an UNKNOWN error shall be raised if this is not the case.
                     </mal:documentation>
@@ -533,11 +533,8 @@
                     <mal:documentation name="Requirement" order="7">
                         The new ParameterDefinition object shall be the current ParameterDefinition used for the parameter.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="8">
-                        The returned list shall maintain the same order as the submitted definitions.
-                    </mal:documentation>
                     <mal:messages>
-                        <mal:request>
+                        <mal:submit>
                             <mal:field name="paramInstIds"
                                        comment="The ids of the ParameterDefinition objects to be updated.">
                                 <mal:type list="true" name="Long" area="MAL"/>
@@ -546,13 +543,7 @@
                                        comment="The updated ParameterDefinition objects.">
                                 <mal:type list="true" name="ParameterDefinition" area="MC"/>
                             </mal:field>
-                        </mal:request>
-                        <mal:response>
-                            <mal:field name="newObjInstIds"
-                                       comment="The list of ids for the new ParameterDefinition objects.">
-                                <mal:type list="true" name="Long" area="MAL"/>
-                            </mal:field>
-                        </mal:response>
+                        </mal:submit>
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="The supplied ids list contains either a NULL or '0' or the two supplied lists are not the same length or a supplied interval is not supported by the provider.&#xA;If the two lists are not the same length then the extra information field shall contain the first index of the element in the largest list which does not have corresponding element in the other list.">
@@ -568,7 +559,7 @@
                             </mal:extraInformation>
                         </mal:errorRef>
                     </mal:errors>
-                </mal:requestIP>
+                </mal:submitIP>
             </mal:capabilitySet>
             <com:features>
                 <com:objects comment="Parameter definitions and value instances are represented as COM objects.">
@@ -723,8 +714,8 @@
                 </mal:requestIP>
             </mal:capabilitySet>
             <mal:capabilitySet number="3">
-                <mal:requestIP name="updateDefinition" number="4" supportInReplay="false"
-                               comment="The updateDefinition operation allows a consumer to update a definition for one or more alerts. The replacement definition should be stored in the COM archive by the service provider. The operation does not remove the previous object from the COM archive, merely removes the object from the provider.">
+                <mal:submitIP name="updateDefinition" number="4" supportInReplay="false"
+                              comment="The updateDefinition operation allows a consumer to update a definition for one or more alerts. The replacement definition should be stored in the COM archive by the service provider. The operation does not remove the previous object from the COM archive, merely removes the object from the provider.">
                     <mal:documentation name="Requirement" order="1">
                         The supplied ids shall match existing AlertDefinition objects, an UNKNOWN error shall be raised if this is not the case.
                     </mal:documentation>
@@ -743,11 +734,8 @@
                     <mal:documentation name="Requirement" order="6">
                         The new AlertDefinition object shall be the current AlertDefinition used for the alert.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="7">
-                        The returned list shall maintain the same order as the submitted definitions.
-                    </mal:documentation>
                     <mal:messages>
-                        <mal:request>
+                        <mal:submit>
                             <mal:field name="definitionIds"
                                        comment="The ids of the AlertDefinition objects to be updated.">
                                 <mal:type list="true" name="Long" area="MAL"/>
@@ -756,13 +744,7 @@
                                        comment="The replacement AlertDefinition objects.">
                                 <mal:type list="true" name="AlertDefinition" area="MC"/>
                             </mal:field>
-                        </mal:request>
-                        <mal:response>
-                            <mal:field name="newObjInstIds"
-                                       comment="The list of ids for the new AlertDefinition objects.">
-                                <mal:type list="true" name="Long" area="MAL"/>
-                            </mal:field>
-                        </mal:response>
+                        </mal:submit>
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="One of the supplied AlertDefinition objects contains an invalid value or the two supplied lists are not the same length.&#xA;If the two lists are not the same length then the extra information field shall contain the first index of the element in the largest list which does not have corresponding element in the other list.">
@@ -778,7 +760,7 @@
                             </mal:extraInformation>
                         </mal:errorRef>
                     </mal:errors>
-                </mal:requestIP>
+                </mal:submitIP>
             </mal:capabilitySet>
             <com:features>
                 <com:objects comment="Alert definitions and instances are represented as COM objects.">
@@ -1131,8 +1113,8 @@
                         </mal:errorRef>
                     </mal:errors>
                 </mal:requestIP>
-                <mal:requestIP name="updateDefinition" number="7" supportInReplay="false"
-                               comment="The updateDefinition operation allows a consumer to update a definition for one or more aggregations.&#xA;The replacement definition should be stored in the COM archive by the service provider. The operation does not remove the previous object from the COM archive, merely removes the object from the provider.">
+                <mal:submitIP name="updateDefinition" number="7" supportInReplay="false"
+                              comment="The updateDefinition operation allows a consumer to update a definition for one or more aggregations.&#xA;The replacement definition should be stored in the COM archive by the service provider. The operation does not remove the previous object from the COM archive, merely removes the object from the provider.">
                     <mal:documentation name="Requirement" order="1">
                         The supplied ids shall match existing AggregationDefinition objects, an UNKNOWN error shall be raised if this is not the case.
                     </mal:documentation>
@@ -1154,11 +1136,8 @@
                     <mal:documentation name="Requirement" order="7">
                         The new AggregationDefinition object shall be the current AggregationDefinition used for the aggregation.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="8">
-                        The returned list shall maintain the same order as the submitted definitions.
-                    </mal:documentation>
                     <mal:messages>
-                        <mal:request>
+                        <mal:submit>
                             <mal:field name="definitionIds"
                                        comment="The ids of the AggregationDefinition objects to be updated.">
                                 <mal:type list="true" name="Long" area="MAL"/>
@@ -1167,13 +1146,7 @@
                                        comment="The replacement AggregationDefinition objects.">
                                 <mal:type list="true" name="AggregationDefinition" area="MC"/>
                             </mal:field>
-                        </mal:request>
-                        <mal:response>
-                            <mal:field name="newObjInstIds"
-                                       comment="The list of ids for the new AggregationDefinition objects.">
-                                <mal:type list="true" name="Long" area="MAL"/>
-                            </mal:field>
-                        </mal:response>
+                        </mal:submit>
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="One of the supplied AggregationDefinition ids is unknown.">
@@ -1189,7 +1162,7 @@
                             </mal:extraInformation>
                         </mal:errorRef>
                     </mal:errors>
-                </mal:requestIP>
+                </mal:submitIP>
                 <mal:submitIP name="removeAggregation" number="8" supportInReplay="false"
                               comment="The removeAggregation operation allows a consumer to remove one or more aggregations from the list of aggregations supported by the aggregation provider.&#xA;The operation does not remove the AggregationDefinition objects from the COM archive, merely removes the objects from the provider. This permits existing AggregationValueInstance objects to continue to reference the correct AggregationDefinition object in the COM archive.">
                     <mal:documentation name="Requirement" order="1">

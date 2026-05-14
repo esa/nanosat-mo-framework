@@ -259,7 +259,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
     }
 
     @Override
-    public LongList updateDefinition(LongList alertObjInstIds, AlertDefinitionList newAlertDefDetails,
+    public void updateDefinition(LongList alertObjInstIds, AlertDefinitionList newAlertDefDetails,
             MALInteraction interaction) throws MALInteractionException, MALException {
 
         UIntegerList unkIndexList = new UIntegerList();
@@ -293,19 +293,16 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
             throw new MALInteractionException(new UnknownException(unkIndexList));
         }
 
-        LongList outLst = new LongList();
-        // requirement: 3.4.11.2.e, 3.4.11.2.j
+        // requirement: 3.4.11.2.e
         for (int index = 0; index < alertObjInstIds.size(); index++) {
             //requirement: 3.4.11.2.a, 3.4.11.2.d
-            outLst.add(manager.update(alertObjInstIds.get(index), newAlertDefDetails.get(index),
-                    null, connection.getConnectionDetails())); //requirement: 3.4.11.2.h Change in the manager/archive
+            manager.update(alertObjInstIds.get(index), newAlertDefDetails.get(index),
+                    null, connection.getConnectionDetails()); //requirement: 3.4.11.2.h Change in the manager/archive
         }
 
         if (configurationAdapter != null) {
             configurationAdapter.onConfigurationChanged(this);
         }
-
-        return outLst; //requirement: 3.4.11.2.i
     }
 
     public void removeAlert(LongList alertIdentityIds,

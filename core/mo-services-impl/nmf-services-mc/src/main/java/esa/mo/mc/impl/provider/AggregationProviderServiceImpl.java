@@ -535,7 +535,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
     }
 
     @Override
-    public LongList updateDefinition(LongList ids, AggregationDefinitionList aDefs,
+    public void updateDefinition(LongList ids, AggregationDefinitionList aDefs,
             MALInteraction interaction) throws MALInteractionException, MALException { // requirement: 3.7.13.2.a, 3.7.13.2.d
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
@@ -594,11 +594,10 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
             throw new MALInteractionException(new InvalidException(invIndexList));
         }
 
-        LongList newDefIds = new LongList();
         for (int index = 0; index < ids.size(); index++) { // requirement: 3.7.13.2.e, k (implicitly by cycling through list)
             final Long id = ids.get(index);
-            // requirement: 3.7.3.o, 3.7.13.2.d, h, i, k
-            newDefIds.add(manager.update(id, aDefs.get(index), null, connection.getConnectionDetails()));  // update and return new id
+            // requirement: 3.7.3.o, 3.7.13.2.d, h, k
+            manager.update(id, aDefs.get(index), null, connection.getConnectionDetails());
             periodicReportingManager.refresh(id);// then, refresh the Periodic updates and samplings //requirement: 3.7.3.k
             periodicSamplingManager.refresh(id);//requirement: 3.7.3.k
         }
@@ -606,9 +605,6 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         if (configurationAdapter != null) {
             configurationAdapter.onConfigurationChanged(this);
         }
-
-        // requirement: 3.7.13.2.j
-        return newDefIds;
     }
 
     @Override

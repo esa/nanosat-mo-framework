@@ -444,7 +444,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
     }
 
     @Override
-    public LongList updateDefinition(LongList paramIdentityInstIds, ParameterDefinitionList paramDefDetails,
+    public void updateDefinition(LongList paramIdentityInstIds, ParameterDefinitionList paramDefDetails,
             MALInteraction interaction) throws MALInteractionException, MALException { // requirement: 3.3.13.2.a
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
@@ -487,20 +487,15 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         }
 
         //requirment 3.3.13.2.g: parameters shall only be updated if no error was raised
-        LongList newDefIds = new LongList();
         for (int index = 0; index < paramIdentityInstIds.size(); index++) {  // requirement: 3.3.13.2.i, .k
-            newDefIds.add(manager.update(paramIdentityInstIds.get(index), paramDefDetails.get(index), null, connection
-                    .getConnectionDetails()));  // Change in the manager, requirement 3.3.13.2.d, g
+            manager.update(paramIdentityInstIds.get(index), paramDefDetails.get(index), null, connection
+                    .getConnectionDetails());  // Change in the manager, requirement 3.3.13.2.d, g
             periodicReportingManager.refresh(paramIdentityInstIds.get(index));// then, refresh the Periodic updates
         }
 
         if (configurationAdapter != null) {
             configurationAdapter.onConfigurationChanged(this);
         }
-
-        //requirement: 3.3.13.2.j
-        return newDefIds;
-
     }
 
     public void removeParameter(final LongList identityIds, final MALInteraction interaction) throws MALException,
