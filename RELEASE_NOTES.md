@@ -10,6 +10,7 @@ The different versions and respective updates are the following:
 * Merges all NMF Composites into one single project
 * Migrates all COM timestamps from FineTime to Time (millisecond precision)
 * Merges the Common services (Directory, Login) into the COM, removing the separate Common area
+* Removes the ActivityTracking service from COM; action execution progress is now tracked via the Action service's `monitorExecution` PUB-SUB operation and `ExecutionStatus` COM objects
 
 ### Version 4.0 (22 June 2025)
 * Significantly improves the codebase of the NanoSat MO Framework
