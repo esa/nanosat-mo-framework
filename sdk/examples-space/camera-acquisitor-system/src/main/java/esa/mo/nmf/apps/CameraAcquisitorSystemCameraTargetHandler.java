@@ -42,7 +42,7 @@ import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.mal.transport.MALMessage;
-import org.ccsds.moims.mo.mc.structures.ActionExecution;
+import org.ccsds.moims.mo.mc.structures.ExecutionRequest;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.platform.structures.AttitudeMode;
 import org.ccsds.moims.mo.platform.structures.AttitudeModeTargetTracking;
@@ -94,7 +94,7 @@ public class CameraAcquisitorSystemCameraTargetHandler {
             @Override
             public void run() {
                 try {
-                    casMCAdapter.getConnector().reportActionExecutionProgress(
+                    casMCAdapter.getConnector().reportExecutionRequestProgress(
                             true,
                             0,
                             STAGE_WAIT_FOR_PASS,
@@ -114,7 +114,7 @@ public class CameraAcquisitorSystemCameraTargetHandler {
                             new Duration(timeTillPhotograph.getInSeconds() + casMCAdapter.getAttitudeSafetyMarginSeconds()),
                             desiredAttitude);
 
-                    casMCAdapter.getConnector().reportActionExecutionProgress(true, 0,
+                    casMCAdapter.getConnector().reportExecutionRequestProgress(true, 0,
                             STAGE_ATTITUDE_CORECTION, PHOTOGRAPH_LOCATION_STAGES, actionInstanceObjId);
                     LOGGER.log(Level.INFO, "Attitude Correction Running");
                 } catch (NMFException | IOException | MALInteractionException | MALException ex) {
@@ -134,7 +134,7 @@ public class CameraAcquisitorSystemCameraTargetHandler {
                 }
 
                 try {
-                    casMCAdapter.getConnector().reportActionExecutionProgress(true, 0,
+                    casMCAdapter.getConnector().reportExecutionRequestProgress(true, 0,
                             STAGE_WAIT_FOR_OPTIMAL_PASS,
                             PHOTOGRAPH_LOCATION_STAGES, actionInstanceObjId);
                     LOGGER.log(Level.INFO, "Finished waiting for Pass");
@@ -213,8 +213,8 @@ public class CameraAcquisitorSystemCameraTargetHandler {
             if (objBodies != null) {
                 int i = 0;
                 for (Object objBody : objBodies) {
-                    if (objBody instanceof ActionExecution) {
-                        ActionExecution instance = ((ActionExecution) objBody);
+                    if (objBody instanceof ExecutionRequest) {
+                        ExecutionRequest instance = ((ExecutionRequest) objBody);
                         if (instance.getArgumentValues().size() == 3) {
                             String timeStamp = instance.getArgumentValues().get(2).getValue().toString();
                             try {

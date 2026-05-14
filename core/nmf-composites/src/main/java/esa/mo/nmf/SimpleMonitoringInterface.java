@@ -49,7 +49,7 @@ public interface SimpleMonitoringInterface {
      * @throws NMFException if the action execution progress could not be
      * reported.
      */
-    void reportActionExecutionProgress(final boolean success, final int errorNumber, final int progressStage,
+    void reportExecutionRequestProgress(final boolean success, final int errorNumber, final int progressStage,
             final int totalNumberOfProgressStages, final long actionInstId) throws NMFException;
 
     /**

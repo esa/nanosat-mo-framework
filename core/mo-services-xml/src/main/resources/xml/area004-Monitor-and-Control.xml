@@ -6,7 +6,7 @@
     <mal:area name="MC" number="4" version="5"
               comment="This section details the MC services, the structures used by the services are detailed in section 4. Both the services and structures are defined in terms of the MO MAL, which is defined in [2], so it is possible to deploy them over any supported protocol and message transport.&#xA;The services defined here are also specified in terms of the COM, which is defined in [3].&#xA;To aid comprehension, several tables are included for each service and operation definition. The table formats are briefly described in section 1.6.3.2 and are the same as those used for the specification of the MO COM services in [3]. &#xA;All service specifications in this document are part of the MC area, which has a short form number of '4'.">
         <mal:service xsi:type="com:ExtendedServiceType" name="Action" number="1"
-                     comment="The action service allows consumers to request execution of actions and to subsequently monitor the execution progress of these actions via the monitorExecution PUB-SUB operation and the COM activity tracking pattern. The progress of the action is split into two parts, firstly delivery from the consumer to the provider, and secondly execution in the provider.&#xA;A consumer requests execution by calling the executeAction operation with the action execution details. The provider validates the request, creates and archives the ActionExecution object, assigns it a unique identifier (the executionId), and returns that identifier in the response. The provider then reports execution progress using both the monitorExecution PUB-SUB operation and the COM ActivityTracking service. Once the action execution details have been checked and execution started, the executeAction operation completes whilst the execution of the action possibly continues (depends on the actual action). The final interaction in the sequence shows the execution events of the executing action, the '*' at the start of that line indicates zero to many events being published.&#xA;If the execution of an action fails with an error, the action service provider can publish an ActionFailure COM event to hold the error code being reported by the failure. If no error code is required to be reported then there is no need to publish the event as the normal COM ActivityTracking event contains a success indication.&#xA;The action service defines two types of objects, the first type is the ActionDefinition object that holds the name and description of an action with the list of required/optional arguments. The second type is the ActionExecution object that holds details of a specific action execution namely a value for each of the arguments of the action.">
+                     comment="The action service allows consumers to request execution of actions and to subsequently monitor the execution progress of these actions via the monitorExecution PUB-SUB operation and the COM activity tracking pattern. The progress of the action is split into two parts, firstly delivery from the consumer to the provider, and secondly execution in the provider.&#xA;A consumer requests execution by calling the executeAction operation with the action execution details. The provider validates the request, creates and archives the ExecutionRequest object, assigns it a unique identifier (the executionId), and returns that identifier in the response. The provider then reports execution progress using both the monitorExecution PUB-SUB operation and the COM ActivityTracking service. Once the action execution details have been checked and execution started, the executeAction operation completes whilst the execution of the action possibly continues (depends on the actual action). The final interaction in the sequence shows the execution events of the executing action, the '*' at the start of that line indicates zero to many events being published.&#xA;If the execution of an action fails with an error, the action service provider can publish an ActionFailure COM event to hold the error code being reported by the failure. If no error code is required to be reported then there is no need to publish the event as the normal COM ActivityTracking event contains a success indication.&#xA;The action service defines two types of objects, the first type is the ActionDefinition object that holds the name and description of an action with the list of required/optional arguments. The second type is the ExecutionRequest object that holds details of a specific action execution namely a value for each of the arguments of the action.">
             <mal:documentation name="High Level Requirements" order="1">The action service shall provide:
 &lt;ol&gt;
  &lt;li&gt;the capability for monitoring the execution progress of actions;&lt;/li&gt;
@@ -29,13 +29,13 @@
                 The source link of the ActionDefinition object should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="5">
-                Executions of an action that are submitted to a provider using the executeAction operation shall be represented as ActionExecution COM object.
+                Executions of an action that are submitted to a provider using the executeAction operation shall be represented as ExecutionRequest COM object.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="6">
-                The id for an ActionExecution object shall be assigned by the provider and returned to the consumer as the executionId in the executeAction response.
+                The id for an ExecutionRequest object shall be assigned by the provider and returned to the consumer as the executionId in the executeAction response.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="7">
-                The ActionExecution object shall use the related link to indicate which ActionDefinition object it uses.
+                The ExecutionRequest object shall use the related link to indicate which ActionDefinition object it uses.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="8">
                 Executions of an action created by the provider in response to the executeAction operation shall link to the executeAction OperationActivity object using the source link.
@@ -59,7 +59,7 @@
                 The source of the ActionFailure event shall be the ActivityTracking Execution event that represents the failure stage of the action execution.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="15">
-                The related field of the ActionFailure event shall link to the ActionExecution object that failed.
+                The related field of the ActionFailure event shall link to the ExecutionRequest object that failed.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="16">
                 The body of the event shall hold a numeric failure code that is either a MAL error number or a deployment specific code.
@@ -71,7 +71,7 @@
                 ActionDefinition objects should be stored in the COM archive.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="19">
-                Upon accepting an action request, the provider shall create and store the ActionExecution object in the COM archive before beginning execution.
+                Upon accepting an action request, the provider shall create and store the ExecutionRequest object in the COM archive before beginning execution.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="20">
                 The COM activity tracking events associated with the submission and execution of the action should be stored in the COM archive.
@@ -83,7 +83,7 @@
                 The COM Activity service should be used to monitor the transfer and execution of the executeAction operation.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="23">
-                The COM Activity service should be used to monitor the transfer and execution of ActionExecution objects.
+                The COM Activity service should be used to monitor the transfer and execution of ExecutionRequest objects.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="24">
                 The COM activity events for the executeAction operation shall be generated as defined in the COM activity tracking service.
@@ -92,16 +92,16 @@
                 A Release activity event for the executeAction operation shall be generated by the provider when the action execution details have been received and accepted for execution.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="26">
-                The Acceptance activity event for the ActionExecution object, separate from the Acceptance activity event generated for the executeAction operation, shall be generated when an action is received by the destination provider and after any pre-execution checks have been performed.
+                The Acceptance activity event for the ExecutionRequest object, separate from the Acceptance activity event generated for the executeAction operation, shall be generated when an action is received by the destination provider and after any pre-execution checks have been performed.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="27">
-                The body of the ActionExecution ActivityAcceptance event object shall be populated with the pre-execution checks result.
+                The body of the ExecutionRequest ActivityAcceptance event object shall be populated with the pre-execution checks result.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="28">
-                The source link of the activity events for the ActionExecution shall be the ActionExecution object.
+                The source link of the activity events for the ExecutionRequest shall be the ExecutionRequest object.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="29">
-                The related link of the activity events for the ActionExecution shall be set to NULL.
+                The related link of the activity events for the ExecutionRequest shall be set to NULL.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="30">
                 In all activity execution events for the action execution the ActivityExecution.stageCount field shall be set to 2 plus the total number of progress stages.
@@ -128,7 +128,7 @@
                         A service consumer may subscribe to updates for a specific action definition, or for all action definitions by using the wildcard value in the actionId field. The actionId key shall be the id of the ActionDefinition object.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="4">
-                        A service consumer may subscribe to updates for a specific action execution, or for all action executions by using the wildcard value in the executionId field. The executionId key shall be the id of the ActionExecution object.
+                        A service consumer may subscribe to updates for a specific action execution, or for all action executions by using the wildcard value in the executionId field. The executionId key shall be the id of the ExecutionRequest object.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="5">
                         A service consumer may subscribe to updates for a specific action category, or for all categories by using the wildcard value in the actionCategory field.
@@ -147,7 +147,7 @@
                             <mal:field name="actionId" canBeNull="false" comment="The id of the action definition being executed.">
                                 <mal:type area="MAL" list="false" name="Long"/>
                             </mal:field>
-                            <mal:field name="executionId" canBeNull="false" comment="The id of the ActionExecution being executed.">
+                            <mal:field name="executionId" canBeNull="false" comment="The id of the ExecutionRequest being executed.">
                                 <mal:type area="MAL" list="false" name="Long"/>
                             </mal:field>
                             <mal:field name="actionCategory" canBeNull="false" comment="The category of the action.">
@@ -178,13 +178,13 @@
                         If the defInstId of the supplied actionDetails field does not match a known ActionDefinition object then an UNKNOWN error shall be returned.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        The size of the argumentValues list of the ActionExecution structure shall be compared to the size of the argument list in the matched ActionDefinition object and an INVALID error shall be returned if they are not the same.
+                        The size of the argumentValues list of the ExecutionRequest structure shall be compared to the size of the argument list in the matched ActionDefinition object and an INVALID error shall be returned if they are not the same.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
-                        If the ActionExecution structure contains an argumentIds field value then this shall be compared to the same field in the matched ActionDefinition object and must be the same size and contain the same values, an INVALID error shall be returned if this is not the case.
+                        If the ExecutionRequest structure contains an argumentIds field value then this shall be compared to the same field in the matched ActionDefinition object and must be the same size and contain the same values, an INVALID error shall be returned if this is not the case.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="4">
-                        If the ActionExecution structure contains an isRawValue field value then the size of this list shall be compared to the size of the argument list in the matched ActionDefinition object and an INVALID error shall be returned if they are not the same.
+                        If the ExecutionRequest structure contains an isRawValue field value then the size of this list shall be compared to the size of the argument list in the matched ActionDefinition object and an INVALID error shall be returned if they are not the same.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="5">
                         If the supplied argument values do not match the attribute type specified in the action definition then an INVALID error shall be returned.
@@ -202,18 +202,18 @@
                         <mal:request>
                             <mal:field name="actionDetails"
                                        comment="The argument values and related information of the action to be executed.">
-                                <mal:type name="ActionExecution" area="MC"/>
+                                <mal:type name="ExecutionRequest" area="MC"/>
                             </mal:field>
                         </mal:request>
                         <mal:response>
                             <mal:field name="executionId"
-                                       comment="The provider-assigned id of the ActionExecution. Used as the executionId subscription key in monitorExecution notifications and for activity tracking events.">
+                                       comment="The provider-assigned id of the ExecutionRequest. Used as the executionId subscription key in monitorExecution notifications and for activity tracking events.">
                                 <mal:type name="Long" area="MAL"/>
                             </mal:field>
                         </mal:response>
                     </mal:messages>
                     <mal:errors>
-                        <mal:errorRef comment="The list sizes held in the ActionExecution do not match the argument definitions or it contains one or more invalid argument values.&#xA;If the two lists are not the same length then the extra information field shall contain the first index of the element in the largest list which does not have corresponding element in the other list.">
+                        <mal:errorRef comment="The list sizes held in the ExecutionRequest do not match the argument definitions or it contains one or more invalid argument values.&#xA;If the two lists are not the same length then the extra information field shall contain the first index of the element in the largest list which does not have corresponding element in the other list.">
                             <mal:type name="INVALID" area="COM"/>
                             <mal:extraInformation comment="The extra information field contains a list of the indexes of the erroneous values from the originating list supplied.">
                                 <mal:type list="true" name="UInteger" area="MAL"/>
@@ -265,16 +265,16 @@
                 </mal:requestIP>
             </mal:capabilitySet>
             <com:features>
-                <com:objects comment="Action definitions and instances are represented as COM objects.">
+                <com:objects comment="Action definitions and execution requests are represented as COM objects.">
                     <com:object number="1" name="ActionDefinition">
                         <com:objectType>
                             <mal:type name="ActionDefinition" area="MC"/>
                         </com:objectType>
                         <com:sourceObject comment="The object that caused it to be created, for example, a COM OperationActivity"/>
                     </com:object>
-                    <com:object number="2" name="ActionExecution">
+                    <com:object number="2" name="ExecutionRequest">
                         <com:objectType>
-                            <mal:type name="ActionExecution" area="MC"/>
+                            <mal:type name="ExecutionRequest" area="MC"/>
                         </com:objectType>
                         <com:relatedObject>
                             <com:objectType number="1" service="Action" area="MC"/>
@@ -1509,8 +1509,8 @@
                     <mal:type list="true" name="ArgumentDefinition" area="MC"/>
                 </mal:field>
             </mal:composite>
-            <mal:composite name="ActionExecution" shortFormPart="9"
-                           comment="The ActionExecution structure holds the information required for an instance of an Action such as the argument values to use.">
+            <mal:composite name="ExecutionRequest" shortFormPart="9"
+                           comment="The ExecutionRequest structure holds the information required for an execution of an action such as the argument values to use.">
                 <mal:extends>
                     <mal:type name="Composite" area="MAL"/>
                 </mal:extends>

@@ -126,7 +126,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
     }
 
     @Override //requirement: 3.2.3
-    public Long executeAction(ActionExecution actionDetails, MALInteraction interaction)
+    public Long executeAction(ExecutionRequest actionDetails, MALInteraction interaction)
             throws MALInteractionException, MALException {
         UIntegerList invIndexList = new UIntegerList();
         boolean unknown = false;
@@ -158,11 +158,11 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
             accepted = false;
             unknown = true;
         } else {
-            // Check the ActionExecution
-            accepted = manager.checkActionExecution(actionDetails, invIndexList); // requirement: 3.2.9.2.b
+            // Check the ExecutionRequest
+            accepted = manager.checkExecutionRequest(actionDetails, invIndexList); // requirement: 3.2.9.2.b
         }
 
-        // Errors - no ActionExecution stored for rejected requests
+        // Errors - no ExecutionRequest stored for rejected requests
         if (!invIndexList.isEmpty()) { // requirement: 3.2.9.3.1
             try {
                 manager.getActivityTrackingService().publishAcceptanceEventOperation(interaction, false, null, null);
@@ -193,13 +193,13 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
             throw new MALInteractionException(new InvalidException(invIndexList));
         }
 
-        // Validation passed - provider assigns the executionId by storing the ActionExecution
+        // Validation passed - provider assigns the executionId by storing the ExecutionRequest
         Long executionId = manager.storeAndGenerateAInsobjId(actionDetails, actionDetails.getDefInstId(),
                 connection.getPrimaryConnectionDetails().getProviderURI());
 
-        // Publish the second Acceptance event - source is the newly stored ActionExecution
+        // Publish the second Acceptance event - source is the newly stored ExecutionRequest
         try {
-            ObjectId source = new ObjectId(ActionServiceInfo.ACTIONEXECUTION_OBJECT_TYPE,
+            ObjectId source = new ObjectId(ActionServiceInfo.EXECUTIONREQUEST_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(), executionId); // requirement: 3.2.8.f
             manager.getActivityTrackingService().publishAcceptanceEventOperation(interaction, true, null, source); // requirement: 3.2.8.e, f, g
         } catch (MALInteractionException | MALException ex) {
@@ -417,7 +417,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
             throw new IOException("The first progress stage must be 1.");
         }
 
-        final ActionExecution actionInstance = manager.getActionExecution(actionInstId);
+        final ExecutionRequest actionInstance = manager.getExecutionRequest(actionInstId);
 
         if (actionInstance != null) {
             // Aditional validation can be performed!
@@ -463,7 +463,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
      * Publishes an execution progress update via the monitorExecution PUB-SUB operation.
      *
      * @param actionId The object instance identifier of the action definition being executed.
-     * @param executionId The object instance identifier of the ActionExecution being executed.
+     * @param executionId The object instance identifier of the ExecutionRequest being executed.
      * @param actionCategory The category of the action.
      * @param stageType The lifecycle stage (START, PROGRESS, or END).
      * @param success Whether the execution stage completed successfully.

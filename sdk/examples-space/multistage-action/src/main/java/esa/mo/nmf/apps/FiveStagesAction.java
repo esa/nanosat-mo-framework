@@ -114,7 +114,7 @@ public class FiveStagesAction {
 
     public void reportFiveStepsAction(Long actionId) throws NMFException {
         for (int stage = 1; stage < TOTAL_N_OF_STAGES + 1; stage++) {
-            connector.reportActionExecutionProgress(true, 0, stage, TOTAL_N_OF_STAGES, actionId);
+            connector.reportExecutionRequestProgress(true, 0, stage, TOTAL_N_OF_STAGES, actionId);
 
             try { // Quick and dirty, but enough for demo purposes!
                 Thread.sleep(SLEEP_TIME * 1000); // 1000 is the ms multiplier.
