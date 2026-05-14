@@ -282,7 +282,6 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void tableComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_tableComponentAdded
-        // TODO add your handling code here:
     }//GEN-LAST:event_tableComponentAdded
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -627,15 +627,12 @@ public final class COMObjectWindow extends javax.swing.JDialog {
     }//GEN-LAST:event_sourceButtonActionPerformed
 
     private void tfObjectType2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfObjectType2ActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_tfObjectType2ActionPerformed
 
     private void sourceTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sourceTypeActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_sourceTypeActionPerformed
 
     private void relatedTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_relatedTypeActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_relatedTypeActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

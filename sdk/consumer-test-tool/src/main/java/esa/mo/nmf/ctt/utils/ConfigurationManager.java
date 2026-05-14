@@ -244,11 +244,9 @@ public class ConfigurationManager extends javax.swing.JFrame
     }//GEN-LAST:event_COM_buttonActionPerformed
 
     private void MC_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MC_buttonActionPerformed
-      // TODO add your handling code here:
     }//GEN-LAST:event_MC_buttonActionPerformed
 
     private void Platform_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Platform_buttonActionPerformed
-      // TODO add your handling code here:
     }//GEN-LAST:event_Platform_buttonActionPerformed
 
 

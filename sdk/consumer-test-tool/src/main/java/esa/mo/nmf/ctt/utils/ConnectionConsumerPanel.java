@@ -489,31 +489,24 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void uriServiceParameterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uriServiceParameterActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_uriServiceParameterActionPerformed
 
     private void uriBrokerParameterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uriBrokerParameterActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_uriBrokerParameterActionPerformed
 
     private void uriServiceAggregationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uriServiceAggregationActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_uriServiceAggregationActionPerformed
 
     private void uriBrokerAggregationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uriBrokerAggregationActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_uriBrokerAggregationActionPerformed
 
     private void uriServiceArchiveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uriServiceArchiveActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_uriServiceArchiveActionPerformed
 
     private void uriBrokerArchiveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uriBrokerArchiveActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_uriBrokerArchiveActionPerformed
 
     private void checkBoxAggregationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBoxAggregationActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_checkBoxAggregationActionPerformed
 
     private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectButtonActionPerformed
@@ -696,63 +689,48 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
     }
 
     private void checkBoxEventActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBoxEventActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_checkBoxEventActionPerformed
 
     private void checkBoxActionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBoxActionActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_checkBoxActionActionPerformed
 
     private void uriServiceEventActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uriServiceEventActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_uriServiceEventActionPerformed
 
     private void uriBrokerEventActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uriBrokerEventActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_uriBrokerEventActionPerformed
 
     private void uriServiceActionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uriServiceActionActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_uriServiceActionActionPerformed
 
     private void uriBrokerActionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uriBrokerActionActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_uriBrokerActionActionPerformed
 
     private void uriServiceAlertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uriServiceAlertActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_uriServiceAlertActionPerformed
 
     private void uriBrokerAlertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uriBrokerAlertActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_uriBrokerAlertActionPerformed
 
     private void uriServiceCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uriServiceCheckActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_uriServiceCheckActionPerformed
 
     private void uriBrokerCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uriBrokerCheckActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_uriBrokerCheckActionPerformed
 
     private void checkBoxAlertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBoxAlertActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_checkBoxAlertActionPerformed
 
     private void checkBoxCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBoxCheckActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_checkBoxCheckActionPerformed
 
     private void uriServiceStatisticActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uriServiceStatisticActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_uriServiceStatisticActionPerformed
 
     private void uriBrokerStatisticActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uriBrokerStatisticActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_uriBrokerStatisticActionPerformed
 
     private void checkBoxStatisticActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBoxStatisticActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_checkBoxStatisticActionPerformed
 
     private void load_URI_linksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_load_URI_linksActionPerformed
@@ -813,7 +791,6 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_find_replaceActionPerformed
 
     private void load_links_fileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_load_links_fileActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_load_links_fileActionPerformed
 
 

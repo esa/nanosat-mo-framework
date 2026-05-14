@@ -425,27 +425,21 @@ public class AggregationAddModify extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void updateIntervalTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateIntervalTFActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_updateIntervalTFActionPerformed
 
     private void generationEnabledCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generationEnabledCBActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_generationEnabledCBActionPerformed
 
     private void filterEnabledCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filterEnabledCBActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_filterEnabledCBActionPerformed
 
     private void parameterCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_parameterCBActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_parameterCBActionPerformed
 
     private void sampleIntervalTBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sampleIntervalTBActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_sampleIntervalTBActionPerformed
 
     private void thresholdValueTBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_thresholdValueTBActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_thresholdValueTBActionPerformed
 
     private void aggregateParameterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aggregateParameterButtonActionPerformed

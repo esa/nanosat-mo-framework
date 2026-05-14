@@ -247,7 +247,6 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void archiveTableComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_archiveTableComponentAdded
-        // TODO add your handling code here:
     }//GEN-LAST:event_archiveTableComponentAdded
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

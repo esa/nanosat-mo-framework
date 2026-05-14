@@ -167,7 +167,6 @@ public abstract class Entry extends javax.swing.JPanel {
     }//GEN-LAST:event_nullCBActionPerformed
 
     private void fieldSelectableAttributeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldSelectableAttributeActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_fieldSelectableAttributeActionPerformed
 
     public final void makeFieldNull() {

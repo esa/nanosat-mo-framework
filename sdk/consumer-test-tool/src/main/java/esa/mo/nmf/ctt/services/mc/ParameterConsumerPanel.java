@@ -264,7 +264,6 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_removeDefinitionAllButtonActionPerformed
 
     private void actionDefinitionsTableComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_actionDefinitionsTableComponentAdded
-        // TODO add your handling code here:
     }//GEN-LAST:event_actionDefinitionsTableComponentAdded
 
     private void enableDefinitionAllAggActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enableDefinitionAllAggActionPerformed

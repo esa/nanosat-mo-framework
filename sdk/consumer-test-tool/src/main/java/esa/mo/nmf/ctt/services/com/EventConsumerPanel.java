@@ -242,7 +242,6 @@ public class EventConsumerPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void eventTableComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_eventTableComponentAdded
-        // TODO add your handling code here:
     }//GEN-LAST:event_eventTableComponentAdded
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -436,11 +436,9 @@ public class ParameterAddModify extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void updateIntervalTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateIntervalTFActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_updateIntervalTFActionPerformed
 
     private void generationEnabledCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generationEnabledCBActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_generationEnabledCBActionPerformed
 
     private void validityExpressionCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_validityExpressionCBActionPerformed
@@ -452,23 +450,18 @@ public class ParameterAddModify extends javax.swing.JFrame {
     }//GEN-LAST:event_validityExpressionCBActionPerformed
 
     private void validity1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_validity1ActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_validity1ActionPerformed
 
     private void validity2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_validity2ActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_validity2ActionPerformed
 
     private void validity3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_validity3ActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_validity3ActionPerformed
 
     private void validity4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_validity4ActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_validity4ActionPerformed
 
     private void conversionCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_conversionCBActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_conversionCBActionPerformed
 
     private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
@@ -591,7 +584,6 @@ public class ParameterAddModify extends javax.swing.JFrame {
     }//GEN-LAST:event_submitButtonActionPerformed
 
     private void objTypeCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_objTypeCBActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_objTypeCBActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -894,7 +894,6 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jButtonStorePlaceholderActionPerformed
 
     private void TBoxStoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TBoxStoreActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_TBoxStoreActionPerformed
 
     private void jButtonDeleteAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteAllActionPerformed

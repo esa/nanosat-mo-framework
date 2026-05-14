@@ -463,7 +463,6 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
     }
 
     private void uriServiceDirectoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uriServiceDirectoryActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_uriServiceDirectoryActionPerformed
 
     @SuppressWarnings("unchecked")

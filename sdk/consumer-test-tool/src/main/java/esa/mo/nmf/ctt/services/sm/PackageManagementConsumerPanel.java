@@ -342,7 +342,6 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_installButtonActionPerformed
 
     private void defaultTableComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_defaultTableComponentAdded
-        // TODO add your handling code here:
     }//GEN-LAST:event_defaultTableComponentAdded
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

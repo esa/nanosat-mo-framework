@@ -84,7 +84,6 @@ public class CommunicationsTopPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void connect_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connect_buttonActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_connect_buttonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
