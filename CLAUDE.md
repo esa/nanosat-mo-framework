@@ -60,7 +60,7 @@ sdk/
   cli-tool/                 # CLI interface to NMF
   examples-space/           # Space app examples
   examples-ground/          # Ground app examples
-  sdk-package/              # Assembled SDK package (output in sdk-package/target/)
+  sdk-execution-environment/ # Assembled SDK execution environment (output in sdk-execution-environment/target/)
 ```
 
 ## Architecture: Key Composites (`core/nmf-composites`)
@@ -110,11 +110,11 @@ See `sdk/examples-space/all-mc-services` for the full annotation-based example a
 
 ## Running the SDK Locally
 
-The assembled SDK is produced in `sdk/sdk-package/target/nmf-sdk-5.0-SNAPSHOT/` after a full build.
+The assembled SDK is produced in `sdk/sdk-execution-environment/target/nmf-sdk-5.0-SNAPSHOT/` after a full build.
 
 1. Start the Supervisor Simulator (provides platform services and app lifecycle management):
    ```
-   sdk/sdk-package/target/nmf-sdk-5.0-SNAPSHOT/bin/space/nanosat-mo-supervisor-sim/nanosat-mo-supervisor-sim.sh
+   sdk/sdk-execution-environment/target/nmf-sdk-5.0-SNAPSHOT/bin/space/nanosat-mo-supervisor-sim/nanosat-mo-supervisor-sim.sh
    ```
 2. Start the Consumer Test Tool (GUI):
    ```

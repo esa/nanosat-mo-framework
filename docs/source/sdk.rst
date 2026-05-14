@@ -10,7 +10,7 @@ The NMF includes a Software Development Kit (or SDK).
 The SDK provides support and tools to develop and test your space apps and ground applications. The SDK generator is located in the **sdk/** folder of the repository. 
 To generate the SDK you must build the code by running ``mvn install`` in the **sdk/** directory.
 
-This will build all examples and put them into a zip release and a folder which you can find under **sdk/sdk-package/target/**.
+This will build all examples and put them into a zip release and a folder which you can find under **sdk/sdk-execution-environment/target/**.
 
 Space app examples
 ------------------
@@ -58,9 +58,9 @@ You can run a CubeSat simulator to try out your app in a playground environment 
 
 In order to do this, Please do the following:
 
-1. Run the Supervisor, go to **sdk/sdk-package/target/nmf-sdk-XX.Y/home/nmf/nanosat-mo-supervisor-sim/** and run **nanosat-mo-supervisor-sim.sh**.
+1. Run the Supervisor, go to **sdk/sdk-execution-environment/target/nmf-sdk-XX.Y/home/nmf/nanosat-mo-supervisor-sim/** and run **nanosat-mo-supervisor-sim.sh**.
 
-2. Run the CTT, go to **sdk/sdk-package/target/nmf-sdk-XX.Y/home/nmf/consumer-test-tool/** and run **consumer-test-tool.sh**.
+2. Run the CTT, go to **sdk/sdk-execution-environment/target/nmf-sdk-XX.Y/home/nmf/consumer-test-tool/** and run **consumer-test-tool.sh**.
 
 Connecting to the Supervisor using CTT
 ---------------------------------------

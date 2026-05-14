@@ -21,7 +21,7 @@ Various space applications demonstrating the uses of the on-board framework.
 
 Various ground applications demonstrating the uses of the ground framework.
 
-### [Documentation](sdk-package/src/main/resources/docs)
+### [Documentation](sdk-execution-environment/src/main/resources/docs)
 
 Various supporting documents, including:
 
@@ -31,19 +31,19 @@ Various supporting documents, including:
 - Software Design Document
 - Relevant CCSDS standards
 - CCSDS MO Services Interface Control Documents (MO ICDs)
-- Javadocs (only in the SDK Release Package) - aggregated javadocs of the CCSDS MO Framework and the NanoSat MO Framework
+- Javadocs (only in the SDK Release) - aggregated javadocs of the CCSDS MO Framework and the NanoSat MO Framework
 
-### SDK Release package
+### SDK Release
 
-The release packages contain binaries of the tools, most relevant examples, mission simulator GUI, and documentation.
+The SDK execution environment contains binaries of the tools, most relevant examples, mission simulator GUI, and documentation.
 
-## Building a release package
+## Building the SDK Execution Environment
 
 Instructions:
 
 1. Update the MO ICDs if there were changes in the NMF MO XML files
 2. Invoke `mvn clean install` target on the main POM file
-3. The packaged SDK can be found under `sdk-package/target`
+3. The SDK execution environment can be found under `sdk-execution-environment/target`
 
 Tips:
 
@@ -53,7 +53,7 @@ or to use `mvn install -Dmaven.javadoc.skip=true -Desa.nmf.sdk.assembly.quickbui
 
 ## Running the SDK
 
-1. Start the NMF Supervisor from the assembled SDK package, e.g.:
+1. Start the NMF Supervisor from the assembled SDK execution environment, e.g.:
 `$ nmf-sdk-2.0.0/bin/space/nanosat-mo-supervisor-sim/nanosat-mo-supervisor-sim.sh`
 2. Start the Consumer Test tool, e.g.:
 `$ nmf-sdk-2.0.0/bin/tools/consumer-test-tool/consumer-test-tool.sh`
@@ -64,7 +64,7 @@ or to use `mvn install -Dmaven.javadoc.skip=true -Desa.nmf.sdk.assembly.quickbui
     - Navigate to Apps Launcher Service
     - Select the desired app and press `runApp`
 
-See section [Adding an application to the SDK packaging](#adding-an-application-to-the-sdk-packaging) for more details on including your own application.
+See section [Adding an application to the SDK execution environment](#adding-an-application-to-the-sdk-execution-environment) for more details on including your own application.
 
 ## Running/Debugging the application from Eclipse IDE
 
@@ -91,7 +91,7 @@ The parameters for the SupervisorSimulator should be:
 |-----------------|------------------------------------------------------------------------------------------------------|
 | exec.args       | esa.mo.nmf.sim.supervisor.NanosatMOSupervisorBasicImpl                                               |
 | exec.executable | PATH\_TO\_YOUR\_JAVA\_BIN\_DIRECTORY/java                                                            |
-| exec.workingdir | PATH\_TO\_THE\_NMF/sdk/sdk-package/target/nmf-sdk-XX.Y/bin/space/nanosat-mo-supervisor-sim           |
+| exec.workingdir | PATH\_TO\_THE\_NMF/sdk/sdk-execution-environment/target/nmf-sdk-XX.Y/bin/space/nanosat-mo-supervisor-sim           |
 
 The parameters for the CTT should be:
 
@@ -99,17 +99,17 @@ The parameters for the CTT should be:
 |-----------------|-----------------------------------------------------------------------------------------------|
 | exec.args       | -classpath %classpath esa.mo.nmf.ctt.guis.ConsumerTestToolGUI                                 |
 | exec.executable | PATH\_TO\_YOUR\_JAVA\_BIN\_DIRECTORY/java                                                     |
-| exec.workingdir | PATH\_TO\_THE\_NMF/sdk/sdk-package/target/nmf-sdk-XX.Y/bin/tools/consumer-test-tool           |
+| exec.workingdir | PATH\_TO\_THE\_NMF/sdk/sdk-execution-environment/target/nmf-sdk-XX.Y/bin/tools/consumer-test-tool           |
 
 You are now able to run the SupervisorSimulator and the CTT.
 
 You can apply the above parameters for your ground software and also for your space apps.
-Just make sure to enter the correct main classes and the working directories of the compiled apps (e.g. `sdk-package/target/nmf-sdk-XX.Y/bin/space/apps/APPNAME`).
+Just make sure to enter the correct main classes and the working directories of the compiled apps (e.g. `sdk-execution-environment/target/nmf-sdk-XX.Y/bin/space/apps/APPNAME`).
 
 ### Fixing the "Plugin execution not covered by lifecycle configuration" message
 
 When developing apps with Maven you may want to invoke some plugins inside your pom.xml. Occasionally, Eclipse's m2e plugin may not be able to understand when to call a certain plugin.
-In this case, you can add a configuration for the m2e lifecycle mapping plugin inside your pom.xml. You can use the following example (taken from the pom.xml in sdk-package/) for reference.
+In this case, you can add a configuration for the m2e lifecycle mapping plugin inside your pom.xml. You can use the following example (taken from the pom.xml in sdk-execution-environment/) for reference.
 
 ```xml
     <pluginManagement>
@@ -157,12 +157,12 @@ In this case, you can add a configuration for the m2e lifecycle mapping plugin i
 
 Simply add a pluginExecution for the corresponding plugin.
 
-## Adding an application to the SDK packaging
+## Adding an application to the SDK execution environment
 
-sdk-package project represents a self-contained reference execution environment for space and ground applications. In order to add your own application to it, follow these steps:
+sdk-execution-environment project represents a self-contained reference execution environment for space and ground applications. In order to add your own application to it, follow these steps:
 
 1. Make sure that the application is being built and installed in your local maven repository. Note that the app can be built and maintained outside of the NMF source tree.
-2. Open the POM file of the sdk-package directory (in the SDK)
+2. Open the POM file of the sdk-execution-environment directory (in the SDK)
 3. Add your application to the list of dependencies. E.g:
 
 ```xml
@@ -173,7 +173,7 @@ sdk-package project represents a self-contained reference execution environment 
     </dependency>
 ```
 
-4. In the folder sdk/sdk-package/antpkg you find a file build.xml. Add a target with a name of your choice and add the name to the value of the 'depends' attribute of the build target:
+4. In the folder sdk/sdk-execution-environment/antpkg you find a file build.xml. Add a target with a name of your choice and add the name to the value of the 'depends' attribute of the build target:
 
 ```xml
     <target name="emit-myapp">

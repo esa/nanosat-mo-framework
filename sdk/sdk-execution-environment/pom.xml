@@ -24,8 +24,8 @@
     </parent>
 
     <groupId>int.esa.nmf.sdk</groupId>
-    <artifactId>package</artifactId>
-    <name>ESA NMF SDK - Package Assembly</name>
+    <artifactId>execution-environment</artifactId>
+    <name>ESA NMF SDK - Execution Environment</name>
     <packaging>jar</packaging>
 
     <organization>

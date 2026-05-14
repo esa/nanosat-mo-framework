@@ -10,9 +10,9 @@ Apart from unit tests over some methods, one way to test is to just run your app
 The recommended way of running an app is through the NMF supervisor. 
 The easiest way to achieve that, is to deploy your app in the SDK. For this we have to look at several files.
 
-Update the SDK Package POM
---------------------------
-The first file we have to change is the ``pom.xml`` in the folder ``sdk/sdk-package``. First, add your app to the dependencies.
+Update the SDK Execution Environment POM
+-----------------------------------------
+The first file we have to change is the ``pom.xml`` in the folder ``sdk/sdk-execution-environment``. First, add your app to the dependencies.
 
 .. code-block:: xml
    :linenos:
@@ -38,7 +38,7 @@ That is all you need to do here! Easy, right?
 
 Update the Build.xml
 --------------------
-The next step is to update the ``sdk/sdk-package/antpkg/build.xml``. This is an Ant script which is called by the same plugin that copies the properties files.
+The next step is to update the ``sdk/sdk-execution-environment/antpkg/build.xml``. This is an Ant script which is called by the same plugin that copies the properties files.
 In principle, it works like a Makefile in C. We have a top level target which is execution through the Maven Antrun Plugin and this target depends on several subtargets.
 Our task in this file is to create such a subtarget for our app and add this target to the dependency list of *build*.
 
@@ -80,9 +80,9 @@ Deploy!
 ---------
 Now let's deploy our app in the SDK. This process is pretty straight forward.
 First, build your app by going into its root folder and calling ``mvn install``. 
-Then, call SDK packaging by opening a console in the ``sdk/sdk-package`` folder and calling ``mvn install``.
+Then, build the SDK execution environment by opening a console in the ``sdk/sdk-execution-environment`` folder and calling ``mvn install``.
 
-That's it, our app's start scripts and properties are now residing in ``sdk/sdk-package/target/nmf-sdk-XX.Y/home/sobel``.
+That's it, our app's start scripts and properties are now residing in ``sdk/sdk-execution-environment/target/nmf-sdk-XX.Y/home/sobel``.
 
 You can now go ahead and start the NMF supervisor with simulator, start the CTT, connect to the supervisor, start your app, connect to your app and take some nice pictures!
 
