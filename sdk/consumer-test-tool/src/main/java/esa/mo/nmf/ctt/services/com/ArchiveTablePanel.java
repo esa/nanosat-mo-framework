@@ -193,8 +193,9 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
     }
 
     public void sortByTimestamp() {
-        archiveTable.getRowSorter().setSortKeys(
-                Arrays.asList(new RowSorter.SortKey(0, SortOrder.DESCENDING)));
+        javax.swing.SwingUtilities.invokeLater(() ->
+                archiveTable.getRowSorter().setSortKeys(
+                        Arrays.asList(new RowSorter.SortKey(0, SortOrder.DESCENDING))));
     }
 
     public void removeSelectedEntry() {
