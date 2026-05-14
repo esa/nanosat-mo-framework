@@ -128,7 +128,7 @@
                         A service consumer may subscribe to updates for a specific action definition, or for all action definitions by using the wildcard value in the definitionId field. The definitionId key shall be the id of the ActionDefinition object.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="4">
-                        A service consumer may subscribe to updates for a specific action execution, or for all action executions by using the wildcard value in the executionId field. The executionId key shall be the id of the ExecutionRequest object.
+                        A service consumer may subscribe to updates for a specific action execution, or for all action executions by using the wildcard value in the executionId field. The executionId key shall be the id of the execution of an action.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="5">
                         A service consumer may subscribe to updates for a specific action category, or for all categories by using the wildcard value in the actionCategory field.
@@ -175,39 +175,36 @@
                 <mal:requestIP name="executeAction" number="2" supportInReplay="false"
                               comment="The executeAction operation allows a consumer to request execution of an action on the provider.">
                     <mal:documentation name="Requirement" order="1">
-                        If the definitionId of the supplied actionDetails field does not match a known ActionDefinition object then an UNKNOWN error shall be returned.
+                        If the definitionId of the supplied executionRequest field does not match a known ActionDefinition object then an UNKNOWN error shall be returned.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        The size of the argumentValues list of the ExecutionRequest structure shall be compared to the size of the argument list in the matched ActionDefinition object and an INVALID error shall be returned if they are not the same.
+                        The size of the argumentValues list of the executionRequest field shall be compared to the size of the argument list in the matched ActionDefinition object and an INVALID error shall be returned if they are not the same.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
-                        If the ExecutionRequest structure contains an argumentIds field value then this shall be compared to the same field in the matched ActionDefinition object and must be the same size and contain the same values, an INVALID error shall be returned if this is not the case.
+                        If the executionRequest field contains an argumentIds value then this shall be compared to the same field in the matched ActionDefinition object and must be the same size and contain the same values, an INVALID error shall be returned if this is not the case.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="4">
-                        If the ExecutionRequest structure contains an isRawValue field value then the size of this list shall be compared to the size of the argument list in the matched ActionDefinition object and an INVALID error shall be returned if they are not the same.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="5">
                         If the supplied argument values do not match the attribute type specified in the action definition then an INVALID error shall be returned.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="6">
+                    <mal:documentation name="Requirement" order="5">
                         A service provider may apply some deployment specific checks to the action execution and can return an INVALID error if they fail.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="7">
+                    <mal:documentation name="Requirement" order="6">
                         If an error is raised then no action shall be executed.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="8">
+                    <mal:documentation name="Requirement" order="7">
                         The RESPONSE shall return the provider-assigned executionId once the action has been accepted for execution but before execution starts.
                     </mal:documentation>
                     <mal:messages>
                         <mal:request>
-                            <mal:field name="actionDetails"
+                            <mal:field name="executionRequest"
                                        comment="The argument values and related information of the action to be executed.">
                                 <mal:type name="ExecutionRequest" area="MC"/>
                             </mal:field>
                         </mal:request>
                         <mal:response>
                             <mal:field name="executionId"
-                                       comment="The provider-assigned id of the ExecutionRequest. Used as the executionId subscription key in monitorExecution notifications and for activity tracking events.">
+                                       comment="The provider-assigned id of the execution of an action. Used as the executionId subscription key in monitorExecution notifications and for activity tracking events.">
                                 <mal:type name="Long" area="MAL"/>
                             </mal:field>
                         </mal:response>
