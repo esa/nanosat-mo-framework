@@ -1152,7 +1152,7 @@
                     <mal:messages>
                         <mal:submit comment="">
                             <mal:field canBeNull="true" name="configuration"
-                                       comment="The configuration field holds the configuration of the SDR." >
+                                       comment="The configuration of the SDR." >
                                 <mal:type area="Platform" list="false" name="SDRConfiguration" />
                             </mal:field>
                         </mal:submit>
@@ -1184,7 +1184,7 @@
                         <mal:acknowledgement comment="" />
                         <mal:response comment="">
                             <mal:field canBeNull="true" name="data"
-                                       comment="The data field holds a blob of data coming from the Optical Data Receiver. Sample buffer format is implementation specific." >
+                                       comment="A blob of data from the Optical Data Receiver. Sample buffer format is implementation specific." >
                                 <mal:type area="MAL" list="false" name="Blob" />
                             </mal:field>
                         </mal:response>
@@ -1208,7 +1208,7 @@
                                comment="The listDevices operation allows a consumer to request the list of the units available and their respective status. The request may contain the wildcard value of '*' to return all available devices." >
                     <mal:messages>
                         <mal:request comment="">
-                            <mal:field canBeNull="true" name="names" comment="The names field holds the name of the units." >
+                            <mal:field canBeNull="true" name="names" comment="The name of the units." >
                                 <mal:type area="MAL" list="true" name="Identifier" />
                             </mal:field>
                         </mal:request>
@@ -1305,7 +1305,7 @@
                         </mal:request>
                         <mal:response comment="">
                             <mal:field canBeNull="false" name="modelId"
-                                       comment="The outputTiles field holds the path to a folder with the infered tiles.">
+                                       comment="The id of the model.">
                                 <mal:type area="MAL" list="false" name="Long" />
                             </mal:field>
                         </mal:response>
@@ -1318,15 +1318,15 @@
                     <mal:messages>
                         <mal:request comment="">
                             <mal:field canBeNull="false" name="modelId"
-                                       comment="The modelId field holds the id of the model to be used for inference.">
+                                       comment="The id of the model to be used for inference.">
                                 <mal:type area="MAL" list="false" name="Long" />
                             </mal:field>
-                            <mal:field canBeNull="false" comment="The inputTiles field holds the absolute path to a folder with the tiles to be processed." name="inputTilesPath">
+                            <mal:field canBeNull="false" comment="The absolute path to a folder with the tiles to be processed." name="inputTilesPath">
                                 <mal:type area="MAL" list="false" name="String" />
                             </mal:field>
                         </mal:request>
                         <mal:response comment="">
-                            <mal:field canBeNull="false" comment="The outputTiles field holds the absolute path to a folder with the infered tiles." name="outputTilesPath">
+                            <mal:field canBeNull="false" comment="The absolute path to a folder with the inferred tiles." name="outputTilesPath">
                                 <mal:type area="MAL" list="false" name="String" />
                             </mal:field>
                         </mal:response>
@@ -1342,7 +1342,7 @@
                 <mal:invokeIP number="3" name="doComputerVision" comment="The doComputerVision operation allows a consumer to invoke the execution of inference with an AI unit." supportInReplay="false">
                     <mal:messages>
                         <mal:invoke comment="">
-                            <mal:field name="jsonPath" canBeNull="false" comment="The jsonPath field holds the absolute path to a json file with information to be processed.">
+                            <mal:field name="jsonPath" canBeNull="false" comment="The absolute path to a json file with information to be processed.">
                                 <mal:type area="MAL" list="false" name="String" />
                             </mal:field>
                         </mal:invoke>

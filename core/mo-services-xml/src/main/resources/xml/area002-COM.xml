@@ -1426,7 +1426,7 @@
                 <mal:field canBeNull="true" comment="The domain field of the COM Object. It points to a certain id in the dictionary." name="domain">
                     <mal:type area="MAL" list="false" name="UInteger"/>
                 </mal:field>
-                <mal:field canBeNull="true" comment="The compactCOMObjects field holds a set of COM Objects." name="compactCOMObjects">
+                <mal:field canBeNull="true" comment="A set of COM Objects." name="compactCOMObjects">
                     <mal:type area="COM" list="true" name="CompactCOMObject"/>
                 </mal:field>
             </mal:composite>
@@ -1538,7 +1538,7 @@
                     <mal:type list="true" name="Identifier" area="MAL"/>
                 </mal:field>
                 <mal:field name="sourceSessionName"
-                           comment="If this is part of a replay session, this field holds the session name of the source session. NULL otherwise">
+                           comment="The session name of the source session if part of a replay session. NULL otherwise.">
                     <mal:type name="Identifier" area="MAL"/>
                 </mal:field>
                 <mal:field name="network" canBeNull="false" comment="The network of the provider.">

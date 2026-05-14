@@ -1648,7 +1648,7 @@
                     <mal:type name="Duration" area="MAL"/>
                 </mal:field>
                 <mal:field name="reportFilter"
-                           comment="If the AggregationParameterSet contains a single parameter then this field contains the filter to apply for filtered reports when filters are applied. NULL if no filter required or this set contains more than one parameter.">
+                           comment="The filter to apply for filtered reports when applied. NULL if no filter required or this set contains more than one parameter.">
                     <mal:type name="ThresholdFilter" area="MC"/>
                 </mal:field>
             </mal:composite>
