@@ -67,13 +67,13 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
 
         comObjects = new ArrayList<>();
 
-        String[] archiveTableCol = new String[]{"Domain", "Object Type",
-            "Object Instance Identifier", "Timestamp", "Source", "Related"};
+        String[] archiveTableCol = new String[]{"Timestamp", "Domain", "Object Type",
+            "Object Instance Identifier", "Source", "Related"};
 
         archiveTableData = new javax.swing.table.DefaultTableModel(new Object[][]{}, archiveTableCol) {
             Class[] types = new Class[]{
                 java.lang.String.class, java.lang.String.class,
-                java.lang.Integer.class, java.lang.String.class,
+                java.lang.String.class, java.lang.Integer.class,
                 java.lang.String.class, java.lang.String.class};
 
             @Override               //all cells false
@@ -176,8 +176,8 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
             timestamp = HelperTime.time2readableString(comObject.getArchiveDetails().getTimestamp());
         }
 
-        return new Object[]{domain, objType,
-            comObject.getArchiveDetails().getInstId(), timestamp, source, related};
+        return new Object[]{timestamp, domain, objType,
+            comObject.getArchiveDetails().getInstId(), source, related};
     }
 
     private void addEntry(final ArchivePersistenceObject comObject) {
@@ -194,7 +194,7 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
 
     public void sortByTimestamp() {
         archiveTable.getRowSorter().setSortKeys(
-                Arrays.asList(new RowSorter.SortKey(3, SortOrder.DESCENDING)));
+                Arrays.asList(new RowSorter.SortKey(0, SortOrder.DESCENDING)));
     }
 
     public void removeSelectedEntry() {
