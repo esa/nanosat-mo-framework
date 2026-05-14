@@ -140,7 +140,7 @@ public class AppsLauncherCommands {
                 IdentifierList appsToSearch = new IdentifierList();
                 appsToSearch.add(new Identifier(appName));
                 ListAppResponse response = appsLauncher.listApp(appsToSearch, null);
-                LongList appIds = response.getAppInstIds();
+                LongList appIds = response.getAppIds();
 
                 if (!Helper.checkProvider(appIds)) {
                     System.exit(ExitCodes.GENERIC_ERROR);
@@ -177,7 +177,7 @@ public class AppsLauncherCommands {
                 IdentifierList appsToSearch = new IdentifierList();
                 appsToSearch.add(new Identifier(appName));
                 ListAppResponse response = appsLauncher.listApp(appsToSearch, null);
-                LongList appIds = response.getAppInstIds();
+                LongList appIds = response.getAppIds();
 
                 if (!Helper.checkProvider(appIds)) {
                     System.exit(ExitCodes.GENERIC_ERROR);
@@ -255,7 +255,7 @@ public class AppsLauncherCommands {
                 IdentifierList appsToSearch = new IdentifierList();
                 appsToSearch.add(new Identifier(appName));
                 ListAppResponse response = appsLauncher.listApp(appsToSearch, null);
-                LongList appIds = response.getAppInstIds();
+                LongList appIds = response.getAppIds();
 
                 if (!Helper.checkProvider(appIds)) {
                     System.exit(ExitCodes.GENERIC_ERROR);

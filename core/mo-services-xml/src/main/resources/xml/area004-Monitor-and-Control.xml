@@ -729,7 +729,7 @@
                         The supplied ids shall match existing AlertDefinition objects, an UNKNOWN error shall be raised if this is not the case.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        If the alertObjInstIds list contains either NULL or '0' an INVALID error shall be raised.
+                        If the definitionIds list contains either NULL or '0' an INVALID error shall be raised.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
                         The two lists shall be ordered the same and shall be the same size, otherwise an INVALID error shall be returned.
@@ -748,7 +748,7 @@
                     </mal:documentation>
                     <mal:messages>
                         <mal:request>
-                            <mal:field name="alertObjInstIds"
+                            <mal:field name="definitionIds"
                                        comment="The ids of the AlertDefinition objects to be updated.">
                                 <mal:type list="true" name="Long" area="MAL"/>
                             </mal:field>
@@ -917,7 +917,7 @@
                     </mal:documentation>
                     <mal:messages>
                         <mal:request>
-                            <mal:field name="aggInstIds"
+                            <mal:field name="definitionIds"
                                        comment="The list of AggregationDefinition ids.">
                                 <mal:type list="true" name="Long" area="MAL"/>
                             </mal:field>
@@ -1137,7 +1137,7 @@
                         The supplied ids shall match existing AggregationDefinition objects, an UNKNOWN error shall be raised if this is not the case.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        If the aggInstIds list contains either NULL or '0' an INVALID error shall be raised.
+                        If the definitionIds list contains either NULL or '0' an INVALID error shall be raised.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
                         The two lists shall be ordered the same and shall be the same size, otherwise an INVALID error shall be returned.
@@ -1159,7 +1159,7 @@
                     </mal:documentation>
                     <mal:messages>
                         <mal:request>
-                            <mal:field name="aggInstIds"
+                            <mal:field name="definitionIds"
                                        comment="The ids of the AggregationDefinition objects to be updated.">
                                 <mal:type list="true" name="Long" area="MAL"/>
                             </mal:field>
@@ -1212,7 +1212,7 @@
                     </mal:documentation>
                     <mal:messages>
                         <mal:submit>
-                            <mal:field name="aggInstIds"
+                            <mal:field name="definitionIds"
                                        comment="The ids of the AggregationDefinition objects to be removed.">
                                 <mal:type list="true" name="Long" area="MAL"/>
                             </mal:field>

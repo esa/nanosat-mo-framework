@@ -386,7 +386,7 @@
                 <mal:submitIP comment="The runApp operation allows a consumer to run an application on the provider." name="runApp" number="2" supportInReplay="false">
                     <mal:messages>
                         <mal:submit comment="">
-                            <mal:field canBeNull="true" comment="The appInstIds field contains the list of apps to run." name="appInstIds">
+                            <mal:field canBeNull="true" comment="The appIds field contains the list of apps to run." name="appIds">
                                 <mal:type area="MAL" list="true" name="Long"/>
                             </mal:field>
                         </mal:submit>
@@ -415,7 +415,7 @@
                 <mal:submitIP comment="The killApp operation allows a consumer to kill the execution of an application on the provider in case an application becomes unresponsive." name="killApp" number="3" supportInReplay="false">
                     <mal:messages>
                         <mal:submit comment="">
-                            <mal:field canBeNull="true" comment="The appInstIds field contains the list of apps to be killed." name="appInstIds">
+                            <mal:field canBeNull="true" comment="The appIds field contains the list of apps to be killed." name="appIds">
                                 <mal:type area="MAL" list="true" name="Long"/>
                             </mal:field>
                         </mal:submit>
@@ -446,7 +446,7 @@
                     </mal:documentation>
                     <mal:messages>
                         <mal:progress comment="">
-                            <mal:field canBeNull="true" comment="The appInstIds field contains the list of apps to stop." name="appInstIds">
+                            <mal:field canBeNull="true" comment="The appIds field contains the list of apps to stop." name="appIds">
                                 <mal:type area="MAL" list="true" name="Long"/>
                             </mal:field>
                         </mal:progress>
@@ -475,7 +475,7 @@
                             </mal:field>
                         </mal:request>
                         <mal:response comment="">
-                            <mal:field canBeNull="true" comment="The appInstIds field contains a list of apps." name="appInstIds">
+                            <mal:field canBeNull="true" comment="The appIds field contains a list of apps." name="appIds">
                                 <mal:type area="MAL" list="true" name="Long"/>
                             </mal:field>
                             <mal:field canBeNull="true" comment="The running status of the requested apps." name="running">

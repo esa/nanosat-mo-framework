@@ -154,8 +154,8 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
                     ListAppResponse response = appsLauncherService.listApp(allApps, new Identifier("*"), null);
                     LongList runningApps = new LongList();
 
-                    for (int i = 0; i < response.getAppInstIds().size(); i++) {
-                        Long appId = response.getAppInstIds().get(i);
+                    for (int i = 0; i < response.getAppIds().size(); i++) {
+                        Long appId = response.getAppIds().get(i);
                         if (response.getRunning().get(i)) {
                             runningApps.add(appId);
                         }

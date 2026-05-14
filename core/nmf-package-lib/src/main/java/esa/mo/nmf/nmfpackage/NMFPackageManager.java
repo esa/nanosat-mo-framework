@@ -579,9 +579,9 @@ public class NMFPackageManager {
             ListAppResponse response = appsLauncher.listApp(myApp, category, null);
             LongList runningApp = new LongList();
 
-            for (int i = 0; i < response.getAppInstIds().size(); i++) {
+            for (int i = 0; i < response.getAppIds().size(); i++) {
                 if (response.getRunning().get(i)) {
-                    Long appId = response.getAppInstIds().get(i);
+                    Long appId = response.getAppIds().get(i);
                     runningApp.add(appId);
                 }
             }
