@@ -782,7 +782,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
 
 //        archiveDetailsList = new ArchiveDetailsList();
 //        archiveDetailsList.add(serviceCOMArchive.generateArchiveDetails(new Long(0)));
-        ArchiveDetailsList archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive.getConnectionDetails());
+        ArchiveDetailsList archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive.getConnectionDetails().getProviderURI());
         objType = ConversionServiceInfo.DISCRETECONVERSION_OBJECT_TYPE;
         HeterogeneousList objList1 = new HeterogeneousList();
         objList1.add(this.generateDiscreteConversion());
@@ -800,7 +800,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
 
 //        archiveDetailsList = new ArchiveDetailsList();
 //        archiveDetailsList.add(serviceCOMArchive.generateArchiveDetails(new Long(0)));
-        archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive.getConnectionDetails());
+        archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive.getConnectionDetails().getProviderURI());
         objType = ConversionServiceInfo.LINECONVERSION_OBJECT_TYPE;
         HeterogeneousList objList2 = new HeterogeneousList();
         objList2.add(this.generateLineConversion());
@@ -818,7 +818,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
 
 //        archiveDetailsList = new ArchiveDetailsList();
 //        archiveDetailsList.add(serviceCOMArchive.generateArchiveDetails(new Long(0)));
-        archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive.getConnectionDetails());
+        archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive.getConnectionDetails().getProviderURI());
         objType = ConversionServiceInfo.POLYCONVERSION_OBJECT_TYPE;
         HeterogeneousList objList3 = new HeterogeneousList();
         objList3.add(this.generatePolyConversion());
@@ -831,7 +831,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
                     Level.SEVERE, null, ex);
         }
 
-        archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive.getConnectionDetails());
+        archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive.getConnectionDetails().getProviderURI());
         objType = ConversionServiceInfo.RANGECONVERSION_OBJECT_TYPE;
         HeterogeneousList objList4 = new HeterogeneousList();
         objList4.add(this.generateRangeConversion());

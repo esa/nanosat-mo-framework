@@ -188,13 +188,7 @@ public final class AggregationManager extends MCManager {
                         true,
                         AggregationServiceInfo.AGGREGATIONVALUEINSTANCE_OBJECT_TYPE,
                         ConfigurationProviderSingleton.getDomain(),
-                        HelperArchive.generateArchiveDetailsList(
-                                related,
-                                source,
-                                ConfigurationProviderSingleton.getNetwork(),
-                                uri,
-                                timestamp,
-                                0L),
+                        HelperArchive.generateArchiveDetailsList(related, source, uri),
                         aValList,
                         null);
 
@@ -800,7 +794,7 @@ public final class AggregationManager extends MCManager {
                 LongList defIds = super.getArchiveService().store(true,
                         AggregationServiceInfo.AGGREGATIONDEFINITION_OBJECT_TYPE,
                         ConfigurationProviderSingleton.getDomain(),
-                        HelperArchive.generateArchiveDetailsList(null, source, connectionDetails),
+                        HelperArchive.generateArchiveDetailsList(null, source, connectionDetails.getProviderURI()),
                         defs,
                         null);
 
@@ -849,7 +843,7 @@ public final class AggregationManager extends MCManager {
                 super.getArchiveService().update(
                         AggregationServiceInfo.AGGREGATIONDEFINITION_OBJECT_TYPE,
                         ConfigurationProviderSingleton.getDomain(),
-                        HelperArchive.generateArchiveDetailsList(null, source, null, null, Time.now(), identityId),
+                        HelperArchive.generateArchiveDetailsList(null, source, null, identityId),
                         defs,
                         null);
             } catch (MALException | MALInteractionException ex) {

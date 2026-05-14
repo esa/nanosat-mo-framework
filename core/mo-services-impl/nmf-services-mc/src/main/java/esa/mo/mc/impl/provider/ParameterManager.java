@@ -122,7 +122,7 @@ public class ParameterManager extends MCManager {
             //be same as the one that will be used later for publishing the ParameterValue
             final ArchiveDetailsList archiveDetailsList;
             if (timestamp == null) { //ParameterValue-Object will not be published, generate a new timestamp then
-                archiveDetailsList = HelperArchive.generateArchiveDetailsList(related, source, connectionDetails);
+                archiveDetailsList = HelperArchive.generateArchiveDetailsList(related, source, connectionDetails.getProviderURI());
             } else { //use the timestamp given
                 archiveDetailsList = new ArchiveDetailsList();
                 archiveDetailsList.add(new ArchiveDetails(0L, new ObjectLinks(related, source),
@@ -483,7 +483,7 @@ public class ParameterManager extends MCManager {
                 LongList defIds = super.getArchiveService().store(true,
                         ParameterServiceInfo.PARAMETERDEFINITION_OBJECT_TYPE,
                         ConfigurationProviderSingleton.getDomain(),
-                        HelperArchive.generateArchiveDetailsList(0L, source, connectionDetails),
+                        HelperArchive.generateArchiveDetailsList(0L, source, connectionDetails.getProviderURI()),
                         defs,
                         null);
 
@@ -557,8 +557,7 @@ public class ParameterManager extends MCManager {
                 HeterogeneousList defs = new HeterogeneousList();
                 defs.add(definition);
                 ArchiveDetailsList metadata = generateArchiveDetailsList(null, source,
-                        ConfigurationProviderSingleton.getNetwork(),
-                        connectionDetails.getProviderURI(), Time.now(), id);
+                        connectionDetails.getProviderURI(), id);
 
                 // Update a new ParameterDefinition
                 super.getArchiveService().update(ParameterServiceInfo.PARAMETERDEFINITION_OBJECT_TYPE,

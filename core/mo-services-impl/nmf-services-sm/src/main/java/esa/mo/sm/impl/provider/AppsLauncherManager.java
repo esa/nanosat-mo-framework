@@ -205,7 +205,7 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
         HeterogeneousList defs = new HeterogeneousList();
         defs.add(definition);
         ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(
-                related, source, null, uri, Time.now(), objId);
+                related, source, uri, objId);
 
         return super.getArchiveService().store(true, AppsLauncherServiceInfo.APP_OBJECT_TYPE,
                 ConfigurationProviderSingleton.getDomain(), archDetails, defs, null);

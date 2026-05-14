@@ -104,100 +104,40 @@ public class HelperArchive {
     }
 
     /**
-     * Generates a ArchiveDetailsList structure with one ArchiveDetails object.
-     * The object instance identifier will be set as 0. The operation will use
-     * the submitted related, source and interaction fields to fill-in the
-     * object.
+     * Generates an ArchiveDetailsList with one ArchiveDetails entry for a new
+     * COM object. The object instance identifier is set to 0 (auto-assigned by
+     * the archive), the network is taken from ConfigurationProviderSingleton,
+     * and the timestamp is set to now.
      *
-     * @param related Related field
-     * @param source Source field
-     * @param interaction Interaction
-     * @return The ArchiveDetailsList object
-     */
-    public static ArchiveDetailsList generateArchiveDetailsList(final Long related,
-            final ObjectId source, final MALInteraction interaction) {
-        return generateArchiveDetailsList(
-                related,
-                source,
-                null,
-                interaction.getMessageHeader().getFromURI());
-    }
-
-    /**
-     * Please consider using the same method but with the provider URI directly
-     * as argument instead of the connectionDetails object
-     *
-     * @param related Related field
-     * @param source Source field
-     * @param connectionDetails The details of the connection
-     * @return The ArchiveDetailsList object
-     */
-    @Deprecated
-    public static ArchiveDetailsList generateArchiveDetailsList(final Long related,
-            final ObjectId source, final SingleConnectionDetails connectionDetails) {
-        return generateArchiveDetailsList(related, source, connectionDetails.getProviderURI());
-    }
-
-    /**
-     * Generates a ArchiveDetailsList structure with one ArchiveDetails
-     * object.The object instance identifier will be set as 0. The operation
-     * will use the submitted related, source and connectionDetails fields to
-     * fill-in the object. It will use the provider's network to fill in the
-     * network's field.
-     *
-     * @param related Related field
-     * @param source Source field
-     * @param uri The URI.
+     * @param related Related field (id of the related object, or null)
+     * @param source Source field (id of the object that caused creation, or null)
+     * @param uri Provider URI
      * @return The ArchiveDetailsList object
      */
     public static ArchiveDetailsList generateArchiveDetailsList(final Long related,
             final ObjectId source, final URI uri) {
-        return generateArchiveDetailsList(related, source, ConfigurationProviderSingleton.getNetwork(), uri);
+        return generateArchiveDetailsList(related, source, uri, 0L);
     }
 
     /**
-     * Generates a ArchiveDetailsList structure with one ArchiveDetails object.
-     * The object instance identifier will be set as 0. The operation will use
-     * the submitted related, source, network and provider fields to fill-in the
-     * object. The fields network and provider are not set.
+     * Generates an ArchiveDetailsList with one ArchiveDetails entry. Use this
+     * variant when updating an existing COM object and the object instance
+     * identifier must be set explicitly.
      *
-     * @param related Related field
-     * @param source Source field
-     * @param network Network field
-     * @param provider Provider URI field
+     * @param related Related field (id of the related object, or null)
+     * @param source Source field (id of the object that caused creation, or null)
+     * @param uri Provider URI
+     * @param objId Object instance identifier
      * @return The ArchiveDetailsList object
      */
     public static ArchiveDetailsList generateArchiveDetailsList(final Long related,
-            final ObjectId source, final Identifier network, final URI provider) {
-        return generateArchiveDetailsList(related, source,
-                ConfigurationProviderSingleton.getNetwork(),
-                provider, Time.now(), 0L);
-    }
-
-    /**
-     * Generates a ArchiveDetailsList structure with one ArchiveDetails object.
-     * The object instance identifier will be set as 0. The operation will use
-     * the submitted related, source, network, provider and objId fields to
-     * fill-in the object. The fields network and provider are not set.
-     *
-     * @param related Related field
-     * @param source Source field
-     * @param network Network field
-     * @param provider Provider field
-     * @param timestamp Timestamp field
-     * @param objId Object instance identifier field
-     * @return The ArchiveDetailsList object
-     */
-    public static ArchiveDetailsList generateArchiveDetailsList(final Long related,
-            final ObjectId source, Identifier network, final URI provider,
-            final Time timestamp, final Long objId) {
-        network = (network == null) ? new Identifier("") : network;
-        ArchiveDetails archiveDetails = new ArchiveDetails(objId,
+            final ObjectId source, final URI uri, final Long objId) {
+        final Identifier network = ConfigurationProviderSingleton.getNetwork();
+        final ArchiveDetails archiveDetails = new ArchiveDetails(objId,
                 new ObjectLinks(related, source),
-                network,
-                timestamp,
-                provider);
-
+                network != null ? network : new Identifier(""),
+                Time.now(),
+                uri);
         final ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
         archiveDetailsList.add(archiveDetails);
         return archiveDetailsList;

@@ -235,9 +235,7 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
         cachedCommandDetails.put(objId, command);
         final ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(
                 null, null,
-                ConfigurationProviderSingleton.getNetwork(),
                 connection.getPrimaryConnectionDetails().getProviderURI(),
-                Time.now(),
                 objId);
         final HeterogeneousList objBodies = new HeterogeneousList();
         objBodies.add(command);

@@ -118,15 +118,14 @@ public class PersistProviderConfiguration {
                     true,
                     ConfigurationServiceInfo.CONFIGURATIONOBJECTS_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(),
-                    HelperArchive.generateArchiveDetailsList(null, null, ConfigurationProviderSingleton.getNetwork(), new URI("")),
+                    HelperArchive.generateArchiveDetailsList(null, null, new URI("")),
                     archObj,
                     null);
 
             // Store the provider configuration
             // Related points to the Provider's Configuration Object
             ArchiveDetailsList details = HelperArchive.generateArchiveDetailsList(objIds3.get(0),
-                    null, ConfigurationProviderSingleton.getNetwork(),
-                    new URI(""), Time.now(), confId.getInstId());
+                    null, new URI(""), confId.getInstId());
 
             HeterogeneousList providerNameList = new HeterogeneousList();
             providerNameList.add(provider.getProviderName());

@@ -154,9 +154,7 @@ public final class ActionManager extends MCManager {
             try {
                 HeterogeneousList defs = new HeterogeneousList();
                 defs.add(definition);
-                ArchiveDetailsList metadata = generateArchiveDetailsList(null, source,
-                        ConfigurationProviderSingleton.getNetwork(),
-                        uri, Time.now(), id);
+                ArchiveDetailsList metadata = generateArchiveDetailsList(null, source, uri, id);
 
                 // Update a new ActionDefinition 
                 super.getArchiveService().update(

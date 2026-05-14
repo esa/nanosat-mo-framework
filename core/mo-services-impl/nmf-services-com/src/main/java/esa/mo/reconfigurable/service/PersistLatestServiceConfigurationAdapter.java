@@ -85,7 +85,7 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationCh
 
             // Stuff to feed the update operation from the Archive...
             ArchiveDetailsList details = HelperArchive.generateArchiveDetailsList(null, null,
-                    ConfigurationProviderSingleton.getNetwork(), new URI(""), Time.now(), configObjectsObjId);
+                    new URI(""), configObjectsObjId);
             HeterogeneousList confObjsList = new HeterogeneousList();
             confObjsList.add(serviceImpl.getCurrentConfiguration());
 
@@ -114,8 +114,7 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationCh
                     true,
                     ConfigurationServiceInfo.CONFIGURATIONOBJECTS_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(),
-                    HelperArchive.generateArchiveDetailsList(null, null,
-                            ConfigurationProviderSingleton.getNetwork(), new URI("")),
+                    HelperArchive.generateArchiveDetailsList(null, null, new URI("")),
                     archObj1,
                     null);
 
@@ -128,8 +127,7 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationCh
                     false,
                     ConfigurationServiceInfo.SERVICECONFIGURATION_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(),
-                    HelperArchive.generateArchiveDetailsList(objIds1.get(0), null,
-                            ConfigurationProviderSingleton.getNetwork(), new URI(""), Time.now(), defaultObjId),
+                    HelperArchive.generateArchiveDetailsList(objIds1.get(0), null, new URI(""), defaultObjId),
                     serviceKeyList,
                     null);
         } catch (MALException ex) {

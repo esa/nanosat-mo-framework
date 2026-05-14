@@ -76,7 +76,7 @@ public final class AlertManager extends MCManager {
                 LongList defIds = super.getArchiveService().store(true,
                         AlertServiceInfo.ALERTDEFINITION_OBJECT_TYPE, //requirement: 3.4.4.c
                         ConfigurationProviderSingleton.getDomain(),
-                        HelperArchive.generateArchiveDetailsList(null, source, connectionDetails), //requirement: 3.4.4.e, 3.4.4.h
+                        HelperArchive.generateArchiveDetailsList(null, source, connectionDetails.getProviderURI()), //requirement: 3.4.4.e, 3.4.4.h
                         defs,
                         null);
 
@@ -104,8 +104,7 @@ public final class AlertManager extends MCManager {
                 HeterogeneousList defs = new HeterogeneousList();
                 defs.add(definition);
                 ArchiveDetailsList metadata = generateArchiveDetailsList(null, source,
-                        ConfigurationProviderSingleton.getNetwork(),
-                        connectionDetails.getProviderURI(), Time.now(), id);
+                        connectionDetails.getProviderURI(), id);
 
                 // Update a new AlertDefinition and add to the archive; requirement: 3.4.7.a
                 super.getArchiveService().update(AlertServiceInfo.ALERTDEFINITION_OBJECT_TYPE,

@@ -315,7 +315,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
             ArchiveDetailsList archDetails = (interaction == null)
                     ? HelperArchive.generateArchiveDetailsList(null, null,
                             connection.getPrimaryConnectionDetails().getProviderURI())
-                    : HelperArchive.generateArchiveDetailsList((Long) null, null, interaction);
+                    : HelperArchive.generateArchiveDetailsList((Long) null, null, interaction.getMessageHeader().getFromURI());
 
             // Check if there are comServices...
             if (comServices == null) {
@@ -344,7 +344,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
             final ArchiveDetailsList archDetails1 = (interaction == null)
                     ? HelperArchive.generateArchiveDetailsList(servProvObjId, null,
                             connection.getPrimaryConnectionDetails().getProviderURI())
-                    : HelperArchive.generateArchiveDetailsList(servProvObjId, null, interaction);
+                    : HelperArchive.generateArchiveDetailsList(servProvObjId, null, interaction.getMessageHeader().getFromURI());
 
             HeterogeneousList capabilities = new HeterogeneousList();
             capabilities.add(newProviderDetails.getProviderDetails());
