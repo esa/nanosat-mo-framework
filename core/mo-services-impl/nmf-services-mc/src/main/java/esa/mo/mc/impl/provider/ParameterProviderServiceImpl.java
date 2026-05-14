@@ -20,7 +20,6 @@
  */
 package esa.mo.mc.impl.provider;
 
-import esa.mo.com.impl.consumer.EventConsumerServiceImpl;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.reconfigurable.service.ConfigurationChangeListener;
 import esa.mo.reconfigurable.service.ReconfigurableService;
@@ -72,7 +71,6 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
     protected ParameterManager manager;
     private PeriodicReportingManager periodicReportingManager;
     private final ConnectionProvider connection = new ConnectionProvider();
-    private EventConsumerServiceImpl eventServiceConsumer;
     private ConfigurationChangeListener configurationAdapter;
 
     /**
