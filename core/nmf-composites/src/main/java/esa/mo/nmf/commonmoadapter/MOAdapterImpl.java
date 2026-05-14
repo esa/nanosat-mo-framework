@@ -472,7 +472,7 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
     public Long launchAction(Long definitionId, AttributeValueList argumentValues,
             ActionAdapter actionAdapter) throws NMFException {
         ExecutionRequest execReq = new ExecutionRequest(
-                definitionId, true, true, true, argumentValues, null);
+                definitionId, argumentValues, null);
         try {
             Long executionId = super.getMCServices().getActionService().getActionStub()
                     .executeAction(execReq);

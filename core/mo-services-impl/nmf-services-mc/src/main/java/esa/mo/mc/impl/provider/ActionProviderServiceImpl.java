@@ -53,7 +53,7 @@ import org.ccsds.moims.mo.mc.structures.*;
 /**
  * Action service Provider.
  */
-public class ActionProviderServiceImpl extends ActionInheritanceSkeleton implements ReconfigurableService, ExecutionProgressPublisher {
+public class ActionProviderServiceImpl extends ActionInheritanceSkeleton implements ReconfigurableService {
 
     private final static String IS_INTERMEDIATE_RELAY_PROPERTY = "esa.mo.mc.impl.provider.ActionProviderServiceImpl.isIntermediateRelay";
     private MALProvider actionServiceProvider;
@@ -91,7 +91,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         actionServiceProvider = connection.startService(ActionHelper.ACTION_SERVICE, true, this);
 
         running = true;
-        manager = new ActionManager(comServices, actionListener, this);
+        manager = new ActionManager(comServices, actionListener);
 
         initialiased = true;
         timestamp = System.currentTimeMillis() - timestamp;
@@ -155,7 +155,8 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
                 executionRequest.getDefinitionId(),
                 connection.getPrimaryConnectionDetails().getProviderURI());
 
-        manager.execute(executionId, executionRequest, interaction, connection.getConnectionDetails());
+        manager.execute(executionId, executionRequest,
+                interaction, this, connection.getConnectionDetails());
 
         return executionId;
     }
@@ -415,10 +416,9 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
      * @param step The progress step number, or null for START and END stages.
      * @param comment An optional comment.
      */
-    @Override
     public void publishExecutionProgress(final Long definitionId, final Long executionId,
-            final UOctet actionCategory, final ExecutionStageType stageType, final boolean success,
-            final UShort step, final String comment) {
+            final UOctet actionCategory, final ExecutionStageType stageType,
+            final boolean success, final UShort step, final String comment) {
         try {
             synchronized (lock) {
                 if (!isRegistered) {

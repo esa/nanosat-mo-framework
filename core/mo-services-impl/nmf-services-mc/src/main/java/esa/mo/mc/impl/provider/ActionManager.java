@@ -65,13 +65,9 @@ public final class ActionManager extends MCManager {
             MAXIMUM_THREADS_IN_POOL, KEEP_ALIVE_TIME_THREADS_IN_POOL, TimeUnit.SECONDS, new ArrayBlockingQueue<>(
                     MAXIMUM_NUMBER_OF_TASKS_IN_POOL, true), new ActionThreadFactory("ActionsExecutor"));
 
-    private final ExecutionProgressPublisher progressPublisher;
-
-    public ActionManager(COMServicesProvider comServices, ActionInvocationListener actions,
-            ExecutionProgressPublisher progressPublisher) {
+    public ActionManager(COMServicesProvider comServices, ActionInvocationListener actions) {
         super(comServices);
         this.actions = actions;
-        this.progressPublisher = progressPublisher;
 
         if (super.getArchiveService() == null) {  // No Archive?
             this.uniqueObjIdDef = 0L; // The zeroth value will not be used (reserved for the wildcard)
@@ -91,8 +87,6 @@ public final class ActionManager extends MCManager {
     public Long storeAndGenerateExecReqId(ExecutionRequest execReq, Long related, final URI uri) {
         if (super.getArchiveService() == null) {
             uniqueObjIdAIns++;
-            ///            if (uniqueObjIdAIns % SAVING_PERIOD  == 0) // It is used to avoid constant saving every time we generate a new obj Inst identifier.
-            //                this.save();
             return this.uniqueObjIdAIns;
         } else {
             HeterogeneousList aValList = new HeterogeneousList();
@@ -119,9 +113,6 @@ public final class ActionManager extends MCManager {
 
     }
 
-    //    public ActionDefinitionList getAll(){
-    //        return (ActionDefinitionList) this.listgetAllDefs();
-    //    }
     public Long add(ActionDefinition actionDefDetails, ObjectId source, URI uri) { // requirement: 3.3.2.5
         Long newId = 0L;
         final Identifier name = actionDefDetails.getName();
@@ -331,54 +322,46 @@ public final class ActionManager extends MCManager {
         actionsExecutor.execute(() -> {
             if (actions != null) {
                 actions.actionArrived(name, executionRequest.getArgumentValues(),
-                        executionId, executionRequest.getStageProgressRequired(), interaction);
+                        executionId, true, interaction);
             }
         });
     }
 
     protected void execute(final Long executionId, final ExecutionRequest executionRequest,
-            final MALInteraction interaction, final SingleConnectionDetails connectionDetails) {
+            final MALInteraction interaction, ActionProviderServiceImpl progressPublisher,
+            final SingleConnectionDetails connectionDetails) {
         executionRequests.put(executionId, executionRequest);
-        final Identifier name = this.getName(executionRequest.getDefinitionId());
+        Long definitionId = executionRequest.getDefinitionId();
+        final Identifier name = this.getName(definitionId);
 
         actionsExecutor.execute(() -> {
-            final ActionDefinition actionDefinition = getActionDefinition(executionRequest.getDefinitionId());
+            final ActionDefinition actionDefinition = getActionDefinition(definitionId);
+            final UOctet category = (actionDefinition != null && actionDefinition.getCategory() != null)
+                    ? new UOctet((short) actionDefinition.getCategory().getValue())
+                    : new UOctet((short) 0);
 
-            //from here on: requirement 3.2.8.b
-            // Publish Event stating that the execution was initialized
-            if (executionRequest.getStageStartedRequired()) {  // ExecutionRequest field requirement
-                reportExecutionStart(true, null, actionDefinition.getProgressStepCount().getValue(), executionId,
-                        interaction, connectionDetails);
+            if (progressPublisher != null) {
+                progressPublisher.publishExecutionProgress(definitionId, executionId,
+                        category, ExecutionStageType.START, true, null, null);
             }
 
             UInteger errorNumber;
-
-            // Call the Action
             if (actions != null) {
-                //requirement: 3.2.8.j, 3.2.5.a -> actionArrived will send the progress-events
                 errorNumber = actions.actionArrived(name, executionRequest.getArgumentValues(),
-                        executionId, executionRequest.getStageProgressRequired(), interaction);
+                        executionId, true, interaction);
             } else {
                 errorNumber = new UInteger(0);
             }
 
-            // Publish Event stating that the execution was finished
-            if (executionRequest.getStageCompletedRequired()) {  // ExecutionRequest field requirement
-                reportExecutionComplete((errorNumber == null), errorNumber,
-                        actionDefinition.getProgressStepCount().getValue(),
-                        executionId, interaction, connectionDetails);
+            final boolean success = (errorNumber == null);
+            final String comment = success ? null : "Error code: " + errorNumber;
+
+            if (progressPublisher != null) {
+                progressPublisher.publishExecutionProgress(definitionId, executionId,
+                        category, ExecutionStageType.END, success, null, comment);
             }
 
             executionRequests.remove(executionId);
-
-            //                //TODO: i think the failure was published in actionArrived method and only if it wasnt,
-            //the following completion event shall be published -> issue
-            //                // Publish Event stating that the execution was finished
-            //				success = actions.getFailureStage() != actionDefinition.getProgressStepCount().getValue() + 2;
-            //                if (executionRequest.getStageCompletedRequired()) {  // ExecutionRequest field requirement
-            //                    reportExecutionComplete(success, success ? null : actions.getFailureCode(),
-            //                        actionDefinition.getProgressStepCount().getValue(), executionId, interaction, connectionDetails);
-            //                }
         });
 
     }
@@ -406,41 +389,6 @@ public final class ActionManager extends MCManager {
         } catch (MALException | MALInteractionException ex) {
             Logger.getLogger(ActionManager.class.getName()).log(Level.WARNING,
                     "Failed to store ExecutionStatus", ex);
-        }
-    }
-
-    private Long getDefinitionIdForExecution(final Long executionId) {
-        ExecutionRequest execReq = executionRequests.get(executionId);
-        return execReq != null ? execReq.getDefinitionId() : null;
-    }
-
-    private UOctet getCategoryForExecution(final Long executionId) {
-        ExecutionRequest execReq = executionRequests.get(executionId);
-        if (execReq != null) {
-            ActionDefinition def = getActionDefinition(execReq.getDefinitionId());
-            if (def != null && def.getCategory() != null) {
-                return new UOctet((short) def.getCategory().getValue());
-            }
-        }
-        return new UOctet((short) 0);
-    }
-
-    private void reportExecutionStart(final boolean success, final UInteger errorNumber,
-            final int totalNumberOfProgressStages, final Long executionId,
-            final MALInteraction interaction, final SingleConnectionDetails connectionDetails) {
-        if (progressPublisher != null) {
-            progressPublisher.publishExecutionProgress(getDefinitionIdForExecution(executionId), executionId,
-                    getCategoryForExecution(executionId), ExecutionStageType.START, success, null, null);
-        }
-    }
-
-    private void reportExecutionComplete(final boolean success, final UInteger errorNumber,
-            final int totalNumberOfProgressStages, final Long executionId,
-            final MALInteraction interaction, final SingleConnectionDetails connectionDetails) {
-        if (progressPublisher != null) {
-            String comment = success ? null : "Error code: " + errorNumber;
-            progressPublisher.publishExecutionProgress(getDefinitionIdForExecution(executionId), executionId,
-                    getCategoryForExecution(executionId), ExecutionStageType.END, success, null, comment);
         }
     }
 

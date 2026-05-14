@@ -1457,18 +1457,6 @@
                            comment="The id of the ActionDefinition to be used.">
                     <mal:type name="Long" area="MAL"/>
                 </mal:field>
-                <mal:field name="stageStartedRequired" canBeNull="false"
-                           comment="If TRUE, a monitorExecution notification and ExecutionStatus object shall be published when the action starts execution.">
-                    <mal:type name="Boolean" area="MAL"/>
-                </mal:field>
-                <mal:field name="stageProgressRequired" canBeNull="false"
-                           comment="If TRUE, a monitorExecution notification and ExecutionStatus object shall be published for each progress stage of the action.">
-                    <mal:type name="Boolean" area="MAL"/>
-                </mal:field>
-                <mal:field name="stageCompletedRequired" canBeNull="false"
-                           comment="If TRUE, a monitorExecution notification and ExecutionStatus object shall be published when the action completes execution.">
-                    <mal:type name="Boolean" area="MAL"/>
-                </mal:field>
                 <mal:field name="argumentValues"
                            comment="List containing the values of the arguments. The ordering of the list matches that of the definition. If a value for a particular entry is not being supplied, then its position is filled with a NULL value. If no arguments are defined, then the complete list is replaced with a NULL.">
                     <mal:type list="true" name="AttributeValue" area="MC"/>
