@@ -107,12 +107,12 @@ public class ActionProxyServiceImpl extends ActionInheritanceSkeleton {
     }
 
     @Override
-    public Long executeAction(ExecutionRequest actionDetails, MALInteraction interaction)
+    public Long executeAction(ExecutionRequest executionRequest, MALInteraction interaction)
             throws MALInteractionException, MALException {
         manager.getCOMServices().getActivityTrackingService().publishReceptionEvent(interaction, true, new Duration(0),
                 actionConsumer.getConnectionDetails().getProviderURI(), null);
 
-        Long executionId = actionConsumer.getActionStub().executeAction(actionDetails);
+        Long executionId = actionConsumer.getActionStub().executeAction(executionRequest);
 
         manager.getCOMServices().getActivityTrackingService().publishForwardEvent(interaction, true, new Duration(0),
                 actionConsumer.getConnectionDetails().getProviderURI(), null);

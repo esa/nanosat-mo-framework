@@ -44,13 +44,13 @@ public interface SimpleMonitoringInterface {
      * @param progressStage The progress stage. The first stage is represented
      * as 1.
      * @param totalNumberOfProgressStages The total number of progress stages.
-     * @param actionInstId The action instance identifier. This value allows the
-     * consumer to match the action instance that initiated the action.
+     * @param executionId The id of the execution of an action. This value allows the
+     * consumer to match the execution that initiated the action.
      * @throws NMFException if the action execution progress could not be
      * reported.
      */
     void reportExecutionRequestProgress(final boolean success, final int errorNumber, final int progressStage,
-            final int totalNumberOfProgressStages, final long actionInstId) throws NMFException;
+            final int totalNumberOfProgressStages, final long executionId) throws NMFException;
 
     /**
      * The publishAlertEvent operation allows an external software entity to

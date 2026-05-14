@@ -31,7 +31,7 @@ import org.ccsds.moims.mo.mc.structures.ActionCategory;
  * has to have the following arguments before the parameters (not annotated with
  * ActionParameter):
  * <p>
- * <code>Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction</code>
+ * <code>Long executionId, boolean reportProgress, MALInteraction interaction</code>
  * <p>
  * Every argument after these, has to be annotated with ActionParameter
  *
@@ -41,7 +41,7 @@ import org.ccsds.moims.mo.mc.structures.ActionCategory;
  * <b>&#64;Action(name = "Clock.setTimeUsingDeltaMilliseconds",
  *   description = "Sets the clock using a diff between the on-board time and the desired time.")</b>
  * public UInteger setTimeUsingDeltaMilliseconds(
- *     Long actionInstanceObjId,
+ *     Long executionId,
  *     boolean reportProgress,
  *     MALInteraction interaction,
  *     <b>&#64;ActionParameter(name = "delta", rawUnit = "milliseconds") Long delta</b>) {

@@ -55,7 +55,7 @@ public final class ActionManager extends MCManager {
     private Long uniqueObjIdDef; // Unique objId Definition (different for every Definition)
     private Long uniqueObjIdAIns;
     private final ActionInvocationListener actions;
-    private final HashMap<Long, ExecutionRequest> actionInstances = new HashMap<>();
+    private final HashMap<Long, ExecutionRequest> executionRequests = new HashMap<>();
 
     private final static int MINIMUM_THREADS_IN_POOL = 2;
     private final static int MAXIMUM_THREADS_IN_POOL = 100;
@@ -89,7 +89,7 @@ public final class ActionManager extends MCManager {
         return (ActionDefinition) this.getDefinition(id);
     }
 
-    public Long storeAndGenerateAInsobjId(ExecutionRequest aIns, Long related, final URI uri) {
+    public Long storeAndGenerateExecReqId(ExecutionRequest execReq, Long related, final URI uri) {
         if (super.getArchiveService() == null) {
             uniqueObjIdAIns++;
             ///            if (uniqueObjIdAIns % SAVING_PERIOD  == 0) // It is used to avoid constant saving every time we generate a new obj Inst identifier.
@@ -97,7 +97,7 @@ public final class ActionManager extends MCManager {
             return this.uniqueObjIdAIns;
         } else {
             HeterogeneousList aValList = new HeterogeneousList();
-            aValList.add(aIns);
+            aValList.add(execReq);
 
             try {
                 LongList objIds = super.getArchiveService().store(
@@ -158,7 +158,7 @@ public final class ActionManager extends MCManager {
 
         if (super.getArchiveService() == null) { //only update locally
             //add to providers local list
-            uniqueObjIdDef++; // This line as to go before any writing (because it's initialized as zero and that's the wildcard)
+            uniqueObjIdDef++;
             newDefId = uniqueObjIdDef;
         } else {  // update in the COM Archive
             try {
@@ -169,10 +169,12 @@ public final class ActionManager extends MCManager {
                         uri, Time.now(), id);
 
                 // Update a new ActionDefinition 
-                super.getArchiveService().update(ActionServiceInfo.ACTIONDEFINITION_OBJECT_TYPE,
+                super.getArchiveService().update(
+                        ActionServiceInfo.ACTIONDEFINITION_OBJECT_TYPE,
                         ConfigurationProviderSingleton.getDomain(),
                         metadata,
-                        defs, null);
+                        defs,
+                        null);
             } catch (MALException | MALInteractionException ex) {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -200,7 +202,8 @@ public final class ActionManager extends MCManager {
             ArgumentDefinition oldArgument = oldArguments.get(index);
             ArgumentDefinition newArgument = newArguments.get(index);
 
-            if (oldArgument == null || newArgument == null) {  // cannot compare, check next
+            // cannot compare, check next
+            if (oldArgument == null || newArgument == null) {
                 continue;
             }
 
@@ -211,15 +214,18 @@ public final class ActionManager extends MCManager {
             }
         }
 
-        if (oldDef.getArguments() == null && newDef.getArguments() == null) {  // If both are null then skip the rest of the code
+        // If both are null then skip the rest of the code
+        if (oldDef.getArguments() == null && newDef.getArguments() == null) {
             return true;
         }
 
-        if (oldDef.getArguments() == null || newDef.getArguments() == null) { // But if only one of them is null, well, then we have an error here
+        // But if only one of them is null, well, then we have an error here
+        if (oldDef.getArguments() == null || newDef.getArguments() == null) {
             return false;
         }
 
-        if (oldArguments.size() != newArguments.size()) {  // Are the list sizes different?
+        // Are the list sizes different?
+        if (oldArguments.size() != newArguments.size()) {
             return false;
         }
 
@@ -238,9 +244,9 @@ public final class ActionManager extends MCManager {
 
     }
 
-    public boolean checkExecutionRequest(ExecutionRequest actionInstance, UIntegerList errorList) {
+    public boolean checkExecutionRequest(ExecutionRequest execReq, UIntegerList errorList) {
         //TODO extend this method to support the external verification. create a new Interface -> actionservice
-        ActionDefinition actionDef = this.getActionDefinition(actionInstance.getDefInstId());
+        ActionDefinition actionDef = this.getActionDefinition(execReq.getDefinitionId());
 
         if (errorList != null) {
             errorList.clear();
@@ -260,8 +266,8 @@ public final class ActionManager extends MCManager {
             sizeDef = args.size();
         }
 
-        if (actionInstance.getArgumentValues() != null) {
-            sizeArgVal = actionInstance.getArgumentValues().size();
+        if (execReq.getArgumentValues() != null) {
+            sizeArgVal = execReq.getArgumentValues().size();
         }
 
         // So, first of all, are we even comparing things of the same size?
@@ -276,10 +282,10 @@ public final class ActionManager extends MCManager {
         }
 
         // Do the argument ids are not null? (it is optional)
-        if (args != null && actionInstance.getArgumentIds() != null) {
+        if (args != null && execReq.getArgumentIds() != null) {
             // Ids must be of the same size as well
             int sizeDefArgIds = args.size();
-            int sizeInstArgIds = actionInstance.getArgumentIds().size();
+            int sizeInstArgIds = execReq.getArgumentIds().size();
 
             int min = (sizeDefArgIds < sizeInstArgIds) ? sizeDefArgIds : sizeInstArgIds;
             int max = (sizeDefArgIds > sizeInstArgIds) ? sizeDefArgIds : sizeInstArgIds;
@@ -292,7 +298,7 @@ public final class ActionManager extends MCManager {
             }
             // Are the argumentIds the same?
             for (int index = 0; index < sizeDefArgIds; index++) {
-                if (!(args.get(index).getArgId().getValue().equals(actionInstance.getArgumentIds().get(index).getValue()))) {
+                if (!(args.get(index).getArgId().getValue().equals(execReq.getArgumentIds().get(index).getValue()))) {
                     errorList.add(new UInteger(index));
                 }
                 if (!errorList.isEmpty()) {
@@ -302,7 +308,7 @@ public final class ActionManager extends MCManager {
             // Are the argument types the same?
             for (int index = 0; index < sizeDefArgIds; index++) {
                 int defRawType = args.get(index).getRawType().getValue();
-                int instType = actionInstance.getArgumentValues().get(index).getValue().getTypeId().getSFP();
+                int instType = execReq.getArgumentValues().get(index).getValue().getTypeId().getSFP();
 
                 if (defRawType != instType) {
                     errorList.add(new UInteger(index));
@@ -312,16 +318,16 @@ public final class ActionManager extends MCManager {
                 }
             }
         }
-        boolean preCheckResult = actions.preCheck(actionDef, actionInstance, errorList);
+        boolean preCheckResult = actions.preCheck(actionDef, execReq, errorList);
         if (!errorList.isEmpty()) {
             return false;
         }
         return preCheckResult;
     }
 
-    protected void forward(final Long actionInstId, final ExecutionRequest actionDetails,
+    protected void forward(final Long executionId, final ExecutionRequest executionRequest,
             final MALInteraction interaction, final SingleConnectionDetails connectionDetails) {
-        final Identifier name = this.getName(actionDetails.getDefInstId());
+        final Identifier name = this.getName(executionRequest.getDefinitionId());
 
         actionsExecutor.execute(new Runnable() {
             @Override
@@ -337,7 +343,7 @@ public final class ActionManager extends MCManager {
 
                     // Reception
                     ObjectId sourceRec = new ObjectId(ActionServiceInfo.EXECUTIONREQUEST_OBJECT_TYPE,
-                            ConfigurationProviderSingleton.getDomain(), actionInstId);
+                            ConfigurationProviderSingleton.getDomain(), executionId);
                     getActivityTrackingService().publishReceptionEvent(new URI(nodes[0]),
                             null, true, null, uriNextDestination, sourceRec);
 
@@ -345,15 +351,15 @@ public final class ActionManager extends MCManager {
 
                     // Call the Action
                     if (actions != null) {
-                        errorNumber = actions.actionArrived(name, actionDetails.getArgumentValues(),
-                                actionInstId, actionDetails.getStageProgressRequired(), interaction);
+                        errorNumber = actions.actionArrived(name, executionRequest.getArgumentValues(),
+                                executionId, executionRequest.getStageProgressRequired(), interaction);
                     } else {
                         errorNumber = new UInteger(0);
                     }
 
                     // Publish forward success
                     ObjectId sourceFor = new ObjectId(ActionServiceInfo.EXECUTIONREQUEST_OBJECT_TYPE,
-                            ConfigurationProviderSingleton.getDomain(), actionInstId);
+                            ConfigurationProviderSingleton.getDomain(), executionId);
                     getActivityTrackingService().publishForwardEvent(new URI(nodes[0]),
                             null, (errorNumber == null),
                             null, uriNextDestination, sourceFor);
@@ -366,18 +372,18 @@ public final class ActionManager extends MCManager {
         });
     }
 
-    protected void execute(final Long actionInstId, final ExecutionRequest actionDetails,
+    protected void execute(final Long executionId, final ExecutionRequest executionRequest,
             final MALInteraction interaction, final SingleConnectionDetails connectionDetails) {
-        actionInstances.put(actionInstId, actionDetails);
-        final Identifier name = this.getName(actionDetails.getDefInstId());
+        executionRequests.put(executionId, executionRequest);
+        final Identifier name = this.getName(executionRequest.getDefinitionId());
 
         actionsExecutor.execute(() -> {
-            final ActionDefinition actionDefinition = getActionDefinition(actionDetails.getDefInstId());
+            final ActionDefinition actionDefinition = getActionDefinition(executionRequest.getDefinitionId());
 
             //from here on: requirement 3.2.8.b
             // Publish Event stating that the execution was initialized
-            if (actionDetails.getStageStartedRequired()) {  // ExecutionRequest field requirement
-                reportExecutionStart(true, null, actionDefinition.getProgressStepCount().getValue(), actionInstId,
+            if (executionRequest.getStageStartedRequired()) {  // ExecutionRequest field requirement
+                reportExecutionStart(true, null, actionDefinition.getProgressStepCount().getValue(), executionId,
                         interaction, connectionDetails);
             }
 
@@ -386,42 +392,42 @@ public final class ActionManager extends MCManager {
             // Call the Action
             if (actions != null) {
                 //requirement: 3.2.8.j, 3.2.5.a -> actionArrived will send the progress-events
-                errorNumber = actions.actionArrived(name, actionDetails.getArgumentValues(),
-                        actionInstId, actionDetails.getStageProgressRequired(), interaction);
+                errorNumber = actions.actionArrived(name, executionRequest.getArgumentValues(),
+                        executionId, executionRequest.getStageProgressRequired(), interaction);
             } else {
                 errorNumber = new UInteger(0);
             }
 
             // Publish Event stating that the execution was finished
-            if (actionDetails.getStageCompletedRequired()) {  // ExecutionRequest field requirement
+            if (executionRequest.getStageCompletedRequired()) {  // ExecutionRequest field requirement
                 reportExecutionComplete((errorNumber == null), errorNumber,
                         actionDefinition.getProgressStepCount().getValue(),
-                        actionInstId, interaction, connectionDetails);
+                        executionId, interaction, connectionDetails);
             }
 
-            actionInstances.remove(actionInstId);
+            executionRequests.remove(executionId);
 
             //                //TODO: i think the failure was published in actionArrived method and only if it wasnt,
             //the following completion event shall be published -> issue
             //                // Publish Event stating that the execution was finished
             //				success = actions.getFailureStage() != actionDefinition.getProgressStepCount().getValue() + 2;
-            //                if (actionDetails.getStageCompletedRequired()) {  // ExecutionRequest field requirement
+            //                if (executionRequest.getStageCompletedRequired()) {  // ExecutionRequest field requirement
             //                    reportExecutionComplete(success, success ? null : actions.getFailureCode(),
-            //                        actionDefinition.getProgressStepCount().getValue(), actionInstId, interaction, connectionDetails);
+            //                        actionDefinition.getProgressStepCount().getValue(), executionId, interaction, connectionDetails);
             //                }
         });
 
     }
 
     protected ExecutionRequest getExecutionRequest(final Long id) {
-        return actionInstances.get(id);
+        return executionRequests.get(id);
     }
 
     protected void reportActivityExecutionEvent(final boolean success, final UInteger errorNumber,
-            final int executionStage, final int stageCount, final Long actionInstId,
+            final int executionStage, final int stageCount, final Long executionId,
             final MALInteraction interaction, final SingleConnectionDetails connectionDetails) {
         ObjectId source = new ObjectId(ActionServiceInfo.EXECUTIONREQUEST_OBJECT_TYPE,
-                ConfigurationProviderSingleton.getDomain(), actionInstId);
+                ConfigurationProviderSingleton.getDomain(), executionId);
 
         try {
             if (this.getActivityTrackingService() != null) {
@@ -434,7 +440,7 @@ public final class ActionManager extends MCManager {
 
                     if (!success) { // requirement 3.2.5.c
                         //TODO: requirement 3.2.5.c is the source really the completionEvent? -> issue #189 
-                        this.publishActionFailureEvent(errorNumber, actionInstId,
+                        this.publishActionFailureEvent(errorNumber, executionId,
                                 executionEventLink, interaction, connectionDetails);
                     }
                 } catch (MALInteractionException ex) {
@@ -472,15 +478,15 @@ public final class ActionManager extends MCManager {
         }
     }
 
-    private Long getDefInstIdForInstance(final Long actionInstId) {
-        ExecutionRequest instance = actionInstances.get(actionInstId);
-        return instance != null ? instance.getDefInstId() : null;
+    private Long getDefinitionIdForExecution(final Long executionId) {
+        ExecutionRequest execReq = executionRequests.get(executionId);
+        return execReq != null ? execReq.getDefinitionId() : null;
     }
 
-    private UOctet getCategoryForInstance(final Long actionInstId) {
-        ExecutionRequest instance = actionInstances.get(actionInstId);
-        if (instance != null) {
-            ActionDefinition def = getActionDefinition(instance.getDefInstId());
+    private UOctet getCategoryForExecution(final Long executionId) {
+        ExecutionRequest execReq = executionRequests.get(executionId);
+        if (execReq != null) {
+            ActionDefinition def = getActionDefinition(execReq.getDefinitionId());
             if (def != null && def.getCategory() != null) {
                 return new UOctet((short) def.getCategory().getValue());
             }
@@ -489,27 +495,27 @@ public final class ActionManager extends MCManager {
     }
 
     private void reportExecutionStart(final boolean success, final UInteger errorNumber,
-            final int totalNumberOfProgressStages, final Long actionInstId,
+            final int totalNumberOfProgressStages, final Long executionId,
             final MALInteraction interaction, final SingleConnectionDetails connectionDetails) {
         // requirement: 3.2.8.h and 3.2.8.i
-        reportActivityExecutionEvent(success, errorNumber, 1, 2 + totalNumberOfProgressStages, actionInstId,
+        reportActivityExecutionEvent(success, errorNumber, 1, 2 + totalNumberOfProgressStages, executionId,
                 interaction, connectionDetails);
         if (progressPublisher != null) {
-            progressPublisher.publishExecutionProgress(getDefInstIdForInstance(actionInstId), actionInstId,
-                    getCategoryForInstance(actionInstId), ExecutionStageType.START, success, null, null);
+            progressPublisher.publishExecutionProgress(getDefinitionIdForExecution(executionId), executionId,
+                    getCategoryForExecution(executionId), ExecutionStageType.START, success, null, null);
         }
     }
 
     private void reportExecutionComplete(final boolean success, final UInteger errorNumber,
-            final int totalNumberOfProgressStages, final Long actionInstId,
+            final int totalNumberOfProgressStages, final Long executionId,
             final MALInteraction interaction, final SingleConnectionDetails connectionDetails) {
         // requirement: 3.2.8.h and 3.2.8.k
         reportActivityExecutionEvent(success, errorNumber, 2 + totalNumberOfProgressStages, 2
-                + totalNumberOfProgressStages, actionInstId, interaction, connectionDetails);
+                + totalNumberOfProgressStages, executionId, interaction, connectionDetails);
         if (progressPublisher != null) {
             String comment = success ? null : "Error code: " + errorNumber;
-            progressPublisher.publishExecutionProgress(getDefInstIdForInstance(actionInstId), actionInstId,
-                    getCategoryForInstance(actionInstId), ExecutionStageType.END, success, null, comment);
+            progressPublisher.publishExecutionProgress(getDefinitionIdForExecution(executionId), executionId,
+                    getCategoryForExecution(executionId), ExecutionStageType.END, success, null, comment);
         }
     }
 

@@ -399,8 +399,8 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
     }
 
     @Override
-    public Long launchAction(Long defInstId, AttributeValueList argumentValues) throws NMFException {
-        return launchAction(defInstId, argumentValues, new ActionAdapter() {
+    public Long launchAction(Long definitionId, AttributeValueList argumentValues) throws NMFException {
+        return launchAction(definitionId, argumentValues, new ActionAdapter() {
         });
     }
 
@@ -469,13 +469,13 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
     }
 
     @Override
-    public Long launchAction(Long defInstId, AttributeValueList argumentValues,
+    public Long launchAction(Long definitionId, AttributeValueList argumentValues,
             ActionAdapter actionAdapter) throws NMFException {
-        ExecutionRequest instanceDetails = new ExecutionRequest(
-                defInstId, true, true, true, argumentValues, null);
+        ExecutionRequest execReq = new ExecutionRequest(
+                definitionId, true, true, true, argumentValues, null);
         try {
             Long executionId = super.getMCServices().getActionService().getActionStub()
-                    .executeAction(instanceDetails);
+                    .executeAction(execReq);
             if (actionAdapter != null) {
                 actionAdapter.executeActionResponseReceived(null, executionId, null);
             }
@@ -484,9 +484,9 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
             if (actionAdapter != null) {
                 actionAdapter.executeActionErrorReceived(null, ex.getStandardError(), null);
             }
-            throw new NMFException("Failed to execute Action " + defInstId, ex);
+            throw new NMFException("Failed to execute Action " + definitionId, ex);
         } catch (MALException ex) {
-            throw new NMFException("Failed to execute Action " + defInstId, ex);
+            throw new NMFException("Failed to execute Action " + definitionId, ex);
         }
     }
 

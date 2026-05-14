@@ -9,7 +9,7 @@ import org.ccsds.moims.mo.mc.structures.ExecutionStageType;
  */
 interface ExecutionProgressPublisher {
 
-    void publishExecutionProgress(Long actionId, Long executionId, UOctet actionCategory,
+    void publishExecutionProgress(Long definitionId, Long executionId, UOctet actionCategory,
             ExecutionStageType stageType, boolean success, UShort step, String comment);
 
 }

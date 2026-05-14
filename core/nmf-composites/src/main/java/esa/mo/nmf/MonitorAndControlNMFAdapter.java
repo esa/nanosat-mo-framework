@@ -310,24 +310,24 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
             // if field has Parameter anotation
             if (annotation != null) {
                 method.setAccessible(true);
-                // check if Long actionInstanceObjId, boolean reportProgress,
+                // check if Long executionId, boolean reportProgress,
                 // MALInteraction interaction is implemented. If not, don't parse the action
-                java.lang.reflect.Parameter actionInstanceObjId = method.getParameters()[0];
+                java.lang.reflect.Parameter executionId = method.getParameters()[0];
                 java.lang.reflect.Parameter reportProgress = method.getParameters()[1];
                 java.lang.reflect.Parameter interaction = method.getParameters()[2];
-                if (!actionInstanceObjId.getType().equals(Long.class)) {
+                if (!executionId.getType().equals(Long.class)) {
                     LOGGER.log(Level.SEVERE,
-                            "Unable to parse action! First argument of action has to be Long actionInstanceObjId!");
+                            "Unable to parse argument! First argument of action has to be Long executionId!");
                     continue;
                 }
                 if (!reportProgress.getType().equals(boolean.class)) {
                     LOGGER.log(Level.SEVERE,
-                            "Unable to parse action! Second argument of action has to be boolean reportProgress!");
+                            "Unable to parse argument! Second argument of action has to be boolean reportProgress!");
                     continue;
                 }
                 if (!interaction.getType().equals(MALInteraction.class)) {
                     LOGGER.log(Level.SEVERE,
-                            "Unable to parse action! Third argument of action has to be MALInteraction interaction!");
+                            "Unable to parse argument! Third argument of action has to be MALInteraction interaction!");
                     continue;
                 }
 
@@ -366,10 +366,10 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
 
                 // use fallback name if no name was given
                 String acName = (annotation.name().equals("")) ? method.getName() : annotation.name();
-                Identifier actionId = new Identifier(acName);
+                Identifier actionName = new Identifier(acName);
 
-                LOGGER.log(Level.INFO, "Action registered: {0}", actionId);
-                actionDefs.add(new ActionDefinition(actionId, annotation.description(),
+                LOGGER.log(Level.INFO, "Action registered: {0}", actionName);
+                actionDefs.add(new ActionDefinition(actionName, annotation.description(),
                         new ActionCategory(annotation.category()),
                         new UShort(annotation.stepCount()), arguments));
             }
@@ -388,12 +388,12 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
 
     @Override
     public UInteger actionArrived(Identifier identifier, AttributeValueList attributeValues,
-            Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
+            Long executionId, boolean reportProgress, MALInteraction interaction) {
         Method actionMethod = actionMapping.get(actionNameMapping.get(identifier.getValue()));
         try {
             // add default arguments
             Object[] arguments = new Object[attributeValues.size() + 3];
-            arguments[0] = actionInstanceObjId;
+            arguments[0] = executionId;
             arguments[1] = reportProgress;
             arguments[2] = interaction;
 

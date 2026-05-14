@@ -121,14 +121,14 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
     @Override
     public void reportExecutionRequestProgress(final boolean success, final int errorNumber,
             final int progressStage, final int totalNumberOfProgressStages,
-            final long actionInstId) throws NMFException {
+            final long executionId) throws NMFException {
         if (this.getMCServices() == null) {
             throw new NMFException(MC_SERVICES_NOT_INITIALIZED);
         }
 
         try {
             this.getMCServices().getActionService().reportExecutionProgress(success,
-                    new UInteger(errorNumber), progressStage, totalNumberOfProgressStages, actionInstId);
+                    new UInteger(errorNumber), progressStage, totalNumberOfProgressStages, executionId);
         } catch (IOException ex) {
             throw new NMFException("The action execution progress could not be reported!", ex);
         }

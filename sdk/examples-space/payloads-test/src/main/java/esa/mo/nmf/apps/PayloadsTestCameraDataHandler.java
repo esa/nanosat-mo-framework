@@ -45,12 +45,12 @@ public class PayloadsTestCameraDataHandler extends CameraAdapter {
     private static final Logger LOGGER = Logger.getLogger(PayloadsTestCameraDataHandler.class.getName());
     private final int STAGE_ACK = 1;
     private final int STAGE_RSP = 2;
-    private final Long actionInstanceObjId;
+    private final Long executionId;
     private final PayloadsTestMCAdapter mcAdapter;
 
-    PayloadsTestCameraDataHandler(Long actionInstanceObjId, final PayloadsTestMCAdapter mcAdapter) {
+    PayloadsTestCameraDataHandler(Long executionId, final PayloadsTestMCAdapter mcAdapter) {
         this.mcAdapter = mcAdapter;
-        this.actionInstanceObjId = actionInstanceObjId;
+        this.executionId = executionId;
     }
 
     @Override
@@ -58,7 +58,7 @@ public class PayloadsTestCameraDataHandler extends CameraAdapter {
         java.util.Map qosProperties) {
         try {
             mcAdapter.nmf.reportExecutionRequestProgress(true, 0, STAGE_ACK, PayloadsTestActionsHandler.TOTAL_STAGES,
-                actionInstanceObjId);
+                executionId);
         } catch (NMFException ex) {
             LOGGER.log(Level.SEVERE, "The action progress could not be reported!", ex);
         }
@@ -77,7 +77,7 @@ public class PayloadsTestCameraDataHandler extends CameraAdapter {
         mcAdapter.picturesTaken.incrementAndGet();
         try {
             mcAdapter.nmf.reportExecutionRequestProgress(true, 0, STAGE_RSP, PayloadsTestActionsHandler.TOTAL_STAGES,
-                actionInstanceObjId);
+                executionId);
         } catch (NMFException ex) {
             LOGGER.log(Level.SEVERE, "The action progress could not be reported!", ex);
         }
@@ -121,7 +121,7 @@ public class PayloadsTestCameraDataHandler extends CameraAdapter {
         try {
             // Stored
             mcAdapter.nmf.reportExecutionRequestProgress(true, 0, 3, PayloadsTestActionsHandler.TOTAL_STAGES,
-                actionInstanceObjId);
+                executionId);
         } catch (NMFException ex) {
             LOGGER.log(Level.SEVERE, "The action progress could not be reported!", ex);
         }
@@ -137,7 +137,7 @@ public class PayloadsTestCameraDataHandler extends CameraAdapter {
         org.ccsds.moims.mo.mal.MOErrorException error, java.util.Map qosProperties) {
         try {
             mcAdapter.nmf.reportExecutionRequestProgress(false, 1, STAGE_ACK, PayloadsTestActionsHandler.TOTAL_STAGES,
-                actionInstanceObjId);
+                executionId);
             LOGGER.log(Level.WARNING, "takePicture ack error received {0}", error.toString());
         } catch (NMFException ex) {
             LOGGER.log(Level.SEVERE, "takePicture ack error " + error.toString() + " could not be reported!", ex);
@@ -155,7 +155,7 @@ public class PayloadsTestCameraDataHandler extends CameraAdapter {
         org.ccsds.moims.mo.mal.MOErrorException error, java.util.Map qosProperties) {
         try {
             mcAdapter.nmf.reportExecutionRequestProgress(false, 1, STAGE_RSP, PayloadsTestActionsHandler.TOTAL_STAGES,
-                actionInstanceObjId);
+                executionId);
             LOGGER.log(Level.WARNING, "takePicture response error received {0}", error.toString());
         } catch (NMFException ex) {
             LOGGER.log(Level.SEVERE, "takePicture response error " + error.toString() + " could not be reported!", ex);

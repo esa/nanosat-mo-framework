@@ -167,7 +167,7 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
     }
 
     @Action(name = "ADCS.configureMonitoring")
-    public UInteger configureMonitoringAction(Long actionInstanceObjId, boolean reportProgress,
+    public UInteger configureMonitoringAction(Long executionId, boolean reportProgress,
             MALInteraction interaction) {
         try {
             configureMonitoring();
@@ -180,7 +180,7 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
 
     @Action(name = "NMEA_Sentence",
             description = "Adds <CR><LF> to a raw NMEA query and forwards it to the GNSS Provider")
-    public UInteger nmeaAction(Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction,
+    public UInteger nmeaAction(Long executionId, boolean reportProgress, MALInteraction interaction,
             @ActionParameter(name = "arg") String arg) {
         try {
             arg = arg + "\r\n";
@@ -194,7 +194,7 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
 
     @Action(name = "Clock.setTimeUsingDeltaMilliseconds",
             description = "Sets the clock using a diff between the on-board time and the desired time.")
-    public UInteger setTimeUsingDeltaMilliseconds(Long actionInstanceObjId, boolean reportProgress,
+    public UInteger setTimeUsingDeltaMilliseconds(Long executionId, boolean reportProgress,
             MALInteraction interaction, @ActionParameter(name = "delta", rawUnit = "milliseconds") Long delta) {
         String str = (new SimpleDateFormat(DATE_PATTERN)).format(new Date(System.currentTimeMillis() + delta));
 
@@ -204,7 +204,7 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
     }
 
     @Action(name = "ADCS.sunpointing")
-    public UInteger adcsSunPointing(Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
+    public UInteger adcsSunPointing(Long executionId, boolean reportProgress, MALInteraction interaction) {
 
         try {
             nmfSupervisor.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(null,
@@ -217,7 +217,7 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
     }
 
     @Action(name = "ADCS.nadirPointing")
-    public UInteger adcsNadirPointing(Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction,
+    public UInteger adcsNadirPointing(Long executionId, boolean reportProgress, MALInteraction interaction,
             @ActionParameter(name = "duration") Duration duration) {
 
         try {
@@ -231,7 +231,7 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
     }
 
     @Action(name = "ADCS.unsetAttitude")
-    public UInteger adcsUnsetAttitude(Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
+    public UInteger adcsUnsetAttitude(Long executionId, boolean reportProgress, MALInteraction interaction) {
 
         try {
             nmfSupervisor.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(new Duration(0), null);

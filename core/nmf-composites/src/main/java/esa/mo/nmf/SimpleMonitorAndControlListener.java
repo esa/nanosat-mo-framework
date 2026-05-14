@@ -36,11 +36,11 @@ public interface SimpleMonitorAndControlListener extends EventListener {
      *
      * @param name Name of the Parameter
      * @param values The parameters/objects sent by the consumer
-     * @param actionInstanceObjId The object instance identifier of the action
+     * @param executionId The id of the execution of an action
      * @return Returns true if the action was successfully executed, false
      * otherwise.
      */
-    boolean actionArrivedSimple(String name, Serializable[] values, Long actionInstanceObjId);
+    boolean actionArrivedSimple(String name, Serializable[] values, Long executionId);
 
     /**
      * The user must implement this interface in order to acquire a certain

@@ -54,7 +54,7 @@ public class MCSoftwareSimulatorAdapter extends MonitorAndControlNMFAdapter {
     }
 
     @Override
-    public UInteger actionArrived(Identifier name, AttributeValueList attributeValues, Long actionInstanceObjId,
+    public UInteger actionArrived(Identifier name, AttributeValueList attributeValues, Long executionId,
         boolean reportProgress, MALInteraction interaction) {
         return new UInteger(1);  // Action service not integrated
     }

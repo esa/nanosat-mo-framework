@@ -83,7 +83,7 @@ public class PayloadsTestActionsHandler {
         return null; // Success
     }
 
-    public UInteger scheduleTakePicture(Long actionInstanceObjId, boolean reportProgress,
+    public UInteger scheduleTakePicture(Long executionId, boolean reportProgress,
             MALInteraction interaction, Duration scheduleDelay, PictureFormat format, boolean autoExposed) {
         Timer timer = new Timer();
         long delay = (long) (scheduleDelay.getInSeconds() * 1000L);
@@ -126,7 +126,7 @@ public class PayloadsTestActionsHandler {
         return null; // Success!
     }
 
-    public UInteger takePicture(Long actionInstanceObjId, boolean reportProgress,
+    public UInteger takePicture(Long executionId, boolean reportProgress,
             MALInteraction interaction, PictureFormat format) {
         try {
             payloadsTestMCAdapter.nmf.getPlatformServices().getCameraService().takePicture(
@@ -138,7 +138,7 @@ public class PayloadsTestActionsHandler {
                             payloadsTestMCAdapter.cameraGainG,
                             payloadsTestMCAdapter.cameraGainB,
                             null),
-                    new PayloadsTestCameraDataHandler(actionInstanceObjId, payloadsTestMCAdapter));
+                    new PayloadsTestCameraDataHandler(executionId, payloadsTestMCAdapter));
             return null; // Success!
         } catch (MALInteractionException | MALException | IOException | NMFException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
@@ -146,7 +146,7 @@ public class PayloadsTestActionsHandler {
         }
     }
 
-    public UInteger takeAutoExposedPicture(Long actionInstanceObjId,
+    public UInteger takeAutoExposedPicture(Long executionId,
             boolean reportProgress, MALInteraction interaction, PictureFormat format) {
         try {
             payloadsTestMCAdapter.nmf.getPlatformServices().getCameraService().takeAutoExposedPicture(
@@ -158,7 +158,7 @@ public class PayloadsTestActionsHandler {
                             payloadsTestMCAdapter.cameraGainG,
                             payloadsTestMCAdapter.cameraGainB,
                             null),
-                    new PayloadsTestCameraDataHandler(actionInstanceObjId, payloadsTestMCAdapter));
+                    new PayloadsTestCameraDataHandler(executionId, payloadsTestMCAdapter));
             return null; // Success!
         } catch (MALInteractionException | MALException | IOException | NMFException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
@@ -166,7 +166,7 @@ public class PayloadsTestActionsHandler {
         }
     }
 
-    public UInteger setDeviceState(Long actionInstanceObjId, boolean reportProgress,
+    public UInteger setDeviceState(Long executionId, boolean reportProgress,
             MALInteraction interaction, UInteger deviceType, boolean setOn) {
         try {
             DeviceList deviceList = new DeviceList();
@@ -180,7 +180,7 @@ public class PayloadsTestActionsHandler {
         }
     }
 
-    public UInteger recordSDRData(Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
+    public UInteger recordSDRData(Long executionId, boolean reportProgress, MALInteraction interaction) {
         try {
             if (!sdrRegistered) {
                 payloadsTestMCAdapter.nmf.getPlatformServices().getSoftwareDefinedRadioService().streamRadioRegister(

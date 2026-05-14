@@ -65,7 +65,7 @@ public class SimpleParameterBackend extends Backend {
 
     @Override
     public UInteger actionArrived(Identifier identifier, AttributeValueList attributeValues,
-            Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
+            Long executionId, boolean reportProgress, MALInteraction interaction) {
         return null;
     }
 

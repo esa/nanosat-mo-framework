@@ -99,7 +99,7 @@ public class DemoHelloWorldFull {
 
         @Override
         public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,
-                Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
+                Long executionId, boolean reportProgress, MALInteraction interaction) {
             return null;  // Action service not integrated
         }
     }

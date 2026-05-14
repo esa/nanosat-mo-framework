@@ -407,7 +407,7 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
      *
      * @param name Name of the Parameter
      * @param attributeValues The attribute values.
-     * @param actionInstanceObjId The action instance id.
+     * @param executionId The id of the execution of an action.
      * @param reportProgress Determines if it is necessary to report the
      * execution.
      * @param interaction The interaction object progress of the action.
@@ -417,7 +417,7 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
      */
     @Override
     public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,
-            Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
+            Long executionId, boolean reportProgress, MALInteraction interaction) {
         if (nmf == null) {
             return new UInteger(0);
         }
@@ -442,7 +442,7 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
                     return executeAdcsModeAction(null, null);
                 case ACTION_5_STAGES:
                     try {
-                        return multiStageAction(actionInstanceObjId, 5);
+                        return multiStageAction(executionId, 5);
                     } catch (NMFException ex) {
                         LOGGER.log(Level.SEVERE, null, ex);
                         return new UInteger(4);
@@ -491,20 +491,20 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
     /**
      * Example function implementing a non-instantaneous action.
      *
-     * @param actionInstanceObjId associated action ID
+     * @param executionId associated action ID
      * @param totalNumberOfStages total number of stages to report through
      *
      * @return Returns null if the Action was successful. If not null, then the
      * returned value should hold the error number
      */
-    private UInteger multiStageAction(Long actionInstanceObjId, int totalNumberOfStages) throws NMFException {
+    private UInteger multiStageAction(Long executionId, int totalNumberOfStages) throws NMFException {
         final int sleepTime = 2; // 2 seconds
 
         UInteger errorNumber = null;
 
         for (int stage = 1; stage < totalNumberOfStages + 1; stage++) {
             nmf.reportExecutionRequestProgress(true, 0, stage,
-                    totalNumberOfStages, actionInstanceObjId);
+                    totalNumberOfStages, executionId);
 
             try {
                 Thread.sleep(sleepTime * 1000); //1000 milliseconds multiplier.

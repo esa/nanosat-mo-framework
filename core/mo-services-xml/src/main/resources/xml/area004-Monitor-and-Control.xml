@@ -122,10 +122,10 @@
                         When an execution stage of an action is reached, the service provider shall publish an execution progress update.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        The service provider shall publish the execution progress update with subscription keys corresponding to the actionId, executionId, and actionCategory of the executing action. The stageType shall be included in the published message body.
+                        The service provider shall publish the execution progress update with subscription keys corresponding to the definitionId, executionId, and actionCategory of the executing action. The stageType shall be included in the published message body.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
-                        A service consumer may subscribe to updates for a specific action definition, or for all action definitions by using the wildcard value in the actionId field. The actionId key shall be the id of the ActionDefinition object.
+                        A service consumer may subscribe to updates for a specific action definition, or for all action definitions by using the wildcard value in the definitionId field. The definitionId key shall be the id of the ActionDefinition object.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="4">
                         A service consumer may subscribe to updates for a specific action execution, or for all action executions by using the wildcard value in the executionId field. The executionId key shall be the id of the ExecutionRequest object.
@@ -144,7 +144,7 @@
                     </mal:documentation>
                     <mal:messages>
                         <mal:subscriptionKeys>
-                            <mal:field name="actionId" canBeNull="false" comment="The id of the action definition being executed.">
+                            <mal:field name="definitionId" canBeNull="false" comment="The id of the action definition being executed.">
                                 <mal:type area="MAL" list="false" name="Long"/>
                             </mal:field>
                             <mal:field name="executionId" canBeNull="false" comment="The id of the ExecutionRequest being executed.">
@@ -175,7 +175,7 @@
                 <mal:requestIP name="executeAction" number="2" supportInReplay="false"
                               comment="The executeAction operation allows a consumer to request execution of an action on the provider.">
                     <mal:documentation name="Requirement" order="1">
-                        If the defInstId of the supplied actionDetails field does not match a known ActionDefinition object then an UNKNOWN error shall be returned.
+                        If the definitionId of the supplied actionDetails field does not match a known ActionDefinition object then an UNKNOWN error shall be returned.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
                         The size of the argumentValues list of the ExecutionRequest structure shall be compared to the size of the argument list in the matched ActionDefinition object and an INVALID error shall be returned if they are not the same.
@@ -1514,7 +1514,7 @@
                 <mal:extends>
                     <mal:type name="Composite" area="MAL"/>
                 </mal:extends>
-                <mal:field name="defInstId" canBeNull="false"
+                <mal:field name="definitionId" canBeNull="false"
                            comment="The id of the ActionDefinition to be used.">
                     <mal:type name="Long" area="MAL"/>
                 </mal:field>

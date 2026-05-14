@@ -40,7 +40,7 @@ public interface ActionInvocationListener {
      *
      * @param identifier Name of the Parameter.
      * @param attributeValues The attribute values for the action.
-     * @param actionInstanceObjId The action instance id.
+     * @param executionId The id of the execution of an action.
      * @param reportProgress Determines if it is necessary to report the
      * execution.
      * @param interaction The interaction object progress of the action
@@ -48,16 +48,16 @@ public interface ActionInvocationListener {
      * returned value should hold the error number
      */
     UInteger actionArrived(Identifier identifier, AttributeValueList attributeValues,
-            Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction);
+            Long executionId, boolean reportProgress, MALInteraction interaction);
 
     /**
      * The user must implement this interface in order to pre-check actions.
      *
      * @param defDetails The Action definition.
-     * @param instDetails The Action instance.
+     * @param execReqDetails The ExecutionRequest details.
      * @param errorList The list of errors.
      * @return True if passes, false otherwise.
      */
-    boolean preCheck(ActionDefinition defDetails, ExecutionRequest instDetails, UIntegerList errorList);
+    boolean preCheck(ActionDefinition defDetails, ExecutionRequest execReqDetails, UIntegerList errorList);
 
 }

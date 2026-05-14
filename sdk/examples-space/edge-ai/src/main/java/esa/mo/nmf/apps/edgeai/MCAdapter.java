@@ -90,11 +90,11 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
 
     @Override
     public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,
-            Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
+            Long executionId, boolean reportProgress, MALInteraction interaction) {
         LOG.log(Level.INFO, "Action arrived, with name: {0}", name.getValue());
         
         if (ACTION_START_AI.equals(name.getValue())) {
-            triggerAIInference(actionInstanceObjId, attributeValues);
+            triggerAIInference(executionId, attributeValues);
             return null; // Success!
         } else if (ACTION_CANCEL_AI.equals(name.getValue())) {
             destroyProcess(attributeValues);
@@ -109,7 +109,7 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
         publishParameter(id.toString(), exitCode);
     }
 
-    public void triggerAIInference(Long actionInstanceObjId, AttributeValueList attributeValues) {
+    public void triggerAIInference(Long executionId, AttributeValueList attributeValues) {
         /*
         int minProcessingDurationSeconds = getAs(attributeValues.get(0));
         int maxProcessingDurationSeconds = getAs(attributeValues.get(1));
@@ -117,16 +117,16 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
         LOG.info("Requested to run the python script...");
         LOG.info("Process Min duration " + minProcessingDurationSeconds);
         LOG.info("Process Max duration " + maxProcessingDurationSeconds);
-        LOG.info("Process Request Id " + actionInstanceObjId);
+        LOG.info("Process Request Id " + executionId);
 
         PythonScriptExecutor exec = new PythonScriptExecutor(this,
-                actionInstanceObjId, minProcessingDurationSeconds,
+                executionId, minProcessingDurationSeconds,
                 maxProcessingDurationSeconds
         );
         
         exec.triggerAIInference("");
 
-        processMap.put(actionInstanceObjId, exec);
+        processMap.put(executionId, exec);
          */
 
         LOG.log(Level.INFO, "Triggering AI inference...");

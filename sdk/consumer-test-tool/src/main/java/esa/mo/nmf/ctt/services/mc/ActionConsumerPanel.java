@@ -262,7 +262,7 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
                 return;
             }
 
-            StringBuilder str = new StringBuilder("Object instance identifiers on the provider: \n");
+            StringBuilder str = new StringBuilder("Definition ids on the provider: \n");
             if (ids != null) {
                 for (Long objId : ids) {
                     str.append("Id Def: ").append(objId.toString()).append("\n");
@@ -285,13 +285,13 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
             this.serviceMCAction.getActionStub().asyncListDefinition(idList, new ActionAdapter() {
                 @Override
                 public void listDefinitionResponseReceived(MALMessageHeader msgHeader,
-                        LongList actionInstIds, Map qosProperties) {
-                    actionTable.refreshTableWithIdsPairs(actionInstIds,
+                        LongList definitionIds, Map qosProperties) {
+                    actionTable.refreshTableWithIdsPairs(definitionIds,
                             serviceMCAction.getConnectionDetails().getDomain(),
                             ActionServiceInfo.ACTIONDEFINITION_OBJECT_TYPE);
                     Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.INFO,
-                            "listDefinition(\"*\") returned {0} object instance identifiers",
-                            actionInstIds.size());
+                            "listDefinition(\"*\") returned {0} ids",
+                            definitionIds.size());
                 }
 
                 @Override
@@ -322,13 +322,13 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
                 Map qosProperties) {
 
             final NullableAttributeList keys = updateHeader.getKeyValues();
-            Long actionId = null;
+            Long definitionId = null;
             Long executionId = null;
             Short category = null;
 
             if (keys != null && keys.size() >= 3) {
                 if (keys.get(0) != null && keys.get(0).getValue() != null) {
-                    actionId = ((Union) keys.get(0).getValue()).getLongValue();
+                    definitionId = ((Union) keys.get(0).getValue()).getLongValue();
                 }
                 if (keys.get(1) != null && keys.get(1).getValue() != null) {
                     executionId = ((Union) keys.get(1).getValue()).getLongValue();
@@ -339,14 +339,14 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
             }
 
             final String timestamp = HelperTime.time2readableString(msgHeader.getTimestamp());
-            final Long finalActionId = actionId;
+            final Long finalDefinitionId = definitionId;
             final Long finalExecutionId = executionId;
             final Short finalCategory = category;
             final String finalStageType = stageType != null ? stageType.toString() : "";
 
             SwingUtilities.invokeLater(() -> executionLogModel.addRow(new Object[]{
                 timestamp,
-                finalActionId,
+                finalDefinitionId,
                 finalExecutionId,
                 finalCategory,
                 finalStageType,

@@ -545,7 +545,7 @@ public class CameraAcquisitorGround {
                 int i = 0;
                 for (Object objBody : objBodies) {
                     if (objBody instanceof ExecutionRequest) {
-                        ExecutionRequest instance = ((ExecutionRequest) objBody);
+                        ExecutionRequest execReq = ((ExecutionRequest) objBody);
                         try {
                             IdentifierList idList = new IdentifierList();
                             idList.add(new Identifier(
@@ -553,10 +553,10 @@ public class CameraAcquisitorGround {
 
                             LongList objIds = gma.getMCServices().getActionService().getActionStub().listDefinition(idList);
                             if (!objIds.isEmpty()
-                                    && objIds.get(0).longValue() == instance.getDefInstId().longValue()
-                                    && instance.getArgumentValues().size() == 3) {
+                                    && objIds.get(0).longValue() == execReq.getDefinitionId().longValue()
+                                    && execReq.getArgumentValues().size() == 3) {
 
-                                String timestamp = instance.getArgumentValues().get(2).getValue().toString();
+                                String timestamp = execReq.getArgumentValues().get(2).getValue().toString();
                                 LOGGER.log(Level.INFO, "recovered action: " + timestamp + "\tID: " + objDetails.get(i)
                                         .getInstId());
 

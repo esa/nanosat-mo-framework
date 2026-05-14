@@ -83,11 +83,11 @@ public class PictureProcessorMCAdapter extends MonitorAndControlNMFAdapter imple
     }
 
     @Override
-    public UInteger actionArrived(Identifier name, AttributeValueList attributeValues, Long actionInstanceObjId,
+    public UInteger actionArrived(Identifier name, AttributeValueList attributeValues, Long executionId,
             boolean reportProgress, MALInteraction interaction) {
 
         if (ACTION_TAKE_AND_PROCESS_PICTURE.equals(name.getValue())) {
-            takeAndProcessPicture(actionInstanceObjId, attributeValues);
+            takeAndProcessPicture(executionId, attributeValues);
             return null; // Success!
         } else if (ACTION_DESTROY_PROCESS.equals(name.getValue())) {
             destroyProcess(attributeValues);
@@ -145,14 +145,14 @@ public class PictureProcessorMCAdapter extends MonitorAndControlNMFAdapter imple
                 arguments));
     }
 
-    private void takeAndProcessPicture(Long actionInstanceObjId, AttributeValueList attributeValues) {
+    private void takeAndProcessPicture(Long executionId, AttributeValueList attributeValues) {
         int minProcessingDurationSeconds = getAs(attributeValues.get(0));
         int maxProcessingDurationSeconds = getAs(attributeValues.get(1));
 
         LOG.info("Requested take and process picture");
         LOG.info("Process Min duration " + minProcessingDurationSeconds);
         LOG.info("Process Max duration " + maxProcessingDurationSeconds);
-        LOG.info("Process Request Id " + actionInstanceObjId);
+        LOG.info("Process Request Id " + executionId);
 
         File userdata = AppStorage.getAppUserdataDir();
         String path = userdata + File.separator + "pictures";
@@ -160,13 +160,13 @@ public class PictureProcessorMCAdapter extends MonitorAndControlNMFAdapter imple
 
         PictureReceivedAdapter adapter = new PictureReceivedAdapter(
                 this,
-                actionInstanceObjId,
+                executionId,
                 outputFolder,
                 minProcessingDurationSeconds,
                 maxProcessingDurationSeconds);
         try {
             connector.getPlatformServices().getCameraService().takePicture(defaultCameraSettings(), adapter);
-            processMap.put(actionInstanceObjId, adapter);
+            processMap.put(executionId, adapter);
         } catch (MALInteractionException | MALException | IOException | NMFException ex) {
             LOG.log(Level.SEVERE, null, ex);
         }

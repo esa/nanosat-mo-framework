@@ -81,9 +81,8 @@ public class MCRegistration {
      * in the Parameter service. This abstracts the NMF developer from the
      * low-level details of MO.
      *
-     * @param definitions The parameter definitions
-     * @return The parameter object instance identifiers of the
-     * ParameterIdentity objects.
+     * @param definitions The parameter definitions.
+     * @return The ids of the parameter definitions.
      */
     public LongList registerParameters(final ParameterDefinitionList definitions) {
         // Some validation
@@ -225,8 +224,7 @@ public class MCRegistration {
      * details of MO.
      *
      * @param definitions The alert definitions
-     * @return The aggregation object instance identifiers of the AlertIdentity
-     * objects.
+     * @return The ids of the alert definitions.
      */
     public LongList registerAlerts(final AlertDefinitionList definitions) {
         // Some validation
@@ -296,8 +294,7 @@ public class MCRegistration {
      * details of MO.
      *
      * @param definitions The action definitions
-     * @return The aggregation object instance identifiers of the ActionIdentity
-     * objects.
+     * @return The ids of the action definitions.
      */
     public LongList registerActions(final ActionDefinitionList definitions) {
         // Some validation

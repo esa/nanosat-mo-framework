@@ -50,7 +50,7 @@ public abstract class SimpleMonitorAndControlAdapter extends MonitorAndControlNM
 
     @Override
     public UInteger actionArrived(Identifier identifier, AttributeValueList attributeValues,
-            Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
+            Long executionId, boolean reportProgress, MALInteraction interaction) {
         Serializable[] values = new Serializable[attributeValues.size()];
 
         for (int i = 0; i < attributeValues.size(); i++) {
@@ -67,7 +67,7 @@ public abstract class SimpleMonitorAndControlAdapter extends MonitorAndControlNM
             }
         }
 
-        final boolean success = this.actionArrivedSimple(identifier.getValue(), values, actionInstanceObjId);
+        final boolean success = this.actionArrivedSimple(identifier.getValue(), values, executionId);
         return success ? new UInteger(0) : new UInteger(1);
     }
 

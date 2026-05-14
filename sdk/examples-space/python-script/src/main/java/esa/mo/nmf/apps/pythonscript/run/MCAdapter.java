@@ -71,10 +71,10 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
 
     @Override
     public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,
-            Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
+            Long executionId, boolean reportProgress, MALInteraction interaction) {
 
         if (ACTION_RUN_PYTHON_SCRIPT.equals(name.getValue())) {
-            runPythonScript(actionInstanceObjId, attributeValues);
+            runPythonScript(executionId, attributeValues);
             return null; // Success!
         } else if (ACTION_DESTROY_PROCESS.equals(name.getValue())) {
             destroyProcess(attributeValues);
@@ -133,23 +133,23 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
                 arguments));
     }
 
-    private void runPythonScript(Long actionInstanceObjId, AttributeValueList attributeValues) {
+    private void runPythonScript(Long executionId, AttributeValueList attributeValues) {
         int minProcessingDurationSeconds = getAs(attributeValues.get(0));
         int maxProcessingDurationSeconds = getAs(attributeValues.get(1));
 
         LOG.info("Requested to run the python script...");
         LOG.info("Process Min duration " + minProcessingDurationSeconds);
         LOG.info("Process Max duration " + maxProcessingDurationSeconds);
-        LOG.info("Process Request Id " + actionInstanceObjId);
+        LOG.info("Process Request Id " + executionId);
 
         PythonScriptExecutor exec = new PythonScriptExecutor(this,
-                actionInstanceObjId, minProcessingDurationSeconds,
+                executionId, minProcessingDurationSeconds,
                 maxProcessingDurationSeconds
         );
         
         exec.runPythonScript("");
 
-        processMap.put(actionInstanceObjId, exec);
+        processMap.put(executionId, exec);
     }
 
     private void destroyProcess(AttributeValueList attributeValues) {

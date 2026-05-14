@@ -110,7 +110,7 @@ public class DemoHelloWorldSimple {
         }
 
         @Override
-        public boolean actionArrivedSimple(String name, Serializable[] values, Long actionInstanceObjId) {
+        public boolean actionArrivedSimple(String name, Serializable[] values, Long executionId) {
             if (ACTION_GO.equals(name)) {
                 Logger.getLogger(DemoHelloWorldSimple.class.getName()).log(Level.INFO,
                     "Action 'Go' activated. Success!");

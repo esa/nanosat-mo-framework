@@ -126,7 +126,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
     }
 
     @Override //requirement: 3.2.3
-    public Long executeAction(ExecutionRequest actionDetails, MALInteraction interaction)
+    public Long executeAction(ExecutionRequest executionRequest, MALInteraction interaction)
             throws MALInteractionException, MALException {
         UIntegerList invIndexList = new UIntegerList();
         boolean unknown = false;
@@ -134,14 +134,14 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         //from here on: requirement 3.2.8.a, c
         if ("true".equals(System.getProperty(IS_INTERMEDIATE_RELAY_PROPERTY))) {
             // Forward requirement: 3.2.8.c in conjunction with requirement in standard: "MISSION OPERATIONS COMMON OBJECT MODEL" 3.5.3.3, 4
-            Long executionId = manager.storeAndGenerateAInsobjId(actionDetails, actionDetails.getDefInstId(),
+            Long executionId = manager.storeAndGenerateExecReqId(executionRequest, executionRequest.getDefinitionId(),
                     connection.getPrimaryConnectionDetails().getProviderURI());
-            manager.forward(executionId, actionDetails, interaction, connection.getConnectionDetails());
+            manager.forward(executionId, executionRequest, interaction, connection.getConnectionDetails());
             return executionId;
         }
 
         // Publish first Acceptance event for executeAction operation
-        // source for executeAction ACCEPTANCE event is the OperationActivity instance id, which is the transaction id of this executeAction operation
+        // source for executeAction ACCEPTANCE event is the OperationActivity id, which is the transaction id of this executeAction operation
         ObjectId saSource = manager.getActivityTrackingService().storeCOMOperationActivity(interaction, null);  // requirement: 3.2.4.f  and 3.2.4.g
 
         try {
@@ -154,12 +154,12 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
 
         // requirement: 3.2.8.e
         boolean accepted;
-        if (!manager.existsDef(actionDetails.getDefInstId())) {
+        if (!manager.existsDef(executionRequest.getDefinitionId())) {
             accepted = false;
             unknown = true;
         } else {
             // Check the ExecutionRequest
-            accepted = manager.checkExecutionRequest(actionDetails, invIndexList); // requirement: 3.2.9.2.b
+            accepted = manager.checkExecutionRequest(executionRequest, invIndexList); // requirement: 3.2.9.2.b
         }
 
         // Errors - no ExecutionRequest stored for rejected requests
@@ -194,7 +194,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         }
 
         // Validation passed - provider assigns the executionId by storing the ExecutionRequest
-        Long executionId = manager.storeAndGenerateAInsobjId(actionDetails, actionDetails.getDefInstId(),
+        Long executionId = manager.storeAndGenerateExecReqId(executionRequest, executionRequest.getDefinitionId(),
                 connection.getPrimaryConnectionDetails().getProviderURI());
 
         // Publish the second Acceptance event - source is the newly stored ExecutionRequest
@@ -207,7 +207,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         }
 
         // Execute asynchronously; requirement: 3.2.9.2c is met because execution is started asynchronously
-        manager.execute(executionId, actionDetails, interaction, connection.getConnectionDetails()); // requirement: 3.2.9.2.b
+        manager.execute(executionId, executionRequest, interaction, connection.getConnectionDetails()); // requirement: 3.2.9.2.b
         manager.getActivityTrackingService().publishExecutionEventRequestResponse(interaction, true, saSource); // requirement: c
 
         return executionId;
@@ -324,7 +324,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
                 continue;
             }
             ActionDefinition actionDefinition = manager.getActionDefinition(id);  // requirement: 3.2.13.2.a
-            if (actionDefinition == null) { // The object instance identifier could not be found? // requirement: 3.2.13.2.b
+            if (actionDefinition == null) { // The id could not be found? // requirement: 3.2.13.2.b
                 unkIndexList.add(new UInteger(index));
                 continue;
             }
@@ -354,18 +354,18 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         return newDefIds;
     }
 
-    public void removeAction(final LongList actionInstIds, final MALInteraction interaction)
+    public void removeAction(final LongList definitionIds, final MALInteraction interaction)
             throws MALException, MALInteractionException { // requirement: 3.7.12.2.1
         UIntegerList unkIndexList = new UIntegerList();
         Long tempIdentity;
         LongList tempIdentityLst = new LongList();
 
-        if (actionInstIds == null) { // Is the input null?
+        if (definitionIds == null) { // Is the input null?
             throw new IllegalArgumentException("actionDefInstIds argument must not be null");
         }
 
-        for (int index = 0; index < actionInstIds.size(); index++) {
-            tempIdentity = actionInstIds.get(index); // requirement: 3.2.14.2.a
+        for (int index = 0; index < definitionIds.size(); index++) {
+            tempIdentity = definitionIds.get(index); // requirement: 3.2.14.2.a
 
             if (tempIdentity == 0) {  // Is it the wildcard '0'? requirement: 3.2.14.2.b
                 tempIdentityLst.clear();  // if the wildcard is in the middle of the input list, we clear the output list and...
@@ -405,26 +405,26 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
      * success flag is set to false, this field will not be used
      * @param progressStage The progress stage. The first stage would be 1.
      * @param totalNumberOfProgressStages The total number of stages.
-     * @param actionInstId The actions instance identifier. This value allows
+     * @param executionId The id of the execution of an action. This value allows
      * the consumer to know which action generated this report.
      * @throws IOException if the definition has a totalNumberOfProgressStages
      * different from the on supplied
      */
     public void reportExecutionProgress(final boolean success, final UInteger errorNumber, final int progressStage,
-            final int totalNumberOfProgressStages, final Long actionInstId) throws IOException {
+            final int totalNumberOfProgressStages, final Long executionId) throws IOException {
         // Some validation
         if (progressStage < 1) {
             throw new IOException("The first progress stage must be 1.");
         }
 
-        final ExecutionRequest actionInstance = manager.getExecutionRequest(actionInstId);
+        final ExecutionRequest execReq = manager.getExecutionRequest(executionId);
 
-        if (actionInstance != null) {
+        if (execReq != null) {
             // Aditional validation can be performed!
-            ActionDefinition actionDefinition = manager.getActionDefinition(actionInstance.getDefInstId());
+            ActionDefinition actionDefinition = manager.getActionDefinition(execReq.getDefinitionId());
 
             if (actionDefinition == null) {
-                throw new IOException("The submitted actionInstId could not be found.");
+                throw new IOException("The submitted executionId could not be found.");
             }
 
             UShort totalSteps = actionDefinition.getProgressStepCount();
@@ -442,28 +442,28 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         }
 
         UOctet actionCategory = new UOctet((short) 0);
-        if (actionInstance != null) {
-            ActionDefinition actionDefinition = manager.getActionDefinition(actionInstance.getDefInstId());
+        if (execReq != null) {
+            ActionDefinition actionDefinition = manager.getActionDefinition(execReq.getDefinitionId());
             if (actionDefinition != null && actionDefinition.getCategory() != null) {
                 actionCategory = new UOctet((short) actionDefinition.getCategory().getValue());
             }
         }
 
-        Long defInstId = actionInstance != null ? actionInstance.getDefInstId() : null;
-        publishExecutionProgress(defInstId, actionInstId, actionCategory,
+        Long definitionId = execReq != null ? execReq.getDefinitionId() : null;
+        publishExecutionProgress(definitionId, executionId, actionCategory,
                 ExecutionStageType.PROGRESS, success, new UShort(progressStage),
                 success ? null : "Error code: " + errorNumber);
 
         // requirement: 3.2.8.h and 3.2.8.j
         manager.reportActivityExecutionEvent(success, errorNumber, 1 + progressStage, 2 + totalNumberOfProgressStages,
-                actionInstId, null, connection.getConnectionDetails());
+                executionId, null, connection.getConnectionDetails());
     }
 
     /**
      * Publishes an execution progress update via the monitorExecution PUB-SUB operation.
      *
-     * @param actionId The object instance identifier of the action definition being executed.
-     * @param executionId The object instance identifier of the ExecutionRequest being executed.
+     * @param definitionId The id of the ActionDefinition being executed.
+     * @param executionId The id of the execution of an action.
      * @param actionCategory The category of the action.
      * @param stageType The lifecycle stage (START, PROGRESS, or END).
      * @param success Whether the execution stage completed successfully.
@@ -471,7 +471,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
      * @param comment An optional comment.
      */
     @Override
-    public void publishExecutionProgress(final Long actionId, final Long executionId,
+    public void publishExecutionProgress(final Long definitionId, final Long executionId,
             final UOctet actionCategory, final ExecutionStageType stageType, final boolean success,
             final UShort step, final String comment) {
         try {
@@ -483,7 +483,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
             }
 
             AttributeList keys = new AttributeList();
-            keys.add(new Union(actionId));
+            keys.add(new Union(definitionId));
             keys.add(new Union(executionId));
             keys.add(actionCategory);
 

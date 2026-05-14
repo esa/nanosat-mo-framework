@@ -85,12 +85,12 @@ public class CameraAcquisitorSystemCameraHandler {
      *
      * @see takePhotograph
      * @param attributeValues
-     * @param actionInstanceObjId
+     * @param executionId
      * @param reportProgress
      * @param interaction
      * @return
      */
-    UInteger photographNow(Long actionInstanceObjId,
+    UInteger photographNow(Long executionId,
             boolean reportProgress, MALInteraction interaction) {
 
         class AdapterImpl extends GPSAdapter {
@@ -114,7 +114,7 @@ public class CameraAcquisitorSystemCameraHandler {
             LOGGER.log(Level.SEVERE, "[TLE TEST]", e);
         }
         try {
-            takePhotograph(actionInstanceObjId, 0, PHOTOGRAPH_NOW_STAGES, "_INSTANT");
+            takePhotograph(executionId, 0, PHOTOGRAPH_NOW_STAGES, "_INSTANT");
         } catch (MALInteractionException | MALException | IOException | NMFException ex) {
             LOGGER.log(Level.SEVERE, "[take photograph now]", ex);
             return new UInteger(0);
@@ -127,16 +127,16 @@ public class CameraAcquisitorSystemCameraHandler {
      */
     private class CameraDataHandler extends CameraAdapter {
 
-        private Long actionInstanceObjId;
+        private Long executionId;
         private final int stageOffset;
         private final int totalStage;
 
         private final CameraAcquisitorSystemMCAdapter casMCAdapter;
         private final String fileName;
 
-        CameraDataHandler(Long actionInstanceObjId, int stageOffset, int totalStages,
+        CameraDataHandler(Long executionId, int stageOffset, int totalStages,
                 String fileName, CameraAcquisitorSystemMCAdapter casMCAdapter) {
-            this.actionInstanceObjId = actionInstanceObjId;
+            this.executionId = executionId;
             this.stageOffset = stageOffset;
             this.totalStage = totalStages + PHOTOGRAPH_NOW_STAGES;
             this.fileName = fileName;
@@ -152,7 +152,7 @@ public class CameraAcquisitorSystemCameraHandler {
             try {
                 this.casMCAdapter.getConnector().reportExecutionRequestProgress(true, 0,
                         STAGE_RECIVED + this.stageOffset,
-                        this.totalStage, this.actionInstanceObjId);
+                        this.totalStage, this.executionId);
             } catch (NMFException ex) {
                 LOGGER.log(Level.SEVERE, null,
                         ex);
@@ -178,7 +178,7 @@ public class CameraAcquisitorSystemCameraHandler {
 
             // create filename
             final String filenamePrefix
-                    = folder + File.separator + timeNow + "_" + posString + "_" + this.fileName + "_" + this.actionInstanceObjId;
+                    = folder + File.separator + timeNow + "_" + posString + "_" + this.fileName + "_" + this.executionId;
             try {
                 // Store it in a file!
                 if (picture.getSettings().getFormat().equals(PictureFormat.RAW)) {
@@ -211,7 +211,7 @@ public class CameraAcquisitorSystemCameraHandler {
             try {
                 this.casMCAdapter.getConnector().reportExecutionRequestProgress(true, 0,
                         STAGE_FIN + this.stageOffset,
-                        this.totalStage, this.actionInstanceObjId);
+                        this.totalStage, this.executionId);
             } catch (NMFException ex) {
                 LOGGER.log(Level.SEVERE,
                         "The action progress could not be reported!", ex);
@@ -225,7 +225,7 @@ public class CameraAcquisitorSystemCameraHandler {
             try {
                 this.casMCAdapter.getConnector().reportExecutionRequestProgress(false, 1,
                         STAGE_RECIVED + this.stageOffset,
-                        this.totalStage, this.actionInstanceObjId);
+                        this.totalStage, this.executionId);
                 LOGGER.log(Level.WARNING,
                         "takePicture ack error received {0}", error.toString());
             } catch (NMFException ex) {
@@ -241,7 +241,7 @@ public class CameraAcquisitorSystemCameraHandler {
             try {
                 this.casMCAdapter.getConnector().reportExecutionRequestProgress(false, 1,
                         STAGE_RECIVED + this.stageOffset,
-                        this.totalStage, this.actionInstanceObjId);
+                        this.totalStage, this.executionId);
                 LOGGER.log(Level.WARNING,
                         "takePicture response error received {0}", error.toString());
             } catch (NMFException ex) {
@@ -255,7 +255,7 @@ public class CameraAcquisitorSystemCameraHandler {
     /**
      * Takes a photograph (instantly)
      *
-     * @param actionInstanceObjId the Instance ID of the action that triggers
+     * @param executionId the Instance ID of the action that triggers
      * the Photograph
      * @param stageOffset number of states that where already executed before
      * taking a photograph
@@ -268,13 +268,13 @@ public class CameraAcquisitorSystemCameraHandler {
      * @throws MALInteractionException If the picture could not be taken.
      * @throws MALException If something went wrong.
      */
-    public void takePhotograph(long actionInstanceObjId, int stageOffset, int totalStages,
+    public void takePhotograph(long executionId, int stageOffset, int totalStages,
             String fileName) throws NMFException, IOException, MALInteractionException, MALException {
         PixelResolution resolution = new PixelResolution(
                 new UInteger(casMCAdapter.getPictureWidth()),
                 new UInteger(casMCAdapter.getPictureHeight()));
 
-        CameraAdapter adapter = new CameraDataHandler(actionInstanceObjId, stageOffset, totalStages,
+        CameraAdapter adapter = new CameraDataHandler(executionId, stageOffset, totalStages,
                 fileName,
                 this.casMCAdapter);
 
