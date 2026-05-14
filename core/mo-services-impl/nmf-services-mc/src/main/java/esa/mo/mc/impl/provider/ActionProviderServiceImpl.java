@@ -475,7 +475,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
     }
 
     @Override
-    public Boolean reloadConfiguration(ConfigurationObjectDetails configurationObjectDetails) {
+    public Boolean reloadConfiguration(ConfigurationSet configurationObjectDetails) {
         // Validate the returned configuration...
         if (configurationObjectDetails == null) {
             return false;
@@ -490,7 +490,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
             return false;
         }
 
-        ConfigurationObjectSet confSetDefs = configurationObjectDetails.getConfigObjects().get(0);
+        ObjectIds confSetDefs = configurationObjectDetails.getConfigObjects().get(0);
 
         // Confirm the objTypes
         if (!confSetDefs.getObjType().equals(ActionServiceInfo.ACTIONDEFINITION_OBJECT_TYPE)) {
@@ -529,14 +529,14 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
     }
 
     @Override
-    public ConfigurationObjectDetails getCurrentConfiguration() {
+    public ConfigurationSet getCurrentConfiguration() {
         // Get all the current objIds in the serviceImpl
         // Create a Configuration Object with all the objs of the provider
-        ConfigurationObjectSetList list = manager.getCurrentConfiguration(
+        ObjectIdsList list = manager.getCurrentConfiguration(
                 ActionServiceInfo.ACTIONDEFINITION_OBJECT_TYPE);
 
         // Needs the Common API here!
-        return new ConfigurationObjectDetails(list);
+        return new ConfigurationSet(list);
     }
 
     @Override

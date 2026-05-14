@@ -1185,7 +1185,7 @@
                     </com:object>
                     <com:object number="3" name="ConfigurationObjects">
                         <com:objectType>
-                            <mal:type name="ConfigurationObjectDetails" area="COM"/>
+                            <mal:type name="ConfigurationSet" area="COM"/>
                         </com:objectType>
                     </com:object>
                 </com:objects>
@@ -1231,7 +1231,22 @@
                     <mal:type area="MAL" list="false" name="Long"/>
                 </mal:field>
             </mal:composite>
-            <mal:composite shortFormPart="3" name="ObjectLinks" comment="The ObjectLinks type is used to hold the extra information associated with an object instance, namely the related and source links.">
+            <mal:composite name="ObjectIds" shortFormPart="3"
+                           comment="The ObjectIds structure holds a set of object identifiers for a single COM object type in a single domain.">
+                <mal:field name="objType" canBeNull="false"
+                           comment="The COM object type of the configuration objects.">
+                    <mal:type name="ObjectType" area="COM"/>
+                </mal:field>
+                <mal:field name="domain" canBeNull="false"
+                           comment="The domain of the configuration objects.">
+                    <mal:type list="true" name="Identifier" area="MAL"/>
+                </mal:field>
+                <mal:field name="objInstIds" canBeNull="false"
+                           comment="The set of COM object identifiers that form this configuration set.">
+                    <mal:type list="true" name="Long" area="MAL"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite shortFormPart="4" name="ObjectLinks" comment="The ObjectLinks type is used to hold the extra information associated with an object instance, namely the related and source links.">
                 <mal:extends>
                     <mal:type area="MAL" list="false" name="Composite"/>
                 </mal:extends>
@@ -1242,7 +1257,7 @@
                     <mal:type area="COM" list="false" name="ObjectId"/>
                 </mal:field>
             </mal:composite>
-            <mal:composite shortFormPart="4" name="InstanceBooleanPair" comment="Simple pair of an object instance identifier and a Boolean value.">
+            <mal:composite shortFormPart="5" name="InstanceBooleanPair" comment="Simple pair of an object instance identifier and a Boolean value.">
                 <mal:extends>
                     <mal:type area="MAL" list="false" name="Composite"/>
                 </mal:extends>
@@ -1253,7 +1268,7 @@
                     <mal:type area="MAL" list="false" name="Boolean"/>
                 </mal:field>
             </mal:composite>
-            <mal:enumeration shortFormPart="5" name="ExpressionOperator" comment="The ExpressionOperator enumeration holds a set of possible expression operators.">
+            <mal:enumeration shortFormPart="6" name="ExpressionOperator" comment="The ExpressionOperator enumeration holds a set of possible expression operators.">
                 <mal:item comment="Checks for equality." nvalue="1" value="EQUAL"/>
                 <mal:item comment="Checks for difference (not equal)." nvalue="2" value="DIFFER"/>
                 <mal:item comment="Checks for greater than." nvalue="3" value="GREATER"/>
@@ -1268,7 +1283,7 @@
                     <mal:type area="MAL" list="false" name="Composite"/>
                 </mal:extends>
             </mal:composite>
-            <mal:composite shortFormPart="6" name="ArchiveDetails" comment="The ArchiveDetails structure is used to hold information about a single entry in an Archive.">
+            <mal:composite shortFormPart="7" name="ArchiveDetails" comment="The ArchiveDetails structure is used to hold information about a single entry in an Archive.">
                 <mal:extends>
                     <mal:type area="MAL" list="false" name="Composite"/>
                 </mal:extends>
@@ -1288,7 +1303,7 @@
                     <mal:type area="MAL" list="false" name="URI"/>
                 </mal:field>
             </mal:composite>
-            <mal:composite shortFormPart="7" name="ArchiveQuery" comment="The ArchiveQuery structure is used to specify filters on the common parts of an object in an archive.">
+            <mal:composite shortFormPart="8" name="ArchiveQuery" comment="The ArchiveQuery structure is used to specify filters on the common parts of an object in an archive.">
                 <mal:extends>
                     <mal:type area="MAL" list="false" name="Composite"/>
                 </mal:extends>
@@ -1320,7 +1335,7 @@
                     <mal:type area="MAL" list="false" name="String"/>
                 </mal:field>
             </mal:composite>
-            <mal:composite shortFormPart="8" name="CompositeFilter" comment="The CompositeFilter allows an archive query to specify a filter based on the content of the body of an object if that body is specified using the MAL data type specification.">
+            <mal:composite shortFormPart="9" name="CompositeFilter" comment="The CompositeFilter allows an archive query to specify a filter based on the content of the body of an object if that body is specified using the MAL data type specification.">
                 <mal:field canBeNull="false" comment="The name of the field in the object body (MAL::Composite) to match against. It is specified by referring to the name of the field. If the field does not exist in the Composite then the filter shall evaluate to false. If the field is nested inside another Composite, it can be referenced by separating the field names by a '.' character; for example the field 'instId' or the source of an ArchiveDetails composite would be referenced using &quot;details.source.key.instId&quot;. If the body is not a Composite but an Attribute or Enumeration then it can be referred to by using a blank (&quot;&quot;) string value here. Accessing values from lists is not supported by this method." name="fieldName">
                     <mal:type area="MAL" list="false" name="String"/>
                 </mal:field>
@@ -1331,7 +1346,7 @@
                     <mal:type area="MAL" list="false" name="Attribute"/>
                 </mal:field>
             </mal:composite>
-            <mal:composite shortFormPart="9" name="CompositeFilterSet" comment="Contains a list of CompositeFilters that are AND'd together to form a more complex filter.">
+            <mal:composite shortFormPart="10" name="CompositeFilterSet" comment="Contains a list of CompositeFilters that are AND'd together to form a more complex filter.">
                 <mal:extends>
                     <mal:type area="COM" list="false" name="QueryFilter"/>
                 </mal:extends>
@@ -1339,7 +1354,7 @@
                     <mal:type area="COM" list="true" name="CompositeFilter"/>
                 </mal:field>
             </mal:composite>
-            <mal:composite shortFormPart="10" name="PaginationFilter" comment="The PaginationFilter allows an archive query to specify a filter based on the limit and offset of the query.">
+            <mal:composite shortFormPart="11" name="PaginationFilter" comment="The PaginationFilter allows an archive query to specify a filter based on the limit and offset of the query.">
                 <mal:extends>
                     <mal:type area="COM" list="false" name="QueryFilter"/>
                 </mal:extends>
@@ -1350,7 +1365,7 @@
                     <mal:type area="MAL" list="false" name="UInteger"/>
                 </mal:field>
             </mal:composite>
-            <mal:composite shortFormPart="15" name="DictionaryEntry" comment="The DictionaryEntry structure is used to hold information about a single entry of the Dictionary.">
+            <mal:composite shortFormPart="16" name="DictionaryEntry" comment="The DictionaryEntry structure is used to hold information about a single entry of the Dictionary.">
                 <mal:extends>
                     <mal:type area="MAL" list="false" name="Composite"/>
                 </mal:extends>
@@ -1361,7 +1376,7 @@
                     <mal:type area="MAL" list="false" name="String"/>
                 </mal:field>
             </mal:composite>
-            <mal:composite shortFormPart="16" name="Dictionary" comment="The Dictionary structure is used to hold information about the Dictionary.">
+            <mal:composite shortFormPart="17" name="Dictionary" comment="The Dictionary structure is used to hold information about the Dictionary.">
                 <mal:extends>
                     <mal:type area="MAL" list="false" name="Composite"/>
                 </mal:extends>
@@ -1369,7 +1384,7 @@
                     <mal:type area="COM" list="true" name="DictionaryEntry"/>
                 </mal:field>
             </mal:composite>
-            <mal:composite shortFormPart="17" name="CompactCOMObject" comment="The CompactCOMObject structure is used to hold the information of a COM Object based on a content from a dictionary.">
+            <mal:composite shortFormPart="18" name="CompactCOMObject" comment="The CompactCOMObject structure is used to hold the information of a COM Object based on a content from a dictionary.">
                 <mal:extends>
                     <mal:type area="MAL" list="false" name="Composite"/>
                 </mal:extends>
@@ -1404,7 +1419,7 @@
                     <mal:type area="MAL" list="false" name="Time"/>
                 </mal:field>
             </mal:composite>
-            <mal:composite shortFormPart="18" name="DomainizedCOMObjects" comment="The DomainizedCOMObjects structure is used to hold the a set of CompactCOMObjects that share the same domain.">
+            <mal:composite shortFormPart="19" name="DomainizedCOMObjects" comment="The DomainizedCOMObjects structure is used to hold the a set of CompactCOMObjects that share the same domain.">
                 <mal:extends>
                     <mal:type area="MAL" list="false" name="Composite"/>
                 </mal:extends>
@@ -1415,7 +1430,7 @@
                     <mal:type area="COM" list="true" name="CompactCOMObject"/>
                 </mal:field>
             </mal:composite>
-            <mal:composite shortFormPart="19" name="LastSync" comment="The LastSync structure is used to hold information about synchronizations.">
+            <mal:composite shortFormPart="20" name="LastSync" comment="The LastSync structure is used to hold information about synchronizations.">
                 <mal:extends>
                     <mal:type area="MAL" list="false" name="Composite"/>
                 </mal:extends>
@@ -1429,7 +1444,7 @@
                     <mal:type area="MAL" list="false" name="Time"/>
                 </mal:field>
             </mal:composite>
-            <mal:composite name="ProviderDetails" shortFormPart="20"
+            <mal:composite name="ProviderDetails" shortFormPart="21"
                            comment="The ProviderDetails structure holds information about a provider of a service and its capabilities. The structure contains a list of AddressDetails structures which should be used when the individual services listed by the provider do not supply address information. A provider may support more than one transport technology and therefore can be reached using more than one address.">
                 <mal:extends>
                     <mal:type name="Composite" area="MAL"/>
@@ -1443,7 +1458,7 @@
                     <mal:type list="true" name="AddressDetails" area="COM"/>
                 </mal:field>
             </mal:composite>
-            <mal:composite name="ServiceCapability" shortFormPart="21"
+            <mal:composite name="ServiceCapability" shortFormPart="22"
                            comment="The ServiceCapability structure holds information about a service and the capabilities offered by a provider.">
                 <mal:extends>
                     <mal:type name="Composite" area="MAL"/>
@@ -1465,7 +1480,7 @@
                     <mal:type list="true" name="AddressDetails" area="COM"/>
                 </mal:field>
             </mal:composite>
-            <mal:composite name="AddressDetails" shortFormPart="22"
+            <mal:composite name="AddressDetails" shortFormPart="23"
                            comment="The AddressDetails structure holds all information required by the Directory service about a providers URI and attributes relating to QoS.">
                 <mal:extends>
                     <mal:type name="Composite" area="MAL"/>
@@ -1491,7 +1506,7 @@
                     <mal:type name="URI" area="MAL"/>
                 </mal:field>
             </mal:composite>
-            <mal:composite name="ProviderSummary" shortFormPart="23"
+            <mal:composite name="ProviderSummary" shortFormPart="24"
                            comment="The ProviderSummary structure holds information about a provider of a service and its capabilities.">
                 <mal:extends>
                     <mal:type name="Composite" area="MAL"/>
@@ -1510,7 +1525,7 @@
                     <mal:type name="ProviderDetails" area="COM"/>
                 </mal:field>
             </mal:composite>
-            <mal:composite name="PublishDetails" shortFormPart="24"
+            <mal:composite name="PublishDetails" shortFormPart="25"
                            comment="The PublishDetails structure holds all the required information to publish new provider details.">
                 <mal:extends>
                     <mal:type name="Composite" area="MAL"/>
@@ -1534,7 +1549,7 @@
                     <mal:type name="ProviderDetails" area="COM"/>
                 </mal:field>
             </mal:composite>
-            <mal:composite name="ServiceFilter" shortFormPart="25"
+            <mal:composite name="ServiceFilter" shortFormPart="26"
                            comment="The ServiceFilter structure holds all information required by the Directory service for service lookup operation. The field filters are AND'd together.">
                 <mal:extends>
                     <mal:type name="Composite" area="MAL"/>
@@ -1564,7 +1579,7 @@
                     <mal:type list="true" name="UShort" area="MAL"/>
                 </mal:field>
             </mal:composite>
-            <mal:composite name="Profile" shortFormPart="26"
+            <mal:composite name="Profile" shortFormPart="27"
                            comment="The Profile structure contains details of the user who is logging on to take a specified role.">
                 <mal:extends>
                     <mal:type name="Composite" area="MAL"/>
@@ -1577,26 +1592,11 @@
                     <mal:type name="Long" area="MAL"/>
                 </mal:field>
             </mal:composite>
-            <mal:composite name="ConfigurationObjectSet" shortFormPart="27"
-                           comment="The configuration object set holds a set of object identifiers for a single COM object type in a single domain.">
-                <mal:field name="objType" canBeNull="false"
-                           comment="The COM object type of the configuration objects.">
-                    <mal:type name="ObjectType" area="COM"/>
-                </mal:field>
-                <mal:field name="domain" canBeNull="false"
-                           comment="The domain of the configuration objects.">
-                    <mal:type list="true" name="Identifier" area="MAL"/>
-                </mal:field>
-                <mal:field name="objInstIds" canBeNull="false"
-                           comment="The set of COM object identifiers that form this configuration set.">
-                    <mal:type list="true" name="Long" area="MAL"/>
-                </mal:field>
-            </mal:composite>
-            <mal:composite name="ConfigurationObjectDetails" shortFormPart="28"
-                           comment="The ConfigurationObjectDetails composite holds a zero to many ConfigurationObjectSet structures. It allows a configuration to reference COM objects from more than one domain or of more than one COM object type.">
+            <mal:composite name="ConfigurationSet" shortFormPart="29"
+                           comment="The ConfigurationSet composite holds a zero to many ObjectIds structures. It allows a configuration to reference COM objects from more than one domain or of more than one COM object type.">
                 <mal:field name="configObjects" canBeNull="false"
                            comment="The list of configuration objects.">
-                    <mal:type list="true" name="ConfigurationObjectSet" area="COM"/>
+                    <mal:type list="true" name="ObjectIds" area="COM"/>
                 </mal:field>
             </mal:composite>
         </mal:dataTypes>

@@ -547,7 +547,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
     }
 
     @Override
-    public Boolean reloadConfiguration(ConfigurationObjectDetails configurationObjectDetails) {
+    public Boolean reloadConfiguration(ConfigurationSet configurationObjectDetails) {
         // Validate the returned configuration...
         if (configurationObjectDetails == null) {
             return false;
@@ -562,7 +562,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             return false;
         }
 
-        ConfigurationObjectSet confSetDefs = configurationObjectDetails.getConfigObjects().get(0);
+        ObjectIds confSetDefs = configurationObjectDetails.getConfigObjects().get(0);
 
         // Confirm the objTypes
         if (!confSetDefs.getObjType().equals(ParameterServiceInfo.PARAMETERDEFINITION_OBJECT_TYPE)) {
@@ -606,13 +606,13 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
     }
 
     @Override
-    public ConfigurationObjectDetails getCurrentConfiguration() {
-        ConfigurationObjectSetList list = manager.getCurrentConfiguration(
+    public ConfigurationSet getCurrentConfiguration() {
+        ObjectIdsList list = manager.getCurrentConfiguration(
                 ParameterServiceInfo.PARAMETERDEFINITION_OBJECT_TYPE
         );
 
         // Needs the Common API here!
-        return new ConfigurationObjectDetails(list);
+        return new ConfigurationSet(list);
     }
 
     @Override

@@ -45,7 +45,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
-import org.ccsds.moims.mo.com.structures.ConfigurationObjectDetails;
+import org.ccsds.moims.mo.com.structures.ConfigurationSet;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
@@ -218,12 +218,12 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
     }
 
     @Override
-    public Boolean reloadConfiguration(ConfigurationObjectDetails configurationObjectDetails) {
+    public Boolean reloadConfiguration(ConfigurationSet configurationObjectDetails) {
         throw new UnsupportedOperationException("The NMF does no support reconfiguration.");
     }
 
     @Override
-    public ConfigurationObjectDetails getCurrentConfiguration() {
+    public ConfigurationSet getCurrentConfiguration() {
         throw new UnsupportedOperationException("The NMF does no support reconfiguration.");
     }
 

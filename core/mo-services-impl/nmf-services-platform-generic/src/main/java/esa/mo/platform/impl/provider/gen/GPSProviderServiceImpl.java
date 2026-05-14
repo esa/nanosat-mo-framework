@@ -471,7 +471,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
     }
 
     @Override
-    public Boolean reloadConfiguration(ConfigurationObjectDetails configurationObjectDetails) {
+    public Boolean reloadConfiguration(ConfigurationSet configurationObjectDetails) {
         // Validate the returned configuration...
         if (configurationObjectDetails == null) {
             return false;
@@ -487,7 +487,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
             return false;
         }
 
-        ConfigurationObjectSet confSet = configurationObjectDetails.getConfigObjects().get(0);
+        ObjectIds confSet = configurationObjectDetails.getConfigObjects().get(0);
 
         // Confirm the objType
         if (!confSet.getObjType().equals(GPSServiceInfo.NEARBYPOSITION_OBJECT_TYPE)) {
@@ -518,24 +518,24 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
     }
 
     @Override
-    public ConfigurationObjectDetails getCurrentConfiguration() {
+    public ConfigurationSet getCurrentConfiguration() {
         // Get all the current objIds in the serviceImpl
         // Create a Configuration Object with all the objs of the provider
         HashMap<Long, Element> defObjs = manager.getCurrentDefinitionsConfiguration();
         LongList currentObjIds = new LongList();
         currentObjIds.addAll(defObjs.keySet());
 
-        ConfigurationObjectSet objsSet = new ConfigurationObjectSet(
+        ObjectIds objsSet = new ObjectIds(
                 GPSServiceInfo.NEARBYPOSITION_OBJECT_TYPE,
                 ConfigurationProviderSingleton.getDomain(),
                 currentObjIds
         );
 
-        ConfigurationObjectSetList list = new ConfigurationObjectSetList();
+        ObjectIdsList list = new ObjectIdsList();
         list.add(objsSet);
 
         // Needs the Common API here!
-        return new ConfigurationObjectDetails(list);
+        return new ConfigurationSet(list);
     }
 
     @Override

@@ -1148,7 +1148,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
     }
 
     @Override
-    public Boolean reloadConfiguration(ConfigurationObjectDetails configurationObjectDetails) {
+    public Boolean reloadConfiguration(ConfigurationSet configurationObjectDetails) {
         // Validate the returned configuration...
         if (configurationObjectDetails == null) {
             return false;
@@ -1163,7 +1163,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
             return false;
         }
 
-        ConfigurationObjectSet confSetDefs = configurationObjectDetails.getConfigObjects().get(0);
+        ObjectIds confSetDefs = configurationObjectDetails.getConfigObjects().get(0);
 
         // Confirm the objTypes
         if (!confSetDefs.getObjType().equals(AggregationServiceInfo.AGGREGATIONDEFINITION_OBJECT_TYPE)) {
@@ -1211,14 +1211,14 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
     }
 
     @Override
-    public ConfigurationObjectDetails getCurrentConfiguration() {
+    public ConfigurationSet getCurrentConfiguration() {
         // Needs the Common API here!
-        ConfigurationObjectSetList list = manager.getCurrentConfiguration(
+        ObjectIdsList list = manager.getCurrentConfiguration(
                 AggregationServiceInfo.AGGREGATIONDEFINITION_OBJECT_TYPE
         );
 
         // Needs the Common API here!
-        return new ConfigurationObjectDetails(list);
+        return new ConfigurationSet(list);
     }
 
     @Override

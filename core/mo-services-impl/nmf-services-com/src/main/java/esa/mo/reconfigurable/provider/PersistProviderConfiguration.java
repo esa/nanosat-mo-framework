@@ -82,7 +82,7 @@ public class PersistProviderConfiguration {
                     ConfigurationServiceInfo.CONFIGURATIONOBJECTS_OBJECT_TYPE,
                     confId.getDomain(),
                     comObjectProvider.getArchiveDetails().getLinks().getRelated());
-            objIds = ((ConfigurationObjectDetails) comObjectConfs.getObject()).getConfigObjects().get(0).getObjInstIds();
+            objIds = ((ConfigurationSet) comObjectConfs.getObject()).getConfigObjects().get(0).getObjInstIds();
             return;
         }
 
@@ -104,14 +104,14 @@ public class PersistProviderConfiguration {
 
             // Store the provider configuration objects
             HeterogeneousList archObj = new HeterogeneousList();
-            ConfigurationObjectSetList setList = new ConfigurationObjectSetList(1);
-            ConfigurationObjectSet set = new ConfigurationObjectSet(
+            ObjectIdsList setList = new ObjectIdsList(1);
+            ObjectIds set = new ObjectIds(
                     ConfigurationServiceInfo.SERVICECONFIGURATION_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(),
                     objIds);
 
             setList.add(set);
-            ConfigurationObjectDetails providerObjects = new ConfigurationObjectDetails(setList);
+            ConfigurationSet providerObjects = new ConfigurationSet(setList);
             archObj.add(providerObjects);
 
             LongList objIds3 = this.archiveService.store(
@@ -193,8 +193,8 @@ public class PersistProviderConfiguration {
                 ConfigurationProviderSingleton.getDomain(), relateds);
 
         for (int i = 0; i < confObjs.size(); i++) {
-            ConfigurationObjectDetails configurationObjectDetails
-                    = (ConfigurationObjectDetails) confObjs.get(i).getObject();
+            ConfigurationSet configurationObjectDetails
+                    = (ConfigurationSet) confObjs.get(i).getObject();
 
             if (configurationObjectDetails == null) { // Could not be found, throw error!
                 // If the object above exists, this one should also!

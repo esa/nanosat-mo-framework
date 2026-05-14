@@ -517,7 +517,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
     }
 
     @Override
-    public Boolean reloadConfiguration(ConfigurationObjectDetails configurationObjectDetails) {
+    public Boolean reloadConfiguration(ConfigurationSet configurationObjectDetails) {
         // Validate the configuration...
         if (configurationObjectDetails == null) {
             return false;
@@ -533,7 +533,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             return false;
         }
 
-        ConfigurationObjectSet confSet = configurationObjectDetails.getConfigObjects().get(0);
+        ObjectIds confSet = configurationObjectDetails.getConfigObjects().get(0);
 
         // Confirm the objType
         if (!confSet.getObjType().equals(AppsLauncherServiceInfo.APP_OBJECT_TYPE)) {
@@ -569,7 +569,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
     }
 
     @Override
-    public ConfigurationObjectDetails getCurrentConfiguration() {
+    public ConfigurationSet getCurrentConfiguration() {
         // Get all the current objIds in the serviceImpl
         // Create a Configuration Object with all the objs of the provider
         final HashMap<Long, Element> defObjs = manager.getCurrentDefinitionsConfiguration();
@@ -577,14 +577,14 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         LongList currentObjIds = new LongList();
         currentObjIds.addAll(defObjs.keySet());
 
-        final ConfigurationObjectSet objsSet = new ConfigurationObjectSet(AppsLauncherServiceInfo.APP_OBJECT_TYPE,
+        final ObjectIds objsSet = new ObjectIds(AppsLauncherServiceInfo.APP_OBJECT_TYPE,
                 ConfigurationProviderSingleton.getDomain(), currentObjIds);
 
-        final ConfigurationObjectSetList list = new ConfigurationObjectSetList();
+        final ObjectIdsList list = new ObjectIdsList();
         list.add(objsSet);
 
         // Needs the Common API here!
-        return new ConfigurationObjectDetails(list);
+        return new ConfigurationSet(list);
     }
 
     @Override
