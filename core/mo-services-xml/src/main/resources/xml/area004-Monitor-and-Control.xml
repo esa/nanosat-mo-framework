@@ -32,33 +32,21 @@
                 Executions of an action that are submitted to a provider using the executeAction operation shall be represented as ExecutionRequest COM object.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="6">
-                The id for an ExecutionRequest object shall be assigned by the provider and returned to the consumer as the executionId in the executeAction response.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="7">
                 The ExecutionRequest object shall use the related link to indicate which ActionDefinition object it uses.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="8">
+            <mal:documentation name="Service-level Requirement" order="7">
                 ActionDefinition objects should be stored in the COM archive.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="9">
-                Upon accepting an action request, the provider shall create and store the ExecutionRequest object in the COM archive before beginning execution.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="10">
-                Each execution stage of an action shall be reported by publishing a monitorExecution notification and storing an ExecutionStatus COM object in the archive.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="11">
+            <mal:documentation name="Service-level Requirement" order="8">
                 An ExecutionStatus object shall be created for each execution stage reached. It is implementation specific when a progress step is reached.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="12">
-                If an execution stage fails, the success field of the published monitorExecution notification and the corresponding ExecutionStatus object shall be set to FALSE.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="13">
+            <mal:documentation name="Service-level Requirement" order="9">
                 ExecutionStatus objects shall be stored in the COM archive.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="14">
+            <mal:documentation name="Service-level Requirement" order="10">
                 The ExecutionStatus object shall use the related link to point to the ExecutionRequest it belongs to.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="15">
+            <mal:documentation name="Service-level Requirement" order="11">
                 The fields of the ExecutionStatus object shall match the corresponding fields published in the monitorExecution notification for the same stage.
             </mal:documentation>
             <mal:capabilitySet number="1">
