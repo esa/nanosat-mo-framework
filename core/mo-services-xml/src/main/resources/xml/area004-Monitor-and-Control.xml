@@ -26,27 +26,24 @@
                 The definitions of the actions shall be represented as ActionDefinition COM objects.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="4">
-                The source link of the ActionDefinition object should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="5">
                 Executions of an action that are submitted to a provider using the executeAction operation shall be represented as ExecutionRequest COM object.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="6">
+            <mal:documentation name="Service-level Requirement" order="5">
                 The ExecutionRequest object shall use the related link to indicate which ActionDefinition object it uses.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="7">
+            <mal:documentation name="Service-level Requirement" order="6">
                 ActionDefinition objects should be stored in the COM archive.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="8">
+            <mal:documentation name="Service-level Requirement" order="7">
                 An ExecutionStatus object shall be created for each execution stage reached. It is implementation specific when a progress step is reached.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="9">
+            <mal:documentation name="Service-level Requirement" order="8">
                 ExecutionStatus objects shall be stored in the COM archive.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="10">
+            <mal:documentation name="Service-level Requirement" order="9">
                 The ExecutionStatus object shall use the related link to point to the ExecutionRequest it belongs to.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="11">
+            <mal:documentation name="Service-level Requirement" order="10">
                 The fields of the ExecutionStatus object shall match the corresponding fields published in the monitorExecution notification for the same stage.
             </mal:documentation>
             <mal:capabilitySet number="1">
@@ -201,7 +198,6 @@
                         <com:objectType>
                             <mal:type name="ActionDefinition" area="MC"/>
                         </com:objectType>
-                        <com:sourceObject comment="The object that caused it to be created, for example, a COM OperationActivity"/>
                     </com:object>
                     <com:object number="2" name="ExecutionRequest">
                         <com:objectType>
@@ -210,7 +206,6 @@
                         <com:relatedObject>
                             <com:objectType number="1" service="Action" area="MC"/>
                         </com:relatedObject>
-                        <com:sourceObject comment="The object that caused it to be created, most likely a COM OperationActivity object if created by the executeAction operation"/>
                     </com:object>
                     <com:object number="3" name="ExecutionStatus">
                         <com:objectType>

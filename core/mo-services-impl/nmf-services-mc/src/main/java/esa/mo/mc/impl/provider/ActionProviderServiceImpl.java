@@ -240,9 +240,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
 
         //add the definition
         for (int index = 0; index < defsList.size(); index++) { // requirement: 3.2.12.2.f (incremental "for cycle" guarantees that)
-            ObjectId source;
-            source = manager.storeCOMOperationActivity(interaction); // requirement: 3.2.4.e
-            newObjInstIds.add(manager.add(defsList.get(index), source,
+            newObjInstIds.add(manager.add(defsList.get(index), null,
                     connection.getPrimaryConnectionDetails().getProviderURI())); //  requirement: 3.2.12.2.e, g
         }
 
@@ -288,10 +286,9 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
             throw new MALInteractionException(new UnknownException(unkIndexList));
         }
         LongList newDefIds = new LongList();
-        ObjectId source = manager.storeCOMOperationActivity(interaction); // requirement: 3.2.4.e
         for (int index = 0; index < ids.size(); index++) { // requirement: 3.2.13.2.e, k (incremental "for cycle" guarantees that)
             newDefIds.add(manager.update(ids.get(index),
-                    actionDefDetails.get(index), source,
+                    actionDefDetails.get(index), null,
                     connection.getPrimaryConnectionDetails().getProviderURI()));  // Change in the manager; requirement: 3.2.13.2.d, g, h
         }
 
