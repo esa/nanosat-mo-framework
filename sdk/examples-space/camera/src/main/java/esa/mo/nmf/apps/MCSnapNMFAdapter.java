@@ -187,7 +187,7 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
         public void takePictureAckReceived(MALMessageHeader msgHeader,
                 java.util.Map qosProperties) {
             try {
-                connector.reportExecutionRequestProgress(true, 0, STAGE_ACK, TOTAL_STAGES, executionId);
+                connector.reportExecutionProgress(true, 0, STAGE_ACK, TOTAL_STAGES, executionId);
             } catch (NMFException ex) {
                 Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE,
                         "The action progress could not be reported!", ex);
@@ -201,7 +201,7 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
             snapsTaken.incrementAndGet();
 
             try {
-                connector.reportExecutionRequestProgress(true, 0, STAGE_RSP, TOTAL_STAGES, executionId);
+                connector.reportExecutionProgress(true, 0, STAGE_RSP, TOTAL_STAGES, executionId);
             } catch (NMFException ex) {
                 Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE,
                         "The action progress could not be reported!", ex);
@@ -244,7 +244,7 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
             }
 
             try { // Stored
-                connector.reportExecutionRequestProgress(true, 0, 3, TOTAL_STAGES, executionId);
+                connector.reportExecutionProgress(true, 0, 3, TOTAL_STAGES, executionId);
             } catch (NMFException ex) {
                 Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE,
                         "The action progress could not be reported!", ex);
@@ -256,7 +256,7 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
                 org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
                 org.ccsds.moims.mo.mal.MOErrorException error, java.util.Map qosProperties) {
             try {
-                connector.reportExecutionRequestProgress(false, 1, STAGE_ACK, TOTAL_STAGES,
+                connector.reportExecutionProgress(false, 1, STAGE_ACK, TOTAL_STAGES,
                         executionId);
             } catch (NMFException ex) {
                 Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE,
@@ -269,7 +269,7 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
                 org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
                 org.ccsds.moims.mo.mal.MOErrorException error, java.util.Map qosProperties) {
             try {
-                connector.reportExecutionRequestProgress(false, 1, STAGE_RSP, TOTAL_STAGES,
+                connector.reportExecutionProgress(false, 1, STAGE_RSP, TOTAL_STAGES,
                         executionId);
             } catch (NMFException ex) {
                 Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE,

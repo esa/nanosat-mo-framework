@@ -119,7 +119,7 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
     }
 
     @Override
-    public void reportExecutionRequestProgress(final boolean success, final int errorNumber,
+    public void reportExecutionProgress(final boolean success, final int errorNumber,
             final int progressStage, final int totalNumberOfProgressStages,
             final long executionId) throws NMFException {
         if (this.getMCServices() == null) {

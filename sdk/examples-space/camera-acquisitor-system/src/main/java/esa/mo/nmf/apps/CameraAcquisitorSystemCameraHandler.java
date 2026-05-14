@@ -150,7 +150,7 @@ public class CameraAcquisitorSystemCameraHandler {
                 java.util.Map qosProperties) {
             // report action progress
             try {
-                this.casMCAdapter.getConnector().reportExecutionRequestProgress(true, 0,
+                this.casMCAdapter.getConnector().reportExecutionProgress(true, 0,
                         STAGE_RECIVED + this.stageOffset,
                         this.totalStage, this.executionId);
             } catch (NMFException ex) {
@@ -209,7 +209,7 @@ public class CameraAcquisitorSystemCameraHandler {
 
             // report action progress
             try {
-                this.casMCAdapter.getConnector().reportExecutionRequestProgress(true, 0,
+                this.casMCAdapter.getConnector().reportExecutionProgress(true, 0,
                         STAGE_FIN + this.stageOffset,
                         this.totalStage, this.executionId);
             } catch (NMFException ex) {
@@ -223,7 +223,7 @@ public class CameraAcquisitorSystemCameraHandler {
         public void takePictureAckErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
                 org.ccsds.moims.mo.mal.MOErrorException error, java.util.Map qosProperties) {
             try {
-                this.casMCAdapter.getConnector().reportExecutionRequestProgress(false, 1,
+                this.casMCAdapter.getConnector().reportExecutionProgress(false, 1,
                         STAGE_RECIVED + this.stageOffset,
                         this.totalStage, this.executionId);
                 LOGGER.log(Level.WARNING,
@@ -239,7 +239,7 @@ public class CameraAcquisitorSystemCameraHandler {
         public void takePictureResponseErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
                 org.ccsds.moims.mo.mal.MOErrorException error, java.util.Map qosProperties) {
             try {
-                this.casMCAdapter.getConnector().reportExecutionRequestProgress(false, 1,
+                this.casMCAdapter.getConnector().reportExecutionProgress(false, 1,
                         STAGE_RECIVED + this.stageOffset,
                         this.totalStage, this.executionId);
                 LOGGER.log(Level.WARNING,

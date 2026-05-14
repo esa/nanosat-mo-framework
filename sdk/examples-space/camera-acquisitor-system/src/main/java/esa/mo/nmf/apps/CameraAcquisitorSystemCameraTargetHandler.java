@@ -94,7 +94,7 @@ public class CameraAcquisitorSystemCameraTargetHandler {
             @Override
             public void run() {
                 try {
-                    casMCAdapter.getConnector().reportExecutionRequestProgress(
+                    casMCAdapter.getConnector().reportExecutionProgress(
                             true,
                             0,
                             STAGE_WAIT_FOR_PASS,
@@ -114,7 +114,7 @@ public class CameraAcquisitorSystemCameraTargetHandler {
                             new Duration(timeTillPhotograph.getInSeconds() + casMCAdapter.getAttitudeSafetyMarginSeconds()),
                             desiredAttitude);
 
-                    casMCAdapter.getConnector().reportExecutionRequestProgress(true, 0,
+                    casMCAdapter.getConnector().reportExecutionProgress(true, 0,
                             STAGE_ATTITUDE_CORECTION, PHOTOGRAPH_LOCATION_STAGES, executionId);
                     LOGGER.log(Level.INFO, "Attitude Correction Running");
                 } catch (NMFException | IOException | MALInteractionException | MALException ex) {
@@ -134,7 +134,7 @@ public class CameraAcquisitorSystemCameraTargetHandler {
                 }
 
                 try {
-                    casMCAdapter.getConnector().reportExecutionRequestProgress(true, 0,
+                    casMCAdapter.getConnector().reportExecutionProgress(true, 0,
                             STAGE_WAIT_FOR_OPTIMAL_PASS,
                             PHOTOGRAPH_LOCATION_STAGES, executionId);
                     LOGGER.log(Level.INFO, "Finished waiting for Pass");

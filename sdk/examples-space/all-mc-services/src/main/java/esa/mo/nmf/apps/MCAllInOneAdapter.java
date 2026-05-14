@@ -503,7 +503,7 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
         UInteger errorNumber = null;
 
         for (int stage = 1; stage < totalNumberOfStages + 1; stage++) {
-            nmf.reportExecutionRequestProgress(true, 0, stage,
+            nmf.reportExecutionProgress(true, 0, stage,
                     totalNumberOfStages, executionId);
 
             try {
