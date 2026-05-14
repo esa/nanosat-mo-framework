@@ -20,14 +20,14 @@
         <groupId>int.esa.nmf</groupId>
         <artifactId>parent</artifactId>
         <version>5.0-SNAPSHOT</version>
-        <relativePath>../../../parent/pom.xml</relativePath>
+        <relativePath>../../parent/pom.xml</relativePath>
     </parent>
 
     <groupId>int.esa.nmf.sdk</groupId>
     <artifactId>all-mc-services-with-sim</artifactId>
     <packaging>jar</packaging>
 
-    <name>ESA NMF SDK App - All MC Services + Simulator</name>
+    <name>ESA NMF SDK - Monolithic All MC Services + Simulator</name>
     <description>An example binding all MC Services provider with mission simulator. Running on embedded system is not recommended.</description>
     <url>http://www.esa.int</url>
 
