@@ -32,7 +32,9 @@ import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.HomogeneousList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.ULong;
+import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.URI;
+import org.ccsds.moims.mo.mal.structures.UShort;
 
 /**
  * Implements the MALEncoder and MALListEncoder interfaces for a binary encoding.
@@ -191,12 +193,12 @@ public class BinaryEncoder extends GENEncoder {
     @Override
     public void encodeEnumeration(Enumeration enumeration) throws MALException {
         int enumSize = enumeration.getEnumSize();
-        Integer value = (Integer) enumeration.getValue();
+        Integer value = enumeration.getValue();
 
         if (enumSize < 256) {
-            this.encodeUOctet(new org.ccsds.moims.mo.mal.structures.UOctet(value.shortValue()));
+            this.encodeUOctet(new UOctet(value.shortValue()));
         } else if (enumSize < 65536) {
-            this.encodeUShort(new org.ccsds.moims.mo.mal.structures.UShort(value));
+            this.encodeUShort(new UShort(value));
         }
     }
 
