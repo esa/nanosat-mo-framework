@@ -151,7 +151,8 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
             throw new MALInteractionException(new InvalidException(invIndexList));
         }
 
-        Long executionId = manager.storeAndGenerateExecReqId(executionRequest, executionRequest.getDefinitionId(),
+        Long executionId = manager.storeAndGenerateExecReqId(executionRequest,
+                executionRequest.getDefinitionId(),
                 connection.getPrimaryConnectionDetails().getProviderURI());
 
         manager.execute(executionId, executionRequest, interaction, connection.getConnectionDetails());
@@ -351,13 +352,14 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
      * success flag is set to false, this field will not be used
      * @param progressStage The progress stage. The first stage would be 1.
      * @param totalNumberOfProgressStages The total number of stages.
-     * @param executionId The id of the execution of an action. This value allows
-     * the consumer to know which action generated this report.
+     * @param executionId The id of the execution of an action. This value
+     * allows the consumer to know which action generated this report.
      * @throws IOException if the definition has a totalNumberOfProgressStages
      * different from the on supplied
      */
-    public void reportExecutionProgress(final boolean success, final UInteger errorNumber, final int progressStage,
-            final int totalNumberOfProgressStages, final Long executionId) throws IOException {
+    public void reportExecutionProgress(final boolean success, final UInteger errorNumber,
+            final int progressStage, final int totalNumberOfProgressStages,
+            final Long executionId) throws IOException {
         // Some validation
         if (progressStage < 1) {
             throw new IOException("The first progress stage must be 1.");
@@ -402,7 +404,8 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
     }
 
     /**
-     * Publishes an execution progress update via the monitorExecution PUB-SUB operation.
+     * Publishes an execution progress update via the monitorExecution PUB-SUB
+     * operation.
      *
      * @param definitionId The id of the ActionDefinition being executed.
      * @param executionId The id of the execution of an action.
