@@ -6,7 +6,7 @@
     <mal:area name="MC" number="4" version="5"
               comment="This section details the MC services, the structures used by the services are detailed in section 4. Both the services and structures are defined in terms of the MO MAL, which is defined in [2], so it is possible to deploy them over any supported protocol and message transport.&#xA;The services defined here are also specified in terms of the COM, which is defined in [3].&#xA;To aid comprehension, several tables are included for each service and operation definition. The table formats are briefly described in section 1.6.3.2 and are the same as those used for the specification of the MO COM services in [3]. &#xA;All service specifications in this document are part of the MC area, which has a short form number of '4'.">
         <mal:service xsi:type="com:ExtendedServiceType" name="Action" number="1"
-                     comment="The action service allows consumers to request execution of actions and to subsequently monitor the execution progress of these actions via the monitorExecution PUB-SUB operation and the COM activity tracking pattern. The progress of the action is split into two parts, firstly delivery from the consumer to the provider, and secondly execution in the provider.&#xA;A consumer requests execution by calling the executeAction operation with the action execution details. The provider validates the request, creates and archives the ExecutionRequest object, assigns it a unique identifier (the executionId), and returns that identifier in the response. The provider then reports execution progress using both the monitorExecution PUB-SUB operation and the COM ActivityTracking service. Once the action execution details have been checked and execution started, the executeAction operation completes whilst the execution of the action possibly continues (depends on the actual action). The final interaction in the sequence shows the execution events of the executing action, the '*' at the start of that line indicates zero to many events being published.&#xA;If the execution of an action fails with an error, the action service provider can publish an ActionFailure COM event to hold the error code being reported by the failure. If no error code is required to be reported then there is no need to publish the event as the normal COM ActivityTracking event contains a success indication.&#xA;The action service defines two types of objects, the first type is the ActionDefinition object that holds the name and description of an action with the list of required/optional arguments. The second type is the ExecutionRequest object that holds details of a specific action execution namely a value for each of the arguments of the action.">
+                     comment="The action service allows consumers to request execution of actions and to subsequently monitor the execution progress of these actions via the monitorExecution PUB-SUB operation.&#xA;A consumer requests execution by calling the executeAction operation. The provider validates the request, creates and archives the ExecutionRequest object, assigns it a unique executionId, and returns that id in the response. The provider then reports execution progress by publishing monitorExecution notifications and storing ExecutionStatus COM objects in the archive. Once the action execution details have been checked and execution started, the executeAction operation completes whilst the execution of the action possibly continues (depends on the actual action).&#xA;The action service defines three types of objects: ActionDefinition (holds the name, description, and argument list of an action), ExecutionRequest (holds the argument values submitted for a specific execution), and ExecutionStatus (holds the progress status of each stage of an execution).">
             <mal:documentation name="High Level Requirements" order="1">The action service shall provide:
 &lt;ol&gt;
  &lt;li&gt;the capability for monitoring the execution progress of actions;&lt;/li&gt;
@@ -38,82 +38,28 @@
                 The ExecutionRequest object shall use the related link to indicate which ActionDefinition object it uses.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="8">
-                Executions of an action created by the provider in response to the executeAction operation shall link to the executeAction OperationActivity object using the source link.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="9">
-                The source link of the executeAction OperationActivity object should be the object that caused it to be created, most likely an operator login or automated procedure object.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="10">
-                Execution progress of an action shall be reported using COM ActivityTracking Execution events.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="11">
-                The Execution event may be reported many times as it is used to report each stage in the execution of the action. It is implementation specific when a progress step is reached and the Execution event will be reported.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="12">
-                If the execution of an action fails then that failure shall be reported using the normal COM ActivityTracking event pattern, specifically an ActivityTracking Execution event with the success field set to FALSE.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="13">
-                If the execution of an action fails with an error code then that error code shall be reported using an ActionFailure COM event in addition to the ActivityTracking event used to report the action failure.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="14">
-                The source of the ActionFailure event shall be the ActivityTracking Execution event that represents the failure stage of the action execution.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="15">
-                The related field of the ActionFailure event shall link to the ExecutionRequest object that failed.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="16">
-                The body of the event shall hold a numeric failure code that is either a MAL error number or a deployment specific code.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="17">
-                The specification of the deployment specific failure code is outside the scope of this specification and is expected to be agreed out of band.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="18">
                 ActionDefinition objects should be stored in the COM archive.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="19">
+            <mal:documentation name="Service-level Requirement" order="9">
                 Upon accepting an action request, the provider shall create and store the ExecutionRequest object in the COM archive before beginning execution.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="20">
-                The COM activity tracking events associated with the submission and execution of the action should be stored in the COM archive.
+            <mal:documentation name="Service-level Requirement" order="10">
+                Each execution stage of an action shall be reported by publishing a monitorExecution notification and storing an ExecutionStatus COM object in the archive.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="21">
-                Any ActionFailure COM event objects should be stored in the COM archive.
+            <mal:documentation name="Service-level Requirement" order="11">
+                An ExecutionStatus object shall be created for each execution stage reached. It is implementation specific when a progress step is reached.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="22">
-                The COM Activity service should be used to monitor the transfer and execution of the executeAction operation.
+            <mal:documentation name="Service-level Requirement" order="12">
+                If an execution stage fails, the success field of the published monitorExecution notification and the corresponding ExecutionStatus object shall be set to FALSE.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="23">
-                The COM Activity service should be used to monitor the transfer and execution of ExecutionRequest objects.
+            <mal:documentation name="Service-level Requirement" order="13">
+                ExecutionStatus objects shall be stored in the COM archive.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="24">
-                The COM activity events for the executeAction operation shall be generated as defined in the COM activity tracking service.
+            <mal:documentation name="Service-level Requirement" order="14">
+                The ExecutionStatus object shall use the related link to point to the ExecutionRequest it belongs to.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="25">
-                A Release activity event for the executeAction operation shall be generated by the provider when the action execution details have been received and accepted for execution.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="26">
-                The Acceptance activity event for the ExecutionRequest object, separate from the Acceptance activity event generated for the executeAction operation, shall be generated when an action is received by the destination provider and after any pre-execution checks have been performed.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="27">
-                The body of the ExecutionRequest ActivityAcceptance event object shall be populated with the pre-execution checks result.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="28">
-                The source link of the activity events for the ExecutionRequest shall be the ExecutionRequest object.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="29">
-                The related link of the activity events for the ExecutionRequest shall be set to NULL.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="30">
-                In all activity execution events for the action execution the ActivityExecution.stageCount field shall be set to 2 plus the total number of progress stages.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="31">
-                In the activity execution event, when notification of an action starting is requested, the ActivityExecution.executionStage field shall be set to 1.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="32">
-                In the activity execution event, when notification of an action progress is requested, the ActivityExecution.executionStage field shall be set to 1 plus the current progress stage.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="33">
-                In the activity execution event, when notification of an action completion is requested, the ActivityExecution.executionStage field shall be set to 2 plus the total number of progress stages.
+            <mal:documentation name="Service-level Requirement" order="15">
+                The fields of the ExecutionStatus object shall match the corresponding fields published in the monitorExecution notification for the same stage.
             </mal:documentation>
             <mal:capabilitySet number="1">
                 <mal:pubsubIP name="monitorExecution" number="1" supportInReplay="true"
@@ -173,7 +119,7 @@
             </mal:capabilitySet>
             <mal:capabilitySet number="2">
                 <mal:requestIP name="executeAction" number="2" supportInReplay="false"
-                              comment="The executeAction operation allows a consumer to request execution of an action on the provider.">
+                              comment="The executeAction operation allows a consumer to request execution of an action on the provider. The execution of the action is asynchronous and therefore the executeAction operation may return before the action execution has been completed.">
                     <mal:documentation name="Requirement" order="1">
                         If the definitionId of the supplied executionRequest field does not match a known ActionDefinition object then an UNKNOWN error shall be returned.
                     </mal:documentation>
@@ -204,7 +150,7 @@
                         </mal:request>
                         <mal:response>
                             <mal:field name="executionId"
-                                       comment="The provider-assigned id of the execution of an action. Used as the executionId subscription key in monitorExecution notifications and for activity tracking events.">
+                                       comment="The provider-assigned id of the execution of an action. Used as the executionId subscription key in monitorExecution notifications.">
                                 <mal:type name="Long" area="MAL"/>
                             </mal:field>
                         </mal:response>
@@ -262,7 +208,7 @@
                 </mal:requestIP>
             </mal:capabilitySet>
             <com:features>
-                <com:objects comment="Action definitions and execution requests are represented as COM objects.">
+                <com:objects comment="Action definitions, execution requests, and execution statuses are represented as COM objects.">
                     <com:object number="1" name="ActionDefinition">
                         <com:objectType>
                             <mal:type name="ActionDefinition" area="MC"/>
@@ -278,20 +224,16 @@
                         </com:relatedObject>
                         <com:sourceObject comment="The object that caused it to be created, most likely a COM OperationActivity object if created by the executeAction operation"/>
                     </com:object>
-                </com:objects>
-                <com:events comment="ActionFailure events report error codes for failed action executions.">
-                    <com:event name="ActionFailure" number="6"
-                               comment="An ActionFailure event is used to hold the error code of the execution failure.">
+                    <com:object number="3" name="ExecutionStatus">
                         <com:objectType>
-                            <mal:type name="UInteger" area="MAL"/>
+                            <mal:type name="ExecutionStatus" area="MC"/>
                         </com:objectType>
-                        <com:sourceObject>
-                            <com:objectType number="5" service="ActivityTracking" area="COM"/>
-                        </com:sourceObject>
-                    </com:event>
-                </com:events>
-                <com:archiveUsage comment="Action objects, activity events, and ActionFailure objects are stored in the COM archive."/>
-                <com:activityUsage comment="Activity tracking events are used to monitor the transfer and execution of actions."/>
+                        <com:relatedObject>
+                            <com:objectType number="2" service="Action" area="MC"/>
+                        </com:relatedObject>
+                    </com:object>
+                </com:objects>
+                <com:archiveUsage comment="Action definition, execution request, and execution status objects are stored in the COM archive."/>
             </com:features>
         </mal:service>
         <mal:service xsi:type="com:ExtendedServiceType" name="Parameter" number="2"
@@ -1516,15 +1458,15 @@
                     <mal:type name="Long" area="MAL"/>
                 </mal:field>
                 <mal:field name="stageStartedRequired" canBeNull="false"
-                           comment="If TRUE, then an activity event of type Execution is required for the STARTED stage.">
+                           comment="If TRUE, a monitorExecution notification and ExecutionStatus object shall be published when the action starts execution.">
                     <mal:type name="Boolean" area="MAL"/>
                 </mal:field>
                 <mal:field name="stageProgressRequired" canBeNull="false"
-                           comment="If TRUE, then activity events of type Execution are required for the PROGRESS stages.">
+                           comment="If TRUE, a monitorExecution notification and ExecutionStatus object shall be published for each progress stage of the action.">
                     <mal:type name="Boolean" area="MAL"/>
                 </mal:field>
                 <mal:field name="stageCompletedRequired" canBeNull="false"
-                           comment="If TRUE, then an activity event of type Execution is required for the COMPLETION stage.">
+                           comment="If TRUE, a monitorExecution notification and ExecutionStatus object shall be published when the action completes execution.">
                     <mal:type name="Boolean" area="MAL"/>
                 </mal:field>
                 <mal:field name="argumentValues"
@@ -1534,6 +1476,28 @@
                 <mal:field name="argumentIds"
                            comment="Optional list of argument definition identifiers. Allows the provider to verify that the correct arguments are being supplied. The ordering of the list matches that of the argument list of the action definition.">
                     <mal:type list="true" name="Identifier" area="MAL"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="ExecutionStatus" shortFormPart="10"
+                           comment="The ExecutionStatus structure holds the progress status of a single execution stage of an action. An ExecutionStatus object is stored in the COM archive each time a monitorExecution notification is published.">
+                <mal:extends>
+                    <mal:type name="Composite" area="MAL"/>
+                </mal:extends>
+                <mal:field name="stageType" canBeNull="false"
+                           comment="The lifecycle stage of the execution.">
+                    <mal:type name="ExecutionStageType" area="MC"/>
+                </mal:field>
+                <mal:field name="success" canBeNull="false"
+                           comment="Indicates whether the execution stage completed successfully.">
+                    <mal:type name="Boolean" area="MAL"/>
+                </mal:field>
+                <mal:field name="step" canBeNull="true"
+                           comment="The progress step number. Null for START and END stages.">
+                    <mal:type name="UShort" area="MAL"/>
+                </mal:field>
+                <mal:field name="comment" canBeNull="true"
+                           comment="An optional comment providing additional details about the execution stage.">
+                    <mal:type name="String" area="MAL"/>
                 </mal:field>
             </mal:composite>
             <mal:enumeration name="ValidityState" shortFormPart="11"

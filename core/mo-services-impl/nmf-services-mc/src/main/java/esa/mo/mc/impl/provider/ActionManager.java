@@ -24,7 +24,6 @@ import static esa.mo.com.impl.util.HelperArchive.generateArchiveDetailsList;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.mc.impl.interfaces.ActionInvocationListener;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ExecutorService;
@@ -329,45 +328,10 @@ public final class ActionManager extends MCManager {
             final MALInteraction interaction, final SingleConnectionDetails connectionDetails) {
         final Identifier name = this.getName(executionRequest.getDefinitionId());
 
-        actionsExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    URI uriTo = interaction.getMessageHeader().getToURI();
-                    URI uriNextDestination = null;
-                    String[] nodes = uriTo.toString().split("@");
-
-                    if (nodes.length > 1) { // Remove the first characters until the '@'; +1 below for the '@'
-                        uriNextDestination = new URI(uriTo.toString().substring(nodes[0].length() + 1));
-                    }
-
-                    // Reception
-                    ObjectId sourceRec = new ObjectId(ActionServiceInfo.EXECUTIONREQUEST_OBJECT_TYPE,
-                            ConfigurationProviderSingleton.getDomain(), executionId);
-                    getActivityTrackingService().publishReceptionEvent(new URI(nodes[0]),
-                            null, true, null, uriNextDestination, sourceRec);
-
-                    UInteger errorNumber;
-
-                    // Call the Action
-                    if (actions != null) {
-                        errorNumber = actions.actionArrived(name, executionRequest.getArgumentValues(),
-                                executionId, executionRequest.getStageProgressRequired(), interaction);
-                    } else {
-                        errorNumber = new UInteger(0);
-                    }
-
-                    // Publish forward success
-                    ObjectId sourceFor = new ObjectId(ActionServiceInfo.EXECUTIONREQUEST_OBJECT_TYPE,
-                            ConfigurationProviderSingleton.getDomain(), executionId);
-                    getActivityTrackingService().publishForwardEvent(new URI(nodes[0]),
-                            null, (errorNumber == null),
-                            null, uriNextDestination, sourceFor);
-                } catch (MALInteractionException ex) {
-                    Logger.getLogger(ActionManager.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (MALException ex) {
-                    Logger.getLogger(ActionManager.class.getName()).log(Level.SEVERE, null, ex);
-                }
+        actionsExecutor.execute(() -> {
+            if (actions != null) {
+                actions.actionArrived(name, executionRequest.getArgumentValues(),
+                        executionId, executionRequest.getStageProgressRequired(), interaction);
             }
         });
     }
@@ -423,58 +387,25 @@ public final class ActionManager extends MCManager {
         return executionRequests.get(id);
     }
 
-    protected void reportActivityExecutionEvent(final boolean success, final UInteger errorNumber,
-            final int executionStage, final int stageCount, final Long executionId,
-            final MALInteraction interaction, final SingleConnectionDetails connectionDetails) {
-        ObjectId source = new ObjectId(ActionServiceInfo.EXECUTIONREQUEST_OBJECT_TYPE,
-                ConfigurationProviderSingleton.getDomain(), executionId);
-
-        try {
-            if (this.getActivityTrackingService() != null) {
-                ObjectId executionEventLink;
-                try {
-                    // requirement 3.2.5.a ,  3.2.7.d -> will be done in the "publishExecutionEventOperation"-method.
-                    executionEventLink = this.getActivityTrackingService().publishExecutionEventOperation(
-                            connectionDetails.getProviderURI(), ConfigurationProviderSingleton.getNetwork(), success,
-                            executionStage, stageCount, null, source);
-
-                    if (!success) { // requirement 3.2.5.c
-                        //TODO: requirement 3.2.5.c is the source really the completionEvent? -> issue #189 
-                        this.publishActionFailureEvent(errorNumber, executionId,
-                                executionEventLink, interaction, connectionDetails);
-                    }
-                } catch (MALInteractionException ex) {
-                    Logger.getLogger(ActionManager.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        } catch (MALException ex) {
-            Logger.getLogger(ActionManager.class.getName()).log(Level.SEVERE, null, ex);
+    public void storeExecutionStatus(final Long executionId, final ExecutionStageType stageType,
+            final boolean success, final UShort step, final String comment, final URI uri) {
+        if (super.getArchiveService() == null) {
+            return;
         }
-    }
-
-    private void publishActionFailureEvent(final UInteger errorNumber,
-            final Long related, final ObjectId source, final MALInteraction interaction,
-            final SingleConnectionDetails connectionDetails) {
-        // requirement: 3.2.5.f
-        final UIntegerList errorNumbers = new UIntegerList(1);
-        errorNumbers.add(errorNumber);
-
-        // requirement: 3.2.5.c and 3.2.5.d and 3.2.5.e
-        if (this.getEventService() != null) {
-            Long objId = this.getEventService().generateAndStoreEvent(
-                    ActionServiceInfo.ACTIONFAILURE_OBJECT_TYPE,
+        try {
+            ExecutionStatus status = new ExecutionStatus(stageType, success, step, comment);
+            HeterogeneousList bodies = new HeterogeneousList();
+            bodies.add(status);
+            super.getArchiveService().store(
+                    false,
+                    ActionServiceInfo.EXECUTIONSTATUS_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(),
-                    errorNumber,
-                    related,
-                    source,
-                    interaction);
-
-            try {
-                this.getEventService().publishEvent(new URI(""), objId,
-                        ActionServiceInfo.ACTIONFAILURE_OBJECT_TYPE, related, source, errorNumbers);
-            } catch (IOException ex) {
-                Logger.getLogger(ActionManager.class.getName()).log(Level.SEVERE, null, ex);
-            }
+                    HelperArchive.generateArchiveDetailsList(executionId, null, uri),
+                    bodies,
+                    null);
+        } catch (MALException | MALInteractionException ex) {
+            Logger.getLogger(ActionManager.class.getName()).log(Level.WARNING,
+                    "Failed to store ExecutionStatus", ex);
         }
     }
 
@@ -497,9 +428,6 @@ public final class ActionManager extends MCManager {
     private void reportExecutionStart(final boolean success, final UInteger errorNumber,
             final int totalNumberOfProgressStages, final Long executionId,
             final MALInteraction interaction, final SingleConnectionDetails connectionDetails) {
-        // requirement: 3.2.8.h and 3.2.8.i
-        reportActivityExecutionEvent(success, errorNumber, 1, 2 + totalNumberOfProgressStages, executionId,
-                interaction, connectionDetails);
         if (progressPublisher != null) {
             progressPublisher.publishExecutionProgress(getDefinitionIdForExecution(executionId), executionId,
                     getCategoryForExecution(executionId), ExecutionStageType.START, success, null, null);
@@ -509,9 +437,6 @@ public final class ActionManager extends MCManager {
     private void reportExecutionComplete(final boolean success, final UInteger errorNumber,
             final int totalNumberOfProgressStages, final Long executionId,
             final MALInteraction interaction, final SingleConnectionDetails connectionDetails) {
-        // requirement: 3.2.8.h and 3.2.8.k
-        reportActivityExecutionEvent(success, errorNumber, 2 + totalNumberOfProgressStages, 2
-                + totalNumberOfProgressStages, executionId, interaction, connectionDetails);
         if (progressPublisher != null) {
             String comment = success ? null : "Error code: " + errorNumber;
             progressPublisher.publishExecutionProgress(getDefinitionIdForExecution(executionId), executionId,

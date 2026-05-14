@@ -125,90 +125,36 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         this.configurationAdapter = configurationAdapter;
     }
 
-    @Override //requirement: 3.2.3
+    @Override
     public Long executeAction(ExecutionRequest executionRequest, MALInteraction interaction)
             throws MALInteractionException, MALException {
         UIntegerList invIndexList = new UIntegerList();
-        boolean unknown = false;
 
-        //from here on: requirement 3.2.8.a, c
         if ("true".equals(System.getProperty(IS_INTERMEDIATE_RELAY_PROPERTY))) {
-            // Forward requirement: 3.2.8.c in conjunction with requirement in standard: "MISSION OPERATIONS COMMON OBJECT MODEL" 3.5.3.3, 4
             Long executionId = manager.storeAndGenerateExecReqId(executionRequest, executionRequest.getDefinitionId(),
                     connection.getPrimaryConnectionDetails().getProviderURI());
             manager.forward(executionId, executionRequest, interaction, connection.getConnectionDetails());
             return executionId;
         }
 
-        // Publish first Acceptance event for executeAction operation
-        // source for executeAction ACCEPTANCE event is the OperationActivity id, which is the transaction id of this executeAction operation
-        ObjectId saSource = manager.getActivityTrackingService().storeCOMOperationActivity(interaction, null);  // requirement: 3.2.4.f  and 3.2.4.g
-
-        try {
-            //body of AcceptanceEvent is true? -> issue #187
-            // requirement: 3.2.8.e
-            manager.getActivityTrackingService().publishAcceptanceEventOperation(interaction, true, null, saSource); // requirement: f, g
-        } catch (MALInteractionException | MALException ex) {
-            Logger.getLogger(ActionManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        // requirement: 3.2.8.e
-        boolean accepted;
         if (!manager.existsDef(executionRequest.getDefinitionId())) {
-            accepted = false;
-            unknown = true;
-        } else {
-            // Check the ExecutionRequest
-            accepted = manager.checkExecutionRequest(executionRequest, invIndexList); // requirement: 3.2.9.2.b
-        }
-
-        // Errors - no ExecutionRequest stored for rejected requests
-        if (!invIndexList.isEmpty()) { // requirement: 3.2.9.3.1
-            try {
-                manager.getActivityTrackingService().publishAcceptanceEventOperation(interaction, false, null, null);
-            } catch (MALInteractionException | MALException ex) {
-                Logger.getLogger(ActionManager.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            manager.getActivityTrackingService().publishExecutionEventRequestResponse(interaction, false, saSource);
-            throw new MALInteractionException(new InvalidException(invIndexList));
-        }
-
-        if (unknown) { // requirement: 3.2.9.3.2
-            try {
-                manager.getActivityTrackingService().publishAcceptanceEventOperation(interaction, false, null, null);
-            } catch (MALInteractionException | MALException ex) {
-                Logger.getLogger(ActionManager.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            manager.getActivityTrackingService().publishExecutionEventRequestResponse(interaction, false, saSource);
             throw new MALInteractionException(new UnknownException(null));
         }
 
-        if (!accepted) { // preCheck rejected the action without specifying errors
-            try {
-                manager.getActivityTrackingService().publishAcceptanceEventOperation(interaction, false, null, null);
-            } catch (MALInteractionException | MALException ex) {
-                Logger.getLogger(ActionManager.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            manager.getActivityTrackingService().publishExecutionEventRequestResponse(interaction, false, saSource);
+        boolean accepted = manager.checkExecutionRequest(executionRequest, invIndexList);
+
+        if (!invIndexList.isEmpty()) {
             throw new MALInteractionException(new InvalidException(invIndexList));
         }
 
-        // Validation passed - provider assigns the executionId by storing the ExecutionRequest
+        if (!accepted) {
+            throw new MALInteractionException(new InvalidException(invIndexList));
+        }
+
         Long executionId = manager.storeAndGenerateExecReqId(executionRequest, executionRequest.getDefinitionId(),
                 connection.getPrimaryConnectionDetails().getProviderURI());
 
-        // Publish the second Acceptance event - source is the newly stored ExecutionRequest
-        try {
-            ObjectId source = new ObjectId(ActionServiceInfo.EXECUTIONREQUEST_OBJECT_TYPE,
-                    ConfigurationProviderSingleton.getDomain(), executionId); // requirement: 3.2.8.f
-            manager.getActivityTrackingService().publishAcceptanceEventOperation(interaction, true, null, source); // requirement: 3.2.8.e, f, g
-        } catch (MALInteractionException | MALException ex) {
-            Logger.getLogger(ActionManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        // Execute asynchronously; requirement: 3.2.9.2c is met because execution is started asynchronously
-        manager.execute(executionId, executionRequest, interaction, connection.getConnectionDetails()); // requirement: 3.2.9.2.b
-        manager.getActivityTrackingService().publishExecutionEventRequestResponse(interaction, true, saSource); // requirement: c
+        manager.execute(executionId, executionRequest, interaction, connection.getConnectionDetails());
 
         return executionId;
     }
@@ -453,10 +399,6 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         publishExecutionProgress(definitionId, executionId, actionCategory,
                 ExecutionStageType.PROGRESS, success, new UShort(progressStage),
                 success ? null : "Error code: " + errorNumber);
-
-        // requirement: 3.2.8.h and 3.2.8.j
-        manager.reportActivityExecutionEvent(success, errorNumber, 1 + progressStage, 2 + totalNumberOfProgressStages,
-                executionId, null, connection.getConnectionDetails());
     }
 
     /**
@@ -492,6 +434,8 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
                     connection.getConnectionDetails().getDomain(), keys.getAsNullableAttributeList());
 
             publisher.publish(updateHeader, stageType, success, step, comment);
+            manager.storeExecutionStatus(executionId, stageType, success, step, comment,
+                    connection.getPrimaryConnectionDetails().getProviderURI());
         } catch (IllegalArgumentException | MALInteractionException | MALException ex) {
             Logger.getLogger(ActionProviderServiceImpl.class.getName()).log(Level.WARNING,
                     "Exception during publishing of execution progress {0}", ex);
