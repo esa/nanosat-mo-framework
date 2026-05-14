@@ -158,6 +158,14 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
         };
 
         providersList.addListSelectionListener(listSelectionListener);
+        providersList.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                if (evt.getClickCount() == 2) {
+                    connectButtonActionPerformed(null);
+                }
+            }
+        });
         connectButton.setEnabled(false);
     }
 
