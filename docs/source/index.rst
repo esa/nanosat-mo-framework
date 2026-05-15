@@ -3,8 +3,6 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-.. image:: https://nanosat-mo-framework.github.io/img/NMF_logo_1124_63.png
-
 ==================
 
 NanoSat MO Framework Documentation
