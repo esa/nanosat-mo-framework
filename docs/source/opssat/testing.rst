@@ -5,6 +5,10 @@ Testing your app in an OPS-SAT-like environment
 .. contents:: Table of contents
     :local:
 
+.. warning::
+   The `NMF Mission OPS-SAT repository <https://github.com/esa/nmf-mission-ops-sat>`_ may no longer be actively maintained.
+   The instructions below are kept for reference but may be outdated.
+
 Testing your app with the NMF SDK is the fastest way to confirm if all functional features work.
 However, there might be some problems with respect to the behaviour on a real satellite with a space link between your ground software (CTT during development) and your app.
 To find these problems early on, it is recommended to test your app in a semi-authentic test setup.
@@ -17,7 +21,7 @@ Apart from that, the Ground MO Proxy provides a directory service which is synch
 The easy way to imagine it is: It takes your requests to the apps, forwards them to the spacecraft and from there, they are distributed accordingly.
 
 If you followed the previous chapter and already packaged your app for deployment on OPS-SAT, you already are in possession of the code for the Ground MO Proxy for OPS-SAT.
-You just need to enter the root directory of the ``nmf-mission-opssat`` repository (make sure you checked out the branch ``dev``) and run ``mvn install -Pground``.
+You just need to enter the root directory of the ``nmf-mission-opssat`` repository (make sure you checked out the latest version branch, e.g. ``v5.0``) and run ``mvn install -Pground``.
 This will add two more things to your ``home/nmf/`` folder in ``opssat-package/nmf/target/nmf-ops-sat-VERSION/``.
 The supervisor with simulator with which you are already familiar from the SDK and the Ground MO Proxy for OPS-SAT.
 

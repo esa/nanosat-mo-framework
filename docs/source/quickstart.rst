@@ -12,7 +12,7 @@ The recommended way to install the NMF is to get it directly from our `GitHub re
 
 ``git clone https://github.com/esa/nanosat-mo-framework.git``
 
-The currently stable branch is master, for an up-to-date version it is recommended to use the **dev** branch.
+The currently stable branch is **master**. Active development happens on version branches (e.g. **v5.0**).
 
 Installing the NMF
 ------------------

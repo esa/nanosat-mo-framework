@@ -5,6 +5,10 @@ Packaging your app for deployment on OPS-SAT
 .. contents:: Table of contents
     :local:
 
+.. warning::
+   The `NMF Mission OPS-SAT repository <https://github.com/esa/nmf-mission-ops-sat>`_ may no longer be actively maintained.
+   The instructions below are kept for reference but may be outdated.
+
 Packaging your app for testing on the ground is slightly different from testing your app on a satellite or a flat-sat.
 In this tutorial you will learn how to package your app for deployment on OPS-SAT or get it ready for flat-sat tests.
 
@@ -17,7 +21,7 @@ Getting the right files
 In short, you will need to: clone a repository, change some configuration files, run maven to generate the directory structure, and zip that directory. So, let's jump into it!
 
 1. Clone the `NMF Mission OPS-SAT repository <https://github.com/esa/nmf-mission-ops-sat>`_.
-2. Checkout the ``dev`` branch to get the latest version.
+2. Checkout the latest version branch (e.g. ``v5.0``) to get the latest version.
 3. Ensure your local maven repository has the latest NMF Core and NMF Mission OPS-SAT artifacts by running ``mvn install`` in both NMF Core and and NMF Mission OPS-SAT repository clones.
 4. Ensure your local maven repository has the latest artifacts of your application by running ``mvn install`` in your application project.
 5. Open the ``pom.xml`` file in the ``opssat-package/experiment`` directory.
