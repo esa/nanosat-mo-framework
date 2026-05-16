@@ -5,39 +5,38 @@ Actions
 .. contents:: Table of contents
     :local:
 
-Apart from parameters, actions are our main way to interact with an NMF app. An action can be anything that does something inside your app.
-In our case, the only action we need is called ``takeSobel`` and will take care of taking an image with the camera, grayscaling it and applying the sobel filter on top of the grayscaled image.
-We also want to keep the user informed about the current progress of the action, i.e. if we are currently taking a picture, grayscaling it or applying the filter.
+In addition to parameters, actions are the primary mechanism for interacting with an NMF app. An action represents any operation that the app performs in response to a ground command.
+In this example, the only action required is ``takeSobel``, which acquires an image from the camera, converts it to grayscale, and applies the Sobel filter to the grayscaled image.
+The action also reports its current progress to the user — that is, whether the app is currently capturing the image, grayscaling it, or applying the filter.
 
 Registering the action
 ----------------------
-Just like parameters, actions need to be registered to the NMF. So, when we connect to the app it can tell us which actions it provides.
+As with parameters, actions must be registered with the NMF so that they can be discovered and invoked from a connected consumer.
 
-To register actions we're going to be using the ``@Action`` annotation.
-This annotation has the following parameters:
+Action registration is performed using the ``@Action`` annotation, which accepts the following arguments:
 
-- ``String name`` - The name of the action. If empty the name of the function will be used. Empty by default.
-- ``String description`` - The description of the action. Empty by default.
-- ``short category`` - The category of the action. 0 by default.
-- ``int stepCount`` - Number of steps in the action. 0 by default.
+- ``String name`` — the name of the action. Defaults to the name of the annotated method when empty.
+- ``String description`` — a description of the action. Empty by default.
+- ``short category`` — the category of the action. ``0`` by default.
+- ``int stepCount`` — the number of steps in the action. ``0`` by default.
 
-To register the action we need a function that will be performing the action's tasks. This function needs to meet some requirements:
+The annotated method, which performs the action, must satisfy the following requirements:
 
-- The return type must be ``UInteger`` and the return value must be ``null`` if the action succeeded or an integer number representing an error code.
-- The first three arguments must be: ``Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction`` (in that order)
+- The return type must be ``UInteger``. The method must return ``null`` on success, or an integer representing an error code on failure.
+- The first three arguments must be, in order: ``Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction``.
 
-Every argument after the first three must be annotated with ``@ActionParameter`` and will be treated as input to the action.
-The ``@ActionParameter`` annotation has the following parameters:
+Any argument beyond the first three must be annotated with ``@ActionParameter`` and is treated as an input to the action.
+The ``@ActionParameter`` annotation accepts the following arguments:
 
-- ``String name`` - The name of the parameter. This argument is required.
-- ``String description`` - The description of the parameter. Empty by default.
-- ``byte rawType`` - The raw type of the parameter. 0 by default.
-- ``String rawUnit`` - The raw unit of the parameter. Empty by default.
-- ``String conditionalConversionFieldName`` - Name of the field containing the ``ConditionalConversionList``. Empty by default.
-- ``byte convertedType`` - Type of the converted parameter value. -1 by default.
-- ``String convertedUnit`` - Unit of the converted parameter value. Empty by default.
+- ``String name`` — the name of the parameter. Required.
+- ``String description`` — a description of the parameter. Empty by default.
+- ``byte rawType`` — the raw type of the parameter. ``0`` by default.
+- ``String rawUnit`` — the raw unit of the parameter. Empty by default.
+- ``String conditionalConversionFieldName`` — the name of the field containing the ``ConditionalConversionList``. Empty by default.
+- ``byte convertedType`` — the type of the converted parameter value. ``-1`` by default.
+- ``String convertedUnit`` — the unit of the converted parameter value. Empty by default.
 
-The function for the ``takeSobel`` action could look like this:
+A typical implementation of the ``takeSobel`` action is shown below:
 
 .. code-block:: java
    :linenos:
@@ -56,18 +55,18 @@ The function for the ``takeSobel`` action could look like this:
      }
    }
 
-Note the following things:
+Note the following:
 
-1. The category 0 is the default value. Other ActionCategory possibilities are ActionCategory.CRITICAL and ActionCategory.HIPRIORITY.
-2. The next supplied value is the number of stages that our action consists of. Our stages are: take picture, grayscaling, filtering.
-3. If your action does not need any arguments, there is no need to specify that. It is only important to have the three required arguments.
+1. The default category value ``0`` corresponds to a standard action. Alternative values are ``ActionCategory.CRITICAL`` and ``ActionCategory.HIPRIORITY``.
+2. The ``stepCount`` value declares the number of stages the action performs. In this example: capture, grayscale, and filter.
+3. An action without input arguments does not require any additional declaration; only the three required arguments need to be present.
 
-The variables *width* and *height* are additional attributes and correspond to the width and height of the BST IMS-100 camera which is used on OPS-SAT.
-In this method, we use the platform services for the first time, the camera service to be precise (see highlighted line). The camera service offers a method ``takePicture`` which uses a **PixelResolution**, a **PictureFormat**, a **Duration**, three **Float** and a **CameraAdapter**. The :java:type:`~esa.mo.nmf.apps.SobelMCAdapter-DataReceivedAdapter` which extends the **CameraAdapter** class required for ``takePicture`` is explained further in the next section.
-Now, when a user calls the action "takeSobel", our app requests the camera service to take a picture with the provided parameters and return the data over the :java:type:`~esa.mo.nmf.apps.SobelMCAdapter-DataReceivedAdapter`.
-Now the only thing left is to implement the logic inside the :java:type:`~esa.mo.nmf.apps.SobelMCAdapter-DataReceivedAdapter` and filter the returned image!
+The fields ``width`` and ``height`` are additional class attributes corresponding to the dimensions of the BST IMS-100 camera used on OPS-SAT.
+This method uses a Platform service — specifically the camera service (highlighted line) — for the first time. The camera service exposes a ``takePicture`` method that accepts a **PixelResolution**, a **PictureFormat**, a **Duration**, three **Float** values, and a **CameraAdapter**. The :java:type:`~esa.mo.nmf.apps.SobelMCAdapter-DataReceivedAdapter`, which extends the required **CameraAdapter** class, is described in the next section.
+When the ``takeSobel`` action is invoked, the app calls the camera service with the supplied parameters and receives the resulting image data through the :java:type:`~esa.mo.nmf.apps.SobelMCAdapter-DataReceivedAdapter`.
+The remaining work is to implement the image processing logic inside :java:type:`~esa.mo.nmf.apps.SobelMCAdapter-DataReceivedAdapter`.
 
-Example action with parameters could look like this:
+An example of an action that accepts parameters:
 
 .. code-block:: java
    :linenos:
@@ -79,22 +78,21 @@ Example action with parameters could look like this:
       return null;
    }
 
-Handling action calls
----------------------
-There is no need for any special handling of action calls. Whenever a user calls an action, the method ``actionArrived`` from ``MonitorAndControlNMFAdapter`` will be called and it will automatically dispatch to your function corresponding with the action name.
+Handling action invocations
+---------------------------
+No additional handling is required for action invocations. When an action is called by a consumer, the ``actionArrived`` method of ``MonitorAndControlNMFAdapter`` is invoked and automatically dispatches to the method corresponding to the action name.
 
 DataReceivedAdapter
 -------------------
-In order to apply the sobel filter, we need to do three things: Convert the raw byte data into a **BufferedImage**, grayscale that image and apply the sobel filter on that image. This is all done in the :java:type:`~esa.mo.nmf.apps.SobelMCAdapter-DataReceivedAdapter`.
-The :java:type:`~esa.mo.nmf.apps.SobelMCAdapter-DataReceivedAdapter` extends the abstract class **CameraAdapter** which provides methods for basic message handling between the camera service and your app.
-The **CameraAdapter** class offers several (empty) default implementations, so you can just override the ones in which you actually want to do something meaningful.
-So, in our case, we only want to implement the method ``takePictureResponseReceived``. Therefore, we can get rid of every other overridden method.
-We also want to change the names of the constant integers at the beginning of the class from **STAGE_ACK** and **STAGE_RSP** to **STAGE_IMG** and **STAGE_GS**. Further, we want to add a third constant for the last execution stage: ``private final int STAGE_SOBEL = 3``.
-We'll come back to them, later.
-Now, let's talk about ``takePictureResponseReceived``. This method is invoked when the camera service acquired an image for us. This image is wrapped into the CCSDS Picture structure which offers us the image data as a **Blob** (essentially a byte array) and the **CameraSettings** which were used to take the picture.
-What we need to do is to get the content of the *picture*, get its bytes and convert them into a BufferedImage. This is done in the method ``byteArrToBufferedImage`` in the reference implementation.
-We won't cover this method (and other non-NMF related methods) in this tutorial. After that, we take the **BufferedImage** and grayscale it (method ``grayscale``) and take the grayscaled image and apply the sobel operator on it (method ``sobel``).
-In the end, we use ``ImageIO.write(sobel, "bmp", new File(filenamePrefix + "sobel.bmp"))`` to write the image to disk. The code for the method ``takePictureResponseReceived`` looks like this:
+Applying the Sobel filter requires three steps: converting the raw byte data into a **BufferedImage**, grayscaling that image, and applying the Sobel filter to the grayscaled result. These steps are implemented in :java:type:`~esa.mo.nmf.apps.SobelMCAdapter-DataReceivedAdapter`.
+The :java:type:`~esa.mo.nmf.apps.SobelMCAdapter-DataReceivedAdapter` extends the abstract class **CameraAdapter**, which provides methods for handling messages exchanged between the camera service and the app.
+**CameraAdapter** offers empty default implementations; only those methods that perform meaningful work need to be overridden.
+In this case, only ``takePictureResponseReceived`` is required, and all other overrides may be removed.
+The constants at the top of the class — originally **STAGE_ACK** and **STAGE_RSP** — should be renamed to **STAGE_IMG** and **STAGE_GS**, and a third constant should be added for the final execution stage: ``private final int STAGE_SOBEL = 3``. These constants are used later when reporting execution progress.
+The ``takePictureResponseReceived`` method is invoked once the camera service has acquired an image. The image is wrapped in the CCSDS ``Picture`` structure, which exposes the image data as a **Blob** (effectively a byte array) along with the **CameraSettings** used during capture.
+The first step is to retrieve the byte content from the ``picture`` and convert it into a ``BufferedImage``. This is implemented in the ``byteArrToBufferedImage`` method of the reference implementation; this method, along with other non-NMF-specific helpers, is not detailed in this guide.
+The resulting ``BufferedImage`` is then grayscaled (``grayscale`` method) and passed to the Sobel operator (``sobel`` method).
+Finally, the filtered image is written to disk via ``ImageIO.write(sobel, "bmp", new File(filenamePrefix + "sobel.bmp"))``. The complete ``takePictureResponseReceived`` implementation is shown below:
 
 .. code-block:: java
    :linenos:
@@ -120,18 +118,23 @@ In the end, we use ``ImageIO.write(sobel, "bmp", new File(filenamePrefix + "sobe
      e.printStackTrace();
    }
 
-We have to catch some exceptions in between, so everything is surrounded by a try/catch-construction.
-Now when we call the action ``takeSobel`` from our ground application (e.g. the CTT), a picture is taken, filtered and the result is stored on disk.
+The implementation is wrapped in a try/catch block to handle the checked exceptions thrown by the I/O and MAL calls.
+Once in place, invoking the ``takeSobel`` action from a ground application (such as the CTT) captures an image, applies the filter, and writes the result to disk.
 
 Reporting execution progress
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-The only thing missing from our implementation now is to report our execution progress. Manually reported execution stages are 1-indexed (we start with stage 1) because the NMF distinguishes *progress stages* (handled by your app) and *execution stages* (your apps progress stages + an additional initial stage and final stage generated by the NMF).
-So, in this example we have three progress stages and, therefore, five execution stages.
-We want to report that we obtained a **BufferedImage** from the camera service, grayscaled the image and that we finished writing the image to a file.
-To achieve that, we simply have to call ``connector.reportActionExecutionProgress(success, errorCode, currentStage, maxStages, actionID)`` after each method call. ``success`` is a boolean, describing if everything worked fine.
-If ``success`` is false, the parameter ``errorCode`` represents the occurring problem. ``currentStage`` is the stage that we want to report as finished and ``maxStages`` is the total number of stages that will be reported by our app (the same number we used when registering the action).
-The last parameter is the object instance ID of the action which is used to map the progress to the action in the event service.
-Therefore, our finished code for ``takePictureReceived`` looks as follows:
+The remaining step is to report execution progress. Manually reported execution stages are 1-indexed (starting from stage 1) because the NMF distinguishes between *progress stages* (managed by the app) and *execution stages* (the app's progress stages plus an additional initial stage and final stage generated by the NMF).
+This example has three progress stages, corresponding to five execution stages.
+The app reports progress after each significant step: obtaining the **BufferedImage** from the camera service, grayscaling the image, and writing the filtered image to disk.
+Progress is reported by calling ``connector.reportActionExecutionProgress(success, errorCode, currentStage, maxStages, actionID)``:
+
+- ``success`` — boolean indicating whether the step completed successfully.
+- ``errorCode`` — when ``success`` is ``false``, identifies the error that occurred.
+- ``currentStage`` — the stage being reported as completed.
+- ``maxStages`` — the total number of stages reported by the app (must match the value declared during action registration).
+- ``actionID`` — the object instance ID of the action, used to associate the progress report with the action in the event service.
+
+The complete implementation of ``takePictureResponseReceived`` is therefore:
 
 .. code-block:: java
    :linenos:
@@ -165,5 +168,5 @@ Therefore, our finished code for ``takePictureReceived`` looks as follows:
      e.printStackTrace();
    }
 
-Note that the catch blocks are auto-generated and should contain logging calls so you can trace down problems in your app.
-Now that your first app is implemented, it is time to learn about :doc:`packaging`.
+The catch blocks shown above are auto-generated stubs and should be replaced with proper logging calls to aid in diagnosing failures.
+With the app now fully implemented, proceed to :doc:`packaging` to learn how to package it for deployment.

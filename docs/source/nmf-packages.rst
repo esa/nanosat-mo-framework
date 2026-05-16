@@ -5,13 +5,13 @@ NMF Packages
     :local:
 
 An **NMF Package** is the standard distribution format for deploying NMF Apps onto a spacecraft.
-It is a ``.nmfpackage`` file that bundles your app's JAR together with any additional resources (libraries, models, data files) needed at runtime.
-The Supervisor's **PackageManagement** service handles installation and uninstallation of NMF Packages on the target system.
+It is a ``.nmfpackage`` file that bundles the app's JAR with any additional resources — libraries, models, data files — required at runtime.
+The Supervisor's **PackageManagement** service handles the installation and uninstallation of NMF Packages on the target system.
 
 Generating an NMF Package
---------------------------
+-------------------------
 
-NMF Packages are produced by the ``nmf-package-maven-plugin``. Add the following profile to your app's ``pom.xml``:
+NMF Packages are produced by the ``nmf-package-maven-plugin``. Add the following profile to the app's ``pom.xml``:
 
 .. code-block:: xml
    :linenos:
@@ -45,26 +45,26 @@ NMF Packages are produced by the ``nmf-package-maven-plugin``. Add the following
         </profile>
     </profiles>
 
-Replace ``your.app.MainClass`` with the fully qualified entry point of your app.
-Add any extra files or directories you need at runtime inside ``<libs>``.
+Replace ``your.app.MainClass`` with the fully qualified name of the app's entry point.
+Add any additional files or directories required at runtime inside the ``<libs>`` element.
 
-Then build the package with:
+Build the package with:
 
 .. code-block:: bash
 
     mvn clean install -Pgenerate-nmf-package
 
-The resulting ``.nmfpackage`` file will be in your project's ``target/`` directory.
+The resulting ``.nmfpackage`` file will be located in the project's ``target/`` directory.
 
-Installing and Uninstalling
-----------------------------
+Installing and uninstalling
+---------------------------
 
-Once you have a ``.nmfpackage`` file, it can be installed on the satellite via the Supervisor's **PackageManagement** service, accessible through the Consumer Test Tool (CTT) or any ground consumer.
-The Supervisor manages the full lifecycle: install, uninstall, and version tracking.
+Once produced, the ``.nmfpackage`` file can be installed on the satellite through the Supervisor's **PackageManagement** service, accessible via the Consumer Test Tool (CTT) or any ground consumer.
+The Supervisor manages the full lifecycle of the package: installation, uninstallation, and version tracking.
 
 For initial hardware deployment, the ``nmf-linux-maven-plugin`` can generate the Linux filesystem layout and a ``fresh_install.sh`` script.
 
 Mission-specific examples
---------------------------
+-------------------------
 
 For a worked example of integrating the plugin into a mission project, see :doc:`../phi-sat-2/packaging`.

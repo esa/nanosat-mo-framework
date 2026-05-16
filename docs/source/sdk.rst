@@ -5,42 +5,38 @@ SDK
 .. contents:: Table of Contents
     :local:
 
-The NMF includes a Software Development Kit (or SDK).
+The NMF includes a Software Development Kit (SDK) that provides tools and resources for developing and testing space apps and ground applications. The SDK generator is located in the **sdk/** folder of the repository.
 
-The SDK provides support and tools to develop and test your space apps and ground applications. The SDK generator is located in the **sdk/** folder of the repository. 
-To generate the SDK you must build the code by running ``mvn install`` in the **sdk/** directory.
-
-This will build all examples and put them into a zip release and a folder which you can find under **sdk/sdk-execution-environment/target/**.
+To generate the SDK, run ``mvn install`` from the **sdk/** directory. This builds all examples and produces both a zip release and an expanded folder under **sdk/sdk-execution-environment/target/**.
 
 Space app examples
 ------------------
-In the folder `sdk/examples-space <https://github.com/esa/nanosat-mo-framework/tree/master/sdk/examples-space>`_ you will find several completely implemented apps which can run on any cubesat running the NMF.
-These examples are also a great starting point when you begin to develop your own apps.
+The `sdk/examples-space <https://github.com/esa/nanosat-mo-framework/tree/master/sdk/examples-space>`_ folder contains a set of fully implemented apps that can run on any CubeSat running the NMF. These examples serve as a recommended starting point for developing custom apps.
 
-The examples include:
+The available examples are:
 
-- Benchmark App - was used during the development in order to obtain some performance metrics for the framework
-- Blank App - the simplest NMF App that one can develop; does not include any logic
-- Hello World Simple App - a simple NMF app demonstrating MC::Parameter service using a simplified NMF MC API
-- Hello World Full App - a simple NMF app demonstrating MC::Parameter service using a full NMF MC API
-- Push Clock App - exposing clock over MC services
-- 10 seconds Alert App - publishing periodic alert using MC::Alert service
-- 5 stages Action App - implementing multistage asynchronous action
-- GPS data App - exposing GPS data over MC::Parameter service
-- All MC services App - exposing multiple MC services
-- All MC services + Simulator App - exposing multiple MC services; standalone application not requiring Supervisor to provide NMF Platform services
-- Camera App - consuming NMF Platform::Camera service and exposing a monitoring and control interface
-- Serialized object - serializing a Java object and exposing it over MAL Blob Attribute
+- **Benchmark App** — used during framework development to obtain performance metrics.
+- **Blank App** — the minimal NMF App, with no application logic.
+- **Hello World Simple App** — demonstrates the MC::Parameter service using the simplified NMF MC API.
+- **Hello World Full App** — demonstrates the MC::Parameter service using the full NMF MC API.
+- **Push Clock App** — exposes the system clock via MC services.
+- **10 Seconds Alert App** — publishes a periodic alert using the MC::Alert service.
+- **5 Stages Action App** — implements a multistage asynchronous action.
+- **GPS Data App** — exposes GPS data via the MC::Parameter service.
+- **All MC Services App** — exposes multiple MC services.
+- **All MC Services + Simulator App** — exposes multiple MC services as a standalone application that does not require a Supervisor to provide the NMF Platform services.
+- **Camera App** — consumes the NMF Platform::Camera service and exposes a monitoring and control interface.
+- **Serialized Object** — serializes a Java object and exposes it via a MAL Blob Attribute.
 
 Ground application examples
 ---------------------------
-In the folder `sdk/examples-ground <https://github.com/esa/nanosat-mo-framework/tree/master/sdk/examples-ground>`_ you will find several completely implemented ground applications which can run on ground and connect to remote NMF Apps.
+The `sdk/examples-ground <https://github.com/esa/nanosat-mo-framework/tree/master/sdk/examples-ground>`_ folder contains fully implemented ground applications that can connect to remote NMF Apps.
 
-ESA has developed a generic M&C system which can already connect to any NMF App. This software is known as EUD4MO.
+ESA has developed a generic M&C system, known as EUD4MO, that can connect to any NMF App.
 
-If you just want to test your app locally without using the CTT you can write a fitting ground application which automates your testing process for you.
+For automated local testing without the CTT, a dedicated ground application can be written to drive the app programmatically.
 
-The examples include:
+The available examples are:
 
 - Ground Zero
 - Ground with Directory service
@@ -49,35 +45,36 @@ The examples include:
 
 Consumer Test Tool (CTT)
 ------------------------
-The Consumer Test Tool (CTT) is your best friend when manually verifying your app. You can use the CTT to connect to the supervisor, launch apps and then connect to your apps and interact with them.
-How to do all of that is described further in the next section.
+The Consumer Test Tool (CTT) is the primary tool for manually verifying an app. It can be used to connect to the Supervisor, launch apps, and interact with them through their exposed MC services. The following sections describe its usage.
 
 Running the CubeSat Simulator
 -----------------------------
-You can run a CubeSat simulator to try out your app in a playground environment which mimics the CubeSat system.
+The CubeSat simulator provides a local environment that mimics the spacecraft system, allowing apps to be tested without access to flight hardware.
 
-In order to do this, Please do the following:
+To start the simulator and CTT:
 
-1. Run the Supervisor, go to **sdk/sdk-execution-environment/target/nmf-sdk-XX.Y/home/nmf/nanosat-mo-supervisor-sim/** and run **nanosat-mo-supervisor-sim.sh**.
+1. Run the Supervisor by executing **nanosat-mo-supervisor-sim.sh** from **sdk/sdk-execution-environment/target/nmf-sdk-XX.Y/home/nmf/nanosat-mo-supervisor-sim/**.
 
-2. Run the CTT, go to **sdk/sdk-execution-environment/target/nmf-sdk-XX.Y/home/nmf/consumer-test-tool/** and run **consumer-test-tool.sh**.
+2. Run the CTT by executing **consumer-test-tool.sh** from **sdk/sdk-execution-environment/target/nmf-sdk-XX.Y/home/nmf/consumer-test-tool/**.
 
-Connecting to the Supervisor using CTT
----------------------------------------
-The supervisor outputs a URI on the console. This URI follows the pattern 
+Connecting to the Supervisor using the CTT
+------------------------------------------
+On startup, the Supervisor prints its Directory Service URI to the console, in the form:
+
 ``maltcp://SOME_ADDRESS:PORT/nanosat-mo-supervisor-Directory``
-Paste this URI into the field in the **Communication Settings** tab of the CTT and click the button **Fetch information**. In the *Providers List*, the supervisor should show up. The table on the right side should list some services. Now click the button **Connect to Selected Provider** which results in a new tab appearing next to the **Communication Settings**. You now have a working connection to the supervisor and are able to start apps and check messages.
+
+Paste this URI into the corresponding field in the **Communication Settings** tab of the CTT and click **Fetch Information**. The Supervisor will appear in the *Providers List*, and the table on the right will display the available services. Clicking **Connect to Selected Provider** opens a new tab alongside **Communication Settings**, providing an active connection to the Supervisor from which apps can be started and messages inspected.
 
 .. image:: _images/CTT_presentation.png
    :width: 600
 
 Running and connecting to an App
 --------------------------------
-The nanosat-mo-supervisor tab offers you several sub-tabs. One of these tabs controls the **Apps Launcher Service**. By selecting this tab, you see a list of every app that is currently registered on the Supervisor.
-Select the app you want to launch (e.g. camera in the default package) and click the button **runApp**. All output produced by the app is printed in the **Apps Launcher Service** tab.
-When you return to the **Communication Settings** tab and refresh your *Providers List* by selecting **Fetch Information**, your app should appear. You can connect to it in the same way as you did for the supervisor.
+The nanosat-mo-supervisor tab contains several sub-tabs, one of which controls the **Apps Launcher Service**. Selecting this tab displays the list of apps currently registered on the Supervisor.
+Select the desired app (for example, the camera app from the default package) and click **runApp**. All output produced by the app is displayed in the **Apps Launcher Service** tab.
+Returning to the **Communication Settings** tab and clicking **Fetch Information** refreshes the *Providers List*, where the launched app will now appear. The app can then be connected to using the same procedure as for the Supervisor.
 
-To get started with your own app, follow the upcoming links.
+For instructions on developing a custom app, refer to the guides linked below.
 
 .. toctree::
    :maxdepth: 1

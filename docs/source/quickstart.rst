@@ -4,21 +4,27 @@ NMF Quickstart
 .. contents:: Table of contents
     :local:
 
-After finishing this page you will have all the libraries needed to build the NMF and apps.
+This page describes how to obtain and build the NMF, providing all libraries required to develop and run NMF apps.
 
-Getting the NMF
----------------
-The recommended way to install the NMF is to get it directly from our `GitHub repository <https://github.com/esa/nanosat-mo-framework>`_.
+Obtaining the NMF
+-----------------
+The recommended installation method is to clone the source from the official `GitHub repository <https://github.com/esa/nanosat-mo-framework>`_:
 
 ``git clone https://github.com/esa/nanosat-mo-framework.git``
 
-The currently stable branch is **master**. Active development happens on version branches (e.g. **v5.0**).
+The stable branch is **master**. Active development takes place on version branches (e.g. **v5.0**).
 
-Installing the NMF
-------------------
-Make sure that a recent version of Maven is installed on your system and that you have a working internet connection. Open a shell/console in the root directory of the NMF and use the following command: ``mvn install``.
-In order to produce independently runnable Java executables (JAR artifacts with dependencies - equivalent of statically linked executables), use mvn install -P assembly-with-dependencies.
+Building the NMF
+----------------
+Ensure that a recent version of Maven is installed and that an internet connection is available. From the root directory of the NMF, run:
 
-*Please note:* warnings are completely natural and the errors concerning missing module descriptors during Javadoc generation are to be expected and non breaking.
+``mvn install``
 
-**Congratulations!** You have completed the first step to develop cubesat software with the NMF. You should take a look at the :doc:`sdk` chapter next!
+To produce independently runnable Java executables (JAR artifacts bundled with their dependencies, equivalent to statically linked executables), use:
+
+``mvn install -P assembly-with-dependencies``
+
+.. note::
+   Build warnings are expected. In particular, errors reported during Javadoc generation regarding missing module descriptors are non-breaking and can be safely ignored.
+
+Once the build completes, proceed to the :doc:`sdk` chapter to explore the SDK and available tooling.

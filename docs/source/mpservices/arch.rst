@@ -5,22 +5,22 @@ MP Services App development
 .. contents:: Table of contents
     :local:
 
-MPSpaceDemo is a good starting point. Follow to MPSpaceDemoAdapter.
+The ``MPSpaceDemo`` application, together with its ``MPSpaceDemoAdapter``, provides a recommended starting point for developing apps that expose MP services.
 
 Overview
----------
-The services have default implementations and App-specific over-rides. For example, PlanningRequestProviderServiceImpl is the default implementation for Planning Request service. The default implementation makes callbacks that are implemented by Apps.
+--------
+The MP services have default implementations that can be extended via app-specific overrides. For example, ``PlanningRequestProviderServiceImpl`` is the default implementation of the Planning Request service. The default implementation invokes callbacks that are implemented by the app.
 
-A typical MP service operation makes a callback to validate the input data. If successful then the default operation implementation stores the input data to COM Archive, and makes a callback to App, which may then choose to implement any specific behaviour.
+A typical MP service operation first invokes a validation callback for the input data. If validation succeeds, the default implementation stores the input data in the COM Archive and then invokes an app-specific callback, allowing custom behaviour to be applied.
 
-COM Archive is a central component in MP service implementations. For example, submitRequest (in PlanningRequestProviderServiceImpl) makes a callback to validate the incoming Request. The operation then stores the Request to COM Archive. Finally, there is a callback for App-specific implementation. The Request is passed to callback using ID, since it is already stored in COM Archive. The App may retrieve the Request from COM Archive, create new COM Objects, activate a Planner, etc.
+The COM Archive is a central component in MP service implementations. For example, ``submitRequest`` (in ``PlanningRequestProviderServiceImpl``) invokes a validation callback for the incoming request, stores the request in the COM Archive, and finally invokes an app-specific callback. Because the request is already stored, only its identifier is passed to the callback; the app may then retrieve the request from the COM Archive, create new COM objects, activate a planner, and so on.
 
 Components
 ----------
-An important class for App developers is MPSpaceDemoAdapter (a sample application). It registers callbacks using MPServicOperation enumerations.
+``MPSpaceDemoAdapter`` is an important reference for app developers. The sample application registers callbacks using the ``MPServiceOperation`` enumeration.
 
-In MPServiceCallback there are validation callbacks for each MP entity (Request, Event, Activity, etc) and a general onCallback(). The latter takes as argument the service object IDs, which are encapsulated by MPServiceOperationArguments.
+``MPServiceCallback`` declares validation callbacks for each MP entity (Request, Event, Activity, etc.) as well as a general ``onCallback()`` method. The latter accepts service object identifiers encapsulated in ``MPServiceOperationArguments``.
 
-The App developer is expected to look up the types of arguments used in the default implementation. For example, submitRequest operation uses identityId and instanceId, to reference the RequestIdentity and RequestVersionDetails.
+App developers are expected to consult the default implementation to determine the argument types used by each operation. For example, the ``submitRequest`` operation uses ``identityId`` and ``instanceId`` to reference the ``RequestIdentity`` and ``RequestVersionDetails`` objects.
 
 .. image:: arch.jpg

@@ -6,16 +6,17 @@ Project setup
 
 Introduction
 ------------
-Now that you are set and ready to go, it is time for you to develop your first NMF App. In this app, we will use the camera to take some pictures of the earth and apply a sobel filter to the taken image.
-The idea is to take an image and keep the user updated about the state of the sobel calculation. For this, we will first use the iADCS service to point the camera to the ground and then use the camera service to take the picture. After that, we use plain Java to calculate the filtered image. On OPS-SAT, this calculation could be delegated to the FPGA and hardware-accelerated to have faster computations.
+This guide walks through the development of a complete NMF App. The example app uses the camera service to capture images of the Earth and applies a Sobel edge-detection filter to each captured image, reporting progress to the user throughout the operation.
+
+The implementation first uses the iADCS service to point the camera toward the ground, then invokes the camera service to acquire the image. The Sobel filter is then applied in plain Java. On OPS-SAT, this computation could alternatively be offloaded to the FPGA for hardware acceleration.
 
 Creating the project
 --------------------
-The recommended way to create a new NMF App project is to copy one of the examples (preferably the one which resembles your planned application the most) and rename the folder to start with.
-So in our case, we will copy the camera example project folder and rename it to something more fitting, e.g. 'sobel'.
-To make our life easier when we import the project into our workspace, we should edit the app's POM to give it a unique name and artifact ID.
-So in the ``pom.xml`` inside the folder **sobel** change the field ``artifactId`` from the value 'camera' to 'sobel'. You should also change the values of the ``name`` and ``description`` tags to relate to our example and put your name into the ``author`` tags.
-If you need to use OreKit in your App and don't want to use custom orekit-data, then you should also add the following dependency:
+The recommended way to create a new NMF App project is to copy an existing example — preferably the one most similar to the intended application — and rename the resulting folder.
+For this example, the camera example project folder is copied and renamed to ``sobel``.
+To simplify importing the project into an IDE workspace, the app's POM should be updated to provide a unique name and artifact identifier.
+In the ``pom.xml`` inside the ``sobel`` folder, change the ``artifactId`` from ``camera`` to ``sobel``. The ``name`` and ``description`` tags should also be updated to reflect the new app, and the ``author`` tag should be set accordingly.
+If the app uses Orekit without supplying custom Orekit data, add the following dependency:
 
 .. code-block:: xml
     :linenos:
@@ -27,10 +28,10 @@ If you need to use OreKit in your App and don't want to use custom orekit-data, 
 	  <type>jar</type>
 	</dependency>
 
-Now we can import the project either into Netbeans or into Eclipse, by using the same methods as we used to import the NMF before. Just for good measure, we should rename the files and classes to have a better representation of our app. Let's change the name of the main class (currently :java:type:`~esa.mo.nmf.apps.SnapNMF`) to :java:type:`~esa.mo.nmf.apps.SobelApp`. Also change the name of the adapter class (:java:type:`~esa.mo.nmf.apps.MCSnapNMFAdapter`) to :java:type:`~esa.mo.nmf.apps.SobelMCAdapter`.
+The project can now be imported into NetBeans or Eclipse, using the same procedure as for the NMF itself. For consistency, the example files and classes should be renamed to reflect the new app. Rename the main class from :java:type:`~esa.mo.nmf.apps.SnapNMF` to :java:type:`~esa.mo.nmf.apps.SobelApp`, and the adapter class from :java:type:`~esa.mo.nmf.apps.MCSnapNMFAdapter` to :java:type:`~esa.mo.nmf.apps.SobelMCAdapter`.
 
-Nice job! You have set up your environment and project to develop your first NMF App. Let's start to take this example app apart and rebuild it to fit our needs!
+With the environment and project now in place, the example app can be adapted to the requirements of the Sobel use case.
 
 Why two classes?
 ----------------
-Try to apply good software engineering practices to your apps. In this case, we apply separation of concerns to keep our code structured and keep an overview. The purpose of :java:type:`~esa.mo.nmf.apps.SobelApp` is solely to instantiate the app and all necessary connections to the NMF. The :java:type:`~esa.mo.nmf.apps.SobelMCAdapter` is responsible for the communication between the different services which are provided by the NMF. We can leave the main class as it is. But let's take a deeper look anyways in the next chapter (:doc:`main`).
+Following sound software engineering practices, the separation of concerns principle is applied to keep the codebase well structured. The purpose of :java:type:`~esa.mo.nmf.apps.SobelApp` is solely to instantiate the app and establish the necessary connections to the NMF. The :java:type:`~esa.mo.nmf.apps.SobelMCAdapter` is responsible for the communication between the app and the services provided by the NMF. The main class can be reused as-is; it is examined in further detail in the next chapter (:doc:`main`).

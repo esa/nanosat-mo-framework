@@ -5,12 +5,12 @@ Parameters
 .. contents:: Table of contents
     :local:
 
-Parameters can be used to capture or influence the current state of the spacecraft or your app.
-In the case of our example app, the parameters will be the gains for the RGB colour channels and the exposure time of the camera.
+Parameters are used to expose or influence the current state of the spacecraft or the app itself.
+In this example app, the parameters represent the gains of the RGB colour channels and the exposure time of the camera.
 
 Defining parameters
 -------------------
-Internally, parameters are most likely just Java attributes of your app or provided by some other service. So to define our available parameters, we just need to define them in our class:
+Internally, parameters are typically Java fields of the app, or values provided by another service. They are defined as standard fields in the class:
 
 .. code-block:: java
    :linenos:
@@ -22,7 +22,7 @@ Internally, parameters are most likely just Java attributes of your app or provi
 
 Registering parameters
 ----------------------
-To register the parameters we need to add the **@Parameter** annotation to the previously defined variables. This annotation has the following arguments:
+Parameters are registered by annotating the corresponding fields with **@Parameter**. The annotation accepts the following arguments:
 
 - ``String name`` - The name of the parameter. If the value is not provided the name of the variable will be used.
 - ``String description`` - The description of the parameter. Empty by default.
@@ -37,7 +37,7 @@ To register the parameters we need to add the **@Parameter** annotation to the p
 - ``String onGetFunction`` - The name of the function that will be called every time before the parameter value is read. This function can't have any arguments and all return values are ignored. It is required that this function is public. Empty by default.
 - ``String[] aggregations`` - List of aggregation names this parameter belongs to. Empty by default.
 
-The previously defined variables with the annotation will look like this:
+Applied to the previously defined fields, the annotation appears as follows:
 
 .. code-block:: java
    :linenos:
@@ -51,38 +51,37 @@ The previously defined variables with the annotation will look like this:
    @Parameter(description = "Camera exposure time", generationEnabled = false, reportIntervalSeconds = 10, onGetFunction = "onGetExposureTime")
    private float exposureTime = 0.2f;
 
-All the parameters that have the annotation will be automatically registered in the ``initialRegistrations`` function from the ``MonitorAndControlNMFAdapter``. If the ``initialRegistrations`` function is overriden it is important to call ``super.initialRegistrations(registration)`` to make sure the parameters are registered.
+Annotated parameters are automatically registered by the ``initialRegistrations`` method of ``MonitorAndControlNMFAdapter``. When overriding ``initialRegistrations``, ``super.initialRegistrations(registration)`` must be invoked to ensure that registration still takes place.
 
-Getting the value of a parameter
+Reading the value of a parameter
 --------------------------------
-If you provided the ``onGetFunction`` parameter in the registration annotation. You need to implement the specified function in your adapter.
-Example function for the ``gainR`` parameter could look like this:
+When the ``onGetFunction`` argument is provided in the annotation, the specified method must be implemented in the adapter.
+An example implementation for the ``gainR`` parameter is shown below:
 
 .. code-block:: java
    :linenos:
 
    public void onGetGainR() {
-     gainR = getNewGainR() // somehow get the new value - for example query it from the on board camera.
+     gainR = getNewGainR(); // obtain the current value, for example by querying the on-board camera.
    }
 
-This ``onGetGainR`` function will be called every time before the parameter value is read. After the function finishes executing the newly updated value will be sent.
+The ``onGetGainR`` method is invoked before each read of the parameter value; the updated value is then transmitted.
 
-If the parameter is registered without the ``onGetFunction`` then the current value of the field will be sent.
+If a parameter is registered without an ``onGetFunction``, the current value of the field is transmitted as-is.
 
-Setting the value of a parameter
+Writing the value of a parameter
 --------------------------------
-To set the value of a parameter there is no need to implement anything. You just need to call ``setValue`` from the Parameter service. Setting of the values is handled automatically in the ``onSetValue`` function from the ``MonitorAndControlNMFAdapter``.
-If you want some special behavior during parameter setting you can override the ``onSetValue`` function in your adapter.
+No additional implementation is required to set a parameter value: a call to ``setValue`` on the Parameter service is sufficient. The assignment is handled automatically by the ``onSetValue`` method of ``MonitorAndControlNMFAdapter``.
+To customise the behaviour during a write, override the ``onSetValue`` method in the adapter.
 
 Summary
 -------
-We are now able to use parameters in our app! Here is just a quick recap of what you need to do in order to use parameters:
+The app is now able to expose parameters. The following steps are required:
 
-1. Declare some variables that hold your parameters values and provide a default value.
-2. Register your parameters using the ``@Parameter`` annotation.
-3. Implement ``onGetFunction`` for each parameter that specifies it.
+1. Declare fields for the parameter values, with appropriate defaults.
+2. Register the parameters using the ``@Parameter`` annotation.
+3. Implement the ``onGetFunction`` for each parameter that declares one.
 
-We only covered the basics of parameter handling. There is even more stuff that you can do with them (e.g. updating parameter values on a regular basis)!
-If you want to learn about this, check out the `Publish Clock Example <https://github.com/esa/nanosat-mo-framework/blob/dev/sdk/examples/space/publish-clock/src/main/java/esa/mo/nmf/apps/PushClock.java>`_ on GitHub.
+This guide covers only the basics of parameter handling. Additional capabilities, such as periodic parameter updates, are demonstrated in the `Publish Clock Example <https://github.com/esa/nanosat-mo-framework/blob/dev/sdk/examples/space/publish-clock/src/main/java/esa/mo/nmf/apps/PushClock.java>`_ on GitHub.
 
-Now that our parameters are ready to go, it is time to implement some :doc:`actions`.
+Proceed to :doc:`actions` to implement the actions of the app.

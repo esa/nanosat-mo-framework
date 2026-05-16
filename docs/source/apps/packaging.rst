@@ -5,14 +5,13 @@ Deploying your NMF app in the SDK
 .. contents:: Table of contents
     :local:
 
-Now that you finished implementing your NMF app, you want to make sure it works properly.
-Apart from unit tests over some methods, one way to test is to just run your app and connect to it through the CTT.
-The recommended way of running an app is through the NMF supervisor. 
-The easiest way to achieve that, is to deploy your app in the SDK. For this we have to look at several files.
+After implementing an NMF app, it should be verified in a realistic environment.
+In addition to unit testing individual methods, the recommended approach is to run the app and connect to it via the CTT.
+The standard way to launch an app is through the NMF Supervisor, which is most conveniently achieved by deploying the app into the SDK. This requires changes to a small number of files.
 
-Update the SDK Execution Environment POM
------------------------------------------
-The first file we have to change is the ``pom.xml`` in the folder ``sdk/sdk-execution-environment``. First, add your app to the dependencies.
+Updating the SDK Execution Environment POM
+------------------------------------------
+The first file to update is ``pom.xml`` in the ``sdk/sdk-execution-environment`` folder. Add the app to the project's dependencies:
 
 .. code-block:: xml
    :linenos:
@@ -23,8 +22,8 @@ The first file we have to change is the ``pom.xml`` in the folder ``sdk/sdk-exec
      <version>${project.version}</version>
    </dependency>
 
-After that, we have to make sure that the different properties files needed by the NMF are present in the app's execution directory.
-This is done in an execution of the ``Maven Antrun Plugin``. Add a copy task with the execution folder of your app as the *todir*.
+Next, ensure that the property files required by the NMF are present in the app's execution directory.
+This is configured through an execution of the ``Maven AntRun Plugin``. Add a copy task whose ``todir`` points to the app's execution folder:
 
 .. code-block:: xml
    :linenos:
@@ -34,15 +33,15 @@ This is done in an execution of the ``Maven Antrun Plugin``. Add a copy task wit
      <fileset dir="${basedir}/src/main/resources/space-app-root"/>
    </copy>
 
-That is all you need to do here! Easy, right?
+This concludes the changes required in the POM.
 
-Update the Build.xml
---------------------
-The next step is to update the ``sdk/sdk-execution-environment/antpkg/build.xml``. This is an Ant script which is called by the same plugin that copies the properties files.
-In principle, it works like a Makefile in C. We have a top level target which is execution through the Maven Antrun Plugin and this target depends on several subtargets.
-Our task in this file is to create such a subtarget for our app and add this target to the dependency list of *build*.
+Updating ``build.xml``
+----------------------
+The next step is to update ``sdk/sdk-execution-environment/antpkg/build.xml``. This Ant script is invoked by the same plugin that copies the property files.
+Conceptually, it behaves similarly to a Makefile: a top-level target is executed by the Maven AntRun Plugin and depends on several subtargets.
+A new subtarget must be defined for the app, and added to the dependency list of the ``build`` target.
 
-The subtarget should look like this:
+The subtarget is defined as follows:
 
 .. code-block:: xml
    :linenos:
@@ -60,11 +59,11 @@ The subtarget should look like this:
      </ant>
    </target>
 
-Note that the target name can be anything which is not already in use. We just use this name later to add the dependency.
-The ``id`` property's value has to have the prefix "start\_", so it can be recognised by the supervisor.
-The property ``mainClass`` contains the fully qualified name for the class in our app containing the ``main`` methods.
+The target name may be any value that is not already in use; it is referenced later when declaring the dependency.
+The ``id`` property must use the ``start_`` prefix to be recognised by the Supervisor.
+The ``mainClass`` property must contain the fully qualified name of the app class that defines the ``main`` method.
 
-The last thing left to do is to add the subtarget to the dependencies:
+Finally, add the new subtarget to the ``build`` target's dependencies:
 
 .. code-block:: xml
    :linenos:
@@ -74,15 +73,16 @@ The last thing left to do is to add the subtarget to the dependencies:
      <!--This empty target is used as the top level target. Add your app targets to the depends attribute! -->
    </target>
 
-Now the last thing left to do is build!
+The configuration is now complete.
 
-Deploy!
----------
-Now let's deploy our app in the SDK. This process is pretty straight forward.
-First, build your app by going into its root folder and calling ``mvn install``. 
-Then, build the SDK execution environment by opening a console in the ``sdk/sdk-execution-environment`` folder and calling ``mvn install``.
+Deployment
+----------
+To deploy the app into the SDK:
 
-That's it, our app's start scripts and properties are now residing in ``sdk/sdk-execution-environment/target/nmf-sdk-XX.Y/home/sobel``.
+1. Build the app by running ``mvn install`` from its root directory.
+2. Build the SDK execution environment by running ``mvn install`` from the ``sdk/sdk-execution-environment`` directory.
 
-You can now go ahead and start the NMF supervisor with simulator, start the CTT, connect to the supervisor, start your app, connect to your app and take some nice pictures!
+The start scripts and property files for the app will then reside in ``sdk/sdk-execution-environment/target/nmf-sdk-XX.Y/home/sobel``.
+
+The NMF Supervisor with simulator and the CTT can now be started, the Supervisor connected to, and the app launched and tested.
 

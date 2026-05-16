@@ -5,63 +5,63 @@ MP Services Demo
 .. contents:: Table of contents
     :local:
 
-The MP services demo uses three applications, that can be started from different shells:
+The MP services demo consists of three applications, each launched from a separate shell:
 
-- MPSpaceDemo
-- MPGroundDemo
-- CTT
+- ``MPSpaceDemo``
+- ``MPGroundDemo``
+- ``CTT``
 
-*MPSpaceDemo* is an App in space segment, it provides MP services.
+``MPSpaceDemo`` is an app in the space segment that provides MP services.
 
-*MPGroundDemo* is an App in ground segment, it connects to and configures MPSpaceDemo with MP definitions, such as requests and activities.
+``MPGroundDemo`` is an app in the ground segment that connects to ``MPSpaceDemo`` and configures it with MP definitions, such as requests and activities.
 
-*CTT* is Consumer Test Tool, it connects to MP services provided by MPSpaceDemo.
+``CTT`` is the Consumer Test Tool; it connects to the MP services exposed by ``MPSpaceDemo``.
 
-*<nmf_src>* is the root of NMF installation.
+``<nmf_src>`` refers to the root of the NMF installation throughout this guide.
 
-In case you need to build the source, use the following commands:
+To build the source if required:
 
 	$ cd <nmf_src>
 
 	$ mvn clean install
 
-Start MPSpaceDemo
------------------
+Starting MPSpaceDemo
+--------------------
 	$ cd <nmf_src>/sdk/sdk-execution-environment/target/nmf-sdk-XX.Y/home/mp-demo
 
 	$ ./start_mp_space_demo.sh
 
-Start CTT
----------
+Starting the CTT
+----------------
 
 	$ cd <nmf_src>/sdk/sdk-execution-environment/target/nmf-sdk-XX.Y/home/nmf/consumer-test-tool
 
 	$ ./consumer-test-tool.sh
 
-Connect CTT to MPSpaceDemo. Press the “Fetch Infromation” button. The “App: mp-demo” lists services in a table. There are the four MP services. MPSpaceDemo does not implement any MC services.
+Connect the CTT to ``MPSpaceDemo`` and click **Fetch Information**. The ``App: mp-demo`` entry will list the four MP services in a table. ``MPSpaceDemo`` does not implement any MC services.
 
-In CTT press the “Connect to Selected Provider” button. An “App: mp-demo” tab opens.
+In the CTT, click **Connect to Selected Provider**. An ``App: mp-demo`` tab will open.
 
-Go to “Plan Distribution service” tab. MPSpaceDemo created an empty plan. 
+Open the **Plan Distribution service** tab. ``MPSpaceDemo`` will have created an empty plan.
 
-Go to “Archive Manager” tab and press “Get All”. It shows the COM objects that were created with a new Plan (“MP – PlanDistribution:” objects).
+Open the **Archive Manager** tab and click **Get All**. The COM objects created together with the new plan (``MP - PlanDistribution:`` objects) will be displayed.
 
-Go to “Plan Information Management service” tab. Press the listRequestDefs button: there are no definitions. Similarly for listActivityDefs, etc. The Definitions will be loaded by MPGroundDemo.
+Open the **Plan Information Management service** tab. Clicking ``listRequestDefs`` will return no definitions; the same applies to ``listActivityDefs`` and the other listing operations. These definitions are populated by ``MPGroundDemo``.
 
-Start MPGroundDemo
-------------------
+Starting MPGroundDemo
+---------------------
 	$ cd <nmf_src>/sdk/sdk-execution-environment/target/nmf-sdk-XX.Y/home/mp-demo
 
-	$ ./ start_mp_ground_demo.sh
+	$ ./start_mp_ground_demo.sh
 
-MPGroundTest executes  hard-coded operation calls that configure MPSpaceDemo App with Request Templates and Activity / Event / Resource Definitions.
+``MPGroundDemo`` executes a set of predefined operation calls that configure the ``MPSpaceDemo`` app with Request Templates and Activity, Event, and Resource definitions.
 
-In CTT
-------
-On “Plan Information Management service” tab press listRequestDefs. A Request definition appears, that was added by MPGroundDemo. Its Definition ID is “1”. Similarly for listActivityDefs, etc.
+In the CTT
+----------
+On the **Plan Information Management service** tab, clicking ``listRequestDefs`` will now return a Request definition with ID ``1``, added by ``MPGroundDemo``. The other listing operations return their corresponding definitions.
 
-Go to “Planning Request service” tab. Press submitPlanningRequest. An “Identifier” box opens. Identifier is the first argument in submitRequest operation. Click Submit. RequestVersionDetails box opens, it is the second argument of submitRequest. Make sure the “template” is “1”, it is the RequestTemplate from Plan Information Management service (listRequestDefs). Click Submit.  The added Request shows in the table.
+On the **Planning Request service** tab, clicking ``submitPlanningRequest`` opens an ``Identifier`` dialog, which is the first argument of the ``submitRequest`` operation. After submitting it, a ``RequestVersionDetails`` dialog opens for the second argument; ensure that ``template`` is set to ``1``, which corresponds to the Request Template registered through the Plan Information Management service (``listRequestDefs``). After submission, the new request will appear in the table.
 
-The “Archive Manager” tab (press “Get All”) shows PlanningReqeust COM objects that were created as part of submitRequest.
+On the **Archive Manager** tab, clicking **Get All** will display the ``PlanningRequest`` COM objects created as part of ``submitRequest``.
 
-The “Event Service” tabs show the events fired by COM Archive. Look for the Planning Request events at the end of table. The configuration object RequestVersionToRequestStatusUpdate is updated, but in COM Archive it is implmemented as ObjectDeleted and ObjectStored.
+The **Event Service** tabs display the events emitted by the COM Archive. The Planning Request events appear at the end of the table. The ``RequestVersionToRequestStatusUpdate`` configuration object is updated, which is realised in the COM Archive as ``ObjectDeleted`` and ``ObjectStored`` events.

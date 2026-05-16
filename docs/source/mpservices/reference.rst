@@ -5,37 +5,35 @@ MP Services Reference
 .. contents:: Table of contents
     :local:
 
-This section describes how to access MP services documentation.
+This section describes how to access the documentation for the MP services.
 
 MOWebViewer
 -----------
-There is an online tool for browsing MO services:
+An online tool is available for browsing the MO services:
 
 https://esa.github.io/mo.viewer.web/
 
-It is a graphical MMI for browsing MO service specs (XMLs) and it shows mature MO services.
+MOWebViewer provides a graphical interface for inspecting MO service specifications (XML files) and currently displays the mature MO services.
 
-In order to show the MP services (a WIP) you need to clone the MOWebViewer.
+To inspect the MP services, which are still a work in progress, a local clone of MOWebViewer is required.
 
-MOWebViewer - MP
------------------
-Clone from https://github.com/esa/mo.viewer.web
+MOWebViewer — MP
+----------------
+Clone https://github.com/esa/mo.viewer.web.
 
-First you need to get "ServiceDefMP-nmf.xml" from NMF source. Copy the file to "xml" folder.
+Copy the ``ServiceDefMP-nmf.xml`` file from the NMF source into the ``xml`` folder of the cloned repository.
 
-Edit config.js and add the XML path to "configServiceDefFiles".
+Edit ``config.js`` to add the path to the XML file under ``configServiceDefFiles``.
 
-Open "index.html" in a browser.
-
-You can now browse the MP services operations, data structures, and COM Objects.
+Open ``index.html`` in a browser to browse the MP service operations, data structures, and COM objects.
 
 NMF Source Code
 ---------------
-MP service default implementations may be inspected in source code:
+The default implementations of the MP services can be inspected directly in the source code:
 
-- PlanningRequestProviderServiceImpl
-- PlanInformationManagementProviderServiceImpl
-- PlanDistributionProviderServiceImpl
-- PlanEditProviderServiceImpl
+- ``PlanningRequestProviderServiceImpl``
+- ``PlanInformationManagementProviderServiceImpl``
+- ``PlanDistributionProviderServiceImpl``
+- ``PlanEditProviderServiceImpl``
 
-The source code tells the arguments used in callbacks.
+The source code is the authoritative reference for the arguments used in each callback.

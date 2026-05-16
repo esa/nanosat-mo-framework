@@ -1,5 +1,5 @@
 ===============================================
-Developing and debugging the NMF under Netbeans
+Developing and debugging the NMF under NetBeans
 ===============================================
 
 .. contents:: Table of contents
@@ -7,48 +7,47 @@ Developing and debugging the NMF under Netbeans
 
 Getting started
 ---------------
-Netbeans is a recommended IDE to use with the NMF as it definitely works out of the box.
-To import your NMF distribution into the IDE, select `File -> Open Project` and select the NMF
-root directory that you cloned from GitHub. Netbeans will now import all Maven subprojects into the Netbeans workspace.
+NetBeans is the recommended IDE for working with the NMF, as it operates reliably out of the box.
+To import the NMF distribution, select `File -> Open Project` and choose the NMF root directory cloned from GitHub. NetBeans will then import all Maven subprojects into the workspace.
 
-Setting up the supervisor with simulator
+Setting up the Supervisor with simulator
 ----------------------------------------
-Right click the project **ESA NMF Core Composite - NanoSat MO Supervisor** and select the option **Properties**.
-In the options **Run** enter the path to the supervisor simulator environment (by default at **sdk/sdk-execution-environment/target/nmf-sdk-XX.Y/home/nmf/nanosat-mo-supervisor-sim**). Then add the following line under VM Options and save the configuration.
+Right-click the project **ESA NMF Core Composite - NanoSat MO Supervisor** and select **Properties**.
+Under **Run**, set the path to the Supervisor simulator environment (by default, **sdk/sdk-execution-environment/target/nmf-sdk-XX.Y/home/nmf/nanosat-mo-supervisor-sim**). Add the following line under VM Options, then save the configuration:
 
 :code:`-Dnmf.platform.impl=esa.mo.platform.impl.util.PlatformServicesProviderSoftSim`
 
 Setting up the CTT
 ------------------
-Right click the project **ESA NMF SDK Tool - Consumer Test Tool (CTT)** and select the option **Properties**.
-In the options **Run** enter the path to the CTT execution environment (by default at **sdk/sdk-execution-environment/target/nmf-sdk-XX.Y/home/nmf/consumer-test-tool**) and save the configuration.
+Right-click the project **ESA NMF SDK Tool - Consumer Test Tool (CTT)** and select **Properties**.
+Under **Run**, set the path to the CTT execution environment (by default, **sdk/sdk-execution-environment/target/nmf-sdk-XX.Y/home/nmf/consumer-test-tool**) and save the configuration.
 
-You are now able to start the supervisor with simulator and the CTT from NetBeans by right-clicking the respective project and selecting **Run**.
-You can now look at :doc:`apps/apps`.
+The Supervisor with simulator and the CTT can now be started from NetBeans by right-clicking the corresponding project and selecting **Run**.
+Proceed to :doc:`apps/apps` to continue.
 
 
 NMF Space Apps
-------------------
+--------------
 
-Set the working directory of the application to a newly created directory containing:
+Set the application's working directory to a newly created directory containing:
 
-- provider.properties file (available in [sdk-execution-environment space-app-root](sdk-execution-environment/src/main/resources/space-app-root) directory)
-- settings.properties and transport.properties files (available in [sdk-execution-environment space-common](sdk-execution-environment/src/main/resources/space-common) directory)
+- ``provider.properties`` (available in the `sdk-execution-environment/src/main/resources/space-app-root` directory)
+- ``settings.properties`` and ``transport.properties`` (available in the `sdk-execution-environment/src/main/resources/space-common` directory)
 
-The above files are also deployed into all home directories of Space Apps inside the assembled SDK execution environment.
+These files are also deployed into the home directories of every Space App inside the assembled SDK execution environment.
 
-Specify the URI of a running Supervisor's Directory Service, so the app can connect to it and consume Platform Services provided by the Supervisor:
+To allow the app to connect to a running Supervisor and consume the Platform Services it provides, specify the URI of the Supervisor's Directory Service:
 
-- In Netbeans, Right Click on a project (e.g. 'ESA NMF SDK App Example - All MC services')->Properties->Run, and set the VM Options to:
+- In NetBeans, right-click the project (for example, 'ESA NMF SDK App Example - All MC services') and select `Properties -> Run`. Set the VM Options to:
 - :code:`-Desa.mo.nmf.centralDirectoryURI=<Directory_Service_URI>`
-- e.g. :code:`-Desa.mo.nmf.centralDirectoryURI=maltcp://123.123.123.123:1024/nanosat-mo-supervisor-Directory`
+- For example: :code:`-Desa.mo.nmf.centralDirectoryURI=maltcp://123.123.123.123:1024/nanosat-mo-supervisor-Directory`
 
 NMF Ground Applications
-------------------------
+-----------------------
 
-Set the working directory of the application to a newly created directory containing:
+Set the application's working directory to a newly created directory containing:
 
-- consumer.properties file (available in [sdk-execution-environment ground-consumer-root](sdk-execution-environment/src/main/resources/ground-consumer-root) directory)
-- providerURIs.properties file (generated by a running provider application)
+- ``consumer.properties`` (available in the `sdk-execution-environment/src/main/resources/ground-consumer-root` directory)
+- ``providerURIs.properties`` (generated by a running provider application)
 
-The providerURIs.properties file is not needed by CTT as it retrieves these from Common::Directory service using its URI, input by the user.
+The ``providerURIs.properties`` file is not required by the CTT, which retrieves the provider URIs from the Common::Directory service using the URI supplied by the user.

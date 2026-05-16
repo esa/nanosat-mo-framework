@@ -9,65 +9,62 @@ Testing your app in an OPS-SAT-like environment
    The `NMF Mission OPS-SAT repository <https://github.com/esa/nmf-mission-ops-sat>`_ may no longer be actively maintained.
    The instructions below are kept for reference but may be outdated.
 
-Testing your app with the NMF SDK is the fastest way to confirm if all functional features work.
-However, there might be some problems with respect to the behaviour on a real satellite with a space link between your ground software (CTT during development) and your app.
-To find these problems early on, it is recommended to test your app in a semi-authentic test setup.
+Testing an app with the NMF SDK is the fastest way to confirm that its functional features behave as expected.
+However, certain issues may only manifest on a real satellite, where a space link connects the ground software (the CTT during development) to the app.
+To detect such issues early, it is recommended to test the app in a semi-authentic environment.
 
-Getting Ground MO Proxy for OPS-SAT
------------------------------------
-Ground MO Proxy is an application running in the ground segment during operation of the nanosatellite.
-Its main purpose is to transform MALTCP packets (which you send over your network) into MALSPP packets which can be sent over a space link.
-Apart from that, the Ground MO Proxy provides a directory service which is synchronized to the one of the supervisors on the satellite.
-The easy way to imagine it is: It takes your requests to the apps, forwards them to the spacecraft and from there, they are distributed accordingly.
+Obtaining the Ground MO Proxy for OPS-SAT
+-----------------------------------------
+The Ground MO Proxy is an application that runs in the ground segment during nanosatellite operations.
+Its main purpose is to translate MALTCP packets (sent over the local network) into MALSPP packets, which can be transmitted over the space link.
+The Ground MO Proxy also provides a Directory Service that is synchronised with the one exposed by the on-board Supervisors.
+In summary, the Ground MO Proxy receives requests destined for the on-board apps, forwards them to the spacecraft, and routes them to the appropriate destination.
 
-If you followed the previous chapter and already packaged your app for deployment on OPS-SAT, you already are in possession of the code for the Ground MO Proxy for OPS-SAT.
-You just need to enter the root directory of the ``nmf-mission-opssat`` repository (make sure you checked out the latest version branch, e.g. ``v5.0``) and run ``mvn install -Pground``.
-This will add two more things to your ``home/nmf/`` folder in ``opssat-package/nmf/target/nmf-ops-sat-VERSION/``.
-The supervisor with simulator with which you are already familiar from the SDK and the Ground MO Proxy for OPS-SAT.
+If the previous chapter has been followed and the app is already packaged for deployment on OPS-SAT, the Ground MO Proxy source code is already available locally.
+From the root of the ``nmf-mission-opssat`` repository (with the latest version branch checked out, e.g. ``v5.0``), run ``mvn install -Pground``.
+This adds two components to the ``home/nmf/`` directory under ``opssat-package/nmf/target/nmf-ops-sat-VERSION/``: the Supervisor with simulator (already familiar from the SDK) and the Ground MO Proxy for OPS-SAT.
 
-Preparing the folders for tests
--------------------------------
-By default your app and the NMF are packaged separately. The reason for this is that your app and the NMF will never be installed together, so it makes no sense to make the packages unnecessarily large.
-To make the OPS-SAT NMF supervisor find your app, you should put it into ``opssat-package/nmf/target/home/expXYZ/`` where you replace XYZ with your experimenter ID.
-You can copy this folder from ``opssat-package/experiment/target/experiment-package/home/``.
+Preparing the test directories
+------------------------------
+By default, the app and the NMF are packaged separately, because the two are never installed together; this avoids producing unnecessarily large packages.
+To make the OPS-SAT NMF Supervisor discover the app, place it into ``opssat-package/nmf/target/home/expXYZ/``, where ``XYZ`` is replaced with the experimenter ID.
+This folder can be copied from ``opssat-package/experiment/target/experiment-package/home/``.
 
-Note that by default the application's ``provider.properties`` will contain property ``helpertools.configurations.provider.app.user``.
-For stand-alone tests it is recommended to remove it, unless necessary users are created in the testing system.
-Note that when packaging for the satellite EM FlatSat and FM Flight Model this property has to be present.
+By default, the app's ``provider.properties`` contains the ``helpertools.configurations.provider.app.user`` property.
+For stand-alone testing, this property should be removed unless the corresponding users have been created in the test system.
+For packaging targeting the satellite EM FlatSat or FM Flight Model, the property must be present.
 
-Starting tests
---------------
-Now that we are set up, it is time to start testing. This section covers the general startup and how to connect your app.
+Running tests
+-------------
+With the environment prepared, testing can begin. This section describes the standard startup procedure and how to connect to the app.
 
 Starting the NMF
 """"""""""""""""
-The first thing you should do is start the Ground MO Proxy.
-For this, open a shell in the folder ``opssat-package/nmf/target/nmf-ops-sat-VERSION/home/nmf/ground-mo-proxy`` and execute the ``ground-mo-proxy.sh`` script.
-The warning stating that we should check the link to the spacecraft is completely natural at this point, since we did not start the supervisor yet. Therefore, there is no one the Ground MO Proxy could synchronize with.
-The next thing to do is to start the supervisor. You should wait with this step until the Ground MO Proxy started its directory service.
-This is important, as we will not be able to connect to the Ground MO Proxy through the CTT/EUD4MO as long as the directory service is not initialized properly.
-You can see that the directory service is ready when you can spot a URI of the form ``maltcp://some.ip.right.here:somePort/ground-mo-proxy-Directory``.
+First, start the Ground MO Proxy.
+Open a shell in ``opssat-package/nmf/target/nmf-ops-sat-VERSION/home/nmf/ground-mo-proxy`` and execute the ``ground-mo-proxy.sh`` script.
+The warning regarding the link to the spacecraft is expected at this stage, as the Supervisor has not yet been started and the Ground MO Proxy therefore has nothing to synchronise with.
+Next, start the Supervisor — but only after the Ground MO Proxy's Directory Service has been initialised, since the CTT (or EUD4MO) cannot connect to the Ground MO Proxy until then.
+The Directory Service is ready when a URI of the form ``maltcp://<host>:<port>/ground-mo-proxy-Directory`` is printed.
 
-Note that the CTT built together with the SDK is universal and does not have to come in mission flavor (as long as there is a Ground MO Proxy in between).
+The CTT distributed with the SDK is universal and does not need a mission-specific variant, provided that a Ground MO Proxy is in place.
 
-We have two choices concerning the start of the supervisor:
+Two Supervisor configurations are available:
 
-* If you want to check if your app starts up and you can set some parameters, the OPS-SAT supervisor is fine and will save you a lot of time. Although note that it will fail to initialise payload interfaces and thus platform services will not be functional. The OPS-SAT supervisor path is ``opssat-package/nmf/target/nmf-ops-sat-VERSION/home/nmf/supervisor/``
-* If you want to test your app with the platform services, you can start the OPS-SAT hybrid supervisor with simulator.
-  The supervisor with simulator takes significantly more time to startup since it has to initialize the Orekit library which is used for orbit and attitude propagation.
-  The OPS-SAT supervisor with simulator path is ``opssat-package/nmf/target/nmf-ops-sat-VERSION/home/nmf/supervisor-sim/``
-* In order to configure the hybrid simulator, you can modify the ``platformsim.properties`` file in the supervisor-sim workdir.
-  Each of the adapters can be configured to either use a real or a simulated payload implementation. Look into the file for more configuration options.
+* For verifying that the app starts and that parameters can be set, the standard OPS-SAT Supervisor is sufficient and faster. Note, however, that it does not initialise the payload interfaces, and the Platform services will therefore be non-functional. The OPS-SAT Supervisor path is ``opssat-package/nmf/target/nmf-ops-sat-VERSION/home/nmf/supervisor/``.
+* To exercise the Platform services, start the OPS-SAT hybrid Supervisor with simulator.
+  The Supervisor with simulator takes significantly longer to start, as it must initialise the Orekit library used for orbit and attitude propagation.
+  The OPS-SAT Supervisor with simulator path is ``opssat-package/nmf/target/nmf-ops-sat-VERSION/home/nmf/supervisor-sim/``.
+* The hybrid simulator can be configured by editing ``platformsim.properties`` in the ``supervisor-sim`` working directory. Each adapter can be configured to use either a real or a simulated payload implementation; additional configuration options are documented in the file.
 
-Starting and connecting to your app
-"""""""""""""""""""""""""""""""""""
-Now that the supervisor and Ground MO Proxy are running, you are able to connect to the Ground MO Proxy directory service by starting the CTT and entering the Ground MO Proxy directory service URI in the ``Communication Settings`` tab.
-After that you can connect to the supervisor which will show up in the ``Providers List``.
-Now the final steps are identical to the testing of your app in the SDK. Visit the ``Application Launcher`` tab in the supervisor and start your app.
-Now you can revisit the ``Communication Settings`` tab and ``Fetch Information``. Your app should now also show up in the ``Providers List``.
+Starting and connecting to the app
+""""""""""""""""""""""""""""""""""
+With both the Supervisor and the Ground MO Proxy running, the CTT can be started and pointed at the Ground MO Proxy by entering its Directory Service URI in the ``Communication Settings`` tab.
+The Supervisor will then appear in the ``Providers List`` and can be connected to.
+The subsequent steps mirror those used for testing in the SDK: open the ``Application Launcher`` tab in the Supervisor and start the app.
+Return to the ``Communication Settings`` tab and click ``Fetch Information``; the app will now appear in the ``Providers List``.
 
 .. note::
 
-   The Ground MO Proxy might take a moment to synchronize its directory entries with the supervisor. If the app does not show up immediately after clicking the "Fetch Information" button wait 10 seconds and try again.
+   The Ground MO Proxy may take a short time to synchronise its Directory entries with the Supervisor. If the app does not appear immediately after clicking ``Fetch Information``, wait approximately ten seconds and retry.
 
-After connecting to your app, you are free to test your app like you did with the SDK.
+Once connected, the app can be tested using the same procedure as in the SDK.

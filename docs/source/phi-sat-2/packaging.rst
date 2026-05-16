@@ -1,16 +1,15 @@
-=================================
-Generate your NMF Package for ɸ-Sat-2
-=================================
+=====================================
+Generating an NMF Package for ɸ-Sat-2
+=====================================
 
 .. contents:: Table of contents
     :local:
 
-Now that you finished implementing your NMF app, you want to generate an NMF Package to distribute your App.
-In order to do that, you will need to add the nmf-package-maven-plugin to your project and compile it!
+Once an NMF app has been implemented, it can be distributed as an NMF Package by adding the ``nmf-package-maven-plugin`` to the project and rebuilding it.
 
 Step 1: Add the plugin to the project
---------------------------
-Add the following profile to your project (you can copy-paste directly from here):
+-------------------------------------
+Add the following profile to the project's ``pom.xml``:
 
 .. code-block:: xml
    :linenos:
@@ -45,12 +44,14 @@ Add the following profile to your project (you can copy-paste directly from here
     </profiles>
 
 Step 2: Configure the plugin
---------------------------
-Modify the ``<mainClass>entry-point</mainClass>`` configuration to the entry point of your App (example: esa.mo.nmf.apps.EdgeAIApp).
-Also, add or remove any additional files/folders that you want to be bundled with your NMF Package by changing the ``<libs>`` section of the plugin as presented above.
+----------------------------
+Set the ``<mainClass>`` element to the fully qualified name of the app's entry point (for example, ``esa.mo.nmf.apps.EdgeAIApp``).
+Add or remove entries in the ``<libs>`` section to control which additional files or folders are bundled into the NMF Package.
 
 Step 3: Generate the NMF Package
---------------------------
-Build your project with: ``mvn clean install –Pgenerate-nmf-package``
+--------------------------------
+Build the project with:
 
-Your NMF Package will be in the target folder, please check if it is there!
+``mvn clean install -Pgenerate-nmf-package``
+
+The generated NMF Package will be located in the project's ``target/`` directory.
