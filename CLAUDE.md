@@ -116,7 +116,7 @@ The assembled SDK is produced in `sdk/sdk-execution-environment/target/nmf-sdk-5
 
 1. Start the Supervisor Simulator (provides platform services and app lifecycle management):
    ```
-   sdk/sdk-execution-environment/target/nmf-sdk-5.0-SNAPSHOT/bin/space/nanosat-mo-supervisor-sim/nanosat-mo-supervisor-sim.sh
+   sdk/sdk-execution-environment/target/nmf-sdk-5.0-SNAPSHOT/home/nmf/nanosat-mo-supervisor-sim/nanosat-mo-supervisor-sim.sh
    ```
 2. Start the Consumer Test Tool (GUI):
    ```
@@ -143,7 +143,15 @@ Service XML definitions in `core/mo-services-xml/` are the authoritative source;
 
 ## NMF Package System
 
-Space apps are deployed as `.nmfpackage` files built by the `nmf-package-maven-plugin`. The Supervisor's `PackageManagement` service installs/uninstalls these. The `nmf-linux-maven-plugin` generates the Linux filesystem layout and `fresh_install.sh` for initial deployment to hardware.
+Space apps are deployed as `.nmfpackage` files (ZIP archives) built by the `nmf-package-maven-plugin`. The Supervisor's `PackageManagement` service installs/uninstalls them and verifies their integrity via the CRC checksums in the bundled `package-metadata.properties`. Six package types are supported (`app`, `dependency`, `java`, `mission`, `nmf`, `delta`); most code deals with `app`. The `nmf-linux-maven-plugin` generates the Linux filesystem layout and `fresh_install.sh` for initial hardware deployment; it is being extended to also generate the project structure for new mission integrations.
+
+## Architectural patterns
+
+**App chaining** (also called "Cascading NMF Apps" in earlier documentation): apps consume each other's services so that one app's output drives the next's behaviour. Used on ɸ-Sat-2 to split image processing across two apps — a first app classified image tiles as cloudy or clear, and a second app processed only the clear ones. Implemented via `SpaceMOAdapterImpl.forNMFApp(directoryURI, peerAppName)` from inside an app.
+
+## Documentation Structure
+
+Sphinx docs under `docs/source/` are organised into nine sections: `quickstart/`, `concepts/`, `app-development/` (with `platform-services/` subtree), `ground-development/`, `mission-integration/`, `tooling/`, `reference/`, `background/`, `removed-features/`. The MO service XML in `core/mo-services-xml/` is the source of truth referenced from both the Concepts and Reference sections.
 
 ## Environment
 
