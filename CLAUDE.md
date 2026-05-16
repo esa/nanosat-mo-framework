@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-The NanoSat MO Framework (NMF) is a Java software framework for small satellites based on CCSDS Mission Operations (MO) services. It enables apps running on a spacecraft to be started/stopped from the ground and to expose telemetry and commands via standardized MO services (Monitor & Control, Platform, COM).
+The NanoSat MO Framework (NMF) is a Java software framework for small satellites based on CCSDS Mission Operations (MO) services. It enables apps running on a spacecraft to be started/stopped from the ground and to expose telemetry and commands via standardized MO services (Monitor & Control, Platform, COM, Software Management).
 
 - **Documentation**: https://nanosat-mo-framework.readthedocs.io/en/latest/
 - **Version**: 5.0-SNAPSHOT (`int.esa.nmf` group ID)
@@ -45,8 +45,8 @@ parent/                     # Parent POM with dependency management
 core/
   nmf-environment/          # Helper utilities (clock, misc)
   mo-services-xml/          # CCSDS MO XML service definitions (source of truth for APIs)
-  mo-services-apis/         # Generated API jars: api-nmf-com, api-nmf-common,
-                            #   api-nmf-mc, api-nmf-sm, api-nmf-platform
+  mo-services-apis/         # Generated API jars: api-nmf-com, api-nmf-mc,
+                            #   api-nmf-sm, api-nmf-platform
   mo-services-impl/         # Service implementations: nmf-services-com,
                             #   nmf-services-mc, nmf-services-sm, nmf-services-platform-generic
   nmf-package-lib/          # NMF package management (install/uninstall apps on satellite)
@@ -81,7 +81,9 @@ This module defines the main abstractions that space apps and missions use:
 
 A space app creates a `NanoSatMOConnectorImpl`, initialises it with an MC adapter, and lets the Supervisor manage its lifecycle.
 
-**Simple API** — extend `SimpleMonitorAndControlAdapter`:
+Two equivalent APIs are available; pick either based on style.
+
+**Simple (listener) API** — extend `SimpleMonitorAndControlAdapter`; explicit method dispatch, no reflection:
 ```java
 public class MyApp {
     private final NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
@@ -97,7 +99,7 @@ public class MyApp {
 }
 ```
 
-**Annotation API** (newer, preferred for new code) — extend `MonitorAndControlNMFAdapter` and annotate fields/methods:
+**Annotation API** — extend `MonitorAndControlNMFAdapter` and annotate fields/methods (registration scans annotations via reflection):
 ```java
 @Parameter(description = "Sensor reading", rawUnit = "µT", reportIntervalSeconds = 2, readOnly = true)
 Float sensorValue = 0.0f;
@@ -127,12 +129,15 @@ The assembled SDK is produced in `sdk/sdk-execution-environment/target/nmf-sdk-5
 
 ```
 CCSDS MAL (transport/encoding)
-  └─ COM (Common Object Model: Archive, Event, Activity Tracking)
-       ├─ MC (Monitor & Control: Parameter, Action, Aggregation, Alert)
-       ├─ Common (Directory, Configuration, Login)
-       ├─ Platform (GPS, Camera, AutonomousADCS, Magnetometer, Power, ...)
-       └─ SoftwareManagement (AppsLauncher, PackageManagement, CommandExecutor)
+  └─ COM (Event, Archive, ArchiveSync, Directory, Login, Configuration)
+       ├─ MC (Parameter, Action, Aggregation, Alert, Conversion)
+       ├─ Platform (Camera, GPS, AutonomousADCS, SoftwareDefinedRadio,
+       │            OpticalDataReceiver, PowerControl, Clock,
+       │            ArtificialIntelligence)
+       └─ SM (AppsLauncher, PackageManagement, Heartbeat, CommandExecutor)
 ```
+
+Note: the previously separate "Common" area (Directory, Configuration, Login) has been folded into COM. `Configuration` and `Login` are defined in XML; only `Login` has a consumer-side implementation today, and configuration persistence lives in `esa.mo.reconfigurable.provider.PersistProviderConfiguration` rather than a `ConfigurationProviderServiceImpl`.
 
 Service XML definitions in `core/mo-services-xml/` are the authoritative source; the API JARs in `mo-services-apis/` are generated from them. When CCSDS MO service versions change, update the XML first.
 
