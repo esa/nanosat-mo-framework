@@ -23,7 +23,7 @@ You can also just click through the different pages to see what we can offer.
    simulator/simulator
    opssat/opssat
    phi-sat-2/phi-sat-2
-   javadoc/packages
+   nmf-packages
    mpservices/mp
    cli-tool
 
