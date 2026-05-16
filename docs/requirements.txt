@@ -1,2 +1,4 @@
 sphinx==2.1.0
 javasphinx
+sphinxcontrib-mermaid
+sphinx-tabs

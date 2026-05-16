@@ -72,7 +72,7 @@ This module defines the main abstractions that space apps and missions use:
 | `NMFInterface` | Core interface for NMF providers; exposes `getCOMServices()`, `getMCServices()`, `getPlatformServices()` |
 | `NanoSatMOConnectorImpl` | Space app connector — connects to the Supervisor for platform/SM services |
 | `NanoSatMOSupervisor` | Runs on the satellite; manages the lifecycle of apps (start/stop) via `AppsLauncher` service |
-| `NanoSatMOMonolithic` | Combines Supervisor + Connector in one process (used by the simulator for standalone apps) |
+| `NanoSatMOMonolithic` | Self-contained provider composite (extends `NMFProvider`) for single-process deployments. **Not an NMF App** — used for standalone demos and tests; does not run under an Apps Launcher and does not coexist with other apps. |
 | `SpaceMOAdapterImpl` | Higher-level adapter for the space side |
 | `GroundMOAdapterImpl` | Higher-level adapter for the ground side |
 | `GroundMOProxy` | Protocol bridge between ground and space networks |
