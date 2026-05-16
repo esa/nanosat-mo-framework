@@ -93,6 +93,9 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
 
     public synchronized int getSelectedRow() {
         int index = table.getSelectedRow();
+        if (index == -1) {
+            return -1;
+        }
         return table.getRowSorter().convertRowIndexToModel(index);
     }
 

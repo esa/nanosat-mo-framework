@@ -108,8 +108,9 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel {
 
     private void refreshOutputBufferWindow(Long justUpdatedObjId) {
         // If there is a concrete row selected...
-        if (recentCommandsTable.getSelectedRow() != -1) {
-            final Long objId = recentCommandsTable.getCOMObjects().get(recentCommandsTable.getSelectedRow())
+        int selectedRow = recentCommandsTable.getSelectedRow();
+        if (selectedRow != -1) {
+            final Long objId = recentCommandsTable.getCOMObjects().get(selectedRow)
                     .getArchiveDetails().getInstId();
             if (justUpdatedObjId != null && !justUpdatedObjId.equals(objId)) {
                 return;

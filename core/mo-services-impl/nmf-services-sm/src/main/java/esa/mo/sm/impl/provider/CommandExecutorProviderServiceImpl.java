@@ -190,8 +190,6 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
         URI sourceURI = connection.getPrimaryConnectionDetails().getProviderURI();
         ObjectId source = new ObjectId(CommandExecutorServiceInfo.COMMAND_OBJECT_TYPE, domain, objId);
         Element eventBody = new Union(exitCode);
-        IntegerList eventBodyList = new IntegerList(1);
-        eventBodyList.add(exitCode);
         final Long eventObjId = eventService.generateAndStoreEvent(
                 CommandExecutorServiceInfo.EXECUTIONFINISHED_OBJECT_TYPE,
                 domain, eventBody, null, source,
@@ -200,7 +198,7 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
             try {
                 eventService.publishEvent(sourceURI, eventObjId,
                         CommandExecutorServiceInfo.EXECUTIONFINISHED_OBJECT_TYPE,
-                        null, source, eventBodyList);
+                        null, source, eventBody);
             } catch (IOException ex) {
                 LOGGER.log(Level.SEVERE, "Could not publish command exit event", ex);
             }
