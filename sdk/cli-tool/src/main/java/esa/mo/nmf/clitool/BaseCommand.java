@@ -319,14 +319,14 @@ public abstract class BaseCommand {
     }
 
     /**
-     * Search a COM archive provider content to find the ObjectId of an App of
+     * Search a COM archive provider content to find the ObjectKey of an App of
      * the CommandExecutor service of the SoftwareManagement.
      *
      * @param appName Name of the NMF app we want the logs for
      * @param domain Restricts the search to objects in a specific domain ID
-     * @return the ObjectId of the found App or null if not found
+     * @return the ObjectKey of the found App or null if not found
      */
-    public static ObjectId getAppObjectId(String appName, IdentifierList domain) {
+    public static ObjectKey getAppObjectId(String appName, IdentifierList domain) {
         // SoftwareManagement.AppsLaunch.App object type
         ObjectType appType = new ObjectType(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NUMBER,
                 AppsLauncherServiceInfo.APPSLAUNCHER_SERVICE_NUMBER, new UOctet((short) 0),

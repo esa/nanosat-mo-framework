@@ -40,7 +40,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import org.ccsds.moims.mo.com.COMObject;
-import org.ccsds.moims.mo.com.structures.ObjectId;
+import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
@@ -179,7 +179,7 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
             return null;
         }
 
-        ObjectId source = comObjects.get(0).getArchiveDetails().getLinks().getSource();
+        ObjectKey source = comObjects.get(0).getArchiveDetails().getLinks().getSource();
         return HelperArchive.getArchiveCOMObject(
                 archiveService,
                 source.getType(),

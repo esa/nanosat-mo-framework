@@ -271,7 +271,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
             LOGGER.log(Level.INFO, "Loading previous configurations...");
 
             // Activate the previous configuration
-            final ObjectId confId = new ObjectId(ConfigurationServiceInfo.PROVIDERCONFIGURATION_OBJECT_TYPE,
+            final ObjectKey confId = new ObjectKey(ConfigurationServiceInfo.PROVIDERCONFIGURATION_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(), DEFAULT_PROVIDER_CONFIGURATION_OBJID);
 
             super.providerConfiguration = new PersistProviderConfiguration(this, confId, comServices.getArchiveService());
@@ -321,7 +321,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
      * @param source The source of the triggering. Can be null.
      */
     @Override
-    public final void closeGracefully(final ObjectId source) {
+    public final void closeGracefully(final ObjectKey source) {
         try {
             AppShutdownGuard.start();
             long time = System.currentTimeMillis();

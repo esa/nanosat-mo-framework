@@ -168,7 +168,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
      * @return true if it was successfully published, false otherwise
      */
     private boolean publishAggregationUpdate(final Long id, final AggregationValue aVal,
-            final ObjectId source, final Time timestamp, boolean storeInCOMArchive) {
+            final ObjectKey source, final Time timestamp, boolean storeInCOMArchive) {
         try {
             synchronized (lock) {
                 if (!isRegistered) {
@@ -666,7 +666,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
      * will automatically use the System's time
      * @return Returns true if the push was successful. False otherwise.
      */
-    public Boolean pushAggregationAdhocUpdate(Identifier name, final ObjectId source, final Time timestamp) { //requirement: 3.7.2.b.b, 3.7.4.i
+    public Boolean pushAggregationAdhocUpdate(Identifier name, final ObjectKey source, final Time timestamp) { //requirement: 3.7.2.b.b, 3.7.4.i
         final Long id = manager.getId(name);
         if (id == null) {
             return false;
@@ -708,7 +708,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
      * @return Returns true if the push was successful. False otherwise.
      */
     public Boolean pushAggregationSetValue(final Long identityId, final AggregationSetValueList aSetVal,
-            final ObjectId source, final Time timestamp) { //requirement: 3.7.4.i
+            final ObjectKey source, final Time timestamp) { //requirement: 3.7.4.i
 
         //check that the given aggregationSetValueList has the right amount of entries
         final AggregationDefinition aggrDef = manager.getAggregationDefinition(identityId);
@@ -1163,7 +1163,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
             return false;
         }
 
-        ObjectIds confSetDefs = configurationObjectDetails.getConfigObjects().get(0);
+        ObjectKeys confSetDefs = configurationObjectDetails.getConfigObjects().get(0);
 
         // Confirm the objTypes
         if (!confSetDefs.getObjType().equals(AggregationServiceInfo.AGGREGATIONDEFINITION_OBJECT_TYPE)) {
@@ -1213,7 +1213,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
     @Override
     public ConfigurationSet getCurrentConfiguration() {
         // Needs the Common API here!
-        ObjectIdsList list = manager.getCurrentConfiguration(
+        ObjectKeysList list = manager.getCurrentConfiguration(
                 AggregationServiceInfo.AGGREGATIONDEFINITION_OBJECT_TYPE
         );
 

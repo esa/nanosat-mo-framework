@@ -26,7 +26,7 @@ import esa.mo.com.impl.util.HelperArchive;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.structures.ArchiveDetailsList;
-import org.ccsds.moims.mo.com.structures.ObjectId;
+import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
@@ -58,7 +58,7 @@ public final class AlertManager extends MCManager {
         return (AlertDefinition) this.getDefinition(defId);
     }
 
-    public Long add(AlertDefinition definition, ObjectId source,
+    public Long add(AlertDefinition definition, ObjectKey source,
             SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
         Long newIdPair = 0L;
         Identifier name = definition.getName();
@@ -91,7 +91,7 @@ public final class AlertManager extends MCManager {
         return newIdPair;
     }
 
-    public Long update(final Long id, final AlertDefinition definition, final ObjectId source,
+    public Long update(final Long id, final AlertDefinition definition, final ObjectKey source,
             final SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
         Long newDefId = id;
 
@@ -121,7 +121,7 @@ public final class AlertManager extends MCManager {
     }
 
     public Long setGenerationEnabled(final Long identityId, final Boolean bool,
-            final ObjectId source, final SingleConnectionDetails connectionDetails) {
+            final ObjectKey source, final SingleConnectionDetails connectionDetails) {
         // requirement: 3.3.2.5
         AlertDefinition def = this.getAlertDefinitionFromDefId(identityId);
         if (def == null) {
@@ -139,7 +139,7 @@ public final class AlertManager extends MCManager {
         return this.update(identityId, newDef, source, connectionDetails);
     }
 
-    public void setGenerationEnabledAll(final Boolean bool, final ObjectId source,
+    public void setGenerationEnabledAll(final Boolean bool, final ObjectKey source,
             final SingleConnectionDetails connectionDetails) {
         LongList identityIds = new LongList();
         identityIds.addAll(this.listAllDefinitions());

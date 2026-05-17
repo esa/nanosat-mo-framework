@@ -299,7 +299,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         List<ParameterInstance> toPublishParamInstances = new ArrayList<>();
         HeterogeneousList noPublishParamValList = new HeterogeneousList();
         LongList noPublishRelatedIds = new LongList();
-        ObjectIdList noPublishSourceIds = new ObjectIdList();
+        ObjectKeyList noPublishSourceIds = new ObjectKeyList();
         TimeList timestamps = new TimeList();
         for (int i = 0; i < newParamValues.size(); i++) {
             final Long id = rawValueList.get(i).getParameterId();
@@ -562,7 +562,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             return false;
         }
 
-        ObjectIds confSetDefs = configurationObjectDetails.getConfigObjects().get(0);
+        ObjectKeys confSetDefs = configurationObjectDetails.getConfigObjects().get(0);
 
         // Confirm the objTypes
         if (!confSetDefs.getObjType().equals(ParameterServiceInfo.PARAMETERDEFINITION_OBJECT_TYPE)) {
@@ -607,7 +607,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
     @Override
     public ConfigurationSet getCurrentConfiguration() {
-        ObjectIdsList list = manager.getCurrentConfiguration(
+        ObjectKeysList list = manager.getCurrentConfiguration(
                 ParameterServiceInfo.PARAMETERDEFINITION_OBJECT_TYPE
         );
 
@@ -773,7 +773,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
      * of true will be returned because not error happened.
      */
     public Boolean pushSingleParameterValueAttribute(final Identifier name,
-            final Attribute value, final ObjectId source, final Time timestamp) {
+            final Attribute value, final ObjectKey source, final Time timestamp) {
         final ParameterValue parameterValue = new ParameterValue(ValidityState.VALID, value, null);
         ArrayList<ParameterInstance> parameters = new ArrayList<>(1);
         parameters.add(new ParameterInstance(name, parameterValue, source, timestamp));
@@ -800,7 +800,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
      */
     @Deprecated
     public Boolean pushParameterValue(final Identifier name,
-            final ParameterValue parameterValue, final ObjectId source, final Time timestamp) {
+            final ParameterValue parameterValue, final ObjectKey source, final Time timestamp) {
         ParameterInstance instance = new ParameterInstance(name, parameterValue, source, timestamp);
         ArrayList<ParameterInstance> parameters = new ArrayList<>();
         parameters.add(instance);
@@ -916,7 +916,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             }
 
             LongList relatedIds = new LongList(outIds.size());
-            ObjectIdList sourceIds = new ObjectIdList(outIds.size());
+            ObjectKeyList sourceIds = new ObjectKeyList(outIds.size());
             TimeList timestamps = new TimeList(outIds.size());
 
             //requirement: 3.3.9.2.h all Parameter-Value objects shall have the same creation-time
@@ -924,8 +924,8 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
             for (int i = 0; i < outIds.size(); i++) {
                 relatedIds.add(outIds.get(i));
-                ObjectId sourceId = parameters.get(i).getSource();
-                sourceId = (sourceId != null) ? sourceId : new ObjectId();
+                ObjectKey sourceId = parameters.get(i).getSource();
+                sourceId = (sourceId != null) ? sourceId : new ObjectKey();
                 sourceIds.add(sourceId);
                 final Time timestamp = (parameters.get(i).getTimestamp() != null)
                         ? parameters.get(i).getTimestamp()
@@ -947,7 +947,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             }
 
             final UpdateHeaderList hdrlst = new UpdateHeaderList(parameters.size());
-            final ObjectIdList objectIdlst = new ObjectIdList(parameters.size());
+            final ObjectKeyList objectIdlst = new ObjectKeyList(parameters.size());
             final ParameterValueList pVallst = new ParameterValueList(parameters.size());
 
             for (int i = 0; i < parameterInstances.size(); i++) {

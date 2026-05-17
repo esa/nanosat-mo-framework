@@ -635,7 +635,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         public void monitorValueNotifyReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
                 org.ccsds.moims.mo.mal.structures.Identifier identifier,
                 org.ccsds.moims.mo.mal.structures.UpdateHeader updateHeader,
-                org.ccsds.moims.mo.com.structures.ObjectId objectId,
+                org.ccsds.moims.mo.com.structures.ObjectKey objectId,
                 org.ccsds.moims.mo.mc.structures.AggregationValue aggregationValue,
                 java.util.Map qosProperties) {
 

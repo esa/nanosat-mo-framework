@@ -90,7 +90,7 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationCh
             confObjsList.add(serviceImpl.getCurrentConfiguration());
 
             try {
-                archiveService.update(ConfigurationServiceInfo.CONFIGURATIONOBJECTS_OBJECT_TYPE,
+                archiveService.update(ConfigurationServiceInfo.CONFIGURATIONSET_OBJECT_TYPE,
                         ConfigurationProviderSingleton.getDomain(), details, confObjsList, null);
             } catch (MALException ex) {
                 Logger.getLogger(PersistLatestServiceConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);
@@ -112,7 +112,7 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationCh
 
             LongList objIds1 = archiveService.store(
                     true,
-                    ConfigurationServiceInfo.CONFIGURATIONOBJECTS_OBJECT_TYPE,
+                    ConfigurationServiceInfo.CONFIGURATIONSET_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(),
                     HelperArchive.generateArchiveDetailsList(null, null, new URI("")),
                     archObj1,

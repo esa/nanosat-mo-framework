@@ -43,7 +43,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.configuration.ConfigurationHelper;
 import org.ccsds.moims.mo.com.configuration.ConfigurationServiceInfo;
-import org.ccsds.moims.mo.com.structures.ObjectId;
+import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
@@ -184,7 +184,7 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
             MALContextFactory.getElementsRegistry().loadServiceAndAreaElements(ConfigurationHelper.CONFIGURATION_SERVICE);
 
             // Activate the previous configuration
-            final ObjectId confId = new ObjectId(ConfigurationServiceInfo.PROVIDERCONFIGURATION_OBJECT_TYPE,
+            final ObjectKey confId = new ObjectKey(ConfigurationServiceInfo.PROVIDERCONFIGURATION_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(),
                     DEFAULT_PROVIDER_CONFIGURATION_OBJID);
 
@@ -239,7 +239,7 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
      * @param source The source of the triggering. Can be null
      */
     @Override
-    public final void closeGracefully(final ObjectId source) {
+    public final void closeGracefully(final ObjectKey source) {
         try {
             AppShutdownGuard.start();
             long timestamp = System.currentTimeMillis();

@@ -368,7 +368,7 @@ public class MCRegistration {
      * @throws org.ccsds.moims.mo.mal.MALInteractionException if there is a
      * problem while storing the registrations in the COM Archive.
      */
-    public ObjectIdList registerConversions(ElementList conversions)
+    public ObjectKeyList registerConversions(ElementList conversions)
             throws NMFException, MALException, MALInteractionException {
         if (conversions == null) {
             throw new NMFException("The conversions object cannot be null!");
@@ -405,7 +405,7 @@ public class MCRegistration {
      * @param objType The Object Type of the conversions
      * @return The list of ObjIds of the conversion objects.
      */
-    private ObjectIdList registerConversionsGen(final ElementList conversions,
+    private ObjectKeyList registerConversionsGen(final ElementList conversions,
             final ObjectType objType) throws MALException, MALInteractionException {
         final IdentifierList domain = ConfigurationProviderSingleton.getDomain();
         final ArchiveDetailsList metadata = HelperArchive.generateArchiveDetailsList(
@@ -425,10 +425,10 @@ public class MCRegistration {
                 myList,
                 null);
 
-        ObjectIdList output = new ObjectIdList();
+        ObjectKeyList output = new ObjectKeyList();
 
         for (Long objId : conversionObjIds) {
-            output.add(new ObjectId(objType, domain, objId));
+            output.add(new ObjectKey(objType, domain, objId));
         }
 
         return output;

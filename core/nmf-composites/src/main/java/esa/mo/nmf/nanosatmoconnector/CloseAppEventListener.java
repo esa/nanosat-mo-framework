@@ -24,7 +24,7 @@ import esa.mo.com.impl.util.EventCOMObject;
 import esa.mo.com.impl.util.EventReceivedListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.structures.ObjectId;
+import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherServiceInfo;
@@ -71,7 +71,7 @@ public class CloseAppEventListener extends EventReceivedListener {
                 "New StopApp Event Received! For provider: ''{0}'' (Related link: {1})",
                 new Object[]{name.getValue(), eventCOMObject.getRelated()});
 
-        final ObjectId source = eventCOMObject.getObjectId();
+        final ObjectKey source = eventCOMObject.getObjectId();
         this.provider.closeGracefully(source);
     }
 

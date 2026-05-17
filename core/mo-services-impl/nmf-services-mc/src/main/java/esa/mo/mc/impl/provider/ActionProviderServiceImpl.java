@@ -490,7 +490,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
             return false;
         }
 
-        ObjectIds confSetDefs = configurationObjectDetails.getConfigObjects().get(0);
+        ObjectKeys confSetDefs = configurationObjectDetails.getConfigObjects().get(0);
 
         // Confirm the objTypes
         if (!confSetDefs.getObjType().equals(ActionServiceInfo.ACTIONDEFINITION_OBJECT_TYPE)) {
@@ -532,7 +532,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
     public ConfigurationSet getCurrentConfiguration() {
         // Get all the current objIds in the serviceImpl
         // Create a Configuration Object with all the objs of the provider
-        ObjectIdsList list = manager.getCurrentConfiguration(
+        ObjectKeysList list = manager.getCurrentConfiguration(
                 ActionServiceInfo.ACTIONDEFINITION_OBJECT_TYPE);
 
         // Needs the Common API here!

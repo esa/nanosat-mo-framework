@@ -25,7 +25,7 @@ import java.awt.Color;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.structures.ObjectId;
+import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
@@ -106,7 +106,7 @@ public class ParameterPublishedValues extends javax.swing.JPanel {
         @Override
         public void monitorValueNotifyReceived(final MALMessageHeader msgHeader,
                 final Identifier lIdentifier, final UpdateHeader updateHeader,
-                final ObjectId objectId, final ParameterValue parameterValue,
+                final ObjectKey objectId, final ParameterValue parameterValue,
                 final Map qosp) {
             Logger.getLogger(ParameterPublishedValues.class.getName()).log(
                     Level.FINE, "Received update parameter value!");

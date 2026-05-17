@@ -31,7 +31,7 @@ import org.ccsds.moims.mo.com.archive.consumer.ArchiveStub;
 import org.ccsds.moims.mo.com.archive.provider.ArchiveHandler;
 import org.ccsds.moims.mo.com.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.structures.ArchiveDetailsList;
-import org.ccsds.moims.mo.com.structures.ObjectId;
+import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.com.structures.ObjectLinks;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALException;
@@ -115,7 +115,7 @@ public class HelperArchive {
      * @return The ArchiveDetailsList object
      */
     public static ArchiveDetailsList generateArchiveDetailsList(final Long related,
-            final ObjectId source, final URI uri) {
+            final ObjectKey source, final URI uri) {
         return generateArchiveDetailsList(related, source, uri, 0L);
     }
 
@@ -131,7 +131,7 @@ public class HelperArchive {
      * @return The ArchiveDetailsList object
      */
     public static ArchiveDetailsList generateArchiveDetailsList(final Long related,
-            final ObjectId source, final URI uri, final Long objId) {
+            final ObjectKey source, final URI uri, final Long objId) {
         final Identifier network = ConfigurationProviderSingleton.getNetwork();
         final ArchiveDetails archiveDetails = new ArchiveDetails(objId,
                 new ObjectLinks(related, source),

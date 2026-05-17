@@ -31,7 +31,7 @@ import javax.swing.JOptionPane;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
 import org.ccsds.moims.mo.com.event.consumer.EventAdapter;
 import org.ccsds.moims.mo.com.structures.ArchiveDetailsList;
-import org.ccsds.moims.mo.com.structures.ObjectId;
+import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MOErrorException;
@@ -449,7 +449,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
                 java.util.Map qosProperties) {
             // Does the objId received matches the one that we originally sent to the service?
             if (originalObjId.equals(eventLinks.getSource().getInstId())) {
-                ObjectId obj = eventLinks.getSource();
+                ObjectKey obj = eventLinks.getSource();
                 updateAppStatus(obj.getInstId(), "Running", "Failed to start!");
             }
         }

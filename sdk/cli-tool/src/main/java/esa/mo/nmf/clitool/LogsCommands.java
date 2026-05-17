@@ -27,7 +27,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.structures.ArchiveQuery;
 import org.ccsds.moims.mo.com.structures.ArchiveQueryList;
-import org.ccsds.moims.mo.com.structures.ObjectId;
+import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperDomain;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
@@ -173,7 +173,7 @@ public class LogsCommands {
             }
             // Query archive for the App object id
             IdentifierList domain = domainId == null ? null : HelperDomain.domainId2domain(domainId);
-            ObjectId appObjectId = getAppObjectId(appName, domain);
+            ObjectKey appObjectId = getAppObjectId(appName, domain);
 
             if (appObjectId == null) {
                 if (databaseFile == null) {

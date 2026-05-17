@@ -26,7 +26,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
 import org.ccsds.moims.mo.com.structures.ArchiveDetailsList;
-import org.ccsds.moims.mo.com.structures.ObjectId;
+import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
@@ -52,9 +52,9 @@ public class ArchiveToAppAdapter extends ArchiveAdapter implements QueryStatusPr
     private String appName;
 
     /**
-     * ObjectId of the found App or null if not found after the query ended.
+     * ObjectKey of the found App or null if not found after the query ended.
      */
-    private ObjectId appObjectId;
+    private ObjectKey appObjectId;
 
     /**
      * True if the query is over (response or any error received)
@@ -109,7 +109,7 @@ public class ArchiveToAppAdapter extends ArchiveAdapter implements QueryStatusPr
             appDomain.add(new Identifier("*"));
 
             if (this.appName.equals(appName)) {
-                appObjectId = new ObjectId(appType, appDomain, appInstanceId);
+                appObjectId = new ObjectKey(appType, appDomain, appInstanceId);
                 setIsQueryOver(true);
             }
         }
@@ -145,12 +145,12 @@ public class ArchiveToAppAdapter extends ArchiveAdapter implements QueryStatusPr
     }
 
     /**
-     * Returns the ObjectId of the found App or null if not found after the
+     * Returns the ObjectKey of the found App or null if not found after the
      * query ended.
      *
-     * @return the ObjectId
+     * @return the ObjectKey
      */
-    public ObjectId getAppObjectId() {
+    public ObjectKey getAppObjectId() {
         return appObjectId;
     }
 

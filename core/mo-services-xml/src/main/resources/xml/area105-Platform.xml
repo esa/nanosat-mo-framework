@@ -526,7 +526,7 @@
                         The timestamp of the update shall be on-board clock at the time of the notification.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="4">
-                        The ObjectId shall be set to NULL.
+                        The ObjectKey shall be set to NULL.
                     </mal:documentation>
                     <mal:messages>
                         <mal:subscriptionKeys>
@@ -843,7 +843,7 @@
                 <mal:pubsubIP number="1" name="monitorAttitude" supportInReplay="false"
                               comment="The monitorAttitude operation allows a consumer to subscribe for the spacecraft attitude, ADCS actuators status, and ADCS attitude control mode status." >
                     <mal:documentation name="Requirement" order="1">
-                        The ObjectId shall be set to NULL.
+                        The ObjectKey shall be set to NULL.
                     </mal:documentation>
                     <mal:messages>
                         <mal:publishNotify comment="">

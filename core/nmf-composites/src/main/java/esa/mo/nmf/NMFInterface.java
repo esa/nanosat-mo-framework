@@ -22,7 +22,7 @@ package esa.mo.nmf;
 
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
-import org.ccsds.moims.mo.com.structures.ObjectId;
+import org.ccsds.moims.mo.com.structures.ObjectKey;
 
 /**
  * The interface that is exposed towards the application logic.
@@ -69,6 +69,6 @@ public interface NMFInterface extends SimpleMonitoringInterface {
      * @param source The source object that triggered the close operation. Can
      * be null.
      */
-    void closeGracefully(final ObjectId source);
+    void closeGracefully(final ObjectKey source);
 
 }

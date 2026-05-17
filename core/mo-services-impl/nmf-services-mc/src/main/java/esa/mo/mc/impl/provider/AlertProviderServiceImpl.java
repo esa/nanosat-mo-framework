@@ -363,7 +363,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
      * generation of events is disabled
      */
     public Long publishAlertEvent(final MALInteraction interaction, final Identifier alertDefinitionName,
-            final AttributeValueList argumentValues, final IdentifierList argumentIds, final ObjectId source) {
+            final AttributeValueList argumentValues, final IdentifierList argumentIds, final ObjectKey source) {
 
         // Add code to publish an Alert following the requirements and using the  Event service
         if (manager.getEventService() == null) {
@@ -502,7 +502,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
             return false;
         }
 
-        ObjectIds confSetDefs = configurationObjectDetails.getConfigObjects().get(0);
+        ObjectKeys confSetDefs = configurationObjectDetails.getConfigObjects().get(0);
 
         // Confirm the objTypes
         if (!confSetDefs.getObjType().equals(AlertServiceInfo.ALERTDEFINITION_OBJECT_TYPE)) {
@@ -541,7 +541,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
     @Override
     public ConfigurationSet getCurrentConfiguration() {
         // Create a Configuration Object with all the objs of the provider
-        ObjectIdsList list = manager.getCurrentConfiguration(
+        ObjectKeysList list = manager.getCurrentConfiguration(
                 AlertServiceInfo.ALERTDEFINITION_OBJECT_TYPE
         );
 

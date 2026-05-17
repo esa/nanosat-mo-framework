@@ -106,7 +106,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
      * @return Object instance identifier of the Event
      */
     public Long generateAndStoreEvent(final ObjectType objType, final IdentifierList domain, final Element eventObjBody,
-            final Long related, final ObjectId source, final MALInteraction interaction) {
+            final Long related, final ObjectKey source, final MALInteraction interaction) {
         return this.generateAndStoreEvent(objType, domain, eventObjBody, related, source, interaction, null, null);
     }
 
@@ -123,7 +123,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
      * @return Object instance identifier of the Event
      */
     public Long generateAndStoreEvent(final ObjectType objType, final IdentifierList domain, final Element eventObjBody,
-            final Long related, final ObjectId source, final URI uri, final Identifier network) {
+            final Long related, final ObjectKey source, final URI uri, final Identifier network) {
         return this.generateAndStoreEvent(objType, domain, eventObjBody, related, source, null, uri, network);
     }
 
@@ -139,7 +139,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
      * @return Object instance identifier of the Event
      */
     private Long generateAndStoreEvent(final ObjectType objType, final IdentifierList domain,
-            final Element eventObjBody, final Long related, final ObjectId source, final MALInteraction interaction,
+            final Element eventObjBody, final Long related, final ObjectKey source, final MALInteraction interaction,
             final URI uri, final Identifier network) {
 
         ObjectLinksList objectLinksList = new ObjectLinksList();
@@ -177,7 +177,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
      * @throws java.io.IOException if it cannot publish the Event
      */
     public void publishEvent(final URI sourceURI, final Long objId, final ObjectType objType,
-            final Long related, final ObjectId source, Element eventBody) throws IOException {
+            final Long related, final ObjectKey source, Element eventBody) throws IOException {
         // 3.3.2.1 , 3.3.2.2 , 3.3.2.3 , 3.3.2.4 , 3.3.2.5
         if (!running) {
             throw new IOException("The Event service is not running.");
@@ -251,7 +251,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
      * @throws java.io.IOException if it cannot publish the Event
      */
     public void publishEvents(final URI sourceURI, final LongList objIds, final ObjectType objType,
-            final LongList relateds, final ObjectIdList sources, Element eventBody) throws IOException {
+            final LongList relateds, final ObjectKeyList sources, Element eventBody) throws IOException {
         // 3.3.2.1 , 3.3.2.2 , 3.3.2.3 , 3.3.2.4 , 3.3.2.5
         if (!running) {
             throw new IOException("The Event service is not running.");
@@ -307,7 +307,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
     }
 
     public LongList generateAndStoreEvents(final ObjectType objType, final IdentifierList domain,
-            final LongList relateds, final ObjectIdList sourceList, final MALInteraction interaction) {
+            final LongList relateds, final ObjectKeyList sourceList, final MALInteraction interaction) {
         ObjectLinksList objectLinksList = new ObjectLinksList(sourceList.size());
 
         for (int i = 0; i < sourceList.size(); i++) {

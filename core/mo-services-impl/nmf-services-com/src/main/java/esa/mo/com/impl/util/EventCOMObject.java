@@ -21,7 +21,7 @@
 package esa.mo.com.impl.util;
 
 import java.text.MessageFormat;
-import org.ccsds.moims.mo.com.structures.ObjectId;
+import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperDomain;
 import org.ccsds.moims.mo.mal.structures.Element;
@@ -41,7 +41,7 @@ public class EventCOMObject {
     private ObjectType objType;
     private Long objId;
 
-    private ObjectId source;
+    private ObjectKey source;
     private Long related;
     private Element body;
 
@@ -53,7 +53,7 @@ public class EventCOMObject {
     }
 
     public EventCOMObject(final IdentifierList domain, final ObjectType objType, final Long objId,
-        final ObjectId source, final Long related, final Element body, final Time timestamp,
+        final ObjectKey source, final Long related, final Element body, final Time timestamp,
         final Identifier networkZone, final URI sourceURI) {
         this.domain = domain;
         this.objType = objType;
@@ -80,7 +80,7 @@ public class EventCOMObject {
         return objId;
     }
 
-    public ObjectId getSource() {
+    public ObjectKey getSource() {
         return source;
     }
 
@@ -116,7 +116,7 @@ public class EventCOMObject {
         this.objId = objId;
     }
 
-    public void setSource(ObjectId source) {
+    public void setSource(ObjectKey source) {
         this.source = source;
     }
 
@@ -140,8 +140,8 @@ public class EventCOMObject {
         this.sourceURI = sourceURI;
     }
 
-    public ObjectId getObjectId() {
-        return new ObjectId(this.objType, this.domain, this.objId);
+    public ObjectKey getObjectId() {
+        return new ObjectKey(this.objType, this.domain, this.objId);
     }
 
     @Override

@@ -53,7 +53,7 @@ public class PersistProviderConfiguration {
 
     private final ArchiveInheritanceSkeleton archiveService;
 
-    private final ObjectId confId;
+    private final ObjectKey confId;
 
     private final ArrayList<ReconfigurableService> reconfigurableServices;
 
@@ -62,7 +62,7 @@ public class PersistProviderConfiguration {
     private LongList objIds;
 
     public PersistProviderConfiguration(final ReconfigurableProvider provider,
-            final ObjectId confId, final ArchiveInheritanceSkeleton archiveService) {
+            final ObjectKey confId, final ArchiveInheritanceSkeleton archiveService) {
         this.archiveService = archiveService;
         this.confId = confId;
         this.reconfigurableServices = provider.getServices();
@@ -79,7 +79,7 @@ public class PersistProviderConfiguration {
         if (comObjectProvider != null) {
             final ArchivePersistenceObject comObjectConfs = HelperArchive.getArchiveCOMObject(
                     archiveService,
-                    ConfigurationServiceInfo.CONFIGURATIONOBJECTS_OBJECT_TYPE,
+                    ConfigurationServiceInfo.CONFIGURATIONSET_OBJECT_TYPE,
                     confId.getDomain(),
                     comObjectProvider.getArchiveDetails().getLinks().getRelated());
             objIds = ((ConfigurationSet) comObjectConfs.getObject()).getConfigObjects().get(0).getObjInstIds();
@@ -104,8 +104,8 @@ public class PersistProviderConfiguration {
 
             // Store the provider configuration objects
             HeterogeneousList archObj = new HeterogeneousList();
-            ObjectIdsList setList = new ObjectIdsList(1);
-            ObjectIds set = new ObjectIds(
+            ObjectKeysList setList = new ObjectKeysList(1);
+            ObjectKeys set = new ObjectKeys(
                     ConfigurationServiceInfo.SERVICECONFIGURATION_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(),
                     objIds);
@@ -116,7 +116,7 @@ public class PersistProviderConfiguration {
 
             LongList objIds3 = this.archiveService.store(
                     true,
-                    ConfigurationServiceInfo.CONFIGURATIONOBJECTS_OBJECT_TYPE,
+                    ConfigurationServiceInfo.CONFIGURATIONSET_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(),
                     HelperArchive.generateArchiveDetailsList(null, null, new URI("")),
                     archObj,
@@ -144,7 +144,7 @@ public class PersistProviderConfiguration {
         }
     }
 
-    public ObjectId getConfId() {
+    public ObjectKey getConfId() {
         return confId;
     }
 
@@ -189,7 +189,7 @@ public class PersistProviderConfiguration {
 
         // Retrieve it from the Archive
         List<ArchivePersistenceObject> confObjs = HelperArchive.getArchiveCOMObjectList(
-                archiveService, ConfigurationServiceInfo.CONFIGURATIONOBJECTS_OBJECT_TYPE,
+                archiveService, ConfigurationServiceInfo.CONFIGURATIONSET_OBJECT_TYPE,
                 ConfigurationProviderSingleton.getDomain(), relateds);
 
         for (int i = 0; i < confObjs.size(); i++) {

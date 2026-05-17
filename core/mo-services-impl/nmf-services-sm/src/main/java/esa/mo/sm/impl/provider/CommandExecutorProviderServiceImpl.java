@@ -36,7 +36,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.exec.environment.EnvironmentUtils;
 import org.ccsds.moims.mo.com.structures.ArchiveDetailsList;
-import org.ccsds.moims.mo.com.structures.ObjectId;
+import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
@@ -168,7 +168,7 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
             final ObjectType objType) {
         IdentifierList domain = connection.getPrimaryConnectionDetails().getDomain();
         URI sourceURI = connection.getPrimaryConnectionDetails().getProviderURI();
-        ObjectId source = new ObjectId(CommandExecutorServiceInfo.COMMAND_OBJECT_TYPE, domain, objId);
+        ObjectKey source = new ObjectKey(CommandExecutorServiceInfo.COMMAND_OBJECT_TYPE, domain, objId);
         Element eventBody = new Union(outputText);
         StringList eventBodyList = new StringList(1);
         eventBodyList.add(outputText);
@@ -188,7 +188,7 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
     private void commandExitEvent(final Long objId, final int exitCode) {
         IdentifierList domain = connection.getPrimaryConnectionDetails().getDomain();
         URI sourceURI = connection.getPrimaryConnectionDetails().getProviderURI();
-        ObjectId source = new ObjectId(CommandExecutorServiceInfo.COMMAND_OBJECT_TYPE, domain, objId);
+        ObjectKey source = new ObjectKey(CommandExecutorServiceInfo.COMMAND_OBJECT_TYPE, domain, objId);
         Element eventBody = new Union(exitCode);
         final Long eventObjId = eventService.generateAndStoreEvent(
                 CommandExecutorServiceInfo.EXECUTIONFINISHED_OBJECT_TYPE,

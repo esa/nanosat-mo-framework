@@ -322,8 +322,8 @@ public class EncodeDecode {
                     sourceDomain = null;
                 }
 
-                ObjectId objectId = (sourceObjType == null) ? null
-                        : new ObjectId(sourceObjType, sourceDomain, sourceObjId);
+                ObjectKey objectId = (sourceObjType == null) ? null
+                        : new ObjectKey(sourceObjType, sourceDomain, sourceObjId);
 
                 ObjectLinks objDetails = new ObjectLinks(relatedLink, objectId);
 

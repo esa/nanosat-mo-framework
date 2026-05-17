@@ -108,7 +108,7 @@ public class ParameterManager extends MCManager {
      * Archive service for objects storage. In this case, the unique identifier
      * must be retrieved from the Archive during storage
      */
-    protected Long storeAndGeneratePValobjId(Long identityId, ParameterValue pVal, ObjectId source,
+    protected Long storeAndGeneratePValobjId(Long identityId, ParameterValue pVal, ObjectKey source,
             SingleConnectionDetails connectionDetails, Time timestamp) {
         if (super.getArchiveService() == null) {
             uniqueObjIdPVal++;
@@ -159,7 +159,7 @@ public class ParameterManager extends MCManager {
      * must be retrieved from the Archive during storage
      */
     protected LongList storeAndGenerateMultiplePValobjId(final HeterogeneousList pVals,
-            final LongList relatedList, final ObjectIdList sourcesList,
+            final LongList relatedList, final ObjectKeyList sourcesList,
             final SingleConnectionDetails connectionDetails, final TimeList timestamps) {
         if (super.getArchiveService() != null) {
             ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
@@ -414,7 +414,7 @@ public class ParameterManager extends MCManager {
     }
 
     protected LongList addMultiple(HeterogeneousList definitions,
-            ObjectId source, SingleConnectionDetails connectionDetails) {
+            ObjectKey source, SingleConnectionDetails connectionDetails) {
         try {
             if (definitions == null) {
                 throw new IllegalArgumentException("Parameter definitions list can't be null!");
@@ -468,7 +468,7 @@ public class ParameterManager extends MCManager {
     }
 
     protected Long add(Identifier name, ParameterDefinition definition,
-            ObjectId source, SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
+            ObjectKey source, SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
         Long newIdPair;
 
         if (super.getArchiveService() == null) {
@@ -511,7 +511,7 @@ public class ParameterManager extends MCManager {
      * @return True if it was successfully updated. false if def is null or the
      * new bool value was the same as the current value.
      */
-    protected Long setGenerationEnabled(Long id, Boolean bool, ObjectId source,
+    protected Long setGenerationEnabled(Long id, Boolean bool, ObjectKey source,
             SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.a.c
         ParameterDefinition def = this.getParameterDefinition(id);
 
@@ -545,7 +545,7 @@ public class ParameterManager extends MCManager {
      * @return the object instance identifier of the new parameter-definition
      */
     protected Long update(Long id, ParameterDefinition definition,
-            ObjectId source, SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.d
+            ObjectKey source, SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.d
         Long newDefId = id;
 
         if (super.getArchiveService() == null) { //only update locally
@@ -584,7 +584,7 @@ public class ParameterManager extends MCManager {
      * defintions source.
      * @param connectionDetails The details of the connection.
      */
-    protected void setGenerationEnabledAll(Boolean bool, ObjectId source, SingleConnectionDetails connectionDetails) {
+    protected void setGenerationEnabledAll(Boolean bool, ObjectKey source, SingleConnectionDetails connectionDetails) {
         LongList identitiyIds = new LongList();
         identitiyIds.addAll(this.listAllDefinitions());
 

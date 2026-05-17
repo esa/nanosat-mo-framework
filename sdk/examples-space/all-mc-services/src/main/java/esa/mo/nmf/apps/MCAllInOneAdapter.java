@@ -32,8 +32,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-import org.ccsds.moims.mo.com.structures.ObjectId;
-import org.ccsds.moims.mo.com.structures.ObjectIdList;
+import org.ccsds.moims.mo.com.structures.ObjectKey;
+import org.ccsds.moims.mo.com.structures.ObjectKeyList;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
@@ -150,10 +150,10 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
         ParameterConversion paramConversion = null;
 
         try {
-            ObjectIdList objIds = registration.registerConversions(conversions);
+            ObjectKeyList objIds = registration.registerConversions(conversions);
 
             if (objIds.size() == 1) {
-                ObjectId objId = objIds.get(0);
+                ObjectKey objId = objIds.get(0);
                 ParameterExpression paramExpr = null;
 
                 ConditionalConversion condition = new ConditionalConversion(paramExpr, objId.getInstId());

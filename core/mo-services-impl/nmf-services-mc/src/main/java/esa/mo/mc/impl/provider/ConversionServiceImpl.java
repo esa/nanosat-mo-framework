@@ -111,7 +111,7 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
     }
 
     /* Not used...
-    private Element retrieveConversionDetailsFromArchive(ObjectId referenceId) {
+    private Element retrieveConversionDetailsFromArchive(ObjectKey referenceId) {
         if (archiveService == null) { // If there's no archive...
             return null;
         }

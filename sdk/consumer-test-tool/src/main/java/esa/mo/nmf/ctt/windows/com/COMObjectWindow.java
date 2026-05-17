@@ -32,7 +32,7 @@ import javax.swing.JOptionPane;
 import org.ccsds.moims.mo.com.COMObject;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveStub;
 import org.ccsds.moims.mo.com.structures.ArchiveDetails;
-import org.ccsds.moims.mo.com.structures.ObjectId;
+import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.com.structures.ObjectLinks;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperDomain;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
@@ -147,7 +147,7 @@ public final class COMObjectWindow extends javax.swing.JDialog {
                 this.relatedObjId.setText(related.toString());
             }
 
-            ObjectId source = archiveDetails.getLinks().getSource();
+            ObjectKey source = archiveDetails.getLinks().getSource();
 
             if (source == null) {
                 this.sourceType.setText("null");

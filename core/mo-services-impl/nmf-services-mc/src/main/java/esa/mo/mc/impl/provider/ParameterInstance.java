@@ -20,7 +20,7 @@
  */
 package esa.mo.mc.impl.provider;
 
-import org.ccsds.moims.mo.com.structures.ObjectId;
+import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.Time;
@@ -33,11 +33,11 @@ public class ParameterInstance {
 
     private final Identifier name;
     private final ParameterValue parameterValue;
-    private final ObjectId source;
+    private final ObjectKey source;
     private final Time timestamp;
 
     public ParameterInstance(final Identifier name, final ParameterValue pValue,
-            final ObjectId source, final Time timestamp) {
+            final ObjectKey source, final Time timestamp) {
         this.name = name;
         this.parameterValue = pValue;
         this.source = source;
@@ -45,7 +45,7 @@ public class ParameterInstance {
     }
 
     public ParameterInstance(final Identifier name, final Attribute value,
-            final ObjectId source, final Time timestamp) {
+            final ObjectKey source, final Time timestamp) {
         this(name, new ParameterValue(ValidityState.VALID, value, null), source, timestamp);
     }
 
@@ -57,7 +57,7 @@ public class ParameterInstance {
         return this.parameterValue;
     }
 
-    public ObjectId getSource() {
+    public ObjectKey getSource() {
         return this.source;
     }
 

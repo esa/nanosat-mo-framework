@@ -358,10 +358,10 @@
                         The timestamp of the update shall be the on-board time when the update was published.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
-                        The publish message shall include the ObjectId of the source link of the update.
+                        The publish message shall include the ObjectKey of the source link of the update.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="4">
-                        If no source link is needed then the ObjectId shall be replaced with a NULL.
+                        If no source link is needed then the ObjectKey shall be replaced with a NULL.
                     </mal:documentation>
                     <mal:messages>
                         <mal:subscriptionKeys>

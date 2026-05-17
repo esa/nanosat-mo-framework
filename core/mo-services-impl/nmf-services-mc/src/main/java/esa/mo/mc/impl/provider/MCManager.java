@@ -186,7 +186,7 @@ public abstract class MCManager {
      * @return The definitions set and the corresponding object instance
      * identifiers.
      */
-    public synchronized ObjectIdsList getCurrentConfiguration(ObjectType objTypeDef) {
+    public synchronized ObjectKeysList getCurrentConfiguration(ObjectType objTypeDef) {
         LongList defObjIds = new LongList();
 
         for (Long id : this.nameToId.values()) {
@@ -195,10 +195,10 @@ public abstract class MCManager {
 
         LongList currentObjIds1 = new LongList();
         currentObjIds1.addAll(defObjIds);
-        ObjectIds defis = new ObjectIds(objTypeDef,
+        ObjectKeys defis = new ObjectKeys(objTypeDef,
                 ConfigurationProviderSingleton.getDomain(), currentObjIds1);
 
-        ObjectIdsList list = new ObjectIdsList();
+        ObjectKeysList list = new ObjectKeysList();
         list.add(defis);
 
         return list;

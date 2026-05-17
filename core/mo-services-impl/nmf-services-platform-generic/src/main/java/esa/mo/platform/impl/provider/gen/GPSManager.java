@@ -26,7 +26,7 @@ import esa.mo.com.impl.util.HelperArchive;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.structures.ObjectId;
+import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
@@ -87,7 +87,7 @@ public final class GPSManager extends DefinitionsManager {
         return (NearbyPositionDefinitionList) this.getAllDefs();
     }
 
-    public Long add(final NearbyPositionDefinition definition, final ObjectId source, URI uri) {
+    public Long add(final NearbyPositionDefinition definition, final ObjectKey source, URI uri) {
         if (super.getArchiveService() == null) {
             uniqueObjIdDef++; // This line as to go before any writing (because it's initialized as zero and that's the wildcard)
             this.addDef(uniqueObjIdDef, definition);

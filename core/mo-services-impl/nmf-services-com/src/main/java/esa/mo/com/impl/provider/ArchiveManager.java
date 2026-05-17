@@ -262,14 +262,14 @@ public class ArchiveManager {
         }
 
         SourceLinkContainer sourceLink = comEntity.getSourceLink();
-        ObjectId objectId = null;
+        ObjectKey objectId = null;
 
         if (sourceLink.getObjectTypeId() != null
                 || sourceLink.getDomainId() != null
                 || sourceLink.getObjId() != null) {
             try {
                 IdentifierList sDomain = this.fastDomain.getDomain(sourceLink.getDomainId());
-                objectId = new ObjectId(
+                objectId = new ObjectKey(
                         this.fastObjectType.getObjectType(sourceLink.getObjectTypeId()),
                         sDomain, sourceLink.getObjId());
             } catch (Exception ex) {
@@ -304,7 +304,7 @@ public class ArchiveManager {
                 this.fastDomain.getDomainId(domain));
     }
 
-    private SourceLinkContainer createSourceContainerFromObjectId(final ObjectId source) {
+    private SourceLinkContainer createSourceContainerFromObjectId(final ObjectKey source) {
         Integer sourceDomainId = null;
         Integer sourceObjectTypeId = null;
         Long sourceObjId = null;
@@ -479,7 +479,7 @@ public class ArchiveManager {
                 ? this.fastProviderURI.getProviderURIId(archiveQuery.getProvider()) : null;
         final Integer networkId = (archiveQuery.getNetwork() != null)
                 ? this.fastNetwork.getNetworkId(archiveQuery.getNetwork()) : null;
-        final ObjectId sId = archiveQuery.getSource();
+        final ObjectKey sId = archiveQuery.getSource();
         final SourceLinkContainer sourceLink = this.createSourceContainerFromObjectId(sId);
 
         if (sId != null) {
@@ -616,12 +616,12 @@ public class ArchiveManager {
         return outPerObjs;
     }
 
-    private static ObjectIdList generateSources(final ObjectType objType,
+    private static ObjectKeyList generateSources(final ObjectType objType,
             final IdentifierList domain, final LongList objIds) {
-        final ObjectIdList sourceList = new ObjectIdList(objIds.size());
+        final ObjectKeyList sourceList = new ObjectKeyList(objIds.size());
 
         for (int i = 0; i < objIds.size(); i++) {
-            final ObjectId source = new ObjectId(objType, domain, objIds.get(i));
+            final ObjectKey source = new ObjectKey(objType, domain, objIds.get(i));
 
             // Is the COM Object an Event coming from the archive?
             ObjectType archType = HelperCOM.generateCOMObjectType(
@@ -638,7 +638,7 @@ public class ArchiveManager {
     }
 
     private void generateAndPublishEvents(final ObjectType objType,
-            final ObjectIdList sourceList, final MALInteraction interaction) {
+            final ObjectKeyList sourceList, final MALInteraction interaction) {
         if (eventService == null) {
             return;
         }
@@ -673,8 +673,8 @@ public class ArchiveManager {
         }
     }
 
-    public static ObjectId archivePerObj2source(final ArchivePersistenceObject obj) {
-        return new ObjectId(obj.getObjectType(), obj.getDomain(), obj.getObjectId());
+    public static ObjectKey archivePerObj2source(final ArchivePersistenceObject obj) {
+        return new ObjectKey(obj.getObjectType(), obj.getDomain(), obj.getObjectId());
     }
 
     public static Boolean objectTypeContainsWildcard(final ObjectType objType) {
@@ -759,7 +759,7 @@ public class ArchiveManager {
             final IdentifierList domain, final LongList objIds, final MALInteraction interaction) {
         return () -> {
             // Generate and Publish the Events - requirement: 3.4.2.1
-            ObjectIdList sources = ArchiveManager.generateSources(objType, domain, objIds);
+            ObjectKeyList sources = ArchiveManager.generateSources(objType, domain, objIds);
             generateAndPublishEvents(comObject, sources, interaction);
         };
     }

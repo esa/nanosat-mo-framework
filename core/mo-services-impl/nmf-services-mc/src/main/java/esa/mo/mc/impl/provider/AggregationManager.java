@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.structures.ObjectId;
+import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
@@ -174,7 +174,7 @@ public final class AggregationManager extends MCManager {
     }
 
     public Long storeAndGenerateAValobjId(AggregationValue aVal, Long related,
-            ObjectId source, URI uri, Time timestamp) {
+            ObjectKey source, URI uri, Time timestamp) {
         if (super.getArchiveService() == null) {
             uniqueObjIdAVal++;
             return this.uniqueObjIdAVal;
@@ -777,7 +777,7 @@ public final class AggregationManager extends MCManager {
         return newParamSample;
     }
 
-    public Long add(Identifier name, AggregationDefinition definition, ObjectId source,
+    public Long add(Identifier name, AggregationDefinition definition, ObjectKey source,
             SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
 
         Long newId;
@@ -821,12 +821,12 @@ public final class AggregationManager extends MCManager {
      *
      * @param identityId The id of the identity the definition belongs to
      * @param definition The new definition-details
-     * @param source The ObjectId of the source-object that cause the update to
+     * @param source The ObjectKey of the source-object that cause the update to
      * be created
      * @param connectionDetails The connection details.
      * @return The id of the new definition.
      */
-    public Long update(Long identityId, AggregationDefinition definition, ObjectId source,
+    public Long update(Long identityId, AggregationDefinition definition, ObjectKey source,
             SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
         Long newDefId = identityId;
 
@@ -868,7 +868,7 @@ public final class AggregationManager extends MCManager {
         return true;
     }
 
-    public Long setGenerationEnabled(Long defId, Boolean status, ObjectId source,
+    public Long setGenerationEnabled(Long defId, Boolean status, ObjectKey source,
             SingleConnectionDetails connectionDetails) {
         AggregationDefinition def = this.getAggregationDefinition(defId);
 
@@ -889,7 +889,7 @@ public final class AggregationManager extends MCManager {
         return this.update(defId, newDef, source, connectionDetails);
     }
 
-    public void setGenerationEnabledAll(Boolean bool, ObjectId source, SingleConnectionDetails connectionDetails) {
+    public void setGenerationEnabledAll(Boolean bool, ObjectKey source, SingleConnectionDetails connectionDetails) {
         LongList identityIds = this.listAllDefinitions();
 
         for (Long identityId : identityIds) {
@@ -915,7 +915,7 @@ public final class AggregationManager extends MCManager {
      * @return true if it was set successfully, false if it wasnt set.
      */
     public boolean setFilterEnabled(Long identityId, Boolean bool,
-            ObjectId source, SingleConnectionDetails connectionDetails) {
+            ObjectKey source, SingleConnectionDetails connectionDetails) {
         AggregationDefinition def = this.getAggregationDefinition(identityId);
 
         if (def == null) {
@@ -937,7 +937,7 @@ public final class AggregationManager extends MCManager {
         return true;
     }
 
-    public void setFilterEnabledAll(Boolean bool, ObjectId source, SingleConnectionDetails connectionDetails) {
+    public void setFilterEnabledAll(Boolean bool, ObjectKey source, SingleConnectionDetails connectionDetails) {
         LongList identityIds = this.listAllDefinitions();
 
         for (Long identityId : identityIds) {

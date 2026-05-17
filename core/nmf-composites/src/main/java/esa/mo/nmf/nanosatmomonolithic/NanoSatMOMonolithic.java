@@ -35,7 +35,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.configuration.ConfigurationServiceInfo;
-import org.ccsds.moims.mo.com.structures.ObjectId;
+import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
@@ -116,7 +116,7 @@ public abstract class NanoSatMOMonolithic extends NMFProvider {
             Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.INFO, "Loading previous configurations...");
 
             // Activate the previous configuration
-            final ObjectId confId = new ObjectId(
+            final ObjectKey confId = new ObjectKey(
                     ConfigurationServiceInfo.PROVIDERCONFIGURATION_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(),
                     DEFAULT_PROVIDER_CONFIGURATION_OBJID
@@ -153,7 +153,7 @@ public abstract class NanoSatMOMonolithic extends NMFProvider {
      * @param source The source of the triggering. Can be null
      */
     @Override
-    public final void closeGracefully(final ObjectId source) {
+    public final void closeGracefully(final ObjectKey source) {
         try {
             AppShutdownGuard.start();
             long time = System.currentTimeMillis();

@@ -37,7 +37,7 @@ public class ArchivePersistenceObject implements Serializable {
     private final IdentifierList domainId;
     private final Long objId;
 
-    private final ObjectId sourceLink;
+    private final ObjectKey sourceLink;
     private final Long relatedLink;
     private final String network;
 

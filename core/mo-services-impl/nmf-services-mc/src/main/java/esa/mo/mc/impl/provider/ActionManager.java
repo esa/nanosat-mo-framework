@@ -34,7 +34,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.structures.ArchiveDetailsList;
-import org.ccsds.moims.mo.com.structures.ObjectId;
+import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
@@ -113,7 +113,7 @@ public final class ActionManager extends MCManager {
 
     }
 
-    public Long add(ActionDefinition actionDefDetails, ObjectId source, URI uri) { // requirement: 3.3.2.5
+    public Long add(ActionDefinition actionDefDetails, ObjectKey source, URI uri) { // requirement: 3.3.2.5
         Long newId = 0L;
         final Identifier name = actionDefDetails.getName();
 
@@ -143,7 +143,7 @@ public final class ActionManager extends MCManager {
         return newId;
     }
 
-    public Long update(Long id, ActionDefinition definition, ObjectId source, URI uri) { // requirement: 3.3.2.5
+    public Long update(Long id, ActionDefinition definition, ObjectKey source, URI uri) { // requirement: 3.3.2.5
         Long newDefId = id;
 
         if (super.getArchiveService() == null) { //only update locally

@@ -124,7 +124,7 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
         return (AppDetails) this.getDef(input);
     }
 
-    protected Long addApp(final AppDetails definition, final ObjectId source, final URI uri) {
+    protected Long addApp(final AppDetails definition, final ObjectKey source, final URI uri) {
         Long objId = null;
         Long related = null;
 
@@ -200,7 +200,7 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
         return foldersWithApps.get(0); // Use the default folder!
     }
 
-    private LongList addAppToArchive(final AppDetails definition, final ObjectId source,
+    private LongList addAppToArchive(final AppDetails definition, final ObjectKey source,
             final URI uri, Long objId, Long related) throws MALException, MALInteractionException {
         HeterogeneousList defs = new HeterogeneousList();
         defs.add(definition);
@@ -297,7 +297,7 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
                 LOGGER.log(Level.INFO, "New app found! Adding new app: {0}", name);
 
                 // Either is the first time running or it is a newly installed app!
-                ObjectId source = null;
+                ObjectKey source = null;
                 this.addApp(singleApp, source, providerURI);
                 anyChanges = true;
                 continue; // Check the next one...

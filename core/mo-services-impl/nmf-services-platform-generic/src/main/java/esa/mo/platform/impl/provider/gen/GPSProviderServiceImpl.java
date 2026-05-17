@@ -487,7 +487,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
             return false;
         }
 
-        ObjectIds confSet = configurationObjectDetails.getConfigObjects().get(0);
+        ObjectKeys confSet = configurationObjectDetails.getConfigObjects().get(0);
 
         // Confirm the objType
         if (!confSet.getObjType().equals(GPSServiceInfo.NEARBYPOSITION_OBJECT_TYPE)) {
@@ -525,13 +525,13 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
         LongList currentObjIds = new LongList();
         currentObjIds.addAll(defObjs.keySet());
 
-        ObjectIds objsSet = new ObjectIds(
+        ObjectKeys objsSet = new ObjectKeys(
                 GPSServiceInfo.NEARBYPOSITION_OBJECT_TYPE,
                 ConfigurationProviderSingleton.getDomain(),
                 currentObjIds
         );
 
-        ObjectIdsList list = new ObjectIdsList();
+        ObjectKeysList list = new ObjectKeysList();
         list.add(objsSet);
 
         // Needs the Common API here!

@@ -116,7 +116,7 @@ public class ParameterCommands {
                     public void monitorValueNotifyReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
                             org.ccsds.moims.mo.mal.structures.Identifier subscriptionId,
                             org.ccsds.moims.mo.mal.structures.UpdateHeader updateHeader,
-                            org.ccsds.moims.mo.com.structures.ObjectId objId,
+                            org.ccsds.moims.mo.com.structures.ObjectKey objId,
                             org.ccsds.moims.mo.mc.structures.ParameterValue newValue,
                             java.util.Map qosProperties) {
                         String parameterName = ((Union) updateHeader.getKeyValues().get(0).getValue()).getStringValue();

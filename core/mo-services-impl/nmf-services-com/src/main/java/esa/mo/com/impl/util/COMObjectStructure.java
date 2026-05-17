@@ -22,7 +22,7 @@ package esa.mo.com.impl.util;
 
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import org.ccsds.moims.mo.com.structures.ArchiveDetails;
-import org.ccsds.moims.mo.com.structures.ObjectId;
+import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.com.structures.ObjectLinks;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.structures.Element;
@@ -38,7 +38,7 @@ public class COMObjectStructure {
     private final IdentifierList domain;
     private Long objId;
 
-    private ObjectId sourceLink;
+    private ObjectKey sourceLink;
     private Long relatedLink;
     private Identifier network;
     private Time timestamp;
@@ -80,7 +80,7 @@ public class COMObjectStructure {
         return objId;
     }
 
-    public ObjectId getSourceLink() {
+    public ObjectKey getSourceLink() {
         return sourceLink;
     }
 

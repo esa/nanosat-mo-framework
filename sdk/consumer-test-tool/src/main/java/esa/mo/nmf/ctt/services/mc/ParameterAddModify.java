@@ -29,7 +29,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import org.ccsds.moims.mo.com.COMService;
 import org.ccsds.moims.mo.com.structures.ExpressionOperator;
-import org.ccsds.moims.mo.com.structures.ObjectId;
+import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
@@ -522,7 +522,7 @@ public class ParameterAddModify extends javax.swing.JFrame {
             }
 
             // Reference to the conversion Object
-            ObjectId referenceId = new ObjectId(type,
+            ObjectKey referenceId = new ObjectKey(type,
                     serviceMCParameter.getConnectionDetails().getDomain(),
                     Long.valueOf(referenceObjIdTF.getText()));  // Get the first objId
 

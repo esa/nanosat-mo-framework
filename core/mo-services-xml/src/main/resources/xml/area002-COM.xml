@@ -1118,7 +1118,7 @@
                 The object body of the ServiceConfiguration COM object shall hold the service key that identifies the service it is a configuration of.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="2">
-                The ServiceConfiguration COM object related link shall link to the ConfigurationObjects COM object that contains the objects that form the service configuration.
+                The ServiceConfiguration COM object related link shall link to the ConfigurationSet COM object that contains the objects that form the service configuration.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="3">
                 If the ServiceConfiguration represents a Hard-coded configuration for a single service then the related link shall be set to NULL.
@@ -1127,28 +1127,28 @@
                 The object body of the ProviderConfiguration COM object shall hold an identifier to identify the provider configuration.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="5">
-                The ProviderConfiguration COM object related link shall link to the ConfigurationObjects COM object that contains the objects that form the provider configuration.
+                The ProviderConfiguration COM object related link shall link to the ConfigurationSet COM object that contains the objects that form the provider configuration.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="6">
                 If the ProviderConfiguration represents a Hard-coded configuration for a provider then the related link shall be set to NULL.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="7">
-                The object body of the ConfigurationObjects COM object shall hold a configuration object details structure that links to the objects that form the configuration.
+                The object body of the ConfigurationSet COM object shall hold a configuration object details structure that links to the objects that form the configuration.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="8">
-                The ConfigurationObjects COM object related link shall be set to NULL.
+                The ConfigurationSet COM object related link shall be set to NULL.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="9">
                 A ConfigurationStored COM event shall be raised when a configuration has been stored.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="10">
-                The ConfigurationStored COM event body shall hold the ObjectId of the new Configuration object if the store was successful, otherwise NULL for failure.
+                The ConfigurationStored COM event body shall hold the ObjectKey of the new Configuration object if the store was successful, otherwise NULL for failure.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="11">
                 The ConfigurationStored COM event source link shall be NULL.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="12">
-                Configuration definition objects (ServiceConfiguration, ProviderConfiguration, ConfigurationObjects) must be stored in the COM archive by the provider of the Configuration service if the implementation of the Configuration service uses a COM archive.
+                Configuration definition objects (ServiceConfiguration, ProviderConfiguration, ConfigurationSet) must be stored in the COM archive by the provider of the Configuration service if the implementation of the Configuration service uses a COM archive.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="13">
                 The COM objects that hold the actual configuration definition details must be stored in the COM archive by the provider of the relevant service if the implementation of the Configuration service uses a COM archive.
@@ -1157,7 +1157,7 @@
                 When a ConfigurationStored event is published, the event object should be stored in the COM archive.
             </mal:documentation>
             <com:features>
-                <com:objects comment="The ServiceConfiguration, ProviderConfiguration, and ConfigurationObjects COM objects used by the Configuration service.">
+                <com:objects comment="The ServiceConfiguration, ProviderConfiguration, and ConfigurationSet COM objects used by the Configuration service.">
                     <com:object number="1" name="ServiceConfiguration">
                         <com:objectType>
                             <mal:type name="ServiceId" area="MAL"/>
@@ -1174,7 +1174,7 @@
                             <com:objectType number="3" service="Configuration" area="COM"/>
                         </com:relatedObject>
                     </com:object>
-                    <com:object number="3" name="ConfigurationObjects">
+                    <com:object number="3" name="ConfigurationSet">
                         <com:objectType>
                             <mal:type name="ConfigurationSet" area="COM"/>
                         </com:objectType>
@@ -1183,7 +1183,7 @@
                 <com:events comment="The ConfigurationStored event used by the Configuration service.">
                     <com:event name="ConfigurationStored" number="9">
                         <com:objectType>
-                            <mal:type name="ObjectId" area="COM"/>
+                            <mal:type name="ObjectKey" area="COM"/>
                         </com:objectType>
                     </com:event>
                 </com:events>
@@ -1208,7 +1208,7 @@
                     <mal:type area="MAL" list="false" name="UShort"/>
                 </mal:field>
             </mal:composite>
-            <mal:composite shortFormPart="2" name="ObjectId" comment="The ObjectId structure combines an object type and an object key such that it identifies the instance and type of an object for a specific domain.">
+            <mal:composite shortFormPart="2" name="ObjectKey" comment="The ObjectKey structure combines an object type and an object key such that it identifies the instance and type of an object for a specific domain.">
                 <mal:extends>
                     <mal:type area="MAL" list="false" name="Composite"/>
                 </mal:extends>
@@ -1222,8 +1222,8 @@
                     <mal:type area="MAL" list="false" name="Long"/>
                 </mal:field>
             </mal:composite>
-            <mal:composite name="ObjectIds" shortFormPart="3"
-                           comment="The ObjectIds structure holds a set of object identifiers for a single COM object type in a single domain.">
+            <mal:composite name="ObjectKeys" shortFormPart="3"
+                           comment="The ObjectKeys structure holds a set of object identifiers for a single COM object type in a single domain.">
                 <mal:field name="objType" canBeNull="false"
                            comment="The COM object type of the configuration objects.">
                     <mal:type name="ObjectType" area="COM"/>
@@ -1245,7 +1245,7 @@
                     <mal:type area="MAL" list="false" name="Long"/>
                 </mal:field>
                 <mal:field canBeNull="true" comment="An object which is at the origin of the object creation (e.g. the procedure from which an action was triggered)." name="source">
-                    <mal:type area="COM" list="false" name="ObjectId"/>
+                    <mal:type area="COM" list="false" name="ObjectKey"/>
                 </mal:field>
             </mal:composite>
             <mal:composite shortFormPart="5" name="InstanceBooleanPair" comment="Simple pair of an object instance identifier and a Boolean value.">
@@ -1310,8 +1310,8 @@
                 <mal:field canBeNull="false" comment="Object instance identifier of the related Object. Only the objects whose related Object matches the provided related Object will be returned unless the '0' wildcard value is supplied." name="related">
                     <mal:type area="MAL" list="false" name="Long"/>
                 </mal:field>
-                <mal:field canBeNull="true" comment="Optional source. Only the objects whose source matches the provided source will be returned. The fields of the ObjectId may contain the wildcard values ('0' for numeric fields, '*' for Identifier fields). If NULL then all values will be matched. " name="source">
-                    <mal:type area="COM" list="false" name="ObjectId"/>
+                <mal:field canBeNull="true" comment="Optional source. Only the objects whose source matches the provided source will be returned. The fields of the ObjectKey may contain the wildcard values ('0' for numeric fields, '*' for Identifier fields). If NULL then all values will be matched. " name="source">
+                    <mal:type area="COM" list="false" name="ObjectKey"/>
                 </mal:field>
                 <mal:field canBeNull="true" comment="Optional start time. Only the objects whose timestamp is equal or greater than the provided start time will be returned. If NULL then no start time shall be applied." name="startTime">
                     <mal:type area="MAL" list="false" name="Time"/>
@@ -1584,10 +1584,10 @@
                 </mal:field>
             </mal:composite>
             <mal:composite name="ConfigurationSet" shortFormPart="29"
-                           comment="The ConfigurationSet composite holds a zero to many ObjectIds structures. It allows a configuration to reference COM objects from more than one domain or of more than one COM object type.">
+                           comment="The ConfigurationSet composite holds a zero to many ObjectKeys structures. It allows a configuration to reference COM objects from more than one domain or of more than one COM object type.">
                 <mal:field name="configObjects" canBeNull="false"
                            comment="The list of configuration objects.">
-                    <mal:type list="true" name="ObjectIds" area="COM"/>
+                    <mal:type list="true" name="ObjectKeys" area="COM"/>
                 </mal:field>
             </mal:composite>
         </mal:dataTypes>
