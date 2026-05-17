@@ -195,30 +195,29 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
                     "Publishing Event for the Event objId: {0}; with Event Object Number: {1}", new Object[]{objId, objType
                                 .getNumber()});
 
-            // 0xFFFF FFFF FF00 0000
-            final Long secondEntityKey = 0xFFFFFFFFFF000000L & HelperCOM.generateSubKey(objType);
+            // area(16) | service(16) | version(8) | 0(24) — number carried separately in eventObjectNumber key
+            final Long areaServiceVersionKey = 0xFFFFFFFFFF000000L & HelperCOM.generateSubKey(objType);
+            final Long sourceObjTypeKey = (source != null) ? HelperCOM.generateSubKey(source.getType()) : 0L;
 
-            final Long subKey = (source != null) ? HelperCOM.generateSubKey(source.getType()) : 0L;
             // requirements: 3.3.4.2.1 , 3.3.4.2.2 , 3.3.4.2.3 , 3.3.4.2.4
             /*
             final EntityKey ekey = new EntityKey(
                     new Identifier(objType.getNumber().toString()),
-                    secondEntityKey,
+                    areaServiceVersionKey,
                     objId,
-                    subKey);
+                    sourceObjTypeKey);
 
             NamedValueList subkeys = new NamedValueList();
             subkeys.add(new NamedValue(new Identifier("key1"), new Identifier(objType.getNumber().toString())));
-            subkeys.add(new NamedValue(new Identifier("key2"), new Union(secondEntityKey)));
+            subkeys.add(new NamedValue(new Identifier("key2"), new Union(areaServiceVersionKey)));
             subkeys.add(new NamedValue(new Identifier("key3"), new Union(objId)));
-            subkeys.add(new NamedValue(new Identifier("key4"), new Union(subKey)));
+            subkeys.add(new NamedValue(new Identifier("key4"), new Union(sourceObjTypeKey)));
              */
-
             final NullableAttributeList keyValues = new NullableAttributeList();
-            keyValues.add(new NullableAttribute(new Identifier(objType.getNumber().toString())));
-            keyValues.add(new NullableAttribute(new Union(secondEntityKey)));
+            keyValues.add(new NullableAttribute(new Union((long) objType.getNumber().getValue()))); // eventObjectNumber
+            keyValues.add(new NullableAttribute(new Union(areaServiceVersionKey)));
             keyValues.add(new NullableAttribute(new Union(objId)));
-            keyValues.add(new NullableAttribute(new Union(subKey)));
+            keyValues.add(new NullableAttribute(new Union(sourceObjTypeKey)));
 
             UpdateHeader updateHeader = new UpdateHeader(new Identifier(sourceURI.getValue()),
                     connection.getConnectionDetails().getDomain(), keyValues);
@@ -273,17 +272,17 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
                     new Object[]{objIds, objType.getNumber()});
              */
             for (int i = 0; i < objIds.size(); i++) {
-                // 0xFFFF FFFF FF00 0000
-                final Long secondEntityKey = 0xFFFFFFFFFF000000L & HelperCOM.generateSubKey(objType);
+                // area(16) | service(16) | version(8) | 0(24) — number carried separately in eventObjectNumber key
+                final Long areaServiceVersionKey = 0xFFFFFFFFFF000000L & HelperCOM.generateSubKey(objType);
+                final Long sourceObjTypeKey = (sources.get(i) != null)
+                        ? HelperCOM.generateSubKey(sources.get(i).getType()) : 0L;
 
-                final Long subKey = (sources.get(i) != null) ? HelperCOM.generateSubKey(sources.get(i).getType())
-                        : 0L;
                 // requirements: 3.3.4.2.1 , 3.3.4.2.2 , 3.3.4.2.3 , 3.3.4.2.4
                 AttributeList keys = new AttributeList();
-                keys.add(new Identifier(objType.getNumber().toString()));
-                keys.addAsJavaType(secondEntityKey);
+                keys.addAsJavaType((long) objType.getNumber().getValue()); // eventObjectNumber
+                keys.addAsJavaType(areaServiceVersionKey);
                 keys.addAsJavaType(objIds.get(i));
-                keys.addAsJavaType(subKey);
+                keys.addAsJavaType(sourceObjTypeKey);
 
                 final Long related = (relateds == null) ? null : relateds.get(i);
 

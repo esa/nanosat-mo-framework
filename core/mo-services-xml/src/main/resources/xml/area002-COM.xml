@@ -42,7 +42,7 @@
             </mal:documentation>
             <mal:capabilitySet number="1">
                 <mal:pubsubIP comment="The monitorEvent operation allows a consumer to subscribe for events." name="monitorEvent" number="1" supportInReplay="true">
-                    <mal:documentation name="Requirement" order="1">The MAL::EntityKey.firstSubKey shall contain the event object number as a base 10 string. For example, for an object number of '14' the key value would be '14' with no padding.
+                    <mal:documentation name="Requirement" order="1">The first subscription key shall contain the event object number as a MAL::Long.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">The MAL::EntityKey.secondSubKey shall contain the area, service, and version ObjectType fields as a MAL::Long populated as (in hex) 0xAAAASSSSVVXXXXXX where AAAA is the area (16 bits), SSSS is the service (16 bits), VV is the version (8 bits), and XXXXXX is unused and set to zero (24 bits). For example, for an area of '1', and a service of '2', and a version of '3' the field would contain (in hex) 0x0001000203000000.
                     </mal:documentation>
@@ -60,9 +60,9 @@
                     </mal:documentation>
                     <mal:messages>
                         <mal:subscriptionKeys>
-                            <mal:field name="K1" canBeNull="false"
+                            <mal:field name="eventObjectNumber" canBeNull="false"
                                        comment="The event object number.">
-                                <mal:type area="MAL" list="false" name="Identifier"/>
+                                <mal:type area="MAL" list="false" name="Long"/>
                             </mal:field>
                             <mal:field name="K2" canBeNull="false"
                                        comment="The area, service and version fields of the event object type.">

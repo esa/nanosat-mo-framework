@@ -133,45 +133,35 @@ public class EventConsumerServiceImpl extends ConsumerServiceImpl {
                         Long entityKey4 = lUpdateHeaderList.get(i).getKey().getFourthSubKey(); // ObjType of the source
                  */
                 NullableAttributeList subkeys = lUpdateHeader.getKeyValues();
-                Identifier entityKey1 = (Identifier) subkeys.get(0).getValue();
-                Long entityKey2 = ((Union) subkeys.get(1).getValue()).getLongValue();
-                Long entityKey3 = ((Union) subkeys.get(2).getValue()).getLongValue();
-                Long entityKey4 = ((Union) subkeys.get(3).getValue()).getLongValue(); // ObjType of the source
+                Long eventObjectNumber     = ((Union) subkeys.get(0).getValue()).getLongValue();
+                Long areaServiceVersionKey = ((Union) subkeys.get(1).getValue()).getLongValue();
+                Long eventObjId            = ((Union) subkeys.get(2).getValue()).getLongValue();
+                Long sourceObjTypeKey      = ((Union) subkeys.get(3).getValue()).getLongValue(); // ObjType of the source
                 /*
                         Long entityKey2 = (Long) Attribute.attribute2JavaType(subkeys.get(1).getValue());
                         Long entityKey3 = (Long) Attribute.attribute2JavaType(subkeys.get(2).getValue());
                         Long entityKey4 = (Long) Attribute.attribute2JavaType(subkeys.get(3).getValue()); // ObjType of the source
                  */
-                // (UShort area, UShort service, UOctet version, UShort number)
-                // (UShort area, UShort service, UOctet version, 0)
                 // ObjectType objType = HelperCOM.objectTypeId2objectType(entityKey2);
                 //objType.setNumber(new UShort(Integer.parseInt(entityKey1.toString())));
 
-                final long unwrap = (long) entityKey2;
+                ObjectType objType = new ObjectType(
+                        new UShort((short) (areaServiceVersionKey >> 48)),
+                        new UShort((short) (areaServiceVersionKey >> 32)),
+                        new UOctet((byte)  (areaServiceVersionKey >> 24)),
+                        new UShort(eventObjectNumber.intValue()));
 
-                ObjectType objType = new ObjectType(new UShort((short) (unwrap >> 48)),
-                        new UShort((short) (unwrap >> 32)),
-                        new UOctet((byte) (unwrap >> 24)),
-                        new UShort(Integer.parseInt(entityKey1.toString())));
+                Element body = (Element) Attribute.javaType2Attribute(element);
 
-                Object nativeBody = element;
-                Element body = (Element) Attribute.javaType2Attribute(nativeBody);
-
-                // ----
                 EventCOMObject newEvent = new EventCOMObject();
-                //                        newEvent.setDomain(msgHeader.getDomain());
                 newEvent.setDomain(connectionDetails.getDomain());
                 newEvent.setObjType(objType);
-                newEvent.setObjId(entityKey3);
-
+                newEvent.setObjId(eventObjId);
                 newEvent.setSource(objectLinks.getSource());
                 newEvent.setRelated(objectLinks.getRelated());
                 newEvent.setBody(body);
-
                 newEvent.setTimestamp(msgHeader.getTimestamp());
                 newEvent.setSourceURI(msgHeader.getFromURI());
-                //newEvent.setNetworkZone(msgHeader.getNetworkZone());
-                // ----
 
                 // Push the data to the listener
                 eventReceivedListener.onDataReceived(newEvent);
