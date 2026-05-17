@@ -422,8 +422,8 @@ public class HelperCOM {
      *
      * @param subId Subscription identifier
      * @param eventObjectNumber Event object number (K1); 0L matches all
-     * @param areaServiceVersionKey Area/service/version packed key (K2); 0L matches all
-     * @param sourceObjTypeKey Source object type key (K4); 0L matches all
+     * @param areaServiceVersionKey Area/service/version packed key (areaServiceVersion); 0L matches all
+     * @param sourceObjTypeKey Source object type key (sourceObjectType); 0L matches all
      * @return The subscription for PUB-SUB.
      */
     public static Subscription subscriptionKeys(Identifier subId, Long eventObjectNumber,
@@ -437,8 +437,8 @@ public class HelperCOM {
 
         SubscriptionFilterList filters = new SubscriptionFilterList();
         filters.add(new SubscriptionFilter(new Identifier("eventObjectNumber"), list1));
-        filters.add(new SubscriptionFilter(new Identifier("K2"), list2));
-        filters.add(new SubscriptionFilter(new Identifier("K4"), list4));
+        filters.add(new SubscriptionFilter(new Identifier("areaServiceVersion"), list2));
+        filters.add(new SubscriptionFilter(new Identifier("sourceObjectType"), list4));
 
         return new Subscription(subId, null, null, filters);
     }
