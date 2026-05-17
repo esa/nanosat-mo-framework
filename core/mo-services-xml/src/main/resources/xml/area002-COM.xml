@@ -46,9 +46,9 @@
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">The MAL::EntityKey.secondSubKey shall contain the area, service, and version ObjectType fields as a MAL::Long populated as (in hex) 0xAAAASSSSVVXXXXXX where AAAA is the area (16 bits), SSSS is the service (16 bits), VV is the version (8 bits), and XXXXXX is unused and set to zero (24 bits). For example, for an area of '1', and a service of '2', and a version of '3' the field would contain (in hex) 0x0001000203000000.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="3">The MAL::EntityKey.thirdSubKey shall contain the event object instance identifier.
+                    <mal:documentation name="Requirement" order="3">The event object instance identifier shall be carried in the eventObjId field of the publish/notify message.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="4">The MAL::EntityKey.fourthSubKey shall contain the area, service, version and number fields of the event source ObjectType using same methodology as given for the second sub key but replacing the XXXXXX part with the number field.
+                    <mal:documentation name="Requirement" order="4">The third subscription key shall contain the area, service, version and number fields of the event source ObjectType using same methodology as given for the second sub key but replacing the XXXXXX part with the number field.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="5">The related and source links of the event shall populate the ObjectLinks part of the publish/notify message.
                     </mal:documentation>
@@ -68,10 +68,6 @@
                                        comment="The area, service and version fields of the event object type.">
                                 <mal:type area="MAL" list="false" name="Long"/>
                             </mal:field>
-                            <mal:field name="K3" canBeNull="false"
-                                       comment="The event object instance identifier.">
-                                <mal:type area="MAL" list="false" name="Long"/>
-                            </mal:field>
                             <mal:field name="K4" canBeNull="false"
                                        comment="The area, service, version and number fields of the event source object type.">
                                 <mal:type area="MAL" list="false" name="Long"/>
@@ -80,6 +76,9 @@
                         <mal:publishNotify>
                             <mal:field canBeNull="true" comment="The object links of the event." name="eventLinks">
                                 <mal:type area="COM" list="false" name="ObjectLinks"/>
+                            </mal:field>
+                            <mal:field canBeNull="false" comment="The object instance identifier of the event." name="eventObjId">
+                                <mal:type area="MAL" list="false" name="Long"/>
                             </mal:field>
                             <mal:field canBeNull="true" comment="The body of the event." name="eventBody">
                                 <mal:type area="MAL" list="false" name="Element"/>

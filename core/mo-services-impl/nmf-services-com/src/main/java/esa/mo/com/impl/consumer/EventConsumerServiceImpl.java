@@ -123,7 +123,7 @@ public class EventConsumerServiceImpl extends ConsumerServiceImpl {
             @Override
             public void monitorEventNotifyReceived(final MALMessageHeader msgHeader,
                     final Identifier lIdentifier, final UpdateHeader lUpdateHeader,
-                    final ObjectLinks objectLinks, final Element element,
+                    final ObjectLinks objectLinks, final Long eventObjId, final Element element,
                     Map qosProperties) {
 
                 /*
@@ -135,12 +135,10 @@ public class EventConsumerServiceImpl extends ConsumerServiceImpl {
                 NullableAttributeList subkeys = lUpdateHeader.getKeyValues();
                 Long eventObjectNumber     = ((Union) subkeys.get(0).getValue()).getLongValue();
                 Long areaServiceVersionKey = ((Union) subkeys.get(1).getValue()).getLongValue();
-                Long eventObjId            = ((Union) subkeys.get(2).getValue()).getLongValue();
-                Long sourceObjTypeKey      = ((Union) subkeys.get(3).getValue()).getLongValue(); // ObjType of the source
+                Long sourceObjTypeKey      = ((Union) subkeys.get(2).getValue()).getLongValue(); // ObjType of the source
                 /*
                         Long entityKey2 = (Long) Attribute.attribute2JavaType(subkeys.get(1).getValue());
-                        Long entityKey3 = (Long) Attribute.attribute2JavaType(subkeys.get(2).getValue());
-                        Long entityKey4 = (Long) Attribute.attribute2JavaType(subkeys.get(3).getValue()); // ObjType of the source
+                        Long entityKey4 = (Long) Attribute.attribute2JavaType(subkeys.get(2).getValue()); // ObjType of the source
                  */
                 // ObjectType objType = HelperCOM.objectTypeId2objectType(entityKey2);
                 //objType.setNumber(new UShort(Integer.parseInt(entityKey1.toString())));

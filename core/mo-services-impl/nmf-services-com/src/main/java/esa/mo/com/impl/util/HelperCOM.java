@@ -395,7 +395,7 @@ public class HelperCOM {
         final Long areaServiceVersionKey = 0xFFFFFFFFFF000000L & HelperCOM.generateSubKey(objType);
         final Random random = new Random();
         return subscriptionKeys(new Identifier(identifier + random.nextInt()),
-                0L, areaServiceVersionKey, 0L, 0L);
+                0L, areaServiceVersionKey, 0L);
     }
 
     /**
@@ -411,37 +411,33 @@ public class HelperCOM {
         final Long sourceObjTypeKey = 0xFFFFFFFFFFFFFFFFL & HelperCOM.generateSubKey(sourceType);
         final Random random = new Random();
         return subscriptionKeys(new Identifier(identifier + random.nextInt()),
-                0L, 0L, 0L, sourceObjTypeKey);
+                0L, 0L, sourceObjTypeKey);
     }
 
     /**
      * Creates a subscription object for the Event service using typed Long keys.
      * Replaces the deprecated {@code ConnectionConsumer.subscriptionKeys} which
-     * used an Identifier for key1 (eventObjectNumber). All four keys are Longs;
+     * used an Identifier for key1 (eventObjectNumber). All three keys are Longs;
      * use 0L as the wildcard for any key that should match everything.
      *
      * @param subId Subscription identifier
      * @param eventObjectNumber Event object number (K1); 0L matches all
      * @param areaServiceVersionKey Area/service/version packed key (K2); 0L matches all
-     * @param eventObjId Event object instance identifier (K3); 0L matches all
      * @param sourceObjTypeKey Source object type key (K4); 0L matches all
      * @return The subscription for PUB-SUB.
      */
     public static Subscription subscriptionKeys(Identifier subId, Long eventObjectNumber,
-            Long areaServiceVersionKey, Long eventObjId, Long sourceObjTypeKey) {
+            Long areaServiceVersionKey, Long sourceObjTypeKey) {
         AttributeList list1 = new AttributeList();
         list1.addAsJavaType(eventObjectNumber);
         AttributeList list2 = new AttributeList();
         list2.addAsJavaType(areaServiceVersionKey);
-        AttributeList list3 = new AttributeList();
-        list3.addAsJavaType(eventObjId);
         AttributeList list4 = new AttributeList();
         list4.addAsJavaType(sourceObjTypeKey);
 
         SubscriptionFilterList filters = new SubscriptionFilterList();
         filters.add(new SubscriptionFilter(new Identifier("eventObjectNumber"), list1));
         filters.add(new SubscriptionFilter(new Identifier("K2"), list2));
-        filters.add(new SubscriptionFilter(new Identifier("K3"), list3));
         filters.add(new SubscriptionFilter(new Identifier("K4"), list4));
 
         return new Subscription(subId, null, null, filters);

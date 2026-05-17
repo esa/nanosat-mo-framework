@@ -199,7 +199,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
             final Long areaServiceVersionKey = 0xFFFFFFFFFF000000L & HelperCOM.generateSubKey(objType);
             final Long sourceObjTypeKey = (source != null) ? HelperCOM.generateSubKey(source.getType()) : 0L;
 
-            // requirements: 3.3.4.2.1 , 3.3.4.2.2 , 3.3.4.2.3 , 3.3.4.2.4
+            // requirements: 3.3.4.2.1 , 3.3.4.2.2 , 3.3.4.2.4
             /*
             final EntityKey ekey = new EntityKey(
                     new Identifier(objType.getNumber().toString()),
@@ -216,7 +216,6 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
             final NullableAttributeList keyValues = new NullableAttributeList();
             keyValues.add(new NullableAttribute(new Union((long) objType.getNumber().getValue()))); // eventObjectNumber
             keyValues.add(new NullableAttribute(new Union(areaServiceVersionKey)));
-            keyValues.add(new NullableAttribute(new Union(objId)));
             keyValues.add(new NullableAttribute(new Union(sourceObjTypeKey)));
 
             UpdateHeader updateHeader = new UpdateHeader(new Identifier(sourceURI.getValue()),
@@ -227,7 +226,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
                 eventBody = new UInteger();
             }
 
-            publisher.publish(updateHeader, objectLinks, eventBody); // requirement: 3.7.2.15
+            publisher.publish(updateHeader, objectLinks, objId, eventBody); // requirement: 3.7.2.15
         } catch (IllegalArgumentException ex) {
             Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.WARNING,
                     "Exception during publishing process on the provider (0)", ex);
@@ -277,11 +276,10 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
                 final Long sourceObjTypeKey = (sources.get(i) != null)
                         ? HelperCOM.generateSubKey(sources.get(i).getType()) : 0L;
 
-                // requirements: 3.3.4.2.1 , 3.3.4.2.2 , 3.3.4.2.3 , 3.3.4.2.4
+                // requirements: 3.3.4.2.1 , 3.3.4.2.2 , 3.3.4.2.4
                 AttributeList keys = new AttributeList();
                 keys.addAsJavaType((long) objType.getNumber().getValue()); // eventObjectNumber
                 keys.addAsJavaType(areaServiceVersionKey);
-                keys.addAsJavaType(objIds.get(i));
                 keys.addAsJavaType(sourceObjTypeKey);
 
                 final Long related = (relateds == null) ? null : relateds.get(i);
@@ -294,7 +292,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
                     eventBody = new UInteger();
                 }
 
-                publisher.publish(updateHeader, objectLinks, eventBody); // requirement: 3.7.2.15
+                publisher.publish(updateHeader, objectLinks, objIds.get(i), eventBody); // requirement: 3.7.2.15
             }
         } catch (IllegalArgumentException ex) {
             Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.WARNING,

@@ -101,7 +101,7 @@ public class AlertTest2 {
         final Long secondEntityKey = 0xFFFFFFFFFF000000L & HelperCOM.generateSubKey(AlertServiceInfo.ALERTDEFINITION_OBJECT_TYPE);
         this.subscriptionId = new Identifier("AlertEvent" + random.nextInt());  // Add some randomness in the subscriptionId to avoid collisions
         Subscription eventSub = HelperCOM.subscriptionKeys(this.subscriptionId, 0L,
-                secondEntityKey, 0L, 0L);
+                secondEntityKey, 0L);
 
         eventConsumer.addEventReceivedListener(eventSub, new EventConsumerAdapter());
     }
