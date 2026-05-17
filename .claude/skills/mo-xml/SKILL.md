@@ -120,6 +120,7 @@ Read this file whenever you are uncertain about which elements or attributes are
 - `number`: sequential across **all** operations in the service (not reset per capability set).
 - `name`: lowerCamelCase.
 - `comment`: full sentence, starts with `"The <operationName> operation ..."`, ends with `.`.
+- `supportInReplay`: **removed in MALv3 — never add this attribute.** Remove it whenever encountered in existing files.
 
 ### Operation documentation
 
@@ -195,6 +196,8 @@ Right — split into two:
 **Testable and verifiable.** Write so that a yes/no test can be derived directly from the requirement. Avoid vague words that cannot be objectively evaluated: `appropriate`, `reasonable`, `sufficient`, `properly`, `efficiently`, `in a timely manner`. Ask: "Can I write a test that definitively passes or fails this?" If not, rewrite until you can.
 
 **Requirements shall not duplicate field descriptions.** If a requirement does nothing more than describe what a field represents, delete it — that belongs in the `comment` attribute of the `<mal:field>` element. Requirements shall only state behaviour, constraints, or consequences that cannot be expressed in a field comment.
+
+**Requirements shall not duplicate error trigger conditions.** The `comment` attribute on `<mal:errorRef>` is itself normative — it states when the error is raised. A requirement that only restates that same trigger condition adds nothing and shall be deleted. If a requirement provides _more specific detail_ than the errorRef comment (e.g. naming the exact wildcard value), fold that detail into the errorRef comment instead of keeping it as a separate requirement.
 
 **`NULL`, `TRUE`, and `FALSE` are always capitalised** in requirement text and `comment` attributes — they are type values, not plain English words. This does not apply to XML attribute values such as `canBeNull="false"`, which are XML boolean literals and stay lowercase.
 
@@ -305,7 +308,7 @@ Right — split into two:
 ```
 
 - `name`: lowerCamelCase.
-- `canBeNull`: `"true"` or `"false"`.
+- `canBeNull`: `"true"` or `"false"`. Always present — even when `"true"` (the XSD default) — to be explicit.
 - `comment`: full description ending with `.`. Describe the field directly — do not use filler verbs like "holds", "contains", "stores", or "represents". Wrong: `"The names field holds the list of names."` Right: `"The list of names."`
 - When `canBeNull="true"`, the operation documentation must state what NULL means.
 - `<mal:type>` is a self-closing child element.
@@ -441,6 +444,8 @@ The `<mal:dataTypes>` block appears **before** `<mal:errors>` at the end of `<ma
 - **1 tab** per nesting level.
 - Namespace declarations in the root element are indented 1 tab and have spaces around `=`.
 - Attribute ordering on elements: `name` first, then `number`/`shortFormPart`, then remaining attributes, `comment` last.
+- Exception: `<mal:item>` has no `name` — ordering is `nvalue`, `value`, `comment`.
+- Exception: `<mal:error>` — ordering is `number`, `name`, `comment`.
 - Multi-sentence `comment` values are allowed on a single line within the attribute.
 - Text content of `<mal:documentation>` is on a new line, indented one level deeper than the tag.
 
