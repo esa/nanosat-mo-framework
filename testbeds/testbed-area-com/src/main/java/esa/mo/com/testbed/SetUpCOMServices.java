@@ -21,7 +21,6 @@
 package esa.mo.com.testbed;
 
 import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
-import esa.mo.com.impl.provider.ArchiveProviderServiceImpl;
 import esa.mo.com.impl.util.COMServicesProvider;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -73,10 +72,6 @@ public class SetUpCOMServices {
 
     public ArchiveConsumerServiceImpl getArchiveConsumer() {
         return archiveConsumer;
-    }
-
-    public ArchiveProviderServiceImpl getArchiveProvider() {
-        return comServicesProvider.getArchiveService();
     }
 
 }
