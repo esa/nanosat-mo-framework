@@ -60,6 +60,18 @@ Read this file whenever you are uncertain about which elements or attributes are
 - `name`: PascalCase.
 - `comment`: full sentence, starts with `"The <ServiceName> Service ..."`, ends with `.`.
 
+### Area-level documentation
+
+```xml
+<mal:documentation name="Requirement" order="1">
+    The instance identifier of an object shall not use the value of '0'...
+</mal:documentation>
+```
+
+- Label is `"Requirement"` (singular), same as operation-level.
+- `order` is sequential from 1.
+- Text content on a new indented line.
+
 ### Service-level documentation
 
 ```xml
@@ -68,7 +80,7 @@ Read this file whenever you are uncertain about which elements or attributes are
 </mal:documentation>
 ```
 
-- Label is `"Service-level Requirements"` (plural).
+- Label is `"Service-level Requirements"` (plural). Never `"Service-level Requirement"` (singular) — that is wrong.
 - `order` is sequential from 1.
 - Text content on a new indented line. Notes are inline: `Note: ...` — no separate element.
 
@@ -118,9 +130,84 @@ Read this file whenever you are uncertain about which elements or attributes are
 ```
 
 - Label is `"Requirement"` (singular) for operation-level requirements.
-- Use `"shall"` for normative requirements, `"should"` for recommendations, `"may"` for permissions.
-- State the subject explicitly: `"A consumer shall..."` or `"The service provider shall..."`.
-- Notes inline at end of paragraph can be used, but seldomly, only when it is really needed: `Note: ...`
+
+#### Wording rules for `<mal:documentation>` requirement text
+
+These rules apply to the text content of every `<mal:documentation>` element, at any level (area, service, operation). They do **not** apply to `comment` attributes on fields, composites, or operations — those follow the rules in their respective sections.
+
+**Modal verbs** — per CCSDS conventions:
+| Verb(s) | Meaning |
+|---|---|
+| `shall`, `must` | binding and verifiable normative requirement |
+| `should` | optional but desirable |
+| `may` | optional |
+| `is`, `are`, `will` | statements of fact (informative, not normative) |
+
+Prefer `shall` over `must` for consistency — the MPD reference file uses `shall` exclusively, and mixing both in the same document reduces readability. Reserve `must` only when it reads significantly more naturally in context.
+
+**Always state the subject explicitly.** Every normative sentence must name who is responsible:
+- `"A consumer shall specify..."` — consumer-side obligation
+- `"The service provider shall return..."` — provider-side obligation
+
+Never write a subjectless sentence like *"An error shall be returned"* or *"The list shall be ordered"*.
+
+**Active voice.** The subject must be the agent, not the thing being acted on:
+- Wrong: `"An INVALID error shall be returned if the domain contains a wildcard."`
+- Right: `"The service provider shall return an INVALID error if the domain contains a wildcard."`
+
+**PUBSUB operations** follow a different pattern because the consumer is never obligated to subscribe in a particular way — subscribing is always optional. This changes which modal verb applies to each side:
+
+- **Provider-side requirements** use `shall`: *"Upon [condition], the service provider shall publish..."*
+- **Consumer-side requirements** use `may`: *"A service consumer may subscribe to [X] for a specific [field], or for all [X] with the use of the wildcard in the [field] field."*
+
+In all other interaction patterns (REQUEST, INVOKE, PROGRESS, SUBMIT) consumer-side requirements use `shall`. In PUBSUB they always use `may`.
+
+**Conditional requirements use `"If [condition], then [subject shall/should/may action]."`.** Always include the comma before `then`, and always state the subject after `then`:
+```
+If the creationDate is NULL, then the service provider shall not filter the products based on the creationDate.
+```
+Never drop `then` (`"If X, the provider shall..."`) and never omit the comma (`"If X then ..."`).
+
+When both branches need to be specified, write two separate requirements with mirrored conditions — do not use `, else`:
+```
+If the domain is NULL, then the service provider shall not filter the standing orders based on the domain.
+If the domain is not NULL, then the service provider shall compare the domain against the domain of the product filter.
+```
+This keeps each requirement independently testable and traceable.
+
+**One requirement per element.** Each `<mal:documentation>` shall express exactly one normative statement. Signals that you have packed multiple requirements together:
+- More than one `shall`/`should`/`may` in the same sentence (unless the second is a consequence of the first condition).
+- Two independent sentences in the same element.
+- An "and" joining two obligations.
+
+Wrong — two requirements in one element:
+```xml
+<mal:documentation name="Requirement" order="6">
+    The archiveQuery and queryFilter lists must be the same size unless queryFilter is NULL, otherwise an INVALID error shall be raised.
+</mal:documentation>
+```
+Right — split into two:
+```xml
+<mal:documentation name="Requirement" order="6">
+    If the queryFilter list is not NULL, then a consumer shall supply the same number of entries in the archiveQuery and queryFilter lists.
+</mal:documentation>
+<mal:documentation name="Requirement" order="7">
+    If the queryFilter list is not NULL and the sizes of archiveQuery and queryFilter differ, then the service provider shall return an INVALID error.
+</mal:documentation>
+```
+
+**Testable and verifiable.** Write so that a yes/no test can be derived directly from the requirement. Avoid vague words that cannot be objectively evaluated: `appropriate`, `reasonable`, `sufficient`, `properly`, `efficiently`, `in a timely manner`. Ask: "Can I write a test that definitively passes or fails this?" If not, rewrite until you can.
+
+**Requirements shall not duplicate field descriptions.** If a requirement does nothing more than describe what a field represents, delete it — that belongs in the `comment` attribute of the `<mal:field>` element. Requirements shall only state behaviour, constraints, or consequences that cannot be expressed in a field comment.
+
+**`NULL` is always capitalised.** Never write `null` or `Null` in requirement text or `comment` attributes.
+
+**Unambiguous.** Every requirement must have exactly one valid interpretation:
+- Name things explicitly — avoid `it`, `this`, `the above` when the antecedent is unclear.
+- Avoid vague quantifiers: `several`, `some`, `many`, `few`.
+- Avoid undefined relative terms: `quickly`, `large`, `small`.
+
+**Notes** inline at end of paragraph, used sparingly: `Note: ...` — no separate element.
 
 ---
 
