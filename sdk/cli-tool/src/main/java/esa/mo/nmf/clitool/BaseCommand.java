@@ -326,7 +326,7 @@ public abstract class BaseCommand {
      * @param domain Restricts the search to objects in a specific domain ID
      * @return the ObjectKey of the found App or null if not found
      */
-    public static ObjectKey getAppObjectId(String appName, IdentifierList domain) {
+    public static ObjectKey getAppObjectKey(String appName, IdentifierList domain) {
         // SoftwareManagement.AppsLaunch.App object type
         ObjectType appType = new ObjectType(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NUMBER,
                 AppsLauncherServiceInfo.APPSLAUNCHER_SERVICE_NUMBER, new UOctet((short) 0),
@@ -340,6 +340,6 @@ public abstract class BaseCommand {
         // execute query
         ArchiveToAppAdapter adapter = new ArchiveToAppAdapter(appName);
         queryArchive(appType, archiveQueryList, adapter, adapter);
-        return adapter.getAppObjectId();
+        return adapter.getAppObjectKey();
     }
 }

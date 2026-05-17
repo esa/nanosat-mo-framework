@@ -54,7 +54,7 @@ public class ArchiveToAppAdapter extends ArchiveAdapter implements QueryStatusPr
     /**
      * ObjectKey of the found App or null if not found after the query ended.
      */
-    private ObjectKey appObjectId;
+    private ObjectKey appObjectKey;
 
     /**
      * True if the query is over (response or any error received)
@@ -109,7 +109,7 @@ public class ArchiveToAppAdapter extends ArchiveAdapter implements QueryStatusPr
             appDomain.add(new Identifier("*"));
 
             if (this.appName.equals(appName)) {
-                appObjectId = new ObjectKey(appType, appDomain, appInstanceId);
+                appObjectKey = new ObjectKey(appType, appDomain, appInstanceId);
                 setIsQueryOver(true);
             }
         }
@@ -150,8 +150,8 @@ public class ArchiveToAppAdapter extends ArchiveAdapter implements QueryStatusPr
      *
      * @return the ObjectKey
      */
-    public ObjectKey getAppObjectId() {
-        return appObjectId;
+    public ObjectKey getAppObjectKey() {
+        return appObjectKey;
     }
 
     /**

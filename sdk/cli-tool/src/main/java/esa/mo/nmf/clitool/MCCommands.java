@@ -285,7 +285,7 @@ public class MCCommands {
                 stub.monitorValueRegister(subscription, new ParameterAdapter() {
                     @Override
                     public void monitorValueNotifyReceived(MALMessageHeader msgHeader, Identifier identifier,
-                            UpdateHeader updateHeader, ObjectKey objectId,
+                            UpdateHeader updateHeader, ObjectKey objectKey,
                             ParameterValue parameterValue, Map qosProperties) {
                         String parameterName = updateHeader.getKeyValues().get(0).getValue().toString().toLowerCase();
                         //long timestamp = updateHeader.getTimestamp().getValue();
@@ -511,7 +511,7 @@ public class MCCommands {
                 stub.monitorValueRegister(subscription, new AggregationAdapter() {
                     @Override
                     public void monitorValueNotifyReceived(MALMessageHeader msgHeader,
-                            Identifier identifier, UpdateHeader updateHeader, ObjectKey objectId,
+                            Identifier identifier, UpdateHeader updateHeader, ObjectKey objectKey,
                             AggregationValue aggregationValue, Map qosProperties) {
                         String aggregationName = updateHeader.getKeyValues().get(0).getValue().toString().toLowerCase();
                         //long timestamp = updateHeaderList.get(0).getTimestamp().getValue();

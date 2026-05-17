@@ -216,22 +216,22 @@ public class ArchiveToJsonAdapter extends ArchiveAdapter implements QueryStatusP
 
         private static class CleanObjectDetails {
             private Long relatedInstanceId;
-            private CleanObjectId source;
+            private CleanObjectKey source;
 
             public CleanObjectDetails(ObjectLinks objectLinks) {
                 relatedInstanceId = objectLinks.getRelated();
-                source = objectLinks.getSource() == null ? null : new CleanObjectId(objectLinks.getSource());
+                source = objectLinks.getSource() == null ? null : new CleanObjectKey(objectLinks.getSource());
             }
 
-            private static class CleanObjectId {
+            private static class CleanObjectKey {
                 String objectType;
                 String domain;
                 Long instanceId;
 
-                public CleanObjectId(ObjectKey objectId) {
-                    objectType = HelperCOM.objType2string(objectId.getType()).replace(" - ", ".").replace(": ", ".");
-                    domain = HelperDomain.domain2domainId(objectId.getDomain());
-                    instanceId = objectId.getInstId();
+                public CleanObjectKey(ObjectKey objectKey) {
+                    objectType = HelperCOM.objType2string(objectKey.getType()).replace(" - ", ".").replace(": ", ".");
+                    domain = HelperDomain.domain2domainId(objectKey.getDomain());
+                    instanceId = objectKey.getInstId();
                 }
             }
         }

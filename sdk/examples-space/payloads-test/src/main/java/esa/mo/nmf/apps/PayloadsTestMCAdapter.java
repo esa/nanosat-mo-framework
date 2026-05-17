@@ -360,13 +360,13 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
         conversions.add(new DiscreteConversion(mappings));
         ParameterConversion paramConversion = null;
         try {
-            ObjectKeyList objIds = registration.registerConversions(conversions);
+            ObjectKeyList objKeys = registration.registerConversions(conversions);
 
-            if (objIds.size() == 1) {
-                ObjectKey objId = objIds.get(0);
+            if (objKeys.size() == 1) {
+                ObjectKey objKey = objKeys.get(0);
                 ParameterExpression paramExpr = null;
 
-                ConditionalConversion condition = new ConditionalConversion(paramExpr, objId.getInstId());
+                ConditionalConversion condition = new ConditionalConversion(paramExpr, objKey.getInstId());
                 ConditionalConversionList conditionalConversions = new ConditionalConversionList();
                 conditionalConversions.add(condition);
 
@@ -488,7 +488,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
                         @Override
                         public void monitorValueNotifyReceived(MALMessageHeader msgHeader,
                                 Identifier subscriptionId, UpdateHeader updateHeader,
-                                ObjectKey objectId, ParameterValue parameterValue, Map qosProperties) {
+                                ObjectKey objectKey, ParameterValue parameterValue, Map qosProperties) {
 
                             String parameterName = updateHeader.getKeyValues().get(0).getValue().toString();
                             Attribute value = parameterValue.getRawValue();

@@ -173,9 +173,9 @@ public class LogsCommands {
             }
             // Query archive for the App object id
             IdentifierList domain = domainId == null ? null : HelperDomain.domainId2domain(domainId);
-            ObjectKey appObjectId = getAppObjectId(appName, domain);
+            ObjectKey appObjectKey = getAppObjectKey(appName, domain);
 
-            if (appObjectId == null) {
+            if (appObjectKey == null) {
                 if (databaseFile == null) {
                     LOGGER.log(Level.SEVERE, String.format("Couldn't find App with name %s in provider at %s", appName,
                             providerURI));
@@ -190,7 +190,7 @@ public class LogsCommands {
             ArchiveQueryList archiveQueryList = new ArchiveQueryList();
             Time startTimeF = startTime == null ? null : HelperTime.readableString2Time(startTime);
             Time endTimeF = endTime == null ? null : HelperTime.readableString2Time(endTime);
-            ArchiveQuery outputArchiveQuery = new ArchiveQuery(domain, null, null, 0L, appObjectId, startTimeF,
+            ArchiveQuery outputArchiveQuery = new ArchiveQuery(domain, null, null, 0L, appObjectKey, startTimeF,
                     endTimeF, null, null);
             archiveQueryList.add(outputArchiveQuery);
 
@@ -199,7 +199,7 @@ public class LogsCommands {
             queryArchive(outputObjectTypes, archiveQueryList, adapter, adapter);
 
             archiveQueryList.clear();
-            ArchiveQuery eventArchiveQuery = new ArchiveQuery(domain, null, null, appObjectId.getInstId(),
+            ArchiveQuery eventArchiveQuery = new ArchiveQuery(domain, null, null, appObjectKey.getInstId(),
                     null, startTimeF, endTimeF, null, null);
             archiveQueryList.add(eventArchiveQuery);
             adapter.resetAdapter();

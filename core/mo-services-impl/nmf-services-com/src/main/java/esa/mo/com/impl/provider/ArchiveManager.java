@@ -262,14 +262,14 @@ public class ArchiveManager {
         }
 
         SourceLinkContainer sourceLink = comEntity.getSourceLink();
-        ObjectKey objectId = null;
+        ObjectKey objectKey = null;
 
         if (sourceLink.getObjectTypeId() != null
                 || sourceLink.getDomainId() != null
                 || sourceLink.getObjId() != null) {
             try {
                 IdentifierList sDomain = this.fastDomain.getDomain(sourceLink.getDomainId());
-                objectId = new ObjectKey(
+                objectKey = new ObjectKey(
                         this.fastObjectType.getObjectType(sourceLink.getObjectTypeId()),
                         sDomain, sourceLink.getObjId());
             } catch (Exception ex) {
@@ -278,7 +278,7 @@ public class ArchiveManager {
         }
 
         ArchiveDetails archiveDetails = new ArchiveDetails(comEntity.getObjectId(),
-                new ObjectLinks(comEntity.getRelatedLink(), objectId),
+                new ObjectLinks(comEntity.getRelatedLink(), objectKey),
                 network, new Time(comEntity.getTimestamp().getValue()), providerURI);
 
         return new ArchivePersistenceObject(objType, domain, objId, archiveDetails, comEntity.getObject());

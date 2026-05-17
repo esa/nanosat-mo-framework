@@ -150,13 +150,13 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
         ParameterConversion paramConversion = null;
 
         try {
-            ObjectKeyList objIds = registration.registerConversions(conversions);
+            ObjectKeyList objKeys = registration.registerConversions(conversions);
 
-            if (objIds.size() == 1) {
-                ObjectKey objId = objIds.get(0);
+            if (objKeys.size() == 1) {
+                ObjectKey objKey = objKeys.get(0);
                 ParameterExpression paramExpr = null;
 
-                ConditionalConversion condition = new ConditionalConversion(paramExpr, objId.getInstId());
+                ConditionalConversion condition = new ConditionalConversion(paramExpr, objKey.getInstId());
                 ConditionalConversionList conditionalConversions = new ConditionalConversionList();
                 conditionalConversions.add(condition);
 

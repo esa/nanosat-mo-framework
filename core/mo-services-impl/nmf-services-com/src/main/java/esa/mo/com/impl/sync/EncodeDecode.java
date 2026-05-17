@@ -322,10 +322,10 @@ public class EncodeDecode {
                     sourceDomain = null;
                 }
 
-                ObjectKey objectId = (sourceObjType == null) ? null
+                ObjectKey objectKey = (sourceObjType == null) ? null
                         : new ObjectKey(sourceObjType, sourceDomain, sourceObjId);
 
-                ObjectLinks objDetails = new ObjectLinks(relatedLink, objectId);
+                ObjectLinks objDetails = new ObjectLinks(relatedLink, objectKey);
 
                 ArchiveDetails archDetails = new ArchiveDetails(objId, objDetails, network, timestamp, providerURI);
 

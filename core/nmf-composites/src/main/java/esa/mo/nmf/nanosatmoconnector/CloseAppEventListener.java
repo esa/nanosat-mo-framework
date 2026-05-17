@@ -71,7 +71,7 @@ public class CloseAppEventListener extends EventReceivedListener {
                 "New StopApp Event Received! For provider: ''{0}'' (Related link: {1})",
                 new Object[]{name.getValue(), eventCOMObject.getRelated()});
 
-        final ObjectKey source = eventCOMObject.getObjectId();
+        final ObjectKey source = eventCOMObject.getObjectKey();
         this.provider.closeGracefully(source);
     }
 

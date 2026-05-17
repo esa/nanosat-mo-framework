@@ -140,7 +140,7 @@ public class EventCOMObject {
         this.sourceURI = sourceURI;
     }
 
-    public ObjectKey getObjectId() {
+    public ObjectKey getObjectKey() {
         return new ObjectKey(this.objType, this.domain, this.objId);
     }
 
