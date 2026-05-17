@@ -29,6 +29,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>testbed-area-com</module>
         <module>testbed-area-mc</module>
     </modules>
 
