@@ -145,11 +145,7 @@ These rules apply to the text content of every `<mal:documentation>` element, at
 
 Prefer `shall` over `must` for consistency — the MPD reference file uses `shall` exclusively, and mixing both in the same document reduces readability. Reserve `must` only when it reads significantly more naturally in context.
 
-**Always state the subject explicitly.** Every normative sentence must name who is responsible:
-- `"A consumer shall specify..."` — consumer-side obligation
-- `"The service provider shall return..."` — provider-side obligation
-
-Never write a subjectless sentence like *"An error shall be returned"* or *"The list shall be ordered"*.
+**State the subject when it is not already clear from context.** The MAL book unambiguously defines which party sends which message in every interaction pattern, so using the message stage as subject is acceptable and often reads more naturally — *"The RESPONSE message shall contain..."* is unambiguously a provider obligation by definition. An explicit subject (`"A consumer shall..."`, `"The service provider shall..."`) is needed only when the responsible party cannot be inferred from the interaction pattern alone — for example, in service-level or area-level requirements that are not tied to a specific message stage.
 
 **Active voice.** The subject must be the agent, not the thing being acted on:
 - Wrong: `"An INVALID error shall be returned if the domain contains a wildcard."`
@@ -200,7 +196,18 @@ Right — split into two:
 
 **Requirements shall not duplicate field descriptions.** If a requirement does nothing more than describe what a field represents, delete it — that belongs in the `comment` attribute of the `<mal:field>` element. Requirements shall only state behaviour, constraints, or consequences that cannot be expressed in a field comment.
 
-**`NULL` is always capitalised.** Never write `null` or `Null` in requirement text or `comment` attributes.
+**`NULL`, `TRUE`, and `FALSE` are always capitalised** in requirement text and `comment` attributes — they are type values, not plain English words. This does not apply to XML attribute values such as `canBeNull="false"`, which are XML boolean literals and stay lowercase.
+
+**Interaction pattern message stage names are always capitalised** when referenced in requirement text or `comment` attributes — they are protocol-level terms, not plain English words:
+
+| Stage | Written as |
+|---|---|
+| Send | SEND message |
+| Submit | SUBMIT message |
+| Request / Response | REQUEST message, RESPONSE message |
+| Invoke / Acknowledgement / Response | INVOKE message, ACKNOWLEDGEMENT message, RESPONSE message |
+| Progress / Acknowledgement / Update / Response | PROGRESS message, ACKNOWLEDGEMENT message, UPDATE message, RESPONSE message |
+| Publish-Subscribe | PUBLISH message, NOTIFY message |
 
 **Unambiguous.** Every requirement must have exactly one valid interpretation:
 - Name things explicitly — avoid `it`, `this`, `the above` when the antecedent is unclear.
