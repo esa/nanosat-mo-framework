@@ -45,18 +45,18 @@ import org.junit.Test;
  */
 public class ParameterTest {
 
-    private static final SetUpProvidersAndConsumers testbed = new SetUpProvidersAndConsumers();
+    private static final SetUpProvidersAndConsumers harness = new SetUpProvidersAndConsumers();
 
     private static final SimpleParameterBackend BACKEND = new SimpleParameterBackend(42);
 
     @BeforeClass
     public static void setUpClass() throws IOException {
-        testbed.setUp(false, false, true, false, BACKEND);
+        harness.setUp(false, false, true, false, BACKEND);
     }
 
     @AfterClass
     public static void tearDownClass() throws IOException {
-        testbed.tearDown();
+        harness.tearDown();
     }
 
     @Test
@@ -70,12 +70,12 @@ public class ParameterTest {
 
         ParameterDefinitionList defs = new ParameterDefinitionList();
         defs.add(def);
-        LongList ids = testbed.getParameterProvider().addParameters(defs, null);
+        LongList ids = harness.getParameterProvider().addParameters(defs, null);
 
         Assert.assertNotNull("addParameters must return a non-null ID list", ids);
         Assert.assertEquals("One ID must be returned", 1, ids.size());
 
-        ParameterStub stub = testbed.getParameterConsumerStub().getParameterStub();
+        ParameterStub stub = harness.getParameterConsumerStub().getParameterStub();
         ParameterValueDetailsList result = stub.getValue(ids);
 
         Assert.assertNotNull("getValue must return a non-null list", result);
