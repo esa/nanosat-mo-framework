@@ -230,7 +230,7 @@ When reviewing or fixing requirements:
 
 1. **Check every rule against every element.** A single `<mal:documentation>` can violate multiple rules simultaneously — finding one violation does not mean the element is otherwise clean. After fixing one issue, re-read the same element against all other wording rules before moving on.
 
-2. **Do a final pass after all changes are applied.** Once all fixes have been made, re-read every modified `<mal:documentation>` element from scratch to catch anything introduced or missed during the correction process.
+2. **Do exactly one final verification pass after all changes are applied.** Re-read every modified `<mal:documentation>` element once to catch anything missed. This pass is a single read-through — do not start another fix cycle from it. Report any remaining issues instead.
 
 ---
 
