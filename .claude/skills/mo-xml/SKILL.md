@@ -75,12 +75,12 @@ Read this file whenever you are uncertain about which elements or attributes are
 ### Service-level documentation
 
 ```xml
-<mal:documentation name="Service-level Requirements" order="1">
+<mal:documentation name="Service-level Requirement" order="1">
     The Product Retrieval service provider may provide the capability to...
 </mal:documentation>
 ```
 
-- Label is `"Service-level Requirements"` (plural). Never `"Service-level Requirement"` (singular) — that is wrong.
+- Label is `"Service-level Requirement"` (singular).
 - `order` is sequential from 1.
 - Text content on a new indented line. Notes are inline: `Note: ...` — no separate element.
 
@@ -214,6 +214,7 @@ Right — split into two:
 
 **Unambiguous.** Every requirement must have exactly one valid interpretation:
 - Name things explicitly — avoid `it`, `this`, `the above` when the antecedent is unclear.
+- When a requirement refers to a message field, use the field name directly rather than a prose description: `the objInstIds field` not `the object instance identifier list`.
 - Avoid vague quantifiers: `several`, `some`, `many`, `few`.
 - Avoid undefined relative terms: `quickly`, `large`, `small`.
 
