@@ -53,7 +53,7 @@ Read this file whenever you are uncertain about which elements or attributes are
 ## 3. Services
 
 ```xml
-<mal:service number="1" name="ProductRetrieval" comment="The Product Retrieval Service allows browsing and retrieval of existing products.">
+<mal:service name="ProductRetrieval" number="1" comment="The Product Retrieval Service allows browsing and retrieval of existing products.">
 ```
 
 - `number`: sequential integers starting at 1 within the area.
@@ -63,12 +63,12 @@ Read this file whenever you are uncertain about which elements or attributes are
 ### Area-level documentation
 
 ```xml
-<mal:documentation name="Requirement" order="1">
+<mal:documentation name="Area-level Requirement" order="1">
     The instance identifier of an object shall not use the value of '0'...
 </mal:documentation>
 ```
 
-- Label is `"Requirement"` (singular), same as operation-level.
+- Label is `"Area-level Requirement"`.
 - `order` is sequential from 1.
 - Text content on a new indented line.
 
@@ -114,7 +114,7 @@ Read this file whenever you are uncertain about which elements or attributes are
 ### Attributes
 
 ```xml
-<mal:requestIP number="1" name="listProducts" comment="The listProducts operation lists the available products for a selected product filter.">
+<mal:requestIP name="listProducts" number="1" comment="The listProducts operation lists the available products for a selected product filter.">
 ```
 
 - `number`: sequential across **all** operations in the service (not reset per capability set).
@@ -151,6 +151,8 @@ Prefer `shall` over `must` for consistency — the MPD reference file uses `shal
 **Active voice.** The subject must be the agent, not the thing being acted on:
 - Wrong: `"An INVALID error shall be returned if the domain contains a wildcard."`
 - Right: `"The service provider shall return an INVALID error if the domain contains a wildcard."`
+
+This is consistent with the "message as subject" rule above: a message stage (RESPONSE, UPDATE, etc.) is an acceptable subject because the MAL interaction pattern unambiguously identifies the provider as the sender — it is not passive voice, it is a shorthand for the provider obligation.
 
 **PUBSUB operations** follow a different pattern because the consumer is never obligated to subscribe in a particular way — subscribing is always optional. This changes which modal verb applies to each side:
 
@@ -311,10 +313,12 @@ Right — split into two:
 - `name`: lowerCamelCase.
 - `canBeNull`: `"true"` or `"false"`. Always present — even when `"true"` (the XSD default) — to be explicit.
 - `comment`: full description ending with `.`. Describe the field directly — do not use filler verbs like "holds", "contains", "stores", or "represents". Wrong: `"The names field holds the list of names."` Right: `"The list of names."`
-- When `canBeNull="true"`, the operation documentation must state what NULL means.
+- When `canBeNull="true"`, the operation documentation shall state what NULL means.
 - `<mal:type>` is a self-closing child element.
 
 ### Type references
+
+Attribute ordering on `<mal:type>` is always `area`, `list`, `name`.
 
 | Usage | Example |
 |---|---|
@@ -343,15 +347,17 @@ MAL primitive types: `Boolean`, `Integer`, `Long`, `String`, `Identifier`, `URI`
 - `name`: Title Case, may contain spaces (e.g. `"Delivery Failed"`, `"Too Many"`).
 - `number`: sequential from 1 within the area.
 - `comment`: full sentence ending with `.`.
+- **Errors are defined at area level only** — `ServiceSchema-v003` removed the ability to define errors at service level or inline within operations. Operations may only reference area-level errors via `<mal:errorRef>`.
+- **When editing older NMF XML files**: service-level `<mal:errors>` blocks may exist (legacy of the old schema). Move any such error definitions up to the area-level `<mal:errors>` block and replace the original with `<mal:errorRef>` references.
 
 ### Error references in operations
 
 ```xml
 <mal:errors>
     <mal:errorRef comment="When a field in the message contains an invalid value.">
-        <mal:type name="Invalid" area="MPD"/>
+        <mal:type area="MPD" list="false" name="Invalid"/>
         <mal:extraInformation comment="A textual description with the reason for invalidity.">
-            <mal:type area="MAL" name="String" list="false"/>
+            <mal:type area="MAL" list="false" name="String"/>
         </mal:extraInformation>
     </mal:errorRef>
 </mal:errors>
@@ -366,7 +372,7 @@ MAL primitive types: `Boolean`, `Integer`, `Long`, `String`, `Identifier`, `URI`
 
 ## 9. Data Types
 
-The `<mal:dataTypes>` block appears **before** `<mal:errors>` at the end of `<mal:area>`. Order within it: concrete composites (by `shortFormPart`), abstract composites before their subtypes, then enumerations.
+The `<mal:dataTypes>` block appears **before** `<mal:errors>` at the end of `<mal:area>`. Order within it: all concrete composites that have no abstract parent (sorted by `shortFormPart`), then abstract composites immediately followed by their concrete subtypes, then enumerations.
 
 ### Concrete composite
 
@@ -459,11 +465,12 @@ The `<mal:dataTypes>` block appears **before** `<mal:errors>` at the end of `<ma
 <!-- copyright comment -->
 <mal:specification ...>
   <mal:area ...>
+    <mal:documentation .../>     (area-level requirements, label "Area-level Requirement")
     <mal:service ...>            (repeat per service, numbered from 1)
-      <mal:documentation .../>   (service-level requirements)
+      <mal:documentation .../>   (service-level requirements, label "Service-level Requirement")
       <mal:capabilitySet ...>    (repeat per capability set, numbered from 1)
         <mal:XxxIP ...>          (operation)
-          <mal:documentation .../> (operation requirements)
+          <mal:documentation .../> (operation requirements, label "Requirement")
           <mal:messages>
             ...
           </mal:messages>
@@ -487,4 +494,10 @@ The `<mal:dataTypes>` block appears **before** `<mal:errors>` at the end of `<ma
 
 ## 13. NMF Project-specific Notes
 
-The files in `core/mo-services-xml/` use an older schema (`ServiceSchema` without version suffix) and the `com:ExtendedServiceType` extension for COM-area services. When editing those files, match the existing style in that file rather than the MPD reference above. The conventions for naming, numbering, documentation wording, and data types are the same.
+The files in `core/mo-services-xml/` differ from the MPD reference in the following ways — match the existing file style when editing them:
+
+- **Schema namespace**: currently `http://www.ccsds.org/schema/ServiceSchema` (no version suffix) — this is a known gap, pending upgrade to `ServiceSchema-v003`. Do not change the namespace until the XSD and `COMSchema.xsd` are also updated.
+- **COM-area services**: carry `xsi:type="com:ExtendedServiceType"` on `<mal:service>` and require the `xmlns:com="http://www.ccsds.org/schema/COMSchema"` namespace declaration.
+- **Area-level error numbers**: use sequential integers from 1, same as any other area. The NMF COM file historically used large values (`70000`, `70001`) — this was a design mistake, now corrected.
+
+All other conventions (naming, numbering, documentation wording, data types, attribute ordering) are identical to the MPD reference.
