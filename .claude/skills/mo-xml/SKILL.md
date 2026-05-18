@@ -201,6 +201,8 @@ Right — split into two:
 
 **Requirements shall not duplicate error trigger conditions.** The `comment` attribute on `<mal:errorRef>` is itself normative — it states when the error is raised. A requirement that only restates that same trigger condition adds nothing and shall be deleted. If a requirement provides _more specific detail_ than the errorRef comment (e.g. naming the exact wildcard value), fold that detail into the errorRef comment instead of keeping it as a separate requirement.
 
+Whenever a requirement mentions an error by name (UNKNOWN, INVALID, DUPLICATE, etc.), immediately look up the corresponding `<mal:errorRef>` in the same operation and compare. If the condition in the requirement is already covered by the errorRef comment, delete the requirement — do not just fix its formatting.
+
 **`NULL`, `TRUE`, and `FALSE` are always capitalised** in requirement text and `comment` attributes — they are type values, not plain English words. This does not apply to XML attribute values such as `canBeNull="false"`, which are XML boolean literals and stay lowercase.
 
 **Interaction pattern message stage names are always capitalised** when referenced in requirement text or `comment` attributes — they are protocol-level terms, not plain English words:
