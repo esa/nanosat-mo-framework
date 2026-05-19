@@ -224,6 +224,16 @@ Whenever a requirement mentions an error by name (UNKNOWN, INVALID, DUPLICATE, e
 
 **Notes** inline at end of paragraph, used sparingly: `Note: ...` — no separate element.
 
+**HTML lists are permitted** in `<mal:documentation>` text when enumerating multiple capabilities or items. Use `<ol>`/`<li>` for ordered lists. Do not reformat these into prose or split them into separate elements:
+```xml
+<mal:documentation name="Service-level Requirement" order="1">The action service shall provide:
+&lt;ol&gt;
+  &lt;li&gt;the capability for monitoring the execution progress of actions;&lt;/li&gt;
+  &lt;li&gt;the capability for submitting actions for execution;&lt;/li&gt;
+&lt;/ol&gt;
+</mal:documentation>
+```
+
 ---
 
 #### Review and correction process
