@@ -4,20 +4,18 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xmlns:mal="http://www.ccsds.org/schema/ServiceSchema">
     <mal:area name="MC" number="4" version="5"
-              comment="This section details the MC services, the structures used by the services are detailed in section 4. Both the services and structures are defined in terms of the MO MAL, which is defined in [2], so it is possible to deploy them over any supported protocol and message transport.&#xA;The services defined here are also specified in terms of the COM, which is defined in [3].&#xA;To aid comprehension, several tables are included for each service and operation definition. The table formats are briefly described in section 1.6.3.2 and are the same as those used for the specification of the MO COM services in [3]. &#xA;All service specifications in this document are part of the MC area, which has a short form number of '4'.">
+              comment="This specification contains the Monitor and Control area.">
         <mal:service xsi:type="com:ExtendedServiceType" name="Action" number="1"
                      comment="The action service allows consumers to request execution of actions and to subsequently monitor the execution progress of these actions via the monitorExecution PUB-SUB operation.&#xA;A consumer requests execution by calling the executeAction operation. The provider validates the request, creates and archives the ExecutionRequest object, assigns it a unique executionId, and returns that id in the response. The provider then reports execution progress by publishing monitorExecution notifications and storing ExecutionStatus COM objects in the archive. Once the action execution details have been checked and execution started, the executeAction operation completes whilst the execution of the action possibly continues (depends on the actual action).&#xA;The action service defines three types of objects: ActionDefinition (holds the name, description, and argument list of an action), ExecutionRequest (holds the argument values submitted for a specific execution), and ExecutionStatus (holds the progress status of each stage of an execution).">
             <mal:documentation name="Service-level Requirement" order="1">The action service shall provide:
-&lt;ol&gt;
- &lt;li&gt;the capability for monitoring the execution progress of actions;&lt;/li&gt;
- &lt;li&gt;the capability for submitting actions for execution;&lt;/li&gt;
- &lt;li&gt;the capability for listing the numeric identifiers for the action definitions.&lt;/li&gt;
-&lt;/ol&gt;</mal:documentation>
+                &lt;ol&gt;
+                 &lt;li&gt;the capability for monitoring the execution progress of actions;&lt;/li&gt;
+                 &lt;li&gt;the capability for submitting actions for execution;&lt;/li&gt;
+                 &lt;li&gt;the capability for listing the numeric identifiers for the action definitions.&lt;/li&gt;
+                &lt;/ol&gt;
+            </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="2">
                 The list of actions supported by the action service shall be declared when deploying that service.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="11">
-                The executeAction operation shall be used to request execution of a new action execution on the provider.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="3">
                 The definitions of the actions shall be represented as ActionDefinition COM objects.
@@ -115,7 +113,10 @@
                         If an error is raised, then no action shall be executed.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
-                        The RESPONSE message shall contain the provider-assigned executionId once the action has been accepted for execution but before execution starts.
+                        The service provider shall assign an executionId once the action has been accepted for execution but before execution starts.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="4">
+                        The RESPONSE message shall contain the assigned executionId.
                     </mal:documentation>
                     <mal:messages>
                         <mal:request>
@@ -126,7 +127,7 @@
                         </mal:request>
                         <mal:response>
                             <mal:field name="executionId" canBeNull="false"
-                                       comment="The provider-assigned id of the execution of an action. Used as the executionId subscription key in monitorExecution notifications.">
+                                       comment="The assigned id of the execution of an action. Used as the executionId subscription key in monitorExecution notifications.">
                                 <mal:type area="MAL" name="Long"/>
                             </mal:field>
                         </mal:response>
@@ -311,7 +312,7 @@
                             </mal:field>
                         </mal:subscriptionKeys>
                         <mal:publishNotify>
-                            <mal:field name="objId" canBeNull="true"
+                            <mal:field name="objKey" canBeNull="true"
                                        comment="The ObjectKey of the source link of the report.">
                                 <mal:type area="COM" name="ObjectKey"/>
                             </mal:field>
@@ -842,7 +843,7 @@
                             </mal:field>
                         </mal:subscriptionKeys>
                         <mal:publishNotify>
-                            <mal:field name="objId" canBeNull="true"
+                            <mal:field name="objKey" canBeNull="true"
                                        comment="The ObjectKey of the source link of the report.">
                                 <mal:type area="COM" name="ObjectKey"/>
                             </mal:field>
