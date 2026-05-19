@@ -18,6 +18,7 @@ in :doc:`../concepts/index`.
    platform-services/index
    inter-app-communication
    logging
+   storage
    packaging
    testing
    worked-example
