@@ -7,20 +7,17 @@
               comment="This section details the MC services, the structures used by the services are detailed in section 4. Both the services and structures are defined in terms of the MO MAL, which is defined in [2], so it is possible to deploy them over any supported protocol and message transport.&#xA;The services defined here are also specified in terms of the COM, which is defined in [3].&#xA;To aid comprehension, several tables are included for each service and operation definition. The table formats are briefly described in section 1.6.3.2 and are the same as those used for the specification of the MO COM services in [3]. &#xA;All service specifications in this document are part of the MC area, which has a short form number of '4'.">
         <mal:service xsi:type="com:ExtendedServiceType" name="Action" number="1"
                      comment="The action service allows consumers to request execution of actions and to subsequently monitor the execution progress of these actions via the monitorExecution PUB-SUB operation.&#xA;A consumer requests execution by calling the executeAction operation. The provider validates the request, creates and archives the ExecutionRequest object, assigns it a unique executionId, and returns that id in the response. The provider then reports execution progress by publishing monitorExecution notifications and storing ExecutionStatus COM objects in the archive. Once the action execution details have been checked and execution started, the executeAction operation completes whilst the execution of the action possibly continues (depends on the actual action).&#xA;The action service defines three types of objects: ActionDefinition (holds the name, description, and argument list of an action), ExecutionRequest (holds the argument values submitted for a specific execution), and ExecutionStatus (holds the progress status of each stage of an execution).">
-            <mal:documentation name="High Level Requirements" order="1">The action service shall provide:
+            <mal:documentation name="Service-level Requirement" order="1">The action service shall provide:
 &lt;ol&gt;
  &lt;li&gt;the capability for monitoring the execution progress of actions;&lt;/li&gt;
  &lt;li&gt;the capability for submitting actions for execution;&lt;/li&gt;
  &lt;li&gt;the capability for listing the numeric identifiers for the action definitions.&lt;/li&gt;
-&lt;/ol&gt;
-                The list of actions that are supported by the action service shall be declared when deploying that service.
-                Each action execution request shall include:
-&lt;ol&gt;
- &lt;li&gt;the action definition numeric identifier;&lt;/li&gt;
- &lt;li&gt;the ordered list of action arguments.&lt;/li&gt;
-&lt;/ol&gt;
-                The provider shall return the action execution numeric identifier (executionId) in the response.</mal:documentation>
-            <mal:documentation name="Functional Requirements" order="2">The executeAction operation shall be used to request execution of a new action execution on the provider.
+&lt;/ol&gt;</mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="2">
+                The list of actions supported by the action service shall be declared when deploying that service.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="11">
+                The executeAction operation shall be used to request execution of a new action execution on the provider.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="3">
                 The definitions of the actions shall be represented as ActionDefinition COM objects.
@@ -35,7 +32,7 @@
                 ActionDefinition objects should be stored in the COM archive.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="7">
-                An ExecutionStatus object shall be created for each execution stage reached. It is implementation specific when a progress step is reached.
+                The service provider shall create an ExecutionStatus object for each execution stage reached. Note: it is implementation-specific when a progress step is reached.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="8">
                 ExecutionStatus objects shall be stored in the COM archive.
@@ -47,31 +44,37 @@
                 The fields of the ExecutionStatus object shall match the corresponding fields published in the monitorExecution notification for the same stage.
             </mal:documentation>
             <mal:capabilitySet number="1">
-                <mal:pubsubIP name="monitorExecution" number="1" supportInReplay="true"
+                <mal:pubsubIP name="monitorExecution" number="1"
                               comment="The monitorExecution operation allows a consumer to subscribe for updates on the execution progress of actions.">
                     <mal:documentation name="Requirement" order="1">
                         When an execution stage of an action is reached, the service provider shall publish an execution progress update.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        The service provider shall publish the execution progress update with subscription keys corresponding to the definitionId, executionId, and actionCategory of the executing action. The stageType shall be included in the published message body.
+                        The service provider shall publish the execution progress update using subscription keys corresponding to the definitionId, executionId, and actionCategory of the executing action.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
-                        A service consumer may subscribe to updates for a specific action definition, or for all action definitions by using the wildcard value in the definitionId field. The definitionId key shall be the id of the ActionDefinition object.
+                        The PUBLISH message shall include the stageType field in the message body.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="4">
-                        A service consumer may subscribe to updates for a specific action execution, or for all action executions by using the wildcard value in the executionId field. The executionId key shall be the id of the execution of an action.
+                        A service consumer may subscribe to updates for a specific action definition, or for all action definitions by using the wildcard value in the definitionId field.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="5">
-                        A service consumer may subscribe to updates for a specific action category, or for all categories by using the wildcard value in the actionCategory field.
+                        A service consumer may subscribe to updates for a specific action execution, or for all action executions by using the wildcard value in the executionId field.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="6">
-                        If the execution stage did not complete successfully, the success field of the published message shall be set to FALSE.
+                        A service consumer may subscribe to updates for a specific action category, or for all categories by using the wildcard value in the actionCategory field.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="7">
-                        The stageType field shall be set to START when the action begins execution, to PROGRESS for each intermediate progress stage, and to END when the action completes execution.
+                        If the execution stage did not complete successfully, then the success field of the PUBLISH message shall be set to FALSE.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="8">
-                        The step field shall be set to the current progress step number for PROGRESS stage updates, and shall be NULL for START and END stage updates.
+                        The stageType field shall be set to START when the action begins execution, to PROGRESS for each intermediate progress stage, and to END when the action completes execution.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="9">
+                        If the stageType field is START or END, then the step field shall be NULL.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="10">
+                        If the stageType field is PROGRESS, then the step field shall be set to the current progress step number.
                     </mal:documentation>
                     <mal:messages>
                         <mal:subscriptionKeys>
@@ -103,90 +106,75 @@
                 </mal:pubsubIP>
             </mal:capabilitySet>
             <mal:capabilitySet number="2">
-                <mal:requestIP name="executeAction" number="2" supportInReplay="false"
+                <mal:requestIP name="executeAction" number="2"
                               comment="The executeAction operation allows a consumer to request execution of an action on the provider. The execution of the action is asynchronous and therefore the executeAction operation may return before the action execution has been completed.">
                     <mal:documentation name="Requirement" order="1">
-                        If the definitionId of the supplied executionRequest field does not match a known ActionDefinition object then an UNKNOWN error shall be returned.
+                        A service provider may apply deployment-specific checks to the action execution and shall return an INVALID error if they fail.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        The size of the argumentValues list of the executionRequest field shall be compared to the size of the argument list in the matched ActionDefinition object and an INVALID error shall be returned if they are not the same.
+                        If an error is raised, then no action shall be executed.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
-                        If the executionRequest field contains an argumentIds value then this shall be compared to the same field in the matched ActionDefinition object and must be the same size and contain the same values, an INVALID error shall be returned if this is not the case.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="4">
-                        If the supplied argument values do not match the attribute type specified in the action definition then an INVALID error shall be returned.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="5">
-                        A service provider may apply some deployment specific checks to the action execution and can return an INVALID error if they fail.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="6">
-                        If an error is raised then no action shall be executed.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="7">
-                        The RESPONSE shall return the provider-assigned executionId once the action has been accepted for execution but before execution starts.
+                        The RESPONSE message shall contain the provider-assigned executionId once the action has been accepted for execution but before execution starts.
                     </mal:documentation>
                     <mal:messages>
                         <mal:request>
-                            <mal:field name="executionRequest"
+                            <mal:field name="executionRequest" canBeNull="false"
                                        comment="The argument values and related information of the action to be executed.">
-                                <mal:type name="ExecutionRequest" area="MC"/>
+                                <mal:type area="MC" name="ExecutionRequest"/>
                             </mal:field>
                         </mal:request>
                         <mal:response>
-                            <mal:field name="executionId"
+                            <mal:field name="executionId" canBeNull="false"
                                        comment="The provider-assigned id of the execution of an action. Used as the executionId subscription key in monitorExecution notifications.">
-                                <mal:type name="Long" area="MAL"/>
+                                <mal:type area="MAL" name="Long"/>
                             </mal:field>
                         </mal:response>
                     </mal:messages>
                     <mal:errors>
-                        <mal:errorRef comment="The list sizes held in the ExecutionRequest do not match the argument definitions or it contains one or more invalid argument values.&#xA;If the two lists are not the same length then the extra information field shall contain the first index of the element in the largest list which does not have corresponding element in the other list.">
-                            <mal:type name="INVALID" area="COM"/>
-                            <mal:extraInformation comment="The extra information field contains a list of the indexes of the erroneous values from the originating list supplied.">
-                                <mal:type list="true" name="UInteger" area="MAL"/>
+                        <mal:errorRef comment="When the argumentValues list size does not match the argument list in the matched ActionDefinition, or the argumentIds list does not match the ActionDefinition argument identifiers, or one or more argument values do not match the declared attribute type, or a deployment-specific check fails.">
+                            <mal:type area="COM" name="INVALID"/>
+                            <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
+                                <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>
-                        <mal:errorRef comment="Submitted action definition is unknown.">
-                            <mal:type name="UNKNOWN" area="MAL"/>
+                        <mal:errorRef comment="When the definitionId in the executionRequest field does not match a known ActionDefinition object.">
+                            <mal:type area="MAL" name="UNKNOWN"/>
                         </mal:errorRef>
                     </mal:errors>
                 </mal:requestIP>
             </mal:capabilitySet>
             <mal:capabilitySet number="3">
-                <mal:requestIP name="listDefinition" number="3" supportInReplay="true"
+                <mal:requestIP name="listDefinition" number="3"
                                comment="The listDefinition operation allows a consumer to request the ids of the ActionDefinition objects for the supported actions of the provider.">
                     <mal:documentation name="Requirement" order="1">
-                        The request may contain the wildcard value of '*' to return all supported ActionDefinition objects.
+                        The actionNames field may contain the wildcard value of '*' to return all supported ActionDefinition objects.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        The wildcard value should be checked for first, if found no other checks of supplied identifiers shall be made.
+                        The service provider shall check for the wildcard value first; if found, no other checks of supplied identifiers shall be made.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
-                        If a provided identifier does not include a wildcard and does not match an existing ActionDefinition object then this operation shall fail with an UNKNOWN error.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="4">
                         The returned list shall maintain the same order as the submitted list unless the wildcard value was included in the request.
                     </mal:documentation>
                     <mal:messages>
                         <mal:request>
-                            <mal:field name="actionNames"
+                            <mal:field name="actionNames" canBeNull="false"
                                        comment="The list of action names to retrieve the ActionDefinition ids for.">
-                                <mal:type list="true" name="Identifier" area="MAL"/>
+                                <mal:type area="MAL" list="true" name="Identifier"/>
                             </mal:field>
                         </mal:request>
                         <mal:response>
-                            <mal:field name="ids"
+                            <mal:field name="ids" canBeNull="false"
                                        comment="The list of ids matching the ActionDefinitions.">
-                                <mal:type list="true" name="Long" area="MAL"/>
+                                <mal:type area="MAL" list="true" name="Long"/>
                             </mal:field>
                         </mal:response>
                     </mal:messages>
                     <mal:errors>
-                        <mal:errorRef comment="One of the supplied identifiers is unknown.">
-                            <mal:type name="UNKNOWN" area="MAL"/>
-                            <mal:extraInformation comment="A list of the indexes of the error values shall be contained in the extra information field.">
-                                <mal:type list="true" name="UInteger" area="MAL"/>
+                        <mal:errorRef comment="When a supplied identifier does not include a wildcard and does not match an existing ActionDefinition object.">
+                            <mal:type area="MAL" name="UNKNOWN"/>
+                            <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
+                                <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>
                     </mal:errors>
@@ -196,12 +184,12 @@
                 <com:objects comment="Action definitions, execution requests, and execution statuses are represented as COM objects.">
                     <com:object number="1" name="ActionDefinition">
                         <com:objectType>
-                            <mal:type name="ActionDefinition" area="MC"/>
+                            <mal:type area="MC" name="ActionDefinition"/>
                         </com:objectType>
                     </com:object>
                     <com:object number="2" name="ExecutionRequest">
                         <com:objectType>
-                            <mal:type name="ExecutionRequest" area="MC"/>
+                            <mal:type area="MC" name="ExecutionRequest"/>
                         </com:objectType>
                         <com:relatedObject>
                             <com:objectType number="1" service="Action" area="MC"/>
@@ -209,7 +197,7 @@
                     </com:object>
                     <com:object number="3" name="ExecutionStatus">
                         <com:objectType>
-                            <mal:type name="ExecutionStatus" area="MC"/>
+                            <mal:type area="MC" name="ExecutionStatus"/>
                         </com:objectType>
                         <com:relatedObject>
                             <com:objectType number="2" service="Action" area="MC"/>
@@ -221,41 +209,62 @@
         </mal:service>
         <mal:service xsi:type="com:ExtendedServiceType" name="Parameter" number="2"
                      comment="The parameter service allows the user to subscribe to parameter value report and optionally be able to set new values. A single PUBSUB operation is provided for monitoring and publishing of parameter values.&#xA;A parameter value also contains a calculation of the validity of the parameter, the flow chart for this calculation is provided in Figure 3-3:&#xA; validity calculation flow chart &#xA;&#xA;This standard supports the concept of non-standard invalidity states but the meaning and calculation of these is outside the scope of this standard.&#xA;The generation of value reports can be controlled using the enableGeneration operation.&#xA;The parameter service does not include any value checking, this is delegated to the check service.&#xA;Parameter definitions are maintained using the operations defined in this service but storage of definitions is delegated to the COM archive.">
-            <mal:documentation name="High Level Requirements" order="1">The parameter service shall provide:
+            <mal:documentation name="Service-level Requirement" order="1">The parameter service shall provide:
 &lt;ol&gt;
  &lt;li&gt;the capability for periodic reporting of predefined parameter values;&lt;/li&gt;
  &lt;li&gt;the capability for setting the raw parameter value of a set of parameters;&lt;/li&gt;
  &lt;li&gt;the capability for requesting the current value of a set of parameters;&lt;/li&gt;
  &lt;li&gt;the capability for controlling reporting of the parameter values;&lt;/li&gt;
  &lt;li&gt;the capability for maintaining the list of parameter definitions.&lt;/li&gt;
-&lt;/ol&gt;
-                Each parameter value report shall contain:
+&lt;/ol&gt;</mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="2">Each parameter value report shall contain:
 &lt;ol&gt;
  &lt;li&gt;The validity of the parameter value;&lt;/li&gt;
  &lt;li&gt;The raw value of the parameter;&lt;/li&gt;
  &lt;li&gt;The converted value of the parameter, if applicable.&lt;/li&gt;
-&lt;/ol&gt;
-                The validity of parameter shall be calculated against validity criteria in the parameter definition.
-                It shall be possible to update, delete, and add parameter definitions.
-                The list of the parameters definitions may be requested.</mal:documentation>
-            <mal:documentation name="Functional Requirements" order="2">The generation of reports of the parameter shall be controlled by the generationEnabled Boolean value in the ParameterDefinition.
-                Setting the generationEnabled field to TRUE shall enable generation of reports for a specific parameter.
-                If a parameter is required to send periodic reports then the time between these reports shall be controlled using the reportInterval Duration value in the ParameterDefinition.
-                A reportInterval value of '0' shall mean no periodic reports shall be sent; reports must be triggered by another implementation-specific mechanism in this case.
-                The generationEnabled values can be set by using the enableGeneration operation.
-                The generationEnabled and reportInterval values can be set by using the updateDefinition operation.
-                For onboard parameters, the interval should be a multiple of the minimum sampling interval of those parameters.
-                If an interval that is not supported by the provider is requested, then an INVALID error shall be returned, and the change rejected.
-                If the parameter is periodic and reported via a periodic aggregation, and a new report has not been received in the aggregation period, then the validity shall be set to EXPIRED by setting the ParameterValue validityState field to '1'.
-                If the parameter raw value cannot be obtained, or calculated for synthetic parameters, then the validity state shall be INVALID_RAW by setting the ParameterValue validityState field to '2' and the rawValue set to NULL.
-                If the validityExpression field is NULL, or the validity expression evaluates to TRUE, and the ParameterDefinition either does not contain a conversion or the conversion is successful, then the validity state shall be set to VALID by setting the ParameterValue validityState field to '0'.
-                If the validityExpression field is NULL, or the validity expression evaluates to TRUE, and the conversion of the parameter value fails (for example an unexpected value for a discrete conversion), then the validity state shall be INVALID_CONVERSION by setting the ParameterValue validityState field to '3'.
-                If the validityExpression field is not NULL and the parameters used to determine the expression are not VALID, then the validity state shall be set to UNVERIFIED by setting the ParameterValue validityState field to '4'.
-                If the validityExpression field is not NULL and the validity expression evaluates to FALSE, then the validity state shall be set to INVALID by setting the ParameterValue validityState field to '5'.
-                If the validity of the parameter is INVALID_CONVERSION then the convertedValue of the ParameterValue shall be set to NULL.
-                If the validity of the parameter is either UNVERIFIED or INVALID and the ParameterDefinition contains a conversion, then the convertedValue of the ParameterValue shall contain the converted value.
-                It is supported that other, implementation specific, mechanisms may be used to determine parameter validity.
-                It is supported that other, deployment specific, validityState values be used however the meaning of those values is deployment specific and outside the scope of this standard. They must use values greater than 127.</mal:documentation>
+&lt;/ol&gt;</mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="11">
+                The validity of a parameter shall be calculated against the validity criteria in the ParameterDefinition.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="12">
+                The generation of reports for a parameter shall be controlled by the generationEnabled field in the ParameterDefinition.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="13">
+                If the generationEnabled field is TRUE, then the service provider shall generate reports for that parameter.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="14">
+                If the parameter requires periodic reports, then the interval between reports shall be controlled by the reportInterval field in the ParameterDefinition.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="15">
+                If the reportInterval field is set to '0', then no periodic reports shall be generated; reports shall be triggered by another implementation-specific mechanism in this case.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="16">
+                If the parameter is periodic and reported via a periodic aggregation, and a new report has not been received in the aggregation period, then the service provider shall set the validityState field of the ParameterValue to EXPIRED.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="17">
+                If the parameter raw value cannot be obtained, or calculated for synthetic parameters, then the service provider shall set the validityState field to INVALID_RAW and the rawValue field to NULL.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="18">
+                If the validityExpression field is NULL or evaluates to TRUE, and the ParameterDefinition either does not contain a conversion or the conversion is successful, then the service provider shall set the validityState field to VALID.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="19">
+                If the validityExpression field is NULL or evaluates to TRUE, and the conversion of the parameter value fails, then the service provider shall set the validityState field to INVALID_CONVERSION.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="20">
+                If the validityExpression field is not NULL and the parameters used to determine the expression are not VALID, then the service provider shall set the validityState field to UNVERIFIED.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="21">
+                If the validityExpression field is not NULL and the validity expression evaluates to FALSE, then the service provider shall set the validityState field to INVALID.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="22">
+                If the validityState field is INVALID_CONVERSION, then the convertedValue field of the ParameterValue shall be NULL.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="23">
+                If the validityState field is UNVERIFIED or INVALID and the ParameterDefinition contains a conversion, then the convertedValue field of the ParameterValue shall contain the converted value.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="24">
+                Deployment-specific validityState values shall use values greater than 127. Note: the meaning of such values is deployment-specific and outside the scope of this standard.
+            </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="3">
                 The definitions of the parameters shall be represented as ParameterDefinition COM objects.
             </mal:documentation>
@@ -278,13 +287,13 @@
                 When a parameter value report is published, the ParameterValue object should be stored in the COM archive.
             </mal:documentation>
             <mal:capabilitySet number="1">
-                <mal:pubsubIP name="monitorValue" number="1" supportInReplay="true"
+                <mal:pubsubIP name="monitorValue" number="1"
                               comment="The monitorValue operation allows a consumer to subscribe for parameter value reports.">
                     <mal:documentation name="Requirement" order="1">
-                        The timestamp of the ParameterValue report shall be taken from the publish message and shall be the time of the parameter value update.
+                        The timestamp of the ParameterValue report shall be the time of the parameter value update, taken from the PUBLISH message.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        If no source link is needed then the ObjectKey shall be replaced with a NULL.
+                        If no source link is needed, then the objId field shall be NULL.
                     </mal:documentation>
                     <mal:messages>
                         <mal:subscriptionKeys>
@@ -302,260 +311,224 @@
                             </mal:field>
                         </mal:subscriptionKeys>
                         <mal:publishNotify>
-                            <mal:field name="objId"
+                            <mal:field name="objId" canBeNull="true"
                                        comment="The ObjectKey of the source link of the report.">
-                                <mal:type name="ObjectKey" area="COM"/>
+                                <mal:type area="COM" name="ObjectKey"/>
                             </mal:field>
-                            <mal:field name="newValue"
+                            <mal:field name="newValue" canBeNull="false"
                                        comment="The ParameterValue object value.">
-                                <mal:type name="ParameterValue" area="MC"/>
+                                <mal:type area="MC" name="ParameterValue"/>
                             </mal:field>
                         </mal:publishNotify>
                     </mal:messages>
                 </mal:pubsubIP>
             </mal:capabilitySet>
             <mal:capabilitySet number="2">
-                <mal:requestIP name="getValue" number="2" supportInReplay="true"
+                <mal:requestIP name="getValue" number="2"
                                comment="The getValue operation returns the latest received value for a requested parameter.">
                     <mal:documentation name="Requirement" order="1">
                         The wildcard value of '0' shall be supported and matches all parameters of the provider.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        The wildcard value should be checked for first, if found no other checks of supplied ids shall be made.
+                        The service provider shall check for the wildcard value first; if found, no other checks of supplied ids shall be made.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
-                        If a requested parameter is unknown then an UNKNOWN error shall be returned.
+                        If a parameter is being reported periodically, then calling this operation shall not reset the reportInterval timer.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="4">
-                        If a parameter is being reported periodically, using the operation shall not reset the reportInterval timer.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="5">
-                        The new value shall not be published via the monitorValue operation.
+                        The retrieved value shall not be published via the monitorValue operation.
                     </mal:documentation>
                     <mal:messages>
                         <mal:request>
-                            <mal:field name="paramInstIds"
+                            <mal:field name="paramInstIds" canBeNull="false"
                                        comment="The list of ParameterDefinition ids.">
-                                <mal:type list="true" name="Long" area="MAL"/>
+                                <mal:type area="MAL" list="true" name="Long"/>
                             </mal:field>
                         </mal:request>
                         <mal:response>
-                            <mal:field name="paramValDetails"
+                            <mal:field name="paramValDetails" canBeNull="false"
                                        comment="The list of returned ParameterDefinition ids and matching parameter values.">
-                                <mal:type list="true" name="ParameterValueDetails" area="MC"/>
+                                <mal:type area="MC" list="true" name="ParameterValueDetails"/>
                             </mal:field>
                         </mal:response>
                     </mal:messages>
                     <mal:errors>
-                        <mal:errorRef comment="One or more of the requested parameters is unknown.">
-                            <mal:type name="UNKNOWN" area="MAL"/>
-                            <mal:extraInformation comment="A list of the indexes of the error values shall be contained in the extra information field.">
-                                <mal:type list="true" name="UInteger" area="MAL"/>
+                        <mal:errorRef comment="When one or more of the requested parameters is unknown.">
+                            <mal:type area="MAL" name="UNKNOWN"/>
+                            <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
+                                <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>
                     </mal:errors>
                 </mal:requestIP>
             </mal:capabilitySet>
             <mal:capabilitySet number="3">
-                <mal:submitIP name="setValue" number="3" supportInReplay="false"
+                <mal:submitIP name="setValue" number="3"
                               comment="The setValue operation allows a consumer to set the raw value for one or more parameters.">
                     <mal:documentation name="Requirement" order="1">
-                        If the paramInstId field contains the wildcard value of '0' then an INVALID error shall be returned.
+                        If an error is raised, then no modifications shall be made as a result of this operation call.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        If a requested ParameterDefinition is unknown then an UNKNOWN error shall be returned.
+                        The service provider shall set all parameter values atomically, such that all values are applied at the same time without interleaving with other set operations. Note: how this is implemented is an implementation detail.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
-                        If a request ParameterDefinition is not settable due to it being read only then a READONLY error shall be returned.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="4">
-                        The rawValue shall contain the new parameter raw value to be set.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="5">
-                        If the supplied new parameter raw value does not match the defined type for the ParameterDefinition then an INVALID error shall be returned.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="6">
-                        If an error is raised then no modifications shall be made as a result of this operation call.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="7">
-                        The parameter values shall be set concurrently, by this it is meant that all values are set at the same time without interleaving of other values being (ATOMIC behaviour). How this is implemented is an implementation detail.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="8">
-                        The service provider shall create new ParameterValue objects for the updated parameter values, store these in the COM Archive, and publish these new values.
+                        The service provider shall create new ParameterValue objects for the updated parameters, store them in the COM archive, and publish the new values.
                     </mal:documentation>
                     <mal:messages>
                         <mal:submit>
-                            <mal:field name="newRawValues"
+                            <mal:field name="newRawValues" canBeNull="false"
                                        comment="The list of ParameterRawValues containing the ParameterDefinition id and the respective raw value to be set.">
-                                <mal:type list="true" name="ParameterRawValue" area="MC"/>
+                                <mal:type area="MC" list="true" name="ParameterRawValue"/>
                             </mal:field>
                         </mal:submit>
                     </mal:messages>
                     <mal:errors>
-                        <mal:errorRef comment="One or more of the referenced parameters is unknown.">
-                            <mal:type name="UNKNOWN" area="MAL"/>
-                            <mal:extraInformation comment="A list of the indexes of the error values shall be contained in the extra information field.">
-                                <mal:type list="true" name="UInteger" area="MAL"/>
+                        <mal:errorRef comment="When the paramInstId field contains the wildcard value '0', or one or more of the referenced ParameterDefinitions is unknown.">
+                            <mal:type area="MAL" name="UNKNOWN"/>
+                            <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
+                                <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>
-                        <mal:errorRef comment="One or more of the parameters being set is read only.">
-                            <mal:type name="READONLY" area="MC"/>
-                            <mal:extraInformation comment="A list of the indexes of the error values shall be contained in the extra information field.">
-                                <mal:type list="true" name="UInteger" area="MAL"/>
+                        <mal:errorRef comment="When one or more of the referenced parameters is read only.">
+                            <mal:type area="MC" name="READONLY"/>
+                            <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
+                                <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>
-                        <mal:errorRef comment="One of the supplied parameter values contains an invalid value.">
-                            <mal:type name="INVALID" area="COM"/>
-                            <mal:extraInformation comment="The extra information field contains a list of the indexes of the erroneous values from the originating list supplied.">
-                                <mal:type list="true" name="UInteger" area="MAL"/>
+                        <mal:errorRef comment="When the supplied raw value does not match the defined attribute type for the referenced ParameterDefinition.">
+                            <mal:type area="COM" name="INVALID"/>
+                            <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
+                                <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>
                     </mal:errors>
                 </mal:submitIP>
             </mal:capabilitySet>
             <mal:capabilitySet number="4">
-                <mal:requestIP name="enableGeneration" number="4" supportInReplay="false"
+                <mal:requestIP name="enableGeneration" number="4"
                                comment="The enableGeneration operation allows a consumer to control whether reports for specific parameters are generated or not.">
                     <mal:documentation name="Requirement" order="1">
-                        The enableInstances field shall contain the ParameterDefinition ids to match.
+                        The enableInstances field shall support the wildcard value of '0', which matches all ParameterDefinition objects of the provider.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        The id of the enableInstances field shall support the wildcard value of '0' and matches all ParameterDefinition objects of the provider.
+                        The service provider shall check for the wildcard value first; if found, no other checks of supplied ids shall be made.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
-                        The service provider shall check for the wildcard value in the list of ids in the enableInstances field first and if found no other checks of supplied ids shall be made.
+                        If the Boolean value in the enableInstances field is TRUE, then the service provider shall generate reports for matching ParameterDefinition objects.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="4">
-                        If the enableInstances field contains a value of TRUE then reports for matching ParameterDefinition objects shall be generated, a value of FALSE requests that reports will not be generated.
+                        If the Boolean value in the enableInstances field is FALSE, then the service provider shall not generate reports for matching ParameterDefinition objects.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="5">
-                        No error shall be raised if the enableInstances Boolean value supplied is the same as the current generationEnabled field of the definition for a matched ParameterDefinition object i.e. enabling an already enabled parameter will not result in an error.
+                        The service provider shall not raise an error if the supplied Boolean value is the same as the current generationEnabled field for a matched ParameterDefinition object.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="6">
-                        If a requested ParameterDefinition object is unknown then an UNKNOWN error shall be returned.
+                        If an error is raised, then no modifications shall be made as a result of this operation call.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="7">
-                        If an error is raised then no modifications shall be made as a result of this operation call.
+                        If the generationEnabled field is changed, then the service provider shall create and store a new ParameterDefinition object in the COM archive.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="8">
-                        The provider shall create and store a new ParameterDefinition object in the COM archive if the generationEnabled field is changed.
+                        If a new ParameterDefinition object is created, then that new object shall become the current ParameterDefinition for the parameter.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="9">
-                        If a new ParameterDefinition object is created then that new object shall be the current ParameterDefinition used for the parameter.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="10">
-                        If the generation of reports is being enabled, and the parameter is defined as being periodic, then the provider shall generate a report immediately and start the report interval from that report.
+                        If the generation of reports is being enabled and the parameter is defined as periodic, then the service provider shall generate a report immediately and start the report interval from that report.
                     </mal:documentation>
                     <mal:messages>
                         <mal:request>
-                            <mal:field name="enableInstances"
+                            <mal:field name="enableInstances" canBeNull="false"
                                        comment="The list of ParameterDefinition ids and their enable/disable flag.">
-                                <mal:type list="true" name="InstanceBooleanPair" area="COM"/>
+                                <mal:type area="COM" list="true" name="InstanceBooleanPair"/>
                             </mal:field>
                         </mal:request>
                         <mal:response>
-                            <mal:field name="newObjInstIds"
+                            <mal:field name="newObjInstIds" canBeNull="false"
                                        comment="The list of ids for the new ParameterDefinition objects.">
-                                <mal:type list="true" name="Long" area="MAL"/>
+                                <mal:type area="MAL" list="true" name="Long"/>
                             </mal:field>
                         </mal:response>
                     </mal:messages>
                     <mal:errors>
-                        <mal:errorRef comment="One or more of the requested parameters is unknown.">
-                            <mal:type name="UNKNOWN" area="MAL"/>
-                            <mal:extraInformation comment="A list of the indexes of the error values shall be contained in the extra information field.">
-                                <mal:type list="true" name="UInteger" area="MAL"/>
+                        <mal:errorRef comment="When one or more of the requested ParameterDefinition objects is unknown.">
+                            <mal:type area="MAL" name="UNKNOWN"/>
+                            <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
+                                <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>
                     </mal:errors>
                 </mal:requestIP>
             </mal:capabilitySet>
             <mal:capabilitySet number="5">
-                <mal:requestIP name="listDefinition" number="5" supportInReplay="true"
+                <mal:requestIP name="listDefinition" number="5"
                                comment="The listDefinition operation allows a consumer to request the ids of the ParameterDefinition objects for the supported parameters of the provider.">
                     <mal:documentation name="Requirement" order="1">
                         The paramNames field may contain the wildcard value of '*' to return all supported ParameterDefinition objects.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        The wildcard value should be checked for first, if found no other checks of supplied identifiers shall be made.
+                        The service provider shall check for the wildcard value first; if found, no other checks of supplied identifiers shall be made.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
-                        If a provided identifier does not include a wildcard and does not match an existing ParameterDefinition object then this operation shall fail with an UNKNOWN error.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="4">
                         The returned list shall maintain the same order as the submitted list unless the wildcard value was included in the request.
                     </mal:documentation>
                     <mal:messages>
                         <mal:request>
-                            <mal:field name="paramNames"
+                            <mal:field name="paramNames" canBeNull="false"
                                        comment="The list of parameter names to retrieve the ParameterDefinition ids for.">
-                                <mal:type list="true" name="Identifier" area="MAL"/>
+                                <mal:type area="MAL" list="true" name="Identifier"/>
                             </mal:field>
                         </mal:request>
                         <mal:response>
-                            <mal:field name="ids"
+                            <mal:field name="ids" canBeNull="false"
                                        comment="The list of ids matching the ParameterDefinitions.">
-                                <mal:type list="true" name="Long" area="MAL"/>
+                                <mal:type area="MAL" list="true" name="Long"/>
                             </mal:field>
                         </mal:response>
                     </mal:messages>
                     <mal:errors>
-                        <mal:errorRef comment="One of the supplied identifiers is unknown.">
-                            <mal:type name="UNKNOWN" area="MAL"/>
-                            <mal:extraInformation comment="A list of the indexes of the error values shall be contained in the extra information field.">
-                                <mal:type list="true" name="UInteger" area="MAL"/>
+                        <mal:errorRef comment="When a supplied identifier does not include a wildcard and does not match an existing ParameterDefinition object.">
+                            <mal:type area="MAL" name="UNKNOWN"/>
+                            <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
+                                <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>
                     </mal:errors>
                 </mal:requestIP>
             </mal:capabilitySet>
             <mal:capabilitySet number="6">
-                <mal:submitIP name="updateDefinition" number="7" supportInReplay="false"
+                <mal:submitIP name="updateDefinition" number="7"
                               comment="The updateDefinition operation allows a consumer to update a definition for one or more parameters. The replacement definition should be stored in the COM archive by the service provider. The operation does not remove the previous object from the COM archive, merely removes the object from the provider.">
                     <mal:documentation name="Requirement" order="1">
-                        The supplied ids shall match existing ParameterDefinition objects, an UNKNOWN error shall be raised if this is not the case.
+                        If an error is raised, then no definitions shall be updated as a result of this operation call.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        If the paramInstIds list contains either NULL or '0' an INVALID error shall be raised.
+                        The service provider shall create a new ParameterDefinition object and store it in the COM archive.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
-                        The two lists shall be ordered the same and shall be the same size, otherwise an INVALID error shall be returned.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="4">
-                        If the supplied reportInterval value is not supported by the provider then an INVALID error shall be returned.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="5">
-                        If an error is raised then no definitions shall be updated as a result of this operation call.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="6">
-                        The provider shall create a new ParameterDefinition object and store it in the COM archive.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="7">
-                        The new ParameterDefinition object shall be the current ParameterDefinition used for the parameter.
+                        The new ParameterDefinition object shall become the current ParameterDefinition for the parameter.
                     </mal:documentation>
                     <mal:messages>
                         <mal:submit>
-                            <mal:field name="paramInstIds"
+                            <mal:field name="paramInstIds" canBeNull="false"
                                        comment="The ids of the ParameterDefinition objects to be updated.">
-                                <mal:type list="true" name="Long" area="MAL"/>
+                                <mal:type area="MAL" list="true" name="Long"/>
                             </mal:field>
-                            <mal:field name="definitions"
+                            <mal:field name="definitions" canBeNull="false"
                                        comment="The updated ParameterDefinition objects.">
-                                <mal:type list="true" name="ParameterDefinition" area="MC"/>
+                                <mal:type area="MC" list="true" name="ParameterDefinition"/>
                             </mal:field>
                         </mal:submit>
                     </mal:messages>
                     <mal:errors>
-                        <mal:errorRef comment="The supplied ids list contains either a NULL or '0' or the two supplied lists are not the same length or a supplied interval is not supported by the provider.&#xA;If the two lists are not the same length then the extra information field shall contain the first index of the element in the largest list which does not have corresponding element in the other list.">
-                            <mal:type name="INVALID" area="COM"/>
-                            <mal:extraInformation comment="The extra information field contains a list of the indexes of the erroneous values from the originating list supplied.">
-                                <mal:type list="true" name="UInteger" area="MAL"/>
+                        <mal:errorRef comment="When the paramInstIds list contains NULL or '0', or the paramInstIds and definitions lists are not the same length, or a supplied reportInterval value is not supported by the provider.">
+                            <mal:type area="COM" name="INVALID"/>
+                            <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
+                                <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>
-                        <mal:errorRef comment="One of the supplied ParameterDefinition ids is unknown.">
-                            <mal:type name="UNKNOWN" area="MAL"/>
-                            <mal:extraInformation comment="A list of the indexes of the error values shall be contained in the extra information field.">
-                                <mal:type list="true" name="UInteger" area="MAL"/>
+                        <mal:errorRef comment="When one of the supplied ParameterDefinition ids is unknown.">
+                            <mal:type area="MAL" name="UNKNOWN"/>
+                            <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
+                                <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>
                     </mal:errors>
@@ -565,12 +538,12 @@
                 <com:objects comment="Parameter definitions and value instances are represented as COM objects.">
                     <com:object number="1" name="ParameterDefinition">
                         <com:objectType>
-                            <mal:type name="ParameterDefinition" area="MC"/>
+                            <mal:type area="MC" name="ParameterDefinition"/>
                         </com:objectType>
                     </com:object>
                     <com:object number="2" name="ParameterValue">
                         <com:objectType>
-                            <mal:type name="ParameterValue" area="MC"/>
+                            <mal:type area="MC" name="ParameterValue"/>
                         </com:objectType>
                         <com:relatedObject>
                             <com:objectType number="1" service="Parameter" area="MC"/>
@@ -583,19 +556,21 @@
         </mal:service>
         <mal:service xsi:type="com:ExtendedServiceType" name="Alert" number="3"
                      comment="The alert service defines the structures and patterns for the publishing and monitoring of alerts. The alert service uses COM event service to monitor and publish alert events.&#xA;The generation of alerts can be controlled using the enableGeneration operation.&#xA;Alert definitions are maintained using the operations defined in this service but storage of definitions is delegated to the COM archive.">
-            <mal:documentation name="High Level Requirements" order="1">The alert service shall provide:
+            <mal:documentation name="Service-level Requirement" order="1">The alert service shall provide:
 &lt;ol&gt;
  &lt;li&gt;the capability for reporting of alerts;&lt;/li&gt;
  &lt;li&gt;the capability for controlling reporting of alerts;&lt;/li&gt;
  &lt;li&gt;the capability for maintaining the list of alert definitions.&lt;/li&gt;
-&lt;/ol&gt;
-                The alert reporting service shall provide the capability to enable and disable the generation of alert reports.
-                It shall be possible to update, delete, and add alert definitions.
-                The list of the alert definitions may be requested.</mal:documentation>
-            <mal:documentation name="Functional Requirements" order="2">The generation of alerts shall be controlled by the generationEnabled Boolean value in the AlertDefinition.
-                Setting the generationEnabled field to TRUE shall enable generation of instances of that alert.
-                The generationEnabled value can be set by using either the enableGeneration or updateDefinition operations.
-                The alert instances shall be published as events using the COM event operations.</mal:documentation>
+&lt;/ol&gt;</mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="2">
+                The generation of alerts shall be controlled by the generationEnabled field in the AlertDefinition.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="11">
+                If the generationEnabled field is TRUE, then the service provider shall generate instances of that alert.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="12">
+                Alert instances shall be published as events using the COM event operations.
+            </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="3">
                 The definitions of the alerts shall be represented as AlertDefinition COM objects.
             </mal:documentation>
@@ -621,142 +596,127 @@
                 When an alert event is published, the AlertEvent object should be stored in the COM archive by the publisher.
             </mal:documentation>
             <mal:capabilitySet number="1">
-                <mal:requestIP name="enableGeneration" number="1" supportInReplay="false"
+                <mal:requestIP name="enableGeneration" number="1"
                                comment="The enableGeneration operation allows a consumer to control whether updates for specific alerts are generated or not.">
                     <mal:documentation name="Requirement" order="1">
-                        The enableInstances field shall contain the AlertDefinition ids to match.
+                        The enableInstances field shall support the wildcard value of '0', which matches all AlertDefinition objects of the provider.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        The id of the enableInstances field shall support the wildcard value of '0' and matches all AlertDefinition objects of the provider.
+                        The service provider shall check for the wildcard value first; if found, no other checks of supplied ids shall be made.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
-                        The service provider shall check for the wildcard value in the list of ids in the enableInstances field first and if found no other checks of supplied ids shall be made.
+                        If the Boolean value in the enableInstances field is TRUE, then the service provider shall generate instances of matching AlertDefinition objects.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="4">
-                        If the enableInstances field contains a value of TRUE then instances of matching AlertDefinition objects shall be generated, a value of FALSE requests that instances will not be generated.
+                        If the Boolean value in the enableInstances field is FALSE, then the service provider shall not generate instances of matching AlertDefinition objects.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="5">
-                        No error shall be raised if the enableInstances Boolean value supplied is the same as the current generationEnabled field for an alert object i.e. enabling an already enabled alert will not result in an error.
+                        The service provider shall not raise an error if the supplied Boolean value is the same as the current generationEnabled field for a matched AlertDefinition object.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="6">
-                        If a requested AlertDefinition object is unknown then an UNKNOWN error shall be returned.
+                        If an error is raised, then no modifications shall be made as a result of this operation call.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="7">
-                        If an error is raised then no modifications shall be made as a result of this operation call.
+                        If the generationEnabled field is changed, then the service provider shall create and store a new AlertDefinition object in the COM archive.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="8">
-                        The provider shall create and store a new AlertDefinition object in the COM archive if the generationEnabled field is changed.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="9">
-                        If a new AlertDefinition object is created then that new object shall be the current AlertDefinition used for the alert.
+                        If a new AlertDefinition object is created, then that new object shall become the current AlertDefinition for the alert.
                     </mal:documentation>
                     <mal:messages>
                         <mal:request>
-                            <mal:field name="enableInstances"
+                            <mal:field name="enableInstances" canBeNull="false"
                                        comment="The list of AlertDefinition ids and their enable/disable flag.">
-                                <mal:type list="true" name="InstanceBooleanPair" area="COM"/>
+                                <mal:type area="COM" list="true" name="InstanceBooleanPair"/>
                             </mal:field>
                         </mal:request>
                         <mal:response>
-                            <mal:field name="newObjInstIds"
+                            <mal:field name="newObjInstIds" canBeNull="false"
                                        comment="The list of ids for the new AlertDefinition objects.">
-                                <mal:type list="true" name="Long" area="MAL"/>
+                                <mal:type area="MAL" list="true" name="Long"/>
                             </mal:field>
                         </mal:response>
                     </mal:messages>
                     <mal:errors>
-                        <mal:errorRef comment="One or more of the requested alerts is unknown.">
-                            <mal:type name="UNKNOWN" area="MAL"/>
-                            <mal:extraInformation comment="A list of the indexes of the error values shall be contained in the extra information field.">
-                                <mal:type list="true" name="UInteger" area="MAL"/>
+                        <mal:errorRef comment="When one or more of the requested AlertDefinition objects is unknown.">
+                            <mal:type area="MAL" name="UNKNOWN"/>
+                            <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
+                                <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>
                     </mal:errors>
                 </mal:requestIP>
             </mal:capabilitySet>
             <mal:capabilitySet number="2">
-                <mal:requestIP name="listDefinition" number="2" supportInReplay="true"
+                <mal:requestIP name="listDefinition" number="2"
                                comment="The listDefinition operation allows a consumer to request the ids of the AlertDefinition objects for the supported alerts of the provider.">
                     <mal:documentation name="Requirement" order="1">
                         The alertNames field may contain the wildcard value of '*' to return all supported AlertDefinition objects.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        The wildcard value should be checked for first, if found no other checks of supplied identifiers shall be made.
+                        The service provider shall check for the wildcard value first; if found, no other checks of supplied identifiers shall be made.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
-                        If a provided identifier does not include a wildcard and does not match an existing AlertDefinition object then this operation shall fail with an UNKNOWN error.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="4">
                         The returned list shall maintain the same order as the submitted list unless the wildcard value was included in the request.
                     </mal:documentation>
                     <mal:messages>
                         <mal:request>
-                            <mal:field name="alertNames"
+                            <mal:field name="alertNames" canBeNull="false"
                                        comment="The list of alert names to retrieve the AlertDefinition ids for.">
-                                <mal:type list="true" name="Identifier" area="MAL"/>
+                                <mal:type area="MAL" list="true" name="Identifier"/>
                             </mal:field>
                         </mal:request>
                         <mal:response>
-                            <mal:field name="ids"
+                            <mal:field name="ids" canBeNull="false"
                                        comment="The list of ids matching the AlertDefinitions.">
-                                <mal:type list="true" name="Long" area="MAL"/>
+                                <mal:type area="MAL" list="true" name="Long"/>
                             </mal:field>
                         </mal:response>
                     </mal:messages>
                     <mal:errors>
-                        <mal:errorRef comment="One of the supplied identifiers is unknown.">
-                            <mal:type name="UNKNOWN" area="MAL"/>
-                            <mal:extraInformation comment="A list of the indexes of the error values shall be contained in the extra information field.">
-                                <mal:type list="true" name="UInteger" area="MAL"/>
+                        <mal:errorRef comment="When a supplied identifier does not include a wildcard and does not match an existing AlertDefinition object.">
+                            <mal:type area="MAL" name="UNKNOWN"/>
+                            <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
+                                <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>
                     </mal:errors>
                 </mal:requestIP>
             </mal:capabilitySet>
             <mal:capabilitySet number="3">
-                <mal:submitIP name="updateDefinition" number="4" supportInReplay="false"
+                <mal:submitIP name="updateDefinition" number="4"
                               comment="The updateDefinition operation allows a consumer to update a definition for one or more alerts. The replacement definition should be stored in the COM archive by the service provider. The operation does not remove the previous object from the COM archive, merely removes the object from the provider.">
                     <mal:documentation name="Requirement" order="1">
-                        The supplied ids shall match existing AlertDefinition objects, an UNKNOWN error shall be raised if this is not the case.
+                        If an error is raised, then no definitions shall be updated as a result of this operation call.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        If the definitionIds list contains either NULL or '0' an INVALID error shall be raised.
+                        The service provider shall create a new AlertDefinition object and store it in the COM archive.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
-                        The two lists shall be ordered the same and shall be the same size, otherwise an INVALID error shall be returned.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="4">
-                        If an error is raised then no definitions shall be updated as a result of this operation call.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="5">
-                        The provider shall create a new AlertDefinition object and store it in the COM archive.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="6">
-                        The new AlertDefinition object shall be the current AlertDefinition used for the alert.
+                        The new AlertDefinition object shall become the current AlertDefinition for the alert.
                     </mal:documentation>
                     <mal:messages>
                         <mal:submit>
-                            <mal:field name="definitionIds"
+                            <mal:field name="definitionIds" canBeNull="false"
                                        comment="The ids of the AlertDefinition objects to be updated.">
-                                <mal:type list="true" name="Long" area="MAL"/>
+                                <mal:type area="MAL" list="true" name="Long"/>
                             </mal:field>
-                            <mal:field name="alertDefDetails"
+                            <mal:field name="alertDefDetails" canBeNull="false"
                                        comment="The replacement AlertDefinition objects.">
-                                <mal:type list="true" name="AlertDefinition" area="MC"/>
+                                <mal:type area="MC" list="true" name="AlertDefinition"/>
                             </mal:field>
                         </mal:submit>
                     </mal:messages>
                     <mal:errors>
-                        <mal:errorRef comment="One of the supplied AlertDefinition objects contains an invalid value or the two supplied lists are not the same length.&#xA;If the two lists are not the same length then the extra information field shall contain the first index of the element in the largest list which does not have corresponding element in the other list.">
-                            <mal:type name="INVALID" area="COM"/>
-                            <mal:extraInformation comment="The extra information field contains a list of the indexes of the erroneous values from the originating list supplied.">
-                                <mal:type list="true" name="UInteger" area="MAL"/>
+                        <mal:errorRef comment="When the definitionIds list contains NULL or '0', or the definitionIds and alertDefDetails lists are not the same length, or one of the supplied AlertDefinition objects contains an invalid value.">
+                            <mal:type area="COM" name="INVALID"/>
+                            <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
+                                <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>
-                        <mal:errorRef comment="One of the supplied AlertDefinition ids is unknown.">
-                            <mal:type name="UNKNOWN" area="MAL"/>
-                            <mal:extraInformation comment="A list of the indexes of the error values shall be contained in the extra information field.">
-                                <mal:type list="true" name="UInteger" area="MAL"/>
+                        <mal:errorRef comment="When one of the supplied AlertDefinition ids is unknown.">
+                            <mal:type area="MAL" name="UNKNOWN"/>
+                            <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
+                                <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>
                     </mal:errors>
@@ -766,7 +726,7 @@
                 <com:objects comment="Alert definitions and instances are represented as COM objects.">
                     <com:object number="1" name="AlertDefinition">
                         <com:objectType>
-                            <mal:type name="AlertDefinition" area="MC"/>
+                            <mal:type area="MC" name="AlertDefinition"/>
                         </com:objectType>
                     </com:object>
                 </com:objects>
@@ -774,7 +734,7 @@
                     <com:event name="AlertEvent" number="2"
                                comment="The AlertEvent shall be raised when an enabled alert is published.">
                         <com:objectType>
-                            <mal:type name="AlertEvent" area="MC"/>
+                            <mal:type area="MC" name="AlertEvent"/>
                         </com:objectType>
                         <com:relatedObject>
                             <com:objectType number="1" service="Alert" area="MC"/>
@@ -787,37 +747,55 @@
         </mal:service>
         <mal:service xsi:type="com:ExtendedServiceType" name="Aggregation" number="6"
                      comment="The aggregation service allows the user to acquire several parameter values in a single request.&#xA;Aggregations are generated either periodically, on an ad-hoc basis, or after a configurable timeout when being filtered. Periodic is where they are generated at a specific generation interval; in this case the periodicity is an aspect of the aggregation rather than the contained parameters. Ad-hoc is when the aggregation generation is triggered by some other deployment-specific mechanism.&#xA;Filtering is where an aggregation is only generated when the change in the value of the filtered parameters exceeds a specified threshold or a timeout is passed. Filtering can be applied to both periodic and ad-hoc aggregations.&#xA;As there may be a large amount of time between reports of an aggregation when filtering is applied, the filtering concept also has a maximum reporting interval. If a report of the aggregation has not passed the filter in the maximum reporting interval a report is generated regardless. This allows there to be regular reports of an aggregation sent regardless of filtering.&#xA;It should be noted that applying a filter with a maximum reporting interval to an ad-hoc aggregation will cause the aggregation to generate reports in a periodic way if the maximum reporting interval is left to expire. This is expected behaviour.&#xA;There are a number of intervals defined in the structures of the service, the diagram in Figure 3-12 illustrates the use of these:&#xA; insert timing diagram &#xA;The diagram shows a single report of an aggregation being generated which contains two parameter sets. Each set of parameter values in the aggregation report contains two optional durations, delta time and interval time. &#xA;&lt;ul&gt;&#xA; &lt;li&gt;The timestamp of the first value of the first set (T1) is defined as the timestamp of the aggregation report plus the delta time of the first set.&lt;/li&gt;&#xA; &lt;li&gt;The timestamp of the second value of the first set (T2) is defined as the timestamp of the first parameter (T1) plus the interval time of the set.&lt;/li&gt;&#xA; &lt;li&gt;The timestamp of the first value of the second set (T3) is defined as the timestamp of the last value of the previous set (T2) plus the delta time of the second set.&lt;/li&gt;&#xA; &lt;li&gt;The timestamp of the second value of the second set (T4) is defined as the timestamp of the first parameter (T3) plus the interval time of the set.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;The COM archive is used to hold the definitions of the aggregations.">
-            <mal:documentation name="High Level Requirements" order="1">The aggregation service shall provide:
+            <mal:documentation name="Service-level Requirement" order="1">The aggregation service shall provide:
 &lt;ol&gt;
  &lt;li&gt;the capability for periodic reporting of predefined aggregation values;&lt;/li&gt;
  &lt;li&gt;the capability for requesting the current value of a set of aggregations;&lt;/li&gt;
  &lt;li&gt;the capability for controlling reporting of the aggregation values;&lt;/li&gt;
  &lt;li&gt;the capability for maintaining the list of aggregation definitions.&lt;/li&gt;
-&lt;/ol&gt;
-                Three modes of generating an aggregation value shall exist: periodic, ad-hoc, and filtered:
+&lt;/ol&gt;</mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="2">Three modes of generating an aggregation value shall exist: periodic, ad-hoc, and filtered:
 &lt;ol&gt;
  &lt;li&gt;Periodic reports for aggregations shall be generated once for each cycle of a specified interval.&lt;/li&gt;
  &lt;li&gt;Ad-hoc reports for aggregations shall be triggered by some other deployment-specific means.&lt;/li&gt;
  &lt;li&gt;Filtered reports for aggregations shall be generated only when the value of one or more parameters in the aggregation has changed by more than a given threshold since the previous generation or when a timeout expires.&lt;/li&gt;
 &lt;/ol&gt;</mal:documentation>
-            <mal:documentation name="Functional Requirements" order="2">The generation of reports for an aggregation shall be controlled by the generationEnabled Boolean value in the AggregationDefinition structure.
-                Setting the generationEnabled field to TRUE shall enable generation of reports for a specific aggregation.
-                The generationEnabled values can be set by using the enableGeneration operation.
-                The filtering of reports for an aggregation shall be controlled by the filterEnabled Boolean value in the AggregationDefinition structure.
-                Setting the filterEnabled field to TRUE shall enable filtering of reports for a specific aggregation.
-                The filterEnabled values can be set by using the enableFilter operation.
-                If an aggregation is required to send periodic reports, then the time between these reports shall be controlled using the reportInterval Duration value in the AggregationDefinition structure.
-                Periodic reports for aggregations shall set the generationMode field of the AggregationValueInstance to PERIODIC.
-                No periodic reports shall be generated when the reportInterval field is set to '0' and reports will be triggered by another ad-hoc implementation-specific mechanism in this case.
-                Ad-hoc reports for aggregations shall set the generationMode field of the AggregationValueInstance to ADHOC.
-                If an aggregation is filtered, reports shall be generated only when the value of one or more parameters in the aggregation have changed by more than a given threshold since the previous generated aggregation report.
-                The threshold for the filter shall be defined, on a per-parameter basis, either as a percentage or an (absolute) delta change in value.
+            <mal:documentation name="Service-level Requirement" order="11">
+                The generation of reports for an aggregation shall be controlled by the generationEnabled field in the AggregationDefinition.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="12">
+                If an aggregation is required to send periodic reports, then the interval between reports shall be controlled by the reportInterval field in the AggregationDefinition.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="13">
+                If the reportInterval field is set to '0', then no periodic reports shall be generated; reports shall be triggered by another ad-hoc implementation-specific mechanism in this case.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="14">
+                Periodic aggregation reports shall set the generationMode field of the AggregationValue to PERIODIC.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="15">
+                Ad-hoc aggregation reports shall set the generationMode field of the AggregationValue to ADHOC.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="16">
+                The filtering of reports for an aggregation shall be controlled by the filterEnabled field in the AggregationDefinition.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="17">
+                If filtering is enabled, then the service provider shall generate reports only when the value of one or more filtered parameters has changed by more than the defined threshold since the previous report.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="18">
+                The filter threshold shall be defined on a per-parameter basis, either as a percentage or an absolute delta change in value.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="19">
                 Parameters in an aggregation that do not have a filter specified in the aggregation definition shall be ignored by the filter comparison process.
-                If filtering is enabled and a filtered timeout has been set for that aggregation, if no change has been detected in that time-out period, an aggregation value shall be generated with a generation mode of FILTERED_TIMEOUT. This measure ensures that extensive periods of time do not elapse without reports of an enabled aggregation.
-                The generationEnabled, filterEnabled, filteredTimeout, sendUnchanged and reportInterval values of an AggregationDefinition object can be set by using the updateDefinition operation.
-                If the filteredTimeout interval, reportInterval or one or more of the sampleIntervals requested are not supported by the provider then an INVALID error shall be returned and the creation or change rejected.
-                If the sendUnchanged field in the AggregationDefinition object is FALSE then parameter values that have not changed since the previous report shall be replaced by a NULL in the values list of the AggregationSetValue composite.
-                The ordering of the values in the AggregationValueInstance object shall match the ordering of parameters in the AggregationDefinition structure.</mal:documentation>
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="20">
+                If filtering is enabled and a filteredTimeout has been set, and no change has been detected within that timeout period, then the service provider shall generate an aggregation value with a generationMode of FILTERED_TIMEOUT.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="21">
+                If the sendUnchanged field in the AggregationDefinition is FALSE, then parameter values that have not changed since the previous report shall be replaced by NULL in the values list of the AggregationSetValue.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="22">
+                The ordering of values in the AggregationValue shall match the ordering of parameters in the AggregationDefinition.
+            </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="3">
                 The definitions of the aggregations shall be represented as AggregationDefinition COM objects.
             </mal:documentation>
@@ -840,13 +818,13 @@
                 When an aggregation value report is published, the AggregationValueInstance object should be stored in the COM archive.
             </mal:documentation>
             <mal:capabilitySet number="1">
-                <mal:pubsubIP name="monitorValue" number="1" supportInReplay="true"
+                <mal:pubsubIP name="monitorValue" number="1"
                               comment="The monitorValue operation allows a consumer to subscribe for aggregation value reports.">
                     <mal:documentation name="Requirement" order="1">
-                        The timestamp of the AggregationValueInstance report shall be taken from the publish message.
+                        The timestamp of the AggregationValueInstance report shall be taken from the PUBLISH message.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        If no source link is needed then the ObjectKey shall be replaced with a NULL.
+                        If no source link is needed, then the objId field shall be NULL.
                     </mal:documentation>
                     <mal:messages>
                         <mal:subscriptionKeys>
@@ -864,338 +842,302 @@
                             </mal:field>
                         </mal:subscriptionKeys>
                         <mal:publishNotify>
-                            <mal:field name="objId"
+                            <mal:field name="objId" canBeNull="true"
                                        comment="The ObjectKey of the source link of the report.">
-                                <mal:type name="ObjectKey" area="COM"/>
+                                <mal:type area="COM" name="ObjectKey"/>
                             </mal:field>
-                            <mal:field name="newValue"
+                            <mal:field name="newValue" canBeNull="false"
                                        comment="The AggregationValue.">
-                                <mal:type name="AggregationValue" area="MC"/>
+                                <mal:type area="MC" name="AggregationValue"/>
                             </mal:field>
                         </mal:publishNotify>
                     </mal:messages>
                 </mal:pubsubIP>
             </mal:capabilitySet>
             <mal:capabilitySet number="2">
-                <mal:requestIP name="getValue" number="2" supportInReplay="true"
+                <mal:requestIP name="getValue" number="2"
                                comment="The getValue operation returns the latest received value for a requested aggregation.">
                     <mal:documentation name="Requirement" order="1">
-                        The wildcard value of '0' shall be supported and matches all aggregations of the provider.
+                        The definitionIds field shall support the wildcard value of '0', which matches all aggregations of the provider.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        The wildcard value should be checked for first, if found no other checks of supplied ids shall be made.
+                        The service provider shall check for the wildcard value first; if found, no other checks of supplied ids shall be made.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
-                        If a requested aggregation is unknown then an UNKNOWN error shall be returned.
+                        The service provider shall not apply filtering when responding to this operation.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="4">
-                        The filter shall not be applied for the getValue operation.
+                        If an aggregation is being reported periodically, then calling this operation shall not reset the reportInterval or filteredTimeout timer.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="5">
-                        If an aggregation is being reported periodically, using the operation shall not reset the reportInterval or filteredTimeout timer.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="6">
-                        The new value shall not be published via the monitorValue operation.
+                        The retrieved value shall not be published via the monitorValue operation.
                     </mal:documentation>
                     <mal:messages>
                         <mal:request>
-                            <mal:field name="definitionIds"
+                            <mal:field name="definitionIds" canBeNull="false"
                                        comment="The list of AggregationDefinition ids.">
-                                <mal:type list="true" name="Long" area="MAL"/>
+                                <mal:type area="MAL" list="true" name="Long"/>
                             </mal:field>
                         </mal:request>
                         <mal:response>
-                            <mal:field name="aggValDetails"
+                            <mal:field name="aggValDetails" canBeNull="false"
                                        comment="The list of returned AggregationDefinition ids and matching AggregationValues.">
-                                <mal:type list="true" name="AggregationValueDetails" area="MC"/>
+                                <mal:type area="MC" list="true" name="AggregationValueDetails"/>
                             </mal:field>
                         </mal:response>
                     </mal:messages>
                     <mal:errors>
-                        <mal:errorRef comment="One or more of the requested aggregations is unknown.">
-                            <mal:type name="UNKNOWN" area="MAL"/>
-                            <mal:extraInformation comment="A list of the indexes of the error values shall be contained in the extra information field.">
-                                <mal:type list="true" name="UInteger" area="MAL"/>
+                        <mal:errorRef comment="When one or more of the requested aggregations is unknown.">
+                            <mal:type area="MAL" name="UNKNOWN"/>
+                            <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
+                                <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>
                     </mal:errors>
                 </mal:requestIP>
             </mal:capabilitySet>
             <mal:capabilitySet number="3">
-                <mal:requestIP name="enableGeneration" number="3" supportInReplay="false"
+                <mal:requestIP name="enableGeneration" number="3"
                                comment="The enableGeneration operation allows a consumer to control whether reports for specific aggregations are generated or not. This affects all types of aggregations, periodic, filtered and ad-hoc.">
                     <mal:documentation name="Requirement" order="1">
-                        The enableInstances field shall contain the AggregationDefinition ids to match.
+                        The id of the enableInstances field shall support the wildcard value of '0', which matches all AggregationDefinition objects of the provider.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        The id of the enableInstances field shall support the wildcard value of '0' and matches all AggregationDefinition objects of the provider.
+                        The service provider shall check for the wildcard value first; if found, no other checks of supplied ids shall be made.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
-                        The service provider shall check for the wildcard value in the list of ids in the enableInstances field first and if found no other checks of supplied ids shall be made.
+                        If the enableInstances field contains a value of TRUE, then reports of matching AggregationDefinition objects shall be generated.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="4">
-                        If the enableInstances field contains a value of TRUE then reports of matching AggregationDefinition objects shall be generated, a value of FALSE requests that reports will not be generated.
+                        If the enableInstances field contains a value of FALSE, then reports of matching AggregationDefinition objects shall not be generated.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="5">
-                        No error shall be raised if the enableInstances Boolean value supplied is the same as the current generationEnabled field of the definition for a matched AggregationDefinition object i.e. enabling an already enabled aggregation will not result in an error.
+                        The service provider shall not raise an error if the supplied Boolean value is the same as the current generationEnabled field of the matched AggregationDefinition object.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="6">
-                        If a requested AggregationDefinition object is unknown then an UNKNOWN error shall be returned.
+                        If an error is raised, then no modifications shall be made as a result of this operation call.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="7">
-                        If an error is raised then no modifications shall be made as a result of this operation call.
+                        If the generationEnabled field is changed, then the provider shall create and store a new AggregationDefinition object in the COM archive.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="8">
-                        The provider shall create and store a new AggregationDefinition object in the COM archive if the generationEnabled field is changed.
+                        If a new AggregationDefinition object is created, then that new object shall be the current AggregationDefinition used for the aggregation.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="9">
-                        If a new AggregationDefinition object is created then that new object shall be the current AggregationDefinition used for the aggregation.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="10">
-                        If the generation of reports is being enabled, and the aggregation is defined as being periodic, then the provider shall generate a report immediately and start the report interval from that report.
+                        If generation is being enabled and the aggregation is periodic, then the provider shall generate a report immediately and start the report interval from that report.
                     </mal:documentation>
                     <mal:messages>
                         <mal:request>
-                            <mal:field name="enableInstances"
+                            <mal:field name="enableInstances" canBeNull="false"
                                        comment="The list of AggregationDefinition ids and their desired generation state.">
-                                <mal:type list="true" name="InstanceBooleanPair" area="COM"/>
+                                <mal:type area="COM" list="true" name="InstanceBooleanPair"/>
                             </mal:field>
                         </mal:request>
                         <mal:response>
-                            <mal:field name="newObjInstIds"
+                            <mal:field name="newObjInstIds" canBeNull="false"
                                        comment="The list of ids for the new AggregationDefinition objects.">
-                                <mal:type list="true" name="Long" area="MAL"/>
+                                <mal:type area="MAL" list="true" name="Long"/>
                             </mal:field>
                         </mal:response>
                     </mal:messages>
                     <mal:errors>
-                        <mal:errorRef comment="One or more of the requested aggregations is unknown.">
-                            <mal:type name="UNKNOWN" area="MAL"/>
-                            <mal:extraInformation comment="A list of the indexes of the error values shall be contained in the extra information field.">
-                                <mal:type list="true" name="UInteger" area="MAL"/>
+                        <mal:errorRef comment="When one or more of the requested AggregationDefinition objects is unknown.">
+                            <mal:type area="MAL" name="UNKNOWN"/>
+                            <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
+                                <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>
                     </mal:errors>
                 </mal:requestIP>
-                <mal:submitIP name="enableFilter" number="4" supportInReplay="false"
+                <mal:submitIP name="enableFilter" number="4"
                               comment="The enableFilter operation allows a consumer to control whether reports for specific aggregations are filtered or not. This affects both periodic and ad-hoc aggregations.">
                     <mal:documentation name="Requirement" order="1">
-                        The enableInstances field shall contain the AggregationDefinition ids to match.
+                        The id of the enableInstances field shall support the wildcard value of '0', which matches all AggregationDefinition objects of the provider.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        The id of the enableInstances field shall support the wildcard value of '0' and matches all AggregationDefinition objects of the provider.
+                        The service provider shall check for the wildcard value first; if found, no other checks of supplied ids shall be made.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
-                        The service provider shall check for the wildcard value in the list of ids in the enableInstances field first and if found no other checks of supplied ids shall be made.
+                        If the enableInstances field contains a value of TRUE, then reports of matching AggregationDefinition objects shall be filtered.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="4">
-                        If the enableInstances field contains a value of TRUE then reports of matching AggregationDefinition objects shall be filtered, a value of FALSE requests that reports will not be filtered.
+                        If the enableInstances field contains a value of FALSE, then reports of matching AggregationDefinition objects shall not be filtered.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="5">
-                        No error shall be raised if the enableInstances Boolean value supplied is the same as the current filterEnabled field of the definition for a matched AggregationDefinition object i.e. filtering an already filtered aggregation will not result in an error.
+                        The service provider shall not raise an error if the supplied Boolean value is the same as the current filterEnabled field of the matched AggregationDefinition object.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="6">
-                        If a requested AggregationDefinition object is unknown then an UNKNOWN error shall be returned.
+                        If an error is raised, then no modifications shall be made as a result of this operation call.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="7">
-                        If an error is raised then no modifications shall be made as a result of this operation call.
+                        If the filterEnabled field is changed, then the provider shall create and store a new AggregationDefinition object in the COM archive.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="8">
-                        The provider shall create and store a new AggregationDefinition object in the COM archive if the filterEnabled field is changed.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="9">
-                        If a new AggregationDefinition object is created then that new object shall be the current AggregationDefinition used for the aggregation.
+                        If a new AggregationDefinition object is created, then that new object shall be the current AggregationDefinition used for the aggregation.
                     </mal:documentation>
                     <mal:messages>
                         <mal:submit>
-                            <mal:field name="enableInstances"
+                            <mal:field name="enableInstances" canBeNull="false"
                                        comment="The list of AggregationDefinition ids and their enable/disable flag.">
-                                <mal:type list="true" name="InstanceBooleanPair" area="COM"/>
+                                <mal:type area="COM" list="true" name="InstanceBooleanPair"/>
                             </mal:field>
                         </mal:submit>
                     </mal:messages>
                     <mal:errors>
-                        <mal:errorRef comment="One or more of the requested aggregations is unknown.">
-                            <mal:type name="UNKNOWN" area="MAL"/>
-                            <mal:extraInformation comment="A list of the indexes of the error values shall be contained in the extra information field.">
-                                <mal:type list="true" name="UInteger" area="MAL"/>
+                        <mal:errorRef comment="When one or more of the requested AggregationDefinition objects is unknown.">
+                            <mal:type area="MAL" name="UNKNOWN"/>
+                            <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
+                                <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>
                     </mal:errors>
                 </mal:submitIP>
             </mal:capabilitySet>
             <mal:capabilitySet number="4">
-                <mal:requestIP name="listDefinition" number="5" supportInReplay="true"
+                <mal:requestIP name="listDefinition" number="5"
                                comment="The listDefinition operation allows a consumer to request the ids of the AggregationDefinition objects for the supported aggregations of the provider.">
                     <mal:documentation name="Requirement" order="1">
-                        The aggNames field may contain the wildcard value of '*' to return all supported AggregationDefinition objects.
+                        The aggregationNames field may contain the wildcard value of '*' to return all supported AggregationDefinition objects.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        The wildcard value should be checked for first, if found no other checks of supplied identifiers shall be made.
+                        The service provider shall check for the wildcard value first; if found, no other checks of supplied identifiers shall be made.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
-                        If a provided identifier does not include a wildcard and does not match an existing AggregationDefinition object then this operation shall fail with an UNKNOWN error.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="4">
                         The returned list shall maintain the same order as the submitted list unless the wildcard value was included in the request.
                     </mal:documentation>
                     <mal:messages>
                         <mal:request>
-                            <mal:field name="aggregationNames"
+                            <mal:field name="aggregationNames" canBeNull="false"
                                        comment="The list of aggregation names to retrieve the AggregationDefinition ids for.">
-                                <mal:type list="true" name="Identifier" area="MAL"/>
+                                <mal:type area="MAL" list="true" name="Identifier"/>
                             </mal:field>
                         </mal:request>
                         <mal:response>
-                            <mal:field name="ids"
+                            <mal:field name="ids" canBeNull="false"
                                        comment="The list of ids matching the AggregationDefinitions.">
-                                <mal:type list="true" name="Long" area="MAL"/>
+                                <mal:type area="MAL" list="true" name="Long"/>
                             </mal:field>
                         </mal:response>
                     </mal:messages>
                     <mal:errors>
-                        <mal:errorRef comment="One of the supplied identifiers is unknown.">
-                            <mal:type name="UNKNOWN" area="MAL"/>
-                            <mal:extraInformation comment="A list of the indexes of the error values shall be contained in the extra information field.">
-                                <mal:type list="true" name="UInteger" area="MAL"/>
+                        <mal:errorRef comment="When one of the supplied identifiers does not match an existing AggregationDefinition object.">
+                            <mal:type area="MAL" name="UNKNOWN"/>
+                            <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
+                                <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>
                     </mal:errors>
                 </mal:requestIP>
             </mal:capabilitySet>
             <mal:capabilitySet number="5">
-                <mal:requestIP name="addAggregation" number="6" supportInReplay="false"
+                <mal:requestIP name="addAggregation" number="6"
                                comment="The addAggregation operation allows a consumer to define one or more aggregations that do not currently exist.&#xA;The new AggregationDefinition objects are expected to be stored in the COM archive by the provider of the aggregation service.">
                     <mal:documentation name="Requirement" order="1">
-                        The name field must not be the wildcard '*', or empty (an INVALID error shall be returned in this case).
+                        If an error is raised, then no new definitions shall be added as a result of this operation call.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        If the supplied reportInterval or sampleInterval values are not supported by the provider then an INVALID error shall be returned.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="3">
-                        The supplied name must be unique among all AggregationDefinition objects for the domain of the provider otherwise a DUPLICATE error shall be raised.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="4">
-                        If an error is raised then no new definitions shall be added as a result of this operation call.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="5">
                         The provider shall create a new AggregationDefinition object and store it in the COM archive.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="6">
+                    <mal:documentation name="Requirement" order="3">
                         The returned list shall maintain the same order as the submitted definitions.
                     </mal:documentation>
                     <mal:messages>
                         <mal:request>
-                            <mal:field name="aggDefDetails"
+                            <mal:field name="aggDefDetails" canBeNull="false"
                                        comment="The name and the AggregationDefinition to be added.">
-                                <mal:type list="true" name="AggregationDefinition" area="MC"/>
+                                <mal:type area="MC" list="true" name="AggregationDefinition"/>
                             </mal:field>
                         </mal:request>
                         <mal:response>
-                            <mal:field name="newIds"
+                            <mal:field name="newIds" canBeNull="false"
                                        comment="The list of ids for the new AggregationDefinition objects.">
-                                <mal:type list="true" name="Long" area="MAL"/>
+                                <mal:type area="MAL" list="true" name="Long"/>
                             </mal:field>
                         </mal:response>
                     </mal:messages>
                     <mal:errors>
-                        <mal:errorRef comment="One or more of the aggregation objects being added has supplied an aggregation name that is already in use in the domain.">
-                            <mal:type name="DUPLICATE" area="COM"/>
-                            <mal:extraInformation comment="The extra information field contains a list of the indexes of the erroneous values from the originating request list.">
-                                <mal:type list="true" name="UInteger" area="MAL"/>
+                        <mal:errorRef comment="When one or more of the supplied aggregation names is already in use in the domain.">
+                            <mal:type area="COM" name="DUPLICATE"/>
+                            <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
+                                <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>
-                        <mal:errorRef comment="One of the supplied aggregation objects contains an invalid name or a supplied interval is not supported by the provider.">
-                            <mal:type name="INVALID" area="COM"/>
-                            <mal:extraInformation comment="The extra information field contains a list of the indexes of the erroneous values from the originating list supplied.">
-                                <mal:type list="true" name="UInteger" area="MAL"/>
+                        <mal:errorRef comment="When one or more of the supplied aggregation objects contains an invalid name or a supplied interval is not supported by the provider.">
+                            <mal:type area="COM" name="INVALID"/>
+                            <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
+                                <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>
                     </mal:errors>
                 </mal:requestIP>
-                <mal:submitIP name="updateDefinition" number="7" supportInReplay="false"
+                <mal:submitIP name="updateDefinition" number="7"
                               comment="The updateDefinition operation allows a consumer to update a definition for one or more aggregations.&#xA;The replacement definition should be stored in the COM archive by the service provider. The operation does not remove the previous object from the COM archive, merely removes the object from the provider.">
                     <mal:documentation name="Requirement" order="1">
-                        The supplied ids shall match existing AggregationDefinition objects, an UNKNOWN error shall be raised if this is not the case.
+                        If an error is raised, then no definitions shall be updated as a result of this operation call.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        If the definitionIds list contains either NULL or '0' an INVALID error shall be raised.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="3">
-                        The two lists shall be ordered the same and shall be the same size, otherwise an INVALID error shall be returned.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="4">
-                        If the supplied reportInterval or sampleInterval values are not supported by the provider then an INVALID error shall be returned.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="5">
-                        If an error is raised then no definitions shall be updated as a result of this operation call.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="6">
                         The provider shall create a new AggregationDefinition object and store it in the COM archive.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="7">
+                    <mal:documentation name="Requirement" order="3">
                         The new AggregationDefinition object shall be the current AggregationDefinition used for the aggregation.
                     </mal:documentation>
                     <mal:messages>
                         <mal:submit>
-                            <mal:field name="definitionIds"
+                            <mal:field name="definitionIds" canBeNull="false"
                                        comment="The ids of the AggregationDefinition objects to be updated.">
-                                <mal:type list="true" name="Long" area="MAL"/>
+                                <mal:type area="MAL" list="true" name="Long"/>
                             </mal:field>
-                            <mal:field name="aggDefDetails"
+                            <mal:field name="aggDefDetails" canBeNull="false"
                                        comment="The replacement AggregationDefinition objects.">
-                                <mal:type list="true" name="AggregationDefinition" area="MC"/>
+                                <mal:type area="MC" list="true" name="AggregationDefinition"/>
                             </mal:field>
                         </mal:submit>
                     </mal:messages>
                     <mal:errors>
-                        <mal:errorRef comment="One of the supplied AggregationDefinition ids is unknown.">
-                            <mal:type name="UNKNOWN" area="MAL"/>
-                            <mal:extraInformation comment="A list of the indexes of the error values shall be contained in the extra information field.">
-                                <mal:type list="true" name="UInteger" area="MAL"/>
+                        <mal:errorRef comment="When one or more of the supplied AggregationDefinition ids does not match an existing object.">
+                            <mal:type area="MAL" name="UNKNOWN"/>
+                            <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
+                                <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>
-                        <mal:errorRef comment="The supplied ids list contains either a NULL or '0' or the two supplied lists are not the same length or a supplied interval is not supported by the provider.&#xA;If the two lists are not the same length then the extra information field shall contain the first index of the element in the largest list which does not have corresponding element in the other list.">
-                            <mal:type name="INVALID" area="COM"/>
-                            <mal:extraInformation comment="The extra information field contains a list of the indexes of the erroneous values from the originating list supplied.">
-                                <mal:type list="true" name="UInteger" area="MAL"/>
+                        <mal:errorRef comment="When the definitionIds list contains a NULL or '0', the two supplied lists are not the same size, or a supplied interval is not supported by the provider.">
+                            <mal:type area="COM" name="INVALID"/>
+                            <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
+                                <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>
                     </mal:errors>
                 </mal:submitIP>
-                <mal:submitIP name="removeAggregation" number="8" supportInReplay="false"
+                <mal:submitIP name="removeAggregation" number="8"
                               comment="The removeAggregation operation allows a consumer to remove one or more aggregations from the list of aggregations supported by the aggregation provider.&#xA;The operation does not remove the AggregationDefinition objects from the COM archive, merely removes the objects from the provider. This permits existing AggregationValueInstance objects to continue to reference the correct AggregationDefinition object in the COM archive.">
                     <mal:documentation name="Requirement" order="1">
-                        The list may contain the wildcard value of '0'.
+                        The definitionIds field shall support the wildcard value of '0', which matches all aggregations of the provider.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        The wildcard value should be checked for first, if found no other checks of supplied ids shall be made.
+                        The service provider shall check for the wildcard value first; if found, no other checks of supplied ids shall be made.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
-                        If a provided AggregationDefinition id does not include a wildcard and does not match an existing aggregation then this operation shall fail with an UNKNOWN error.
+                        Matched AggregationDefinition objects shall not be removed from the COM archive, only from the list of AggregationDefinition objects in the provider.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="4">
-                        Matched AggregationDefinition objects shall not be removed from the COM archive, only the list of AggregationDefinition objects in the provider.
+                        If an error is raised, then no aggregations shall be removed as a result of this operation call.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="5">
-                        If an error is raised then no aggregations shall be removed as a result of this operation call.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="6">
-                        If the operation succeeds then the provider shall not publish aggregation values for the deleted AggregationDefinition objects anymore.
+                        If the operation succeeds, then the provider shall not publish aggregation values for the removed AggregationDefinition objects.
                     </mal:documentation>
                     <mal:messages>
                         <mal:submit>
-                            <mal:field name="definitionIds"
+                            <mal:field name="definitionIds" canBeNull="false"
                                        comment="The ids of the AggregationDefinition objects to be removed.">
-                                <mal:type list="true" name="Long" area="MAL"/>
+                                <mal:type area="MAL" list="true" name="Long"/>
                             </mal:field>
                         </mal:submit>
                     </mal:messages>
                     <mal:errors>
-                        <mal:errorRef comment="One of the supplied AggregationDefinition ids is unknown.">
-                            <mal:type name="UNKNOWN" area="MAL"/>
-                            <mal:extraInformation comment="A list of the indexes of the error values shall be contained in the extra information field.">
-                                <mal:type list="true" name="UInteger" area="MAL"/>
+                        <mal:errorRef comment="When one or more of the supplied AggregationDefinition ids does not match an existing object.">
+                            <mal:type area="MAL" name="UNKNOWN"/>
+                            <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
+                                <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>
                     </mal:errors>
@@ -1205,12 +1147,12 @@
                 <com:objects comment="Aggregation definitions and value instances are represented as COM objects.">
                     <com:object number="1" name="AggregationDefinition">
                         <com:objectType>
-                            <mal:type name="AggregationDefinition" area="MC"/>
+                            <mal:type area="MC" name="AggregationDefinition"/>
                         </com:objectType>
                     </com:object>
                     <com:object number="2" name="AggregationValueInstance">
                         <com:objectType>
-                            <mal:type name="AggregationValue" area="MC"/>
+                            <mal:type area="MC" name="AggregationValue"/>
                         </com:objectType>
                         <com:relatedObject>
                             <com:objectType number="1" service="Aggregation" area="MC"/>
@@ -1223,54 +1165,59 @@
         </mal:service>
         <mal:service xsi:type="com:ExtendedServiceType" name="Conversion" number="7"
                      comment="The conversion service provides a set of basic conversion definition types that allows the specification of a conversion between two representations. These conversions are used by the other MC services (such as Action, Alert, and Parameter) to define conversions from raw field representations to some engineering representation.&#xA;Conversions are associated with other entities such as parameters or action/alert arguments through the configuration of the relevant service (action/alert/parameter).&#xA;The conversion service does not provide any operations directly, but allows consumers to add, remove, and modify conversion definitions via the COM archive.">
-            <mal:documentation name="High Level Requirements" order="1">The conversion service shall provide the capability for maintaining the list of conversion definitions.
+            <mal:documentation name="Service-level Requirement" order="1">
+                The conversion service shall provide the capability for maintaining the list of conversion definitions.
             </mal:documentation>
-            <mal:documentation name="Functional Requirements" order="2">The conversion service shall use the COM archive operations for maintaining the conversion definitions.
-                Updating a conversion definition shall be performed by adding a new conversion definition and referencing it in the service specific COM objects (such as ParameterDefinition).
-                A Discrete conversion must contain at least one pair of values in the mapping.
-                A Line conversion must contain at least two line points.
-                A Polynomial conversion must contain at least one pair of values in the points list.
-                A Range conversion must contain at least one pair of values in the points list.
-                The service that references a conversion should ensure that the conversion referenced is correct.
+            <mal:documentation name="Service-level Requirement" order="2">
+                The conversion service shall use the COM archive operations for maintaining the conversion definitions.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="3">
-                The definitions of the conversions shall be represented as either DiscreteConversion, LineConversion, PolyConversion, or RangeConversion COM objects.
+                Updating a conversion definition shall be performed by adding a new conversion definition and referencing it in the service-specific COM objects (such as ParameterDefinition).
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="4">
-                Other service objects shall reference instances of a conversion using the id of the conversion definition.
+                A DiscreteConversion shall contain at least one pair of values in the mapping.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="5">
-                Conversion definition objects should be stored in the COM archive.
+                A LineConversion shall contain at least two line points.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="6">
+                A PolyConversion shall contain at least one pair of values in the points list.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="7">
+                A RangeConversion shall contain at least one pair of values in the points list.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="8">
+                The definitions of the conversions shall be represented as either DiscreteConversion, LineConversion, PolyConversion, or RangeConversion COM objects.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="9">
+                Each instance of a conversion definition shall be represented by an object instance in the COM archive.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="10">
+                Other service objects shall reference instances of a conversion using the id of the conversion definition.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="11">
-                Each instance of a conversion definition shall be represented by an object instance held in the COM archive.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="12">
-                The COM archive service operations shall be used to add, update and remove conversions.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="13">
-                Other services should monitor the archive service for changes to conversions they reference.
+                The COM archive service operations shall be used to add, update, and remove conversions.
             </mal:documentation>
             <com:features>
                 <com:objects comment="Conversion definitions are represented as COM objects.">
                     <com:object number="1" name="DiscreteConversion">
                         <com:objectType>
-                            <mal:type name="DiscreteConversion" area="MC"/>
+                            <mal:type area="MC" name="DiscreteConversion"/>
                         </com:objectType>
                     </com:object>
                     <com:object number="2" name="LineConversion">
                         <com:objectType>
-                            <mal:type name="LineConversion" area="MC"/>
+                            <mal:type area="MC" name="LineConversion"/>
                         </com:objectType>
                     </com:object>
                     <com:object number="3" name="PolyConversion">
                         <com:objectType>
-                            <mal:type name="PolyConversion" area="MC"/>
+                            <mal:type area="MC" name="PolyConversion"/>
                         </com:objectType>
                     </com:object>
                     <com:object number="4" name="RangeConversion">
                         <com:objectType>
-                            <mal:type name="RangeConversion" area="MC"/>
+                            <mal:type area="MC" name="RangeConversion"/>
                         </com:objectType>
                     </com:object>
                 </com:objects>
@@ -1279,7 +1226,7 @@
         </mal:service>
         <mal:dataTypes>
             <mal:enumeration name="Severity" shortFormPart="1"
-                             comment="The severity enumeration holds the possible values for a severity. The numerical value represents the increasing severity, therefore CRITICAL is more severe than ALARM. Normally, for checks, only the Warning and Critical ranges are used: the colour yellow is associated with Warning, and the colour red is associated with Critical.">
+                             comment="The possible severity values for an alert or check. The numerical value represents the increasing severity; therefore CRITICAL is more severe than ALARM. Normally, for checks, only the WARNING and CRITICAL ranges are used: the colour yellow is associated with WARNING, and the colour red is associated with CRITICAL.">
                 <mal:item nvalue="1" value="INFORMATIONAL" comment="Indicates a nominal situation with no consequences."/>
                 <mal:item nvalue="2" value="WARNING" comment="Indicates unexpected behaviour without directly threatening consequences."/>
                 <mal:item nvalue="3" value="ALARM" comment="Indicates behaviour of serious concern requiring the attention of an operator, but not necessarily a malfunction."/>
@@ -1287,499 +1234,500 @@
                 <mal:item nvalue="5" value="CRITICAL" comment="Indicates behaviour with mission threatening consequences. Requires operator attention."/>
             </mal:enumeration>
             <mal:composite name="ArgumentDefinition" shortFormPart="2"
-                           comment="The ArgumentDefinition structure holds the details of an argument definition with a set of associated attributes, such as conversion used. The conditionalConversions define the conditions where a referenced conversion is applied. Only the first TRUE conversion should be applied.">
+                           comment="The definition of an argument, including associated attributes such as conversion. The conditionalConversions define the conditions under which a referenced conversion is applied. Only the first TRUE conversion should be applied.">
                 <mal:extends>
-                    <mal:type name="Composite" area="MAL"/>
+                    <mal:type area="MAL" name="Composite"/>
                 </mal:extends>
                 <mal:field name="argId" canBeNull="false" comment="The argument definition identifier.">
-                    <mal:type name="Identifier" area="MAL"/>
+                    <mal:type area="MAL" name="Identifier"/>
                 </mal:field>
-                <mal:field name="description" comment="An optional argument description.">
-                    <mal:type name="String" area="MAL"/>
+                <mal:field name="description" canBeNull="true" comment="An optional argument description.">
+                    <mal:type area="MAL" name="String"/>
                 </mal:field>
                 <mal:field name="rawType" canBeNull="false" comment="The attribute raw type of the argument.">
-                    <mal:type name="AttributeType" area="MAL"/>
+                    <mal:type area="MAL" name="AttributeType"/>
                 </mal:field>
-                <mal:field name="rawUnit" comment="The unit for the raw value.">
-                    <mal:type name="String" area="MAL"/>
+                <mal:field name="rawUnit" canBeNull="true" comment="The unit for the raw value.">
+                    <mal:type area="MAL" name="String"/>
                 </mal:field>
             </mal:composite>
             <mal:composite name="AttributeValue" shortFormPart="3"
-                           comment="The AttributeValue structure holds an Attribute value. It allows a list of different Attribute types to be created whereas List of Attribute would require the values to be all of the same type.">
+                           comment="A wrapper for an Attribute value. Allows a list of heterogeneous Attribute types to be constructed, unlike a typed List which requires all values to be of the same type.">
                 <mal:extends>
-                    <mal:type name="Composite" area="MAL"/>
+                    <mal:type area="MAL" name="Composite"/>
                 </mal:extends>
                 <mal:field name="value" canBeNull="false"
-                           comment="The argument value. Must not be NULL. NULL may be represented by having a NULL in place of the complete AttributeValue composite.">
-                    <mal:type name="Attribute" area="MAL"/>
+                           comment="The argument value. Shall not be NULL. NULL may be represented by having a NULL in place of the complete AttributeValue composite.">
+                    <mal:type area="MAL" name="Attribute"/>
                 </mal:field>
             </mal:composite>
             <mal:composite name="ConditionalConversion" shortFormPart="4"
-                           comment="The ConditionalConversion structure holds a condition expression to be evaluated to determine if a specific Conversion should be used. In the case that no test is required, i.e., the conversion should always be used, then the condition field should be set to NULL.">
+                           comment="A condition expression paired with a Conversion. The conversion is applied when the condition evaluates to TRUE, or unconditionally when the condition field is NULL.">
                 <mal:extends>
-                    <mal:type name="Composite" area="MAL"/>
+                    <mal:type area="MAL" name="Composite"/>
                 </mal:extends>
-                <mal:field name="condition"
+                <mal:field name="condition" canBeNull="true"
                            comment="The expression indicates which entities are applicable for this check. If NULL, then the condition shall evaluate to TRUE.">
-                    <mal:type name="ParameterExpression" area="MC"/>
+                    <mal:type area="MC" name="ParameterExpression"/>
                 </mal:field>
                 <mal:field name="conversionId" canBeNull="false"
                            comment="The id of the Conversion to be used if the condition evaluates to TRUE or is NULL.">
-                    <mal:type name="Long" area="MAL"/>
+                    <mal:type area="MAL" name="Long"/>
                 </mal:field>
             </mal:composite>
             <mal:composite name="ParameterExpression" shortFormPart="5"
-                           comment="The ParameterExpression structure represents a simple expression between a parameter and a value for that parameter.">
+                           comment="A simple Boolean expression comparing a parameter value against a fixed value using an operator.">
                 <mal:extends>
-                    <mal:type name="Composite" area="MAL"/>
+                    <mal:type area="MAL" name="Composite"/>
                 </mal:extends>
                 <mal:field name="parameterId" canBeNull="false"
-                           comment="Holds the id of the Parameter to be used in the expression.">
-                    <mal:type name="Long" area="MAL"/>
+                           comment="The id of the Parameter to be used in the expression.">
+                    <mal:type area="MAL" name="Long"/>
                 </mal:field>
                 <mal:field name="operator" canBeNull="false" comment="The expression operator.">
-                    <mal:type name="ExpressionOperator" area="COM"/>
+                    <mal:type area="COM" name="ExpressionOperator"/>
                 </mal:field>
                 <mal:field name="useConverted" canBeNull="false"
                            comment="If set to TRUE the converted value field of the parameter value should be used, otherwise the raw value field should be used.">
-                    <mal:type name="Boolean" area="MAL"/>
+                    <mal:type area="MAL" name="Boolean"/>
                 </mal:field>
-                <mal:field name="value" comment="The value to be used in the expression.">
-                    <mal:type name="Attribute" area="MAL"/>
+                <mal:field name="value" canBeNull="true" comment="The value to be used in the expression.">
+                    <mal:type area="MAL" name="Attribute"/>
                 </mal:field>
             </mal:composite>
             <mal:enumeration name="ActionCategory" shortFormPart="7"
                              comment="Contains the default Action category values. It is implementation specific what the meaning of the values are in a particular context.">
-                <mal:item value="DEFAULT" nvalue="1" comment="Default category"/>
-                <mal:item value="HIPRIORITY" nvalue="2" comment="Category for high priority actions"/>
-                <mal:item value="CRITICAL" nvalue="3" comment="Category for critical actions"/>
+                <mal:item nvalue="1" value="DEFAULT" comment="Default category."/>
+                <mal:item nvalue="2" value="HIPRIORITY" comment="Category for high priority actions."/>
+                <mal:item nvalue="3" value="CRITICAL" comment="Category for critical actions."/>
             </mal:enumeration>
             <mal:enumeration name="ExecutionStageType" shortFormPart="36"
                              comment="Identifies the lifecycle stage of an action execution update published via the monitorExecution operation.">
-                <mal:item value="START" nvalue="1" comment="Indicates the beginning of action execution."/>
-                <mal:item value="PROGRESS" nvalue="2" comment="Indicates an intermediate progress update during action execution."/>
-                <mal:item value="END" nvalue="3" comment="Indicates the end of action execution, whether successful or not."/>
+                <mal:item nvalue="1" value="START" comment="Indicates the beginning of action execution."/>
+                <mal:item nvalue="2" value="PROGRESS" comment="Indicates an intermediate progress update during action execution."/>
+                <mal:item nvalue="3" value="END" comment="Indicates the end of action execution, whether successful or not."/>
             </mal:enumeration>
             <mal:composite name="ActionDefinition" shortFormPart="8"
-                           comment="The ActionDefinition structure holds the definition information of an action.">
+                           comment="The definition of an action, including its name, description, category, and argument list.">
                 <mal:extends>
-                    <mal:type name="Composite" area="MAL"/>
+                    <mal:type area="MAL" name="Composite"/>
                 </mal:extends>
                 <mal:field name="name" canBeNull="false"
-                           comment="The name of the action. Must not be empty or the wildcard value.">
-                    <mal:type name="Identifier" area="MAL"/>
+                           comment="The name of the action. Shall not be empty or the wildcard value.">
+                    <mal:type area="MAL" name="Identifier"/>
                 </mal:field>
                 <mal:field name="description" canBeNull="false" comment="The description of the action.">
-                    <mal:type name="String" area="MAL"/>
+                    <mal:type area="MAL" name="String"/>
                 </mal:field>
                 <mal:field name="category" canBeNull="false"
                            comment="The category of the action.">
-                    <mal:type name="ActionCategory" area="MC"/>
+                    <mal:type area="MC" name="ActionCategory"/>
                 </mal:field>
                 <mal:field name="progressStepCount" canBeNull="false"
                            comment="Total number of steps that will be reported if PROGRESS reporting is selected in the sent Action. 0 if PROGRESS reporting is not used.">
-                    <mal:type name="UShort" area="MAL"/>
+                    <mal:type area="MAL" name="UShort"/>
                 </mal:field>
-                <mal:field name="arguments"
+                <mal:field name="arguments" canBeNull="true"
                            comment="The list of argument definitions. If no arguments are defined, then the complete list is replaced with a NULL.">
-                    <mal:type list="true" name="ArgumentDefinition" area="MC"/>
+                    <mal:type area="MC" list="true" name="ArgumentDefinition"/>
                 </mal:field>
             </mal:composite>
             <mal:composite name="ExecutionRequest" shortFormPart="9"
-                           comment="The ExecutionRequest structure holds the information required for an execution of an action such as the argument values to use.">
+                           comment="The information required to execute an action, including the definition identifier and the argument values to use.">
                 <mal:extends>
-                    <mal:type name="Composite" area="MAL"/>
+                    <mal:type area="MAL" name="Composite"/>
                 </mal:extends>
                 <mal:field name="definitionId" canBeNull="false"
                            comment="The id of the ActionDefinition to be used.">
-                    <mal:type name="Long" area="MAL"/>
+                    <mal:type area="MAL" name="Long"/>
                 </mal:field>
-                <mal:field name="argumentValues"
+                <mal:field name="argumentValues" canBeNull="true"
                            comment="List containing the values of the arguments. The ordering of the list matches that of the definition. If a value for a particular entry is not being supplied, then its position is filled with a NULL value. If no arguments are defined, then the complete list is replaced with a NULL.">
-                    <mal:type list="true" name="AttributeValue" area="MC"/>
+                    <mal:type area="MC" list="true" name="AttributeValue"/>
                 </mal:field>
-                <mal:field name="argumentIds"
+                <mal:field name="argumentIds" canBeNull="true"
                            comment="Optional list of argument definition identifiers. Allows the provider to verify that the correct arguments are being supplied. The ordering of the list matches that of the argument list of the action definition.">
-                    <mal:type list="true" name="Identifier" area="MAL"/>
+                    <mal:type area="MAL" list="true" name="Identifier"/>
                 </mal:field>
             </mal:composite>
             <mal:composite name="ExecutionStatus" shortFormPart="10"
-                           comment="The ExecutionStatus structure holds the progress status of a single execution stage of an action. An ExecutionStatus object is stored in the COM archive each time a monitorExecution notification is published.">
+                           comment="The progress status of a single execution stage of an action. An ExecutionStatus object is stored in the COM archive each time a monitorExecution notification is published.">
                 <mal:extends>
-                    <mal:type name="Composite" area="MAL"/>
+                    <mal:type area="MAL" name="Composite"/>
                 </mal:extends>
                 <mal:field name="stageType" canBeNull="false"
                            comment="The lifecycle stage of the execution.">
-                    <mal:type name="ExecutionStageType" area="MC"/>
+                    <mal:type area="MC" name="ExecutionStageType"/>
                 </mal:field>
                 <mal:field name="success" canBeNull="false"
                            comment="Indicates whether the execution stage completed successfully.">
-                    <mal:type name="Boolean" area="MAL"/>
+                    <mal:type area="MAL" name="Boolean"/>
                 </mal:field>
                 <mal:field name="step" canBeNull="true"
                            comment="The progress step number. Null for START and END stages.">
-                    <mal:type name="UShort" area="MAL"/>
+                    <mal:type area="MAL" name="UShort"/>
                 </mal:field>
                 <mal:field name="comment" canBeNull="true"
                            comment="An optional comment providing additional details about the execution stage.">
-                    <mal:type name="String" area="MAL"/>
+                    <mal:type area="MAL" name="String"/>
                 </mal:field>
             </mal:composite>
             <mal:enumeration name="ValidityState" shortFormPart="11"
-                             comment="Convenience enumeration that holds the validity states and their numeric values.">
-                <mal:item value="VALID" nvalue="0" comment="Valid."/>
-                <mal:item value="EXPIRED" nvalue="1"
-                          comment="The parameter has a timeout associated which has expired"/>
-                <mal:item value="INVALID_RAW" nvalue="2"
-                          comment="The parameter raw value cannot be obtained, or calculated for synthetic parameters"/>
-                <mal:item value="INVALID_CONVERSION" nvalue="3"
-                          comment="The validity expression either has evaluated to TRUE or there is no validity defined, but the conversion of the parameter value has failed (for example an unexpected value for a discrete conversion)"/>
-                <mal:item value="UNVERIFIED" nvalue="4"
-                          comment="The validity of the validity expression has been evaluated to FALSE and therefore cannot be used to verify the current value"/>
-                <mal:item value="INVALID" nvalue="5"
-                          comment="The validity expression has been evaluated to FALSE"/>
+                             comment="The validity states of a parameter value and their numeric values.">
+                <mal:item nvalue="0" value="VALID" comment="Valid."/>
+                <mal:item nvalue="1" value="EXPIRED" comment="The parameter has a timeout associated which has expired."/>
+                <mal:item nvalue="2" value="INVALID_RAW" comment="The parameter raw value cannot be obtained, or calculated for synthetic parameters."/>
+                <mal:item nvalue="3" value="INVALID_CONVERSION" comment="The validity expression has evaluated to TRUE or there is no validity defined, but the conversion of the parameter value has failed (for example an unexpected value for a discrete conversion)."/>
+                <mal:item nvalue="4" value="UNVERIFIED" comment="The validity expression has been evaluated to FALSE and therefore the current value cannot be verified."/>
+                <mal:item nvalue="5" value="INVALID" comment="The validity expression has been evaluated to FALSE."/>
             </mal:enumeration>
             <mal:composite name="ParameterDefinition" shortFormPart="12"
-                           comment="The ParameterDefinition structure holds a parameter definition. The conversion field defines the conditions where the relevant conversion is applied. For onboard parameters, the report interval should be a multiple of the minimum sampling interval of that parameter.">
+                           comment="The definition of a parameter, including name, type, reporting interval, validity expression, and optional conversion. For onboard parameters, the report interval should be a multiple of the minimum sampling interval of that parameter.">
                 <mal:extends>
-                    <mal:type name="Composite" area="MAL"/>
+                    <mal:type area="MAL" name="Composite"/>
                 </mal:extends>
                 <mal:field name="name" canBeNull="false"
-                           comment="The name of the parameter. Must not be empty or the wildcard value.">
-                    <mal:type name="Identifier" area="MAL"/>
+                           comment="The name of the parameter. Shall not be empty or the wildcard value.">
+                    <mal:type area="MAL" name="Identifier"/>
                 </mal:field>
                 <mal:field name="description" canBeNull="false"
                            comment="The description of the parameter. May be empty.">
-                    <mal:type name="String" area="MAL"/>
+                    <mal:type area="MAL" name="String"/>
                 </mal:field>
                 <mal:field name="rawType" canBeNull="false"
-                           comment="Holds the attribute short form part of the raw type of the parameter, e.g., for a MAL::String parameter it shall hold 15.">
-                    <mal:type name="AttributeType" area="MAL"/>
+                           comment="The attribute short form part of the raw type of the parameter, e.g., for a MAL::String parameter this is 15.">
+                    <mal:type area="MAL" name="AttributeType"/>
                 </mal:field>
-                <mal:field name="rawUnit"
+                <mal:field name="rawUnit" canBeNull="true"
                            comment="The unit for the raw value. If NULL then raw type has no unit.">
-                    <mal:type name="String" area="MAL"/>
+                    <mal:type area="MAL" name="String"/>
                 </mal:field>
                 <mal:field name="generationEnabled" canBeNull="false"
                            comment="Controls whether reports for this parameter are to be generated.">
-                    <mal:type name="Boolean" area="MAL"/>
+                    <mal:type area="MAL" name="Boolean"/>
                 </mal:field>
                 <mal:field name="reportInterval" canBeNull="false"
                            comment="Periodic report interval. No periodic reports to be generated if this is set to '0'.">
-                    <mal:type name="Duration" area="MAL"/>
+                    <mal:type area="MAL" name="Duration"/>
                 </mal:field>
-                <mal:field name="validityExpression"
+                <mal:field name="validityExpression" canBeNull="true"
                            comment="Expression that determines this parameter's validity state. Can be NULL if no validity check is required or validity is calculated by implementation-specific mechanisms.">
-                    <mal:type name="ParameterExpression" area="MC"/>
+                    <mal:type area="MC" name="ParameterExpression"/>
                 </mal:field>
-                <mal:field name="conversion" comment="If present then parameter has a converted type.">
-                    <mal:type name="ParameterConversion" area="MC"/>
+                <mal:field name="conversion" canBeNull="true" comment="If present then parameter has a converted type.">
+                    <mal:type area="MC" name="ParameterConversion"/>
                 </mal:field>
             </mal:composite>
             <mal:composite name="ParameterValue" shortFormPart="13"
-                           comment="This structure holds a specific value of the parameter. The type of the value shall match that specified in the parameter definition.">
+                           comment="A specific value of a parameter, including its validity state, raw value, and converted value. The type of the value shall match that specified in the parameter definition.">
                 <mal:extends>
-                    <mal:type name="Composite" area="MAL"/>
+                    <mal:type area="MAL" name="Composite"/>
                 </mal:extends>
                 <mal:field name="validityState" canBeNull="false"
-                           comment="Holds the validity state for a parameter value. If the parameter is valid then this should be set to '0'.">
-                    <mal:type name="ValidityState" area="MC"/>
+                           comment="The validity state for the parameter value. If the parameter is valid, this shall be set to '0'.">
+                    <mal:type area="MC" name="ValidityState"/>
                 </mal:field>
-                <mal:field name="rawValue"
+                <mal:field name="rawValue" canBeNull="true"
                            comment="The parameter raw value. The value of NULL is a valid value and carries no special significance in the parameter service.">
-                    <mal:type name="Attribute" area="MAL"/>
+                    <mal:type area="MAL" name="Attribute"/>
                 </mal:field>
-                <mal:field name="convertedValue" comment="The parameter converted value.">
-                    <mal:type name="Attribute" area="MAL"/>
+                <mal:field name="convertedValue" canBeNull="true" comment="The parameter converted value.">
+                    <mal:type area="MAL" name="Attribute"/>
                 </mal:field>
             </mal:composite>
             <mal:composite name="ParameterConversion" shortFormPart="14"
-                           comment="The ParameterConversion structure holds information about the conversions to be applied to a parameter.">
+                           comment="The conversion configuration for a parameter, specifying the converted type, unit, and the ordered list of conditional conversions to apply.">
                 <mal:extends>
-                    <mal:type name="Composite" area="MAL"/>
+                    <mal:type area="MAL" name="Composite"/>
                 </mal:extends>
                 <mal:field name="convertedType" canBeNull="false"
-                           comment="Holds the attribute short form part of the converted type of the parameter, e.g., for a MAL::String parameter it shall hold 15.">
-                    <mal:type name="Octet" area="MAL"/>
+                           comment="The attribute short form part of the converted type of the parameter, e.g., for a MAL::String parameter this is 15.">
+                    <mal:type area="MAL" name="Octet"/>
                 </mal:field>
-                <mal:field name="convertedUnit"
+                <mal:field name="convertedUnit" canBeNull="true"
                            comment="The converted parameter unit. If NULL then converted type has no unit.">
-                    <mal:type name="String" area="MAL"/>
+                    <mal:type area="MAL" name="String"/>
                 </mal:field>
                 <mal:field name="conditionalConversions" canBeNull="false"
                            comment="The conversions to be applied. Only the first TRUE conversion should be applied.">
-                    <mal:type list="true" name="ConditionalConversion" area="MC"/>
+                    <mal:type area="MC" list="true" name="ConditionalConversion"/>
                 </mal:field>
             </mal:composite>
             <mal:composite name="ParameterRawValue" shortFormPart="16"
-                           comment="The ParameterRawValue structure holds a new raw value for a specific parameter.">
+                           comment="A new raw value for a specific parameter, identified by its ParameterDefinition id.">
                 <mal:extends>
-                    <mal:type name="Composite" area="MAL"/>
+                    <mal:type area="MAL" name="Composite"/>
                 </mal:extends>
                 <mal:field name="parameterId" canBeNull="false"
                            comment="The id of the parameter.">
-                    <mal:type name="Long" area="MAL"/>
+                    <mal:type area="MAL" name="Long"/>
                 </mal:field>
-                <mal:field name="rawValue"
+                <mal:field name="rawValue" canBeNull="true"
                            comment="The parameter raw value. The value of NULL is a valid value and carries no special significance in the parameter service.">
-                    <mal:type name="Attribute" area="MAL"/>
+                    <mal:type area="MAL" name="Attribute"/>
                 </mal:field>
             </mal:composite>
             <mal:composite name="ParameterValueDetails" shortFormPart="17"
-                           comment="This structure holds a specific time stamped value of the parameter. The type of the value shall match that specified in the parameter definition.">
+                           comment="A time-stamped value of a parameter, including the ParameterDefinition id and the ParameterValue. The type of the value shall match that specified in the parameter definition.">
+                <mal:extends>
+                    <mal:type area="MAL" name="Composite"/>
+                </mal:extends>
                 <mal:field name="defId" canBeNull="false"
                            comment="The id of the Parameter Definition.">
-                    <mal:type name="Long" area="MAL"/>
+                    <mal:type area="MAL" name="Long"/>
                 </mal:field>
                 <mal:field name="timestamp" canBeNull="false" comment="The timestamp of the value.">
-                    <mal:type name="Time" area="MAL"/>
+                    <mal:type area="MAL" name="Time"/>
                 </mal:field>
                 <mal:field name="value" canBeNull="false" comment="The parameter value.">
-                    <mal:type name="ParameterValue" area="MC"/>
+                    <mal:type area="MC" name="ParameterValue"/>
                 </mal:field>
             </mal:composite>
             <mal:composite name="AlertDefinition" shortFormPart="18"
                            comment="The AlertDefinition provides the definition of an alert including any argument definitions.">
                 <mal:extends>
-                    <mal:type name="Composite" area="MAL"/>
+                    <mal:type area="MAL" name="Composite"/>
                 </mal:extends>
                 <mal:field name="name" canBeNull="false"
-                           comment="Alert name. Must not be empty or wildcard value.">
-                    <mal:type name="Identifier" area="MAL"/>
+                           comment="The alert name. Shall not be empty or the wildcard value.">
+                    <mal:type area="MAL" name="Identifier"/>
                 </mal:field>
                 <mal:field name="description" canBeNull="false" comment="The description of the alert.">
-                    <mal:type name="String" area="MAL"/>
+                    <mal:type area="MAL" name="String"/>
                 </mal:field>
                 <mal:field name="severity" canBeNull="false" comment="Severity of the alert.">
-                    <mal:type name="Severity" area="MC"/>
+                    <mal:type area="MC" name="Severity"/>
                 </mal:field>
                 <mal:field name="generationEnabled" canBeNull="false"
                            comment="Controls whether instances of this alert are to be generated.">
-                    <mal:type name="Boolean" area="MAL"/>
+                    <mal:type area="MAL" name="Boolean"/>
                 </mal:field>
                 <mal:field name="arguments" canBeNull="false" comment="The list of argument definitions.">
-                    <mal:type list="true" name="ArgumentDefinition" area="MC"/>
+                    <mal:type area="MC" list="true" name="ArgumentDefinition"/>
                 </mal:field>
             </mal:composite>
             <mal:composite name="AlertEvent" shortFormPart="19"
-                           comment="The AlertEvent structure holds the details of an instance of an alert.">
+                           comment="The details of an instance of an alert, including the argument values associated with the event.">
                 <mal:extends>
-                    <mal:type name="Composite" area="MAL"/>
+                    <mal:type area="MAL" name="Composite"/>
                 </mal:extends>
-                <mal:field name="argumentValues"
+                <mal:field name="argumentValues" canBeNull="true"
                            comment="List containing the values of the arguments. The ordering of the list matches that of the definition. If a value for a particular entry is not being supplied, then its position is filled with a NULL value. If no arguments are defined, then the complete list is replaced with a NULL.">
-                    <mal:type list="true" name="AttributeValue" area="MC"/>
+                    <mal:type area="MC" list="true" name="AttributeValue"/>
                 </mal:field>
-                <mal:field name="argumentIds"
+                <mal:field name="argumentIds" canBeNull="true"
                            comment="Optional list of argument definition identifiers. Allows the consumer to verify that the correct arguments are being supplied. The ordering of the list matches that of the argument list of the alert definition.">
-                    <mal:type list="true" name="Identifier" area="MAL"/>
+                    <mal:type area="MAL" list="true" name="Identifier"/>
                 </mal:field>
             </mal:composite>
             <mal:enumeration name="AggregationCategory" shortFormPart="21"
-                             comment="AggregationCategory is an enumeration definition holding the categories of aggregations.">
-                <mal:item value="GENERAL" nvalue="1" comment="General aggregation."/>
-                <mal:item value="DIAGNOSTIC" nvalue="2" comment="Diagnostic aggregation."/>
+                             comment="The categories of aggregations.">
+                <mal:item nvalue="1" value="GENERAL" comment="General aggregation."/>
+                <mal:item nvalue="2" value="DIAGNOSTIC" comment="Diagnostic aggregation."/>
             </mal:enumeration>
             <mal:enumeration name="ThresholdType" shortFormPart="22"
-                             comment="ThresholdType is an enumeration definition holding the types of filtering thresholds.">
-                <mal:item value="PERCENTAGE" nvalue="1" comment="Threshold value is a percentage."/>
-                <mal:item value="DELTA" nvalue="2" comment="Threshold value is a delta."/>
+                             comment="The types of filtering thresholds.">
+                <mal:item nvalue="1" value="PERCENTAGE" comment="Threshold value is a percentage."/>
+                <mal:item nvalue="2" value="DELTA" comment="Threshold value is a delta."/>
             </mal:enumeration>
             <mal:enumeration name="GenerationMode" shortFormPart="23"
-                             comment="GenerationMode is an enumeration definition holding the reasons for the aggregation to be generated.">
+                             comment="The reasons for which an aggregation report may be generated.">
                 <mal:item nvalue="1" value="ADHOC" comment="The aggregation value was generated because of an ad-hoc implementation dependent reason."/>
                 <mal:item nvalue="2" value="PERIODIC" comment="The aggregation value was generated because of a periodic report."/>
                 <mal:item nvalue="3" value="FILTERED_TIMEOUT" comment="The item is filtered but it exceeded its timeout value."/>
             </mal:enumeration>
-            <mal:composite name="AggregationDefinition" shortFormPart="24" comment="The AggregationDefinition structure holds definition details of an aggregation.">
+            <mal:composite name="AggregationDefinition" shortFormPart="24" comment="The definition of an aggregation, including its name, reporting interval, filter settings, and the ordered list of parameter sets.">
                 <mal:extends>
-                    <mal:type name="Composite" area="MAL"/>
+                    <mal:type area="MAL" name="Composite"/>
                 </mal:extends>
                 <mal:field name="name" canBeNull="false"
-                           comment="The name of the aggregation. Must not be empty or the wildcard value.">
-                    <mal:type name="Identifier" area="MAL"/>
+                           comment="The name of the aggregation. Shall not be empty or the wildcard value.">
+                    <mal:type area="MAL" name="Identifier"/>
                 </mal:field>
                 <mal:field name="description" canBeNull="false" comment="The description of the parameter. May be empty.">
-                    <mal:type name="String" area="MAL"/>
+                    <mal:type area="MAL" name="String"/>
                 </mal:field>
                 <mal:field name="category" canBeNull="false" comment="The category of the aggregation.">
-                    <mal:type name="AggregationCategory" area="MC"/>
+                    <mal:type area="MC" name="AggregationCategory"/>
                 </mal:field>
-                <mal:field name="reportInterval" canBeNull="false" comment="The interval between periodic reports on this aggregation. If this aggregation is not periodic, this field must be '0'.">
-                    <mal:type name="Duration" area="MAL"/>
+                <mal:field name="reportInterval" canBeNull="false" comment="The interval between periodic reports on this aggregation. If this aggregation is not periodic, this field shall be '0'.">
+                    <mal:type area="MAL" name="Duration"/>
                 </mal:field>
                 <mal:field name="sendUnchanged" canBeNull="false"
                            comment="If TRUE reports will include all values regardless of whether changed, if FALSE values unchanged from previous report are replaced with a NULL.">
-                    <mal:type name="Boolean" area="MAL"/>
+                    <mal:type area="MAL" name="Boolean"/>
                 </mal:field>
                 <mal:field name="sendDefinitions" canBeNull="false"
                            comment="If TRUE reports will include the ParameterDefinition id in the AggregationParameterValue, if FALSE it will be set to NULL.">
-                    <mal:type name="Boolean" area="MAL"/>
+                    <mal:type area="MAL" name="Boolean"/>
                 </mal:field>
                 <mal:field name="filterEnabled" canBeNull="false" comment="Controls whether reports for this aggregation are to be filtered.">
-                    <mal:type name="Boolean" area="MAL"/>
+                    <mal:type area="MAL" name="Boolean"/>
                 </mal:field>
                 <mal:field name="filteredTimeout" canBeNull="false"
                            comment="The maximum duration between filtered reports. If this value is exceeded, then a report is sent regardless of filtered thresholds. Ignored if not filtered.">
-                    <mal:type name="Duration" area="MAL"/>
+                    <mal:type area="MAL" name="Duration"/>
                 </mal:field>
                 <mal:field name="generationEnabled" canBeNull="false" comment="Controls whether reports for this aggregation are to be generated.">
-                    <mal:type name="Boolean" area="MAL"/>
+                    <mal:type area="MAL" name="Boolean"/>
                 </mal:field>
                 <mal:field name="parameterSets" canBeNull="false" comment="List containing the parameter sets which define the aggregation.">
-                    <mal:type list="true" name="AggregationParameterSet" area="MC"/>
+                    <mal:type area="MC" list="true" name="AggregationParameterSet"/>
                 </mal:field>
             </mal:composite>
             <mal:composite name="AggregationParameterSet" shortFormPart="25"
-                           comment="The AggregationParameterSet structure holds the identifier and optional filter for a parameter, or set of parameters, in an aggregation.">
+                           comment="A set of parameters within an aggregation definition, including the sample interval and an optional filter threshold.">
                 <mal:extends>
-                    <mal:type name="Composite" area="MAL"/>
+                    <mal:type area="MAL" name="Composite"/>
                 </mal:extends>
-                <mal:field name="domain"
+                <mal:field name="domain" canBeNull="true"
                            comment="The domain of the parameters being referenced in this set of parameters, NULL if the same domain as the aggregation.">
-                    <mal:type list="true" name="Identifier" area="MAL"/>
+                    <mal:type area="MAL" list="true" name="Identifier"/>
                 </mal:field>
                 <mal:field name="parameters" canBeNull="false"
                            comment="The list of ids of the ParameterDefinition objects being included in the aggregation.">
-                    <mal:type list="true" name="Long" area="MAL"/>
+                    <mal:type area="MAL" list="true" name="Long"/>
                 </mal:field>
                 <mal:field name="sampleInterval" canBeNull="false"
                            comment="The interval between samples of the parameters in the set. If '0' then just a single sample of the parameters is required per aggregation report.">
-                    <mal:type name="Duration" area="MAL"/>
+                    <mal:type area="MAL" name="Duration"/>
                 </mal:field>
-                <mal:field name="reportFilter"
+                <mal:field name="reportFilter" canBeNull="true"
                            comment="The filter to apply for filtered reports when applied. NULL if no filter required or this set contains more than one parameter.">
-                    <mal:type name="ThresholdFilter" area="MC"/>
+                    <mal:type area="MC" name="ThresholdFilter"/>
                 </mal:field>
             </mal:composite>
             <mal:composite name="AggregationValue" shortFormPart="26"
-                           comment="The AggregationValue structure holds the values for one or more sets of parameter values. The value sets must be held in the same order as that defined in the matching AggregationDefinition.">
+                           comment="The values for one or more parameter sets in an aggregation. The value sets shall be in the same order as defined in the matching AggregationDefinition.">
                 <mal:extends>
-                    <mal:type name="Composite" area="MAL"/>
+                    <mal:type area="MAL" name="Composite"/>
                 </mal:extends>
                 <mal:field name="generationMode" canBeNull="false"
                            comment="Reason for the aggregation being generated.">
-                    <mal:type name="GenerationMode" area="MC"/>
+                    <mal:type area="MC" name="GenerationMode"/>
                 </mal:field>
                 <mal:field name="filtered" canBeNull="false"
                            comment="If a filter is enabled when the aggregation value is generated then this value shall be set to TRUE, else FALSE.">
-                    <mal:type name="Boolean" area="MAL"/>
+                    <mal:type area="MAL" name="Boolean"/>
                 </mal:field>
                 <mal:field name="parameterSetValues" canBeNull="false"
-                           comment="The parameterSetValues list holds the sets of values of the aggregation. The sets must be held in the same order as that defined in the aggregation definition.">
-                    <mal:type list="true" name="AggregationSetValue" area="MC"/>
+                           comment="The sets of values of the aggregation. The sets shall be in the same order as defined in the aggregation definition.">
+                    <mal:type area="MC" list="true" name="AggregationSetValue"/>
                 </mal:field>
             </mal:composite>
             <mal:composite name="AggregationSetValue" shortFormPart="27"
-                           comment="The AggregationSetValue structure holds the values for one set of parameter values. If the definition sendUnchanged field is set to FALSE parameter values that are unchanged since the previous report are replaced by a NULL in this list. The parameter values must be held in the same order as that defined in the matching AggregationDefinition.">
+                           comment="The values for one parameter set in an aggregation report, including optional timing information. If the sendUnchanged field in the AggregationDefinition is FALSE, parameter values unchanged since the previous report are replaced by NULL. The parameter values shall be in the same order as defined in the matching AggregationDefinition.">
                 <mal:extends>
-                    <mal:type name="Composite" area="MAL"/>
+                    <mal:type area="MAL" name="Composite"/>
                 </mal:extends>
-                <mal:field name="deltaTime"
+                <mal:field name="deltaTime" canBeNull="true"
                            comment="Optional delta time, from the timestamp of the aggregation for the first parameter set of the aggregation or the last value of the previous parameter set otherwise, for the first parameter sample of this set. If NULL, then the first sample time is the same as the aggregation timestamp for the first parameter set of the aggregation or the last value of the previous parameter set otherwise.">
-                    <mal:type name="Duration" area="MAL"/>
+                    <mal:type area="MAL" name="Duration"/>
                 </mal:field>
-                <mal:field name="intervalTime"
+                <mal:field name="intervalTime" canBeNull="true"
                            comment="Optional delta time between samples in this set. If NULL, then all samples in this set are given the same time. This is usually driven by the sampleInterval in the aggregation set definition.">
-                    <mal:type name="Duration" area="MAL"/>
+                    <mal:type area="MAL" name="Duration"/>
                 </mal:field>
                 <mal:field name="values" canBeNull="false"
                            comment="List containing values of the parameters which are part of the aggregation. The ordering of the list entries shall match that of the definition of the aggregation. If there are more values than contained in the definition then it is assumed that the parameters cycle as a complete parameter set.">
-                    <mal:type list="true" name="AggregationParameterValue" area="MC"/>
+                    <mal:type area="MC" list="true" name="AggregationParameterValue"/>
                 </mal:field>
             </mal:composite>
             <mal:composite name="AggregationParameterValue" shortFormPart="28"
-                           comment="The structure holds a single parameter value with its definition instance identifier.">
+                           comment="A single parameter value within an aggregation, paired with its ParameterDefinition instance identifier.">
                 <mal:extends>
-                    <mal:type name="Composite" area="MAL"/>
+                    <mal:type area="MAL" name="Composite"/>
                 </mal:extends>
                 <mal:field name="value" canBeNull="false" comment="The parameter value.">
-                    <mal:type name="ParameterValue" area="MC"/>
+                    <mal:type area="MC" name="ParameterValue"/>
                 </mal:field>
-                <mal:field name="paramDefInstId"
+                <mal:field name="paramDefInstId" canBeNull="true"
                            comment="The id of the ParameterDefinition. NULL if sendDefinitions in the AggregationDefinition is FALSE.">
-                    <mal:type name="Long" area="MAL"/>
+                    <mal:type area="MAL" name="Long"/>
                 </mal:field>
             </mal:composite>
             <mal:composite name="ThresholdFilter" shortFormPart="29"
-                           comment="The ThresholdFilter structure holds the filter for a parameter.">
+                           comment="The threshold filter for a parameter within an aggregation, specifying the type and value of the change threshold.">
                 <mal:extends>
-                    <mal:type name="Composite" area="MAL"/>
+                    <mal:type area="MAL" name="Composite"/>
                 </mal:extends>
                 <mal:field name="thresholdType" canBeNull="false"
                            comment="The type of filter to apply for filtered periodic reports when filters are applied.">
-                    <mal:type name="ThresholdType" area="MC"/>
+                    <mal:type area="MC" name="ThresholdType"/>
                 </mal:field>
                 <mal:field name="thresholdValue" canBeNull="false" comment="Threshold value to apply.">
-                    <mal:type name="Attribute" area="MAL"/>
+                    <mal:type area="MAL" name="Attribute"/>
                 </mal:field>
                 <mal:field name="useConverted" canBeNull="false"
                            comment="If true, and the relevant Parameter has a conversion, then use the converted value for the threshold comparison, otherwise use the raw value.">
-                    <mal:type name="Boolean" area="MAL"/>
+                    <mal:type area="MAL" name="Boolean"/>
                 </mal:field>
             </mal:composite>
             <mal:composite name="AggregationValueDetails" shortFormPart="31"
-                           comment="This structure holds a specific time stamped value of the aggregation. ">
+                           comment="A time-stamped value of an aggregation, including the AggregationDefinition id and the AggregationValue.">
+                <mal:extends>
+                    <mal:type area="MAL" name="Composite"/>
+                </mal:extends>
                 <mal:field name="defId" canBeNull="false"
                            comment="The AggregationDefinition id.">
-                    <mal:type name="Long" area="MAL"/>
+                    <mal:type area="MAL" name="Long"/>
                 </mal:field>
                 <mal:field name="timestamp" canBeNull="false"
                            comment="The timestamp of the value. Use for the calculation of the individual parameter value timestamps.">
-                    <mal:type name="Time" area="MAL"/>
+                    <mal:type area="MAL" name="Time"/>
                 </mal:field>
                 <mal:field name="value" canBeNull="false" comment="The aggregation value.">
-                    <mal:type name="AggregationValue" area="MC"/>
+                    <mal:type area="MC" name="AggregationValue"/>
                 </mal:field>
             </mal:composite>
             <mal:composite name="DiscreteConversion" shortFormPart="32"
-                           comment="The DiscreteConversion structure holds a bidirectional conversion between raw and converted values. The first element of the pair is the raw value and the second is the converted value. Both sets of values must be unique.">
+                           comment="A bidirectional conversion between raw and converted values defined by a discrete set of value pairs. The first element of each pair is the raw value and the second is the converted value. Both sets of values shall be unique.">
                 <mal:extends>
-                    <mal:type name="Composite" area="MAL"/>
+                    <mal:type area="MAL" name="Composite"/>
                 </mal:extends>
                 <mal:field name="mapping" canBeNull="false"
                            comment="Defines a mapping between raw and converted values as a discrete set of points. The first entry in the pair is the raw value, and the second entry is the converted value.">
-                    <mal:type list="true" name="Pair" area="MAL"/>
+                    <mal:type area="MAL" list="true" name="Pair"/>
                 </mal:field>
             </mal:composite>
             <mal:composite name="LineConversion" shortFormPart="33"
-                           comment="The LineConversion structure is a bi-directional conversion between raw and converted values. It is defined by a series of points between which values are to be interpolated. The extrapolate attribute indicates if values can also be linearly extrapolated beyond the initial and final points.">
+                           comment="A bi-directional conversion between raw and converted values defined by a series of interpolation points. The extrapolate field indicates whether values can also be linearly extrapolated beyond the initial and final points.">
                 <mal:extends>
-                    <mal:type name="Composite" area="MAL"/>
+                    <mal:type area="MAL" name="Composite"/>
                 </mal:extends>
                 <mal:field name="extrapolate" canBeNull="false"
                            comment="Indicates whether or not values can be extrapolated beyond the start and the end of the points.">
-                    <mal:type name="Boolean" area="MAL"/>
+                    <mal:type area="MAL" name="Boolean"/>
                 </mal:field>
                 <mal:field name="points" canBeNull="false"
                            comment="Defines the bi-directional conversion. The first attribute of the point is a raw value, and the second attribute is the converted value.">
-                    <mal:type list="true" name="Pair" area="MAL"/>
+                    <mal:type area="MAL" list="true" name="Pair"/>
                 </mal:field>
             </mal:composite>
             <mal:composite name="PolyConversion" shortFormPart="34"
-                           comment="The PolyConversion structure holds only forward (raw to converted) polynomial conversions. They are defined by a series of points for the polynomial coefficients.">
+                           comment="A forward-only (raw to converted) polynomial conversion defined by a series of coefficient points.">
                 <mal:extends>
-                    <mal:type name="Composite" area="MAL"/>
+                    <mal:type area="MAL" name="Composite"/>
                 </mal:extends>
                 <mal:field name="points" canBeNull="false"
                            comment="The first attribute of a point is a MAL::Integer, being the degree of the polynomial; the second attribute is either a MAL::Float or a MAL::Double, being the coefficient of the term.">
-                    <mal:type list="true" name="Pair" area="MAL"/>
+                    <mal:type area="MAL" list="true" name="Pair"/>
                 </mal:field>
             </mal:composite>
             <mal:composite name="RangeConversion" shortFormPart="35"
-                           comment="The RangeConversion structure holds a range for a one-way conversion to convert between a continuous range to a discrete value. A range is defined as from this point up to, but not including, the next point.">
+                           comment="A one-way conversion from a continuous raw range to a discrete converted value. Each range is defined as from a point up to, but not including, the next point.">
                 <mal:extends>
-                    <mal:type name="Composite" area="MAL"/>
+                    <mal:type area="MAL" name="Composite"/>
                 </mal:extends>
                 <mal:field name="points" canBeNull="false"
                            comment="The first attribute in each pair is the raw range, and the second attribute is the converted value.">
-                    <mal:type list="true" name="Pair" area="MAL"/>
+                    <mal:type area="MAL" list="true" name="Pair"/>
                 </mal:field>
             </mal:composite>
         </mal:dataTypes>
         <mal:errors>
-            <mal:error name="READONLY" number="70020" comment="Operation specific"/>
-            <mal:error name="REFERENCED" number="70021" comment="Operation specific"/>
+            <mal:error number="1" name="READONLY" comment="Operation specific."/>
+            <mal:error number="2" name="REFERENCED" comment="Operation specific."/>
         </mal:errors>
     </mal:area>
 </mal:specification>
