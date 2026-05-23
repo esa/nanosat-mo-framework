@@ -830,31 +830,7 @@
                 If a LoginInstance object was created during a login operation then the source link shall be set to NULL.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="6">
-                When a user logs in a LoginEvent COM event shall be generated.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="7">
-                When a user logs out a LogoutEvent COM event shall be generated.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="8">
-                The LoginEvent event shall use the related link to indicate which LoginInstance object is being logged in.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="9">
-                The LogoutEvent event shall use the related link to indicate which LoginInstance object is being logged out.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="10">
-                The LoginEvent event shall not use the COM object source link and shall set it to NULL.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="11">
-                The LogoutEvent event shall use the source link to indicate which LoginEvent event it is logging out.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="12">
-                The events shall be published using the COM event service.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="13">
                 LoginInstance objects should be stored in the COM archive.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="14">
-                When a login service event is published, the event object should be stored in the COM archive by the Login provider.
             </mal:documentation>
             <mal:capabilitySet number="1">
                 <mal:requestIP name="login" number="1"                               comment="The login operation allows a user to log in to the system. A specific deployment may place limits on the number of concurrent logins for a user, and in that case will fail the login operation with the TOO_MANY error.">
@@ -883,9 +859,6 @@
                         If the login is successful the provider shall create a new LoginInstance COM object and store it in the COM archive.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="9">
-                        A LoginEvent COM event shall be generated at this point.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="10">
                         The returned authId field shall be used as the authenticationId field in future MAL messages by the consumer MAL for authentication.
                     </mal:documentation>
                     <mal:messages>
@@ -926,9 +899,6 @@
                         A logged in user shall be matched using the supplied authenticationId.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        A LogoutEvent COM event shall be generated at this point.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="3">
                         No errors shall be returned by this operation.
                     </mal:documentation>
                     <mal:messages>
@@ -942,26 +912,8 @@
                         <com:objectType>
                             <mal:type area="COM" list="false" name="Profile"/>
                         </com:objectType>
-                        <com:sourceObject>
-                            <com:objectType number="2" service="Login" area="COM"/>
-                        </com:sourceObject>
                     </com:object>
                 </com:objects>
-                <com:events comment="The LoginEvent and LogoutEvent events used by the Login service.">
-                    <com:event name="LoginEvent" number="3">
-                        <com:relatedObject>
-                            <com:objectType number="2" service="Login" area="COM"/>
-                        </com:relatedObject>
-                    </com:event>
-                    <com:event name="LogoutEvent" number="4">
-                        <com:relatedObject>
-                            <com:objectType number="2" service="Login" area="COM"/>
-                        </com:relatedObject>
-                        <com:sourceObject>
-                            <com:objectType number="3" service="Login" area="COM"/>
-                        </com:sourceObject>
-                    </com:event>
-                </com:events>
                 <com:archiveUsage comment="The Login service COM archive usage."/>
             </com:features>
         </mal:service>
