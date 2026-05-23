@@ -12,8 +12,8 @@ Supervisor. A third composite, the **Monolithic** provider, is described
 at the end of this page as a separate, single-process pattern that
 does not involve Apps.
 
-What an NMF App is
-------------------
+NMF App
+----------
 
 An **NMF App** is a JVM process that exposes MO services and is managed by a
 Supervisor running on the same spacecraft host. From the outside, an app is
@@ -25,8 +25,8 @@ Apps are deployed as :doc:`packages` and started, stopped, and observed
 through the SM ``AppsLauncher`` service. See :doc:`mo-architecture` for the
 service stack and :doc:`lifecycle` for the operational view.
 
-The Supervisor
---------------
+Supervisor
+----------
 
 The **Supervisor** (``NanoSatMOSupervisor``) is the process that owns the
 spacecraft-side of the NMF runtime. Its responsibilities include:
