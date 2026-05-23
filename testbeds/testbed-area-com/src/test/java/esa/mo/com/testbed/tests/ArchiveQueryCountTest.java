@@ -73,6 +73,10 @@ public class ArchiveQueryCountTest {
     // sorting — sorting an empty result set is a no-op and would not raise INVALID.
     private static final ObjectType SORT_ERROR_TYPE = new ObjectType(
             new UShort(205), new UShort(1), new UOctet((short) 1), new UShort(1));
+    // Used by CompositeFilter validation error tests; objects must be present so filterQuery is
+    // actually invoked — an empty result set skips filtering entirely.
+    private static final ObjectType FILTER_ERROR_TYPE = new ObjectType(
+            new UShort(206), new UShort(1), new UOctet((short) 1), new UShort(1));
 
     @BeforeClass
     public static void setUpClass() throws IOException {
@@ -183,26 +187,31 @@ public class ArchiveQueryCountTest {
     // --- Error / non-nominal tests ---
 
     /**
-     * Verifies that {@code query} raises INVALID (req 6) when the {@code queryFilter} list is
-     * non-null and its size differs from the {@code archiveQuery} list size. The two lists must
-     * be parallel — one filter entry per query entry — otherwise the pairing is undefined.
+     * Verifies that {@code query} raises INVALID when a {@link CompositeFilter} fails validation
+     * inside the provider. Using {@link ExpressionOperator#GREATER} with a {@code null} field
+     * value is rejected by {@code isCompositeFilterValid}, which causes the provider to throw
+     * an INVALID error per the COM Archive spec.
+     *
+     * <p>At least one object of {@code FILTER_ERROR_TYPE} must be stored so that the filter
+     * loop is actually entered — an empty result set bypasses filter validation entirely.
      */
     @Test
-    public void testQueryInvalidOnMismatchedFilterListSize()
+    public void testQueryInvalidOnBadFilter()
             throws MALInteractionException, MALException, InterruptedException {
         ArchiveStub stub = harness.getArchiveConsumer().getArchiveStub();
+        IdentifierList domain = ConfigurationProviderSingleton.getDomain();
+        URI providerURI = harness.getCOMServicesProvider()
+                .getArchiveService().getConnection().getConnectionDetails().getProviderURI();
 
-        ArchiveQueryList queryList = new ArchiveQueryList();
-        queryList.add(new ArchiveQuery(0L));  // 1 query entry
+        storeEmpty(stub, FILTER_ERROR_TYPE, domain, providerURI);
 
-        // 2 filter entries for 1 query entry — violates the parallel-list requirement.
-        QueryFilterList filterList = new QueryFilterList();
-        filterList.add(null);
-        filterList.add(null);
+        CompositeFilterList filters = new CompositeFilterList();
+        filters.add(new CompositeFilter("anyField", ExpressionOperator.GREATER, null));
+        CompositeFilterSet filterSet = new CompositeFilterSet(filters);
 
-        MOErrorException error = runQueryExpectError(stub, UNMATCH_TYPE, queryList, filterList);
+        MOErrorException error = runQueryExpectError(stub, FILTER_ERROR_TYPE, new ArchiveQuery(0L), filterSet);
 
-        Assert.assertNotNull("Provider must return an error for mismatched list sizes", error);
+        Assert.assertNotNull("Provider must return an error for an invalid CompositeFilter", error);
         Assert.assertEquals("Error must be INVALID", COMHelper.INVALID_ERROR_NUMBER, error.getErrorNumber());
     }
 
@@ -224,35 +233,36 @@ public class ArchiveQueryCountTest {
 
         storeEmpty(stub, SORT_ERROR_TYPE, domain, providerURI);
 
-        ArchiveQueryList queryList = new ArchiveQueryList();
         // sortOrder=true activates sorting; "nonExistentField" will not resolve to any field.
-        queryList.add(new ArchiveQuery(null, null, null, 0L, null, null, null, Boolean.TRUE, "nonExistentField"));
+        ArchiveQuery archiveQuery = new ArchiveQuery(null, null, null, 0L, null, null, null, Boolean.TRUE, "nonExistentField");
 
-        MOErrorException error = runQueryExpectError(stub, SORT_ERROR_TYPE, queryList, null);
+        MOErrorException error = runQueryExpectError(stub, SORT_ERROR_TYPE, archiveQuery, null);
 
         Assert.assertNotNull("Provider must return an error for an unknown sort field", error);
         Assert.assertEquals("Error must be INVALID", COMHelper.INVALID_ERROR_NUMBER, error.getErrorNumber());
     }
 
     /**
-     * Verifies that {@code count} raises INVALID (req 1 of count, which mirrors query req 6) when
-     * the {@code queryFilter} list is non-null and its size differs from the {@code archiveQuery} list.
+     * Verifies that {@code count} raises INVALID when a {@link CompositeFilter} fails validation.
+     * Same mechanism as {@link #testQueryInvalidOnBadFilter} but exercised via the count path.
      */
     @Test
-    public void testCountInvalidOnMismatchedFilterListSize()
+    public void testCountInvalidOnBadFilter()
             throws MALInteractionException, MALException, InterruptedException {
         ArchiveStub stub = harness.getArchiveConsumer().getArchiveStub();
+        IdentifierList domain = ConfigurationProviderSingleton.getDomain();
+        URI providerURI = harness.getCOMServicesProvider()
+                .getArchiveService().getConnection().getConnectionDetails().getProviderURI();
 
-        ArchiveQueryList queryList = new ArchiveQueryList();
-        queryList.add(new ArchiveQuery(0L));  // 1 query entry
+        storeEmpty(stub, FILTER_ERROR_TYPE, domain, providerURI);
 
-        QueryFilterList filterList = new QueryFilterList();
-        filterList.add(null);
-        filterList.add(null);  // 2 filter entries for 1 query entry
+        CompositeFilterList filters = new CompositeFilterList();
+        filters.add(new CompositeFilter("anyField", ExpressionOperator.GREATER, null));
+        CompositeFilterSet filterSet = new CompositeFilterSet(filters);
 
-        MOErrorException error = runCountExpectError(stub, UNMATCH_TYPE, queryList, filterList);
+        MOErrorException error = runCountExpectError(stub, FILTER_ERROR_TYPE, new ArchiveQuery(0L), filterSet);
 
-        Assert.assertNotNull("Provider must return an error for mismatched list sizes", error);
+        Assert.assertNotNull("Provider must return an error for an invalid CompositeFilter", error);
         Assert.assertEquals("Error must be INVALID", COMHelper.INVALID_ERROR_NUMBER, error.getErrorNumber());
     }
 
@@ -273,10 +283,9 @@ public class ArchiveQueryCountTest {
 
         storeEmpty(stub, SORT_ERROR_TYPE, domain, providerURI);
 
-        ArchiveQueryList queryList = new ArchiveQueryList();
-        queryList.add(new ArchiveQuery(null, null, null, 0L, null, null, null, Boolean.TRUE, "nonExistentField"));
+        ArchiveQuery archiveQuery = new ArchiveQuery(null, null, null, 0L, null, null, null, Boolean.TRUE, "nonExistentField");
 
-        MOErrorException error = runCountExpectError(stub, SORT_ERROR_TYPE, queryList, null);
+        MOErrorException error = runCountExpectError(stub, SORT_ERROR_TYPE, archiveQuery, null);
 
         Assert.assertNotNull("Provider must return an error for an unknown sort field", error);
         Assert.assertEquals("Error must be INVALID", COMHelper.INVALID_ERROR_NUMBER, error.getErrorNumber());
@@ -297,10 +306,10 @@ public class ArchiveQueryCountTest {
     }
 
     /**
-     * Runs a synchronous archive query for all objects of the given type.
+     * Runs an async archive query for all objects of the given type and waits for completion.
      *
-     * <p>Uses a single-entry {@link ArchiveQueryList} with {@code related=0} (wildcard) and no
-     * filter, which matches all stored objects of {@code type} regardless of domain or other fields.
+     * <p>Uses an {@link ArchiveQuery} with {@code related=0} (wildcard) and no filter,
+     * which matches all stored objects of {@code type} regardless of domain or other fields.
      *
      * @param returnBody whether the provider should include object bodies in UPDATE messages
      * @return the accumulated results from all UPDATE messages received before the final RESPONSE
@@ -310,10 +319,9 @@ public class ArchiveQueryCountTest {
             throws MALInteractionException, MALException, InterruptedException {
         CountDownLatch latch = new CountDownLatch(1);
         QueryResult result = new QueryResult();
-        ArchiveQueryList queryList = new ArchiveQueryList();
         // related=0 is the wildcard value; all other fields are null (no constraint).
-        queryList.add(new ArchiveQuery(0L));
-        stub.asyncQuery(returnBody, type, queryList, (QueryFilterList) null, new QueryAdapter(latch, result));
+        ArchiveQuery archiveQuery = new ArchiveQuery(0L);
+        stub.asyncQuery(returnBody, type, archiveQuery, (QueryFilter) null, new QueryAdapter(latch, result));
         Assert.assertTrue("query interaction timed out after 5s", latch.await(5, TimeUnit.SECONDS));
         if (result.error != null) {
             throw result.error;
@@ -322,21 +330,19 @@ public class ArchiveQueryCountTest {
     }
 
     /**
-     * Runs a synchronous archive count for all objects of the given type.
+     * Runs an async archive count for all objects of the given type and waits for completion.
      *
-     * <p>Uses the same single-entry wildcard {@link ArchiveQueryList} as {@link #runQuery}.
-     * The response carries one count per entry in the query list, so we read index 0.
+     * <p>Uses the same wildcard {@link ArchiveQuery} as {@link #runQuery}.
      *
-     * @return the count returned by the provider, or -1 if the response list was unexpectedly empty
+     * @return the count returned by the provider, or -1 if the response was unexpectedly null
      * @throws AssertionError if the interaction does not complete within 5 seconds
      */
     private static long runCount(ArchiveStub stub, ObjectType type)
             throws MALInteractionException, MALException, InterruptedException {
         CountDownLatch latch = new CountDownLatch(1);
         CountAdapter adapter = new CountAdapter(latch);
-        ArchiveQueryList queryList = new ArchiveQueryList();
-        queryList.add(new ArchiveQuery(0L));
-        stub.asyncCount(type, queryList, (QueryFilterList) null, adapter);
+        ArchiveQuery archiveQuery = new ArchiveQuery(0L);
+        stub.asyncCount(type, archiveQuery, (QueryFilter) null, adapter);
         Assert.assertTrue("count interaction timed out after 5s", latch.await(5, TimeUnit.SECONDS));
         if (adapter.error != null) {
             throw adapter.error;
@@ -412,7 +418,7 @@ public class ArchiveQueryCountTest {
     private static class CountAdapter extends ArchiveAdapter {
         private final CountDownLatch latch;
         // AtomicReference because the MAL callback arrives on a different thread.
-        final AtomicReference<LongList> counts = new AtomicReference<>();
+        final AtomicReference<Long> count = new AtomicReference<>();
         MALException error;
 
         CountAdapter(CountDownLatch latch) {
@@ -420,8 +426,8 @@ public class ArchiveQueryCountTest {
         }
 
         @Override
-        public void countResponseReceived(MALMessageHeader msgHeader, LongList counts, Map qosProperties) {
-            this.counts.set(counts);
+        public void countResponseReceived(MALMessageHeader msgHeader, Long count, Map qosProperties) {
+            this.count.set(count);
             latch.countDown();
         }
 
@@ -432,13 +438,9 @@ public class ArchiveQueryCountTest {
             latch.countDown();
         }
 
-        /**
-         * Returns the count for the first (and only) query in the list, or -1 if the response
-         * was unexpectedly empty.
-         */
         long get() {
-            LongList c = counts.get();
-            return (c != null && !c.isEmpty()) ? c.get(0) : -1L;
+            Long c = count.get();
+            return c != null ? c : -1L;
         }
     }
 
@@ -450,11 +452,11 @@ public class ArchiveQueryCountTest {
      * @throws AssertionError if neither a response nor an error arrives within 5 seconds
      */
     private static MOErrorException runQueryExpectError(ArchiveStub stub, ObjectType type,
-            ArchiveQueryList queryList, QueryFilterList filterList)
+            ArchiveQuery archiveQuery, QueryFilter queryFilter)
             throws MALInteractionException, MALException, InterruptedException {
         CountDownLatch latch = new CountDownLatch(1);
         ErrorCaptor captor = new ErrorCaptor(latch);
-        stub.asyncQuery(false, type, queryList, filterList, captor);
+        stub.asyncQuery(false, type, archiveQuery, queryFilter, captor);
         Assert.assertTrue("query interaction timed out after 5s", latch.await(5, TimeUnit.SECONDS));
         return captor.error;
     }
@@ -467,11 +469,11 @@ public class ArchiveQueryCountTest {
      * @throws AssertionError if neither a response nor an error arrives within 5 seconds
      */
     private static MOErrorException runCountExpectError(ArchiveStub stub, ObjectType type,
-            ArchiveQueryList queryList, QueryFilterList filterList)
+            ArchiveQuery archiveQuery, QueryFilter queryFilter)
             throws MALInteractionException, MALException, InterruptedException {
         CountDownLatch latch = new CountDownLatch(1);
         ErrorCaptor captor = new ErrorCaptor(latch);
-        stub.asyncCount(type, queryList, filterList, captor);
+        stub.asyncCount(type, archiveQuery, queryFilter, captor);
         Assert.assertTrue("count interaction timed out after 5s", latch.await(5, TimeUnit.SECONDS));
         return captor.error;
     }
@@ -537,7 +539,7 @@ public class ArchiveQueryCountTest {
 
         /** Releases the latch so the caller knows the interaction completed without error. */
         @Override
-        public void countResponseReceived(MALMessageHeader msgHeader, LongList counts, Map qosProperties) {
+        public void countResponseReceived(MALMessageHeader msgHeader, Long count, Map qosProperties) {
             latch.countDown();
         }
     }

@@ -436,12 +436,10 @@ public class MCCommands {
                 }
 
                 final ParameterDefinitionList paramDefs = new ParameterDefinitionList();
-                ArchiveQueryList queries = new ArchiveQueryList();
-                for (Long id : parameterIds) {
-                    queries.add(new ArchiveQuery(domain, null, null, id, null, null, null, null, null));
-                }
+                // Query all parameter definitions for the domain; the adapter collects relevant ones.
+                ArchiveQuery paramDefsQuery = new ArchiveQuery(domain, null, null, 0L, null, null, null, null, null);
 
-                archive.query(false, ParameterServiceInfo.PARAMETERDEFINITION_OBJECT_TYPE, queries, null,
+                archive.query(false, ParameterServiceInfo.PARAMETERDEFINITION_OBJECT_TYPE, paramDefsQuery, null,
                         new ArchiveAdapter() {
                     @Override
                     public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType,
@@ -592,24 +590,22 @@ public class MCCommands {
                 return;
             }
             // prepare domain, time and object id filters
-            ArchiveQueryList archiveQueryList = new ArchiveQueryList();
             Time startTimeF = startTime == null ? null : HelperTime.readableString2Time(startTime);
             Time endTimeF = endTime == null ? null : HelperTime.readableString2Time(endTime);
             IdentifierList domain = domainId == null ? null : HelperDomain.domainId2domain(domainId);
 
             ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, null, 0L, null, startTimeF, endTimeF, null,
                     null);
-            archiveQueryList.add(archiveQuery);
 
             ArchiveToParametersAdapter parametersAdapter = new ArchiveToParametersAdapter();
             ObjectType parameterObjectType = new ObjectType(MCHelper.MC_AREA_NUMBER,
                     ParameterServiceInfo.PARAMETER_SERVICE_NUMBER, MCHelper.MC_AREA_VERSION, new UShort(0));
-            queryArchive(parameterObjectType, archiveQueryList, parametersAdapter, parametersAdapter);
+            queryArchive(parameterObjectType, archiveQuery, parametersAdapter, parametersAdapter);
 
             ArchiveToAggregationsAdapter aggregationsAdapter = new ArchiveToAggregationsAdapter();
             ObjectType aggregationObjectType = new ObjectType(MCHelper.MC_AREA_NUMBER,
                     AggregationServiceInfo.AGGREGATION_SERVICE_NUMBER, MCHelper.MC_AREA_VERSION, new UShort(0));
-            queryArchive(aggregationObjectType, archiveQueryList, aggregationsAdapter, aggregationsAdapter);
+            queryArchive(aggregationObjectType, archiveQuery, aggregationsAdapter, aggregationsAdapter);
 
             Map<IdentifierList, Map<Identifier, List<TimestampedParameterValue>>> allParameters = parametersAdapter
                     .getParameterValues();
@@ -753,12 +749,10 @@ public class MCCommands {
             }
             IdentifierList domain = domainId == null ? null : HelperDomain.domainId2domain(domainId);
 
-            ArchiveQueryList archiveQueryList = new ArchiveQueryList();
             ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, null, 0L, null, null, null, null, null);
-            archiveQueryList.add(archiveQuery);
 
             ArchiveToParametersAdapter adapter = new ArchiveToParametersAdapter();
-            queryArchive(ParameterServiceInfo.PARAMETERDEFINITION_OBJECT_TYPE, archiveQueryList, adapter, adapter);
+            queryArchive(ParameterServiceInfo.PARAMETERDEFINITION_OBJECT_TYPE, archiveQuery, adapter, adapter);
 
             // Display list of NMF apps that have parameters
             Map<IdentifierList, List<Identifier>> parameters = adapter.getParameterIdentities();

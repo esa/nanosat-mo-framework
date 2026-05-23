@@ -29,7 +29,6 @@ import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveStub;
 import org.ccsds.moims.mo.com.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.structures.ArchiveQuery;
-import org.ccsds.moims.mo.com.structures.ArchiveQueryList;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
@@ -78,14 +77,13 @@ public class Helper {
             throws MALInteractionException, MALException, InterruptedException {
         final Object lock = new Object();
 
-        ArchiveQueryList queries = new ArchiveQueryList();
-        queries.add(new ArchiveQuery(BaseCommand.domain, null, null, 0L, null, null, null, null, null));
+        ArchiveQuery archiveQuery = new ArchiveQuery(BaseCommand.domain, null, null, 0L, null, null, null, null, null);
 
         Map<String, ProviderAppDetails> result = new HashMap<>();
         ObjectType appType = new ObjectType(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NUMBER,
                 AppsLauncherServiceInfo.APPSLAUNCHER_SERVICE_NUMBER, new UOctet((short) 0),
                 AppsLauncherServiceInfo.APP_OBJECT_NUMBER);
-        archive.query(true, appType, queries, null, new ArchiveAdapter() {
+        archive.query(true, appType, archiveQuery, null, new ArchiveAdapter() {
             @Override
             public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
                     ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {

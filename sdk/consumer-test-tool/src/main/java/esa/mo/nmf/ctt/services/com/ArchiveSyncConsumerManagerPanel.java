@@ -507,46 +507,41 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
         
         // Archive Query
         ArchiveQuery archiveQuery = ArchiveSyncConsumerManagerPanel.generateArchiveQuery();
-        ArchiveQueryList archiveQueryList = new ArchiveQueryList();
-        archiveQueryList.add(archiveQuery);
-        MOWindow genArchiveQueryList = new MOWindow(archiveQueryList, true);
+        MOWindow genArchiveQuery = new MOWindow(archiveQuery, true);
         try {
-            archiveQueryList = (ArchiveQueryList) genArchiveQueryList.getObject();
+            archiveQuery = (ArchiveQuery) genArchiveQuery.getObject();
         } catch (InterruptedIOException ex) {
             return;
         }
-        
+
         // Composite Filter
-        CompositeFilterSetList compositeFilters = new CompositeFilterSetList();
-        CompositeFilterSet compositeFilterSet = new CompositeFilterSet();
         CompositeFilterList compositeFilterList = new CompositeFilterList();
         compositeFilterList.add(ArchiveSyncConsumerManagerPanel.generateCompositeFilter());
-        compositeFilterSet.setFilters(compositeFilterList);
-        compositeFilters.add(compositeFilterSet);
-        MOWindow genFilter = new MOWindow(compositeFilters, true);
+        QueryFilter compositeFilter = new CompositeFilterSet(compositeFilterList);
+        MOWindow genFilter = new MOWindow(compositeFilter, true);
         try {
-            compositeFilters = (CompositeFilterSetList) genFilter.getObject();
+            compositeFilter = (QueryFilter) genFilter.getObject();
         } catch (InterruptedIOException ex) {
             return;
         }
-        
+
         ArchiveConsumerAdapter adapter = new ArchiveConsumerAdapter("Count...");
         adapter.setObjType(objType);
-        
+
         try {
-            serviceCOMArchive.getArchiveStub().count(objType, archiveQueryList, compositeFilters, adapter);
+            serviceCOMArchive.getArchiveStub().count(objType, archiveQuery, compositeFilter, adapter);
         } catch (MALInteractionException ex) {
             Logger.getLogger(ArchiveSyncConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MALException ex) {
             Logger.getLogger(ArchiveSyncConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         JDialog frame = new JDialog();
         int n = JOptionPane.showConfirmDialog(frame, "Would you like to automatically query and get the objects?", "Query?", JOptionPane.YES_NO_OPTION);
-        
+
         if (n == JOptionPane.YES_OPTION) {
             try {
-                serviceCOMArchive.getArchiveStub().query(true, objType, archiveQueryList, compositeFilters, adapter);
+                serviceCOMArchive.getArchiveStub().query(true, objType, archiveQuery, compositeFilter, adapter);
             } catch (MALInteractionException ex) {
                 Logger.getLogger(ArchiveSyncConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
             } catch (MALException ex) {

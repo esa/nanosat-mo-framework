@@ -151,87 +151,63 @@
                         </mal:errorRef>
                     </mal:errors>
                 </mal:invokeIP>
-                <mal:progressIP comment="Retrieves a set of ids, and optionally the object bodies, from a list of supplied queries. The PROGRESS interaction pattern is used as the returned set of data may be quite large and this allows it to be split over several MAL messages." name="query" number="2" supportInReplay="true">
+                <mal:progressIP comment="Retrieves a set of object identifiers, and optionally the object bodies, from a supplied query. The PROGRESS interaction pattern is used as the returned set of data may be quite large and this allows it to be split over several MAL messages." name="query" number="2" supportInReplay="true">
                     <mal:documentation name="Requirement" order="1">
-                        If the returnBody field is set to TRUE, then the body of the objects shall be returned otherwise only the ObjectType and ArchiveDetails shall be returned and the returned list of the bodies of the objects shall be replaced with a NULL.
+                        Each part of the objType field may use the wildcard value of '0'.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        Each part of the object type may contain the wildcard value of '0'.
+                        If the queryFilter field is NULL, then the service provider shall not apply a query filter.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
-                        A single query shall be formed by the combination of an ArchiveQuery from the archiveQuery list and a QueryFilter from the queryFilter list.
+                        The archiveQuery field may contain the wildcard value of NULL on any of its fields.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="4">
-                        If a query does not contain a QueryFilter part then that entry in the QueryFilter list shall be replaced with a NULL value.
+                        If the archiveQuery field contains an end time but no start time, then the service provider shall return the single object whose timestamp is closest to, but not greater than, the end time.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="5">
-                        If the request does not contain any QueryFilters then the complete list may be replaced with a NULL.
+                        The end time field of the archiveQuery may specify a time in the future.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="6">
-                        The size of the archiveQuery and queryFilter lists must be the same unless the complete queryFilter list is replaced with a NULL otherwise an INVALID error shall be raised.
+                        Each UPDATE message shall contain the matched objects.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="7">
-                        For each query, the ArchiveQuery and the QueryFilter shall contain the COM object fields to filter on.
+                        If the objType field of the PROGRESS message contains a wildcard, then the service provider shall include the ObjectType of each matched object in the UPDATE message.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="8">
-                        The ArchiveQuery may contain the wildcard value of NULL on each of the fields.
+                        If the objType field of the PROGRESS message does not contain a wildcard, then the objType field in each UPDATE message shall be NULL.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="9">
-                        If an ArchiveQuery contains an end time but no start time then it shall match the single object that has a timestamp closest to, but not greater than, the end time field.
+                        The domain field in each UPDATE message shall contain the domain of the matched objects.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="10">
-                        The end time field may specify a time in the future.
+                        If multiple ObjectTypes or domains are matched, then the service provider may return multiple UPDATE messages.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="11">
-                        If the sortFieldName of the ArchiveQuery does not reference a defined field then an INVALID error shall be returned.
+                        In each UPDATE message, the objDetails and objBodies lists shall have one entry per matched object.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="12">
-                        Each query shall be evaluated separately from each other, the filter of one query will not affect the filter of another. This forms a logical OR operation.
+                        The objDetails field in each UPDATE message shall contain the ArchiveDetails of the matched objects.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="13">
-                        If the QueryFilter contains an error then an INVALID error shall be returned. The definition of erroneous values are filter specific and defined in the relevant filter structure specification.
+                        If the returnBody field of the PROGRESS message is TRUE, then the objBodies field in each UPDATE message shall contain the bodies of the matched objects.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="14">
-                        The updates shall contain the set of matched objects.
+                        If the returnBody field of the PROGRESS message is NULL or FALSE, then the objBodies field in each UPDATE message shall be NULL.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="15">
-                        If a wildcard was used in the ObjectType part of the request then the updates shall contain the ObjectType of each matched object.
+                        The returned lists shall be sorted based on the sorting options specified in the archiveQuery field.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="16">
-                        If there was not any wildcards in the ObjectType part of the request the ObjectType in the updates shall be replaced by a NULL.
+                        The service provider shall sort each domain/object type pair separately; sorting shall not be applied across domain/object type pairs.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="17">
-                        The domain field in each Update message shall contain the domain of the objects being returned.
+                        If the field being sorted on contains a NULL value, or does not exist in the matched object due to a containing composite being NULL, then the service provider shall add those entries to the end of the returned list in the order that they were matched.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="18">
-                        If multiple ObjectTypes or domains have been matched then multiple Update messages may be returned.
+                        The final RESPONSE message shall be empty and signals to the consumer that all matched objects have been returned.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="19">
-                        In each Update message there shall be an entry in both objDetails and objBodies for each matched object.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="20">
-                        The objDetails field in each Update message shall contain the archive details stored for the matched objects.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="21">
-                        If the returnBody field of the request was TRUE, the objBodies field in each Update message shall contain the bodies of the objects.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="22">
-                        If the returnBody field of the request was NULL or FALSE, the objBodies field in each Update message shall be replaced by a NULL.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="23">
-                        The returned lists shall be sorted based on the sorting options specified in ArchiveQuery.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="24">
-                        Each domain/object type pair shall be sorted separately from other domain/object type pairs, there is no requirement for sorting to be applied across domain/object type pairs.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="25">
-                        When the field being sorted on contains a NULL value, or does not exist in the matched object (due to a containing composite being NULL), these entries shall be added to the end of the returned list in the order that they are matched.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="26">
-                        The final Response message shall be empty and signals to the consumer that all matched objects have been returned.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="27">
-                        When no objects have been matched, only this empty Response is sent with no preceding Update messages.
+                        If no objects are matched, then the service provider shall send only the empty RESPONSE message with no preceding UPDATE messages.
                     </mal:documentation>
                     <mal:messages>
                         <mal:progress>
@@ -241,14 +217,15 @@
                             <mal:field canBeNull="true" name="objType" comment="The type of the object to be returned.">
                                 <mal:type area="COM" list="false" name="ObjectType"/>
                             </mal:field>
-                            <mal:field canBeNull="true" name="archiveQuery" comment="The archive query.">
-                                <mal:type area="COM" list="true" name="ArchiveQuery"/>
+                            <mal:field canBeNull="true" name="archiveQuery" comment="The archive query to apply.">
+                                <mal:type area="COM" list="false" name="ArchiveQuery"/>
                             </mal:field>
-                            <mal:field canBeNull="true" name="queryFilter" comment="The query filter.">
-                                <mal:type area="COM" list="true" name="QueryFilter"/>
+                            <mal:field canBeNull="true" name="queryFilter" comment="The query filter to apply, or NULL if no filter is required.">
+                                <mal:type area="COM" list="false" name="QueryFilter"/>
                             </mal:field>
                         </mal:progress>
-                        <mal:acknowledgement/>
+                        <mal:acknowledgement>
+                        </mal:acknowledgement>
                         <mal:update>
                             <mal:field canBeNull="true" name="objType" comment="The type of the matched object.">
                                 <mal:type area="COM" list="false" name="ObjectType"/>
@@ -263,54 +240,50 @@
                                 <mal:type area="MAL" list="true" name="Element"/>
                             </mal:field>
                         </mal:update>
-                        <mal:response/>
+                        <mal:response>
+                        </mal:response>
                     </mal:messages>
                     <mal:errors>
-                        <mal:errorRef comment="One or more of the query filters supplied contains an invalid value.">
+                        <mal:errorRef comment="When the archiveQuery or queryFilter field contains an invalid value, such as when the sortFieldName does not reference a defined field.">
                             <mal:type area="COM" list="false" name="INVALID"/>
-                            <mal:extraInformation comment="The extra information field contains a list of the indexes of the erroneous values from the originating list supplied.">
-                                <mal:type area="MAL" list="true" name="UInteger"/>
+                            <mal:extraInformation comment="A description of the invalid value.">
+                                <mal:type area="MAL" list="false" name="String"/>
                             </mal:extraInformation>
                         </mal:errorRef>
                     </mal:errors>
                 </mal:progressIP>
                 <mal:invokeIP comment="Counts the set of objects based on a supplied query." name="count" number="3" supportInReplay="true">
                     <mal:documentation name="Requirement" order="1">
-                        The ObjectType, ArchiveQuery and QueryFilter parts of the request shall be populated exactly the same as for the query operation.
+                        The objType, archiveQuery, and queryFilter fields of the INVOKE message shall be interpreted the same way as the corresponding fields in the query operation.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        The response shall contain the count of matched objects.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="3">
-                        There shall be an entry in the counts list for each entry in the archiveQuery list.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="4">
-                        The counts list shall be ordered the same as the archiveQuery and queryFilter lists so that the response can be matched to the corresponding request.
+                        The RESPONSE message shall contain the count of matched objects.
                     </mal:documentation>
                     <mal:messages>
                         <mal:invoke>
                             <mal:field canBeNull="true" name="objType" comment="The type of the object.">
                                 <mal:type area="COM" list="false" name="ObjectType"/>
                             </mal:field>
-                            <mal:field canBeNull="true" comment="The archive query." name="archiveQuery">
-                                <mal:type area="COM" list="true" name="ArchiveQuery"/>
+                            <mal:field canBeNull="true" name="archiveQuery" comment="The archive query to apply.">
+                                <mal:type area="COM" list="false" name="ArchiveQuery"/>
                             </mal:field>
-                            <mal:field canBeNull="true" comment="The query filter." name="queryFilter">
-                                <mal:type area="COM" list="true" name="QueryFilter"/>
+                            <mal:field canBeNull="true" name="queryFilter" comment="The query filter to apply, or NULL if no filter is required.">
+                                <mal:type area="COM" list="false" name="QueryFilter"/>
                             </mal:field>
                         </mal:invoke>
-                        <mal:acknowledgement/>
+                        <mal:acknowledgement>
+                        </mal:acknowledgement>
                         <mal:response>
-                            <mal:field canBeNull="true" name="counts" comment="The number of entries found that match the provided criteria.">
-                                <mal:type area="MAL" list="true" name="Long"/>
+                            <mal:field canBeNull="false" name="count" comment="The number of objects that match the provided criteria.">
+                                <mal:type area="MAL" list="false" name="Long"/>
                             </mal:field>
                         </mal:response>
                     </mal:messages>
                     <mal:errors>
-                        <mal:errorRef comment="One or more of the query filters supplied contains an invalid value.">
+                        <mal:errorRef comment="When the archiveQuery or queryFilter field contains an invalid value, such as when the sortFieldName does not reference a defined field.">
                             <mal:type area="COM" list="false" name="INVALID"/>
-                            <mal:extraInformation comment="The extra information field contains a list of the indexes of the erroneous values from the originating list supplied.">
-                                <mal:type area="MAL" list="true" name="UInteger"/>
+                            <mal:extraInformation comment="A description of the invalid value.">
+                                <mal:type area="MAL" list="false" name="String"/>
                             </mal:extraInformation>
                         </mal:errorRef>
                     </mal:errors>

@@ -239,28 +239,25 @@ public abstract class GroundMOProxy {
                     ArchiveQuery archiveQuery = new ArchiveQuery(archiveService.getConnectionDetails().getDomain(),
                             null, null, 0L, null, lastTime, currentOBT, false, null);
 
-                    ArchiveQueryList archiveQueryList = new ArchiveQueryList();
-                    archiveQueryList.add(archiveQuery);
-
                     long[] count = {0L}; // workaround to access the variable in the lambda below.
                     ArchiveAdapter adapter = new ArchiveAdapter() {
                         @Override
                         public synchronized void countResponseReceived(MALMessageHeader msgHeader,
-                                LongList countList, Map qosProperties) {
-                            count[0] += countList.get(0);
+                                Long countResult, Map qosProperties) {
+                            count[0] += countResult;
                         }
                     };
 
                     // Use the count operation from the Archive for Common.Directory.ServiceProvider
                     archiveService.getArchiveStub().count(
                             DirectoryServiceInfo.SERVICEPROVIDER_OBJECT_TYPE,
-                            archiveQueryList,
+                            archiveQuery,
                             null, adapter);
 
                     // use the count operation from the Archive for SoftwareManagement.AppsLauncher.StopApp
                     archiveService.getArchiveStub().count(
                             AppsLauncherServiceInfo.STOPAPP_OBJECT_TYPE,
-                            archiveQueryList,
+                            archiveQuery,
                             null, adapter);
 
                     if (count[0] != 0L) {

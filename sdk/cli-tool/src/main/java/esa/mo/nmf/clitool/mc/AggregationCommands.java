@@ -286,13 +286,11 @@ public class AggregationCommands {
                     lock.wait();
                 }
 
-                ArchiveQueryList queries = new ArchiveQueryList();
-                for (Long id : parameterIds) {
-                    queries.add(new ArchiveQuery(domain, null, null, id, null, null, null, null, null));
-                }
+                // Query all parameter definitions for the domain; the adapter collects relevant ones.
+                ArchiveQuery paramDefsQuery = new ArchiveQuery(domain, null, null, 0L, null, null, null, null, null);
                 Map<Long, String> definitionIdToIdentity = new HashMap<>();
 
-                archive.query(false, ParameterServiceInfo.PARAMETERDEFINITION_OBJECT_TYPE, queries, null,
+                archive.query(false, ParameterServiceInfo.PARAMETERDEFINITION_OBJECT_TYPE, paramDefsQuery, null,
                         new ArchiveAdapter() {
                     @Override
                     public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType,

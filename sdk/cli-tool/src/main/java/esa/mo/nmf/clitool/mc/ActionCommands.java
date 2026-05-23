@@ -30,7 +30,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.structures.ArchiveQuery;
-import org.ccsds.moims.mo.com.structures.ArchiveQueryList;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperDomain;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
@@ -110,12 +109,10 @@ public class ActionCommands {
             }
             IdentifierList domain = domainId == null ? null : HelperDomain.domainId2domain(domainId);
             
-            ArchiveQueryList archiveQueryList = new ArchiveQueryList();
             ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, null, 0L, null, null, null, null, null);
-            archiveQueryList.add(archiveQuery);
-            
+
             ArchiveToActionsAdapter adapter = new ArchiveToActionsAdapter();
-            queryArchive(ActionServiceInfo.ACTIONDEFINITION_OBJECT_TYPE, archiveQueryList, adapter, adapter);
+            queryArchive(ActionServiceInfo.ACTIONDEFINITION_OBJECT_TYPE, archiveQuery, adapter, adapter);
 
             // Display list of NMF apps that have actions
             Map<IdentifierList, List<Identifier>> actions = adapter.getActionIdentities();

@@ -230,276 +230,128 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
     }
 
     @Override
-    public void query(Boolean returnObjBody, final ObjectType lObjectType, final ArchiveQueryList lArchiveQueryList,
-            final QueryFilterList queryFilterList, final QueryInteraction interaction) throws MALException,
+    public void query(Boolean returnObjBody, final ObjectType lObjectType, final ArchiveQuery lArchiveQuery,
+            final QueryFilter queryFilter, final QueryInteraction interaction) throws MALException,
             MALInteractionException {
-        UIntegerList invIndexList = new UIntegerList();
+        interaction.sendAcknowledgement();
 
-        interaction.sendAcknowledgement();  // "ok, it was received.."
-
-        if (lArchiveQueryList == null) {
-            throw new MALInteractionException(new InvalidException(null));  // requirement: 3.4.4.2.4 and 3.4.4.2.5
-        }
-        // Is the list empty?
-        if (lArchiveQueryList.isEmpty()) {
-            interaction.sendResponse();  // requirement: 3.4.4.2.26
-            return;
+        if (returnObjBody == null) {
+            returnObjBody = false;
         }
 
-        if (returnObjBody == null) {  // Handle it as a false
-            returnObjBody = false;  // requirement: 3.4.4.2.25
-//            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, null));
-        }
-        if (lObjectType == null) {
-            throw new MALInteractionException(new InvalidException(null));  // requirement: 3.4.4.2.2 and 3.4.4.2.3
-        }
-        if (lArchiveQueryList == null) {
-            throw new MALInteractionException(new InvalidException(null));  // requirement: 3.4.4.2.4 and 3.4.4.2.5
-        }
+        ArrayList<ArchivePersistenceObject> perObjs = manager.query(lObjectType, lArchiveQuery, queryFilter);
 
-        if (queryFilterList != null) { // requirement: 3.4.4.2.8
-            if (lArchiveQueryList.size() != queryFilterList.size()) { // requirement: 3.4.4.2.9
-//                interaction.sendError(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, null));
+        if (queryFilter instanceof CompositeFilterSet) {
+            try {
+                perObjs = ArchiveManager.filterQuery(perObjs, (CompositeFilterSet) queryFilter);
+            } catch (SecurityException | IllegalArgumentException ex) {
                 throw new MALInteractionException(new InvalidException(null));
             }
         }
 
-        ArchiveQuery tmpArchiveQuery;
-        QueryFilter tmpQueryFilter = null;
-        final int sizeArchiveQueryList = lArchiveQueryList.size();
-
-        // Go through all the archiveQueries, one by one
-        for (int index = 0; index < sizeArchiveQueryList; index++) { // requirement: 3.4.4.2.6
-            tmpArchiveQuery = lArchiveQueryList.get(index);
-            ArrayList<ArchivePersistenceObject> perObjs;
-
-            if (queryFilterList != null) {
-                tmpQueryFilter = (QueryFilter) queryFilterList.get(index);
-            }
-
-            // Query the objects
-            // requirement: 3.4.4.2.11 (taken care internally)
-            perObjs = manager.query(lObjectType, tmpArchiveQuery, tmpQueryFilter); // requirement: 3.4.4.2.10
-            // requirement: 3.4.4.2.15
-
-            if (queryFilterList != null) { // requirement: 3.4.4.2.8
-                if (tmpQueryFilter instanceof CompositeFilterSet) {
-                    try {
-                        // requirement: 3.4.4.2.7
-                        perObjs = ArchiveManager.filterQuery(perObjs, (CompositeFilterSet) tmpQueryFilter);  // requirement: 3.4.4.2.10
-                    } catch (SecurityException | IllegalArgumentException ex) {
-                        invIndexList.add(new UInteger(index));
-                    }
+        // End time but no start time: return only the single object closest to (but not past) the end time
+        if (lArchiveQuery != null && lArchiveQuery.getEndTime() != null
+                && lArchiveQuery.getStartTime() == null && !perObjs.isEmpty()) {
+            ArchivePersistenceObject latestPerObj = perObjs.get(0);
+            for (ArchivePersistenceObject perObj : perObjs) {
+                long value1 = latestPerObj.getArchiveDetails().getTimestamp().getValue();
+                long value2 = perObj.getArchiveDetails().getTimestamp().getValue();
+                if (value1 < value2) {
+                    latestPerObj = perObj;
                 }
             }
+            perObjs = new ArrayList<>();
+            perObjs.add(latestPerObj);
+        }
 
-            // requirement: 3.4.4.2.12  ("Gimme only the latest!")
-            if (tmpArchiveQuery.getEndTime() != null && tmpArchiveQuery.getStartTime() == null && !perObjs.isEmpty()) {
-                ArchivePersistenceObject latestPerObj = perObjs.get(0);
-
-                for (ArchivePersistenceObject perObj : perObjs) {  // Cycle the perObjs to find the latest
-                    long value1 = latestPerObj.getArchiveDetails().getTimestamp().getValue();
-                    long value2 = perObj.getArchiveDetails().getTimestamp().getValue();
-                    if (value1 < value2) {
-                        latestPerObj = perObj; // It is newer than the current
-                    }
-                }
-                perObjs = new ArrayList<>();
-                perObjs.add(latestPerObj);
-            }
-
-            // Sort the objects
-            if (tmpArchiveQuery.getSortOrder() != null) {
-                try { // requirement: 3.4.4.2.26
-                    perObjs = SortByField.sortPersistenceObjects(perObjs,
-                            tmpArchiveQuery.getSortFieldName(),
-                            tmpArchiveQuery.getSortOrder());
-                } catch (NoSuchFieldException ex) {
-                    // requirement: 3.4.4.2.14
-                    throw new MALInteractionException(new InvalidException(null));
-//                    throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, new UInteger(index)));
-//                    interaction.sendError(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, null));
-                }
-            }
-
-            // Errors
-            if (!invIndexList.isEmpty()) { // requirement: 3.4.4.3 (error: a, b)
-//                interaction.sendError(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
-                if (index == (sizeArchiveQueryList - 1)) { // Is it the last query?
-                    throw new MALInteractionException(new InvalidException(invIndexList));
-                } else {
-                    continue;
-                }
-
-            }
-
-            // Is the list empty? skip to next query
-            if (perObjs.isEmpty()) {
-                continue;
-            }
-
-            // requirement: 3.4.4.2.18 and requirement 3.4.4.2.21
-            if (ArchiveManager.objectTypeContainsWildcard(lObjectType) || HelperCOM.domainContainsWildcard(
-                    lArchiveQueryList.get(index).getDomain())) {  // Any wilcards? if so, then send the updates separately
-
-                // Then we need to send data sequentially... object by object
-                for (int j = 0; j < perObjs.size(); j++) {
-                    // requirement: 3.4.4.2.21
-                    HeterogeneousList outObjectList = new HeterogeneousList();
-
-                    ArchiveDetailsList outArchDetLst = new ArchiveDetailsList();
-                    outArchDetLst.add(perObjs.get(j).getArchiveDetails());
-
-                    if (returnObjBody) {
-                        // requirement: 3.4.4.2.1
-                        try {  // Let's try to generate the list...
-                            outObjectList = new HeterogeneousList();
-                        } catch (Exception ex) { // The list could not be generated
-                            Logger.getLogger(ArchiveProviderServiceImpl.class.getName()).log(
-                                    Level.SEVERE, "The outObjectList could not be generated!", ex);
-                            continue;
-                        }
-
-                        Element el = (Element) Attribute.javaType2Attribute(perObjs.get(j).getObject());
-                        outObjectList.add(el); // requirement: 3.4.4.2.24
-                    }
-
-                    // requirement: 3.4.4.2.19
-                    ObjectType objType = (ArchiveManager.objectTypeContainsWildcard(lObjectType)) ?
-                            perObjs.get(j).getObjectType() : null;
-
-                    // requirement: 3.4.4.2.18
-                    interaction.sendUpdate(objType, perObjs.get(j).getDomain(),
-                            outArchDetLst, outObjectList); // requirement: 3.4.4.2.17 and 3.4.4.2.23
-                }
-
-            } else {
-                // Here: Same Domain and Object Type for all objects
-                // Find the objIds based on the query
-                // requirement: 3.4.4.2.10 and 3.4.4.2.11 and 3.4.4.2.12 and 3.4.4.2.13 and 3.4.4.2.15 and 3.4.4.2.16
-                ArchiveDetailsList outArchiveDetailsList = new ArchiveDetailsList();
-                HeterogeneousList outObjectList = null;
-
-                if (returnObjBody && !perObjs.isEmpty()) { // requirement: 3.4.4.2.24
-                    try {
-                        outObjectList = new HeterogeneousList();
-                    } catch (Exception ex) {
-                        Logger.getLogger(ArchiveProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-
-                for (int j = 0; j < perObjs.size(); j++) {  // Make the output lists
-                    outArchiveDetailsList.add(perObjs.get(j).getArchiveDetails());
-
-                    if (outObjectList != null) {
-                        outObjectList.add((Element) perObjs.get(j).getObject());
-                    }
-                }
-
-                // requirement: 3.4.4.2.19
-                interaction.sendUpdate(null, lArchiveQueryList.get(index).getDomain(), outArchiveDetailsList,
-                        outObjectList); // requirement: 3.4.4.2.17
+        if (lArchiveQuery != null && lArchiveQuery.getSortOrder() != null) {
+            try {
+                perObjs = SortByField.sortPersistenceObjects(perObjs,
+                        lArchiveQuery.getSortFieldName(),
+                        lArchiveQuery.getSortOrder());
+            } catch (NoSuchFieldException ex) {
+                throw new MALInteractionException(new InvalidException(null));
             }
         }
 
-        interaction.sendResponse();  // requirement: 3.4.4.2.27
+        if (!perObjs.isEmpty()) {
+            if (ArchiveManager.objectTypeContainsWildcard(lObjectType)
+                    || (lArchiveQuery != null && HelperCOM.domainContainsWildcard(lArchiveQuery.getDomain()))) {
+                // Wildcard in ObjectType or domain: send one UPDATE per object so each carries its own type/domain
+                for (ArchivePersistenceObject perObj : perObjs) {
+                    ArchiveDetailsList outArchDetLst = new ArchiveDetailsList();
+                    outArchDetLst.add(perObj.getArchiveDetails());
+                    HeterogeneousList outObjectList = new HeterogeneousList();
+
+                    if (returnObjBody) {
+                        Element el = (Element) Attribute.javaType2Attribute(perObj.getObject());
+                        outObjectList.add(el);
+                    }
+
+                    ObjectType objType = ArchiveManager.objectTypeContainsWildcard(lObjectType)
+                            ? perObj.getObjectType() : null;
+                    interaction.sendUpdate(objType, perObj.getDomain(), outArchDetLst, outObjectList);
+                }
+            } else {
+                // All objects share the same ObjectType and domain: send a single UPDATE
+                ArchiveDetailsList outArchiveDetailsList = new ArchiveDetailsList();
+                HeterogeneousList outObjectList = returnObjBody ? new HeterogeneousList() : null;
+
+                for (ArchivePersistenceObject perObj : perObjs) {
+                    outArchiveDetailsList.add(perObj.getArchiveDetails());
+                    if (outObjectList != null) {
+                        outObjectList.add((Element) perObj.getObject());
+                    }
+                }
+
+                IdentifierList domain = (lArchiveQuery != null) ? lArchiveQuery.getDomain() : null;
+                interaction.sendUpdate(null, domain, outArchiveDetailsList, outObjectList);
+            }
+        }
+
+        interaction.sendResponse();
     }
 
     @Override
-    public void count(final ObjectType objType, final ArchiveQueryList lArchiveQueryList,
-            final QueryFilterList filters, final CountInteraction interaction) throws MALException,
-            MALInteractionException { // requirement: 3.4.5.2.1
-        UIntegerList invIndexList = new UIntegerList();
-        LongList outLong = new LongList();
-        interaction.sendAcknowledgement();  // "ok, it was received.."
+    public void count(final ObjectType objType, final ArchiveQuery lArchiveQuery,
+            final QueryFilter filter, final CountInteraction interaction) throws MALException,
+            MALInteractionException {
+        interaction.sendAcknowledgement();
 
-        if (lArchiveQueryList == null) {
-            throw new MALInteractionException(new InvalidException(null)); // requirement: 3.4.5.2.1
-        }
+        ArrayList<ArchivePersistenceObject> perObjs = manager.query(objType, lArchiveQuery, filter);
 
-        // Is the list empty?
-        if (lArchiveQueryList.isEmpty()) {
-            interaction.sendResponse(null);  // requirement: 3.4.4.2.29
-            return;
-        }
-
-        if (objType == null) {
-            throw new MALInteractionException(new InvalidException(null)); // requirement: 3.4.5.2.1
-        }
-
-        if (lArchiveQueryList == null) {
-            throw new MALInteractionException(new InvalidException(null)); // requirement: 3.4.5.2.1
-        }
-
-        if (filters != null) { // requirement: 3.4.5.2.1
-
-            if (lArchiveQueryList.size() != filters.size()) { // requirement: 3.4.5.2.1
-//                interaction.sendError(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, null));
+        if (filter instanceof CompositeFilterSet) {
+            try {
+                perObjs = ArchiveManager.filterQuery(perObjs, (CompositeFilterSet) filter);
+            } catch (SecurityException | IllegalArgumentException ex) {
                 throw new MALInteractionException(new InvalidException(null));
             }
         }
 
-        ArchiveQuery tmpArchiveQuery;
-        QueryFilter tmpQueryFilter = null;
-        final int sizeArchiveQueryList = lArchiveQueryList.size();
-
-        for (int index = 0; index < sizeArchiveQueryList; index++) { // requirement: 3.4.5.2.3 and 3.4.5.2.4
-            tmpArchiveQuery = lArchiveQueryList.get(index);
-            ArrayList<ArchivePersistenceObject> perObjs;
-
-            if (filters != null) {
-                tmpQueryFilter = (QueryFilter) filters.get(index);
-            }
-
-            // Query the objects
-            perObjs = manager.query(objType, tmpArchiveQuery, tmpQueryFilter);
-
-            if (filters != null) {
-                if (tmpQueryFilter instanceof CompositeFilterSet) {
-                    try {
-                        // requirement: 3.4.4.2.7
-                        perObjs = ArchiveManager.filterQuery(perObjs, (CompositeFilterSet) tmpQueryFilter);  // requirement: 3.4.4.2.10
-                    } catch (SecurityException | IllegalArgumentException ex) {
-                        invIndexList.add(new UInteger(index));
-                    }
+        // End time but no start time: count only the single object closest to (but not past) the end time
+        if (lArchiveQuery != null && lArchiveQuery.getEndTime() != null
+                && lArchiveQuery.getStartTime() == null && !perObjs.isEmpty()) {
+            ArchivePersistenceObject latestPerObj = perObjs.get(0);
+            for (ArchivePersistenceObject perObj : perObjs) {
+                if (latestPerObj.getArchiveDetails().getTimestamp().getValue()
+                        < perObj.getArchiveDetails().getTimestamp().getValue()) {
+                    latestPerObj = perObj;
                 }
             }
-
-            // requirement: 3.4.4.2.12  ("Gimme only the latest!")
-            if (tmpArchiveQuery.getEndTime() != null && tmpArchiveQuery.getStartTime() == null && perObjs.size() > 0) {
-                ArchivePersistenceObject latestPerObj = perObjs.get(0);
-
-                for (ArchivePersistenceObject perObj : perObjs) {  // Cycle the perObjs to find the latest
-                    if (latestPerObj.getArchiveDetails().getTimestamp().getValue() < 
-                            perObj.getArchiveDetails().getTimestamp().getValue()) {
-                        latestPerObj = perObj; // It is newer than the current
-                    }
-                }
-                perObjs = new ArrayList<>();
-                perObjs.add(latestPerObj);
-            }
-
-            // Sort the objects  (just to be sure there are no errors...
-            if (tmpArchiveQuery.getSortOrder() != null) {
-                try { // requirement: 3.4.4.2.26
-                    perObjs = SortByField.sortPersistenceObjects(perObjs, tmpArchiveQuery.getSortFieldName(),
-                            tmpArchiveQuery.getSortOrder());
-                } catch (NoSuchFieldException ex) {
-                    // requirement: 3.4.4.2.14
-                    throw new MALInteractionException(new InvalidException(null));
-                }
-            }
-
-            outLong.add((long) perObjs.size()); // requirement: 3.4.5.2.2
+            perObjs = new ArrayList<>();
+            perObjs.add(latestPerObj);
         }
 
-        // Errors
-        if (!invIndexList.isEmpty()) { // requirement: 3.4.4.3 (error: a, b)
-//            interaction.sendError(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
-            throw new MALInteractionException(new InvalidException(invIndexList));
+        if (lArchiveQuery != null && lArchiveQuery.getSortOrder() != null) {
+            try {
+                perObjs = SortByField.sortPersistenceObjects(perObjs, lArchiveQuery.getSortFieldName(),
+                        lArchiveQuery.getSortOrder());
+            } catch (NoSuchFieldException ex) {
+                throw new MALInteractionException(new InvalidException(null));
+            }
         }
 
-        interaction.sendResponse(outLong);
+        interaction.sendResponse((long) perObjs.size());
     }
 
     @Override

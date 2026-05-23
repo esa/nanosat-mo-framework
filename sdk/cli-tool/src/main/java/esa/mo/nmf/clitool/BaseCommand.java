@@ -293,17 +293,17 @@ public abstract class BaseCommand {
      * Queries objects from a COM archive provider.
      *
      * @param objectsTypes COM types of objects to query
-     * @param archiveQueryList Archive query object used for filtering
+     * @param archiveQuery Archive query object used for filtering
      * @param adapter Archive adapter receiving the query answer messages
      * @param queryStatusProvider Interface providing the status of the query
      */
-    public static void queryArchive(ObjectType objectsTypes, ArchiveQueryList archiveQueryList,
+    public static void queryArchive(ObjectType objectsTypes, ArchiveQuery archiveQuery,
             ArchiveAdapter adapter, QueryStatusProvider queryStatusProvider) {
         // run the query
         try {
             ArchiveStub archive = localArchive == null
                     ? consumer.getCOMServices().getArchiveService().getArchiveStub() : localArchive.getArchiveStub();
-            archive.query(true, objectsTypes, archiveQueryList, null, adapter);
+            archive.query(true, objectsTypes, archiveQuery, null, adapter);
         } catch (MALInteractionException | MALException e) {
             LOGGER.log(Level.SEVERE, "Error when querying archive", e);
             return;
@@ -333,13 +333,11 @@ public abstract class BaseCommand {
                 AppsLauncherServiceInfo.APP_OBJECT_NUMBER);
 
         // prepare domain filter
-        ArchiveQueryList archiveQueryList = new ArchiveQueryList();
         ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, null, 0L, null, null, null, null, null);
-        archiveQueryList.add(archiveQuery);
 
         // execute query
         ArchiveToAppAdapter adapter = new ArchiveToAppAdapter(appName);
-        queryArchive(appType, archiveQueryList, adapter, adapter);
+        queryArchive(appType, archiveQuery, adapter, adapter);
         return adapter.getAppObjectKey();
     }
 }

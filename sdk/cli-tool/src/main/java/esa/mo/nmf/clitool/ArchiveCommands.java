@@ -42,7 +42,6 @@ import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.archive.ArchiveServiceInfo;
 import org.ccsds.moims.mo.com.structures.*;
 import org.ccsds.moims.mo.com.structures.ArchiveQuery;
-import org.ccsds.moims.mo.com.structures.ArchiveQueryList;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
@@ -188,13 +187,11 @@ public class ArchiveCommands {
                     (short) areaVersion), new UShort(objectNumber));
 
             // prepare domain and time filters
-            ArchiveQueryList archiveQueryList = new ArchiveQueryList();
             IdentifierList domain = domainId == null ? null : HelperDomain.domainId2domain(domainId);
             Time startTimeF = startTime == null ? null : HelperTime.readableString2Time(startTime);
             Time endTimeF = endTime == null ? null : HelperTime.readableString2Time(endTime);
             ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, null, 0L,
                     null, startTimeF, endTimeF, null, null);
-            archiveQueryList.add(archiveQuery);
 
             boolean consumerCreated = false;
             if (providerURI != null) {
@@ -209,7 +206,7 @@ public class ArchiveCommands {
             }
             // execute query
             ArchiveToJsonAdapter adapter = new ArchiveToJsonAdapter(jsonFile);
-            queryArchive(objectsTypes, archiveQueryList, adapter, adapter);
+            queryArchive(objectsTypes, archiveQuery, adapter, adapter);
         }
     }
 
@@ -307,11 +304,9 @@ public class ArchiveCommands {
             }
             ObjectType objectsTypes = new ObjectType(new UShort(0),
                     new UShort(0), new UOctet((short) 0), new UShort(0));
-            ArchiveQueryList archiveQueryList = new ArchiveQueryList();
             IdentifierList domain = domainId == null ? null : HelperDomain.domainId2domain(domainId);
             ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, null,
                     0L, null, null, null, null, null);
-            archiveQueryList.add(archiveQuery);
 
             if (filename != null) {
                 if (!filename.endsWith(".db")) {
@@ -323,7 +318,7 @@ public class ArchiveCommands {
                 filename = domainId + "__" + dtf.format(now) + ".db";
             }
             ArchiveToBackupAdapter adapter = new ArchiveToBackupAdapter();
-            queryArchive(objectsTypes, archiveQueryList, adapter, adapter);
+            queryArchive(objectsTypes, archiveQuery, adapter, adapter);
 
             File dbFile = new File(filename);
             if (!dbFile.exists()) {

@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.structures.ArchiveQuery;
-import org.ccsds.moims.mo.com.structures.ArchiveQueryList;
 import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperDomain;
@@ -92,16 +91,14 @@ public class LogsCommands {
             }
             // prepare domain, time and object id filters
             IdentifierList domain = domainId == null ? null : HelperDomain.domainId2domain(domainId);
-            ArchiveQueryList archiveQueryList = new ArchiveQueryList();
             Time startTimeF = startTime == null ? null : HelperTime.readableString2Time(startTime);
             Time endTimeF = endTime == null ? null : HelperTime.readableString2Time(endTime);
             ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, null, 0L, null, startTimeF, endTimeF, null,
                     null);
-            archiveQueryList.add(archiveQuery);
 
             // execute query
             ArchiveToAppListAdapter adapter = new ArchiveToAppListAdapter();
-            queryArchive(objectsTypes, archiveQueryList, adapter, adapter);
+            queryArchive(objectsTypes, archiveQuery, adapter, adapter);
 
             // Display list of NMF apps that have logs
             ArrayList<String> appsWithLogs = adapter.getAppWithLogs();
@@ -187,23 +184,19 @@ public class LogsCommands {
             }
 
             // prepare domain, time and object id filters
-            ArchiveQueryList archiveQueryList = new ArchiveQueryList();
             Time startTimeF = startTime == null ? null : HelperTime.readableString2Time(startTime);
             Time endTimeF = endTime == null ? null : HelperTime.readableString2Time(endTime);
             ArchiveQuery outputArchiveQuery = new ArchiveQuery(domain, null, null, 0L, appObjectKey, startTimeF,
                     endTimeF, null, null);
-            archiveQueryList.add(outputArchiveQuery);
 
             // execute query
             ArchiveToLogAdapter adapter = new ArchiveToLogAdapter(logFile, addTimestamps);
-            queryArchive(outputObjectTypes, archiveQueryList, adapter, adapter);
+            queryArchive(outputObjectTypes, outputArchiveQuery, adapter, adapter);
 
-            archiveQueryList.clear();
             ArchiveQuery eventArchiveQuery = new ArchiveQuery(domain, null, null, appObjectKey.getInstId(),
                     null, startTimeF, endTimeF, null, null);
-            archiveQueryList.add(eventArchiveQuery);
             adapter.resetAdapter();
-            queryArchive(eventObjectTypes, archiveQueryList, adapter, adapter);
+            queryArchive(eventObjectTypes, eventArchiveQuery, adapter, adapter);
 
             adapter.dumpArchiveObjectsOutput();
         }

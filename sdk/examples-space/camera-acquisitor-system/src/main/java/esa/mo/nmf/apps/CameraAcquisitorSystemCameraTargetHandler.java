@@ -29,7 +29,6 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.provider.QueryInteraction;
 import org.ccsds.moims.mo.com.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.structures.ArchiveQuery;
-import org.ccsds.moims.mo.com.structures.ArchiveQueryList;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
@@ -163,10 +162,7 @@ public class CameraAcquisitorSystemCameraTargetHandler {
      */
     public void recoverLastState() {
         // get previous requests
-        ArchiveQueryList archiveQueryList = new ArchiveQueryList();
         ArchiveQuery archiveQuery = new ArchiveQuery(0L);
-        archiveQueryList.add(archiveQuery);
-
         SchedulerArchiveAdapter archiveAdapter = new SchedulerArchiveAdapter();
 
         // query all necessary information from archive service
@@ -178,7 +174,7 @@ public class CameraAcquisitorSystemCameraTargetHandler {
                         true, new ObjectType(
                                 //  new UShort(4), new UShort(1), new UOctet((short) 1), new UShort(3)),
                                 new UShort(0), new UShort(0), new UOctet((short) 0), new UShort(0)),
-                        archiveQueryList, null, archiveAdapter);
+                        archiveQuery, null, archiveAdapter);
             } else {
                 LOGGER.log(Level.INFO, "NO Archive Service found!");
             }

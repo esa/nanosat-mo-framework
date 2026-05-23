@@ -227,8 +227,8 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
 
         @Override
         public synchronized void countResponseReceived(MALMessageHeader msgHeader,
-                LongList _LongList0, Map qosProperties) {
-            JOptionPane.showMessageDialog(null, _LongList0.toString(),
+                Long count, Map qosProperties) {
+            JOptionPane.showMessageDialog(null, count.toString(),
                     "The count operation returned the following data!", JOptionPane.PLAIN_MESSAGE);
         }
 
@@ -568,7 +568,6 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         UOctet octety = new UOctet((short) 0);
         ObjectType objType = new ObjectType(shorty, shorty, octety, shorty);
 
-        ArchiveQueryList archiveQueryList = new ArchiveQueryList();
         ArchiveQuery archiveQuery = new ArchiveQuery(
                 null,
                 null,
@@ -580,11 +579,9 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
                 null,
                 null);
 
-        archiveQueryList.add(archiveQuery);
-
         try {
             serviceCOMArchive.getArchiveStub().query(Boolean.TRUE, objType,
-                    archiveQueryList, null, adapter);
+                    archiveQuery, null, adapter);
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(
                     Level.SEVERE, null, ex);
@@ -605,24 +602,20 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
 
         // Archive Query
         ArchiveQuery archiveQuery = ArchiveConsumerManagerPanel.generateArchiveQuery();
-        ArchiveQueryList archiveQueryList = new ArchiveQueryList();
-        archiveQueryList.add(archiveQuery);
-        MOWindow genArchiveQueryList = new MOWindow(archiveQueryList, true);
+        MOWindow genArchiveQuery = new MOWindow(archiveQuery, true);
         try {
-            archiveQueryList = (ArchiveQueryList) genArchiveQueryList.getObject();
+            archiveQuery = (ArchiveQuery) genArchiveQuery.getObject();
         } catch (InterruptedIOException ex) {
             return;
         }
 
         // Composite Filter
-        QueryFilterList compositeFilters = new QueryFilterList();
         CompositeFilterList compositeFilterList = new CompositeFilterList();
         compositeFilterList.add(ArchiveConsumerManagerPanel.generateCompositeFilter());
-        CompositeFilterSet compositeFilterSet = new CompositeFilterSet(compositeFilterList);
-        compositeFilters.add(compositeFilterSet);
-        MOWindow genFilter = new MOWindow(compositeFilters, true);
+        QueryFilter compositeFilter = new CompositeFilterSet(compositeFilterList);
+        MOWindow genFilter = new MOWindow(compositeFilter, true);
         try {
-            compositeFilters = (QueryFilterList) genFilter.getObject();
+            compositeFilter = (QueryFilter) genFilter.getObject();
         } catch (InterruptedIOException ex) {
             return;
         }
@@ -630,7 +623,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         try {
             adapter.setObjType(objType);
             serviceCOMArchive.getArchiveStub().query(Boolean.TRUE, objType,
-                    archiveQueryList, compositeFilters, adapter);
+                    archiveQuery, compositeFilter, adapter);
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(
                     Level.SEVERE, null, ex);
@@ -734,24 +727,20 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
 
         // Archive Query
         ArchiveQuery archiveQuery = ArchiveConsumerManagerPanel.generateArchiveQuery();
-        ArchiveQueryList archiveQueryList = new ArchiveQueryList();
-        archiveQueryList.add(archiveQuery);
-        MOWindow genArchiveQueryList = new MOWindow(archiveQueryList, true);
+        MOWindow genArchiveQuery = new MOWindow(archiveQuery, true);
         try {
-            archiveQueryList = (ArchiveQueryList) genArchiveQueryList.getObject();
+            archiveQuery = (ArchiveQuery) genArchiveQuery.getObject();
         } catch (InterruptedIOException ex) {
             return;
         }
 
         // Composite Filter
-        QueryFilterList compositeFilters = new QueryFilterList();
         CompositeFilterList compositeFilterList = new CompositeFilterList();
         compositeFilterList.add(ArchiveConsumerManagerPanel.generateCompositeFilter());
-        CompositeFilterSet compositeFilterSet = new CompositeFilterSet(compositeFilterList);
-        compositeFilters.add(compositeFilterSet);
-        MOWindow genFilter = new MOWindow(compositeFilters, true);
+        QueryFilter compositeFilter = new CompositeFilterSet(compositeFilterList);
+        MOWindow genFilter = new MOWindow(compositeFilter, true);
         try {
-            compositeFilters = (QueryFilterList) genFilter.getObject();
+            compositeFilter = (QueryFilter) genFilter.getObject();
         } catch (InterruptedIOException ex) {
             return;
         }
@@ -760,7 +749,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         adapter.setObjType(objType);
 
         try {
-            serviceCOMArchive.getArchiveStub().count(objType, archiveQueryList, compositeFilters, adapter);
+            serviceCOMArchive.getArchiveStub().count(objType, archiveQuery, compositeFilter, adapter);
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(
                     Level.SEVERE, null, ex);
@@ -773,7 +762,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
 
         if (n == JOptionPane.YES_OPTION) {
             try {
-                serviceCOMArchive.getArchiveStub().query(true, objType, archiveQueryList, compositeFilters, adapter);
+                serviceCOMArchive.getArchiveStub().query(true, objType, archiveQuery, compositeFilter, adapter);
             } catch (MALInteractionException | MALException ex) {
                 Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(
                         Level.SEVERE, null, ex);
@@ -860,7 +849,6 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         UOctet octety = new UOctet((short) 0);
         ObjectType objType = new ObjectType(shorty, shorty, octety, shorty);
 
-        ArchiveQueryList archiveQueryList = new ArchiveQueryList();
         ArchiveQuery archiveQuery = new ArchiveQuery(
                 null,
                 null,
@@ -872,8 +860,6 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
                 null,
                 null);
 
-        archiveQueryList.add(archiveQuery);
-
         PaginationFilter filter = new PaginationFilter(new UInteger(5), new UInteger(0));
 
         MOWindow genObjType = new MOWindow(filter, true);
@@ -883,11 +869,8 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
             return;
         }
 
-        QueryFilterList list = new QueryFilterList();
-        list.add(filter);
-
         try {
-            serviceCOMArchive.getArchiveStub().query(Boolean.TRUE, objType, archiveQueryList, list, adapter);
+            serviceCOMArchive.getArchiveStub().query(Boolean.TRUE, objType, archiveQuery, filter, adapter);
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(
                     Level.SEVERE, null, ex);
@@ -914,7 +897,6 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         UOctet octety = new UOctet((short) 0);
         ObjectType objType = new ObjectType(shorty, shorty, octety, shorty);
 
-        ArchiveQueryList archiveQueryList = new ArchiveQueryList();
         ArchiveQuery archiveQuery = new ArchiveQuery(
                 null,
                 null,
@@ -926,10 +908,8 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
                 null,
                 null);
 
-        archiveQueryList.add(archiveQuery);
-
         try {
-            serviceCOMArchive.getArchiveStub().query(Boolean.TRUE, objType, archiveQueryList, null, adapter);
+            serviceCOMArchive.getArchiveStub().query(Boolean.TRUE, objType, archiveQuery, null, adapter);
             adapter.deleteAllInTable();  // Deletes all the objects in the table
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(

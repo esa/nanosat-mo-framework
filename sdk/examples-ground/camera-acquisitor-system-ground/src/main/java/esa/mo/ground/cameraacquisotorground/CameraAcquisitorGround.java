@@ -230,13 +230,10 @@ public class CameraAcquisitorGround {
             subscribeToMonitorExecution();
 
             // get previous requests
-            ArchiveQueryList archiveQueryList = new ArchiveQueryList();
             ArchiveQuery archiveQuery = new ArchiveQuery(0L);
-            archiveQueryList.add(archiveQuery);
-
             GetAllArchiveAdapter archiveAdapter = new GetAllArchiveAdapter();
             gma.getCOMServices().getArchiveService().getArchiveStub().query(true, new ObjectType(new UShort(0),
-                    new UShort(0), new UOctet((short) 0), new UShort(0)), archiveQueryList, null, archiveAdapter);
+                    new UShort(0), new UOctet((short) 0), new UShort(0)), archiveQuery, null, archiveAdapter);
 
             LOGGER.log(Level.INFO, "Finished getting archive entries!");
         } catch (MALException | MALInteractionException ex) {
