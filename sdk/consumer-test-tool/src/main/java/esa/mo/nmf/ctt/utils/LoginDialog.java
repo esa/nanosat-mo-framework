@@ -20,27 +20,19 @@
  */
 package esa.mo.nmf.ctt.utils;
 
-import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.com.impl.consumer.LoginConsumerServiceImpl;
 import java.awt.*;
 import java.net.MalformedURLException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
-import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
-import org.ccsds.moims.mo.com.login.LoginServiceInfo;
 import org.ccsds.moims.mo.com.login.body.LoginResponse;
-import org.ccsds.moims.mo.com.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.structures.Profile;
 import org.ccsds.moims.mo.com.structures.ServiceCapability;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.structures.*;
-import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 
 /**
  * @author marcel.mikolajko
@@ -49,27 +41,20 @@ public class LoginDialog extends JDialog {
 
     private Blob authenticationId;
     private final SingleConnectionDetails loginConnection;
-    private final SingleConnectionDetails archiveConnection;
     private final String localNamePrefix;
     private boolean loginSuccessful;
     private Throwable loginError;
     private LoginConsumerServiceImpl loginConsumer;
-    private final IdentifierList domainForArchive;
-
-    private Map<String, Long> roleNameToId = new HashMap<>();
 
     private JTextField userTextField;
     private JPasswordField passwordTextField;
-    private JComboBox<String> rolesComboBox;
     private JLabel userLabel;
     private JLabel passwordLabel;
-    private JLabel rolesLabel;
     private JButton loginButton;
     private JButton cancelButton;
-    private JButton rolesButton;
 
-    public LoginDialog(ServiceCapability loginCapability, ServiceCapability archiveCapability,
-            IdentifierList providerDomain, IdentifierList domainForArchive, String localNamePrefix) {
+    public LoginDialog(ServiceCapability loginCapability, IdentifierList providerDomain,
+            String localNamePrefix) {
         createLoginDialog();
 
         loginConnection = new SingleConnectionDetails(
@@ -77,12 +62,6 @@ public class LoginDialog extends JDialog {
                 loginCapability.getServiceAddresses().get(0).getBrokerURI(),
                 providerDomain);
 
-        archiveConnection = new SingleConnectionDetails(
-                archiveCapability.getServiceAddresses().get(0).getServiceURI(),
-                archiveCapability.getServiceAddresses().get(0).getBrokerURI(),
-                domainForArchive);
-
-        this.domainForArchive = domainForArchive;
         this.localNamePrefix = localNamePrefix;
 
         this.setVisible(true);
@@ -129,32 +108,14 @@ public class LoginDialog extends JDialog {
 
         panel.add(passwordTextField, constraints);
 
-        rolesLabel = new JLabel("Role: ");
-        constraints.gridx = 0;
-        constraints.gridy = 2;
-        constraints.gridwidth = 1;
-        constraints.insets = new Insets(5, 5, 5, 5);
-
-        panel.add(rolesLabel, constraints);
-
-        rolesComboBox = new JComboBox<>();
-        constraints.gridx = 1;
-        constraints.gridy = 2;
-        constraints.gridwidth = 2;
-        constraints.insets = new Insets(5, 5, 5, 5);
-
-        panel.add(rolesComboBox, constraints);
-
         loginButton = new JButton("Login");
         cancelButton = new JButton("Cancel");
-        rolesButton = new JButton("Get roles");
 
         loginButton.addActionListener(event -> {
             try {
                 LoginConsumerServiceImpl loginConsumer = getLoginConsumer();
-                Long role = roleNameToId.get(rolesComboBox.getSelectedItem());
                 LoginResponse response = loginConsumer.getLoginStub().login(
-                        new Profile(new Identifier(userTextField.getText()), role),
+                        new Profile(new Identifier(userTextField.getText())),
                         new String(passwordTextField.getPassword()));
                 authenticationId = response.getAuthId();
                 loginConsumer.closeConnection();
@@ -169,41 +130,13 @@ public class LoginDialog extends JDialog {
 
         cancelButton.addActionListener(event -> dispose());
 
-        rolesButton.addActionListener(event -> {
-            try {
-                LoginConsumerServiceImpl loginConsumer = getLoginConsumer();
-                LongList roles = loginConsumer.getLoginStub().listRoles(new Identifier(userTextField.getText()),
-                        new String(passwordTextField.getPassword()));
-
-                ArchiveConsumerServiceImpl archiveConsumer = new ArchiveConsumerServiceImpl(archiveConnection, null,
-                        localNamePrefix);
-                RolesArchiveAdapter archiveAdapter = new RolesArchiveAdapter();
-                archiveConsumer.getArchiveStub().retrieve(LoginServiceInfo.LOGINROLE_OBJECT_TYPE, domainForArchive, roles,
-                        archiveAdapter);
-                while (!archiveAdapter.isFinished()) {
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException ignored) {
-
-                    }
-                }
-                archiveConsumer.closeConnection();
-                rolesComboBox.setModel(new DefaultComboBoxModel<>(roleNameToId.keySet().toArray(new String[0])));
-            } catch (MALException | MALInteractionException | MalformedURLException e) {
-                Logger.getLogger(LoginDialog.class.getName()).log(Level.SEVERE, "Unexpected exception during listRoles",
-                        e);
-            }
-        });
         JPanel buttonPanel = new JPanel();
-        buttonPanel.add(rolesButton);
         buttonPanel.add(loginButton);
         buttonPanel.add(cancelButton);
 
         panel.setPreferredSize(new Dimension(200, 100));
-        //        userTextField.setPreferredSize(new Dimension(200, userTextField.getHeight()));
         userTextField.setMinimumSize(new Dimension(100, 20));
         passwordTextField.setMinimumSize(new Dimension(100, 20));
-        rolesComboBox.setMinimumSize(new Dimension(100, 20));
 
         getContentPane().add(panel, BorderLayout.CENTER);
         getContentPane().add(buttonPanel, BorderLayout.PAGE_END);
@@ -230,32 +163,6 @@ public class LoginDialog extends JDialog {
 
     public Throwable getLoginError() {
         return loginError;
-    }
-
-    private class RolesArchiveAdapter extends ArchiveAdapter {
-
-        boolean finished = false;
-
-        @Override
-        public void retrieveResponseReceived(MALMessageHeader msgHeader, ArchiveDetailsList objDetails,
-                HeterogeneousList objBodies, Map qosProperties) {
-            for (int i = 0; i < objDetails.size(); ++i) {
-                roleNameToId.put(((Identifier) objBodies.get(i)).getValue(), objDetails.get(i).getInstId());
-            }
-            finished = true;
-        }
-
-        @Override
-        public void retrieveResponseErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
-                Map qosProperties) {
-            Logger.getLogger(LoginDialog.class.getName()).log(Level.SEVERE,
-                    "Unexpected error during roles retrieval: " + error.toString());
-            finished = true;
-        }
-
-        public boolean isFinished() {
-            return finished;
-        }
     }
 
 }

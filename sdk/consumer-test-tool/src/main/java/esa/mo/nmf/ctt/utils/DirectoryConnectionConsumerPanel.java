@@ -41,7 +41,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
-import org.ccsds.moims.mo.com.archive.ArchiveHelper;
 import org.ccsds.moims.mo.com.directory.DirectoryServiceInfo;
 import org.ccsds.moims.mo.com.login.LoginHelper;
 import org.ccsds.moims.mo.com.structures.*;
@@ -393,32 +392,14 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
                         serviceCapability -> serviceCapability.getServiceId().equals(loginServiceId)).findFirst().orElse(
                                 null);
 
-                ServiceId archiveServiceId = new ServiceId(ArchiveHelper.ARCHIVE_SERVICE.getArea().getNumber(),
-                        ArchiveHelper.ARCHIVE_SERVICE.getServiceNumber(), ArchiveHelper.ARCHIVE_SERVICE.getArea().getVersion());
-                ServiceCapability archiveService = summary.getProviderDetails().getServiceCapabilities().stream()
-                        .filter(serviceCapability -> serviceCapability.getServiceId().equals(loginServiceId))
-                        .findFirst().orElse(null);
-
                 Blob authenticationId = null;
                 String localNamePrefix = null;
                 IdentifierList providerDomain = summary.getDomain();
-                IdentifierList domainForArchiveRetrieval = providerDomain;
-                if (loginService != null && archiveService != null) {
+                if (loginService != null) {
                     if (loginService.getServiceAddresses().get(0).getServiceURI().getValue().toLowerCase().contains("lwmcs")) {
                         localNamePrefix = "LWMCS_Consumer_" + new Random().nextInt();
-                        ProviderSummary lwmcs = summaryList.stream()
-                                .filter(providerSummary -> providerSummary.getProviderId()
-                                .getValue()
-                                .toLowerCase()
-                                .contains("lwmcs"))
-                                .findFirst()
-                                .orElse(null);
-                        if (lwmcs != null) {
-                            domainForArchiveRetrieval = lwmcs.getDomain();
-                        }
                     }
-                    LoginDialog loginDialog = new LoginDialog(loginService, archiveService,
-                            providerDomain, domainForArchiveRetrieval, localNamePrefix);
+                    LoginDialog loginDialog = new LoginDialog(loginService, providerDomain, localNamePrefix);
                     if (loginDialog.isLoginSuccessful()) {
                         authenticationId = loginDialog.getAuthenticationId();
                     } else {

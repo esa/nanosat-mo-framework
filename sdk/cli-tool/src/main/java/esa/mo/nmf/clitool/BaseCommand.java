@@ -30,14 +30,11 @@ import esa.mo.nmf.clitool.mc.ParameterCommands;
 import esa.mo.nmf.clitool.sm.SoftwareManagementCommands;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 import java.net.MalformedURLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveStub;
-import org.ccsds.moims.mo.com.login.LoginServiceInfo;
 import org.ccsds.moims.mo.com.login.body.LoginResponse;
 import org.ccsds.moims.mo.com.structures.*;
 import org.ccsds.moims.mo.mal.MALException;
@@ -182,53 +179,12 @@ public abstract class BaseCommand {
                 char[] password = System.console().readPassword("Password: ");
                 System.out.println();
 
-                LongList ids = consumer.getCOMServices().getLoginService().getLoginStub().listRoles(
-                        new Identifier(login), String.valueOf(password));
-
-                List<Long> roleIds = new ArrayList<>();
-                List<String> roleNames = new ArrayList<>();
-                final Object lock = new Object();
-                ArchiveAdapter adapter = new ArchiveAdapter() {
-                    @Override
-                    public void retrieveResponseReceived(MALMessageHeader msgHeader,
-                            ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
-                        for (int i = 0; i < objDetails.size(); ++i) {
-                            roleIds.add(objDetails.get(i).getInstId());
-                            roleNames.add(objBodies.get(i).toString());
-                        }
-                        synchronized (lock) {
-                            lock.notifyAll();
-                        }
-                    }
-                };
-
-                consumer.getCOMServices().getArchiveService().getArchiveStub().retrieve(
-                        LoginServiceInfo.LOGINROLE_OBJECT_TYPE,
-                        consumer.getCOMServices().getLoginService().getConnectionDetails().getDomain(),
-                        ids, adapter);
-
-                synchronized (lock) {
-                    lock.wait(10000);
-                }
-
-                Long roleId = null;
-                if (!roleIds.isEmpty()) {
-                    System.out.println("\nAvailable roles: ");
-                    for (int i = 0; i < roleIds.size(); ++i) {
-                        System.out.println((i + 1) + " - " + roleNames.get(i));
-                    }
-                    int index = Integer.parseInt(System.console().readLine("Select role id: ")) - 1;
-                    if (index >= 0 && index < roleIds.size()) {
-                        roleId = roleIds.get(index);
-                    }
-                }
-
                 LoginResponse response = consumer.getCOMServices().getLoginService().getLoginStub().login(
-                        new Profile(new Identifier(login), roleId), String.valueOf(password));
+                        new Profile(new Identifier(login)), String.valueOf(password));
                 consumer.setAuthenticationId(response.getAuthId());
                 System.out.println("Login successful!");
             }
-        } catch (MALException | MalformedURLException | MALInteractionException | InterruptedException e) {
+        } catch (MALException | MalformedURLException | MALInteractionException e) {
             LOGGER.log(Level.SEVERE, "Error when creating consumer", e);
             closeConsumer();
             return false;

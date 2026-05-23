@@ -811,66 +811,53 @@
             </com:features>
         </mal:service>
         <mal:service xsi:type="com:ExtendedServiceType" name="Login" number="6"
-                     comment="The Login service defines the primary mechanism for the submission of authentication credentials to a deployment specific security system. It supports operations to allow a user to login, logout, and report available roles.&#xA;The service is closely tied to the Access Control aspect of the MAL where the returned authentication identifiers are used in the MAL message header to authenticate and authorise message via Access Control.&#xA;The login service supports the concept of roles, where users may log in with a specific role; the meaning of each role is mission-specific, however it is expected that a specific role allocates the user privileges to invoke operations on mission operation services.&#xA;The use of login roles is optional but if they are used then the role details are held in the COM archive and the COM archive operations are used to manage the role definitions. The responsibility for maintenance of the login roles is outside the scope of this specification as it is a deployment issue to define the possible roles and associate users to those roles.&#xA;The form in which the password is sent to the Login provider must be agreed upon beforehand and is dependent on the security system deployed. For example, most security implementations do not recommend the use of plain text passwords but rather some encrypted version of the password. For this reason the contents of the messages sent between the login service consumer and provider during authentication handshaking are implementation-specific.">
+                     comment="The Login service defines the primary mechanism for the submission of authentication credentials to a deployment specific security system. It supports operations to allow a user to login and logout.&#xA;The service is closely tied to the Access Control aspect of the MAL where the returned authentication identifiers are used in the MAL message header to authenticate and authorise messages via Access Control.&#xA;The form in which the password is sent to the Login provider must be agreed upon beforehand and is dependent on the security system deployed. For example, most security implementations do not recommend the use of plain text passwords but rather some encrypted version of the password. For this reason the contents of the messages sent between the login service consumer and provider during authentication handshaking are implementation-specific.">
             <mal:documentation name="Service-level Requirement" order="1">The login service shall provide the capability:
 &lt;ol&gt;
  &lt;li&gt;log in;&lt;/li&gt;
- &lt;li&gt;log out;&lt;/li&gt;
- &lt;li&gt;report the list of possible roles for a login profile.&lt;/li&gt;
+ &lt;li&gt;log out.&lt;/li&gt;
 &lt;/ol&gt;</mal:documentation>
             <mal:documentation name="Service-level Requirement" order="2">
                 Instances of a user login shall be represented as LoginInstance COM object.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="3">
-                Instances of a user role shall be represented as LoginRole COM object.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="4">
                 LoginInstance objects shall be created by the login operation.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="5">
+            <mal:documentation name="Service-level Requirement" order="4">
                 The object instance identifier for a LoginInstance object shall be populated by the provider of the Login service.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="6">
-                The LoginInstance object shall use the related link to indicate which LoginRole (if any) the login uses.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="7">
+            <mal:documentation name="Service-level Requirement" order="5">
                 If a LoginInstance object was created during a login operation then the source link shall be set to NULL.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="8">
+            <mal:documentation name="Service-level Requirement" order="6">
                 When a user logs in a LoginEvent COM event shall be generated.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="9">
+            <mal:documentation name="Service-level Requirement" order="7">
                 When a user logs out a LogoutEvent COM event shall be generated.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="10">
+            <mal:documentation name="Service-level Requirement" order="8">
                 The LoginEvent event shall use the related link to indicate which LoginInstance object is being logged in.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="11">
+            <mal:documentation name="Service-level Requirement" order="9">
                 The LogoutEvent event shall use the related link to indicate which LoginInstance object is being logged out.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="12">
+            <mal:documentation name="Service-level Requirement" order="10">
                 The LoginEvent event shall not use the COM object source link and shall set it to NULL.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="13">
+            <mal:documentation name="Service-level Requirement" order="11">
                 The LogoutEvent event shall use the source link to indicate which LoginEvent event it is logging out.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="14">
+            <mal:documentation name="Service-level Requirement" order="12">
                 The events shall be published using the COM event service.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="15">
+            <mal:documentation name="Service-level Requirement" order="13">
                 LoginInstance objects should be stored in the COM archive.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="16">
+            <mal:documentation name="Service-level Requirement" order="14">
                 When a login service event is published, the event object should be stored in the COM archive by the Login provider.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="17">
-                LoginRole objects should be stored in the COM archive.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="18">
-                The COM archive service should be used for maintaining the LoginRole objects.
-            </mal:documentation>
             <mal:capabilitySet number="1">
-                <mal:requestIP name="login" number="1"                               comment="The login operation allows a user to log in to the system. A user can log in more than once by using a different role; however, a specific deployment may place limits on the number of users that may use a specific role, and in that case will fail the login operation with the TOO_MANY error.">
+                <mal:requestIP name="login" number="1"                               comment="The login operation allows a user to log in to the system. A specific deployment may place limits on the number of concurrent logins for a user, and in that case will fail the login operation with the TOO_MANY error.">
                     <mal:documentation name="Requirement" order="1">
                         If the authenticationId field of the REQUEST message is not NULL, then the service provider shall return an INVALID error.
                     </mal:documentation>
@@ -878,37 +865,28 @@
                         The authenticationId field shall be checked before applying all other tests here.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
-                        The userDetails field shall contain the details of the new user and role combination.
+                        The userDetails field shall contain the details of the user.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="4">
                         If the username field of the supplied Profile structure is either the wildcard '*' or empty an INVALID error shall be returned.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="5">
-                        If roles are required by the system and the role field of the supplied Profile structure is NULL then an INVALID error shall be returned.
+                        An UNKNOWN error shall be returned if the username and password combination are not correct for the system i.e. unknown user or incorrect password.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="6">
-                        If roles are not used by the system the role field of the supplied Profile structure shall be ignored and may be set to NULL.
+                        A DUPLICATE error shall be returned if the username is currently in use.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="7">
-                        An UNKNOWN error shall be returned if the username, password and role combination are not correct for the system i.e. unknown user/role or incorrect password.
+                        A TOO_MANY error shall be returned if the username exceeds the (deployment dependent) maximum number of concurrent logins.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="8">
-                        A DUPLICATE error shall be returned if the username and role combination is currently in use.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="9">
-                        A TOO_MANY error shall be returned if the username or role are already used and exceed (deployment dependent) maximum number of concurrent logins/roles.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="10">
                         If the login is successful the provider shall create a new LoginInstance COM object and store it in the COM archive.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="11">
-                        The related link of the new LoginInstance COM object shall be set to the requested LoginRole COM object.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="12">
+                    <mal:documentation name="Requirement" order="9">
                         A LoginEvent COM event shall be generated at this point.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="13">
-                        The returned authId field shall be used as the authenticationId field in future MAL messages by the consumer MAL for authentication. The token is specific to the user and role in use.
+                    <mal:documentation name="Requirement" order="10">
+                        The returned authId field shall be used as the authenticationId field in future MAL messages by the consumer MAL for authentication.
                     </mal:documentation>
                     <mal:messages>
                         <mal:request>
@@ -920,7 +898,7 @@
                             </mal:field>
                         </mal:request>
                         <mal:response>
-                            <mal:field name="authId" canBeNull="false" comment="The authentication identifier for the user and role.">
+                            <mal:field name="authId" canBeNull="false" comment="The authentication identifier for the user.">
                                 <mal:type area="MAL" list="false" name="Blob"/>
                             </mal:field>
                             <mal:field name="objInstId" canBeNull="false" comment="The LoginInstance COM object instance identifier created by the login operation.">
@@ -929,16 +907,16 @@
                         </mal:response>
                     </mal:messages>
                     <mal:errors>
-                        <mal:errorRef comment="Username/role combination currently in use.">
+                        <mal:errorRef comment="Username currently in use.">
                             <mal:type area="COM" list="false" name="DUPLICATE"/>
                         </mal:errorRef>
                         <mal:errorRef comment="Submitted profile contains invalid values. No further information is provided as it may compromise security.">
                             <mal:type area="COM" list="false" name="INVALID"/>
                         </mal:errorRef>
-                        <mal:errorRef comment="Role concurrent session limit count exceeded.">
+                        <mal:errorRef comment="Concurrent session limit count exceeded.">
                             <mal:type area="MAL" list="false" name="TOO_MANY"/>
                         </mal:errorRef>
-                        <mal:errorRef comment="Unknown username/role/password combination.">
+                        <mal:errorRef comment="Unknown username/password combination.">
                             <mal:type area="MAL" list="false" name="UNKNOWN"/>
                         </mal:errorRef>
                     </mal:errors>
@@ -958,60 +936,12 @@
                     </mal:messages>
                 </mal:submitIP>
             </mal:capabilitySet>
-            <mal:capabilitySet number="2">
-                <mal:requestIP name="listRoles" number="3"                               comment="The listRoles operation returns the list of available roles for a specific user. This operation is expected to be called before a user logs in so that the software can provide a list of possible roles.">
-                    <mal:documentation name="Requirement" order="1">
-                        If the username field is either the wildcard '*', NULL or empty an INVALID error shall be returned.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="2">
-                        It should be noted that this operation requires both a username and password field before returning any information, this is to ensure that it does not provide a security attack vector by allowing the discovery of valid usernames without first knowing the correct password.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="3">
-                        An UNKNOWN error shall be returned if the username and password combination are not correct for the system i.e. unknown user or incorrect password.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="4">
-                        The operation shall return a list of LoginRole ids that are permitted for the user or NULL if roles are not used by the system.
-                    </mal:documentation>
-                    <mal:messages>
-                        <mal:request>
-                            <mal:field name="username" canBeNull="false" comment="The username to look up roles for.">
-                                <mal:type area="MAL" list="false" name="Identifier"/>
-                            </mal:field>
-                            <mal:field name="password" canBeNull="false" comment="The password for the selected username.">
-                                <mal:type area="MAL" list="false" name="String"/>
-                            </mal:field>
-                        </mal:request>
-                        <mal:response>
-                            <mal:field name="permittedRoles" canBeNull="true" comment="The list of permitted LoginRole object instance identifiers, or NULL if roles are not used by the system.">
-                                <mal:type area="MAL" list="true" name="Long"/>
-                            </mal:field>
-                        </mal:response>
-                    </mal:messages>
-                    <mal:errors>
-                        <mal:errorRef comment="Unknown username/password combination.">
-                            <mal:type area="MAL" list="false" name="UNKNOWN"/>
-                        </mal:errorRef>
-                        <mal:errorRef comment="Submitted profile contains invalid values.">
-                            <mal:type area="COM" list="false" name="INVALID"/>
-                        </mal:errorRef>
-                    </mal:errors>
-                </mal:requestIP>
-            </mal:capabilitySet>
             <com:features>
-                <com:objects comment="The LoginRole and LoginInstance objects used by the Login service.">
-                    <com:object number="1" name="LoginRole"
-                                comment="The body of the LoginRole object is the role name Identifier.">
-                        <com:objectType>
-                            <mal:type area="MAL" list="false" name="Identifier"/>
-                        </com:objectType>
-                    </com:object>
+                <com:objects comment="The LoginInstance objects used by the Login service.">
                     <com:object number="2" name="LoginInstance">
                         <com:objectType>
                             <mal:type area="COM" list="false" name="Profile"/>
                         </com:objectType>
-                        <com:relatedObject>
-                            <com:objectType number="1" service="Login" area="COM"/>
-                        </com:relatedObject>
                         <com:sourceObject>
                             <com:objectType number="2" service="Login" area="COM"/>
                         </com:sourceObject>
@@ -1489,16 +1419,12 @@
                 </mal:field>
             </mal:composite>
             <mal:composite name="Profile" shortFormPart="27"
-                           comment="The Profile structure contains details of the user who is logging on to take a specified role.">
+                           comment="The Profile structure contains details of the user who is logging on.">
                 <mal:extends>
                     <mal:type area="MAL" list="false" name="Composite"/>
                 </mal:extends>
                 <mal:field name="username" canBeNull="false" comment="The name of the user.">
                     <mal:type area="MAL" list="false" name="Identifier"/>
-                </mal:field>
-                <mal:field name="role" canBeNull="true"
-                           comment="The optional object instance identifier of the role required by the user.">
-                    <mal:type area="MAL" list="false" name="Long"/>
                 </mal:field>
             </mal:composite>
             <mal:composite name="ConfigurationSet" shortFormPart="29"
