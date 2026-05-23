@@ -24,30 +24,18 @@ import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.com.testbed.SetUpCOMServices;
 import java.io.IOException;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveStub;
-import org.ccsds.moims.mo.com.structures.ArchiveDetailsList;
-import org.ccsds.moims.mo.com.structures.ConfigurationSet;
-import org.ccsds.moims.mo.com.structures.ObjectKeys;
-import org.ccsds.moims.mo.com.structures.ObjectKeysList;
-import org.ccsds.moims.mo.com.structures.ObjectType;
+import org.ccsds.moims.mo.com.structures.*;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
-import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.structures.LongList;
-import org.ccsds.moims.mo.mal.structures.UOctet;
-import org.ccsds.moims.mo.mal.structures.UShort;
-import org.ccsds.moims.mo.mal.structures.URI;
+import org.ccsds.moims.mo.mal.structures.*;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * End-to-end test for the COM Archive service.
- *
- * Stores an object via the consumer stub and retrieves it, asserting that the
- * round-tripped value matches the original.
+ * End-to-end test for the COM Archive store/retrieve operations.
  */
 public class ArchiveTest {
 
@@ -58,11 +46,12 @@ public class ArchiveTest {
 
     @BeforeClass
     public static void setUpClass() throws IOException {
+        System.setProperty("esa.nmf.archive.persistence.jdbc.url", "jdbc:sqlite::memory:");
         harness.setUp();
     }
 
     @AfterClass
-    public static void tearDownClass() throws IOException {
+    public static void tearDownClass() {
         harness.tearDown();
     }
 
@@ -80,12 +69,10 @@ public class ArchiveTest {
         bodies.add(storedBody);
 
         ArchiveDetailsList details = HelperArchive.generateArchiveDetailsList(null, null, providerURI);
-
         LongList ids = stub.store(true, TEST_OBJECT_TYPE, domain, details, bodies);
 
         Assert.assertNotNull("store must return a non-null ID list", ids);
         Assert.assertEquals("One ID must be returned", 1, ids.size());
-
         Long instId = ids.get(0);
         Assert.assertNotNull("Returned instance ID must not be null", instId);
 
