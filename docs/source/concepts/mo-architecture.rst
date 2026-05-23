@@ -81,16 +81,23 @@ Supervisor:
 Platform
 ^^^^^^^^
 
-Services exposing spacecraft platform functions to apps:
+Services exposing spacecraft platform hardware to apps:
 
-- **Camera**
-- **GPS**
-- **AutonomousADCS**
-- **SoftwareDefinedRadio**
-- **OpticalDataReceiver**
-- **PowerControl**
-- **Clock**
-- **ArtificialIntelligence**
+- **Camera** — acquire pictures from and control a camera; supports format
+  conversion and periodic streaming.
+- **GPS** — retrieve satellite navigation data from a GNSS receiver; stream
+  NMEA messages, query the last known position, and track nearby position
+  events.
+- **AutonomousADCS** — monitor spacecraft attitude and engage or disengage
+  attitude control modes.
+- **SoftwareDefinedRadio** — configure and receive data from a
+  Software-Defined Radio device.
+- **OpticalDataReceiver** — receive messages from an Optical Data Receiver
+  device.
+- **PowerControl** — list available power units and enable or disable them.
+- **Clock** — read system time from the spacecraft platform.
+- **ArtificialIntelligence** — control an AI device, including setting models
+  and running image inference.
 
 Apps consume these services through the Supervisor; see
 :doc:`apps-and-supervisor`.
