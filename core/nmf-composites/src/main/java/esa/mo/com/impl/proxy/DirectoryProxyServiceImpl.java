@@ -61,7 +61,10 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
      */
     public ProviderSummaryList syncLocalDirectoryServiceWithCentral(final URI centralDirectoryServiceURI,
             final URI routedURI) throws MALException, MalformedURLException, MALInteractionException {
-        ProviderSummaryList providers = NMFConsumer.retrieveProvidersFromDirectory(true, centralDirectoryServiceURI);
+        IdentifierList schemeFilter = new IdentifierList();
+        schemeFilter.add(new Identifier("malspp"));
+        ProviderSummaryList providers = NMFConsumer.retrieveProvidersFromDirectory(
+                centralDirectoryServiceURI, schemeFilter);
         ProviderSummaryList updatedProviders = addProxyPrefix(providers, routedURI.getValue());
 
         // Clean the current list of provider that are available
@@ -72,7 +75,6 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
             PublishDetails pub = new PublishDetails(
                     provider.getProviderId(),
                     provider.getDomain(),
-                    null,
                     new Identifier("not_available"),
                     provider.getProviderDetails());
             this.add(pub, null);

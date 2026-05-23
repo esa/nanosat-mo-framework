@@ -255,7 +255,7 @@ public class ArchiveCommands {
         ServiceId sk = new ServiceId(COMHelper.COM_AREA_NUMBER,
                 ArchiveServiceInfo.ARCHIVE_SERVICE_NUMBER, new UOctet((short) 0));
         ServiceFilter sf2 = new ServiceFilter(new Identifier("*"), domain,
-                new Identifier("*"), new Identifier("*"), sk, new UShortList());
+                new Identifier("*"), sk, new UShortList(), null);
 
         // Query directory service with filter
         try {

@@ -21,7 +21,6 @@
 package esa.mo.nmf;
 
 import esa.mo.com.impl.consumer.DirectoryConsumerServiceImpl;
-import esa.mo.com.impl.provider.DirectoryProviderServiceImpl;
 import esa.mo.com.impl.util.COMServicesConsumer;
 import esa.mo.com.impl.util.HelperCommon;
 import esa.mo.mc.impl.util.MCServicesConsumer;
@@ -198,7 +197,7 @@ public class NMFConsumer {
      */
     public static final ProviderSummaryList retrieveProvidersFromDirectory(final URI directoryURI)
             throws MALException, MalformedURLException, MALInteractionException {
-        return NMFConsumer.retrieveProvidersFromDirectory(false, directoryURI);
+        return NMFConsumer.retrieveProvidersFromDirectory(directoryURI, null, null);
     }
 
     /**
@@ -217,7 +216,26 @@ public class NMFConsumer {
     public static final ProviderSummaryList retrieveProvidersFromDirectory(final URI directoryURI,
             final Blob authenticationId, final String localNamePrefix)
             throws MALException, MalformedURLException, MALInteractionException {
-        return NMFConsumer.retrieveProvidersFromDirectory(false, directoryURI, authenticationId, localNamePrefix);
+        return NMFConsumer.retrieveProvidersFromDirectory(directoryURI, authenticationId, localNamePrefix, null);
+    }
+
+    /**
+     * Retrieves Providers from the Directory service, filtering service
+     * addresses to only those whose URI starts with one of the given schemes.
+     *
+     * @param directoryURI The Directory service URI.
+     * @param addressSchemeFilter URI scheme prefixes to match (e.g.
+     * "malspp"). NULL returns all addresses.
+     * @return The list of providers.
+     * @throws org.ccsds.moims.mo.mal.MALException if there is a MAL exception.
+     * @throws java.net.MalformedURLException if the URI is incorrect.
+     * @throws org.ccsds.moims.mo.mal.MALInteractionException if it could not
+     * reach the Directory service.
+     */
+    public static final ProviderSummaryList retrieveProvidersFromDirectory(final URI directoryURI,
+            final IdentifierList addressSchemeFilter)
+            throws MALException, MalformedURLException, MALInteractionException {
+        return NMFConsumer.retrieveProvidersFromDirectory(directoryURI, null, null, addressSchemeFilter);
     }
 
     /**
@@ -234,47 +252,13 @@ public class NMFConsumer {
      */
     public static final ProviderSummaryList retrieveProvidersFromDirectory(final URI directoryURI,
             final String localNamePrefix) throws MALException, MalformedURLException, MALInteractionException {
-        return NMFConsumer.retrieveProvidersFromDirectory(false, directoryURI, null, localNamePrefix);
+        return NMFConsumer.retrieveProvidersFromDirectory(directoryURI, null, localNamePrefix, null);
     }
 
-    /**
-     * Retrieves the complete list of Providers available on the Directory
-     * service.
-     *
-     * @param isS2G If true, then the method will only request for SPP
-     * connections.
-     * @param directoryURI The Directory service URI.
-     * @return The list of providers.
-     * @throws org.ccsds.moims.mo.mal.MALException if there is a MAL exception.
-     * @throws java.net.MalformedURLException if the URI is incorrect.
-     * @throws org.ccsds.moims.mo.mal.MALInteractionException if it could not
-     * reach the Directory service.
-     */
-    public static final ProviderSummaryList retrieveProvidersFromDirectory(final boolean isS2G,
-            final URI directoryURI) throws MALException, MalformedURLException, MALInteractionException {
-        return NMFConsumer.retrieveProvidersFromDirectory(isS2G, directoryURI, null, null);
-    }
-
-    /**
-     * Retrieves the complete list of Providers available on the Directory
-     * service.
-     *
-     * @param isS2G If true, then the method will only request for SPP
-     * connections.
-     * @param directoryURI The Directory service URI
-     * @param authenticationId The authenticationId.
-     * @param localNamePrefix The local name prefix.
-     * @return The list of providers
-     * @throws org.ccsds.moims.mo.mal.MALException if there is a MAL exception.
-     * @throws java.net.MalformedURLException if the URI is incorrect.
-     * @throws org.ccsds.moims.mo.mal.MALInteractionException if it could not
-     * reach the Directory service.
-     */
-    public static final ProviderSummaryList retrieveProvidersFromDirectory(final boolean isS2G,
-            final URI directoryURI, final Blob authenticationId, final String localNamePrefix)
+    private static ProviderSummaryList retrieveProvidersFromDirectory(final URI directoryURI,
+            final Blob authenticationId, final String localNamePrefix,
+            final IdentifierList addressSchemeFilter)
             throws MALException, MalformedURLException, MALInteractionException {
-        // Starting the directory service consumer from static method.
-        // All service helpers must be registered before calling initHelpers
         NMFConsumer.initHelpers();
 
         try {
@@ -292,22 +276,20 @@ public class NMFConsumer {
         IdentifierList wildcardList = new IdentifierList();
         wildcardList.add(new Identifier("*"));
 
-        // Additional logic to save bandwidth in the Space2Ground link
         ServiceFilter filter = new ServiceFilter(new Identifier("*"),
                 wildcardList, new Identifier("*"),
-                new Identifier(isS2G ? DirectoryProviderServiceImpl.CHAR_S2G : "*"),
                 new ServiceId(new UShort((short) 0), new UShort((short) 0), new UOctet((short) 0)),
-                new UShortList()
+                new UShortList(),
+                addressSchemeFilter
         );
 
         ProviderSummaryList summaryList;
-        // Do the lookup
         try {
             summaryList = directoryService.getDirectoryStub().lookup(filter);
         } catch (MALException | MALInteractionException e) {
             throw e;
         } finally {
-            directoryService.closeConnection();  // close the connection
+            directoryService.closeConnection();
         }
 
         return summaryList;

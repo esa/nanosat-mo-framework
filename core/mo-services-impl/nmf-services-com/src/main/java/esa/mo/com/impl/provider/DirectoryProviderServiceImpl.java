@@ -52,7 +52,6 @@ import org.ccsds.moims.mo.mal.structures.*;
  */
 public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
 
-    public static final String CHAR_S2G = "s2g";
     private static final Logger LOGGER
             = Logger.getLogger(DirectoryProviderServiceImpl.class.getName());
 
@@ -195,17 +194,6 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
                 continue;
             }
 
-            // Check session name
-            if (!filter.getSessionName().toString().equals("*")) {
-                if (!CHAR_S2G.equals(filter.getSessionName().toString())) {
-                    if (provider.getSourceSessionName() != null
-                            && !provider.getSourceSessionName().toString().equals(
-                                    filter.getSessionName().toString())) {
-                        continue;
-                    }
-                }
-            }
-
             // Set the Provider Details structure
             ServiceCapabilityList outCap = new ServiceCapabilityList();
             ProviderDetails pDetails = provider.getProviderDetails();
@@ -261,14 +249,15 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
                         new AddressDetailsList()
                 );
 
-                // This is a workaround to save bandwidth on the downlink! It is not part of the standard
-                if (CHAR_S2G.equals(filter.getSessionName().toString())) {
-                    // We assume that we use malspp on the downlink
-                    for (int k = 0; k < serviceCapability.getServiceAddresses().size(); k++) {
-                        AddressDetails address = serviceCapability.getServiceAddresses().get(k);
-
-                        if (address.getServiceURI().toString().startsWith("malspp")) {
-                            newServiceCapability.getServiceAddresses().add(address);
+                IdentifierList schemeFilter = filter.getAddressSchemeFilter();
+                if (schemeFilter != null && !schemeFilter.isEmpty()) {
+                    for (AddressDetails addr : serviceCapability.getServiceAddresses()) {
+                        String uri = addr.getServiceURI().toString();
+                        for (Identifier scheme : schemeFilter) {
+                            if (uri.startsWith(scheme.getValue())) {
+                                newServiceCapability.getServiceAddresses().add(addr);
+                                break;
+                            }
                         }
                     }
                 } else {
@@ -441,7 +430,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
         ProviderDetails serviceDetails = new ProviderDetails(capabilities, new AddressDetailsList());
 
         PublishDetails newProviderDetails = new PublishDetails(new Identifier(providerName),
-                ConfigurationProviderSingleton.getDomain(), null,
+                ConfigurationProviderSingleton.getDomain(),
                 ConfigurationProviderSingleton.getNetwork(), serviceDetails);
 
         try {

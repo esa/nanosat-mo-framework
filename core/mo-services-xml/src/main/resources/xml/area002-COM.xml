@@ -645,25 +645,25 @@
                         If the network field is NULL, then the service provider shall match all networks.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="9">
-                        If the sessionName field is NULL, then the service provider shall match all session names.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="10">
                         The service provider shall use the serviceId field to match against the ServiceId fields of the PublishDetails of a specific provider.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="11">
+                    <mal:documentation name="Requirement" order="10">
                         If the serviceId field is NULL, then the service provider shall match all areas, services, and versions.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="12">
+                    <mal:documentation name="Requirement" order="11">
                         If the area field is the wildcard '0', then the service provider shall match all area names.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="13">
+                    <mal:documentation name="Requirement" order="12">
                         If the service field is the wildcard '0', then the service provider shall match all services.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="14">
+                    <mal:documentation name="Requirement" order="13">
                         If the version field is the wildcard '0', then the service provider shall match all area versions.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="15">
+                    <mal:documentation name="Requirement" order="14">
                         If the requiredCapabilitySets field is NULL or an empty list, then the service provider shall match all service capability sets.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="15">
+                        If the addressSchemeFilter field is not NULL, then the service provider shall only include service addresses whose URI starts with one of the listed scheme values in the RESPONSE message.
                     </mal:documentation>
                     <mal:messages>
                         <mal:request>
@@ -687,7 +687,7 @@
             <mal:capabilitySet number="2">
                 <mal:requestIP name="add" number="2" comment="The add operation adds a new or updates an existing entry in the list of providers held in the directory service.">
                     <mal:documentation name="Requirement" order="1">
-                        If any of the domain, sessionName, or network fields of the newProviderDetails are empty or contain the wildcard '*', then the service provider shall return an INVALID error.
+                        If any of the domain or network fields of the newProviderDetails are empty or contain the wildcard '*', then the service provider shall return an INVALID error.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
                         If the providerId field of the PublishDetails structure is empty or contains the wildcard '*', then the service provider shall return an INVALID error.
@@ -1328,10 +1328,6 @@
                 <mal:field name="domain" canBeNull="false" comment="The domain of the provider.">
                     <mal:type area="MAL" list="true" name="Identifier"/>
                 </mal:field>
-                <mal:field name="sourceSessionName" canBeNull="true"
-                           comment="The session name of the source session if part of a replay session. NULL otherwise.">
-                    <mal:type area="MAL" list="false" name="Identifier"/>
-                </mal:field>
                 <mal:field name="network" canBeNull="false" comment="The network of the provider.">
                     <mal:type area="MAL" list="false" name="Identifier"/>
                 </mal:field>
@@ -1357,10 +1353,6 @@
                            comment="The network to match. Can be NULL in which case matches all values.">
                     <mal:type area="MAL" list="false" name="Identifier"/>
                 </mal:field>
-                <mal:field name="sessionName" canBeNull="true"
-                           comment="The session name to match. Can be NULL in which case matches all values.">
-                    <mal:type area="MAL" list="false" name="Identifier"/>
-                </mal:field>
                 <mal:field name="serviceId" canBeNull="true"
                            comment="The service to filter on, values can be NULL which matches all values.">
                     <mal:type area="MAL" list="false" name="ServiceId"/>
@@ -1368,6 +1360,10 @@
                 <mal:field name="requiredCapabilitySets" canBeNull="true"
                            comment="List of required capability sets. If NULL then matches any.">
                     <mal:type area="MAL" list="true" name="UShort"/>
+                </mal:field>
+                <mal:field name="addressSchemeFilter" canBeNull="true"
+                           comment="URI scheme prefixes to match against service addresses (e.g. 'malspp', 'maltcp'). If NULL, all addresses are returned.">
+                    <mal:type area="MAL" list="true" name="Identifier"/>
                 </mal:field>
             </mal:composite>
             <mal:composite name="Profile" shortFormPart="27"

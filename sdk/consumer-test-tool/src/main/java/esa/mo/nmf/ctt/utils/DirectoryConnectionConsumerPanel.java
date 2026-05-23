@@ -65,24 +65,20 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
     private ConnectionConsumer connectionConsumer;
     private ProviderSummaryList summaryList;
     private DefaultTableModel tableData;
-    private final boolean isS2G;
     private static final String LAST_USED_CONSUMER_PREF = "last_used_consumer";
     private static Preferences prefs = Preferences.userNodeForPackage(DirectoryConnectionConsumerPanel.class);
 
     /**
      * Constructor.
      *
-     * @param isS2G Flag that defines if it is a Space to Ground link.
      * @param connectionConsumer The consumer connections.
      * @param tabs The tabs object.
      */
-    public DirectoryConnectionConsumerPanel(final boolean isS2G,
-            final ConnectionConsumer connectionConsumer, final JTabbedPane tabs) {
+    public DirectoryConnectionConsumerPanel(final ConnectionConsumer connectionConsumer, final JTabbedPane tabs) {
         initComponents();
         this.connectionConsumer = connectionConsumer;
         this.tabs = tabs;
         this.initTextBoxAddress();
-        this.isS2G = isS2G;
 
         String[] tableCol = new String[]{"Service name", "Supported Capabilities",
             "Service Properties", "URI address", "Broker URI Address"};
@@ -457,7 +453,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     private void load_URI_links1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_load_URI_links1ActionPerformed
         try {
-            summaryList = GroundMOAdapterImpl.retrieveProvidersFromDirectory(isS2G, this.getAddressToBeUsed());
+            summaryList = GroundMOAdapterImpl.retrieveProvidersFromDirectory(this.getAddressToBeUsed());
             DefaultListModel listOfProviders = new DefaultListModel();
 
             for (ProviderSummary summary : summaryList) {
