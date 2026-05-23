@@ -475,11 +475,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
                         }
                     }
 
-                    InstanceBooleanPairList enable = new InstanceBooleanPairList();
-                    for (Long id : supervisorIds) {
-                        enable.add(new InstanceBooleanPair(id, true));
-                    }
-                    supervisorParameterService.getParameterStub().enableGeneration(enable);
+                    supervisorParameterService.getParameterStub().enableGeneration(true, supervisorIds);
 
                     Identifier subscriptionId = new Identifier("PayloadsTestSupervisorSubscription");
                     Subscription subscription = new Subscription(subscriptionId);

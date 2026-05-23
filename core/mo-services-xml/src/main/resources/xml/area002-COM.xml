@@ -1174,18 +1174,7 @@
                     <mal:type area="COM" list="false" name="ObjectKey"/>
                 </mal:field>
             </mal:composite>
-            <mal:composite shortFormPart="5" name="InstanceBooleanPair" comment="Simple pair of an object instance identifier and a Boolean value.">
-                <mal:extends>
-                    <mal:type area="MAL" list="false" name="Composite"/>
-                </mal:extends>
-                <mal:field canBeNull="false" comment="The object instance identifier." name="id">
-                    <mal:type area="MAL" list="false" name="Long"/>
-                </mal:field>
-                <mal:field canBeNull="false" comment="An associated Boolean value." name="value">
-                    <mal:type area="MAL" list="false" name="Boolean"/>
-                </mal:field>
-            </mal:composite>
-            <mal:enumeration shortFormPart="6" name="ExpressionOperator" comment="The ExpressionOperator enumeration holds a set of possible expression operators.">
+<mal:enumeration shortFormPart="6" name="ExpressionOperator" comment="The ExpressionOperator enumeration holds a set of possible expression operators.">
                 <mal:item comment="Checks for equality." nvalue="1" value="EQUAL"/>
                 <mal:item comment="Checks for difference (not equal)." nvalue="2" value="DIFFER"/>
                 <mal:item comment="Checks for greater than." nvalue="3" value="GREATER"/>

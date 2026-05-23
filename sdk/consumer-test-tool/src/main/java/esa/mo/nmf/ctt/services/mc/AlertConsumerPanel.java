@@ -28,8 +28,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import org.ccsds.moims.mo.com.structures.InstanceBooleanPair;
-import org.ccsds.moims.mo.com.structures.InstanceBooleanPairList;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MOErrorException;
@@ -296,11 +294,11 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
             curState = ((AlertDefinition) alertTable.getSelectedCOMObject().getObject()).getGenerationEnabled();
         }
 
-        InstanceBooleanPairList BoolPairList = new InstanceBooleanPairList();
-        BoolPairList.add(new InstanceBooleanPair((long) 0, !curState));  // Zero is the wildcard
+        LongList ids = new LongList();
+        ids.add(0L);  // wildcard
 
         try {
-            this.serviceMCAlert.getAlertStub().enableGeneration(BoolPairList);
+            this.serviceMCAlert.getAlertStub().enableGeneration(!curState, ids);
             alertTable.switchEnabledstatusAll(!curState);
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -317,11 +315,11 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
         longlist.add(objId);
         */
         Boolean curState = ((AlertDefinition) alertTable.getSelectedCOMObject().getObject()).getGenerationEnabled();
-        InstanceBooleanPairList BoolPairList = new InstanceBooleanPairList();
-        BoolPairList.add(new InstanceBooleanPair((long) 0, !curState));  // Zero is the wildcard
+        LongList ids = new LongList();
+        ids.add(0L);  // wildcard
 
         try {
-            this.serviceMCAlert.getAlertStub().enableGeneration(BoolPairList);
+            this.serviceMCAlert.getAlertStub().enableGeneration(!curState, ids);
             alertTable.switchEnabledstatus(!curState);
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);

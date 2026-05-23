@@ -540,11 +540,7 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
             }
 
             // toggle their generation
-            InstanceBooleanPairList ibpl = new InstanceBooleanPairList();
-            for (Long id : ids) {
-                ibpl.add(new InstanceBooleanPair(id, enableGeneration));
-            }
-            parameterService.enableGeneration(ibpl);
+            parameterService.enableGeneration(enableGeneration, ids);
         } catch (MALInteractionException | MALException e) {
             throw new NMFException("Error while toggling parameters generation", e);
         }

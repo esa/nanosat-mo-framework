@@ -432,13 +432,7 @@ public class ParameterCommands {
 
         try {
             LongList ids = parameterService.listDefinition(request);
-            InstanceBooleanPairList enableInstances = new InstanceBooleanPairList();
-
-            for (Long id : ids) {
-                enableInstances.add(new InstanceBooleanPair(id, enable));
-            }
-
-            parameterService.enableGeneration(enableInstances);
+            parameterService.enableGeneration(enable, ids);
             System.out.println((enable ? "Enable " : "Disable ") + "successful.");
         } catch (MALInteractionException e) {
             MOErrorException error = e.getStandardError();

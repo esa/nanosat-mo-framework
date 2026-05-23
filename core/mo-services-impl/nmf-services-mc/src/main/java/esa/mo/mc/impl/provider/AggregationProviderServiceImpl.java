@@ -289,22 +289,24 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
     }
 
     @Override
-    public LongList enableGeneration(final InstanceBooleanPairList enableInstances,
+    public LongList enableGeneration(final Boolean enable, final LongList ids,
             final MALInteraction interaction) throws MALException, MALInteractionException {
         UIntegerList unkIndexList = new UIntegerList();
 
         LongList objIdToBeEnabled = new LongList();
-        BooleanList valueToBeEnabled = new BooleanList();
 
-        if (enableInstances == null) {
-            throw new IllegalArgumentException("enableInstances argument must not be null");
+        if (enable == null) {
+            throw new IllegalArgumentException("enable argument must not be null");
+        }
+        if (ids == null) {
+            throw new IllegalArgumentException("ids argument must not be null");
         }
 
         boolean foundWildcard = false;
 
-        for (InstanceBooleanPair instance : enableInstances) {  // requirement: 3.7.9.2.d
-            if (instance.getId() == 0) {  // Is it the wildcard '0'? requirement: 3.7.9.2.c
-                manager.setGenerationEnabledAll(instance.getValue(),
+        for (Long id : ids) {  // requirement: 3.7.9.2.d
+            if (id == 0) {  // Is it the wildcard '0'? requirement: 3.7.9.2.c
+                manager.setGenerationEnabledAll(enable,
                         null, connection.getConnectionDetails());
                 periodicReportingManager.refreshAll();
                 periodicSamplingManager.refreshAll();
@@ -314,12 +316,11 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         }
 
         if (!foundWildcard) { // requirement: 3.7.9.2.d
-            for (int index = 0; index < enableInstances.size(); index++) {
-                InstanceBooleanPair enableInstance = enableInstances.get(index);
-                objIdToBeEnabled.add(enableInstance.getId()); //requirement: 3.7.9.2.b
-                valueToBeEnabled.add(enableInstance.getValue());
+            for (int index = 0; index < ids.size(); index++) {
+                Long id = ids.get(index);
+                objIdToBeEnabled.add(id); //requirement: 3.7.9.2.b
 
-                if (!manager.existsDef(enableInstance.getId())) { // does it exist?
+                if (!manager.existsDef(id)) { // does it exist?
                     unkIndexList.add(new UInteger(index)); // requirement: 3.7.9.2.g
                 }
             }
@@ -336,7 +337,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         for (int index = 0; index < objIdToBeEnabled.size(); index++) {
             // requirement: 3.7.3.c, 3.7.9.2.f and 3.7.9.2.j, k
             Long out = manager.setGenerationEnabled(objIdToBeEnabled.get(index),
-                    valueToBeEnabled.get(index), null, connection.getConnectionDetails());
+                    enable, null, connection.getConnectionDetails());
             output.add(out);
 
             /*
@@ -358,22 +359,24 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
     }
 
     @Override
-    public void enableFilter(final InstanceBooleanPairList enableInstances,
+    public void enableFilter(final Boolean enable, final LongList ids,
             final MALInteraction interaction) throws MALException, MALInteractionException { // requirement: 3.7.10.2.a
         UIntegerList unkIndexList = new UIntegerList();
 
         LongList objIdToBeEnabled = new LongList();
-        BooleanList valueToBeEnabled = new BooleanList();
 
-        if (enableInstances == null) {
-            throw new IllegalArgumentException("enableInstances argument must not be null");
+        if (enable == null) {
+            throw new IllegalArgumentException("enable argument must not be null");
+        }
+        if (ids == null) {
+            throw new IllegalArgumentException("ids argument must not be null");
         }
 
         boolean foundWildcard = false;
 
-        for (InstanceBooleanPair instance : enableInstances) {  // requirement: 3.7.10.2.d
-            if (instance.getId() == 0) {  // Is it the wildcard '0'? requirement: 3.7.10.2.c
-                manager.setFilterEnabledAll(instance.getValue(), null, connection.getConnectionDetails());
+        for (Long id : ids) {  // requirement: 3.7.10.2.d
+            if (id == 0) {  // Is it the wildcard '0'? requirement: 3.7.10.2.c
+                manager.setFilterEnabledAll(enable, null, connection.getConnectionDetails());
                 periodicReportingManager.refreshAll();
                 periodicSamplingManager.refreshAll();
                 foundWildcard = true;
@@ -382,12 +385,11 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         }
 
         if (!foundWildcard) { // requirement: 3.7.10.2.d
-            for (int index = 0; index < enableInstances.size(); index++) {
-                InstanceBooleanPair enableInstance = enableInstances.get(index);
-                objIdToBeEnabled.add(enableInstance.getId()); //requirement: 3.7.10.2.b
-                valueToBeEnabled.add(enableInstance.getValue());
+            for (int index = 0; index < ids.size(); index++) {
+                Long id = ids.get(index);
+                objIdToBeEnabled.add(id); //requirement: 3.7.10.2.b
 
-                if (!manager.existsDef(enableInstance.getId())) { // does it exist?
+                if (!manager.existsDef(id)) { // does it exist?
                     unkIndexList.add(new UInteger(index)); // requirement: 3.7.10.2.g
                 }
             }
@@ -402,7 +404,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         for (int index = 0; index < objIdToBeEnabled.size(); index++) {
             // requirement: 3.7.3.d, e, f; 3.7.10.2.f and 3.7.1.2.j, k
             boolean changed = manager.setFilterEnabled(objIdToBeEnabled.get(index),
-                    valueToBeEnabled.get(index), null, connection.getConnectionDetails());
+                    enable, null, connection.getConnectionDetails());
             //requirement: 3.7.10.2.e //periodic managers must be refreshed, as the change of the filterEnabled-value creates a new Definition object
             if (changed) {
                 periodicReportingManager.refresh(objIdToBeEnabled.get(index));

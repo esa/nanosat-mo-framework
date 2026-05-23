@@ -29,8 +29,6 @@ import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
-import org.ccsds.moims.mo.com.structures.InstanceBooleanPair;
-import org.ccsds.moims.mo.com.structures.InstanceBooleanPairList;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.com.structures.ProviderSummaryList;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperDomain;
@@ -78,10 +76,10 @@ public class AlertTest2 {
 
         for (Long moAlertDefId : moAlertDefIds) {
             // enable generation of this alert in the Alert Provider
-            InstanceBooleanPairList enableInstance = new InstanceBooleanPairList();
-            enableInstance.add(new InstanceBooleanPair(moAlertDefId, true));
+            LongList enableIds = new LongList();
+            enableIds.add(moAlertDefId);
 
-            alertConsumer.enableGeneration(enableInstance);
+            alertConsumer.enableGeneration(true, enableIds);
 
             System.out.println("Generation enabled for Alert Def Id: " + moAlertDefId);
         }

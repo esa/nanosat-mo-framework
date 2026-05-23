@@ -177,22 +177,24 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
     }
 
     @Override
-    public LongList enableGeneration(final InstanceBooleanPairList enableInstances,
+    public LongList enableGeneration(final Boolean enable, final LongList ids,
             final MALInteraction interaction) throws MALException, MALInteractionException {
         UIntegerList unkIndexList = new UIntegerList();
 
         LongList objIdToBeEnabled = new LongList();
-        BooleanList valueToBeEnabled = new BooleanList();
 
-        if (enableInstances == null) {
-            throw new IllegalArgumentException("enableInstances argument must not be null");
+        if (enable == null) {
+            throw new IllegalArgumentException("enable argument must not be null");
+        }
+        if (ids == null) {
+            throw new IllegalArgumentException("ids argument must not be null");
         }
 
         boolean foundWildcard = false;
 
-        for (InstanceBooleanPair instance : enableInstances) {
-            if (instance.getId() == 0) {  // Is it the wildcard '0'?
-                manager.setGenerationEnabledAll(instance.getValue(), null, connection.getConnectionDetails());
+        for (Long id : ids) {
+            if (id == 0) {  // Is it the wildcard '0'?
+                manager.setGenerationEnabledAll(enable, null, connection.getConnectionDetails());
                 periodicReportingManager.refreshAll();
                 foundWildcard = true;
                 break;
@@ -200,12 +202,11 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         }
 
         if (!foundWildcard) {
-            for (int index = 0; index < enableInstances.size(); index++) {
-                InstanceBooleanPair enableInstance = enableInstances.get(index);
-                objIdToBeEnabled.add(enableInstance.getId());
-                valueToBeEnabled.add(enableInstance.getValue());
+            for (int index = 0; index < ids.size(); index++) {
+                Long id = ids.get(index);
+                objIdToBeEnabled.add(id);
 
-                if (!manager.existsDef(enableInstance.getId())) {
+                if (!manager.existsDef(id)) {
                     unkIndexList.add(new UInteger(index));
                 }
             }
@@ -222,8 +223,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         for (int index = 0; index < objIdToBeEnabled.size(); index++) {
             // requirement: 3.3.10.2.e, 3.3.10.2.f, 3.3.10.2.j and 3.3.10.2.k
             Long id = objIdToBeEnabled.get(index);
-            Long out = manager.setGenerationEnabled(id,
-                    valueToBeEnabled.get(index), null,
+            Long out = manager.setGenerationEnabled(id, enable, null,
                     connection.getConnectionDetails());
             output.add(out);
 

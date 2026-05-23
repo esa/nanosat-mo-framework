@@ -30,8 +30,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import org.ccsds.moims.mo.com.structures.InstanceBooleanPair;
-import org.ccsds.moims.mo.com.structures.InstanceBooleanPairList;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MOErrorException;
@@ -280,11 +278,11 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
             curState = ((ParameterDefinition) parameterTable.getSelectedCOMObject().getObject()).getGenerationEnabled();
         }
 
-        InstanceBooleanPairList BoolPairList = new InstanceBooleanPairList();
-        BoolPairList.add(new InstanceBooleanPair((long) 0, !curState));  // Zero is the wildcard
+        LongList ids = new LongList();
+        ids.add(0L);  // wildcard
 
         try {
-            this.serviceMCParameter.getParameterStub().enableGeneration(BoolPairList);
+            this.serviceMCParameter.getParameterStub().enableGeneration(!curState, ids);
             parameterTable.switchEnabledstatusAll(!curState);
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -297,11 +295,11 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
         }
 
         Boolean curState = ((ParameterDefinition) parameterTable.getSelectedCOMObject().getObject()).getGenerationEnabled();
-        InstanceBooleanPairList BoolPairList = new InstanceBooleanPairList();
-        BoolPairList.add(new InstanceBooleanPair(parameterTable.getSelectedDefinitionObjId(), !curState));  // Zero is the wildcard
+        LongList ids = new LongList();
+        ids.add(parameterTable.getSelectedDefinitionObjId());
 
         try {
-            this.serviceMCParameter.getParameterStub().enableGeneration(BoolPairList);
+            this.serviceMCParameter.getParameterStub().enableGeneration(!curState, ids);
             parameterTable.switchEnabledstatus(!curState);
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);

@@ -111,22 +111,24 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
     }
 
     @Override
-    public LongList enableGeneration(InstanceBooleanPairList enableInstances,
+    public LongList enableGeneration(final Boolean enable, final LongList ids,
             MALInteraction interaction) throws MALInteractionException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
 
         LongList objIdToBeEnabled = new LongList();
-        BooleanList valueToBeEnabled = new BooleanList();
 
-        if (enableInstances == null) {
-            throw new IllegalArgumentException("enableInstances argument must not be null");
+        if (enable == null) {
+            throw new IllegalArgumentException("enable argument must not be null");
+        }
+        if (ids == null) {
+            throw new IllegalArgumentException("ids argument must not be null");
         }
 
         boolean foundWildcard = false;
 
-        for (InstanceBooleanPair instance : enableInstances) {  // requirement: 3.4.8.2.d
-            if (instance.getId() == 0) {  // Is it the wildcard '0'? requirement: 3.3.8.2.c
-                manager.setGenerationEnabledAll(instance.getValue(), null,
+        for (Long id : ids) {  // requirement: 3.4.8.2.d
+            if (id == 0) {  // Is it the wildcard '0'? requirement: 3.3.8.2.c
+                manager.setGenerationEnabledAll(enable, null,
                         connection.getConnectionDetails());
                 foundWildcard = true;
                 break;
@@ -134,12 +136,11 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
         }
 
         if (!foundWildcard) { // requirement: 3.4.8.2.d
-            for (int index = 0; index < enableInstances.size(); index++) {
-                InstanceBooleanPair enableInstance = enableInstances.get(index);
-                objIdToBeEnabled.add(enableInstance.getId()); // requirement: 3.4.8.2.b
-                valueToBeEnabled.add(enableInstance.getValue());
+            for (int index = 0; index < ids.size(); index++) {
+                Long id = ids.get(index);
+                objIdToBeEnabled.add(id); // requirement: 3.4.8.2.b
 
-                if (!manager.existsDef(enableInstance.getId())) { // does it exist?
+                if (!manager.existsDef(id)) { // does it exist?
                     unkIndexList.add(new UInteger(index)); // requirement: 3.4.8.2.g
                 }
             }
@@ -156,7 +157,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
         for (int index = 0; index < objIdToBeEnabled.size(); index++) {
             // requirement: 3.4.8.e and 3.4.8.f and 3.4.8.j
             Long out = manager.setGenerationEnabled(objIdToBeEnabled.get(index),
-                    valueToBeEnabled.get(index), null, connection.getConnectionDetails());
+                    enable, null, connection.getConnectionDetails());
             output.add(out);
         }
 
@@ -477,8 +478,8 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
             identityId = returnedObjIds.get(0);
 
             // Enable the Alert reporting!
-            //            InstanceBooleanPairList ids = new InstanceBooleanPairList();
-            //            ids.add(new InstanceBooleanPair(identityId, true));
+            //            LongList ids = new LongList();
+            //            ids.add(identityId);
             //            this.enableGeneration(true, ids, interaction); // Enable the reporting for this Alert Definition
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(AlertProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);

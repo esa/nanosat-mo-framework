@@ -409,16 +409,16 @@
                 <mal:requestIP name="enableGeneration" number="4"
                                comment="The enableGeneration operation allows a consumer to control whether reports for specific parameters are generated or not.">
                     <mal:documentation name="Requirement" order="1">
-                        The enableInstances field shall support the wildcard value of '0', which matches all ParameterDefinition objects of the provider.
+                        The ids field shall support the wildcard value of '0', which matches all ParameterDefinition objects of the provider.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
                         The service provider shall check for the wildcard value first; if found, no other checks of supplied ids shall be made.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
-                        If the Boolean value in the enableInstances field is TRUE, then the service provider shall generate reports for matching ParameterDefinition objects.
+                        If the enable field is TRUE, then the service provider shall generate reports for matching ParameterDefinition objects.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="4">
-                        If the Boolean value in the enableInstances field is FALSE, then the service provider shall not generate reports for matching ParameterDefinition objects.
+                        If the enable field is FALSE, then the service provider shall not generate reports for matching ParameterDefinition objects.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="5">
                         The service provider shall not raise an error if the supplied Boolean value is the same as the current generationEnabled field for a matched ParameterDefinition object.
@@ -437,9 +437,11 @@
                     </mal:documentation>
                     <mal:messages>
                         <mal:request>
-                            <mal:field name="enableInstances" canBeNull="false"
-                                       comment="The list of ParameterDefinition ids and their enable/disable flag.">
-                                <mal:type area="COM" list="true" name="InstanceBooleanPair"/>
+                            <mal:field name="enable" canBeNull="false" comment="TRUE to enable report generation, FALSE to disable it.">
+                                <mal:type area="MAL" list="false" name="Boolean"/>
+                            </mal:field>
+                            <mal:field name="ids" canBeNull="false" comment="The list of ParameterDefinition object instance identifiers to enable or disable.">
+                                <mal:type area="MAL" list="true" name="Long"/>
                             </mal:field>
                         </mal:request>
                         <mal:response>
@@ -600,16 +602,16 @@
                 <mal:requestIP name="enableGeneration" number="1"
                                comment="The enableGeneration operation allows a consumer to control whether updates for specific alerts are generated or not.">
                     <mal:documentation name="Requirement" order="1">
-                        The enableInstances field shall support the wildcard value of '0', which matches all AlertDefinition objects of the provider.
+                        The ids field shall support the wildcard value of '0', which matches all AlertDefinition objects of the provider.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
                         The service provider shall check for the wildcard value first; if found, no other checks of supplied ids shall be made.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
-                        If the Boolean value in the enableInstances field is TRUE, then the service provider shall generate instances of matching AlertDefinition objects.
+                        If the enable field is TRUE, then the service provider shall generate instances of matching AlertDefinition objects.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="4">
-                        If the Boolean value in the enableInstances field is FALSE, then the service provider shall not generate instances of matching AlertDefinition objects.
+                        If the enable field is FALSE, then the service provider shall not generate instances of matching AlertDefinition objects.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="5">
                         The service provider shall not raise an error if the supplied Boolean value is the same as the current generationEnabled field for a matched AlertDefinition object.
@@ -625,9 +627,11 @@
                     </mal:documentation>
                     <mal:messages>
                         <mal:request>
-                            <mal:field name="enableInstances" canBeNull="false"
-                                       comment="The list of AlertDefinition ids and their enable/disable flag.">
-                                <mal:type area="COM" list="true" name="InstanceBooleanPair"/>
+                            <mal:field name="enable" canBeNull="false" comment="TRUE to enable alert generation, FALSE to disable it.">
+                                <mal:type area="MAL" list="false" name="Boolean"/>
+                            </mal:field>
+                            <mal:field name="ids" canBeNull="false" comment="The list of AlertDefinition object instance identifiers to enable or disable.">
+                                <mal:type area="MAL" list="true" name="Long"/>
                             </mal:field>
                         </mal:request>
                         <mal:response>
@@ -901,16 +905,16 @@
                 <mal:requestIP name="enableGeneration" number="3"
                                comment="The enableGeneration operation allows a consumer to control whether reports for specific aggregations are generated or not. This affects all types of aggregations, periodic, filtered and ad-hoc.">
                     <mal:documentation name="Requirement" order="1">
-                        The id of the enableInstances field shall support the wildcard value of '0', which matches all AggregationDefinition objects of the provider.
+                        The ids field shall support the wildcard value of '0', which matches all AggregationDefinition objects of the provider.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
                         The service provider shall check for the wildcard value first; if found, no other checks of supplied ids shall be made.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
-                        If the enableInstances field contains a value of TRUE, then reports of matching AggregationDefinition objects shall be generated.
+                        If the enable field is TRUE, then the service provider shall generate reports for matching AggregationDefinition objects.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="4">
-                        If the enableInstances field contains a value of FALSE, then reports of matching AggregationDefinition objects shall not be generated.
+                        If the enable field is FALSE, then the service provider shall not generate reports for matching AggregationDefinition objects.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="5">
                         The service provider shall not raise an error if the supplied Boolean value is the same as the current generationEnabled field of the matched AggregationDefinition object.
@@ -929,9 +933,11 @@
                     </mal:documentation>
                     <mal:messages>
                         <mal:request>
-                            <mal:field name="enableInstances" canBeNull="false"
-                                       comment="The list of AggregationDefinition ids and their desired generation state.">
-                                <mal:type area="COM" list="true" name="InstanceBooleanPair"/>
+                            <mal:field name="enable" canBeNull="false" comment="TRUE to enable report generation, FALSE to disable it.">
+                                <mal:type area="MAL" list="false" name="Boolean"/>
+                            </mal:field>
+                            <mal:field name="ids" canBeNull="false" comment="The list of AggregationDefinition object instance identifiers to enable or disable.">
+                                <mal:type area="MAL" list="true" name="Long"/>
                             </mal:field>
                         </mal:request>
                         <mal:response>
@@ -953,16 +959,16 @@
                 <mal:submitIP name="enableFilter" number="4"
                               comment="The enableFilter operation allows a consumer to control whether reports for specific aggregations are filtered or not. This affects both periodic and ad-hoc aggregations.">
                     <mal:documentation name="Requirement" order="1">
-                        The id of the enableInstances field shall support the wildcard value of '0', which matches all AggregationDefinition objects of the provider.
+                        The ids field shall support the wildcard value of '0', which matches all AggregationDefinition objects of the provider.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
                         The service provider shall check for the wildcard value first; if found, no other checks of supplied ids shall be made.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
-                        If the enableInstances field contains a value of TRUE, then reports of matching AggregationDefinition objects shall be filtered.
+                        If the enable field is TRUE, then the service provider shall filter reports for matching AggregationDefinition objects.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="4">
-                        If the enableInstances field contains a value of FALSE, then reports of matching AggregationDefinition objects shall not be filtered.
+                        If the enable field is FALSE, then the service provider shall not filter reports for matching AggregationDefinition objects.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="5">
                         The service provider shall not raise an error if the supplied Boolean value is the same as the current filterEnabled field of the matched AggregationDefinition object.
@@ -978,9 +984,11 @@
                     </mal:documentation>
                     <mal:messages>
                         <mal:submit>
-                            <mal:field name="enableInstances" canBeNull="false"
-                                       comment="The list of AggregationDefinition ids and their enable/disable flag.">
-                                <mal:type area="COM" list="true" name="InstanceBooleanPair"/>
+                            <mal:field name="enable" canBeNull="false" comment="TRUE to enable report filtering, FALSE to disable it.">
+                                <mal:type area="MAL" list="false" name="Boolean"/>
+                            </mal:field>
+                            <mal:field name="ids" canBeNull="false" comment="The list of AggregationDefinition object instance identifiers to enable or disable.">
+                                <mal:type area="MAL" list="true" name="Long"/>
                             </mal:field>
                         </mal:submit>
                     </mal:messages>

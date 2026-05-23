@@ -65,13 +65,7 @@ public class AggregationCommands {
 
         try {
             LongList ids = aggregationService.listDefinition(request);
-            InstanceBooleanPairList enableInstances = new InstanceBooleanPairList();
-
-            for (Long id : ids) {
-                enableInstances.add(new InstanceBooleanPair(id, enable));
-            }
-
-            aggregationService.enableGeneration(enableInstances);
+            aggregationService.enableGeneration(enable, ids);
             System.out.println((enable ? "Enable " : "Disable ") + "successful.");
         } catch (MALInteractionException e) {
             MOErrorException error = e.getStandardError();

@@ -29,8 +29,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import org.ccsds.moims.mo.com.structures.InstanceBooleanPair;
-import org.ccsds.moims.mo.com.structures.InstanceBooleanPairList;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MOErrorException;
@@ -436,11 +434,11 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
             curState = ((AggregationDefinition) aggregationTable.getSelectedCOMObject().getObject()).getGenerationEnabled();
         }
 
-        InstanceBooleanPairList BoolPairList = new InstanceBooleanPairList();
-        BoolPairList.add(new InstanceBooleanPair((long) 0, !curState));  // Zero is the wildcard
+        LongList ids = new LongList();
+        ids.add(0L);  // wildcard
 
         try {
-            this.serviceMCAggregation.getAggregationStub().enableGeneration(BoolPairList);
+            this.serviceMCAggregation.getAggregationStub().enableGeneration(!curState, ids);
             aggregationTable.switchEnabledstatusAll(!curState);
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -454,11 +452,11 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         }
 
         Boolean curState = ((AggregationDefinition) aggregationTable.getSelectedCOMObject().getObject()).getGenerationEnabled();
-        InstanceBooleanPairList BoolPairList = new InstanceBooleanPairList();
-        BoolPairList.add(new InstanceBooleanPair(aggregationTable.getSelectedDefinitionObjId(), !curState));  // Zero is the wildcard
+        LongList ids = new LongList();
+        ids.add(aggregationTable.getSelectedDefinitionObjId());
 
         try {
-            this.serviceMCAggregation.getAggregationStub().enableGeneration(BoolPairList);
+            this.serviceMCAggregation.getAggregationStub().enableGeneration(!curState, ids);
             aggregationTable.switchEnabledstatus(!curState);
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -539,10 +537,10 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
             str = "true";
         }
         boolean curState = (str.equals("true")); // String to Boolean conversion
-        InstanceBooleanPairList boolPairList = new InstanceBooleanPairList();
-        boolPairList.add(new InstanceBooleanPair((long) 0, !curState));  // Zero is the wildcard
+        LongList ids = new LongList();
+        ids.add(0L);  // wildcard
         try {
-            serviceMCAggregation.getAggregationStub().enableFilter(boolPairList);
+            serviceMCAggregation.getAggregationStub().enableFilter(!curState, ids);
             aggregationTable.switchFilterEnabledstatusAll(!curState);
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -558,11 +556,11 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         Long objId = aggregationTable.getSelectedCOMObject().getArchiveDetails().getInstId();
         Boolean curState = ((AggregationDefinition) aggregationTable.getSelectedCOMObject().getObject())
                 .getFilterEnabled(); // String to Boolean conversion
-        InstanceBooleanPairList boolPairList = new InstanceBooleanPairList();
-        boolPairList.add(new InstanceBooleanPair(objId, !curState));
+        LongList ids = new LongList();
+        ids.add(objId);
 
         try {
-            serviceMCAggregation.getAggregationStub().enableFilter(boolPairList);
+            serviceMCAggregation.getAggregationStub().enableFilter(!curState, ids);
             aggregationTable.switchFilterEnabledStatus(!curState);
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
