@@ -209,7 +209,7 @@
             </com:features>
         </mal:service>
         <mal:service xsi:type="com:ExtendedServiceType" name="Parameter" number="2"
-                     comment="The parameter service allows the user to subscribe to parameter value report and optionally be able to set new values. A single PUBSUB operation is provided for monitoring and publishing of parameter values.&#xA;A parameter value also contains a calculation of the validity of the parameter, the flow chart for this calculation is provided in Figure 3-3:&#xA; validity calculation flow chart &#xA;&#xA;This standard supports the concept of non-standard invalidity states but the meaning and calculation of these is outside the scope of this standard.&#xA;The generation of value reports can be controlled using the enableGeneration operation.&#xA;The parameter service does not include any value checking, this is delegated to the check service.&#xA;Parameter definitions are maintained using the operations defined in this service but storage of definitions is delegated to the COM archive.">
+                     comment="The parameter service allows the user to subscribe to parameter value report and optionally be able to set new values. A single PUBSUB operation is provided for monitoring and publishing of parameter values.&#xA;A parameter value also contains a calculation of the validity of the parameter, the flow chart for this calculation is provided in Figure 3-3:&#xA; validity calculation flow chart &#xA;&#xA;This standard supports the concept of non-standard invalidity states but the meaning and calculation of these is outside the scope of this standard.&#xA;Whether value reports are published can be controlled using the enableReporting operation.&#xA;The parameter service does not include any value checking, this is delegated to the check service.&#xA;Parameter definitions are maintained using the operations defined in this service but storage of definitions is delegated to the COM archive.">
             <mal:documentation name="Service-level Requirement" order="1">The parameter service shall provide:
 &lt;ol&gt;
  &lt;li&gt;the capability for periodic reporting of predefined parameter values;&lt;/li&gt;
@@ -228,10 +228,10 @@
                 The validity of a parameter shall be calculated against the validity criteria in the ParameterDefinition.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="12">
-                The generation of reports for a parameter shall be controlled by the generationEnabled field in the ParameterDefinition.
+                Whether reports for a parameter are published shall be controlled by the reportingEnabled field in the ParameterDefinition.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="13">
-                If the generationEnabled field is TRUE, then the service provider shall generate reports for that parameter.
+                If the reportingEnabled field is TRUE, then the service provider shall publish reports for that parameter.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="14">
                 If the parameter requires periodic reports, then the interval between reports shall be controlled by the reportInterval field in the ParameterDefinition.
@@ -406,8 +406,8 @@
                 </mal:submitIP>
             </mal:capabilitySet>
             <mal:capabilitySet number="4">
-                <mal:requestIP name="enableGeneration" number="4"
-                               comment="The enableGeneration operation allows a consumer to control whether reports for specific parameters are generated or not.">
+                <mal:requestIP name="enableReporting" number="4"
+                               comment="The enableReporting operation allows a consumer to control whether PUBSUB reports are published for specific parameters or not.">
                     <mal:documentation name="Requirement" order="1">
                         The ids field shall support the wildcard value of '0', which matches all ParameterDefinition objects of the provider.
                     </mal:documentation>
@@ -415,29 +415,29 @@
                         The service provider shall check for the wildcard value first; if found, no other checks of supplied ids shall be made.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
-                        If the enable field is TRUE, then the service provider shall generate reports for matching ParameterDefinition objects.
+                        If the enable field is TRUE, then the service provider shall publish reports for matching ParameterDefinition objects.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="4">
-                        If the enable field is FALSE, then the service provider shall not generate reports for matching ParameterDefinition objects.
+                        If the enable field is FALSE, then the service provider shall not publish reports for matching ParameterDefinition objects.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="5">
-                        The service provider shall not raise an error if the supplied Boolean value is the same as the current generationEnabled field for a matched ParameterDefinition object.
+                        The service provider shall not raise an error if the supplied Boolean value is the same as the current reportingEnabled field for a matched ParameterDefinition object.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="6">
                         If an error is raised, then no modifications shall be made as a result of this operation call.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="7">
-                        If the generationEnabled field is changed, then the service provider shall create and store a new ParameterDefinition object in the COM archive.
+                        If the reportingEnabled field is changed, then the service provider shall create and store a new ParameterDefinition object in the COM archive.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="8">
                         If a new ParameterDefinition object is created, then that new object shall become the current ParameterDefinition for the parameter.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="9">
-                        If the generation of reports is being enabled and the parameter is defined as periodic, then the service provider shall generate a report immediately and start the report interval from that report.
+                        If reporting is being enabled and the parameter is defined as periodic, then the service provider shall publish a report immediately and start the report interval from that report.
                     </mal:documentation>
                     <mal:messages>
                         <mal:request>
-                            <mal:field name="enable" canBeNull="false" comment="TRUE to enable report generation, FALSE to disable it.">
+                            <mal:field name="enable" canBeNull="false" comment="TRUE to enable reporting, FALSE to disable it.">
                                 <mal:type area="MAL" list="false" name="Boolean"/>
                             </mal:field>
                             <mal:field name="ids" canBeNull="false" comment="The list of ParameterDefinition object instance identifiers to enable or disable.">
@@ -558,7 +558,7 @@
             </com:features>
         </mal:service>
         <mal:service xsi:type="com:ExtendedServiceType" name="Alert" number="3"
-                     comment="The alert service defines the structures and patterns for the publishing and monitoring of alerts. The alert service uses COM event service to monitor and publish alert events.&#xA;The generation of alerts can be controlled using the enableGeneration operation.&#xA;Alert definitions are maintained using the operations defined in this service but storage of definitions is delegated to the COM archive.">
+                     comment="The alert service defines the structures and patterns for the publishing and monitoring of alerts. The alert service uses COM event service to monitor and publish alert events.&#xA;Whether alerts are published can be controlled using the enableReporting operation.&#xA;Alert definitions are maintained using the operations defined in this service but storage of definitions is delegated to the COM archive.">
             <mal:documentation name="Service-level Requirement" order="1">The alert service shall provide:
 &lt;ol&gt;
  &lt;li&gt;the capability for reporting of alerts;&lt;/li&gt;
@@ -566,10 +566,10 @@
  &lt;li&gt;the capability for maintaining the list of alert definitions.&lt;/li&gt;
 &lt;/ol&gt;</mal:documentation>
             <mal:documentation name="Service-level Requirement" order="2">
-                The generation of alerts shall be controlled by the generationEnabled field in the AlertDefinition.
+                Whether alerts are published shall be controlled by the reportingEnabled field in the AlertDefinition.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="11">
-                If the generationEnabled field is TRUE, then the service provider shall generate instances of that alert.
+                If the reportingEnabled field is TRUE, then the service provider shall publish reports for that alert.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="12">
                 Alert instances shall be published as events using the COM event operations.
@@ -599,8 +599,8 @@
                 When an alert event is published, the AlertEvent object should be stored in the COM archive by the publisher.
             </mal:documentation>
             <mal:capabilitySet number="1">
-                <mal:requestIP name="enableGeneration" number="1"
-                               comment="The enableGeneration operation allows a consumer to control whether updates for specific alerts are generated or not.">
+                <mal:requestIP name="enableReporting" number="1"
+                               comment="The enableReporting operation allows a consumer to control whether PUBSUB reports are published for specific alerts or not.">
                     <mal:documentation name="Requirement" order="1">
                         The ids field shall support the wildcard value of '0', which matches all AlertDefinition objects of the provider.
                     </mal:documentation>
@@ -608,26 +608,26 @@
                         The service provider shall check for the wildcard value first; if found, no other checks of supplied ids shall be made.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
-                        If the enable field is TRUE, then the service provider shall generate instances of matching AlertDefinition objects.
+                        If the enable field is TRUE, then the service provider shall publish reports for matching AlertDefinition objects.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="4">
-                        If the enable field is FALSE, then the service provider shall not generate instances of matching AlertDefinition objects.
+                        If the enable field is FALSE, then the service provider shall not publish reports for matching AlertDefinition objects.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="5">
-                        The service provider shall not raise an error if the supplied Boolean value is the same as the current generationEnabled field for a matched AlertDefinition object.
+                        The service provider shall not raise an error if the supplied Boolean value is the same as the current reportingEnabled field for a matched AlertDefinition object.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="6">
                         If an error is raised, then no modifications shall be made as a result of this operation call.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="7">
-                        If the generationEnabled field is changed, then the service provider shall create and store a new AlertDefinition object in the COM archive.
+                        If the reportingEnabled field is changed, then the service provider shall create and store a new AlertDefinition object in the COM archive.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="8">
                         If a new AlertDefinition object is created, then that new object shall become the current AlertDefinition for the alert.
                     </mal:documentation>
                     <mal:messages>
                         <mal:request>
-                            <mal:field name="enable" canBeNull="false" comment="TRUE to enable alert generation, FALSE to disable it.">
+                            <mal:field name="enable" canBeNull="false" comment="TRUE to enable reporting, FALSE to disable it.">
                                 <mal:type area="MAL" list="false" name="Boolean"/>
                             </mal:field>
                             <mal:field name="ids" canBeNull="false" comment="The list of AlertDefinition object instance identifiers to enable or disable.">
@@ -766,7 +766,7 @@
  &lt;li&gt;Filtered reports for aggregations shall be generated only when the value of one or more parameters in the aggregation has changed by more than a given threshold since the previous generation or when a timeout expires.&lt;/li&gt;
 &lt;/ol&gt;</mal:documentation>
             <mal:documentation name="Service-level Requirement" order="11">
-                The generation of reports for an aggregation shall be controlled by the generationEnabled field in the AggregationDefinition.
+                Whether reports for an aggregation are published shall be controlled by the reportingEnabled field in the AggregationDefinition.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="12">
                 If an aggregation is required to send periodic reports, then the interval between reports shall be controlled by the reportInterval field in the AggregationDefinition.
@@ -902,8 +902,8 @@
                 </mal:requestIP>
             </mal:capabilitySet>
             <mal:capabilitySet number="3">
-                <mal:requestIP name="enableGeneration" number="3"
-                               comment="The enableGeneration operation allows a consumer to control whether reports for specific aggregations are generated or not. This affects all types of aggregations, periodic, filtered and ad-hoc.">
+                <mal:requestIP name="enableReporting" number="3"
+                               comment="The enableReporting operation allows a consumer to control whether PUBSUB reports are published for specific aggregations or not. This affects all types of aggregations, periodic, filtered and ad-hoc.">
                     <mal:documentation name="Requirement" order="1">
                         The ids field shall support the wildcard value of '0', which matches all AggregationDefinition objects of the provider.
                     </mal:documentation>
@@ -911,29 +911,29 @@
                         The service provider shall check for the wildcard value first; if found, no other checks of supplied ids shall be made.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
-                        If the enable field is TRUE, then the service provider shall generate reports for matching AggregationDefinition objects.
+                        If the enable field is TRUE, then the service provider shall publish reports for matching AggregationDefinition objects.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="4">
-                        If the enable field is FALSE, then the service provider shall not generate reports for matching AggregationDefinition objects.
+                        If the enable field is FALSE, then the service provider shall not publish reports for matching AggregationDefinition objects.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="5">
-                        The service provider shall not raise an error if the supplied Boolean value is the same as the current generationEnabled field of the matched AggregationDefinition object.
+                        The service provider shall not raise an error if the supplied Boolean value is the same as the current reportingEnabled field of the matched AggregationDefinition object.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="6">
                         If an error is raised, then no modifications shall be made as a result of this operation call.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="7">
-                        If the generationEnabled field is changed, then the provider shall create and store a new AggregationDefinition object in the COM archive.
+                        If the reportingEnabled field is changed, then the provider shall create and store a new AggregationDefinition object in the COM archive.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="8">
                         If a new AggregationDefinition object is created, then that new object shall be the current AggregationDefinition used for the aggregation.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="9">
-                        If generation is being enabled and the aggregation is periodic, then the provider shall generate a report immediately and start the report interval from that report.
+                        If reporting is being enabled and the aggregation is periodic, then the provider shall publish a report immediately and start the report interval from that report.
                     </mal:documentation>
                     <mal:messages>
                         <mal:request>
-                            <mal:field name="enable" canBeNull="false" comment="TRUE to enable report generation, FALSE to disable it.">
+                            <mal:field name="enable" canBeNull="false" comment="TRUE to enable reporting, FALSE to disable it.">
                                 <mal:type area="MAL" list="false" name="Boolean"/>
                             </mal:field>
                             <mal:field name="ids" canBeNull="false" comment="The list of AggregationDefinition object instance identifiers to enable or disable.">
@@ -1411,8 +1411,8 @@
                            comment="The unit for the raw value. If NULL then raw type has no unit.">
                     <mal:type area="MAL" name="String"/>
                 </mal:field>
-                <mal:field name="generationEnabled" canBeNull="false"
-                           comment="Controls whether reports for this parameter are to be generated.">
+                <mal:field name="reportingEnabled" canBeNull="false"
+                           comment="Controls whether reports for this parameter are published.">
                     <mal:type area="MAL" name="Boolean"/>
                 </mal:field>
                 <mal:field name="reportInterval" canBeNull="false"
@@ -1507,8 +1507,8 @@
                 <mal:field name="severity" canBeNull="false" comment="Severity of the alert.">
                     <mal:type area="MC" name="Severity"/>
                 </mal:field>
-                <mal:field name="generationEnabled" canBeNull="false"
-                           comment="Controls whether instances of this alert are to be generated.">
+                <mal:field name="reportingEnabled" canBeNull="false"
+                           comment="Controls whether reports for this alert are published.">
                     <mal:type area="MAL" name="Boolean"/>
                 </mal:field>
                 <mal:field name="arguments" canBeNull="false" comment="The list of argument definitions.">
@@ -1577,7 +1577,7 @@
                            comment="The maximum duration between filtered reports. If this value is exceeded, then a report is sent regardless of filtered thresholds. Ignored if not filtered.">
                     <mal:type area="MAL" name="Duration"/>
                 </mal:field>
-                <mal:field name="generationEnabled" canBeNull="false" comment="Controls whether reports for this aggregation are to be generated.">
+                <mal:field name="reportingEnabled" canBeNull="false" comment="Controls whether reports for this aggregation are published.">
                     <mal:type area="MAL" name="Boolean"/>
                 </mal:field>
                 <mal:field name="parameterSets" canBeNull="false" comment="List containing the parameter sets which define the aggregation.">

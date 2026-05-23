@@ -150,7 +150,7 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
     }
 
     @Override
-    public LongList enableGeneration(final Boolean enable, final LongList ids,
+    public LongList enableReporting(final Boolean enable, final LongList ids,
             final MALInteraction interaction) throws MALException, MALInteractionException {
         throw new UnsupportedOperationException("Not supported yet.");
     }

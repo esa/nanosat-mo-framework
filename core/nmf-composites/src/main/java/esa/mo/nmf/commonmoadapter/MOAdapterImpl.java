@@ -495,7 +495,7 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
      */
     @Override
     public void toggleParametersGeneration(List<String> parameterNames,
-            boolean enableGeneration) throws NMFException {
+            boolean enable) throws NMFException {
         // Nothing to do in those cases
         if (parameterNames == null) {
             LOGGER.log(Level.WARNING, "Provided parameterNames list is null");
@@ -540,7 +540,7 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
             }
 
             // toggle their generation
-            parameterService.enableGeneration(enableGeneration, ids);
+            parameterService.enableReporting(enable, ids);
         } catch (MALInteractionException | MALException e) {
             throw new NMFException("Error while toggling parameters generation", e);
         }

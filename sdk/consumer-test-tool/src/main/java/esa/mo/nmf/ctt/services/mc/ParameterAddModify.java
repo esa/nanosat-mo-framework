@@ -118,8 +118,8 @@ public class ParameterAddModify extends javax.swing.JFrame {
 
         String str = parameterTable.getValueAt(parameterTable.getSelectedRow(), 5).toString();
         boolean curState = (str.equals("true")); // String to Boolean conversion
-        generationEnabledCB.setSelected(curState);
-        generationEnabledCB.setEnabled(true);
+        reportingEnabledCB.setSelected(curState);
+        reportingEnabledCB.setEnabled(true);
         isAddDef = false;
     }
 
@@ -130,8 +130,8 @@ public class ParameterAddModify extends javax.swing.JFrame {
         rawTypeCB.setSelectedIndex(5);  // Double
         rawUnitTF.setText("");
         updateIntervalTF.setText("");
-        generationEnabledCB.setSelected(false);
-        generationEnabledCB.setEnabled(false);
+        reportingEnabledCB.setSelected(false);
+        reportingEnabledCB.setEnabled(false);
         validityExpressionCB.setSelected(false);
         validityExpressionCBActionPerformed(null);
 
@@ -161,7 +161,7 @@ public class ParameterAddModify extends javax.swing.JFrame {
         rawUnitTF = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         updateIntervalTF = new javax.swing.JTextField();
-        generationEnabledCB = new javax.swing.JCheckBox();
+        reportingEnabledCB = new javax.swing.JCheckBox();
         jSeparator7 = new javax.swing.JSeparator();
         validityExpressionCB = new javax.swing.JCheckBox();
         jPanel10 = new javax.swing.JPanel();
@@ -254,11 +254,11 @@ public class ParameterAddModify extends javax.swing.JFrame {
         updateIntervalTF.addActionListener(this::updateIntervalTFActionPerformed);
         jPanel4.add(updateIntervalTF);
 
-        generationEnabledCB.setText("generationEnabled");
-        generationEnabledCB.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        generationEnabledCB.setOpaque(false);
-        generationEnabledCB.addActionListener(this::generationEnabledCBActionPerformed);
-        jPanel4.add(generationEnabledCB);
+        reportingEnabledCB.setText("reportingEnabled");
+        reportingEnabledCB.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        reportingEnabledCB.setOpaque(false);
+        reportingEnabledCB.addActionListener(this::reportingEnabledCBActionPerformed);
+        jPanel4.add(reportingEnabledCB);
 
         jSeparator7.setMaximumSize(new java.awt.Dimension(250, 10));
         jSeparator7.setMinimumSize(new java.awt.Dimension(250, 10));
@@ -438,8 +438,8 @@ public class ParameterAddModify extends javax.swing.JFrame {
     private void updateIntervalTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateIntervalTFActionPerformed
     }//GEN-LAST:event_updateIntervalTFActionPerformed
 
-    private void generationEnabledCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generationEnabledCBActionPerformed
-    }//GEN-LAST:event_generationEnabledCBActionPerformed
+    private void reportingEnabledCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reportingEnabledCBActionPerformed
+    }//GEN-LAST:event_reportingEnabledCBActionPerformed
 
     private void validityExpressionCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_validityExpressionCBActionPerformed
 
@@ -538,7 +538,7 @@ public class ParameterAddModify extends javax.swing.JFrame {
                 descriptionTF.getText(),
                 new AttributeType(rawTypeCB.getSelectedIndex()),
                 rawUnitTF.getText(),
-                generationEnabledCB.isSelected(),
+                reportingEnabledCB.isSelected(),
                 new Duration(Float.parseFloat(updateIntervalTF.getText())),
                 PExp, pConv);
         
@@ -558,7 +558,7 @@ public class ParameterAddModify extends javax.swing.JFrame {
 
                 parameterTableData.addRow(new Object[]{output.get(0).getObjDefInstanceId().intValue(), request.getName()
                     .toString(), Pdef.getDescription(), rawTypeCB.getItemAt(Pdef.getRawType()).toString(), Pdef
-                        .getRawUnit(), Pdef.getGenerationEnabled(), Pdef.getReportInterval().getValue()});
+                        .getRawUnit(), Pdef.getReportingEnabled(), Pdef.getReportInterval().getValue()});
             } catch (MALInteractionException | MALException ex) {
                 Logger.getLogger(ParameterAddModify.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -574,7 +574,7 @@ public class ParameterAddModify extends javax.swing.JFrame {
                 parameterTableData.insertRow(parameterDefinitionSelectedIndex,
                         new Object[]{objIds.get(0).intValue(), pDef.getName().toString(),
                             pDef.getDescription(), rawTypeCB.getItemAt(pDef.getRawType().getValue()).toString(),
-                            pDef.getRawUnit(), pDef.getGenerationEnabled(),
+                            pDef.getRawUnit(), pDef.getReportingEnabled(),
                             pDef.getReportInterval().getInSeconds()});
                 Logger.getLogger(ParameterAddModify.class.getName()).info("updateDefinition executed");
             } catch (MALInteractionException | MALException ex) {
@@ -590,7 +590,7 @@ public class ParameterAddModify extends javax.swing.JFrame {
     private javax.swing.JCheckBox conversionCB;
     private javax.swing.JTextField convertedUnit;
     private javax.swing.JTextField descriptionTF;
-    private javax.swing.JCheckBox generationEnabledCB;
+    private javax.swing.JCheckBox reportingEnabledCB;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;

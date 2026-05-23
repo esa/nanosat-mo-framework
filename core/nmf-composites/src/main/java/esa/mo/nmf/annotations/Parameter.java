@@ -39,7 +39,7 @@ import java.lang.annotation.Target;
  *   <b>&#64;Parameter(</b>
  *       description = "The Magnetometer X component",
  *       rawUnit = "microTesla",
- *       generationEnabled = false,
+ *       reportingEnabled = false,
  *       onGetFunction = "onGetMagneticField_X",
  *       readOnly = true,
  *       reportIntervalSeconds = 2)
@@ -47,7 +47,7 @@ import java.lang.annotation.Target;
  *   <b>&#64;Parameter(</b>
  *       description = "The Magnetometer Y component",
  *       rawUnit = "microTesla",
- *       generationEnabled = false,
+ *       reportingEnabled = false,
  *       onGetFunction = "onGetMagneticField_Y",
  *       readOnly = true,
  *       reportIntervalSeconds = 2)
@@ -106,7 +106,7 @@ public @interface Parameter {
      *
      * @return True if the generation of the Parameter is enabled.
      */
-    boolean generationEnabled() default true;
+    boolean reportingEnabled() default true;
 
     /**
      * How often the parameter will be reported (in Seconds)

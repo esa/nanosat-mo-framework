@@ -31,7 +31,7 @@ import org.ccsds.moims.mo.mc.structures.AggregationCategory;
  *   <b>&#64;Parameter(</b>
  *       description = "The Magnetometer X component",
  *       rawUnit = "microTesla",
- *       generationEnabled = false,
+ *       reportingEnabled = false,
  *       onGetFunction = "onGetMagneticField_X",
  *       readOnly = true,
  *       reportIntervalSeconds = 2,
@@ -40,7 +40,7 @@ import org.ccsds.moims.mo.mc.structures.AggregationCategory;
  *   <b>&#64;Parameter(</b>
  *       description = "The Magnetometer Y component",
  *       rawUnit = "microTesla",
- *       generationEnabled = false,
+ *       reportingEnabled = false,
  *       onGetFunction = "onGetMagneticField_Y",
  *       readOnly = true,
  *       reportIntervalSeconds = 2,
@@ -117,7 +117,7 @@ public @interface Aggregation {
      *
      * @return The status flag.
      */
-    boolean generationEnabled() default false;
+    boolean reportingEnabled() default false;
 
     /**
      * Field of type ThresholdFilter.

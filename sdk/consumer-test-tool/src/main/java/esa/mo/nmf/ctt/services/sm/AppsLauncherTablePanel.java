@@ -81,7 +81,7 @@ public class AppsLauncherTablePanel extends SharedTablePanel {
             LOGGER.log(Level.SEVERE, null, ex);
         }
 
-        // 4 because it is where generationEnabled is!
+        // 4 because it is where reportingEnabled is!
         tableData.setValueAt(status, rowId, 5);
         //AppDetails app = (AppDetails) this.getSelectedCOMObject().getObject();
         //app.setRunning(status);

@@ -138,7 +138,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
                                                                                                         null, null,
                                                                                                         null, null,
                                                                                                         null}},
-            new String[]{"Obj Inst Id", "name", "description", "rawType", "rawUnit", "generationEnabled",
+            new String[]{"Obj Inst Id", "name", "description", "rawType", "rawUnit", "reportingEnabled",
                          "updateInterval"}) {
             Class[] types = new Class[]{java.lang.Integer.class, java.lang.String.class, java.lang.String.class,
                                         java.lang.Object.class, java.lang.String.class, java.lang.Boolean.class,
@@ -171,11 +171,11 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         getValueAllButtonAgg.addActionListener(this::getValueAllButtonAggActionPerformed);
         jPanel1.add(getValueAllButtonAgg);
 
-        enableDefinitionButtonAgg.setText("enableGeneration");
+        enableDefinitionButtonAgg.setText("enableReporting");
         enableDefinitionButtonAgg.addActionListener(this::enableDefinitionButtonAggActionPerformed);
         jPanel1.add(enableDefinitionButtonAgg);
 
-        enableDefinitionAllAgg.setText("enableGeneration(0)");
+        enableDefinitionAllAgg.setText("enableReporting(0)");
         enableDefinitionAllAgg.addActionListener(this::enableDefinitionAllAggActionPerformed);
         jPanel1.add(enableDefinitionAllAgg);
 
@@ -426,19 +426,19 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
             AggregationDefinition aggregationDefinition = (AggregationDefinition) aggregationTable
                     .getFirstCOMObject().getObject();
             if (aggregationDefinition != null) {
-                curState = aggregationDefinition.getGenerationEnabled();
+                curState = aggregationDefinition.getReportingEnabled();
             } else {
                 curState = true;
             }
         } else {
-            curState = ((AggregationDefinition) aggregationTable.getSelectedCOMObject().getObject()).getGenerationEnabled();
+            curState = ((AggregationDefinition) aggregationTable.getSelectedCOMObject().getObject()).getReportingEnabled();
         }
 
         LongList ids = new LongList();
         ids.add(0L);  // wildcard
 
         try {
-            this.serviceMCAggregation.getAggregationStub().enableGeneration(!curState, ids);
+            this.serviceMCAggregation.getAggregationStub().enableReporting(!curState, ids);
             aggregationTable.switchEnabledstatusAll(!curState);
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -451,12 +451,12 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
             return;  // Well, then nothing to be done here folks!
         }
 
-        Boolean curState = ((AggregationDefinition) aggregationTable.getSelectedCOMObject().getObject()).getGenerationEnabled();
+        Boolean curState = ((AggregationDefinition) aggregationTable.getSelectedCOMObject().getObject()).getReportingEnabled();
         LongList ids = new LongList();
         ids.add(aggregationTable.getSelectedDefinitionObjId());
 
         try {
-            this.serviceMCAggregation.getAggregationStub().enableGeneration(!curState, ids);
+            this.serviceMCAggregation.getAggregationStub().enableReporting(!curState, ids);
             aggregationTable.switchEnabledstatus(!curState);
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);

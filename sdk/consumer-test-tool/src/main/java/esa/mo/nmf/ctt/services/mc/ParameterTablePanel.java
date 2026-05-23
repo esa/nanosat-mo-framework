@@ -65,7 +65,7 @@ public class ParameterTablePanel extends SharedTablePanel {
             pDef.getDescription(),
             HelperAttributes.typeShortForm2attributeName(pDef.getRawType().getValue()),
             pDef.getRawUnit(),
-            pDef.getGenerationEnabled(),
+            pDef.getReportingEnabled(),
             pDef.getReportInterval().getInSeconds()});
 
         comObjects.add(comObject);
@@ -80,9 +80,9 @@ public class ParameterTablePanel extends SharedTablePanel {
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        // 5 because it is where generationEnabled is!
+        // 5 because it is where reportingEnabled is!
         tableData.setValueAt(status, this.getSelectedRow(), 5);
-        //((ParameterDefinition) this.getSelectedCOMObject().getObject()).setGenerationEnabled(status);
+        //((ParameterDefinition) this.getSelectedCOMObject().getObject()).setReportingEnabled(status);
         ParameterDefinition def = (ParameterDefinition) this.getSelectedCOMObject().getObject();
         ParameterDefinition newDef = this.generateNewParameterDef(def, status);
         this.getSelectedCOMObject().setObject(newDef);
@@ -97,10 +97,10 @@ public class ParameterTablePanel extends SharedTablePanel {
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        // 5 because it is where generationEnabled is!
+        // 5 because it is where reportingEnabled is!
         for (int i = 0; i < this.getTable().getRowCount(); i++) {
             tableData.setValueAt(status, i, 5);
-            //((ParameterDefinition) this.getCOMObjects().get(i).getObject()).setGenerationEnabled(status);
+            //((ParameterDefinition) this.getCOMObjects().get(i).getObject()).setReportingEnabled(status);
             ParameterDefinition def = (ParameterDefinition) this.getCOMObjects().get(i).getObject();
             ParameterDefinition newDef = this.generateNewParameterDef(def, status);
             this.getCOMObjects().get(i).setObject(newDef);
@@ -129,7 +129,7 @@ public class ParameterTablePanel extends SharedTablePanel {
             "description",
             "rawType",
             "rawUnit",
-            "generationEnabled", "updateInterval"};
+            "reportingEnabled", "updateInterval"};
 
         tableData = new javax.swing.table.DefaultTableModel(new Object[][]{}, tableCol) {
             Class[] types = new Class[]{

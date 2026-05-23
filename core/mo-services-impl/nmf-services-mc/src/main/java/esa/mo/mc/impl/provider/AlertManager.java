@@ -120,7 +120,7 @@ public final class AlertManager extends MCManager {
         return newDefId;
     }
 
-    public Long setGenerationEnabled(final Long identityId, final Boolean bool,
+    public Long setReportingEnabled(final Long identityId, final Boolean bool,
             final ObjectKey source, final SingleConnectionDetails connectionDetails) {
         // requirement: 3.3.2.5
         AlertDefinition def = this.getAlertDefinitionFromDefId(identityId);
@@ -129,7 +129,7 @@ public final class AlertManager extends MCManager {
         }
 
         // Is it set with the requested value already?
-        if (def.getGenerationEnabled().booleanValue() == bool) {
+        if (def.getReportingEnabled().booleanValue() == bool) {
             return identityId; // the value was not changed
         }
 
@@ -139,7 +139,7 @@ public final class AlertManager extends MCManager {
         return this.update(identityId, newDef, source, connectionDetails);
     }
 
-    public void setGenerationEnabledAll(final Boolean bool, final ObjectKey source,
+    public void setReportingEnabledAll(final Boolean bool, final ObjectKey source,
             final SingleConnectionDetails connectionDetails) {
         LongList identityIds = new LongList();
         identityIds.addAll(this.listAllDefinitions());

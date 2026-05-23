@@ -352,7 +352,7 @@ public class ParameterManager extends MCManager {
             final Attribute convertedValue, final boolean aggrExpired) {
 
         //parameter-aggregation has a timeout that is expired
-        if (pDef.getGenerationEnabled()
+        if (pDef.getReportingEnabled()
                 && pDef.getReportInterval().getInSeconds() != 0
                 && aggrExpired) { //requirement 3.3.3.i
             return ValidityState.EXPIRED;
@@ -501,17 +501,17 @@ public class ParameterManager extends MCManager {
     }
 
     /**
-     * Sets the generationEnabled field for the given parameter as the given
+     * Sets the reportingEnabled field for the given parameter as the given
      * bool-value.
      *
      * @param id The identityId of the parameter.
-     * @param bool The new generationEnabled value.
+     * @param bool The new reportingEnabled value.
      * @param source The source link for the new definition.
      * @param connectionDetails The details of the connection.
      * @return True if it was successfully updated. false if def is null or the
      * new bool value was the same as the current value.
      */
-    protected Long setGenerationEnabled(Long id, Boolean bool, ObjectKey source,
+    protected Long setReportingEnabled(Long id, Boolean bool, ObjectKey source,
             SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.a.c
         ParameterDefinition def = this.getParameterDefinition(id);
 
@@ -520,7 +520,7 @@ public class ParameterManager extends MCManager {
         }
 
         //requirement: 3.3.10.2.f
-        if (def.getGenerationEnabled().booleanValue() == bool) { // Is it set with the requested value already?
+        if (def.getReportingEnabled().booleanValue() == bool) { // Is it set with the requested value already?
             return id; // the value was not changed
         }
 
@@ -575,16 +575,16 @@ public class ParameterManager extends MCManager {
     }
 
     /**
-     * Sets the enableGeneration field of all existing parameters to the given
+     * Sets the reportingEnabled field of all existing parameters to the given
      * bool-value.
      *
-     * @param bool The value the enableGeneration field of all parameters should
+     * @param bool The value the reportingEnabled field of all parameters should
      * be set to.
      * @param source The source that created this update. will be set as the new
      * defintions source.
      * @param connectionDetails The details of the connection.
      */
-    protected void setGenerationEnabledAll(Boolean bool, ObjectKey source, SingleConnectionDetails connectionDetails) {
+    protected void setReportingEnabledAll(Boolean bool, ObjectKey source, SingleConnectionDetails connectionDetails) {
         LongList identitiyIds = new LongList();
         identitiyIds.addAll(this.listAllDefinitions());
 

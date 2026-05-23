@@ -432,7 +432,7 @@ public class ParameterCommands {
 
         try {
             LongList ids = parameterService.listDefinition(request);
-            parameterService.enableGeneration(enable, ids);
+            parameterService.enableReporting(enable, ids);
             System.out.println((enable ? "Enable " : "Disable ") + "successful.");
         } catch (MALInteractionException e) {
             MOErrorException error = e.getStandardError();
@@ -442,10 +442,10 @@ public class ParameterCommands {
                     System.out.println("- " + request.get((int) id.getValue()));
                 }
             } else {
-                LOGGER.log(Level.SEVERE, "Error during enableGeneration!", e);
+                LOGGER.log(Level.SEVERE, "Error during enableReporting!", e);
             }
         } catch (MALException e) {
-            LOGGER.log(Level.SEVERE, "Error during enableGeneration!", e);
+            LOGGER.log(Level.SEVERE, "Error during enableReporting!", e);
         }
     }
 

@@ -117,7 +117,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
             }
 
             String rawUnit = annotation.rawUnit();
-            boolean generationEnabled = annotation.generationEnabled();
+            boolean reportingEnabled = annotation.reportingEnabled();
             Duration reportInterval = new Duration(annotation.reportIntervalSeconds());
             ParameterExpression validityExpression = null;
             String valExpress = annotation.validityExpressionFieldName();
@@ -153,7 +153,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
 
             definitions.add(new ParameterDefinition(new Identifier(name),
                     description, new AttributeType(rawType), rawUnit,
-                    generationEnabled, reportInterval, validityExpression, conversion));
+                    reportingEnabled, reportInterval, validityExpression, conversion));
         }
 
         if (!definitions.isEmpty()) {
@@ -210,7 +210,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
                                 new Duration(aggregation.reportInterval()), aggregation.sendUnchanged(),
                                 aggregation.sendDefinitions(), aggregation.filterEnabled(),
                                 new Duration(aggregation.filterTimeout()),
-                                aggregation.generationEnabled(), parameterSet);
+                                aggregation.reportingEnabled(), parameterSet);
 
                         LOGGER.log(Level.INFO, "Aggregation registered: {0}", aggregation.id());
 

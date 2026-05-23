@@ -63,7 +63,7 @@ public class AlertTablePanel extends SharedTablePanel {
             pDef.getName().getValue(),
             pDef.getDescription(),
             pDef.getSeverity().toString(),
-            pDef.getGenerationEnabled()});
+            pDef.getReportingEnabled()});
 
         comObjects.add(comObject);
         semaphore.release();
@@ -76,9 +76,9 @@ public class AlertTablePanel extends SharedTablePanel {
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        // 4 because it is where generationEnabled is!
+        // 4 because it is where reportingEnabled is!
         tableData.setValueAt(status, this.getSelectedRow(), 4);
-        //((AlertDefinition) this.getSelectedCOMObject().getObject()).setGenerationEnabled(status);
+        //((AlertDefinition) this.getSelectedCOMObject().getObject()).setReportingEnabled(status);
         AlertDefinition def = (AlertDefinition) this.getSelectedCOMObject().getObject();
         AlertDefinition newDef = this.generateNewAlertDef(def, status);
         this.getSelectedCOMObject().setObject(newDef);
@@ -93,10 +93,10 @@ public class AlertTablePanel extends SharedTablePanel {
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        // 4 because it is where generationEnabled is!
+        // 4 because it is where reportingEnabled is!
         for (int i = 0; i < this.getTable().getRowCount(); i++) {
             tableData.setValueAt(status, i, 4);
-            //((AlertDefinition) this.getCOMObjects().get(i).getObject()).setGenerationEnabled(status);
+            //((AlertDefinition) this.getCOMObjects().get(i).getObject()).setReportingEnabled(status);
             AlertDefinition def = (AlertDefinition) this.getCOMObjects().get(i).getObject();
             AlertDefinition newDef = this.generateNewAlertDef(def, status);
             this.getCOMObjects().get(i).setObject(newDef);
@@ -121,7 +121,7 @@ public class AlertTablePanel extends SharedTablePanel {
             "name",
             "description",
             "Severity",
-            "generationEnabled"};
+            "reportingEnabled"};
 
         tableData = new javax.swing.table.DefaultTableModel(new Object[][]{}, tableCol) {
             Class[] types = new Class[]{

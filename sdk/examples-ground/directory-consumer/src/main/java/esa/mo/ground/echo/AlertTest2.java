@@ -79,7 +79,7 @@ public class AlertTest2 {
             LongList enableIds = new LongList();
             enableIds.add(moAlertDefId);
 
-            alertConsumer.enableGeneration(true, enableIds);
+            alertConsumer.enableReporting(true, enableIds);
 
             System.out.println("Generation enabled for Alert Def Id: " + moAlertDefId);
         }

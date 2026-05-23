@@ -65,7 +65,7 @@ public class AggregationCommands {
 
         try {
             LongList ids = aggregationService.listDefinition(request);
-            aggregationService.enableGeneration(enable, ids);
+            aggregationService.enableReporting(enable, ids);
             System.out.println((enable ? "Enable " : "Disable ") + "successful.");
         } catch (MALInteractionException e) {
             MOErrorException error = e.getStandardError();
@@ -75,10 +75,10 @@ public class AggregationCommands {
                     System.out.println("- " + request.get((int) id.getValue()));
                 }
             } else {
-                LOGGER.log(Level.SEVERE, "Error during enableGeneration!", e);
+                LOGGER.log(Level.SEVERE, "Error during enableReporting!", e);
             }
         } catch (MALException e) {
-            LOGGER.log(Level.SEVERE, "Error during enableGeneration!", e);
+            LOGGER.log(Level.SEVERE, "Error during enableReporting!", e);
         }
     }
 
@@ -208,7 +208,7 @@ public class AggregationCommands {
                             HeterogeneousList objBodies, Map qosProperties) {
                         for (int i = 0; i < objDetails.size(); ++i) {
                             AggregationDefinition details = (AggregationDefinition) objBodies.get(i);
-                            if (details.getGenerationEnabled()) {
+                            if (details.getReportingEnabled()) {
                                 for (AggregationParameterSet set : details.getParameterSets()) {
                                     parameterIds.addAll(set.getParameters());
                                 }

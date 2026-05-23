@@ -111,7 +111,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
     }
 
     @Override
-    public LongList enableGeneration(final Boolean enable, final LongList ids,
+    public LongList enableReporting(final Boolean enable, final LongList ids,
             MALInteraction interaction) throws MALInteractionException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
 
@@ -128,7 +128,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
 
         for (Long id : ids) {  // requirement: 3.4.8.2.d
             if (id == 0) {  // Is it the wildcard '0'? requirement: 3.3.8.2.c
-                manager.setGenerationEnabledAll(enable, null,
+                manager.setReportingEnabledAll(enable, null,
                         connection.getConnectionDetails());
                 foundWildcard = true;
                 break;
@@ -156,7 +156,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
         // requirement: 3.4.8.2.i (This part of the code is only reached if no error was raised)
         for (int index = 0; index < objIdToBeEnabled.size(); index++) {
             // requirement: 3.4.8.e and 3.4.8.f and 3.4.8.j
-            Long out = manager.setGenerationEnabled(objIdToBeEnabled.get(index),
+            Long out = manager.setReportingEnabled(objIdToBeEnabled.get(index),
                     enable, null, connection.getConnectionDetails());
             output.add(out);
         }
@@ -386,7 +386,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
             return null;
         }
 
-        if (!alertDef.getGenerationEnabled()) {  // requirement: 3.4.3.a, 3.4.3.b
+        if (!alertDef.getReportingEnabled()) {  // requirement: 3.4.3.a, 3.4.3.b
             return null;
         }
 
@@ -480,7 +480,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
             // Enable the Alert reporting!
             //            LongList ids = new LongList();
             //            ids.add(identityId);
-            //            this.enableGeneration(true, ids, interaction); // Enable the reporting for this Alert Definition
+            //            this.enableReporting(true, ids, interaction); // Enable the reporting for this Alert Definition
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(AlertProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -137,8 +137,8 @@ public class AggregationAddModify extends javax.swing.JFrame {
 
         boolean curState = (aggregationTable.getValueAt(aggregationTable.getSelectedRow(), 4).toString().equals(
                 "true")); // String to Boolean conversion
-        generationEnabledCB.setSelected(curState);
-        generationEnabledCB.setEnabled(true);
+        reportingEnabledCB.setSelected(curState);
+        reportingEnabledCB.setEnabled(true);
 
         curState = (aggregationTable.getValueAt(aggregationTable.getSelectedRow(), 6).toString().equals("true")); // String to Boolean conversion
         filterEnabledCB.setSelected(curState);
@@ -162,8 +162,8 @@ public class AggregationAddModify extends javax.swing.JFrame {
 
         updateIntervalTF.setText("");
         filteredTimeoutTF.setText("");
-        generationEnabledCB.setSelected(false);
-        generationEnabledCB.setEnabled(false);
+        reportingEnabledCB.setSelected(false);
+        reportingEnabledCB.setEnabled(false);
         filterEnabledCB.setSelected(false);
 
         thresholdTypeCB.setSelectedIndex(0);
@@ -208,7 +208,7 @@ public class AggregationAddModify extends javax.swing.JFrame {
         updateIntervalTF = new javax.swing.JTextField();
         jLabel18 = new javax.swing.JLabel();
         filteredTimeoutTF = new javax.swing.JTextField();
-        generationEnabledCB = new javax.swing.JCheckBox();
+        reportingEnabledCB = new javax.swing.JCheckBox();
         filterEnabledCB = new javax.swing.JCheckBox();
         jSeparator10 = new javax.swing.JSeparator();
         jPanel15 = new javax.swing.JPanel();
@@ -294,11 +294,11 @@ public class AggregationAddModify extends javax.swing.JFrame {
         filteredTimeoutTF.setPreferredSize(new java.awt.Dimension(150, 20));
         jPanel14.add(filteredTimeoutTF);
 
-        generationEnabledCB.setText("generationEnabled");
-        generationEnabledCB.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        generationEnabledCB.setOpaque(false);
-        generationEnabledCB.addActionListener(this::generationEnabledCBActionPerformed);
-        jPanel14.add(generationEnabledCB);
+        reportingEnabledCB.setText("reportingEnabled");
+        reportingEnabledCB.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        reportingEnabledCB.setOpaque(false);
+        reportingEnabledCB.addActionListener(this::reportingEnabledCBActionPerformed);
+        jPanel14.add(reportingEnabledCB);
 
         filterEnabledCB.setText("filterEnabled");
         filterEnabledCB.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -427,8 +427,8 @@ public class AggregationAddModify extends javax.swing.JFrame {
     private void updateIntervalTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateIntervalTFActionPerformed
     }//GEN-LAST:event_updateIntervalTFActionPerformed
 
-    private void generationEnabledCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generationEnabledCBActionPerformed
-    }//GEN-LAST:event_generationEnabledCBActionPerformed
+    private void reportingEnabledCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reportingEnabledCBActionPerformed
+    }//GEN-LAST:event_reportingEnabledCBActionPerformed
 
     private void filterEnabledCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filterEnabledCBActionPerformed
     }//GEN-LAST:event_filterEnabledCBActionPerformed
@@ -517,7 +517,7 @@ public class AggregationAddModify extends javax.swing.JFrame {
                 null,
                 filterEnabledCB.isSelected(),
                 new Duration(filteredTimeout),
-                generationEnabledCB.isSelected(),
+                reportingEnabledCB.isSelected(),
                 makeNewAggregationParameterSetList());
 
         AggregationDefinitionList aDefs = new AggregationDefinitionList();
@@ -530,7 +530,7 @@ public class AggregationAddModify extends javax.swing.JFrame {
             Logger.getLogger(AggregationAddModify.class.getName()).log(Level.INFO, "addDefinition returned {0} object instance identifiers (Aggregation)", output.size());
             aggregationTableData.addRow(
                     new Object[]{output.get(0).intValue(), aDef.getName(), aDef.getDescription(),
-                        categoryCB.getItemAt(aDef.getCategory().getOrdinal()).toString(), aDef.getGenerationEnabled(),
+                        categoryCB.getItemAt(aDef.getCategory().getOrdinal()).toString(), aDef.getReportingEnabled(),
                         aDef.getUpdateInterval().getValue(), aDef.getFilterEnabled(), aDef.getFilteredTimeout().getValue()}
             );
             DefaultTableModel tmp = new DefaultTableModel();
@@ -545,7 +545,7 @@ public class AggregationAddModify extends javax.swing.JFrame {
             aggregationTableData.removeRow(aggregationDefinitionSelectedIndex);
             aggregationTableData.insertRow(aggregationDefinitionSelectedIndex,
                     new Object[]{objIds.get(0).intValue(), aDef.getName(), aDef.getDescription(),
-                        categoryCB.getItemAt(aDef.getCategory().getOrdinal()).toString(), aDef.getGenerationEnabled(),
+                        categoryCB.getItemAt(aDef.getCategory().getOrdinal()).toString(), aDef.getReportingEnabled(),
                         aDef.getUpdateInterval().getValue(), aDef.getFilterEnabled(), aDef.getFilteredTimeout().getValue()}
             );
             DefaultTableModel tmp = new DefaultTableModel();
@@ -562,7 +562,7 @@ public class AggregationAddModify extends javax.swing.JFrame {
     private javax.swing.JTextField descriptionTF;
     private javax.swing.JCheckBox filterEnabledCB;
     private javax.swing.JTextField filteredTimeoutTF;
-    private javax.swing.JCheckBox generationEnabledCB;
+    private javax.swing.JCheckBox reportingEnabledCB;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;

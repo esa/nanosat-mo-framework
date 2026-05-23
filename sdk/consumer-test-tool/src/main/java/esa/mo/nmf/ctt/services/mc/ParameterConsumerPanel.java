@@ -115,7 +115,7 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
                                                                                                         null, null,
                                                                                                         null, null,
                                                                                                         null}},
-            new String[]{"Obj Inst Id", "name", "description", "rawType", "rawUnit", "generationEnabled",
+            new String[]{"Obj Inst Id", "name", "description", "rawType", "rawUnit", "reportingEnabled",
                          "updateInterval"}) {
             Class[] types = new Class[]{java.lang.Integer.class, java.lang.String.class, java.lang.String.class,
                                         java.lang.Object.class, java.lang.String.class, java.lang.Boolean.class,
@@ -148,11 +148,11 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
         setValueButton.addActionListener(this::setValueButtonActionPerformed);
         jPanel1.add(setValueButton);
 
-        enableDefinitionAllAgg.setText("enableGeneration(0)");
+        enableDefinitionAllAgg.setText("enableReporting(0)");
         enableDefinitionAllAgg.addActionListener(this::enableDefinitionAllAggActionPerformed);
         jPanel1.add(enableDefinitionAllAgg);
 
-        enableDefinitionButtonAgg.setText("enableGeneration");
+        enableDefinitionButtonAgg.setText("enableReporting");
         enableDefinitionButtonAgg.addActionListener(this::enableDefinitionButtonAggActionPerformed);
         jPanel1.add(enableDefinitionButtonAgg);
 
@@ -270,19 +270,19 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
         if (parameterTable.getSelectedRow() == -1) {  // Used to avoid problems if no row is selected
             ParameterDefinition parameterDefinition = (ParameterDefinition) parameterTable.getFirstCOMObject().getObject();
             if (parameterDefinition != null) {
-                curState = parameterDefinition.getGenerationEnabled();
+                curState = parameterDefinition.getReportingEnabled();
             } else {
                 curState = true;
             }
         } else {
-            curState = ((ParameterDefinition) parameterTable.getSelectedCOMObject().getObject()).getGenerationEnabled();
+            curState = ((ParameterDefinition) parameterTable.getSelectedCOMObject().getObject()).getReportingEnabled();
         }
 
         LongList ids = new LongList();
         ids.add(0L);  // wildcard
 
         try {
-            this.serviceMCParameter.getParameterStub().enableGeneration(!curState, ids);
+            this.serviceMCParameter.getParameterStub().enableReporting(!curState, ids);
             parameterTable.switchEnabledstatusAll(!curState);
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -294,12 +294,12 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
             return;  // Well, then nothing to be done here folks!
         }
 
-        Boolean curState = ((ParameterDefinition) parameterTable.getSelectedCOMObject().getObject()).getGenerationEnabled();
+        Boolean curState = ((ParameterDefinition) parameterTable.getSelectedCOMObject().getObject()).getReportingEnabled();
         LongList ids = new LongList();
         ids.add(parameterTable.getSelectedDefinitionObjId());
 
         try {
-            this.serviceMCParameter.getParameterStub().enableGeneration(!curState, ids);
+            this.serviceMCParameter.getParameterStub().enableReporting(!curState, ids);
             parameterTable.switchEnabledstatus(!curState);
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);

@@ -289,7 +289,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
     }
 
     @Override
-    public LongList enableGeneration(final Boolean enable, final LongList ids,
+    public LongList enableReporting(final Boolean enable, final LongList ids,
             final MALInteraction interaction) throws MALException, MALInteractionException {
         UIntegerList unkIndexList = new UIntegerList();
 
@@ -306,7 +306,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
         for (Long id : ids) {  // requirement: 3.7.9.2.d
             if (id == 0) {  // Is it the wildcard '0'? requirement: 3.7.9.2.c
-                manager.setGenerationEnabledAll(enable,
+                manager.setReportingEnabledAll(enable,
                         null, connection.getConnectionDetails());
                 periodicReportingManager.refreshAll();
                 periodicSamplingManager.refreshAll();
@@ -336,7 +336,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         // requirement: 3.7.9.2.i (This part of the code is not reached if an error is thrown)
         for (int index = 0; index < objIdToBeEnabled.size(); index++) {
             // requirement: 3.7.3.c, 3.7.9.2.f and 3.7.9.2.j, k
-            Long out = manager.setGenerationEnabled(objIdToBeEnabled.get(index),
+            Long out = manager.setReportingEnabled(objIdToBeEnabled.get(index),
                     enable, null, connection.getConnectionDetails());
             output.add(out);
 
@@ -884,7 +884,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
             }
 
             if (aDef != null) { // Does it exist in the Aggregation Definitions List?
-                if (aDef.getGenerationEnabled()) { //requirement 3.7.3.a, 3.7.3.b
+                if (aDef.getReportingEnabled()) { //requirement 3.7.3.a, 3.7.3.b
                     manager.populateAggregationValues(id); // Reset the Sampling Values
                     if (aDef.getReportInterval().getInSeconds() != 0) { // Is the periodic reporting active? (requirement: 3.7.3.i, 3.7.9.2.k)
                         this.addPeriodicReporting(id);
@@ -1092,7 +1092,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
         private void addPeriodicSampling(Long identityId) {
             final AggregationDefinition aggrDef = manager.getAggregationDefinition(identityId);
-            if (!aggrDef.getGenerationEnabled()) {
+            if (!aggrDef.getReportingEnabled()) {
                 return; // Periodic Sampling shall not occur if the generation is not enabled at the definition level
             }
             final int parameterSetsTotal = aggrDef.getParameterSets().size();

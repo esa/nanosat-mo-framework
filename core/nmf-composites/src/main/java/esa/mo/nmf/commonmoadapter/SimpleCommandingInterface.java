@@ -51,10 +51,10 @@ public interface SimpleCommandingInterface {
      * addDataReceivedListener() method.
      *
      * @param parameterNames Names of the parameters to toggle the generation for
-     * @param generationEnabled Whether to enable or disable the parameters generation
+     * @param reportingEnabled Whether to enable or disable the parameters generation
      * @throws NMFException in case something goes wrong
      */
-    void toggleParametersGeneration(List<String> parameterNames, boolean generationEnabled) throws NMFException;
+    void toggleParametersGeneration(List<String> parameterNames, boolean reportingEnabled) throws NMFException;
 
     /**
      * The addDataReceivedListener method allows an external software entity to submit a

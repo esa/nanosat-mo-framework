@@ -177,7 +177,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
     }
 
     @Override
-    public LongList enableGeneration(final Boolean enable, final LongList ids,
+    public LongList enableReporting(final Boolean enable, final LongList ids,
             final MALInteraction interaction) throws MALException, MALInteractionException {
         UIntegerList unkIndexList = new UIntegerList();
 
@@ -194,7 +194,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
         for (Long id : ids) {
             if (id == 0) {  // Is it the wildcard '0'?
-                manager.setGenerationEnabledAll(enable, null, connection.getConnectionDetails());
+                manager.setReportingEnabledAll(enable, null, connection.getConnectionDetails());
                 periodicReportingManager.refreshAll();
                 foundWildcard = true;
                 break;
@@ -223,7 +223,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         for (int index = 0; index < objIdToBeEnabled.size(); index++) {
             // requirement: 3.3.10.2.e, 3.3.10.2.f, 3.3.10.2.j and 3.3.10.2.k
             Long id = objIdToBeEnabled.get(index);
-            Long out = manager.setGenerationEnabled(id, enable, null,
+            Long out = manager.setReportingEnabled(id, enable, null,
                     connection.getConnectionDetails());
             output.add(out);
 
@@ -303,7 +303,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         TimeList timestamps = new TimeList();
         for (int i = 0; i < newParamValues.size(); i++) {
             final Long id = rawValueList.get(i).getParameterId();
-            if (manager.getParameterDefinition(id).getGenerationEnabled()) {
+            if (manager.getParameterDefinition(id).getReportingEnabled()) {
                 //for the parameters where values have to be published (generation is enabled)
                 toPublishParamInstances.add(new ParameterInstance(manager.getName(id),
                         newParamValues.get(i), null, null));
@@ -690,7 +690,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             if (pDef != null) { // Does it exist in the Parameter Definitions List?
                 //requirement: 3.3.3.d
                 if (pDef.getReportInterval().getInSeconds() != 0
-                        && pDef.getGenerationEnabled()) { // Is the periodic reporting active?
+                        && pDef.getReportingEnabled()) { // Is the periodic reporting active?
                     this.addPeriodicReporting(id);
                 }
             }
@@ -741,7 +741,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
                     if (identityId == -1) {
                         return;
                     }
-                    if (manager.getParameterDefinition(identityId).getGenerationEnabled()) {
+                    if (manager.getParameterDefinition(identityId).getReportingEnabled()) {
                         publishPeriodicParameterUpdate(identityId);
                     }
                 }
@@ -892,7 +892,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
                 }
 
                 ParameterDefinition pDef2 = (ParameterDefinition) manager.getDefinition(id);
-                if (pDef2.getGenerationEnabled()) {
+                if (pDef2.getReportingEnabled()) {
                     outIds.add(id); // Don't push the PVals that are not enabled...
                     ParameterValue value = parameter.getParameterValue();
                     Attribute convertedValue = value.getConvertedValue();

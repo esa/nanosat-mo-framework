@@ -63,25 +63,25 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
     private NanoSatMOSupervisor nmfSupervisor;
     private final OSValidator osValidator = new OSValidator();
 
-    @Parameter(description = "The version of the operating system.", generationEnabled = false,
+    @Parameter(description = "The version of the operating system.", reportingEnabled = false,
             onGetFunction = "onGetOSVersion", readOnly = true, reportIntervalSeconds = 10)
     public String OSVersion = "";
 
     @Parameter(description = "The Current partition where the OS is running. Only works for linux",
-            generationEnabled = false, onGetFunction = "onGetOSPartition", readOnly = true,
+            reportingEnabled = false, onGetFunction = "onGetOSPartition", readOnly = true,
             reportIntervalSeconds = 10)
     public String OSPartition = "";
 
-    @Parameter(generationEnabled = false, readOnly = true, reportIntervalSeconds = 10)
+    @Parameter(reportingEnabled = false, readOnly = true, reportIntervalSeconds = 10)
     public float attitudeQuatA;
-    @Parameter(generationEnabled = false, readOnly = true, reportIntervalSeconds = 10)
+    @Parameter(reportingEnabled = false, readOnly = true, reportIntervalSeconds = 10)
     public float attitudeQuatB;
-    @Parameter(generationEnabled = false, readOnly = true, reportIntervalSeconds = 10)
+    @Parameter(reportingEnabled = false, readOnly = true, reportIntervalSeconds = 10)
     public float attitudeQuatC;
-    @Parameter(generationEnabled = false, readOnly = true, reportIntervalSeconds = 10)
+    @Parameter(reportingEnabled = false, readOnly = true, reportIntervalSeconds = 10)
     public float attitudeQuatD;
 
-    @Parameter(generationEnabled = false, readOnly = false, reportIntervalSeconds = 10)
+    @Parameter(reportingEnabled = false, readOnly = false, reportIntervalSeconds = 10)
     public Duration attitudeMonitoringInterval = new Duration(0.0);
 
     public MCSupervisorBasicAdapter() {

@@ -74,9 +74,9 @@ import org.ccsds.moims.mo.platform.structures.*;
         sendUnchanged = true, sampleInterval = 3)
 @Aggregation(id = PayloadsTestMCAdapter.AGGREGATION_ECLIPSED,
         description = "Aggregates: CADC0884, CADC0886, CADC0888, CADC0890, CADC0892, CADC0894",
-        reportInterval = 10, sendUnchanged = true, sampleInterval = 3, generationEnabled = true)
+        reportInterval = 10, sendUnchanged = true, sampleInterval = 3, reportingEnabled = true)
 @Aggregation(id = PayloadsTestMCAdapter.AGGREGATION_IADCS_TELEMETRY, description = "iADCS telemetry data",
-        reportInterval = 5, sendUnchanged = true, sampleInterval = 3, generationEnabled = true)
+        reportInterval = 5, sendUnchanged = true, sampleInterval = 3, reportingEnabled = true)
 public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
 
     // comma separated list of supervisor parameters to proxy
@@ -120,170 +120,170 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
     private final PayloadsTestActionsHandler actionsHandler;
     public SimpleCommandingInterface simpleCommandingInterface;
     //----------------------------------- Camera Parameters -----------------------------------------
-    @Parameter(description = "The number of pictures taken", generationEnabled = false,
+    @Parameter(description = "The number of pictures taken", reportingEnabled = false,
             onGetFunction = "onGetPicturesTaken", readOnly = true, reportIntervalSeconds = 10)
     Integer NumberOfPicturesTaken = 0;
 
-    @Parameter(description = "Camera red channel gain", generationEnabled = false, reportIntervalSeconds = 10)
+    @Parameter(description = "Camera red channel gain", reportingEnabled = false, reportIntervalSeconds = 10)
     public float cameraGainR = DEFAULT_CAMERA_GAIN;
 
-    @Parameter(description = "Camera green channel gain", generationEnabled = false, reportIntervalSeconds = 10)
+    @Parameter(description = "Camera green channel gain", reportingEnabled = false, reportIntervalSeconds = 10)
     public float cameraGainG = DEFAULT_CAMERA_GAIN;
 
-    @Parameter(description = "Camera blue channel gain", generationEnabled = false, reportIntervalSeconds = 10)
+    @Parameter(description = "Camera blue channel gain", reportingEnabled = false, reportIntervalSeconds = 10)
     public float cameraGainB = DEFAULT_CAMERA_GAIN;
 
-    @Parameter(description = "Camera exposure time", generationEnabled = false, reportIntervalSeconds = 10)
+    @Parameter(description = "Camera exposure time", reportingEnabled = false, reportIntervalSeconds = 10)
     public float cameraExposureTime = DEFAULT_CAMERA_EXPOSURE_TIME;
 
     //-----------------------------------------------------------------------------------------------
     //-------------------------------------- GPS Parameters -----------------------------------------
     @Parameter(description = "The number of satellites in view of GPS receiver.", rawUnit = "sats",
-            generationEnabled = false, onGetFunction = "onGPSSatsInView", readOnly = true)
+            reportingEnabled = false, onGetFunction = "onGPSSatsInView", readOnly = true)
     Integer GPS_NumberOfSatellitesInView = 0;
 
     @Parameter(description = "The GPS Latitude", rawUnit = "degrees",
-            generationEnabled = false, onGetFunction = "onGetLatitude",
+            reportingEnabled = false, onGetFunction = "onGetLatitude",
             readOnly = true, reportIntervalSeconds = 2, aggregations = {AGGREGATION_GPS})
     Float GPS_Latitude = 0.0f;
 
     @Parameter(description = "The GPS Longitude", rawUnit = "degrees",
-            generationEnabled = false, onGetFunction = "onGetLongitude",
+            reportingEnabled = false, onGetFunction = "onGetLongitude",
             readOnly = true, reportIntervalSeconds = 2, aggregations = {AGGREGATION_GPS})
     Float GPS_Longitude = 0.0f;
 
     @Parameter(description = "The GPS Altitude", rawUnit = "meters",
-            generationEnabled = false, onGetFunction = "onGetAltitude",
+            reportingEnabled = false, onGetFunction = "onGetAltitude",
             readOnly = true, reportIntervalSeconds = 2, aggregations = {AGGREGATION_GPS})
     Float GPS_Altitude = 0.0f;
 
     @Parameter(description = "The GPS elapsed Time", rawUnit = "seconds",
-            generationEnabled = false, onGetFunction = "onGetGPSElapsedTime", readOnly = true)
+            reportingEnabled = false, onGetFunction = "onGetGPSElapsedTime", readOnly = true)
     Duration GPS_ElapsedTime = new Duration();
 
     //-----------------------------------------------------------------------------------------------
     //------------------------------------ Magnetic Field Parameters---------------------------------
     @Parameter(name = PARAMETER_MAG_X, description = "The Magnetometer X component", rawUnit = "microTesla",
-            generationEnabled = false, onGetFunction = "onGetMagneticField_X", readOnly = true,
+            reportingEnabled = false, onGetFunction = "onGetMagneticField_X", readOnly = true,
             reportIntervalSeconds = 2, aggregations = {AGGREGATION_MAG, AGGREGATION_IADCS_TELEMETRY})
     Float MagneticField_X = 0.0f;
 
     @Parameter(name = PARAMETER_MAG_Y, description = "The Magnetometer Y component", rawUnit = "microTesla",
-            generationEnabled = false, onGetFunction = "onGetMagneticField_Y", readOnly = true,
+            reportingEnabled = false, onGetFunction = "onGetMagneticField_Y", readOnly = true,
             reportIntervalSeconds = 2, aggregations = {AGGREGATION_MAG, AGGREGATION_IADCS_TELEMETRY})
     Float MagneticField_Y = 0.0f;
 
     @Parameter(name = PARAMETER_MAG_Z, description = "The Magnetometer Z component", rawUnit = "microTesla",
-            generationEnabled = false, onGetFunction = "onGetMagneticField_Z", readOnly = true,
+            reportingEnabled = false, onGetFunction = "onGetMagneticField_Z", readOnly = true,
             reportIntervalSeconds = 2, aggregations = {AGGREGATION_MAG, AGGREGATION_IADCS_TELEMETRY})
     Float MagneticField_Z = 0.0f;
 
     //-------------------------------------- Supervisor Parameters ----------------------------------
-    @Parameter(name = "CADC0884", description = "I_PD1_THETA", generationEnabled = false,
+    @Parameter(name = "CADC0884", description = "I_PD1_THETA", reportingEnabled = false,
             reportIntervalSeconds = 5, aggregations = {AGGREGATION_ECLIPSED})
     Float IPD1Theta = 0.0f;
 
-    @Parameter(name = "CADC0886", description = "I_PD2_THETA", generationEnabled = false,
+    @Parameter(name = "CADC0886", description = "I_PD2_THETA", reportingEnabled = false,
             reportIntervalSeconds = 5, aggregations = {AGGREGATION_ECLIPSED})
     Float IPD2Theta = 0.0f;
 
-    @Parameter(name = "CADC0888", description = "I_PD3_THETA", generationEnabled = false,
+    @Parameter(name = "CADC0888", description = "I_PD3_THETA", reportingEnabled = false,
             reportIntervalSeconds = 5, aggregations = {AGGREGATION_ECLIPSED})
     Float IPD3Theta = 0.0f;
 
-    @Parameter(name = "CADC0890", description = "I_PD4_THETA", generationEnabled = false,
+    @Parameter(name = "CADC0890", description = "I_PD4_THETA", reportingEnabled = false,
             reportIntervalSeconds = 5, aggregations = {AGGREGATION_ECLIPSED})
     Float IPD4Theta = 0.0f;
 
-    @Parameter(name = "CADC0892", description = "I_PD5_THETA", generationEnabled = false,
+    @Parameter(name = "CADC0892", description = "I_PD5_THETA", reportingEnabled = false,
             reportIntervalSeconds = 5, aggregations = {AGGREGATION_ECLIPSED})
     Float IPD5Theta = 0.0f;
 
-    @Parameter(name = "CADC0894", description = "I_PD6_THETA", generationEnabled = false,
+    @Parameter(name = "CADC0894", description = "I_PD6_THETA", reportingEnabled = false,
             reportIntervalSeconds = 5, aggregations = {AGGREGATION_ECLIPSED})
     Float IPD6Theta = 0.0f;
 
-    @Parameter(generationEnabled = false, readOnly = true, reportIntervalSeconds = 5, onGetFunction = "onGetEclipsed")
+    @Parameter(reportingEnabled = false, readOnly = true, reportIntervalSeconds = 5, onGetFunction = "onGetEclipsed")
     Boolean eclipsed = false;
     final static Float ECLIPSED_EPSILON = 0.001f;
 
     @Parameter(name = "Supervisor TM Polling Enabled",
-            description = "Enables pooling telemetry data from the supervisor", generationEnabled = false)
+            description = "Enables pooling telemetry data from the supervisor", reportingEnabled = false)
     Boolean supervisorTMPollingEnabled = false;
 
     //-------------------------------------- ADCS Attitude Telemetry Parameters ----------------------------------------
     @Parameter(name = PARAMETER_ATTITUDE_Q_A, description = "The Attitude quaternion A component",
-            generationEnabled = false, onGetFunction = "onGetAttitudeQuatA", readOnly = true,
+            reportingEnabled = false, onGetFunction = "onGetAttitudeQuatA", readOnly = true,
             reportIntervalSeconds = 5, aggregations = {AGGREGATION_IADCS_TELEMETRY})
     Float attitudeQuatA = 0.0f;
 
     @Parameter(name = PARAMETER_ATTITUDE_Q_B, description = "The Attitude quaternion B component",
-            generationEnabled = false, onGetFunction = "onGetAttitudeQuatB", readOnly = true,
+            reportingEnabled = false, onGetFunction = "onGetAttitudeQuatB", readOnly = true,
             reportIntervalSeconds = 5, aggregations = {AGGREGATION_IADCS_TELEMETRY})
     Float attitudeQuatB = 0.0f;
 
     @Parameter(name = PARAMETER_ATTITUDE_Q_C, description = "The Attitude quaternion C component",
-            generationEnabled = false, onGetFunction = "onGetAttitudeQuatC", readOnly = true,
+            reportingEnabled = false, onGetFunction = "onGetAttitudeQuatC", readOnly = true,
             reportIntervalSeconds = 5, aggregations = {AGGREGATION_IADCS_TELEMETRY})
     Float attitudeQuatC = 0.0f;
 
     @Parameter(name = PARAMETER_ATTITUDE_Q_D, description = "The Attitude quaternion D component",
-            generationEnabled = false, onGetFunction = "onGetAttitudeQuatD", readOnly = true,
+            reportingEnabled = false, onGetFunction = "onGetAttitudeQuatD", readOnly = true,
             reportIntervalSeconds = 5, aggregations = {AGGREGATION_IADCS_TELEMETRY})
     Float attitudeQuatD = 0.0f;
 
     @Parameter(name = PARAMETER_ANGULAR_VELOCITY_X, description = "The angular velocity X component",
-            generationEnabled = false, onGetFunction = "onGetAngularVelocityX", readOnly = true,
+            reportingEnabled = false, onGetFunction = "onGetAngularVelocityX", readOnly = true,
             reportIntervalSeconds = 5, aggregations = {AGGREGATION_IADCS_TELEMETRY})
     Float angularVelocityX = 0.0f;
 
     @Parameter(name = PARAMETER_ANGULAR_VELOCITY_Y, description = "The angular velocity Y component",
-            generationEnabled = false, onGetFunction = "onGetAngularVelocityY", readOnly = true,
+            reportingEnabled = false, onGetFunction = "onGetAngularVelocityY", readOnly = true,
             reportIntervalSeconds = 5, aggregations = {AGGREGATION_IADCS_TELEMETRY})
     Float angularVelocityY = 0.0f;
 
     @Parameter(name = PARAMETER_ANGULAR_VELOCITY_Z, description = "The angular velocity Z component",
-            generationEnabled = false, onGetFunction = "onGetAngularVelocityZ", readOnly = true,
+            reportingEnabled = false, onGetFunction = "onGetAngularVelocityZ", readOnly = true,
             reportIntervalSeconds = 5, aggregations = {AGGREGATION_IADCS_TELEMETRY})
     Float angularVelocityZ = 0.0f;
 
     @Parameter(name = PARAMETER_SUN_VECTOR_X, description = "The sun vector X component",
-            generationEnabled = false, onGetFunction = "onGetSunVectorX", readOnly = true,
+            reportingEnabled = false, onGetFunction = "onGetSunVectorX", readOnly = true,
             reportIntervalSeconds = 5, aggregations = {AGGREGATION_IADCS_TELEMETRY})
     Float sunVectorX = 0.0f;
 
     @Parameter(name = PARAMETER_SUN_VECTOR_Y, description = "The sun vector Y component",
-            generationEnabled = false, onGetFunction = "onGetSunVectorY", readOnly = true,
+            reportingEnabled = false, onGetFunction = "onGetSunVectorY", readOnly = true,
             reportIntervalSeconds = 5, aggregations = {AGGREGATION_IADCS_TELEMETRY})
     Float sunVectorY = 0.0f;
 
     @Parameter(name = PARAMETER_SUN_VECTOR_Z, description = "The sun vector Z component",
-            generationEnabled = false, onGetFunction = "onGetSunVectorZ", readOnly = true,
+            reportingEnabled = false, onGetFunction = "onGetSunVectorZ", readOnly = true,
             reportIntervalSeconds = 5, aggregations = {AGGREGATION_IADCS_TELEMETRY})
     Float sunVectorZ = 0.0f;
 
     @Parameter(description = "True when achieved desired pointing mode, false otherwise",
-            generationEnabled = false, onGetFunction = "onGetStateTarget", readOnly = true,
+            reportingEnabled = false, onGetFunction = "onGetStateTarget", readOnly = true,
             reportIntervalSeconds = 5, aggregations = {AGGREGATION_IADCS_TELEMETRY})
     Boolean stateTarget = false;
 
     //-------------------------------------- ADCS Actuators Telemetry Parameters ----------------------------------------
     @Parameter(name = PARAMETER_MTQ_X, description = "The magnetorquers dipole moment X component",
-            generationEnabled = false, onGetFunction = "onGetMtqDipoleMomentX", readOnly = true,
+            reportingEnabled = false, onGetFunction = "onGetMtqDipoleMomentX", readOnly = true,
             reportIntervalSeconds = 5, aggregations = {AGGREGATION_IADCS_TELEMETRY})
     Float mtqDipoleMomentX = 0.0f;
 
     @Parameter(name = PARAMETER_MTQ_Y, description = "The magnetorquers dipole moment Y component",
-            generationEnabled = false, onGetFunction = "onGetMtqDipoleMomentY", readOnly = true,
+            reportingEnabled = false, onGetFunction = "onGetMtqDipoleMomentY", readOnly = true,
             reportIntervalSeconds = 5, aggregations = {AGGREGATION_IADCS_TELEMETRY})
     Float mtqDipoleMomentY = 0.0f;
 
     @Parameter(name = PARAMETER_MTQ_Z, description = "The magnetorquers dipole moment Z component",
-            generationEnabled = false, onGetFunction = "onGetMtqDipoleMomentZ", readOnly = true,
+            reportingEnabled = false, onGetFunction = "onGetMtqDipoleMomentZ", readOnly = true,
             reportIntervalSeconds = 5, aggregations = {AGGREGATION_IADCS_TELEMETRY})
     Float mtqDipoleMomentZ = 0.0f;
 
-    @Parameter(description = "Current state of the magnetorquers", generationEnabled = false,
+    @Parameter(description = "Current state of the magnetorquers", reportingEnabled = false,
             onGetFunction = "onGetMtqState", readOnly = true,
             reportIntervalSeconds = 5, aggregations = {AGGREGATION_IADCS_TELEMETRY})
     UInteger mtqState = new UInteger(0);
@@ -475,7 +475,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
                         }
                     }
 
-                    supervisorParameterService.getParameterStub().enableGeneration(true, supervisorIds);
+                    supervisorParameterService.getParameterStub().enableReporting(true, supervisorIds);
 
                     Identifier subscriptionId = new Identifier("PayloadsTestSupervisorSubscription");
                     Subscription subscription = new Subscription(subscriptionId);

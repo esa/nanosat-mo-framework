@@ -415,7 +415,7 @@ public final class AggregationManager extends MCManager {
             Long id = aggrParamSet.getParameters().get(k);
             ParameterDefinition paramDef = parameterManager.getParameterDefinition(id);
 
-            if (paramDef.getGenerationEnabled() && paramDef.getReportInterval().getInSeconds() != 0) {
+            if (paramDef.getReportingEnabled() && paramDef.getReportInterval().getInSeconds() != 0) {
                 AggregationParameterValue agg = newParameterValueSamples.get(k);
                 ParameterValue pVal = agg.getValue();
                 if (currentParamValues.get(k).getValue().getRawValue().equals(pVal.getRawValue())) {
@@ -868,7 +868,7 @@ public final class AggregationManager extends MCManager {
         return true;
     }
 
-    public Long setGenerationEnabled(Long defId, Boolean status, ObjectKey source,
+    public Long setReportingEnabled(Long defId, Boolean status, ObjectKey source,
             SingleConnectionDetails connectionDetails) {
         AggregationDefinition def = this.getAggregationDefinition(defId);
 
@@ -876,7 +876,7 @@ public final class AggregationManager extends MCManager {
             return null;
         }
         //requirement: 3.7.9.2.f    
-        if (def.getGenerationEnabled().booleanValue() == status) { // Is it set with the requested value already?
+        if (def.getReportingEnabled().booleanValue() == status) { // Is it set with the requested value already?
             return defId; // the value was not changed
         }
 
@@ -889,12 +889,12 @@ public final class AggregationManager extends MCManager {
         return this.update(defId, newDef, source, connectionDetails);
     }
 
-    public void setGenerationEnabledAll(Boolean bool, ObjectKey source, SingleConnectionDetails connectionDetails) {
+    public void setReportingEnabledAll(Boolean bool, ObjectKey source, SingleConnectionDetails connectionDetails) {
         LongList identityIds = this.listAllDefinitions();
 
         for (Long identityId : identityIds) {
             AggregationDefinition def = this.getAggregationDefinition(identityId);
-            if (def.getGenerationEnabled().booleanValue() != bool) {
+            if (def.getReportingEnabled().booleanValue() != bool) {
                 AggregationDefinition newDef = new AggregationDefinition(def.getName(),
                         def.getDescription(), def.getCategory(), def.getReportInterval(),
                         def.getSendUnchanged(), def.getSendDefinitions(), def.getFilterEnabled(),

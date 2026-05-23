@@ -110,7 +110,7 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
                                                                                                         null, null,
                                                                                                         null, null,
                                                                                                         null}},
-            new String[]{"Obj Inst Id", "name", "description", "rawType", "rawUnit", "generationEnabled",
+            new String[]{"Obj Inst Id", "name", "description", "rawType", "rawUnit", "reportingEnabled",
                          "updateInterval"}) {
             Class[] types = new Class[]{java.lang.Integer.class, java.lang.String.class, java.lang.String.class,
                                         java.lang.Object.class, java.lang.String.class, java.lang.Boolean.class,
@@ -135,11 +135,11 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
 
         parameterTab.setLayout(new java.awt.GridLayout(2, 1));
 
-        enableDefinitionAllAgg.setText("enableGeneration(0)");
+        enableDefinitionAllAgg.setText("enableReporting(0)");
         enableDefinitionAllAgg.addActionListener(this::enableDefinitionAllAggActionPerformed);
         jPanel1.add(enableDefinitionAllAgg);
 
-        enableDefinitionButtonAgg.setText("enableGeneration");
+        enableDefinitionButtonAgg.setText("enableReporting");
         enableDefinitionButtonAgg.addActionListener(this::enableDefinitionButtonAggActionPerformed);
         jPanel1.add(enableDefinitionButtonAgg);
 
@@ -286,19 +286,19 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
         if (alertTable.getSelectedRow() == -1) {  // Used to avoid problems if no row is selected
             AlertDefinition alertDefinition = (AlertDefinition) alertTable.getFirstCOMObject().getObject();
             if (alertDefinition != null) {
-                curState = alertDefinition.getGenerationEnabled();
+                curState = alertDefinition.getReportingEnabled();
             } else {
                 curState = true;
             }
         } else {
-            curState = ((AlertDefinition) alertTable.getSelectedCOMObject().getObject()).getGenerationEnabled();
+            curState = ((AlertDefinition) alertTable.getSelectedCOMObject().getObject()).getReportingEnabled();
         }
 
         LongList ids = new LongList();
         ids.add(0L);  // wildcard
 
         try {
-            this.serviceMCAlert.getAlertStub().enableGeneration(!curState, ids);
+            this.serviceMCAlert.getAlertStub().enableReporting(!curState, ids);
             alertTable.switchEnabledstatusAll(!curState);
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -314,12 +314,12 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
         LongList longlist = new LongList();
         longlist.add(objId);
         */
-        Boolean curState = ((AlertDefinition) alertTable.getSelectedCOMObject().getObject()).getGenerationEnabled();
+        Boolean curState = ((AlertDefinition) alertTable.getSelectedCOMObject().getObject()).getReportingEnabled();
         LongList ids = new LongList();
         ids.add(0L);  // wildcard
 
         try {
-            this.serviceMCAlert.getAlertStub().enableGeneration(!curState, ids);
+            this.serviceMCAlert.getAlertStub().enableReporting(!curState, ids);
             alertTable.switchEnabledstatus(!curState);
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
