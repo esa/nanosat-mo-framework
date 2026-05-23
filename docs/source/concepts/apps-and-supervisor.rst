@@ -79,26 +79,8 @@ Four communication patterns appear repeatedly in NMF deployments:
   processing: a first app classified image tiles as cloudy or clear; a
   second app processed only the clear ones.
 
-.. mermaid::
-
-    flowchart LR
-        subgraph ground[Ground segment]
-            G[Consumer / CTT / Ground app]
-        end
-        subgraph space[Spacecraft]
-            S[Supervisor]
-            P[Platform services]
-            A[App A]
-            B[App B]
-            S --- P
-            S -. spawns .-> A
-            S -. spawns .-> B
-        end
-        G -->|MO over maltcp| S
-        G -->|MO over maltcp| A
-        G -->|MO over maltcp| B
-        A -. consumes .-> P
-        A -->|app chaining| B
+.. image:: ../images/communication-paths.svg
+   :align: center
 
 For ground deployments where the consumer is on a network separate from the
 space link, a **GroundMOProxy** bridges the two. See the Mission Integration
