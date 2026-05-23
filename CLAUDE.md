@@ -70,8 +70,8 @@ This module defines the main abstractions that space apps and missions use:
 | Class | Role |
 |---|---|
 | `NMFInterface` | Core interface for NMF providers; exposes `getCOMServices()`, `getMCServices()`, `getPlatformServices()` |
-| `NanoSatMOConnectorImpl` | Space app connector — connects to the Supervisor for platform/SM services |
-| `NanoSatMOSupervisor` | Runs on the satellite; manages the lifecycle of apps (start/stop) via `AppsLauncher` service |
+| `NanoSatMOConnectorImpl` | Space app connector. Provides its own independent COM stack (Archive, Event, Directory, ArchiveSync) and MC stack (Parameter, Alert, Aggregation, Action), plus Heartbeat. Consumes Platform services and the AppsLauncher service from the Supervisor. |
+| `NanoSatMOSupervisor` | Satellite supervisor. Provides its own independent COM stack (Archive, Event, Directory, ArchiveSync) and MC stack (Parameter, Alert, Aggregation, Action), plus Heartbeat, AppsLauncher, PackageManagement, and CommandExecutor. Platform services are provided by the mission-specific `initPlatformServices` implementation. |
 | `NanoSatMOMonolithic` | Self-contained provider composite (extends `NMFProvider`) for single-process deployments. **Not an NMF App** — used for standalone demos and tests; does not run under an Apps Launcher and does not coexist with other apps. |
 | `SpaceMOAdapterImpl` | Higher-level adapter for the space side |
 | `GroundMOAdapterImpl` | Higher-level adapter for the ground side |
