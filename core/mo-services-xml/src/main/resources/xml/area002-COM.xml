@@ -828,13 +828,13 @@
             <mal:capabilitySet number="1">
                 <mal:requestIP name="login" number="1" comment="The login operation allows a user to log in to the system. A specific deployment may place limits on the number of concurrent logins for a user, and in that case will fail the login operation with the TOO_MANY error.">
                     <mal:documentation name="Requirement" order="1">
-                        If the authenticationId field of the REQUEST message is not NULL, then the service provider shall return an INVALID error.
+                        If the authenticationId MAL header field of the REQUEST message is not NULL, then the service provider shall return an INVALID error.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        The service provider shall check the authenticationId field before applying all other tests.
+                        The service provider shall check the authenticationId MAL header field before applying all other tests.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
-                        The consumer MAL shall use the returned authId field as the authenticationId in future MAL messages for authentication.
+                        The consumer shall set the returned authId as the authenticationId MAL header field in all subsequent MAL messages.
                     </mal:documentation>
                     <mal:messages>
                         <mal:request>
@@ -871,7 +871,7 @@
                 </mal:requestIP>
                 <mal:submitIP name="logout" number="2" comment="The logout operation allows a user to log out from the system. No information is passed in the message as the MAL authentication Id is enough to identify the login.">
                     <mal:documentation name="Requirement" order="1">
-                        The service provider shall match a logged in user using the supplied authenticationId.
+                        The service provider shall identify the logged in user using the authenticationId MAL header field of the SUBMIT message.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
                         The service provider shall not return any errors from this operation.
