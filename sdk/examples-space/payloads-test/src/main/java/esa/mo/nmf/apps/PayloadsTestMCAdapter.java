@@ -363,9 +363,8 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
         ConditionalConversionList conditionalConversions = new ConditionalConversionList();
         conditionalConversions.add(condition);
 
-        Byte convertedType = Attribute.STRING_TYPE_SHORT_FORM.byteValue();
         String convertedUnit = "n/a";
-        return new ParameterConversion(convertedType, convertedUnit, conditionalConversions);
+        return new ParameterConversion(AttributeType.STRING, convertedUnit, conditionalConversions);
     }
 
     public void subscribeToSupervisorParameters(URI supervisorURI) {

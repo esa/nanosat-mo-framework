@@ -1445,8 +1445,8 @@
                     <mal:type area="MAL" list="false" name="Composite"/>
                 </mal:extends>
                 <mal:field name="convertedType" canBeNull="false"
-                           comment="The attribute short form part of the converted type of the parameter, e.g., for a MAL::String parameter this is 15.">
-                    <mal:type area="MAL" list="false" name="Octet"/>
+                           comment="The type of the converted value of the parameter.">
+                    <mal:type area="MAL" list="false" name="AttributeType"/>
                 </mal:field>
                 <mal:field name="convertedUnit" canBeNull="true"
                            comment="The converted parameter unit. If NULL then converted type has no unit.">

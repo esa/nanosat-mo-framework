@@ -150,9 +150,8 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
         ConditionalConversionList conditionalConversions = new ConditionalConversionList();
         conditionalConversions.add(condition);
 
-        Byte convertedType = Attribute.STRING_TYPE_SHORT_FORM.byteValue();
         String convertedUnit = "n/a";
-        ParameterConversion paramConversion = new ParameterConversion(convertedType, convertedUnit, conditionalConversions);
+        ParameterConversion paramConversion = new ParameterConversion(AttributeType.STRING, convertedUnit, conditionalConversions);
 
         // ------------------ Parameters ------------------
         ParameterDefinitionList defsOther = new ParameterDefinitionList();
