@@ -34,8 +34,10 @@ import java.util.List;
 import java.util.concurrent.Semaphore;
 import javax.swing.RowSorter;
 import javax.swing.SortOrder;
+import javax.swing.SwingUtilities;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import esa.mo.nmf.ctt.utils.TableUtils;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -107,6 +109,8 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
 
         TableRowSorter<TableModel> sorter = new TableRowSorter<>(archiveTable.getModel());
         archiveTable.setRowSorter(sorter);
+        archiveTableData.addTableModelListener(
+                e -> SwingUtilities.invokeLater(() -> TableUtils.packColumns(archiveTable)));
         this.addEntries(archiveObjectOutput);
     }
 

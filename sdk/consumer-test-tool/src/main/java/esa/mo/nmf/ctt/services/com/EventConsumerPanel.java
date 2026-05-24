@@ -34,6 +34,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import esa.mo.nmf.ctt.utils.TableUtils;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -116,6 +118,8 @@ public class EventConsumerPanel extends javax.swing.JPanel {
         });
         TableRowSorter<TableModel> sorter = new TableRowSorter<>(eventTable.getModel());
         eventTable.setRowSorter(sorter);
+        eventTableData.addTableModelListener(
+                e -> SwingUtilities.invokeLater(() -> TableUtils.packColumns(eventTable)));
     }
 
     public void init() {

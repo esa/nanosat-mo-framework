@@ -36,6 +36,7 @@ import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -69,6 +70,7 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
 
         comObjects = new ArrayList<>();
         this.defineTableContent();
+        tableData.addTableModelListener(e -> SwingUtilities.invokeLater(() -> TableUtils.packColumns(table)));
 
         table.addMouseListener(new MouseAdapter() {
             @Override

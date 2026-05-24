@@ -21,6 +21,7 @@
 package esa.mo.nmf.ctt.services.mc;
 
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
+import esa.mo.nmf.ctt.utils.TableUtils;
 import esa.mo.mc.impl.consumer.ActionConsumerServiceImpl;
 import esa.mo.nmf.NMFException;
 import esa.mo.nmf.ctt.windows.element.MOWindow;
@@ -170,6 +171,8 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
         };
         JTable executionLogTable = new JTable(executionLogModel);
         executionLogTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        executionLogModel.addTableModelListener(
+                e -> SwingUtilities.invokeLater(() -> TableUtils.packColumns(executionLogTable)));
 
         JLabel executionLogLabel = new JLabel("Execution Progress");
         executionLogLabel.setFont(executionLogLabel.getFont().deriveFont(Font.BOLD, 14f));
