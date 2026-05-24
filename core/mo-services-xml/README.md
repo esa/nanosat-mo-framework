@@ -10,7 +10,7 @@ This project includes the necessary XML files for the NanoSat MO Framework:
 The Common services and the M&C services do not need to be present as they can be dynamically linked directly from the respective projects.
 
 
-The COM services are like the standardized version with 2 additional extensions:
+The COM services are an enhanced version of the CCSDS COM specification with 2 additional extensions:
 * Pagination Filter for queries
 * ArchiveSync service defined for the NMF
 
