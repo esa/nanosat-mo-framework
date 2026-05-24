@@ -232,39 +232,36 @@
                 The reportingEnabled field in the ParameterDefinition shall specify whether reports for a parameter are published.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="13">
-                If the reportingEnabled field is TRUE, then the service provider shall publish reports for that parameter.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="14">
                 If the parameter requires periodic reports, then the reportInterval field in the ParameterDefinition shall specify the interval between reports.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="15">
+            <mal:documentation name="Service-level Requirement" order="14">
                 If the reportInterval field is set to '0', then the service provider shall not generate periodic reports for the parameter.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="16">
+            <mal:documentation name="Service-level Requirement" order="15">
                 If the parameter is periodic and reported via a periodic aggregation, and a new report has not been received in the aggregation period, then the service provider shall set the validityState field of the ParameterValue to EXPIRED.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="17">
+            <mal:documentation name="Service-level Requirement" order="16">
                 If the parameter raw value cannot be obtained, or calculated for synthetic parameters, then the service provider shall set the validityState field to INVALID_RAW and the rawValue field to NULL.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="18">
+            <mal:documentation name="Service-level Requirement" order="17">
                 If the validityExpression field is NULL or evaluates to TRUE, and the ParameterDefinition either does not contain a conversion or the conversion is successful, then the service provider shall set the validityState field to VALID.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="19">
+            <mal:documentation name="Service-level Requirement" order="18">
                 If the validityExpression field is NULL or evaluates to TRUE, and the conversion of the parameter value fails, then the service provider shall set the validityState field to INVALID_CONVERSION.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="20">
+            <mal:documentation name="Service-level Requirement" order="19">
                 If the validityExpression field is not NULL and the parameters used to determine the expression are not VALID, then the service provider shall set the validityState field to UNVERIFIED.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="21">
+            <mal:documentation name="Service-level Requirement" order="20">
                 If the validityExpression field is not NULL and the validity expression evaluates to FALSE, then the service provider shall set the validityState field to INVALID.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="22">
+            <mal:documentation name="Service-level Requirement" order="21">
                 If the validityState field is INVALID_CONVERSION, then the convertedValue field of the ParameterValue shall be NULL.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="23">
+            <mal:documentation name="Service-level Requirement" order="22">
                 If the validityState field is UNVERIFIED or INVALID and the ParameterDefinition contains a conversion, then the convertedValue field of the ParameterValue shall contain the converted value.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="24">
+            <mal:documentation name="Service-level Requirement" order="23">
                 Deployment-specific validityState values shall use values greater than 127. Note: the meaning of such values is deployment-specific and outside the scope of this standard.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="3">
@@ -585,9 +582,6 @@
                 The reportingEnabled field in the AlertDefinition shall specify whether alerts are published.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="11">
-                If the reportingEnabled field is TRUE, then the service provider shall publish reports for that alert.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="12">
                 The service provider shall publish alert instances as events using the COM event operations.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="3">
