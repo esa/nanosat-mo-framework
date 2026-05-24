@@ -15,6 +15,7 @@ in :doc:`../concepts/index`.
    monitor-and-control
    platform-services/index
    app-chaining
+   app-isl
    logging
    storage
    packaging
