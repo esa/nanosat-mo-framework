@@ -47,7 +47,7 @@ import org.ccsds.moims.mo.mal.provider.MALPublishInteractionListener;
 import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALErrorBody;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.mc.ReadonlyException;
+import org.ccsds.moims.mo.mc.ReadOnlyException;
 import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
 import org.ccsds.moims.mo.mc.parameter.ParameterServiceInfo;
 import org.ccsds.moims.mo.mc.parameter.provider.MonitorValuePublisher;
@@ -286,7 +286,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             throw new MALInteractionException(new UnknownException(unkIndexList));
         }
         if (!readOnlyIndexList.isEmpty()) { // requirement: 3.3.9.3.3 
-            throw new MALInteractionException(new ReadonlyException(readOnlyIndexList));
+            throw new MALInteractionException(new ReadOnlyException(readOnlyIndexList));
         }
 
         //atomic behaviour while setting the values. So let all values have the same timestamp for creation
