@@ -130,11 +130,29 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
         add(titleLabel, BorderLayout.NORTH);
 
-        // Definitions table
+        // Left: definitions table + buttons
         jScrollPane2 = new JScrollPane();
         jScrollPane2.setViewportView(actionTable);
 
-        // Execution log table
+        executeAction = new JButton("executeAction");
+        executeAction.addActionListener(this::executeActionActionPerformed);
+
+        listDefinitionButton = new JButton("listDefinition()");
+        listDefinitionButton.addActionListener(this::listDefinitionButtonActionPerformed);
+
+        listDefinitionAllButton = new JButton("listDefinition(\"*\")");
+        listDefinitionAllButton.addActionListener(this::listDefinitionAllButtonActionPerformed);
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(executeAction);
+        buttonPanel.add(listDefinitionButton);
+        buttonPanel.add(listDefinitionAllButton);
+
+        JPanel leftPanel = new JPanel(new BorderLayout());
+        leftPanel.add(jScrollPane2, BorderLayout.CENTER);
+        leftPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+        // Right: execution log
         String[] cols = {"Time", "Action ID", "Execution ID", "Category", "Stage Type", "Success", "Step", "Comment"};
         executionLogModel = new DefaultTableModel(new Object[][]{}, cols) {
             @Override
@@ -157,29 +175,13 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
         executionLogLabel.setFont(executionLogLabel.getFont().deriveFont(Font.BOLD, 14f));
         executionLogLabel.setBorder(BorderFactory.createEmptyBorder(4, 4, 2, 4));
 
-        JPanel executionLogPanel = new JPanel(new BorderLayout());
-        executionLogPanel.add(executionLogLabel, BorderLayout.NORTH);
-        executionLogPanel.add(new JScrollPane(executionLogTable), BorderLayout.CENTER);
+        JPanel rightPanel = new JPanel(new BorderLayout());
+        rightPanel.add(executionLogLabel, BorderLayout.NORTH);
+        rightPanel.add(new JScrollPane(executionLogTable), BorderLayout.CENTER);
 
-        JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, jScrollPane2, executionLogPanel);
-        splitPane.setResizeWeight(0.65);
+        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
+        splitPane.setResizeWeight(0.5);
         add(splitPane, BorderLayout.CENTER);
-
-        // Buttons
-        executeAction = new JButton("executeAction");
-        executeAction.addActionListener(this::executeActionActionPerformed);
-
-        listDefinitionButton = new JButton("listDefinition()");
-        listDefinitionButton.addActionListener(this::listDefinitionButtonActionPerformed);
-
-        listDefinitionAllButton = new JButton("listDefinition(\"*\")");
-        listDefinitionAllButton.addActionListener(this::listDefinitionAllButtonActionPerformed);
-
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.add(executeAction);
-        buttonPanel.add(listDefinitionButton);
-        buttonPanel.add(listDefinitionAllButton);
-        add(buttonPanel, BorderLayout.SOUTH);
     }
 
     private void executeActionActionPerformed(java.awt.event.ActionEvent evt) {
