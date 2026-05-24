@@ -40,5 +40,5 @@ Reference example
 
 ``sdk/examples-space/edge-ai`` demonstrates on-board inference, and
 the ɸ-Sat-2 mission deployed apps in this category for image
-classification (see :doc:`../inter-app-communication` for the
+classification (see :doc:`../app-chaining` for the
 cloud-tile filtering chain).

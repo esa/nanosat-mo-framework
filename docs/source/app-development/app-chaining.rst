@@ -1,6 +1,6 @@
-=======================
-Inter-app communication
-=======================
+============
+App Chaining
+============
 
 .. contents:: Table of contents
    :local:

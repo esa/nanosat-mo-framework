@@ -85,4 +85,4 @@ collaborate via the Directory Service:
 
 This pattern is described in general terms in
 :doc:`../concepts/apps-and-supervisor` and
-:doc:`../app-development/inter-app-communication`.
+:doc:`../app-development/app-chaining`.

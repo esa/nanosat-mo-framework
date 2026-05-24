@@ -14,7 +14,7 @@ in :doc:`../concepts/index`.
    project-setup
    monitor-and-control
    platform-services/index
-   inter-app-communication
+   app-chaining
    logging
    storage
    packaging
