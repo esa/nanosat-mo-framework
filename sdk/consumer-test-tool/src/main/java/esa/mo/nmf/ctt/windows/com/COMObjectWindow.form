@@ -48,15 +48,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="objIdentification1" min="-2" pref="225" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="tfObjectType1" min="-2" pref="25" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="tfObjectType2" min="-2" pref="25" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="tfObjectType3" min="-2" pref="25" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="tfObjectType4" min="-2" pref="25" max="-2" attributes="0"/>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="tfObjectType" pref="264" max="32767" attributes="0"/>
+                          <Component id="tfObjectType" pref="288" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="objIdentification2" min="-2" pref="225" max="-2" attributes="0"/>
@@ -64,7 +56,7 @@
                           <Component id="tfObjId" max="32767" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace pref="30" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -80,10 +72,6 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="objIdentification1" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="tfObjectType" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="tfObjectType1" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="tfObjectType2" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="tfObjectType3" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="tfObjectType4" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -122,29 +110,6 @@
         <Component class="javax.swing.JTextField" name="tfObjectType">
         </Component>
         <Component class="javax.swing.JTextField" name="tfObjId">
-        </Component>
-        <Component class="javax.swing.JTextField" name="tfObjectType1">
-          <Properties>
-            <Property name="horizontalAlignment" type="int" value="0"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="tfObjectType2">
-          <Properties>
-            <Property name="horizontalAlignment" type="int" value="0"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tfObjectType2ActionPerformed"/>
-          </Events>
-        </Component>
-        <Component class="javax.swing.JTextField" name="tfObjectType3">
-          <Properties>
-            <Property name="horizontalAlignment" type="int" value="0"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="tfObjectType4">
-          <Properties>
-            <Property name="horizontalAlignment" type="int" value="0"/>
-          </Properties>
         </Component>
       </SubComponents>
     </Container>
@@ -196,17 +161,7 @@
                                       </Group>
                                       <Component id="sourceDomain" alignment="1" max="32767" attributes="0"/>
                                       <Component id="sourceButton" alignment="1" max="32767" attributes="0"/>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="sourceType1" min="-2" pref="25" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="sourceType2" min="-2" pref="25" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="sourceType3" min="-2" pref="25" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="sourceType4" min="-2" pref="25" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="sourceType" max="32767" attributes="0"/>
-                                      </Group>
+                                      <Component id="sourceType" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -229,17 +184,7 @@
                                   <Component id="jLabel13" min="-2" pref="279" max="-2" attributes="0"/>
                                   <EmptySpace min="0" pref="34" max="32767" attributes="0"/>
                               </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="relatedType1" min="-2" pref="25" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="relatedType2" min="-2" pref="25" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="relatedType3" min="-2" pref="25" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="relatedType4" min="-2" pref="25" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="relatedType" max="32767" attributes="0"/>
-                              </Group>
+                              <Component id="relatedType" max="32767" attributes="0"/>
                               <Component id="relatedObjId" max="32767" attributes="0"/>
                               <Component id="relatedButton" max="32767" attributes="0"/>
                           </Group>
@@ -269,13 +214,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jLabel13" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="relatedType" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="relatedType1" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="relatedType2" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="relatedType3" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="relatedType4" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="relatedType" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jLabel2" min="-2" pref="14" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
@@ -291,13 +230,7 @@
                           <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                           <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="sourceType" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="sourceType1" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="sourceType2" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="sourceType3" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="sourceType4" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="sourceType" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
@@ -325,7 +258,7 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="sourceButton" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="110" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -450,49 +383,9 @@
         </Component>
         <Component class="javax.swing.JTextField" name="sourceObjId">
         </Component>
-        <Component class="javax.swing.JTextField" name="sourceType3">
-          <Properties>
-            <Property name="horizontalAlignment" type="int" value="0"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="sourceType4">
-          <Properties>
-            <Property name="horizontalAlignment" type="int" value="0"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="sourceType1">
-          <Properties>
-            <Property name="horizontalAlignment" type="int" value="0"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="sourceType2">
-          <Properties>
-            <Property name="horizontalAlignment" type="int" value="0"/>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JLabel" name="jLabel13">
           <Properties>
             <Property name="text" type="java.lang.String" value="Object Type:"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="relatedType1">
-          <Properties>
-            <Property name="horizontalAlignment" type="int" value="0"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="relatedType2">
-          <Properties>
-            <Property name="horizontalAlignment" type="int" value="0"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="relatedType3">
-          <Properties>
-            <Property name="horizontalAlignment" type="int" value="0"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="relatedType4">
-          <Properties>
-            <Property name="horizontalAlignment" type="int" value="0"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="relatedType">

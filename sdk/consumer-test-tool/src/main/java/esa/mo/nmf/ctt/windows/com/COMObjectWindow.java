@@ -24,7 +24,6 @@ import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.nmf.ctt.windows.element.MOWindow;
-import java.awt.Dimension;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -87,19 +86,16 @@ public final class COMObjectWindow extends javax.swing.JDialog {
         this.tfObjId.setEditable(editable);
 
         this.tfObjectType.setEditable(false);
-        this.tfObjectType1.setEditable(editable);
-        this.tfObjectType2.setEditable(editable);
-        this.tfObjectType3.setEditable(editable);
-        this.tfObjectType4.setEditable(editable);
 
         this.tfDomain.setText(HelperDomain.domain2domainId(comObject.getDomain()));
         this.tfObjId.setText(comObject.getObjectId().toString());
 
-        this.tfObjectType.setText(HelperCOM.objType2string(comObject.getObjectType()));
-        this.tfObjectType1.setText(comObject.getObjectType().getArea().toString());
-        this.tfObjectType2.setText(comObject.getObjectType().getService().toString());
-        this.tfObjectType3.setText(comObject.getObjectType().getVersion().toString());
-        this.tfObjectType4.setText(comObject.getObjectType().getNumber().toString());
+        this.tfObjectType.setText(
+            comObject.getObjectType().getArea() + "-" +
+            comObject.getObjectType().getService() + "-" +
+            comObject.getObjectType().getVersion() + "-" +
+            comObject.getObjectType().getNumber() + " " +
+            HelperCOM.objType2string(comObject.getObjectType()));
 
         ArchiveDetails archiveDetails = comObject.getArchiveDetails();
 
@@ -133,11 +129,12 @@ public final class COMObjectWindow extends javax.swing.JDialog {
 
                 if (comObjectInfo.hasRelated()) {
                     if (comObjectInfo.getRelatedType() != null) {
-                        this.relatedType.setText(HelperCOM.objType2string(comObjectInfo.getRelatedType()));
-                        this.relatedType1.setText(comObjectInfo.getRelatedType().getArea().toString());
-                        this.relatedType2.setText(comObjectInfo.getRelatedType().getService().toString());
-                        this.relatedType3.setText(comObjectInfo.getRelatedType().getVersion().toString());
-                        this.relatedType4.setText(comObjectInfo.getRelatedType().getNumber().toString());
+                        this.relatedType.setText(
+                            comObjectInfo.getRelatedType().getArea() + "-" +
+                            comObjectInfo.getRelatedType().getService() + "-" +
+                            comObjectInfo.getRelatedType().getVersion() + "-" +
+                            comObjectInfo.getRelatedType().getNumber() + " " +
+                            HelperCOM.objType2string(comObjectInfo.getRelatedType()));
                     } else {
                         this.relatedType.setText("no info");  // Problem needs to be fixed!! Why no information available?
                         this.relatedButton.setEnabled(false);
@@ -155,11 +152,12 @@ public final class COMObjectWindow extends javax.swing.JDialog {
             } else {
                 ObjectLinks links = comObject.getArchiveDetails().getLinks();
                 // Source
-                this.sourceType.setText(HelperCOM.objType2string(links.getSource().getType()));
-                this.sourceType1.setText(links.getSource().getType().getArea().toString());
-                this.sourceType2.setText(links.getSource().getType().getService().toString());
-                this.sourceType3.setText(links.getSource().getType().getVersion().toString());
-                this.sourceType4.setText(links.getSource().getType().getNumber().toString());
+                this.sourceType.setText(
+                    links.getSource().getType().getArea() + "-" +
+                    links.getSource().getType().getService() + "-" +
+                    links.getSource().getType().getVersion() + "-" +
+                    links.getSource().getType().getNumber() + " " +
+                    HelperCOM.objType2string(links.getSource().getType()));
 
                 this.sourceDomain.setText(HelperDomain.domain2domainId(links.getSource().getDomain()));
                 this.sourceObjId.setText(links.getSource().getInstId().toString());
@@ -169,7 +167,6 @@ public final class COMObjectWindow extends javax.swing.JDialog {
         this.button.setText(editable ? "Submit" : "Close");
         componentsPanel.revalidate();
         componentsPanel.repaint();
-        this.setPreferredSize(new Dimension(700, 600));
         this.pack();
         this.setVisible(true);
     }
@@ -190,10 +187,6 @@ public final class COMObjectWindow extends javax.swing.JDialog {
         tfDomain = new javax.swing.JTextField();
         tfObjectType = new javax.swing.JTextField();
         tfObjId = new javax.swing.JTextField();
-        tfObjectType1 = new javax.swing.JTextField();
-        tfObjectType2 = new javax.swing.JTextField();
-        tfObjectType3 = new javax.swing.JTextField();
-        tfObjectType4 = new javax.swing.JTextField();
         componentsPanel = new javax.swing.JPanel();
         objectBodyButton = new javax.swing.JButton();
         relatedButton = new javax.swing.JButton();
@@ -218,15 +211,7 @@ public final class COMObjectWindow extends javax.swing.JDialog {
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         sourceObjId = new javax.swing.JTextField();
-        sourceType3 = new javax.swing.JTextField();
-        sourceType4 = new javax.swing.JTextField();
-        sourceType1 = new javax.swing.JTextField();
-        sourceType2 = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
-        relatedType1 = new javax.swing.JTextField();
-        relatedType2 = new javax.swing.JTextField();
-        relatedType3 = new javax.swing.JTextField();
-        relatedType4 = new javax.swing.JTextField();
         relatedType = new javax.swing.JTextField();
         bottomPanel = new javax.swing.JPanel();
         button = new javax.swing.JToggleButton();
@@ -247,18 +232,6 @@ public final class COMObjectWindow extends javax.swing.JDialog {
         objIdentification2.setText("Object Instance Identifier:");
         objIdentification2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        tfObjectType1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-
-        tfObjectType2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        tfObjectType2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfObjectType2ActionPerformed(evt);
-            }
-        });
-
-        tfObjectType3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-
-        tfObjectType4.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         javax.swing.GroupLayout topPanelLayout = new javax.swing.GroupLayout(topPanel);
         topPanel.setLayout(topPanelLayout);
@@ -274,20 +247,12 @@ public final class COMObjectWindow extends javax.swing.JDialog {
                     .addGroup(topPanelLayout.createSequentialGroup()
                         .addComponent(objIdentification1, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfObjectType1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfObjectType2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfObjectType3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfObjectType4, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(tfObjectType, javax.swing.GroupLayout.DEFAULT_SIZE, 264, Short.MAX_VALUE))
+                        .addComponent(tfObjectType, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE))
                     .addGroup(topPanelLayout.createSequentialGroup()
                         .addComponent(objIdentification2, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(tfObjId)))
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         topPanelLayout.setVerticalGroup(
             topPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -299,11 +264,7 @@ public final class COMObjectWindow extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(topPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(objIdentification1)
-                    .addComponent(tfObjectType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfObjectType1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfObjectType2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfObjectType3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfObjectType4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfObjectType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(topPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(objIdentification2)
@@ -375,23 +336,7 @@ public final class COMObjectWindow extends javax.swing.JDialog {
 
         jLabel12.setText("Object Instance Identifier:");
 
-        sourceType3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-
-        sourceType4.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-
-        sourceType1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-
-        sourceType2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-
         jLabel13.setText("Object Type:");
-
-        relatedType1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-
-        relatedType2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-
-        relatedType3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-
-        relatedType4.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         relatedType.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -432,15 +377,7 @@ public final class COMObjectWindow extends javax.swing.JDialog {
                                     .addComponent(sourceDomain, javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(sourceButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addGroup(componentsPanelLayout.createSequentialGroup()
-                                        .addComponent(sourceType1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(sourceType2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(sourceType3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(sourceType4, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(sourceType))))))
+                                    .addComponent(sourceType))))))
                     .addGroup(componentsPanelLayout.createSequentialGroup()
                         .addGroup(componentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -457,15 +394,7 @@ public final class COMObjectWindow extends javax.swing.JDialog {
                                 .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 34, Short.MAX_VALUE))
                             .addGroup(componentsPanelLayout.createSequentialGroup()
-                                .addComponent(relatedType1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(relatedType2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(relatedType3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(relatedType4, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(relatedType))
+                            .addComponent(relatedType))
                             .addComponent(relatedObjId)
                             .addComponent(relatedButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
@@ -489,11 +418,7 @@ public final class COMObjectWindow extends javax.swing.JDialog {
                         .addComponent(jLabel13)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(componentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(relatedType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(relatedType1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(relatedType2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(relatedType3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(relatedType4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(relatedType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -508,11 +433,7 @@ public final class COMObjectWindow extends javax.swing.JDialog {
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(componentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(sourceType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(sourceType1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(sourceType2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(sourceType3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(sourceType4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(sourceType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel11)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -537,7 +458,7 @@ public final class COMObjectWindow extends javax.swing.JDialog {
                         .addComponent(tfProvider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(sourceButton)
-                .addGap(110, 110, 110))
+                .addContainerGap())
         );
 
         getContentPane().add(componentsPanel, java.awt.BorderLayout.CENTER);
@@ -626,9 +547,6 @@ public final class COMObjectWindow extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_sourceButtonActionPerformed
 
-    private void tfObjectType2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfObjectType2ActionPerformed
-    }//GEN-LAST:event_tfObjectType2ActionPerformed
-
     private void sourceTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sourceTypeActionPerformed
     }//GEN-LAST:event_sourceTypeActionPerformed
 
@@ -659,27 +577,15 @@ public final class COMObjectWindow extends javax.swing.JDialog {
     private javax.swing.JButton relatedButton;
     private javax.swing.JTextField relatedObjId;
     private javax.swing.JTextField relatedType;
-    private javax.swing.JTextField relatedType1;
-    private javax.swing.JTextField relatedType2;
-    private javax.swing.JTextField relatedType3;
-    private javax.swing.JTextField relatedType4;
     private javax.swing.JButton sourceButton;
     private javax.swing.JTextField sourceDomain;
     private javax.swing.JTextField sourceObjId;
     private javax.swing.JTextField sourceType;
-    private javax.swing.JTextField sourceType1;
-    private javax.swing.JTextField sourceType2;
-    private javax.swing.JTextField sourceType3;
-    private javax.swing.JTextField sourceType4;
     private javax.swing.JTextField tfDomain;
     private javax.swing.JTextField tfNetwork;
     private javax.swing.JTextField tfObjId;
     private javax.swing.JTextField tfObjectBodyType;
     private javax.swing.JTextField tfObjectType;
-    private javax.swing.JTextField tfObjectType1;
-    private javax.swing.JTextField tfObjectType2;
-    private javax.swing.JTextField tfObjectType3;
-    private javax.swing.JTextField tfObjectType4;
     private javax.swing.JTextField tfProvider;
     private javax.swing.JTextField tfTimestamp;
     private javax.swing.JPanel topPanel;

@@ -29,7 +29,6 @@ import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALArea;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.ServiceInfo;
-import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.structures.*;
 
@@ -283,7 +282,6 @@ public class HelperCOM {
      * @return The ObjectType object
      */
     public static ObjectType generateCOMObjectType(ServiceInfo service, UShort objNumber) {
-
         if (service == null || objNumber == null) {
             return null;
         }
