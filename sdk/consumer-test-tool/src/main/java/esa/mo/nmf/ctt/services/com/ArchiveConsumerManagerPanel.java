@@ -53,7 +53,6 @@ import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.aggregation.AggregationServiceInfo;
-import org.ccsds.moims.mo.mc.conversion.ConversionServiceInfo;
 import org.ccsds.moims.mo.mc.structures.*;
 
 /**
@@ -428,7 +427,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         tabs.setRequestFocusEnabled(false);
         tabs.addTab("Home", homeTab);
 
-        jButtonStoreConversions.setText("Quick Store (Conversions)");
+        jButtonStoreConversions.setText("Free Placeholder");
         jButtonStoreConversions.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonStoreConversionsActionPerformed(evt);
@@ -734,74 +733,6 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jButtonCountActionPerformed
 
     private void jButtonStoreConversionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStoreConversionsActionPerformed
-        LongList outObjId;
-        //        ArchiveDetailsList archiveDetailsList;
-        ObjectType objType;
-
-//        archiveDetailsList = new ArchiveDetailsList();
-//        archiveDetailsList.add(serviceCOMArchive.generateArchiveDetails(new Long(0)));
-        ArchiveDetailsList archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive.getConnectionDetails().getProviderURI());
-        objType = ConversionServiceInfo.DISCRETECONVERSION_OBJECT_TYPE;
-        HeterogeneousList objList1 = new HeterogeneousList();
-        objList1.add(this.generateDiscreteConversion());
-
-        try {
-            outObjId = serviceCOMArchive.getArchiveStub().store(Boolean.TRUE, objType,
-                    serviceCOMArchive.getConnectionDetails().getDomain(), archiveDetailsList, objList1);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(
-                    Level.SEVERE, null, ex);
-        } catch (MALException ex) {
-            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(
-                    Level.SEVERE, null, ex);
-        }
-
-//        archiveDetailsList = new ArchiveDetailsList();
-//        archiveDetailsList.add(serviceCOMArchive.generateArchiveDetails(new Long(0)));
-        archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive.getConnectionDetails().getProviderURI());
-        objType = ConversionServiceInfo.LINECONVERSION_OBJECT_TYPE;
-        HeterogeneousList objList2 = new HeterogeneousList();
-        objList2.add(this.generateLineConversion());
-
-        try {
-            outObjId = serviceCOMArchive.getArchiveStub().store(Boolean.TRUE, objType,
-                    serviceCOMArchive.getConnectionDetails().getDomain(), archiveDetailsList, objList2);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(
-                    Level.SEVERE, null, ex);
-        } catch (MALException ex) {
-            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(
-                    Level.SEVERE, null, ex);
-        }
-
-//        archiveDetailsList = new ArchiveDetailsList();
-//        archiveDetailsList.add(serviceCOMArchive.generateArchiveDetails(new Long(0)));
-        archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive.getConnectionDetails().getProviderURI());
-        objType = ConversionServiceInfo.POLYCONVERSION_OBJECT_TYPE;
-        HeterogeneousList objList3 = new HeterogeneousList();
-        objList3.add(this.generatePolyConversion());
-
-        try {
-            outObjId = serviceCOMArchive.getArchiveStub().store(Boolean.TRUE, objType, serviceCOMArchive
-                    .getConnectionDetails().getDomain(), archiveDetailsList, objList3);
-        } catch (MALInteractionException | MALException ex) {
-            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(
-                    Level.SEVERE, null, ex);
-        }
-
-        archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null, serviceCOMArchive.getConnectionDetails().getProviderURI());
-        objType = ConversionServiceInfo.RANGECONVERSION_OBJECT_TYPE;
-        HeterogeneousList objList4 = new HeterogeneousList();
-        objList4.add(this.generateRangeConversion());
-
-        try {
-            outObjId = serviceCOMArchive.getArchiveStub().store(Boolean.TRUE, objType, serviceCOMArchive
-                    .getConnectionDetails().getDomain(), archiveDetailsList, objList4);
-        } catch (MALInteractionException | MALException ex) {
-            Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(
-                    Level.SEVERE, null, ex);
-        }
-
     }//GEN-LAST:event_jButtonStoreConversionsActionPerformed
 
     private void jButtonStoreActionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStoreActionsActionPerformed

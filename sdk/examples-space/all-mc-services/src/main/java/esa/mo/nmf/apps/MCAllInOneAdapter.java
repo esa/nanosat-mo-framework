@@ -32,8 +32,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-import org.ccsds.moims.mo.com.structures.ObjectKey;
-import org.ccsds.moims.mo.com.structures.ObjectKeyList;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
@@ -147,27 +145,14 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
 
         DiscreteConversionList conversions = new DiscreteConversionList();
         conversions.add(new DiscreteConversion(mappings));
-        ParameterConversion paramConversion = null;
 
-        try {
-            ObjectKeyList objKeys = registration.registerConversions(conversions);
+        ConditionalConversion condition = new ConditionalConversion(null, conversions.get(0));
+        ConditionalConversionList conditionalConversions = new ConditionalConversionList();
+        conditionalConversions.add(condition);
 
-            if (objKeys.size() == 1) {
-                ObjectKey objKey = objKeys.get(0);
-                ParameterExpression paramExpr = null;
-
-                ConditionalConversion condition = new ConditionalConversion(paramExpr, objKey.getInstId());
-                ConditionalConversionList conditionalConversions = new ConditionalConversionList();
-                conditionalConversions.add(condition);
-
-                Byte convertedType = Attribute.STRING_TYPE_SHORT_FORM.byteValue();
-                String convertedUnit = "n/a";
-
-                paramConversion = new ParameterConversion(convertedType, convertedUnit, conditionalConversions);
-            }
-        } catch (NMFException | MALException | MALInteractionException ex) {
-            Logger.getLogger(MCAllInOneAdapter.class.getName()).log(Level.SEVERE, "Failed to register conversion.", ex);
-        }
+        Byte convertedType = Attribute.STRING_TYPE_SHORT_FORM.byteValue();
+        String convertedUnit = "n/a";
+        ParameterConversion paramConversion = new ParameterConversion(convertedType, convertedUnit, conditionalConversions);
 
         // ------------------ Parameters ------------------
         ParameterDefinitionList defsOther = new ParameterDefinitionList();

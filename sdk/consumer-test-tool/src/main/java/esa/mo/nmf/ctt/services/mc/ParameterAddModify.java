@@ -20,7 +20,6 @@
  */
 package esa.mo.nmf.ctt.services.mc;
 
-import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.mc.impl.consumer.ParameterConsumerServiceImpl;
 import java.awt.Dimension;
 import java.util.logging.Level;
@@ -29,8 +28,6 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import org.ccsds.moims.mo.com.COMService;
 import org.ccsds.moims.mo.com.structures.ExpressionOperator;
-import org.ccsds.moims.mo.com.structures.ObjectKey;
-import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
@@ -50,12 +47,6 @@ public class ParameterAddModify extends javax.swing.JFrame {
     private int parameterDefinitionSelectedIndex = 0;
 
     private static transient COMService service;
-
-    // Conversion Service Object Types
-    public static transient ObjectType OBJ_TYPE_CS_DISCRETECONVERSION;
-    public static transient ObjectType OBJ_TYPE_CS_LINECONVERSION;
-    public static transient ObjectType OBJ_TYPE_CS_POLYCONVERSION;
-    public static transient ObjectType OBJ_TYPE_CS_RANGECONVERSION;
 
     /**
      * Constructor.
@@ -79,12 +70,6 @@ public class ParameterAddModify extends javax.swing.JFrame {
 
         service = ConversionHelper.CONVERSION_SERVICE;
         MALContextFactory.getElementsRegistry().loadServiceAndAreaElements(service);
-
-        // Conversion Service Object Types
-        OBJ_TYPE_CS_DISCRETECONVERSION = HelperCOM.generateCOMObjectType(service, new UShort(1));
-        OBJ_TYPE_CS_LINECONVERSION = HelperCOM.generateCOMObjectType(service, new UShort(2));
-        OBJ_TYPE_CS_POLYCONVERSION = HelperCOM.generateCOMObjectType(service, new UShort(3));
-        OBJ_TYPE_CS_RANGECONVERSION = HelperCOM.generateCOMObjectType(service, new UShort(4));
     }
 
     public void setParameterDefinitionSelectedIndex(int in) {
@@ -501,37 +486,7 @@ public class ParameterAddModify extends javax.swing.JFrame {
         }
 
         ParameterConversion pConv = null;
-
-        if (conversionCB.isSelected()) {
-            int index = objTypeCB.getSelectedIndex();
-            ObjectType type = null;
-
-            switch (index) {
-                case 1:
-                    type = OBJ_TYPE_CS_DISCRETECONVERSION;
-                    break;
-                case 2:
-                    type = OBJ_TYPE_CS_LINECONVERSION;
-                    break;
-                case 3:
-                    type = OBJ_TYPE_CS_POLYCONVERSION;
-                    break;
-                case 4:
-                    type = OBJ_TYPE_CS_RANGECONVERSION;
-                    break;
-            }
-
-            // Reference to the conversion Object
-            ObjectKey referenceId = new ObjectKey(type,
-                    serviceMCParameter.getConnectionDetails().getDomain(),
-                    Long.valueOf(referenceObjIdTF.getText()));  // Get the first objId
-
-            ConditionalConversionList conversionConditions = new ConditionalConversionList();
-            ConditionalConversion conversionCondition = new ConditionalConversion(referenceId.getInstId());
-            conversionConditions.add(conversionCondition);
-            pConv = new ParameterConversion((byte) rawTypeCB.getSelectedIndex(),
-                    convertedUnit.getText(), conversionConditions);
-        }
+        // Inline conversion configuration is not yet supported via this dialog.
 
         ParameterDefinition pDef = new ParameterDefinition(
                 new Identifier(nameTF.getText()),

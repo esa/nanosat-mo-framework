@@ -21,19 +21,15 @@
 package esa.mo.nmf;
 
 import esa.mo.com.impl.util.COMServicesProvider;
-import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.mc.impl.provider.ActionProviderServiceImpl;
 import esa.mo.mc.impl.provider.AggregationProviderServiceImpl;
 import esa.mo.mc.impl.provider.AlertProviderServiceImpl;
 import esa.mo.mc.impl.provider.ParameterProviderServiceImpl;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.structures.*;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.structures.*;
-import org.ccsds.moims.mo.mc.conversion.ConversionServiceInfo;
 import org.ccsds.moims.mo.mc.structures.*;
 
 /**
@@ -358,80 +354,5 @@ public class MCRegistration {
         return null;
     }
 
-    /**
-     * The registerConversions operation registers a set of conversions.
-     *
-     * @param conversions The conversions
-     * @return The list of ObjIds of the Identity objects of the conversions.
-     * @throws esa.mo.nmf.NMFException if the registration was not possible.
-     * @throws org.ccsds.moims.mo.mal.MALException if there is a MAL exception
-     * @throws org.ccsds.moims.mo.mal.MALInteractionException if there is a
-     * problem while storing the registrations in the COM Archive.
-     */
-    public ObjectKeyList registerConversions(ElementList conversions)
-            throws NMFException, MALException, MALInteractionException {
-        if (conversions == null) {
-            throw new NMFException("The conversions object cannot be null!");
-        }
-
-        // Discrete Conversion:
-        if (conversions instanceof DiscreteConversionList) {
-            return this.registerConversionsGen(conversions, ConversionServiceInfo.DISCRETECONVERSION_OBJECT_TYPE);
-        }
-
-        // Line Conversion:
-        if (conversions instanceof LineConversionList) {
-            return this.registerConversionsGen(conversions, ConversionServiceInfo.LINECONVERSION_OBJECT_TYPE);
-        }
-
-        // Polynomial Conversion:
-        if (conversions instanceof PolyConversionList) {
-            return this.registerConversionsGen(conversions, ConversionServiceInfo.POLYCONVERSION_OBJECT_TYPE);
-        }
-
-        // Range Conversion:
-        if (conversions instanceof RangeConversionList) {
-            return this.registerConversionsGen(conversions, ConversionServiceInfo.RANGECONVERSION_OBJECT_TYPE);
-        }
-
-        throw new NMFException("The conversion object didn't match any type of Conversion.");
-    }
-
-    /**
-     * The registerConversionsGen operation registers a set conversions of a
-     * specific Object Type.
-     *
-     * @param conversions The conversions
-     * @param objType The Object Type of the conversions
-     * @return The list of ObjIds of the conversion objects.
-     */
-    private ObjectKeyList registerConversionsGen(final ElementList conversions,
-            final ObjectType objType) throws MALException, MALInteractionException {
-        final IdentifierList domain = ConfigurationProviderSingleton.getDomain();
-        final ArchiveDetailsList metadata = HelperArchive.generateArchiveDetailsList(
-                null, null, PROVIDER_URI);
-
-        for (int i = 1; i < conversions.size(); i++) { // There's already 1 object in the list
-            metadata.add(metadata.get(0));
-        }
-
-        HeterogeneousList myList = new HeterogeneousList();
-        myList.addAll(conversions);
-
-        final LongList conversionObjIds = comServices.getArchiveService().store(true,
-                objType,
-                domain,
-                metadata,
-                myList,
-                null);
-
-        ObjectKeyList output = new ObjectKeyList();
-
-        for (Long objId : conversionObjIds) {
-            output.add(new ObjectKey(objType, domain, objId));
-        }
-
-        return output;
-    }
-
 }
+

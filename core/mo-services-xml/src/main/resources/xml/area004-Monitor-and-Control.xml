@@ -1210,68 +1210,23 @@
             </com:features>
         </mal:service>
         <mal:service xsi:type="com:ExtendedServiceType" name="Conversion" number="7"
-                     comment="The conversion service provides a set of basic conversion definition types that allows the specification of a conversion between two representations. These conversions are used by the other MC services (such as Action, Alert, and Parameter) to define conversions from raw field representations to some engineering representation.&#xA;Conversions are associated with other entities such as parameters or action/alert arguments through the configuration of the relevant service (action/alert/parameter).&#xA;The conversion service does not provide any operations directly, but allows consumers to add, remove, and modify conversion definitions via the COM archive.">
+                     comment="The conversion service provides a set of basic conversion definition types that allows the specification of a conversion between two representations. Conversions are embedded directly in the definitions of other MC services (such as ParameterDefinition) and are not stored as separate COM objects.">
             <mal:documentation name="Service-level Requirement" order="1">
-                The conversion service shall provide the capability for maintaining the list of conversion definitions.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="2">
-                The conversion service shall use the COM archive operations for maintaining the conversion definitions.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="3">
-                To update a conversion definition, the consumer shall add a new conversion definition object to the COM archive.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="4">
-                The consumer shall reference the new conversion definition in the relevant service-specific COM objects (such as ParameterDefinition).
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="5">
                 A DiscreteConversion shall contain at least one pair of values in the mapping.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="6">
+            <mal:documentation name="Service-level Requirement" order="2">
                 A LineConversion shall contain at least two line points.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="7">
+            <mal:documentation name="Service-level Requirement" order="3">
                 A PolyConversion shall contain at least one pair of values in the points list.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="8">
+            <mal:documentation name="Service-level Requirement" order="4">
                 A RangeConversion shall contain at least one pair of values in the points list.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="9">
-                The service provider shall represent conversion definitions as either DiscreteConversion, LineConversion, PolyConversion, or RangeConversion COM objects.
+            <mal:documentation name="Service-level Requirement" order="5">
+                The conversion field of a ConditionalConversion shall be one of DiscreteConversion, LineConversion, PolyConversion, or RangeConversion.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="10">
-                The service provider shall represent each instance of a conversion definition as an object instance in the COM archive.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="11">
-                Other service objects shall reference instances of a conversion using the id of the conversion definition.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="12">
-                The consumer shall use the COM archive service operations to add, update, and remove conversions.
-            </mal:documentation>
-            <com:features>
-                <com:objects comment="Conversion definitions are represented as COM objects.">
-                    <com:object number="1" name="DiscreteConversion">
-                        <com:objectType>
-                            <mal:type area="MC" list="false" name="DiscreteConversion"/>
-                        </com:objectType>
-                    </com:object>
-                    <com:object number="2" name="LineConversion">
-                        <com:objectType>
-                            <mal:type area="MC" list="false" name="LineConversion"/>
-                        </com:objectType>
-                    </com:object>
-                    <com:object number="3" name="PolyConversion">
-                        <com:objectType>
-                            <mal:type area="MC" list="false" name="PolyConversion"/>
-                        </com:objectType>
-                    </com:object>
-                    <com:object number="4" name="RangeConversion">
-                        <com:objectType>
-                            <mal:type area="MC" list="false" name="RangeConversion"/>
-                        </com:objectType>
-                    </com:object>
-                </com:objects>
-                <com:archiveUsage comment="Conversion definition objects are stored in the COM archive."/>
-            </com:features>
+            <com:features/>
         </mal:service>
         <mal:dataTypes>
             <mal:enumeration name="Severity" shortFormPart="1"
@@ -1319,9 +1274,9 @@
                            comment="The expression indicates which entities are applicable for this check. If NULL, then the condition shall evaluate to TRUE.">
                     <mal:type area="MC" list="false" name="ParameterExpression"/>
                 </mal:field>
-                <mal:field name="conversionId" canBeNull="false"
-                           comment="The id of the Conversion to be used if the condition evaluates to TRUE or is NULL.">
-                    <mal:type area="MAL" list="false" name="Long"/>
+                <mal:field name="conversion" canBeNull="false"
+                           comment="The conversion to be applied if the condition evaluates to TRUE or is NULL. Shall be one of DiscreteConversion, LineConversion, PolyConversion, or RangeConversion.">
+                    <mal:type area="MAL" list="false" name="Composite"/>
                 </mal:field>
             </mal:composite>
             <mal:composite name="ParameterExpression" shortFormPart="5"

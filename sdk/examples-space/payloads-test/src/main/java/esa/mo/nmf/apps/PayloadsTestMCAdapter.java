@@ -358,27 +358,14 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
         mappings.add(new Pair(new UOctet((short) AttitudeModeEnum.VECTORPOINTING.ordinal()), new Union("VECTORPOINTING")));
         DiscreteConversionList conversions = new DiscreteConversionList();
         conversions.add(new DiscreteConversion(mappings));
-        ParameterConversion paramConversion = null;
-        try {
-            ObjectKeyList objKeys = registration.registerConversions(conversions);
 
-            if (objKeys.size() == 1) {
-                ObjectKey objKey = objKeys.get(0);
-                ParameterExpression paramExpr = null;
+        ConditionalConversion condition = new ConditionalConversion(null, conversions.get(0));
+        ConditionalConversionList conditionalConversions = new ConditionalConversionList();
+        conditionalConversions.add(condition);
 
-                ConditionalConversion condition = new ConditionalConversion(paramExpr, objKey.getInstId());
-                ConditionalConversionList conditionalConversions = new ConditionalConversionList();
-                conditionalConversions.add(condition);
-
-                Byte convertedType = Attribute.STRING_TYPE_SHORT_FORM.byteValue();
-                String convertedUnit = "n/a";
-
-                paramConversion = new ParameterConversion(convertedType, convertedUnit, conditionalConversions);
-            }
-        } catch (NMFException | MALException | MALInteractionException ex) {
-            LOGGER.log(Level.SEVERE, "Failed to register conversion.", ex);
-        }
-        return paramConversion;
+        Byte convertedType = Attribute.STRING_TYPE_SHORT_FORM.byteValue();
+        String convertedUnit = "n/a";
+        return new ParameterConversion(convertedType, convertedUnit, conditionalConversions);
     }
 
     public void subscribeToSupervisorParameters(URI supervisorURI) {

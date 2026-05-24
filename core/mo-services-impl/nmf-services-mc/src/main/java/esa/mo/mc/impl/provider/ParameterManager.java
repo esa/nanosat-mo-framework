@@ -66,7 +66,7 @@ public class ParameterManager extends MCManager {
 
             // Initialize the Conversion service
             try {
-                this.conversionService.init(super.getArchiveService());
+                this.conversionService.init();
             } catch (MALException ex) {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             }

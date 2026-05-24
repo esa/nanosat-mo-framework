@@ -20,28 +20,19 @@
  */
 package esa.mo.mc.impl.provider;
 
-import esa.mo.com.impl.provider.ArchiveProviderServiceImpl;
-import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.com.impl.util.HelperCOM;
-import org.ccsds.moims.mo.com.structures.ArchiveDetails;
-import org.ccsds.moims.mo.com.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.structures.ExpressionOperator;
-import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.UnknownException;
-import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Element;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.Pair;
 import org.ccsds.moims.mo.mal.structures.PairList;
 import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.mc.conversion.ConversionHelper;
-import org.ccsds.moims.mo.mc.conversion.ConversionServiceInfo;
 import org.ccsds.moims.mo.mc.conversion.provider.ConversionInheritanceSkeleton;
 import org.ccsds.moims.mo.mc.structures.*;
 
@@ -50,19 +41,15 @@ import org.ccsds.moims.mo.mc.structures.*;
  */
 public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
 
-    private ArchiveProviderServiceImpl archiveService;
     private ParameterManager manager;
     private boolean initialiased = false;
 
     /**
      * Initializes the service.
      *
-     * @param archiveService The Archive service.
      * @throws MALException if the service could not be started.
      */
-    protected synchronized void init(ArchiveProviderServiceImpl archiveService) throws MALException {
-        this.archiveService = archiveService;
-
+    protected synchronized void init() throws MALException {
         if (!initialiased) {
             MALContextFactory.getElementsRegistry().loadServiceAndAreaElements(ConversionHelper.CONVERSION_SERVICE);
         }
@@ -110,144 +97,33 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
         return HelperCOM.evaluateExpression(param, expression.getOperator(), expression.getValue());
     }
 
-    /* Not used...
-    private Element retrieveConversionDetailsFromArchive(ObjectKey referenceId) {
-        if (archiveService == null) { // If there's no archive...
-            return null;
-        }
-        return HelperArchive.getObjectBodyFromArchive(archiveService, referenceId.getType(), 
-                referenceId.getKey().getDomain(), referenceId.getKey().getInstId());
-    }
-    */
-
     private Attribute applyConversion(final Attribute value, final ConditionalConversion conditionalRef)
         throws MALInteractionException {
         Boolean eval = this.evaluateParameterExpression(conditionalRef.getCondition());
 
-        if (!eval) {  // Is the Parameter Expression Invalid?
+        if (!eval) {
             throw new MALInteractionException(new UnknownException(null));
         }
 
-        //requirement: 3.8.4.g id references a ConversionDetails-object (not an identity)
-        //        Element conversionDetails = this.retrieveConversionDetailsFromArchive(conditionalRef.getConversionId());
-        /**
-         * get the conversionDetails by the identityId *
-         */
-        //TODO: use a query method here
-        final IdentifierList domain = ConfigurationProviderSingleton.getDomain();
-        Element conversionDetails = this.getConversionDefinition(domain, conditionalRef.getConversionId());
+        Element conversionDetails = (Element) conditionalRef.getConversion();
 
         if (conversionDetails == null) {
-            return null; // The Conversion object was not found in the Archive or Archive not available
+            return null;
         }
 
-        // Execute conversion...
-        // Discrete Conversion:
         if (conversionDetails instanceof DiscreteConversion) {
             return this.applyDiscreteConversion((DiscreteConversion) conversionDetails, value);
         }
-
-        // Line Conversion:
         if (conversionDetails instanceof LineConversion) {
             return this.applyLineConversion((LineConversion) conversionDetails, value);
         }
-
-        // Polynomial Conversion:
         if (conversionDetails instanceof PolyConversion) {
             return this.applyPolyConversion((PolyConversion) conversionDetails, value);
         }
-
-        // Range Conversion:
         if (conversionDetails instanceof RangeConversion) {
             return this.applyRangeConversion((RangeConversion) conversionDetails, value);
         }
 
-        // The object returned didn't match any type of Conversion
-        return null;
-
-    }
-
-    /**
-     * Looks for the Conversion-Definition-Details-Object that has the identity
-     * as its source link. The method gets the object by the archive, by
-     * checking all conversion-types.
-     *
-     * @param domain
-     * @param identityId 
-     * @return The latest conversion-definition-details-object if one is found
-     * with the given identityId, or null otherwise.
-     */
-    private Element getConversionDefinition(final IdentifierList domain, final Long identityId) {
-        Element conversionDetails;
-        //Search in PolyConversions:
-        ObjectType convType = ConversionServiceInfo.POLYCONVERSION_OBJECT_TYPE;
-        conversionDetails = getDefinitionFromIdentityIdFromArchive(convType, domain, identityId);
-
-        if (conversionDetails == null) {
-            //Search in DiscreteConversions
-            convType = ConversionServiceInfo.DISCRETECONVERSION_OBJECT_TYPE;
-            conversionDetails = getDefinitionFromIdentityIdFromArchive(convType, domain, identityId);
-        } else {
-            return conversionDetails;
-        }
-        if (conversionDetails == null) {
-            //Search in LineConversions
-            convType = ConversionServiceInfo.LINECONVERSION_OBJECT_TYPE;
-            conversionDetails = getDefinitionFromIdentityIdFromArchive(convType, domain, identityId);
-        } else {
-            return conversionDetails;
-        }
-        if (conversionDetails == null) {
-            //Search in RangeConversions
-            convType = ConversionServiceInfo.RANGECONVERSION_OBJECT_TYPE;
-            conversionDetails = getDefinitionFromIdentityIdFromArchive(convType, domain, identityId);
-        }
-        return conversionDetails;
-    }
-
-    /**
-     * TODO: move to a ArchiveHelper or remove it because a query-method is more
-     * efficient
-     *
-     * Iterates through all Objects in archive with the given objectType and
-     * looks for the given identity as the source object. The Object with the
-     * newest timestamp is returned.
-     *
-     * @param objType the objecttype to look for
-     * @param domain the domain to look at in the archive
-     * @param identityId the identity id the searched object has a source-link
-     * to
-     * @return The Definition-Object with the newest timestamp or null if
-     * no object of the given objectType references the given identity.
-     */
-    private Element getDefinitionFromIdentityIdFromArchive(ObjectType objType,
-            final IdentifierList domain, Long identityId) {
-        //retrieve all existing conversion-objects
-        LongList defIds = new LongList();
-        defIds.add(0L);
-        final ArchiveDetailsList defarchiveDetailsListFromArchive = HelperArchive.getArchiveDetailsListFromArchive(
-            archiveService, objType, domain, defIds);
-        //look if there are conversionDetails, which reference the identity
-        Long defId = null;
-        long maxTimeStamp = 0L;
-        if (defarchiveDetailsListFromArchive == null)
-            return null;
-        //iterate through all entries to check for the given identity as the source object
-        for (ArchiveDetails defArchiveDetails : defarchiveDetailsListFromArchive) {
-            if (defArchiveDetails.getLinks().getRelated() == null)
-                continue;
-            if (defArchiveDetails.getLinks().getRelated().equals(identityId)) {
-                //and filter for the latest one
-                final long itemTimestamp = defArchiveDetails.getTimestamp().getValue();
-                if (itemTimestamp > maxTimeStamp) {
-                    defId = defArchiveDetails.getInstId();
-                    maxTimeStamp = itemTimestamp;
-                }
-            }
-        }
-        if (defId != null) {
-            return HelperArchive.getObjectBodyFromArchive(archiveService, objType, domain, defId);
-        }
         return null;
     }
 
