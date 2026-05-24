@@ -56,8 +56,8 @@ contains:
 The **main class** instantiates the ``NanoSatMOConnectorImpl``, hands it
 the M&C adapter, and lets the Supervisor manage the rest of the
 lifecycle. The **adapter class** exposes parameters and actions through
-either the listener-interface API (:doc:`mc-listener-api`) or the
-annotation API (:doc:`mc-annotation-api`).
+either the listener-interface API or the annotation API; see
+:doc:`monitor-and-control`.
 
 Two classes are recommended over one because they have distinct
 responsibilities: the main class is responsible for instantiation and

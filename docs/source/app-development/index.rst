@@ -13,8 +13,6 @@ in :doc:`../concepts/index`.
 
    project-setup
    monitor-and-control
-   mc-listener-api
-   mc-annotation-api
    platform-services/index
    inter-app-communication
    logging
