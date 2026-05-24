@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 580 500" width="580" height="500">
+
+  <rect width="580" height="500" fill="white"/>
+
+  <!-- Two large Venn circles: fill="none" so both are fully transparent
+       and their outlines are visible through each other -->
+  <circle cx="210" cy="220" r="185" fill="none" stroke="#aaa" stroke-width="1.5"/>
+  <circle cx="370" cy="220" r="185" fill="none" stroke="#aaa" stroke-width="1.5"/>
+
+  <!-- Two concentric circles inside the intersection, centred at (290, 220) -->
+  <circle cx="290" cy="220" r="90" fill="#e8e8e8" stroke="#aaa" stroke-width="1.5"/>
+  <circle cx="290" cy="220" r="50" fill="#d0d0d0" stroke="#aaa" stroke-width="1.5"/>
+
+  <!-- Left-only zone -->
+  <text x="105" y="213" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="11" fill="#444">
+    Multi-Spacecraft
+  </text>
+  <text x="105" y="229" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="11" fill="#444">
+    = Constellation
+  </text>
+
+  <!-- Right-only zone -->
+  <text x="475" y="213" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="11" fill="#444">
+    Autonomous
+  </text>
+  <text x="475" y="229" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="11" fill="#444">
+    Spacecraft
+  </text>
+
+  <!-- Top of intersection, above "Coordinated Autonomous" circle (top y=130)
+       Three stacked labels with ~14px line spacing -->
+  <text x="290" y="86" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="10.5" fill="#444">
+    Autonomous
+  </text>
+  <text x="290" y="100" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="10.5" fill="#444">
+    Multi-Spacecraft
+  </text>
+  <text x="290" y="114" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="10.5" fill="#444">
+    System
+  </text>
+
+  <text x="290" y="160" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="10" fill="#333">
+    Coordinated Autonomous
+  </text>
+
+  <!-- Inside "Distributed Autonomous" circle -->
+  <text x="290" y="214" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="9" fill="#222">
+    Distributed Autonomous
+  </text>
+  <text x="290" y="228" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="9" fill="#222">
+    = Multi-Agent Swarm
+  </text>
+
+  <!-- Caption — well below the circles (bottom of circles: y=220+185=405) -->
+  <text x="290" y="450" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="8.5" font-style="italic" fill="#888">
+    Multi-agent swarms are at the central intersection of various relevant system properties
+  </text>
+  <text x="290" y="465" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="8.5" font-style="italic" fill="#888">
+    "The key of Swarm"
+  </text>
+
+</svg>

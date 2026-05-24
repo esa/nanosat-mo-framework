@@ -5,23 +5,28 @@ App ISL
 .. contents:: Table of contents
    :local:
 
-*Inter-Satellite Link (ISL) support is on the NMF roadmap. This page
-describes the intended architecture; the full ISL service is not yet
-available in the current release.*
+**Inter-Satellite Link (ISL)** is a communication link between
+satellites or spacecraft that enables them to exchange data directly
+without relying on ground stations. ISLs support coordination,
+distributed decision-making, navigation, synchronisation, and data
+relaying within satellite constellations or spacecraft swarms.
+
+The NanoSat MO Framework architecture supports ISL and its
+capabilities are expected to be enhanced in the medium-term.
 
 Overview
 --------
 
 App ISL — sometimes called *formation flying apps* in earlier NMF
 literature — extends the :doc:`app-chaining` pattern across spacecraft
-boundaries. Where app chaining lets apps on the **same** spacecraft
+boundaries. Where App Chaining lets apps on the **same** spacecraft
 consume each other's MO services through the local Supervisor's
 Directory Service, App ISL does the same between apps running on
 **different** satellites in a multi-satellite mission.
 
-The growing prevalence of swarm missions — from LEO constellations
+The growing prevalence of swarm missions (from LEO constellations
 already flying autonomously today, to planned HEO formation pairs,
-GEO science swarms, and beyond-Earth CubeSat clusters — makes
+GEO science swarms, and beyond-Earth CubeSat clusters) makes
 cross-satellite service composability increasingly important. App ISL
 is the NMF answer: rather than building bespoke inter-satellite
 protocols into each mission, apps communicate through the same MO
@@ -30,9 +35,9 @@ ISL-capable MAL transport.
 
 The pattern works because the NMF is built on service-oriented
 principles: an app does not care whether the peer it connects to is
-local or remote. The Directory Service handles discovery; once a peer's
-URI is reachable, the full MC service API — parameters, actions, alerts
-— is available without any ISL-specific code in the app.
+local or remote. The Directory Service handles discovery and once a
+peer's URI is reachable, the full set of services from the app is
+available without any ISL-specific code in the app.
 
 Formation types
 ---------------
@@ -68,11 +73,32 @@ naturally onto App ISL:
 Swarm missions
 --------------
 
+**What is a Swarm?**
+
+- **Multi-Spacecraft/Constellation system** — A system composed of
+  multiple spacecraft.
+- **Autonomous system** — Able to make complex, important decisions
+  independently from external control.
+- **Coordinated system** — As opposed to a constellation of
+  independently operating agents that solve fully decomposable
+  system-level problems without interacting.
+- **Distributed system** — A system that operates without centralised
+  control.
+- **Multi-Agent Swarm** — The intersection of all the previous
+  definitions.
+
+.. image:: ../images/swarm-definition.svg
+   :align: center
+   :alt: Venn diagram showing that a Multi-Agent Swarm is the intersection
+         of Multi-Spacecraft/Constellation and Autonomous Spacecraft systems,
+         further constrained by Coordinated Autonomous and Distributed
+         Autonomous properties.
+
 Swarm missions add **autonomous reconfiguration** and **distributed
-control** to the formation flying picture: the constellation as a whole
-acts as a multi-agent system, adapting its behaviour without ground
-intervention. App ISL provides the inter-node service fabric that makes
-this possible within the NMF model.
+control** to the formation flying picture: they act as a multi-agent
+system, adapting its behaviour without ground intervention. App ISL
+provides the inter-node service fabric that makes this possible within
+the NMF model.
 
 A swarm app running on each node can:
 
@@ -94,14 +120,15 @@ How it fits in the NMF architecture
 -------------------------------------
 
 The NMF MO stack is transport-agnostic. Each spacecraft runs a
-Supervisor whose Directory Service is the local registry of available
-services. App chaining works today because both apps share the same
-``maltcp://`` network segment and resolve each other's URIs locally.
+Supervisor containing a Directory Service acting as the local registry
+of available Apps and their respective services. App Chaining works
+today because both apps share the same ``maltcp://`` network segment
+and resolve each other's URIs locally.
 
 App ISL extends this by making a **remote** satellite's Directory
 Service reachable over an ISL-capable MAL transport. Once that
 transport binding is registered, the same ``SpaceMOAdapterImpl``
-factory method used for intra-spacecraft chaining works unchanged —
+factory method used for App Chaining works unchanged —
 only the Directory Service URI points to the remote satellite:
 
 .. code-block:: java
@@ -147,11 +174,11 @@ The NMF roadmap covers two implementation paths:
    so apps need no awareness of the underlying link.
 
 Until a production ISL transport is available, the pattern can be
-prototyped on the ground using a ``GroundMOProxy`` to relay MAL
-messages between two simulator instances connected over an ordinary
-TCP network.
+prototyped using a ``GroundMOProxy`` to relay MAL messages between two
+simulator instances connected over an ordinary TCP network.
+The containerisation of the NMF will also help in testing and prototyping.
 
-Relationship to app chaining
+Relationship to App Chaining
 ------------------------------
 
 App ISL is a direct extension of :doc:`app-chaining` (historically
