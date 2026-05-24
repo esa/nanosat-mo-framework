@@ -186,7 +186,7 @@ public final class AggregationManager extends MCManager {
                 //requirement: 3.7.4.d, 3.7.6.b
                 LongList objIds = super.getArchiveService().store(
                         true,
-                        AggregationServiceInfo.AGGREGATIONVALUEINSTANCE_OBJECT_TYPE,
+                        AggregationServiceInfo.AGGREGATIONVALUE_OBJECT_TYPE,
                         ConfigurationProviderSingleton.getDomain(),
                         HelperArchive.generateArchiveDetailsList(related, source, uri),
                         aValList,

@@ -827,28 +827,28 @@
                 The service provider shall represent aggregation definitions as AggregationDefinition COM objects.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="4">
-                The service provider shall represent aggregation value reports as AggregationValueInstance COM objects.
+                The service provider shall represent aggregation value reports as AggregationValue COM objects.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="5">
-                The AggregationValueInstance object shall use the related link to indicate which AggregationDefinition object it uses.
+                The AggregationValue object shall use the related link to indicate which AggregationDefinition object it uses.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="6">
-                The source link of the AggregationValueInstance object should be the object that caused the report to be generated.
+                The source link of the AggregationValue object should be the object that caused the report to be generated.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="7">
-                The source link of the AggregationValueInstance object shall be NULL for periodic reports.
+                The source link of the AggregationValue object shall be NULL for periodic reports.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="8">
                 The service provider should store AggregationDefinition objects in the COM archive.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="9">
-                When an aggregation value report is published, the service provider should store the AggregationValueInstance object in the COM archive.
+                When an aggregation value report is published, the service provider should store the AggregationValue object in the COM archive.
             </mal:documentation>
             <mal:capabilitySet number="1">
                 <mal:pubsubIP name="monitorValue" number="1"
                               comment="The monitorValue operation allows a consumer to subscribe for aggregation value reports.">
                     <mal:documentation name="Requirement" order="1">
-                        The service provider shall take the timestamp of the AggregationValueInstance report from the PUBLISH message.
+                        The service provider shall take the timestamp of the AggregationValue report from the PUBLISH message.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
                         If no source link is needed, then the objId field shall be NULL.
@@ -864,7 +864,7 @@
                                 <mal:type area="MAL" list="false" name="Long"/>
                             </mal:field>
                             <mal:field name="aValObjId" canBeNull="false"
-                                       comment="The id of the AggregationValueInstance object.">
+                                       comment="The id of the AggregationValue object.">
                                 <mal:type area="MAL" list="false" name="Long"/>
                             </mal:field>
                         </mal:subscriptionKeys>
@@ -1155,7 +1155,7 @@
                     </mal:errors>
                 </mal:submitIP>
                 <mal:submitIP name="removeAggregation" number="8"
-                              comment="The removeAggregation operation allows a consumer to remove one or more aggregations from the list of aggregations supported by the aggregation provider.&#xA;The operation does not remove the AggregationDefinition objects from the COM archive, merely removes the objects from the provider. This permits existing AggregationValueInstance objects to continue to reference the correct AggregationDefinition object in the COM archive.">
+                              comment="The removeAggregation operation allows a consumer to remove one or more aggregations from the list of aggregations supported by the aggregation provider.&#xA;The operation does not remove the AggregationDefinition objects from the COM archive, merely removes the objects from the provider. This permits existing AggregationValue objects to continue to reference the correct AggregationDefinition object in the COM archive.">
                     <mal:documentation name="Requirement" order="1">
                         The definitionIds field shall support the wildcard value of '0', which matches all aggregations of the provider.
                     </mal:documentation>
@@ -1196,7 +1196,7 @@
                             <mal:type area="MC" list="false" name="AggregationDefinition"/>
                         </com:objectType>
                     </com:object>
-                    <com:object number="2" name="AggregationValueInstance">
+                    <com:object number="2" name="AggregationValue">
                         <com:objectType>
                             <mal:type area="MC" list="false" name="AggregationValue"/>
                         </com:objectType>
