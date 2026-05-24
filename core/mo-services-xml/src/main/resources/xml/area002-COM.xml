@@ -962,27 +962,27 @@
                 If a ConfigurationStored event is published, then the event object should be stored in the COM archive.
             </mal:documentation>
             <com:features>
-                <com:objects comment="The ServiceConfiguration, ProviderConfiguration, and ConfigurationSet COM objects used by the Configuration service.">
-                    <com:object number="1" name="ServiceConfiguration">
+                <com:objects comment="The ConfigurationSet, ServiceConfiguration, and ProviderConfiguration COM objects used by the Configuration service.">
+                    <com:object number="1" name="ConfigurationSet">
+                        <com:objectType>
+                            <mal:type area="COM" list="false" name="ConfigurationSet"/>
+                        </com:objectType>
+                    </com:object>
+                    <com:object number="2" name="ServiceConfiguration">
                         <com:objectType>
                             <mal:type area="MAL" list="false" name="ServiceId"/>
                         </com:objectType>
                         <com:relatedObject>
-                            <com:objectType number="3" service="Configuration" area="COM"/>
+                            <com:objectType number="1" service="Configuration" area="COM"/>
                         </com:relatedObject>
                     </com:object>
-                    <com:object number="2" name="ProviderConfiguration">
+                    <com:object number="3" name="ProviderConfiguration">
                         <com:objectType>
                             <mal:type area="MAL" list="false" name="Identifier"/>
                         </com:objectType>
                         <com:relatedObject>
-                            <com:objectType number="3" service="Configuration" area="COM"/>
+                            <com:objectType number="1" service="Configuration" area="COM"/>
                         </com:relatedObject>
-                    </com:object>
-                    <com:object number="3" name="ConfigurationSet">
-                        <com:objectType>
-                            <mal:type area="COM" list="false" name="ConfigurationSet"/>
-                        </com:objectType>
                     </com:object>
                 </com:objects>
                 <com:events comment="The ConfigurationStored event used by the Configuration service.">
