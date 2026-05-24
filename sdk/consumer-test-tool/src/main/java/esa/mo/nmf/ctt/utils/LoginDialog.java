@@ -27,7 +27,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
 import org.ccsds.moims.mo.com.login.body.LoginResponse;
-import org.ccsds.moims.mo.com.structures.Profile;
+
 import org.ccsds.moims.mo.com.structures.ServiceCapability;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
@@ -115,7 +115,7 @@ public class LoginDialog extends JDialog {
             try {
                 LoginConsumerServiceImpl loginConsumer = getLoginConsumer();
                 LoginResponse response = loginConsumer.getLoginStub().login(
-                        new Profile(new Identifier(userTextField.getText())),
+                        new Identifier(userTextField.getText()),
                         new String(passwordTextField.getPassword()));
                 authenticationId = response.getAuthId();
                 loginConsumer.closeConnection();

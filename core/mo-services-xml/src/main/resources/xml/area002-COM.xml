@@ -825,21 +825,6 @@
  &lt;li&gt;log in;&lt;/li&gt;
  &lt;li&gt;log out.&lt;/li&gt;
 &lt;/ol&gt;</mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="2">
-                The service provider shall represent instances of a user login as a LoginInstance COM object.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="3">
-                The login operation shall create LoginInstance objects.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="4">
-                The provider of the Login service shall populate the object instance identifier for each LoginInstance object.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="5">
-                If a LoginInstance object was created during a login operation, then the service provider shall set the source link to NULL.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="6">
-                LoginInstance objects should be stored in the COM archive.
-            </mal:documentation>
             <mal:capabilitySet number="1">
                 <mal:requestIP name="login" number="1" comment="The login operation allows a user to log in to the system. A specific deployment may place limits on the number of concurrent logins for a user, and in that case will fail the login operation with the TOO_MANY error.">
                     <mal:documentation name="Requirement" order="1">
@@ -849,18 +834,12 @@
                         The service provider shall check the authenticationId field before applying all other tests.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
-                        If the login is successful, then the service provider shall create a new LoginInstance COM object.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="4">
-                        If the login is successful, then the service provider shall store the new LoginInstance COM object in the COM archive.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="5">
                         The consumer MAL shall use the returned authId field as the authenticationId in future MAL messages for authentication.
                     </mal:documentation>
                     <mal:messages>
                         <mal:request>
-                            <mal:field name="userDetails" canBeNull="false" comment="The details of the user.">
-                                <mal:type area="COM" list="false" name="Profile"/>
+                            <mal:field name="username" canBeNull="false" comment="The username of the user.">
+                                <mal:type area="MAL" list="false" name="Identifier"/>
                             </mal:field>
                             <mal:field name="password" canBeNull="false" comment="The password of the user.">
                                 <mal:type area="MAL" list="false" name="String"/>
@@ -879,7 +858,7 @@
                         <mal:errorRef comment="When the username is currently in use by another active session.">
                             <mal:type area="COM" list="false" name="DUPLICATE"/>
                         </mal:errorRef>
-                        <mal:errorRef comment="When the submitted profile contains invalid values. No further information is provided as it may compromise security.">
+                        <mal:errorRef comment="When the submitted username contains invalid values. No further information is provided as it may compromise security.">
                             <mal:type area="COM" list="false" name="INVALID"/>
                         </mal:errorRef>
                         <mal:errorRef comment="When the concurrent session limit for the username is exceeded.">
@@ -904,13 +883,6 @@
                 </mal:submitIP>
             </mal:capabilitySet>
             <com:features>
-                <com:objects comment="The LoginInstance objects used by the Login service.">
-                    <com:object number="2" name="LoginInstance">
-                        <com:objectType>
-                            <mal:type area="COM" list="false" name="Profile"/>
-                        </com:objectType>
-                    </com:object>
-                </com:objects>
                 <com:archiveUsage comment="The Login service COM archive usage."/>
             </com:features>
         </mal:service>
@@ -1366,15 +1338,7 @@
                     <mal:type area="MAL" list="true" name="Identifier"/>
                 </mal:field>
             </mal:composite>
-            <mal:composite name="Profile" shortFormPart="27"
-                           comment="The Profile structure describes the user who is logging on.">
-                <mal:extends>
-                    <mal:type area="MAL" list="false" name="Composite"/>
-                </mal:extends>
-                <mal:field name="username" canBeNull="false" comment="The name of the user.">
-                    <mal:type area="MAL" list="false" name="Identifier"/>
-                </mal:field>
-            </mal:composite>
+
             <mal:composite name="ConfigurationSet" shortFormPart="29"
                            comment="The ConfigurationSet composite groups zero to many ObjectKeys structures. It allows a configuration to reference COM objects from more than one domain or of more than one COM object type.">
                 <mal:extends>

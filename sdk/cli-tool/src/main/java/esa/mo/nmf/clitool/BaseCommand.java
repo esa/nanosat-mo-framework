@@ -180,7 +180,7 @@ public abstract class BaseCommand {
                 System.out.println();
 
                 LoginResponse response = consumer.getCOMServices().getLoginService().getLoginStub().login(
-                        new Profile(new Identifier(login)), String.valueOf(password));
+                        new Identifier(login), String.valueOf(password));
                 consumer.setAuthenticationId(response.getAuthId());
                 System.out.println("Login successful!");
             }
